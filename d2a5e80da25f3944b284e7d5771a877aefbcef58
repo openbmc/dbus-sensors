@@ -1,6 +1,183 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cb189a2_5441a80d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-11-11T20:41:55Z",
+      "side": 1,
+      "message": "Partial review.\n\nI\u0027d really expect that when this is moved to the new library, the request/response queue will be removed and greatly simplified down to something like:\n\n\nboost::asio::ip::tcp::socket sock(...);\nstd::array\u003cuint8_t, 256\u003e buf;\nsock.async_read_some(boost::asio::buffer(buf), [](){\n   modbusParseRequestTCP(status, buf.data(), buf.size();\n});\n\nif that\u0027s not possible, and we end up going the multi-threaded approach, please document why in the commit message.",
+      "revId": "d2a5e80da25f3944b284e7d5771a877aefbcef58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8904cb9c_bc1416b0",
+        "filename": "service_files/xyz.openbmc_project.modbussensor.service",
+        "patchSetId": 14
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-11-11T20:41:55Z",
+      "side": 1,
+      "message": "nit, remove one of the two extra lines at the end of the file.  one blank line is fine.",
+      "revId": "d2a5e80da25f3944b284e7d5771a877aefbcef58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc3a8561_31d4a8d0",
+        "filename": "src/ModbusSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-11-11T20:41:55Z",
+      "side": 1,
+      "message": "Most of these already are present in \u003climits\u003e. Please don\u0027t create a secondary set of limits.",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 0
+      },
+      "revId": "d2a5e80da25f3944b284e7d5771a877aefbcef58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0796c821_2332643c",
+        "filename": "src/ModbusSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-11-11T20:41:55Z",
+      "side": 1,
+      "message": "Please don\u0027t write lambdas more than a few lines.  This is called out in the coding guidelines.",
+      "revId": "d2a5e80da25f3944b284e7d5771a877aefbcef58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67698099_3c84dc69",
+        "filename": "src/ModbusSensor.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-11-11T20:41:55Z",
+      "side": 1,
+      "message": "Please write your classes such that forward declarations like this aren\u0027t required.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 19
+      },
+      "revId": "d2a5e80da25f3944b284e7d5771a877aefbcef58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a09dc3fb_daaf1881",
+        "filename": "src/ModbusSensor.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-11-11T20:41:55Z",
+      "side": 1,
+      "message": "This is a lot of config, none of which is documented in your commit message or anywhere else as to what each of these things to.  Please fix that.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 0
+      },
+      "revId": "d2a5e80da25f3944b284e7d5771a877aefbcef58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da823120_72b8c0f8",
+        "filename": "src/ModbusSensor.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-11-11T20:41:55Z",
+      "side": 1,
+      "message": "Why are we inventing our own queue here?  Some amount of disn around this would be good.",
+      "revId": "d2a5e80da25f3944b284e7d5771a877aefbcef58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e86e0fff_8a3d51c1",
+        "filename": "src/ModbusSensor.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-11-11T20:41:55Z",
+      "side": 1,
+      "message": "This is going to deadlock the asio reactor while you wait for a response.  Please implement your code using the appropriate asio extensions, in this case boost::asio::ip::tcp::socket, and push the values to the modbus library.",
+      "revId": "d2a5e80da25f3944b284e7d5771a877aefbcef58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36bb53c7_26ea7c90",
+        "filename": "src/ModbusSensor.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-11-11T20:41:55Z",
+      "side": 1,
+      "message": "Please try to avoid unsafe pointers like this.  If you need to share ownership, so be it, use a shared pointer.",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 36
+      },
+      "revId": "d2a5e80da25f3944b284e7d5771a877aefbcef58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c963e86a_287afde0",
@@ -62,6 +239,30 @@
       "side": 1,
       "message": "Initially, we chose libmodbus because mbpoll uses it. I will attempt to switch to liblightmodbus and verify its reliability.",
       "parentUuid": "c963e86a_287afde0",
+      "range": {
+        "startLine": 76,
+        "startChar": 29,
+        "endLine": 76,
+        "endChar": 38
+      },
+      "revId": "d2a5e80da25f3944b284e7d5771a877aefbcef58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f183f85e_8f6d1311",
+        "filename": "src/meson.build",
+        "patchSetId": 14
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-11-11T20:41:55Z",
+      "side": 1,
+      "message": "Please add the reasoning to your commit message on how the dependency was selected, and why it\u0027s required over parsing the tcp stream.  I\u0027m sure it\u0027s fine, but please capture that in the commit message so we have it.",
+      "parentUuid": "267ca4b6_901afd43",
       "range": {
         "startLine": 76,
         "startChar": 29,
