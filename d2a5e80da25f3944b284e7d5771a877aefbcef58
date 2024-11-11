@@ -60,6 +60,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0e4cf3c7_19610ffb",
+        "filename": "src/ModbusSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-11-11T20:48:35Z",
+      "side": 1,
+      "message": "This map already exists in a more complete form in the utilities classes.  Please use it.",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 40
+      },
+      "revId": "d2a5e80da25f3944b284e7d5771a877aefbcef58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0796c821_2332643c",
         "filename": "src/ModbusSensor.cpp",
         "patchSetId": 14
@@ -287,6 +310,30 @@
       "side": 1,
       "message": "I wasn\u0027t asking to switch to liblightmodbus.  I was asking for an analysis on why one is better than the other for our purposes.",
       "parentUuid": "f183f85e_8f6d1311",
+      "range": {
+        "startLine": 76,
+        "startChar": 29,
+        "endLine": 76,
+        "endChar": 38
+      },
+      "revId": "d2a5e80da25f3944b284e7d5771a877aefbcef58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f806270_51251f84",
+        "filename": "src/meson.build",
+        "patchSetId": 14
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-11-11T20:48:35Z",
+      "side": 1,
+      "message": "ACK.",
+      "parentUuid": "6d5523c2_29dffeee",
       "range": {
         "startLine": 76,
         "startChar": 29,
