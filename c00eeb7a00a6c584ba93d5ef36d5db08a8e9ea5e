@@ -26,6 +26,75 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3da6d8c4_925cbec6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-11-11T19:40:08Z",
+      "side": 1,
+      "message": "what is a \"peak\" reading.  Please answer in your commit message.  if there is hwmon documentation on what a peak reading is, please point to it as a definition.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 34
+      },
+      "revId": "c00eeb7a00a6c584ba93d5ef36d5db08a8e9ea5e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0474681_cd733f71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-11-11T19:40:08Z",
+      "side": 1,
+      "message": "This statement implies that we\u0027re going to add the entity-manager config to MATCH hwmon.  While in some cases they might take the same name for convenience, we still need to describe the property and what it does.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 50
+      },
+      "revId": "c00eeb7a00a6c584ba93d5ef36d5db08a8e9ea5e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eae5e8bc_44481db8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-11-11T19:40:08Z",
+      "side": 1,
+      "message": "In the way dbus is defined, is this correct?  Dbus/redfish/ipmi are defined as the \"current\" reading, not the peak.  Presumably we need to propagate this new interface through the system?",
+      "range": {
+        "startLine": 17,
+        "startChar": 62,
+        "endLine": 17,
+        "endChar": 67
+      },
+      "revId": "c00eeb7a00a6c584ba93d5ef36d5db08a8e9ea5e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "39f16109_6c36adb9",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 8
@@ -108,6 +177,69 @@
       "side": 1,
       "message": "To follow the naming rules of hwmon from the following linux kernel spec https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/ABI/testing/sysfs-class-hwmon?h\u003dv6.11#n108",
       "parentUuid": "0a557b19_2b03efcf",
+      "revId": "c00eeb7a00a6c584ba93d5ef36d5db08a8e9ea5e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbd7f87f_b145185e",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-11-11T19:40:08Z",
+      "side": 1,
+      "message": "this commend says \"for power only\" but there\u0027s nothing that actually enforces that this is for power only in code.",
+      "range": {
+        "startLine": 543,
+        "startChar": 39,
+        "endLine": 543,
+        "endChar": 53
+      },
+      "revId": "c00eeb7a00a6c584ba93d5ef36d5db08a8e9ea5e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bcde124e_d6da3d53",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-11-11T19:40:08Z",
+      "side": 1,
+      "message": "HighestName would be following the naming convention, although I realize psu sensor ignored the naming convention and is inconsistent.",
+      "range": {
+        "startLine": 721,
+        "startChar": 0,
+        "endLine": 721,
+        "endChar": 69
+      },
+      "revId": "c00eeb7a00a6c584ba93d5ef36d5db08a8e9ea5e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11594705_78147232",
+        "filename": "src/PSUSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 727,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-11-11T19:40:08Z",
+      "side": 1,
+      "message": "I\u0027m not really following why we have a separate key for the peak name?  We\u0027re only exposing one sensor value, if the sensor value now becomes the \"peak\" value, don\u0027t we just reuse the existing name?",
       "revId": "c00eeb7a00a6c584ba93d5ef36d5db08a8e9ea5e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
