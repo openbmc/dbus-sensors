@@ -22,6 +22,54 @@
       },
       "revId": "d2a5e80da25f3944b284e7d5771a877aefbcef58",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0360320c_10f52441",
+        "filename": "src/meson.build",
+        "patchSetId": 14
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000317
+      },
+      "writtenOn": "2024-11-11T08:10:12Z",
+      "side": 1,
+      "message": "Initially, we chose libmodbus because mbpoll uses it. I will attempt to switch to liblightmodbus and verify its reliability.",
+      "parentUuid": "c963e86a_287afde0",
+      "range": {
+        "startLine": 76,
+        "startChar": 29,
+        "endLine": 76,
+        "endChar": 38
+      },
+      "revId": "d2a5e80da25f3944b284e7d5771a877aefbcef58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "267ca4b6_901afd43",
+        "filename": "src/meson.build",
+        "patchSetId": 14
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000317
+      },
+      "writtenOn": "2024-11-11T08:10:12Z",
+      "side": 1,
+      "message": "Initially, we chose libmodbus because mbpoll uses it. I will attempt to switch to liblightmodbus and verify its reliability.",
+      "parentUuid": "c963e86a_287afde0",
+      "range": {
+        "startLine": 76,
+        "startChar": 29,
+        "endLine": 76,
+        "endChar": 38
+      },
+      "revId": "d2a5e80da25f3944b284e7d5771a877aefbcef58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
