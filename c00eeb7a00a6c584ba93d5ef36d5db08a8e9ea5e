@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "344be71a_69f7d388",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-11-11T19:06:37Z",
+      "side": 1,
+      "message": "The repository is \"dbus-sensors\".  There is no reason for this prefix to be on your commit title.",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "c00eeb7a00a6c584ba93d5ef36d5db08a8e9ea5e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "39f16109_6c36adb9",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 8
@@ -32,6 +55,24 @@
       "side": 1,
       "message": "I\u0027m afraid that I can\u0027t. The entity-manager config is downstream.",
       "parentUuid": "39f16109_6c36adb9",
+      "revId": "c00eeb7a00a6c584ba93d5ef36d5db08a8e9ea5e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8cd20a18_3c66ffa3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-11-11T19:06:37Z",
+      "side": 1,
+      "message": "Seems like we at least need the entity-manager schema updated to reference this?  We don\u0027t generally pick up random downstream-only strings.",
+      "parentUuid": "0cb60fcf_6ea82212",
       "revId": "c00eeb7a00a6c584ba93d5ef36d5db08a8e9ea5e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
