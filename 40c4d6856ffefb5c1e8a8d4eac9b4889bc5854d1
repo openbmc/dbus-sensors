@@ -70,6 +70,24 @@
       "parentUuid": "1be0c4d5_a785c3c5",
       "revId": "40c4d6856ffefb5c1e8a8d4eac9b4889bc5854d1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13554029_ac302095",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000936
+      },
+      "writtenOn": "2024-11-12T22:24:01Z",
+      "side": 1,
+      "message": "Sorry but I\u0027m still really puzzled here. See, dbus-sensors only looks for `pwm*` files in `/sys/class/hwmon/` https://github.com/openbmc/dbus-sensors/blob/master/src/fan/FanMain.cpp#L150 , https://github.com/openbmc/dbus-sensors/blob/master/src/fan/FanMain.cpp#L180 and does not create D-Bus objects if those files do not exist https://github.com/openbmc/dbus-sensors/blob/master/src/fan/FanMain.cpp#L592 . But they do not exist with the new driver so how is it at all possible? With the old driver symlink `ls -l /sys/devices/platform/ahb/1e6e0000.apb/*/driver` points to `aspeed_pwm_tachometer` and it creates the pwm* files in hwmon while the new driver is called `aspeed-g6-pwm-tach` and it does not for me.",
+      "parentUuid": "957ac98b_d4c647ca",
+      "revId": "40c4d6856ffefb5c1e8a8d4eac9b4889bc5854d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ],
   "submitRequirementResults": []
