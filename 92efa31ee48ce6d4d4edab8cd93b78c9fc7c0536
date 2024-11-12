@@ -16,6 +16,70 @@
       "message": "Do you have a proposal in entity-manager schema change to support this?",
       "revId": "92efa31ee48ce6d4d4edab8cd93b78c9fc7c0536",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbddf92a_7963249f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-11-12T21:12:38Z",
+      "side": 1,
+      "message": "Answered my own question, EM review here:\nhttps://gerrit.openbmc.org/c/openbmc/entity-manager/+/69030",
+      "parentUuid": "a7f269d8_68172481",
+      "revId": "92efa31ee48ce6d4d4edab8cd93b78c9fc7c0536",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4a961df_1fdd1d6a",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-11-12T21:12:38Z",
+      "side": 1,
+      "message": "log message here also?",
+      "range": {
+        "startLine": 391,
+        "startChar": 0,
+        "endLine": 391,
+        "endChar": 41
+      },
+      "revId": "92efa31ee48ce6d4d4edab8cd93b78c9fc7c0536",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49e38b88_c546c764",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-11-12T21:12:38Z",
+      "side": 1,
+      "message": "rather than duplicate the same logic (now that it becomes more complex), pull it into a common function",
+      "range": {
+        "startLine": 368,
+        "startChar": 0,
+        "endLine": 407,
+        "endChar": 25
+      },
+      "revId": "92efa31ee48ce6d4d4edab8cd93b78c9fc7c0536",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
