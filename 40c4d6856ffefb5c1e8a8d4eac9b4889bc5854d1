@@ -16,6 +16,24 @@
       "message": "Can you please clarify whether you mean just RPM monitoring or also PWM control?\n\nThe driver referenced seems to be only allowing control via `/sys/class/pwmchip*/` interface by changing `duty_cycle` after exporting and setting `period`. I do not see any code anywhere that supports this new method and offers `xyz.openbmc_project.Control.FanPwm` D-Bus interface, can you please tell how to use it?",
       "revId": "40c4d6856ffefb5c1e8a8d4eac9b4889bc5854d1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "befe15c4_b734d838",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-11-12T17:06:54Z",
+      "side": 1,
+      "message": "https://gist.github.com/williamspatrick/447bd11626f982734f9f7d83a2a571ec\n\nSeems to be working?",
+      "parentUuid": "2df31038_f38043e6",
+      "revId": "40c4d6856ffefb5c1e8a8d4eac9b4889bc5854d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ],
   "submitRequirementResults": []
