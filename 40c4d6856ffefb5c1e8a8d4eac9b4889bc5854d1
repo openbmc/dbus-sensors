@@ -52,6 +52,24 @@
       "parentUuid": "befe15c4_b734d838",
       "revId": "40c4d6856ffefb5c1e8a8d4eac9b4889bc5854d1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "957ac98b_d4c647ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-11-12T21:33:50Z",
+      "side": 1,
+      "message": "The only out of tree patch we currently have is this dts tweak.  I\u0027m not sure why this didn\u0027t end up in the Aspeed driver set.\n\nhttps://github.com/facebook/openbmc/blob/f35004eb3953de22407ca411e342a329e491cc90/common/recipes-kernel/linux/6.6/0170-aspeed-g6.dtsi-update-for-PWM-and-TACH-driver.patch#L4",
+      "parentUuid": "1be0c4d5_a785c3c5",
+      "revId": "40c4d6856ffefb5c1e8a8d4eac9b4889bc5854d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ],
   "submitRequirementResults": []
