@@ -34,6 +34,24 @@
       "parentUuid": "2df31038_f38043e6",
       "revId": "40c4d6856ffefb5c1e8a8d4eac9b4889bc5854d1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1be0c4d5_a785c3c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000936
+      },
+      "writtenOn": "2024-11-12T21:12:17Z",
+      "side": 1,
+      "message": "\u003e https://gist.github.com/williamspatrick/447bd11626f982734f9f7d83a2a571ec\n\u003e \n\u003e Seems to be working?\n\nPatrick, thank you for taking a look!\n\nCan you please confirm the kernel driver used is the one from current OpenBMC tree without any related patches? Asking because there\u0027s a difference between the old out of tree code: https://patchwork.ozlabs.org/project/openbmc/patch/20210113070850.1184506-5-troy_lee@aspeedtech.com/ (search for `aspeed_pwm_hwmon_info` which lists the additional /hwmon/ attributes) and the current driver at https://github.com/openbmc/linux/blob/dev-6.6/drivers/hwmon/aspeed-g6-pwm-tach.c#L268 which only offers /pwmchip/ sysfs interface to the userspace AFAICT.\n\nWith the old driver we had device nodes like `/sys/devices/platform/ahb/1e6e0000.apb/1e610000.pwm-tacho-controller/hwmon/hwmon0/pwm1` and that was handled nicely by dbus-sensors. But with the new driver (referenced from the commit message in the currently discussed patch) which eventually landed upstream the userspace would need to handle talking via `/sys/class/pwm/pwmchip0` and I do not see any code in dbus-sensors that can do that and it didn\u0027t work in our testing.",
+      "parentUuid": "befe15c4_b734d838",
+      "revId": "40c4d6856ffefb5c1e8a8d4eac9b4889bc5854d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ],
   "submitRequirementResults": []
