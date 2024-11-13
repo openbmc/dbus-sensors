@@ -360,6 +360,30 @@
       },
       "revId": "d2a5e80da25f3944b284e7d5771a877aefbcef58",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7597b75b_72b64fba",
+        "filename": "src/meson.build",
+        "patchSetId": 14
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000317
+      },
+      "writtenOn": "2024-11-13T03:13:13Z",
+      "side": 1,
+      "message": "I noticed that liblightmodbus is licensed under GPL-3.0, which would prevent dbus-sensors from maintaining its Apache-2.0 license. However, libmodbus is licensed under LGPL-2.1, which would not affect the original licensing of dbus-sensors.",
+      "parentUuid": "3f806270_51251f84",
+      "range": {
+        "startLine": 76,
+        "startChar": 29,
+        "endLine": 76,
+        "endChar": 38
+      },
+      "revId": "d2a5e80da25f3944b284e7d5771a877aefbcef58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
