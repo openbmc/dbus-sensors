@@ -166,6 +166,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c037d683_6004b0d0",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000552
+      },
+      "writtenOn": "2024-11-13T00:35:10Z",
+      "side": 1,
+      "message": "I changed the vector to an unordered_map and removed unnecessary functions from the previous patch.",
+      "parentUuid": "79ce5ed5_adc2e83d",
+      "range": {
+        "startLine": 66,
+        "startChar": 7,
+        "endLine": 66,
+        "endChar": 18
+      },
+      "revId": "84a7e6d17cd7f38950b8f12c76cbf102da79fc4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7828457f_893227ae",
