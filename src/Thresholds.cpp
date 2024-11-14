@@ -228,6 +228,42 @@ void updateThresholds(Sensor* sensor)
     }
 }
 
+static void deassertThresholdsOnce(Sensor* sensor, double assertValue,
+                                   thresholds::Level level,
+                                   thresholds::Direction direction, bool assert)
+{
+    std::shared_ptr<sdbusplus::asio::dbus_interface> interface =
+        sensor->getThresholdInterface(level);
+
+    if (!interface)
+    {
+        std::cout << "trying to set uninitialized interface\n";
+        return;
+    }
+
+    std::string property = Sensor::propertyAlarm(level, direction);
+    if (property.empty())
+    {
+        std::cout << "Alarm property is empty \n";
+        return;
+    }
+
+    try
+    {
+        // msg.get_path() is interface->get_object_path()
+        sdbusplus::message_t msg = interface->new_signal("ThresholdAsserted");
+
+        msg.append(sensor->name, interface->get_interface_name(), property,
+                   assert, assertValue);
+        msg.signal_send();
+    }
+    catch (const sdbusplus::exception_t& e)
+    {
+        std::cerr
+            << "Failed to send thresholdAsserted signal with assertValue\n";
+    }
+}
+
 // Debugging counters
 static int cHiTrue = 0;
 static int cHiFalse = 0;
@@ -301,6 +337,11 @@ static std::vector<ChangeParam> checkThresholds(Sensor* sensor, double value)
             }
             else if (value > (threshold.value + threshold.hysteresis))
             {
+                if (sensor->readingStateGood() && !threshold.firstSetting)
+                {
+                    deassertThresholdsOnce(sensor, value, threshold.level,
+                                           threshold.direction, false);
+                }
                 thresholdChanges.emplace_back(threshold, false, value);
                 ++cLoFalse;
             }
@@ -313,6 +354,7 @@ static std::vector<ChangeParam> checkThresholds(Sensor* sensor, double value)
         {
             std::cerr << "Error determining threshold direction\n";
         }
+        threshold.firstSetting = true;
     }
 
     // Throttle debug output, so that it does not continuously spam
