@@ -301,6 +301,12 @@ static std::vector<ChangeParam> checkThresholds(Sensor* sensor, double value)
             }
             else if (value > (threshold.value + threshold.hysteresis))
             {
+                if (sensor->readingStateGood() && !threshold.firstSetting)
+                {
+                    threshold.firstSetting = true;
+                    assertThresholds(sensor, value, threshold.level,
+                                     threshold.direction, false);
+                }
                 thresholdChanges.emplace_back(threshold, false, value);
                 ++cLoFalse;
             }
