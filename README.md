@@ -53,6 +53,9 @@ check thresholds periodically. PropertiesChanged signals will be broadcasted for
 other services to consume when value or threshold status change. OperationStatus
 is set to false if the sensor is determined to be faulty.
 
+- Available meson options:
+  - `disable-hysteresis-trigger` - Disable hysteresis triggering by setting the hysteresis value to zero.
+
 A simple sensor example can be found
 [here](https://github.com/openbmc/entity-manager/blob/master/docs/my_first_sensors.md).
 

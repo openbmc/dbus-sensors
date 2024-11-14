@@ -69,7 +69,11 @@ struct Sensor
         configInterface(configInterfaceName(objectType)),
         isSensorSettable(isSettable), isValueMutable(isMutable), maxValue(max),
         minValue(min), thresholds(std::move(thresholdData)),
+#ifdef DISABLE_HYSTERESIS_TRIGGER
+        hysteresisTrigger(0),
+#else
         hysteresisTrigger((max - min) * 0.01),
+#endif
         hysteresisPublish((max - min) * 0.0001), dbusConnection(conn),
         readState(readState),
         instrumentation(enableInstrumentation
