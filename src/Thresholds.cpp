@@ -340,6 +340,33 @@ void ThresholdTimer::startTimer(const std::weak_ptr<Sensor>& weakSensor,
     constexpr const size_t waitTime = 5;
     TimerPair* pair = nullptr;
 
+    // Check for an existing timer with the same level and direction but
+    // opposite assert state
+    for (TimerPair& timer : timers)
+    {
+        if (timer.first.used && timer.first.level == threshold.level &&
+            timer.first.direction == threshold.direction &&
+            timer.first.assert != assert)
+        {
+            // If found, cancel the existing timer with the opposite assert
+            // state
+            timer.second.cancel();
+            timer.first.used = false;
+        }
+    }
+
+    if (!assert && !hasActiveTimer(threshold, assert))
+    {
+        auto sensorPtr = weakSensor.lock();
+        if (sensorPtr && sensorPtr->readingStateGood())
+        {
+            assertThresholds(sensorPtr.get(), assertValue, threshold.level,
+                             threshold.direction, assert);
+        }
+        return;
+    }
+
+    // Find an unused timer or create a new one
     for (TimerPair& timer : timers)
     {
         if (!timer.first.used)
@@ -353,10 +380,13 @@ void ThresholdTimer::startTimer(const std::weak_ptr<Sensor>& weakSensor,
         pair = &timers.emplace_back(timerUsed, boost::asio::steady_timer(io));
     }
 
+    // Set the timer's state and conditions
     pair->first.used = true;
     pair->first.level = threshold.level;
     pair->first.direction = threshold.direction;
     pair->first.assert = assert;
+
+    // Start the timer
     pair->second.expires_after(std::chrono::seconds(waitTime));
     pair->second.async_wait([weakSensor, pair, threshold, assert,
                              assertValue](boost::system::error_code ec) {
