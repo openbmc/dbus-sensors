@@ -225,6 +225,30 @@
       },
       "revId": "a73ecbf7b1030af913bf5da03b829885613b02df",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73becad6_b5c4a46f",
+        "filename": "src/Utils.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1001538
+      },
+      "writtenOn": "2024-11-14T19:49:24Z",
+      "side": 1,
+      "message": "If an `I2CBus` object will be made that will be used by the sensors that use bus, should we standardize all those that use bus to use a specific data type? Currently different data types are used by different sensors.\n\nunsigned int: Fan\nuint64_t: HwMon, IntelCPU, and PSU\nint: Intrusion, NVMe\nuint8_t MCUTemp\n\nSince the kernel uses int would it be fine to use int for `I2CBus`?",
+      "parentUuid": "93ea9e5f_3e9996ca",
+      "range": {
+        "startLine": 413,
+        "startChar": 64,
+        "endLine": 413,
+        "endChar": 77
+      },
+      "revId": "a73ecbf7b1030af913bf5da03b829885613b02df",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
