@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c43b64e_7f67603c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-11-18T01:40:07Z",
+      "side": 1,
+      "message": "given this was merged for 6.11, can you point to the upstream commit rather than the mailing list thread?\n\n(However, thanks for using lore :) )",
+      "revId": "45e73a8fed80a9ce8bba38f5cf54c1e8dc5865db",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
