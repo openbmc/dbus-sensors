@@ -22,6 +22,30 @@
       },
       "revId": "650bbb62997f11441ee7d64a12c9c9d2a3b89353",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43eda869_20c375ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002202
+      },
+      "writtenOn": "2024-11-19T00:57:30Z",
+      "side": 1,
+      "message": "Since this is an internal decision made by the EE and Thermal teams, there is no link available to provide.",
+      "parentUuid": "b0b69388_a33b9177",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 17
+      },
+      "revId": "650bbb62997f11441ee7d64a12c9c9d2a3b89353",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
