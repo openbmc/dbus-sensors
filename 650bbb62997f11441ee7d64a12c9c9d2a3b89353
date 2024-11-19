@@ -173,6 +173,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bc13eadd_00247a89",
+        "filename": "meson.build",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-11-19T05:34:10Z",
+      "side": 1,
+      "message": "\u003e Using a compile flag ensures that the current implementation remains unchanged for other users.\n\nSo does using an entity-manager config that only probes on your platform.  A hysteresis parameter is already present in some of the sensor configs I believe.  I see no reason to have this as a compile time flag.",
+      "parentUuid": "fe0cf61a_d9fb0558",
+      "revId": "650bbb62997f11441ee7d64a12c9c9d2a3b89353",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "50fc824a_4816bd90",
         "filename": "src/sensor.hpp",
         "patchSetId": 1
