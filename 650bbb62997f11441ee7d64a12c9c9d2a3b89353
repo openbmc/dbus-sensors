@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "face86fe_bd1ec7bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002202
+      },
+      "writtenOn": "2024-11-19T03:29:12Z",
+      "side": 1,
+      "message": "To address the deassert issue we\u0027re currently facing, we\u0027ve found that disabling hysteresis would be the most efficient solution. Hysteresis can prevent deassert from triggering, which is unnecessary for our current sensor configuration. Since we have a large number of sensors, individual configuration would be time-consuming. We\u0027d appreciate it if you could confirm that there are no specific reasons to maintain hysteresis for any of the sensors.",
+      "parentUuid": "e54b8eb7_a5ebb8f6",
+      "revId": "650bbb62997f11441ee7d64a12c9c9d2a3b89353",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b0b69388_a33b9177",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -84,6 +102,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7ae57148_498f81fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1002202
+      },
+      "writtenOn": "2024-11-19T03:29:12Z",
+      "side": 1,
+      "message": "Is there a problem with the email address I\u0027ve provided, or is there something else that needs to be fixed? Could you please clarify?",
+      "parentUuid": "ec31706a_05f76235",
+      "revId": "650bbb62997f11441ee7d64a12c9c9d2a3b89353",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8355e000_dd6e53a7",
         "filename": "meson.build",
         "patchSetId": 1
@@ -95,6 +131,42 @@
       "writtenOn": "2024-11-19T01:54:23Z",
       "side": 1,
       "message": "Why would this be a compile flag as opposed to a config flag (from entity-manager)?",
+      "revId": "650bbb62997f11441ee7d64a12c9c9d2a3b89353",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48d68b02_0afb2b5f",
+        "filename": "meson.build",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1002202
+      },
+      "writtenOn": "2024-11-19T03:29:12Z",
+      "side": 1,
+      "message": "Using a compile flag ensures that the current implementation remains unchanged for other users.",
+      "parentUuid": "8355e000_dd6e53a7",
+      "revId": "650bbb62997f11441ee7d64a12c9c9d2a3b89353",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe0cf61a_d9fb0558",
+        "filename": "meson.build",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1002202
+      },
+      "writtenOn": "2024-11-19T03:29:12Z",
+      "side": 1,
+      "message": "Using a compile flag ensures that the current implementation remains unchanged for other users.",
+      "parentUuid": "8355e000_dd6e53a7",
       "revId": "650bbb62997f11441ee7d64a12c9c9d2a3b89353",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
