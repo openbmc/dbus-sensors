@@ -8,15 +8,21 @@
 #include <boost/asio/error.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <boost/container/flat_map.hpp>
+#include <phosphor-logging/commit.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/exception.hpp>
 #include <sdbusplus/message.hpp>
+#include <sdbusplus/message/native_types.hpp>
+#include <xyz/openbmc_project/Sensor/Threshold/event.hpp>
+#include <xyz/openbmc_project/Sensor/Value/common.hpp>
 
+#include <algorithm>
 #include <array>
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
+#include <exception>
 #include <iostream>
 #include <limits>
 #include <memory>
@@ -237,11 +243,13 @@ static int cLoFalse = 0;
 static int cLoMidstate = 0;
 static int cDebugThrottle = 0;
 static constexpr int assertLogCount = 10;
+using Unit = sdbusplus::common::xyz::openbmc_project::sensor::Value::Unit;
 
 struct ChangeParam
 {
     ChangeParam(Threshold whichThreshold, bool status, double value) :
-        threshold(whichThreshold), asserted(status), assertValue(value)
+        threshold(std::move(whichThreshold)), asserted(status),
+        assertValue(value)
     {}
 
     Threshold threshold;
@@ -442,6 +450,142 @@ void checkThresholdsPowerDelay(const std::weak_ptr<Sensor>& weakSensor,
     }
 }
 
+void logDeassertThresholds(Sensor* sensor, double value,
+                           thresholds::Level level,
+                           thresholds::Direction direction)
+{
+    namespace Events =
+        sdbusplus::event::xyz::openbmc_project::sensor::Threshold;
+    namespace Errors =
+        sdbusplus::error::xyz::openbmc_project::sensor::Threshold;
+
+    auto thresholdIt =
+        std::find_if(sensor->thresholds.begin(), sensor->thresholds.end(),
+                     [level, direction](auto& th) {
+                         return th.level == level && th.direction == direction;
+                     });
+    if (thresholdIt != sensor->thresholds.end())
+    {
+        auto& threshold = *thresholdIt;
+        if (threshold.assertedLog)
+        {
+            try
+            {
+                lg2::resolve(*threshold.assertedLog);
+            }
+            catch (std::exception& ec)
+            {
+                std::cerr << "Unable to resolve "
+                          << std::string(*threshold.assertedLog) << " : "
+                          << ec.what() << std::endl;
+            }
+            threshold.assertedLog.reset();
+        }
+    }
+    auto it = std::find_if(
+        sensor->thresholds.begin(), sensor->thresholds.end(),
+        [](auto& th) -> bool { return th.assertedLog.has_value(); });
+    if (it == sensor->thresholds.end())
+    {
+        auto objPath = sensor->sensorInterface->get_object_path();
+
+        auto unit =
+            sdbusplus::message::convert_from_string<Unit>(sensor->units);
+        if (unit)
+        {
+            lg2::commit(Events::SensorReadingNormalRange(
+                "SENSOR_NAME", objPath, "READING_VALUE", value, "UNITS",
+                *unit));
+        }
+        else
+        {
+            lg2::commit(Errors::InvalidSensorReading("SENSOR_NAME", objPath));
+        }
+    }
+}
+
+template <typename errorObj>
+auto logAssertThresholdHelper(const std::string& objPath, double assertValue,
+                              Unit unit, double thresholdValue)
+    -> sdbusplus::message::object_path
+{
+    return lg2::commit(
+        errorObj("SENSOR_NAME", objPath, "READING_VALUE", assertValue, "UNITS",
+                 unit, "THRESHOLD_VALUE", thresholdValue));
+}
+
+template <typename highErrorObj, typename lowErrorObj>
+void logAssertThreshold(const std::string& objPath, double assertValue,
+                        Unit unit, thresholds::Threshold& threshold)
+{
+    if (threshold.direction == Direction::HIGH)
+    {
+        threshold.assertedLog = logAssertThresholdHelper<highErrorObj>(
+            objPath, assertValue, unit, threshold.value);
+    }
+    else
+    {
+        threshold.assertedLog = logAssertThresholdHelper<lowErrorObj>(
+            objPath, assertValue, unit, threshold.value);
+    }
+}
+
+void logAssertThresholds(Sensor* sensor, double assertValue,
+                         thresholds::Level level,
+                         thresholds::Direction direction)
+{
+    namespace Errors =
+        sdbusplus::error::xyz::openbmc_project::sensor::Threshold;
+    auto objPath = sensor->sensorInterface->get_object_path();
+    auto unit = sdbusplus::message::convert_from_string<Unit>(sensor->units);
+    if (direction == Direction::ERROR || level == Level::ERROR || !unit)
+    {
+        lg2::commit(Errors::InvalidSensorReading("SENSOR_NAME", objPath));
+        return;
+    }
+    auto threshold =
+        std::find_if(sensor->thresholds.begin(), sensor->thresholds.end(),
+                     [level, direction](auto& th) {
+                         return th.level == level && th.direction == direction;
+                     });
+    if ((threshold == sensor->thresholds.end()) || (*threshold).assertedLog)
+    {
+        std::cerr << "Unable to find threshold" << std::endl;
+        return;
+    }
+    switch (level)
+    {
+        case Level::WARNING:
+            logAssertThreshold<Errors::ReadingAboveUpperWarningThreshold,
+                               Errors::ReadingBelowLowerWarningThreshold>(
+                objPath, assertValue, *unit, *threshold);
+            break;
+        case Level::PERFORMANCELOSS:
+            logAssertThreshold<
+                Errors::ReadingAboveUpperPerformanceLossThreshold,
+                Errors::ReadingBelowLowerPerformanceLossThreshold>(
+                objPath, assertValue, *unit, *threshold);
+            break;
+        case Level::CRITICAL:
+            logAssertThreshold<Errors::ReadingAboveUpperCriticalThreshold,
+                               Errors::ReadingBelowLowerCriticalThreshold>(
+                objPath, assertValue, *unit, *threshold);
+            break;
+        case Level::SOFTSHUTDOWN:
+            logAssertThreshold<Errors::ReadingAboveUpperSoftShutdownThreshold,
+                               Errors::ReadingBelowLowerSoftShutdownThreshold>(
+                objPath, assertValue, *unit, *threshold);
+            break;
+        case Level::HARDSHUTDOWN:
+            logAssertThreshold<Errors::ReadingAboveUpperHardShutdownThreshold,
+                               Errors::ReadingBelowLowerHardShutdownThreshold>(
+                objPath, assertValue, *unit, *threshold);
+            break;
+        default:
+            break;
+    }
+}
+
 void assertThresholds(Sensor* sensor, double assertValue,
                       thresholds::Level level, thresholds::Direction direction,
                       bool assert)
@@ -477,6 +621,14 @@ void assertThresholds(Sensor* sensor, double assertValue,
         {
             std::cerr
                 << "Failed to send thresholdAsserted signal with assertValue\n";
+        }
+        if (assert)
+        {
+            logAssertThresholds(sensor, assertValue, level, direction);
+        }
+        else
+        {
+            logDeassertThresholds(sensor, assertValue, level, direction);
         }
     }
 }
