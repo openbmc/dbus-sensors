@@ -5,6 +5,7 @@
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <sdbusplus/asio/connection.hpp>
+#include <sdbusplus/message/native_types.hpp>
 
 #include <array>
 #include <cstddef>
@@ -12,6 +13,7 @@
 #include <limits>
 #include <list>
 #include <memory>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -48,6 +50,7 @@ struct Threshold
     double value;
     double hysteresis;
     bool writeable;
+    std::optional<sdbusplus::message::object_path> assertedLog;
 
     bool operator==(const Threshold& rhs) const
     {
@@ -59,6 +62,13 @@ struct Threshold
 void assertThresholds(Sensor* sensor, double assertValue,
                       thresholds::Level level, thresholds::Direction direction,
                       bool assert);
+
+void logDeassertThresholds(Sensor* sensor, double value,
+                           thresholds::Level level,
+                           thresholds::Direction direction);
+void logAssertThresholds(Sensor* sensor, double assertValue,
+                         thresholds::Level level,
+                         thresholds::Direction direction);
 
 struct TimerUsed
 {
