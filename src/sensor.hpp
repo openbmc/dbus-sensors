@@ -88,6 +88,7 @@ struct Sensor
     virtual ~Sensor() = default;
     virtual void checkThresholds() = 0;
     std::string name;
+    std::string units;
     std::string configurationPath;
     std::string configInterface;
     bool isSensorSettable;
@@ -271,6 +272,7 @@ struct Sensor
             setupPowerMatch(dbusConnection);
         }
 
+        units = unit;
         createAssociation(association, configurationPath);
 
         sensorInterface->register_property("Unit", unit);
