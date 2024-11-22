@@ -10,6 +10,8 @@
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/exception.hpp>
+#include <sdbusplus/message/native_types.hpp>
+#include <xyz/openbmc_project/Sensor/Value/common.hpp>
 
 #include <array>
 #include <cerrno>
@@ -19,6 +21,7 @@
 #include <functional>
 #include <limits>
 #include <memory>
+#include <stdexcept>
 #include <string>
 #include <utility>
 #include <vector>
@@ -93,6 +96,10 @@ struct Sensor
     virtual ~Sensor() = default;
     virtual void checkThresholds() = 0;
     std::string name;
+
+    using Unit = sdbusplus::common::xyz::openbmc_project::sensor::Value::Unit;
+    Unit units = Unit::DegreesC;
+
     std::string configurationPath;
     std::string configInterface;
     bool isSensorSettable;
@@ -276,6 +283,14 @@ struct Sensor
             setupPowerMatch(dbusConnection);
         }
 
+        auto unitOpt = sdbusplus::message::convert_from_string<Unit>(unit);
+        if (!unitOpt.has_value())
+        {
+            lg2::error("Invalid unit {UNIT} for sensor {NAME}", "UNIT", unit,
+                       "NAME", name);
+            throw std::invalid_argument("Invalid units for sensor");
+        }
+        units = unitOpt.value();
         createAssociation(association, configurationPath);
 
         sensorInterface->register_property("Unit", unit);
