@@ -45,10 +45,12 @@ boost = dependency(
 )
 sdbusplus = dependency('sdbusplus')
 phosphor_logging_dep = dependency('phosphor-logging')
+phosphor_dbus_interfaces_dep = dependency('phosphor-dbus-interfaces')
 
 default_deps = [
     boost,
     nlohmann_json_dep,
+    phosphor_dbus_interfaces_dep,
     phosphor_logging_dep,
     sdbusplus,
     uring,
