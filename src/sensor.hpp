@@ -10,6 +10,8 @@
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/exception.hpp>
+#include <sdbusplus/message/native_types.hpp>
+#include <xyz/openbmc_project/Sensor/Value/common.hpp>
 
 #include <array>
 #include <cerrno>
@@ -88,6 +90,10 @@ struct Sensor
     virtual ~Sensor() = default;
     virtual void checkThresholds() = 0;
     std::string name;
+
+    using Unit = sdbusplus::common::xyz::openbmc_project::sensor::Value::Unit;
+    Unit units;
+
     std::string configurationPath;
     std::string configInterface;
     bool isSensorSettable;
@@ -271,6 +277,7 @@ struct Sensor
             setupPowerMatch(dbusConnection);
         }
 
+        units = sdbusplus::message::convert_from_string<Unit>(unit).value();
         createAssociation(association, configurationPath);
 
         sensorInterface->register_property("Unit", unit);
