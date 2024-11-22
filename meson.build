@@ -40,10 +40,12 @@ gpiodcxx = dependency('libgpiodcxx', default_options: ['bindings=cxx'])
 boost = dependency('boost', version: '>=1.83.0', include_type: 'system')
 sdbusplus = dependency('sdbusplus', include_type: 'system')
 phosphor_logging_dep = dependency('phosphor-logging')
+phosphor_dbus_interfaces_dep = dependency('phosphor-dbus-interfaces')
 
 default_deps = [
     boost,
     nlohmann_json_dep,
+    phosphor_dbus_interfaces_dep,
     phosphor_logging_dep,
     sdbusplus,
     uring,
