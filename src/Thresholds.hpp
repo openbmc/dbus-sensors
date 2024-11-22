@@ -48,6 +48,7 @@ struct Threshold
     double value;
     double hysteresis;
     bool writeable;
+    std::optional<sdbusplus::message::object_path> assertedLog;
 
     bool operator==(const Threshold& rhs) const
     {
@@ -59,6 +60,13 @@ struct Threshold
 void assertThresholds(Sensor* sensor, double assertValue,
                       thresholds::Level level, thresholds::Direction direction,
                       bool assert);
+
+void logDeassertThresholds(Sensor* sensor, double value,
+                           thresholds::Level level,
+                           thresholds::Direction direction);
+void logAssertThresholds(Sensor* sensor, double assertValue,
+                         thresholds::Level level,
+                         thresholds::Direction direction);
 
 struct TimerUsed
 {
