@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f937c59a_c6b24639",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2024-11-25T22:57:27Z",
+      "side": 1,
+      "message": "@Ed Sure, i am already using some pieces from common code -\n* SensorData from Utils.hpp\n* loadVariant from Utils.hpp while parsing the EM configuration.\n\nI looked at the code from ChassisIntrusionSensor. Conceptually, there are 2 pieces which can have overlap in terms of their logic. Please let me know if you think there is anything else apart from these two?\n\n1. Read EM configuration-\nhttps://grok.openbmc.org/xref/openbmc/dbus-sensors/src/Utils.cpp?r\u003d2aaf7175\u0026fi\u003dgetSensorConfiguration#156\n\nThe LeakDetection daemons use sdbusplus::async co-routines whereas getSensorConfiguration API is a sync API (and also doesn\u0027t support co-routines). Hence, LeakDetection doesn\u0027t use getSensorConfiguration. Also, I am in plan of moving LeakDetection daemon to https://grok.openbmc.org/xref/openbmc/sdbusplus/include/sdbusplus/async/proxy.hpp?r\u003d06f265f6#176 for easier flow.\n\n2. Read GPIOs\nhttps://grok.openbmc.org/xref/openbmc/dbus-sensors/src/intrusion/ChassisIntrusionSensor.cpp?r\u003dd7be555e#200\nChassisIntrusionSensor uses boost::asio to poll the GPIOs whereas the leakdetection daemon uses co-routines so i am not sure how much code we can make common here.\n\n@Patrick also did a post on \"dbus-sensors with sdbusplus::async coroutines)\nhttps://discord.com/channels/775381525260664832/1304217523465486356/1304217527379034152\nDo you have any concerns with the proposed approach in the post?\n\n\nAlso, as per another comment from @Andrew https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/75329/comment/b1c20d15_c52bf097/ he doesn\u0027t want me to add APIs to Utils.hpp and suggested to add a systemd class. Any concerns there?",
+      "parentUuid": "896dc3fc_f418a2de",
+      "revId": "7ff3fb07184f91394e93d65e2d961231d6f3c212",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4dd7e73a_859aec2b",
         "filename": "src/LeakDetection/LeakDetectionManager.cpp",
         "patchSetId": 5
@@ -208,6 +226,23 @@
         "endLine": 89,
         "endChar": 59
       },
+      "revId": "7ff3fb07184f91394e93d65e2d961231d6f3c212",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bc47f2d_173a21fc",
+        "filename": "src/LeakDetection/LeakDetector.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2024-11-25T22:57:27Z",
+      "side": 1,
+      "message": "This would be changed to sdbusplus::async::fdio and sdbusplus::async::fdio::next() flow as per https://github.com/openbmc/sdbusplus/blob/master/include/sdbusplus/async/fdio.hpp.",
       "revId": "7ff3fb07184f91394e93d65e2d961231d6f3c212",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
