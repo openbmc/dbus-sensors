@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ec03de4_1399cee5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2024-11-25T02:30:42Z",
+      "side": 1,
+      "message": "Friendly ping... The two patches in this chain have been here for a while, can someone please help give them some reviews or let them be proceeded? Thanks.",
+      "revId": "77ac9cdcacf00d4fabb3c7fcc0e91a62e3216052",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
