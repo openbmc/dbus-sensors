@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "44fdc720_f1d73ad1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-11-26T02:19:19Z",
+      "side": 1,
+      "message": "\u003e Meta will not contribute any new hand-spun boost dbus object daemons;\n\nUnderstood, but can you see how the intersection of:\n1. Coroutines\n2. New executor\n3. New logging dependency (lg2)\n4. New dbus interface dependency (pdi)\n5. New feature (leak detectors)\n\nIs a lot to handle in a single patch?  I\u0027m happy to work through it, but it\u0027s a lot to do in one step for a set of daemons that are largely uniform in these things.\n\n\u003e  We opened TOF issues asking where this code belongs and we were told \"dbus-sensors\"\n\nYep, and this was because parsing EM interfaces is non trivial and has a lot of weird code that we shouldn\u0027t duplicate.  This patchset didn\u0027t solve that and duplicated the code anyway.  The intent was lost a bit.\n\nI\u0027d also point out that there\u0027s 5 dbus-sensors maintainers.  If any of the others weigh in, say they understand the patch, and think this patchset should move forward, then I will happily defer to them.  If you\u0027d rather I not review this patch, happy to defer to them for the complete review as well.\n\nThe goal isn\u0027t to make me happy.  If I\u0027m going to maintain this, I need to at least understand it, and how it relates to the existing implementations that do the same thing.  If other maintainers understand it and can maintain it, all the better.\n\n\u003e Do we need to make \"dbus-sensors2\"? Is that the ask?\n\nI think that would duplicate a lot of the code that really shouldn\u0027t be duplicated, so no, that\u0027s not the ask.",
+      "parentUuid": "52312b7e_768488f1",
+      "revId": "7ff3fb07184f91394e93d65e2d961231d6f3c212",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4dd7e73a_859aec2b",
         "filename": "src/LeakDetection/LeakDetectionManager.cpp",
         "patchSetId": 5
