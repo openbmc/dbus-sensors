@@ -538,6 +538,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e7c939f6_6c8207ef",
+        "filename": "src/LeakDetection/LeakDetector.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-11-26T01:54:42Z",
+      "side": 1,
+      "message": "It looks like he still had to unpack it using the variant access, because of the non concrete way that EM publishes interfaces.  This is expected (at least by me), even if it\u0027s ugly unless we had a way to describe a non concrete dbus interface in PDI, or EM found a way to do the coercion on its side.",
+      "parentUuid": "2ca83e3c_2cf045cc",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 0
+      },
+      "revId": "7ff3fb07184f91394e93d65e2d961231d6f3c212",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "458345ee_b36c4ad4",
         "filename": "src/LeakDetection/LeakDetector.hpp",
         "patchSetId": 5
