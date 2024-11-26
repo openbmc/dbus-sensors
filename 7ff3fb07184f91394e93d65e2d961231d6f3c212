@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "52312b7e_768488f1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-11-26T02:01:33Z",
+      "side": 1,
+      "message": "\u003e Yep, all of dbus-sensors uses asio, and always has. Asio also supports c++20 coroutines, so if that\u0027s something we really want to do, we can look at injecting the stdexec reactor into asio.\n\nMeta will not contribute any new hand-spun boost dbus object daemons; we have invested lots of effort to moving the project towards compile-time checked dbus bindings.  We clearly communicated this up front before work began on this code.  We submitted a design document about 3 months ago.  We opened TOF issues asking where this code belongs and we were told \"dbus-sensors\".  You\u0027re backing us into a situation that is impossible to make you happy.\n\nDo we need to make \"dbus-sensors2\"?  Is that the ask?",
+      "parentUuid": "db776820_7fac6e69",
+      "revId": "7ff3fb07184f91394e93d65e2d961231d6f3c212",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4dd7e73a_859aec2b",
         "filename": "src/LeakDetection/LeakDetectionManager.cpp",
         "patchSetId": 5
