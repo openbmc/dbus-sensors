@@ -371,6 +371,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2e367b24_549860d4",
+        "filename": "src/LeakDetection/LeakDetector.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-11-26T01:27:41Z",
+      "side": 1,
+      "message": "This daemon really shouldn\u0027t be dealing with targets at all, right?  It\u0027s responsible for putting the current state on dbus, same as any other sensor.  What other daemons do with that is their choice, and phosphor-state-manager can certainly react if it chooses to.",
+      "parentUuid": "34150a60_aa2379d9",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 13
+      },
+      "revId": "7ff3fb07184f91394e93d65e2d961231d6f3c212",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d5f248bd_90b539f1",
         "filename": "src/LeakDetection/LeakDetector.cpp",
         "patchSetId": 5
