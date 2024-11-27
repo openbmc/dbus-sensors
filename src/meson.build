@@ -117,6 +117,10 @@ if get_option('psu').allowed()
     subdir('psu')
 endif
 
+if get_option('smbpbi').allowed()
+    subdir('smbpbi')
+endif
+
 if get_option('external').allowed()
     subdir('external')
 endif
