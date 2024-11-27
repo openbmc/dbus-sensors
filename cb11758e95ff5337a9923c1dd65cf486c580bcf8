@@ -3,6 +3,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "46fed94a_981f668a",
+        "filename": "meson.options",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2024-11-27T22:30:35Z",
+      "side": 1,
+      "message": "nit: Would it be beneficial to use the full form of SMBPBI in the description for better clarity?",
+      "revId": "cb11758e95ff5337a9923c1dd65cf486c580bcf8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "310bc6fa_b4e9f904",
+        "filename": "src/smbpbi/SMBPBISensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2024-11-27T22:30:35Z",
+      "side": 1,
+      "message": "nit: \"low-er\" is there a typo in lower?",
+      "revId": "cb11758e95ff5337a9923c1dd65cf486c580bcf8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "81153f0b_c9ef3c03",
         "filename": "src/smbpbi/SMBPBISensor.cpp",
         "patchSetId": 3
@@ -14,6 +48,41 @@
       "writtenOn": "2024-11-27T22:00:20Z",
       "side": 1,
       "message": "This should be sensors per https://github.com/openbmc/phosphor-dbus-interfaces/blob/199c6c3dd27df14c9884086c025c767ff2efc3b1/yaml/xyz/openbmc_project/Sensor/Value.interface.yaml#L19\n\nYou don\u0027t want to create your own dbus hierarchy.",
+      "revId": "cb11758e95ff5337a9923c1dd65cf486c580bcf8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c828b8ec_71e366d1",
+        "filename": "src/smbpbi/SMBPBISensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2024-11-27T22:30:35Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "81153f0b_c9ef3c03",
+      "revId": "cb11758e95ff5337a9923c1dd65cf486c580bcf8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e1a7ccf_f3bd7621",
+        "filename": "src/smbpbi/meson.build",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2024-11-27T22:30:35Z",
+      "side": 1,
+      "message": "Better to define this in same patch where u plan to use it.",
       "revId": "cb11758e95ff5337a9923c1dd65cf486c580bcf8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
