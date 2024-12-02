@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1250afef_6ef1ea66",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-12-02T21:32:38Z",
+      "side": 1,
+      "message": "Can you explain the reasoning behind these changes and/or the issues being solved by the change",
+      "range": {
+        "startLine": 7,
+        "startChar": 12,
+        "endLine": 7,
+        "endChar": 40
+      },
+      "revId": "d45c38e47f1569fcc996da16bd9d69a20086f73f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34cca979_62f015e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-12-02T21:32:38Z",
+      "side": 1,
+      "message": "With this change, it would hide the \"short\" events that is less than wait time, which is 5 seconds. I think there may be cases we still want to know about these events as they maybe real stability issues.",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 42
+      },
+      "revId": "d45c38e47f1569fcc996da16bd9d69a20086f73f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c3b01a1_ec923aae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-12-02T21:32:38Z",
+      "side": 1,
+      "message": "What are the difference between these two cases?",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 58
+      },
+      "revId": "d45c38e47f1569fcc996da16bd9d69a20086f73f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
