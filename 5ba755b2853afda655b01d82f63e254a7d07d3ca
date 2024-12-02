@@ -16,6 +16,24 @@
       "message": "What do you mean by this? It requires acceptance of a new EM schema? Can you link to a patch?",
       "revId": "5ba755b2853afda655b01d82f63e254a7d07d3ca",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1d12421_d78dc7e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001289
+      },
+      "writtenOn": "2024-12-02T16:29:31Z",
+      "side": 1,
+      "message": "Yep: well, not a new schema, but a new configuration: https://gerrit.openbmc.org/c/openbmc/entity-manager/+/76125\n\nJust in case this context is missing: this is for interacting with HMCs in Nvidia designs. Catalina is Meta\u0027s GB200 sku. It\u0027s very similar to an off-the-shelf GB200NVL HGX compute tray. The HMC will do the real sensor monitoring, and the BMC will proxy stuff.\n\nThere\u0027s already one configuration file for the HMC, called `nvidia_hmc.json`, that provides the SatelliteController schema. We will use that with Catalina to identify the IP address and port number of the Redfish server on the HMC (accessible through an IP-over-USB network interface).\n\nHowever, there\u0027s also another interface that the HMC exposes: an I2C device that acts like an EEPROM. It exposes 32 or so additional sensors. The bus and address of this I2C address *should* vary by sku, I think. The reference configuration in Nvidia\u0027s downstream fork has a different address than the one in a hardware sample I checked at Meta.\n\nI shouldn\u0027t need to create a new schema (all the fields should be described in legacy.json already), just need to create another configuration file that loads on HMC x Catalina to define the location of these I2C sensors (\"SMBPBI\" sensors)",
+      "parentUuid": "67116271_d76e0279",
+      "revId": "5ba755b2853afda655b01d82f63e254a7d07d3ca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
