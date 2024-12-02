@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d331e0e_5f18f1d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-12-02T22:26:13Z",
+      "side": 1,
+      "message": "1. Did you verify that sensors with a different slotID are not affected by chassis7 state? Please add that result\n2. Did you verify that sensors without slotID are linked to chassis0 power state? Please add that result",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 12
+      },
+      "revId": "1e81877151c1118ff12c1fc68970200dace0cdb0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "5a78da82_1c651451",
@@ -14,6 +37,92 @@
       "writtenOn": "2024-11-12T15:29:20Z",
       "side": 1,
       "message": "Seems ok to me.",
+      "revId": "1e81877151c1118ff12c1fc68970200dace0cdb0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20ee3981_ed2fc9e7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-12-02T22:26:13Z",
+      "side": 1,
+      "message": "Only couple minor suggestions",
+      "revId": "1e81877151c1118ff12c1fc68970200dace0cdb0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bf2f7f6_54c7ab2e",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-12-02T22:26:13Z",
+      "side": 1,
+      "message": "move before use, i.e. line551",
+      "range": {
+        "startLine": 534,
+        "startChar": 0,
+        "endLine": 535,
+        "endChar": 67
+      },
+      "revId": "1e81877151c1118ff12c1fc68970200dace0cdb0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7dfdaea_083d77a6",
+        "filename": "src/Utils.hpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-12-02T22:26:13Z",
+      "side": 1,
+      "message": "Same here why are reference used here, it can be just pass by value IMO",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 43
+      },
+      "revId": "1e81877151c1118ff12c1fc68970200dace0cdb0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ba9b415_292e6ef6",
+        "filename": "src/psu/PSUSensor.hpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-12-02T22:26:13Z",
+      "side": 1,
+      "message": "Why use reference here? this can be just pass by value IMO",
+      "range": {
+        "startLine": 29,
+        "startChar": 14,
+        "endLine": 29,
+        "endChar": 34
+      },
       "revId": "1e81877151c1118ff12c1fc68970200dace0cdb0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
