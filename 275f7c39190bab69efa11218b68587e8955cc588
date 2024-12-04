@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc1d29d1_8044a4de",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-12-04T23:40:09Z",
+      "side": 1,
+      "message": "I\u0027m going to merge this for now. Open comments can be addressed in follow-up changes if necessary.",
+      "revId": "275f7c39190bab69efa11218b68587e8955cc588",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
