@@ -94,6 +94,16 @@ static void createSensorsFromConfig(
 
         baseConfiguration = &(*sensorBase);
 
+        std::string sensorName;
+        auto findSensorName = baseConfiguration->second.find("Name");
+        if (findSensorName == baseConfiguration->second.end())
+        {
+            std::cerr << "Could not determine configuration name for "
+                      << path.str << "\n";
+            continue;
+        }
+        sensorName = std::get<std::string>(findSensorName->second);
+
         // Rearm defaults to "Automatic" mode
         bool autoRearm = true;
         auto findRearm = baseConfiguration->second.find("Rearm");
@@ -131,7 +141,7 @@ static void createSensorsFromConfig(
                         (std::get<std::string>(findGpioPolarity->second) ==
                          "Low");
                     pSensor = std::make_shared<ChassisIntrusionGpioSensor>(
-                        autoRearm, io, objServer, gpioInverted);
+                        sensorName, autoRearm, io, objServer, gpioInverted);
                     pSensor->start();
                     if (debug)
                     {
@@ -171,7 +181,7 @@ static void createSensorsFromConfig(
                 try
                 {
                     pSensor = std::make_shared<ChassisIntrusionHwmonSensor>(
-                        autoRearm, io, objServer, hwmonName);
+                        sensorName, autoRearm, io, path, objServer, hwmonName);
                     pSensor->start();
                     return;
                 }
@@ -197,7 +207,8 @@ static void createSensorsFromConfig(
                     int busId = std::get<uint64_t>(findBus->second);
                     int slaveAddr = std::get<uint64_t>(findAddress->second);
                     pSensor = std::make_shared<ChassisIntrusionPchSensor>(
-                        autoRearm, io, objServer, busId, slaveAddr);
+                        sensorName, autoRearm, io, path, objServer, busId,
+                        slaveAddr);
                     pSensor->start();
                     if (debug)
                     {
@@ -485,7 +496,7 @@ int main()
 
     sdbusplus::asio::object_server objServer(systemBus, true);
 
-    objServer.add_manager("/xyz/openbmc_project/Chassis");
+    objServer.add_manager("/xyz/openbmc_project/chassis");
 
     createSensorsFromConfig(io, objServer, systemBus, intrusionSensor);
 
