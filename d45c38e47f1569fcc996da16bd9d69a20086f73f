@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c91d9974_35da47a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001906
+      },
+      "writtenOn": "2024-12-04T07:19:55Z",
+      "side": 1,
+      "message": "Can we extend the property change time to 10 seconds to avoid the issue of sensor recreation?\n\nhttps://github.com/openbmc/dbus-sensors/blob/master/src/psu/PSUSensorMain.cpp#L1184\nhttps://github.com/openbmc/dbus-sensors/blob/master/src/adc/ADCSensorMain.cpp#L347",
+      "parentUuid": "e5cc27dc_a0549e32",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 42
+      },
+      "revId": "d45c38e47f1569fcc996da16bd9d69a20086f73f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7c3b01a1_ec923aae",
         "filename": "/COMMIT_MSG",
         "patchSetId": 8
