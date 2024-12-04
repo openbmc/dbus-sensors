@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f6b43f37_367ea75f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001906
+      },
+      "writtenOn": "2024-12-04T06:23:51Z",
+      "side": 1,
+      "message": "I want to modify the behavior to align with the comment description at\nhttps://github.com/openbmc/dbus-sensors/blob/master/src/Thresholds.cpp#L429\n\nAdditionally, we noticed a missed de-assert event when modifying CriticalAlarmLow. \n\nFor example, if we set CriticalAlarmLow to trigger an assert event and then revert it to the original value, the de-assert event does not occur. This happens because the property change deletes the timer within 1s to 3s and recreates a new sensor object.\n\nhttps://github.com/openbmc/dbus-sensors/blob/master/src/psu/PSUSensorMain.cpp#L1184\n\nhttps://github.com/openbmc/dbus-sensors/blob/master/src/adc/ADCSensorMain.cpp#L347",
+      "parentUuid": "1250afef_6ef1ea66",
+      "range": {
+        "startLine": 7,
+        "startChar": 12,
+        "endLine": 7,
+        "endChar": 40
+      },
+      "revId": "d45c38e47f1569fcc996da16bd9d69a20086f73f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "34cca979_62f015e6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 8
@@ -37,6 +61,30 @@
       "writtenOn": "2024-12-02T21:32:38Z",
       "side": 1,
       "message": "With this change, it would hide the \"short\" events that is less than wait time, which is 5 seconds. I think there may be cases we still want to know about these events as they maybe real stability issues.",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 42
+      },
+      "revId": "d45c38e47f1569fcc996da16bd9d69a20086f73f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5cc27dc_a0549e32",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001906
+      },
+      "writtenOn": "2024-12-04T06:23:51Z",
+      "side": 1,
+      "message": "Additionally, we noticed a missed de-assert event when modifying CriticalAlarmLow. \n\nFor example, if we set CriticalAlarmLow to trigger an assert event and then revert it to the original value, the de-assert event does not occur. This happens because the property change deletes the timer and recreates a new sensor object.\n\nhttps://github.com/openbmc/dbus-sensors/blob/master/src/psu/PSUSensorMain.cpp#L1184",
+      "parentUuid": "34cca979_62f015e6",
       "range": {
         "startLine": 8,
         "startChar": 0,
