@@ -14,7 +14,8 @@ class ChassisIntrusionSensor :
     public std::enable_shared_from_this<ChassisIntrusionSensor>
 {
   public:
-    explicit ChassisIntrusionSensor(bool autoRearm, boost::asio::io_context& io,
+    explicit ChassisIntrusionSensor(const std::string& name, bool autoRearm,
+                                    boost::asio::io_context& io,
                                     sdbusplus::asio::object_server& objServer);
 
     virtual ~ChassisIntrusionSensor();
@@ -43,7 +44,8 @@ class ChassisIntrusionSensor :
 class ChassisIntrusionPchSensor : public ChassisIntrusionSensor
 {
   public:
-    ChassisIntrusionPchSensor(bool autoRearm, boost::asio::io_context& io,
+    ChassisIntrusionPchSensor(const std::string& name, bool autoRearm,
+                              boost::asio::io_context& io,
                               sdbusplus::asio::object_server& objServer,
                               int busId, int slaveAddr);
 
@@ -58,7 +60,8 @@ class ChassisIntrusionPchSensor : public ChassisIntrusionSensor
 class ChassisIntrusionGpioSensor : public ChassisIntrusionSensor
 {
   public:
-    ChassisIntrusionGpioSensor(bool autoRearm, boost::asio::io_context& io,
+    ChassisIntrusionGpioSensor(const std::string& name, bool autoRearm,
+                               boost::asio::io_context& io,
                                sdbusplus::asio::object_server& objServer,
                                bool gpioInverted);
 
@@ -78,9 +81,9 @@ class ChassisIntrusionGpioSensor : public ChassisIntrusionSensor
 class ChassisIntrusionHwmonSensor : public ChassisIntrusionSensor
 {
   public:
-    ChassisIntrusionHwmonSensor(bool autoRearm, boost::asio::io_context& io,
-                                sdbusplus::asio::object_server& objServer,
-                                std::string hwmonName);
+    ChassisIntrusionHwmonSensor(
+        const std::string& name, bool autoRearm, boost::asio::io_context& io,
+        sdbusplus::asio::object_server& objServer, std::string hwmonName);
 
     ~ChassisIntrusionHwmonSensor() override = default;
 
