@@ -20,6 +20,7 @@ thresholds_a = static_library(
 )
 
 thresholds_dep = declare_dependency(
+    include_directories: ['.'],
     link_with: [thresholds_a],
     dependencies: default_deps,
 )
@@ -35,6 +36,7 @@ utils_a = static_library(
 )
 
 utils_dep = declare_dependency(
+    include_directories: ['.'],
     link_with: [utils_a],
     dependencies: [sdbusplus],
 )
@@ -48,6 +50,7 @@ devicemgmt_a = static_library(
 )
 
 devicemgmt_dep = declare_dependency(
+    include_directories: ['.'],
     link_with: [devicemgmt_a],
     dependencies: default_deps,
 )
@@ -59,6 +62,7 @@ pwmsensor_a = static_library(
 )
 
 pwmsensor_dep = declare_dependency(
+    include_directories: ['.'],
     link_with: [pwmsensor_a],
     dependencies: [default_deps, thresholds_dep],
 )
