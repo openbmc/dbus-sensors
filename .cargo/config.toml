@@ -1,0 +1,2 @@
+[target.armv7-unknown-linux-musleabi]
+linker = "arm-linux-gnu-ld"
