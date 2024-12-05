@@ -52,7 +52,7 @@ enum class MCTPTransport
 /**
  * @brief Captures properties of MCTP interfaces.
  *
- * https://github.com/CodeConstruct/mctp/blob/v1.1/src/mctp.c#L672-L703
+ * https://github.com/CodeConstruct/mctp/blob/v2.0/src/mctp.c#L668-L699
  */
 struct MCTPInterface
 {

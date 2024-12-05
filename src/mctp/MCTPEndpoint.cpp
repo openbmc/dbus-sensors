@@ -34,12 +34,12 @@
 
 PHOSPHOR_LOG2_USING;
 
-static constexpr const char* mctpdBusName = "xyz.openbmc_project.MCTP";
-static constexpr const char* mctpdControlPath = "/xyz/openbmc_project/mctp";
+static constexpr const char* mctpdBusName = "au.com.codeconstruct.MCTP1";
+static constexpr const char* mctpdControlPath = "/au/com/codeconstruct/mctp1";
 static constexpr const char* mctpdControlInterface =
-    "au.com.CodeConstruct.MCTP";
+    "au.com.codeconstruct.MCTP.BusOwner1";
 static constexpr const char* mctpdEndpointControlInterface =
-    "au.com.CodeConstruct.MCTP.Endpoint";
+    "au.com.codeconstruct.MCTP.Endpoint1";
 
 MCTPDDevice::MCTPDDevice(
     const std::shared_ptr<sdbusplus::asio::connection>& connection,
@@ -116,9 +116,10 @@ void MCTPDDevice::setup(
                 "INVENTORY_PATH", objpath);
         }
     };
-    connection->async_method_call(onSetup, mctpdBusName, mctpdControlPath,
-                                  mctpdControlInterface, "AssignEndpoint",
-                                  interface, physaddr);
+    connection->async_method_call(
+        onSetup, mctpdBusName,
+        mctpdControlPath + std::string("/interfaces/") + interface,
+        mctpdControlInterface, "AssignEndpoint", physaddr);
 }
 
 void MCTPDDevice::endpointRemoved()
@@ -161,8 +162,8 @@ std::string MCTPDDevice::describe() const
 
 std::string MCTPDEndpoint::path(const std::shared_ptr<MCTPEndpoint>& ep)
 {
-    return std::format("/xyz/openbmc_project/mctp/{}/{}", ep->network(),
-                       ep->eid());
+    return std::format("{}/networks/{}/endpoints/{}", mctpdControlPath,
+                       ep->network(), ep->eid());
 }
 
 void MCTPDEndpoint::onMctpEndpointChange(sdbusplus::message_t& msg)

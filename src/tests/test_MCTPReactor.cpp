@@ -108,9 +108,12 @@ TEST_F(MCTPReactorFixture, manageMockDevice)
 
     std::vector<Association> requiredAssociation{
         {"configured_by", "configures", "/test"}};
-    EXPECT_CALL(assoc, associate("/xyz/openbmc_project/mctp/1/9",
-                                 requiredAssociation));
-    EXPECT_CALL(assoc, disassociate("/xyz/openbmc_project/mctp/1/9"));
+    EXPECT_CALL(assoc,
+                associate("/au/com/codeconstruct/mctp1/networks/1/endpoints/9",
+                          requiredAssociation));
+    EXPECT_CALL(
+        assoc,
+        disassociate("/au/com/codeconstruct/mctp1/networks/1/endpoints/9"));
 
     EXPECT_CALL(*endpoint, remove()).WillOnce(testing::Invoke([&]() {
         removeHandler(endpoint);
@@ -134,9 +137,12 @@ TEST_F(MCTPReactorFixture, manageMockDeviceDeferredSetup)
 
     std::vector<Association> requiredAssociation{
         {"configured_by", "configures", "/test"}};
-    EXPECT_CALL(assoc, associate("/xyz/openbmc_project/mctp/1/9",
-                                 requiredAssociation));
-    EXPECT_CALL(assoc, disassociate("/xyz/openbmc_project/mctp/1/9"));
+    EXPECT_CALL(assoc,
+                associate("/au/com/codeconstruct/mctp1/networks/1/endpoints/9",
+                          requiredAssociation));
+    EXPECT_CALL(
+        assoc,
+        disassociate("/au/com/codeconstruct/mctp1/networks/1/endpoints/9"));
 
     EXPECT_CALL(*endpoint, remove()).WillOnce(testing::Invoke([&]() {
         removeHandler(endpoint);
@@ -164,9 +170,13 @@ TEST_F(MCTPReactorFixture, manageMockDeviceRemoved)
     std::vector<Association> requiredAssociation{
         {"configured_by", "configures", "/test"}};
     EXPECT_CALL(assoc,
-                associate("/xyz/openbmc_project/mctp/1/9", requiredAssociation))
+                associate("/au/com/codeconstruct/mctp1/networks/1/endpoints/9",
+                          requiredAssociation))
         .Times(2);
-    EXPECT_CALL(assoc, disassociate("/xyz/openbmc_project/mctp/1/9")).Times(2);
+    EXPECT_CALL(
+        assoc,
+        disassociate("/au/com/codeconstruct/mctp1/networks/1/endpoints/9"))
+        .Times(2);
 
     EXPECT_CALL(*endpoint, remove()).WillOnce(testing::Invoke([&]() {
         removeHandler(endpoint);
@@ -199,9 +209,13 @@ TEST(MCTPReactor, replaceConfiguration)
         {"configured_by", "configures", "/test"}};
 
     EXPECT_CALL(assoc,
-                associate("/xyz/openbmc_project/mctp/1/9", requiredAssociation))
+                associate("/au/com/codeconstruct/mctp1/networks/1/endpoints/9",
+                          requiredAssociation))
         .Times(2);
-    EXPECT_CALL(assoc, disassociate("/xyz/openbmc_project/mctp/1/9")).Times(2);
+    EXPECT_CALL(
+        assoc,
+        disassociate("/au/com/codeconstruct/mctp1/networks/1/endpoints/9"))
+        .Times(2);
 
     auto endpoint = std::make_shared<MockMCTPEndpoint>();
     EXPECT_CALL(*endpoint, describe())

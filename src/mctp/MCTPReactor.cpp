@@ -72,7 +72,7 @@ void MCTPReactor::trackEndpoint(const std::shared_ptr<MCTPEndpoint>& ep)
     //
     // clang-format off
     // ```
-    // # busctl call xyz.openbmc_project.ObjectMapper /xyz/openbmc_project/object_mapper xyz.openbmc_project.ObjectMapper GetAssociatedSubTree ooias /xyz/openbmc_project/mctp/1/9/configured_by / 0 1 xyz.openbmc_project.Configuration.MCTPDevice
+    // # busctl call xyz.openbmc_project.ObjectMapper /xyz/openbmc_project/object_mapper xyz.openbmc_project.ObjectMapper GetAssociatedSubTree ooias /au/com/codeconstruct/mctp1/networks/1/endpoints/9/configured_by / 0 1 xyz.openbmc_project.Configuration.MCTPDevice
     // a{sa{sas}} 1 "/xyz/openbmc_project/inventory/system/nvme/NVMe_1/NVMe_1_Temp" 1 "xyz.openbmc_project.EntityManager" 1 "xyz.openbmc_project.Configuration.MCTPDevice"
     // ```
     // clang-format on
