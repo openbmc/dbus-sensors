@@ -700,6 +700,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "96118e39_d1ac496f",
+        "filename": "src/LeakDetection/LeakDetectionManager.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2024-12-05T23:51:25Z",
+      "side": 1,
+      "message": "In this case, the ctx has been declared as a local var in main and anything dependent on it also go out of scope as they are declared in main. Nothing is declared as static or global.",
+      "parentUuid": "0b8df846_aa347395",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 35
+      },
+      "revId": "7ff3fb07184f91394e93d65e2d961231d6f3c212",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "beed5081_0ca76a1c",
         "filename": "src/LeakDetection/LeakDetectionManager.hpp",
         "patchSetId": 5
@@ -759,6 +783,30 @@
       "side": 1,
       "message": "Huh?  sdbusplus::async::match is a single type:\n\nhttps://github.com/openbmc/sdbusplus/blob/master/include/sdbusplus/async/match.hpp#L25\n\nIt\u0027s definitely known at compile time.  Maybe I don\u0027t understand?\n\nGenerally you would declare these by value and make sure they\u0027re initialized in the constructor?  That way, you don\u0027t have to implement nullptr checks all over the place to keep static analyzers happy.",
       "parentUuid": "05c5149d_3482b064",
+      "range": {
+        "startLine": 58,
+        "startChar": 4,
+        "endLine": 58,
+        "endChar": 19
+      },
+      "revId": "7ff3fb07184f91394e93d65e2d961231d6f3c212",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af9e1a4e_e263191f",
+        "filename": "src/LeakDetection/LeakDetectionManager.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2024-12-05T23:51:25Z",
+      "side": 1,
+      "message": "Done. Sure, I understood what you meant. Thanks.",
+      "parentUuid": "2f6fb931_56c10d99",
       "range": {
         "startLine": 58,
         "startChar": 4,
