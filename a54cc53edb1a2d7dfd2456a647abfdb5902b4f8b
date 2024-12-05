@@ -16,6 +16,23 @@
       "message": "Looking for a +2 so this can be merged.  Thanks",
       "revId": "a54cc53edb1a2d7dfd2456a647abfdb5902b4f8b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd84f548_de0d45be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 55
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-12-05T18:01:28Z",
+      "side": 1,
+      "message": "No additional comments and dependencies have been merged",
+      "revId": "a54cc53edb1a2d7dfd2456a647abfdb5902b4f8b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
