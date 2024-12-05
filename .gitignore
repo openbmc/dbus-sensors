@@ -4,6 +4,7 @@ subprojects/*
 !subprojects/.clang-tidy
 !subprojects/.clang-format
 !subprojects/.clang-tidy-ignore
+target/
 
 .vscode
 .idea/
