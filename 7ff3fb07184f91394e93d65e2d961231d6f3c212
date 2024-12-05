@@ -570,6 +570,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5de429ed_c04d85f2",
+        "filename": "src/LeakDetection/LeakDetectionManager.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-12-05T23:05:32Z",
+      "side": 1,
+      "message": "FWIW, for most things we\u0027ve found that a vector is actually a better way to represent dbus sets because it ends up faster.",
+      "parentUuid": "fa7c3cf5_680bfff3",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 51
+      },
+      "revId": "7ff3fb07184f91394e93d65e2d961231d6f3c212",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8be7fe37_9d7aee52",
         "filename": "src/LeakDetection/LeakDetectionManager.hpp",
         "patchSetId": 5
@@ -652,6 +676,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0b8df846_aa347395",
+        "filename": "src/LeakDetection/LeakDetectionManager.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-12-05T23:05:32Z",
+      "side": 1,
+      "message": "Right, but there are destructors that run after main (any static or global variables) that in asio contexts have caused shutdown issues with a context declared in main.",
+      "parentUuid": "1529387b_f8d2fa7b",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 35
+      },
+      "revId": "7ff3fb07184f91394e93d65e2d961231d6f3c212",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "beed5081_0ca76a1c",
         "filename": "src/LeakDetection/LeakDetectionManager.hpp",
         "patchSetId": 5
@@ -687,6 +735,30 @@
       "side": 1,
       "message": "These matchers have been moved to different file now, but they are still unique_ptrs. \nReason for unique_ptr: the info required to create them is not known at compile time so i cannot make them type instance. Please ket me know if you have some other idea/approach on how to achieve this without unique_ptr?",
       "parentUuid": "beed5081_0ca76a1c",
+      "range": {
+        "startLine": 58,
+        "startChar": 4,
+        "endLine": 58,
+        "endChar": 19
+      },
+      "revId": "7ff3fb07184f91394e93d65e2d961231d6f3c212",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f6fb931_56c10d99",
+        "filename": "src/LeakDetection/LeakDetectionManager.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-12-05T23:05:32Z",
+      "side": 1,
+      "message": "Huh?  sdbusplus::async::match is a single type:\n\nhttps://github.com/openbmc/sdbusplus/blob/master/include/sdbusplus/async/match.hpp#L25\n\nIt\u0027s definitely known at compile time.  Maybe I don\u0027t understand?\n\nGenerally you would declare these by value and make sure they\u0027re initialized in the constructor?  That way, you don\u0027t have to implement nullptr checks all over the place to keep static analyzers happy.",
+      "parentUuid": "05c5149d_3482b064",
       "range": {
         "startLine": 58,
         "startChar": 4,
