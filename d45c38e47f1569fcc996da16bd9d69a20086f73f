@@ -121,6 +121,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "143da2b2_ab63574a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-12-05T18:51:50Z",
+      "side": 1,
+      "message": "\u003e I want to modify the behavior to align with the comment description at\nhttps://github.com/openbmc/dbus-sensors/blob/master/src/Thresholds.cpp#L429\n\nic, the comment is not super clear. But it is referring to events related to high threshold, not the de-assert event for the low threshold.\n\n\u003e For example, if we set CriticalAlarmLow to trigger an assert event and then revert it to the original value, the de-assert event does not occur. This happens because the property change deletes the timer and recreates a new sensor object.\n\nIs this a customer use case or a test issue with adjusting the threshold. If it is a customer issue. I am wondering whether the process should be: 1. Clear old events 2. Adjust to new threshold.\n\nHaving said that, I agree we would want it work correctly when the threshold is updated without requiring customer to do anything. There are other options worth discussion:\n1. Should the sensor be destroyed and recreated when the thresholds values get updated? Can we simply update the threshold value? We need to understand whether there is other dependency - services that watch for sensor interface added to capture the new threshold value.\n2. Can we make the a newly create sensor to always send a threshold deassert event. If the thresholds were not asserted, no message would be logged.\nhttps://github.com/openbmc/phosphor-sel-logger/blob/master/include/threshold_event_monitor.hpp#L66\n\n\u003e Can we extend the property change time to 10 seconds to avoid the issue of sensor recreation?\n\nUnfortunately there is not much documentation on these magic numbers.\nI would prefer to avoid needing to maintain some dependency to these hard coded time constant.",
+      "parentUuid": "c91d9974_35da47a5",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 42
+      },
+      "revId": "d45c38e47f1569fcc996da16bd9d69a20086f73f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7c3b01a1_ec923aae",
         "filename": "/COMMIT_MSG",
         "patchSetId": 8
