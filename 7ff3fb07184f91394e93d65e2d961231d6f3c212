@@ -440,6 +440,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e2c81917_6a4bcf6a",
+        "filename": "src/LeakDetection/LeakDetectionManager.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2024-12-05T09:12:16Z",
+      "side": 1,
+      "message": "Will dig little more into this to figure out the issue.",
+      "parentUuid": "14e87aca_cba6c967",
+      "range": {
+        "startLine": 75,
+        "startChar": 23,
+        "endLine": 75,
+        "endChar": 66
+      },
+      "revId": "7ff3fb07184f91394e93d65e2d961231d6f3c212",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "eed3a842_2bfcb3fd",
         "filename": "src/LeakDetection/LeakDetectionManager.hpp",
         "patchSetId": 5
