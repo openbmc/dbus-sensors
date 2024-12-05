@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71bcea10_c10ba38a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-12-05T19:12:40Z",
+      "side": 1,
+      "message": "This path is being used in other services. They all need to be updated.\nQuick search found:\nhttps://github.com/openbmc/phosphor-host-ipmid/blob/af4a77503366722a0c15cab12b421d9cbafba012/chassishandler.cpp#L1082\nhttps://github.com/openbmc/intel-ipmi-oem/blob/3524578e567f9e32cb4e674e502950f378c0ddfb/src/chassiscommands.cpp#L504",
+      "range": {
+        "startLine": 12,
+        "startChar": 5,
+        "endLine": 12,
+        "endChar": 45
+      },
+      "revId": "a1315e358c11e6a33346475f9fb09b5629f560ca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1025c92c_d565b3da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-12-05T19:12:40Z",
+      "side": 1,
+      "message": "Please add test section",
+      "revId": "a1315e358c11e6a33346475f9fb09b5629f560ca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
