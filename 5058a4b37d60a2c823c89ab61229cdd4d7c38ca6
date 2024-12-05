@@ -1,0 +1,180 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b112ad9a_ecb5588c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-12-05T03:32:36Z",
+      "side": 1,
+      "message": "Hi Jonico, thanks for the change in approach. I prefer this direction 😊 However, I do have some queries and thoughts in-line.\n\nFurther, given these new classes a fairly self-contained, can you please add some test cases?",
+      "revId": "5058a4b37d60a2c823c89ab61229cdd4d7c38ca6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9705581_c8fa2b89",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-12-05T03:32:36Z",
+      "side": 1,
+      "message": "I prefer we mark this as `explicit`.",
+      "revId": "5058a4b37d60a2c823c89ab61229cdd4d7c38ca6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cdbb29c_59a227c3",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-12-05T03:32:36Z",
+      "side": 1,
+      "message": "What\u0027s the motivation for the ordering operators? If they\u0027re required, can you please add source a comment describing why?",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 5
+      },
+      "revId": "5058a4b37d60a2c823c89ab61229cdd4d7c38ca6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12895e7a_db59d08f",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-12-05T03:32:36Z",
+      "side": 1,
+      "message": "What\u0027s the motivation for a setter? My preference is that the instances are immutable.",
+      "revId": "5058a4b37d60a2c823c89ab61229cdd4d7c38ca6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c27d9b7_49c7c5c3",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-12-05T03:32:36Z",
+      "side": 1,
+      "message": "`explicit` again here?",
+      "revId": "5058a4b37d60a2c823c89ab61229cdd4d7c38ca6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "791547b4_8a6bf04c",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-12-05T03:32:36Z",
+      "side": 1,
+      "message": "I think `std::runtime_error` might be a bit too big a hammer here. Maybe `std::logic_error()`? Feels like an easy one to trip over though, because it\u0027s entirely determined by the conformance of the published EM config to the mux schema. Possibly a custom exception is better, or a public static function that tests the preconditions and returns a `std::optional\u003cI2CMux\u003e` which is only populated if the preconditions are met?",
+      "revId": "5058a4b37d60a2c823c89ab61229cdd4d7c38ca6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8555ad90_95f018fd",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-12-05T03:32:36Z",
+      "side": 1,
+      "message": "Also, unconditionally prepending this absolute path prefix might make testing tricky. It might be better to store the mux name extracted from the config map and append a (configurable) prefix as necessary.",
+      "revId": "5058a4b37d60a2c823c89ab61229cdd4d7c38ca6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4b71a5d_b62f8935",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-12-05T03:32:36Z",
+      "side": 1,
+      "message": "Can you add a source comment (with relevant links) about how `/dev/i2c-mux` is populated?",
+      "revId": "5058a4b37d60a2c823c89ab61229cdd4d7c38ca6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b21a4b8e_11286cd2",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-12-05T03:32:36Z",
+      "side": 1,
+      "message": "Again, I think a `std::runtime_error` here might be a bit strong. What do you think of changing the return type to `std::optional\u003cI2CBus\u003e`?",
+      "revId": "5058a4b37d60a2c823c89ab61229cdd4d7c38ca6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "035b63eb_80eec9b7",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-12-05T03:32:36Z",
+      "side": 1,
+      "message": "The stripping of an absolute path prefix is going to make this awkward to test. If you instead parse the basename of the path then you\u0027ll have an easier time testing it.",
+      "revId": "5058a4b37d60a2c823c89ab61229cdd4d7c38ca6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
