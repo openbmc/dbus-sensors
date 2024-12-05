@@ -462,6 +462,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "19677444_8765c889",
+        "filename": "src/LeakDetection/LeakDetectionManager.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2024-12-05T22:43:15Z",
+      "side": 1,
+      "message": "Ohh i just saw that -\nentityManager.call\u003cManagedObjectType\u003e(ctx, \"GetManagedObjects\")) \u003c\u003d Returns a Dict\nwhereas\nnext\u003csdbusplus::message::object_path, SensorData\u003e() \u003c\u003dReturns a tuple.\n\nThats why the template arg types are different. Marking this one resolved for now as its based on API return type. Please let me know if there are any questions.",
+      "parentUuid": "e2c81917_6a4bcf6a",
+      "range": {
+        "startLine": 75,
+        "startChar": 23,
+        "endLine": 75,
+        "endChar": 66
+      },
+      "revId": "7ff3fb07184f91394e93d65e2d961231d6f3c212",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eed3a842_2bfcb3fd",
@@ -745,6 +769,30 @@
       "side": 1,
       "message": "Polarity check is already being done inside updateState at a single place both for readState() and readStateAsync().",
       "parentUuid": "72516c14_b660f92d",
+      "range": {
+        "startLine": 46,
+        "startChar": 16,
+        "endLine": 46,
+        "endChar": 31
+      },
+      "revId": "7ff3fb07184f91394e93d65e2d961231d6f3c212",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7105db05_8755693c",
+        "filename": "src/LeakDetection/LeakDetector.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2024-12-05T22:43:15Z",
+      "side": 1,
+      "message": "Resolving this comment based on changes in https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/75329/comment/b8bf6bb8_21bbb5a8/ as the updateState in arg changed to gpioState.",
+      "parentUuid": "b6ab9dcc_038457ea",
       "range": {
         "startLine": 46,
         "startChar": 16,
@@ -1080,6 +1128,30 @@
       "side": 1,
       "message": "\u003e Don\u0027t we need them to have some kind of position identifier?\nSorry i am not sure what you mean by position identifier. Can you please elaborate?\n\n\n\u003e This daemon really shouldn\u0027t be dealing with targets at all, right?  It\u0027s responsible for putting the current state on dbus, same as any other sensor.  What other daemons do with that is their choice, and phosphor-state-manager can certainly react if it chooses to.\n\nThat\u0027s not true. It has been one of the requirements for the design (#3).",
       "parentUuid": "2e367b24_549860d4",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 13
+      },
+      "revId": "7ff3fb07184f91394e93d65e2d961231d6f3c212",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "041886ba_d2e2431e",
+        "filename": "src/LeakDetection/LeakDetector.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2024-12-05T22:43:15Z",
+      "side": 1,
+      "message": "\u003e Don\u0027t we need them to have some kind of position identifier?\n\nSorry i am not sure what you mean by position identifier. Can you please elaborate?\n\n\u003e This daemon really shouldn\u0027t be dealing with targets at all, right? It\u0027s responsible for putting the current state on dbus, same as any other sensor. What other daemons do with that is their choice, and phosphor-state-manager can certainly react if it chooses to.\n\nThat\u0027s not true. It has been one of the requirements for the design (#3) - https://gerrit.openbmc.org/c/openbmc/docs/+/73152",
+      "parentUuid": "89fe5ae3_267a6097",
       "range": {
         "startLine": 112,
         "startChar": 0,
