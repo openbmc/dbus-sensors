@@ -37,7 +37,7 @@ class DBusAssociationServer : public AssociationServer
         const std::shared_ptr<sdbusplus::asio::connection>& connection) :
         server(connection)
     {
-        server.add_manager("/xyz/openbmc_project/mctp");
+        server.add_manager("/au/com/codeconstruct/mctp1");
     }
     ~DBusAssociationServer() override = default;
     DBusAssociationServer& operator=(const DBusAssociationServer&) = delete;
@@ -211,7 +211,7 @@ int main()
         std::bind_front(exitReactor, &io));
 
     const std::string mctpdNameLostSpec =
-        rules::nameOwnerChanged("xyz.openbmc_project.MCTP");
+        rules::nameOwnerChanged("au.com.codeconstruct.MCTP1");
 
     auto mctpdNameLostMatch = sdbusplus::bus::match_t(
         static_cast<sdbusplus::bus_t&>(*systemBus), mctpdNameLostSpec,
