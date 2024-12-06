@@ -16,6 +16,24 @@
       "message": "Nice, though I wonder whether we instead fork omnisensor from Zev and carry on maintaining that?",
       "revId": "0a45aedc9b061b3a69099d3758839451b448750a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a316bd5d_1bfd23b3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001289
+      },
+      "writtenOn": "2024-12-06T07:23:26Z",
+      "side": 1,
+      "message": "Sure! Yeah I can go resurrect that: I guess I just wonder, what would be the best place for the code to live. It could be added directly in dbus-sensors, but it might be more appropriate to create an openbmc/omnisensor fork. Idk, not that important, more important that I actually just go try using it for some stuff and extending it, and then incorporate it into a machine image in openbmc/openbmc for demonstration purposes.",
+      "parentUuid": "070b1a87_6eca8372",
+      "revId": "0a45aedc9b061b3a69099d3758839451b448750a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
