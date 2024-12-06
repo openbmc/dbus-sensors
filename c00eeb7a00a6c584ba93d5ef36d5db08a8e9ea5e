@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "368bd0f4_a6a48a93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002089
+      },
+      "writtenOn": "2024-12-06T03:12:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "344be71a_69f7d388",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "c00eeb7a00a6c584ba93d5ef36d5db08a8e9ea5e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3da6d8c4_925cbec6",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-11-11T19:40:08Z",
       "side": 1,
       "message": "what is a \"peak\" reading.  Please answer in your commit message.  if there is hwmon documentation on what a peak reading is, please point to it as a definition.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 34
+      },
+      "revId": "c00eeb7a00a6c584ba93d5ef36d5db08a8e9ea5e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37ee04ed_2fb78454",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002089
+      },
+      "writtenOn": "2024-12-06T03:12:20Z",
+      "side": 1,
+      "message": "Hwmon doesn\u0027t define peak, maybe I should correct peak reading to highest reading in commit message. \nThe \"peak\" comes from ADM1272, which monitors the highest readings since the value was last cleared.",
+      "parentUuid": "3da6d8c4_925cbec6",
       "range": {
         "startLine": 9,
         "startChar": 0,
@@ -84,6 +132,30 @@
       "side": 1,
       "message": "I suspect this sentence just needs removed, and replaced with a description of what this new parameter is, and what it accomplishes.",
       "parentUuid": "c0474681_cd733f71",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 50
+      },
+      "revId": "c00eeb7a00a6c584ba93d5ef36d5db08a8e9ea5e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8a036d2_4000d310",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002089
+      },
+      "writtenOn": "2024-12-06T03:12:20Z",
+      "side": 1,
+      "message": "ADM1272 reports the measured highest current, input/output voltage, and temperature. Hence, these fields are designed to map to the corresponding commands in adm1272",
+      "parentUuid": "9c51ed82_63e0dfdb",
       "range": {
         "startLine": 12,
         "startChar": 0,
@@ -189,6 +261,24 @@
       "side": 1,
       "message": "Seems like we at least need the entity-manager schema updated to reference this?  We don\u0027t generally pick up random downstream-only strings.",
       "parentUuid": "0cb60fcf_6ea82212",
+      "revId": "c00eeb7a00a6c584ba93d5ef36d5db08a8e9ea5e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15fac2e8_4557ad3b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002089
+      },
+      "writtenOn": "2024-12-06T03:12:20Z",
+      "side": 1,
+      "message": "https://gerrit.openbmc.org/c/openbmc/entity-manager/+/76041",
+      "parentUuid": "8cd20a18_3c66ffa3",
       "revId": "c00eeb7a00a6c584ba93d5ef36d5db08a8e9ea5e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
