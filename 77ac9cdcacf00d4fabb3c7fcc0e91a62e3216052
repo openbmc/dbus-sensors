@@ -56,6 +56,30 @@
       },
       "revId": "77ac9cdcacf00d4fabb3c7fcc0e91a62e3216052",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "421fbf0a_b7ceef94",
+        "filename": "src/intrusion/ChassisIntrusionSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2024-12-06T09:15:56Z",
+      "side": 1,
+      "message": "Agreed. Updated.",
+      "parentUuid": "96d884db_b296fc7f",
+      "range": {
+        "startLine": 392,
+        "startChar": 0,
+        "endLine": 399,
+        "endChar": 0
+      },
+      "revId": "77ac9cdcacf00d4fabb3c7fcc0e91a62e3216052",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
