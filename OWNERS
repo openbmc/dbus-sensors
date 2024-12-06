@@ -38,6 +38,9 @@ owners:
 - zhikui.ren@intel.com
 - andrew@codeconstruct.com.au
 
+reviewers:
+- paligill@gmail.com
+
 openbmc:
 - name: Andrew Jeffery
   email: andrew@codeconstruct.com.au
@@ -54,3 +57,6 @@ openbmc:
 - name: Zhikui Ren
   email: zhikui.ren@intel.com
   discord: Zhikui
+- name: Jagpal Singh Gill
+  email: paligill@gmail.com
+  discord: jagpalgill
