@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e929f10c_7634978d",
+        "filename": ".clang-tidy",
+        "patchSetId": 2
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1000086
+      },
+      "writtenOn": "2024-12-09T09:01:18Z",
+      "side": 0,
+      "message": "Note: Not included in initial base list shared for other review.",
+      "revId": "4bbd02dce8fe574ecae5efda089e02940178cac7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
