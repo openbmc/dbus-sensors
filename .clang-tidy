@@ -14,6 +14,7 @@ bugprone-copy-constructor-init,
 bugprone-dangling-handle,
 bugprone-dynamic-static-initializers,
 bugprone-empty-catch,
+-bugprone-exception-escape,
 bugprone-fold-init-type,
 bugprone-forward-declaration-namespace,
 bugprone-forwarding-reference-overload,
@@ -34,6 +35,7 @@ bugprone-move-forwarding-reference,
 bugprone-multi-level-implicit-pointer-conversion,
 bugprone-multiple-new-in-one-expression,
 bugprone-multiple-statement-macro,
+-bugprone-narrowing-conversions,
 bugprone-no-escape,
 bugprone-non-zero-enum-to-bool-conversion,
 bugprone-not-null-terminated-result,
@@ -110,6 +112,7 @@ cert-pos44-c,
 cert-pos47-c,
 cert-sig30-c,
 cert-str34-c,
+clang-analyzer-apiModeling.StdCLibraryFunctions,
 clang-analyzer-apiModeling.Errno,
 clang-analyzer-apiModeling.TrustNonnull,
 clang-analyzer-apiModeling.TrustReturnsNonnull,
@@ -232,6 +235,7 @@ clang-analyzer-webkit.UncountedLambdaCapturesChecker,
 cppcoreguidelines-avoid-c-arrays,
 cppcoreguidelines-avoid-capturing-lambda-coroutines,
 cppcoreguidelines-avoid-goto,
+-cppcoreguidelines-avoid-non-const-global-variables,
 cppcoreguidelines-avoid-reference-coroutine-parameters,
 cppcoreguidelines-c-copy-assignment-signature,
 cppcoreguidelines-explicit-virtual-functions,
@@ -240,7 +244,7 @@ cppcoreguidelines-interfaces-global-init,
 cppcoreguidelines-macro-to-enum,
 cppcoreguidelines-macro-usage,
 cppcoreguidelines-misleading-capture-default-by-value,
-cppcoreguidelines-missing-std-forward,
+-cppcoreguidelines-narrowing-conversions,
 cppcoreguidelines-no-malloc,
 cppcoreguidelines-no-suspend-with-lock,
 cppcoreguidelines-noexcept-destructor,
@@ -248,6 +252,7 @@ cppcoreguidelines-noexcept-move-operations,
 cppcoreguidelines-noexcept-swap,
 cppcoreguidelines-prefer-member-initializer,
 cppcoreguidelines-pro-bounds-array-to-pointer-decay,
+-cppcoreguidelines-pro-bounds-pointer-arithmetic,
 cppcoreguidelines-pro-type-const-cast,
 cppcoreguidelines-pro-type-cstyle-cast,
 cppcoreguidelines-pro-type-member-init,
@@ -259,10 +264,11 @@ cppcoreguidelines-rvalue-reference-param-not-moved,
 cppcoreguidelines-use-default-member-init,
 cppcoreguidelines-virtual-class-destructor,
 cppcoreguidelines-slicing,
+-cppcoreguidelines-special-member-functions,
 google-explicit-constructor,
 misc-coroutine-hostile-raii,
 misc-header-include-cycle,
-misc-include-cleaner,
+-misc-include-cleaner,
 misc-misleading-bidirectional,
 misc-misleading-identifier,
 misc-misplaced-const,
@@ -302,6 +308,7 @@ modernize-use-std-numbers,
 modernize-use-transparent-functors,
 modernize-use-uncaught-exceptions,
 modernize-use-using,
+-performance-avoid-endl,
 performance-faster-string-find,
 performance-for-range-copy,
 performance-implicit-conversion-in-loop,
@@ -369,11 +376,11 @@ readability-uppercase-literal-suffix'
 WarningsAsErrors: '*'
 HeaderFilterRegex: '.*'
 CheckOptions:
-  - { key: readability-identifier-naming.ClassCase,     value: CamelCase  }
-  - { key: readability-identifier-naming.VariableCase,  value: camelBack }
-  - { key: readability-identifier-naming.FunctionCase,  value: camelBack }
-  - { key: readability-identifier-naming.ParameterCase, value: camelBack }
-  - { key: readability-identifier-naming.NamespaceCase, value: lower_case }
-  - { key: readability-identifier-naming.StructCase,    value: CamelCase  }
-  - { key: cppcoreguidelines-rvalue-reference-param-not-moved.IgnoreUnnamedParams, value: true }
-  - { key: misc-include-cleaner.IgnoreHeaders, value: ((stdlib.h)|(nlohmann/json_fwd.hpp)|(boost/.*/src.hpp)|(boost/.*/detail/.*)|(nlohmann/detail/.*)|(stdio.h)|(ranges)|(bits/chrono.h)|(boost/system/error_code.hpp)) }
+  - { key: readability-identifier-naming.ClassCase,         value: CamelCase  }
+  - { key: -readability-identifier-naming.EnumCase,          value: CamelCase  }
+  - { key: -readability-identifier-naming.EnumConstantCase,  value: camelBack  }
+  - { key: readability-identifier-naming.FunctionCase,      value: camelBack  }
+  - { key: readability-identifier-naming.NamespaceCase,     value: lower_case }
+  - { key: readability-identifier-naming.ParameterCase,     value: camelBack  }
+  - { key: readability-identifier-naming.StructCase,        value: CamelCase  }
+  - { key: readability-identifier-naming.VariableCase,      value: camelBack  }
