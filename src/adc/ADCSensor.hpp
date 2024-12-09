@@ -89,4 +89,5 @@ class ADCSensor : public Sensor, public std::enable_shared_from_this<ADCSensor>
     thresholds::ThresholdTimer thresholdTimer;
     void handleResponse(const boost::system::error_code& err);
     void checkThresholds() override;
+    void restartRead();
 };

@@ -34,6 +34,7 @@
 #include <cmath>
 #include <cstddef>
 #include <iostream>
+#include <limits>
 #include <memory>
 #include <optional>
 #include <stdexcept>
@@ -104,6 +105,14 @@ ADCSensor::~ADCSensor()
 
 void ADCSensor::setupRead()
 {
+    if (!readingStateGood())
+    {
+        markAvailable(false);
+        updateValue(std::numeric_limits<double>::quiet_NaN());
+        restartRead();
+        return;
+    }
+
     std::shared_ptr<boost::asio::streambuf> buffer =
         std::make_shared<boost::asio::streambuf>();
 
@@ -158,6 +167,36 @@ void ADCSensor::setupRead()
     }
 }
 
+void ADCSensor::restartRead()
+{
+    std::weak_ptr<ADCSensor> weakRef = weak_from_this();
+    waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
+    waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
+        std::shared_ptr<ADCSensor> self = weakRef.lock();
+        if (ec == boost::asio::error::operation_aborted)
+        {
+            if (self)
+            {
+                std::cerr << "adcsensor " << self->name << " read cancelled\n";
+            }
+            else
+            {
+                std::cerr << "adcsensor read cancelled no self\n";
+            }
+            return; // we're being canceled
+        }
+
+        if (self)
+        {
+            self->setupRead();
+        }
+        else
+        {
+            std::cerr << "adcsensor weakref no self\n";
+        }
+    });
+}
+
 void ADCSensor::handleResponse(const boost::system::error_code& err)
 {
     std::weak_ptr<ADCSensor> weakRef = weak_from_this();
@@ -206,31 +245,7 @@ void ADCSensor::handleResponse(const boost::system::error_code& err)
         return; // we're no longer valid
     }
     inputDev.assign(fd);
-    waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
-    waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
-        std::shared_ptr<ADCSensor> self = weakRef.lock();
-        if (ec == boost::asio::error::operation_aborted)
-        {
-            if (self)
-            {
-                std::cerr << "adcsensor " << self->name << " read cancelled\n";
-            }
-            else
-            {
-                std::cerr << "adcsensor read cancelled no self\n";
-            }
-            return; // we're being canceled
-        }
-
-        if (self)
-        {
-            self->setupRead();
-        }
-        else
-        {
-            std::cerr << "adcsensor weakref no self\n";
-        }
-    });
+    restartRead();
 }
 
 void ADCSensor::checkThresholds()
