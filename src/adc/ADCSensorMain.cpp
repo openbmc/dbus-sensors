@@ -18,6 +18,7 @@
 #include "Thresholds.hpp"
 #include "Utils.hpp"
 #include "VariantVisitors.hpp"
+#include "sensor.hpp"
 
 #include <boost/algorithm/string/case_conv.hpp>
 #include <boost/asio/error.hpp>
@@ -305,10 +306,32 @@ void createSensors(
                     }
                 }
 
+                static constexpr double maxVoltageReading =
+                    1.8; // pre sensor scaling
+                static constexpr double minVoltageReading = 0;
+
+                SensorRange range(minVoltageReading / scaleFactor,
+                                  maxVoltageReading / scaleFactor);
+
+                auto maxValIt = baseConfiguration->second.find("MaxValue");
+                auto minValIt = baseConfiguration->second.find("MinValue");
+
+                if (minValIt != baseConfiguration->second.end())
+                {
+                    range.minimum =
+                        std::visit(VariantToDoubleVisitor(), minValIt->second);
+                }
+
+                if (maxValIt != baseConfiguration->second.end())
+                {
+                    range.maximum =
+                        std::visit(VariantToDoubleVisitor(), maxValIt->second);
+                }
+
                 sensor = std::make_shared<ADCSensor>(
                     path.string(), objectServer, dbusConnection, io, sensorName,
                     std::move(sensorThresholds), scaleFactor, pollRate,
-                    readState, *interfacePath, std::move(bridgeGpio));
+                    readState, *interfacePath, range, std::move(bridgeGpio));
                 sensor->setupRead();
             }
         });

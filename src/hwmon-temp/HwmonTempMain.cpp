@@ -378,6 +378,22 @@ void createSensors(
                 }
                 const SensorBaseConfigMap& baseConfigMap =
                     findSensorCfg->second.config;
+
+                auto maxValIt = baseConfigMap.find("MaxValue");
+                auto minValIt = baseConfigMap.find("MinValue");
+
+                if (minValIt != baseConfigMap.end())
+                {
+                    thisSensorParameters.minValue =
+                        std::visit(VariantToDoubleVisitor(), minValIt->second);
+                }
+
+                if (maxValIt != baseConfigMap.end())
+                {
+                    thisSensorParameters.maxValue =
+                        std::visit(VariantToDoubleVisitor(), maxValIt->second);
+                }
+
                 std::vector<std::string>& hwmonName =
                     findSensorCfg->second.name;
 

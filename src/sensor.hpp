@@ -49,6 +49,12 @@ struct SensorInstrumentation
     double maxCollected = 0.0;
 };
 
+struct SensorRange
+{
+    double minimum;
+    double maximum;
+};
+
 struct SetSensorError : sdbusplus::exception_t
 {
     const char* name() const noexcept override
