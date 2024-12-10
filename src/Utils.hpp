@@ -71,6 +71,12 @@ enum class PowerState
     chassisOn
 };
 
+struct SensorRange
+{
+    double minimum;
+    double maximum;
+};
+
 std::optional<std::string> openAndRead(const std::string& hwmonFile);
 std::optional<std::string> getFullHwmonFilePath(
     const std::string& directory, const std::string& hwmonBaseName,
@@ -99,6 +105,10 @@ void createAssociation(
 // replaces limits if MinReading and MaxReading are found.
 void findLimits(std::pair<double, double>& limits,
                 const SensorBaseConfiguration* data);
+
+// Update Sensor's range if MaxValue and MinValue are found.
+void updateSensorRange(const SensorBaseConfigMap& baseConfigMap,
+                    SensorRange& range);
 
 bool readingStateGood(const PowerState& powerState);
 
