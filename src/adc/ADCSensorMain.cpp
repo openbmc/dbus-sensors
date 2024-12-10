@@ -305,10 +305,33 @@ void createSensors(
                     }
                 }
 
+                static constexpr double maxVoltageReading =
+                    1.8; // pre sensor scaling
+                static constexpr double minVoltageReading = 0;
+
+                std::pair<double, double> range =
+                    std::make_pair(minVoltageReading / scaleFactor,
+                                   maxVoltageReading / scaleFactor);
+
+                auto maxValIt = baseConfiguration->second.find("MaxValue");
+                auto minValIt = baseConfiguration->second.find("MinValue");
+
+                if (minValIt != baseConfiguration->second.end())
+                {
+                    range.first =
+                        std::visit(VariantToDoubleVisitor(), minValIt->second);
+                }
+
+                if (maxValIt != baseConfiguration->second.end())
+                {
+                    range.second =
+                        std::visit(VariantToDoubleVisitor(), maxValIt->second);
+                }
+
                 sensor = std::make_shared<ADCSensor>(
                     path.string(), objectServer, dbusConnection, io, sensorName,
                     std::move(sensorThresholds), scaleFactor, pollRate,
-                    readState, *interfacePath, std::move(bridgeGpio));
+                    readState, *interfacePath, range, std::move(bridgeGpio));
                 sensor->setupRead();
             }
         });
