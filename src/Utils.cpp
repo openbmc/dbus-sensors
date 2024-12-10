@@ -602,6 +602,23 @@ void findLimits(std::pair<double, double>& limits,
     }
 }
 
+void getSensorRange(const SensorBaseConfigMap& baseConfigMap,
+                    SensorRange& range)
+{
+    auto maxValIt = baseConfigMap.find("MaxValue");
+    auto minValIt = baseConfigMap.find("MinValue");
+
+    if (maxValIt != baseConfigMap.end())
+    {
+        range.maximum = std::visit(VariantToDoubleVisitor(), maxValIt->second);
+    }
+
+    if (minValIt != baseConfigMap.end())
+    {
+        range.minimum = std::visit(VariantToDoubleVisitor(), minValIt->second);
+    }
+}
+
 void createAssociation(
     std::shared_ptr<sdbusplus::asio::dbus_interface>& association,
     const std::string& path)
