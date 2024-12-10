@@ -37,6 +37,7 @@
 
 #include <array>
 #include <chrono>
+#include <cmath>
 #include <cstddef>
 #include <filesystem>
 #include <fstream>
@@ -253,7 +254,7 @@ void createSensors(
                     scaleFactor = std::visit(VariantToFloatVisitor(),
                                              findScaleFactor->second);
                     // scaleFactor is used in division
-                    if (scaleFactor == 0.0F)
+                    if (!std::isfinite(scaleFactor) || (scaleFactor == 0.0F))
                     {
                         scaleFactor = 1.0;
                     }
@@ -305,10 +306,19 @@ void createSensors(
                     }
                 }
 
+                // pre sensor scaling
+                static constexpr double maxVoltageReading = 1.8;
+                static constexpr double minVoltageReading = 0;
+
+                SensorRange range(minVoltageReading / scaleFactor,
+                                  maxVoltageReading / scaleFactor);
+
+                updateSensorRange(baseConfiguration->second, range);
+
                 sensor = std::make_shared<ADCSensor>(
                     path.string(), objectServer, dbusConnection, io, sensorName,
                     std::move(sensorThresholds), scaleFactor, pollRate,
-                    readState, *interfacePath, std::move(bridgeGpio));
+                    readState, *interfacePath, range, std::move(bridgeGpio));
                 sensor->setupRead();
             }
         });
