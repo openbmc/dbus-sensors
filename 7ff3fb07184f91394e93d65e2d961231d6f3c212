@@ -669,6 +669,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "199d5a79_33b625b2",
+        "filename": "src/LeakDetection/LeakDetectionManager.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2024-12-11T21:39:50Z",
+      "side": 1,
+      "message": "Marking this one resolved for now as handle APIs has been moved into EntityManager class. Please let me know if there are still any concerns.",
+      "parentUuid": "e49390d9_82723b0d",
+      "revId": "7ff3fb07184f91394e93d65e2d961231d6f3c212",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "52ca12a0_fcd6b7ef",
@@ -996,6 +1014,24 @@
       "side": 1,
       "message": "The initial line request is for synchronous read whereas inside readStateAsync() its for async events. Made this \"line\" a local var to avoid any confusion.",
       "parentUuid": "54d8bee9_c27a0926",
+      "revId": "7ff3fb07184f91394e93d65e2d961231d6f3c212",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "439c9d19_c6de11dc",
+        "filename": "src/LeakDetection/LeakDetector.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2024-12-11T21:39:50Z",
+      "side": 1,
+      "message": "Changed the logic and now line will be set once and preserved.",
+      "parentUuid": "eb8be4d1_2bebedd9",
       "revId": "7ff3fb07184f91394e93d65e2d961231d6f3c212",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -2064,6 +2100,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce14b745_14b96660",
+        "filename": "src/LeakDetection/LeakDetector.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2024-12-11T21:39:50Z",
+      "side": 1,
+      "message": "Change the API to throw exception in case of failure. Marking this resolved.",
+      "parentUuid": "3095f421_3211d18f",
+      "range": {
+        "startLine": 133,
+        "startChar": 24,
+        "endLine": 133,
+        "endChar": 28
+      },
+      "revId": "7ff3fb07184f91394e93d65e2d961231d6f3c212",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71f4b7f6_dca10011",
@@ -2101,6 +2161,30 @@
       "side": 1,
       "message": "Returns true if setup succeeds otherwise false. Updated description to reflect this.",
       "parentUuid": "71f4b7f6_dca10011",
+      "range": {
+        "startLine": 135,
+        "startChar": 30,
+        "endLine": 135,
+        "endChar": 34
+      },
+      "revId": "7ff3fb07184f91394e93d65e2d961231d6f3c212",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37c212ab_b8813920",
+        "filename": "src/LeakDetection/LeakDetector.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2024-12-11T21:39:50Z",
+      "side": 1,
+      "message": "Change the API to throw exception in case of failure.",
+      "parentUuid": "0b08ac26_8228006c",
       "range": {
         "startLine": 135,
         "startChar": 30,
