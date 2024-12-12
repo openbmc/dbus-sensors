@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "23bdfa8b_ca043850",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2024-12-12T00:22:52Z",
+      "side": 1,
+      "message": "Already replied here https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/75617/comment/43f98d8e_95ea172f/. So marking this comment as resolved for now as comments are related.",
+      "parentUuid": "db3d74c6_0ede2ec0",
+      "revId": "eb9da7f1e7dcdc8d4f4f855c55cb7b9b95f54fee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "40c853fa_a494ee28",
@@ -84,6 +102,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dc0000cd_cdd95e6e",
+        "filename": "src/CableMonitor/CableMonitor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2024-12-12T00:22:52Z",
+      "side": 1,
+      "message": "\u003e Using coroutines means that basically all the utility functions available for reactors are now not usable in a coroutine.  That doesn\u0027t really seem workable at this point, unless you\u0027re planning on reworking all the utils classes to support both coroutine and not?\n\nAs per our discussion on discord and in LeakDetector PR, Meta will be contributing new daemons based on coroutines. During this development process, we are also creating common classes and interfaces that can be reused across these new daemons. For future, we can plan to migrate the existing daemons to the new code flow.",
+      "parentUuid": "43f98d8e_95ea172f",
+      "revId": "eb9da7f1e7dcdc8d4f4f855c55cb7b9b95f54fee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "66561c0a_995b20bd",
         "filename": "src/CableMonitor/CableMonitor.cpp",
         "patchSetId": 1
@@ -95,6 +131,24 @@
       "writtenOn": "2024-11-04T08:17:44Z",
       "side": 1,
       "message": "Please look at and understand how entity manager reactors are intended to operate.  This daemon appears to have ignored basically all the existing things.",
+      "revId": "eb9da7f1e7dcdc8d4f4f855c55cb7b9b95f54fee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73506c3b_603c653b",
+        "filename": "src/CableMonitor/CableMonitor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2024-12-12T00:22:52Z",
+      "side": 1,
+      "message": "Already replied here https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/75617/comment/43f98d8e_95ea172f/. So marking this comment as resolved for now as comments are related.",
+      "parentUuid": "66561c0a_995b20bd",
       "revId": "eb9da7f1e7dcdc8d4f4f855c55cb7b9b95f54fee",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
