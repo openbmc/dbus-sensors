@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42300b40_14f1da7e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2024-12-12T00:13:00Z",
+      "side": 1,
+      "message": "Updated the cable monitor code based on comments in LeakDetector.",
+      "revId": "58eefa532a4199ad3d78883b35099b19661b522c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
