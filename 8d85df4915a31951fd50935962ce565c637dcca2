@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ce21aafc_b27ff7c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-12-12T04:39:24Z",
+      "side": 1,
+      "message": "There\u0027s only 2 reference voltages, and they\u0027re trivially detectable (we only use 3 models of BMC)  Why would we add values to every sensor on every platform rather than just make the ADC base detected in code?",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 2
+      },
+      "revId": "8d85df4915a31951fd50935962ce565c637dcca2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b2f22ff8_743c790e",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
