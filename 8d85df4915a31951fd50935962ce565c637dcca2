@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c122415b_c3599c25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2024-12-12T06:29:37Z",
+      "side": 1,
+      "message": "\u003e There\u0027s only 2 reference voltages, and they\u0027re trivially detectable (we only use 3 models of BMC) \n\nWhen we use the iio-hwmon dirver to detect the ADC sensors, the linux kernel of iio-hwmon does not include the reference voltage values. If we add one more property for ADC to present reference voltage, it is not clear to map reference voltage to Max/MinValue of sensors.\n\n\u003e Why would we add values to every sensor on every platform rather than just make the ADC base detected in code?\n\nSome sensors like FAN/PSU also support configuration Max/MinValue. About others applications, I don\u0027t know the current status of them, that why I only add Max/MinValue configuration for ADC and Hwmon-temp in this commit.",
+      "parentUuid": "ce21aafc_b27ff7c7",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 2
+      },
+      "revId": "8d85df4915a31951fd50935962ce565c637dcca2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b2f22ff8_743c790e",
@@ -37,6 +61,24 @@
       "writtenOn": "2024-12-12T03:55:06Z",
       "side": 1,
       "message": "Can we do something to make parsing of these properties common, and not spread around the code-base?",
+      "revId": "8d85df4915a31951fd50935962ce565c637dcca2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35bfd125_fc708aec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2024-12-12T06:29:37Z",
+      "side": 1,
+      "message": "\u003e Can we do something to make parsing of these properties common, and not spread around the code-base?\n\nThe FAN sensors are getting Max/MinValue from the MaxReading/MinReading properties in the EM configuration, the PSU sensors are getting the Max/MinValue base on the \u003clabel\u003e_Max/Min properties. Therefore, we can not have a common solution for this issue.",
+      "parentUuid": "b2f22ff8_743c790e",
       "revId": "8d85df4915a31951fd50935962ce565c637dcca2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
