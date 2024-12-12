@@ -71,6 +71,10 @@ if get_option('intel-cpu').allowed()
     subdir('intel-cpu')
 endif
 
+if get_option('smbpbi').allowed()
+    subdir('smbpbi')
+endif
+
 if get_option('adc').allowed()
     subdir('adc')
 endif
