@@ -83,3 +83,9 @@ option(
     value: 'disabled',
     description: 'Enables Sensor override feature without any check.',
 )
+option(
+    'smbpbi',
+    type: 'feature',
+    value: 'disabled',
+    description: 'Enable SMBPBI sensor.',
+)
