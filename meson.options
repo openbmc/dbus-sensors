@@ -95,3 +95,9 @@ option(
     value: 'enabled',
     description: 'Enable Liquid Leak Detector.',
 )
+option(
+    'smbpbi',
+    type: 'feature',
+    value: 'enabled',
+    description: 'Enable SMBPBI sensor.',
+)
