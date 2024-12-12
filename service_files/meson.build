@@ -19,6 +19,7 @@ unit_files = [
     ['nvidia-gpu', 'xyz.openbmc_project.nvidiagpusensor.service'],
     ['nvme', 'xyz.openbmc_project.nvmesensor.service'],
     ['psu', 'xyz.openbmc_project.psusensor.service'],
+    ['smbpbi', 'xyz.openbmc_project.smbpbisensor.service'],
 ]
 
 fs = import('fs')
