@@ -77,6 +77,22 @@ if get_option('intel-cpu').allowed()
     subdir('intel-cpu')
 endif
 
+if get_option('smbpbi').enabled()
+    executable(
+        'smbpbisensor',
+        'SmbpbiSensor.cpp',
+        dependencies: [
+            default_deps,
+            i2c,
+            thresholds_dep,
+            utils_dep,
+        ],
+        implicit_include_directories: false,
+        include_directories: include_directories(['../include','../src']),
+        install: true,
+    )
+endif
+
 if get_option('adc').allowed()
     subdir('adc')
 endif
