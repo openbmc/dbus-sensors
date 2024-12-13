@@ -66,6 +66,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "116a2822_81b88a21",
+        "filename": "src/SmbpbiSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-12-13T18:48:22Z",
+      "side": 1,
+      "message": "This really shouldn\u0027t be a template.  We should have one method that reads in a byte array, then we can have two methods that convert that byte array into the type (double or uint64_t)\n\nAs written this duplicates a bunch of code that\u0027s common between the two templates.",
+      "range": {
+        "startLine": 132,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 21
+      },
+      "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4c145d9c_f0491135",
         "filename": "src/SmbpbiSensor.cpp",
         "patchSetId": 1
@@ -77,6 +100,24 @@
       "writtenOn": "2024-12-13T17:11:41Z",
       "side": 1,
       "message": "Is there a reason to be using the raw i2c device rather than an eeprom?  The SMBPBI protocol is effectively a virtual eeprom.  The really nice thing with using the eeprom interface is you can easily write test cases against it (because you can create a fake blob and/or file to test against.)",
+      "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3da636a1_8a16915d",
+        "filename": "src/SmbpbiSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-12-13T18:48:22Z",
+      "side": 1,
+      "message": "I don\u0027t know of a particular reason why this was chosen, but I know that this works without a driver and without consuming the bus and address.\n\nI suspect you\u0027re right, it could use an eeprom in the future.  Not sure we need that in this commit?",
+      "parentUuid": "4c145d9c_f0491135",
       "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -100,6 +141,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3ac48587_35b9fee4",
+        "filename": "src/SmbpbiSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-12-13T18:48:22Z",
+      "side": 1,
+      "message": "I suspect this can be made common in the RAII class proposed below.",
+      "parentUuid": "ffb1a66e_2f4370b2",
+      "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9dc62d93_7ca2df21",
         "filename": "src/SmbpbiSensor.cpp",
         "patchSetId": 1
@@ -111,6 +170,41 @@
       "writtenOn": "2024-12-13T17:11:41Z",
       "side": 1,
       "message": "Can we use a RAII class for this?",
+      "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8158af0_dedc73b5",
+        "filename": "src/SmbpbiSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-12-13T18:48:22Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "9dc62d93_7ca2df21",
+      "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f197d61_c25e6f62",
+        "filename": "src/SmbpbiSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-12-13T18:48:22Z",
+      "side": 1,
+      "message": "This is doing IO within the main loop, which will result in DBus blocking for some amount of time......  I\u0027m not sure how to solve that with the way this is structured, but this will cause slow sensor APIs.",
       "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -140,6 +234,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8d554e62_fbc564a2",
+        "filename": "src/SmbpbiSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-12-13T18:48:22Z",
+      "side": 1,
+      "message": "I don\u0027t think this is safe between architectures, right?",
+      "range": {
+        "startLine": 245,
+        "startChar": 34,
+        "endLine": 245,
+        "endChar": 50
+      },
+      "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a23e1c4b_05879e2e",
         "filename": "src/SmbpbiSensor.cpp",
         "patchSetId": 1
@@ -157,6 +274,110 @@
         "endLine": 260,
         "endChar": 29
       },
+      "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb39cf07_e63a4c96",
+        "filename": "src/SmbpbiSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-12-13T18:48:22Z",
+      "side": 1,
+      "message": "+1.  I really suspect this is just named poorly.",
+      "parentUuid": "a23e1c4b_05879e2e",
+      "range": {
+        "startLine": 260,
+        "startChar": 25,
+        "endLine": 260,
+        "endChar": 29
+      },
+      "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efbc77e2_d86562c9",
+        "filename": "src/SmbpbiSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-12-13T18:48:22Z",
+      "side": 1,
+      "message": "same as above, this type probably needs a better name.",
+      "range": {
+        "startLine": 304,
+        "startChar": 31,
+        "endLine": 304,
+        "endChar": 35
+      },
+      "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8fa8afc7_63dace91",
+        "filename": "src/SmbpbiSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-12-13T18:48:22Z",
+      "side": 1,
+      "message": "This whole lambda needs to be rolled into a method, per the coding standard.",
+      "range": {
+        "startLine": 278,
+        "startChar": 0,
+        "endLine": 328,
+        "endChar": 5
+      },
+      "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e36cc01_df055d94",
+        "filename": "src/SmbpbiSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-12-13T18:48:22Z",
+      "side": 1,
+      "message": "Same here.  This lambda is way too big.",
+      "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc3f9802_f6b83a75",
+        "filename": "src/SmbpbiSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-12-13T18:48:22Z",
+      "side": 1,
+      "message": "I think there\u0027s a helper function for this now?  Check utils.",
       "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -214,6 +435,75 @@
         "startChar": 7,
         "endLine": 32,
         "endChar": 29
+      },
+      "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac03b6ad_eb1d0dd6",
+        "filename": "src/SmbpbiSensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-12-13T18:48:22Z",
+      "side": 1,
+      "message": "nit, can you put this comment on another line.",
+      "range": {
+        "startLine": 94,
+        "startChar": 15,
+        "endLine": 94,
+        "endChar": 78
+      },
+      "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53b7c1df_fbb35ab2",
+        "filename": "src/SmbpbiSensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-12-13T18:48:22Z",
+      "side": 1,
+      "message": "nit, just declare on line 114",
+      "range": {
+        "startLine": 110,
+        "startChar": 8,
+        "endLine": 110,
+        "endChar": 14
+      },
+      "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "081e54a2_d243b963",
+        "filename": "src/SmbpbiSensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-12-13T18:48:22Z",
+      "side": 1,
+      "message": "These should probably go in the cpp file to be consistent.",
+      "range": {
+        "startLine": 87,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 5
       },
       "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
