@@ -1760,6 +1760,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "78005469_6cc6ce02",
+        "filename": "src/LeakDetection/LeakDetector.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2024-12-13T08:38:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ddf3ab3_d74befff",
+      "revId": "7ff3fb07184f91394e93d65e2d961231d6f3c212",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "271afe09_1943c473",
@@ -1877,6 +1895,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a7f6b3b_6db5ba4d",
+        "filename": "src/LeakDetection/LeakDetector.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2024-12-13T08:38:35Z",
+      "side": 1,
+      "message": "Done, passed false for emitSignal template arg for initial property set.",
+      "parentUuid": "f2e34c5d_f03e709e",
+      "revId": "7ff3fb07184f91394e93d65e2d961231d6f3c212",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f3738f7c_42691df7",
@@ -1908,6 +1944,24 @@
       "side": 1,
       "message": "I am doing the read first to start with some state first, otherwise i don\u0027t see a way on how to figure out if the state has transitioned or not. I can understand there can be state transition in between here and i can reverse the order by setting the async event first, but similar issue can happen in that scenario as well where event gets generated after setting the state but before reading the initial state. In that case, the async event handling would have no state to compare against. Other way, this could be solved is to keep some state mentioning that this is the initial state.",
       "parentUuid": "f3738f7c_42691df7",
+      "revId": "7ff3fb07184f91394e93d65e2d961231d6f3c212",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1a4c450_466e5e18",
+        "filename": "src/LeakDetection/LeakDetector.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2024-12-13T08:38:35Z",
+      "side": 1,
+      "message": "Done, changed the sequence to setup async event first and then read and set the value.",
+      "parentUuid": "2f5adf85_6ce00136",
       "revId": "7ff3fb07184f91394e93d65e2d961231d6f3c212",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
