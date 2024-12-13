@@ -3,6 +3,69 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "daace365_58088901",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-12-13T18:16:48Z",
+      "side": 1,
+      "message": "nit, please put a real address in here.  FF isn\u0027t a valid 7 bit address.",
+      "range": {
+        "startLine": 15,
+        "startChar": 22,
+        "endLine": 15,
+        "endChar": 24
+      },
+      "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4fe9aef_73eb2046",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-12-13T18:16:48Z",
+      "side": 1,
+      "message": "change to \"ReadOffset\"\n\nIs there a way we can not make these required?  I believe SMBPBI has known indexes, we could access by a named enum to simplify?",
+      "range": {
+        "startLine": 17,
+        "startChar": 9,
+        "endLine": 17,
+        "endChar": 20
+      },
+      "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e63d6f60_ea65bfb6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-12-13T18:16:48Z",
+      "side": 1,
+      "message": "Need a better type name here.  \"Sattelite\" is already taken by redfish aggregation, which it really shouldn\u0027t have been (it\u0027s on my list to propose a better name), but here we are.\n\nSMBPBI probably?",
+      "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4c145d9c_f0491135",
         "filename": "src/SmbpbiSensor.cpp",
         "patchSetId": 1
@@ -129,6 +192,29 @@
       "side": 1,
       "message": "+1",
       "parentUuid": "9838a30c_903555d3",
+      "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21b22049_42cc0e4e",
+        "filename": "src/SmbpbiSensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-12-13T18:16:48Z",
+      "side": 1,
+      "message": "Not sure what this does, and doesn\u0027t look like part of the build, remove.",
+      "range": {
+        "startLine": 32,
+        "startChar": 7,
+        "endLine": 32,
+        "endChar": 29
+      },
       "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
