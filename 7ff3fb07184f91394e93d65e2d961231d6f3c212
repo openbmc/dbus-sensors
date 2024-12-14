@@ -782,6 +782,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "999b117c_5777740e",
+        "filename": "src/LeakDetection/LeakDetectionManager.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-12-14T01:08:16Z",
+      "side": 1,
+      "message": "ACK.  Seems fine then.  I know we\u0027ve had similar problems in other dbus-sensors, but I suspect that was due to static usage.",
+      "parentUuid": "96118e39_d1ac496f",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 35
+      },
+      "revId": "7ff3fb07184f91394e93d65e2d961231d6f3c212",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "beed5081_0ca76a1c",
