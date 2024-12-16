@@ -43,8 +43,10 @@ static constexpr const char* mctpdEndpointControlInterface =
 
 MCTPDDevice::MCTPDDevice(
     const std::shared_ptr<sdbusplus::asio::connection>& connection,
-    const std::string& interface, const std::vector<uint8_t>& physaddr) :
-    connection(connection), interface(interface), physaddr(physaddr)
+    const std::string& interface, const std::vector<uint8_t>& physaddr,
+    std::uint8_t staticEID) :
+    connection(connection), interface(interface), physaddr(physaddr),
+    staticEID(staticEID)
 {}
 
 void MCTPDDevice::onEndpointInterfacesRemoved(
@@ -116,9 +118,20 @@ void MCTPDDevice::setup(
                 "INVENTORY_PATH", objpath);
         }
     };
-    connection->async_method_call(onSetup, mctpdBusName, mctpdControlPath,
-                                  mctpdControlInterface, "AssignEndpoint",
-                                  interface, physaddr);
+    if (staticEID != 0)
+    {
+        connection->async_method_call(
+            onSetup, mctpdBusName,
+            mctpdControlPath + std::string("/interfaces/") + interface,
+            mctpdControlInterface, "AssignEndpointStatic", physaddr, staticEID);
+    }
+    else
+    {
+        connection->async_method_call(
+            onSetup, mctpdBusName,
+            mctpdControlPath + std::string("/interfaces/") + interface,
+            mctpdControlInterface, "AssignEndpoint", physaddr);
+    }
 }
 
 void MCTPDDevice::endpointRemoved()
@@ -353,6 +366,7 @@ std::shared_ptr<I2CMCTPDDevice> I2CMCTPDDevice::from(
     auto mAddress = iface.find("Address");
     auto mBus = iface.find("Bus");
     auto mName = iface.find("Name");
+    auto mStaticEndpointID = iface.find("StaticEndpointID");
     if (mAddress == iface.end() || mBus == iface.end() || mName == iface.end())
     {
         throw std::invalid_argument(
@@ -377,9 +391,21 @@ std::shared_ptr<I2CMCTPDDevice> I2CMCTPDDevice::from(
         throw std::invalid_argument("Bad bus index");
     }
 
+    auto sStaticEndpointID =
+        std::visit(VariantToStringVisitor(), mStaticEndpointID->second);
+    std::uint8_t staticEID{};
+    auto [cptr, cec] = std::from_chars(
+        sStaticEndpointID.data(),
+        sStaticEndpointID.data() + sStaticEndpointID.size(), staticEID);
+    if (cec != std::errc{})
+    {
+        throw std::invalid_argument("Bad endpoint address");
+    }
+
     try
     {
-        return std::make_shared<I2CMCTPDDevice>(connection, bus, address);
+        return std::make_shared<I2CMCTPDDevice>(connection, bus, address,
+                                                staticEID);
     }
     catch (const MCTPException& ex)
     {
