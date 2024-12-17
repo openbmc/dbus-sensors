@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07bb9525_79d3d502",
+        "filename": "src/intrusion/ChassisIntrusionSensor.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2024-12-17T08:24:48Z",
+      "side": 1,
+      "message": "Does implementation handles the case - if there is a GPIO status change between initial read and gpio polling start? If not, do you think it will be better to change the order to start polling first?",
+      "revId": "0adef909faf8c51e08d391950f4cb58673d3dfed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
