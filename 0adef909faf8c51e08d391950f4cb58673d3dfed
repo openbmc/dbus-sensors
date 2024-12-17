@@ -16,6 +16,24 @@
       "message": "Does implementation handles the case - if there is a GPIO status change between initial read and gpio polling start? If not, do you think it will be better to change the order to start polling first?",
       "revId": "0adef909faf8c51e08d391950f4cb58673d3dfed",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e72e9d5e_4ad52ac2",
+        "filename": "src/intrusion/ChassisIntrusionSensor.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2024-12-17T12:45:38Z",
+      "side": 1,
+      "message": "Yes, that\u0027s a missing case. I\u0027m planning to do as below to cover that, as I think this is cleaner than adding a first-polling-check flag, or overriding the start() method of gpio class:\n\n\n    int ChassisIntrusionGpioSensor::readSensor()\n    {\n       // mGpioLine.event_read();\n       auto value \u003d mGpioLine.get_value();\n       return value;\n    }\n\n    void ChassisIntrusionGpioSensor::pollSensorStatus()\n    {\n       mGpioFd.async_wait(...,[]()\n         {\n             if (ec) return;\n             else {\n                 mGpioLine.event_read();\n                 // trigger next polling\n                 pollSensorStatus();\n             }\n         });\n      \n      // This is to cover the initial reading.\n      // And on a gpioline event, value will be read and published on the next call \n      // to pollSensorStatus()\n      int value \u003d readSensor();\n      if (value \u003e\u003d 0)\n      {\n         updateValue(value);\n      }\n    }\n\nOnce an event happens, it calls to pollSensorStatus to trigger next polling, and the value of that event will be read only after the next polling is registered. This way, the initial value can be trieved on the first call to polling, too. Do you think the above implementation is fine? I believe no event can jump in before pollSensorStatus() completes, so it won\u0027t cause Read-after-write hazard, right?",
+      "parentUuid": "07bb9525_79d3d502",
+      "revId": "0adef909faf8c51e08d391950f4cb58673d3dfed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
