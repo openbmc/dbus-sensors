@@ -34,6 +34,24 @@
       "parentUuid": "55326d76_2f7896e6",
       "revId": "196e3c8a278b013414d1414128ac7a476d9ed8b1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a17ed37_eefde187",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-12-18T04:33:48Z",
+      "side": 1,
+      "message": "I do think it is a good idea and improvement over existing code",
+      "parentUuid": "37cd3050_36c4f720",
+      "revId": "196e3c8a278b013414d1414128ac7a476d9ed8b1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
