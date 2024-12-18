@@ -34,6 +34,24 @@
       "parentUuid": "a104d4c9_c55abf0f",
       "revId": "3be224af20ca206e21edcbde26400adf7b77afc5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6d2d562_34ee12ad",
+        "filename": "src/smbpbi/main.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-12-18T22:42:55Z",
+      "side": 1,
+      "message": "Just waiting for entity-manager to start doesn\u0027t ensure that all of the devices have been adequately probed.  Depending on the system it is likely that parts of the system are dynamically plugged (as part of a repair scenario).  That might not be relevant for SMBPBI (because that is on a pretty high-power board that likely doesn\u0027t support hot-plug) but we generally want dbus-sensor daemons to do the globally correct thing and not the \"tailored thing that is right for that one daemon\" (because it usually sets up bad examples for [new] people that don\u0027t know any better).",
+      "parentUuid": "ec5c86d4_18cd0a97",
+      "revId": "3be224af20ca206e21edcbde26400adf7b77afc5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
