@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9440b7ce_53da12ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2024-12-18T18:49:52Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "daace365_58088901",
+      "range": {
+        "startLine": 15,
+        "startChar": 22,
+        "endLine": 15,
+        "endChar": 24
+      },
+      "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a4fe9aef_73eb2046",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -49,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "40879fbf_ad24e508",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2024-12-18T18:49:52Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "a4fe9aef_73eb2046",
+      "range": {
+        "startLine": 17,
+        "startChar": 9,
+        "endLine": 17,
+        "endChar": 20
+      },
+      "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e63d6f60_ea65bfb6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -60,6 +108,24 @@
       "writtenOn": "2024-12-13T18:16:48Z",
       "side": 1,
       "message": "Need a better type name here.  \"Sattelite\" is already taken by redfish aggregation, which it really shouldn\u0027t have been (it\u0027s on my list to propose a better name), but here we are.\n\nSMBPBI probably?",
+      "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44491d20_924d16c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2024-12-18T18:49:52Z",
+      "side": 1,
+      "message": "Changed to Smbpbi",
+      "parentUuid": "e63d6f60_ea65bfb6",
       "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -232,6 +298,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d99493bb_0765d716",
+        "filename": "src/SmbpbiSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2024-12-18T18:49:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4340fac9_2f956f17",
+      "range": {
+        "startLine": 225,
+        "startChar": 21,
+        "endLine": 225,
+        "endChar": 38
+      },
+      "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8d554e62_fbc564a2",
@@ -350,6 +440,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c421f1dd_c52ee55d",
+        "filename": "src/SmbpbiSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2024-12-18T18:49:52Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "8fa8afc7_63dace91",
+      "range": {
+        "startLine": 278,
+        "startChar": 0,
+        "endLine": 328,
+        "endChar": 5
+      },
+      "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2e36cc01_df055d94",
         "filename": "src/SmbpbiSensor.cpp",
         "patchSetId": 1
@@ -361,6 +475,24 @@
       "writtenOn": "2024-12-13T18:48:22Z",
       "side": 1,
       "message": "Same here.  This lambda is way too big.",
+      "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5418cc58_81fa6b93",
+        "filename": "src/SmbpbiSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2024-12-18T18:49:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e36cc01_df055d94",
       "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -419,6 +551,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "17f31aad_e6691489",
+        "filename": "src/SmbpbiSensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2024-12-18T18:49:52Z",
+      "side": 1,
+      "message": "Ack, rebased",
+      "parentUuid": "354da924_f383acf6",
+      "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "21b22049_42cc0e4e",
         "filename": "src/SmbpbiSensor.hpp",
         "patchSetId": 1
@@ -430,6 +580,30 @@
       "writtenOn": "2024-12-13T18:16:48Z",
       "side": 1,
       "message": "Not sure what this does, and doesn\u0027t look like part of the build, remove.",
+      "range": {
+        "startLine": 32,
+        "startChar": 7,
+        "endLine": 32,
+        "endChar": 29
+      },
+      "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e137f200_f019b83e",
+        "filename": "src/SmbpbiSensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2024-12-18T18:49:52Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "21b22049_42cc0e4e",
       "range": {
         "startLine": 32,
         "startChar": 7,
@@ -463,6 +637,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbf5a2dd_8dbfada4",
+        "filename": "src/SmbpbiSensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2024-12-18T18:49:52Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "ac03b6ad_eb1d0dd6",
+      "range": {
+        "startLine": 94,
+        "startChar": 15,
+        "endLine": 94,
+        "endChar": 78
+      },
+      "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "53b7c1df_fbb35ab2",
@@ -486,6 +684,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "31a43eed_c459c8b9",
+        "filename": "src/SmbpbiSensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2024-12-18T18:49:52Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "53b7c1df_fbb35ab2",
+      "range": {
+        "startLine": 110,
+        "startChar": 8,
+        "endLine": 110,
+        "endChar": 14
+      },
+      "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "081e54a2_d243b963",
@@ -499,6 +721,30 @@
       "writtenOn": "2024-12-13T18:48:22Z",
       "side": 1,
       "message": "These should probably go in the cpp file to be consistent.",
+      "range": {
+        "startLine": 87,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 5
+      },
+      "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8063f94_e1b670d7",
+        "filename": "src/SmbpbiSensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2024-12-18T18:49:52Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "081e54a2_d243b963",
       "range": {
         "startLine": 87,
         "startChar": 0,
