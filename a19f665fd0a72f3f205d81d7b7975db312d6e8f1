@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6756dceb_9d34b560",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001289
+      },
+      "writtenOn": "2024-12-18T17:43:40Z",
+      "side": 1,
+      "message": "CI won\u0027t pass until the phosphor-dbus-interfaces changes here land:\n\nhttps://gerrit.openbmc.org/c/openbmc/phosphor-dbus-interfaces/+/76680",
+      "revId": "a19f665fd0a72f3f205d81d7b7975db312d6e8f1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
