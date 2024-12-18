@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "371046e7_0ee66260",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-12-18T02:11:39Z",
+      "side": 1,
+      "message": "No activity on this for more than two years. I recommend abandon this.",
+      "revId": "b7c3bc04f9964543f40a60740c00a909c76c4774",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
