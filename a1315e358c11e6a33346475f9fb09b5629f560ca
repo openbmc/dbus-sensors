@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9675d205_68427fea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-12-18T02:08:02Z",
+      "side": 1,
+      "message": "\u003e Hi, I\u0027ve been working on this CL for phosphor-host-ipmid, and updated it to adapt to this change (https://gerrit.openbmc.org/c/openbmc/phosphor-host-ipmid/+/68621). So is it right that I need to push a change to intel-ipmi-oem, too?\n\nYes. There might be other places, please double check. I only did one quick search.",
+      "parentUuid": "d1eb8428_c3de48e2",
+      "range": {
+        "startLine": 12,
+        "startChar": 5,
+        "endLine": 12,
+        "endChar": 45
+      },
+      "revId": "a1315e358c11e6a33346475f9fb09b5629f560ca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1025c92c_d565b3da",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
