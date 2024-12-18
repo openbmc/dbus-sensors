@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e01b6934_3bc9178e",
+        "filename": "src/smbpbi/main.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001289
+      },
+      "writtenOn": "2024-12-18T20:37:52Z",
+      "side": 1,
+      "message": "This class is relying exclusively on Linux operating system interfaces. In contrast, I intend to introduce MockI2CBus and MockI2CDevice types in a subsequent commit to use in unit tests, which don\u0027t rely on any Linux operating system interfaces.",
+      "parentUuid": "0fd187b7_788d9b77",
+      "range": {
+        "startLine": 35,
+        "startChar": 7,
+        "endLine": 35,
+        "endChar": 12
+      },
+      "revId": "e58788cc33448acf9d8457362725fcda32c2adb6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "89b7285e_b7de3807",
         "filename": "src/smbpbi/main.cpp",
         "patchSetId": 3
@@ -54,6 +78,30 @@
       "writtenOn": "2024-12-18T20:30:17Z",
       "side": 1,
       "message": "should this be \"bytes.size() !\u003d sizeof(uint32_t)\"?",
+      "range": {
+        "startLine": 122,
+        "startChar": 8,
+        "endLine": 122,
+        "endChar": 39
+      },
+      "revId": "e58788cc33448acf9d8457362725fcda32c2adb6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a8b0ffa_c9a06a80",
+        "filename": "src/smbpbi/main.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1001289
+      },
+      "writtenOn": "2024-12-18T20:37:52Z",
+      "side": 1,
+      "message": "It could be, but doesn\u0027t have to be. The user can provide a buffer that has more than 4 bytes and the rest will be ignored.",
+      "parentUuid": "89b7285e_b7de3807",
       "range": {
         "startLine": 122,
         "startChar": 8,
@@ -100,6 +148,30 @@
       "writtenOn": "2024-12-18T20:30:17Z",
       "side": 1,
       "message": "Does the convention used by other services make sense here? It would be good to be consistent within the same repo.",
+      "range": {
+        "startLine": 189,
+        "startChar": 0,
+        "endLine": 192,
+        "endChar": 13
+      },
+      "revId": "e58788cc33448acf9d8457362725fcda32c2adb6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c92aa028_23443003",
+        "filename": "src/smbpbi/main.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1001289
+      },
+      "writtenOn": "2024-12-18T20:37:52Z",
+      "side": 1,
+      "message": "Probably not actually, I\u0027m following the direction Patrick has given for using phosphor-dbus-interfaces and coroutines instead of boost::asio. This would be one of the first sensors to do so (the leak detection daemon submitted by Jagpal is another example).",
+      "parentUuid": "e4aa2465_bf54f71a",
       "range": {
         "startLine": 189,
         "startChar": 0,
