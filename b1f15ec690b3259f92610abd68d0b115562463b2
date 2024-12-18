@@ -147,6 +147,23 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "27aa1040_e45e7967",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-12-18T02:13:43Z",
+      "side": 1,
+      "message": "No activity on this for more than two years. I recommend abandon this.",
+      "revId": "b1f15ec690b3259f92610abd68d0b115562463b2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2bda499f_645f5e77",
