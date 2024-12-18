@@ -16,6 +16,24 @@
       "message": "You can\u0027t only check for config on startup.",
       "revId": "3be224af20ca206e21edcbde26400adf7b77afc5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec5c86d4_18cd0a97",
+        "filename": "src/smbpbi/main.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1001289
+      },
+      "writtenOn": "2024-12-18T22:00:36Z",
+      "side": 1,
+      "message": "I was curious if this would be a requirement: how come everything needs to be so, dynamic? Wouldn\u0027t it be reasonable to just make sure the systemd unit deploying this process waits for entity-manager to start first, and to restart the sensor unit whenever entity-manager restarts?\n\nIs entity-manager notifying systemd that it\u0027s \"ready\" before exporting all of the objects from fru discovery?\n\nI\u0027m happy to go add a signal handler for this I guess, but it just seems like it\u0027s a lot of complexity, and I\u0027m unfamiliar with the precedence for this.",
+      "parentUuid": "a104d4c9_c55abf0f",
+      "revId": "3be224af20ca206e21edcbde26400adf7b77afc5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
