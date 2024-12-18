@@ -156,10 +156,10 @@ class MCTPDevice
      *              the request was successful then @p ep contains a
      *              valid MctpEndpoint instance.
      */
-    virtual void
-        setup(std::function<void(const std::error_code& ec,
-                                 const std::shared_ptr<MCTPEndpoint>& ep)>&&
-                  added) = 0;
+    virtual void setup(
+        std::function<void(const std::error_code& ec,
+                           const std::shared_ptr<MCTPEndpoint>& ep)>&&
+            added) = 0;
 
     /**
      * @brief Remove the device and any associated endpoint from the MCTP stack.
@@ -302,9 +302,9 @@ class I2CMCTPDDevice : public MCTPDDevice
   public:
     static std::optional<SensorBaseConfigMap> match(const SensorData& config);
     static bool match(const std::set<std::string>& interfaces);
-    static std::shared_ptr<I2CMCTPDDevice>
-        from(const std::shared_ptr<sdbusplus::asio::connection>& connection,
-             const SensorBaseConfigMap& iface);
+    static std::shared_ptr<I2CMCTPDDevice> from(
+        const std::shared_ptr<sdbusplus::asio::connection>& connection,
+        const SensorBaseConfigMap& iface);
 
     I2CMCTPDDevice() = delete;
     I2CMCTPDDevice(

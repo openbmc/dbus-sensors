@@ -370,8 +370,8 @@ struct GetSensorConfiguration :
 
 // The common scheme for sysfs files naming is: <type><number>_<item>.
 // This function returns optionally these 3 elements as a tuple.
-std::optional<std::tuple<std::string, std::string, std::string>>
-    splitFileName(const std::filesystem::path& filePath);
+std::optional<std::tuple<std::string, std::string, std::string>> splitFileName(
+    const std::filesystem::path& filePath);
 std::optional<double> readFile(const std::string& thresholdFile,
                                const double& scaleFactor);
 void setupManufacturingModeMatch(sdbusplus::asio::connection& conn);

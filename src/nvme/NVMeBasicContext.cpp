@@ -47,8 +47,8 @@ extern "C"
  * https://nvmexpress.org/wp-content/uploads/NVMe_Management_-_Technical_Note_on_Basic_Management_Command.pdf
  */
 
-static std::shared_ptr<std::array<uint8_t, 6>>
-    encodeBasicQuery(int bus, uint8_t device, uint8_t offset)
+static std::shared_ptr<std::array<uint8_t, 6>> encodeBasicQuery(
+    int bus, uint8_t device, uint8_t offset)
 {
     if (bus < 0)
     {

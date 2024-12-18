@@ -317,8 +317,8 @@ std::shared_ptr<MCTPDevice> MCTPDEndpoint::device() const
     return dev;
 }
 
-std::optional<SensorBaseConfigMap>
-    I2CMCTPDDevice::match(const SensorData& config)
+std::optional<SensorBaseConfigMap> I2CMCTPDDevice::match(
+    const SensorData& config)
 {
     auto iface = config.find(configInterfaceName(configType));
     if (iface == config.end())

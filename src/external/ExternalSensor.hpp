@@ -33,8 +33,8 @@ class ExternalSensor :
     bool isAliveAndPerishable() const;
 
     // Returns true if AliveAndPerishable and timeout has not yet happened
-    bool
-        isAliveAndFresh(const std::chrono::steady_clock::time_point& now) const;
+    bool isAliveAndFresh(
+        const std::chrono::steady_clock::time_point& now) const;
 
     // Marks the time when Value successfully received from external source
     void writeBegin(const std::chrono::steady_clock::time_point& now);
@@ -43,12 +43,12 @@ class ExternalSensor :
     void writeInvalidate();
 
     // Returns amount of time elapsed since last writeBegin() happened
-    std::chrono::steady_clock::duration
-        ageElapsed(const std::chrono::steady_clock::time_point& now) const;
+    std::chrono::steady_clock::duration ageElapsed(
+        const std::chrono::steady_clock::time_point& now) const;
 
     // Returns amount of time remaining until sensor timeout will happen
-    std::chrono::steady_clock::duration
-        ageRemaining(const std::chrono::steady_clock::time_point& now) const;
+    std::chrono::steady_clock::duration ageRemaining(
+        const std::chrono::steady_clock::time_point& now) const;
 
   private:
     sdbusplus::asio::object_server& objServer;

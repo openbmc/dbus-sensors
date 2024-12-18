@@ -31,8 +31,8 @@ class NVMeContext : public std::enable_shared_from_this<NVMeContext>
         sensors.emplace_back(sensor);
     }
 
-    std::optional<std::shared_ptr<NVMeSensor>>
-        getSensorAtPath(const std::string& path)
+    std::optional<std::shared_ptr<NVMeSensor>> getSensorAtPath(
+        const std::string& path)
     {
         for (auto& sensor : sensors)
         {

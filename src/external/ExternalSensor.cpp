@@ -142,8 +142,8 @@ bool ExternalSensor::isAliveAndFresh(
     return (ageElapsed(now) < writeTimeout);
 }
 
-void
-    ExternalSensor::writeBegin(const std::chrono::steady_clock::time_point& now)
+void ExternalSensor::writeBegin(
+    const std::chrono::steady_clock::time_point& now)
 {
     if (!writeAlive)
     {

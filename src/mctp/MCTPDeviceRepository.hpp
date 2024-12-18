@@ -54,8 +54,8 @@ class MCTPDeviceRepository
         return lookup(device) != devices.end();
     }
 
-    std::optional<std::string>
-        inventoryFor(const std::shared_ptr<MCTPDevice>& device)
+    std::optional<std::string> inventoryFor(
+        const std::shared_ptr<MCTPDevice>& device)
     {
         auto entry = lookup(device);
         if (entry == devices.end())

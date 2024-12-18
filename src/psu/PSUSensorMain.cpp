@@ -992,8 +992,8 @@ static void createSensorsCallback(
     }
 }
 
-static void
-    getPresentCpus(std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
+static void getPresentCpus(
+    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
 {
     static const int depth = 2;
     static const int numKeys = 1;

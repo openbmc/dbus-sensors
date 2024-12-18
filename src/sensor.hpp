@@ -121,8 +121,8 @@ struct Sensor
                thresholds::thresProp.size()>
         thresholdInterfaces;
 
-    std::shared_ptr<sdbusplus::asio::dbus_interface>
-        getThresholdInterface(Level lev)
+    std::shared_ptr<sdbusplus::asio::dbus_interface> getThresholdInterface(
+        Level lev)
     {
         size_t index = static_cast<size_t>(lev);
         if (index >= thresholdInterfaces.size())
