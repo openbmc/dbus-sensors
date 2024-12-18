@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "917e4199_b5cb4456",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2024-12-18T20:38:38Z",
+      "side": 1,
+      "message": "There is another set of review for adding support for SmbpbiSensor.\nhttps://gerrit.openbmc.org/q/topic:%22smbpbi%22\nWe would want to be combine or pick one. \nIMO this patch is more consisting with existing dbus-sensor services",
+      "revId": "c73ef37fcb490a563bbed5fa19e5cde9c2ba701d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
