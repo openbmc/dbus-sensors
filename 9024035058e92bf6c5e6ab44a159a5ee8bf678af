@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "335c818e_abaefdab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001906
+      },
+      "writtenOn": "2024-12-19T08:40:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c8f3914_dcd309f2",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 60
+      },
+      "revId": "9024035058e92bf6c5e6ab44a159a5ee8bf678af",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b94219a1_eb5feac6",
@@ -79,6 +103,24 @@
       "side": 1,
       "message": "It only clear in property change or daemon restart.",
       "parentUuid": "b94219a1_eb5feac6",
+      "revId": "9024035058e92bf6c5e6ab44a159a5ee8bf678af",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "780003db_26c65933",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1001906
+      },
+      "writtenOn": "2024-12-19T08:40:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13c43adf_11a610a3",
       "revId": "9024035058e92bf6c5e6ab44a159a5ee8bf678af",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
