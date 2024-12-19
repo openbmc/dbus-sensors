@@ -16,6 +16,24 @@
       "message": "Can you please get yourself added to nVidia\u0027s CLA? That way CI will be triggered automatically.",
       "revId": "3672f60a77ef77f740d81e8299d8649bf7d4088f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8618505_2cbcc762",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002305
+      },
+      "writtenOn": "2024-12-19T04:43:52Z",
+      "side": 1,
+      "message": "I have been added to the CCLA: https://drive.google.com/file/d/1ip-sWmqL91hH5gCugZdxdykhe8a0Zuov/view?usp\u003dsharing, can you please recheck I still see `User not approved, see admin, no CI`",
+      "parentUuid": "6042be63_5493eed2",
+      "revId": "3672f60a77ef77f740d81e8299d8649bf7d4088f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
