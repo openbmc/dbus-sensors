@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d6b2c99d_4643111c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2024-12-20T05:26:53Z",
+      "side": 1,
+      "message": "I used to sync three classes to use the same polling function just for code simplicity, but the maintainer suggested to enlist the hardware ability and I think that makes sense as the intrusion just happens once in a while so polling can be expensive. Moreover, will the chassis intrusion button be connected to a pin to a i2c device instead of a real GPIO pin? I\u0027m OK with both methods because I\u0027m not experienced, so I need more feedbacks about this.",
+      "parentUuid": "737a09a7_a2194a64",
+      "revId": "0adef909faf8c51e08d391950f4cb58673d3dfed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "07bb9525_79d3d502",
         "filename": "src/intrusion/ChassisIntrusionSensor.cpp",
         "patchSetId": 16
