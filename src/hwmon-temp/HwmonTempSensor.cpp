@@ -97,6 +97,11 @@ bool HwmonTempSensor::isActive()
 void HwmonTempSensor::activate(const std::string& newPath,
                                const std::shared_ptr<I2CDevice>& newI2CDevice)
 {
+    if (isActive())
+    {
+        // Avoid activating an active sensor
+        return;
+    }
     path = newPath;
     i2cDevice = newI2CDevice;
     inputDev.open(path, boost::asio::random_access_file::read_only);
