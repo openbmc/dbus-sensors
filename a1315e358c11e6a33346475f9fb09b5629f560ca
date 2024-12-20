@@ -122,6 +122,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2c80bae4_2eb3de1b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2024-12-20T05:20:05Z",
+      "side": 1,
+      "message": "I pushed a patch here: https://gerrit.openbmc.org/c/openbmc/intel-ipmi-oem/+/76690 but the CI fails for some reason I don\u0027t think related to my change. I just updated to adapt the object path change, no functional change added because it\u0027s quite different how phosphor-host-ipmid and intel-ipmi-oem interpret \"Chassis Intrusion\" in \"ipmitool chassis status\". If an object path exists on D-Bus for chassis intrusion, intel updates the status to `active`, in contrast, ipmid use \"Chassis Status\" to represent the real intrusion status.",
+      "parentUuid": "9675d205_68427fea",
+      "range": {
+        "startLine": 12,
+        "startChar": 5,
+        "endLine": 12,
+        "endChar": 45
+      },
+      "revId": "a1315e358c11e6a33346475f9fb09b5629f560ca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1025c92c_d565b3da",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
