@@ -56,6 +56,98 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c3b8d532_624d7ca6",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-12-27T19:03:54Z",
+      "side": 1,
+      "message": "there\u0027s a utility function for this (look at external sensor for an example).  Just lower casing the type is incorrect for types like fan_tach, and doesn\u0027t handle errors properly.",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 63
+      },
+      "revId": "c73ef37fcb490a563bbed5fa19e5cde9c2ba701d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "463f34e8_9a5803d6",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-12-27T19:03:54Z",
+      "side": 1,
+      "message": "Lets make this not a template, and separate it into two functions:\n1. a function that reads the i2c value in an array of bytes\n2. two functions that converts to the appropriate types.\n\nas-is, 90% of this function is common, but will be duplicated anyway because this is a template.",
+      "range": {
+        "startLine": 165,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 76
+      },
+      "revId": "c73ef37fcb490a563bbed5fa19e5cde9c2ba701d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54605345_57ebca2d",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-12-27T19:03:54Z",
+      "side": 1,
+      "message": "nit, this should go on its own line.",
+      "range": {
+        "startLine": 3,
+        "startChar": 36,
+        "endLine": 3,
+        "endChar": 71
+      },
+      "revId": "c73ef37fcb490a563bbed5fa19e5cde9c2ba701d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da75b8ca_da54b1b3",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-12-27T19:03:54Z",
+      "side": 1,
+      "message": "nit, you\u0027re in a block comment here, there\u0027s no need for prefixed \"* \"",
+      "range": {
+        "startLine": 15,
+        "startChar": 1,
+        "endLine": 15,
+        "endChar": 3
+      },
+      "revId": "c73ef37fcb490a563bbed5fa19e5cde9c2ba701d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "be769120_14592258",
         "filename": "src/smbpbi/meson.build",
         "patchSetId": 2
