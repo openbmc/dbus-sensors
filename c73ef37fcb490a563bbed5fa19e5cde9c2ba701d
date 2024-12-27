@@ -34,6 +34,41 @@
       "parentUuid": "917e4199_b5cb4456",
       "revId": "c73ef37fcb490a563bbed5fa19e5cde9c2ba701d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c72604c4_70a4e069",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-12-27T18:58:18Z",
+      "side": 1,
+      "message": "👍",
+      "parentUuid": "1e8affc9_162ef28c",
+      "revId": "c73ef37fcb490a563bbed5fa19e5cde9c2ba701d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be769120_14592258",
+        "filename": "src/smbpbi/meson.build",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2024-12-27T18:58:18Z",
+      "side": 1,
+      "message": "whitespace problems.  just make sure your meson is up to date, and run \"meson format -i \u003cthis filename\u003e\" and it\u0027ll format for you.",
+      "revId": "c73ef37fcb490a563bbed5fa19e5cde9c2ba701d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
