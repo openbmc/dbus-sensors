@@ -60,6 +60,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5e8221c4_1ed537e7",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1001538
+      },
+      "writtenOn": "2025-01-02T20:49:55Z",
+      "side": 1,
+      "message": "They will be removed as they are found unnecessary",
+      "parentUuid": "5cdbb29c_59a227c3",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 5
+      },
+      "revId": "5058a4b37d60a2c823c89ab61229cdd4d7c38ca6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "12895e7a_db59d08f",
         "filename": "src/DeviceMgmt.hpp",
         "patchSetId": 5
@@ -71,6 +95,24 @@
       "writtenOn": "2024-12-05T03:32:36Z",
       "side": 1,
       "message": "What\u0027s the motivation for a setter? My preference is that the instances are immutable.",
+      "revId": "5058a4b37d60a2c823c89ab61229cdd4d7c38ca6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83def668_7327652c",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1001538
+      },
+      "writtenOn": "2025-01-02T20:49:55Z",
+      "side": 1,
+      "message": "Although I would also prefer that it is immutable, the motivation for a setter is an issue of scope. I need to set the I2CBus value differently based on whether we are using the \"Bus\" or \"MuxChannel\" to configure it in EM. Afterwards I2CBus is used to create the sensor (see https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/75503 for context/examples).\nCurrently, it is set up as the following:\n\n```\n...\nI2CBus bus;\n...\n\nif (\"Bus\" keyword used)\n{\n    bus.setBus(busNumber)\n}\nelse if (\"MuxChannel\" interface used)\n{\n    ...\n    bus \u003d mux.getLogicalBus(channelName)\n    ...\n}\n\nXSensor(bus, addr, ...)\n```",
+      "parentUuid": "12895e7a_db59d08f",
       "revId": "5058a4b37d60a2c823c89ab61229cdd4d7c38ca6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -139,6 +181,24 @@
       "writtenOn": "2024-12-05T03:32:36Z",
       "side": 1,
       "message": "Can you add a source comment (with relevant links) about how `/dev/i2c-mux` is populated?",
+      "revId": "5058a4b37d60a2c823c89ab61229cdd4d7c38ca6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29522163_5c488562",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1001538
+      },
+      "writtenOn": "2025-01-02T20:49:55Z",
+      "side": 1,
+      "message": "In EM, the linkMux function creates the /dev/i2c-mux directory and creates the symlinks between the channelNames in that directory with the /dev/i2c-#\nhttps://github.com/openbmc/entity-manager/blob/849f13ab73fb85a6b8b002bc16414b67562f3513/src/overlay.cpp#L71",
+      "parentUuid": "f4b71a5d_b62f8935",
       "revId": "5058a4b37d60a2c823c89ab61229cdd4d7c38ca6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },

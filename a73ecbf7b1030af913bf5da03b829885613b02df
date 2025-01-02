@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c57b2f10_493798d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001538
+      },
+      "writtenOn": "2025-01-02T20:49:55Z",
+      "side": 1,
+      "message": "Added in the commit message, here is the change in the schema: https://gerrit.openbmc.org/c/openbmc/entity-manager/+/69030",
+      "parentUuid": "c6329ed6_1cc62333",
+      "range": {
+        "startLine": 10,
+        "startChar": 50,
+        "endLine": 10,
+        "endChar": 70
+      },
+      "revId": "a73ecbf7b1030af913bf5da03b829885613b02df",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f5a5d119_fb1b1ebf",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -37,6 +61,30 @@
       "writtenOn": "2024-10-28T00:07:09Z",
       "side": 1,
       "message": "Please avoid describing the implementation details in the commit message. Prefer to comment the code instead, if that\u0027s necessary.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 16
+      },
+      "revId": "a73ecbf7b1030af913bf5da03b829885613b02df",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ad7edae_1b86b43d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001538
+      },
+      "writtenOn": "2025-01-02T20:49:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5a5d119_fb1b1ebf",
       "range": {
         "startLine": 11,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0a52cb7_0d1b9966",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001538
+      },
+      "writtenOn": "2025-01-02T20:49:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35e8170c_2639b00d",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 27
+      },
+      "revId": "a73ecbf7b1030af913bf5da03b829885613b02df",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8d465f26_03694809",
@@ -83,6 +155,24 @@
       "writtenOn": "2024-10-27T04:59:25Z",
       "side": 1,
       "message": "Because EM has a replacement of spaces in \"Name\" value (https://github.com/openbmc/entity-manager/blob/2826f40187e4090acd761b59bc4c6f0036b7be8c/src/overlay.cpp#L241), mux name in the symlink can be different from the config. I think you should do it too here to ensure consistency, as users can use space-separated strings in \"Name\" of a mux, and \"MuxName\".",
+      "revId": "a73ecbf7b1030af913bf5da03b829885613b02df",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93a4ec8a_ab79098a",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 890,
+      "author": {
+        "id": 1001538
+      },
+      "writtenOn": "2025-01-02T20:49:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d465f26_03694809",
       "revId": "a73ecbf7b1030af913bf5da03b829885613b02df",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -265,6 +355,48 @@
       "side": 1,
       "message": "Just to clarify, I\u0027m not expecting that you do the rework to integrate the type throughout the code base. But if we at least bring it into existence and start using it in code you\u0027re changing, then we can spread its use over time.\n\nI think we should settle on `int` for the bus index type, as this is what the kernel uses.",
       "parentUuid": "73becad6_b5c4a46f",
+      "range": {
+        "startLine": 413,
+        "startChar": 64,
+        "endLine": 413,
+        "endChar": 77
+      },
+      "revId": "a73ecbf7b1030af913bf5da03b829885613b02df",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b456fc5_73a1e202",
+        "filename": "src/Utils.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1001538
+      },
+      "writtenOn": "2025-01-02T20:49:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af4bc319_bcf352ba",
+      "revId": "a73ecbf7b1030af913bf5da03b829885613b02df",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f21b2f41_dce569eb",
+        "filename": "src/Utils.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1001538
+      },
+      "writtenOn": "2025-01-02T20:49:55Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "9d5af9c4_72ea5a16",
       "range": {
         "startLine": 413,
         "startChar": 64,
