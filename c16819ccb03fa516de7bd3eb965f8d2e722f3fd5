@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fc3682a_452bf95e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000338
+      },
+      "writtenOn": "2025-01-02T08:48:10Z",
+      "side": 1,
+      "message": "I have a couple of minor comments.",
+      "revId": "c16819ccb03fa516de7bd3eb965f8d2e722f3fd5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92e6803f_96804c3e",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000338
+      },
+      "writtenOn": "2025-01-02T08:48:10Z",
+      "side": 1,
+      "message": "How is 0 assumed to be an invalid EID and how is it being guaranteed at the call site at line 408? It might be better to use a std::optional here instead.",
+      "revId": "c16819ccb03fa516de7bd3eb965f8d2e722f3fd5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "816385e9_b9f62861",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1000338
+      },
+      "writtenOn": "2025-01-02T08:48:10Z",
+      "side": 1,
+      "message": "Please check if this (optional?) key actually exists in the config. Else, you end up dereferencing it at line 395 without a check.",
+      "revId": "c16819ccb03fa516de7bd3eb965f8d2e722f3fd5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
