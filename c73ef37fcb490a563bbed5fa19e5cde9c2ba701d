@@ -79,6 +79,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9d723674_5308c300",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-01-07T01:24:18Z",
+      "side": 1,
+      "message": "`getPathForUnits` is used in external to convert Units to interface name\nhttps://github.com/openbmc/dbus-sensors/blob/4bbd02dce8fe574ecae5efda089e02940178cac7/src/external/ExternalSensor.cpp#L42\n\nDid you mean some other util?",
+      "parentUuid": "c3b8d532_624d7ca6",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 63
+      },
+      "revId": "c73ef37fcb490a563bbed5fa19e5cde9c2ba701d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "463f34e8_9a5803d6",
         "filename": "src/smbpbi/SmbpbiSensor.cpp",
         "patchSetId": 2
@@ -123,6 +147,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "35a64fec_f3dcf6c6",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-01-07T01:24:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54605345_57ebca2d",
+      "range": {
+        "startLine": 3,
+        "startChar": 36,
+        "endLine": 3,
+        "endChar": 71
+      },
+      "revId": "c73ef37fcb490a563bbed5fa19e5cde9c2ba701d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "da75b8ca_da54b1b3",
@@ -146,6 +194,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b000ee0a_6388b5fa",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-01-07T01:24:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da75b8ca_da54b1b3",
+      "range": {
+        "startLine": 15,
+        "startChar": 1,
+        "endLine": 15,
+        "endChar": 3
+      },
+      "revId": "c73ef37fcb490a563bbed5fa19e5cde9c2ba701d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "be769120_14592258",
@@ -159,6 +231,24 @@
       "writtenOn": "2024-12-27T18:58:18Z",
       "side": 1,
       "message": "whitespace problems.  just make sure your meson is up to date, and run \"meson format -i \u003cthis filename\u003e\" and it\u0027ll format for you.",
+      "revId": "c73ef37fcb490a563bbed5fa19e5cde9c2ba701d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "941f228c_74844efc",
+        "filename": "src/smbpbi/meson.build",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-01-07T01:24:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be769120_14592258",
       "revId": "c73ef37fcb490a563bbed5fa19e5cde9c2ba701d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
