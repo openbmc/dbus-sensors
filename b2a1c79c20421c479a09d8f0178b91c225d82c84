@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32772229_e3e21ef8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-07T16:18:12Z",
+      "side": 1,
+      "message": "This isn\u0027t a machine-specific repository.  Please adjust.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 9
+      },
+      "revId": "b2a1c79c20421c479a09d8f0178b91c225d82c84",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64799d4f_4583ce0a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-07T16:18:12Z",
+      "side": 1,
+      "message": "Does this driver exist?  I don\u0027t see it in Linux master yet.  dbus-sensors won\u0027t take code for drivers that don\u0027t exist.",
+      "revId": "b2a1c79c20421c479a09d8f0178b91c225d82c84",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccfd5e0b_0db7f55b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-07T16:18:12Z",
+      "side": 1,
+      "message": "You\u0027re using a downstream tool to confirm results.  Maybe that is acceptable to maintainers but probably shouldn\u0027t be.",
+      "revId": "b2a1c79c20421c479a09d8f0178b91c225d82c84",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
