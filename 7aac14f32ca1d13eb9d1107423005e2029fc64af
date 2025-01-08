@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "042ba9a5_edb18290",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-08T15:39:47Z",
+      "side": 1,
+      "message": "This isn\u0027t a meta-layer either.  And \"dbus-sensors\" is the repository you are trying to change.\n\nMaybe `psusensor: add SQ52205 device` ?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 14
+      },
+      "revId": "7aac14f32ca1d13eb9d1107423005e2029fc64af",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
