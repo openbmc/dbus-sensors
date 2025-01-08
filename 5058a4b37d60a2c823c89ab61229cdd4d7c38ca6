@@ -119,6 +119,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "62dd6159_7a619c35",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-01-08T05:54:01Z",
+      "side": 1,
+      "message": "Isn\u0027t that rather a matter of only instantiating a I2CBus instance if the `Bus` keyword is used?\n\n```\nif (\"Bus\" keyword used)\n{\n    bus \u003d I2CBus(... busNumber ...);\n}\nelse if (\"MuxChannel\" interface used)\n{\n    ...\n    bus \u003d mux.getLogicalBus(channelName);\n    ...\n}\n```",
+      "parentUuid": "83def668_7327652c",
+      "revId": "5058a4b37d60a2c823c89ab61229cdd4d7c38ca6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7c27d9b7_49c7c5c3",
         "filename": "src/DeviceMgmt.hpp",
         "patchSetId": 5
@@ -199,6 +217,24 @@
       "side": 1,
       "message": "In EM, the linkMux function creates the /dev/i2c-mux directory and creates the symlinks between the channelNames in that directory with the /dev/i2c-#\nhttps://github.com/openbmc/entity-manager/blob/849f13ab73fb85a6b8b002bc16414b67562f3513/src/overlay.cpp#L71",
       "parentUuid": "f4b71a5d_b62f8935",
+      "revId": "5058a4b37d60a2c823c89ab61229cdd4d7c38ca6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a4582c9_9d4e0943",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-01-08T05:54:01Z",
+      "side": 1,
+      "message": "I was asking that the comment be added in the code.",
+      "parentUuid": "29522163_5c488562",
       "revId": "5058a4b37d60a2c823c89ab61229cdd4d7c38ca6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
