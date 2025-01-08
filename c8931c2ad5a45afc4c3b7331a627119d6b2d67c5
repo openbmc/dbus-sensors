@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3dd38ee_3ce8f02d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-08T11:20:55Z",
+      "side": 1,
+      "message": "Can we merge this?  Aren\u0027t all dbus-sensors commits failing CI without this?",
+      "revId": "c8931c2ad5a45afc4c3b7331a627119d6b2d67c5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "57e9fcc5_c0fd2dcf",
