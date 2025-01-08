@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7ebef27_bea18fee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002131
+      },
+      "writtenOn": "2025-01-08T08:48:42Z",
+      "side": 1,
+      "message": "Thank you for your explanation.\nDone",
+      "parentUuid": "32772229_e3e21ef8",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 9
+      },
+      "revId": "b2a1c79c20421c479a09d8f0178b91c225d82c84",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "64799d4f_4583ce0a",
@@ -43,6 +67,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f21ab5d4_f31d4b02",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002131
+      },
+      "writtenOn": "2025-01-08T08:48:42Z",
+      "side": 1,
+      "message": "https://github.com/facebookexternal/openbmc.wiwynn/blob/c883d273ff223e49b64262f5a20747e1f6dfd748/common/recipes-kernel/linux/6.6/0309-Add-SQ52205-driver.patch#L4\n\nPlease refer to the patch located at `./common/recipes-kernel/linux/6.6/0309-Add-SQ52205-driver.patch`.\nLORE link: https://lore.kernel.org/all/20240812154240.3570-1-wenliang202407@163.com/\n\nThe driver already exists, correct?",
+      "parentUuid": "64799d4f_4583ce0a",
+      "revId": "b2a1c79c20421c479a09d8f0178b91c225d82c84",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ccfd5e0b_0db7f55b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -54,6 +96,24 @@
       "writtenOn": "2025-01-07T16:18:12Z",
       "side": 1,
       "message": "You\u0027re using a downstream tool to confirm results.  Maybe that is acceptable to maintainers but probably shouldn\u0027t be.",
+      "revId": "b2a1c79c20421c479a09d8f0178b91c225d82c84",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5440a450_14152b80",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1002131
+      },
+      "writtenOn": "2025-01-08T08:48:42Z",
+      "side": 1,
+      "message": "Understood, we will update the test logs with `busctl`.",
+      "parentUuid": "ccfd5e0b_0db7f55b",
       "revId": "b2a1c79c20421c479a09d8f0178b91c225d82c84",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
