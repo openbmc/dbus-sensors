@@ -52,6 +52,24 @@
       "parentUuid": "ad741fa3_6d3d3484",
       "revId": "4b9072cd1dfc4ed12094c6f4953026e12d00ddc5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7093980b_2c345b70",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-09T16:16:07Z",
+      "side": 1,
+      "message": "There aren\u0027t any existing unit tests for hardly any of the sensors.  Adding a unit test for this particular case doesn\u0027t seem like a very light lift.",
+      "parentUuid": "c35203db_0ba7f3c9",
+      "revId": "4b9072cd1dfc4ed12094c6f4953026e12d00ddc5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
