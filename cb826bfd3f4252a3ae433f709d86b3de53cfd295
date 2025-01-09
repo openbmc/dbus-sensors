@@ -26,6 +26,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "87c94ae7_33b8a7c0",
+        "filename": ".clang-tidy",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-01-09T15:53:02Z",
+      "side": 1,
+      "message": "?",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 17
+      },
+      "revId": "cb826bfd3f4252a3ae433f709d86b3de53cfd295",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "55d19742_b30464ba",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
