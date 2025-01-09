@@ -34,6 +34,24 @@
       "parentUuid": "9cf6beb4_07244be2",
       "revId": "4b9072cd1dfc4ed12094c6f4953026e12d00ddc5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c35203db_0ba7f3c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-01-09T00:24:03Z",
+      "side": 1,
+      "message": "Sorry, I meant as a unit test.",
+      "parentUuid": "ad741fa3_6d3d3484",
+      "revId": "4b9072cd1dfc4ed12094c6f4953026e12d00ddc5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
