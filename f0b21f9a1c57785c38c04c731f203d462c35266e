@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd26f24e_2cdc6317",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-09T18:20:36Z",
+      "side": 1,
+      "message": "\"SMBPBI\" or \"SMB-PBI\"?  Can we avoid RanDOmcAse for an acronym?\n\nhttps://github.com/openbmc/docs/blob/d886ce89fe66c128b3ab492e530ad48fa0c1b4eb/cpp-style-and-conventions.md?plain\u003d1#L281",
+      "range": {
+        "startLine": 32,
+        "startChar": 17,
+        "endLine": 32,
+        "endChar": 23
+      },
+      "revId": "f0b21f9a1c57785c38c04c731f203d462c35266e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12eca93f_c09d19de",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-09T18:20:36Z",
+      "side": 1,
+      "message": "(Seems like outstanding feedback is still unaddressed anyhow.  Didn\u0027t do a very exhaustive review of this revision.)",
+      "revId": "f0b21f9a1c57785c38c04c731f203d462c35266e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89e478b4_b3d03d87",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-09T18:20:36Z",
+      "side": 1,
+      "message": "Why do we have this if we have SPDX?",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 33
+      },
+      "revId": "f0b21f9a1c57785c38c04c731f203d462c35266e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
