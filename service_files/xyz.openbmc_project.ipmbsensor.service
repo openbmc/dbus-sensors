@@ -3,6 +3,8 @@ Description=IPMB Sensor
 StopWhenUnneeded=false
 Requires=xyz.openbmc_project.EntityManager.service
 After=xyz.openbmc_project.EntityManager.service
+Requires=ipmb.service
+After=ipmb.service
 
 [Service]
 Restart=always
