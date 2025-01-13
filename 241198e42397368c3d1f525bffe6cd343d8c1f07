@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f502d555_48131f7a",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-01-13T04:20:09Z",
+      "side": 1,
+      "message": "Why break?",
+      "revId": "241198e42397368c3d1f525bffe6cd343d8c1f07",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7267d07_0c33e00b",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-01-13T04:20:09Z",
+      "side": 1,
+      "message": "Why break?",
+      "revId": "241198e42397368c3d1f525bffe6cd343d8c1f07",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
