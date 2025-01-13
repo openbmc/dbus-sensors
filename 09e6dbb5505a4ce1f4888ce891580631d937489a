@@ -33,6 +33,23 @@
       "message": "ltgm",
       "revId": "09e6dbb5505a4ce1f4888ce891580631d937489a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29fb5e6e_625b3f29",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2025-01-13T02:43:56Z",
+      "side": 1,
+      "message": "Sorry, just realized I\u0027m not the maintainer of this repository! I can\u0027t give the +2 needed. Please ping somebody listed here in this file: https://github.com/openbmc/dbus-sensors/blob/master/OWNERS",
+      "revId": "09e6dbb5505a4ce1f4888ce891580631d937489a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
