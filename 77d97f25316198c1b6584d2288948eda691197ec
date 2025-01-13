@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02f4d2bc_883de8b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-01-13T03:39:03Z",
+      "side": 1,
+      "message": "Can you please add some explanation here? Did this ever work? Was anybody else using it? Why didn\u0027t it get fixed earlier? What patch had the bug?",
+      "revId": "77d97f25316198c1b6584d2288948eda691197ec",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
