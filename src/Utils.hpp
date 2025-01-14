@@ -263,11 +263,16 @@ struct GetSensorConfiguration :
                 const boost::system::error_code ec, SensorBaseConfigMap& data) {
                 if (ec)
                 {
-                    std::cerr << "Error getting " << path << ": retries left"
-                              << retries - 1 << "\n";
                     if (retries == 0U)
                     {
+                        std::cerr << "Error getting " << path
+                                  << ": no retries left\n";
                         return;
+                    }
+                    else
+                    {
+                        std::cerr << "Error getting " << path << ": "
+                                  << retries - 1 << " retries left\n";
                     }
                     auto timer = std::make_shared<boost::asio::steady_timer>(
                         self->dbusConnection->get_io_context());
