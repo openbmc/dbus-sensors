@@ -221,6 +221,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "de25e812_7078e2b1",
+        "filename": "src/SmbpbiSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-01-17T01:00:46Z",
+      "side": 1,
+      "message": "Refactored",
+      "parentUuid": "116a2822_81b88a21",
+      "range": {
+        "startLine": 132,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 21
+      },
+      "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4c145d9c_f0491135",
         "filename": "src/SmbpbiSensor.cpp",
         "patchSetId": 1
@@ -401,6 +425,30 @@
       "writtenOn": "2024-12-13T18:48:22Z",
       "side": 1,
       "message": "I don\u0027t think this is safe between architectures, right?",
+      "range": {
+        "startLine": 245,
+        "startChar": 34,
+        "endLine": 245,
+        "endChar": 50
+      },
+      "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae96360e_3fa96467",
+        "filename": "src/SmbpbiSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-01-17T01:00:46Z",
+      "side": 1,
+      "message": "power is 4B according to spec, I think it\u0027s handled in `reading2power`, please correct me if I\u0027m wrong",
+      "parentUuid": "8d554e62_fbc564a2",
       "range": {
         "startLine": 245,
         "startChar": 34,
@@ -690,6 +738,24 @@
       "writtenOn": "2024-12-13T18:48:22Z",
       "side": 1,
       "message": "I think there\u0027s a helper function for this now?  Check utils.",
+      "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38165c9f_c600c2bf",
+        "filename": "src/SmbpbiSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-01-17T01:00:46Z",
+      "side": 1,
+      "message": "I don\u0027t see one for starting a timer and setting up the sensor, can you please link if possible?",
+      "parentUuid": "bc3f9802_f6b83a75",
       "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },

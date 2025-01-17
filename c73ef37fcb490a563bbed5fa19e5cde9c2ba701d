@@ -126,6 +126,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a66e77c1_0ce27422",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-01-17T01:00:46Z",
+      "side": 1,
+      "message": "Refactored",
+      "parentUuid": "463f34e8_9a5803d6",
+      "range": {
+        "startLine": 165,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 76
+      },
+      "revId": "c73ef37fcb490a563bbed5fa19e5cde9c2ba701d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "54605345_57ebca2d",
         "filename": "src/smbpbi/SmbpbiSensor.hpp",
         "patchSetId": 2
