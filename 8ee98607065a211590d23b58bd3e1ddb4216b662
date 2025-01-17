@@ -16,6 +16,23 @@
       "message": "I just rebased this commit, please help me to review this one.\n\nThanks",
       "revId": "8ee98607065a211590d23b58bd3e1ddb4216b662",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44d4af60_e6955b9a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-01-17T16:17:20Z",
+      "side": 1,
+      "message": "This has been up for sometime with no unresolved comments and prior+1s. Leave it up for couple more days, if still no more comments, it is ready to go in.",
+      "revId": "8ee98607065a211590d23b58bd3e1ddb4216b662",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
