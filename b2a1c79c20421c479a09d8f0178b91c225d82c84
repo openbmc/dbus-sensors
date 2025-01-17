@@ -119,6 +119,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebcfae6c_23799b9e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002131
+      },
+      "writtenOn": "2025-01-17T03:04:01Z",
+      "side": 1,
+      "message": "The driver for SY24655 (SQ52205) has been supported by the ina2xx.c since Linux kernel version 6.13.",
+      "parentUuid": "c906c48c_1a295e64",
+      "revId": "b2a1c79c20421c479a09d8f0178b91c225d82c84",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ccfd5e0b_0db7f55b",
@@ -150,6 +168,24 @@
       "side": 1,
       "message": "Understood, we will update the test logs with `busctl`.",
       "parentUuid": "ccfd5e0b_0db7f55b",
+      "revId": "b2a1c79c20421c479a09d8f0178b91c225d82c84",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16e7d931_47464c0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1002131
+      },
+      "writtenOn": "2025-01-17T03:04:01Z",
+      "side": 1,
+      "message": "We updated the test logs with ```busctl```.",
+      "parentUuid": "5440a450_14152b80",
       "revId": "b2a1c79c20421c479a09d8f0178b91c225d82c84",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
