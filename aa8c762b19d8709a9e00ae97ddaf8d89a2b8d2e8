@@ -47,6 +47,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbfc7bd2_2584612b",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-01-17T22:43:40Z",
+      "side": 1,
+      "message": "NVM, looks like we don\u0027t have memcpy_s in here yet.... not sure why.",
+      "parentUuid": "626c3d7d_36696703",
+      "range": {
+        "startLine": 179,
+        "startChar": 0,
+        "endLine": 179,
+        "endChar": 42
+      },
+      "revId": "aa8c762b19d8709a9e00ae97ddaf8d89a2b8d2e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bccdc184_45bed977",
