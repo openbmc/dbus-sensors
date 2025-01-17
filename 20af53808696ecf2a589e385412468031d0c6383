@@ -16,6 +16,23 @@
       "message": "The driver for SY24655 (SQ52205) has been supported by the ina2xx.c since Linux kernel version 6.13.",
       "revId": "20af53808696ecf2a589e385412468031d0c6383",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fde25b4a_3a90d399",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-17T16:18:06Z",
+      "side": 1,
+      "message": "We probably want to request this driver backported to 6.6 also?",
+      "revId": "20af53808696ecf2a589e385412468031d0c6383",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
