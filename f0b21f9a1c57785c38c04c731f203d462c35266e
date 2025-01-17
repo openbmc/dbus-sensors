@@ -50,6 +50,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "15951f10_e4246ee5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-01-17T19:43:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f07cfd80_e9be5c44",
+      "range": {
+        "startLine": 32,
+        "startChar": 17,
+        "endLine": 32,
+        "endChar": 23
+      },
+      "revId": "f0b21f9a1c57785c38c04c731f203d462c35266e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "12eca93f_c09d19de",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -78,6 +102,30 @@
       "writtenOn": "2025-01-09T18:20:36Z",
       "side": 1,
       "message": "Why do we have this if we have SPDX?",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 33
+      },
+      "revId": "f0b21f9a1c57785c38c04c731f203d462c35266e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03faf63b_46bcd10a",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-01-17T19:43:10Z",
+      "side": 1,
+      "message": "it\u0027s something that\u0027s part of our process.  If it matters we can change it, but might take some time.",
+      "parentUuid": "89e478b4_b3d03d87",
       "range": {
         "startLine": 5,
         "startChar": 0,

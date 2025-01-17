@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40ea15b3_e7667fa1",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-01-17T19:43:10Z",
+      "side": 1,
+      "message": "nit, if you just named this \"raw\" or \"data\" it would probably all fit on one line and be more readable.\n\nUp to you if you want to change",
+      "range": {
+        "startLine": 135,
+        "startChar": 9,
+        "endLine": 135,
+        "endChar": 16
+      },
+      "revId": "aa8c762b19d8709a9e00ae97ddaf8d89a2b8d2e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "626c3d7d_36696703",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-01-17T19:43:10Z",
+      "side": 1,
+      "message": "need to use memcpy_s here per secure coding rules.\n\nuse sizeof(reading) and length as your two length things.",
+      "range": {
+        "startLine": 179,
+        "startChar": 0,
+        "endLine": 179,
+        "endChar": 42
+      },
+      "revId": "aa8c762b19d8709a9e00ae97ddaf8d89a2b8d2e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bccdc184_45bed977",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-01-17T19:43:10Z",
+      "side": 1,
+      "message": "technically this is size_t",
+      "range": {
+        "startLine": 186,
+        "startChar": 40,
+        "endLine": 186,
+        "endChar": 43
+      },
+      "revId": "aa8c762b19d8709a9e00ae97ddaf8d89a2b8d2e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc3bea6d_42321243",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-01-17T19:43:10Z",
+      "side": 1,
+      "message": "nit, can we explicitly call this DOUBLE64 ?  Or FLOAT64?  That makes it a lot more clear what the type is.\n\nlooking at what packages like numpy do here: https://numpy.org/doc/2.1/reference/arrays.scalars.html#numpy.float64",
+      "range": {
+        "startLine": 44,
+        "startChar": 4,
+        "endLine": 44,
+        "endChar": 10
+      },
+      "revId": "aa8c762b19d8709a9e00ae97ddaf8d89a2b8d2e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

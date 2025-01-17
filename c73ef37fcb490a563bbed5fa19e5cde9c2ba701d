@@ -103,6 +103,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4349e61f_451810d6",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-01-17T19:43:10Z",
+      "side": 1,
+      "message": "getPathForUnits is what I meant.",
+      "parentUuid": "9d723674_5308c300",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 63
+      },
+      "revId": "c73ef37fcb490a563bbed5fa19e5cde9c2ba701d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "463f34e8_9a5803d6",
         "filename": "src/smbpbi/SmbpbiSensor.cpp",
         "patchSetId": 2
@@ -143,6 +167,53 @@
         "startChar": 0,
         "endLine": 165,
         "endChar": 76
+      },
+      "revId": "c73ef37fcb490a563bbed5fa19e5cde9c2ba701d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4273a5e3_8ec17cad",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-01-17T19:43:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a66e77c1_0ce27422",
+      "range": {
+        "startLine": 165,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 76
+      },
+      "revId": "c73ef37fcb490a563bbed5fa19e5cde9c2ba701d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60abe37e_dade1e78",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-01-17T19:43:10Z",
+      "side": 1,
+      "message": "nit, this is c++, we\u0027d generally have this as a reference.",
+      "range": {
+        "startLine": 258,
+        "startChar": 42,
+        "endLine": 258,
+        "endChar": 43
       },
       "revId": "c73ef37fcb490a563bbed5fa19e5cde9c2ba701d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
