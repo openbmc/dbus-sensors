@@ -158,6 +158,30 @@
       },
       "revId": "f0b21f9a1c57785c38c04c731f203d462c35266e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2dd61f04_2709995c",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-01-17T23:14:08Z",
+      "side": 1,
+      "message": "sorry, should\u0027ve specified.  Nvidia process for new files in open source (we have internal CI checks).  Intel had a very similar requirement which resulted in much the same in other files in this repo:\n\nhttps://github.com/openbmc/dbus-sensors/blob/master/src/adc/ADCSensor.cpp#L1\n\n\nFWIW, I\u0027d rather openbmc just document that SPDX will be accepted and nothing else, but I don\u0027t think we\u0027re there in terms of consistency.",
+      "parentUuid": "12484b14_b378d923",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 33
+      },
+      "revId": "f0b21f9a1c57785c38c04c731f203d462c35266e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
