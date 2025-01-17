@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac76750b_85d7b0a3",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-01-17T23:35:20Z",
+      "side": 1,
+      "message": "Changed",
+      "parentUuid": "40ea15b3_e7667fa1",
+      "range": {
+        "startLine": 135,
+        "startChar": 9,
+        "endLine": 135,
+        "endChar": 16
+      },
+      "revId": "aa8c762b19d8709a9e00ae97ddaf8d89a2b8d2e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "626c3d7d_36696703",
@@ -71,6 +95,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d3f9de1_5240e719",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-01-17T23:35:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "626c3d7d_36696703",
+      "range": {
+        "startLine": 179,
+        "startChar": 0,
+        "endLine": 179,
+        "endChar": 42
+      },
+      "revId": "aa8c762b19d8709a9e00ae97ddaf8d89a2b8d2e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bccdc184_45bed977",
@@ -94,6 +142,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e21c6b47_ca8d3ed6",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-01-17T23:35:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bccdc184_45bed977",
+      "range": {
+        "startLine": 186,
+        "startChar": 40,
+        "endLine": 186,
+        "endChar": 43
+      },
+      "revId": "aa8c762b19d8709a9e00ae97ddaf8d89a2b8d2e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc3bea6d_42321243",
@@ -107,6 +179,30 @@
       "writtenOn": "2025-01-17T19:43:10Z",
       "side": 1,
       "message": "nit, can we explicitly call this DOUBLE64 ?  Or FLOAT64?  That makes it a lot more clear what the type is.\n\nlooking at what packages like numpy do here: https://numpy.org/doc/2.1/reference/arrays.scalars.html#numpy.float64",
+      "range": {
+        "startLine": 44,
+        "startChar": 4,
+        "endLine": 44,
+        "endChar": 10
+      },
+      "revId": "aa8c762b19d8709a9e00ae97ddaf8d89a2b8d2e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b71fa5b4_ce545802",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-01-17T23:35:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc3bea6d_42321243",
       "range": {
         "startLine": 44,
         "startChar": 4,
