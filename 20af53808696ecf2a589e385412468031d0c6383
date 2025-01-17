@@ -33,6 +33,23 @@
       "message": "We probably want to request this driver backported to 6.6 also?",
       "revId": "20af53808696ecf2a589e385412468031d0c6383",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50a25e15_adb69694",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-01-17T18:49:21Z",
+      "side": 1,
+      "message": "Trivial addition to the hardware list.  No reason to hold up on ceremony here.",
+      "revId": "20af53808696ecf2a589e385412468031d0c6383",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
