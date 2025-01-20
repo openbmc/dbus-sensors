@@ -169,6 +169,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ff76ec8c_05c337a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002339
+      },
+      "writtenOn": "2025-01-20T03:35:19Z",
+      "side": 1,
+      "message": "We think these commands are also instantaneous readings, because the peak values are updated by ADM1272 each time current sense and input voltage measurements are taken. \nAfter the power monitor samples, since the peak value was last cleared.",
+      "parentUuid": "609b100c_c88218b3",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 34
+      },
+      "revId": "c00eeb7a00a6c584ba93d5ef36d5db08a8e9ea5e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c0474681_cd733f71",
         "filename": "/COMMIT_MSG",
         "patchSetId": 8
