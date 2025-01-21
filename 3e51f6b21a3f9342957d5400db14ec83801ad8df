@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "51470e30_3887d381",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-01-21T22:30:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81e569f0_b75b2aa2",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 22
+      },
+      "revId": "3e51f6b21a3f9342957d5400db14ec83801ad8df",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d50b8de5_0ceffb03",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-01-21T18:05:01Z",
       "side": 1,
       "message": "Pretty sure this needs updated to match\n\nFloat64\nFloat32\nInt32\nInt64\n\n\"Raw\" and \"Double\" don\u0027t make a lot of sense in the config.",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 27
+      },
+      "revId": "3e51f6b21a3f9342957d5400db14ec83801ad8df",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b95ee637_d5d82833",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-01-21T22:30:13Z",
+      "side": 1,
+      "message": "I think we should leave this as Raw and Double because some sensors require SMBPBI decode. \nThe `Double` sensors can directly be read as DOUBLE64, but some `Raw` sensors (temp) require conversion. We handle this based on spec in `readRawEEPROMData` from `Units` instead of leaving it to the user.",
+      "parentUuid": "d50b8de5_0ceffb03",
       "range": {
         "startLine": 31,
         "startChar": 0,
@@ -72,6 +120,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "563ca7b2_2334e557",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-01-21T22:30:13Z",
+      "side": 1,
+      "message": "This was changed to `SMBPBI_VEEPROM` (all caps) in a previous patchset to maintain naming convention",
+      "parentUuid": "81f2bb25_671a398b",
+      "range": {
+        "startLine": 32,
+        "startChar": 17,
+        "endLine": 32,
+        "endChar": 31
+      },
+      "revId": "3e51f6b21a3f9342957d5400db14ec83801ad8df",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6630a1b3_71e1c35d",
         "filename": "src/smbpbi/SmbpbiSensor.hpp",
         "patchSetId": 5
@@ -83,6 +155,30 @@
       "writtenOn": "2025-01-21T18:05:01Z",
       "side": 1,
       "message": "This looks duplicated now.  Should only need one.",
+      "range": {
+        "startLine": 3,
+        "startChar": 36,
+        "endLine": 3,
+        "endChar": 59
+      },
+      "revId": "3e51f6b21a3f9342957d5400db14ec83801ad8df",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73bfe48d_230e05bb",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-01-21T22:30:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6630a1b3_71e1c35d",
       "range": {
         "startLine": 3,
         "startChar": 36,
