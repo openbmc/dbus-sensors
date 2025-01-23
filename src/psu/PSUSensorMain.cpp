@@ -829,6 +829,10 @@ static void createSensorsCallback(
                                                     findPowerState->second);
                 setReadState(powerState, readState);
             }
+            else
+            {
+                readState = getPowerState(*baseConfig);
+            }
             if (!(psuProperty.minReading < psuProperty.maxReading))
             {
                 lg2::error("Min must be less than Max");
