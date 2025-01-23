@@ -797,6 +797,8 @@ static void createSensorsCallback(
                 std::string powerState = std::visit(VariantToStringVisitor(),
                                                     findPowerState->second);
                 setReadState(powerState, readState);
+            } else {
+                readState = getPowerState(*baseConfig);
             }
             if (!(psuProperty.minReading < psuProperty.maxReading))
             {
