@@ -46,6 +46,30 @@
       },
       "revId": "73770febe46f41c603a1bfd282a6ac5564706b43",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7d85924_c1b6c228",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-01-23T00:41:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cae48d3_fba576e3",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 13
+      },
+      "revId": "73770febe46f41c603a1bfd282a6ac5564706b43",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
