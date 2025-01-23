@@ -119,6 +119,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ca9a980_ff6bbacc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-01-23T00:41:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33391a14_436c990d",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 27
+      },
+      "revId": "3e51f6b21a3f9342957d5400db14ec83801ad8df",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "81f2bb25_671a398b",
@@ -180,6 +204,30 @@
       "side": 1,
       "message": "Changed to `SmbpbiVirtualEeprom`",
       "parentUuid": "563ca7b2_2334e557",
+      "range": {
+        "startLine": 32,
+        "startChar": 17,
+        "endLine": 32,
+        "endChar": 31
+      },
+      "revId": "3e51f6b21a3f9342957d5400db14ec83801ad8df",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fda7005_5fb3e691",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-01-23T00:41:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b083bed_dfce26d5",
       "range": {
         "startLine": 32,
         "startChar": 17,
