@@ -798,6 +798,10 @@ static void createSensorsCallback(
                                                     findPowerState->second);
                 setReadState(powerState, readState);
             }
+            else
+            {
+                readState = getPowerState(*baseConfig);
+            }
             if (!(psuProperty.minReading < psuProperty.maxReading))
             {
                 std::cerr << "Min must be less than Max\n";
