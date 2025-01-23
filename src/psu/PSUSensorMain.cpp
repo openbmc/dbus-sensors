@@ -255,6 +255,27 @@ void checkEventLimits(const std::string& sensorPathStr,
     }
 }
 
+static bool hasLabelPowerState(const SensorBaseConfigMap& baseConfig)
+{
+    auto findLabelObj = baseConfig.find("Labels");
+    if (findLabelObj == baseConfig.end())
+    {
+        return false;
+    }
+
+    const auto& labels =
+        std::get<std::vector<std::string>>(findLabelObj->second);
+    for (const auto& label : labels)
+    {
+        if (baseConfig.find(label + "_PowerState") != baseConfig.end())
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 static void checkPWMSensor(
     const fs::path& sensorPath, std::string& labelHead,
     const std::string& interfacePath,
@@ -463,6 +484,11 @@ static void createSensorsCallback(
         std::shared_ptr<I2CDevice> i2cDev;
         if (findI2CDev != devices.end())
         {
+            if (hasLabelPowerState(*baseConfig))
+            {
+                // Mark device as needing power state handling
+                findI2CDev->second.second = true;
+            }
             if (activateOnly && !findI2CDev->second.second)
             {
                 continue;
@@ -797,7 +823,9 @@ static void createSensorsCallback(
                 std::string powerState = std::visit(VariantToStringVisitor(),
                                                     findPowerState->second);
                 setReadState(powerState, readState);
-            } else {
+            }
+            else
+            {
                 readState = getPowerState(*baseConfig);
             }
             if (!(psuProperty.minReading < psuProperty.maxReading))
