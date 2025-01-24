@@ -31,7 +31,6 @@
 #include <array>
 #include <chrono>
 #include <cstddef>
-#include <iostream>
 #include <memory>
 #include <set>
 #include <stdexcept>
@@ -56,7 +55,7 @@ PSUCombineEvent::PSUCombineEvent(
 
     if (!eventInterface->initialize())
     {
-        std::cerr << "error initializing event interface\n";
+        lg2::error("error initializing event interface");
     }
 
     std::shared_ptr<std::set<std::string>> combineEvent =
@@ -199,7 +198,7 @@ void PSUSubEvent::setupRead()
     }
     if (!buffer)
     {
-        std::cerr << "Buffer was invalid?";
+        lg2::error("Buffer was invalid?");
         return;
     }
 
@@ -248,7 +247,7 @@ void PSUSubEvent::handleResponse(const boost::system::error_code& err,
     }
     if (!buffer)
     {
-        std::cerr << "Buffer was invalid?";
+        lg2::error("Buffer was invalid?");
         return;
     }
     // null terminate the string so we don't walk off the end
@@ -276,7 +275,7 @@ void PSUSubEvent::handleResponse(const boost::system::error_code& err,
     {
         if (errCount == warnAfterErrorCount)
         {
-            std::cerr << "Failure to read event at " << path << "\n";
+            lg2::error("Failure to read event at {PATH}", "PATH", path);
         }
         updateValue(0);
         errCount++;
@@ -345,7 +344,7 @@ void PSUSubEvent::updateValue(const int& newValue)
     }
     else
     {
-        std::cerr << "PSUSubEvent asserted by " << path << "\n";
+        lg2::error("PSUSubEvent asserted by {PATH}", "PATH", path);
 
         if ((!*assertState) && ((*asserts).empty()))
         {

@@ -31,6 +31,7 @@
 #include <boost/asio/steady_timer.hpp>
 #include <boost/container/flat_map.hpp>
 #include <boost/container/flat_set.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/bus.hpp>
@@ -50,7 +51,6 @@
 #include <filesystem>
 #include <fstream>
 #include <functional>
-#include <iostream>
 #include <memory>
 #include <regex>
 #include <stdexcept>
@@ -315,7 +315,7 @@ static void createSensorsCallback(
     findFiles(std::filesystem::path("/sys/class/hwmon"), "name", pmbusPaths);
     if (pmbusPaths.empty())
     {
-        std::cerr << "No PSU sensors in system\n";
+        lg2::error("No PSU sensors in system");
         return;
     }
 
@@ -328,7 +328,7 @@ static void createSensorsCallback(
         std::ifstream nameFile(pmbusPath);
         if (!nameFile.good())
         {
-            std::cerr << "Failure finding pmbus path " << pmbusPath << "\n";
+            lg2::error("Failure finding {PATH}", "PATH", pmbusPath);
             continue;
         }
 
@@ -340,8 +340,8 @@ static void createSensorsCallback(
         {
             // To avoid this error message, add your driver name to
             // the pmbusNames vector at the top of this file.
-            std::cerr << "Driver name " << pmbusName
-                      << " not found in sensor whitelist\n";
+            lg2::error("{NAME} not found in sensor whitelist", "NAME",
+                       pmbusName);
             continue;
         }
 
@@ -350,7 +350,7 @@ static void createSensorsCallback(
         auto ret = directories.insert(directory.string());
         if (!ret.second)
         {
-            std::cerr << "Duplicate path " << directory.string() << "\n";
+            lg2::error("Duplicate path: {PATH}", "PATH", directory);
             continue; // check if path has already been searched
         }
 
@@ -365,7 +365,7 @@ static void createSensorsCallback(
             std::regex_search(devicePath, match, i2cDevRegex);
             if (match.empty())
             {
-                std::cerr << "Found bad device path " << devicePath << "\n";
+                lg2::error("Found bad device path: {PATH}", "PATH", devicePath);
                 continue;
             }
             // Extract <bus>-<address>
@@ -407,8 +407,8 @@ static void createSensorsCallback(
             }
             if (baseConfig == nullptr)
             {
-                std::cerr << "error finding base configuration for "
-                          << deviceName << "\n";
+                lg2::error("error finding base configuration for {NAME}",
+                           "NAME", deviceName);
                 continue;
             }
 
@@ -418,7 +418,7 @@ static void createSensorsCallback(
             if (configBus == baseConfig->end() ||
                 configAddress == baseConfig->end())
             {
-                std::cerr << "error finding necessary entry in configuration\n";
+                lg2::error("error finding necessary entry in configuration");
                 continue;
             }
 
@@ -428,8 +428,7 @@ static void createSensorsCallback(
                 std::get_if<uint64_t>(&(configAddress->second));
             if (confBus == nullptr || confAddr == nullptr)
             {
-                std::cerr
-                    << "Cannot get bus or address, invalid configuration\n";
+                lg2::error("Cannot get bus or address, invalid configuration");
                 continue;
             }
 
@@ -437,9 +436,10 @@ static void createSensorsCallback(
             {
                 if constexpr (debug)
                 {
-                    std::cerr << "Configuration skipping " << *confBus << "-"
-                              << *confAddr << " because not " << bus << "-"
-                              << addr << "\n";
+                    lg2::error(
+                        "Configuration skipping {CONFBUS}-{CONFADDR} because not {BUS}-{ADDR}",
+                        "CONFBUS", *confBus, "CONFADDR", *confAddr, "BUS", bus,
+                        "ADDR", addr);
                 }
                 continue;
             }
@@ -447,7 +447,7 @@ static void createSensorsCallback(
             std::vector<thresholds::Threshold> confThresholds;
             if (!parseThresholdsFromConfig(*sensorData, confThresholds))
             {
-                std::cerr << "error populating total thresholds\n";
+                lg2::error("error populating total thresholds");
             }
             thresholdConfSize = confThresholds.size();
 
@@ -458,7 +458,7 @@ static void createSensorsCallback(
         {
             // To avoid this error message, add your export map entry,
             // from Entity Manager, to sensorTypes at the top of this file.
-            std::cerr << "failed to find match for " << deviceName << "\n";
+            lg2::error("failed to find match for {NAME}", "NAME", deviceName);
             continue;
         }
 
@@ -477,15 +477,15 @@ static void createSensorsCallback(
         auto findPSUName = baseConfig->find("Name");
         if (findPSUName == baseConfig->end())
         {
-            std::cerr << "could not determine configuration name for "
-                      << deviceName << "\n";
+            lg2::error("could not determine configuration name for {NAME}",
+                       "NAME", deviceName);
             continue;
         }
         const std::string* psuName =
             std::get_if<std::string>(&(findPSUName->second));
         if (psuName == nullptr)
         {
-            std::cerr << "Cannot find psu name, invalid configuration\n";
+            lg2::error("Cannot find psu name, invalid configuration");
             continue;
         }
 
@@ -536,7 +536,7 @@ static void createSensorsCallback(
         if (!findFiles(directory, devParamMap[devType].matchRegEx, sensorPaths,
                        0))
         {
-            std::cerr << "No PSU non-label sensor in PSU\n";
+            lg2::error("No PSU non-label sensor in PSU");
             continue;
         }
 
@@ -545,7 +545,7 @@ static void createSensorsCallback(
         {
             if constexpr (debug)
             {
-                std::cerr << "No max name in PSU \n";
+                lg2::error("No max name in PSU");
             }
         }
 
@@ -580,8 +580,8 @@ static void createSensorsCallback(
             }
             else
             {
-                std::cerr << "Could not extract the alpha prefix from "
-                          << sensorNameStr;
+                lg2::error("Could not extract the alpha prefix from {NAME}",
+                           "NAME", sensorNameStr);
                 continue;
             }
 
@@ -617,8 +617,9 @@ static void createSensorsCallback(
                 {
                     if constexpr (debug)
                     {
-                        std::cerr << "Input file " << sensorPath
-                                  << " has no corresponding label file\n";
+                        lg2::error(
+                            "Input file {PATH} has no corresponding label file",
+                            "PATH", sensorPath.string());
                     }
                     // hwmon *_input filename with number:
                     // temp1, temp2, temp3, ...
@@ -658,8 +659,8 @@ static void createSensorsCallback(
 
             if constexpr (debug)
             {
-                std::cerr << "Sensor type=\"" << sensorNameSubStr
-                          << "\" label=\"" << labelHead << "\"\n";
+                lg2::error("Sensor type: {NAME}, label: {LABEL}", "NAME",
+                           sensorNameSubStr, "LABEL", labelHead);
             }
 
             if (!findLabels.empty())
@@ -670,8 +671,8 @@ static void createSensorsCallback(
                 {
                     if constexpr (debug)
                     {
-                        std::cerr << "could not find " << labelHead
-                                  << " in the Labels list\n";
+                        lg2::error("could not find {LABEL} in the Labels list",
+                                   "LABEL", labelHead);
                     }
                     continue;
                 }
@@ -682,8 +683,9 @@ static void createSensorsCallback(
             {
                 if constexpr (debug)
                 {
-                    std::cerr << "Could not find matching default property for "
-                              << sensorNameSubStr << "\n";
+                    lg2::error(
+                        "Could not find matching default property for {NAME}",
+                        "NAME", sensorNameSubStr);
                 }
                 continue;
             }
@@ -714,7 +716,7 @@ static void createSensorsCallback(
                 }
                 catch (const std::invalid_argument&)
                 {
-                    std::cerr << "Unable to parse " << keyName << "\n";
+                    lg2::error("Unable to parse {NAME}", "NAME", keyName);
                     continue;
                 }
 
@@ -733,7 +735,7 @@ static void createSensorsCallback(
                 }
                 catch (const std::invalid_argument&)
                 {
-                    std::cerr << "Unable to parse " << keyScale << "\n";
+                    lg2::error("Unable to parse {SCALE}", "SCALE", keyScale);
                     continue;
                 }
 
@@ -744,7 +746,7 @@ static void createSensorsCallback(
                 }
                 else
                 {
-                    std::cerr << "Unable to accept " << keyScale << "\n";
+                    lg2::error("Unable to accept {SCALE}", "SCALE", keyScale);
                     continue;
                 }
             }
@@ -759,7 +761,7 @@ static void createSensorsCallback(
                 }
                 catch (const std::invalid_argument&)
                 {
-                    std::cerr << "Unable to parse " << keyMin << "\n";
+                    lg2::error("Unable to parse {MIN}", "MIN", keyMin);
                     continue;
                 }
             }
@@ -774,7 +776,7 @@ static void createSensorsCallback(
                 }
                 catch (const std::invalid_argument&)
                 {
-                    std::cerr << "Unable to parse " << keyMax << "\n";
+                    lg2::error("Unable to parse {MAX}", "MAX", keyMax);
                     continue;
                 }
             }
@@ -789,7 +791,8 @@ static void createSensorsCallback(
                 }
                 catch (const std::invalid_argument&)
                 {
-                    std::cerr << "Unable to parse " << keyOffset << "\n";
+                    lg2::error("Unable to parse {OFFSSET}", "OFFSET",
+                               keyOffset);
                     continue;
                 }
             }
@@ -804,7 +807,7 @@ static void createSensorsCallback(
             }
             if (!(psuProperty.minReading < psuProperty.maxReading))
             {
-                std::cerr << "Min must be less than Max\n";
+                lg2::error("Min must be less than Max");
                 continue;
             }
 
@@ -839,8 +842,8 @@ static void createSensorsCallback(
 
                 if (psuNames.size() <= nameIndex)
                 {
-                    std::cerr << "Could not pair " << labelHead
-                              << " with a Name field\n";
+                    lg2::error("Could not pair {LABEL} with a Name field",
+                               "LABEL", labelHead);
                     continue;
                 }
 
@@ -848,9 +851,9 @@ static void createSensorsCallback(
 
                 if constexpr (debug)
                 {
-                    std::cerr << "Sensor label head " << labelHead
-                              << " paired with " << psuNameFromIndex
-                              << " at index " << nameIndex << "\n";
+                    lg2::error("{LABEL} paired with {NAME} at index {INDEX}",
+                               "LABEL", labelHead, "NAME", psuNameFromIndex,
+                               "INDEX", nameIndex);
                 }
             }
 
@@ -885,8 +888,9 @@ static void createSensorsCallback(
 
                 if constexpr (debug)
                 {
-                    std::cerr << "Sensor scaling factor " << factor
-                              << " string " << strScaleFactor << "\n";
+                    lg2::error(
+                        "Sensor scaling factor {FACTOR} string {SCALE_FACTOR}",
+                        "FACTOR", factor, "SCALE_FACTOR", strScaleFactor);
                 }
             }
 
@@ -894,26 +898,26 @@ static void createSensorsCallback(
             if (!parseThresholdsFromConfig(*sensorData, sensorThresholds,
                                            &labelHead))
             {
-                std::cerr << "error populating thresholds for "
-                          << sensorNameSubStr << "\n";
+                lg2::error("error populating thresholds for {NAME}", "NAME",
+                           sensorNameSubStr);
             }
 
             auto findSensorUnit = sensorTable.find(sensorNameSubStr);
             if (findSensorUnit == sensorTable.end())
             {
-                std::cerr << sensorNameSubStr
-                          << " is not a recognized sensor type\n";
+                lg2::error("{NAME} is not a recognized sensor type", "NAME",
+                           sensorNameSubStr);
                 continue;
             }
 
             if constexpr (debug)
             {
-                std::cerr << "Sensor properties: Name \""
-                          << psuProperty.labelTypeName << "\" Scale "
-                          << psuProperty.sensorScaleFactor << " Min "
-                          << psuProperty.minReading << " Max "
-                          << psuProperty.maxReading << " Offset "
-                          << psuProperty.sensorOffset << "\n";
+                lg2::error(
+                    "Sensor properties - Name: {NAME}, Scale: {SCALE}, Min: {MIN}, Max: {MAX}, Offset: {OFFSET}",
+                    "NAME", psuProperty.labelTypeName, "SCALE",
+                    psuProperty.sensorScaleFactor, "MIN",
+                    psuProperty.minReading, "MAX", psuProperty.maxReading,
+                    "OFFSET", psuProperty.sensorOffset);
             }
 
             std::string sensorName = psuProperty.labelTypeName;
@@ -923,7 +927,7 @@ static void createSensorsCallback(
                 {
                     // Allow selective disabling of an individual sensor,
                     // by customizing its name to an empty string.
-                    std::cerr << "Sensor disabled, empty string\n";
+                    lg2::error("Sensor disabled, empty string");
                     continue;
                 }
             }
@@ -943,9 +947,9 @@ static void createSensorsCallback(
 
             if constexpr (debug)
             {
-                std::cerr << "Sensor name \"" << sensorName << "\" path \""
-                          << sensorPathStr << "\" type \"" << sensorType
-                          << "\"\n";
+                lg2::error("Sensor name: {NAME}, path: {PATH}, type: {TYPE}",
+                           "NAME", sensorName, "PATH", sensorPathStr, "TYPE",
+                           sensorType);
             }
             // destruct existing one first if already created
 
@@ -972,8 +976,8 @@ static void createSensorsCallback(
                 ++numCreated;
                 if constexpr (debug)
                 {
-                    std::cerr
-                        << "Created " << numCreated << " sensors so far\n";
+                    lg2::error("Created {NUM} sensors so far", "NUM",
+                               numCreated);
                 }
             }
         }
@@ -992,7 +996,7 @@ static void createSensorsCallback(
 
     if constexpr (debug)
     {
-        std::cerr << "Created total of " << numCreated << " sensors\n";
+        lg2::error("Created total of {NUM} sensors", "NUM", numCreated);
     }
 }
 
@@ -1015,8 +1019,7 @@ static void getPresentCpus(
     }
     catch (sdbusplus::exception_t& e)
     {
-        std::cerr << "error getting inventory item subtree: " << e.what()
-                  << "\n";
+        lg2::error("error getting inventory item subtree: {ERR}", "ERR", e);
         return;
     }
 
@@ -1043,7 +1046,7 @@ static void getPresentCpus(
         }
         catch (sdbusplus::exception_t& e)
         {
-            std::cerr << "Error in getting CPU presence: " << e.what() << "\n";
+            lg2::error("Error in getting CPU presence: {ERR}", "ERR", e);
             continue;
         }
 
@@ -1057,7 +1060,7 @@ static void getPresentCpus(
             }
             catch (const std::exception& e)
             {
-                std::cerr << "Error converting CPU index, " << e.what() << '\n';
+                lg2::error("Error converting CPU index: {ERR}", "ERR", e);
                 continue;
             }
             cpuPresence[cpuIndex] = *present;
@@ -1181,7 +1184,7 @@ int main()
         [&](sdbusplus::message_t& message) {
             if (message.is_method_error())
             {
-                std::cerr << "callback method error\n";
+                lg2::error("callback method error");
                 return;
             }
             sensorsChanged->insert(message.get_path());
@@ -1193,7 +1196,7 @@ int main()
                 }
                 if (ec)
                 {
-                    std::cerr << "timer error\n";
+                    lg2::error("timer error");
                 }
                 createSensors(io, objectServer, systemBus, sensorsChanged,
                               false);
@@ -1219,7 +1222,7 @@ int main()
             }
             catch (const std::invalid_argument&)
             {
-                std::cerr << "Found invalid path " << path << "\n";
+                lg2::error("Found invalid path: {PATH}", "PATH", path);
                 return;
             }
 
@@ -1252,7 +1255,7 @@ int main()
                 }
                 if (ec)
                 {
-                    std::cerr << "timer error\n";
+                    lg2::error("timer error");
                     return;
                 }
                 createSensors(io, objectServer, systemBus, nullptr, false);
