@@ -26,6 +26,7 @@
 #include <boost/asio/error.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/random_access_file.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
@@ -65,11 +66,13 @@ PSUSensor::PSUSensor(
     std::string unitPath = sensor_paths::getPathForUnits(sensorUnits);
     if constexpr (debug)
     {
-        std::cerr << "Constructed sensor: path " << path << " type "
-                  << objectType << " config " << sensorConfiguration
-                  << " typename " << unitPath << " factor " << factor << " min "
-                  << min << " max " << max << " offset " << offset << " name \""
-                  << sensorName << "\"\n";
+        lg2::debug(
+            "Constructed sensor - path: {PATH}, type: {TYPE}, config: {CONFIG}, "
+            "typename: {TYPENAME}, factor: {FACTOR}, min: {MIN}, max: {MAX}, "
+            "offset: {OFFSET}, name: {NAME}",
+            "PATH", path, "TYPE", objectType, "CONFIG", sensorConfiguration,
+            "TYPENAME", unitPath, "FACTOR", factor, "MIN", min, "MAX", max,
+            "OFFSET", offset, "NAME", sensorName);
     }
     if (pollRate > 0.0)
     {
@@ -159,7 +162,7 @@ void PSUSensor::setupRead()
 
     if (buffer == nullptr)
     {
-        std::cerr << "Buffer was invalid?";
+        lg2::error("Buffer was invalid?");
         return;
     }
 
@@ -189,7 +192,7 @@ void PSUSensor::restartRead()
     waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
         {
-            std::cerr << "Failed to reschedule\n";
+            lg2::error("Failed to reschedule");
             return;
         }
         std::shared_ptr<PSUSensor> self = weakRef.lock();
@@ -207,20 +210,20 @@ void PSUSensor::handleResponse(const boost::system::error_code& err,
 {
     if (err == boost::asio::error::operation_aborted)
     {
-        std::cerr << "Read aborted\n";
+        lg2::error("Read aborted");
         return;
     }
     if ((err == boost::system::errc::bad_file_descriptor) ||
         (err == boost::asio::error::misc_errors::not_found))
     {
-        std::cerr << "Bad file descriptor for " << path << "\n";
+        lg2::error("Bad file descriptor for {PATH}", "PATH", path);
         return;
     }
     if (err || bytesRead == 0)
     {
         if (readingStateGood())
         {
-            std::cerr << name << " read failed\n";
+            lg2::error("{NAME} read failed", "NAME", name);
         }
         restartRead();
         return;
@@ -237,7 +240,7 @@ void PSUSensor::handleResponse(const boost::system::error_code& err,
     }
     catch (const std::invalid_argument&)
     {
-        std::cerr << "Could not parse  input from " << path << "\n";
+        lg2::error("Could not parse input from {PATH}", "PATH", path);
         incrementError();
     }
 
