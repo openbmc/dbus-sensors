@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12344bc0_3d6b723c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000936
+      },
+      "writtenOn": "2025-01-27T18:43:35Z",
+      "side": 1,
+      "message": "Adding Iwona as a maintainer of the Linux PECI subsystem.",
+      "revId": "9bed908dbb289953f2fb95b455064efd030e2e0c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
