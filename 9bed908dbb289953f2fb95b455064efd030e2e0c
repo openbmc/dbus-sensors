@@ -16,6 +16,23 @@
       "message": "Adding Iwona as a maintainer of the Linux PECI subsystem.",
       "revId": "9bed908dbb289953f2fb95b455064efd030e2e0c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea41b975_7de72ba5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000936
+      },
+      "writtenOn": "2025-01-27T19:31:13Z",
+      "side": 1,
+      "message": "For the reference, related kernel patch discussion: https://lore.kernel.org/all/20250123122003.6010-1-fercerpav@gmail.com/",
+      "revId": "9bed908dbb289953f2fb95b455064efd030e2e0c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
