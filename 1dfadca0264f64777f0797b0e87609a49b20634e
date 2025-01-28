@@ -105,6 +105,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cfbb597d_4af6e5e3",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-01-28T18:24:44Z",
+      "side": 1,
+      "message": "These \"extra\" logs are disabled at compile time and can not be turned on at run time. I think we want to keep the \"debug\". If we want improve, it is better to keep this patch for only porting to the new API and use a separate patch for specific message clean up /improvement.",
+      "parentUuid": "6107482a_b532f9bb",
+      "revId": "1dfadca0264f64777f0797b0e87609a49b20634e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6b1f3c70_a5524d27",
         "filename": "src/psu/PSUSensorMain.cpp",
         "patchSetId": 5
