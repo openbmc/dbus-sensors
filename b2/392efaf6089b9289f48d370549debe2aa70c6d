@@ -1,0 +1,8 @@
+Code-Review+2: Andrew Jeffery <andrew@codeconstruct.com.au>
+Verified+1: OpenBMC CI <openbmcbump-ci@yahoo.com>
+Code-Review+1: Ninad Palsule <ninad@linux.ibm.com>
+Submitted-by: Andrew Jeffery <andrew@codeconstruct.com.au>
+Submitted-at: Tue, 28 Jan 2025 06:50:06 +0000
+Reviewed-on: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/76431
+Project: openbmc/dbus-sensors
+Branch: refs/heads/master
