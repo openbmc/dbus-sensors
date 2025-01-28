@@ -3,6 +3,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "172491a8_831c0ec6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002222
+      },
+      "writtenOn": "2025-01-28T10:07:30Z",
+      "side": 1,
+      "message": "LGTM",
+      "revId": "1dfadca0264f64777f0797b0e87609a49b20634e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "bc3b7f92_3ff6ec87",
         "filename": "src/psu/PSUEvent.cpp",
         "patchSetId": 5
