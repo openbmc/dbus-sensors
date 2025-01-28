@@ -1,0 +1,314 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d0de76e_0aa1f6dd",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-01-28T20:55:09Z",
+      "side": 1,
+      "message": "potential out of bound? There is no checking on size of raw",
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5588749a_39be57aa",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-01-28T20:55:09Z",
+      "side": 1,
+      "message": "Is the data format timed to data type, for example power vs temperature? Are the format part of a standard/spec? Please add comments of what the data format is to help reviewer of the code.",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 151,
+        "endChar": 1
+      },
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5257b209_c1663085",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-01-28T20:55:09Z",
+      "side": 1,
+      "message": "clear all bits of tempd before the loop",
+      "range": {
+        "startLine": 166,
+        "startChar": 4,
+        "endLine": 166,
+        "endChar": 61
+      },
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b87e9548_d9138ef8",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-01-28T20:55:09Z",
+      "side": 1,
+      "message": "will this value",
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b09a0b79_36fe2649",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-01-28T20:55:09Z",
+      "side": 1,
+      "message": "lg2 call?",
+      "range": {
+        "startLine": 284,
+        "startChar": 13,
+        "endLine": 284,
+        "endChar": 22
+      },
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0db1c8dd_1e808f8b",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-01-28T20:55:09Z",
+      "side": 1,
+      "message": "is FLOAT32 not supported? It is defined in the enum class",
+      "range": {
+        "startLine": 354,
+        "startChar": 3,
+        "endLine": 354,
+        "endChar": 8
+      },
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18e230c8_7f79cad4",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-01-28T20:55:09Z",
+      "side": 1,
+      "message": "should this be 3?",
+      "range": {
+        "startLine": 22,
+        "startChar": 26,
+        "endLine": 22,
+        "endChar": 27
+      },
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6a2e412_7058bc88",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-01-28T20:55:09Z",
+      "side": 1,
+      "message": "Please consider use more descriptive names for these functions.\nFor example i2cReadDataBytes() describes the function better than i2cCmd()",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 38
+      },
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6d0aec6_9b9f4513",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-01-28T20:55:09Z",
+      "side": 1,
+      "message": "How is this different than name in base class Sensor?",
+      "range": {
+        "startLine": 56,
+        "startChar": 4,
+        "endLine": 56,
+        "endChar": 20
+      },
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b4e6bf4_985698c5",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-01-28T20:55:09Z",
+      "side": 1,
+      "message": "I feel a lot of them can be moved to private",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 26
+      },
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f747fe8a_9bbea15d",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-01-28T20:55:09Z",
+      "side": 1,
+      "message": "Does the function only work with EEPROM?",
+      "range": {
+        "startLine": 65,
+        "startChar": 15,
+        "endLine": 65,
+        "endChar": 21
+      },
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "528bafe0_f676fd9d",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-01-28T20:55:09Z",
+      "side": 1,
+      "message": "This function is confusing:\n1. Why is it static?\n2. Why it just returns parameter? Whereever it is used, why not use offset directly?\n3. offset ins uint16, return value is uint8, it is going to be \"truncated\"",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 5
+      },
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c9aaabc_6309a774",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-01-28T20:55:09Z",
+      "side": 1,
+      "message": "I am not I see the advantage of using the random access file since only synchronized ioctl calls are being used with the patch. Is there a plan to use some of the asynchronized feature?",
+      "range": {
+        "startLine": 76,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 45
+      },
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f57d9ddf_c3e3c80c",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-01-28T20:55:09Z",
+      "side": 1,
+      "message": "can we make this consistent with other sensor service use pollRateMs or pollRateSecond so it is clear the unit of this variable",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 20
+      },
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
