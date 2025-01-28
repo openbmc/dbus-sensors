@@ -50,6 +50,176 @@
       "message": "As above.",
       "revId": "1dfadca0264f64777f0797b0e87609a49b20634e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b1a5906_04ad5f62",
+        "filename": "src/psu/PSUSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-01-28T10:10:36Z",
+      "side": 1,
+      "message": "Can this \u0027bool debug\u0027 be removed?\nOr is it still used?",
+      "revId": "1dfadca0264f64777f0797b0e87609a49b20634e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80813c9e_717aa133",
+        "filename": "src/psu/PSUSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-01-28T10:10:36Z",
+      "side": 1,
+      "message": "can get rid of the if stmt here, lg2 does not need \u0027debug\u0027 variable",
+      "revId": "1dfadca0264f64777f0797b0e87609a49b20634e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6107482a_b532f9bb",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-01-28T10:10:36Z",
+      "side": 1,
+      "message": "can get rid of the if stmt here, lg2 does not need \u0027debug\u0027 variable",
+      "revId": "1dfadca0264f64777f0797b0e87609a49b20634e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b1f3c70_a5524d27",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-01-28T10:10:36Z",
+      "side": 1,
+      "message": "can get rid of the if stmt here, lg2 does not need \u0027debug\u0027 variable",
+      "revId": "1dfadca0264f64777f0797b0e87609a49b20634e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ac04d28_351d168e",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-01-28T10:10:36Z",
+      "side": 1,
+      "message": "can get rid of the if stmt here, lg2 does not need \u0027debug\u0027 variable",
+      "revId": "1dfadca0264f64777f0797b0e87609a49b20634e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bca85776_6e48414c",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 681,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-01-28T10:10:36Z",
+      "side": 1,
+      "message": "in the error case, we do not need to branch on \u0027debug\u0027",
+      "revId": "1dfadca0264f64777f0797b0e87609a49b20634e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a664019_e0203f2b",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 849,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-01-28T10:10:36Z",
+      "side": 1,
+      "message": "If it\u0027s a debug statement, use lg2::debug ?\nThen there is no need to branch on \u0027debug\u0027 variable.\nIn error case, use lg2::error.",
+      "revId": "1dfadca0264f64777f0797b0e87609a49b20634e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12536b0e_50b520d9",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 886,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-01-28T10:10:36Z",
+      "side": 1,
+      "message": "lg2::debug?",
+      "revId": "1dfadca0264f64777f0797b0e87609a49b20634e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f496fbb5_8d6eca71",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 912,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-01-28T10:10:36Z",
+      "side": 1,
+      "message": "lg2::debug, get rid of if (debug)?",
+      "revId": "1dfadca0264f64777f0797b0e87609a49b20634e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "689d24d9_21eba145",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 945,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-01-28T10:10:36Z",
+      "side": 1,
+      "message": "can get rid of the if stmt here, lg2 does not need \u0027debug\u0027 variable",
+      "revId": "1dfadca0264f64777f0797b0e87609a49b20634e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
