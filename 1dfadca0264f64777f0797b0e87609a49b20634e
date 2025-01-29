@@ -140,6 +140,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7b4d7409_55982f4d",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-01-29T09:46:46Z",
+      "side": 1,
+      "message": "Agree that it\u0027s ok to only use the patch to convert to use lg2.\n\nBut the \u0027bool debug\u0027 needs to go aswell (in this patch or a follow-up).\n\nOne of the main benefits of lg2 is that it has ```lg2::debug``` which avoids having to do a patch to enable debug logging.\n\nIf \u0027bool debug\u0027 is not removed then you can have situations where lg2::debug is guarded by a ``` if constexpr (debug)``` and then people need to **turn on debug logging AND write a patch**.\n\nWhich is worse than before.",
+      "parentUuid": "cfbb597d_4af6e5e3",
+      "revId": "1dfadca0264f64777f0797b0e87609a49b20634e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6b1f3c70_a5524d27",
         "filename": "src/psu/PSUSensorMain.cpp",
         "patchSetId": 5
