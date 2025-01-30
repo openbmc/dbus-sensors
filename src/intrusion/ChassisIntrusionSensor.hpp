@@ -8,8 +8,6 @@
 #include <memory>
 #include <string>
 
-namespace fs = std::filesystem;
-
 class ChassisIntrusionSensor
 {
   public:

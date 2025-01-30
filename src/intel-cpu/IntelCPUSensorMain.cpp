@@ -101,8 +101,6 @@ static constexpr const char* peciDevPath = "/sys/bus/peci/devices/";
 static constexpr const char* rescanPath = "/sys/bus/peci/rescan";
 static constexpr const unsigned int rankNumMax = 8;
 
-namespace fs = std::filesystem;
-
 static constexpr auto sensorTypes{std::to_array<const char*>({"XeonCPU"})};
 static constexpr auto hiddenProps{std::to_array<const char*>(
     {IntelCPUSensor::labelTcontrol, "Tthrottle", "Tjmax"})};
@@ -192,8 +190,8 @@ bool createSensors(boost::asio::io_context& io,
         return false;
     }
 
-    std::vector<fs::path> hwmonNamePaths;
-    findFiles(fs::path(peciDevPath),
+    std::vector<std::filesystem::path> hwmonNamePaths;
+    findFiles(std::filesystem::path(peciDevPath),
               R"(peci-\d+/\d+-.+/peci[-_].+/hwmon/hwmon\d+/name$)",
               hwmonNamePaths, 6);
     if (hwmonNamePaths.empty())
@@ -205,7 +203,7 @@ bool createSensors(boost::asio::io_context& io,
     boost::container::flat_set<std::string> scannedDirectories;
     boost::container::flat_set<std::string> createdSensors;
 
-    for (const fs::path& hwmonNamePath : hwmonNamePaths)
+    for (const std::filesystem::path& hwmonNamePath : hwmonNamePaths)
     {
         auto hwmonDirectory = hwmonNamePath.parent_path();
 
@@ -215,7 +213,7 @@ bool createSensors(boost::asio::io_context& io,
             continue; // already searched this path
         }
 
-        fs::path::iterator it = hwmonNamePath.begin();
+        std::filesystem::path::iterator it = hwmonNamePath.begin();
         std::advance(it, 6); // pick the 6th part for a PECI client device name
         std::string deviceName = *it;
 
@@ -307,7 +305,7 @@ bool createSensors(boost::asio::io_context& io,
             std::visit(VariantToUnsignedIntVisitor(), findCpuId->second);
 
         auto directory = hwmonNamePath.parent_path();
-        std::vector<fs::path> inputPaths;
+        std::vector<std::filesystem::path> inputPaths;
         if (!findFiles(directory, R"((temp|power)\d+_(input|average|cap)$)",
                        inputPaths, 0))
         {
@@ -504,11 +502,11 @@ void detectCpu(boost::asio::steady_timer& pingTimer,
         std::fstream rescan{rescanPath, std::ios::out};
         if (rescan.is_open())
         {
-            std::vector<fs::path> peciPaths;
+            std::vector<std::filesystem::path> peciPaths;
             std::ostringstream searchPath;
             searchPath << std::hex << "peci-" << config.bus << "/" << config.bus
                        << "-" << config.addr;
-            findFiles(fs::path(peciDevPath + searchPath.str()),
+            findFiles(std::filesystem::path(peciDevPath + searchPath.str()),
                       R"(peci_cpu.dimmtemp.+/hwmon/hwmon\d+/name$)", peciPaths,
                       3);
             if (!peciPaths.empty())
@@ -518,7 +516,7 @@ void detectCpu(boost::asio::steady_timer& pingTimer,
             }
             else
             {
-                findFiles(fs::path(peciDevPath + searchPath.str()),
+                findFiles(std::filesystem::path(peciDevPath + searchPath.str()),
                           R"(peci_cpu.cputemp.+/hwmon/hwmon\d+/name$)",
                           peciPaths, 3);
                 if (!peciPaths.empty())

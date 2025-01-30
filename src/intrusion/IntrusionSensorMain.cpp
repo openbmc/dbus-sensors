@@ -389,15 +389,16 @@ static bool initializeLanStatus(
     getNicNameInfo(conn);
 
     // get eth info from sysfs
-    std::vector<fs::path> files;
-    if (!findFiles(fs::path("/sys/class/net/"), R"(eth\d+/ifindex)", files))
+    std::vector<std::filesystem::path> files;
+    if (!findFiles(std::filesystem::path("/sys/class/net/"),
+                   R"(eth\d+/ifindex)", files))
     {
         std::cerr << "No eth in system\n";
         return false;
     }
 
     // iterate through all found eth files, and save ifindex
-    for (const fs::path& fileName : files)
+    for (const std::filesystem::path& fileName : files)
     {
         if (debugLanLeash)
         {

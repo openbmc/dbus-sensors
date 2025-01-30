@@ -54,8 +54,6 @@ static constexpr bool debug = false;
 static constexpr float pollRateDefault = 0.5;
 static constexpr float gpioBridgeSetupTimeDefault = 0.02;
 
-namespace fs = std::filesystem;
-
 static constexpr auto sensorTypes{std::to_array<const char*>({"ADC"})};
 static std::regex inputRegex(R"(in(\d+)_input)");
 
@@ -68,9 +66,9 @@ enum class UpdateType
 };
 
 // filter out adc from any other voltage sensor
-bool isAdc(const fs::path& parentPath)
+bool isAdc(const std::filesystem::path& parentPath)
 {
-    fs::path namePath = parentPath / "name";
+    std::filesystem::path namePath = parentPath / "name";
 
     std::ifstream nameFile(namePath);
     if (!nameFile.good())
@@ -99,9 +97,9 @@ void createSensors(
         [&io, &objectServer, &sensors, &dbusConnection, sensorsChanged,
          updateType](const ManagedObjectType& sensorConfigurations) {
             bool firstScan = sensorsChanged == nullptr;
-            std::vector<fs::path> paths;
-            if (!findFiles(fs::path("/sys/class/hwmon"), R"(in\d+_input)",
-                           paths))
+            std::vector<std::filesystem::path> paths;
+            if (!findFiles(std::filesystem::path("/sys/class/hwmon"),
+                           R"(in\d+_input)", paths))
             {
                 std::cerr << "No adc sensors in system\n";
                 return;

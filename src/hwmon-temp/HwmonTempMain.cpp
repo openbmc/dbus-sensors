@@ -62,8 +62,6 @@ static constexpr double minValueRelativeHumidity = 0;   // PercentRH
 static constexpr double maxValueTemperature = 127;      // DegreesC
 static constexpr double minValueTemperature = -128;     // DegreesC
 
-namespace fs = std::filesystem;
-
 static const I2CDeviceTypeMap sensorTypes{
     {"ADM1021", I2CDeviceType{"adm1021", true}},
     {"DPS310", I2CDeviceType{"dps310", false}},
@@ -293,12 +291,13 @@ void createSensors(
             // Other IIO devices look like this on sysfs:
             //     /sys/bus/iio/devices/iio:device1/in_temp_input
             //     /sys/bus/iio/devices/iio:device1/in_pressure_input
-            std::vector<fs::path> paths;
-            fs::path root("/sys/bus/iio/devices");
+            std::vector<std::filesystem::path> paths;
+            std::filesystem::path root("/sys/bus/iio/devices");
             findFiles(root, R"(in_temp\d*_(input|raw))", paths);
             findFiles(root, R"(in_pressure\d*_(input|raw))", paths);
             findFiles(root, R"(in_humidityrelative\d*_(input|raw))", paths);
-            findFiles(fs::path("/sys/class/hwmon"), R"(temp\d+_input)", paths);
+            findFiles(std::filesystem::path("/sys/class/hwmon"),
+                      R"(temp\d+_input)", paths);
 
             // iterate through all found temp and pressure sensors,
             // and try to match them with configuration
@@ -307,13 +306,13 @@ void createSensors(
                 std::smatch match;
                 const std::string pathStr = path.string();
                 auto directory = path.parent_path();
-                fs::path device;
+                std::filesystem::path device;
 
                 std::string deviceName;
                 std::error_code ec;
                 if (pathStr.starts_with("/sys/bus/iio/devices"))
                 {
-                    device = fs::canonical(directory, ec);
+                    device = std::filesystem::canonical(directory, ec);
                     if (ec)
                     {
                         std::cerr << "Fail to find device in path [" << pathStr
@@ -324,7 +323,8 @@ void createSensors(
                 }
                 else
                 {
-                    device = fs::canonical(directory / "device", ec);
+                    device =
+                        std::filesystem::canonical(directory / "device", ec);
                     if (ec)
                     {
                         std::cerr << "Fail to find device in path [" << pathStr
