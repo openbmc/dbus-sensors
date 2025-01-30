@@ -160,7 +160,14 @@ void IntelCPUSensor::setupRead()
     else
     {
         markAvailable(false);
-        updateValue(std::numeric_limits<double>::quiet_NaN());
+        if (show)
+        {
+            updateValue(std::numeric_limits<double>::quiet_NaN());
+        }
+        else
+        {
+            value = std::numeric_limits<double>::quiet_NaN();
+        }
         restartRead();
         return;
     }
