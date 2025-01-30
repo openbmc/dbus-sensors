@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1fa117df_772fd5dc",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-01-30T11:32:10Z",
+      "side": 1,
+      "message": "Why add the std::move here?\nCan it be a separate patch?",
+      "revId": "eb3d0501f3e384e8869180d892189b228a42acd6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18373bb4_6a8dd0f8",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-01-30T11:32:10Z",
+      "side": 1,
+      "message": "if i remember correctly, the generated code for xyz.openbmc_project.Logging.Entry\nshould define a constant for the interface name.",
+      "revId": "eb3d0501f3e384e8869180d892189b228a42acd6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e497bdf_43ab21d7",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-01-30T11:32:10Z",
+      "side": 1,
+      "message": "Why define an inline lambda here?\n\nCan this be a regular function?",
+      "revId": "eb3d0501f3e384e8869180d892189b228a42acd6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af5fd600_fc1d8f16",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-01-30T11:32:10Z",
+      "side": 1,
+      "message": "That\u0027s a really long switch statement, can this be done using a map, or a separate function?",
+      "range": {
+        "startLine": 541,
+        "startChar": 0,
+        "endLine": 600,
+        "endChar": 13
+      },
+      "revId": "eb3d0501f3e384e8869180d892189b228a42acd6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
