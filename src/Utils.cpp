@@ -56,8 +56,6 @@
 #include <variant>
 #include <vector>
 
-namespace fs = std::filesystem;
-
 static bool powerStatusOn = false;
 static bool biosHasPost = false;
 static bool manufacturingMode = false;
@@ -197,11 +195,12 @@ bool getSensorConfiguration(
     return true;
 }
 
-bool findFiles(const fs::path& dirPath, std::string_view matchString,
-               std::vector<fs::path>& foundPaths, int symlinkDepth)
+bool findFiles(const std::filesystem::path& dirPath,
+               std::string_view matchString,
+               std::vector<std::filesystem::path>& foundPaths, int symlinkDepth)
 {
     std::error_code ec;
-    if (!fs::exists(dirPath, ec))
+    if (!std::filesystem::exists(dirPath, ec))
     {
         return false;
     }
@@ -225,9 +224,10 @@ bool findFiles(const fs::path& dirPath, std::string_view matchString,
     {
         std::regex search(std::string{matchString});
         std::smatch match;
-        for (auto p = fs::recursive_directory_iterator(
-                 dirPath, fs::directory_options::follow_directory_symlink);
-             p != fs::recursive_directory_iterator(); ++p)
+        for (auto p = std::filesystem::recursive_directory_iterator(
+                 dirPath,
+                 std::filesystem::directory_options::follow_directory_symlink);
+             p != std::filesystem::recursive_directory_iterator(); ++p)
         {
             std::string path = p->path().string();
             if (!is_directory(*p))
@@ -247,13 +247,14 @@ bool findFiles(const fs::path& dirPath, std::string_view matchString,
 
     // The match string contains directories, verify each level of sub
     // directories
-    for (auto p = fs::recursive_directory_iterator(
-             dirPath, fs::directory_options::follow_directory_symlink);
-         p != fs::recursive_directory_iterator(); ++p)
+    for (auto p = std::filesystem::recursive_directory_iterator(
+             dirPath,
+             std::filesystem::directory_options::follow_directory_symlink);
+         p != std::filesystem::recursive_directory_iterator(); ++p)
     {
         std::vector<std::regex>::iterator matchPiece = matchPieces.begin();
-        fs::path::iterator pathIt = p->path().begin();
-        for (const fs::path& dir : dirPath)
+        std::filesystem::path::iterator pathIt = p->path().begin();
+        for (const std::filesystem::path& dir : dirPath)
         {
             if (dir.empty())
             {
@@ -602,7 +603,7 @@ void createAssociation(
 {
     if (association)
     {
-        fs::path p(path);
+        std::filesystem::path p(path);
 
         std::vector<Association> associations;
         associations.emplace_back("chassis", "all_sensors",
@@ -678,7 +679,8 @@ void createInventoryAssoc(
             // The parent of the config is always the inventory object, and may
             // be the associated chassis. If the parent is not itself a chassis
             // or board, the sensor is associated with the system chassis.
-            std::string parent = fs::path(path).parent_path().string();
+            std::string parent =
+                std::filesystem::path(path).parent_path().string();
             if (ec)
             {
                 // In case of error, set the default associations and
@@ -717,7 +719,7 @@ std::optional<double> readFile(const std::string& thresholdFile,
 }
 
 std::optional<std::tuple<std::string, std::string, std::string>>
-    splitFileName(const fs::path& filePath)
+    splitFileName(const std::filesystem::path& filePath)
 {
     if (filePath.has_filename())
     {

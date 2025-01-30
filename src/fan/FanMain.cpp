@@ -53,8 +53,6 @@
 #include <variant>
 #include <vector>
 
-namespace fs = std::filesystem;
-
 // The following two structures need to be consistent
 static auto sensorTypes{std::to_array<const char*>(
     {"AspeedFan", "I2CFan", "NuvotonFan", "HPEFan"})};
@@ -88,15 +86,15 @@ static const std::map<std::string, FanTypes> compatibleFanTypes = {
     // add compatible string here for new fan type
 };
 
-FanTypes getFanType(const fs::path& parentPath)
+FanTypes getFanType(const std::filesystem::path& parentPath)
 {
-    fs::path linkPath = parentPath / "of_node";
-    if (!fs::exists(linkPath))
+    std::filesystem::path linkPath = parentPath / "of_node";
+    if (!std::filesystem::exists(linkPath))
     {
         return FanTypes::i2c;
     }
 
-    std::string canonical = fs::canonical(linkPath);
+    std::string canonical = std::filesystem::canonical(linkPath);
     std::string compatiblePath = canonical + "/compatible";
     std::ifstream compatibleStream(compatiblePath);
 
@@ -122,7 +120,7 @@ FanTypes getFanType(const fs::path& parentPath)
 
     return FanTypes::i2c;
 }
-void enablePwm(const fs::path& filePath)
+void enablePwm(const std::filesystem::path& filePath)
 {
     std::fstream enableFile(filePath, std::ios::in | std::ios::out);
     if (!enableFile.good())
@@ -138,16 +136,18 @@ void enablePwm(const fs::path& filePath)
         enableFile << 1;
     }
 }
-bool findPwmfanPath(unsigned int configPwmfanIndex, fs::path& pwmPath)
+bool findPwmfanPath(unsigned int configPwmfanIndex,
+                    std::filesystem::path& pwmPath)
 {
     /* Search PWM since pwm-fan had separated
      * PWM from tach directory and 1 channel only*/
-    std::vector<fs::path> pwmfanPaths;
+    std::vector<std::filesystem::path> pwmfanPaths;
     std::string pwnfanDevName("pwm-fan");
 
     pwnfanDevName += std::to_string(configPwmfanIndex);
 
-    if (!findFiles(fs::path("/sys/class/hwmon"), R"(pwm\d+)", pwmfanPaths))
+    if (!findFiles(std::filesystem::path("/sys/class/hwmon"), R"(pwm\d+)",
+                   pwmfanPaths))
     {
         std::cerr << "No PWMs are found!\n";
         return false;
@@ -155,7 +155,8 @@ bool findPwmfanPath(unsigned int configPwmfanIndex, fs::path& pwmPath)
     for (const auto& path : pwmfanPaths)
     {
         std::error_code ec;
-        fs::path link = fs::read_symlink(path.parent_path() / "device", ec);
+        std::filesystem::path link =
+            std::filesystem::read_symlink(path.parent_path() / "device", ec);
 
         if (ec)
         {
@@ -172,13 +173,14 @@ bool findPwmfanPath(unsigned int configPwmfanIndex, fs::path& pwmPath)
     }
     return false;
 }
-bool findPwmPath(const fs::path& directory, unsigned int pwm, fs::path& pwmPath)
+bool findPwmPath(const std::filesystem::path& directory, unsigned int pwm,
+                 std::filesystem::path& pwmPath)
 {
     std::error_code ec;
 
     /* Assuming PWM file is appeared in the same directory as fanX_input */
     auto path = directory / ("pwm" + std::to_string(pwm + 1));
-    bool exists = fs::exists(path, ec);
+    bool exists = std::filesystem::exists(path, ec);
 
     if (ec || !exists)
     {
@@ -200,13 +202,13 @@ bool findPwmPath(const fs::path& directory, unsigned int pwm, fs::path& pwmPath)
 // enable. The function will locate the corresponding fanN_enable file if it
 // exists. Note that some drivers don't provide this file if the sensors are
 // always enabled.
-void enableFanInput(const fs::path& fanInputPath)
+void enableFanInput(const std::filesystem::path& fanInputPath)
 {
     std::error_code ec;
     std::string path(fanInputPath.string());
     boost::replace_last(path, "input", "enable");
 
-    bool exists = fs::exists(path, ec);
+    bool exists = std::filesystem::exists(path, ec);
     if (ec || !exists)
     {
         return;
@@ -291,8 +293,9 @@ void createSensors(
                                                     const ManagedObjectType&
                                                         sensorConfigurations) {
         bool firstScan = sensorsChanged == nullptr;
-        std::vector<fs::path> paths;
-        if (!findFiles(fs::path("/sys/class/hwmon"), R"(fan\d+_input)", paths))
+        std::vector<std::filesystem::path> paths;
+        if (!findFiles(std::filesystem::path("/sys/class/hwmon"),
+                       R"(fan\d+_input)", paths))
         {
             std::cerr << "No fan sensors in system\n";
             return;
@@ -308,7 +311,7 @@ void createSensors(
             std::regex_search(pathStr, match, inputRegex);
             std::string indexStr = *(match.begin() + 1);
 
-            fs::path directory = path.parent_path();
+            std::filesystem::path directory = path.parent_path();
             FanTypes fanType = getFanType(directory);
             std::string cfgIntf = configInterfaceName(sensorTypes[fanType]);
 
@@ -356,7 +359,8 @@ void createSensors(
                 if (fanType == FanTypes::i2c)
                 {
                     std::string deviceName =
-                        fs::read_symlink(directory / "device").filename();
+                        std::filesystem::read_symlink(directory / "device")
+                            .filename();
 
                     size_t bus = 0;
                     size_t addr = 0;
@@ -540,7 +544,7 @@ void createSensors(
 
             std::optional<std::string> led;
             std::string pwmName;
-            fs::path pwmPath;
+            std::filesystem::path pwmPath;
 
             // The Mutable parameter is optional, defaulting to false
             bool isValueMutable = false;
@@ -558,9 +562,10 @@ void createSensors(
                         continue;
                     }
 
-                    fs::path pwmEnableFile =
+                    std::filesystem::path pwmEnableFile =
                         "pwm" + std::to_string(pwm + 1) + "_enable";
-                    fs::path enablePath = pwmPath.parent_path() / pwmEnableFile;
+                    std::filesystem::path enablePath =
+                        pwmPath.parent_path() / pwmEnableFile;
                     enablePwm(enablePath);
 
                     /* use pwm name override if found in configuration else
@@ -624,7 +629,7 @@ void createSensors(
                 led);
             tachSensor->setupRead();
 
-            if (!pwmPath.empty() && fs::exists(pwmPath) &&
+            if (!pwmPath.empty() && std::filesystem::exists(pwmPath) &&
                 (pwmSensors.count(pwmPath) == 0U))
             {
                 pwmSensors[pwmPath] = std::make_unique<PwmSensor>(

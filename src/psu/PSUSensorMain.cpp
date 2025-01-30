@@ -154,8 +154,6 @@ struct DevParams
     std::string nameRegEx;
 };
 
-namespace fs = std::filesystem;
-
 static boost::container::flat_map<std::string, std::shared_ptr<PSUSensor>>
     sensors;
 static boost::container::flat_map<std::string, std::unique_ptr<PSUCombineEvent>>
@@ -203,8 +201,9 @@ void checkGroupEvent(const std::string& directory,
                      GroupEventPathList& groupEventPathList)
 {
     EventPathList pathList;
-    std::vector<fs::path> eventPaths;
-    if (!findFiles(fs::path(directory), R"(fan\d+_(alarm|fault))", eventPaths))
+    std::vector<std::filesystem::path> eventPaths;
+    if (!findFiles(std::filesystem::path(directory), R"(fan\d+_(alarm|fault))",
+                   eventPaths))
     {
         return;
     }
@@ -258,7 +257,7 @@ void checkEventLimits(const std::string& sensorPathStr,
 }
 
 static void checkPWMSensor(
-    const fs::path& sensorPath, std::string& labelHead,
+    const std::filesystem::path& sensorPath, std::string& labelHead,
     const std::string& interfacePath,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     sdbusplus::asio::object_server& objectServer, const std::string& psuName)
@@ -310,9 +309,10 @@ static void createSensorsCallback(
 
     auto devices = instantiateDevices(sensorConfigs, sensors, sensorTypes);
 
-    std::vector<fs::path> pmbusPaths;
-    findFiles(fs::path("/sys/bus/iio/devices"), "name", pmbusPaths);
-    findFiles(fs::path("/sys/class/hwmon"), "name", pmbusPaths);
+    std::vector<std::filesystem::path> pmbusPaths;
+    findFiles(std::filesystem::path("/sys/bus/iio/devices"), "name",
+              pmbusPaths);
+    findFiles(std::filesystem::path("/sys/class/hwmon"), "name", pmbusPaths);
     if (pmbusPaths.empty())
     {
         std::cerr << "No PSU sensors in system\n";
@@ -358,7 +358,8 @@ static void createSensorsCallback(
         std::string deviceName;
         if (directory.parent_path() == "/sys/class/hwmon")
         {
-            std::string devicePath = fs::canonical(directory / "device");
+            std::string devicePath =
+                std::filesystem::canonical(directory / "device");
             std::smatch match;
             // Find /i2c-<bus>/<bus>-<address> match in device path
             std::regex_search(devicePath, match, i2cDevRegex);
@@ -373,7 +374,8 @@ static void createSensorsCallback(
         }
         else
         {
-            deviceName = fs::canonical(directory).parent_path().stem();
+            deviceName =
+                std::filesystem::canonical(directory).parent_path().stem();
             devType = DevTypes::IIO;
         }
 
@@ -530,7 +532,7 @@ static void createSensorsCallback(
             findPSUName = baseConfig->find("Name" + std::to_string(i++));
         } while (findPSUName != baseConfig->end());
 
-        std::vector<fs::path> sensorPaths;
+        std::vector<std::filesystem::path> sensorPaths;
         if (!findFiles(directory, devParamMap[devType].matchRegEx, sensorPaths,
                        0))
         {

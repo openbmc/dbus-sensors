@@ -441,9 +441,10 @@ ChassisIntrusionHwmonSensor::ChassisIntrusionHwmonSensor(
     ChassisIntrusionSensor(autoRearm, objServer),
     mHwmonName(std::move(hwmonName)), mPollTimer(io)
 {
-    std::vector<fs::path> paths;
+    std::vector<std::filesystem::path> paths;
 
-    if (!findFiles(fs::path("/sys/class/hwmon"), mHwmonName, paths))
+    if (!findFiles(std::filesystem::path("/sys/class/hwmon"), mHwmonName,
+                   paths))
     {
         throw std::invalid_argument("Failed to find hwmon path in sysfs\n");
     }
