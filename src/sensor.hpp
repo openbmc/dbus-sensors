@@ -6,12 +6,21 @@
 #include "Thresholds.hpp"
 #include "Utils.hpp"
 
+#include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/exception.hpp>
 
+#include <array>
+#include <cerrno>
+#include <cmath>
+#include <cstddef>
+#include <cstdlib>
+#include <functional>
+#include <iostream>
 #include <limits>
 #include <memory>
 #include <string>
+#include <utility>
 #include <vector>
 
 constexpr size_t sensorFailedPollTimeMs = 5000;

@@ -2,6 +2,14 @@
 
 #include "MCTPEndpoint.hpp"
 
+#include <algorithm>
+#include <format>
+#include <map>
+#include <memory>
+#include <optional>
+#include <string>
+#include <system_error>
+
 class MCTPDeviceRepository
 {
   private:

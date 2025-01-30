@@ -1,9 +1,13 @@
 #pragma once
 
-#include "sensor.hpp"
-
+#include <boost/asio/io_context.hpp>
+#include <boost/asio/posix/stream_descriptor.hpp>
+#include <boost/asio/steady_timer.hpp>
 #include <gpiod.hpp>
 #include <phosphor-logging/lg2.hpp>
+
+#include <memory>
+#include <string>
 
 class PresenceGpio
 {

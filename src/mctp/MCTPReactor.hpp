@@ -4,6 +4,11 @@
 #include "MCTPEndpoint.hpp"
 #include "Utils.hpp"
 
+#include <cstdint>
+#include <functional>
+#include <memory>
+#include <optional>
+#include <set>
 #include <string>
 #include <vector>
 
