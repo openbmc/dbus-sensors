@@ -2,11 +2,25 @@
 
 #include "Utils.hpp"
 
-#include <boost/container/flat_map.hpp>
+#include <strings.h>
 
+#include <boost/algorithm/string/replace.hpp>
+#include <boost/container/flat_map.hpp>
+#include <sdbusplus/asio/connection.hpp>
+#include <sdbusplus/bus/match.hpp>
+#include <sdbusplus/message.hpp>
+
+#include <cstddef>
+#include <cstdint>
 #include <functional>
+#include <iostream>
+#include <memory>
 #include <optional>
-#include <string_view>
+#include <stdexcept>
+#include <string>
+#include <utility>
+#include <variant>
+#include <vector>
 
 struct I2CDeviceType
 {

@@ -1,17 +1,22 @@
 #pragma once
 
 #include "DeviceMgmt.hpp"
-#include "PwmSensor.hpp"
 #include "Thresholds.hpp"
+#include "Utils.hpp"
 #include "sensor.hpp"
 
+#include <boost/asio/io_context.hpp>
 #include <boost/asio/random_access_file.hpp>
+#include <boost/asio/steady_timer.hpp>
+#include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
 #include <array>
+#include <cstddef>
 #include <memory>
 #include <string>
 #include <utility>
+#include <vector>
 
 class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
 {

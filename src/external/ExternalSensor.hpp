@@ -1,11 +1,15 @@
 #pragma once
 
 #include "Thresholds.hpp"
+#include "Utils.hpp"
 #include "sensor.hpp"
 
+#include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
 #include <chrono>
+#include <functional>
+#include <memory>
 #include <string>
 #include <vector>
 

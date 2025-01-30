@@ -1,12 +1,18 @@
 #pragma once
+#include "Thresholds.hpp"
+
 #include <boost/container/flat_map.hpp>
+#include <sdbusplus/asio/connection.hpp>
+#include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/bus/match.hpp>
 #include <sensor.hpp>
 
 #include <chrono>
+#include <cstdint>
 #include <limits>
 #include <memory>
 #include <string>
+#include <utility>
 #include <vector>
 
 struct ExitAirTempSensor;

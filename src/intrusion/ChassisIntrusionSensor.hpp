@@ -1,10 +1,12 @@
 #pragma once
 
 #include <boost/asio/io_context.hpp>
+#include <boost/asio/posix/stream_descriptor.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <gpiod.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
+#include <cstddef>
 #include <memory>
 #include <string>
 

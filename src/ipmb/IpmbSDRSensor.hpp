@@ -1,6 +1,13 @@
 #pragma once
 
-#include <sensor.hpp>
+#include <sdbusplus/asio/connection.hpp>
+
+#include <cstdint>
+#include <map>
+#include <memory>
+#include <string>
+#include <tuple>
+#include <vector>
 
 using IpmbMethodType =
     std::tuple<int, uint8_t, uint8_t, uint8_t, uint8_t, std::vector<uint8_t>>;

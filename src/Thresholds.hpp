@@ -4,8 +4,12 @@
 
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/steady_timer.hpp>
-#include <nlohmann/json.hpp>
+#include <sdbusplus/asio/connection.hpp>
 
+#include <array>
+#include <cstddef>
+#include <cstdint>
+#include <limits>
 #include <list>
 #include <memory>
 #include <string>

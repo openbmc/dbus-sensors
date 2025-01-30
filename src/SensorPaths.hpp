@@ -1,7 +1,6 @@
 #pragma once
 
 #include <cstring>
-#include <regex>
 #include <string>
 
 namespace sensor_paths
