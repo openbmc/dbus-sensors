@@ -151,6 +151,30 @@
       },
       "revId": "eb3d0501f3e384e8869180d892189b228a42acd6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63a51c17_5f02eafd",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-31T17:26:31Z",
+      "side": 1,
+      "message": "Since these are almost identical except for the enum values and type, you might be able to make a template function for a lot of this.\n\n```\nassertThreshold\u003cLevel::SOFTSHUTDOWN, Errors::ReadingAboveUpperSoftShutdownThreshold, Errors::ReadingBelowLowerSoftShutdownThreshold\u003e(direction, threhsold-\u003eassertedLog);\n```\n\nIf you structure it right you might just be able to make N calls to this template and not worry about it being a switch-case statement.",
+      "parentUuid": "23df9b56_6b8e25fa",
+      "range": {
+        "startLine": 541,
+        "startChar": 0,
+        "endLine": 600,
+        "endChar": 13
+      },
+      "revId": "eb3d0501f3e384e8869180d892189b228a42acd6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
