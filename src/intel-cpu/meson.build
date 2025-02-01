@@ -7,13 +7,7 @@ executable(
     'intelcpusensor',
     'IntelCPUSensorMain.cpp',
     'IntelCPUSensor.cpp',
-    dependencies: [
-        default_deps,
-        gpiodcxx,
-        thresholds_dep,
-        utils_dep,
-        peci_dep,
-    ],
+    dependencies: [default_deps, gpiodcxx, thresholds_dep, utils_dep, peci_dep],
     include_directories: src_inc,
     install: true,
 )

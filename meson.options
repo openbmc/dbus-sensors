@@ -1,15 +1,85 @@
-option('adc', type: 'feature', value: 'enabled', description: 'Enable ADC sensor.',)
-option('intel-cpu', type: 'feature', value: 'enabled', description: 'Enable CPU sensor.',)
-option('exit-air', type: 'feature', value: 'enabled', description: 'Enable exit air sensor.',)
-option('fan', type: 'feature', value: 'enabled', description: 'Enable fan sensor.',)
-option('hwmon-temp', type: 'feature', value: 'enabled', description: 'Enable HWMON temperature sensor.',)
-option('intrusion', type: 'feature', value: 'enabled', description: 'Enable intrusion sensor.',)
-option('ipmb', type: 'feature', value: 'enabled', description: 'Enable IPMB sensor.',)
-option('mctp', type: 'feature', value: 'enabled', description: 'Enable MCTP endpoint management')
-option('mcu', type: 'feature', value: 'enabled', description: 'Enable MCU sensor.',)
-option('nvme', type: 'feature', value: 'enabled', description: 'Enable NVMe sensor.',)
-option('psu', type: 'feature', value: 'enabled', description: 'Enable PSU sensor.',)
-option('external', type: 'feature', value: 'enabled', description: 'Enable External sensor.',)
-option('tests', type: 'feature', value: 'enabled', description: 'Build tests.',)
-option('validate-unsecure-feature', type : 'feature', value : 'disabled', description : 'Enables unsecure features required by validation. Note: mustbe turned off for production images.',)
-option('insecure-sensor-override', type : 'feature', value : 'disabled', description : 'Enables Sensor override feature without any check.',)
+option(
+    'adc',
+    type: 'feature',
+    value: 'enabled',
+    description: 'Enable ADC sensor.',
+)
+option(
+    'intel-cpu',
+    type: 'feature',
+    value: 'enabled',
+    description: 'Enable CPU sensor.',
+)
+option(
+    'exit-air',
+    type: 'feature',
+    value: 'enabled',
+    description: 'Enable exit air sensor.',
+)
+option(
+    'fan',
+    type: 'feature',
+    value: 'enabled',
+    description: 'Enable fan sensor.',
+)
+option(
+    'hwmon-temp',
+    type: 'feature',
+    value: 'enabled',
+    description: 'Enable HWMON temperature sensor.',
+)
+option(
+    'intrusion',
+    type: 'feature',
+    value: 'enabled',
+    description: 'Enable intrusion sensor.',
+)
+option(
+    'ipmb',
+    type: 'feature',
+    value: 'enabled',
+    description: 'Enable IPMB sensor.',
+)
+option(
+    'mctp',
+    type: 'feature',
+    value: 'enabled',
+    description: 'Enable MCTP endpoint management',
+)
+option(
+    'mcu',
+    type: 'feature',
+    value: 'enabled',
+    description: 'Enable MCU sensor.',
+)
+option(
+    'nvme',
+    type: 'feature',
+    value: 'enabled',
+    description: 'Enable NVMe sensor.',
+)
+option(
+    'psu',
+    type: 'feature',
+    value: 'enabled',
+    description: 'Enable PSU sensor.',
+)
+option(
+    'external',
+    type: 'feature',
+    value: 'enabled',
+    description: 'Enable External sensor.',
+)
+option('tests', type: 'feature', value: 'enabled', description: 'Build tests.')
+option(
+    'validate-unsecure-feature',
+    type: 'feature',
+    value: 'disabled',
+    description: 'Enables unsecure features required by validation. Note: mustbe turned off for production images.',
+)
+option(
+    'insecure-sensor-override',
+    type: 'feature',
+    value: 'disabled',
+    description: 'Enables Sensor override feature without any check.',
+)

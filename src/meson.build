@@ -27,11 +27,7 @@ thresholds_dep = declare_dependency(
 
 utils_a = static_library(
     'utils_a',
-    [
-        'FileHandle.cpp',
-        'SensorPaths.cpp',
-        'Utils.cpp',
-    ],
+    ['FileHandle.cpp', 'SensorPaths.cpp', 'Utils.cpp'],
     dependencies: default_deps,
 )
 
@@ -43,9 +39,7 @@ utils_dep = declare_dependency(
 
 devicemgmt_a = static_library(
     'devicemgmt_a',
-    [
-        'DeviceMgmt.cpp',
-    ],
+    ['DeviceMgmt.cpp'],
     dependencies: default_deps,
 )
 
