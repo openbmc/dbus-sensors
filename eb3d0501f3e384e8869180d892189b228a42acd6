@@ -160,6 +160,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4113a77d_e8ddc72f",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1000212
+      },
+      "writtenOn": "2025-02-01T02:11:08Z",
+      "side": 1,
+      "message": "On second thoughts, I realized I could just use std::find_if instead of rolling my own.",
+      "parentUuid": "79ab971e_6ab4c4ca",
+      "revId": "eb3d0501f3e384e8869180d892189b228a42acd6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "af5fd600_fc1d8f16",
@@ -245,6 +263,30 @@
       "side": 1,
       "message": "Moved it to helper function. Im sure it can be prettier.",
       "parentUuid": "63a51c17_5f02eafd",
+      "range": {
+        "startLine": 541,
+        "startChar": 0,
+        "endLine": 600,
+        "endChar": 13
+      },
+      "revId": "eb3d0501f3e384e8869180d892189b228a42acd6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6dc9f497_b3f5e3b3",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 1000212
+      },
+      "writtenOn": "2025-02-01T02:11:08Z",
+      "side": 1,
+      "message": "Thanks Patrick for the suggestion. Was able to make it much more easier to read using templates.",
+      "parentUuid": "e58e358e_0935e7f7",
       "range": {
         "startLine": 541,
         "startChar": 0,
