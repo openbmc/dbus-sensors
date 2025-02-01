@@ -347,9 +347,9 @@ bool readingStateGood(const PowerState& powerState)
     return true;
 }
 
-static void
-    getPowerStatus(const std::shared_ptr<sdbusplus::asio::connection>& conn,
-                   size_t retries = 2)
+static void getPowerStatus(
+    const std::shared_ptr<sdbusplus::asio::connection>& conn,
+    size_t retries = 2)
 {
     conn->async_method_call(
         [conn, retries](boost::system::error_code ec,
@@ -380,9 +380,9 @@ static void
         power::interface, power::property);
 }
 
-static void
-    getPostStatus(const std::shared_ptr<sdbusplus::asio::connection>& conn,
-                  size_t retries = 2)
+static void getPostStatus(
+    const std::shared_ptr<sdbusplus::asio::connection>& conn,
+    size_t retries = 2)
 {
     conn->async_method_call(
         [conn, retries](boost::system::error_code ec,
@@ -415,9 +415,9 @@ static void
         post::interface, post::property);
 }
 
-static void
-    getChassisStatus(const std::shared_ptr<sdbusplus::asio::connection>& conn,
-                     size_t retries = 2)
+static void getChassisStatus(
+    const std::shared_ptr<sdbusplus::asio::connection>& conn,
+    size_t retries = 2)
 {
     conn->async_method_call(
         [conn, retries](boost::system::error_code ec,
@@ -718,8 +718,8 @@ std::optional<double> readFile(const std::string& thresholdFile,
     return std::nullopt;
 }
 
-std::optional<std::tuple<std::string, std::string, std::string>>
-    splitFileName(const std::filesystem::path& filePath)
+std::optional<std::tuple<std::string, std::string, std::string>> splitFileName(
+    const std::filesystem::path& filePath)
 {
     if (filePath.has_filename())
     {
