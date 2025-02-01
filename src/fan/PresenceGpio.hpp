@@ -87,7 +87,7 @@ class PollingPresenceGpio :
   private:
     boost::asio::steady_timer pollTimer;
 
-    static inline void
-        pollTimerHandler(const std::weak_ptr<PollingPresenceGpio>& weakRef,
-                         const boost::system::error_code& ec);
+    static inline void pollTimerHandler(
+        const std::weak_ptr<PollingPresenceGpio>& weakRef,
+        const boost::system::error_code& ec);
 };
