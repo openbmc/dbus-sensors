@@ -1634,6 +1634,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0ad43994_4a7bf6ab",
+        "filename": "src/LeakDetection/LeakDetector.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-02-04T08:03:53Z",
+      "side": 1,
+      "message": "I do see the same in auto generated PDI code, for example class Detector in below code.\n\nnamespace details\n{\n// forward declaration\ntemplate \u003ctypename Instance, typename Server\u003e\nclass Detector;\n} // namespace details\n\ntemplate \u003ctypename Instance, typename Server \u003d void\u003e\nstruct Detector :\n    public std::conditional_t\u003c\n        std::is_void_v\u003cServer\u003e,\n        sdbusplus::async::server_t\u003cInstance, details::Detector\u003e,\n        details::Detector\u003cInstance, Server\u003e\u003e\n{\n\nPlease let me know if there are any concerns, otherwise i will mark this as resolved.",
+      "parentUuid": "e6a586bb_8fb6b2c5",
+      "range": {
+        "startLine": 24,
+        "startChar": 8,
+        "endLine": 24,
+        "endChar": 20
+      },
+      "revId": "7ff3fb07184f91394e93d65e2d961231d6f3c212",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8eee0500_9146411f",
         "filename": "src/LeakDetection/LeakDetector.hpp",
         "patchSetId": 5
