@@ -118,6 +118,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "720a3063_fc0939a8",
+        "filename": "src/CableMonitor/CableMonitor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-02-04T08:05:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc0000cd_cdd95e6e",
+      "revId": "eb9da7f1e7dcdc8d4f4f855c55cb7b9b95f54fee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "66561c0a_995b20bd",
@@ -184,6 +202,24 @@
       "side": 1,
       "message": "I suppose here you are referring to adding PDI as a dependency. If yes, then as per our discussion on other threads - Meta will be contributing new daemons based on coroutines and PDI. I have also covered some details on this thread about migration https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/75617/comment/43f98d8e_95ea172f/.",
       "parentUuid": "44736899_b8679333",
+      "revId": "eb9da7f1e7dcdc8d4f4f855c55cb7b9b95f54fee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc89cabf_cc8e8b22",
+        "filename": "subprojects/phosphor-dbus-interfaces.wrap",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-02-04T08:05:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc628152_900b2674",
       "revId": "eb9da7f1e7dcdc8d4f4f855c55cb7b9b95f54fee",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
