@@ -144,6 +144,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f1eb4b9_bea231ad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-02-04T07:57:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "111ea01e_3124dbd9",
+      "revId": "7ff3fb07184f91394e93d65e2d961231d6f3c212",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4dd7e73a_859aec2b",
@@ -1160,6 +1178,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "61cfbef8_d05e72a3",
+        "filename": "src/LeakDetection/LeakDetector.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-02-04T07:57:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e74e2a5e_10ff9a7e",
+      "revId": "7ff3fb07184f91394e93d65e2d961231d6f3c212",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b8bf6bb8_21bbb5a8",
@@ -1398,6 +1434,30 @@
       "side": 1,
       "message": "Isn\u0027t that opposite of how things like fan control work?  Given there\u0027s probably a lot of options for leak detect backends, we don\u0027t want them all duplicating the \"Shutdown when this happens\" logic, right?\n\nIf that\u0027s the last thing, I guess it\u0027s fine, but it seems like it would cause duplication.",
       "parentUuid": "041886ba_d2e2431e",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 13
+      },
+      "revId": "7ff3fb07184f91394e93d65e2d961231d6f3c212",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7ab71d9_18a06076",
+        "filename": "src/LeakDetection/LeakDetector.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-02-04T07:57:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a49d2fdd_cad44da6",
       "range": {
         "startLine": 112,
         "startChar": 0,
