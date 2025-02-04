@@ -16,6 +16,46 @@
       "message": "I believe I have addressed all the comments. I also ensured I re-run the tests to make sure I did not introduce any regressions since a good chunk of the code changed.",
       "revId": "1b7b573302b1a0ddfebd2323b8098258d9fd8b42",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "303614d6_3f9d8d9c",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-02-04T09:42:40Z",
+      "side": 1,
+      "message": "Are we resolving an event log entry here?\nWhy?\n\nI thought resolving event logs is a manual process.",
+      "revId": "1b7b573302b1a0ddfebd2323b8098258d9fd8b42",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "232e806e_42031131",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-02-04T09:42:40Z",
+      "side": 1,
+      "message": "nit: invert condition and return early to reduce the nesting",
+      "range": {
+        "startLine": 488,
+        "startChar": 1,
+        "endLine": 489,
+        "endChar": 5
+      },
+      "revId": "1b7b573302b1a0ddfebd2323b8098258d9fd8b42",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
