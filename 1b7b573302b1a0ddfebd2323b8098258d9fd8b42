@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fa9430a8_787113f7",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-02-04T17:57:01Z",
+      "side": 1,
+      "message": "whichThreshold was in sensor struct, right? Can it be safely moved here?",
+      "range": {
+        "startLine": 251,
+        "startChar": 0,
+        "endLine": 251,
+        "endChar": 44
+      },
+      "revId": "1b7b573302b1a0ddfebd2323b8098258d9fd8b42",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "303614d6_3f9d8d9c",
         "filename": "src/Thresholds.cpp",
         "patchSetId": 17
@@ -55,6 +78,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0c70a32d_24ff3df0",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-02-04T17:57:01Z",
+      "side": 1,
+      "message": "nit: to be consistent with this package \"\\n\";",
+      "range": {
+        "startLine": 480,
+        "startChar": 42,
+        "endLine": 480,
+        "endChar": 51
+      },
+      "revId": "1b7b573302b1a0ddfebd2323b8098258d9fd8b42",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "232e806e_42031131",
         "filename": "src/Thresholds.cpp",
         "patchSetId": 17
@@ -71,6 +117,52 @@
         "startChar": 1,
         "endLine": 489,
         "endChar": 5
+      },
+      "revId": "1b7b573302b1a0ddfebd2323b8098258d9fd8b42",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a8e858c_6f0c5046",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-02-04T17:57:01Z",
+      "side": 1,
+      "message": "why is this an error for \"Unable to find threshold\"?",
+      "range": {
+        "startLine": 551,
+        "startChar": 51,
+        "endLine": 551,
+        "endChar": 75
+      },
+      "revId": "1b7b573302b1a0ddfebd2323b8098258d9fd8b42",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ea69391_9d96950b",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-02-04T17:57:01Z",
+      "side": 1,
+      "message": "nit: \\n\";",
+      "range": {
+        "startLine": 553,
+        "startChar": 46,
+        "endLine": 553,
+        "endChar": 60
       },
       "revId": "1b7b573302b1a0ddfebd2323b8098258d9fd8b42",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
