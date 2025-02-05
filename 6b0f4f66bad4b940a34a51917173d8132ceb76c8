@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "75416f58_cdd7ae86",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-02-05T23:20:34Z",
+      "side": 1,
+      "message": "It\u0027s quite helpful if you prefix the subject with the affected component, e.g:\n\n```\nDeviceMgmt: add driver binding support for existing devices\n```",
+      "revId": "6b0f4f66bad4b940a34a51917173d8132ceb76c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4eadfd6_d018093e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-02-05T23:20:34Z",
+      "side": 1,
+      "message": "What does this mean?",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 12
+      },
+      "revId": "6b0f4f66bad4b940a34a51917173d8132ceb76c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "fb36d024_b20b70cd",
@@ -14,6 +54,46 @@
       "writtenOn": "2025-02-05T21:39:15Z",
       "side": 1,
       "message": "This solves for situations where a device is added to I2C bus from outside userspace, but the device hasn\u0027t been bound to a driver yet.",
+      "revId": "6b0f4f66bad4b940a34a51917173d8132ceb76c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f44e5212_514d1fab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-02-05T23:20:34Z",
+      "side": 1,
+      "message": "Hi Christopher, do you mind looking over the following change?\n\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/75497",
+      "revId": "6b0f4f66bad4b940a34a51917173d8132ceb76c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0238da0_714f72ac",
+        "filename": "src/DeviceMgmt.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-02-05T23:20:34Z",
+      "side": 1,
+      "message": "We\u0027ve already taken an early exit following the test for the inverse condition above, so this is always true, right?",
+      "range": {
+        "startLine": 125,
+        "startChar": 8,
+        "endLine": 125,
+        "endChar": 29
+      },
       "revId": "6b0f4f66bad4b940a34a51917173d8132ceb76c8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
