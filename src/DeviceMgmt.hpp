@@ -49,6 +49,7 @@ struct I2CDeviceParams
     uint64_t address;
 
     bool devicePresent() const;
+    bool deviceReady() const;
     bool deviceStatic() const;
 };
 
@@ -155,7 +156,7 @@ boost::container::flat_map<std::string,
                 // not really usable).  To be on the safe side, instantiate a
                 // temporary device that's immediately destroyed so as to
                 // ensure that we end up with a fresh instance of it.
-                if (params->devicePresent())
+                if (params->deviceReady())
                 {
                     std::cerr << "Clearing out previous instance for "
                               << path.str << "\n";
