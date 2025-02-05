@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5880f3f1_19e6d75b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-02-05T23:14:34Z",
+      "side": 1,
+      "message": "Fix has now been confirmed as working on a live system running OBMC and hardware that triggers the situation.",
+      "revId": "06db40d31b01a320770093ebb607b1baf458b8e7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
