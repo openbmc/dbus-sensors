@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3a38413_a922bd01",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-02-05T23:38:16Z",
+      "side": 1,
+      "message": "Good point. I\u0027ll do that for my other (related) PRs.",
+      "parentUuid": "75416f58_cdd7ae86",
+      "revId": "6b0f4f66bad4b940a34a51917173d8132ceb76c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a4eadfd6_d018093e",
@@ -31,6 +49,30 @@
       "writtenOn": "2025-02-05T23:20:34Z",
       "side": 1,
       "message": "What does this mean?",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 12
+      },
+      "revId": "6b0f4f66bad4b940a34a51917173d8132ceb76c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "164818d6_023431b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-02-05T23:38:16Z",
+      "side": 1,
+      "message": "In HPE\u0027s case, there\u0027s a GXP-I2C driver that scans each bus, adding sensor devices from outside userspace -- which guarantees write attempts to delete_device from userspace for affected devices will fail.\n\nI would need to confirmed specifics on any GXP-I2C driver behaviors, but at the end of the day, we\u0027ve got devices added from outside userspace that add_device and delete_device sysfs calls won\u0027t work on as a result.",
+      "parentUuid": "a4eadfd6_d018093e",
       "range": {
         "startLine": 26,
         "startChar": 0,
@@ -88,6 +130,30 @@
       "writtenOn": "2025-02-05T23:20:34Z",
       "side": 1,
       "message": "We\u0027ve already taken an early exit following the test for the inverse condition above, so this is always true, right?",
+      "range": {
+        "startLine": 125,
+        "startChar": 8,
+        "endLine": 125,
+        "endChar": 29
+      },
+      "revId": "6b0f4f66bad4b940a34a51917173d8132ceb76c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c193808_cce0b21d",
+        "filename": "src/DeviceMgmt.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-02-05T23:38:16Z",
+      "side": 1,
+      "message": "This was mostly chosen by the CI tool rules.\n\nMy original setup was something closer to:\nif (deviceReady)\n.. //do nothing\nelse if (devicePresent)\n.. // bind driver\nelse if (!devicePresent)\n.. // add_device -- original behavior",
+      "parentUuid": "a0238da0_714f72ac",
       "range": {
         "startLine": 125,
         "startChar": 8,
