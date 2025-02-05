@@ -135,6 +135,30 @@
       },
       "revId": "0b649009637970413129ef162c4ff1cafbd1eb0f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1008cd6_f59b2af0",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2025-02-05T09:09:08Z",
+      "side": 1,
+      "message": "\u003e 2. We expect readState to be Always. The getPowerState function uses auto findPowerState \u003d cfg.find(\"PowerState\"), which means it will return Always if \"PowerState\" is not explicitly set.\n\nIf the configuration is as follows:\n```\n\"in0_Name\": \"MB_P12V_MEM0_VOLT_V\",\n\"in0_PowerState\": \"PowerOn\",\n\"in1_Name\": \"MB_P5V_STBY_VOLT_V\",\n\"in2_Name\": \"MB_PVDD33_S5_VOLT_V\",\n\"in3_Name\": \"MB_P1V8_STBY_VOLT_V\",\n\"in4_Name\": \"MB_P12V_MEM1_VOLT_V\",\n\"in5_Name\": \"MB_P1V8_CPU_RT_VOLT_V\",\n```\nCan I understand it this way, without this patch:\n```\nin0_PowerState \u003d On\nin1_PowerState \u003d On\nin2_PowerState \u003d On\n...\n```\nWith this patch:\n```\nin0_PowerState \u003d On\nin1_PowerState \u003d Always\nin2_PowerState \u003d Always\n...\n```\nIs this what you think? If yes, as I said above, even if else is entered, readState is still On\n*even if it enters else, I think readState is still On.*\n\nMaybe I am wrong, @Patrick, could you please take a look?",
+      "parentUuid": "1465b2cf_4e397d1e",
+      "range": {
+        "startLine": 803,
+        "startChar": 16,
+        "endLine": 803,
+        "endChar": 55
+      },
+      "revId": "0b649009637970413129ef162c4ff1cafbd1eb0f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
