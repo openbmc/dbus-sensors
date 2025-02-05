@@ -63,6 +63,30 @@
       },
       "revId": "0b649009637970413129ef162c4ff1cafbd1eb0f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb1931d8_cb2d42b0",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 1001906
+      },
+      "writtenOn": "2025-02-05T06:33:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e559e556_7bc5f87e",
+      "range": {
+        "startLine": 803,
+        "startChar": 16,
+        "endLine": 803,
+        "endChar": 55
+      },
+      "revId": "0b649009637970413129ef162c4ff1cafbd1eb0f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
