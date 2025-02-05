@@ -193,12 +193,33 @@ int I2CDevice::destroy() const
 
     dtor << params.address << "\n";
     dtor.flush();
+
     if (!dtor.good())
     {
-        // Writes to delete_device will fail for devices added to bus by a
-        // driver instead a daemon
-        std::cerr << "Failed to write to " << dtorPath << "\n";
-        return -1;
+        // Writing to delete_device will fail for devices added to bus by a
+        // driver instead a daemon In that case, unbind any driver for the
+        // device instead
+
+        fs::path unbindPath =
+            i2cBusPath(params.bus) / deviceDirName(params.bus, params.address) /
+            "driver/unbind";
+        std::ofstream unbind(unbindPath);
+        if (!unbind.good())
+        {
+            // indicates there is no bound driver to unbind
+            return 0;
+        }
+
+        dtor << deviceDirName(params.bus, params.address) << "\n";
+        unbind.flush();
+        if (!unbind.good())
+        {
+            std::cerr << "Failed to writes to " << unbindPath << " and to "
+                      << dtorPath << "\n";
+            return -1;
+        }
+
+        return 0;
     }
 
     return 0;
