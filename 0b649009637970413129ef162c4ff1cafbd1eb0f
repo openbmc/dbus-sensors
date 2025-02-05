@@ -87,6 +87,30 @@
       },
       "revId": "0b649009637970413129ef162c4ff1cafbd1eb0f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f6cfe18_edbb7baf",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2025-02-05T07:11:55Z",
+      "side": 1,
+      "message": "There are two questions here:\n1. Does `inX_PowerState` refer to `in1_PowerState` or `in2_PowerState` right?\n2. If in1_PowerState is not configured, should we expect readState to be `On` or `Always`? If it is `Always`, from the current logic, even if it enters else, I think readState is still `On`.\n\nAlso, Please do not click `Done`",
+      "parentUuid": "eb1931d8_cb2d42b0",
+      "range": {
+        "startLine": 803,
+        "startChar": 16,
+        "endLine": 803,
+        "endChar": 55
+      },
+      "revId": "0b649009637970413129ef162c4ff1cafbd1eb0f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
