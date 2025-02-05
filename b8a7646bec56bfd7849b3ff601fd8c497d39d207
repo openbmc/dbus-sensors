@@ -22,6 +22,30 @@
       },
       "revId": "b8a7646bec56bfd7849b3ff601fd8c497d39d207",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "380ce83e_8471d8b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000926
+      },
+      "writtenOn": "2025-02-05T08:03:07Z",
+      "side": 1,
+      "message": "If thresholds are not defined in EM config, they are parsed from sysfs https://github.com/openbmc/dbus-sensors/blob/556e04b8f374a9eb8cf32bf0e36ac46c14873eba/src/intel-cpu/IntelCPUSensorMain.cpp#L384",
+      "parentUuid": "0d453100_b9bef5bb",
+      "range": {
+        "startLine": 10,
+        "startChar": 59,
+        "endLine": 12,
+        "endChar": 48
+      },
+      "revId": "b8a7646bec56bfd7849b3ff601fd8c497d39d207",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
