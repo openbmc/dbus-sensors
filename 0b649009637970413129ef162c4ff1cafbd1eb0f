@@ -39,6 +39,30 @@
       },
       "revId": "0b649009637970413129ef162c4ff1cafbd1eb0f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e559e556_7bc5f87e",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 1001906
+      },
+      "writtenOn": "2025-02-05T06:32:38Z",
+      "side": 1,
+      "message": "L522 is outside the for loop, while L566 marks the beginning of the loop.\nhttps://github.com/openbmc/dbus-sensors/blob/master/src/psu/PSUSensorMain.cpp#L566\nFor example, if we configure EM as follows:\n\n\"in0_Name\": \"MB_P12V_MEM0_VOLT_V\",\n\"in0_PowerState\": \"PowerOn\",\n\"in1_Name\": \"MB_P5V_STBY_VOLT_V\",\n\"in2_Name\": \"MB_PVDD33_S5_VOLT_V\",\n\"in3_Name\": \"MB_P1V8_STBY_VOLT_V\",\n\"in4_Name\": \"MB_P12V_MEM1_VOLT_V\",\n\"in5_Name\": \"MB_P1V8_CPU_RT_VOLT_V\",\nThe in0_PowerState value is assigned at L803.\n\nHowever, inX_PowerState values can get unintentionally overwritten due to contamination by in0_PowerState.",
+      "parentUuid": "532c0bd5_020a6d14",
+      "range": {
+        "startLine": 803,
+        "startChar": 16,
+        "endLine": 803,
+        "endChar": 55
+      },
+      "revId": "0b649009637970413129ef162c4ff1cafbd1eb0f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
