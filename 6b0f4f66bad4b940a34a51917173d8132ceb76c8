@@ -190,6 +190,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ec0bd0db_ea49c9f5",
+        "filename": "src/DeviceMgmt.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-02-06T23:59:05Z",
+      "side": 1,
+      "message": "What do you mean by \"mostly chosen by the CI tool rules?\n\nYour original code suffers the same observation and could have been written:\n\n```\nif (deviceReady) {\n    ...\n} else if (devicePresent) {\n    ...\n} else {\n    ...\n}\n```\n\nNo need for the `(!devicePresent)` condition, as we already know its true by nature of not taking the `else if (devicePresent)` branch.",
+      "parentUuid": "1c193808_cce0b21d",
+      "range": {
+        "startLine": 125,
+        "startChar": 8,
+        "endLine": 125,
+        "endChar": 29
+      },
+      "revId": "6b0f4f66bad4b940a34a51917173d8132ceb76c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "48b4687f_ba50ed08",
         "filename": "src/DeviceMgmt.cpp",
         "patchSetId": 1
