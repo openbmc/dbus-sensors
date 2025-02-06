@@ -159,6 +159,30 @@
       },
       "revId": "0b649009637970413129ef162c4ff1cafbd1eb0f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43fac3c6_269f539a",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 1001906
+      },
+      "writtenOn": "2025-02-06T01:51:30Z",
+      "side": 1,
+      "message": "May I know why the readState is still “On” with this patch applied?\n\nIt is Harma EM config\nhttps://github.com/openbmc/entity-manager/blob/master/configurations/meta/harma_mb.json#L126\nhttps://github.com/openbmc/entity-manager/blob/master/configurations/meta/harma_mb.json#L258\n\nI add debug log in L964\n\ninline std::ostream\u0026 operator\u003c\u003c(std::ostream\u0026 os, PowerState state)\n{\n    switch (state)\n    {\n    case PowerState::on:\n        os \u003c\u003c \"on\";\n        break;\n    case PowerState::biosPost:\n        os \u003c\u003c \"biosPost\";\n        break;\n    case PowerState::always:\n        os \u003c\u003c \"always\";\n        break;\n    case PowerState::chassisOn:\n        os \u003c\u003c \"chassisOn\";\n        break;\n    default:\n        os \u003c\u003c \"unknown\";\n        break;\n    }\n    return os;\n}\n                sensors[sensorName] \u003d std::make_shared\u003cPSUSensor\u003e(\n                    sensorPathStr, sensorType, objectServer, dbusConnection, io,\n                    sensorName, std::move(sensorThresholds), *interfacePath,\n                    readState, findSensorUnit-\u003esecond, factor,\n                    psuProperty.maxReading, psuProperty.minReading,\n                    psuProperty.sensorOffset, labelHead, thresholdConfSize,\n                    pollRate, i2cDev);\n                sensors[sensorName]-\u003esetupRead();\n                ++numCreated;\n//                if constexpr (debug)\n//                {\n                    std::cerr\n                        \u003c\u003c \"Created \" \u003c\u003c numCreated\n\t\t\t\u003c\u003c \" Sensor name: \" \u003c\u003c sensorName\n\t\t\t\u003c\u003c \" readState: \" \u003c\u003c readState\n\t\t\t\u003c\u003c \" sensors so far\\n\";\n\n//                }\n            }\n        }\n        \n        \nThe generated log is as follows.\n\nCreated 16 Sensor name: MB_P3V3_STBY_VOLT_V readState: always sensors so far\nCreated 17 Sensor name: MB_P12V_STBY_VOLT_V readState: always sensors so far\nCreated 18 Sensor name: MB_PVDD18_S5_VOLT_V readState: always sensors so far\nCreated 19 Sensor name: MB_PVDD11_S3_VOLT_V readState: on sensors so far\nCreated 20 Sensor name: MB_P12V_AUX_VOLT_V readState: always sensors so far\n\nCreated 77 Sensor name: MB_PVDD33_S5_VOLT_V readState: always sensors so far\nCreated 78 Sensor name: MB_P1V8_CPU_RT_VOLT_V readState: on sensors so far\nCreated 79 Sensor name: MB_P12V_MEM0_VOLT_V readState: always sensors so far\nCreated 80 Sensor name: MB_P1V8_STBY_VOLT_V readState: always sensors so far\nCreated 81 Sensor name: MB_P5V_STBY_VOLT_V readState: always sensors so far\nCreated 82 Sensor name: MB_P12V_MEM1_VOLT_V readState: always sensors so far",
+      "parentUuid": "b1008cd6_f59b2af0",
+      "range": {
+        "startLine": 803,
+        "startChar": 16,
+        "endLine": 803,
+        "endChar": 55
+      },
+      "revId": "0b649009637970413129ef162c4ff1cafbd1eb0f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
