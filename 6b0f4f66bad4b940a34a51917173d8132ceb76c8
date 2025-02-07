@@ -214,6 +214,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "be5a7791_7e20948b",
+        "filename": "src/DeviceMgmt.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-02-07T01:00:41Z",
+      "side": 1,
+      "message": "The chain of blame is a little murky-- \n\nI mean I coded one thing, aiming to make it \u0027obvious\u0027 what\u0027s being done, rather than brief-- made some tweaks and tested, ran the CI tool locally, accepted the changes and pushed to gerrit-- then had a \"What the heck did I upload again?\" moment when looking over that if-else section.\n\nI either uploaded an older iteration of my if-else chain, or the CI scripts suggested a rewrite for it (I think this one) -- or some combination.\n\nEither way, I\u0027ll try explicitly setting your version of the if-else and see what happens tomorrow.",
+      "parentUuid": "ec0bd0db_ea49c9f5",
+      "range": {
+        "startLine": 125,
+        "startChar": 8,
+        "endLine": 125,
+        "endChar": 29
+      },
+      "revId": "6b0f4f66bad4b940a34a51917173d8132ceb76c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "48b4687f_ba50ed08",
         "filename": "src/DeviceMgmt.cpp",
         "patchSetId": 1
