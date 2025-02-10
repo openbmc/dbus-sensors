@@ -99,6 +99,24 @@
       "parentUuid": "4b13c198_66502895",
       "revId": "ea13816d4dbac266138a0be4124b636649d2284c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "985989c6_b5dcf1c7",
+        "filename": "src/DeviceMgmt.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-02-10T20:10:27Z",
+      "side": 1,
+      "message": "...maybe it\u0027d make sense to have DeviceMgmt keep track of paths for anything it successfully did a driver binding for, then only unbind on delete_device fail if it\u0027s on that list.\n\nI\u0027ll do some experimenting there -- assuming no one chimes in to say it\u0027s not needed in the meantime...",
+      "parentUuid": "7525aa80_fee9f202",
+      "revId": "ea13816d4dbac266138a0be4124b636649d2284c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
