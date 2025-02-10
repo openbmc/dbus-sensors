@@ -81,6 +81,24 @@
       "parentUuid": "0fc14bf1_c22d18a2",
       "revId": "ea13816d4dbac266138a0be4124b636649d2284c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7525aa80_fee9f202",
+        "filename": "src/DeviceMgmt.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-02-10T19:33:45Z",
+      "side": 1,
+      "message": "clarification: this \u0027unbind\u0027 from destroy() functionalility is *not* vital to the \u0027bind drivers to existing devices\u0027 PR linked above -- but I feel like if we\u0027re adding the ability to bind drivers, it makes sense to allow it to unbind them too, assuming no one can think of anything specific this change would break.",
+      "parentUuid": "4b13c198_66502895",
+      "revId": "ea13816d4dbac266138a0be4124b636649d2284c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
