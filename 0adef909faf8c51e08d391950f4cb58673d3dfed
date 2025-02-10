@@ -141,6 +141,24 @@
       "parentUuid": "e72e9d5e_4ad52ac2",
       "revId": "0adef909faf8c51e08d391950f4cb58673d3dfed",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "378fd9c9_93253f65",
+        "filename": "src/intrusion/ChassisIntrusionSensor.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2025-02-10T03:26:42Z",
+      "side": 1,
+      "message": "Yes, but I\u0027m convinced by the previous comment that it looks a bit tricky to figure out the logic, so I still let the start() function be overriden. Btw, do you think this patch can move on so the following in this chain can proceed?",
+      "parentUuid": "96eb8638_0f727f00",
+      "revId": "0adef909faf8c51e08d391950f4cb58673d3dfed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
