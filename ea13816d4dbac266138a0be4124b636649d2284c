@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c5499759_53a73964",
+        "filename": "src/DeviceMgmt.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-02-10T19:15:40Z",
+      "side": 1,
+      "message": "In HPE\u0027s case, the devices in question were added to the bus from outside userspace by an HPE-specific I2C driver (i2c-gxp: https://github.com/torvalds/linux/blob/master/drivers/i2c/busses/i2c-gxp.c). \n\nSince the devices were added from outside userspace, it\u0027s my understanding that calls from inside userspace to \u0027delete_device\u0027 will fail.\n\nI\"ll think more about how to reword this line.",
+      "parentUuid": "eeaaf08f_67839d01",
+      "range": {
+        "startLine": 199,
+        "startChar": 50,
+        "endLine": 200,
+        "endChar": 34
+      },
+      "revId": "ea13816d4dbac266138a0be4124b636649d2284c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0fc14bf1_c22d18a2",
         "filename": "src/DeviceMgmt.cpp",
         "patchSetId": 4
@@ -37,6 +61,24 @@
       "writtenOn": "2025-02-07T00:01:44Z",
       "side": 1,
       "message": "How do we know that there are not other users of the driver? Why do we want to unbind drivers that we didn\u0027t instantiate? Seems like a broken lifecycle.",
+      "revId": "ea13816d4dbac266138a0be4124b636649d2284c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b13c198_66502895",
+        "filename": "src/DeviceMgmt.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-02-10T19:15:40Z",
+      "side": 1,
+      "message": "My thinking was that if we\u0027re at this point in the junction, it means we already tried to called destroy() on the object, which means we tried to do a \u0027delete_device\u0027 sysfs call -- which fails if the device in question was added to the bus from outside userspace.\n\nIn cases where a device was added to the bus from outside userspace (by a platform-specific I2C driver in HPE\u0027s case), but wasn\u0027t bound to a driver (for race condition reasons relating to host power), the dbus daemons will attempt to bind a driver (see 78011: DeviceMgmt: add driver binding support for existing devices | https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/78011 ).\n\nMy thinking was that if we\u0027re already trying to \u0027destroy\u0027 a device, it would *probably* be okay to just unbind the driver if that fails, especially since we have the ability to retry attempts to rebind that driver, especially on events like host power state changes. Restarting a d-bus daemon would also trigger a driver rebinding- if needed (but I wouldn\u0027t expect that to be necessary).\n\nThis PR calling to unbind drivers on destory()\u0027s failure to write to delete_device is related to the one linked above that binds drivers in the first place-- but I don\u0027t think this function is not vital to that one, and figured it might generate enough discussion that it\u0027d be worth having it as its own separate PR.",
+      "parentUuid": "0fc14bf1_c22d18a2",
       "revId": "ea13816d4dbac266138a0be4124b636649d2284c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
