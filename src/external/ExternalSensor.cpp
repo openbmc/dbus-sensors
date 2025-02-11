@@ -47,7 +47,7 @@ ExternalSensor::ExternalSensor(
     std::string objectPath = "/xyz/openbmc_project/sensors/";
     objectPath += dbusPath;
     objectPath += '/';
-    objectPath += sensorName;
+    objectPath += name;
 
     sensorInterface = objectServer.add_interface(
         objectPath, "xyz.openbmc_project.Sensor.Value");
