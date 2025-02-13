@@ -677,13 +677,13 @@ static void createSensorsCallback(
                 }
             }
 
-            auto findProperty = labelMatch.find(sensorNameSubStr);
+            auto findProperty = labelMatch.find(labelHead);
             if (findProperty == labelMatch.end())
             {
                 if constexpr (debug)
                 {
                     std::cerr << "Could not find matching default property for "
-                              << sensorNameSubStr << "\n";
+                              << labelHead << "\n";
                 }
                 continue;
             }
@@ -1098,6 +1098,7 @@ void propertyInitialize()
     labelMatch = {
         {"pin", PSUProperty("Input Power", 3000, 0, 6, 0)},
         {"pout", PSUProperty("Output Power", 3000, 0, 6, 0)},
+        {"pout1", PSUProperty("Output Power", 3000, 0, 6, 0)},
         {"power", PSUProperty("Output Power", 3000, 0, 6, 0)},
         {"maxpin", PSUProperty("Max Input Power", 3000, 0, 6, 0)},
         {"vin", PSUProperty("Input Voltage", 300, 0, 3, 0)},
@@ -1109,11 +1110,15 @@ void propertyInitialize()
         {"in", PSUProperty("Output Voltage", 255, 0, 3, 0)},
         {"iin", PSUProperty("Input Current", 20, 0, 3, 0)},
         {"iout", PSUProperty("Output Current", 255, 0, 3, 0)},
+        {"iout1", PSUProperty("Output Current", 255, 0, 3, 0)},
         {"curr", PSUProperty("Output Current", 255, 0, 3, 0)},
         {"maxiout", PSUProperty("Max Output Current", 255, 0, 3, 0)},
         {"temp", PSUProperty("Temperature", 127, -128, 3, 0)},
+        {"temp1", PSUProperty("Temperature", 127, -128, 3, 0)},
         {"maxtemp", PSUProperty("Max Temperature", 127, -128, 3, 0)},
-        {"fan", PSUProperty("Fan Speed ", 30000, 0, 0, 0)}};
+        {"fan", PSUProperty("Fan Speed ", 30000, 0, 0, 0)},
+        {"fan1", PSUProperty("Fan Speed 1", 30000, 0, 0, 0)},
+        {"fan2", PSUProperty("Fan Speed 2", 30000, 0, 0, 0)}};
 
     limitEventMatch = {{"PredictiveFailure", {"max_alarm", "min_alarm"}},
                        {"Failure", {"crit_alarm", "lcrit_alarm"}}};
