@@ -115,6 +115,24 @@
       "message": "As I understand the code, this fix replaces hardcoded \u0027min\u0027 and \u0027max\u0027 values (voltage for ADCSensor, temp for HwmonTempSensor) with a version of the values that get read in from Entity-Manager configs (if the values are defined for a given record the JSON config).\n\nAs I understand it, before this fix, \u0027MinValue\u0027 and \u0027MaxValue\u0027 have been valid Entity-Manager record properties, but it seems like no daemons were actually reading in the values outside of the external sensors daemon.\n\nThe changes seem to make sense to me.",
       "revId": "8d85df4915a31951fd50935962ce565c637dcca2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b9a47aa_d89f38bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2025-02-13T01:56:47Z",
+      "side": 1,
+      "message": "Your understading is correct. I just want to add one more point, some sensors like External/AirTemp are using `Max/MinValue` properties in the Entity-Manager to set the range of sensor\u0027s value",
+      "parentUuid": "0f482d11_fdf51be4",
+      "revId": "8d85df4915a31951fd50935962ce565c637dcca2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
