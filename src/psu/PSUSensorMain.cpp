@@ -51,6 +51,7 @@
 #include <fstream>
 #include <functional>
 #include <iostream>
+#include <iterator>
 #include <memory>
 #include <regex>
 #include <stdexcept>
@@ -676,14 +677,18 @@ static void createSensorsCallback(
                     continue;
                 }
             }
-
-            auto findProperty = labelMatch.find(sensorNameSubStr);
+            auto it = std::find_if(labelHead.begin(), labelHead.end(),
+                                   static_cast<int (*)(int)>(std::isdigit));
+            std::string_view labelHeadView(
+                labelHead.data(), std::distance(labelHead.begin(), it));
+            auto findProperty =
+                labelMatch.find(static_cast<std::string>(labelHeadView));
             if (findProperty == labelMatch.end())
             {
                 if constexpr (debug)
                 {
                     std::cerr << "Could not find matching default property for "
-                              << sensorNameSubStr << "\n";
+                              << labelHead << "\n";
                 }
                 continue;
             }
