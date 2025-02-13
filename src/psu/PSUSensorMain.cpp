@@ -677,13 +677,22 @@ static void createSensorsCallback(
                 }
             }
 
-            auto findProperty = labelMatch.find(sensorNameSubStr);
+            size_t position = 0;
+            for (; position < labelHead.length(); ++position)
+            {
+                if (std::isdigit(labelHead[position]) != 0)
+                {
+                    break;
+                }
+            }
+
+            auto findProperty = labelMatch.find(labelHead.substr(0, position));
             if (findProperty == labelMatch.end())
             {
                 if constexpr (debug)
                 {
                     std::cerr << "Could not find matching default property for "
-                              << sensorNameSubStr << "\n";
+                              << labelHead << "\n";
                 }
                 continue;
             }
