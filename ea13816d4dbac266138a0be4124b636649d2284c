@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7cef5164_6f1f1211",
+        "filename": "src/DeviceMgmt.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-02-17T04:43:55Z",
+      "side": 1,
+      "message": "I\u0027m no sure I follow. You\u0027ve linked to the HPE GXP I2C bus driver, but I can\u0027t see that it\u0027s creating any sub-devices in its own right.",
+      "parentUuid": "c5499759_53a73964",
+      "range": {
+        "startLine": 199,
+        "startChar": 50,
+        "endLine": 200,
+        "endChar": 34
+      },
+      "revId": "ea13816d4dbac266138a0be4124b636649d2284c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0fc14bf1_c22d18a2",
         "filename": "src/DeviceMgmt.cpp",
         "patchSetId": 4
