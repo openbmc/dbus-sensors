@@ -16,6 +16,29 @@
       "message": "@cosmo.chou@quantatw.com can you please review this?",
       "revId": "db63533b366a931a24adbc781d50093340518810",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2441529_f30356f7",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1117,
+      "author": {
+        "id": 1002071
+      },
+      "writtenOn": "2025-02-17T11:22:25Z",
+      "side": 1,
+      "message": "What about PSU that exposes multiple tempN, ioutN etc?\n\nI feel that with this commit we are returning to the bloatedlabelMatch table that we had before.\n\nSee commit https://github.com/openbmc/dbus-sensors/commit/e8a14e91eefb21dc4bfa754c57212504f7fddb09",
+      "range": {
+        "startLine": 1117,
+        "startChar": 10,
+        "endLine": 1117,
+        "endChar": 15
+      },
+      "revId": "db63533b366a931a24adbc781d50093340518810",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
