@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "86c43223_4fe81d96",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001906
+      },
+      "writtenOn": "2025-02-18T08:13:25Z",
+      "side": 1,
+      "message": "No matter how long we wait, the property change will cancel the timer. The timer keeps getting recreated while in the assert state, causing the deassert signal to wait until the last assert timer finishes, which takes more than 3 seconds.\n\nExample scenario when in the assert state:\n\nAssert signal\nAssert signal\nAssert signal\nAssert signal\nAssert signal\n\nIf a threshold change occurs, it triggers a property change, resetting the sequence:\n\nAssert signal\nAssert signal\nAssert signal\nAssert signal\nAssert signal\nDeassert signal (delayed due to pending assert timers)\n\n\nhttps://github.com/openbmc/dbus-sensors/blob/master/src/psu/PSUSensorMain.cpp#L1189",
+      "parentUuid": "59eebd8f_53cf25aa",
+      "revId": "044c9391231bc3e292a7c6cb5a6fe400c6062d1b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "07a8502d_9e762165",
@@ -37,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d0837802_6ed93bed",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1001906
+      },
+      "writtenOn": "2025-02-18T08:13:25Z",
+      "side": 1,
+      "message": "Using the deassertThresholdOnce approach recovers the SEL log status. If we perform a property change while in the assert state, no one will send a deassert signal to phosphor-sel.",
+      "parentUuid": "07a8502d_9e762165",
+      "revId": "044c9391231bc3e292a7c6cb5a6fe400c6062d1b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e43ba1d1_3e27adb5",
         "filename": "src/Thresholds.cpp",
         "patchSetId": 13
@@ -48,6 +84,42 @@
       "writtenOn": "2025-02-13T21:32:30Z",
       "side": 1,
       "message": "Second issue, why is this a problem only for the Direction::LOW and not for Direction::HIGH?",
+      "revId": "044c9391231bc3e292a7c6cb5a6fe400c6062d1b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "250fed79_c1ac8ec5",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1001906
+      },
+      "writtenOn": "2025-02-18T08:13:25Z",
+      "side": 1,
+      "message": "Because \nhttps://github.com/openbmc/dbus-sensors/blob/master/src/Thresholds.cpp#L430",
+      "parentUuid": "e43ba1d1_3e27adb5",
+      "revId": "044c9391231bc3e292a7c6cb5a6fe400c6062d1b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0cc8172_6035c088",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1001906
+      },
+      "writtenOn": "2025-02-18T08:13:25Z",
+      "side": 1,
+      "message": "Because checkThresholdsPowerDelay only checks thresholds::Direction::LOW.\nhttps://github.com/openbmc/dbus-sensors/blob/master/src/Thresholds.cpp#L430",
+      "parentUuid": "e43ba1d1_3e27adb5",
       "revId": "044c9391231bc3e292a7c6cb5a6fe400c6062d1b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
