@@ -39,6 +39,30 @@
       },
       "revId": "db63533b366a931a24adbc781d50093340518810",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cedc815_5757b7a6",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1117,
+      "author": {
+        "id": 1000416
+      },
+      "writtenOn": "2025-02-18T12:45:23Z",
+      "side": 1,
+      "message": "Thanks for the comments. We have implemented generic way to add the sensor details. Please confirm on this change. Thanks",
+      "parentUuid": "d2441529_f30356f7",
+      "range": {
+        "startLine": 1117,
+        "startChar": 10,
+        "endLine": 1117,
+        "endChar": 15
+      },
+      "revId": "db63533b366a931a24adbc781d50093340518810",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
