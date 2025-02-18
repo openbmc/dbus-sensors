@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "13670852_808056da",
+        "filename": "src/DeviceMgmt.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-02-18T15:24:21Z",
+      "side": 1,
+      "message": "Honestly, I\u0027m not too personally familiar with the specific mechanism that\u0027s working to add devices to I2C bus from outside userspace (and don\u0027t have a bound driver for host-power race condition reasons) -- but the end result is that devices like \u002750-004c\u0027 are being added to i2c bus segments from outside userspace, and as a result, the usual \"add_device\" and \"destroy_device\" writes for those devices from userspace will be \u0027blocked.\u0027 That stops the devices from getting picked up by the usual daemons.\n\nI can do a bit more digging in for the specifics on where exactly that\u0027s happening, if that detail seems important to folks--\n\nbut I\u0027d consider this to be a general \"this should work on any device added from outside userspace that had to have a driver to be bound to it by dbus daemons\" change.",
+      "parentUuid": "7cef5164_6f1f1211",
+      "range": {
+        "startLine": 199,
+        "startChar": 50,
+        "endLine": 200,
+        "endChar": 34
+      },
+      "revId": "ea13816d4dbac266138a0be4124b636649d2284c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0fc14bf1_c22d18a2",
         "filename": "src/DeviceMgmt.cpp",
         "patchSetId": 4
