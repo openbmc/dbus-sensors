@@ -16,6 +16,24 @@
       "message": "@christopher.sides@hpe.com can you please fix the CI failure?\n\nIn the future it\u0027s best if you split this into separate changes, but I won\u0027t require that this time.",
       "revId": "d18547846b366f934be3ea3dacce52fb24c82a1d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f13e785_cf85e531",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-02-18T15:49:27Z",
+      "side": 1,
+      "message": "Weird story on the CI failure -- I ran the CI tool locally before pushingto gerrit -- it made a few change suggestions on a pass, I accepted, then it crashed out with a new-to-me error on the last run.\n\n\"open-power/pdbg: #5 43.52 libtool: warning: relinking \u0027libpdbg.la\u0027\nopen-power/pdbg: ERROR: failed to receive status: rpc error: code \u003d Canceled desc \u003d context canceled\nPackage open-power/pdbg failed!\"\n\nExtra weird to me, since this is me pointing the latest CI tool scripts at a d-bus sensors checkout, which I\u0027ve done without issue up til now... I\u0027ll have to see if something changed in the CI tools repo re: dependencies or something, because I\u0027ve seen a CI tool error alnog these lines on a few things I submitted recently...\n\nThe Gerrit linkto the CI output is giving me a \u0027not found\u0027 error when I click on \nhttps://jenkins.openbmc.org/job/ci-repository/100510/\n\nI\u0027ll try rebasing the last commit to see if that might get a \u0027fresh\u0027 console output on Gerrit.",
+      "parentUuid": "652057ed_424eb79d",
+      "revId": "d18547846b366f934be3ea3dacce52fb24c82a1d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
