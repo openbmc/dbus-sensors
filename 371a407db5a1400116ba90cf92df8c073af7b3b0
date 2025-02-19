@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c507092f_cf78a132",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-02-19T22:23:09Z",
+      "side": 1,
+      "message": "Add Tested section please",
+      "revId": "371a407db5a1400116ba90cf92df8c073af7b3b0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7594e3c_d95c0f60",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-02-19T22:23:09Z",
+      "side": 1,
+      "message": "This can be simplified by using std::find_if, for example:\n\n```suggestion\n    auto it \u003d std::find_if(labelHead.begin(), labelHead.end(), std::isdigit);\n    std::string_view labelHeadView(labelHead.data(), std::distance(labelHead.begin(), it));\n    auto findProperty \u003d labelMatch.find(labelHeadView);\n```",
+      "range": {
+        "startLine": 680,
+        "startChar": 0,
+        "endLine": 689,
+        "endChar": 79
+      },
+      "revId": "371a407db5a1400116ba90cf92df8c073af7b3b0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
