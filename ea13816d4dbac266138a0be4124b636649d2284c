@@ -146,6 +146,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "74046e15_66803d6b",
+        "filename": "src/DeviceMgmt.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-02-19T17:17:17Z",
+      "side": 1,
+      "message": "\u003edetects sensor devices that may still be powered off, and adds the devices to the appropriate I2C bus, visible in sysfs.\n\nI asked someone with a deeper understanding of the existing HPE I2C stack, and am told it\u0027s not directly the GXP-I2C driver that\u0027s adding sensors after all.\n\n\u003eThe HPE GXP I2C driver provides the interface for the core I2C subsystem to interact with our I2C engine. The core i2c subsystem in collaboration with the device tree discovers devices listed there and will enable the probe of said devices when the I2c address is discovered.\n\nMy updated understanding is that device nodes visible in sysfs like \u002750-004c\u0027 are being added by a temp-sensor specific driver HPE has out that works on top of the structures enabled through the GXP-I2C driver. \n\nI\u0027ll keep digging in for more specifics here, but I don\u0027t expect the specifics to change the end result (add_device calls DBus Daemons rely on will fail and the sensor will be skipped), or the fix for it happening.",
+      "parentUuid": "b3a84912_94145d7e",
+      "range": {
+        "startLine": 199,
+        "startChar": 50,
+        "endLine": 200,
+        "endChar": 34
+      },
+      "revId": "ea13816d4dbac266138a0be4124b636649d2284c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0fc14bf1_c22d18a2",
         "filename": "src/DeviceMgmt.cpp",
         "patchSetId": 4
