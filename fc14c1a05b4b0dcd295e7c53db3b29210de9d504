@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77466004_9d38e3a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-02-19T01:51:36Z",
+      "side": 1,
+      "message": "The commit message linter won\u0027t trigger if you treat the link as a link:\n\n```\ntmp411 support is handled with the TMP401 driver[1]\n\n[1]: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id\u003dfce0758f5990b34af4ffba589b23f25c700beb2f\n```",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 3
+      },
+      "revId": "fc14c1a05b4b0dcd295e7c53db3b29210de9d504",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "afa74e0b_d31f8d4b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-02-19T01:51:36Z",
+      "side": 1,
+      "message": "I don\u0027t find this terribly helpful personally, as there\u0027s no correlation between the sensor names and the drivers. To me it might as well say \"TESTED: Definitely\"\n\nOthers may have different opinions though.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 3
+      },
+      "revId": "fc14c1a05b4b0dcd295e7c53db3b29210de9d504",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
