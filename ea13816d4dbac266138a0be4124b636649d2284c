@@ -170,6 +170,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e3bc3322_585b4bbf",
+        "filename": "src/DeviceMgmt.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-02-19T22:46:09Z",
+      "side": 1,
+      "message": "\u003e Sidenote: I\u0027m currently looking at putting together some code that would keep track of whether or not the daemon needed to bind a driver, which would determine whether or not it tries to unbind them when destroy() is called.\n\nSounds good.",
+      "parentUuid": "74046e15_66803d6b",
+      "range": {
+        "startLine": 199,
+        "startChar": 50,
+        "endLine": 200,
+        "endChar": 34
+      },
+      "revId": "ea13816d4dbac266138a0be4124b636649d2284c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0fc14bf1_c22d18a2",
         "filename": "src/DeviceMgmt.cpp",
         "patchSetId": 4
