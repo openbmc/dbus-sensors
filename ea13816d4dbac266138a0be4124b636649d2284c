@@ -122,6 +122,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b3a84912_94145d7e",
+        "filename": "src/DeviceMgmt.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-02-19T16:29:39Z",
+      "side": 1,
+      "message": "The I2C bus segments are described in the DTS, but the individual sensors nodes that are discovered during the I2C-GXP probing process are not.\n\nMy current understanding of the life cycle is that HPE has published I2C-GXP drivers that scan each bus, detects sensor devices that may still be powered off, and adds the devices to the appropriate I2C bus, visible in sysfs. \n\nIt\u0027s my understanding that any device added to an I2C bus from outside userspace will not be able to make use of destroy_device or add_device (since a device already exists at the spot, and can\u0027t be removed from usespace) -- which is the main issue that stopped daemons like HwmonTempSensor from picking up sensors on HPE platforms.\n\nThis limitation would apply to any platform that has any devices added to an I2C bus from outside userpsace.\n\nI can do a bit more digging to work out \"where specifically does the device get added to a bus in GXP-I2C code\" element. I believe I had it figured in the past, but it\u0027s been long enough since I poked around in that code that I\u0027ll need to get a refresher.\n\nSidenote: I\u0027m currently looking at putting together some code that would keep track of whether or not the daemon needed to bind a driver, which would determine whether or not it tries to unbind them when destroy() is called.",
+      "parentUuid": "ab7917ac_cb386604",
+      "range": {
+        "startLine": 199,
+        "startChar": 50,
+        "endLine": 200,
+        "endChar": 34
+      },
+      "revId": "ea13816d4dbac266138a0be4124b636649d2284c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0fc14bf1_c22d18a2",
         "filename": "src/DeviceMgmt.cpp",
         "patchSetId": 4
