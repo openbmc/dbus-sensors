@@ -25,6 +25,7 @@
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/post.hpp>
 #include <boost/asio/steady_timer.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/bus.hpp>
@@ -39,7 +40,6 @@
 #include <cstdint>
 #include <filesystem>
 #include <functional>
-#include <iostream>
 #include <memory>
 #include <optional>
 #include <stdexcept>
@@ -63,7 +63,7 @@ static std::optional<int> extractBusNumber(
     auto findBus = properties.find("Bus");
     if (findBus == properties.end())
     {
-        std::cerr << "could not determine bus number for " << path << "\n";
+        lg2::error("could not determine bus number for '{PATH}'", "PATH", path);
         return std::nullopt;
     }
 
@@ -76,9 +76,10 @@ static uint8_t extractSlaveAddr(const std::string& path,
     auto findSlaveAddr = properties.find("Address");
     if (findSlaveAddr == properties.end())
     {
-        std::cerr << "could not determine slave address for " << path << "\n"
-                  << "using default as specified in nvme-mi"
-                  << "\n";
+        lg2::error(
+            "could not determine slave address for '{PATH} 'using default as "
+            "specified in nvme-mi",
+            "PATH", path);
         return nvmeMiDefaultSlaveAddr;
     }
 
@@ -91,8 +92,8 @@ static std::optional<std::string> extractSensorName(
     auto findSensorName = properties.find("Name");
     if (findSensorName == properties.end())
     {
-        std::cerr << "could not determine configuration name for " << path
-                  << "\n";
+        lg2::error("could not determine configuration name for '{PATH}'",
+                   "PATH", path);
         return std::nullopt;
     }
 
@@ -123,7 +124,7 @@ static std::optional<int> deriveRootBus(std::optional<int> busNumber)
     size_t dash = rootName.find('-');
     if (dash == std::string::npos)
     {
-        std::cerr << "Error finding root bus for " << rootName << "\n";
+        lg2::error("Error finding root bus for '{NAME}'", "NAME", rootName);
         return std::nullopt;
     }
 
@@ -188,8 +189,8 @@ static void handleSensorConfigurations(
         std::vector<thresholds::Threshold> sensorThresholds;
         if (!parseThresholdsFromConfig(sensorData, sensorThresholds))
         {
-            std::cerr << "error populating thresholds for " << *sensorName
-                      << "\n";
+            lg2::error("error populating thresholds for '{NAME}'", "NAME",
+                       *sensorName);
         }
 
         try
@@ -210,9 +211,8 @@ static void handleSensorConfigurations(
         }
         catch (const std::invalid_argument& ex)
         {
-            std::cerr << "Failed to add sensor for "
-                      << std::string(interfacePath) << ": " << ex.what()
-                      << "\n";
+            lg2::error("Failed to add sensor for '{PATH}': '{ERROR}'", "PATH",
+                       interfacePath.str, "ERROR", ex);
         }
     }
     for (const auto& [_, context] : nvmeDeviceMap)
@@ -238,7 +238,7 @@ static void interfaceRemoved(sdbusplus::message_t& message, NVMEMap& contexts)
 {
     if (message.is_method_error())
     {
-        std::cerr << "interfacesRemoved callback method error\n";
+        lg2::error("interfacesRemoved callback method error");
         return;
     }
 
@@ -292,7 +292,8 @@ int main()
 
                 if (ec)
                 {
-                    std::cerr << "Error: " << ec.message() << "\n";
+                    lg2::error("Error: '{ERROR_MESSAGE}'", "ERROR_MESSAGE",
+                               ec.message());
                     return;
                 }
 
