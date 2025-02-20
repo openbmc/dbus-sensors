@@ -14,6 +14,8 @@
 #include <boost/asio/read.hpp>
 #include <boost/asio/streambuf.hpp>
 #include <boost/asio/write.hpp>
+#include <phosphor-logging/lg2.hpp>
+#include <phosphor-logging/lg2/flags.hpp>
 
 #include <array>
 #include <cerrno>
@@ -23,7 +25,6 @@
 #include <cstdio>
 #include <cstring>
 #include <filesystem>
-#include <ios>
 #include <iostream>
 #include <iterator>
 #include <limits>
@@ -91,9 +92,9 @@ static void execBasicQuery(int bus, uint8_t addr, uint8_t cmd,
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
         if (::ioctl(fileHandle.handle(), I2C_SLAVE, addr) == -1)
         {
-            std::cerr << "Failed to configure device address 0x" << std::hex
-                      << (int)addr << " for bus " << std::dec << bus << ": "
-                      << strerror(errno) << "\n";
+            lg2::error(
+                "Failed to configure device address '{ADDR}' for bus '{BUS}': ERRNO",
+                "ADDR", lg2::hex, addr, "BUS", bus, "ERRNO", lg2::hex, errno);
             resp.resize(0);
             return;
         }
@@ -104,16 +105,17 @@ static void execBasicQuery(int bus, uint8_t addr, uint8_t cmd,
         size = i2c_smbus_read_block_data(fileHandle.handle(), cmd, resp.data());
         if (size < 0)
         {
-            std::cerr << "Failed to read block data from device 0x" << std::hex
-                      << (int)addr << " on bus " << std::dec << bus << ": "
-                      << strerror(errno) << "\n";
+            lg2::error(
+                "Failed to read block data from device '{ADDR}' on bus '{BUS}': ERRNO",
+                "ADDR", lg2::hex, addr, "BUS", bus, "ERRNO", lg2::hex, errno);
             resp.resize(0);
         }
         else if (size > UINT8_MAX + 1)
         {
-            std::cerr << "Unexpected message length from device 0x" << std::hex
-                      << (int)addr << " on bus " << std::dec << bus << ": "
-                      << size << " (" << UINT8_MAX << ")\n";
+            lg2::error(
+                "Unexpected message length from device '{ADDR}' on bus '{BUS}': '{SIZE}' ({MAX})",
+                "ADDR", lg2::hex, addr, "BUS", bus, "SIZE", size, "MAX",
+                UINT8_MAX);
             resp.resize(0);
         }
         else
@@ -123,8 +125,8 @@ static void execBasicQuery(int bus, uint8_t addr, uint8_t cmd,
     }
     catch (const std::out_of_range& e)
     {
-        std::cerr << "Failed to create file handle for bus " << std::dec << bus
-                  << ": " << e.what() << "\n";
+        lg2::error("Failed to create file handle for bus '{BUS}': '{ERR}'",
+                   "BUS", bus, "ERR", e);
         resp.resize(0);
     }
 }
@@ -148,8 +150,9 @@ static ssize_t processBasicQueryStream(FileHandle& in, FileHandle& out)
         ssize_t rc = ::read(in.handle(), req.data(), req.size());
         if (rc != static_cast<ssize_t>(req.size()))
         {
-            std::cerr << "Failed to read request from in descriptor "
-                      << strerror(errno) << "\n";
+            lg2::error(
+                "Failed to read request from in descriptor '{ERROR_MESSAGE}'",
+                "ERROR_MESSAGE", strerror(errno));
             if (rc != 0)
             {
                 return -errno;
@@ -167,9 +170,9 @@ static ssize_t processBasicQueryStream(FileHandle& in, FileHandle& out)
         rc = ::write(out.handle(), &len, sizeof(len));
         if (rc != sizeof(len))
         {
-            std::cerr << "Failed to write block (" << std::dec << len
-                      << ") length to out descriptor: "
-                      << strerror(static_cast<int>(-rc)) << "\n";
+            lg2::error(
+                "Failed to write block ({LEN}) length to out descriptor: '{ERRNO}'",
+                "LEN", len, "ERRNO", strerror(static_cast<int>(-rc)));
             if (rc != 0)
             {
                 return -errno;
@@ -185,9 +188,9 @@ static ssize_t processBasicQueryStream(FileHandle& in, FileHandle& out)
             ssize_t egress = ::write(out.handle(), &(*cursor), lenRemaining);
             if (egress == -1)
             {
-                std::cerr << "Failed to write block data of length " << std::dec
-                          << lenRemaining << " to out pipe: " << strerror(errno)
-                          << "\n";
+                lg2::error(
+                    "Failed to write block data of length '{LEN}' to out pipe: '{ERROR_MESSAGE}'",
+                    "LEN", lenRemaining, "ERROR_MESSAGE", strerror(errno));
                 if (rc != 0)
                 {
                     return -errno;
@@ -213,26 +216,26 @@ NVMeBasicContext::NVMeBasicContext(boost::asio::io_context& io, int rootBus) :
     /* Set up inter-thread communication */
     if (::pipe(requestPipe.data()) == -1)
     {
-        std::cerr << "Failed to create request pipe: " << strerror(errno)
-                  << "\n";
+        lg2::error("Failed to create request pipe: '{ERROR}'", "ERROR",
+                   strerror(errno));
         throw std::error_code(errno, std::system_category());
     }
 
     if (::pipe(responsePipe.data()) == -1)
     {
-        std::cerr << "Failed to create response pipe: " << strerror(errno)
-                  << "\n";
+        lg2::error("Failed to create response pipe: '{ERROR}'", "ERROR",
+                   strerror(errno));
 
         if (::close(requestPipe[0]) == -1)
         {
-            std::cerr << "Failed to close write fd of request pipe: "
-                      << strerror(errno) << "\n";
+            lg2::error("Failed to close write fd of request pipe '{ERROR}'",
+                       "ERROR", strerror(errno));
         }
 
         if (::close(requestPipe[1]) == -1)
         {
-            std::cerr << "Failed to close read fd of request pipe: "
-                      << strerror(errno) << "\n";
+            lg2::error("Failed to close read fd of request pipe '{ERROR}'",
+                       "ERROR", strerror(errno));
         }
 
         throw std::error_code(errno, std::system_category());
@@ -249,11 +252,11 @@ NVMeBasicContext::NVMeBasicContext(boost::asio::io_context& io, int rootBus) :
 
         if (rc < 0)
         {
-            std::cerr << "Failure while processing query stream: "
-                      << strerror(static_cast<int>(-rc)) << "\n";
+            lg2::error("Failure while processing query stream: '{ERROR}'",
+                       "ERROR", strerror(static_cast<int>(-rc)));
         }
 
-        std::cerr << "Terminating basic query thread\n";
+        lg2::error("Terminating basic query thread");
     });
 }
 
@@ -290,7 +293,8 @@ void NVMeBasicContext::readAndProcessNVMeSensor()
         [command](boost::system::error_code ec, std::size_t) {
             if (ec)
             {
-                std::cerr << "Got error writing basic query: " << ec << "\n";
+                lg2::error("Got error writing basic query: '{ERROR_MESSAGE}'",
+                           "ERROR_MESSAGE", ec.message());
             }
         });
 
@@ -303,7 +307,9 @@ void NVMeBasicContext::readAndProcessNVMeSensor()
         [response](const boost::system::error_code& ec, std::size_t n) {
             if (ec)
             {
-                std::cerr << "Got error completing basic query: " << ec << "\n";
+                lg2::error(
+                    "Got error completing basic query: '{ERROR_MESSAGE}'",
+                    "ERROR_MESSAGE", ec.message());
                 return static_cast<std::size_t>(0);
             }
 
@@ -317,9 +323,9 @@ void NVMeBasicContext::readAndProcessNVMeSensor()
 
             if (n > len + 1)
             {
-                std::cerr << "Query stream has become unsynchronised: "
-                          << "n: " << n << ", "
-                          << "len: " << len << "\n";
+                lg2::error(
+                    "Query stream has become unsynchronised: n: {N}, len: {LEN}",
+                    "N", n, "LEN", len);
                 return static_cast<std::size_t>(0);
             }
 
@@ -340,13 +346,14 @@ void NVMeBasicContext::readAndProcessNVMeSensor()
             const boost::system::error_code& ec, std::size_t length) mutable {
             if (ec)
             {
-                std::cerr << "Got error reading basic query: " << ec << "\n";
+                lg2::error("Got error reading basic query: '{ERROR_MESSAGE}'",
+                           "ERROR_MESSAGE", ec.message());
                 return;
             }
 
             if (length == 0)
             {
-                std::cerr << "Invalid message length: " << length << "\n";
+                lg2::error("Invalid message length: '{LEN}'", "LEN", length);
                 return;
             }
 
@@ -381,7 +388,8 @@ void NVMeBasicContext::pollNVMeDevices()
 
         if (errorCode)
         {
-            std::cerr << errorCode.message() << "\n";
+            lg2::error("error code: '{ERROR_MESSAGE}'", "ERROR_MESSAGE",
+                       errorCode.message());
             return;
         }
 
