@@ -28,6 +28,7 @@
 #include <boost/asio/steady_timer.hpp>
 #include <boost/container/flat_map.hpp>
 #include <boost/container/flat_set.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/bus.hpp>
@@ -42,7 +43,6 @@
 #include <fstream>
 #include <functional>
 #include <ios>
-#include <iostream>
 #include <map>
 #include <memory>
 #include <optional>
@@ -100,7 +100,7 @@ FanTypes getFanType(const std::filesystem::path& parentPath)
 
     if (!compatibleStream)
     {
-        std::cerr << "Error opening " << compatiblePath << "\n";
+        lg2::error("Error opening '{PATH}'", "PATH", compatiblePath);
         return FanTypes::i2c;
     }
 
@@ -125,7 +125,7 @@ void enablePwm(const std::filesystem::path& filePath)
     std::fstream enableFile(filePath, std::ios::in | std::ios::out);
     if (!enableFile.good())
     {
-        std::cerr << "Error read/write " << filePath << "\n";
+        lg2::error("Error read/write '{PATH}'", "PATH", filePath);
         return;
     }
 
@@ -149,7 +149,7 @@ bool findPwmfanPath(unsigned int configPwmfanIndex,
     if (!findFiles(std::filesystem::path("/sys/class/hwmon"), R"(pwm\d+)",
                    pwmfanPaths))
     {
-        std::cerr << "No PWMs are found!\n";
+        lg2::error("No PWMs are found!");
         return false;
     }
     for (const auto& path : pwmfanPaths)
@@ -160,8 +160,8 @@ bool findPwmfanPath(unsigned int configPwmfanIndex,
 
         if (ec)
         {
-            std::cerr << "read_symlink() failed: " << ec.message() << " ("
-                      << ec.value() << ")\n";
+            lg2::error("read_symlink() failed: '{ERROR_MESSAGE}'",
+                       "ERROR_MESSAGE", ec.message());
             continue;
         }
 
@@ -187,8 +187,8 @@ bool findPwmPath(const std::filesystem::path& directory, unsigned int pwm,
         /* PWM file not exist or error happened */
         if (ec)
         {
-            std::cerr << "exists() failed: " << ec.message() << " ("
-                      << ec.value() << ")\n";
+            lg2::error("exists() failed: '{ERROR_MESSAGE}'", "ERROR_MESSAGE",
+                       ec.message());
         }
         /* try search form pwm-fanX directory */
         return findPwmfanPath(pwm, pwmPath);
@@ -233,7 +233,7 @@ void createRedundancySensor(
                                   const ManagedObjectType& managedObj) {
             if (ec)
             {
-                std::cerr << "Error calling entity manager \n";
+                lg2::error("Error calling entity manager");
                 return;
             }
             for (const auto& [path, interfaces] : managedObj)
@@ -246,7 +246,7 @@ void createRedundancySensor(
                         auto findCount = cfg.find("AllowedFailures");
                         if (findCount == cfg.end())
                         {
-                            std::cerr << "Malformed redundancy record \n";
+                            lg2::error("Malformed redundancy record");
                             return;
                         }
                         std::vector<std::string> sensorList;
@@ -297,7 +297,7 @@ void createSensors(
         if (!findFiles(std::filesystem::path("/sys/class/hwmon"),
                        R"(fan\d+_input)", paths))
         {
-            std::cerr << "No fan sensors in system\n";
+            lg2::error("No fan sensors in system");
             return;
         }
 
@@ -339,7 +339,8 @@ void createSensors(
                 auto findIndex = baseConfiguration->second.find("Index");
                 if (findIndex == baseConfiguration->second.end())
                 {
-                    std::cerr << baseConfiguration->first << " missing index\n";
+                    lg2::error("'{INTERFACE}' missing index", "INTERFACE",
+                               baseConfiguration->first);
                     continue;
                 }
                 unsigned int configIndex = std::visit(
@@ -375,8 +376,8 @@ void createSensors(
                     if (findBus == baseConfiguration->second.end() ||
                         findAddress == baseConfiguration->second.end())
                     {
-                        std::cerr << baseConfiguration->first
-                                  << " missing bus or address\n";
+                        lg2::error("'{INTERFACE}' missing bus or address",
+                                   "INTERFACE", baseConfiguration->first);
                         continue;
                     }
                     unsigned int configBus = std::visit(
@@ -393,8 +394,8 @@ void createSensors(
             }
             if (sensorData == nullptr)
             {
-                std::cerr << "failed to find match for " << path.string()
-                          << "\n";
+                lg2::error("failed to find match for '{PATH}'", "PATH",
+                           path.string());
                 continue;
             }
 
@@ -402,8 +403,8 @@ void createSensors(
 
             if (findSensorName == baseConfiguration->second.end())
             {
-                std::cerr << "could not determine configuration name for "
-                          << path.string() << "\n";
+                lg2::error("could not determine configuration name for '{PATH}'",
+                           "PATH", path.string());
                 continue;
             }
             std::string sensorName =
@@ -433,8 +434,8 @@ void createSensors(
             std::vector<thresholds::Threshold> sensorThresholds;
             if (!parseThresholdsFromConfig(*sensorData, sensorThresholds))
             {
-                std::cerr << "error populating thresholds for " << sensorName
-                          << "\n";
+                lg2::error("error populating thresholds for '{NAME}'", "NAME",
+                           sensorName);
             }
 
             auto presenceConfig =
@@ -451,7 +452,7 @@ void createSensors(
                 if (findPinName == presenceConfig->second.end() ||
                     findPolarity == presenceConfig->second.end())
                 {
-                    std::cerr << "Malformed Presence Configuration\n";
+                    lg2::error("Malformed Presence Configuration");
                 }
                 else
                 {
@@ -486,10 +487,10 @@ void createSensors(
                                 }
                                 else if (mType != "Event")
                                 {
-                                    std::cerr
-                                        << "Unsupported GPIO MonitorType of "
-                                        << mType << " for " << sensorName
-                                        << " (supported types: Polling, Event (default))\n";
+                                    lg2::error(
+                                        "Unsupported GPIO MonitorType of '{TYPE}' for '{NAME}', "
+                                        "supported types: Polling, Event default",
+                                        "TYPE", mType, "NAME", sensorName);
                                 }
                             }
                             try
@@ -512,17 +513,19 @@ void createSensors(
                             }
                             catch (const std::system_error& e)
                             {
-                                std::cerr
-                                    << "Failed to create GPIO monitor object for "
-                                    << *pinName << " / " << sensorName << ": "
-                                    << e.what() << "\n";
+                                lg2::error(
+                                    "Failed to create GPIO monitor object for "
+                                    "'{PIN_NAME}' / '{SENSOR_NAME}': '{ERROR}'",
+                                    "PIN_NAME", *pinName, "SENSOR_NAME",
+                                    sensorName, "ERROR", e);
                             }
                         }
                     }
                     else
                     {
-                        std::cerr << "Malformed Presence pinName for sensor "
-                                  << sensorName << " \n";
+                        lg2::error(
+                            "Malformed Presence pinName for sensor '{NAME}'",
+                            "NAME", sensorName);
                     }
                 }
             }
@@ -557,8 +560,8 @@ void createSensors(
                                             findPwm->second);
                     if (!findPwmPath(directory, pwm, pwmPath))
                     {
-                        std::cerr << "Connector for " << sensorName
-                                  << " no pwm channel found!\n";
+                        lg2::error("Connector for '{NAME}' no pwm channel found!",
+                                   "NAME", sensorName);
                         continue;
                     }
 
@@ -595,8 +598,8 @@ void createSensors(
                 }
                 else
                 {
-                    std::cerr
-                        << "Connector for " << sensorName << " missing pwm!\n";
+                    lg2::error("Connector for '{NAME}' missing pwm!", "NAME",
+                               sensorName);
                 }
 
                 auto findLED = connector->second.find("LED");
@@ -606,8 +609,8 @@ void createSensors(
                         std::get_if<std::string>(&(findLED->second));
                     if (ledName == nullptr)
                     {
-                        std::cerr
-                            << "Wrong format for LED of " << sensorName << "\n";
+                        lg2::error("Wrong format for LED of '{NAME}'", "NAME",
+                                   sensorName);
                     }
                     else
                     {
@@ -674,7 +677,7 @@ int main()
         [&](sdbusplus::message_t& message) {
             if (message.is_method_error())
             {
-                std::cerr << "callback method error\n";
+                lg2::error("callback method error");
                 return;
             }
             sensorsChanged->insert(message.get_path());
@@ -689,7 +692,7 @@ int main()
                 }
                 if (ec)
                 {
-                    std::cerr << "timer error\n";
+                    lg2::error("timer error");
                     return;
                 }
                 createSensors(io, objectServer, tachSensors, pwmSensors,
