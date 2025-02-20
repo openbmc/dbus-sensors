@@ -1,12 +1,12 @@
 #include "IpmbSDRSensor.hpp"
 
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 
 #include <cmath>
 #include <cstddef>
 #include <cstdint>
 #include <functional>
-#include <iostream>
 #include <memory>
 #include <string>
 #include <utility>
@@ -35,8 +35,8 @@ bool validateStatus(boost::system::error_code ec,
     const int status = std::get<0>(response);
     if (status != 0)
     {
-        std::cerr << "Error reading from IPMB SDR for host " << hostIndex
-                  << "\n";
+        lg2::error("Error reading from IPMB SDR for host '{INDEX}'", "INDEX",
+                   hostIndex);
         return false;
     }
     return true;
@@ -68,9 +68,9 @@ void IpmbSDRDevice::getSDRRepositoryInfo()
 
             if (data.size() < sdrInfoDataSize)
             {
-                std::cerr
-                    << " IPMB Get SDR Repository Info data is empty for host "
-                    << self->hostIndex << "\n";
+                lg2::error(
+                    "IPMB Get SDR Repository Info data is empty for host '{INDEX}'",
+                    "INDEX", self->hostIndex);
                 return;
             }
 
@@ -111,9 +111,9 @@ void IpmbSDRDevice::reserveSDRRepository(uint16_t recordCount)
 
             if (data.size() < sdrReserveDataSize)
             {
-                std::cerr
-                    << " IPMB SDR Reserve Repository data is empty for host "
-                    << self->hostIndex << "\n";
+                lg2::error(
+                    "IPMB SDR Reserve Repository data is empty for host '{INDEX}'",
+                    "INDEX", self->hostIndex);
                 return;
             }
             uint8_t resrvIDLSB = data[0];
@@ -157,8 +157,8 @@ void IpmbSDRDevice::getSDRSensorData(uint16_t recordCount, uint8_t resrvIDLSB,
 
             if (data.size() < sdrSensorDataSize)
             {
-                std::cerr << "IPMB SDR sensor data is empty for host "
-                          << self->hostIndex << "\n";
+                lg2::error("IPMB SDR sensor data is empty for host '{INDEX}'",
+                           "INDEX", self->hostIndex);
                 return;
             }
 

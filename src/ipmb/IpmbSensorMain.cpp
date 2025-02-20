@@ -7,6 +7,7 @@
 #include <boost/asio/post.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <boost/container/flat_map.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/bus.hpp>
@@ -18,7 +19,6 @@
 #include <cstddef>
 #include <cstdint>
 #include <functional>
-#include <iostream>
 #include <memory>
 #include <string>
 #include <variant>
@@ -122,7 +122,7 @@ int main()
                 createSensors(io, objectServer, sensors, systemBus);
                 if (sensors.empty())
                 {
-                    std::cout << "Configuration not detected\n";
+                    lg2::info("Configuration not detected");
                 }
             });
         };
