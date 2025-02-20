@@ -27,6 +27,7 @@
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <boost/container/flat_map.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/message.hpp>
@@ -37,9 +38,11 @@
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
+#include <iomanip>
 #include <iostream>
 #include <limits>
 #include <memory>
+#include <sstream>
 #include <stdexcept>
 #include <string>
 #include <tuple>
@@ -141,8 +144,8 @@ static void initCmdCb(const std::weak_ptr<IpmbSensor>& weakRef,
     const int& status = std::get<0>(response);
     if (ec || (status != 0))
     {
-        std::cerr << "Error setting init command for device: " << self->name
-                  << "\n";
+        lg2::error("Error setting init command for device: '{NAME}'", "NAME",
+                   self->name);
     }
 }
 
@@ -315,7 +318,7 @@ bool IpmbSensor::processReading(ReadingFormat readingFormat, uint8_t command,
             {
                 if (errCount == 0U)
                 {
-                    std::cerr << "Invalid data length returned\n";
+                    lg2::error("Invalid data length returned");
                 }
                 return false;
             }
@@ -330,7 +333,7 @@ bool IpmbSensor::processReading(ReadingFormat readingFormat, uint8_t command,
             {
                 if (errCount == 0U)
                 {
-                    std::cerr << "Invalid data length returned\n";
+                    lg2::error("Invalid data length returned");
                 }
                 return false;
             }
@@ -373,7 +376,7 @@ bool IpmbSensor::processReading(ReadingFormat readingFormat, uint8_t command,
             {
                 if (errCount == 0U)
                 {
-                    std::cerr << "Invalid data length returned\n";
+                    lg2::error("Invalid data length returned");
                 }
                 return false;
             }
@@ -388,7 +391,7 @@ bool IpmbSensor::processReading(ReadingFormat readingFormat, uint8_t command,
             {
                 if (errCount == 0U)
                 {
-                    std::cerr << "Invalid data length returned\n";
+                    lg2::error("Invalid data length returned");
                 }
                 return false;
             }
@@ -402,7 +405,7 @@ bool IpmbSensor::processReading(ReadingFormat readingFormat, uint8_t command,
             {
                 if (errCount == 0U)
                 {
-                    std::cerr << "Invalid data length returned\n";
+                    lg2::error("Invalid data length returned");
                 }
                 return false;
             }
@@ -432,12 +435,13 @@ void IpmbSensor::ipmbRequestCompletionCb(const boost::system::error_code& ec,
     const std::vector<uint8_t>& data = std::get<5>(response);
     if constexpr (debug)
     {
-        std::cout << name << ": ";
-        for (size_t d : data)
+        std::ostringstream tempStream;
+        for (int d : data)
         {
-            std::cout << d << " ";
+            tempStream << std::setfill('0') << std::setw(2) << std::hex << d
+                       << " ";
         }
-        std::cout << "\n";
+        lg2::info("'{NAME}': '{DATA}'", "NAME", name, "DATA", tempStream.str());
     }
     if (data.empty())
     {
@@ -541,7 +545,7 @@ bool IpmbSensor::sensorClassType(const std::string& sensorClass)
     }
     else
     {
-        std::cerr << "Invalid class " << sensorClass << "\n";
+        lg2::error("Invalid class '{SENSOR}'", "SENSOR", sensorClass);
         return false;
     }
     return true;
@@ -596,14 +600,14 @@ void createSensors(
 {
     if (!dbusConnection)
     {
-        std::cerr << "Connection not created\n";
+        lg2::error("Connection not created");
         return;
     }
     dbusConnection->async_method_call(
         [&](boost::system::error_code ec, const ManagedObjectType& resp) {
             if (ec)
             {
-                std::cerr << "Error contacting entity manager\n";
+                lg2::error("Error contacting entity manager");
                 return;
             }
             for (const auto& [path, interfaces] : resp)
@@ -620,8 +624,8 @@ void createSensors(
                     if (!parseThresholdsFromConfig(interfaces,
                                                    sensorThresholds))
                     {
-                        std::cerr
-                            << "error populating thresholds " << name << "\n";
+                        lg2::error("error populating thresholds '{NAME}'",
+                                   "NAME", name);
                     }
                     uint8_t deviceAddress =
                         loadVariant<uint8_t>(cfg, "Address");
@@ -645,8 +649,8 @@ void createSensors(
                     {
                         ipmbBusIndex = std::visit(VariantToUnsignedIntVisitor(),
                                                   findBusType->second);
-                        std::cerr << "Ipmb Bus Index for " << name << " is "
-                                  << static_cast<int>(ipmbBusIndex) << "\n";
+                        lg2::error("Ipmb Bus Index for '{NAME}' is '{INDEX}'",
+                                   "NAME", name, "INDEX", ipmbBusIndex);
                     }
 
                     /* Default sensor type is "temperature" */
@@ -686,7 +690,7 @@ void interfaceRemoved(
 {
     if (message.is_method_error())
     {
-        std::cerr << "interfacesRemoved callback method error\n";
+        lg2::error("interfacesRemoved callback method error");
         return;
     }
 
