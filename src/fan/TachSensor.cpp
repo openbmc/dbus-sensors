@@ -26,6 +26,7 @@
 #include <boost/asio/error.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/random_access_file.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
@@ -33,7 +34,6 @@
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
-#include <iostream>
 #include <memory>
 #include <optional>
 #include <string>
@@ -151,7 +151,8 @@ void TachSensor::handleResponse(const boost::system::error_code& err,
     if ((err == boost::system::errc::bad_file_descriptor) ||
         (err == boost::asio::error::misc_errors::not_found))
     {
-        std::cerr << "TachSensor " << name << " removed " << path << "\n";
+        lg2::error("TachSensor {NAME} removed {PATH}", "NAME", name, "PATH",
+                   path);
         return; // we're being destroyed
     }
     bool missing = false;
