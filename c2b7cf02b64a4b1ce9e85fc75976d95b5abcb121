@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a700a91f_1865cec9",
+        "filename": "src/intel-cpu/IntelCPUSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-02-20T09:06:38Z",
+      "side": 1,
+      "message": "before, the variable printed was ```inputPath``` and not ```labelPath```.\n\nIf that\u0027s a bug, and ```labelPath``` is the correct thing to print, (i did not look into it that far), let\u0027s possibly make that a separate change, to keep it consistent with the other lg2 conversion patches.",
+      "range": {
+        "startLine": 347,
+        "startChar": 38,
+        "endLine": 347,
+        "endChar": 47
+      },
+      "revId": "c2b7cf02b64a4b1ce9e85fc75976d95b5abcb121",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec8611be_0d822992",
+        "filename": "src/intel-cpu/IntelCPUSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-02-20T09:06:38Z",
+      "side": 1,
+      "message": "```is changed```",
+      "range": {
+        "startLine": 851,
+        "startChar": 34,
+        "endLine": 851,
+        "endChar": 44
+      },
+      "revId": "c2b7cf02b64a4b1ce9e85fc75976d95b5abcb121",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
