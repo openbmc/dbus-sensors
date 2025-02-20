@@ -37,7 +37,6 @@
 #include <filesystem>
 #include <fstream>
 #include <functional>
-#include <iostream>
 #include <map>
 #include <memory>
 #include <string>
@@ -71,7 +70,7 @@ static void createSensorsFromConfig(
     if (!getSensorConfiguration(sensorType, dbusConnection,
                                 sensorConfigurations, useCache))
     {
-        std::cerr << "error communicating to entity manager\n";
+        lg2::error("error communicating to entity manager");
         return;
     }
 
@@ -88,7 +87,7 @@ static void createSensorsFromConfig(
         auto sensorBase = sensorData->find(configInterfaceName(sensorType));
         if (sensorBase == sensorData->end())
         {
-            std::cerr << "error finding base configuration \n";
+            lg2::error("error finding base configuration");
             continue;
         }
 
@@ -102,7 +101,7 @@ static void createSensorsFromConfig(
             std::string rearmStr = std::get<std::string>(findRearm->second);
             if (rearmStr != "Automatic" && rearmStr != "Manual")
             {
-                std::cerr << "Wrong input for Rearm parameter\n";
+                lg2::error("Wrong input for Rearm parameter");
                 continue;
             }
             autoRearm = (rearmStr == "Automatic");
@@ -120,8 +119,7 @@ static void createSensorsFromConfig(
 
                 if (findGpioPolarity == baseConfiguration->second.end())
                 {
-                    std::cerr
-                        << "error finding gpio polarity in configuration \n";
+                    lg2::error("error finding gpio polarity in configuration");
                     continue;
                 }
 
@@ -135,21 +133,22 @@ static void createSensorsFromConfig(
                     pSensor->start();
                     if (debug)
                     {
-                        std::cout
-                            << "find chassis intrusion sensor polarity inverted "
-                               "flag is "
-                            << gpioInverted << "\n";
+                        lg2::info(
+                            "find chassis intrusion sensor polarity inverted flag is '{GPIO_INVERTED}'",
+                            "GPIO_INVERTED", gpioInverted);
                     }
                     return;
                 }
                 catch (const std::bad_variant_access& e)
                 {
-                    std::cerr << "invalid value for gpio info in config. \n";
+                    lg2::error("invalid value for gpio info in config.");
                     continue;
                 }
                 catch (const std::exception& e)
                 {
-                    std::cerr << e.what() << std::endl;
+                    lg2::error(
+                        "error creating chassis intrusion gpio sensor: '{ERROR}'",
+                        "ERROR", e);
                     continue;
                 }
             }
@@ -162,7 +161,7 @@ static void createSensorsFromConfig(
 
                 if (compatIterator == compatibleHwmonNames.end())
                 {
-                    std::cerr << "Hwmon Class string is not supported\n";
+                    lg2::error("Hwmon Class string is not supported");
                     continue;
                 }
 
@@ -177,7 +176,9 @@ static void createSensorsFromConfig(
                 }
                 catch (const std::exception& e)
                 {
-                    std::cerr << e.what() << std::endl;
+                    lg2::error(
+                        "error creating chassis intrusion hwmon sensor: '{ERROR}'",
+                        "ERROR", e);
                     continue;
                 }
             }
@@ -188,8 +189,7 @@ static void createSensorsFromConfig(
                 if (findBus == baseConfiguration->second.end() ||
                     findAddress == baseConfiguration->second.end())
                 {
-                    std::cerr
-                        << "error finding bus or address in configuration \n";
+                    lg2::error("error finding bus or address in configuration");
                     continue;
                 }
                 try
@@ -201,34 +201,35 @@ static void createSensorsFromConfig(
                     pSensor->start();
                     if (debug)
                     {
-                        std::cout
-                            << "find matched bus " << busId
-                            << ", matched slave addr " << slaveAddr << "\n";
+                        lg2::info(
+                            "find matched bus '{BUS}', matched slave addr '{ADDR}'",
+                            "BUS", busId, "ADDR", slaveAddr);
                     }
                     return;
                 }
                 catch (const std::bad_variant_access& e)
                 {
-                    std::cerr
-                        << "invalid value for bus or address in config. \n";
+                    lg2::error("invalid value for bus or address in config.");
                     continue;
                 }
                 catch (const std::exception& e)
                 {
-                    std::cerr << e.what() << std::endl;
+                    lg2::error(
+                        "error creating chassis intrusion pch sensor: '{ERROR}'",
+                        "ERROR", e);
                     continue;
                 }
             }
         }
     }
 
-    std::cerr << " Can't find matched I2C, GPIO or Hwmon configuration\n";
+    lg2::error("Can't find matched I2C, GPIO or Hwmon configuration");
 
     // Make sure nothing runs when there's failure in configuration for the
     // sensor after rescan
     if (pSensor)
     {
-        std::cerr << " Reset the occupied sensor pointer\n";
+        lg2::error("Reset the occupied sensor pointer");
         pSensor = nullptr;
     }
 }
@@ -273,8 +274,8 @@ static void getNicNameInfo(
                         lanInfoMap[*pEthIndex] = *pName;
                         if (debugLanLeash)
                         {
-                            std::cout << "find name of eth" << *pEthIndex
-                                      << " is " << *pName << "\n";
+                            lg2::info("find name of eth{ETH_INDEX} is '{NAME}'",
+                                      "ETH_INDEX", *pEthIndex, "NAME", *pName);
                         }
                     }
                 }
@@ -282,7 +283,7 @@ static void getNicNameInfo(
 
             if (lanInfoMap.empty())
             {
-                std::cerr << "can't find matched NIC name. \n";
+                lg2::error("can't find matched NIC name.");
             }
         });
 
@@ -306,7 +307,7 @@ static void processLanStatusChange(sdbusplus::message_t& message)
         std::get_if<std::string>(&(findStateProperty->second));
     if (pState == nullptr)
     {
-        std::cerr << "invalid OperationalState \n";
+        lg2::error("invalid OperationalState");
         return;
     }
 
@@ -317,7 +318,7 @@ static void processLanStatusChange(sdbusplus::message_t& message)
     size_t pos = pathName.find("/_");
     if (pos == std::string::npos || pathName.length() <= pos + 2)
     {
-        std::cerr << "unexpected path name " << pathName << "\n";
+        lg2::error("unexpected path name '{NAME}'", "NAME", pathName);
         return;
     }
     std::string suffixStr = pathName.substr(pos + 2);
@@ -325,7 +326,8 @@ static void processLanStatusChange(sdbusplus::message_t& message)
     auto findEthNum = pathSuffixMap.find(suffixStr);
     if (findEthNum == pathSuffixMap.end())
     {
-        std::cerr << "unexpected eth for suffixStr " << suffixStr << "\n";
+        lg2::error("unexpected eth for suffixStr '{SUFFIX}'", "SUFFIX",
+                   suffixStr);
         return;
     }
     int ethNum = findEthNum->second;
@@ -334,7 +336,8 @@ static void processLanStatusChange(sdbusplus::message_t& message)
     auto findLanStatus = lanStatusMap.find(ethNum);
     if (findLanStatus == lanStatusMap.end())
     {
-        std::cerr << "unexpected eth " << ethNum << " in lanStatusMap \n";
+        lg2::error("unexpected eth{ETH_INDEX} is lanStatusMap", "ETH_INDEX",
+                   ethNum);
         return;
     }
     bool oldLanConnected = findLanStatus->second;
@@ -346,7 +349,8 @@ static void processLanStatusChange(sdbusplus::message_t& message)
         auto findLanInfo = lanInfoMap.find(ethNum);
         if (findLanInfo == lanInfoMap.end())
         {
-            std::cerr << "unexpected eth " << ethNum << " in lanInfoMap \n";
+            lg2::error("unexpected eth{ETH_INDEX} is lanInfoMap", "ETH_INDEX",
+                       ethNum);
         }
         else
         {
@@ -356,11 +360,12 @@ static void processLanStatusChange(sdbusplus::message_t& message)
 
     if (debugLanLeash)
     {
-        std::cout << "ethNum = " << ethNum << ", state = " << *pState
-                  << ", oldLanConnected = "
-                  << (oldLanConnected ? "true" : "false")
-                  << ", newLanConnected = "
-                  << (newLanConnected ? "true" : "false") << "\n";
+        lg2::info(
+            "ethNum = {ETH_INDEX}, state = {LAN_STATUS}, oldLanConnected = {OLD_LAN_CONNECTED}, "
+            "newLanConnected = {NEW_LAN_CONNECTED}",
+            "ETH_INDEX", ethNum, "LAN_STATUS", *pState, "OLD_LAN_CONNECTED",
+            (oldLanConnected ? "true" : "false"), "NEW_LAN_CONNECTED",
+            (newLanConnected ? "true" : "false"));
     }
 
     if (oldLanConnected != newLanConnected)
@@ -370,9 +375,9 @@ static void processLanStatusChange(sdbusplus::message_t& message)
         const auto* strMsgId =
             newLanConnected ? "OpenBMC.0.1.LanRegained" : "OpenBMC.0.1.LanLost";
 
-        lg2::info("{ETHDEV} LAN leash {STATE}", "ETHDEV", strEthNum, "STATE",
-                  strState, "REDFISH_MESSAGE_ID", strMsgId,
-                  "REDFISH_MESSAGE_ARGS", strEthNum);
+        lg2::info("'{ETH_INFO}' LAN leash '{LAN_STATUS}'", "ETH_INFO",
+                  strEthNum, "LAN_STATUS", strState, "REDFISH_MESSAGE_ID",
+                  strMsgId, "REDFISH_MESSAGE_ARGS", strEthNum);
 
         lanStatusMap[ethNum] = newLanConnected;
     }
@@ -393,7 +398,7 @@ static bool initializeLanStatus(
     if (!findFiles(std::filesystem::path("/sys/class/net/"),
                    R"(eth\d+/ifindex)", files))
     {
-        std::cerr << "No eth in system\n";
+        lg2::error("No eth in system");
         return false;
     }
 
@@ -402,12 +407,12 @@ static bool initializeLanStatus(
     {
         if (debugLanLeash)
         {
-            std::cout << "Reading " << fileName << "\n";
+            lg2::info("Reading '{NAME}'", "NAME", fileName);
         }
         std::ifstream sysFile(fileName);
         if (!sysFile.good())
         {
-            std::cerr << "Failure reading " << fileName << "\n";
+            lg2::error("Failure reading '{NAME}'", "NAME", fileName);
             continue;
         }
         std::string line;
@@ -425,7 +430,8 @@ static bool initializeLanStatus(
             ethNumStr.data(), ethNumStr.data() + ethNumStr.size(), ethNum);
         if (r.ec != std::errc())
         {
-            std::cerr << "invalid ethNum string: " << ethNumStr << "\n";
+            lg2::error("invalid ethNum string: '{ETH_INDEX}'", "ETH_INDEX",
+                       ethNumStr);
             continue;
         }
 
@@ -433,8 +439,9 @@ static bool initializeLanStatus(
         pathSuffixMap[pathSuffix] = ethNum;
         if (debugLanLeash)
         {
-            std::cout << "ethNum = " << std::to_string(ethNum) << ", ifindex = "
-                      << line << ", pathSuffix = " << pathSuffix << "\n";
+            lg2::info(
+                "ethNum = {ETH_INDEX}, ifindex = {LINE}, pathSuffix = {PATH}",
+                "ETH_INDEX", ethNum, "LINE", line, "PATH", pathSuffix);
         }
 
         // init lan connected status from networkd
@@ -444,14 +451,14 @@ static bool initializeLanStatus(
                 lanStatusMap[ethNum] = false;
                 if (ec)
                 {
-                    std::cerr
-                        << "Error reading init status of eth" << ethNum << "\n";
+                    lg2::error("Error reading init status of eth{ETH_INDEX}",
+                               "ETH_INDEX", ethNum);
                     return;
                 }
                 const std::string* pState = std::get_if<std::string>(&property);
                 if (pState == nullptr)
                 {
-                    std::cerr << "Unable to read lan status value\n";
+                    lg2::error("Unable to read lan status value");
                     return;
                 }
                 bool isLanConnected =
@@ -459,9 +466,10 @@ static bool initializeLanStatus(
                      *pState == "degraded");
                 if (debugLanLeash)
                 {
-                    std::cout << "ethNum = " << std::to_string(ethNum)
-                              << ", init LAN status = "
-                              << (isLanConnected ? "true" : "false") << "\n";
+                    lg2::info(
+                        "ethNum = {ETH_INDEX}, init LAN status = {STATUS}",
+                        "ETH_INDEX", ethNum, "STATUS",
+                        (isLanConnected ? "true" : "false"));
                 }
                 lanStatusMap[ethNum] = isLanConnected;
             },
@@ -496,7 +504,7 @@ int main()
         [&](sdbusplus::message_t& message) {
             if (message.is_method_error())
             {
-                std::cerr << "callback method error\n";
+                lg2::error("callback method error");
                 return;
             }
             // this implicitly cancels the timer
@@ -507,7 +515,7 @@ int main()
                     // timer was cancelled
                     return;
                 }
-                std::cout << "rescan due to configuration change \n";
+                lg2::info("rescan due to configuration change");
                 createSensorsFromConfig(io, objServer, systemBus,
                                         intrusionSensor);
             });
@@ -536,7 +544,7 @@ int main()
             [&systemBus](sdbusplus::message_t& msg) {
                 if (msg.is_method_error())
                 {
-                    std::cerr << "callback method error\n";
+                    lg2::error("callback method error");
                     return;
                 }
                 getNicNameInfo(systemBus);
