@@ -5,13 +5,13 @@
 #include "Utils.hpp"
 #include "sensor.hpp"
 
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
 #include <chrono>
 #include <cstddef>
 #include <functional>
-#include <iostream>
 #include <limits>
 #include <memory>
 #include <stdexcept>
@@ -65,13 +65,13 @@ ExternalSensor::ExternalSensor(
 
     if constexpr (debug)
     {
-        std::cerr << "ExternalSensor " << name << " constructed: path "
-                  << configurationPath << ", type " << objectType << ", min "
-                  << minReading << ", max " << maxReading << ", timeout "
-                  << std::chrono::duration_cast<std::chrono::microseconds>(
-                         writeTimeout)
-                         .count()
-                  << " us\n";
+        lg2::error(
+            "ExternalSensor {NAME} constructed: path {PATH}, type {TYPE}, "
+            "min {MIN}, max {MAX}, timeout {TIMEOUT} us",
+            "NAME", name, "PATH", objectPath, "TYPE", objectType, "MIN",
+            minReading, "MAX", maxReading, "TIMEOUT",
+            std::chrono::duration_cast<std::chrono::microseconds>(writeTimeout)
+                .count());
     }
 }
 
@@ -95,7 +95,7 @@ void ExternalSensor::initWriteHook(
         }
         if constexpr (debug)
         {
-            std::cerr << "ExternalSensor receive ignored, sensor gone\n";
+            lg2::error("ExternalSensor receive ignored, sensor gone");
         }
     };
 }
@@ -114,7 +114,7 @@ ExternalSensor::~ExternalSensor()
 
     if constexpr (debug)
     {
-        std::cerr << "ExternalSensor " << name << " destructed\n";
+        lg2::error("ExternalSensor {NAME} destructed", "NAME", name);
     }
 }
 
@@ -147,8 +147,9 @@ void ExternalSensor::writeBegin(
 {
     if (!writeAlive)
     {
-        std::cerr << "ExternalSensor " << name
-                  << " online, receiving first value " << value << "\n";
+        lg2::error(
+            "ExternalSensor {NAME} online, receiving first value {VALUE}",
+            "NAME", name, "VALUE", value);
     }
 
     writeLast = now;
@@ -159,7 +160,7 @@ void ExternalSensor::writeInvalidate()
 {
     writeAlive = false;
 
-    std::cerr << "ExternalSensor " << name << " offline, timed out\n";
+    lg2::error("ExternalSensor {NAME} offline, timed out", "NAME", name);
 
     // Take back control of this sensor from the external override,
     // as the external source has timed out.
@@ -190,7 +191,8 @@ void ExternalSensor::externalSetTrigger()
 {
     if constexpr (debug)
     {
-        std::cerr << "ExternalSensor " << name << " received " << value << "\n";
+        lg2::error("ExternalSensor {NAME} received {VALUE}", "NAME", name,
+                   "VALUE", value);
     }
 
     auto now = std::chrono::steady_clock::now();
