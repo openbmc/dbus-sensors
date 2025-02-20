@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79faad6a_e2e3e891",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-02-20T23:47:16Z",
+      "side": 1,
+      "message": "Can you please instead prefix the commit subject with the affected component?\n\n```\nhwmon-temp: Convert logging to lg2\n```\n\nThis applies to your subsequent (and all future) commits as well.",
+      "revId": "d16deececc588d6bf399e6cd7c5607187db2fc91",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
