@@ -9,13 +9,13 @@
 #include <boost/asio/streambuf.hpp>
 #include <boost/container/flat_map.hpp>
 #include <gpiod.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sensor.hpp>
 
 #include <cstddef>
 #include <cstdint>
-#include <iostream>
 #include <memory>
 #include <string>
 #include <system_error>
@@ -98,7 +98,7 @@ inline bool cpuIsPresent(const SensorBaseConfigMap& gpioConfig)
     auto line = gpiod::find_line(gpioName);
     if (!line)
     {
-        std::cerr << "Error requesting gpio: " << gpioName << "\n";
+        lg2::error("Error requesting gpio: {NAME}", "NAME", gpioName);
         return false;
     }
 
@@ -111,7 +111,7 @@ inline bool cpuIsPresent(const SensorBaseConfigMap& gpioConfig)
     }
     catch (const std::system_error&)
     {
-        std::cerr << "Error reading gpio: " << gpioName << "\n";
+        lg2::error("Error reading gpio: {NAME}", "NAME", gpioName);
         return false;
     }
 
