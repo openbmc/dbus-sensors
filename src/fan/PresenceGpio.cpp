@@ -19,9 +19,9 @@
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/posix/stream_descriptor.hpp>
 #include <gpiod.hpp>
+#include <phosphor-logging/lg2.hpp>
 
 #include <chrono>
-#include <iostream>
 #include <memory>
 #include <stdexcept>
 #include <string>
@@ -37,7 +37,7 @@ PresenceGpio::PresenceGpio(const std::string& deviceType,
     gpioLine = gpiod::find_line(gpioName);
     if (!gpioLine)
     {
-        std::cerr << "Error requesting gpio: " << gpioName << "\n";
+        lg2::error("Error requesting gpio: '{NAME}'", "NAME", gpioName);
         throw std::runtime_error("Failed to find GPIO " + gpioName);
     }
 }
@@ -74,15 +74,15 @@ EventPresenceGpio::EventPresenceGpio(
     }
     catch (const std::system_error& e)
     {
-        std::cerr << "Error reading gpio " << gpioName << ": " << e.what()
-                  << "\n";
+        lg2::error("Error reading gpio '{NAME}': '{ERR}'", "NAME", gpioName,
+                   "ERR", e);
         throw std::runtime_error("Failed to read GPIO fd " + gpioName);
     }
 
     int gpioLineFd = gpioLine.event_get_fd();
     if (gpioLineFd < 0)
     {
-        std::cerr << "Failed to get " << gpioName << " fd\n";
+        lg2::error("Failed to get '{NAME}' fd", "NAME", gpioName);
         throw std::runtime_error("Failed to get GPIO fd " + gpioName);
     }
 
@@ -98,17 +98,19 @@ void EventPresenceGpio::monitorPresence()
             std::shared_ptr<EventPresenceGpio> self = weakRef.lock();
             if (!self)
             {
-                std::cerr << "Failed to get lock for eventPresenceGpio: "
-                          << ec.message() << "\n";
+                lg2::error(
+                    "Failed to get lock for eventPresenceGpio: '{ERROR_MESSAGE}'",
+                    "ERROR_MESSAGE", ec.message());
                 return;
             }
             if (ec)
             {
                 if (ec != boost::system::errc::bad_file_descriptor)
                 {
-                    std::cerr
-                        << "Error on event presence device " << self->deviceName
-                        << ": " << ec.message() << "\n";
+                    lg2::error(
+                        "Error on event presence device '{NAME}': '{ERROR_MESSAGE}'",
+                        "NAME", self->deviceName, "ERROR_MESSAGE",
+                        ec.message());
                 }
                 return;
             }
@@ -138,8 +140,8 @@ PollingPresenceGpio::PollingPresenceGpio(
     }
     catch (const std::system_error& e)
     {
-        std::cerr << "PollingPresenceGpio: Error reading gpio " << gpioName
-                  << ": " << e.what() << "\n";
+        lg2::error("PollingPresenceGpio: Error reading gpio '{NAME}': '{ERR}'",
+                   "NAME", gpioName, "ERR", e);
         status = false;
         throw std::runtime_error("Failed to get Polling GPIO fd " + gpioName);
     }
@@ -152,16 +154,18 @@ inline void PollingPresenceGpio::pollTimerHandler(
     std::shared_ptr<PollingPresenceGpio> self = weakRef.lock();
     if (!self)
     {
-        std::cerr << "Failed to get lock for pollingPresenceGpio: "
-                  << ec.message() << "\n";
+        lg2::error(
+            "Failed to get lock for pollingPresenceGpio: '{ERROR_MESSAGE}'",
+            "ERROR_MESSAGE", ec.message());
         return;
     }
     if (ec)
     {
         if (ec != boost::system::errc::bad_file_descriptor)
         {
-            std::cerr << "GPIO polling timer failed for " << self->gpioName
-                      << ": " << ec.what() << ")\n";
+            lg2::error(
+                "GPIO polling timer failed for '{NAME}': '{ERROR_MESSAGE}'",
+                "NAME", self->gpioName, "ERROR_MESSAGE", ec.message());
         }
         return;
     }
