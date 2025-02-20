@@ -31,6 +31,7 @@
 #include <boost/asio/post.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <boost/container/flat_map.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/bus/match.hpp>
@@ -41,7 +42,6 @@
 #include <cstddef>
 #include <cstdint>
 #include <functional>
-#include <iostream>
 #include <memory>
 #include <string>
 #include <utility>
@@ -120,15 +120,15 @@ int MCUTempSensor::getMCURegsInfoWord(uint8_t regs, int32_t* pu32data) const
     int fd = open(i2cBus.c_str(), O_RDWR);
     if (fd < 0)
     {
-        std::cerr << " unable to open i2c device" << i2cBus << "  err=" << fd
-                  << "\n";
+        lg2::error("unable to open i2c device {BUS} err = {ERR}", "BUS", i2cBus,
+                   "ERR", fd);
         return -1;
     }
 
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
     if (ioctl(fd, I2C_SLAVE_FORCE, mcuAddress) < 0)
     {
-        std::cerr << " unable to set device address\n";
+        lg2::error("unable to set device address");
         close(fd);
         return -1;
     }
@@ -137,14 +137,14 @@ int MCUTempSensor::getMCURegsInfoWord(uint8_t regs, int32_t* pu32data) const
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
     if (ioctl(fd, I2C_FUNCS, &funcs) < 0)
     {
-        std::cerr << " not support I2C_FUNCS\n";
+        lg2::error("not support I2C_FUNCS");
         close(fd);
         return -1;
     }
 
     if ((funcs & I2C_FUNC_SMBUS_READ_WORD_DATA) == 0U)
     {
-        std::cerr << " not support I2C_FUNC_SMBUS_READ_WORD_DATA\n";
+        lg2::error("not support I2C_FUNC_SMBUS_READ_WORD_DATA");
         close(fd);
         return -1;
     }
@@ -154,8 +154,7 @@ int MCUTempSensor::getMCURegsInfoWord(uint8_t regs, int32_t* pu32data) const
 
     if (*pu32data < 0)
     {
-        std::cerr << " read word data failed at " << static_cast<int>(regs)
-                  << "\n";
+        lg2::error(" read word data failed at {REGS}", "REGS", regs);
         return -1;
     }
 
@@ -175,7 +174,7 @@ void MCUTempSensor::read()
         // read timer error
         if (ec)
         {
-            std::cerr << "timer error\n";
+            lg2::error("timer error");
             return;
         }
         int32_t temp = 0;
@@ -185,14 +184,14 @@ void MCUTempSensor::read()
             double v = static_cast<double>(temp) / 1000;
             if constexpr (debug)
             {
-                std::cerr << "Value update to " << v << "raw reading "
-                          << static_cast<int>(temp) << "\n";
+                lg2::error("Value update to {VALUE} raw reading {RAW}", "VALUE",
+                           v, "RAW", temp);
             }
             updateValue(v);
         }
         else
         {
-            std::cerr << "Invalid read getMCURegsInfoWord\n";
+            lg2::error("Invalid read getMCURegsInfoWord");
             incrementError();
         }
         read();
@@ -207,7 +206,7 @@ void createSensors(
 {
     if (!dbusConnection)
     {
-        std::cerr << "Connection not created\n";
+        lg2::error("Connection not created");
         return;
     }
 
@@ -216,7 +215,7 @@ void createSensors(
             boost::system::error_code ec, const ManagedObjectType& resp) {
             if (ec)
             {
-                std::cerr << "Error contacting entity manager\n";
+                lg2::error("Error contacting entity manager");
                 return;
             }
             for (const auto& [path, interfaces] : resp)
@@ -233,8 +232,8 @@ void createSensors(
                     if (!parseThresholdsFromConfig(interfaces,
                                                    sensorThresholds))
                     {
-                        std::cerr << "error populating thresholds for " << name
-                                  << "\n";
+                        lg2::error("error populating thresholds for {NAME}",
+                                   "NAME", name);
                     }
 
                     uint8_t busId = loadVariant<uint8_t>(cfg, "Bus");
@@ -246,15 +245,12 @@ void createSensors(
 
                     if constexpr (debug)
                     {
-                        std::cerr
-                            << "Configuration parsed for \n\t" << intf << "\n"
-                            << "with\n"
-                            << "\tName: " << name << "\n"
-                            << "\tBus: " << static_cast<int>(busId) << "\n"
-                            << "\tAddress: " << static_cast<int>(mcuAddress)
-                            << "\n"
-                            << "\tReg: " << static_cast<int>(tempReg) << "\n"
-                            << "\tClass: " << sensorClass << "\n";
+                        lg2::error(
+                            "Configuration parsed for {INTERFACE} with Name: {NAME}, Bus: {BUS}, "
+                            "Address: {ADDRESS}, Reg: {REG}, Class: {CLASS}",
+                            "INTERFACE", intf, "NAME", name, "BUS", busId,
+                            "ADDRESS", mcuAddress, "REG", tempReg, "CLASS",
+                            sensorClass);
                     }
 
                     auto& sensor = sensors[name];
@@ -299,13 +295,13 @@ int main()
                 // config timer error
                 if (ec)
                 {
-                    std::cerr << "timer error\n";
+                    lg2::error("timer error");
                     return;
                 }
                 createSensors(io, objectServer, sensors, systemBus);
                 if (sensors.empty())
                 {
-                    std::cout << "Configuration not detected\n";
+                    lg2::info("Configuration not detected");
                 }
             });
         };
