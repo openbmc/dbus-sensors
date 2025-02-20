@@ -28,6 +28,7 @@
 #include <boost/asio/post.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <boost/container/flat_map.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/bus.hpp>
@@ -41,7 +42,6 @@
 #include <cstddef>
 #include <cstdint>
 #include <functional>
-#include <iostream>
 #include <limits>
 #include <memory>
 #include <stdexcept>
@@ -122,7 +122,7 @@ static void setMaxPWM(const std::shared_ptr<sdbusplus::asio::connection>& conn,
          value](const boost::system::error_code ec, const GetSubTreeType& ret) {
             if (ec)
             {
-                std::cerr << "Error calling mapper\n";
+                lg2::error("Error calling mapper");
                 return;
             }
             for (const auto& [path, objDict] : ret)
@@ -139,7 +139,7 @@ static void setMaxPWM(const std::shared_ptr<sdbusplus::asio::connection>& conn,
                                  const std::variant<std::string>& classType) {
                         if (ec)
                         {
-                            std::cerr << "Error getting pid class\n";
+                            lg2::error("Error getting pid class");
                             return;
                         }
                         const auto* classStr =
@@ -152,7 +152,7 @@ static void setMaxPWM(const std::shared_ptr<sdbusplus::asio::connection>& conn,
                             [](boost::system::error_code& ec) {
                                 if (ec)
                                 {
-                                    std::cerr << "Error setting pid class\n";
+                                    lg2::error("Error setting pid class");
                                     return;
                                 }
                             },
@@ -278,12 +278,12 @@ void CFMSensor::setupMatches()
             auto* const reading = std::get_if<double>(&(findValue->second));
             if (reading == nullptr)
             {
-                std::cerr << "Got CFM Limit of wrong type\n";
+                lg2::error("Got CFM Limit of wrong type");
                 return;
             }
             if (*reading < minSystemCfm && *reading != 0)
             {
-                std::cerr << "Illegal CFM setting detected\n";
+                lg2::error("Illegal CFM setting detected");
                 return;
             }
             uint64_t maxRpm = self->getMaxRpm(*reading);
@@ -319,7 +319,8 @@ void CFMSensor::addTachRanges(const std::string& serviceName,
                         const SensorBaseConfigMap& data) {
             if (ec)
             {
-                std::cerr << "Error getting properties from " << path << "\n";
+                lg2::error("Error getting properties from '{PATH}'", "PATH",
+                           path);
                 return;
             }
             auto self = weakRef.lock();
@@ -429,21 +430,22 @@ bool CFMSensor::calculate(double& value)
         {
             if constexpr (debug)
             {
-                std::cerr << "Can't find " << tachName << "in readings\n";
+                lg2::error("Can't find '{NAME}' in readings", "NAME", tachName);
             }
             continue; // haven't gotten a reading
         }
 
         if (findRange == tachRanges.end())
         {
-            std::cerr << "Can't find " << tachName << " in ranges\n";
+            lg2::error("Can't find '{NAME}' in ranges", "NAME", tachName);
             return false; // haven't gotten a max / min
         }
 
         // avoid divide by 0
         if (findRange->second.second == 0)
         {
-            std::cerr << "Tach Max Set to 0 " << tachName << "\n";
+            lg2::error("Tach Max Set to 0, tachName: '{NAME}'", "NAME",
+                       tachName);
             return false;
         }
 
@@ -456,7 +458,7 @@ bool CFMSensor::calculate(double& value)
 
         if constexpr (debug)
         {
-            std::cout << "Tach " << tachName << "at " << rpm << "\n";
+            lg2::info("Tach '{NAME}' at '{RPM}'", "NAME", tachName, "RPM", rpm);
         }
 
         // Do a linear interpolation to get Ci
@@ -486,11 +488,11 @@ bool CFMSensor::calculate(double& value)
         totalCFM += ci * maxCFM * rpm;
         if constexpr (debug)
         {
-            std::cerr << "totalCFM = " << totalCFM << "\n";
-            std::cerr << "Ci " << ci << " MaxCFM " << maxCFM << " rpm " << rpm
-                      << "\n";
-            std::cerr << "c1 " << c1 << " c2 " << c2 << " max "
-                      << tachMaxPercent << " min " << tachMinPercent << "\n";
+            lg2::error(
+                "totalCFM = {CFM}, Ci = {CI}, MaxCFM = {MAXCFM}, rpm = {RPM}, c1 = {C1}"
+                ", c2 = {C2}, max = {MAX}, min = {MIN}",
+                "CFM", totalCFM, "CI", ci, "MAXCFM", maxCFM, "RPM", rpm, "C1",
+                c1, "C2", c2, "MAX", tachMaxPercent, "MIN", tachMinPercent);
         }
     }
 
@@ -498,7 +500,7 @@ bool CFMSensor::calculate(double& value)
     value = totalCFM / 100;
     if constexpr (debug)
     {
-        std::cerr << "cfm value = " << value << "\n";
+        lg2::error("cfm value = {VALUE}", "VALUE", value);
     }
     return true;
 }
@@ -597,7 +599,7 @@ void ExitAirTempSensor::setupMatches()
         [weakRef](boost::system::error_code ec, const GetSubTreeType& subtree) {
             if (ec)
             {
-                std::cerr << "Error contacting mapper\n";
+                lg2::error("Error contacting mapper");
                 return;
             }
             auto self = weakRef.lock();
@@ -625,8 +627,8 @@ void ExitAirTempSensor::setupMatches()
                                           const std::variant<double>& value) {
                             if (ec)
                             {
-                                std::cerr << "Error getting value from "
-                                          << cbPath << "\n";
+                                lg2::error("Error getting value from '{PATH}'",
+                                           "PATH", cbPath);
                             }
                             auto self = weakRef.lock();
                             if (!self)
@@ -637,8 +639,8 @@ void ExitAirTempSensor::setupMatches()
                                 std::visit(VariantToDoubleVisitor(), value);
                             if constexpr (debug)
                             {
-                                std::cerr
-                                    << cbPath << "Reading " << reading << "\n";
+                                lg2::error("'{PATH}' reading '{VALUE}'", "PATH",
+                                           cbPath, "VALUE", reading);
                             }
                             self->powerReadings[cbPath] = reading;
                         },
@@ -691,7 +693,7 @@ bool ExitAirTempSensor::calculate(double& val)
     double cfm = getTotalCFM();
     if (cfm <= 0)
     {
-        std::cerr << "Error getting cfm\n";
+        lg2::error("Error getting cfm");
         return false;
     }
 
@@ -705,8 +707,8 @@ bool ExitAirTempSensor::calculate(double& val)
         if (errorPrint > 0)
         {
             errorPrint--;
-            std::cerr << "cfm " << cfm << " is too low, expected qMin " << qMin
-                      << "\n";
+            lg2::error("cfm '{CFM}' is too low, expected qMin '{QMIN}'", "CFM",
+                       cfm, "QMIN", qMin);
         }
         val = 0;
         return false;
@@ -718,7 +720,7 @@ bool ExitAirTempSensor::calculate(double& val)
         if (errorPrint > 0)
         {
             errorPrint--;
-            std::cerr << "Cannot get inlet temp\n";
+            lg2::error("Cannot get inlet temp");
         }
         val = 0;
         return false;
@@ -766,7 +768,7 @@ bool ExitAirTempSensor::calculate(double& val)
         if (errorPrint > 0)
         {
             errorPrint--;
-            std::cerr << "total power 0\n";
+            lg2::error("total power 0");
         }
         val = 0;
         return false;
@@ -774,10 +776,11 @@ bool ExitAirTempSensor::calculate(double& val)
 
     if constexpr (debug)
     {
-        std::cout << "Power Factor " << powerFactor << "\n";
-        std::cout << "Inlet Temp " << inletTemp << "\n";
-        std::cout << "Total Power" << totalPower << "\n";
-    }
+        lg2::info(
+            "Power Factor: {POWER_FACTOR}, Inlet Temp: {INLET_TEMP}, Total Power: {TOTAL_POWER}",
+            "POWER_FACTOR", powerFactor, "INLET_TEMP", inletTemp, "TOTAL_POWER",
+            totalPower);
+    };
 
     // Calculate the exit air temp
     // Texit = Tfp + (1.76 * TotalPower / CFM * Faltitude)
@@ -787,7 +790,7 @@ bool ExitAirTempSensor::calculate(double& val)
 
     if constexpr (debug)
     {
-        std::cout << "Reading 1: " << reading << "\n";
+        lg2::info("Reading 1: '{VALUE}'", "VALUE", reading);
     }
 
     // Now perform the exponential average
@@ -828,14 +831,14 @@ bool ExitAirTempSensor::calculate(double& val)
 
     if constexpr (debug)
     {
-        std::cout << "AlphaDT: " << alphaDT << "\n";
+        lg2::info("AlphaDT: '{ADT}'", "ADT", alphaDT);
     }
 
     reading = ((reading * alphaDT) + (lastReading * (1.0 - alphaDT)));
 
     if constexpr (debug)
     {
-        std::cout << "Reading 2: " << reading << "\n";
+        lg2::info("Reading 2: '{VALUE}'", "VALUE", reading);
     }
 
     val = reading;
@@ -857,7 +860,7 @@ static void loadVariantPathArray(const SensorBaseConfigMap& data,
     auto it = data.find(key);
     if (it == data.end())
     {
-        std::cerr << "Configuration missing " << key << "\n";
+        lg2::error("Configuration missing '{KEY}'", "KEY", key);
         throw std::invalid_argument("Key Missing");
     }
     BasicVariantType copy = it->second;
@@ -875,7 +878,7 @@ void createSensor(sdbusplus::asio::object_server& objectServer,
 {
     if (!dbusConnection)
     {
-        std::cerr << "Connection not created\n";
+        lg2::error("Connection not created");
         return;
     }
     auto getter = std::make_shared<GetSensorConfiguration>(
@@ -973,7 +976,7 @@ int main()
                 createSensor(objectServer, sensor, systemBus);
                 if (!sensor)
                 {
-                    std::cout << "Configuration not detected\n";
+                    lg2::info("Configuration not detected");
                 }
             });
         };
