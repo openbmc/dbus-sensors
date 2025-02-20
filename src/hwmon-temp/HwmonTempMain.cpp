@@ -26,6 +26,8 @@
 #include <boost/asio/steady_timer.hpp>
 #include <boost/container/flat_map.hpp>
 #include <boost/container/flat_set.hpp>
+#include <phosphor-logging/lg2.hpp>
+#include <phosphor-logging/lg2/flags.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/bus.hpp>
@@ -40,8 +42,6 @@
 #include <cstdint>
 #include <filesystem>
 #include <functional>
-#include <ios>
-#include <iostream>
 #include <memory>
 #include <optional>
 #include <regex>
@@ -223,7 +223,7 @@ static SensorConfigMap buildSensorConfigMap(
             if ((std::get_if<uint64_t>(&busCfg->second) == nullptr) ||
                 (std::get_if<uint64_t>(&addrCfg->second) == nullptr))
             {
-                std::cerr << path.str << " Bus or Address invalid\n";
+                lg2::error("{PATH} Bus or Address invalid", "PATH", path.str);
                 continue;
             }
 
@@ -253,9 +253,9 @@ static SensorConfigMap buildSensorConfigMap(
             auto [it, inserted] = configMap.emplace(key, std::move(val));
             if (!inserted)
             {
-                std::cerr << path.str << ": ignoring duplicate entry for {"
-                          << key.bus << ", 0x" << std::hex << key.addr
-                          << std::dec << "}\n";
+                lg2::error("{PATH}: ignoring duplicate entry for {BUS}, {ADDR}",
+                           "PATH", path.str, "BUS", key.bus, "ADDR", lg2::hex,
+                           key.addr);
             }
         }
     }
@@ -315,8 +315,8 @@ void createSensors(
                     device = std::filesystem::canonical(directory, ec);
                     if (ec)
                     {
-                        std::cerr << "Fail to find device in path [" << pathStr
-                                  << "]\n";
+                        lg2::error("Fail to find device in {PATH}", "PATH",
+                                   pathStr);
                         continue;
                     }
                     deviceName = device.parent_path().stem();
@@ -327,8 +327,8 @@ void createSensors(
                         std::filesystem::canonical(directory / "device", ec);
                     if (ec)
                     {
-                        std::cerr << "Fail to find device in path [" << pathStr
-                                  << "]\n";
+                        lg2::error("Fail to find device in {PATH}", "PATH",
+                                   pathStr);
                         continue;
                     }
                     deviceName = device.stem();
@@ -389,8 +389,9 @@ void createSensors(
 
                 if (findSensorName == baseConfigMap.end())
                 {
-                    std::cerr << "could not determine configuration name for "
-                              << deviceName << "\n";
+                    lg2::error(
+                        "could not determine configuration name for {NAME}",
+                        "NAME", deviceName);
                     continue;
                 }
                 std::string sensorName =
@@ -423,8 +424,9 @@ void createSensors(
                 if (!parseThresholdsFromConfig(sensorData, sensorThresholds,
                                                nullptr, &index))
                 {
-                    std::cerr << "error populating thresholds for "
-                              << sensorName << " index " << index << "\n";
+                    lg2::error("error populating thresholds for "
+                               "{NAME}, index: {INDEX}",
+                               "NAME", sensorName, "INDEX", index);
                 }
 
                 float pollRate = getPollRate(baseConfigMap, pollRateDefault);
@@ -495,9 +497,9 @@ void createSensors(
                         if (!parseThresholdsFromConfig(sensorData, thresholds,
                                                        nullptr, &index))
                         {
-                            std::cerr
-                                << "error populating thresholds for "
-                                << sensorName << " index " << index << "\n";
+                            lg2::error("error populating thresholds for "
+                                       "{NAME}, index: {INDEX}",
+                                       "NAME", sensorName, "INDEX", index);
                         }
 
                         auto& sensor = sensors[sensorName];
@@ -546,7 +548,7 @@ void interfaceRemoved(
 {
     if (message.is_method_error())
     {
-        std::cerr << "interfacesRemoved callback method error\n";
+        lg2::error("interfacesRemoved callback method error");
         return;
     }
 
@@ -624,7 +626,7 @@ int main()
         [&](sdbusplus::message_t& message) {
             if (message.is_method_error())
             {
-                std::cerr << "callback method error\n";
+                lg2::error("callback method error");
                 return;
             }
             sensorsChanged->insert(message.get_path());
@@ -639,7 +641,7 @@ int main()
                 }
                 if (ec)
                 {
-                    std::cerr << "timer error\n";
+                    lg2::error("timer error");
                     return;
                 }
                 createSensors(io, objectServer, sensors, systemBus,
