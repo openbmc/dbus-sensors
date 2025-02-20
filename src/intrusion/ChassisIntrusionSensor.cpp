@@ -28,6 +28,7 @@
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/posix/stream_descriptor.hpp>
 #include <gpiod.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
 #include <chrono>
@@ -84,8 +85,8 @@ void ChassisIntrusionSensor::updateValue(const size_t& value)
 
     if constexpr (debug)
     {
-        std::cout << "Update value from " << mValue << " to " << newValue
-                  << "\n";
+        lg2::info("Update value from '{VALUE}' to '{NEWVALUE}'", "VALUE",
+                  mValue, "NEWVALUE", newValue);
     }
 
     // Automatic Rearm mode allows direct update
@@ -129,12 +130,12 @@ int ChassisIntrusionPchSensor::readSensor()
     int32_t value = i2c_smbus_read_byte_data(mBusFd, statusReg);
     if constexpr (debug)
     {
-        std::cout << "Pch type: raw value is " << value << "\n";
+        lg2::info("Pch type: raw value is '{VALUE}'", "VALUE", value);
     }
 
     if (value < 0)
     {
-        std::cerr << "i2c_smbus_read_byte_data failed \n";
+        lg2::error("i2c_smbus_read_byte_data failed");
         return -1;
     }
 
@@ -143,7 +144,7 @@ int ChassisIntrusionPchSensor::readSensor()
 
     if constexpr (debug)
     {
-        std::cout << "Pch type: masked raw value is " << value << "\n";
+        lg2::info("Pch type: masked raw value is '{VALUE}'", "VALUE", value);
     }
     return value;
 }
@@ -159,14 +160,14 @@ void ChassisIntrusionPchSensor::pollSensorStatus()
         // case of being canceled
         if (ec == boost::asio::error::operation_aborted)
         {
-            std::cerr << "Timer of intrusion sensor is cancelled\n";
+            lg2::error("Timer of intrusion sensor is cancelled");
             return;
         }
 
         std::shared_ptr<ChassisIntrusionPchSensor> self = weakRef.lock();
         if (!self)
         {
-            std::cerr << "ChassisIntrusionSensor no self\n";
+            lg2::error("ChassisIntrusionSensor no self");
             return;
         }
 
@@ -192,7 +193,7 @@ int ChassisIntrusionGpioSensor::readSensor()
     auto value = mGpioLine.get_value();
     if constexpr (debug)
     {
-        std::cout << "Gpio type: raw value is " << value << "\n";
+        lg2::info("Gpio type: raw value is '{VALUE}'", "VALUE", value);
     }
     return value;
 }
@@ -209,8 +210,7 @@ void ChassisIntrusionGpioSensor::pollSensorStatus()
 
             if (ec)
             {
-                std::cerr
-                    << "Error on GPIO based intrusion sensor wait event\n";
+                lg2::error("Error on GPIO based intrusion sensor wait event");
             }
             else
             {
@@ -232,14 +232,14 @@ int ChassisIntrusionHwmonSensor::readSensor()
     std::fstream stream(mHwmonPath, std::ios::in | std::ios::out);
     if (!stream.good())
     {
-        std::cerr << "Error reading status at " << mHwmonPath << "\n";
+        lg2::error("Error reading status at '{PATH}'", "PATH", mHwmonPath);
         return -1;
     }
 
     std::string line;
     if (!std::getline(stream, line))
     {
-        std::cerr << "Error reading status at " << mHwmonPath << "\n";
+        lg2::error("Error reading status at '{PATH}'", "PATH", mHwmonPath);
         return -1;
     }
 
@@ -248,13 +248,13 @@ int ChassisIntrusionHwmonSensor::readSensor()
         value = std::stoi(line);
         if constexpr (debug)
         {
-            std::cout << "Hwmon type: raw value is " << value << "\n";
+            lg2::info("Hwmon type: raw value is '{VALUE}'", "VALUE", value);
         }
     }
     catch (const std::invalid_argument& e)
     {
-        std::cerr << "Error reading status at " << mHwmonPath << " : "
-                  << e.what() << "\n";
+        lg2::error("Error reading status at '{PATH}': '{ERR}'", "PATH",
+                   mHwmonPath, "ERR", e);
         return -1;
     }
 
@@ -275,14 +275,14 @@ void ChassisIntrusionHwmonSensor::pollSensorStatus()
         // case of being canceled
         if (ec == boost::asio::error::operation_aborted)
         {
-            std::cerr << "Timer of intrusion sensor is cancelled\n";
+            lg2::error("Timer of intrusion sensor is cancelled");
             return;
         }
 
         std::shared_ptr<ChassisIntrusionHwmonSensor> self = weakRef.lock();
         if (!self)
         {
-            std::cerr << "ChassisIntrusionSensor no self\n";
+            lg2::error("ChassisIntrusionSensor no self");
             return;
         }
 
@@ -457,8 +457,8 @@ ChassisIntrusionHwmonSensor::ChassisIntrusionHwmonSensor(
 
     if (paths.size() > 1)
     {
-        std::cerr << "Found more than 1 hwmon file to read chassis intrusion"
-                  << " status. Taking the first one. \n";
+        lg2::error("Found more than 1 hwmon file to read chassis intrusion"
+                   " status. Taking the first one.");
     }
 
     // Expecting only one hwmon file for one given chassis
@@ -466,9 +466,9 @@ ChassisIntrusionHwmonSensor::ChassisIntrusionHwmonSensor(
 
     if constexpr (debug)
     {
-        std::cout << "Found " << paths.size()
-                  << " paths for intrusion status \n"
-                  << " The first path is: " << mHwmonPath << "\n";
+        lg2::info(
+            "Found '{NUM_PATHS}' paths for intrusion status. The first path is: '{PATH}'",
+            "NUM_PATHS", paths.size(), "PATH", mHwmonPath);
     }
 }
 
@@ -482,7 +482,7 @@ ChassisIntrusionPchSensor::~ChassisIntrusionPchSensor()
     mPollTimer.cancel();
     if (close(mBusFd) < 0)
     {
-        std::cerr << "Failed to close fd " << std::to_string(mBusFd);
+        lg2::error("Failed to close fd '{FD}'", "FD", mBusFd);
     }
 }
 
