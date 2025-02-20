@@ -27,6 +27,7 @@
 #include <boost/container/flat_map.hpp>
 #include <boost/container/flat_set.hpp>
 #include <gpiod.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/bus.hpp>
@@ -40,7 +41,6 @@
 #include <filesystem>
 #include <fstream>
 #include <functional>
-#include <iostream>
 #include <memory>
 #include <optional>
 #include <regex>
@@ -73,7 +73,7 @@ bool isAdc(const std::filesystem::path& parentPath)
     std::ifstream nameFile(namePath);
     if (!nameFile.good())
     {
-        std::cerr << "Failure reading " << namePath.string() << "\n";
+        lg2::error("Failure reading '{PATH}'", "PATH", namePath.string());
         return false;
     }
 
@@ -101,7 +101,7 @@ void createSensors(
             if (!findFiles(std::filesystem::path("/sys/class/hwmon"),
                            R"(in\d+_input)", paths))
             {
-                std::cerr << "No adc sensors in system\n";
+                lg2::error("No adc sensors in system");
                 return;
             }
 
@@ -149,8 +149,9 @@ void createSensors(
                     auto findIndex = baseConfiguration->second.find("Index");
                     if (findIndex == baseConfiguration->second.end())
                     {
-                        std::cerr << "Base configuration missing Index"
-                                  << baseConfiguration->first << "\n";
+                        lg2::error(
+                            "Base configuration missing Index: '{INTERFACE}'",
+                            "INTERFACE", baseConfiguration->first);
                         continue;
                     }
 
@@ -170,24 +171,25 @@ void createSensors(
                 {
                     if constexpr (debug)
                     {
-                        std::cerr << "failed to find match for "
-                                  << path.string() << "\n";
+                        lg2::error("failed to find match for '{PATH}'", "PATH",
+                                   path.string());
                     }
                     continue;
                 }
 
                 if (baseConfiguration == nullptr)
                 {
-                    std::cerr << "error finding base configuration for"
-                              << path.string() << "\n";
+                    lg2::error("error finding base configuration for '{PATH}'",
+                               "PATH", path.string());
                     continue;
                 }
 
                 auto findSensorName = baseConfiguration->second.find("Name");
                 if (findSensorName == baseConfiguration->second.end())
                 {
-                    std::cerr << "could not determine configuration name for "
-                              << path.string() << "\n";
+                    lg2::error(
+                        "could not determine configuration name for '{PATH}'",
+                        "PATH", path.string());
                     continue;
                 }
                 std::string sensorName =
@@ -239,8 +241,8 @@ void createSensors(
                 std::vector<thresholds::Threshold> sensorThresholds;
                 if (!parseThresholdsFromConfig(*sensorData, sensorThresholds))
                 {
-                    std::cerr << "error populating thresholds for "
-                              << sensorName << "\n";
+                    lg2::error("error populating thresholds for '{NAME}'",
+                               "NAME", sensorName);
                 }
 
                 auto findScaleFactor =
@@ -337,7 +339,7 @@ int main()
         [&](sdbusplus::message_t& message) {
             if (message.is_method_error())
             {
-                std::cerr << "callback method error\n";
+                lg2::error("callback method error");
                 return;
             }
             sensorsChanged->insert(message.get_path());
@@ -352,7 +354,7 @@ int main()
                 }
                 if (ec)
                 {
-                    std::cerr << "timer error\n";
+                    lg2::error("timer error");
                     return;
                 }
                 createSensors(io, objectServer, sensors, systemBus,
@@ -379,7 +381,7 @@ int main()
             }
             catch (const std::invalid_argument&)
             {
-                std::cerr << "Found invalid path " << path << "\n";
+                lg2::error("Found invalid path: '{PATH}'", "PATH", path);
                 return;
             }
 
@@ -403,7 +405,7 @@ int main()
                 }
                 if (ec)
                 {
-                    std::cerr << "timer error\n";
+                    lg2::error("timer error");
                     return;
                 }
                 createSensors(io, objectServer, sensors, systemBus, nullptr,
