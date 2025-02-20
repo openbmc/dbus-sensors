@@ -26,13 +26,13 @@
 #include <boost/asio/error.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/random_access_file.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
 #include <charconv>
 #include <chrono>
 #include <cstddef>
-#include <iostream>
 #include <limits>
 #include <memory>
 #include <string>
@@ -177,8 +177,8 @@ void HwmonTempSensor::handleResponse(const boost::system::error_code& err,
     if ((err == boost::system::errc::bad_file_descriptor) ||
         (err == boost::asio::error::misc_errors::not_found))
     {
-        std::cerr << "Hwmon temp sensor " << name << " removed " << path
-                  << "\n";
+        lg2::error("Hwmon temp sensor {NAME} removed {PATH}", "NAME", name,
+                   "PATH", path);
         return; // we're being destroyed
     }
 
