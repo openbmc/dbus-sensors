@@ -9,10 +9,10 @@
 #include <boost/asio/steady_timer.hpp>
 #include <boost/asio/streambuf.hpp>
 #include <gpiod.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
-#include <iostream>
 #include <memory>
 #include <optional>
 #include <string>
@@ -29,7 +29,7 @@ class BridgeGpio
         line = gpiod::find_line(name);
         if (!line)
         {
-            std::cerr << "Error finding gpio: " << name << "\n";
+            lg2::error("Error finding gpio: {NAME}", "NAME", name);
         }
         else
         {
@@ -43,7 +43,7 @@ class BridgeGpio
             }
             catch (const std::system_error&)
             {
-                std::cerr << "Error requesting gpio: " << name << "\n";
+                lg2::error("Error requesting gpio: {NAME}", "NAME", name);
             }
         }
     }
@@ -58,7 +58,7 @@ class BridgeGpio
             }
             catch (const std::system_error& exc)
             {
-                std::cerr << "Error set_value: " << exc.what() << "\n";
+                lg2::error("Error set_value: {EC}", "EC", exc);
             }
         }
     }
