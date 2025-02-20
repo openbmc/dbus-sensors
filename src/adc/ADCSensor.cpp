@@ -27,13 +27,14 @@
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/read_until.hpp>
 #include <boost/asio/streambuf.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
 #include <chrono>
 #include <cmath>
 #include <cstddef>
-#include <iostream>
+#include <istream>
 #include <limits>
 #include <memory>
 #include <optional>
@@ -69,7 +70,7 @@ ADCSensor::ADCSensor(
     int fd = open(path.c_str(), O_RDONLY);
     if (fd < 0)
     {
-        std::cerr << "unable to open acd device \n";
+        lg2::error("unable to open acd device");
     }
 
     inputDev.assign(fd);
@@ -177,11 +178,12 @@ void ADCSensor::restartRead()
         {
             if (self)
             {
-                std::cerr << "adcsensor " << self->name << " read cancelled\n";
+                lg2::error("adcsensor '{NAME}' read cancelled", "NAME",
+                           self->name);
             }
             else
             {
-                std::cerr << "adcsensor read cancelled no self\n";
+                lg2::error("adcsensor read cancelled no self");
             }
             return; // we're being canceled
         }
@@ -192,7 +194,7 @@ void ADCSensor::restartRead()
         }
         else
         {
-            std::cerr << "adcsensor weakref no self\n";
+            lg2::error("adcsensor weakref no self");
         }
     });
 }
@@ -241,7 +243,8 @@ void ADCSensor::handleResponse(const boost::system::error_code& err)
     int fd = open(path.c_str(), O_RDONLY);
     if (fd < 0)
     {
-        std::cerr << "adcsensor " << name << " failed to open " << path << "\n";
+        lg2::error("adcsensor '{NAME}' failed to open '{PATH}'", "NAME", name,
+                   "PATH", path);
         return; // we're no longer valid
     }
     inputDev.assign(fd);
