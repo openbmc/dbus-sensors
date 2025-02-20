@@ -27,6 +27,7 @@
 #include <boost/asio/steady_timer.hpp>
 #include <boost/container/flat_map.hpp>
 #include <boost/container/flat_set.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/bus/match.hpp>
@@ -44,7 +45,6 @@
 #include <fstream>
 #include <functional>
 #include <ios>
-#include <iostream>
 #include <iterator>
 #include <memory>
 #include <optional>
@@ -196,7 +196,7 @@ bool createSensors(boost::asio::io_context& io,
               hwmonNamePaths, 6);
     if (hwmonNamePaths.empty())
     {
-        std::cerr << "No CPU sensors in system\n";
+        lg2::error("No CPU sensors in system");
         return false;
     }
 
@@ -227,7 +227,7 @@ bool createSensors(boost::asio::io_context& io,
         std::ifstream nameFile(hwmonNamePath);
         if (!nameFile.good())
         {
-            std::cerr << "Failure reading " << hwmonNamePath << "\n";
+            lg2::error("Failure reading '{PATH}'", "PATH", hwmonNamePath);
             continue;
         }
         std::string hwmonName;
@@ -240,8 +240,8 @@ bool createSensors(boost::asio::io_context& io,
         }
         if (debug)
         {
-            std::cout << "Checking: " << hwmonNamePath << ": " << hwmonName
-                      << "\n";
+            lg2::info("Checking: '{PATH}': '{NAME}'", "PATH", hwmonNamePath,
+                      "NAME", hwmonName);
         }
 
         std::string sensorType;
@@ -265,8 +265,8 @@ bool createSensors(boost::asio::io_context& io,
             }
             if (baseConfiguration == nullptr)
             {
-                std::cerr << "error finding base configuration for" << hwmonName
-                          << "\n";
+                lg2::error("error finding base configuration for '{NAME}'",
+                           "NAME", hwmonName);
                 continue;
             }
             auto configurationBus = baseConfiguration->second.find("Bus");
@@ -276,7 +276,7 @@ bool createSensors(boost::asio::io_context& io,
             if (configurationBus == baseConfiguration->second.end() ||
                 configurationAddress == baseConfiguration->second.end())
             {
-                std::cerr << "error finding bus or address in configuration";
+                lg2::error("error finding bus or address in configuration");
                 continue;
             }
 
@@ -291,14 +291,15 @@ bool createSensors(boost::asio::io_context& io,
         }
         if (interfacePath == nullptr)
         {
-            std::cerr << "failed to find match for " << hwmonName << "\n";
+            lg2::error("failed to find match for '{NAME}'", "NAME", hwmonName);
             continue;
         }
 
         auto findCpuId = baseConfiguration->second.find("CpuID");
         if (findCpuId == baseConfiguration->second.end())
         {
-            std::cerr << "could not determine CPU ID for " << hwmonName << "\n";
+            lg2::error("could not determine CPU ID for '{NAME}'", "NAME",
+                       hwmonName);
             continue;
         }
         int cpuId =
@@ -309,7 +310,7 @@ bool createSensors(boost::asio::io_context& io,
         if (!findFiles(directory, R"((temp|power)\d+_(input|average|cap)$)",
                        inputPaths, 0))
         {
-            std::cerr << "No temperature sensors in system\n";
+            lg2::error("No temperature sensors in system");
             continue;
         }
 
@@ -328,7 +329,7 @@ bool createSensors(boost::asio::io_context& io,
             std::ifstream labelFile(labelPath);
             if (!labelFile.good())
             {
-                std::cerr << "Failure reading " << labelPath << "\n";
+                lg2::error("Failure reading '{PATH}'", "PATH", labelPath);
                 continue;
             }
             std::string label;
@@ -342,8 +343,8 @@ bool createSensors(boost::asio::io_context& io,
             {
                 if (debug)
                 {
-                    std::cout << "Skipped: " << inputPath << ": " << sensorName
-                              << " is already created\n";
+                    lg2::info("Skipped: '{PATH}': '{NAME}' is already created",
+                              "PATH", inputPath, "NAME", sensorName);
                 }
                 continue;
             }
@@ -385,8 +386,8 @@ bool createSensors(boost::asio::io_context& io,
                                              IntelCPUSensor::sensorScaleFactor,
                                              dtsOffset, 0))
                 {
-                    std::cerr << "error populating thresholds for "
-                              << sensorName << "\n";
+                    lg2::error("error populating thresholds for '{NAME}'",
+                               "NAME", sensorName);
                 }
             }
             auto& sensorPtr = gCpuSensors[sensorName];
@@ -400,16 +401,22 @@ bool createSensors(boost::asio::io_context& io,
             createdSensors.insert(sensorName);
             if (debug)
             {
-                std::cout << "Mapped: " << inputPath << " to " << sensorName
-                          << "\n";
+                lg2::info("Mapped: '{PATH}' to '{NAME}'", "PATH", inputPath,
+                          "NAME", sensorName);
             }
         }
     }
 
     if (static_cast<unsigned int>(!createdSensors.empty()) != 0U)
     {
-        std::cout << "Sensor" << (createdSensors.size() == 1 ? " is" : "s are")
-                  << " created\n";
+        if (createdSensors.size() == 1)
+        {
+            lg2::info("Sensor is created");
+        }
+        else
+        {
+            lg2::info("Sensors are created");
+        }
     }
 
     return true;
@@ -443,14 +450,14 @@ bool exportDevice(const CPUConfig& config)
         {
             if (debug)
             {
-                std::cout << parameters << " on bus " << busStr
-                          << " is already exported\n";
+                lg2::info("'{PARAMETERS}' on bus '{BUS}' is already exported",
+                          "PARAMETERS", parameters, "BUS", busStr);
             }
 
             std::ofstream delDeviceFile(delDevice);
             if (!delDeviceFile.good())
             {
-                std::cerr << "Error opening " << delDevice << "\n";
+                lg2::error("Error opening '{DEVICE}'", "DEVICE", delDevice);
                 return false;
             }
             delDeviceFile << parameters;
@@ -463,7 +470,7 @@ bool exportDevice(const CPUConfig& config)
     std::ofstream deviceFile(newDevice);
     if (!deviceFile.good())
     {
-        std::cerr << "Error opening " << newDevice << "\n";
+        lg2::error("Error opening '{DEVICE}'", "DEVICE", newDevice);
         return false;
     }
     deviceFile << parameters;
@@ -471,11 +478,12 @@ bool exportDevice(const CPUConfig& config)
 
     if (!std::filesystem::exists(newClient))
     {
-        std::cerr << "Error creating " << newClient << "\n";
+        lg2::error("Error creating '{CLIENT}'", "CLIENT", newClient);
         return false;
     }
 
-    std::cout << parameters << " on bus " << busStr << " is exported\n";
+    lg2::info("'{PARAMETERS}' on bus '{BUS}' is exported", "PARAMETERS",
+              parameters, "BUS", busStr);
 
     return true;
 }
@@ -546,8 +554,8 @@ void detectCpu(boost::asio::steady_timer& pingTimer,
         if ((peci_Lock(&peciFd, PECI_NO_WAIT) != PECI_CC_SUCCESS) ||
             (peciFd < 0))
         {
-            std::cerr << "unable to open " << peciDevPath << " "
-                      << std::strerror(errno) << "\n";
+            lg2::error("unable to open '{PATH}', '{ERRNO}'", "PATH",
+                       peciDevPath, "ERRNO", std::strerror(errno));
             detectCpuAsync(pingTimer, creationTimer, io, objectServer,
                            dbusConnection, cpuConfigs, sensorConfigs);
             return;
@@ -607,7 +615,7 @@ void detectCpu(boost::asio::steady_timer& pingTimer,
                                          4, pkgConfig.data(), &cc) ==
                         PECI_CC_SUCCESS)
                     {
-                        std::cout << config.name << " is detected\n";
+                        lg2::info("'{NAME}' is detected", "NAME", config.name);
                         if (!exportDevice(config))
                         {
                             newState = State::OFF;
@@ -626,8 +634,8 @@ void detectCpu(boost::asio::steady_timer& pingTimer,
                 else if (newState == State::READY)
                 {
                     rescanDelaySeconds = 5;
-                    std::cout
-                        << "DIMM(s) on " << config.name << " is/are detected\n";
+                    lg2::info("DIMM(s) on '{NAME}' is/are detected", "NAME",
+                              config.name);
                 }
             }
 
@@ -641,7 +649,8 @@ void detectCpu(boost::asio::steady_timer& pingTimer,
 
         if (debug)
         {
-            std::cout << config.name << ", state: " << config.state << "\n";
+            lg2::info("'{NAME}', state: '{STATE}'", "NAME", config.name,
+                      "STATE", config.state);
         }
         peci_Unlock(peciFd);
     }
@@ -757,7 +766,8 @@ bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
                 auto findBus = cfg.find("Bus");
                 if (findBus == cfg.end())
                 {
-                    std::cerr << "Can't find 'Bus' setting in " << name << "\n";
+                    lg2::error("Can't find 'Bus' setting in '{NAME}'", "NAME",
+                               name);
                     continue;
                 }
                 uint64_t bus =
@@ -766,8 +776,8 @@ bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
                 auto findAddress = cfg.find("Address");
                 if (findAddress == cfg.end())
                 {
-                    std::cerr
-                        << "Can't find 'Address' setting in " << name << "\n";
+                    lg2::error("Can't find 'Address' setting in '{NAME}'",
+                               "NAME", name);
                     continue;
                 }
                 uint64_t addr = std::visit(VariantToUnsignedIntVisitor(),
@@ -775,10 +785,9 @@ bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
 
                 if (debug)
                 {
-                    std::cout << "bus: " << bus << "\n";
-                    std::cout << "addr: " << addr << "\n";
-                    std::cout << "name: " << name << "\n";
-                    std::cout << "type: " << type << "\n";
+                    lg2::info(
+                        "bus: {BUS}, addr: {ADDR}, name: {NAME}, type: {TYPE}",
+                        "BUS", bus, "ADDR", addr, "NAME", name, "TYPE", type);
                 }
 
                 cpuConfigs.emplace(bus, addr, name, State::OFF);
@@ -788,8 +797,14 @@ bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
 
     if (static_cast<unsigned int>(!cpuConfigs.empty()) != 0U)
     {
-        std::cout << "CPU config" << (cpuConfigs.size() == 1 ? " is" : "s are")
-                  << " parsed\n";
+        if (cpuConfigs.size() == 1)
+        {
+            lg2::info("CPU config is parsed");
+        }
+        else
+        {
+            lg2::info("CPU configs are parsed");
+        }
         return true;
     }
 
@@ -827,13 +842,13 @@ int main()
         [&](sdbusplus::message_t& message) {
             if (message.is_method_error())
             {
-                std::cerr << "callback method error\n";
+                lg2::error("callback method error");
                 return;
             }
 
             if (debug)
             {
-                std::cout << message.get_path() << " is changed\n";
+                lg2::info("'{PATH}' is changed", "PATH", message.get_path());
             }
 
             // this implicitly cancels the timer

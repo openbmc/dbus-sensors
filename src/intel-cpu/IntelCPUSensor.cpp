@@ -29,6 +29,7 @@
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/posix/descriptor_base.hpp>
 #include <boost/container/flat_map.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
@@ -37,7 +38,6 @@
 #include <cstddef>
 #include <cstdint>
 #include <functional>
-#include <iostream>
 #include <limits>
 #include <memory>
 #include <stdexcept>
@@ -130,7 +130,7 @@ void IntelCPUSensor::restartRead()
     waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
         {
-            std::cerr << "Failed to reschedule\n";
+            lg2::error("Failed to reschedule");
             return;
         }
         std::shared_ptr<IntelCPUSensor> self = weakRef.lock();
@@ -152,7 +152,7 @@ void IntelCPUSensor::setupRead()
         fd = open(path.c_str(), O_RDONLY | O_NONBLOCK);
         if (fd < 0)
         {
-            std::cerr << name << " unable to open fd!\n";
+            lg2::error("'{NAME}' unable to open fd!", "NAME", name);
             return;
         }
 
@@ -242,7 +242,7 @@ void IntelCPUSensor::handleResponse(const boost::system::error_code& err)
         {
             if (!loggedInterfaceDown)
             {
-                std::cerr << name << " interface down!\n";
+                lg2::error("'{NAME}' interface down!", "NAME", name);
                 loggedInterfaceDown = true;
             }
             pollTime = static_cast<size_t>(IntelCPUSensor::sensorPollMs) * 10U;
@@ -316,8 +316,8 @@ void IntelCPUSensor::handleResponse(const boost::system::error_code& err)
                     }
                     else
                     {
-                        std::cerr << "Failure to update thresholds for " << name
-                                  << "\n";
+                        lg2::error("Failure to update thresholds for '{NAME}'",
+                                   "NAME", name);
                     }
                 }
             }
