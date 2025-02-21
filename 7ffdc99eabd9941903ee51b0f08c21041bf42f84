@@ -16,6 +16,24 @@
       "message": "For HWMON type, it seems the same result as sensorNameSubStr. Could you please help explain what specific case you were trying to address with this modification?",
       "revId": "7ffdc99eabd9941903ee51b0f08c21041bf42f84",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c6f4ba7_6d70c3c5",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 682,
+      "author": {
+        "id": 1000416
+      },
+      "writtenOn": "2025-02-21T03:14:07Z",
+      "side": 1,
+      "message": "PSU1_input_power and PSU1_In_Voltage sensors are not populated in\nbusctl tree xyz.openbmc_project.PSUSensor. With this change, PSU1_input_power and PSU1_In_Voltage sensors are populated.",
+      "parentUuid": "8ecad77a_1eba6d7e",
+      "revId": "7ffdc99eabd9941903ee51b0f08c21041bf42f84",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
