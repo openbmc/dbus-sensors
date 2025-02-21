@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40d35582_f03c1330",
+        "filename": "src/intel-cpu/IntelCPUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-02-21T00:08:52Z",
+      "side": 1,
+      "message": "I like to encourage quotes around string values so it\u0027s clear if the string is empty. So\n\n```\nlg2::error(\"Failure reading \u0027{PATH}\u0027\", ...);\n```\n\nConsider adopting it throughout this change and the series.",
+      "range": {
+        "startLine": 230,
+        "startChar": 40,
+        "endLine": 230,
+        "endChar": 46
+      },
+      "revId": "09a2e3505279aca5e6f2c3e83e7ad723c9a9fa1f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
