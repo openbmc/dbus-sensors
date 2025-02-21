@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea7844dd_65d3a9c2",
+        "filename": "src/intrusion/ChassisIntrusionSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-02-21T00:00:18Z",
+      "side": 1,
+      "message": "`PATH_SIZE` makes it sound like the size of a specific path, but this is really the number of paths found. I would prefer this be called `NUM_PATHS` or similar.",
+      "range": {
+        "startLine": 470,
+        "startChar": 20,
+        "endLine": 470,
+        "endChar": 29
+      },
+      "revId": "c2422c9b55e5730554ddcd12c2533f01059d77a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06b1470f_64bda439",
+        "filename": "src/intrusion/IntrusionSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-02-21T00:00:18Z",
+      "side": 1,
+      "message": "The value is the inverted property of the GPIO. Please name this appropriately, e.g. `GPIO_INVERTED`.",
+      "range": {
+        "startLine": 137,
+        "startChar": 86,
+        "endLine": 137,
+        "endChar": 90
+      },
+      "revId": "c2422c9b55e5730554ddcd12c2533f01059d77a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38f5183c_6c4c6e0a",
+        "filename": "src/intrusion/IntrusionSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-02-21T00:00:18Z",
+      "side": 1,
+      "message": "`INDEX` is too generic IMO. Please use e.g. `ETH_INDEX`. Please also audit other log statements for the same concern.",
+      "range": {
+        "startLine": 277,
+        "startChar": 56,
+        "endLine": 277,
+        "endChar": 61
+      },
+      "revId": "c2422c9b55e5730554ddcd12c2533f01059d77a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "516c0b86_3d5aafea",
+        "filename": "src/intrusion/IntrusionSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-02-21T00:00:18Z",
+      "side": 1,
+      "message": "Can we please be more descriptive? `OLD` what? Perhaps `OLD_LAN_CONNECTED`? And similarly `NEW_LAN_CONNECTED`?",
+      "range": {
+        "startLine": 361,
+        "startChar": 71,
+        "endLine": 361,
+        "endChar": 74
+      },
+      "revId": "c2422c9b55e5730554ddcd12c2533f01059d77a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97fdf16b_40587c44",
+        "filename": "src/intrusion/IntrusionSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-02-21T00:00:18Z",
+      "side": 1,
+      "message": "Can we please be more descriptive than just `STATE`?",
+      "range": {
+        "startLine": 361,
+        "startChar": 44,
+        "endLine": 361,
+        "endChar": 49
+      },
+      "revId": "c2422c9b55e5730554ddcd12c2533f01059d77a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbf22ebd_e0d7a74d",
+        "filename": "src/intrusion/IntrusionSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-02-21T00:00:18Z",
+      "side": 1,
+      "message": "Is this not the same as `ETH_INDEX` above? Can we please be consistent?",
+      "range": {
+        "startLine": 361,
+        "startChar": 29,
+        "endLine": 361,
+        "endChar": 32
+      },
+      "revId": "c2422c9b55e5730554ddcd12c2533f01059d77a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f7b81ed_97993671",
+        "filename": "src/intrusion/IntrusionSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-02-21T00:00:18Z",
+      "side": 1,
+      "message": "Please audit the rest of the changes for the issues identified in this log statement.",
+      "revId": "c2422c9b55e5730554ddcd12c2533f01059d77a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
