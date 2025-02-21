@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4385a04f_f6cea32b",
+        "filename": "src/ipmb/IpmbSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-02-21T00:10:33Z",
+      "side": 1,
+      "message": "This needs conversion?",
+      "range": {
+        "startLine": 436,
+        "startChar": 0,
+        "endLine": 441,
+        "endChar": 26
+      },
+      "revId": "c68f9cf007ed0341fc6e60e2a2c798aa4bb567c5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
