@@ -89,6 +89,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "371bcf32_43bb95b4",
+        "filename": "src/EntityManager.hpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-02-23T23:48:40Z",
+      "side": 1,
+      "message": "nit, For known length, use std::array\u003cstd::string, 1\u003e and you\u0027ll avoid some memory usage.",
+      "range": {
+        "startLine": 53,
+        "startChar": 17,
+        "endLine": 53,
+        "endChar": 23
+      },
+      "revId": "bcf40c250e254c48b21a570816409cb2ec52ce4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9a21a019_b0f678f5",
         "filename": "src/EntityManager.hpp",
         "patchSetId": 42
@@ -360,6 +383,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9558f2ec_feaedcfd",
+        "filename": "src/leakdetector/LeakDetectionManager.cpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-02-23T23:48:40Z",
+      "side": 1,
+      "message": "Why is each one of these doing individual blocking IO?  Can\u0027t we get all the values in a single shot with GetAllProperties?",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 21
+      },
+      "revId": "bcf40c250e254c48b21a570816409cb2ec52ce4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "15a4975e_758dced4",
         "filename": "src/leakdetector/LeakDetector.cpp",
         "patchSetId": 42
@@ -440,6 +486,75 @@
       "writtenOn": "2025-02-23T23:38:38Z",
       "side": 1,
       "message": "Same as above.  When this gets rethrown, where is it caught?  Ie, if a single leak detector fails to create, where does it get caught so it doesn\u0027t crash all leak detectors?",
+      "revId": "bcf40c250e254c48b21a570816409cb2ec52ce4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1e7cf56_80a199b6",
+        "filename": "src/leakdetector/LeakEvents.cpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-02-23T23:48:40Z",
+      "side": 1,
+      "message": "auto isn\u0027t really appropriate here.  I think... this is a std::string?  But making it explicit helps in readability here.",
+      "range": {
+        "startLine": 25,
+        "startChar": 4,
+        "endLine": 25,
+        "endChar": 8
+      },
+      "revId": "bcf40c250e254c48b21a570816409cb2ec52ce4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "243c10bf_ecaf277c",
+        "filename": "src/leakdetector/LeakEvents.cpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-02-23T23:48:40Z",
+      "side": 1,
+      "message": "nit, std::format would make this a lot clearer.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 73
+      },
+      "revId": "bcf40c250e254c48b21a570816409cb2ec52ce4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09750eba_483b1ccc",
+        "filename": "src/leakdetector/LeakEvents.hpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-02-23T23:48:40Z",
+      "side": 1,
+      "message": "I\u0027m having a little trouble tracing what this map represents.  it looks like it stores an event.... then when it deasserts, erases it?  Any reason it\u0027s a map?  There\u0027s only one leak event at a time, correct?",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 30
+      },
       "revId": "bcf40c250e254c48b21a570816409cb2ec52ce4f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
