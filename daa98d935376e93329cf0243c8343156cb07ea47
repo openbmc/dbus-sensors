@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "175da9ee_2d7b4f96",
+        "filename": "src/EntityManager.hpp",
+        "patchSetId": 30
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-02-23T22:33:17Z",
+      "side": 1,
+      "message": "This is a really odd template parameter, what does it do exactly, and why does it need to be a template?",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 28
+      },
+      "revId": "daa98d935376e93329cf0243c8343156cb07ea47",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
