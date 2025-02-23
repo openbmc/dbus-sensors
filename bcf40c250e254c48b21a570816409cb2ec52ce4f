@@ -383,6 +383,69 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "34837f7a_bebf96f7",
+        "filename": "src/leakdetector/LeakDetectionManager.cpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-02-23T23:59:20Z",
+      "side": 1,
+      "message": "I don\u0027t think anywhere in dbus-sensors have we taken the \"phosphor\" namespace.  Lets be consistent.\n\nThis namespace can just be leak?\n\nphosphor::leak::manager::LeakDetectionManager isn\u0027t any more valuable than\n\nleak::Manager",
+      "range": {
+        "startLine": 16,
+        "startChar": 10,
+        "endLine": 16,
+        "endChar": 18
+      },
+      "revId": "bcf40c250e254c48b21a570816409cb2ec52ce4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "421de4b2_d42dbc37",
+        "filename": "src/leakdetector/LeakDetectionManager.cpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-02-23T23:59:20Z",
+      "side": 1,
+      "message": "Should this map be operating on the config path, not the \"name\"?  If people follow the rules, there shouldn\u0027t be naming collisions, but not everyone follows the rules, so maybe tracking by dbus config path might be safer?",
+      "range": {
+        "startLine": 62,
+        "startChar": 18,
+        "endLine": 62,
+        "endChar": 30
+      },
+      "revId": "bcf40c250e254c48b21a570816409cb2ec52ce4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8947d8c_0af8eb37",
+        "filename": "src/leakdetector/LeakDetectionManager.cpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-02-23T23:59:20Z",
+      "side": 1,
+      "message": "Where\u0027s the code that\u0027s coercing int/string values to the correct type?\n\nIe, the variant visitor mess here:\n\nhttps://github.com/openbmc/dbus-sensors/blob/556e04b8f374a9eb8cf32bf0e36ac46c14873eba/src/VariantVisitors.hpp#L27",
+      "revId": "bcf40c250e254c48b21a570816409cb2ec52ce4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9558f2ec_feaedcfd",
         "filename": "src/leakdetector/LeakDetectionManager.cpp",
         "patchSetId": 42
@@ -399,6 +462,29 @@
         "startChar": 0,
         "endLine": 94,
         "endChar": 21
+      },
+      "revId": "bcf40c250e254c48b21a570816409cb2ec52ce4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a65db6e7_f36dec57",
+        "filename": "src/leakdetector/LeakDetectionManager.cpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-02-23T23:59:20Z",
+      "side": 1,
+      "message": "ok, naive question.... if i wanted to figure out what the type or value of this is.....  where in PDI would I look, and how would someone unfamiliar with the code figure out what this value is?",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 108,
+        "endChar": 70
       },
       "revId": "bcf40c250e254c48b21a570816409cb2ec52ce4f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
