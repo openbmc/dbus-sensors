@@ -783,6 +783,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ca0347e_2d7f8e24",
+        "filename": "src/leakdetector/LeakEvents.hpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-02-24T08:22:34Z",
+      "side": 1,
+      "message": "event_map_t is\n\nEventName -\u003e ObjectPath (At which event was generated)\n\nSo, when a deassert happens, this map is used to lookup the objectPath for event resolution. In future, when @patrick@stwcx.xyz defines the hint API, we don\u0027t have to define this locally. Given a hint the new API will automatically returns the object_path which can used for resolution. Until that API is available, this map is kept locally on caller side.",
+      "parentUuid": "09750eba_483b1ccc",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 30
+      },
+      "revId": "bcf40c250e254c48b21a570816409cb2ec52ce4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5cd26f5f_5818e588",
