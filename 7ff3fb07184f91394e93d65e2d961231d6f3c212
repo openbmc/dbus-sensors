@@ -527,6 +527,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9171fd51_d62ff6d4",
+        "filename": "src/LeakDetection/LeakDetectionManager.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-02-24T09:10:30Z",
+      "side": 1,
+      "message": "This is old patch version#5. It doesn\u0027t exist in latest patch, version#42.\n\nMarking as resolved.",
+      "parentUuid": "4c94fa66_2b2ff972",
+      "range": {
+        "startLine": 22,
+        "startChar": 17,
+        "endLine": 23,
+        "endChar": 64
+      },
+      "revId": "7ff3fb07184f91394e93d65e2d961231d6f3c212",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eed3a842_2bfcb3fd",
@@ -1015,6 +1039,24 @@
       "side": 1,
       "message": "Sure, it\u0027s still a function that blocks on hardware and blocks the whole reactor, right?",
       "parentUuid": "6b4c4e60_d9008c95",
+      "revId": "7ff3fb07184f91394e93d65e2d961231d6f3c212",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17d023ec_36fae748",
+        "filename": "src/LeakDetection/LeakDetector.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-02-24T09:10:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3f94ad1_e253f19f",
       "revId": "7ff3fb07184f91394e93d65e2d961231d6f3c212",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
