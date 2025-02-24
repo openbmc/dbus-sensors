@@ -1044,6 +1044,30 @@
       },
       "revId": "bcf40c250e254c48b21a570816409cb2ec52ce4f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68f1dc0e_c920095c",
+        "filename": "src/meson.build",
+        "patchSetId": 42
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-02-24T09:57:20Z",
+      "side": 1,
+      "message": "Everything is defined as a static library here https://grok.openbmc.org/xref/openbmc/dbus-sensors/src/meson.build?r\u003dff8c90ef9060a6c64443786ed45d110e8f8260c9, thats why i defined as static library. What are you looking for?",
+      "parentUuid": "5cd26f5f_5818e588",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 9
+      },
+      "revId": "bcf40c250e254c48b21a570816409cb2ec52ce4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
