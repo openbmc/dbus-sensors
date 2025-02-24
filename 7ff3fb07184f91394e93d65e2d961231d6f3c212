@@ -990,6 +990,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5356b43_1491d74c",
+        "filename": "src/LeakDetection/LeakDetectionManager.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-02-24T09:31:27Z",
+      "side": 1,
+      "message": "You are looking at old patch (#5). In latest patch, these are normal class vars and not unique_pointers. \nFYI: When you click on an old comment, it takes you to old version.",
+      "parentUuid": "a76b92d8_2732cb20",
+      "range": {
+        "startLine": 58,
+        "startChar": 4,
+        "endLine": 58,
+        "endChar": 19
+      },
+      "revId": "7ff3fb07184f91394e93d65e2d961231d6f3c212",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "17401963_3fa4e9a9",
