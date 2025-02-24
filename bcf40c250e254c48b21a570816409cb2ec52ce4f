@@ -516,6 +516,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e469b0ff_b59e7535",
+        "filename": "src/leakdetector/LeakDetectionManager.cpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-02-24T08:06:16Z",
+      "side": 1,
+      "message": "I am using the PDI generated code, so i don\u0027t need to do any explicit conversion. Refer to code starting at line#82.\n\nMarking this as resolved.",
+      "parentUuid": "f8947d8c_0af8eb37",
+      "revId": "bcf40c250e254c48b21a570816409cb2ec52ce4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9558f2ec_feaedcfd",
