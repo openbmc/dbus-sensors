@@ -24,6 +24,7 @@
 #include <boost/asio/error.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <boost/container/flat_map.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/bus.hpp>
@@ -40,7 +41,6 @@
 #include <filesystem>
 #include <fstream>
 #include <functional>
-#include <iostream>
 #include <iterator>
 #include <memory>
 #include <optional>
@@ -143,9 +143,9 @@ std::set<std::string> getPermitSet(const SensorBaseConfigMap& config)
         }
         catch (const std::bad_variant_access& err)
         {
-            std::cerr << err.what()
-                      << ":PermitList does not contain a list, wrong "
-                         "variant type.\n";
+            lg2::error(
+                "'{ERROR_MESSAGE}': PermitList does not contain a list, wrong variant type.",
+                "ERROR_MESSAGE", err.what());
         }
     }
     return permitSet;
@@ -174,10 +174,12 @@ bool getSensorConfiguration(
         }
         catch (const sdbusplus::exception_t& e)
         {
-            std::cerr << "While calling GetManagedObjects on service:"
-                      << entityManagerName << " exception name:" << e.name()
-                      << "and description:" << e.description()
-                      << " was thrown\n";
+            lg2::error(
+                "While calling GetManagedObjects on service: '{SERVICE_NAME}'"
+                " exception name: '{EXCEPTION_NAME}' and description: "
+                "'{EXCEPTION_DESCRIPTION}' was thrown",
+                "SERVICE_NAME", entityManagerName, "EXCEPTION_NAME", e.name(),
+                "EXCEPTION_DESCRIPTION", e.description());
             return false;
         }
     }
@@ -370,8 +372,8 @@ static void getPowerStatus(
 
                 // we commonly come up before power control, we'll capture the
                 // property change later
-                std::cerr << "error getting power status " << ec.message()
-                          << "\n";
+                lg2::error("error getting power status: '{ERROR_MESSAGE}'",
+                           "ERROR_MESSAGE", ec.message());
                 return;
             }
             powerStatusOn = std::get<std::string>(state).ends_with(".Running");
@@ -402,8 +404,8 @@ static void getPostStatus(
                 }
                 // we commonly come up before power control, we'll capture the
                 // property change later
-                std::cerr << "error getting post status " << ec.message()
-                          << "\n";
+                lg2::error("error getting post status: '{ERROR_MESSAGE}'",
+                           "ERROR_MESSAGE", ec.message());
                 return;
             }
             const auto& value = std::get<std::string>(state);
@@ -438,8 +440,9 @@ static void getChassisStatus(
 
                 // we commonly come up before power control, we'll capture the
                 // property change later
-                std::cerr << "error getting chassis power status "
-                          << ec.message() << "\n";
+                lg2::error(
+                    "error getting chassis power status: '{ERROR_MESSAGE}'",
+                    "ERROR_MESSAGE", ec.message());
                 return;
             }
             chassisStatusOn =
@@ -494,7 +497,8 @@ void setupPowerMatchCallback(
                         }
                         if (ec)
                         {
-                            std::cerr << "Timer error " << ec.message() << "\n";
+                            lg2::error("Timer error: '{ERROR_MESSAGE}'",
+                                       "ERROR_MESSAGE", ec.message());
                             return;
                         }
                         powerStatusOn = true;
@@ -558,7 +562,8 @@ void setupPowerMatchCallback(
                     }
                     if (ec)
                     {
-                        std::cerr << "Timer error " << ec.message() << "\n";
+                        lg2::error("Timer error: '{ERROR_MESSAGE}'",
+                                   "ERROR_MESSAGE", ec.message());
                         return;
                     }
                     chassisStatusOn = true;
@@ -785,8 +790,7 @@ void setupManufacturingModeMatch(sdbusplus::asio::connection& conn)
                 auto itr = propertyList.find("SpecialMode");
                 if (itr == propertyList.end())
                 {
-                    std::cerr << "error getting  SpecialMode property "
-                              << "\n";
+                    lg2::error("error getting SpecialMode property");
                     return;
                 }
                 auto* manufacturingModeStatus =
@@ -822,8 +826,9 @@ void setupManufacturingModeMatch(sdbusplus::asio::connection& conn)
            const std::variant<std::string>& getManufactMode) {
             if (ec)
             {
-                std::cerr << "error getting  SpecialMode status "
-                          << ec.message() << "\n";
+                lg2::error(
+                    "error getting SpecialMode status: '{ERROR_MESSAGE}'",
+                    "ERROR_MESSAGE", ec.message());
                 return;
             }
             const auto* manufacturingModeStatus =
