@@ -22,6 +22,30 @@
       },
       "revId": "daa98d935376e93329cf0243c8343156cb07ea47",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37292172_9a43b7b7",
+        "filename": "src/EntityManager.hpp",
+        "patchSetId": 30
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-02-24T09:28:22Z",
+      "side": 1,
+      "message": "\u003e This is a really odd template parameter, what does it do exactly, and why does it need to be a template?\n\nThis is for CRTP pattern already being discussed here https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/75329/comment/d3222954_3672499a/. So, we can use that thread for discussion, marking this as resolved.",
+      "parentUuid": "175da9ee_2d7b4f96",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 28
+      },
+      "revId": "daa98d935376e93329cf0243c8343156cb07ea47",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
