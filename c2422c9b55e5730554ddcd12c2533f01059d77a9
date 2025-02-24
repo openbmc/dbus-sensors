@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "11246963_bcad94fb",
+        "filename": "src/intrusion/ChassisIntrusionSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2025-02-24T03:29:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea7844dd_65d3a9c2",
+      "range": {
+        "startLine": 470,
+        "startChar": 20,
+        "endLine": 470,
+        "endChar": 29
+      },
+      "revId": "c2422c9b55e5730554ddcd12c2533f01059d77a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "06b1470f_64bda439",
@@ -47,6 +71,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4f97d5d_f79b710a",
+        "filename": "src/intrusion/IntrusionSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2025-02-24T03:29:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06b1470f_64bda439",
+      "range": {
+        "startLine": 137,
+        "startChar": 86,
+        "endLine": 137,
+        "endChar": 90
+      },
+      "revId": "c2422c9b55e5730554ddcd12c2533f01059d77a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "38f5183c_6c4c6e0a",
@@ -60,6 +108,30 @@
       "writtenOn": "2025-02-21T00:00:18Z",
       "side": 1,
       "message": "`INDEX` is too generic IMO. Please use e.g. `ETH_INDEX`. Please also audit other log statements for the same concern.",
+      "range": {
+        "startLine": 277,
+        "startChar": 56,
+        "endLine": 277,
+        "endChar": 61
+      },
+      "revId": "c2422c9b55e5730554ddcd12c2533f01059d77a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab6e45d7_66d7dbfb",
+        "filename": "src/intrusion/IntrusionSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2025-02-24T03:29:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38f5183c_6c4c6e0a",
       "range": {
         "startLine": 277,
         "startChar": 56,
@@ -139,6 +211,78 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e6075fb_ebd98818",
+        "filename": "src/intrusion/IntrusionSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2025-02-24T03:29:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97fdf16b_40587c44",
+      "range": {
+        "startLine": 361,
+        "startChar": 44,
+        "endLine": 361,
+        "endChar": 49
+      },
+      "revId": "c2422c9b55e5730554ddcd12c2533f01059d77a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d3b3564_9a53ca08",
+        "filename": "src/intrusion/IntrusionSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2025-02-24T03:29:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbf22ebd_e0d7a74d",
+      "range": {
+        "startLine": 361,
+        "startChar": 29,
+        "endLine": 361,
+        "endChar": 32
+      },
+      "revId": "c2422c9b55e5730554ddcd12c2533f01059d77a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d08af8b_f817613b",
+        "filename": "src/intrusion/IntrusionSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2025-02-24T03:29:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "516c0b86_3d5aafea",
+      "range": {
+        "startLine": 361,
+        "startChar": 71,
+        "endLine": 361,
+        "endChar": 74
+      },
+      "revId": "c2422c9b55e5730554ddcd12c2533f01059d77a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0f7b81ed_97993671",
@@ -152,6 +296,24 @@
       "writtenOn": "2025-02-21T00:00:18Z",
       "side": 1,
       "message": "Please audit the rest of the changes for the issues identified in this log statement.",
+      "revId": "c2422c9b55e5730554ddcd12c2533f01059d77a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a193b8f_f2d6f8e5",
+        "filename": "src/intrusion/IntrusionSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2025-02-24T03:29:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f7b81ed_97993671",
       "revId": "c2422c9b55e5730554ddcd12c2533f01059d77a9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
