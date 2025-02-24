@@ -430,6 +430,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2d5711e7_78fa1b81",
+        "filename": "src/leakdetector/LeakDetectionManager.cpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-02-24T07:44:11Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t think anywhere in dbus-sensors have we taken the \"phosphor\" namespace.  Lets be consistent.\n\nDone.\n\n\u003e \n\u003e This namespace can just be leak?\n\u003e \n\u003e phosphor::leak::manager::LeakDetectionManager isn\u0027t any more valuable than\n\u003e \n\u003e leak::Manager\n\n\nI have separated different modules based on sub namespaces, so i think its better to preserve that. Please let me know if you still have any concerns?",
+      "parentUuid": "34837f7a_bebf96f7",
+      "range": {
+        "startLine": 16,
+        "startChar": 10,
+        "endLine": 16,
+        "endChar": 18
+      },
+      "revId": "bcf40c250e254c48b21a570816409cb2ec52ce4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "421de4b2_d42dbc37",
         "filename": "src/leakdetector/LeakDetectionManager.cpp",
         "patchSetId": 42
