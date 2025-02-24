@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "14c16de5_0b103341",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2025-02-24T03:04:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32457fb6_04c258f0",
+      "range": {
+        "startLine": 163,
+        "startChar": 48,
+        "endLine": 163,
+        "endChar": 50
+      },
+      "revId": "de5863520a70a800ffe48545ecd13046472b0c6b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f92ce9de_79a8bb98",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-02-21T00:14:03Z",
       "side": 1,
       "message": "These keys are descriptive which is good. Please consider being similarly descriptive in other log statements.",
+      "range": {
+        "startLine": 517,
+        "startChar": 37,
+        "endLine": 517,
+        "endChar": 72
+      },
+      "revId": "de5863520a70a800ffe48545ecd13046472b0c6b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96e70725_44a03b90",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2025-02-24T03:04:14Z",
+      "side": 1,
+      "message": "The change point of this commit is just to switch lg2, and the log description information remains the same. I am willing to use a new commit to optimize it.",
+      "parentUuid": "f92ce9de_79a8bb98",
       "range": {
         "startLine": 517,
         "startChar": 37,
