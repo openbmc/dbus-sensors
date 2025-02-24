@@ -557,6 +557,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "19bd2313_b5505e1e",
+        "filename": "src/leakdetector/LeakDetectionManager.cpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-02-24T08:16:18Z",
+      "side": 1,
+      "message": "No there is no API to GetAllProperties, there is only API to get single property at a time.",
+      "parentUuid": "9558f2ec_feaedcfd",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 21
+      },
+      "revId": "bcf40c250e254c48b21a570816409cb2ec52ce4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a65db6e7_f36dec57",
@@ -570,6 +594,30 @@
       "writtenOn": "2025-02-23T23:59:20Z",
       "side": 1,
       "message": "ok, naive question.... if i wanted to figure out what the type or value of this is.....  where in PDI would I look, and how would someone unfamiliar with the code figure out what this value is?",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 108,
+        "endChar": 70
+      },
+      "revId": "bcf40c250e254c48b21a570816409cb2ec52ce4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c544a74_9c0b0678",
+        "filename": "src/leakdetector/LeakDetectionManager.cpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-02-24T08:16:18Z",
+      "side": 1,
+      "message": "Look at generated code in the following path -\n\nbuilddir/subprojects/phosphor-dbus-interfaces/gen/xyz/openbmc_project/State/Leak/Detector/common.hpp",
+      "parentUuid": "a65db6e7_f36dec57",
       "range": {
         "startLine": 108,
         "startChar": 0,
