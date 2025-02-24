@@ -737,6 +737,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae5ac9bf_867f0324",
+        "filename": "src/leakdetector/LeakEvents.cpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-02-24T08:31:41Z",
+      "side": 1,
+      "message": "I have used std::format now, so its implicit now that its std::string since std::format returns std::string.",
+      "parentUuid": "f1e7cf56_80a199b6",
+      "range": {
+        "startLine": 25,
+        "startChar": 4,
+        "endLine": 25,
+        "endChar": 8
+      },
+      "revId": "bcf40c250e254c48b21a570816409cb2ec52ce4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "243c10bf_ecaf277c",
@@ -750,6 +774,30 @@
       "writtenOn": "2025-02-23T23:48:40Z",
       "side": 1,
       "message": "nit, std::format would make this a lot clearer.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 73
+      },
+      "revId": "bcf40c250e254c48b21a570816409cb2ec52ce4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fb25a41_9e18df7a",
+        "filename": "src/leakdetector/LeakEvents.cpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-02-24T08:31:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "243c10bf_ecaf277c",
       "range": {
         "startLine": 26,
         "startChar": 0,
