@@ -111,6 +111,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2a3215f_33b62f5d",
+        "filename": "src/EntityManager.hpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-02-24T09:54:53Z",
+      "side": 1,
+      "message": "This PDI ObjectMapper change has been changed to EM interface in latest patch. Hence, resolving this.",
+      "parentUuid": "cba2d913_961b5c13",
+      "range": {
+        "startLine": 49,
+        "startChar": 12,
+        "endLine": 49,
+        "endChar": 16
+      },
+      "revId": "bcf40c250e254c48b21a570816409cb2ec52ce4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "371bcf32_43bb95b4",
@@ -157,6 +181,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca33ff87_bde9e90b",
+        "filename": "src/EntityManager.hpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-02-24T09:54:53Z",
+      "side": 1,
+      "message": "Changed to use EM.",
+      "parentUuid": "9a21a019_b0f678f5",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 13
+      },
+      "revId": "bcf40c250e254c48b21a570816409cb2ec52ce4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "370ae063_ef56acc6",
@@ -170,6 +218,30 @@
       "writtenOn": "2025-02-23T23:13:58Z",
       "side": 1,
       "message": "For my understanding, when this is thrown (which looks like it would go all the way to spawn) where is it caught and handled?\n\n(sorry, new to this coroutine stuff)",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 18
+      },
+      "revId": "bcf40c250e254c48b21a570816409cb2ec52ce4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e524108_828c1607",
+        "filename": "src/EntityManager.hpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-02-24T09:54:53Z",
+      "side": 1,
+      "message": "This doesn\u0027t exist in the new code so marking this as resolved.",
+      "parentUuid": "370ae063_ef56acc6",
       "range": {
         "startLine": 66,
         "startChar": 0,
