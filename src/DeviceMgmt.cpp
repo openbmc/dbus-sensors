@@ -2,12 +2,13 @@
 
 #include "Utils.hpp"
 
+#include <phosphor-logging/lg2.hpp>
+
 #include <cstdint>
 #include <filesystem>
 #include <fstream>
 #include <iomanip>
 #include <ios>
-#include <iostream>
 #include <optional>
 #include <sstream>
 #include <stdexcept>
@@ -114,7 +115,7 @@ int I2CDevice::create() const
     std::ofstream ctor(ctorPath);
     if (!ctor.good())
     {
-        std::cerr << "Failed to open " << ctorPath << "\n";
+        lg2::error("Failed to open '{PATH}'", "PATH", ctorPath);
         return -1;
     }
 
@@ -122,7 +123,7 @@ int I2CDevice::create() const
     ctor.flush();
     if (!ctor.good())
     {
-        std::cerr << "Failed to write to " << ctorPath << "\n";
+        lg2::error("Failed to write to '{PATH}'", "PATH", ctorPath);
         return -1;
     }
 
@@ -147,7 +148,7 @@ int I2CDevice::destroy() const
     std::ofstream dtor(dtorPath);
     if (!dtor.good())
     {
-        std::cerr << "Failed to open " << dtorPath << "\n";
+        lg2::error("Failed to open '{PATH}'", "PATH", dtorPath);
         return -1;
     }
 
@@ -155,7 +156,7 @@ int I2CDevice::destroy() const
     dtor.flush();
     if (!dtor.good())
     {
-        std::cerr << "Failed to write to " << dtorPath << "\n";
+        lg2::error("Failed to write to '{PATH}'", "PATH", dtorPath);
         return -1;
     }
 

@@ -1,12 +1,13 @@
 #include "Utils.hpp"
 
+#include <phosphor-logging/lg2.hpp>
+
 #include <array>
 #include <cstddef>
 #include <cstdint>
 #include <cstdlib>
 #include <filesystem>
 #include <fstream>
-#include <iostream>
 #include <new>
 #include <string>
 #include <vector>
@@ -78,7 +79,7 @@ class TestUtils : public testing::Test
              p != std::filesystem::recursive_directory_iterator(); ++p)
         {
             std::string path = p->path().string();
-            std::cerr << path << "\n";
+            lg2::info("{PATH}", "PATH", path);
             if (p.depth() >= 6)
             {
                 p.disable_recursion_pending();
