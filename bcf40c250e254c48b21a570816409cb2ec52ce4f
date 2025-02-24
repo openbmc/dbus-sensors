@@ -479,6 +479,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "48009c7e_f50aeb12",
+        "filename": "src/GPIOInterface.hpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-02-24T10:18:49Z",
+      "side": 1,
+      "message": "No it cannot be normal(without unique_ptr) class var because i need to pass the gpio line fd to it which i am getting as part of configureGPIO flow.",
+      "parentUuid": "c0b2c1fb_73086748",
+      "range": {
+        "startLine": 105,
+        "startChar": 4,
+        "endLine": 105,
+        "endChar": 19
+      },
+      "revId": "bcf40c250e254c48b21a570816409cb2ec52ce4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5285bf7a_652f385a",
@@ -515,6 +539,30 @@
       "writtenOn": "2025-02-23T23:38:38Z",
       "side": 1,
       "message": "Would this be simpler if we just passed bus into the startUnit method?  Having this class maintain state doesn\u0027t really seem to make it less complex.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 26
+      },
+      "revId": "bcf40c250e254c48b21a570816409cb2ec52ce4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a3cfa16_22bb2af1",
+        "filename": "src/Systemd.hpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-02-24T10:18:49Z",
+      "side": 1,
+      "message": "I had initially thought about passing this as an arg but any API that will be added to this class will need to use the bus, hence i added it as a class var. \nIf there are no strong reasons, i can leave it as such.",
+      "parentUuid": "8669d242_d9cf5e3b",
       "range": {
         "startLine": 22,
         "startChar": 0,
@@ -771,6 +819,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6e3962e_cc47cdc3",
+        "filename": "src/leakdetector/LeakDetector.cpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-02-24T10:18:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15a4975e_758dced4",
+      "range": {
+        "startLine": 58,
+        "startChar": 52,
+        "endLine": 58,
+        "endChar": 54
+      },
+      "revId": "bcf40c250e254c48b21a570816409cb2ec52ce4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "721379ab_f599a1a7",
@@ -878,6 +950,24 @@
       "writtenOn": "2025-02-23T23:38:38Z",
       "side": 1,
       "message": "Same as above.  When this gets rethrown, where is it caught?  Ie, if a single leak detector fails to create, where does it get caught so it doesn\u0027t crash all leak detectors?",
+      "revId": "bcf40c250e254c48b21a570816409cb2ec52ce4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "094a13fc_bcdde2b6",
+        "filename": "src/leakdetector/LeakDetector.hpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-02-24T10:18:49Z",
+      "side": 1,
+      "message": "Its caught and handled in LeakDetectionManager::processConfigAddedAsync().",
+      "parentUuid": "8239da8c_a8c3f2a9",
       "revId": "bcf40c250e254c48b21a570816409cb2ec52ce4f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
