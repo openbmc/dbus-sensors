@@ -22,6 +22,30 @@
       },
       "revId": "09a2e3505279aca5e6f2c3e83e7ad723c9a9fa1f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5795f1f8_1fa15cd6",
+        "filename": "src/intel-cpu/IntelCPUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2025-02-24T03:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40d35582_f03c1330",
+      "range": {
+        "startLine": 230,
+        "startChar": 40,
+        "endLine": 230,
+        "endChar": 46
+      },
+      "revId": "09a2e3505279aca5e6f2c3e83e7ad723c9a9fa1f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
