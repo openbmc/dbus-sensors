@@ -700,6 +700,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "09a6e1cc_75117911",
+        "filename": "src/leakdetector/LeakDetector.hpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-02-24T08:42:59Z",
+      "side": 1,
+      "message": "\u003e For static const lookup tables like this, please use std::array\u003cstring_view, ...\u003e to avoid a malloc and memory usage on startup.  There\u0027s a bunch of these, please fix all of them.\n\nThis is static const so it will go into text segment and not heap(malloc)?",
+      "parentUuid": "721379ab_f599a1a7",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 58
+      },
+      "revId": "bcf40c250e254c48b21a570816409cb2ec52ce4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "55e5498f_5b10ebf6",
         "filename": "src/leakdetector/LeakDetector.hpp",
         "patchSetId": 42
