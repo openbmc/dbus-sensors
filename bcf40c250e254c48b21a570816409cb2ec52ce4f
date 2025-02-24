@@ -299,6 +299,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "69bafc7a_8eda0db8",
+        "filename": "src/EntityManager.hpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-02-24T08:48:04Z",
+      "side": 1,
+      "message": "\u003e static_cast\u003cInstance*\u003e(this)\n\u003e \n\u003e Looks like some kind of CRTP?  Generally if we\u0027re casing pointers to a different type I get worried about type issues.  I\u0027m not really following what it\u0027s doing.  Can it be simplified at all?\n\n\nYes, this is CRTP and CRTP lets you perform compile-time/static polymorphism https://en.cppreference.com/w/cpp/language/crtp. You can refer to example, where processInventoryRemoved() is equivalent to impl().\nThis pointer typecasting is evaluated at compile time and not runtime. Compilation fails if its not able to find the designated function.",
+      "parentUuid": "d3222954_3672499a",
+      "range": {
+        "startLine": 102,
+        "startChar": 16,
+        "endLine": 102,
+        "endChar": 44
+      },
+      "revId": "bcf40c250e254c48b21a570816409cb2ec52ce4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fd0fa1a2_6c7360d2",
         "filename": "src/EntityManager.hpp",
         "patchSetId": 42
