@@ -3,6 +3,155 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4e5b3f9b_6f79f0e1",
+        "filename": "src/NotifyWatch.hpp",
+        "patchSetId": 43
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-02-24T00:16:43Z",
+      "side": 1,
+      "message": "no need to do this pattern.  Just call create_directories and handle the case where it already exists.  As written, you\u0027re not checking any errors.",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 9
+      },
+      "revId": "178e28c9695e26e0cbb64aec4fbe805d07b5b574",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6741ccc_864bdcec",
+        "filename": "src/NotifyWatch.hpp",
+        "patchSetId": 43
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-02-24T00:16:43Z",
+      "side": 1,
+      "message": "Can we wrap this in an raii class to do the cleanup?",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 41
+      },
+      "revId": "178e28c9695e26e0cbb64aec4fbe805d07b5b574",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22f9ac14_45da8029",
+        "filename": "src/NotifyWatch.hpp",
+        "patchSetId": 43
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-02-24T00:16:43Z",
+      "side": 1,
+      "message": "does fdioInstance not do this for us?",
+      "revId": "178e28c9695e26e0cbb64aec4fbe805d07b5b574",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5f05b9e_d61cc69f",
+        "filename": "src/NotifyWatch.hpp",
+        "patchSetId": 43
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-02-24T00:16:43Z",
+      "side": 1,
+      "message": "nit, declare this size_t.  As is you\u0027re declaring as an int and promoting to a size_t.  Easier if it\u0027s just size_t all the way through.",
+      "range": {
+        "startLine": 76,
+        "startChar": 18,
+        "endLine": 76,
+        "endChar": 22
+      },
+      "revId": "178e28c9695e26e0cbb64aec4fbe805d07b5b574",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3b0ae44_7dbde1c0",
+        "filename": "src/NotifyWatch.hpp",
+        "patchSetId": 43
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-02-24T00:16:43Z",
+      "side": 1,
+      "message": "can we avoid memcpy here?  there\u0027s an example of this in bmcweb that uses spans and pointers to do this in a way that\u0027s not doing c-struct pointer arithmetic that might be a good example.\n\nAs a concrete example, I see zero length checks here in this loop that we haven\u0027t hit the end of the array.  We should have... something?",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 29
+      },
+      "revId": "178e28c9695e26e0cbb64aec4fbe805d07b5b574",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6546a3b_81fb1fd9",
+        "filename": "src/NotifyWatch.hpp",
+        "patchSetId": 43
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-02-24T00:16:43Z",
+      "side": 1,
+      "message": "why unique_ptr here?",
+      "range": {
+        "startLine": 122,
+        "startChar": 9,
+        "endLine": 122,
+        "endChar": 19
+      },
+      "revId": "178e28c9695e26e0cbb64aec4fbe805d07b5b574",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "870e712a_2de06a0f",
+        "filename": "src/NotifyWatch.hpp",
+        "patchSetId": 43
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-02-24T00:16:43Z",
+      "side": 1,
+      "message": "I think this whole class gets obsoleted when this moves to an em reactor?  If not, I can review deeper, but I\u0027ve stopped looking for now.",
+      "revId": "178e28c9695e26e0cbb64aec4fbe805d07b5b574",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "83fe7bb5_be8af4d7",
         "filename": "src/cable-monitor/CableConfig.hpp",
         "patchSetId": 43
@@ -43,6 +192,29 @@
         "startChar": 0,
         "endLine": 13,
         "endChar": 0
+      },
+      "revId": "178e28c9695e26e0cbb64aec4fbe805d07b5b574",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0cb37277_efce7800",
+        "filename": "src/cable-monitor/CableEvent.cpp",
+        "patchSetId": 43
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-02-24T00:16:43Z",
+      "side": 1,
+      "message": "Same as other review.  phosphor:: namespace doesn\u0027t really add value here and makes this look less like the other reactors.  Remove it",
+      "range": {
+        "startLine": 14,
+        "startChar": 10,
+        "endLine": 14,
+        "endChar": 20
       },
       "revId": "178e28c9695e26e0cbb64aec4fbe805d07b5b574",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
