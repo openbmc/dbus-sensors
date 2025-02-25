@@ -740,6 +740,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "348e9207_50172c84",
+        "filename": "src/leakdetector/LeakDetectionManager.cpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-02-25T08:19:55Z",
+      "side": 1,
+      "message": "Done, also changed to global leak namespace.",
+      "parentUuid": "2d5711e7_78fa1b81",
+      "range": {
+        "startLine": 16,
+        "startChar": 10,
+        "endLine": 16,
+        "endChar": 18
+      },
+      "revId": "bcf40c250e254c48b21a570816409cb2ec52ce4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "421de4b2_d42dbc37",
