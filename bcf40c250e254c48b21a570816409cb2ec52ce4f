@@ -1101,6 +1101,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9fe0f267_d3494090",
+        "filename": "src/leakdetector/LeakDetector.hpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-02-25T08:43:27Z",
+      "side": 1,
+      "message": "I have renamed the class to GPIODetector to better reflect the Intent.",
+      "parentUuid": "aea8b3e0_298132e0",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 57
+      },
+      "revId": "bcf40c250e254c48b21a570816409cb2ec52ce4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8239da8c_a8c3f2a9",
         "filename": "src/leakdetector/LeakDetector.hpp",
         "patchSetId": 42
