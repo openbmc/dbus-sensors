@@ -598,6 +598,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c245944c_3befb323",
+        "filename": "src/Systemd.cpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-02-25T00:00:23Z",
+      "side": 1,
+      "message": "\u003e Isn\u0027t this a blocking call?  Don\u0027t we need to call the co_return version of this?\n\u003e \nDone\n\n\u003e StartUnit also returns a structure or an error that doesn\u0027t look like it\u0027s handled by call_noreply?\n\nThe StartUnit returns the objectpath for the job started https://www.freedesktop.org/wiki/Software/systemd/dbus/, if StartUnit fails it will throw an exception. I have done that handling.",
+      "parentUuid": "5285bf7a_652f385a",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 30
+      },
+      "revId": "bcf40c250e254c48b21a570816409cb2ec52ce4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8669d242_d9cf5e3b",
@@ -635,6 +659,30 @@
       "side": 1,
       "message": "I had initially thought about passing this as an arg but any API that will be added to this class will need to use the bus, hence i added it as a class var. \nIf there are no strong reasons, i can leave it as such.",
       "parentUuid": "8669d242_d9cf5e3b",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 26
+      },
+      "revId": "bcf40c250e254c48b21a570816409cb2ec52ce4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea737726_cb910a6b",
+        "filename": "src/Systemd.hpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-02-25T00:00:23Z",
+      "side": 1,
+      "message": "Done, I have dropped bus in my latest patch as class var and passing the async ctx directly via API arg.",
+      "parentUuid": "2a3cfa16_22bb2af1",
       "range": {
         "startLine": 22,
         "startChar": 0,
