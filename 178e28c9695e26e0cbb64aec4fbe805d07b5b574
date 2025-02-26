@@ -64,6 +64,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b234ab6_9fd8cf4f",
+        "filename": "src/NotifyWatch.hpp",
+        "patchSetId": 43
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-02-26T21:57:25Z",
+      "side": 1,
+      "message": "fdioInstance is getting used in this code to watch the fd events, but to get and process the actual filesystem specific events inotify is getting used along with it.",
+      "parentUuid": "22f9ac14_45da8029",
+      "revId": "178e28c9695e26e0cbb64aec4fbe805d07b5b574",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c5f05b9e_d61cc69f",
@@ -123,6 +141,30 @@
       "writtenOn": "2025-02-24T00:16:43Z",
       "side": 1,
       "message": "why unique_ptr here?",
+      "range": {
+        "startLine": 122,
+        "startChar": 9,
+        "endLine": 122,
+        "endChar": 19
+      },
+      "revId": "178e28c9695e26e0cbb64aec4fbe805d07b5b574",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f15cfa6e_4704504f",
+        "filename": "src/NotifyWatch.hpp",
+        "patchSetId": 43
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-02-26T21:57:25Z",
+      "side": 1,
+      "message": "Because the fd is needed for fdio which is not available until inotify init operations are done.",
+      "parentUuid": "d6546a3b_81fb1fd9",
       "range": {
         "startLine": 122,
         "startChar": 9,
