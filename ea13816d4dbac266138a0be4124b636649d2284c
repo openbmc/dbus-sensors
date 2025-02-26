@@ -194,6 +194,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "befbe2be_9bc4587c",
+        "filename": "src/DeviceMgmt.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-02-26T22:40:57Z",
+      "side": 1,
+      "message": "The newest update now tracks sysfs paths for devices it binds drivers for.\n\nI\u0027ve confirmed that \u0027destroy\u0027 works with the new checks, and successfully removes the appropriate path from the list of tracked devices when it\u0027s called.\n\nDestroy gets called if HwmonTempsensor does a write to \u0027probe\u0027 but the drive probe fails to create a hwmon node -- not uncommon, and is even expected -- happens early in boot due to host power race conditions.",
+      "parentUuid": "e3bc3322_585b4bbf",
+      "range": {
+        "startLine": 199,
+        "startChar": 50,
+        "endLine": 200,
+        "endChar": 34
+      },
+      "revId": "ea13816d4dbac266138a0be4124b636649d2284c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0fc14bf1_c22d18a2",
         "filename": "src/DeviceMgmt.cpp",
         "patchSetId": 4
