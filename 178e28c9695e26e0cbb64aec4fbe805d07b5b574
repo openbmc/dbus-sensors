@@ -73,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bee4df96_5453a433",
+        "filename": "src/NotifyWatch.hpp",
+        "patchSetId": 43
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-02-26T22:20:51Z",
+      "side": 1,
+      "message": "I am doing the cleanup in the destructor, isn\u0027t thats the implicit RAII for a class is https://www.google.com/search?q\u003draii+class ?",
+      "parentUuid": "e6741ccc_864bdcec",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 41
+      },
+      "revId": "178e28c9695e26e0cbb64aec4fbe805d07b5b574",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "22f9ac14_45da8029",
         "filename": "src/NotifyWatch.hpp",
         "patchSetId": 43
