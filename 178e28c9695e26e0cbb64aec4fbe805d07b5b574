@@ -266,6 +266,30 @@
       },
       "revId": "178e28c9695e26e0cbb64aec4fbe805d07b5b574",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5eeb0bba_a19dcd2d",
+        "filename": "src/cable-monitor/CableEvent.cpp",
+        "patchSetId": 43
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-02-26T21:49:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0cb37277_efce7800",
+      "range": {
+        "startLine": 14,
+        "startChar": 10,
+        "endLine": 14,
+        "endChar": 20
+      },
+      "revId": "178e28c9695e26e0cbb64aec4fbe805d07b5b574",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
