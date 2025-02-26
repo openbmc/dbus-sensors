@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9c5a7ce_431cadd2",
+        "filename": "src/NotifyWatch.hpp",
+        "patchSetId": 43
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-02-26T22:13:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e5b3f9b_6f79f0e1",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 9
+      },
+      "revId": "178e28c9695e26e0cbb64aec4fbe805d07b5b574",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e6741ccc_864bdcec",
