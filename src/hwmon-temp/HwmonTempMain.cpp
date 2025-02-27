@@ -87,6 +87,11 @@ static const I2CDeviceTypeMap sensorTypes{
     {"TMP100", I2CDeviceType{"tmp100", true}},
     {"TMP112", I2CDeviceType{"tmp112", true}},
     {"TMP175", I2CDeviceType{"tmp175", true}},
+<<<<<<< PATCH SET (f770d7 hwmontempsensor: add support for tmp411 temp sensors)
+    {"TMP1075", I2CDeviceType{"tmp1075", true}},
+    {"TMP411", I2CDeviceType{"tmp411", true}},
+=======
+>>>>>>> BASE      (81d073 Update Vernon Mauery email)
     {"TMP421", I2CDeviceType{"tmp421", true}},
     {"TMP432", I2CDeviceType{"tmp432", true}},
     {"TMP441", I2CDeviceType{"tmp441", true}},
