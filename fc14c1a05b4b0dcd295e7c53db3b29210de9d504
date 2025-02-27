@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "48e1ae04_d98c7518",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-02-27T18:18:59Z",
+      "side": 1,
+      "message": "Got it, thanks! \n\nWhile I was changing stuff around anyways, I went ahead and split tmp411 support into it\u0027s own PR.",
+      "parentUuid": "77466004_9d38e3a0",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 3
+      },
+      "revId": "fc14c1a05b4b0dcd295e7c53db3b29210de9d504",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "afa74e0b_d31f8d4b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -37,6 +61,30 @@
       "writtenOn": "2025-02-19T01:51:36Z",
       "side": 1,
       "message": "I don\u0027t find this terribly helpful personally, as there\u0027s no correlation between the sensor names and the drivers. To me it might as well say \"TESTED: Definitely\"\n\nOthers may have different opinions though.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 3
+      },
+      "revId": "fc14c1a05b4b0dcd295e7c53db3b29210de9d504",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac98dbe9_d717b5bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-02-27T18:18:59Z",
+      "side": 1,
+      "message": "That\u0027s a good point. I\u0027ve changed my example sensor names to reflect the type and device in the new version of TESTED:",
+      "parentUuid": "afa74e0b_d31f8d4b",
       "range": {
         "startLine": 18,
         "startChar": 0,
