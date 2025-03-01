@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "af0d0cab_8418a03a",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-03-01T16:50:58Z",
+      "side": 1,
+      "message": "The only place it is called from refers to it as a 8B uint. We only care about the first 4 bytes in SMBPBI",
+      "parentUuid": "0d0de76e_0aa1f6dd",
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5588749a_39be57aa",
         "filename": "src/smbpbi/SmbpbiSensor.cpp",
         "patchSetId": 8
@@ -43,6 +61,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "23de8121_edea1d48",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-03-01T16:50:58Z",
+      "side": 1,
+      "message": "Added comment",
+      "parentUuid": "5588749a_39be57aa",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 151,
+        "endChar": 1
+      },
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5257b209_c1663085",
         "filename": "src/smbpbi/SmbpbiSensor.cpp",
         "patchSetId": 8
@@ -54,6 +96,30 @@
       "writtenOn": "2025-01-28T20:55:09Z",
       "side": 1,
       "message": "clear all bits of tempd before the loop",
+      "range": {
+        "startLine": 166,
+        "startChar": 4,
+        "endLine": 166,
+        "endChar": 61
+      },
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "926ca51f_f249fbe8",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-03-01T16:50:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5257b209_c1663085",
       "range": {
         "startLine": 166,
         "startChar": 4,
@@ -106,6 +172,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d1ea5986_baa67f5e",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-03-01T16:50:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b09a0b79_36fe2649",
+      "range": {
+        "startLine": 284,
+        "startChar": 13,
+        "endLine": 284,
+        "endChar": 22
+      },
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0db1c8dd_1e808f8b",
         "filename": "src/smbpbi/SmbpbiSensor.cpp",
         "patchSetId": 8
@@ -117,6 +207,30 @@
       "writtenOn": "2025-01-28T20:55:09Z",
       "side": 1,
       "message": "is FLOAT32 not supported? It is defined in the enum class",
+      "range": {
+        "startLine": 354,
+        "startChar": 3,
+        "endLine": 354,
+        "endChar": 8
+      },
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fd99c60_5c40e8b8",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-03-01T16:50:58Z",
+      "side": 1,
+      "message": "At the moment we only need to read 8 bytes at a time",
+      "parentUuid": "0db1c8dd_1e808f8b",
       "range": {
         "startLine": 354,
         "startChar": 3,
@@ -152,6 +266,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0264fca2_1c5cfbfd",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-03-01T16:50:58Z",
+      "side": 1,
+      "message": "Yes, changed",
+      "parentUuid": "18e230c8_7f79cad4",
+      "range": {
+        "startLine": 22,
+        "startChar": 26,
+        "endLine": 22,
+        "endChar": 27
+      },
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c6a2e412_7058bc88",
         "filename": "src/smbpbi/SmbpbiSensor.hpp",
         "patchSetId": 8
@@ -163,6 +301,30 @@
       "writtenOn": "2025-01-28T20:55:09Z",
       "side": 1,
       "message": "Please consider use more descriptive names for these functions.\nFor example i2cReadDataBytes() describes the function better than i2cCmd()",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 38
+      },
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24788896_c6f31077",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-03-01T16:50:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6a2e412_7058bc88",
       "range": {
         "startLine": 52,
         "startChar": 0,
@@ -198,6 +360,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ae47c136_7a0445d9",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-03-01T16:50:58Z",
+      "side": 1,
+      "message": "Removed duplicate",
+      "parentUuid": "c6d0aec6_9b9f4513",
+      "range": {
+        "startLine": 56,
+        "startChar": 4,
+        "endLine": 56,
+        "endChar": 20
+      },
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8b4e6bf4_985698c5",
         "filename": "src/smbpbi/SmbpbiSensor.hpp",
         "patchSetId": 8
@@ -209,6 +395,30 @@
       "writtenOn": "2025-01-28T20:55:09Z",
       "side": 1,
       "message": "I feel a lot of them can be moved to private",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 26
+      },
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e052cf23_4b7ed933",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-03-01T16:50:58Z",
+      "side": 1,
+      "message": "Which ones? The variables are used to create sensor callbacks. Moved methods to private.",
+      "parentUuid": "8b4e6bf4_985698c5",
       "range": {
         "startLine": 44,
         "startChar": 0,
@@ -244,6 +454,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bc996d95_7fb1e98b",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-03-01T16:50:58Z",
+      "side": 1,
+      "message": "For now, yes",
+      "parentUuid": "f747fe8a_9bbea15d",
+      "range": {
+        "startLine": 65,
+        "startChar": 15,
+        "endLine": 65,
+        "endChar": 21
+      },
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "528bafe0_f676fd9d",
         "filename": "src/smbpbi/SmbpbiSensor.hpp",
         "patchSetId": 8
@@ -255,6 +489,30 @@
       "writtenOn": "2025-01-28T20:55:09Z",
       "side": 1,
       "message": "This function is confusing:\n1. Why is it static?\n2. Why it just returns parameter? Whereever it is used, why not use offset directly?\n3. offset ins uint16, return value is uint8, it is going to be \"truncated\"",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 5
+      },
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f8b67c8_7591a382",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-03-01T16:50:58Z",
+      "side": 1,
+      "message": "I agree this is confusing.\nIn a different implementation, it was being used to map offset to sensor reading length through a csv/config. This is not required anymore since we read blocks of 8bytes. The temp/power functions internally handle decode. Refactored to not use `getLength()`",
+      "parentUuid": "528bafe0_f676fd9d",
       "range": {
         "startLine": 70,
         "startChar": 0,
@@ -290,6 +548,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2872a26c_fc589a12",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-03-01T16:50:58Z",
+      "side": 1,
+      "message": "The plan is to move to async at some point. For now this is used to satisfy RAII for file handling.",
+      "parentUuid": "6c9aaabc_6309a774",
+      "range": {
+        "startLine": 76,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 45
+      },
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f57d9ddf_c3e3c80c",
         "filename": "src/smbpbi/SmbpbiSensor.hpp",
         "patchSetId": 8
@@ -301,6 +583,30 @@
       "writtenOn": "2025-01-28T20:55:09Z",
       "side": 1,
       "message": "can we make this consistent with other sensor service use pollRateMs or pollRateSecond so it is clear the unit of this variable",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 20
+      },
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17edc652_a801eccc",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-03-01T16:50:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f57d9ddf_c3e3c80c",
       "range": {
         "startLine": 78,
         "startChar": 0,
