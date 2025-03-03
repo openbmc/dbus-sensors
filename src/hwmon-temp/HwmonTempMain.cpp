@@ -271,10 +271,13 @@ void createSensors(
         sensorsChanged,
     bool activateOnly)
 {
+    std::cout << "[DEBUG] Entering createSensors function" << std::endl;
+
     auto getter = std::make_shared<GetSensorConfiguration>(
         dbusConnection,
         [&io, &objectServer, &sensors, &dbusConnection, sensorsChanged,
          activateOnly](const ManagedObjectType& sensorConfigurations) {
+            std::cout << "[DEBUG] GetSensorConfiguration callback triggered" << std::endl;
             bool firstScan = sensorsChanged == nullptr;
 
             SensorConfigMap configMap =
@@ -580,8 +583,14 @@ static void powerStateChanged(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
 {
+    if (DisableHostPowerMonitoring == 1)
+    {
+        std::cout << "[INFO] Host power monitoring is disabled, skipping power state change handling.\n";
+        return;
+    }
     if (newState)
     {
+        std::cout << "[DEBUG] PowerStateChanged\n" << std::endl;
         createSensors(io, objectServer, sensors, dbusConnection, nullptr, true);
     }
     else
