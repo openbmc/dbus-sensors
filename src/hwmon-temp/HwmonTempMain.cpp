@@ -14,6 +14,8 @@
 // limitations under the License.
 */
 
+#include "dbus-sensor_config.h"
+
 #include "DeviceMgmt.hpp"
 #include "HwmonTempSensor.hpp"
 #include "SensorPaths.hpp"
@@ -580,6 +582,12 @@ static void powerStateChanged(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
 {
+    if (disableHostPowerMonitoring == 1)
+    {
+        std::cout
+            << "[INFO] Host power monitoring is disabled, skipping power state change handling.\n";
+        return;
+    }
     if (newState)
     {
         createSensors(io, objectServer, sensors, dbusConnection, nullptr, true);
