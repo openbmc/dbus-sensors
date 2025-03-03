@@ -7,6 +7,10 @@ conf_data.set10(
     'INSECURE_UNRESTRICTED_SENSOR_OVERRIDE',
     get_option('insecure-sensor-override').allowed(),
 )
+conf_data.set(
+    'DISABLE_HOST_POWER_MONITORING',
+    get_option('disable-host-power-monitoring') ? '1' : '0',
+)
 configure_file(
     input: 'dbus-sensor_config.h.in',
     output: 'dbus-sensor_config.h',
