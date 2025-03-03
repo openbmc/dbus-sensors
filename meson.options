@@ -83,3 +83,9 @@ option(
     value: 'disabled',
     description: 'Enables Sensor override feature without any check.',
 )
+option(
+    'disable-host-power-monitoring',
+    type: 'boolean',
+    value: false,
+    description: 'Disable host power monitoring for hwmon-temp.',
+)
