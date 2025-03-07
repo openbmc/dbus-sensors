@@ -2,10 +2,14 @@ add_languages('c', required: true)
 
 libocpami_sources = files(
   'ocp_ami.c',
+  'nvidia_common.c',
+  'nvidia_sensors.c',
 )
 
 libocpami_headers = files(
   'ocp_ami.h',
+  'nvidia_common.h',
+  'nvidia_sensors.h',
 )
 
 libocpami_include_dir = include_directories('.', is_system: true)
