@@ -1,8 +1,8 @@
 add_languages('c', required: true)
 
-libocpami_sources = files('ocp_ami.c')
+libocpami_sources = files('gpu_common.c', 'gpu_sensors.c', 'ocp_ami.c')
 
-libocpami_headers = files('ocp_ami.h')
+libocpami_headers = files('gpu_common.h', 'gpu_sensors.h', 'ocp_ami.h')
 
 libocpami_include_dir = include_directories('.', is_system: true)
 
