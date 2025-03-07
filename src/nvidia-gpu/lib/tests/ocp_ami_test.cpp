@@ -64,7 +64,7 @@ TEST(encodeReasonCode, testGoodEncodeReasonCode)
 	std::vector<uint8_t> responseMsg(
 		sizeof(ocp_ami_binding_pci_vid) +
 		sizeof(ocp_ami_common_non_success_resp));
-	auto response = reinterpret_cast<ocp_ami_msg *>(responseMsg.data());
+	auto response = new (responseMsg.data()) ocp_ami_msg;
 
 	uint8_t cc = OCP_AMI_ERROR;
 	uint16_t reasonCode = NONE;
@@ -72,8 +72,7 @@ TEST(encodeReasonCode, testGoodEncodeReasonCode)
 	auto rc = ocp_ami_encode_reason_code(cc, reasonCode, 0x00, response);
 
 	struct ocp_ami_common_non_success_resp *resp =
-		reinterpret_cast<struct ocp_ami_common_non_success_resp *>(
-			response->payload);
+		new (response->payload) struct ocp_ami_common_non_success_resp;
 
 	EXPECT_EQ(rc, OCP_AMI_SUCCESS);
 	EXPECT_EQ(OCP_AMI_ERROR, resp->completion_code);
@@ -105,7 +104,7 @@ TEST(decodeReasonCodeCC, testGoodDecodeReasonCode)
 		0x00
 	};
 
-	auto response = reinterpret_cast<ocp_ami_msg *>(responseMsg.data());
+	auto response = new (responseMsg.data()) ocp_ami_msg;
 	size_t msg_len = responseMsg.size();
 
 	uint8_t cc = OCP_AMI_ERROR;
@@ -133,7 +132,7 @@ TEST(decodeReasonCodeCC, testGoodDecodeCompletionCode)
 		0x02
 	};
 
-	auto response = reinterpret_cast<ocp_ami_msg *>(responseMsg.data());
+	auto response = new (responseMsg.data()) ocp_ami_msg;
 	size_t msg_len = responseMsg.size();
 
 	uint8_t cc = OCP_AMI_ERROR;
@@ -160,7 +159,7 @@ TEST(decodeReasonCode, testBadDecodeReasonCode)
 		0x00
 	};
 
-	auto response = reinterpret_cast<ocp_ami_msg *>(responseMsg.data());
+	auto response = new (responseMsg.data()) ocp_ami_msg;
 	size_t msg_len = responseMsg.size();
 
 	uint8_t cc = OCP_AMI_SUCCESS;

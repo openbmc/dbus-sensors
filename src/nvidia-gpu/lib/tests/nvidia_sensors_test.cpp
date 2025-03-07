@@ -14,13 +14,13 @@ TEST(queryDeviceIdentification, testGoodEncodeRequest)
 		sizeof(ocp_ami_binding_pci_vid) +
 		sizeof(ocp_ami_oem_nvidia_query_device_identification_req));
 
-	auto request = reinterpret_cast<ocp_ami_msg *>(requestMsg.data());
+	auto request = new (requestMsg.data()) ocp_ami_msg;
 	uint8_t instance_id = 0x12;
 	auto rc = ocp_ami_oem_nvidia_encode_query_device_identification_req(
 		instance_id, request);
 
 	struct ocp_ami_common_req *req =
-		reinterpret_cast<struct ocp_ami_common_req *>(request->payload);
+		new (request->payload) struct ocp_ami_common_req;
 
 	EXPECT_EQ(rc, OCP_AMI_SUCCESS);
 
@@ -39,7 +39,7 @@ TEST(queryDeviceIdentification, testGoodEncodeResponse)
 	std::vector<uint8_t> responseMsg(
 		sizeof(ocp_ami_binding_pci_vid) +
 		sizeof(ocp_ami_oem_nvidia_query_device_identification_resp));
-	auto response = reinterpret_cast<ocp_ami_msg *>(responseMsg.data());
+	auto response = new (responseMsg.data()) ocp_ami_msg;
 
 	uint8_t instance_id = 0x12;
 	uint8_t cc = OCP_AMI_SUCCESS;
@@ -51,10 +51,8 @@ TEST(queryDeviceIdentification, testGoodEncodeResponse)
 		instance_id, cc, reason_code, device_identification,
 		device_instance, response);
 
-	struct ocp_ami_oem_nvidia_query_device_identification_resp *resp =
-		reinterpret_cast<
-			struct ocp_ami_oem_nvidia_query_device_identification_resp
-				*>(response->payload);
+	struct ocp_ami_oem_nvidia_query_device_identification_resp *resp = new (
+		response->payload) struct ocp_ami_oem_nvidia_query_device_identification_resp;
 
 	EXPECT_EQ(rc, OCP_AMI_SUCCESS);
 
@@ -89,7 +87,7 @@ TEST(queryDeviceIdentification, testGoodDecodeResponse)
 		1			       // instance_id
 	};
 
-	auto response = reinterpret_cast<ocp_ami_msg *>(responseMsg.data());
+	auto response = new (responseMsg.data()) ocp_ami_msg;
 
 	size_t msg_len = responseMsg.size();
 
@@ -114,15 +112,15 @@ TEST(getTemperature, testGoodEncodeRequest)
 		sizeof(ocp_ami_binding_pci_vid) +
 		sizeof(ocp_ami_oem_nvidia_get_temperature_reading_req));
 
-	auto request = reinterpret_cast<ocp_ami_msg *>(requestMsg.data());
+	auto request = new (requestMsg.data()) ocp_ami_msg;
 	uint8_t sensor_id = 0;
 
 	auto rc = ocp_ami_oem_nvidia_encode_get_temperature_reading_req(
 		0, sensor_id, request);
 
-	ocp_ami_oem_nvidia_get_temperature_reading_req *req = reinterpret_cast<
-		ocp_ami_oem_nvidia_get_temperature_reading_req *>(
-		request->payload);
+	ocp_ami_oem_nvidia_get_temperature_reading_req *req =
+		new (request->payload)
+			ocp_ami_oem_nvidia_get_temperature_reading_req;
 
 	EXPECT_EQ(rc, OCP_AMI_SUCCESS);
 
@@ -149,7 +147,7 @@ TEST(getTemperature, testGoodDecodeRequest)
 		1						    // sensor_id
 	};
 
-	auto request = reinterpret_cast<ocp_ami_msg *>(requestMsg.data());
+	auto request = new (requestMsg.data()) ocp_ami_msg;
 	size_t msg_len = requestMsg.size();
 
 	uint8_t sensor_id = 0;
@@ -165,7 +163,7 @@ TEST(getTemperature, testGoodEncodeResponse)
 	std::vector<uint8_t> responseMsg(
 		sizeof(ocp_ami_binding_pci_vid) +
 		sizeof(ocp_ami_oem_nvidia_get_temperature_reading_resp));
-	auto response = reinterpret_cast<ocp_ami_msg *>(responseMsg.data());
+	auto response = new (responseMsg.data()) ocp_ami_msg;
 
 	double temperature_reading = 12.34;
 	uint16_t reasonCode = 0;
@@ -173,10 +171,8 @@ TEST(getTemperature, testGoodEncodeResponse)
 	auto rc = ocp_ami_oem_nvidia_encode_get_temperature_reading_resp(
 		0, OCP_AMI_SUCCESS, reasonCode, temperature_reading, response);
 
-	struct ocp_ami_oem_nvidia_get_temperature_reading_resp *resp =
-		reinterpret_cast<
-			struct ocp_ami_oem_nvidia_get_temperature_reading_resp *>(
-			response->payload);
+	struct ocp_ami_oem_nvidia_get_temperature_reading_resp *resp = new (
+		response->payload) struct ocp_ami_oem_nvidia_get_temperature_reading_resp;
 
 	EXPECT_EQ(rc, OCP_AMI_SUCCESS);
 
@@ -216,7 +212,7 @@ TEST(getTemperature, testGoodDecodeResponse)
 		0x00 // temperature reading=12.34
 	};
 
-	auto response = reinterpret_cast<ocp_ami_msg *>(responseMsg.data());
+	auto response = new (responseMsg.data()) ocp_ami_msg;
 	size_t msg_len = responseMsg.size();
 
 	uint8_t cc = OCP_AMI_ERROR;
@@ -249,7 +245,7 @@ TEST(getTemperature, testBadDecodeResponseLength)
 		0x00 // temperature reading=12.34
 	};
 
-	auto response = reinterpret_cast<ocp_ami_msg *>(responseMsg.data());
+	auto response = new (responseMsg.data()) ocp_ami_msg;
 	size_t msg_len = responseMsg.size();
 
 	uint8_t cc = OCP_AMI_ERROR;
@@ -284,7 +280,7 @@ TEST(getTemperature, testBadDecodeResponseNull)
 		0x00 // temperature reading=12.34
 	};
 
-	auto response = reinterpret_cast<ocp_ami_msg *>(responseMsg.data());
+	auto response = new (responseMsg.data()) ocp_ami_msg;
 	size_t msg_len = responseMsg.size();
 
 	uint8_t cc = OCP_AMI_ERROR;
@@ -317,7 +313,7 @@ TEST(getTemperature, testBadDecodeResponseDataLength)
 		0x00 // temperature reading=12.34
 	};
 
-	auto response = reinterpret_cast<ocp_ami_msg *>(responseMsg.data());
+	auto response = new (responseMsg.data()) ocp_ami_msg;
 	size_t msg_len = responseMsg.size();
 
 	uint8_t cc = OCP_AMI_ERROR;

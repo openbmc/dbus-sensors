@@ -59,7 +59,7 @@ class NvidiaCommonTest : public ::testing::Test {
 	{
 		buf.resize(1024, 0);
 		msg_len = buf.size();
-		msg = reinterpret_cast<ocp_ami_msg *>(buf.data());
+		msg = new (buf.data()) ocp_ami_msg;
 	}
 
 	void setOcpVersionAndVendorId()

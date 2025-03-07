@@ -376,4 +376,4 @@ CheckOptions:
   - { key: readability-identifier-naming.NamespaceCase, value: lower_case }
   - { key: readability-identifier-naming.StructCase,    value: CamelCase  }
   - { key: cppcoreguidelines-rvalue-reference-param-not-moved.IgnoreUnnamedParams, value: true }
-  - { key: misc-include-cleaner.IgnoreHeaders, value: ((stdlib.h)|(nlohmann/json_fwd.hpp)|(boost/.*/src.hpp)|(boost/.*/detail/.*)|(nlohmann/detail/.*)|(stdio.h)|(ranges)|(bits/chrono.h)|(boost/system/error_code.hpp)) }
+  - { key: misc-include-cleaner.IgnoreHeaders, value: ((stdlib.h)|(nlohmann/json_fwd.hpp)|(boost/.*/src.hpp)|(boost/.*/detail/.*)|(nlohmann/detail/.*)|(stdio.h)|(ranges)|(bits/chrono.h)|(boost/system/error_code.hpp)|(boost/regex.*)|(boost/asio/.*co_spawn.hpp)|(bits/getopt_ext.h)|(getopt.h)) }
