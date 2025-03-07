@@ -537,7 +537,8 @@ void createSensors(
                 }
             }
         });
-    std::vector<std::string> types(sensorTypes.size());
+    std::vector<std::string> types;
+    types.reserve(sensorTypes.size());
     for (const auto& [type, dt] : sensorTypes)
     {
         types.push_back(type);
