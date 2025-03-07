@@ -65,6 +65,12 @@ option(
     description: 'Enable PSU sensor.',
 )
 option(
+    'nvidia-gpu',
+    type: 'feature',
+    value: 'enabled',
+    description: 'Enable Nvidia GPU sensor.',
+)
+option(
     'external',
     type: 'feature',
     value: 'enabled',
