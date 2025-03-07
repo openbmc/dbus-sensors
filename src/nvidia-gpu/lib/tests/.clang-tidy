@@ -1,0 +1,5 @@
+WarningsAsErrors: '
+-cppcoreguidelines-pro-type-reinterpret-cast
+'
+
+InheritParentConfig: true
