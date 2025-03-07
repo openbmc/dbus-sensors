@@ -19,6 +19,8 @@ test(
     executable(
         'libocpami_test',
         'ocp_ami_test.cpp',
+        'nvidia_common_test.cpp',
+        'nvidia_sensors_test.cpp',
         implicit_include_directories: false,
         include_directories: libocpami_test_include_dirs,
         dependencies: [libocpami_dep, gtest_dep, gmock_dep],
