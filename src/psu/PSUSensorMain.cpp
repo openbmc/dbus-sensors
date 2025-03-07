@@ -1079,9 +1079,10 @@ void createSensors(
                                   sensorConfigs, sensorsChanged, activateOnly);
         });
     std::vector<std::string> types(sensorTypes.size());
+    size_t i = 0;
     for (const auto& [type, dt] : sensorTypes)
     {
-        types.push_back(type);
+        types[i++] = type;
     }
     getter->getConfiguration(types);
 }

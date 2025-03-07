@@ -313,9 +313,10 @@ struct GetSensorConfiguration :
         }
 
         std::vector<std::string> interfaces(types.size());
+        size_t i = 0;
         for (const auto& type : types)
         {
-            interfaces.push_back(configInterfaceName(type));
+            interfaces[i++] = configInterfaceName(type);
         }
 
         std::shared_ptr<GetSensorConfiguration> self = shared_from_this();
