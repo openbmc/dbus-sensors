@@ -1078,7 +1078,7 @@ void createSensors(
             createSensorsCallback(io, objectServer, dbusConnection,
                                   sensorConfigs, sensorsChanged, activateOnly);
         });
-    std::vector<std::string> types(sensorTypes.size());
+    std::vector<std::string> types;
     for (const auto& [type, dt] : sensorTypes)
     {
         types.push_back(type);

@@ -312,7 +312,7 @@ struct GetSensorConfiguration :
             retries = 5;
         }
 
-        std::vector<std::string> interfaces(types.size());
+        std::vector<std::string> interfaces;
         for (const auto& type : types)
         {
             interfaces.push_back(configInterfaceName(type));
