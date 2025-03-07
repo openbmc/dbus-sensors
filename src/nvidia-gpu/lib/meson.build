@@ -1,8 +1,20 @@
 add_languages('c', required: true)
 
-libocpami_sources = files('nvidia_common.c', 'nvidia_sensors.c', 'ocp_ami.c')
+libocpami_sources = files(
+    'af-mctp.c',
+    'nvidia_common.c',
+    'nvidia_sensors.c',
+    'ocp_ami.c',
+    'transport.c',
+)
 
-libocpami_headers = files('nvidia_common.h', 'nvidia_sensors.h', 'ocp_ami.h')
+libocpami_headers = files(
+    'af-mctp.h',
+    'nvidia_common.h',
+    'nvidia_sensors.h',
+    'ocp_ami.h',
+    'transport.h',
+)
 
 libocpami_include_dir = include_directories('.', is_system: true)
 
