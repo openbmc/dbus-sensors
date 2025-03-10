@@ -16,6 +16,23 @@
       "message": "Hello,\nIt\u0027s been more than a month since this was posted. Please provide feedback so this can be merged eventually.",
       "revId": "23a5973111d2374ec8365b591d77c03d2e93768f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b67834e_d6d6b669",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000461
+      },
+      "writtenOn": "2025-03-10T21:41:31Z",
+      "side": 1,
+      "message": "Sorry for the delayed response. The patch is needed to handle the last change in PECI dimmtemp driver that modifies it behaviour (previously the driver returns",
+      "revId": "23a5973111d2374ec8365b591d77c03d2e93768f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
