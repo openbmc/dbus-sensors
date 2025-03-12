@@ -16,6 +16,24 @@
       "message": "typo here, should be ```INTERFACE```",
       "revId": "c77f246844da9706c0aa5576a7a4a4129c440dac",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6ee22bc_de06dddb",
+        "filename": "src/adc/ADCSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2025-03-12T10:16:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d972075_0f841513",
+      "revId": "c77f246844da9706c0aa5576a7a4a4129c440dac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
