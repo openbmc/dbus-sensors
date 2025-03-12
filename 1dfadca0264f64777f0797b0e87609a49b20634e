@@ -103,6 +103,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1484e379_3120923d",
+        "filename": "src/psu/PSUSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-03-12T09:00:12Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "2b1a5906_04ad5f62",
+      "revId": "1dfadca0264f64777f0797b0e87609a49b20634e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "80813c9e_717aa133",
@@ -116,6 +134,24 @@
       "writtenOn": "2025-01-28T10:10:36Z",
       "side": 1,
       "message": "can get rid of the if stmt here, lg2 does not need \u0027debug\u0027 variable",
+      "revId": "1dfadca0264f64777f0797b0e87609a49b20634e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a803723b_29e555e9",
+        "filename": "src/psu/PSUSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-03-12T09:00:12Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "80813c9e_717aa133",
       "revId": "1dfadca0264f64777f0797b0e87609a49b20634e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -208,6 +244,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "04f0dfdb_fb782cf7",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-03-12T09:00:12Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "6b1f3c70_a5524d27",
+      "revId": "1dfadca0264f64777f0797b0e87609a49b20634e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5ac04d28_351d168e",
@@ -221,6 +275,24 @@
       "writtenOn": "2025-01-28T10:10:36Z",
       "side": 1,
       "message": "can get rid of the if stmt here, lg2 does not need \u0027debug\u0027 variable",
+      "revId": "1dfadca0264f64777f0797b0e87609a49b20634e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d10e6a82_edf526ca",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-03-12T09:00:12Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "5ac04d28_351d168e",
       "revId": "1dfadca0264f64777f0797b0e87609a49b20634e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -242,6 +314,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "24202667_1bc639b6",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 681,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-03-12T09:00:12Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "bca85776_6e48414c",
+      "revId": "1dfadca0264f64777f0797b0e87609a49b20634e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6a664019_e0203f2b",
@@ -255,6 +345,24 @@
       "writtenOn": "2025-01-28T10:10:36Z",
       "side": 1,
       "message": "If it\u0027s a debug statement, use lg2::debug ?\nThen there is no need to branch on \u0027debug\u0027 variable.\nIn error case, use lg2::error.",
+      "revId": "1dfadca0264f64777f0797b0e87609a49b20634e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e752de0d_675e9ba9",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 849,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-03-12T09:00:12Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "6a664019_e0203f2b",
       "revId": "1dfadca0264f64777f0797b0e87609a49b20634e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -276,6 +384,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d38c668_ec4ed486",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 886,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-03-12T09:00:12Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "12536b0e_50b520d9",
+      "revId": "1dfadca0264f64777f0797b0e87609a49b20634e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f496fbb5_8d6eca71",
@@ -293,6 +419,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7390f88_688cf5f3",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 912,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-03-12T09:00:12Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "f496fbb5_8d6eca71",
+      "revId": "1dfadca0264f64777f0797b0e87609a49b20634e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "689d24d9_21eba145",
@@ -306,6 +450,24 @@
       "writtenOn": "2025-01-28T10:10:36Z",
       "side": 1,
       "message": "can get rid of the if stmt here, lg2 does not need \u0027debug\u0027 variable",
+      "revId": "1dfadca0264f64777f0797b0e87609a49b20634e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41e15ab4_fd25eb3d",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 945,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-03-12T09:00:12Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "689d24d9_21eba145",
       "revId": "1dfadca0264f64777f0797b0e87609a49b20634e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }

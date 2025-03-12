@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b02144e6_42e4a7b0",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-03-12T09:00:12Z",
+      "side": 1,
+      "message": "typo, should be ```OFFSET```",
+      "revId": "55b23122b8a7c247a0c38b2477074b1bfa2fc2b0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
