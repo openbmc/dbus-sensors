@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d972075_0f841513",
+        "filename": "src/adc/ADCSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-03-12T08:55:24Z",
+      "side": 1,
+      "message": "typo here, should be ```INTERFACE```",
+      "revId": "c77f246844da9706c0aa5576a7a4a4129c440dac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
