@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11ec1b2b_4ba4f31f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-03-13T13:03:54Z",
+      "side": 1,
+      "message": "Please add a brief on what\u0027s modified.",
+      "revId": "5557d7f313f4eedac7b698f2b6faa03140a02888",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
