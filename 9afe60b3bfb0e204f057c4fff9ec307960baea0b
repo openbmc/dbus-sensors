@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d76f10c_76b519bd",
+        "filename": "src/nvidia-gpu/apps/gpu-temperature-sensor/.clang-tidy",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-03-13T13:21:16Z",
+      "side": 1,
+      "message": "we should use placement new and remove this (I see similar changes upstream; you can search for reinterpret cast on gerrit).",
+      "revId": "9afe60b3bfb0e204f057c4fff9ec307960baea0b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
