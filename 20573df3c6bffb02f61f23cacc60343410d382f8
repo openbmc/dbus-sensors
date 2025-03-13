@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a0965ec_56301600",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-03-13T12:58:00Z",
+      "side": 1,
+      "message": "As this is the introductory commit, you need to add more details here. You could pick a summary from https://gerrit.openbmc.org/c/openbmc/docs/+/76686 and also point to it.",
+      "revId": "20573df3c6bffb02f61f23cacc60343410d382f8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82ec0668_66519d2b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-03-13T12:58:00Z",
+      "side": 1,
+      "message": "Add a link to the spec here.",
+      "revId": "20573df3c6bffb02f61f23cacc60343410d382f8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24ce60e4_9b233275",
+        "filename": "meson.options",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-03-13T12:58:00Z",
+      "side": 1,
+      "message": "The detault should be disabled. We\u0027d enable in out meta layer.",
+      "revId": "20573df3c6bffb02f61f23cacc60343410d382f8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
