@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b56626a_9168608d",
+        "filename": "src/psu/PSUSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-03-17T04:44:10Z",
+      "side": 1,
+      "message": "I think it\u0027d be worth a follow-up patch that removes all the `if constexpr (debug)` conditions:\n\nhttps://gerrit.openbmc.org/c/openbmc/phosphor-logging/+/76208",
+      "revId": "4155a5a83b292a8b29daedb9577090e053383e98",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1609e466_868ceb4b",
+        "filename": "src/psu/PSUSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-03-17T04:44:10Z",
+      "side": 1,
+      "message": "I think this could be improved in a follow-up patch with respect to:\n\nhttps://github.com/openbmc/docs/blob/master/anti-patterns.md#ill-defined-data-structuring-in-lg2-message-strings",
+      "range": {
+        "startLine": 68,
+        "startChar": 8,
+        "endLine": 74,
+        "endChar": 50
+      },
+      "revId": "4155a5a83b292a8b29daedb9577090e053383e98",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51b15334_b54caacf",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 861,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-03-17T04:44:10Z",
+      "side": 1,
+      "message": "This message looks informational, and is not an error?\n\nI think this should use `lg2::info()`?\n\nMaybe that can be dealt with in the follow-up patch removing `if constexpr (debug)`?",
+      "revId": "4155a5a83b292a8b29daedb9577090e053383e98",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83606614_0e0d29ad",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 929,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-03-17T04:44:10Z",
+      "side": 1,
+      "message": "Also should be cleaned up in a follow-up patch wrt https://github.com/openbmc/docs/blob/master/anti-patterns.md#ill-defined-data-structuring-in-lg2-message-strings",
+      "revId": "4155a5a83b292a8b29daedb9577090e053383e98",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c80d01f8_6acf49be",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 1008,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-03-17T04:44:10Z",
+      "side": 1,
+      "message": "I just noticed you\u0027re quoting integer values in the message string template (`\u0027{NUM}\u0027`). I suggested the quoting for string types because strings can be empty, and that becomes super confusing in the logs. Integers never render as empty strings though. Quoting them doesn\u0027t hurt, but it\u0027s also not necessary.",
+      "revId": "4155a5a83b292a8b29daedb9577090e053383e98",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
