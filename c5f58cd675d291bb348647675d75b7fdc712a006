@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b231646_ff6f1c27",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-03-17T05:28:37Z",
+      "side": 1,
+      "message": "Perhaps just use separate `\u0027\u0027\u0027` sections? This marker seems a bit arbitrary.",
+      "revId": "c5f58cd675d291bb348647675d75b7fdc712a006",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
