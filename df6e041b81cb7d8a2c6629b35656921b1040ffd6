@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55a65260_a52d2890",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-03-17T05:27:01Z",
+      "side": 1,
+      "message": "This language should be the other way around: The driver binds to the device.",
+      "range": {
+        "startLine": 20,
+        "startChar": 25,
+        "endLine": 22,
+        "endChar": 1
+      },
+      "revId": "df6e041b81cb7d8a2c6629b35656921b1040ffd6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c514c9d4_52f49170",
+        "filename": "src/DeviceMgmt.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-03-17T05:27:01Z",
+      "side": 1,
+      "message": "This comment needs an explanation of the circumstances under which the condition can exist.",
+      "revId": "df6e041b81cb7d8a2c6629b35656921b1040ffd6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

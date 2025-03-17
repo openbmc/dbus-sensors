@@ -107,6 +107,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "0eb10567_72353034",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-03-17T05:27:01Z",
+      "side": 1,
+      "message": "I still think it needs explanation. What is doing the scanning?\n\nOr is this somehow devicetree-based? Why must the drivers be bound by userspace?",
+      "parentUuid": "d9847805_9aa09aed",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 12
+      },
+      "revId": "6b0f4f66bad4b940a34a51917173d8132ceb76c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "fb36d024_b20b70cd",
