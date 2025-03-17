@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a991707c_7eae8ba1",
+        "filename": "src/exit-air/ExitAirTempSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-03-17T04:47:58Z",
+      "side": 1,
+      "message": "https://github.com/openbmc/docs/blob/master/anti-patterns.md#ill-defined-data-structuring-in-lg2-message-strings",
+      "revId": "ce1abb6bac000e85b5e5454d1647e05bab860539",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
