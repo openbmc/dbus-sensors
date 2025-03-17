@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bdcc5cfc_7e284554",
+        "filename": "src/DeviceMgmt.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-03-17T05:21:06Z",
+      "side": 0,
+      "message": "What\u0027s going on with deleting all the blank lines? That\u0027s unnecessary and a formatting change that\u0027s unrelated to the purpose of the patch.\n\nI\u0027m going to hold off reviewing this until it\u0027s fixed, it\u0027s super noisy.",
+      "revId": "d5bb9d98146563fb4af275a7b062e4d0db743972",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
