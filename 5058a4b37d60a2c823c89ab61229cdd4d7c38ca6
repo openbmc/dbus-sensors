@@ -439,6 +439,42 @@
       "message": "The stripping of an absolute path prefix is going to make this awkward to test. If you instead parse the basename of the path then you\u0027ll have an easier time testing it.",
       "revId": "5058a4b37d60a2c823c89ab61229cdd4d7c38ca6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0127e262_e94a35b8",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1001538
+      },
+      "writtenOn": "2025-03-17T18:53:52Z",
+      "side": 1,
+      "message": "Now looks for \"i2c-\"",
+      "parentUuid": "035b63eb_80eec9b7",
+      "revId": "5058a4b37d60a2c823c89ab61229cdd4d7c38ca6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f74e028_06546e2d",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1001538
+      },
+      "writtenOn": "2025-03-17T18:53:52Z",
+      "side": 1,
+      "message": "Now looks for \"i2c-\"",
+      "parentUuid": "035b63eb_80eec9b7",
+      "revId": "5058a4b37d60a2c823c89ab61229cdd4d7c38ca6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
