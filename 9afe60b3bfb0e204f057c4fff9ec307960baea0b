@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "585b8e95_9002d64b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-03-17T05:52:58Z",
+      "side": 1,
+      "message": "I\u0027m a bit wary of the structure of these sources under `src/nvidia-gpu` here. No concrete feedback, just feels concerning to me.",
+      "revId": "9afe60b3bfb0e204f057c4fff9ec307960baea0b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4d76f10c_76b519bd",
