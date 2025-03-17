@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "121688e6_0c0b86c7",
+        "filename": "src/intel-cpu/IntelCPUSensorMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-03-17T04:57:05Z",
+      "side": 1,
+      "message": "https://github.com/openbmc/docs/blob/master/anti-patterns.md#ill-defined-data-structuring-in-lg2-message-strings",
+      "revId": "4ab892a4ba909f598f81c4947822be9502b19c5b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
