@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "94223a08_7edd0d17",
+        "filename": "src/nvme/NVMeBasicContext.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2025-03-17T08:26:41Z",
+      "side": 1,
+      "message": "Oops. It\u0027s my mistake.\n\nDone",
+      "parentUuid": "a9807590_7f3e4093",
+      "revId": "219c0f9f5dbd9c962390162746ee6ee3c41a440d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dd78ac18_8ac40e1b",
@@ -31,6 +49,30 @@
       "writtenOn": "2025-03-17T05:09:28Z",
       "side": 1,
       "message": "`strerror()` gives you a description not an `errno`",
+      "range": {
+        "startLine": 192,
+        "startChar": 41,
+        "endLine": 192,
+        "endChar": 65
+      },
+      "revId": "219c0f9f5dbd9c962390162746ee6ee3c41a440d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f36760a0_68ce96a9",
+        "filename": "src/nvme/NVMeBasicContext.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2025-03-17T08:26:41Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "dd78ac18_8ac40e1b",
       "range": {
         "startLine": 192,
         "startChar": 41,
