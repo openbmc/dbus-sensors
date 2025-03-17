@@ -1,0 +1,259 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6625858a_81edabb9",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-03-17T05:17:41Z",
+      "side": 1,
+      "message": "Is this an error?",
+      "revId": "c5223115ea922afafb61816e6d66eeb444f4b683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b227d94b_7dea4017",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-03-17T05:17:41Z",
+      "side": 1,
+      "message": "I don\u0027t think this is an error? `lg2::info()` or `lg2::debug()` might be better.",
+      "revId": "c5223115ea922afafb61816e6d66eeb444f4b683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1174fbd3_c5c2b2e8",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-03-17T05:17:41Z",
+      "side": 1,
+      "message": "Is this an error? Or informational?",
+      "revId": "c5223115ea922afafb61816e6d66eeb444f4b683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15f03e03_ffe842da",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-03-17T05:17:41Z",
+      "side": 1,
+      "message": "https://github.com/openbmc/docs/blob/master/anti-patterns.md#ill-defined-data-structuring-in-lg2-message-strings",
+      "revId": "c5223115ea922afafb61816e6d66eeb444f4b683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68f6e2f1_8099ccfe",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-03-17T05:17:41Z",
+      "side": 1,
+      "message": "https://github.com/openbmc/docs/blob/master/anti-patterns.md#ill-defined-data-structuring-in-lg2-message-strings",
+      "revId": "c5223115ea922afafb61816e6d66eeb444f4b683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4fcfdb2_c1b9c00f",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-03-17T05:17:41Z",
+      "side": 1,
+      "message": "Is this an error? Or informational?",
+      "revId": "c5223115ea922afafb61816e6d66eeb444f4b683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f18e430_5bb86c75",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-03-17T05:17:41Z",
+      "side": 1,
+      "message": "This isn\u0027t an error. Fix it when removing `if constexpr (debug)`",
+      "revId": "c5223115ea922afafb61816e6d66eeb444f4b683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7c030b6_b3e55887",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-03-17T05:17:41Z",
+      "side": 1,
+      "message": "https://github.com/openbmc/docs/blob/master/anti-patterns.md#ill-defined-data-structuring-in-lg2-message-strings",
+      "revId": "c5223115ea922afafb61816e6d66eeb444f4b683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c857b8a_b9389679",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-03-17T05:17:41Z",
+      "side": 1,
+      "message": "This isn\u0027t an error?",
+      "revId": "c5223115ea922afafb61816e6d66eeb444f4b683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "364ee1ef_699fe453",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-03-17T05:17:41Z",
+      "side": 1,
+      "message": "https://github.com/openbmc/docs/blob/master/anti-patterns.md#ill-defined-data-structuring-in-lg2-message-strings",
+      "revId": "c5223115ea922afafb61816e6d66eeb444f4b683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62ea1bb7_8e5daf21",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-03-17T05:17:41Z",
+      "side": 1,
+      "message": "I don\u0027t think this is an error? maybe `lg2::warning()` or `lg2::notice()`?",
+      "revId": "c5223115ea922afafb61816e6d66eeb444f4b683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15ba0ca0_bac096d3",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-03-17T05:17:41Z",
+      "side": 1,
+      "message": "I don\u0027t think this is an error? Maybe `lg2::info()`?",
+      "revId": "c5223115ea922afafb61816e6d66eeb444f4b683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3926d0fc_79bfd76a",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-03-17T05:17:41Z",
+      "side": 1,
+      "message": "Not an error.",
+      "revId": "c5223115ea922afafb61816e6d66eeb444f4b683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0e78ef7_c1fc0b7c",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-03-17T05:17:41Z",
+      "side": 1,
+      "message": "Not an error",
+      "revId": "c5223115ea922afafb61816e6d66eeb444f4b683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7afbb58a_7f6600e2",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-03-17T05:17:41Z",
+      "side": 1,
+      "message": "Not an error",
+      "revId": "c5223115ea922afafb61816e6d66eeb444f4b683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
