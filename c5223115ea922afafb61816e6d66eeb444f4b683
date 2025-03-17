@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b1d0aa4b_3be60974",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2025-03-17T08:26:32Z",
+      "side": 1,
+      "message": "When I switch to lg2, I usually don\u0027t change the original logic:\nstd::cerr -\u003e lg2::error\nstd::cout -\u003e lg2::info\n\n\nupdated: lg2::info",
+      "parentUuid": "6625858a_81edabb9",
+      "revId": "c5223115ea922afafb61816e6d66eeb444f4b683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b227d94b_7dea4017",
         "filename": "src/DeviceMgmt.hpp",
         "patchSetId": 3
@@ -31,6 +49,24 @@
       "writtenOn": "2025-03-17T05:17:41Z",
       "side": 1,
       "message": "I don\u0027t think this is an error? `lg2::info()` or `lg2::debug()` might be better.",
+      "revId": "c5223115ea922afafb61816e6d66eeb444f4b683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff8bf266_1ed64bac",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2025-03-17T08:26:32Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "b227d94b_7dea4017",
       "revId": "c5223115ea922afafb61816e6d66eeb444f4b683",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -69,6 +105,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "08e8efa1_78633561",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2025-03-17T08:26:32Z",
+      "side": 1,
+      "message": "updated lg2::info",
+      "parentUuid": "1174fbd3_c5c2b2e8",
+      "revId": "c5223115ea922afafb61816e6d66eeb444f4b683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "68f6e2f1_8099ccfe",
@@ -99,6 +153,24 @@
       "writtenOn": "2025-03-17T05:17:41Z",
       "side": 1,
       "message": "Is this an error? Or informational?",
+      "revId": "c5223115ea922afafb61816e6d66eeb444f4b683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ed577f8_627242be",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2025-03-17T08:26:32Z",
+      "side": 1,
+      "message": "updated lg2::info",
+      "parentUuid": "e4fcfdb2_c1b9c00f",
       "revId": "c5223115ea922afafb61816e6d66eeb444f4b683",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -173,6 +245,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dcb733f9_988c8fac",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2025-03-17T08:26:32Z",
+      "side": 1,
+      "message": "Updated lg2::info",
+      "parentUuid": "5c857b8a_b9389679",
+      "revId": "c5223115ea922afafb61816e6d66eeb444f4b683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "62ea1bb7_8e5daf21",
         "filename": "src/sensor.hpp",
         "patchSetId": 3
@@ -190,6 +280,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "527cc974_70dae6d1",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2025-03-17T08:26:32Z",
+      "side": 1,
+      "message": "Updated lg2::warning()",
+      "parentUuid": "62ea1bb7_8e5daf21",
+      "revId": "c5223115ea922afafb61816e6d66eeb444f4b683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "15ba0ca0_bac096d3",
         "filename": "src/sensor.hpp",
         "patchSetId": 3
@@ -201,6 +309,24 @@
       "writtenOn": "2025-03-17T05:17:41Z",
       "side": 1,
       "message": "I don\u0027t think this is an error? Maybe `lg2::info()`?",
+      "revId": "c5223115ea922afafb61816e6d66eeb444f4b683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0fab925_efe2d8aa",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2025-03-17T08:26:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15ba0ca0_bac096d3",
       "revId": "c5223115ea922afafb61816e6d66eeb444f4b683",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -224,6 +350,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "aab317fb_e8985f73",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2025-03-17T08:26:32Z",
+      "side": 1,
+      "message": "Updated lg2::info",
+      "parentUuid": "3926d0fc_79bfd76a",
+      "revId": "c5223115ea922afafb61816e6d66eeb444f4b683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b0e78ef7_c1fc0b7c",
         "filename": "src/sensor.hpp",
         "patchSetId": 3
@@ -241,6 +385,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "71268eca_96a83d86",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2025-03-17T08:26:32Z",
+      "side": 1,
+      "message": "Updated lg2::info",
+      "parentUuid": "b0e78ef7_c1fc0b7c",
+      "revId": "c5223115ea922afafb61816e6d66eeb444f4b683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7afbb58a_7f6600e2",
         "filename": "src/sensor.hpp",
         "patchSetId": 3
@@ -252,6 +414,24 @@
       "writtenOn": "2025-03-17T05:17:41Z",
       "side": 1,
       "message": "Not an error",
+      "revId": "c5223115ea922afafb61816e6d66eeb444f4b683",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "165ed977_170aaa97",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2025-03-17T08:26:32Z",
+      "side": 1,
+      "message": "Updated lg2::info",
+      "parentUuid": "7afbb58a_7f6600e2",
       "revId": "c5223115ea922afafb61816e6d66eeb444f4b683",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
