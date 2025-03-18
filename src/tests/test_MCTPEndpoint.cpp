@@ -1,7 +1,10 @@
 #include "MCTPEndpoint.hpp"
 #include "Utils.hpp"
 
+#include <cstdint>
+#include <optional>
 #include <stdexcept>
+#include <string>
 
 #include <gtest/gtest.h>
 
@@ -85,4 +88,55 @@ TEST(I2CMCTPDDevice, fromBadIfaceNoName)
         {"Type", "MCTPI2CTarget"},
     };
     EXPECT_THROW(I2CMCTPDDevice::from({}, iface), std::invalid_argument);
+}
+
+TEST(MCTPDDevice, staticEndpointIDAbsent)
+{
+    SensorBaseConfigMap iface{};
+    EXPECT_EQ(mctp::details::staticEndpointIDFrom(iface), std::nullopt);
+}
+
+TEST(MCTPDDevice, staticEndpointIDFromNumber)
+{
+    SensorBaseConfigMap iface{{"StaticEndpointID", uint64_t{42}}};
+    EXPECT_EQ(mctp::details::staticEndpointIDFrom(iface), 42);
+}
+
+TEST(MCTPDDevice, staticEndpointIDFromDecimalString)
+{
+    SensorBaseConfigMap iface{{"StaticEndpointID", std::string{"42"}}};
+    EXPECT_EQ(mctp::details::staticEndpointIDFrom(iface), 42);
+}
+
+TEST(MCTPDDevice, staticEndpointIDFromHexString)
+{
+    SensorBaseConfigMap iface{{"StaticEndpointID", std::string{"0x2a"}}};
+    EXPECT_EQ(mctp::details::staticEndpointIDFrom(iface), 42);
+}
+
+TEST(MCTPDDevice, staticEndpointIDRejectsMalformedValue)
+{
+    SensorBaseConfigMap iface{{"StaticEndpointID", std::string{"42junk"}}};
+    EXPECT_THROW(mctp::details::staticEndpointIDFrom(iface),
+                 std::invalid_argument);
+}
+
+TEST(MCTPDDevice, staticEndpointIDRejectsOutOfRangeValue)
+{
+    SensorBaseConfigMap iface{{"StaticEndpointID", uint64_t{255}}};
+    EXPECT_THROW(mctp::details::staticEndpointIDFrom(iface),
+                 std::invalid_argument);
+}
+
+TEST(MCTPDDevice, staticEndpointIDRejectsReservedValue)
+{
+    SensorBaseConfigMap iface{{"StaticEndpointID", uint64_t{7}}};
+    EXPECT_THROW(mctp::details::staticEndpointIDFrom(iface),
+                 std::invalid_argument);
+}
+
+TEST(I3CMCTPDDevice, matchRelevantConfig)
+{
+    SensorData config{{"xyz.openbmc_project.Configuration.MCTPI3CTarget", {}}};
+    EXPECT_TRUE(I3CMCTPDDevice::match(config));
 }

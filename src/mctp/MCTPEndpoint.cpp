@@ -22,18 +22,66 @@
 #include <filesystem>
 #include <format>
 #include <functional>
+#include <limits>
 #include <map>
 #include <memory>
 #include <optional>
 #include <set>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <system_error>
 #include <utility>
 #include <variant>
 #include <vector>
 
 PHOSPHOR_LOG2_USING;
+
+namespace mctp::details
+{
+namespace
+{
+uint8_t parseEndpointID(const std::string& value)
+{
+    int base = 10;
+    std::string_view digits = value;
+    if (digits.starts_with("0x") || digits.starts_with("0X"))
+    {
+        base = 16;
+        digits.remove_prefix(2);
+    }
+
+    unsigned int eid{};
+    const auto [ptr, ec] = std::from_chars(
+        digits.data(), digits.data() + digits.size(), eid, base);
+    if (digits.empty() || ec != std::errc{} ||
+        ptr != digits.data() + digits.size() || eid < 8 ||
+        eid >= std::numeric_limits<uint8_t>::max())
+    {
+        throw std::invalid_argument("Endpoint ID must be in [8, 254]");
+    }
+
+    return static_cast<uint8_t>(eid);
+}
+} // namespace
+
+uint8_t endpointIDFrom(const BasicVariantType& value)
+{
+    return parseEndpointID(std::visit(VariantToStringVisitor(), value));
+}
+
+std::optional<uint8_t> staticEndpointIDFrom(
+    const SensorBaseConfigMap& interface)
+{
+    const auto property = interface.find("StaticEndpointID");
+    if (property == interface.end())
+    {
+        return std::nullopt;
+    }
+
+    return endpointIDFrom(property->second);
+}
+} // namespace mctp::details
 
 static constexpr const char* mctpdBusName = "au.com.codeconstruct.MCTP1";
 static constexpr const char* mctpdControlPath = "/au/com/codeconstruct/mctp1";
@@ -44,8 +92,10 @@ static constexpr const char* mctpdEndpointControlInterface =
 
 MCTPDDevice::MCTPDDevice(
     const std::shared_ptr<sdbusplus::asio::connection>& connection,
-    const std::string& interface, const std::vector<uint8_t>& physaddr) :
-    connection(connection), interface(interface), physaddr(physaddr)
+    const std::string& interface, const std::vector<uint8_t>& physaddr,
+    std::optional<uint8_t> staticEID) :
+    connection(connection), interface(interface), physaddr(physaddr),
+    staticEID(staticEID)
 {}
 
 void MCTPDDevice::onEndpointInterfacesRemoved(
@@ -117,10 +167,21 @@ void MCTPDDevice::setup(
                 "INVENTORY_PATH", objpath);
         }
     };
-    connection->async_method_call(
-        onSetup, mctpdBusName,
-        mctpdControlPath + std::string("/interfaces/") + interface,
-        mctpdControlInterface, "AssignEndpoint", physaddr);
+    if (staticEID.has_value())
+    {
+        connection->async_method_call(
+            onSetup, mctpdBusName,
+            mctpdControlPath + std::string("/interfaces/") + interface,
+            mctpdControlInterface, "AssignEndpointStatic", physaddr,
+            staticEID.value());
+    }
+    else
+    {
+        connection->async_method_call(
+            onSetup, mctpdBusName,
+            mctpdControlPath + std::string("/interfaces/") + interface,
+            mctpdControlInterface, "AssignEndpoint", physaddr);
+    }
 }
 
 void MCTPDDevice::endpointRemoved()
@@ -453,9 +514,12 @@ std::shared_ptr<I2CMCTPDDevice> I2CMCTPDDevice::from(
         throw std::invalid_argument("Bad bus index");
     }
 
+    auto staticEID = mctp::details::staticEndpointIDFrom(iface);
+
     try
     {
-        return std::make_shared<I2CMCTPDDevice>(connection, bus, address);
+        return std::make_shared<I2CMCTPDDevice>(connection, bus, address,
+                                                staticEID);
     }
     catch (const MCTPException& ex)
     {
@@ -508,9 +572,12 @@ std::shared_ptr<I3CMCTPDDevice> I3CMCTPDDevice::from(
         throw std::invalid_argument("Bad bus index");
     }
 
+    auto staticEID = mctp::details::staticEndpointIDFrom(iface);
+
     try
     {
-        return std::make_shared<I3CMCTPDDevice>(connection, bus, address);
+        return std::make_shared<I3CMCTPDDevice>(connection, bus, address,
+                                                staticEID);
     }
     catch (const MCTPException& ex)
     {
