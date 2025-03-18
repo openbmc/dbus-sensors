@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1cade7ef_651851cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-03-18T21:43:45Z",
+      "side": 1,
+      "message": "I\u0027ll get that in the next revision, thanks for calling out that detail.",
+      "parentUuid": "55a65260_a52d2890",
+      "range": {
+        "startLine": 20,
+        "startChar": 25,
+        "endLine": 22,
+        "endChar": 1
+      },
+      "revId": "df6e041b81cb7d8a2c6629b35656921b1040ffd6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c514c9d4_52f49170",
         "filename": "src/DeviceMgmt.cpp",
         "patchSetId": 8
@@ -37,6 +61,24 @@
       "writtenOn": "2025-03-17T05:27:01Z",
       "side": 1,
       "message": "This comment needs an explanation of the circumstances under which the condition can exist.",
+      "revId": "df6e041b81cb7d8a2c6629b35656921b1040ffd6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5c3dafa_efdb72f3",
+        "filename": "src/DeviceMgmt.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-03-18T21:43:45Z",
+      "side": 1,
+      "message": "I\u0027ll update the comment to include a better explanation, but if a host-power linked device is added to /sys/bus/i2c from outside userland, but no driver is bound to it due to host-power status (either host is powered off, of race conditions), this happens.",
+      "parentUuid": "c514c9d4_52f49170",
       "revId": "df6e041b81cb7d8a2c6629b35656921b1040ffd6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }

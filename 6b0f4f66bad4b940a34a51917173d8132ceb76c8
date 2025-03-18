@@ -131,6 +131,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "ecac9716_f3632813",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-03-18T21:43:45Z",
+      "side": 1,
+      "message": "You might actually be right about the \u0027somehow devicetree-based\u0027 thing. \n\nI was talking to someone today who pointed out that as part of HPE\u0027s greater efforts towards an eventual \u0027one image\u0027 release (one OpenBMC image for all HPE platforms, with platform-specific config files pulled out of ROM), there exists some DTBO files that HPE\u0027s internal-build recipes are pulling into builds for our platforms.\n\nTurns out that when decompiled, these files contain DT nodes about the exact temp sensor devices I\u0027d been testing with, and created this fix to solve around.\n\nI\u0027m currently in the process of doing some testing to confirm if removing those DTBO files in question would solve the \"unbound devices exist that hwmontempsensors can\u0027t interact with\" issue without this PR being needed.\n\n-------------\n\nWhat are your thoughts re: sensors called out in DTS? \n\nEven if I can work around my \u0027HwmonTempSensor skips handling for existing devices\u0027 problem by removing some DTS nodes... \n\nI think it still makes sense to consider merging this PR so that dbus daemons like HwmonTempSensors can \u0027pick things up\u0027 if sensors are added to a bus, but no driver is bound for host power reasons.",
+      "parentUuid": "0eb10567_72353034",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 12
+      },
+      "revId": "6b0f4f66bad4b940a34a51917173d8132ceb76c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "fb36d024_b20b70cd",
