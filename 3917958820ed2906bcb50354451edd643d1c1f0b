@@ -16,6 +16,24 @@
       "message": "Please add test section in commit message",
       "revId": "3917958820ed2906bcb50354451edd643d1c1f0b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43fdd611_efe9cf91",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2025-03-18T06:25:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "588acd59_792590ec",
+      "revId": "3917958820ed2906bcb50354451edd643d1c1f0b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
