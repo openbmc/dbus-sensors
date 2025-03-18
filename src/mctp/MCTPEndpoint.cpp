@@ -36,6 +36,8 @@ PHOSPHOR_LOG2_USING;
 
 static constexpr const char* mctpdBusName = "au.com.codeconstruct.MCTP1";
 static constexpr const char* mctpdControlPath = "/au/com/codeconstruct/mctp1";
+static constexpr const char* mctpdNetworkInterface =
+    "au.com.codeconstruct.MCTP.Network1";
 static constexpr const char* mctpdControlInterface =
     "au.com.codeconstruct.MCTP.BusOwner1";
 static constexpr const char* mctpdEndpointControlInterface =
@@ -43,8 +45,10 @@ static constexpr const char* mctpdEndpointControlInterface =
 
 MCTPDDevice::MCTPDDevice(
     const std::shared_ptr<sdbusplus::asio::connection>& connection,
-    const std::string& interface, const std::vector<uint8_t>& physaddr) :
-    connection(connection), interface(interface), physaddr(physaddr)
+    const std::string& interface, const std::vector<uint8_t>& physaddr,
+    std::optional<uint8_t> staticEID) :
+    connection(connection), interface(interface), physaddr(physaddr),
+    staticEID(staticEID)
 {}
 
 void MCTPDDevice::onEndpointInterfacesRemoved(
@@ -116,10 +120,21 @@ void MCTPDDevice::setup(
                 "INVENTORY_PATH", objpath);
         }
     };
-    connection->async_method_call(
-        onSetup, mctpdBusName,
-        mctpdControlPath + std::string("/interfaces/") + interface,
-        mctpdControlInterface, "AssignEndpoint", physaddr);
+    if (staticEID.has_value())
+    {
+        connection->async_method_call(
+            onSetup, mctpdBusName,
+            mctpdControlPath + std::string("/interfaces/") + interface,
+            mctpdControlInterface, "AssignEndpointStatic", physaddr,
+            staticEID.value());
+    }
+    else
+    {
+        connection->async_method_call(
+            onSetup, mctpdBusName,
+            mctpdControlPath + std::string("/interfaces/") + interface,
+            mctpdControlInterface, "AssignEndpoint", physaddr);
+    }
 }
 
 void MCTPDDevice::endpointRemoved()
@@ -370,6 +385,7 @@ std::shared_ptr<I2CMCTPDDevice> I2CMCTPDDevice::from(
     auto mAddress = iface.find("Address");
     auto mBus = iface.find("Bus");
     auto mName = iface.find("Name");
+    auto mStaticEID = iface.find("StaticEndpointID");
     if (mAddress == iface.end() || mBus == iface.end() || mName == iface.end())
     {
         throw std::invalid_argument(
@@ -394,9 +410,17 @@ std::shared_ptr<I2CMCTPDDevice> I2CMCTPDDevice::from(
         throw std::invalid_argument("Bad bus index");
     }
 
+    std::optional<std::uint8_t> staticEID{};
+    if (mStaticEID != iface.end())
+    {
+        staticEID = std::visit(details::VariantToNumericVisitor<uint8_t>(),
+                               mStaticEID->second);
+    }
+
     try
     {
-        return std::make_shared<I2CMCTPDDevice>(connection, bus, address);
+        return std::make_shared<I2CMCTPDDevice>(connection, bus, address,
+                                                staticEID);
     }
     catch (const MCTPException& ex)
     {
@@ -427,6 +451,7 @@ std::shared_ptr<I3CMCTPDDevice> I3CMCTPDDevice::from(
     auto mAddress = iface.find("Address");
     auto mBus = iface.find("Bus");
     auto mName = iface.find("Name");
+    auto mStaticEID = iface.find("StaticEndpointID");
     if (mAddress == iface.end() || mBus == iface.end() || mName == iface.end())
     {
         throw std::invalid_argument(
@@ -449,9 +474,17 @@ std::shared_ptr<I3CMCTPDDevice> I3CMCTPDDevice::from(
         throw std::invalid_argument("Bad bus index");
     }
 
+    std::optional<std::uint8_t> staticEID{};
+    if (mStaticEID != iface.end())
+    {
+        staticEID = std::visit(details::VariantToNumericVisitor<uint8_t>(),
+                               mStaticEID->second);
+    }
+
     try
     {
-        return std::make_shared<I3CMCTPDDevice>(connection, bus, address);
+        return std::make_shared<I3CMCTPDDevice>(connection, bus, address,
+                                                staticEID);
     }
     catch (const MCTPException& ex)
     {
