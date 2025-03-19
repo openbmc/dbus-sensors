@@ -16,6 +16,24 @@
       "message": "If we are following kernel condig style here (being C) then we have to move all declarations to the start of the function.",
       "revId": "0d15b0cdb9b60c718929f4c6ddbc66da79ff4c28",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "464a86c6_501fd9f0",
+        "filename": "src/nvidia-gpu/lib/nvidia_sensors.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-03-19T04:50:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b081ee1_ea478c0d",
+      "revId": "0d15b0cdb9b60c718929f4c6ddbc66da79ff4c28",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
