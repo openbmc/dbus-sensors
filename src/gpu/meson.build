@@ -1,1 +1,2 @@
-subdir('gpu-temperature-sensor')
+subdir('lib')
+subdir('apps')

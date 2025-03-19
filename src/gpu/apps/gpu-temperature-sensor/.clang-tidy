@@ -1,0 +1,5 @@
+WarningsAsErrors: '
+-cppcoreguidelines-avoid-reference-coroutine-parameters,
+'
+
+InheritParentConfig: true
