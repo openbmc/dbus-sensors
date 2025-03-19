@@ -121,6 +121,24 @@
       "parentUuid": "24ce60e4_9b233275",
       "revId": "20573df3c6bffb02f61f23cacc60343410d382f8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bed341dc_cc5a71b2",
+        "filename": "meson.options",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-03-19T06:15:40Z",
+      "side": 1,
+      "message": "CI is only passing when the value is enabled. clang-tidy failures are present with disabled but they disappear with enabled value (see diff between patchset 3 and 4, CI passed for patchset 4 but failed for 3). My assumption is that with disabled, clang-tidy is not able to find compilation-database for the files added in this patch.",
+      "parentUuid": "1466c36b_a57b7b3e",
+      "revId": "20573df3c6bffb02f61f23cacc60343410d382f8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
