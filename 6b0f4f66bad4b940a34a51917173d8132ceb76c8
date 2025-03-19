@@ -155,6 +155,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "aeaa6add_89c42b37",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-03-19T18:38:44Z",
+      "side": 1,
+      "message": "Confirmed: removing the device-tree binary overlay (DTBO) files from our builds allows HwmonTempSensor to work \u0027out of the box\u0027 with the sensors in question.\n\nSo you were right -- it turns out we\u0027re seeing HwmonTempSensor run into issues with devices called out in both DTS and in entity-manager config -- but the problem only arises if the host isn\u0027t already powered on when BMC boots.\n\nIf the host is powered on, and its sensors are available as the BMC is booting, then sensors called out in both the DT and in the entity-manager config seem to work \u0027fine\u0027 -- as in Hwmon nodes will be picked up by HwmonTempSensor.\n\nThis works since the drivers are able to bind to powered sensors at boot, and so the Hwmon nodes exist by the time the daemon starts checking to see if a new_device call is needed to create a new Hwmon node not).",
+      "parentUuid": "ecac9716_f3632813",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 12
+      },
+      "revId": "6b0f4f66bad4b940a34a51917173d8132ceb76c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "fb36d024_b20b70cd",
