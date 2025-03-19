@@ -16,6 +16,24 @@
       "message": "What\u0027s going on with deleting all the blank lines? That\u0027s unnecessary and a formatting change that\u0027s unrelated to the purpose of the patch.\n\nI\u0027m going to hold off reviewing this until it\u0027s fixed, it\u0027s super noisy.",
       "revId": "d5bb9d98146563fb4af275a7b062e4d0db743972",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adf6bc03_1c107ca7",
+        "filename": "src/DeviceMgmt.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-03-19T14:54:28Z",
+      "side": 0,
+      "message": "I usually try to minimize random whitespace changes before I run a local copy of the CI docker and commit the changes. I\u0027m not sure yet, but I suspect the whitespace changes are CI tool suggestions. Or maybe I did something goofy.\n\nOnce we\u0027ve decided on the \"what if this is solving for DTS-defined nodes that didn\u0027t get drivers bound for host-power reasons\" questions @ https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/78011/comment/a4eadfd6_d018093e/\n\nI\u0027ll give this a new pass.",
+      "parentUuid": "bdcc5cfc_7e284554",
+      "revId": "d5bb9d98146563fb4af275a7b062e4d0db743972",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
