@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e59211f4_ccbdd63f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-03-20T16:32:28Z",
+      "side": 1,
+      "message": "\u003e \u003e There\u0027s only 2 reference voltages, and they\u0027re trivially detectable (we only use 3 models of BMC) \n\u003e \n\u003e When we use the iio-hwmon dirver to detect the ADC sensors, the linux kernel of iio-hwmon does not include the reference voltage values. If we add one more property for ADC to present reference voltage, it is not clear to map reference voltage to Max/MinValue of sensors.\n\nNo, but it makes it clear what the property is used for.  \"min/max\" value would have to be computed by hand otherwise.\n\n\u003e \n\u003e \u003e Why would we add values to every sensor on every platform rather than just make the ADC base detected in code?\n\u003e \n\u003e Some sensors like FAN/PSU also support configuration Max/MinValue. About others applications, I don\u0027t know the current status of them, that why I only add Max/MinValue configuration for ADC and Hwmon-temp in this commit.\n\nRight, because those sensors don\u0027t support scaling, so they\u0027re reading a known value.",
+      "parentUuid": "c122415b_c3599c25",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 2
+      },
+      "revId": "8d85df4915a31951fd50935962ce565c637dcca2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b2f22ff8_743c790e",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
