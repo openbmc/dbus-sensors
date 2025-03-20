@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b8dff25_e448baa6",
+        "filename": "src/nvidia-gpu/lib/af-mctp.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-03-20T14:36:44Z",
+      "side": 1,
+      "message": "Mismatched function brief",
+      "revId": "bc22f8a8ce7e91521bd37cd80c6977dd46aa8c61",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ea392df_bfc03de0",
+        "filename": "src/nvidia-gpu/lib/transport.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-03-20T14:36:44Z",
+      "side": 1,
+      "message": "Can we please replace all the returned error codes with appropriate enum values from `mctp_transport_error_codes` and avoid magic numbers?",
+      "revId": "bc22f8a8ce7e91521bd37cd80c6977dd46aa8c61",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ee01371_c26d4ac3",
+        "filename": "src/nvidia-gpu/lib/transport.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-03-20T14:36:44Z",
+      "side": 1,
+      "message": "Replace with enum values.",
+      "revId": "bc22f8a8ce7e91521bd37cd80c6977dd46aa8c61",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
