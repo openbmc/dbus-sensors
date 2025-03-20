@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1a29b58_963be0de",
+        "filename": "src/nvidia-gpu/lib/nvidia_sensors.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-03-20T22:17:47Z",
+      "side": 1,
+      "message": "`OCP_AMI_INSTANCEID_MASK` is missing here.",
+      "revId": "51507073d1e03e8a1aa9f638ec78e2f921175752",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf012bb5_8baabba8",
+        "filename": "src/nvidia-gpu/lib/nvidia_sensors.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-03-20T22:17:47Z",
+      "side": 1,
+      "message": "Should be `ocp_ami_oem_nvidia_completion_codes` based on the function comments defined below. Please change for other functions too.",
+      "revId": "51507073d1e03e8a1aa9f638ec78e2f921175752",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb844ce8_fc058606",
+        "filename": "src/nvidia-gpu/lib/nvidia_sensors.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-03-20T22:17:47Z",
+      "side": 1,
+      "message": "But`ocp_ami_oem_nvidia_completion_codes` doesn\u0027t seem to be defined, should this be `ocp_ami_completion_codes`?",
+      "revId": "51507073d1e03e8a1aa9f638ec78e2f921175752",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
