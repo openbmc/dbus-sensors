@@ -16,6 +16,24 @@
       "message": "As `ocp_ami_pack_header`, `ocp_ami_encode_reason_code` and `ocp_ami_decode_reason_code_and_cc` all return ocp_ami_completion_codes, is there any specific reason why the return type is `uint8_t` here and not `int`? (or vice-versa, not `uint8_t` for other two functions)",
       "revId": "4a73a56e79c3f2a909ce74ca2eedf9820a78b84b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58000fcd_fa553fef",
+        "filename": "src/nvidia-gpu/lib/ocp_ami.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-03-21T10:01:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8738558_36432e4d",
+      "revId": "4a73a56e79c3f2a909ce74ca2eedf9820a78b84b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
