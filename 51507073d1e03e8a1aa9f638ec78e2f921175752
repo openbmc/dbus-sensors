@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b82ae53a_13437312",
+        "filename": "src/nvidia-gpu/lib/nvidia_sensors.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-03-21T10:01:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1a29b58_963be0de",
+      "revId": "51507073d1e03e8a1aa9f638ec78e2f921175752",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cf012bb5_8baabba8",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e94be1f0_a17f5061",
+        "filename": "src/nvidia-gpu/lib/nvidia_sensors.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-03-21T10:01:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf012bb5_8baabba8",
+      "revId": "51507073d1e03e8a1aa9f638ec78e2f921175752",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cb844ce8_fc058606",
@@ -48,6 +84,24 @@
       "writtenOn": "2025-03-20T22:17:47Z",
       "side": 1,
       "message": "But`ocp_ami_oem_nvidia_completion_codes` doesn\u0027t seem to be defined, should this be `ocp_ami_completion_codes`?",
+      "revId": "51507073d1e03e8a1aa9f638ec78e2f921175752",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bf02d17_6044614f",
+        "filename": "src/nvidia-gpu/lib/nvidia_sensors.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-03-21T10:01:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb844ce8_fc058606",
       "revId": "51507073d1e03e8a1aa9f638ec78e2f921175752",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
