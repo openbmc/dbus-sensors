@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d24d2ea9_d72efda8",
+        "filename": "src/nvidia-gpu/apps/gpu-temperature-sensor/GpuSensorTask.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-03-21T10:03:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f5f86de_a69ff5ff",
+      "revId": "a65b13ad0b06093356a12645dd275e98d0cbf019",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a240c408_47417993",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-03-19T13:09:24Z",
       "side": 1,
       "message": "This should be in the code construct namespace because their control daemon doesn\u0027t implement openbmc pathnames.",
+      "revId": "a65b13ad0b06093356a12645dd275e98d0cbf019",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41a64739_ebd21de7",
+        "filename": "src/nvidia-gpu/apps/gpu-temperature-sensor/GpuSensorTask.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-03-21T10:03:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a240c408_47417993",
       "revId": "a65b13ad0b06093356a12645dd275e98d0cbf019",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
