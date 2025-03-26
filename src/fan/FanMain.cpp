@@ -671,7 +671,7 @@ int main()
 
     boost::asio::post(io, [&]() {
         createSensors(io, objectServer, tachSensors, pwmSensors, presenceGpios,
-                      systemBus, nullptr);
+                      systemBus, nullptr, FAN_SENSOR_RETRY_ATTEMPTS);
     });
 
     boost::asio::steady_timer filterTimer(io);
@@ -698,7 +698,7 @@ int main()
                     return;
                 }
                 createSensors(io, objectServer, tachSensors, pwmSensors,
-                              presenceGpios, systemBus, sensorsChanged, 5);
+                              presenceGpios, systemBus, sensorsChanged, FAN_SENSOR_RETRY_ATTEMPTS);
             });
         };
 
