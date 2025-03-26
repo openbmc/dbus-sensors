@@ -83,3 +83,10 @@ option(
     value: 'disabled',
     description: 'Enables Sensor override feature without any check.',
 )
+
+option(
+    'fan_sensor_retry_attempts',
+    type: 'integer',
+    value: 0,
+    description: 'Number of retry attempts for fan sensor operations',
+)
