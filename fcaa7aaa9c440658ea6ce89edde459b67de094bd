@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3ee01b7_46b5ab08",
+        "filename": "src/gpu/apps/gpu-temperature-sensor/GpuTempSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001278
+      },
+      "writtenOn": "2025-03-26T10:52:28Z",
+      "side": 1,
+      "message": "Instead of using sdbusplus PDI bindings, can we use sdbusplus::asio and selectively register properties that are needed. Even dbus-sensors follow the same \nhttps://github.com/openbmc/dbus-sensors/blob/f2a2baae26ed85ef2096046f8457e5e0fbb1fb3f/src/sensor.hpp#L274",
+      "range": {
+        "startLine": 44,
+        "startChar": 3,
+        "endLine": 45,
+        "endChar": 78
+      },
+      "revId": "fcaa7aaa9c440658ea6ce89edde459b67de094bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
