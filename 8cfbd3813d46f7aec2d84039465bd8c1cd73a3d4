@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36d87bad_9688ccd8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-03-28T02:13:39Z",
+      "side": 1,
+      "message": "I\u0027d rather this be a property of the EM configuration. I have a strong preference against build-time configuraiton.",
+      "revId": "8cfbd3813d46f7aec2d84039465bd8c1cd73a3d4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
