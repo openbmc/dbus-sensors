@@ -16,6 +16,24 @@
       "message": "I\u0027d rather this be a property of the EM configuration. I have a strong preference against build-time configuraiton.",
       "revId": "8cfbd3813d46f7aec2d84039465bd8c1cd73a3d4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f80ef22_33ba043b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002134
+      },
+      "writtenOn": "2025-03-28T03:42:10Z",
+      "side": 1,
+      "message": "May I kindly ask if you are suggesting adding some retry information in the JSON file through the EM, and then having the D-Bus sensors read the retry count to perform the retry?\nIf so, do you have any specific recommendations on how to implement this in the EM?\n\nI appreciate your suggestions, and the reason I am considering this change is that our system experienced a `GetSubtree` timeout, which resulted in the D-Bus sensors being unable to retrieve the sensors defined in the EM\u0027s configuration. Consequently, the fan sensor was not created. \n\nThank you very much!",
+      "parentUuid": "36d87bad_9688ccd8",
+      "revId": "8cfbd3813d46f7aec2d84039465bd8c1cd73a3d4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
