@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6df59aa0_1abe61f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-03-28T01:41:18Z",
+      "side": 1,
+      "message": "Hmm, this hasn\u0027t yet been merged. I\u0027ve asked about it here:\n\nhttps://discord.com/channels/775381525260664832/819741065531359263/1354988450771767427",
+      "revId": "2550348702a7f1f68310b5390b671130c7f4d69c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85312fd3_61e8e74e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-03-28T01:41:18Z",
+      "side": 1,
+      "message": "Hi Jonico, thanks for continuing to work on this, especially for the test cases. My main concern is that we\u0027re still throwing exceptions. These should be avoided. Given that concern I\u0027ve also commented about re-arranging the ownership of parsing of the bus file name.",
+      "revId": "2550348702a7f1f68310b5390b671130c7f4d69c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4df3a3f2_b3ac820a",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-03-28T01:41:18Z",
+      "side": 1,
+      "message": "Can we require this be a precondition, and make the constructor private? That way we\u0027re not throwing exceptions.",
+      "revId": "2550348702a7f1f68310b5390b671130c7f4d69c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2dfdac63_ffea298f",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-03-28T01:41:18Z",
+      "side": 1,
+      "message": "I think this should be the responsibility of the `I2CBus` class.",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 39
+      },
+      "revId": "2550348702a7f1f68310b5390b671130c7f4d69c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed611f05_ee2644b8",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-03-28T01:41:18Z",
+      "side": 1,
+      "message": "The idea behind `std::optional` was so that we could return an empty optional instance instead of throwing an exception. A couple of suggestions for alternatives:\n\n1. Log an error, and then `return {};`\n2. Given libc now provides `std::expected` (relatively recent, over the course of us reviewing this patch), use `std::expected` instead of `std::optional`: https://en.cppreference.com/w/cpp/utility/expected\n\nThis applies to the exception cases below.",
+      "range": {
+        "startLine": 146,
+        "startChar": 4,
+        "endLine": 147,
+        "endChar": 63
+      },
+      "revId": "2550348702a7f1f68310b5390b671130c7f4d69c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92d8025c_5312caf4",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-03-28T01:41:18Z",
+      "side": 1,
+      "message": "Wait, we should never be causing exceptions that we then catch ourselves. Please instead perform an early return for the error cases.",
+      "range": {
+        "startLine": 169,
+        "startChar": 2,
+        "endLine": 172,
+        "endChar": 32
+      },
+      "revId": "2550348702a7f1f68310b5390b671130c7f4d69c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
