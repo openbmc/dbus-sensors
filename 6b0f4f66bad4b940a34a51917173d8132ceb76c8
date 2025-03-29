@@ -203,6 +203,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc93a7a9_06f436a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-03-29T18:47:30Z",
+      "side": 1,
+      "message": "I hear you there, and agree.\n\nThe \"existing i2c devices in sysfs with no driver bound get ignored by HwmonTempSensor daemon\" issue HPE ran into can be solved by simply not defining these sensors in the device-tree. \n\nSince realizing the source of the issue we were seeing, I\u0027ve started digging into/having conversations on the \"why was was it done that way initially, and can we just skip doing it in the future?\" side of things. \n\nHPE\u0027s specific issue aside-- \n\nAs far as I understand the current situation, HwmonTempSensor daemon will pickup sensors called out in device-tree + Entity-Manager config, but only as long as the any sensors dependent on host-power are already online when the BMC boots (so they get a driver bound).\n\nWhat are you\u0027re thoughts re: OBMC supporting sensors called out in DTS? I feel like support exists today, but is kind of broken as-is.",
+      "parentUuid": "cedb1fb2_763637f3",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 12
+      },
+      "revId": "6b0f4f66bad4b940a34a51917173d8132ceb76c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "fb36d024_b20b70cd",
