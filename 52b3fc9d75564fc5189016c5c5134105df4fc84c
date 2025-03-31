@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45102fa7_e9e369ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-03-31T16:36:05Z",
+      "side": 1,
+      "message": "This largely looks like a copy/paste of the PLDM implementation?  Why was it done that way?  PLDM has compat issues to deal with this.  dbus-sensors does not.\n\n\nLets just get these implemented in c++ and not duplicate old code please.",
+      "revId": "52b3fc9d75564fc5189016c5c5134105df4fc84c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
