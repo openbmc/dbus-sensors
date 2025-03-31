@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c45716a7_2b445476",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-03-31T20:34:35Z",
+      "side": 1,
+      "message": "I had originally given this feedback in private, but was asked by multiple people to give it publicly to give it visibility, so here it goes.\n\nThis patchset is going about things backwards.  We don\u0027t add a new folder, THEN come up with an application that uses it.  We develop an application with the basics (meson support, EM support, etc) THEN we start adding features to it.  If we then have some distinct data structures that might be useful outside the project, we add them the \"simple\" way the first time (per the developing guide)\n\nThis commit series also goes deep into the \"We should have a C library\" that has already been discussed at TOF level, and rejected for the moment, given we don\u0027t even have the basic use cases working and no code had been pushed.  Lets get the basic path working, then if we want to refactor out some C/C++ libraries, we can do that on patchset N.  The initial series of patches should get temperatures reading properly.\n\nIf you want a library, that\u0027s fine, we (NV) can pull out the relevant headers and make our library, but for the moment there\u0027s just a bunch of VDM commands that don\u0027t go in a library called \"OCP\".  There are two structs defined in OCP, the code should match that.\n\nContinuing, we shouldn\u0027t be inventing our own clang tidy.  If we don\u0027t pass the one that\u0027s there, lets discuss further why that is, and which checks need bypassed.\n\n\nTo summarize:\nPatchset 1: Add GPU management daemon\nPatchset 2: Add EM config reading support to dbus-sensors\nPatchset 3: Add EM support to em repo\nPatchset 4: Add GB200 EM config\nPatchset 5: Implement basic temperature reading in C++ using a minimum implementation.\nPatchset 6: Test on gb200-nvl72 target and verify function\n\nAfter those patches are pushed, we will be in much better shape I think.",
+      "revId": "539d7fcb222d64602cdc010bc3ffa56ebac2a721",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ae718911_4161779c",
         "filename": "src/gpu/lib/.clang-tidy",
         "patchSetId": 6
