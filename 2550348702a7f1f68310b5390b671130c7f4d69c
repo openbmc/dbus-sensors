@@ -37,6 +37,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3937227f_7d489973",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2025-03-31T08:47:19Z",
+      "side": 1,
+      "message": "I think we must check the existence of `muxPath` on the filesystem beforehand. Otherwise, user might be receiving an I2CMux object from `findMux` that is unusable.",
+      "revId": "2550348702a7f1f68310b5390b671130c7f4d69c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4df3a3f2_b3ac820a",
         "filename": "src/DeviceMgmt.hpp",
         "patchSetId": 15
@@ -48,6 +65,52 @@
       "writtenOn": "2025-03-28T01:41:18Z",
       "side": 1,
       "message": "Can we require this be a precondition, and make the constructor private? That way we\u0027re not throwing exceptions.",
+      "revId": "2550348702a7f1f68310b5390b671130c7f4d69c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed71dd06_db7086f4",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2025-03-31T08:47:19Z",
+      "side": 1,
+      "message": "I think this should be getChannelBus or getBusFromChannel?",
+      "range": {
+        "startLine": 115,
+        "startChar": 26,
+        "endLine": 115,
+        "endChar": 39
+      },
+      "revId": "2550348702a7f1f68310b5390b671130c7f4d69c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3b329a9_4b958823",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2025-03-31T08:47:19Z",
+      "side": 1,
+      "message": "I think we\u0027re not changing `chName`. Should it be const as arguments to a const function are not inherently const?",
+      "range": {
+        "startLine": 115,
+        "startChar": 40,
+        "endLine": 115,
+        "endChar": 59
+      },
       "revId": "2550348702a7f1f68310b5390b671130c7f4d69c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -71,6 +134,40 @@
         "endLine": 130,
         "endChar": 39
       },
+      "revId": "2550348702a7f1f68310b5390b671130c7f4d69c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "842e6620_1cbb0f43",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2025-03-31T08:47:19Z",
+      "side": 1,
+      "message": "Do you think we should try/catch for using stoi here?",
+      "revId": "2550348702a7f1f68310b5390b671130c7f4d69c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfa0bfed_c1795e94",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2025-03-31T08:47:19Z",
+      "side": 1,
+      "message": "We won\u0027t need to directly use this function while parsing configuration, right? Will we need another function in Utils.hpp that takes the configuration data and returns bus number?",
       "revId": "2550348702a7f1f68310b5390b671130c7f4d69c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
