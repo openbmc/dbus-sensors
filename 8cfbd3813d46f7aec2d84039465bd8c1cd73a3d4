@@ -34,6 +34,24 @@
       "parentUuid": "36d87bad_9688ccd8",
       "revId": "8cfbd3813d46f7aec2d84039465bd8c1cd73a3d4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffb02dce_f2937303",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-04-01T15:15:27Z",
+      "side": 1,
+      "message": "If this goes through, it would have to be replicated for each sensor, right?\nSince it is not specific to fan sensor.\n\nCan you simply increase the dbus timeout?\n\nDo you know what is causing the timeout, is there any service doing any expensive calculations?",
+      "parentUuid": "9f80ef22_33ba043b",
+      "revId": "8cfbd3813d46f7aec2d84039465bd8c1cd73a3d4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
