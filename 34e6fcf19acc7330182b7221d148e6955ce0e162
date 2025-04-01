@@ -16,6 +16,23 @@
       "message": "Gentle reminder, please help review this commit, thank you.",
       "revId": "34e6fcf19acc7330182b7221d148e6955ce0e162",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f5fce45_2e3870af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-04-01T15:26:47Z",
+      "side": 1,
+      "message": "The fix looks correct to me.\n\nAn alternative would be to log an error if\n```\nname !\u003d sensorName\n```\nand not create the sensor.",
+      "revId": "34e6fcf19acc7330182b7221d148e6955ce0e162",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
