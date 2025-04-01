@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe694f2c_5c13f7df",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-04-01T16:06:52Z",
+      "side": 1,
+      "message": "interesting feature and looks like a valid use-case 👍\nDid not look at the change in detail.",
+      "revId": "b6000b1af03849138578c9bc3813edb7a63ad530",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa662522_2e883dcd",
+        "filename": "src/Utils.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-04-01T16:06:52Z",
+      "side": 1,
+      "message": "nit: maybe consider ```StartupDelayMs``` or ```StartupDelayMilliseconds```, it will be more readable without needing to look into the configuration.",
+      "revId": "b6000b1af03849138578c9bc3813edb7a63ad530",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
