@@ -215,6 +215,23 @@
       "message": "lgtm",
       "revId": "8d85df4915a31951fd50935962ce565c637dcca2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7d10f34_7739708e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-04-01T15:32:10Z",
+      "side": 1,
+      "message": "I believe fixing the EM schemas should come first, then think about adding new properties after that\u0027s been done.\n\nOther than that i have no relevant opinion on this change 😊",
+      "revId": "8d85df4915a31951fd50935962ce565c637dcca2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
