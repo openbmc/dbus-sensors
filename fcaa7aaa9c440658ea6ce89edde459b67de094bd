@@ -22,6 +22,30 @@
       },
       "revId": "fcaa7aaa9c440658ea6ce89edde459b67de094bd",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7de1ee2c_b2b8328e",
+        "filename": "src/gpu/apps/gpu-temperature-sensor/GpuTempSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-01T10:47:21Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "a3ee01b7_46b5ab08",
+      "range": {
+        "startLine": 44,
+        "startChar": 3,
+        "endLine": 45,
+        "endChar": 78
+      },
+      "revId": "fcaa7aaa9c440658ea6ce89edde459b67de094bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
