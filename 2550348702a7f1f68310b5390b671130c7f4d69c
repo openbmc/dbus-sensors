@@ -198,6 +198,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2870992f_e6b4c12d",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1001538
+      },
+      "writtenOn": "2025-04-02T15:39:04Z",
+      "side": 1,
+      "message": "The findMux function will be called by sensors which use the \"Bus\" field as an alternative if there is no \"Bus\" field configured. If there is a MuxChannel object configured for the sensor instead, then the currently named \"getLogicalBus\" function will be called to get the bus and bus number associated with the MuxChannel configuration. I\u0027m not intending to create another function in Utils.hpp.",
+      "parentUuid": "cfa0bfed_c1795e94",
+      "revId": "2550348702a7f1f68310b5390b671130c7f4d69c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ed611f05_ee2644b8",
         "filename": "src/DeviceMgmt.hpp",
         "patchSetId": 15
