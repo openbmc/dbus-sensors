@@ -33,6 +33,24 @@
       "message": "The fix looks correct to me.\n\nAn alternative would be to log an error if\n```\nname !\u003d sensorName\n```\nand not create the sensor.",
       "revId": "34e6fcf19acc7330182b7221d148e6955ce0e162",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82b9c8e0_bd32bc90",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-04-02T14:44:26Z",
+      "side": 1,
+      "message": "Should we use dbus escaping?",
+      "parentUuid": "8f5fce45_2e3870af",
+      "revId": "34e6fcf19acc7330182b7221d148e6955ce0e162",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
