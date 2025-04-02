@@ -69,6 +69,24 @@
       "parentUuid": "82b9c8e0_bd32bc90",
       "revId": "34e6fcf19acc7330182b7221d148e6955ce0e162",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27f3b0d0_7e643bde",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2025-04-02T16:57:06Z",
+      "side": 1,
+      "message": "There are some cases that sensor name contains spaces.\ne.g. cx7_ocp.json\nlink: https://github.com/openbmc/entity-manager/blob/master/configurations/cx7_ocp.json#L15-L16\n\nAlso, if the sensor name is based on the \"$bus\" and equation, then it will also introducing a space behind the equation.\ne.g. yosemite4_fanboard_fsc_max_adc_ti_led_nxp_efuse_max.json\nlink: https://github.com/openbmc/entity-manager/blob/master/configurations/meta/yosemite4_fanboard_fsc_max_adc_ti_led_nxp_efuse_max.json#L261",
+      "parentUuid": "363f52aa_a24f2e6e",
+      "revId": "34e6fcf19acc7330182b7221d148e6955ce0e162",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
