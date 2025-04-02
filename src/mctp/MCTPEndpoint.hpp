@@ -10,6 +10,7 @@
 
 #include <cstdint>
 #include <iostream>
+#include <optional>
 
 /**
  * @file
@@ -197,8 +198,8 @@ class MCTPDEndpoint :
         const std::shared_ptr<MCTPDDevice>& dev,
         const std::shared_ptr<sdbusplus::asio::connection>& connection,
         sdbusplus::message::object_path objpath, int network, uint8_t eid) :
-        dev(dev), connection(connection), objpath(std::move(objpath)),
-        mctp{network, eid}
+        dev(dev),
+        connection(connection), objpath(std::move(objpath)), mctp{network, eid}
     {}
     MCTPDEndpoint& McptdEndpoint(const MCTPDEndpoint& other) = delete;
     MCTPDEndpoint(MCTPDEndpoint&& other) noexcept = default;
@@ -259,7 +260,9 @@ class MCTPDDevice :
     MCTPDDevice() = delete;
     MCTPDDevice(const std::shared_ptr<sdbusplus::asio::connection>& connection,
                 const std::string& interface,
-                const std::vector<uint8_t>& physaddr, std::uint8_t staticEID);
+                const std::vector<uint8_t>& physaddr,
+                std::optional<std::uint8_t> staticEID,
+                std::optional<std::uint8_t> bridgePoolStartEid);
     MCTPDDevice(const MCTPDDevice& other) = delete;
     MCTPDDevice(MCTPDDevice&& other) = delete;
     ~MCTPDDevice() override = default;
@@ -278,7 +281,8 @@ class MCTPDDevice :
     std::shared_ptr<sdbusplus::asio::connection> connection;
     const std::string interface;
     const std::vector<uint8_t> physaddr;
-    const std::uint8_t staticEID;
+    const std::optional<std::uint8_t> staticEID;
+    const std::optional<std::uint8_t> bridgePoolStartEid;
     std::shared_ptr<MCTPDEndpoint> endpoint;
     std::unique_ptr<sdbusplus::bus::match_t> removeMatch;
 
@@ -319,4 +323,28 @@ class I2CMCTPDDevice : public MCTPDDevice
     static constexpr const char* configType = "MCTPI2CTarget";
 
     static std::string interfaceFromBus(int bus);
+};
+
+class USBMCTPDDevice : public MCTPDDevice
+{
+  public:
+    static std::optional<SensorBaseConfigMap> match(const SensorData& config);
+    static bool match(const std::set<std::string>& interfaces);
+    static std::shared_ptr<USBMCTPDDevice>
+        from(const std::shared_ptr<sdbusplus::asio::connection>& connection,
+             const SensorBaseConfigMap& iface);
+
+    USBMCTPDDevice() = delete;
+    USBMCTPDDevice(
+        const std::shared_ptr<sdbusplus::asio::connection>& connection,
+        const std::string& interface, const std::vector<uint8_t>& physaddr,
+        std::optional<uint8_t> staticEID = std::nullopt,
+        std::optional<uint8_t> bridgePoolStartEid = std::nullopt) :
+        MCTPDDevice(connection, interface, physaddr, staticEID,
+                    bridgePoolStartEid)
+    {}
+    ~USBMCTPDDevice() override = default;
+
+  private:
+    static constexpr const char* configType = "MCTPUSBTarget";
 };
