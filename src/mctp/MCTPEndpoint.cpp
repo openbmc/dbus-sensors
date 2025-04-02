@@ -44,9 +44,11 @@ static constexpr const char* mctpdEndpointControlInterface =
 MCTPDDevice::MCTPDDevice(
     const std::shared_ptr<sdbusplus::asio::connection>& connection,
     const std::string& interface, const std::vector<uint8_t>& physaddr,
-    std::uint8_t staticEID) :
-    connection(connection), interface(interface), physaddr(physaddr),
-    staticEID(staticEID)
+    std::optional<std::uint8_t> staticEID,
+    std::optional<std::uint8_t> bridgePoolStartEid) :
+    connection(connection),
+    interface(interface), physaddr(physaddr), staticEID(staticEID),
+    bridgePoolStartEid(bridgePoolStartEid)
 {}
 
 void MCTPDDevice::onEndpointInterfacesRemoved(
@@ -118,12 +120,13 @@ void MCTPDDevice::setup(
                 "INVENTORY_PATH", objpath);
         }
     };
-    if (staticEID != 0)
+    if (staticEID.has_value() && bridgePoolStartEid.has_value())
     {
         connection->async_method_call(
             onSetup, mctpdBusName,
             mctpdControlPath + std::string("/interfaces/") + interface,
-            mctpdControlInterface, "AssignEndpointStatic", physaddr, staticEID);
+            mctpdControlInterface, "AssignEndpointStatic", physaddr,
+            staticEID.value(), bridgePoolStartEid.value());
     }
     else
     {
@@ -430,4 +433,115 @@ std::string I2CMCTPDDevice::interfaceFromBus(int bus)
     }
 
     return it->path().filename();
+}
+
+/* Changes for I2CMCTPUSB */
+
+std::optional<SensorBaseConfigMap>
+    USBMCTPDDevice::match(const SensorData& config)
+{
+    auto iface = config.find(configInterfaceName(configType));
+    if (iface == config.end())
+    {
+        return std::nullopt;
+    }
+    return iface->second;
+}
+
+bool USBMCTPDDevice::match(const std::set<std::string>& interfaces)
+{
+    return interfaces.contains(configInterfaceName(configType));
+}
+
+std::shared_ptr<USBMCTPDDevice> USBMCTPDDevice::from(
+    const std::shared_ptr<sdbusplus::asio::connection>& connection,
+    const SensorBaseConfigMap& iface)
+{
+    std::vector<uint8_t> address{};
+    auto mName = iface.find("Name");
+    auto mType = iface.find("Type");
+    auto mInterface = iface.find("Interface");
+    auto mStaticEndpointID = iface.find("StaticEndpointID");
+    auto mbridgePoolStartEid = iface.find("BridgePoolStartEID");
+    if (mType == iface.end())
+    {
+        throw std::invalid_argument(
+            "No 'Type' member found for provided configuration object");
+    }
+
+    auto type = std::visit(VariantToStringVisitor(), mType->second);
+    if (type != configType)
+    {
+        throw std::invalid_argument("Not an USB device");
+    }
+
+    if (mName == iface.end() || mType == iface.end() ||
+        mInterface == iface.end())
+    {
+        throw std::invalid_argument(
+            "Configuration object violates MCTPUSBTarget schema");
+    }
+
+    auto interface = std::visit(VariantToStringVisitor(), mInterface->second);
+
+    std::optional<std::uint8_t> staticEID{};
+    if (mStaticEndpointID == iface.end())
+    {
+        warning(
+            "Info: Key 'StaticEndpointID' is not provided; skipping related processing.");
+    }
+    else
+    {
+        auto sStaticEndpointID =
+            std::visit(VariantToStringVisitor(), mStaticEndpointID->second);
+        std::uint8_t parsedEID{};
+        auto [cptr, cec] = std::from_chars(
+            sStaticEndpointID.data(),
+            sStaticEndpointID.data() + sStaticEndpointID.size(), parsedEID);
+        if (cec != std::errc{})
+        {
+            throw std::invalid_argument("Bad endpoint address");
+        }
+        staticEID = parsedEID;
+    }
+
+    std::optional<std::uint8_t> bridgePoolStartEid{};
+    if (mbridgePoolStartEid == iface.end())
+    {
+        warning(
+            "Info: Key 'BridgePoolStartEid' is not provided; skipping related processing.");
+    }
+    else
+    {
+        auto sbridgePoolStartEid =
+            std::visit(VariantToStringVisitor(), mbridgePoolStartEid->second);
+        std::uint8_t parsedbridgePoolStartEid{};
+        auto [dptr, dec] = std::from_chars(
+            sbridgePoolStartEid.data(),
+            sbridgePoolStartEid.data() + sbridgePoolStartEid.size(),
+            parsedbridgePoolStartEid);
+        if (dec != std::errc{})
+        {
+            throw std::invalid_argument("Bad BridgePool Start address");
+        }
+        bridgePoolStartEid = parsedbridgePoolStartEid;
+    }
+
+    try
+    {
+        if (staticEID.has_value() && bridgePoolStartEid.has_value())
+        {
+            return std::make_shared<USBMCTPDDevice>(
+                connection, interface, address, staticEID.value(),
+                bridgePoolStartEid.value());
+        }
+        return std::make_shared<USBMCTPDDevice>(connection, interface, address);
+    }
+    catch (const MCTPException& ex)
+    {
+        warning(
+            "Failed to create USBMCTPDDevice at [ interface: {USB_INTERFACE} ]: {EXCEPTION}",
+            "USB_INTERFACE", interface, "EXCEPTION", ex);
+        return {};
+    }
 }
