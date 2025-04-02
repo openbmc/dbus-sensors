@@ -157,6 +157,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "be3a2381_068fd44a",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1001538
+      },
+      "writtenOn": "2025-04-02T15:28:15Z",
+      "side": 1,
+      "message": "Does this mean you\u0027d like another constructor for I2CBus that takes in a string? I think removing this prefix should be handled here as part of the getting the bus number from the channel since this section is stripping off the \"/dev/i2c-\" when checking where the symLink from `/dev/\u003cMuxName\u003e/\u003cChannelName\u003e` to `/dev/i2c-\u003cbus\u003e`",
+      "parentUuid": "2dfdac63_ffea298f",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 39
+      },
+      "revId": "2550348702a7f1f68310b5390b671130c7f4d69c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cfa0bfed_c1795e94",
         "filename": "src/DeviceMgmt.hpp",
         "patchSetId": 15
