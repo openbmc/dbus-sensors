@@ -650,6 +650,22 @@ static void createSensorsCallback(
                     labelHead.insert(0, "max");
                 }
 
+                // Don't add PWM sensors if it's not in label list
+                if (!findLabels.empty())
+                {
+                    /* Check if this labelHead is enabled in config file */
+                    if (std::find(findLabels.begin(), findLabels.end(),
+                                  labelHead) == findLabels.end())
+                    {
+                        if constexpr (debug)
+                        {
+                            lg2::error(
+                                "could not find {LABEL} in the Labels list",
+                                "LABEL", labelHead);
+                        }
+                        continue;
+                    }
+                }
                 checkPWMSensor(sensorPath, labelHead, *interfacePath,
                                dbusConnection, objectServer, psuNames[0]);
             }
