@@ -52,6 +52,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd78043b_c750e0ec",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001538
+      },
+      "writtenOn": "2025-04-04T19:39:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3937227f_7d489973",
+      "revId": "2550348702a7f1f68310b5390b671130c7f4d69c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4df3a3f2_b3ac820a",
@@ -65,6 +83,24 @@
       "writtenOn": "2025-03-28T01:41:18Z",
       "side": 1,
       "message": "Can we require this be a precondition, and make the constructor private? That way we\u0027re not throwing exceptions.",
+      "revId": "2550348702a7f1f68310b5390b671130c7f4d69c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "111c7fbe_53172c72",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1001538
+      },
+      "writtenOn": "2025-04-04T19:39:50Z",
+      "side": 1,
+      "message": "Moved to findMux function as a precondition before creating the I2CMux object.",
+      "parentUuid": "4df3a3f2_b3ac820a",
       "revId": "2550348702a7f1f68310b5390b671130c7f4d69c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -105,6 +141,30 @@
       "writtenOn": "2025-03-31T08:47:19Z",
       "side": 1,
       "message": "I think we\u0027re not changing `chName`. Should it be const as arguments to a const function are not inherently const?",
+      "range": {
+        "startLine": 115,
+        "startChar": 40,
+        "endLine": 115,
+        "endChar": 59
+      },
+      "revId": "2550348702a7f1f68310b5390b671130c7f4d69c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f369159_f94f8062",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1001538
+      },
+      "writtenOn": "2025-04-04T19:39:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3b329a9_4b958823",
       "range": {
         "startLine": 115,
         "startChar": 40,
@@ -257,6 +317,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "77232496_af14136c",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1001538
+      },
+      "writtenOn": "2025-04-04T19:39:50Z",
+      "side": 1,
+      "message": "I log an error and `return std::nullopt;` since we are returning a `std::optional`",
+      "parentUuid": "ed611f05_ee2644b8",
+      "range": {
+        "startLine": 146,
+        "startChar": 4,
+        "endLine": 147,
+        "endChar": 63
+      },
+      "revId": "2550348702a7f1f68310b5390b671130c7f4d69c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "92d8025c_5312caf4",
         "filename": "src/DeviceMgmt.hpp",
         "patchSetId": 15
@@ -268,6 +352,30 @@
       "writtenOn": "2025-03-28T01:41:18Z",
       "side": 1,
       "message": "Wait, we should never be causing exceptions that we then catch ourselves. Please instead perform an early return for the error cases.",
+      "range": {
+        "startLine": 169,
+        "startChar": 2,
+        "endLine": 172,
+        "endChar": 32
+      },
+      "revId": "2550348702a7f1f68310b5390b671130c7f4d69c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f2a6502_561a227d",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1001538
+      },
+      "writtenOn": "2025-04-04T19:39:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92d8025c_5312caf4",
       "range": {
         "startLine": 169,
         "startChar": 2,
