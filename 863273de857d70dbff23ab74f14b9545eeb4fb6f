@@ -34,6 +34,24 @@
       "parentUuid": "74409f19_3a5e30ec",
       "revId": "863273de857d70dbff23ab74f14b9545eeb4fb6f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1023e323_68babc31",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-04T12:03:05Z",
+      "side": 1,
+      "message": "Remove C code. See the first patch in the relation chain - https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/78811",
+      "parentUuid": "f85c4a22_43a09c8e",
+      "revId": "863273de857d70dbff23ab74f14b9545eeb4fb6f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
