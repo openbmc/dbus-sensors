@@ -712,6 +712,7 @@ static void createSensorsCallback(
             std::string keyMax = labelHead + "_Max";
             std::string keyOffset = labelHead + "_Offset";
             std::string keyPowerState = labelHead + "_PowerState";
+            std::string keyUnit = labelHead + "_Unit";
 
             bool customizedName = false;
             auto findCustomName = baseConfig->find(keyName);
@@ -817,6 +818,27 @@ static void createSensorsCallback(
             {
                 lg2::error("Min must be less than Max");
                 continue;
+            }
+
+            auto findCustomUnit = baseConfig->find(keyUnit);
+            if (findCustomUnit != baseConfig->end())
+            {
+                try
+                {
+                    sensorNameSubStr = std::visit(VariantToStringVisitor(),
+                                                  findCustomUnit->second);
+                }
+                catch (const std::invalid_argument&)
+                {
+                    lg2::error("Unable to parse '{UNIT}'", "UNIT", keyUnit);
+                    continue;
+                }
+
+                if constexpr (debug)
+                {
+                    lg2::error("Custom sensor type: {NAME}, label: {LABEL}",
+                               "NAME", sensorNameSubStr, "LABEL", labelHead);
+                }
             }
 
             // If the sensor name is being customized by config file,
