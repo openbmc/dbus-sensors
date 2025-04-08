@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f766244_10bf5cab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-04-08T00:11:30Z",
+      "side": 1,
+      "message": "What does this mean? Is this not a bug in the driver?\n\nWhat driver is affected?",
+      "range": {
+        "startLine": 11,
+        "startChar": 35,
+        "endLine": 12,
+        "endChar": 51
+      },
+      "revId": "0e7c7ed72b3d650c94e046ca8efd0a65366c80cb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
