@@ -72,6 +72,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c9b0143d_eb4fad2f",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2025-04-08T03:14:12Z",
+      "side": 1,
+      "message": "Thank you for addressing my comments. But empty() is not capable of checking if the path exists on the file system, right? I think we need std::filesystem::exists(muxPath).",
+      "parentUuid": "fd78043b_c750e0ec",
+      "revId": "2550348702a7f1f68310b5390b671130c7f4d69c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4df3a3f2_b3ac820a",
         "filename": "src/DeviceMgmt.hpp",
         "patchSetId": 15
