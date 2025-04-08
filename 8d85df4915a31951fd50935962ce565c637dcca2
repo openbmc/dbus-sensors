@@ -232,6 +232,24 @@
       "message": "I believe fixing the EM schemas should come first, then think about adding new properties after that\u0027s been done.\n\nOther than that i have no relevant opinion on this change 😊",
       "revId": "8d85df4915a31951fd50935962ce565c637dcca2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d7eb53e_0f0a6487",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2025-04-08T08:36:59Z",
+      "side": 1,
+      "message": "Hi @ed@tanous.net, I see that @alexander.hansen@9elements.com moved Max/Min Values to the ADC and Temperature configuration space in the Entity-Manager. I think using the current properties (Max/MinValue) in the Entity-Manger is better than defining new \"RefVol\" property in EM.",
+      "parentUuid": "e7d10f34_7739708e",
+      "revId": "8d85df4915a31951fd50935962ce565c637dcca2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
