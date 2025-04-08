@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a87bce5_8ee29c02",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2025-04-08T10:42:50Z",
+      "side": 1,
+      "message": "Hi @jonico.eustaquio@fii-na.com, I updated https://gerrit.openbmc.org/c/openbmc/entity-manager/+/69030/7 to adapt new changes to the schemas from Hansen. I will need to update more as more changes are on their way. Just in case you might want to take a look.",
+      "revId": "ef9132d7fd8c340329c91dae7a7b22abb354cacb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
