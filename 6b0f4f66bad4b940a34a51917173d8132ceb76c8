@@ -251,6 +251,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d87b5b33_06047667",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-04-08T00:05:24Z",
+      "side": 1,
+      "message": "This has always been the fundamental conflict of EM - if sensors are a fixed part of the platform then arguably the devicetree should be the place they\u0027re described. However, if they come-and-go across the boot life-cycle, then they should not be described in the static devicetree, as they\u0027re not always present.\n\nDevicetree overlays are not supported by the upstream kernel and so are not supported by openbmc. Since you\u0027re using overlays in a fork, I think this patch can be set aside for now (for the purpose of upstream).",
+      "parentUuid": "4b7bbd24_1c575692",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 12
+      },
+      "revId": "6b0f4f66bad4b940a34a51917173d8132ceb76c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "fb36d024_b20b70cd",
