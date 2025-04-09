@@ -139,6 +139,7 @@ static const I2CDeviceTypeMap sensorTypes{
     {"XDP710", I2CDeviceType{"xdp710", true}},
     {"XDPE11280", I2CDeviceType{"xdpe11280", true}},
     {"XDPE12284", I2CDeviceType{"xdpe12284", true}},
+    {"XDPE132G5C", I2CDeviceType{"xdpe132g5c", true}},
     {"XDPE152C4", I2CDeviceType{"xdpe152c4", true}},
 };
 
