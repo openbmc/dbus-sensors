@@ -85,6 +85,7 @@ static const I2CDeviceTypeMap sensorTypes{
     {"INA230", I2CDeviceType{"ina230", true}},
     {"INA238", I2CDeviceType{"ina238", true}},
     {"IPSPS1", I2CDeviceType{"ipsps1", true}},
+    {"IR35221", I2CDeviceType{"ir35221", true}},
     {"IR38060", I2CDeviceType{"ir38060", true}},
     {"IR38164", I2CDeviceType{"ir38164", true}},
     {"IR38263", I2CDeviceType{"ir38263", true}},
