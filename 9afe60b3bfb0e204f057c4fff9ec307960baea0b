@@ -36,6 +36,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "56f36d76_22c51d52",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-11T11:54:03Z",
+      "side": 1,
+      "message": "Resolved in https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/78811. This patch will likely be abandoned.",
+      "parentUuid": "09635d1c_4245975c",
+      "revId": "9afe60b3bfb0e204f057c4fff9ec307960baea0b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4d76f10c_76b519bd",
