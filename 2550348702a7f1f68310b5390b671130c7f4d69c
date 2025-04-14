@@ -88,6 +88,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af9b67b7_78e5b393",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001538
+      },
+      "writtenOn": "2025-04-14T21:14:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9b0143d_eb4fad2f",
+      "revId": "2550348702a7f1f68310b5390b671130c7f4d69c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4df3a3f2_b3ac820a",
@@ -271,6 +289,30 @@
       "side": 1,
       "message": "The symlink isn\u0027t relevant here though. `/dev/i2c-\u003cbus\u003e` devices represent a bus. That may or may not have a relationship with a mux, but the bus name is a fundamental property of a bus, and so should be processed by the class representing the bus.",
       "parentUuid": "be3a2381_068fd44a",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 39
+      },
+      "revId": "2550348702a7f1f68310b5390b671130c7f4d69c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ee783ea_ee133e4c",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1001538
+      },
+      "writtenOn": "2025-04-14T21:14:00Z",
+      "side": 1,
+      "message": "Added static member function for I2CBus called getBusFromPath that does the stripping of \"/dev/i2c-\" when the symlink path is read.",
+      "parentUuid": "b5637b1b_2ef4a8b1",
       "range": {
         "startLine": 126,
         "startChar": 0,
