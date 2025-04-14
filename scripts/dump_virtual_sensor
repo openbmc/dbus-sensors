@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# Check if any arguments are provided
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 keyword1 keyword2 ..."
+    exit 1
+fi
+
+# Run busctl tree command and filter output (case insensitive) for the first keyword
+busctl tree xyz.openbmc_project.VirtualSensor > /tmp/sensors.log
+
+# Loop through the remaining keywords and filter output (case insensitive) for each one
+for ((i=1; i<=$#; i++)); do
+    grep -i -E "/.*${!i}.*" /tmp/sensors.log > /tmp/sensors_tmp.log
+    mv /tmp/sensors_tmp.log /tmp/sensors.log
+done
+
+# Remove leading '| |- ' and filter out lines with 'Decorator'
+sed 's/.*- //g' /tmp/sensors.log | sed '/Decorator/d' > /tmp/sensors_tmp.log
+mv /tmp/sensors_tmp.log /tmp/sensors.log
+
+# Read each sensor path line-by-line safely
+while IFS= read -r i; do
+    sensor_name=$(echo "$i" | sed 's/.*\///g')
+
+    # Get the sensor value
+    value=$(busctl get-property xyz.openbmc_project.VirtualSensor "$i" xyz.openbmc_project.Sensor.Value Value | sed 's/.* //')
+
+    printf "%-30s -> %s\n" "$sensor_name" "$value"
+done < /tmp/sensors.log
+
+# Cleanup
+rm /tmp/sensors.log
+
