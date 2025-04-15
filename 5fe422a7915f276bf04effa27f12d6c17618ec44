@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ce4034e_5e03ef2c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-04-15T23:32:31Z",
+      "side": 1,
+      "message": "`git grep xdpe132g5c` against upstream linux (at `1a1d569a`) suggests there\u0027s no driver support. That needs to be addressed first.",
+      "revId": "5fe422a7915f276bf04effa27f12d6c17618ec44",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
