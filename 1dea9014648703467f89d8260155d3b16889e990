@@ -156,6 +156,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a066be52_de8d83aa",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-04-15T06:21:45Z",
+      "side": 1,
+      "message": "Do we need to redeclare these as constants here? Can we use `GpuMessageType::GPU_PLATFORM_ENVIRONMENTAL` and `GpuMessageType::GPU_DEVICE_CAPABILITY_DISCOVERY` instead?",
+      "revId": "1dea9014648703467f89d8260155d3b16889e990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "da6cd96b_e1992f07",
         "filename": "src/gpu/gpu-temperature-sensor/GpuSensor.hpp",
         "patchSetId": 9
@@ -167,6 +184,40 @@
       "writtenOn": "2025-04-15T03:49:25Z",
       "side": 1,
       "message": "#pragma once\n\nThis file still looks a bit C-like... Related comments follow",
+      "revId": "1dea9014648703467f89d8260155d3b16889e990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c59f58e9_4725e628",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuSensor.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-04-15T06:21:45Z",
+      "side": 1,
+      "message": "Can we use `#pragma once` instead of header guards here?",
+      "revId": "1dea9014648703467f89d8260155d3b16889e990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "544ec6a7_5826bbb0",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuSensor.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-04-15T06:21:45Z",
+      "side": 1,
+      "message": "```\n/** @struct ocp_ami_msg\n *\n * Structure representing OCPAMI message\n * v1 spec section 3.6.1.2\n */\nstruct ocp_ami_msg {\n\tstruct ocp_ami_binding_pci_vid hdr; //!\u003c OCPAMI message header\n\tuint8_t payload[1]; //!\u003c \u0026payload[0] is the beginning of the payload\n} __attribute__((packed));\n```\n\nEarlier the OcpAmiMessage(/ocp_ami_msg) was defined as shown above. Any specific reason as to why the data/payload field was changed to `char` from `uint8_t[]`?",
       "revId": "1dea9014648703467f89d8260155d3b16889e990",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
