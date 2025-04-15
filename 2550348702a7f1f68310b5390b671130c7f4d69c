@@ -143,6 +143,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "0665377e_d5952b39",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-04-15T23:38:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "111c7fbe_53172c72",
+      "revId": "2550348702a7f1f68310b5390b671130c7f4d69c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ed71dd06_db7086f4",
         "filename": "src/DeviceMgmt.hpp",
         "patchSetId": 15
@@ -323,6 +341,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "33c3e948_715a2cb5",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-04-15T23:38:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ee783ea_ee133e4c",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 39
+      },
+      "revId": "2550348702a7f1f68310b5390b671130c7f4d69c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cfa0bfed_c1795e94",
@@ -376,6 +418,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9918be77_79fedcf2",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-04-15T23:38:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39ff9514_1b09aaf8",
+      "revId": "2550348702a7f1f68310b5390b671130c7f4d69c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ed611f05_ee2644b8",
@@ -413,6 +473,30 @@
       "side": 1,
       "message": "I log an error and `return std::nullopt;` since we are returning a `std::optional`",
       "parentUuid": "ed611f05_ee2644b8",
+      "range": {
+        "startLine": 146,
+        "startChar": 4,
+        "endLine": 147,
+        "endChar": 63
+      },
+      "revId": "2550348702a7f1f68310b5390b671130c7f4d69c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "849919ba_d31c0d82",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-04-15T23:38:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77232496_af14136c",
       "range": {
         "startLine": 146,
         "startChar": 4,

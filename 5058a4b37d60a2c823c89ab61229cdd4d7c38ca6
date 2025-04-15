@@ -36,6 +36,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c599298_fd27c859",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-04-15T23:38:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46314a66_3771d83c",
+      "revId": "5058a4b37d60a2c823c89ab61229cdd4d7c38ca6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e9705581_c8fa2b89",
@@ -283,6 +301,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4fb6a68_9195353b",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-04-15T23:38:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d35703b9_dc48883a",
+      "revId": "5058a4b37d60a2c823c89ab61229cdd4d7c38ca6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8555ad90_95f018fd",
@@ -389,6 +425,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ef79e50_a6e37699",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-04-15T23:38:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ad0c680_211d204b",
+      "revId": "5058a4b37d60a2c823c89ab61229cdd4d7c38ca6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b21a4b8e_11286cd2",
@@ -473,6 +527,24 @@
       "side": 1,
       "message": "Now looks for \"i2c-\"",
       "parentUuid": "035b63eb_80eec9b7",
+      "revId": "5058a4b37d60a2c823c89ab61229cdd4d7c38ca6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e94bfdce_d331771a",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-04-15T23:38:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f74e028_06546e2d",
       "revId": "5058a4b37d60a2c823c89ab61229cdd4d7c38ca6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
