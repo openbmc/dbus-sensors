@@ -207,6 +207,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ba4d01d0_240e6bdf",
+        "filename": "src/gpu/gpu-temperature-sensor/MctpRequester.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-04-15T10:17:58Z",
+      "side": 1,
+      "message": "nit: Are these error codes defined somewhere? Can we avoid magic numbers here?",
+      "revId": "c8ed9104c7a6ada76c698c79881a22ae01fc45c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e66e9510_58629676",
         "filename": "src/gpu/meson.build",
         "patchSetId": 11
