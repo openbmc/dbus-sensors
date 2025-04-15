@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e017218d_b1f8aa5c",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuSensor.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-04-15T03:49:25Z",
+      "side": 1,
+      "message": "no reinterpret_cast - general comment",
+      "revId": "c8ed9104c7a6ada76c698c79881a22ae01fc45c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e117336_9da0bac8",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuSensor.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-04-15T03:49:25Z",
+      "side": 1,
+      "message": "I would name this fila and the cpp GpuMctpVdm",
+      "revId": "c8ed9104c7a6ada76c698c79881a22ae01fc45c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12a1be2c_81e5b238",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuSensor.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-04-15T03:49:25Z",
+      "side": 1,
+      "message": "use enum class - file level comment",
+      "revId": "c8ed9104c7a6ada76c698c79881a22ae01fc45c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03be21fd_8977c4df",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuSensor.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-04-15T03:49:25Z",
+      "side": 1,
+      "message": "Use namespaces instead of the long names in structs/enums/functions...",
+      "revId": "c8ed9104c7a6ada76c698c79881a22ae01fc45c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4223670b_a5e472d4",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuSensor.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-04-15T03:49:25Z",
+      "side": 1,
+      "message": "Use pass by reference for out params",
+      "revId": "c8ed9104c7a6ada76c698c79881a22ae01fc45c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63cb5447_58dea922",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuTempSensor.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-04-15T03:49:25Z",
+      "side": 1,
+      "message": "Include headers that are required",
+      "revId": "c8ed9104c7a6ada76c698c79881a22ae01fc45c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06f43433_9ce20f4c",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuTempSensor.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-04-15T03:49:25Z",
+      "side": 1,
+      "message": "We should have a follow up commit to add threshold values. Is that the plan?",
+      "revId": "c8ed9104c7a6ada76c698c79881a22ae01fc45c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6cd551d_0cc2677e",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuTempSensor.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-04-15T03:49:25Z",
+      "side": 1,
+      "message": "Polling loop should be in GPUMain to align with other dbus sensor apps",
+      "revId": "c8ed9104c7a6ada76c698c79881a22ae01fc45c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cb2801a_89e14ca6",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuTempSensor.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-04-15T03:49:25Z",
+      "side": 1,
+      "message": "We need to add a followup patch to get the polling interval from entity manager config.",
+      "revId": "c8ed9104c7a6ada76c698c79881a22ae01fc45c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "722b443a_2efc5b90",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuTempSensor.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-04-15T03:49:25Z",
+      "side": 1,
+      "message": "Include headers that are required",
+      "revId": "c8ed9104c7a6ada76c698c79881a22ae01fc45c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8721373_21133526",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuTempSensor.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-04-15T03:49:25Z",
+      "side": 1,
+      "message": "Do we really need the verbose flag? It\u0027s not an existing pattern in the apps in this repo.",
+      "revId": "c8ed9104c7a6ada76c698c79881a22ae01fc45c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e66e9510_58629676",
+        "filename": "src/gpu/meson.build",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-04-15T03:49:25Z",
+      "side": 1,
+      "message": "Don\u0027t need this subdir",
+      "revId": "c8ed9104c7a6ada76c698c79881a22ae01fc45c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

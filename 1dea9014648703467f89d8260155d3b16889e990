@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3884c3d_ebaa5aed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-04-15T03:49:25Z",
+      "side": 1,
+      "message": "nit: there\u0027s no nvidia-gpu",
+      "revId": "1dea9014648703467f89d8260155d3b16889e990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d729d9a3_11fc5e8a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-04-15T03:49:25Z",
+      "side": 1,
+      "message": "s/OCP AMI MCTP VDM/MCTP VDM",
+      "revId": "1dea9014648703467f89d8260155d3b16889e990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e249490_7987cce4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-04-15T03:49:25Z",
+      "side": 1,
+      "message": "Mention here that the MCTP VDM protocol is an extension of the OCP AMI spec and give a link.",
+      "revId": "1dea9014648703467f89d8260155d3b16889e990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9deaa00_1d890fa1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-04-15T03:49:25Z",
+      "side": 1,
+      "message": "Add some logs/output here as opposed to text",
+      "revId": "1dea9014648703467f89d8260155d3b16889e990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "828c158f_48bf75c2",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-04-15T03:49:25Z",
+      "side": 1,
+      "message": "General comment - include headers that are needed by the cpp",
+      "revId": "1dea9014648703467f89d8260155d3b16889e990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aec3fd7b_6c813350",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-04-15T03:49:25Z",
+      "side": 1,
+      "message": "No hardcoding please",
+      "revId": "1dea9014648703467f89d8260155d3b16889e990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1e82638_61e92e71",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-04-15T03:49:25Z",
+      "side": 1,
+      "message": "Need to add a timer to refresh this like all other dbus sensor apps",
+      "revId": "1dea9014648703467f89d8260155d3b16889e990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74022b71_9479b71c",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-04-15T03:49:25Z",
+      "side": 1,
+      "message": "Need to setup setupPropertiesChangedMatches and ifaceRemovedMatch, look at other apps, such as ipmb, for example.",
+      "revId": "1dea9014648703467f89d8260155d3b16889e990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05aa1a01_9a51af51",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-04-15T03:49:25Z",
+      "side": 1,
+      "message": "I would call this file GPUSensorMain",
+      "revId": "1dea9014648703467f89d8260155d3b16889e990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da6cd96b_e1992f07",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuSensor.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-04-15T03:49:25Z",
+      "side": 1,
+      "message": "#pragma once\n\nThis file still looks a bit C-like... Related comments follow",
+      "revId": "1dea9014648703467f89d8260155d3b16889e990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f232edb0_6e30f2c8",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuTempSensor.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-04-15T03:49:25Z",
+      "side": 1,
+      "message": "I would name this file (and the cpp) GPUSensor",
+      "revId": "1dea9014648703467f89d8260155d3b16889e990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
