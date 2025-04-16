@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "06cefeea_780dce42",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-16T12:07:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3884c3d_ebaa5aed",
+      "revId": "1dea9014648703467f89d8260155d3b16889e990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d729d9a3_11fc5e8a",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-04-15T03:49:25Z",
       "side": 1,
       "message": "s/OCP AMI MCTP VDM/MCTP VDM",
+      "revId": "1dea9014648703467f89d8260155d3b16889e990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3d3d595_525ea98e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-16T12:07:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d729d9a3_11fc5e8a",
       "revId": "1dea9014648703467f89d8260155d3b16889e990",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -52,6 +88,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "85794d41_01fc9e1f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-16T12:07:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e249490_7987cce4",
+      "revId": "1dea9014648703467f89d8260155d3b16889e990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f9deaa00_1d890fa1",
@@ -65,6 +119,24 @@
       "writtenOn": "2025-04-15T03:49:25Z",
       "side": 1,
       "message": "Add some logs/output here as opposed to text",
+      "revId": "1dea9014648703467f89d8260155d3b16889e990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0c8e2dd_2fd8ce6b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-16T12:07:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9deaa00_1d890fa1",
       "revId": "1dea9014648703467f89d8260155d3b16889e990",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -86,6 +158,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "92d0ecc3_9bee6838",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-16T12:07:06Z",
+      "side": 1,
+      "message": "clang-tidy enforces that there must be an header that directly provides an items used in source files. And hence all of these header files are needed.",
+      "parentUuid": "828c158f_48bf75c2",
+      "revId": "1dea9014648703467f89d8260155d3b16889e990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aec3fd7b_6c813350",
@@ -99,6 +189,24 @@
       "writtenOn": "2025-04-15T03:49:25Z",
       "side": 1,
       "message": "No hardcoding please",
+      "revId": "1dea9014648703467f89d8260155d3b16889e990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "796b4120_3e3a76c3",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-16T12:07:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aec3fd7b_6c813350",
       "revId": "1dea9014648703467f89d8260155d3b16889e990",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -120,6 +228,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "377a727d_8736634e",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-16T12:07:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1e82638_61e92e71",
+      "revId": "1dea9014648703467f89d8260155d3b16889e990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "74022b71_9479b71c",
@@ -133,6 +259,24 @@
       "writtenOn": "2025-04-15T03:49:25Z",
       "side": 1,
       "message": "Need to setup setupPropertiesChangedMatches and ifaceRemovedMatch, look at other apps, such as ipmb, for example.",
+      "revId": "1dea9014648703467f89d8260155d3b16889e990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9c23bc7_c876ccdb",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-16T12:07:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74022b71_9479b71c",
       "revId": "1dea9014648703467f89d8260155d3b16889e990",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -154,6 +298,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5c931e9_419ef48c",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-16T12:07:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05aa1a01_9a51af51",
+      "revId": "1dea9014648703467f89d8260155d3b16889e990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a066be52_de8d83aa",
@@ -167,6 +329,24 @@
       "writtenOn": "2025-04-15T06:21:45Z",
       "side": 1,
       "message": "Do we need to redeclare these as constants here? Can we use `GpuMessageType::GPU_PLATFORM_ENVIRONMENTAL` and `GpuMessageType::GPU_DEVICE_CAPABILITY_DISCOVERY` instead?",
+      "revId": "1dea9014648703467f89d8260155d3b16889e990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8827b0b7_aabff52e",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-16T12:07:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a066be52_de8d83aa",
       "revId": "1dea9014648703467f89d8260155d3b16889e990",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -205,6 +385,42 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a371e038_b85b0fe0",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuSensor.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-16T12:07:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da6cd96b_e1992f07",
+      "revId": "1dea9014648703467f89d8260155d3b16889e990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "358d80c3_668c5840",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuSensor.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-16T12:07:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c59f58e9_4725e628",
+      "revId": "1dea9014648703467f89d8260155d3b16889e990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "544ec6a7_5826bbb0",
@@ -222,6 +438,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90329816_a8f21639",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuSensor.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-16T12:07:06Z",
+      "side": 1,
+      "message": "The reason was to not use c style array in c++.",
+      "parentUuid": "544ec6a7_5826bbb0",
+      "revId": "1dea9014648703467f89d8260155d3b16889e990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f232edb0_6e30f2c8",
@@ -235,6 +469,24 @@
       "writtenOn": "2025-04-15T03:49:25Z",
       "side": 1,
       "message": "I would name this file (and the cpp) GPUSensor",
+      "revId": "1dea9014648703467f89d8260155d3b16889e990",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c32bb7f_56a61b2a",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuTempSensor.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-16T12:07:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f232edb0_6e30f2c8",
       "revId": "1dea9014648703467f89d8260155d3b16889e990",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }

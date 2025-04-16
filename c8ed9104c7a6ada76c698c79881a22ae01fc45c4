@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a32e524_dc3e75ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-16T12:07:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "159fa922_3d273234",
+      "revId": "c8ed9104c7a6ada76c698c79881a22ae01fc45c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e017218d_b1f8aa5c",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-04-15T03:49:25Z",
       "side": 1,
       "message": "no reinterpret_cast - general comment",
+      "revId": "c8ed9104c7a6ada76c698c79881a22ae01fc45c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "897f8759_f6714fbf",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuSensor.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-16T12:07:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e017218d_b1f8aa5c",
       "revId": "c8ed9104c7a6ada76c698c79881a22ae01fc45c4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -52,6 +88,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de75cdc0_3bf52d76",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuSensor.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-16T12:07:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e117336_9da0bac8",
+      "revId": "c8ed9104c7a6ada76c698c79881a22ae01fc45c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "12a1be2c_81e5b238",
@@ -65,6 +119,24 @@
       "writtenOn": "2025-04-15T03:49:25Z",
       "side": 1,
       "message": "use enum class - file level comment",
+      "revId": "c8ed9104c7a6ada76c698c79881a22ae01fc45c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac91b7dd_3dda8d80",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuSensor.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-16T12:07:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12a1be2c_81e5b238",
       "revId": "c8ed9104c7a6ada76c698c79881a22ae01fc45c4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -86,6 +158,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "833b6067_84935078",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuSensor.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-16T12:07:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03be21fd_8977c4df",
+      "revId": "c8ed9104c7a6ada76c698c79881a22ae01fc45c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4223670b_a5e472d4",
@@ -99,6 +189,24 @@
       "writtenOn": "2025-04-15T03:49:25Z",
       "side": 1,
       "message": "Use pass by reference for out params",
+      "revId": "c8ed9104c7a6ada76c698c79881a22ae01fc45c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9812bbb4_9457b76d",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuSensor.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-16T12:07:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4223670b_a5e472d4",
       "revId": "c8ed9104c7a6ada76c698c79881a22ae01fc45c4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -120,6 +228,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf5e9838_92edf59d",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuTempSensor.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-16T12:07:06Z",
+      "side": 1,
+      "message": "clang-tidy enforces that there must be an header that directly provides an items used in source files. And hence all of these header files are needed.",
+      "parentUuid": "63cb5447_58dea922",
+      "revId": "c8ed9104c7a6ada76c698c79881a22ae01fc45c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "06f43433_9ce20f4c",
@@ -133,6 +259,24 @@
       "writtenOn": "2025-04-15T03:49:25Z",
       "side": 1,
       "message": "We should have a follow up commit to add threshold values. Is that the plan?",
+      "revId": "c8ed9104c7a6ada76c698c79881a22ae01fc45c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "074fda26_6086a847",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuTempSensor.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-16T12:07:06Z",
+      "side": 1,
+      "message": "Yes, we would add threshold support in separate gerrit code review.",
+      "parentUuid": "06f43433_9ce20f4c",
       "revId": "c8ed9104c7a6ada76c698c79881a22ae01fc45c4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -154,6 +298,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dccd5701_fb0dd1aa",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuTempSensor.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-16T12:07:06Z",
+      "side": 1,
+      "message": "Can you point me the example of such instance? I was not able to find the app that implements the polling loop in main file.",
+      "parentUuid": "d6cd551d_0cc2677e",
+      "revId": "c8ed9104c7a6ada76c698c79881a22ae01fc45c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2cb2801a_89e14ca6",
@@ -167,6 +329,24 @@
       "writtenOn": "2025-04-15T03:49:25Z",
       "side": 1,
       "message": "We need to add a followup patch to get the polling interval from entity manager config.",
+      "revId": "c8ed9104c7a6ada76c698c79881a22ae01fc45c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "821a6e60_0477ca6f",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuTempSensor.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-16T12:07:06Z",
+      "side": 1,
+      "message": "Yes, we would add this feature in a separate gerrit code review.",
+      "parentUuid": "2cb2801a_89e14ca6",
       "revId": "c8ed9104c7a6ada76c698c79881a22ae01fc45c4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -188,6 +368,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d0b0936_ec9bffd7",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuTempSensor.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-16T12:07:06Z",
+      "side": 1,
+      "message": "clang-tidy enforces that there must be an header that directly provides an items used in source files. And hence all of these header files are needed.",
+      "parentUuid": "722b443a_2efc5b90",
+      "revId": "c8ed9104c7a6ada76c698c79881a22ae01fc45c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c8721373_21133526",
@@ -201,6 +399,24 @@
       "writtenOn": "2025-04-15T03:49:25Z",
       "side": 1,
       "message": "Do we really need the verbose flag? It\u0027s not an existing pattern in the apps in this repo.",
+      "revId": "c8ed9104c7a6ada76c698c79881a22ae01fc45c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c75cf51_be40d726",
+        "filename": "src/gpu/gpu-temperature-sensor/GpuTempSensor.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-16T12:07:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8721373_21133526",
       "revId": "c8ed9104c7a6ada76c698c79881a22ae01fc45c4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -222,6 +438,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "09a6f88b_3f43399b",
+        "filename": "src/gpu/gpu-temperature-sensor/MctpRequester.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-16T12:07:06Z",
+      "side": 1,
+      "message": "Error codes in GpuSensor file is not suitable to report such error and hence the use of this value.",
+      "parentUuid": "ba4d01d0_240e6bdf",
+      "revId": "c8ed9104c7a6ada76c698c79881a22ae01fc45c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e66e9510_58629676",
@@ -235,6 +469,24 @@
       "writtenOn": "2025-04-15T03:49:25Z",
       "side": 1,
       "message": "Don\u0027t need this subdir",
+      "revId": "c8ed9104c7a6ada76c698c79881a22ae01fc45c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bac52fd_e56baf87",
+        "filename": "src/gpu/meson.build",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-16T12:07:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e66e9510_58629676",
       "revId": "c8ed9104c7a6ada76c698c79881a22ae01fc45c4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
