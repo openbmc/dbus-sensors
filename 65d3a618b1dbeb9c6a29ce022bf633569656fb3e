@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f1338ac_3d9ba85c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002134
+      },
+      "writtenOn": "2025-04-16T09:49:40Z",
+      "side": 1,
+      "message": "Background:\nWhen updating the hardware PWM file, different Fan IC drivers may exhibit varying behaviors:\n\n- Immediate Reflection Drivers: The hardware file directly reflects the requested PWM value as soon as it is written.\n- Delayed Reflection Drivers: The hardware file reflects the actual hardware state, which may take time to update due to internal delays.\n\nFor drivers that delay in reflecting updated values in the hardware PWM file after a write operation, this behavior can cause issues in scenarios where the PWM value is set multiple times in quick succession, e.g.,\n```\npwm 10 -\u003e pwm 20 -\u003e pwm 10\n```\nIn this case, when setting pwm 20, the driver will immediately read the new value. However, due to the delay, the fan sensor may still think the PWM is set to 10. \nConsequently, when attempting to set pwm 10 again, the fan sensor logic may [skip the write operation], thinking the value is already correct.\nThis results in the hardware staying at pwm 20, leading to unexpected fan speed behavior.\nThis issue can occur when using `phosphor-pid-control` to manage PWM settings.\n\n[skip the write operation]: https://github.com/openbmc/dbus-sensors/blob/43b074d7424c4c674d1d03670278585080927c73/src/PwmSensor.cpp#L132",
+      "revId": "65d3a618b1dbeb9c6a29ce022bf633569656fb3e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
