@@ -619,18 +619,21 @@ void createAssociation(
 }
 
 void setInventoryAssociation(
-    const std::shared_ptr<sdbusplus::asio::dbus_interface>& association,
+    const std::weak_ptr<sdbusplus::asio::dbus_interface>& weakRef,
     const std::string& inventoryPath, const std::string& chassisPath)
 {
-    if (association)
+    auto association = weakRef.lock();
+    if (!association)
     {
-        std::vector<Association> associations;
-        associations.emplace_back("inventory", "sensors", inventoryPath);
-        associations.emplace_back("chassis", "all_sensors", chassisPath);
-
-        association->register_property("Associations", associations);
-        association->initialize();
+        return;
     }
+
+    std::vector<Association> associations;
+    associations.emplace_back("inventory", "sensors", inventoryPath);
+    associations.emplace_back("chassis", "all_sensors", chassisPath);
+
+    association->register_property("Associations", associations);
+    association->initialize();
 }
 
 std::optional<std::string> findContainingChassis(std::string_view configParent,
@@ -678,9 +681,10 @@ void createInventoryAssoc(
         "xyz.openbmc_project.Inventory.Item.Chassis",
     });
 
+    std::weak_ptr<sdbusplus::asio::dbus_interface> weakRef = association;
     conn->async_method_call(
-        [association, path](const boost::system::error_code ec,
-                            const GetSubTreeType& subtree) {
+        [weakRef, path](const boost::system::error_code ec,
+                        const GetSubTreeType& subtree) {
             // The parent of the config is always the inventory object, and may
             // be the associated chassis. If the parent is not itself a chassis
             // or board, the sensor is associated with the system chassis.
@@ -690,11 +694,11 @@ void createInventoryAssoc(
             {
                 // In case of error, set the default associations and
                 // initialize the association Interface.
-                setInventoryAssociation(association, parent, parent);
+                setInventoryAssociation(weakRef, parent, parent);
                 return;
             }
             setInventoryAssociation(
-                association, parent,
+                weakRef, parent,
                 findContainingChassis(parent, subtree).value_or(parent));
         },
         mapper::busName, mapper::path, mapper::interface, "GetSubTree",
