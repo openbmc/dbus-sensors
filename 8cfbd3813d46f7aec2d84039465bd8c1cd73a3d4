@@ -70,6 +70,24 @@
       "parentUuid": "ffb02dce_f2937303",
       "revId": "8cfbd3813d46f7aec2d84039465bd8c1cd73a3d4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19b7ab12_1f80f4ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002134
+      },
+      "writtenOn": "2025-04-16T09:59:38Z",
+      "side": 1,
+      "message": "\u003e Do you know what is causing the timeout, is there any service doing any expensive calculations?\n\u003e\nDue to our multi-host system, where one BMC needs to manage 8 hosts and monitor over 2000 sensors, I believe the GetSubtree connection timed out because the dbus was too busy during the boot phase, with many services initializing and performing tasks simultaneously.\n\n\u003e Then I think you need to understand why that\u0027s occurring and fix it, instead of papering over it here.\n\u003e\nThank you very much for your guidance. I am currently attempting to increase the dbus timeout for the entire system to try to resolve these issues.\n\nThank you for your suggestions.",
+      "parentUuid": "b5a9db72_c5d79939",
+      "revId": "8cfbd3813d46f7aec2d84039465bd8c1cd73a3d4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
