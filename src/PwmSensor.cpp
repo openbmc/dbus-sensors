@@ -40,9 +40,10 @@ PwmSensor::PwmSensor(const std::string& pwmname, const std::string& sysPath,
                      std::shared_ptr<sdbusplus::asio::connection>& conn,
                      sdbusplus::asio::object_server& objectServer,
                      const std::string& sensorConfiguration,
-                     const std::string& sensorType, bool isValueMutable) :
-    sysPath(sysPath), objectServer(objectServer),
-    name(sensor_paths::escapePathForDbus(pwmname))
+                     const std::string& sensorType, bool isValueMutable,
+                     bool forcePwmWriteOnEqual) :
+    sysPath(sysPath),
+    objectServer(objectServer), name(sensor_paths::escapePathForDbus(pwmname))
 {
     // add interface under sensor and Control.FanPwm as Control is used
     // in obmc project, also add sensor so it can be viewed as a sensor
@@ -123,13 +124,13 @@ PwmSensor::PwmSensor(const std::string& pwmname, const std::string& sysPath,
         "xyz.openbmc_project.Control.FanPwm");
     controlInterface->register_property(
         "Target", static_cast<uint64_t>(pwmValue),
-        [this](const uint64_t& req, uint64_t& resp) {
+        [this, forcePwmWriteOnEqual](const uint64_t& req, uint64_t& resp) {
             if (req > static_cast<uint64_t>(targetIfaceMax))
             {
                 throw std::runtime_error("Value out of range");
                 return -1;
             }
-            if (req == resp)
+            if (req == resp && !forcePwmWriteOnEqual)
             {
                 return 1;
             }
