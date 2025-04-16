@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d88043d_a487ed5f",
+        "filename": "src/gpu/GpuSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-04-16T18:50:14Z",
+      "side": 1,
+      "message": "As we are going to remove this config from EM, adjust the code here accordingly.",
+      "revId": "607ee1ef0dcb4de321ef22d3dfaf0feafd303849",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
