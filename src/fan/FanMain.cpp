@@ -552,6 +552,7 @@ void createSensors(
 
             // The Mutable parameter is optional, defaulting to false
             bool isValueMutable = false;
+            bool forcePwmWriteOnEqual = false;
             if (connector != sensorData->end())
             {
                 auto findPwm = connector->second.find("Pwm");
@@ -597,6 +598,18 @@ void createSensors(
                             isValueMutable = *ptrMutable;
                         }
                     }
+
+                    auto findForcePwmWriteOnEqual =
+                        connector->second.find("ForcePwmWriteOnEqual");
+                    if (findForcePwmWriteOnEqual != connector->second.end())
+                    {
+                        const auto* ptrForcePwmWriteOnEqual = std::get_if<bool>(
+                            &(findForcePwmWriteOnEqual->second));
+                        if (ptrForcePwmWriteOnEqual != nullptr)
+                        {
+                            forcePwmWriteOnEqual = *ptrForcePwmWriteOnEqual;
+                        }
+                    }
                 }
                 else
                 {
@@ -639,7 +652,8 @@ void createSensors(
             {
                 pwmSensors[pwmPath] = std::make_unique<PwmSensor>(
                     pwmName, pwmPath, dbusConnection, objectServer,
-                    *interfacePath, "Fan", isValueMutable);
+                    *interfacePath, "Fan", isValueMutable,
+                    forcePwmWriteOnEqual);
             }
         }
 
