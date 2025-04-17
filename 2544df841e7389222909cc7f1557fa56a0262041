@@ -20,6 +20,47 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "93d6d3e9_1b3282a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-04-17T19:59:16Z",
+      "side": 1,
+      "message": "FYI, this will pretty readily break IPMI if it merges like this.",
+      "parentUuid": "6fb97d2e_683143bf",
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34831644_787b48fc",
+        "filename": "src/gpu/GpuMctpVdm.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-04-17T19:59:16Z",
+      "side": 1,
+      "message": "?  Why is this marked AMI?",
+      "range": {
+        "startLine": 15,
+        "startChar": 10,
+        "endLine": 15,
+        "endChar": 13
+      },
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "633fdc5d_db4a2122",
         "filename": "src/gpu/GpuMctpVdm.cpp",
         "patchSetId": 13
