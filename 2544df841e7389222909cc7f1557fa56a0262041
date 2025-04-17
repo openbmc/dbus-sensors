@@ -1,0 +1,400 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fb97d2e_683143bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-04-17T19:47:01Z",
+      "side": 1,
+      "message": "Certainly this isn\u0027t correct?",
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "633fdc5d_db4a2122",
+        "filename": "src/gpu/GpuMctpVdm.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-04-17T19:47:01Z",
+      "side": 1,
+      "message": "?",
+      "range": {
+        "startLine": 307,
+        "startChar": 0,
+        "endLine": 307,
+        "endChar": 8
+      },
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbd92fcd_1096d9a3",
+        "filename": "src/gpu/GpuSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-04-17T19:47:01Z",
+      "side": 1,
+      "message": "This is also a lambda that\u0027s far beyond what\u0027s allowed.",
+      "range": {
+        "startLine": 251,
+        "startChar": 0,
+        "endLine": 254,
+        "endChar": 21
+      },
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b964f3e_99ea1cc4",
+        "filename": "src/gpu/GpuSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-04-17T19:47:01Z",
+      "side": 1,
+      "message": "two tiered lambdas are definitely disallowed.",
+      "range": {
+        "startLine": 273,
+        "startChar": 32,
+        "endLine": 279,
+        "endChar": 41
+      },
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2e07fb7_f8169bc3",
+        "filename": "src/gpu/GpuSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-04-17T19:47:01Z",
+      "side": 1,
+      "message": "uncaught exception.  Use find",
+      "range": {
+        "startLine": 281,
+        "startChar": 56,
+        "endLine": 281,
+        "endChar": 58
+      },
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f392a790_fc2b97ed",
+        "filename": "src/gpu/GpuSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-04-17T19:47:01Z",
+      "side": 1,
+      "message": "same here.",
+      "range": {
+        "startLine": 284,
+        "startChar": 56,
+        "endLine": 284,
+        "endChar": 58
+      },
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eabda434_8a164858",
+        "filename": "src/gpu/GpuSensorMain.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-04-17T19:47:01Z",
+      "side": 1,
+      "message": "Please don\u0027t capture with wildcards.  Be explicit",
+      "range": {
+        "startLine": 49,
+        "startChar": 9,
+        "endLine": 49,
+        "endChar": 10
+      },
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de232a0c_e4671d79",
+        "filename": "src/gpu/MctpRequester.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-04-17T19:47:01Z",
+      "side": 1,
+      "message": "Why do we construct the datagram socket by hand?  \n\nhttps://beta.boost.org/doc/libs/1_82_0/doc/html/boost_asio/reference/basic_datagram_socket/basic_datagram_socket.html\n\n4th constructor here does the same thing, right?",
+      "range": {
+        "startLine": 38,
+        "startChar": 39,
+        "endLine": 38,
+        "endChar": 69
+      },
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a137170f_9d9eef34",
+        "filename": "src/gpu/MctpRequester.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-04-17T19:47:01Z",
+      "side": 1,
+      "message": "Why are we setting peek here?  Can\u0027t we just read the message directly?",
+      "range": {
+        "startLine": 39,
+        "startChar": 26,
+        "endLine": 39,
+        "endChar": 34
+      },
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "576dda0e_e1ad3370",
+        "filename": "src/gpu/MctpRequester.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-04-17T19:47:01Z",
+      "side": 1,
+      "message": "sockFd is only used in this method.  It does not need to be at class scope.",
+      "range": {
+        "startLine": 49,
+        "startChar": 67,
+        "endLine": 49,
+        "endChar": 73
+      },
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9914099b_2192b653",
+        "filename": "src/gpu/MctpRequester.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-04-17T19:47:01Z",
+      "side": 1,
+      "message": "Please use the overload of assign that does not throw an exception.  It compiles smaller and in this case (where we\u0027re just returning) would result in less code.",
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e49072f2_4b7f66b2",
+        "filename": "src/gpu/MctpRequester.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-04-17T19:47:01Z",
+      "side": 1,
+      "message": "Per the coding standard, no lambdas over a few lines.  Please make a normal method.",
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ce01fd8_c44a9c99",
+        "filename": "src/gpu/MctpRequester.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-04-17T19:47:01Z",
+      "side": 1,
+      "message": "I asked this above, but why are we doing recvfrom here with peek?  Can we not just read the message?",
+      "range": {
+        "startLine": 152,
+        "startChar": 29,
+        "endLine": 152,
+        "endChar": 37
+      },
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "551dd3cf_8bc5516e",
+        "filename": "src/gpu/MctpRequester.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-04-17T19:47:01Z",
+      "side": 1,
+      "message": "nit, comments like this are of low value.  Just remove them to make code concise.",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 7
+      },
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a6f34a1_87122524",
+        "filename": "src/gpu/MctpRequester.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-04-17T19:47:01Z",
+      "side": 1,
+      "message": "declare at global scope like the other modules do.",
+      "range": {
+        "startLine": 93,
+        "startChar": 0,
+        "endLine": 93,
+        "endChar": 17
+      },
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fff7fb4d_2d82e405",
+        "filename": "src/gpu/MctpRequester.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-04-17T19:47:01Z",
+      "side": 1,
+      "message": "Why is this declared at class scope?",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 49
+      },
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68c34213_c2c4e6c3",
+        "filename": "src/gpu/README.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-04-17T19:47:01Z",
+      "side": 1,
+      "message": "Put the readme in its own commit please.  We\u0027ll review it further there.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 26
+      },
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4165ab9e_47f1ffed",
+        "filename": "src/gpu/meson.build",
+        "patchSetId": 13
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-04-17T19:47:01Z",
+      "side": 1,
+      "message": "This was commented earlier.  library still hasn\u0027t been removed.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 1
+      },
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
