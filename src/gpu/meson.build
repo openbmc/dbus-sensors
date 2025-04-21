@@ -1,4 +1,4 @@
-gpusensor_sources = files('GpuSensorMain.cpp')
+gpusensor_sources = files('GpuSensor.cpp', 'GpuSensorMain.cpp')
 
 gpusensor_include_dir = include_directories('.', is_system: true)
 sensor_include_dir = include_directories('../..')
