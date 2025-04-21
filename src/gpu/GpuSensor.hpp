@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include "MctpRequester.hpp"
 #include "Thresholds.hpp"
 #include "Utils.hpp"
 #include "sensor.hpp"
@@ -16,6 +17,8 @@
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/message.hpp>
 
+#include <chrono>
+#include <cstdint>
 #include <memory>
 #include <string>
 #include <vector>
@@ -42,10 +45,12 @@ struct GpuTempSensor :
      * @param verbose Whether to enable verbose logging
      */
     GpuTempSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
-                  boost::asio::io_context& io, const std::string& name,
+                  boost::asio::io_context& io,
+                  mctp::MctpRequester& mctpRequester, const std::string& name,
                   const std::string& sensorConfiguration,
                   sdbusplus::asio::object_server& objectServer,
-                  std::vector<thresholds::Threshold>&& thresholdData);
+                  std::vector<thresholds::Threshold>&& thresholdData,
+                  std::chrono::milliseconds pollRate);
 
     /**
      * @brief Destructor
@@ -60,6 +65,16 @@ struct GpuTempSensor :
     void checkThresholds() override;
 
   private:
+    /**
+     * @brief Read the current temperature value from the GPU
+     */
+    void read();
+
+    /**
+     * @brief Update the sensor reading
+     */
+    void update();
+
     /**
      * @brief Discover available GPUs on the system
      */
@@ -82,11 +97,36 @@ struct GpuTempSensor :
      */
     void processEndpoint(const boost::system::error_code& ec,
                          const SensorBaseConfigMap& endpoint);
+    /**
+     * @brief Process a discovered GPU endpoint
+     * @param eid The endpoint ID of the discovered GPU
+     */
+    void processGpuEndpoint(uint8_t eid);
+
+    /**
+     * @brief MCTP endpoint ID
+     */
+    uint8_t eid{};
+
+    /**
+     * @brief The sensor ID
+     */
+    uint8_t sensorId;
+
+    /**
+     * @brief How often to poll the sensor in milliseconds
+     */
+    std::chrono::milliseconds sensorPollMs;
 
     /**
      * @brief Timer for scheduling sensor reads
      */
     boost::asio::steady_timer waitTimer;
+
+    /**
+     * @brief Reference to the MCTP requester for communication
+     */
+    mctp::MctpRequester& mctpRequester;
 
     /**
      * @brief D-Bus connection
@@ -105,12 +145,14 @@ struct GpuTempSensor :
  * @param objectServer D-Bus object server
  * @param sensors Map to store created sensors
  * @param dbusConnection D-Bus connection
+ * @param mctpRequester MCTP requester for GPU communication
  */
 void createSensors(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
     boost::container::flat_map<std::string, std::shared_ptr<GpuTempSensor>>&
         sensors,
-    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection);
+    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
+    mctp::MctpRequester& mctpRequester);
 
 /**
  * @brief Handle D-Bus interface removal events
