@@ -3,7 +3,9 @@
  * AFFILIATES. All rights reserved. SPDX-License-Identifier: Apache-2.0
  */
 
+#include "MctpRequester.hpp"
 #include "NvidiaGpuSensor.hpp"
+#include "OcpMctpVdm.hpp"
 #include "Utils.hpp"
 
 #include <boost/asio/error.hpp>
@@ -30,13 +32,13 @@ boost::container::flat_map<std::string, std::shared_ptr<GpuTempSensor>> sensors;
 void configTimerExpiryCallback(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
-    const boost::system::error_code& ec)
+    mctp::MctpRequester& mctpRequester, const boost::system::error_code& ec)
 {
     if (ec == boost::asio::error::operation_aborted)
     {
         return; // we're being canceled
     }
-    createSensors(io, objectServer, sensors, dbusConnection);
+    createSensors(io, objectServer, sensors, dbusConnection, mctpRequester);
     if (sensors.empty())
     {
         lg2::info("Configuration not detected");
@@ -51,19 +53,23 @@ int main()
     objectServer.add_manager("/xyz/openbmc_project/sensors");
     systemBus->request_name("xyz.openbmc_project.GpuSensor");
 
+    mctp::MctpRequester mctpRequester(io,
+                                      ocp::accelerator_management::messageType);
+
     boost::asio::post(io, [&]() {
-        createSensors(io, objectServer, sensors, systemBus);
+        createSensors(io, objectServer, sensors, systemBus, mctpRequester);
     });
 
     boost::asio::steady_timer configTimer(io);
 
     std::function<void(sdbusplus::message_t&)> eventHandler =
-        [&configTimer, &io, &objectServer, &systemBus](sdbusplus::message_t&) {
+        [&configTimer, &io, &objectServer, &systemBus,
+         &mctpRequester](sdbusplus::message_t&) {
             configTimer.expires_after(std::chrono::seconds(1));
             // create a timer because normally multiple properties change
-            configTimer.async_wait(
-                std::bind_front(configTimerExpiryCallback, std::ref(io),
-                                std::ref(objectServer), std::ref(systemBus)));
+            configTimer.async_wait(std::bind_front(
+                configTimerExpiryCallback, std::ref(io), std::ref(objectServer),
+                std::ref(systemBus), std::ref(mctpRequester)));
         };
 
     std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
