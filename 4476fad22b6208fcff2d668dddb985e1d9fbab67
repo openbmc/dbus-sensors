@@ -16,6 +16,24 @@
       "message": "Could anyone help fix the \"commit_gitlint: FAILED\" issue in CI? I am not sure what needs to be changed in the commit message format.",
       "revId": "4476fad22b6208fcff2d668dddb985e1d9fbab67",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d04f1f01_aa99c006",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-04-21T11:50:36Z",
+      "side": 1,
+      "message": "```\n    Running commit_gitlint\n-: UC3 Signed-off-by user has too few words; likely user id instead of legal name?: \"Signed-off-by: PKLee-Quanta \u003cp.k.lee@quantatw.com\u003e\"\n```",
+      "parentUuid": "ca566fb7_ae540851",
+      "revId": "4476fad22b6208fcff2d668dddb985e1d9fbab67",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
