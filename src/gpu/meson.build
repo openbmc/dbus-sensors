@@ -1,4 +1,10 @@
-gpusensor_sources = files('GpuSensor.cpp', 'GpuSensorMain.cpp')
+gpusensor_sources = files(
+    'GpuMctpVdm.cpp',
+    'GpuSensor.cpp',
+    'GpuSensorMain.cpp',
+    'MctpRequester.cpp',
+    'OcpMctpVdm.cpp',
+)
 
 gpusensor_include_dir = include_directories('.', is_system: true)
 sensor_include_dir = include_directories('../..')
@@ -11,3 +17,7 @@ executable(
     dependencies: [thresholds_dep, utils_dep],
     install: true,
 )
+
+if get_option('tests').enabled()
+    subdir('tests')
+endif

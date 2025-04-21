@@ -5,12 +5,16 @@
 
 #include "GpuSensor.hpp"
 
+#include "SensorPaths.hpp"
 #include "Thresholds.hpp"
 #include "Utils.hpp"
 #include "sensor.hpp"
 
 #include <bits/basic_string.h>
 
+#include <GpuMctpVdm.hpp>
+#include <MctpRequester.hpp>
+#include <OcpMctpVdm.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/container/flat_map.hpp>
 #include <phosphor-logging/lg2.hpp>
@@ -24,6 +28,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <memory>
+#include <optional>
 #include <string>
 #include <utility>
 #include <variant>
@@ -31,20 +36,24 @@
 
 using namespace std::literals;
 
+constexpr uint8_t gpuTempSensorId{0};
+constexpr std::chrono::milliseconds samplingInterval{1000ms};
 static constexpr double gpuTempSensorMaxReading = 127;
 static constexpr double gpuTempSensorMinReading = -128;
 
 GpuTempSensor::GpuTempSensor(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
-    boost::asio::io_context& io, const std::string& name,
-    const std::string& sensorConfiguration,
+    boost::asio::io_context& io, mctp::MctpRequester& mctpRequester,
+    const std::string& name, const std::string& sensorConfiguration,
     sdbusplus::asio::object_server& objectServer,
-    std::vector<thresholds::Threshold>&& thresholdData) :
+    std::vector<thresholds::Threshold>&& thresholdData,
+    std::chrono::milliseconds pollRate) :
     Sensor(escapeName(name), std::move(thresholdData), sensorConfiguration,
            "temperature", false, true, gpuTempSensorMaxReading,
            gpuTempSensorMinReading, conn),
-    waitTimer(io, std::chrono::steady_clock::duration(0)), conn(conn),
-    objectServer(objectServer)
+    sensorId{gpuTempSensorId}, sensorPollMs(pollRate),
+    waitTimer(io, std::chrono::steady_clock::duration(0)),
+    mctpRequester(mctpRequester), conn(conn), objectServer(objectServer)
 {
     std::string dbusPath =
         sensorPathPrefix + "temperature/"s + escapeName(name);
@@ -115,6 +124,150 @@ void GpuTempSensor::queryEndpoints(const boost::system::error_code& ec,
     }
 }
 
+void GpuTempSensor::read()
+{
+    update();
+
+    waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
+    waitTimer.async_wait(
+        [weakPtrToThis = std::weak_ptr<GpuTempSensor>{shared_from_this()}](
+            const boost::system::error_code& ec) {
+            if (ec)
+            {
+                return;
+            }
+            if (auto ptr = weakPtrToThis.lock())
+            {
+                ptr->read();
+            }
+        });
+}
+
+void GpuTempSensor::update()
+{
+    std::vector<uint8_t> reqMsg(
+        sizeof(ocp::accelerator_management::BindingPciVid) +
+        sizeof(gpu::GetTemperatureReadingRequest));
+
+    auto rc = gpu::encodeGetTemperatureReadingRequest(0, sensorId, reqMsg);
+    if (rc != 0)
+    {
+        lg2::error("Error updating Temperature Sensor: encode failed, rc={RC}",
+                   "RC", rc);
+        return;
+    }
+
+    mctpRequester.sendRecvMsg(
+        eid, reqMsg,
+        [this](int sendRecvMsgResult,
+               std::optional<std::vector<uint8_t>> resp) {
+            if (sendRecvMsgResult != 0)
+            {
+                lg2::error(
+                    "Error updating Temperature Sensor: sending message over MCTP failed, rc={RC}",
+                    "RC", sendRecvMsgResult);
+                return;
+            }
+
+            if (!resp.has_value())
+            {
+                lg2::error("Error updating Temperature Sensor: empty response");
+                return;
+            }
+
+            const auto& respMsg = resp.value();
+
+            ocp::accelerator_management::CompletionCode cc{};
+            uint16_t reasonCode = 0;
+            double tempValue = 0;
+
+            auto rc = gpu::decodeGetTemperatureReadingResponse(
+                respMsg, cc, reasonCode, tempValue);
+
+            if (rc != 0 ||
+                cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+            {
+                lg2::error(
+                    "Error updating Temperature Sensor: decode failed, rc={RC}, cc={CC}, reasonCode={RESC}",
+                    "RC", rc, "CC", cc, "RESC", reasonCode);
+                return;
+            }
+
+            updateValue(tempValue);
+        });
+}
+
+void GpuTempSensor::processGpuEndpoint(uint8_t eid)
+{
+    std::vector<uint8_t> reqMsg;
+
+    auto rc = gpu::encodeQueryDeviceIdentificationRequest(0, reqMsg);
+    if (rc != 0)
+    {
+        lg2::error("Error processing GPU endpoint: encode failed, rc={RC}",
+                   "RC", rc);
+        return;
+    }
+
+    mctpRequester.sendRecvMsg(
+        eid, reqMsg,
+        [this,
+         eid](int sendRecvMsgResult, std::optional<std::vector<uint8_t>> resp) {
+            if (sendRecvMsgResult != 0)
+            {
+                lg2::error(
+                    "Error processing GPU endpoint: sending message over MCTP failed, rc={RC}",
+                    "RC", sendRecvMsgResult);
+                return;
+            }
+
+            if (!resp.has_value())
+            {
+                lg2::error("Error updating Temperature Sensor: empty response");
+                return;
+            }
+
+            const auto& respMsg = resp.value();
+
+            if (respMsg.empty())
+            {
+                lg2::error("Error processing GPU endpoint: empty response");
+                return;
+            }
+
+            ocp::accelerator_management::CompletionCode cc{};
+            uint16_t reasonCode = 0;
+            uint8_t responseDeviceType = 0;
+            uint8_t responseInstanceId = 0;
+
+            auto rc = gpu::decodeQueryDeviceIdentificationResponse(
+                respMsg, cc, reasonCode, responseDeviceType,
+                responseInstanceId);
+
+            if (rc != 0 ||
+                cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+            {
+                lg2::error(
+                    "Error processing GPU endpoint: decode failed, rc={RC}, cc={CC}, reasonCode={RESC}",
+                    "RC", rc, "CC", cc, "RESC", reasonCode);
+                return;
+            }
+
+            if (responseDeviceType ==
+                static_cast<uint8_t>(gpu::DeviceIdentification::DEVICE_GPU))
+            {
+                lg2::info(
+                    "Found the GPU with EID {EID}, DeviceType {DEVTYPE}, InstanceId {IID}.",
+                    "EID", eid, "DEVTYPE", responseDeviceType, "IID",
+                    responseInstanceId);
+
+                this->eid = eid;
+                setInitialProperties(sensor_paths::unitDegreesC);
+                this->read();
+            }
+        });
+}
+
 void GpuTempSensor::processEndpoint(const boost::system::error_code& ec,
                                     const SensorBaseConfigMap& endpoint)
 {
@@ -125,7 +278,7 @@ void GpuTempSensor::processEndpoint(const boost::system::error_code& ec,
         return;
     }
 
-    [[maybe_unused]] uint8_t eid{};
+    uint8_t eid{};
     std::vector<uint8_t> mctpTypes{};
 
     auto hasEid = endpoint.find("EID");
@@ -173,9 +326,14 @@ void GpuTempSensor::processEndpoint(const boost::system::error_code& ec,
         return;
     }
 
-    // if the OCP MCTP VDM Message type (0x7E) is found in mctpTypes
-    // process the endpoint further.
-    (void)this;
+    if (std::find(mctpTypes.begin(), mctpTypes.end(),
+                  ocp::accelerator_management::messageType) != mctpTypes.end())
+    {
+        lg2::info(
+            "GpuTempSensor::discoverGpus(): Found OCP MCTP VDM Endpoint with ID {EID}",
+            "EID", eid);
+        this->processGpuEndpoint(eid);
+    }
 }
 
 void GpuTempSensor::discoverGpus()
@@ -198,7 +356,7 @@ void processSensorConfigs(
     boost::container::flat_map<std::string, std::shared_ptr<GpuTempSensor>>&
         sensors,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
-    const ManagedObjectType& resp)
+    mctp::MctpRequester& mctpRequester, const ManagedObjectType& resp)
 {
     for (const auto& [path, interfaces] : resp)
     {
@@ -212,8 +370,8 @@ void processSensorConfigs(
             std::string name = loadVariant<std::string>(cfg, "Name");
 
             sensors[name] = std::make_shared<GpuTempSensor>(
-                dbusConnection, io, name, path, objectServer,
-                std::vector<thresholds::Threshold>{});
+                dbusConnection, io, mctpRequester, name, path, objectServer,
+                std::vector<thresholds::Threshold>{}, samplingInterval);
 
             lg2::info(
                 "Added GPU Temperature Sensor {NAME} with chassis path: {PATH}.",
@@ -226,7 +384,8 @@ void createSensors(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
     boost::container::flat_map<std::string, std::shared_ptr<GpuTempSensor>>&
         sensors,
-    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
+    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
+    mctp::MctpRequester& mctpRequester)
 {
     if (!dbusConnection)
     {
@@ -234,9 +393,8 @@ void createSensors(
         return;
     }
     dbusConnection->async_method_call(
-        [&sensors, &dbusConnection, &io,
-         &objectServer](const boost::system::error_code& ec,
-                        const ManagedObjectType& resp) {
+        [&sensors, &mctpRequester, &dbusConnection, &io, &objectServer](
+            boost::system::error_code ec, const ManagedObjectType& resp) {
             if (ec)
             {
                 lg2::error("Error contacting entity manager");
@@ -244,7 +402,7 @@ void createSensors(
             }
 
             processSensorConfigs(io, objectServer, sensors, dbusConnection,
-                                 resp);
+                                 mctpRequester, resp);
         },
         entityManagerName, "/xyz/openbmc_project/inventory",
         "org.freedesktop.DBus.ObjectManager", "GetManagedObjects");
