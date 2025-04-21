@@ -3,7 +3,9 @@
  * AFFILIATES. All rights reserved. SPDX-License-Identifier: Apache-2.0
  */
 
+#include "GpuMctpVdm.hpp"
 #include "GpuSensor.hpp"
+#include "MctpRequester.hpp"
 #include "Utils.hpp"
 
 #include <boost/asio/error.hpp>
@@ -35,14 +37,18 @@ int main()
     objectServer.add_manager("/xyz/openbmc_project/sensors");
     systemBus->request_name("xyz.openbmc_project.GpuSensor");
 
+    mctp::MctpRequester mctpRequester(io,
+                                      ocp::accelerator_management::messageType);
+
     boost::asio::post(io, [&]() {
-        createSensors(io, objectServer, sensors, systemBus);
+        createSensors(io, objectServer, sensors, systemBus, mctpRequester);
     });
 
     boost::asio::steady_timer configTimer(io);
 
     std::function<void(sdbusplus::message_t&)> eventHandler =
-        [&configTimer, &io, &objectServer, &systemBus](sdbusplus::message_t&) {
+        [&configTimer, &io, &objectServer, &systemBus,
+         &mctpRequester](sdbusplus::message_t&) {
             configTimer.expires_after(std::chrono::seconds(1));
             // create a timer because normally multiple properties change
             configTimer.async_wait([&](const boost::system::error_code& ec) {
@@ -50,7 +56,8 @@ int main()
                 {
                     return; // we're being canceled
                 }
-                createSensors(io, objectServer, sensors, systemBus);
+                createSensors(io, objectServer, sensors, systemBus,
+                              mctpRequester);
                 if (sensors.empty())
                 {
                     lg2::info("Configuration not detected");
