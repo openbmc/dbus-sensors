@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0c24ef04_c6572ff1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-04-21T11:54:36Z",
+      "side": 1,
+      "message": "Do you have a pointer to a corresponding entity-manager change?\n\nCan you show a sample of the `busctl introspect`?",
+      "revId": "4476fad22b6208fcff2d668dddb985e1d9fbab67",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ca566fb7_ae540851",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 9
