@@ -36,6 +36,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7b257ec_c270bb17",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-22T10:01:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93d6d3e9_1b3282a0",
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "34831644_787b48fc",
@@ -83,6 +101,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c44df782_77570225",
+        "filename": "src/gpu/GpuMctpVdm.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-22T10:01:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb3266af_71f6f1a6",
+      "range": {
+        "startLine": 15,
+        "startChar": 10,
+        "endLine": 15,
+        "endChar": 13
+      },
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "633fdc5d_db4a2122",
@@ -96,6 +138,30 @@
       "writtenOn": "2025-04-17T19:47:01Z",
       "side": 1,
       "message": "?",
+      "range": {
+        "startLine": 307,
+        "startChar": 0,
+        "endLine": 307,
+        "endChar": 8
+      },
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5171f287_2f2dacfa",
+        "filename": "src/gpu/GpuMctpVdm.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-22T10:01:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "633fdc5d_db4a2122",
       "range": {
         "startLine": 307,
         "startChar": 0,
@@ -129,6 +195,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "62b87504_d829b476",
+        "filename": "src/gpu/GpuSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-22T10:01:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbd92fcd_1096d9a3",
+      "range": {
+        "startLine": 251,
+        "startChar": 0,
+        "endLine": 254,
+        "endChar": 21
+      },
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1b964f3e_99ea1cc4",
@@ -142,6 +232,30 @@
       "writtenOn": "2025-04-17T19:47:01Z",
       "side": 1,
       "message": "two tiered lambdas are definitely disallowed.",
+      "range": {
+        "startLine": 273,
+        "startChar": 32,
+        "endLine": 279,
+        "endChar": 41
+      },
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25d7f329_393293bf",
+        "filename": "src/gpu/GpuSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-22T10:01:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b964f3e_99ea1cc4",
       "range": {
         "startLine": 273,
         "startChar": 32,
@@ -175,6 +289,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4990eb8_5b90793d",
+        "filename": "src/gpu/GpuSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-22T10:01:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2e07fb7_f8169bc3",
+      "range": {
+        "startLine": 281,
+        "startChar": 56,
+        "endLine": 281,
+        "endChar": 58
+      },
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f392a790_fc2b97ed",
@@ -198,6 +336,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "820116d5_38b1166e",
+        "filename": "src/gpu/GpuSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-22T10:01:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f392a790_fc2b97ed",
+      "range": {
+        "startLine": 284,
+        "startChar": 56,
+        "endLine": 284,
+        "endChar": 58
+      },
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eabda434_8a164858",
@@ -211,6 +373,30 @@
       "writtenOn": "2025-04-17T19:47:01Z",
       "side": 1,
       "message": "Please don\u0027t capture with wildcards.  Be explicit",
+      "range": {
+        "startLine": 49,
+        "startChar": 9,
+        "endLine": 49,
+        "endChar": 10
+      },
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac43cc2d_e3a825f6",
+        "filename": "src/gpu/GpuSensorMain.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-22T10:01:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eabda434_8a164858",
       "range": {
         "startLine": 49,
         "startChar": 9,
@@ -246,6 +432,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "339b035f_96c4eabd",
+        "filename": "src/gpu/MctpRequester.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-22T10:01:06Z",
+      "side": 1,
+      "message": "boost asio class for datagram socket boost::asio::local::datagram_protocol::socket uses AF_UNIX as the socket domain. And we need to use AF_MCTP as the socket domain. Based on my reading of the boost asio documentation there is no way to specify the socket domain for the class boost::asio::local::datagram_protocol::socket.",
+      "parentUuid": "de232a0c_e4671d79",
+      "range": {
+        "startLine": 38,
+        "startChar": 39,
+        "endLine": 38,
+        "endChar": 69
+      },
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a137170f_9d9eef34",
         "filename": "src/gpu/MctpRequester.cpp",
         "patchSetId": 13
@@ -257,6 +467,30 @@
       "writtenOn": "2025-04-17T19:47:01Z",
       "side": 1,
       "message": "Why are we setting peek here?  Can\u0027t we just read the message directly?",
+      "range": {
+        "startLine": 39,
+        "startChar": 26,
+        "endLine": 39,
+        "endChar": 34
+      },
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe0568ce_f0b3d732",
+        "filename": "src/gpu/MctpRequester.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-22T10:01:06Z",
+      "side": 1,
+      "message": "With these flags we would read the length of the received message and allocate the buffer for that size. And in the subsequent recvfrom call, we would read the message into that buffer. This pattern to read the received messages is referenced from the pldm stack.",
+      "parentUuid": "a137170f_9d9eef34",
       "range": {
         "startLine": 39,
         "startChar": 26,
@@ -307,6 +541,48 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "41b197cc_688073d5",
+        "filename": "src/gpu/MctpRequester.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-22T10:01:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9914099b_2192b653",
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2748a7f7_e5fe5a02",
+        "filename": "src/gpu/MctpRequester.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-22T10:01:06Z",
+      "side": 1,
+      "message": "sockFd is used in other methods of the class.",
+      "parentUuid": "576dda0e_e1ad3370",
+      "range": {
+        "startLine": 49,
+        "startChar": 67,
+        "endLine": 49,
+        "endChar": 73
+      },
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e49072f2_4b7f66b2",
@@ -324,6 +600,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c52d0150_1df0881f",
+        "filename": "src/gpu/MctpRequester.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-22T10:01:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e49072f2_4b7f66b2",
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4ce01fd8_c44a9c99",
@@ -337,6 +631,30 @@
       "writtenOn": "2025-04-17T19:47:01Z",
       "side": 1,
       "message": "I asked this above, but why are we doing recvfrom here with peek?  Can we not just read the message?",
+      "range": {
+        "startLine": 152,
+        "startChar": 29,
+        "endLine": 152,
+        "endChar": 37
+      },
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d371e9b8_84145355",
+        "filename": "src/gpu/MctpRequester.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-22T10:01:06Z",
+      "side": 1,
+      "message": "With MSG_PEEK flag, we would read the length of the received message and allocate the buffer for that size. And in this recvfrom call, we would read the message into that buffer. This pattern to read the received messages is referenced from the pldm stack.",
+      "parentUuid": "4ce01fd8_c44a9c99",
       "range": {
         "startLine": 152,
         "startChar": 29,
@@ -370,6 +688,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "047ca469_e0b678fa",
+        "filename": "src/gpu/MctpRequester.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-22T10:01:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "551dd3cf_8bc5516e",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 7
+      },
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3a6f34a1_87122524",
@@ -383,6 +725,30 @@
       "writtenOn": "2025-04-17T19:47:01Z",
       "side": 1,
       "message": "declare at global scope like the other modules do.",
+      "range": {
+        "startLine": 93,
+        "startChar": 0,
+        "endLine": 93,
+        "endChar": 17
+      },
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6dfea076_7f00f921",
+        "filename": "src/gpu/MctpRequester.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-22T10:01:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a6f34a1_87122524",
       "range": {
         "startLine": 93,
         "startChar": 0,
@@ -416,6 +782,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a8226bf_b4f9e6f1",
+        "filename": "src/gpu/MctpRequester.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-22T10:01:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fff7fb4d_2d82e405",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 49
+      },
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "68c34213_c2c4e6c3",
@@ -439,6 +829,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7872e79c_3cfbc767",
+        "filename": "src/gpu/README.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-22T10:01:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68c34213_c2c4e6c3",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 26
+      },
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4165ab9e_47f1ffed",
@@ -452,6 +866,30 @@
       "writtenOn": "2025-04-17T19:47:01Z",
       "side": 1,
       "message": "This was commented earlier.  library still hasn\u0027t been removed.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 1
+      },
+      "revId": "2544df841e7389222909cc7f1557fa56a0262041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a4e162e_ca998359",
+        "filename": "src/gpu/meson.build",
+        "patchSetId": 13
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-22T10:01:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4165ab9e_47f1ffed",
       "range": {
         "startLine": 12,
         "startChar": 0,
