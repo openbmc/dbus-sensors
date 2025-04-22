@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26377005_0dc25579",
+        "filename": "src/gpu/GpuMctpVdm.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-04-22T14:42:36Z",
+      "side": 1,
+      "message": "Should we do the math in integers, THEN promote to double?",
+      "range": {
+        "startLine": 359,
+        "startChar": 35,
+        "endLine": 359,
+        "endChar": 54
+      },
+      "revId": "c8b880270bd851bdb5cabec61be829642a448a79",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "501cd996_3dc37f4c",
+        "filename": "src/gpu/GpuMctpVdm.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-04-22T14:42:36Z",
+      "side": 1,
+      "message": "Why is this needed if we have encode/decode methods that are setting network vs host byte order?  Should this just be handled in that?",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 92,
+        "endChar": 37
+      },
+      "revId": "c8b880270bd851bdb5cabec61be829642a448a79",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c99a88b2_80e07e6b",
+        "filename": "src/gpu/GpuMctpVdm.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-04-22T14:42:36Z",
+      "side": 1,
+      "message": "Nvidia VDM specifics need to go in a separate file from the OCP library structures.",
+      "range": {
+        "startLine": 222,
+        "startChar": 0,
+        "endLine": 222,
+        "endChar": 34
+      },
+      "revId": "c8b880270bd851bdb5cabec61be829642a448a79",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7b8cd47_54250c77",
+        "filename": "src/gpu/GpuMctpVdm.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-04-22T14:42:36Z",
+      "side": 1,
+      "message": "This doesn\u0027t describe what the return code is, it\u0027s just a type, that I can read from the declaration below.  Based on my reading, this return is whether or not the parse succeeded, so probably needs its own return code type",
+      "range": {
+        "startLine": 440,
+        "startChar": 12,
+        "endLine": 440,
+        "endChar": 55
+      },
+      "revId": "c8b880270bd851bdb5cabec61be829642a448a79",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94559f8c_0d1b015b",
+        "filename": "src/gpu/GpuMctpVdm.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-04-22T14:42:36Z",
+      "side": 1,
+      "message": "Why does this API have two return codes?",
+      "range": {
+        "startLine": 443,
+        "startChar": 68,
+        "endLine": 443,
+        "endChar": 79
+      },
+      "revId": "c8b880270bd851bdb5cabec61be829642a448a79",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d89004d1_b8c51a4f",
+        "filename": "src/gpu/MctpRequester.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-04-22T14:42:36Z",
+      "side": 1,
+      "message": "This is a blocking send.  Should we be using the mctp socket method instead?",
+      "range": {
+        "startLine": 149,
+        "startChar": 17,
+        "endLine": 149,
+        "endChar": 23
+      },
+      "revId": "c8b880270bd851bdb5cabec61be829642a448a79",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1de02850_1c1e7934",
+        "filename": "src/gpu/MctpRequester.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-04-22T14:42:36Z",
+      "side": 1,
+      "message": "Some comments look like they got ignored from the other patch?",
+      "range": {
+        "startLine": 86,
+        "startChar": 8,
+        "endLine": 86,
+        "endChar": 14
+      },
+      "revId": "c8b880270bd851bdb5cabec61be829642a448a79",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
