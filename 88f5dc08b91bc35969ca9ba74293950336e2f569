@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20627252_87809888",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002134
+      },
+      "writtenOn": "2025-04-22T09:54:30Z",
+      "side": 1,
+      "message": "I am uncertain if this refinement aligns with OpenBMC\u0027s definitions and expectations for the `Target` property in the PWM control interface and the `Value` property in the PWM sensor interface.\n\nAdditionally, I am unsure if this approach is preferable to implementing driver-specific behaviors within the D-Bus sensor to address the issue.\nFor instance, handling drivers like [max31790] differently, where the `fan_target` file represents the desired RPM speed instead of PWM.\nTo calculate the target PWM from the fan_target file, knowledge of the maximum fan tach RPM is required for the conversion.\nIt\u0027s important to consider that the interpretation of sysfs filenames and semantics might differ across drivers, affecting the meanings and relationships of `fan_target` and pwm files.\n\nIf there is any guidance or feedback to help determine which method is more appropriate, it would be greatly appreciated.\nThank you very much!\n\n[max31790]: https://github.com/torvalds/linux/blob/a33b5a08cbbdd7aadff95f40cbb45ab86841679e/Documentation/hwmon/max31790.rst#L2",
+      "revId": "88f5dc08b91bc35969ca9ba74293950336e2f569",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
