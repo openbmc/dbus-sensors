@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "abd7c417_c06aef12",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000317
+      },
+      "writtenOn": "2025-04-22T12:53:47Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "0c24ef04_c6572ff1",
+      "revId": "4476fad22b6208fcff2d668dddb985e1d9fbab67",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ca566fb7_ae540851",
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "You need to update your git-config to have your name match something from the Quanta CLA.",
       "parentUuid": "d04f1f01_aa99c006",
+      "revId": "4476fad22b6208fcff2d668dddb985e1d9fbab67",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56aa6675_2c998fd4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000317
+      },
+      "writtenOn": "2025-04-22T12:53:47Z",
+      "side": 1,
+      "message": "I see. Thanks for your help!",
+      "parentUuid": "fad46e71_ea991e43",
       "revId": "4476fad22b6208fcff2d668dddb985e1d9fbab67",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
