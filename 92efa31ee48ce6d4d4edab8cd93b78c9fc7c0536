@@ -61,6 +61,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "78fd6c33_f248caba",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1001538
+      },
+      "writtenOn": "2025-04-22T21:35:50Z",
+      "side": 1,
+      "message": "The getBusFromChannel function (in https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/75497) already logs a message with the issue. I don\u0027t think its necessary to log another message.",
+      "parentUuid": "f4a961df_1fdd1d6a",
+      "range": {
+        "startLine": 391,
+        "startChar": 0,
+        "endLine": 391,
+        "endChar": 41
+      },
+      "revId": "92efa31ee48ce6d4d4edab8cd93b78c9fc7c0536",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "49e38b88_c546c764",
         "filename": "src/FanMain.cpp",
         "patchSetId": 2
@@ -72,6 +96,30 @@
       "writtenOn": "2024-11-12T21:12:38Z",
       "side": 1,
       "message": "rather than duplicate the same logic (now that it becomes more complex), pull it into a common function",
+      "range": {
+        "startLine": 368,
+        "startChar": 0,
+        "endLine": 407,
+        "endChar": 25
+      },
+      "revId": "92efa31ee48ce6d4d4edab8cd93b78c9fc7c0536",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58878aaa_b82a1fe8",
+        "filename": "src/FanMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1001538
+      },
+      "writtenOn": "2025-04-22T21:35:50Z",
+      "side": 1,
+      "message": "The logic is now done in a couple of common functions findMux and getBusFromChannel (in https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/75497) with each sensor that uses them modified to call those functions and create the necessary I2CMux and I2CBus objects.",
+      "parentUuid": "49e38b88_c546c764",
       "range": {
         "startLine": 368,
         "startChar": 0,
