@@ -41,6 +41,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "77d967ba_6b64fae6",
+        "filename": "src/gpu/GpuSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-23T12:44:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1bd2275_f3e384f5",
+      "range": {
+        "startLine": 51,
+        "startChar": 27,
+        "endLine": 51,
+        "endChar": 47
+      },
+      "revId": "7a46d74b4173e494d1fc5cbaa070a15302e7f1b6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6d415ac1_9b7d23a0",
@@ -58,6 +82,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a190c73d_0b957022",
+        "filename": "src/gpu/GpuSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-23T12:44:22Z",
+      "side": 1,
+      "message": "As per my reading of sensor.hpp file, yes.",
+      "parentUuid": "6d415ac1_9b7d23a0",
+      "revId": "7a46d74b4173e494d1fc5cbaa070a15302e7f1b6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3dd372a7_81174bac",
@@ -71,6 +113,30 @@
       "writtenOn": "2025-04-22T14:30:57Z",
       "side": 1,
       "message": "nit, this-\u003e is not required here.",
+      "range": {
+        "startLine": 195,
+        "startChar": 12,
+        "endLine": 195,
+        "endChar": 18
+      },
+      "revId": "7a46d74b4173e494d1fc5cbaa070a15302e7f1b6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90ccac27_ff0155e6",
+        "filename": "src/gpu/GpuSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-23T12:44:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3dd372a7_81174bac",
       "range": {
         "startLine": 195,
         "startChar": 12,
@@ -121,6 +187,48 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "87c711e0_a500c828",
+        "filename": "src/gpu/GpuSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-23T12:44:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c656277e_b11a9656",
+      "range": {
+        "startLine": 216,
+        "startChar": 12,
+        "endLine": 216,
+        "endChar": 40
+      },
+      "revId": "7a46d74b4173e494d1fc5cbaa070a15302e7f1b6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "adb03071_71b418d3",
+        "filename": "src/gpu/GpuSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-23T12:44:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2481d9d5_3f492693",
+      "revId": "7a46d74b4173e494d1fc5cbaa070a15302e7f1b6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a77d0fba_4bb3d29a",
@@ -151,6 +259,48 @@
       "writtenOn": "2025-04-22T14:30:57Z",
       "side": 1,
       "message": "Please don\u0027t capture by reference wildcard.  It can lead to issues with object lifetimes and makes the code harder to review.",
+      "range": {
+        "startLine": 48,
+        "startChar": 36,
+        "endLine": 48,
+        "endChar": 37
+      },
+      "revId": "7a46d74b4173e494d1fc5cbaa070a15302e7f1b6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7403147d_6b84c2af",
+        "filename": "src/gpu/GpuSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-23T12:44:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a77d0fba_4bb3d29a",
+      "revId": "7a46d74b4173e494d1fc5cbaa070a15302e7f1b6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "044ce510_5988125e",
+        "filename": "src/gpu/GpuSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-23T12:44:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59d898b0_640a3739",
       "range": {
         "startLine": 48,
         "startChar": 36,
