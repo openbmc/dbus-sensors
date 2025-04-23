@@ -615,6 +615,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2590c77_4362d855",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-04-23T16:22:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e052cf23_4b7ed933",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 26
+      },
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f747fe8a_9bbea15d",
