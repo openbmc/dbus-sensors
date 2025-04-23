@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "43b4f082_954a98bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-04-23T05:30:21Z",
+      "side": 1,
+      "message": "nit: avoid the works AMI and use accelerator management interface instead",
+      "revId": "c8b880270bd851bdb5cabec61be829642a448a79",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "26377005_0dc25579",
         "filename": "src/gpu/GpuMctpVdm.cpp",
         "patchSetId": 2
@@ -66,6 +83,47 @@
         "endLine": 222,
         "endChar": 34
       },
+      "revId": "c8b880270bd851bdb5cabec61be829642a448a79",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f89b9dc0_d4356cfe",
+        "filename": "src/gpu/GpuMctpVdm.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-04-23T05:30:21Z",
+      "side": 1,
+      "message": "I would suggest have an OcpMctpVdm.hpp/cpp for all the OCP structures and have the Nvidia VDM specifics in the existing Gpu* files.",
+      "parentUuid": "c99a88b2_80e07e6b",
+      "range": {
+        "startLine": 222,
+        "startChar": 0,
+        "endLine": 222,
+        "endChar": 34
+      },
+      "revId": "c8b880270bd851bdb5cabec61be829642a448a79",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "040a8053_7e1deb10",
+        "filename": "src/gpu/GpuMctpVdm.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-04-23T05:30:21Z",
+      "side": 1,
+      "message": "I think we should introduce the types other than GPU when we add support for other device types.",
       "revId": "c8b880270bd851bdb5cabec61be829642a448a79",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
