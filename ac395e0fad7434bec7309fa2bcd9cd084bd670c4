@@ -36,6 +36,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "04ce73b8_4d319401",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-04-23T16:21:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af0d0cab_8418a03a",
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5588749a_39be57aa",
@@ -83,6 +101,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aac33eea_532e130a",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-04-23T16:21:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23de8121_edea1d48",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 151,
+        "endChar": 1
+      },
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5257b209_c1663085",
@@ -120,6 +162,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "5257b209_c1663085",
+      "range": {
+        "startLine": 166,
+        "startChar": 4,
+        "endLine": 166,
+        "endChar": 61
+      },
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db36d94f_c099358b",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-04-23T16:21:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "926ca51f_f249fbe8",
       "range": {
         "startLine": 166,
         "startChar": 4,
@@ -194,6 +260,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fa53a92_6e5045a8",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-04-23T16:21:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1ea5986_baa67f5e",
+      "range": {
+        "startLine": 284,
+        "startChar": 13,
+        "endLine": 284,
+        "endChar": 22
+      },
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0db1c8dd_1e808f8b",
@@ -231,6 +321,30 @@
       "side": 1,
       "message": "At the moment we only need to read 8 bytes at a time",
       "parentUuid": "0db1c8dd_1e808f8b",
+      "range": {
+        "startLine": 354,
+        "startChar": 3,
+        "endLine": 354,
+        "endChar": 8
+      },
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "949408c6_8ab7734f",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-04-23T16:21:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9fd99c60_5c40e8b8",
       "range": {
         "startLine": 354,
         "startChar": 3,
@@ -288,6 +402,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "879d40a2_2cda1a47",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-04-23T16:21:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0264fca2_1c5cfbfd",
+      "range": {
+        "startLine": 22,
+        "startChar": 26,
+        "endLine": 22,
+        "endChar": 27
+      },
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c6a2e412_7058bc88",
@@ -335,6 +473,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d934131f_eeedebb7",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-04-23T16:21:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24788896_c6f31077",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 38
+      },
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c6d0aec6_9b9f4513",
@@ -372,6 +534,30 @@
       "side": 1,
       "message": "Removed duplicate",
       "parentUuid": "c6d0aec6_9b9f4513",
+      "range": {
+        "startLine": 56,
+        "startChar": 4,
+        "endLine": 56,
+        "endChar": 20
+      },
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b5c16c0_bd15e1ad",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-04-23T16:21:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae47c136_7a0445d9",
       "range": {
         "startLine": 56,
         "startChar": 4,
@@ -476,6 +662,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf6ba6b5_856d6cd0",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-04-23T16:21:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc996d95_7fb1e98b",
+      "range": {
+        "startLine": 65,
+        "startChar": 15,
+        "endLine": 65,
+        "endChar": 21
+      },
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "528bafe0_f676fd9d",
@@ -523,6 +733,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e923b98_a1da5b8c",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-04-23T16:21:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f8b67c8_7591a382",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 5
+      },
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c9aaabc_6309a774",
@@ -560,6 +794,30 @@
       "side": 1,
       "message": "The plan is to move to async at some point. For now this is used to satisfy RAII for file handling.",
       "parentUuid": "6c9aaabc_6309a774",
+      "range": {
+        "startLine": 76,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 45
+      },
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "234ae3ac_03a196e1",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-04-23T16:21:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2872a26c_fc589a12",
       "range": {
         "startLine": 76,
         "startChar": 0,

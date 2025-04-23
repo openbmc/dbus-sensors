@@ -279,6 +279,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fece507f_458fadb7",
+        "filename": "src/SmbpbiSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-04-23T16:21:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de25e812_7078e2b1",
+      "range": {
+        "startLine": 132,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 21
+      },
+      "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c145d9c_f0491135",
@@ -367,6 +391,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b74ea2a7_f8e9e46b",
+        "filename": "src/SmbpbiSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-04-23T16:21:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e43480af_54facab2",
+      "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9dc62d93_7ca2df21",
@@ -433,6 +475,24 @@
       "writtenOn": "2024-12-13T18:48:22Z",
       "side": 1,
       "message": "This is doing IO within the main loop, which will result in DBus blocking for some amount of time......  I\u0027m not sure how to solve that with the way this is structured, but this will cause slow sensor APIs.",
+      "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3719e9e7_08bd62ab",
+        "filename": "src/SmbpbiSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-04-23T16:21:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f197d61_c25e6f62",
       "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -569,6 +629,30 @@
       "side": 1,
       "message": "Understood. Do we agree that it\u0027s being handled in this case or something more required here?",
       "parentUuid": "12276106_7b844cf1",
+      "range": {
+        "startLine": 245,
+        "startChar": 34,
+        "endLine": 245,
+        "endChar": 50
+      },
+      "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "083d5a20_2fe8ba07",
+        "filename": "src/SmbpbiSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-04-23T16:21:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd4e9546_b0a46408",
       "range": {
         "startLine": 245,
         "startChar": 34,
@@ -876,6 +960,24 @@
       "side": 1,
       "message": "I don\u0027t see one for starting a timer and setting up the sensor, can you please link if possible?",
       "parentUuid": "bc3f9802_f6b83a75",
+      "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1afdb9b_7c37b726",
+        "filename": "src/SmbpbiSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-04-23T16:21:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38165c9f_c600c2bf",
       "revId": "75c2672ea9c1f4471a9a46105bbf0202c7fb78f9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
