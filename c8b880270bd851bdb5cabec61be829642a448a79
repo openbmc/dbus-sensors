@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "62adfbd4_dacbf4f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-23T14:14:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43b4f082_954a98bc",
+      "revId": "c8b880270bd851bdb5cabec61be829642a448a79",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "26377005_0dc25579",
@@ -31,6 +49,30 @@
       "writtenOn": "2025-04-22T14:42:36Z",
       "side": 1,
       "message": "Should we do the math in integers, THEN promote to double?",
+      "range": {
+        "startLine": 359,
+        "startChar": 35,
+        "endLine": 359,
+        "endChar": 54
+      },
+      "revId": "c8b880270bd851bdb5cabec61be829642a448a79",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5223051_adce5df8",
+        "filename": "src/gpu/GpuMctpVdm.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-23T14:14:03Z",
+      "side": 1,
+      "message": "We would loose the precision in that case and temperature reading value would always be a complete number instead of the fraction.",
+      "parentUuid": "26377005_0dc25579",
       "range": {
         "startLine": 359,
         "startChar": 35,
@@ -58,6 +100,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "94179dc1_9b81a0bc",
+        "filename": "src/gpu/GpuMctpVdm.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-23T14:14:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "945cef4d_64d9ea83",
+      "revId": "c8b880270bd851bdb5cabec61be829642a448a79",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "501cd996_3dc37f4c",
@@ -71,6 +131,30 @@
       "writtenOn": "2025-04-22T14:42:36Z",
       "side": 1,
       "message": "Why is this needed if we have encode/decode methods that are setting network vs host byte order?  Should this just be handled in that?",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 92,
+        "endChar": 37
+      },
+      "revId": "c8b880270bd851bdb5cabec61be829642a448a79",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cce52e2d_5f87c278",
+        "filename": "src/gpu/GpuMctpVdm.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-23T14:14:03Z",
+      "side": 1,
+      "message": "It\u0027s done this way to avoid network to host byte conversion for this common data structure in every encode/decode methods.",
+      "parentUuid": "501cd996_3dc37f4c",
       "range": {
         "startLine": 92,
         "startChar": 0,
@@ -128,6 +212,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bad4cb2d_08d590b6",
+        "filename": "src/gpu/GpuMctpVdm.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-23T14:14:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f89b9dc0_d4356cfe",
+      "range": {
+        "startLine": 222,
+        "startChar": 0,
+        "endLine": 222,
+        "endChar": 34
+      },
+      "revId": "c8b880270bd851bdb5cabec61be829642a448a79",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "040a8053_7e1deb10",
@@ -145,6 +253,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eae974c4_92094f9c",
+        "filename": "src/gpu/GpuMctpVdm.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-23T14:14:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "040a8053_7e1deb10",
+      "revId": "c8b880270bd851bdb5cabec61be829642a448a79",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f7b8cd47_54250c77",
@@ -158,6 +284,30 @@
       "writtenOn": "2025-04-22T14:42:36Z",
       "side": 1,
       "message": "This doesn\u0027t describe what the return code is, it\u0027s just a type, that I can read from the declaration below.  Based on my reading, this return is whether or not the parse succeeded, so probably needs its own return code type",
+      "range": {
+        "startLine": 440,
+        "startChar": 12,
+        "endLine": 440,
+        "endChar": 55
+      },
+      "revId": "c8b880270bd851bdb5cabec61be829642a448a79",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c523bcbd_1a358450",
+        "filename": "src/gpu/GpuMctpVdm.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-23T14:14:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7b8cd47_54250c77",
       "range": {
         "startLine": 440,
         "startChar": 12,
@@ -193,6 +343,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a3c03352_4fe84308",
+        "filename": "src/gpu/GpuMctpVdm.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-23T14:14:03Z",
+      "side": 1,
+      "message": "The function parameter cc is CompletionCode as received in the response message and returned value is status/error code for this function.",
+      "parentUuid": "94559f8c_0d1b015b",
+      "range": {
+        "startLine": 443,
+        "startChar": 68,
+        "endLine": 443,
+        "endChar": 79
+      },
+      "revId": "c8b880270bd851bdb5cabec61be829642a448a79",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d89004d1_b8c51a4f",
         "filename": "src/gpu/MctpRequester.cpp",
         "patchSetId": 2
@@ -216,6 +390,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ae3579e2_918171d8",
+        "filename": "src/gpu/MctpRequester.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-23T14:14:03Z",
+      "side": 1,
+      "message": "Based on our testing this sendto would not block as MCTP socket will always be available for write. And as per my reading of the boost asio documentation send methods for boost asio socket does not support specifying the raw address that we need for the mctp communication.",
+      "parentUuid": "d89004d1_b8c51a4f",
+      "range": {
+        "startLine": 149,
+        "startChar": 17,
+        "endLine": 149,
+        "endChar": 23
+      },
+      "revId": "c8b880270bd851bdb5cabec61be829642a448a79",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1de02850_1c1e7934",
         "filename": "src/gpu/MctpRequester.hpp",
         "patchSetId": 2
@@ -227,6 +425,30 @@
       "writtenOn": "2025-04-22T14:42:36Z",
       "side": 1,
       "message": "Some comments look like they got ignored from the other patch?",
+      "range": {
+        "startLine": 86,
+        "startChar": 8,
+        "endLine": 86,
+        "endChar": 14
+      },
+      "revId": "c8b880270bd851bdb5cabec61be829642a448a79",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e9bd97b_7fe9bcf1",
+        "filename": "src/gpu/MctpRequester.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-04-23T14:14:03Z",
+      "side": 1,
+      "message": "sockFd is used in other methods of the class and hence it is needed as a member data.",
+      "parentUuid": "1de02850_1c1e7934",
       "range": {
         "startLine": 86,
         "startChar": 8,
