@@ -215,6 +215,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "55e79a93_0feab9b7",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-04-24T22:05:12Z",
+      "side": 1,
+      "message": "Sorry, did not finish my comment earlier. What if 0 is a valid reading?",
+      "parentUuid": "b87e9548_d9138ef8",
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b09a0b79_36fe2649",
         "filename": "src/smbpbi/SmbpbiSensor.cpp",
         "patchSetId": 8

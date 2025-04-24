@@ -1,0 +1,297 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75988d94_398c8fa9",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-04-24T22:05:12Z",
+      "side": 1,
+      "message": "can be removed",
+      "range": {
+        "startLine": 68,
+        "startChar": 4,
+        "endLine": 68,
+        "endChar": 18
+      },
+      "revId": "e9f9e977ab7625783047a3b3a3dd54491eb7cb07",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "532abf21_9bee5ba3",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-04-24T22:05:12Z",
+      "side": 1,
+      "message": "this is not needed",
+      "range": {
+        "startLine": 132,
+        "startChar": 62,
+        "endLine": 132,
+        "endChar": 70
+      },
+      "revId": "e9f9e977ab7625783047a3b3a3dd54491eb7cb07",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f90113f_0029ac5b",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-04-24T22:05:12Z",
+      "side": 1,
+      "message": "can this be raw[0]",
+      "range": {
+        "startLine": 133,
+        "startChar": 19,
+        "endLine": 133,
+        "endChar": 40
+      },
+      "revId": "e9f9e977ab7625783047a3b3a3dd54491eb7cb07",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48948d0c_829fe099",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-04-24T22:05:12Z",
+      "side": 1,
+      "message": "sign",
+      "range": {
+        "startLine": 134,
+        "startChar": 38,
+        "endLine": 134,
+        "endChar": 48
+      },
+      "revId": "e9f9e977ab7625783047a3b3a3dd54491eb7cb07",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56ff2e25_2ef4f5a8",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-04-24T22:05:12Z",
+      "side": 1,
+      "message": "static assert also? or imply use \"length\u003dsizeof(reading)\"",
+      "range": {
+        "startLine": 186,
+        "startChar": 0,
+        "endLine": 187,
+        "endChar": 74
+      },
+      "revId": "e9f9e977ab7625783047a3b3a3dd54491eb7cb07",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b802d02_d7ce15ba",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-04-24T22:05:12Z",
+      "side": 1,
+      "message": "return ret; I think it is better to keep the return code",
+      "range": {
+        "startLine": 192,
+        "startChar": 8,
+        "endLine": 192,
+        "endChar": 18
+      },
+      "revId": "e9f9e977ab7625783047a3b3a3dd54491eb7cb07",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19ea2068_7df86f81",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-04-24T22:05:12Z",
+      "side": 1,
+      "message": "i think \"convert2Temp\" describe better of what the function does.",
+      "range": {
+        "startLine": 299,
+        "startChar": 19,
+        "endLine": 299,
+        "endChar": 33
+      },
+      "revId": "e9f9e977ab7625783047a3b3a3dd54491eb7cb07",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a678f1cd_4ed708a7",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-04-24T22:05:12Z",
+      "side": 1,
+      "message": "same here convert2Power() is a better name IMO",
+      "range": {
+        "startLine": 304,
+        "startChar": 19,
+        "endLine": 304,
+        "endChar": 32
+      },
+      "revId": "e9f9e977ab7625783047a3b3a3dd54491eb7cb07",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b5ccf77_789d7747",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-04-24T22:05:12Z",
+      "side": 1,
+      "message": "Looks like this should be voltage - I would add a comment to clarify what sensorType is expected here in else{}",
+      "revId": "e9f9e977ab7625783047a3b3a3dd54491eb7cb07",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17677359_5c3aaace",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-04-24T22:05:12Z",
+      "side": 1,
+      "message": "valueType FLOAT32 is also defined in hpp. If it is not supported, please remove from the enum",
+      "range": {
+        "startLine": 357,
+        "startChar": 4,
+        "endLine": 357,
+        "endChar": 8
+      },
+      "revId": "e9f9e977ab7625783047a3b3a3dd54491eb7cb07",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6378ed62_465e4765",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-04-24T22:05:12Z",
+      "side": 1,
+      "message": "also, i am wondering if it is better to check the valid valueType when creating the sensor. This can potentially flood the journal log",
+      "range": {
+        "startLine": 358,
+        "startChar": 0,
+        "endLine": 362,
+        "endChar": 0
+      },
+      "revId": "e9f9e977ab7625783047a3b3a3dd54491eb7cb07",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5104719_9cc75cd0",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-04-24T22:05:12Z",
+      "side": 1,
+      "message": "should this be size_t based on how this is used",
+      "range": {
+        "startLine": 24,
+        "startChar": 21,
+        "endLine": 24,
+        "endChar": 24
+      },
+      "revId": "e9f9e977ab7625783047a3b3a3dd54491eb7cb07",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8def8b61_3893eb7e",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-04-24T22:05:12Z",
+      "side": 1,
+      "message": "duplicate of base class member, remove",
+      "range": {
+        "startLine": 55,
+        "startChar": 4,
+        "endLine": 55,
+        "endChar": 21
+      },
+      "revId": "e9f9e977ab7625783047a3b3a3dd54491eb7cb07",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
