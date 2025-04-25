@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "433a7457_acdeedc2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000317
+      },
+      "writtenOn": "2025-04-25T14:03:53Z",
+      "side": 1,
+      "message": "Thanks for your suggestion. Due to time constraints, I will use virtual sensors to convert from Volts to Amperes. However, a side effect is that the current values labeled in Volts will still remain.",
+      "parentUuid": "082ad47b_f82b14b5",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 65
+      },
+      "revId": "c5d99424b1f1b011732320e1f75805d6dd61a3e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9a39d66c_91465d6b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 11
