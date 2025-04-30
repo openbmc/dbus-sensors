@@ -40,15 +40,14 @@ struct GpuTempSensor :
   public:
     /**
      * @brief Constructor for GpuTempSensor
-     * @param conn D-Bus connection
+     * @param conn D-Bus connection for system communication
      * @param mctpRequester MCTP protocol requester for GPU communication
-     * @param name Name of the sensor
-     * @param sensorConfiguration Configuration string for the sensor
-     * @param objectServer D-Bus object server
-     * @param thresholdData Vector of threshold configurations
-     * @param pollRate How often to poll for new readings
-     * @param deviceInfo Information about the GPU device
-     * @param verbose Whether to enable verbose logging
+     * @param name Name of the sensor for identification in the system
+     * @param sensorConfiguration Configuration string for the sensor containing
+     * setup parameters
+     * @param objectServer D-Bus object server for exposing sensor interfaces
+     * @param thresholdData Vector of threshold configurations for temperature
+     * monitoring
      */
     GpuTempSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                   mctp::MctpRequester& mctpRequester, const std::string& name,

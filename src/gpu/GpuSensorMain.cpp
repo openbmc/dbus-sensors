@@ -26,15 +26,24 @@
 #include <string>
 #include <vector>
 
+/**
+ * @brief Global map of GPU devices keyed by their paths
+ * @details Stores all discovered GPU devices in the system for management
+ *          and tracking throughout the application lifecycle
+ */
 boost::container::flat_map<std::string, std::shared_ptr<GpuDevice>> gpuDevice;
 
 /**
- * @brief config timer expiry callback
- * @param io Boost ASIO I/O context
- * @param objectServer D-Bus object server
- * @param dbusConnection D-Bus connection
- * @param mctpRequester MCTP requester for GPU communication
- * @param ec Boost ASIO error code
+ * @brief Callback function executed when configuration timer expires
+ * @details Triggers sensor creation or reconfiguration process when
+ * configuration changes are detected in the system. If the timer was canceled
+ * due to application shutdown or other reasons, the function returns early.
+ *
+ * @param io Boost ASIO I/O context for scheduling asynchronous operations
+ * @param objectServer D-Bus object server for exposing sensor interfaces
+ * @param dbusConnection D-Bus connection for system communication
+ * @param mctpRequester MCTP requester for GPU communication protocol
+ * @param ec Boost ASIO error code indicating success or failure reason
  */
 void configTimerExpiryCallback(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,

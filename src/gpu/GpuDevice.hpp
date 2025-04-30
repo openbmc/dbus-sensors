@@ -35,21 +35,28 @@ using GpuSensorConfigMap =
     std::map<std::string, std::variant<std::string, bool, uint32_t, uint8_t,
                                        int64_t, std::vector<uint8_t>>>;
 
+/**
+ * @struct GpuDevice
+ * @brief Represents a GPU device in the system
+ * @details Manages the lifecycle of a GPU device including discovery, sensor
+ * creation, communication, and monitoring. Handles MCTP protocol interactions
+ * with the physical GPU hardware.
+ */
 struct GpuDevice
 {
   public:
     /**
      * @brief Constructor for GpuDevice
-     * @param conn D-Bus connection
+     * @details Initializes a GPU device object with the provided parameters and
+     *          starts the process of discovering available sensors on the
+     * device
+     *
+     * @param name Name of the GPU device for identification
+     * @param path D-Bus object path for this GPU device
+     * @param conn D-Bus connection for system communication
      * @param io Boost ASIO I/O context for asynchronous operations
      * @param mctpRequester MCTP protocol requester for GPU communication
-     * @param name Name of the sensor
-     * @param sensorConfiguration Configuration string for the sensor
-     * @param objectServer D-Bus object server
-     * @param thresholdData Vector of threshold configurations
-     * @param pollRate How often to poll for new readings
-     * @param deviceInfo Information about the GPU device
-     * @param verbose Whether to enable verbose logging
+     * @param objectServer D-Bus object server for exposing interfaces
      */
     GpuDevice(const std::string& name, const std::string& path,
               std::shared_ptr<sdbusplus::asio::connection>& conn,
@@ -62,10 +69,23 @@ struct GpuDevice
     }
 
   private:
+    /**
+     * @brief Add a sensor to this GPU device
+     * @details Associates a sensor with this GPU device and adds it to the
+     *          internal list of sensors managed by this device
+     *
+     * @param name Name of the sensor to add
+     * @param sensor Shared pointer to the sensor object
+     */
     void addSensor(const std::string& name,
                    const std::shared_ptr<Sensor>& sensor);
 
+    /**
+     * @brief Create sensors for this GPU device
+     * @details Discovers and creates all available sensor types on this GPU
+     */
     void createSensors();
+
     /**
      * @brief Read the current temperature value from the GPU
      */
@@ -93,6 +113,7 @@ struct GpuDevice
      */
     void processEndpointConfigs(const boost::system::error_code& ec,
                                 const GpuSensorConfigMap& configs);
+
     /**
      * @brief Process a discovered GPU endpoint
      * @param eid The endpoint ID of the discovered GPU
@@ -129,19 +150,38 @@ struct GpuDevice
      */
     sdbusplus::asio::object_server& objectServer;
 
+    /**
+     * @brief Collection of sensors associated with this GPU device
+     * @details Stores all sensor objects created for this GPU
+     */
     std::vector<std::shared_ptr<Sensor>> sensors;
 
+    /**
+     * @brief Name of this GPU device
+     * @details Human-readable identifier for the GPU
+     */
     std::string name;
+
+    /**
+     * @brief D-Bus object path for this GPU device
+     * @details Path where this GPU device is exposed in the D-Bus object
+     * hierarchy
+     */
     std::string path;
 };
 
 /**
  * @brief Create GPU temperature sensors
- * @param io Boost ASIO I/O context
- * @param objectServer D-Bus object server
- * @param sensors Map to store created sensors
- * @param dbusConnection D-Bus connection
- * @param mctpRequester MCTP requester for GPU communication
+ * @details Discovers and creates GPU devices and their associated sensors in
+ * the system. This function is called at startup and whenever configuration
+ * changes are detected.
+ *
+ * @param io Boost ASIO I/O context for scheduling asynchronous operations
+ * @param objectServer D-Bus object server for exposing sensor interfaces
+ * @param gpuDevice Map to store created GPU device objects, keyed by their
+ * paths
+ * @param dbusConnection D-Bus connection for system communication
+ * @param mctpRequester MCTP requester for GPU communication protocol
  */
 void createSensors(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
@@ -153,7 +193,7 @@ void createSensors(
 /**
  * @brief Handle D-Bus interface removal events
  * @param message D-Bus message containing interface removal information
- * @param sensors Map of GPU temperature sensors to check for removal
+ * @param gpuDevice Map of GPU devices to check for removal
  */
 void interfaceRemoved(
     sdbusplus::message_t& message,
