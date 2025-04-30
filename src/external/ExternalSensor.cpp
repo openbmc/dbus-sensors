@@ -10,6 +10,7 @@
 #include <sdbusplus/asio/object_server.hpp>
 
 #include <chrono>
+#include <cmath>
 #include <cstddef>
 #include <functional>
 #include <limits>
@@ -193,6 +194,11 @@ void ExternalSensor::externalSetTrigger()
     {
         lg2::error("ExternalSensor '{NAME}' received '{VALUE}'", "NAME", name,
                    "VALUE", value);
+    }
+
+    if (!std::isnan(value))
+    {
+        markAvailable(true);
     }
 
     auto now = std::chrono::steady_clock::now();
