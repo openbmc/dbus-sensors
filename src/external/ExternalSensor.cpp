@@ -195,6 +195,11 @@ void ExternalSensor::externalSetTrigger()
                    "VALUE", value);
     }
 
+    if (!std::isnan(value))
+    {
+        markAvailable(true);
+    }
+
     auto now = std::chrono::steady_clock::now();
 
     writeBegin(now);
