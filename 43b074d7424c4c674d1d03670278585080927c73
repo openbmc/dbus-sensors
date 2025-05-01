@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51cb8408_c5930df4",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-01T01:08:19Z",
+      "side": 0,
+      "message": "This is the write function for the Sensor::Value, right?  Why would we not write to the `setValue` property in this case?\n\nIt seems like as a result of this code change we don\u0027t end up doing anything with the write request, which seems wrong.",
+      "revId": "43b074d7424c4c674d1d03670278585080927c73",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

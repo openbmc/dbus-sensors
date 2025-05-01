@@ -1,6 +1,40 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b7f87f2_f0f1cdbe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-01T01:08:19Z",
+      "side": 1,
+      "message": "nit: ideally this would be \u0027psu-sensor:\u0027 at the beginning.",
+      "revId": "88f5dc08b91bc35969ca9ba74293950336e2f569",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2720d79d_2e054cf7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-01T01:08:19Z",
+      "side": 1,
+      "message": "Thans for the detailed commit message, Eric!  This is great context.",
+      "revId": "88f5dc08b91bc35969ca9ba74293950336e2f569",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "20627252_87809888",
@@ -31,6 +65,40 @@
       "writtenOn": "2025-04-30T10:41:07Z",
       "side": 1,
       "message": "Just a friendly reminder to take a look at this commit and provide any feedback if possible.\nYour insights would be greatly appreciated.",
+      "revId": "88f5dc08b91bc35969ca9ba74293950336e2f569",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92cc8e84_55c78a7d",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-01T01:08:19Z",
+      "side": 1,
+      "message": "Why does the Target \u0027get\u0027 call do anything with the driver?  This is surprising to me.",
+      "revId": "88f5dc08b91bc35969ca9ba74293950336e2f569",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a646b828_64e59a64",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-01T01:08:19Z",
+      "side": 1,
+      "message": "I don\u0027t understand why a property-get turns into driver-write operation.\n\nPlease at least add comments as to why this is the case.",
       "revId": "88f5dc08b91bc35969ca9ba74293950336e2f569",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
