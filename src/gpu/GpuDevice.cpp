@@ -8,11 +8,11 @@
 #include "GpuSensor.hpp"
 #include "Thresholds.hpp"
 #include "Utils.hpp"
+#include "mctp/Requester.hpp"
 
 #include <bits/basic_string.h>
 
 #include <GpuMctpVdm.hpp>
-#include <MctpRequester.hpp>
 #include <OcpMctpVdm.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/container/flat_map.hpp>
