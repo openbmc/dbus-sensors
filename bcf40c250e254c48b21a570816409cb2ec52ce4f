@@ -1219,6 +1219,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a939431e_6aa99579",
+        "filename": "src/leakdetector/LeakDetector.hpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-01T21:31:58Z",
+      "side": 1,
+      "message": "\u003e Why does it make it difficult, multi inheritance is a standard concept.\n\nIt\u0027s not clear what this class does, or what shared state it might need.  Additionally, the multiple inheritence doesn\u0027t actually accomplish anything, does it?",
+      "parentUuid": "cb4b1aec_e3dc0e8b",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 57
+      },
+      "revId": "bcf40c250e254c48b21a570816409cb2ec52ce4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8239da8c_a8c3f2a9",

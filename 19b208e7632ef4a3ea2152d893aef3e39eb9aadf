@@ -138,6 +138,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1ba309bb_73533196",
+        "filename": "src/GPIOInterface.hpp",
+        "patchSetId": 64
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-01T21:31:58Z",
+      "side": 1,
+      "message": "Right, I asked for async but that doesn\u0027t mean spawn and doesn\u0027t mean they can\u0027t be chained values?\n\nyou\u0027d do\n\nco_await readGPIOAsync;\n\n// Maybe spawn?\nco_await readGPIOAsyncEvent;",
+      "parentUuid": "da47c2a8_6976f869",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 5
+      },
+      "revId": "19b208e7632ef4a3ea2152d893aef3e39eb9aadf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2f252333_b82751ea",
         "filename": "src/Systemd.cpp",
         "patchSetId": 64
@@ -172,6 +196,23 @@
       "writtenOn": "2025-05-01T17:58:02Z",
       "side": 1,
       "message": "This is going to consume memory the entire life of the program.  For a 2 item list, just use a std::array\u003cstd::string_view\u003e\n?",
+      "revId": "19b208e7632ef4a3ea2152d893aef3e39eb9aadf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "192e817c_fbaa8cde",
+        "filename": "src/leakdetector/LeakGPIODetector.cpp",
+        "patchSetId": 64
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-01T21:31:58Z",
+      "side": 1,
+      "message": "I\u0027m assuming we don\u0027t want to actually wait for this to complete before continuing to scan, right?  Probably need a spawn here?",
       "revId": "19b208e7632ef4a3ea2152d893aef3e39eb9aadf",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -213,6 +254,30 @@
       "side": 1,
       "message": "\u003e Can we condense these two into one array for simplification?  one array referencing another is hard to read.\n\nWill check if detectorTypes is not being used anywhere and if not then will condense it.\n\n\u003e \n\u003e Also static unordered maps take up memory at all times.  I\u0027m fairly certain they\u0027re not needed.  Please fix all of them.  FWIW, this is something that needs cleaned up in other dbus-sensors, but lets not make the problem worse.\n\nWhat do you want me to do here if not maps ?",
       "parentUuid": "a6dbf85c_f0f1a846",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 0
+      },
+      "revId": "19b208e7632ef4a3ea2152d893aef3e39eb9aadf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "846b226c_7e99856c",
+        "filename": "src/leakdetector/LeakGPIODetector.hpp",
+        "patchSetId": 64
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-01T21:31:58Z",
+      "side": 1,
+      "message": "std::array\u003cstd::pair\u003cstd::string_view, DetectorIntf::DetectorType\u003e validDetectorTypes \u003d {{\n{\"LeakSensingCable\": DetectorIntf::DetectorType::LeakSensingCable},\n{\"Unknown\": DetectorIntf::DetectorType::Unknown}\n}};",
+      "parentUuid": "7537184f_1ba971ff",
       "range": {
         "startLine": 38,
         "startChar": 0,
