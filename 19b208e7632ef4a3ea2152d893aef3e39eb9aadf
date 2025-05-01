@@ -114,6 +114,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "da47c2a8_6976f869",
+        "filename": "src/GPIOInterface.hpp",
+        "patchSetId": 64
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-01T19:26:15Z",
+      "side": 1,
+      "message": "In general it depends on when the actual gpio value was read. So, if readGPIOAsync starts after readGPIOAsyncEvent, it should still update the same value.\n\nFYI: To avoid any confusion i was doing the initial read as in sync flow earlier but you had asked me to change it to async as you mentioned that sync gpio read will be time consuming.",
+      "parentUuid": "90863098_857c2358",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 5
+      },
+      "revId": "19b208e7632ef4a3ea2152d893aef3e39eb9aadf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2f252333_b82751ea",
         "filename": "src/Systemd.cpp",
         "patchSetId": 64
@@ -177,6 +201,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7537184f_1ba971ff",
+        "filename": "src/leakdetector/LeakGPIODetector.hpp",
+        "patchSetId": 64
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-01T19:26:15Z",
+      "side": 1,
+      "message": "\u003e Can we condense these two into one array for simplification?  one array referencing another is hard to read.\n\nWill check if detectorTypes is not being used anywhere and if not then will condense it.\n\n\u003e \n\u003e Also static unordered maps take up memory at all times.  I\u0027m fairly certain they\u0027re not needed.  Please fix all of them.  FWIW, this is something that needs cleaned up in other dbus-sensors, but lets not make the problem worse.\n\nWhat do you want me to do here if not maps ?",
+      "parentUuid": "a6dbf85c_f0f1a846",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 0
+      },
+      "revId": "19b208e7632ef4a3ea2152d893aef3e39eb9aadf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e9a08cac_e1cd8690",
         "filename": "src/leakdetector/LeakGPIODetector.hpp",
         "patchSetId": 64
@@ -188,6 +236,30 @@
       "writtenOn": "2025-05-01T17:58:02Z",
       "side": 1,
       "message": "This kind of multiple inheritance is really difficult to read.  Could one of these (probably GPIOIntf) be a private member?",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 57
+      },
+      "revId": "19b208e7632ef4a3ea2152d893aef3e39eb9aadf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c267eb8_bafcbba2",
+        "filename": "src/leakdetector/LeakGPIODetector.hpp",
+        "patchSetId": 64
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-01T19:26:15Z",
+      "side": 1,
+      "message": "Will be taken care by https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/75329/comment/d3222954_3672499a/ .\n\nSo resolving this.",
+      "parentUuid": "e9a08cac_e1cd8690",
       "range": {
         "startLine": 99,
         "startChar": 0,
