@@ -65,6 +65,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fbad7a3_5f9c2568",
+        "filename": "src/GPIOInterface.hpp",
+        "patchSetId": 64
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-01T19:13:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64bec468_cd01d196",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 28
+      },
+      "revId": "19b208e7632ef4a3ea2152d893aef3e39eb9aadf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "90863098_857c2358",
