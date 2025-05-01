@@ -5,9 +5,9 @@
 
 #pragma once
 
-#include "MctpRequester.hpp"
 #include "Thresholds.hpp"
 #include "UpdatableSensor.hpp"
+#include "mctp/Requester.hpp"
 
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>

@@ -3,9 +3,8 @@
  * AFFILIATES. All rights reserved. SPDX-License-Identifier: Apache-2.0
  */
 
-#include "MctpRequester.hpp"
-#include "OcpMctpVdm.hpp"
 #include "Utils.hpp"
+#include "mctp/Requester.hpp"
 
 #include <GpuDevice.hpp>
 #include <boost/asio/error.hpp>
@@ -65,8 +64,7 @@ int main()
     objectServer.add_manager("/xyz/openbmc_project/sensors");
     systemBus->request_name("xyz.openbmc_project.GpuSensor");
 
-    mctp::MctpRequester mctpRequester(io,
-                                      ocp::accelerator_management::messageType);
+    mctp::MctpRequester mctpRequester(io);
 
     boost::asio::post(io, [&]() {
         createSensors(io, objectServer, gpuDevice, systemBus, mctpRequester);
