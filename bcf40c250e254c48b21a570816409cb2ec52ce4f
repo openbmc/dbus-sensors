@@ -443,6 +443,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2c69b526_77010bde",
+        "filename": "src/EntityManager.hpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-01T19:13:21Z",
+      "side": 1,
+      "message": "As discussed on discord, i will change this GPIOIntf to be a private member of composite class to avoid using CRTP pattern.\n\nhttps://discord.com/channels/775381525260664832/1367557338432667780/1367578511119749132",
+      "parentUuid": "78e66d86_c54bbda0",
+      "range": {
+        "startLine": 102,
+        "startChar": 16,
+        "endLine": 102,
+        "endChar": 44
+      },
+      "revId": "bcf40c250e254c48b21a570816409cb2ec52ce4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fd0fa1a2_6c7360d2",
         "filename": "src/EntityManager.hpp",
         "patchSetId": 42
