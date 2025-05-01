@@ -27,3 +27,15 @@ test(
     ),
     workdir: meson.current_source_dir(),
 )
+
+test(
+    'instancedb_test',
+    executable(
+        'instancedb_test',
+        'InstanceDbTest.cpp',
+        dependencies: [gtest_dep, gmock_dep],
+        implicit_include_directories: false,
+        include_directories: gpusensor_test_include_dirs,
+    ),
+    workdir: meson.current_source_dir(),
+)

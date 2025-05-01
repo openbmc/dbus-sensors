@@ -6,6 +6,9 @@
 
 #pragma once
 
+#include "InstanceDb.hpp"
+
+#include <OcpMctpVdm.hpp>
 #include <boost/asio/generic/datagram_protocol.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/steady_timer.hpp>
@@ -97,9 +100,36 @@ class NvidiaMctpVdmRequester
                                 std::move_only_function<void(int)>&& cb) :
             reqMsg(req), respMsg(resp), callback(std::move(cb))
         {}
+
+        // NOLINTNEXTLINE
+        void setRequestInstanceId(uint8_t id)
+        {
+            auto* reqHdr =
+                // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+                reinterpret_cast<ocp::accelerator_management::BindingPciVid*>(
+                    reqMsg.data());
+
+            // Clear old instance ID bits
+            reqHdr->instance_id &=
+                ~ocp::accelerator_management::instanceIdBitMask;
+
+            // Set new instance ID
+            reqHdr->instance_id |=
+                (id & ocp::accelerator_management::instanceIdBitMask);
+        }
+
+        uint8_t getInstanceId() const
+        {
+            const auto* reqHdr =
+                // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+                reinterpret_cast<
+                    const ocp::accelerator_management::BindingPciVid*>(
+                    reqMsg.data());
+            return reqHdr->instance_id;
+        }
     };
 
-    void handleResult(uint8_t eid, std::span<uint8_t> respMsg, int result);
+    void handleResult(uint8_t eid, int result);
     void processQueue(uint8_t eid);
     void handleResponse(uint8_t eid, std::span<uint8_t> respMsg, int ec);
 
@@ -110,6 +140,7 @@ class NvidiaMctpVdmRequester
     std::unordered_map<
         uint8_t, boost::container::devector<std::unique_ptr<RequestContext>>>
         requestContextQueues;
+    ocp::InstanceIdDb instanceIdDb;
 };
 
 using MctpRequester = NvidiaMctpVdmRequester;
