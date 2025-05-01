@@ -1243,6 +1243,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "868e6fe1_2a31444e",
+        "filename": "src/leakdetector/LeakDetector.hpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-01T21:55:48Z",
+      "side": 1,
+      "message": "Wait... this is my misunderstanding about how phosphor-dbus-interfaces objects work.  Leave it as is.  I still find it hard to read and associate a variable name with a dbus interface, but we\u0027re not going to solve that in this review.",
+      "parentUuid": "a939431e_6aa99579",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 57
+      },
+      "revId": "bcf40c250e254c48b21a570816409cb2ec52ce4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8239da8c_a8c3f2a9",
