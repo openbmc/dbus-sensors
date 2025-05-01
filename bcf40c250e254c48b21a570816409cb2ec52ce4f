@@ -419,6 +419,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "78e66d86_c54bbda0",
+        "filename": "src/EntityManager.hpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-01T17:58:02Z",
+      "side": 1,
+      "message": "Still seems open?",
+      "parentUuid": "69bafc7a_8eda0db8",
+      "range": {
+        "startLine": 102,
+        "startChar": 16,
+        "endLine": 102,
+        "endChar": 44
+      },
+      "revId": "bcf40c250e254c48b21a570816409cb2ec52ce4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fd0fa1a2_6c7360d2",
         "filename": "src/EntityManager.hpp",
         "patchSetId": 42

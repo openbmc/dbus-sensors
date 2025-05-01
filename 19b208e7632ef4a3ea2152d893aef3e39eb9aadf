@@ -16,6 +16,138 @@
       "message": "@ed@tanous.net Can we please help review and close on this PR? It has been open for close to 6 months now?",
       "revId": "19b208e7632ef4a3ea2152d893aef3e39eb9aadf",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89d57173_d4dcde4b",
+        "filename": "src/GPIOInterface.hpp",
+        "patchSetId": 64
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-01T17:58:02Z",
+      "side": 1,
+      "message": "We\u0027ve discussed CRTP a lot, and in general it\u0027s a pattern that we haven\u0027t allowed in the past.  I don\u0027t really see a reason to change that, this code would be a lot simpler without CRTP and just as modular.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 28
+      },
+      "revId": "19b208e7632ef4a3ea2152d893aef3e39eb9aadf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90863098_857c2358",
+        "filename": "src/GPIOInterface.hpp",
+        "patchSetId": 64
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-01T17:58:02Z",
+      "side": 1,
+      "message": "Isn\u0027t this a bug?  What if readGPIOAsync completes after readGPIOAsyncEvent ?  we\u0027ll latch the wrong state, right?",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 5
+      },
+      "revId": "19b208e7632ef4a3ea2152d893aef3e39eb9aadf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f252333_b82751ea",
+        "filename": "src/Systemd.cpp",
+        "patchSetId": 64
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-01T17:58:02Z",
+      "side": 1,
+      "message": "Still seeing a bunch of these that should be easy to fix?  And no comment left why we\u0027re avoiding the static analysis here?",
+      "range": {
+        "startLine": 18,
+        "startChar": 3,
+        "endLine": 18,
+        "endChar": 14
+      },
+      "revId": "19b208e7632ef4a3ea2152d893aef3e39eb9aadf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55e7fbf5_6584f0e3",
+        "filename": "src/leakdetector/LeakGPIODetector.cpp",
+        "patchSetId": 64
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-01T17:58:02Z",
+      "side": 1,
+      "message": "This is going to consume memory the entire life of the program.  For a 2 item list, just use a std::array\u003cstd::string_view\u003e\n?",
+      "revId": "19b208e7632ef4a3ea2152d893aef3e39eb9aadf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6dbf85c_f0f1a846",
+        "filename": "src/leakdetector/LeakGPIODetector.hpp",
+        "patchSetId": 64
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-01T17:58:02Z",
+      "side": 1,
+      "message": "Can we condense these two into one array for simplification?  one array referencing another is hard to read.\n\nAlso static unordered maps take up memory at all times.  I\u0027m fairly certain they\u0027re not needed.  Please fix all of them.  FWIW, this is something that needs cleaned up in other dbus-sensors, but lets not make the problem worse.",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 0
+      },
+      "revId": "19b208e7632ef4a3ea2152d893aef3e39eb9aadf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9a08cac_e1cd8690",
+        "filename": "src/leakdetector/LeakGPIODetector.hpp",
+        "patchSetId": 64
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-01T17:58:02Z",
+      "side": 1,
+      "message": "This kind of multiple inheritance is really difficult to read.  Could one of these (probably GPIOIntf) be a private member?",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 57
+      },
+      "revId": "19b208e7632ef4a3ea2152d893aef3e39eb9aadf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
