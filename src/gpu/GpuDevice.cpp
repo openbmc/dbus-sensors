@@ -5,15 +5,15 @@
 
 #include "GpuDevice.hpp"
 
+#include "GpuMctpVdm.hpp"
 #include "GpuSensor.hpp"
+#include "OcpMctpVdm.hpp"
+#include "Requester.hpp"
 #include "Thresholds.hpp"
 #include "Utils.hpp"
 
 #include <bits/basic_string.h>
 
-#include <GpuMctpVdm.hpp>
-#include <MctpRequester.hpp>
-#include <OcpMctpVdm.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/container/flat_map.hpp>
 #include <phosphor-logging/lg2.hpp>
@@ -25,7 +25,6 @@
 #include <algorithm>
 #include <chrono>
 #include <cstdint>
-#include <functional>
 #include <map>
 #include <memory>
 #include <optional>

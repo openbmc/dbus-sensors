@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "MctpRequester.hpp"
+#include "Requester.hpp"
 #include "UpdatableSensor.hpp"
 
 #include <boost/asio/io_context.hpp>

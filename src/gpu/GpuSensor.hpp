@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "MctpRequester.hpp"
+#include "Requester.hpp"
 #include "Thresholds.hpp"
 #include "UpdatableSensor.hpp"
 
