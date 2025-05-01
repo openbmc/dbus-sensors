@@ -5,9 +5,9 @@
 
 #pragma once
 
-#include <asm/byteorder.h>
+#include "OcpMctpVdm.hpp"
 
-#include <OcpMctpVdm.hpp>
+#include <asm/byteorder.h>
 
 #include <cstdint>
 #include <vector>
