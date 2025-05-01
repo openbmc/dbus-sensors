@@ -24,6 +24,7 @@
 #include <cstring>
 #include <functional>
 #include <memory>
+#include <optional>
 #include <span>
 #include <utility>
 
@@ -115,11 +116,9 @@ NvidiaMctpVdmRequester::NvidiaMctpVdmRequester(boost::asio::io_context& ctx) :
 void NvidiaMctpVdmRequester::handleResponse(uint8_t eid,
                                             std::span<uint8_t> respMsg, int ec)
 {
-    expiryTimers[eid]->cancel();
-
     if (ec != 0)
     {
-        handleResult(eid, respMsg, ec);
+        handleResult(eid, ec);
         return;
     }
 
@@ -127,11 +126,43 @@ void NvidiaMctpVdmRequester::handleResponse(uint8_t eid,
     if (respMsg.size() < sizeof(ocp::accelerator_management::BindingPciVid))
     {
         lg2::error("Response size too small: {SIZE}", "SIZE", respMsg.size());
-        handleResult(eid, respMsg, EMSGSIZE);
+        handleResult(eid, EMSGSIZE);
         return;
     }
 
-    handleResult(eid, respMsg, 0);
+    auto& queue = requestContextQueues[eid];
+    const auto& reqCtx = queue.front();
+
+    const auto* reqHdr =
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+        reinterpret_cast<const ocp::accelerator_management::BindingPciVid*>(
+            reqCtx->reqMsg.data());
+
+    uint8_t reqInstanceId =
+        reqHdr->instance_id & ocp::accelerator_management::instanceIdBitMask;
+    const auto* respHdr =
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+        reinterpret_cast<const ocp::accelerator_management::BindingPciVid*>(
+            respMsg.data());
+
+    uint8_t respInstanceId =
+        respHdr->instance_id & ocp::accelerator_management::instanceIdBitMask;
+
+    if (reqInstanceId != respInstanceId)
+    {
+        lg2::error(
+            "MctpRequester: Instance ID mismatch - request={REQ}, response={RESP}",
+            "REQ", static_cast<int>(reqInstanceId), "RESP",
+            static_cast<int>(respInstanceId));
+        // Don't invoke the callback with error. This could be a response
+        // for a previously timed out request and the response for 'this'
+        // request could be in-flight
+        return;
+    }
+
+    expiryTimers[eid]->cancel();
+
+    handleResult(eid, 0);
 }
 
 void NvidiaMctpVdmRequester::sendRecvMsg(
@@ -158,39 +189,13 @@ void NvidiaMctpVdmRequester::sendRecvMsg(
     }
 }
 
-void NvidiaMctpVdmRequester::handleResult(
-    uint8_t eid, std::span<uint8_t> respMsg, int result)
+void NvidiaMctpVdmRequester::handleResult(uint8_t eid, int result)
 {
     auto& queue = requestContextQueues[eid];
     const auto& reqCtx = queue.front();
 
-    if (result == 0)
-    {
-        const auto* reqHdr =
-            // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
-            reinterpret_cast<const ocp::accelerator_management::BindingPciVid*>(
-                reqCtx->reqMsg.data());
-
-        uint8_t reqInstanceId = reqHdr->instance_id &
-                                ocp::accelerator_management::instanceIdBitMask;
-        const auto* respHdr =
-            // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
-            reinterpret_cast<const ocp::accelerator_management::BindingPciVid*>(
-                respMsg.data());
-
-        uint8_t respInstanceId = respHdr->instance_id &
-                                 ocp::accelerator_management::instanceIdBitMask;
-
-        if (reqInstanceId != respInstanceId)
-        {
-            lg2::error(
-                "MctpRequester: Instance ID mismatch - request={REQ}, response={RESP}",
-                "REQ", static_cast<int>(reqInstanceId), "RESP",
-                static_cast<int>(respInstanceId));
-            reqCtx->callback(EPROTO);
-            return;
-        }
-    }
+    uint8_t id = reqCtx->getInstanceId();
+    instanceIdDb.free(eid, id);
 
     reqCtx->callback(result); // Call the original callback
 
@@ -208,6 +213,13 @@ void NvidiaMctpVdmRequester::processQueue(uint8_t eid)
         return;
     }
 
+    std::optional<uint8_t> id = instanceIdDb.next(eid);
+    if (!id.has_value())
+    {
+        lg2::error("Out of Instance Ids for EID: {EID}", "EID", eid);
+        return;
+    }
+
     const auto& reqCtx = queue.front();
 
     // Set up expiry timer
@@ -216,6 +228,8 @@ void NvidiaMctpVdmRequester::processQueue(uint8_t eid)
         expiryTimers[eid] = std::make_unique<boost::asio::steady_timer>(ctx);
     }
 
+    reqCtx->setRequestInstanceId(id.value());
+
     requester.sendRecvMsg(eid, reqCtx->reqMsg, reqCtx->respMsg);
 
     expiryTimers[eid]->expires_after(2s);
@@ -223,7 +237,7 @@ void NvidiaMctpVdmRequester::processQueue(uint8_t eid)
         [this, eid](const boost::system::error_code& ec) {
             if (ec != boost::asio::error::operation_aborted)
             {
-                handleResult(eid, {}, ETIME);
+                handleResult(eid, ETIME);
             }
         });
 }
