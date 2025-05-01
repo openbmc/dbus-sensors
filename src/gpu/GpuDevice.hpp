@@ -5,8 +5,8 @@
 
 #pragma once
 
-#include "MctpRequester.hpp"
 #include "UpdatableSensor.hpp"
+#include "mctp/Requester.hpp"
 
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/steady_timer.hpp>
