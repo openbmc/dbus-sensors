@@ -162,6 +162,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3d0a89c2_a4163d64",
+        "filename": "src/GPIOInterface.hpp",
+        "patchSetId": 64
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-01T23:56:47Z",
+      "side": 1,
+      "message": "\u003e Right, I asked for async but that doesn\u0027t mean spawn and doesn\u0027t mean they can\u0027t be chained values?\n\u003e \n\u003e you\u0027d do\n\u003e \n\u003e co_await readGPIOAsync;\n\u003e \n\u003e // Maybe spawn?\n\u003e co_await readGPIOAsyncEvent;\n\nI had tried that originally, but constructors cannot have co_await as they cannot be coroutines, hence this change.",
+      "parentUuid": "1ba309bb_73533196",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 5
+      },
+      "revId": "19b208e7632ef4a3ea2152d893aef3e39eb9aadf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2f252333_b82751ea",
         "filename": "src/Systemd.cpp",
         "patchSetId": 64
@@ -173,6 +197,30 @@
       "writtenOn": "2025-05-01T17:58:02Z",
       "side": 1,
       "message": "Still seeing a bunch of these that should be easy to fix?  And no comment left why we\u0027re avoiding the static analysis here?",
+      "range": {
+        "startLine": 18,
+        "startChar": 3,
+        "endLine": 18,
+        "endChar": 14
+      },
+      "revId": "19b208e7632ef4a3ea2152d893aef3e39eb9aadf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b79bbe5c_7832759c",
+        "filename": "src/Systemd.cpp",
+        "patchSetId": 64
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-01T23:56:47Z",
+      "side": 1,
+      "message": "Resolving this as clang tidy warnings have been disabled via https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/79990",
+      "parentUuid": "2f252333_b82751ea",
       "range": {
         "startLine": 18,
         "startChar": 3,
@@ -196,6 +244,24 @@
       "writtenOn": "2025-05-01T21:55:48Z",
       "side": 1,
       "message": "This class has no state, and has one static method.  Just make this a method?",
+      "revId": "19b208e7632ef4a3ea2152d893aef3e39eb9aadf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc7ac8ec_d3877880",
+        "filename": "src/Systemd.hpp",
+        "patchSetId": 64
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-01T23:56:47Z",
+      "side": 1,
+      "message": "Originally this was a standalone API, but it was suggested by @andrew@codeconstruct.com.au to make this change https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/75329/comment/b1c20d15_c52bf097/ hence so. I am marking this comment as resolved for now.",
+      "parentUuid": "dd72a279_8cf9aaa6",
       "revId": "19b208e7632ef4a3ea2152d893aef3e39eb9aadf",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
