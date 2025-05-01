@@ -5,6 +5,10 @@
 
 #include "GpuSensor.hpp"
 
+#include "GpuDevice.hpp"
+#include "GpuMctpVdm.hpp"
+#include "OcpMctpVdm.hpp"
+#include "Requester.hpp"
 #include "SensorPaths.hpp"
 #include "Thresholds.hpp"
 #include "UpdatableSensor.hpp"
@@ -12,10 +16,6 @@
 
 #include <bits/basic_string.h>
 
-#include <GpuDevice.hpp>
-#include <GpuMctpVdm.hpp>
-#include <MctpRequester.hpp>
-#include <OcpMctpVdm.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
