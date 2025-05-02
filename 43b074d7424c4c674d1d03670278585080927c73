@@ -16,6 +16,24 @@
       "message": "This is the write function for the Sensor::Value, right?  Why would we not write to the `setValue` property in this case?\n\nIt seems like as a result of this code change we don\u0027t end up doing anything with the write request, which seems wrong.",
       "revId": "43b074d7424c4c674d1d03670278585080927c73",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc7c0ab5_fe6303cc",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1002134
+      },
+      "writtenOn": "2025-05-02T12:19:38Z",
+      "side": 0,
+      "message": "Understood. The reason for removing `setValue` was that I believed it necessary to differentiate the nature of the Control::Target and Sensor::Value properties.\nHowever, if it\u0027s deemed more appropriate, I can reinstate the call to `setValue`.\n\nThe main goal of this commit is to prevent the Control::Target from being directly tied to changes in the driver PWM file, ensuring that it reflects only the value that the user has explicitly written to the D-Bus interface.\nMay I clarify, does this imply that if we use the Senosr::Value to control the PWM, the Control::Target should also adjust accordingly to reflect the change?",
+      "parentUuid": "51cb8408_c5930df4",
+      "revId": "43b074d7424c4c674d1d03670278585080927c73",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

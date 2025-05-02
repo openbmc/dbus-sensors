@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d3698de_3c0976a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002134
+      },
+      "writtenOn": "2025-05-02T12:19:38Z",
+      "side": 1,
+      "message": "Certainly, but may I confirm, should it be prefixed with `psu-sensor` instead of `pwm-sensor`?",
+      "parentUuid": "5b7f87f2_f0f1cdbe",
+      "revId": "88f5dc08b91bc35969ca9ba74293950336e2f569",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "2720d79d_2e054cf7",
@@ -88,6 +106,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4679e367_f88eb403",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1002134
+      },
+      "writtenOn": "2025-05-02T12:19:38Z",
+      "side": 1,
+      "message": "My initial intent was to centralize all interactions with the driver PWM file under the Control::Target.\nAs part of that design, I implemented a recovery check on the driver PWM file during the get operation.\n\nHowever, I now understand that this approach may not be appropriate, so I will remove it.",
+      "parentUuid": "92cc8e84_55c78a7d",
+      "revId": "88f5dc08b91bc35969ca9ba74293950336e2f569",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a646b828_64e59a64",
         "filename": "src/PwmSensor.cpp",
         "patchSetId": 4
@@ -99,6 +135,24 @@
       "writtenOn": "2025-05-01T01:08:19Z",
       "side": 1,
       "message": "I don\u0027t understand why a property-get turns into driver-write operation.\n\nPlease at least add comments as to why this is the case.",
+      "revId": "88f5dc08b91bc35969ca9ba74293950336e2f569",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4de6a00c_38cffe58",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1002134
+      },
+      "writtenOn": "2025-05-02T12:19:38Z",
+      "side": 1,
+      "message": "Once I have incorporated your suggestions into the current patch and verified that the updated code does not introduce any issues, I will update the patch and revise the comments accordingly.\nThank you very much for your guidance!",
+      "parentUuid": "a646b828_64e59a64",
       "revId": "88f5dc08b91bc35969ca9ba74293950336e2f569",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
