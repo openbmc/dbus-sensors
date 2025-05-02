@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e6fca3b6_abf0065d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-02T22:16:50Z",
+      "side": 1,
+      "message": "Sorry, `pwm-sensor` as you said.  I mis-typed.  My point was to add an identifier as to which piece of code this is touching.",
+      "parentUuid": "1d3698de_3c0976a0",
+      "revId": "88f5dc08b91bc35969ca9ba74293950336e2f569",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6ceb9f26_a5cb2887",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -61,6 +79,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f689ece2_bf895165",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-02T22:16:50Z",
+      "side": 1,
+      "message": "Some fan control chips have a [programmable] ramp time so that you\u0027re not immediately shifting fans from 0 to 100.  This can be important both for acoustic reasons and for current draw reasons.  It might be difficult for your VR to supply the sudden need for additional current necessary for ramping the fans up rapidly.\n\nThe MAX31790 datasheet talks about this:\n\n\u003e Because the duty cycle\n\u003e ramps to new values at a controlled rate, the values\n\u003e in the two registers can be different. See the Register\n\u003e Descriptions section for \n\nThis can mean, as Eric wrote, that the \"Desired Target PWM\" and the \"Currently Driven PWM\" can be different.",
+      "parentUuid": "6ceb9f26_a5cb2887",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 59
+      },
+      "revId": "88f5dc08b91bc35969ca9ba74293950336e2f569",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c8df5304_7821269c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -72,6 +114,30 @@
       "writtenOn": "2025-05-02T17:51:13Z",
       "side": 1,
       "message": "This flow is a little bit confusing.  Does the first operation fail?",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 49
+      },
+      "revId": "88f5dc08b91bc35969ca9ba74293950336e2f569",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28fdc90c_15dd6bb1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-02T22:16:50Z",
+      "side": 1,
+      "message": "No, nothing fails from a BMC perspective.  The phosphor-pid-control won\u0027t write the PWM (via dbus-sensors) because it sees that the \"Currently Driven PWM\" matches its desired PWM target, but if the chip is in the middle of a ramp, this \"Currently Driven\" doesn\u0027t match the \"Desired Target\".  It causes phosphor-pid-control to miss setting the fans.",
+      "parentUuid": "c8df5304_7821269c",
       "range": {
         "startLine": 46,
         "startChar": 0,
