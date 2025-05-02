@@ -34,6 +34,24 @@
       "parentUuid": "51cb8408_c5930df4",
       "revId": "43b074d7424c4c674d1d03670278585080927c73",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "117582a4_6a5cf8ff",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1002134
+      },
+      "writtenOn": "2025-05-02T12:38:15Z",
+      "side": 0,
+      "message": "\u003e May I clarify, does this imply that if we use the Senosr::Value to control the PWM, the Control::Target should also adjust accordingly to reflect the change?\n\nIf so, could you please let me know if it\u0027s possible to directly modify the Control::Target D-Bus property or call the set property for Control::Target here?",
+      "parentUuid": "fc7c0ab5_fe6303cc",
+      "revId": "43b074d7424c4c674d1d03670278585080927c73",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
