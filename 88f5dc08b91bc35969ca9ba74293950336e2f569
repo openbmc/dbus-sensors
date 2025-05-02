@@ -36,6 +36,52 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ceb9f26_a5cb2887",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-02T17:51:13Z",
+      "side": 1,
+      "message": "I\u0027m a little confused at this.  This is PWM, ie the current output.  waiting for a fan to physically adjust it\u0027s speed would be reflected in RPM, the PWM would apply almost immediately.\n\nCan you clarify in your commit message what this means?  Are we waiting for the actual i2c write?  Doesn\u0027t that happen in the actual write call?",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 59
+      },
+      "revId": "88f5dc08b91bc35969ca9ba74293950336e2f569",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8df5304_7821269c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-02T17:51:13Z",
+      "side": 1,
+      "message": "This flow is a little bit confusing.  Does the first operation fail?",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 49
+      },
+      "revId": "88f5dc08b91bc35969ca9ba74293950336e2f569",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "2720d79d_2e054cf7",
@@ -153,6 +199,24 @@
       "side": 1,
       "message": "Once I have incorporated your suggestions into the current patch and verified that the updated code does not introduce any issues, I will update the patch and revise the comments accordingly.\nThank you very much for your guidance!",
       "parentUuid": "a646b828_64e59a64",
+      "revId": "88f5dc08b91bc35969ca9ba74293950336e2f569",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67803a51_f3f5d7fc",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-02T17:51:13Z",
+      "side": 1,
+      "message": "+1 to patricks comment.\n\nalso, it looks like we\u0027ve now changed target to be scaled based on min max?",
+      "parentUuid": "4de6a00c_38cffe58",
       "revId": "88f5dc08b91bc35969ca9ba74293950336e2f569",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
