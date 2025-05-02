@@ -22,6 +22,30 @@
       },
       "revId": "2e74cfe2caffc9be9e4bbf0f84c43d5af6738f66",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b87f7b09_b02a50ed",
+        "filename": "src/leakdetector/LeakGPIODetector.cpp",
+        "patchSetId": 65
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-02T19:43:29Z",
+      "side": 1,
+      "message": "It tells whether to emit the signal or not.",
+      "parentUuid": "4d1eca8b_71716051",
+      "range": {
+        "startLine": 37,
+        "startChar": 16,
+        "endLine": 37,
+        "endChar": 21
+      },
+      "revId": "2e74cfe2caffc9be9e4bbf0f84c43d5af6738f66",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
