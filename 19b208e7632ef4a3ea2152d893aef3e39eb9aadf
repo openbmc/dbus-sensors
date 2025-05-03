@@ -307,6 +307,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f6ff225_f6eca603",
+        "filename": "src/leakdetector/LeakGPIODetector.cpp",
+        "patchSetId": 64
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-03T02:08:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55e7fbf5_6584f0e3",
+      "revId": "19b208e7632ef4a3ea2152d893aef3e39eb9aadf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "192e817c_fbaa8cde",
@@ -403,6 +421,30 @@
       "side": 1,
       "message": "std::array\u003cstd::pair\u003cstd::string_view, DetectorIntf::DetectorType\u003e validDetectorTypes \u003d {{\n{\"LeakSensingCable\": DetectorIntf::DetectorType::LeakSensingCable},\n{\"Unknown\": DetectorIntf::DetectorType::Unknown}\n}};",
       "parentUuid": "7537184f_1ba971ff",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 0
+      },
+      "revId": "19b208e7632ef4a3ea2152d893aef3e39eb9aadf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9ef051c_1ccb5b10",
+        "filename": "src/leakdetector/LeakGPIODetector.hpp",
+        "patchSetId": 64
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-03T02:08:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "846b226c_7e99856c",
       "range": {
         "startLine": 38,
         "startChar": 0,
