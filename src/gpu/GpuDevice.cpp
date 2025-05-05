@@ -6,6 +6,7 @@
 #include "GpuDevice.hpp"
 
 #include "GpuSensor.hpp"
+#include "GpuTLimitSensor.hpp"
 #include "Thresholds.hpp"
 #include "Utils.hpp"
 
@@ -58,13 +59,17 @@ void GpuDevice::createSensors()
         conn, mctpRequester, name + "_TEMP_0", path, eid, objectServer,
         std::vector<thresholds::Threshold>{}));
 
-    lg2::info("Added GPU Temperature Sensor {NAME} with chassis path: {PATH}.",
-              "NAME", name, "PATH", path);
+    sensors.push_back(std::make_shared<GpuTLimitSensor>(
+        conn, mctpRequester, name + "_TEMP_1", path, eid, objectServer,
+        std::vector<thresholds::Threshold>{}));
+
+    lg2::info("Added GPU {NAME} Sensors with chassis path: {PATH}.", "NAME",
+              name, "PATH", path);
 }
 
 void GpuDevice::read()
 {
-    for ([[maybe_unused]] const auto& sensor : sensors)
+    for (const auto& sensor : sensors)
     {
         sensor->update();
     }
