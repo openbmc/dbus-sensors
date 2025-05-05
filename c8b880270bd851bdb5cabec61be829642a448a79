@@ -215,6 +215,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c2cf643c_2bdaeb79",
+        "filename": "src/gpu/GpuMctpVdm.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-05T11:50:00Z",
+      "side": 1,
+      "message": "We already do network to host byte for this struct inside the functions, but since these field are of length of only one byte and contains bitfields we also need bitlevel conversions, and hence we have to have this for struct definitions as well.",
+      "parentUuid": "302ca7dc_02d8be80",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 92,
+        "endChar": 37
+      },
+      "revId": "c8b880270bd851bdb5cabec61be829642a448a79",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c99a88b2_80e07e6b",
         "filename": "src/gpu/GpuMctpVdm.hpp",
         "patchSetId": 2
