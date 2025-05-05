@@ -31,20 +31,19 @@
 
 using namespace std::literals;
 
-constexpr uint8_t gpuTempSensorId{0};
 static constexpr double gpuTempSensorMaxReading = 127;
 static constexpr double gpuTempSensorMinReading = -128;
 
 NvidiaGpuTempSensor::NvidiaGpuTempSensor(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, const std::string& name,
-    const std::string& sensorConfiguration, const uint8_t eid,
+    const std::string& sensorConfiguration, const uint8_t eid, uint8_t sensorId,
     sdbusplus::asio::object_server& objectServer,
     std::vector<thresholds::Threshold>&& thresholdData) :
     Sensor(escapeName(name), std::move(thresholdData), sensorConfiguration,
            "temperature", false, true, gpuTempSensorMaxReading,
            gpuTempSensorMinReading, conn),
-    eid(eid), sensorId{gpuTempSensorId}, mctpRequester(mctpRequester),
+    eid(eid), sensorId{sensorId}, mctpRequester(mctpRequester),
     objectServer(objectServer)
 {
     std::string dbusPath =
@@ -69,7 +68,8 @@ NvidiaGpuTempSensor::NvidiaGpuTempSensor(
     if (rc != 0)
     {
         lg2::error(
-            "Error updating Temperature Sensor for eid {EID} and sensor id {SID} : encode failed, rc={RC}",
+            "Error updating Temperature Sensor for eid {EID} and sensor id {SID} : encode failed. "
+            "rc={RC}",
             "EID", eid, "SID", sensorId, "RC", rc);
     }
 }
@@ -94,7 +94,8 @@ void NvidiaGpuTempSensor::processResponse(int sendRecvMsgResult)
     if (sendRecvMsgResult != 0)
     {
         lg2::error(
-            "Error updating Temperature Sensor for eid {EID} and sensor id {SID} : sending message over MCTP failed, rc={RC}",
+            "Error updating Temperature Sensor for eid {EID} and sensor id {SID} : sending message over MCTP failed. "
+            "rc={RC}",
             "EID", eid, "SID", sensorId, "RC", sendRecvMsgResult);
         return;
     }
