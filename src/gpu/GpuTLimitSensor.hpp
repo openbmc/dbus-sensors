@@ -18,18 +18,18 @@
 #include <vector>
 
 /**
- * @struct GpuTempSensor
+ * @struct GpuTLimitSensor
  * @brief Implements a GPU temperature sensor that monitors temperature values
  * @details Inherits from Sensor base class and enables shared pointer
  * management via std::enable_shared_from_this
  */
-struct GpuTempSensor :
+struct GpuTLimitSensor :
     public GpuSensor,
-    public std::enable_shared_from_this<GpuTempSensor>
+    public std::enable_shared_from_this<GpuTLimitSensor>
 {
   public:
     /**
-     * @brief Constructor for GpuTempSensor
+     * @brief Constructor for GpuTLimitSensor
      * @param conn D-Bus connection for system communication
      * @param mctpRequester MCTP protocol requester for GPU communication
      * @param name Name of the sensor for identification in the system
@@ -40,16 +40,16 @@ struct GpuTempSensor :
      * @param thresholdData Vector of threshold configurations for temperature
      * monitoring
      */
-    GpuTempSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
-                  mctp::MctpRequester& mctpRequester, const std::string& name,
-                  const std::string& sensorConfiguration, uint8_t eid,
-                  sdbusplus::asio::object_server& objectServer,
-                  std::vector<thresholds::Threshold>&& thresholdData);
+    GpuTLimitSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
+                    mctp::MctpRequester& mctpRequester, const std::string& name,
+                    const std::string& sensorConfiguration, uint8_t eid,
+                    sdbusplus::asio::object_server& objectServer,
+                    std::vector<thresholds::Threshold>&& thresholdData);
 
     /**
      * @brief Destructor
      */
-    ~GpuTempSensor() override;
+    ~GpuTLimitSensor() override;
 
     /**
      * @brief Check if any thresholds have been crossed
