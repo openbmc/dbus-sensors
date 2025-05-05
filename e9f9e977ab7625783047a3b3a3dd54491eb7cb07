@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "04d7e2fc_82916f0f",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-05-05T19:45:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75988d94_398c8fa9",
+      "range": {
+        "startLine": 68,
+        "startChar": 4,
+        "endLine": 68,
+        "endChar": 18
+      },
+      "revId": "e9f9e977ab7625783047a3b3a3dd54491eb7cb07",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "532abf21_9bee5ba3",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-04-24T22:05:12Z",
       "side": 1,
       "message": "this is not needed",
+      "range": {
+        "startLine": 132,
+        "startChar": 62,
+        "endLine": 132,
+        "endChar": 70
+      },
+      "revId": "e9f9e977ab7625783047a3b3a3dd54491eb7cb07",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "733347cb_680e76b5",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-05-05T19:45:56Z",
+      "side": 1,
+      "message": "stored in a new variable, better for readability per comment above this line",
+      "parentUuid": "532abf21_9bee5ba3",
       "range": {
         "startLine": 132,
         "startChar": 62,
@@ -70,6 +118,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de7a3fdb_9280ba50",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-05-05T19:45:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f90113f_0029ac5b",
+      "range": {
+        "startLine": 133,
+        "startChar": 19,
+        "endLine": 133,
+        "endChar": 40
+      },
+      "revId": "e9f9e977ab7625783047a3b3a3dd54491eb7cb07",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "48948d0c_829fe099",
@@ -83,6 +155,30 @@
       "writtenOn": "2025-04-24T22:05:12Z",
       "side": 1,
       "message": "sign",
+      "range": {
+        "startLine": 134,
+        "startChar": 38,
+        "endLine": 134,
+        "endChar": 48
+      },
+      "revId": "e9f9e977ab7625783047a3b3a3dd54491eb7cb07",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d3d232a_e71fa4bb",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-05-05T19:45:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48948d0c_829fe099",
       "range": {
         "startLine": 134,
         "startChar": 38,
@@ -116,6 +212,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "12c64b02_de183d26",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-05-05T19:45:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56ff2e25_2ef4f5a8",
+      "range": {
+        "startLine": 186,
+        "startChar": 0,
+        "endLine": 187,
+        "endChar": 74
+      },
+      "revId": "e9f9e977ab7625783047a3b3a3dd54491eb7cb07",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b802d02_d7ce15ba",
@@ -129,6 +249,30 @@
       "writtenOn": "2025-04-24T22:05:12Z",
       "side": 1,
       "message": "return ret; I think it is better to keep the return code",
+      "range": {
+        "startLine": 192,
+        "startChar": 8,
+        "endLine": 192,
+        "endChar": 18
+      },
+      "revId": "e9f9e977ab7625783047a3b3a3dd54491eb7cb07",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb932d03_f5496809",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-05-05T19:45:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b802d02_d7ce15ba",
       "range": {
         "startLine": 192,
         "startChar": 8,
@@ -162,6 +306,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2221a877_141a2307",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-05-05T19:45:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19ea2068_7df86f81",
+      "range": {
+        "startLine": 299,
+        "startChar": 19,
+        "endLine": 299,
+        "endChar": 33
+      },
+      "revId": "e9f9e977ab7625783047a3b3a3dd54491eb7cb07",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a678f1cd_4ed708a7",
@@ -175,6 +343,30 @@
       "writtenOn": "2025-04-24T22:05:12Z",
       "side": 1,
       "message": "same here convert2Power() is a better name IMO",
+      "range": {
+        "startLine": 304,
+        "startChar": 19,
+        "endLine": 304,
+        "endChar": 32
+      },
+      "revId": "e9f9e977ab7625783047a3b3a3dd54491eb7cb07",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20e87661_0e7cc21f",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-05-05T19:45:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a678f1cd_4ed708a7",
       "range": {
         "startLine": 304,
         "startChar": 19,
@@ -202,6 +394,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3840f7b_8b843697",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-05-05T19:45:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b5ccf77_789d7747",
+      "revId": "e9f9e977ab7625783047a3b3a3dd54491eb7cb07",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "17677359_5c3aaace",
@@ -215,6 +425,30 @@
       "writtenOn": "2025-04-24T22:05:12Z",
       "side": 1,
       "message": "valueType FLOAT32 is also defined in hpp. If it is not supported, please remove from the enum",
+      "range": {
+        "startLine": 357,
+        "startChar": 4,
+        "endLine": 357,
+        "endChar": 8
+      },
+      "revId": "e9f9e977ab7625783047a3b3a3dd54491eb7cb07",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7157098_5ac2feea",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-05-05T19:45:56Z",
+      "side": 1,
+      "message": "Float32 is valid per spec, we do not use it in our current implementation so will leave it in for clarity",
+      "parentUuid": "17677359_5c3aaace",
       "range": {
         "startLine": 357,
         "startChar": 4,
@@ -248,6 +482,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ea20e01_424c3c1e",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-05-05T19:45:56Z",
+      "side": 1,
+      "message": "Yes, good catch. Handled in `createSensorCallback`",
+      "parentUuid": "6378ed62_465e4765",
+      "range": {
+        "startLine": 358,
+        "startChar": 0,
+        "endLine": 362,
+        "endChar": 0
+      },
+      "revId": "e9f9e977ab7625783047a3b3a3dd54491eb7cb07",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e5104719_9cc75cd0",
@@ -271,6 +529,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "97d8b1f5_3e0811f1",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-05-05T19:45:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5104719_9cc75cd0",
+      "range": {
+        "startLine": 24,
+        "startChar": 21,
+        "endLine": 24,
+        "endChar": 24
+      },
+      "revId": "e9f9e977ab7625783047a3b3a3dd54491eb7cb07",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8def8b61_3893eb7e",
@@ -284,6 +566,30 @@
       "writtenOn": "2025-04-24T22:05:12Z",
       "side": 1,
       "message": "duplicate of base class member, remove",
+      "range": {
+        "startLine": 55,
+        "startChar": 4,
+        "endLine": 55,
+        "endChar": 21
+      },
+      "revId": "e9f9e977ab7625783047a3b3a3dd54491eb7cb07",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "675fb8fd_b1d13620",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-05-05T19:45:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8def8b61_3893eb7e",
       "range": {
         "startLine": 55,
         "startChar": 4,
