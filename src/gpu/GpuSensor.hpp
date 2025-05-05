@@ -17,15 +17,8 @@
 #include <string>
 #include <vector>
 
-/**
- * @struct DeviceInfo
- * @brief Contains information about a device
- */
-struct DeviceInfo
-{
-    uint8_t deviceType;
-    uint8_t instanceId;
-};
+constexpr uint8_t gpuTempSensorId{0};
+constexpr uint8_t gpuTLimitSensorId{2};
 
 /**
  * @struct GpuTempSensor
@@ -53,6 +46,7 @@ struct GpuTempSensor :
     GpuTempSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                   mctp::MctpRequester& mctpRequester, const std::string& name,
                   const std::string& sensorConfiguration, uint8_t eid,
+                  uint8_t sensorId,
                   sdbusplus::asio::object_server& objectServer,
                   std::vector<thresholds::Threshold>&& thresholdData);
 
