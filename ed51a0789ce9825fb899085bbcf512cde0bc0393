@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "658140f4_9c67921c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2025-05-05T15:16:01Z",
+      "side": 1,
+      "message": "I was initially confused with the patch only changing an error path\n\nI see now it\u0027s applying this rule to the remaining site, while the main site already had this change (I did a textual search).\n\n\nI don\u0027t know if I would have understood earlier if it said need to set their `value` property directly (set vs update).",
+      "revId": "ed51a0789ce9825fb899085bbcf512cde0bc0393",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
