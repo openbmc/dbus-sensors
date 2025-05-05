@@ -53,6 +53,7 @@ class GpuDevice
     sdbusplus::asio::object_server& objectServer;
 
     std::shared_ptr<NvidiaGpuTempSensor> tempSensor;
+    std::shared_ptr<NvidiaGpuTempSensor> tLimitSensor;
 
     SensorConfigs configs;
 

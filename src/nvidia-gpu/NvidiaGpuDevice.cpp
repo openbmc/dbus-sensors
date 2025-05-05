@@ -42,8 +42,12 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
 void GpuDevice::makeSensors()
 {
     tempSensor = std::make_shared<NvidiaGpuTempSensor>(
-        conn, mctpRequester, name + "_TEMP_0", path, eid, objectServer,
-        std::vector<thresholds::Threshold>{});
+        conn, mctpRequester, name + "_TEMP_0", path, eid, gpuTempSensorId,
+        objectServer, std::vector<thresholds::Threshold>{});
+
+    tLimitSensor = std::make_shared<NvidiaGpuTempSensor>(
+        conn, mctpRequester, name + "_TEMP_1", path, eid, gpuTLimitSensorId,
+        objectServer, std::vector<thresholds::Threshold>{});
 
     lg2::info("Added GPU {NAME} Sensors with chassis path: {PATH}.", "NAME",
               name, "PATH", path);
@@ -54,6 +58,7 @@ void GpuDevice::makeSensors()
 void GpuDevice::read()
 {
     tempSensor->update();
+    tLimitSensor->update();
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait([this](const boost::system::error_code& ec) {
