@@ -61,6 +61,15 @@ GpuTLimitSensor::GpuTLimitSensor(
 
     association = objectServer.add_interface(dbusPath, association::interface);
 
+    descriptionInterface = objectServer.add_interface(
+        dbusPath, "xyz.openbmc_project.Inventory.Item");
+
+    descriptionInterface->register_property(
+        "PrettyName",
+        "Thermal Limit(TLIMIT) Temperature is the distance in deg C from the GPU temperature to the first throttle limit."s);
+
+    descriptionInterface->initialize();
+
     setInitialProperties(sensor_paths::unitDegreesC);
 }
 
@@ -72,6 +81,7 @@ GpuTLimitSensor::~GpuTLimitSensor()
     }
     objectServer.remove_interface(sensorInterface);
     objectServer.remove_interface(association);
+    objectServer.remove_interface(descriptionInterface);
 }
 
 void GpuTLimitSensor::checkThresholds()
