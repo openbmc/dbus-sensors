@@ -83,4 +83,6 @@ struct GpuTLimitSensor :
      * @brief D-Bus object server
      */
     sdbusplus::asio::object_server& objectServer;
+
+    std::shared_ptr<sdbusplus::asio::dbus_interface> descriptionInterface;
 };
