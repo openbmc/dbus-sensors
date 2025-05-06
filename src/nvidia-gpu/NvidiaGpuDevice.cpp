@@ -44,11 +44,12 @@ void GpuDevice::makeSensors()
 {
     sensors.push_back(std::make_shared<GpuTempSensor>(
         conn, mctpRequester, name + "_TEMP_0", path, eid, gpuTempSensorId,
-        objectServer, std::vector<thresholds::Threshold>{}));
+        objectServer, std::vector<thresholds::Threshold>{}, ""));
 
     sensors.push_back(std::make_shared<GpuTempSensor>(
         conn, mctpRequester, name + "_TEMP_1", path, eid, gpuTLimitSensorId,
-        objectServer, std::vector<thresholds::Threshold>{}));
+        objectServer, std::vector<thresholds::Threshold>{},
+        "Thermal Limit(TLIMIT) Temperature is the distance in deg C from the GPU temperature to the first throttle limit."));
 
     lg2::info("Added GPU {NAME} Sensors with chassis path: {PATH}.", "NAME",
               name, "PATH", path);

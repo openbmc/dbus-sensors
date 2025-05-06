@@ -16,6 +16,7 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <vector>
 
 constexpr uint8_t gpuTempSensorId{0};
@@ -43,7 +44,8 @@ struct GpuTempSensor :
                   const std::string& sensorConfiguration, uint8_t eid,
                   uint8_t sensorId,
                   sdbusplus::asio::object_server& objectServer,
-                  std::vector<thresholds::Threshold>&& thresholdData);
+                  std::vector<thresholds::Threshold>&& thresholdData,
+                  std::string_view description);
 
     /**
      * @brief Destructor
@@ -88,4 +90,9 @@ struct GpuTempSensor :
      * @brief D-Bus object server
      */
     sdbusplus::asio::object_server& objectServer;
+
+    /**
+     * @brief Interface for Description property
+     */
+    std::shared_ptr<sdbusplus::asio::dbus_interface> descriptionInterface;
 };
