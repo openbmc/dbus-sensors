@@ -38,7 +38,8 @@ GpuTempSensor::GpuTempSensor(
     mctp::MctpRequester& mctpRequester, const std::string& name,
     const std::string& sensorConfiguration, const uint8_t eid, uint8_t sensorId,
     sdbusplus::asio::object_server& objectServer,
-    std::vector<thresholds::Threshold>&& thresholdData) :
+    std::vector<thresholds::Threshold>&& thresholdData,
+    const std::string& description) :
     GpuSensor(escapeName(name), std::move(thresholdData), sensorConfiguration,
               "temperature", false, true, gpuTempSensorMaxReading,
               gpuTempSensorMinReading, conn),
@@ -60,6 +61,16 @@ GpuTempSensor::GpuTempSensor(
 
     association = objectServer.add_interface(dbusPath, association::interface);
 
+    if (!description.empty())
+    {
+        descriptionInterface = objectServer.add_interface(
+            dbusPath, "xyz.openbmc_project.Inventory.Item");
+
+        descriptionInterface->register_property("PrettyName", description);
+
+        descriptionInterface->initialize();
+    }
+
     setInitialProperties(sensor_paths::unitDegreesC);
 }
 
@@ -71,6 +82,10 @@ GpuTempSensor::~GpuTempSensor()
     }
     objectServer.remove_interface(sensorInterface);
     objectServer.remove_interface(association);
+    if (descriptionInterface)
+    {
+        objectServer.remove_interface(descriptionInterface);
+    }
 }
 
 void GpuTempSensor::checkThresholds()
