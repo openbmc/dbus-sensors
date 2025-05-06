@@ -81,6 +81,21 @@ NvidiaGpuTempSensor::NvidiaGpuTempSensor(
                 "Error initializing Type Interface for Temperature Sensor for eid {EID} and sensor id {SID}",
                 "EID", eid, "SID", sensorId);
         }
+
+        descriptionInterface = objectServer.add_interface(
+            dbusPath, "xyz.openbmc_project.Inventory.Item");
+
+        descriptionInterface->register_property(
+            "PrettyName",
+            "Thermal Limit(TLIMIT) Temperature is the distance in deg C from the "
+            "GPU temperature to the first throttle limit."s);
+
+        if (!descriptionInterface->initialize())
+        {
+            lg2::error(
+                "Error initializing Description Interface for Temperature Sensor for eid {EID} and sensor id {SID}",
+                "EID", eid, "SID", sensorId);
+        }
     }
 }
 
@@ -95,6 +110,10 @@ NvidiaGpuTempSensor::~NvidiaGpuTempSensor()
     if (sensorTypeInterface)
     {
         objectServer.remove_interface(sensorTypeInterface);
+    }
+    if (descriptionInterface)
+    {
+        objectServer.remove_interface(descriptionInterface);
     }
 }
 
