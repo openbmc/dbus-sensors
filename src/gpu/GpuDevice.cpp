@@ -13,6 +13,7 @@
 #include <bits/basic_string.h>
 
 #include <GpuMctpVdm.hpp>
+#include <GpuThresholds.hpp>
 #include <MctpRequester.hpp>
 #include <OcpMctpVdm.hpp>
 #include <boost/asio/io_context.hpp>
@@ -59,12 +60,33 @@ void GpuDevice::createSensors()
         conn, mctpRequester, name + "_TEMP_0", path, eid, objectServer,
         std::vector<thresholds::Threshold>{}));
 
-    sensors.push_back(std::make_shared<GpuTLimitSensor>(
-        conn, mctpRequester, name + "_TEMP_1", path, eid, objectServer,
-        std::vector<thresholds::Threshold>{}));
-
     lg2::info("Added GPU {NAME} Sensors with chassis path: {PATH}.", "NAME",
               name, "PATH", path);
+
+    readThermalParametersBatched(
+        eid,
+        std::make_shared<std::vector<uint8_t>>(std::vector<uint8_t>{1, 2, 4}),
+        mctpRequester, [this](uint8_t rc, std::vector<int32_t> thresholds) {
+            if (rc)
+            {
+                return;
+            }
+
+            std::vector<thresholds::Threshold> tLimitThresholds{
+                thresholds::Threshold{thresholds::Level::CRITICAL,
+                                      thresholds::Direction::LOW,
+                                      static_cast<double>(thresholds[0])},
+                thresholds::Threshold{thresholds::Level::WARNING,
+                                      thresholds::Direction::LOW,
+                                      static_cast<double>(thresholds[1])},
+                thresholds::Threshold{thresholds::Level::HARDSHUTDOWN,
+                                      thresholds::Direction::LOW,
+                                      static_cast<double>(thresholds[2])}};
+
+            sensors.push_back(std::make_shared<GpuTLimitSensor>(
+                conn, mctpRequester, name + "_TEMP_1", path, eid, objectServer,
+                std::move(tLimitThresholds)));
+        });
 }
 
 void GpuDevice::read()

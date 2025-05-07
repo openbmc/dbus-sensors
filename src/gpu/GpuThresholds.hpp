@@ -1,0 +1,26 @@
+/*
+ * SPDX-FileCopyrightText: Copyright (c) 2024-2025 NVIDIA CORPORATION &
+ * AFFILIATES. All rights reserved. SPDX-License-Identifier: Apache-2.0
+ */
+
+#pragma once
+
+#include "MctpRequester.hpp"
+
+#include <cstdint>
+#include <functional>
+#include <memory>
+#include <vector>
+
+/** @brief Read thermal parameters for multiple sensors in a batch operation
+ *
+ *  @param[in] eid - Endpoint ID
+ *  @param[in] ids - Shared pointer to vector of sensor IDs to read
+ *  @param[in] mctpRequester - Reference to MCTP requester
+ *  @param[in] callback - Callback function to process results
+ *              Takes sensor ID and vector of threshold values
+ */
+void readThermalParametersBatched(
+    uint8_t eid, const std::shared_ptr<std::vector<uint8_t>>& ids,
+    mctp::MctpRequester& mctpRequester,
+    const std::function<void(uint8_t, std::vector<int32_t>)>& callback);
