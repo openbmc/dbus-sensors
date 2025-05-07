@@ -270,4 +270,129 @@ ocp::accelerator_management::CompletionCode decodeGetTemperatureReadingResponse(
 
     return ocp::accelerator_management::CompletionCode::SUCCESS;
 }
+
+ocp::accelerator_management::CompletionCode encodeReadThermalParametersRequest(
+    uint8_t instanceId, uint8_t sensorId,
+    ocp::accelerator_management::Message& msg)
+{
+    ocp::accelerator_management::BindingPciVidInfo header{};
+    header.ocp_accelerator_management_msg_type =
+        static_cast<uint8_t>(ocp::accelerator_management::MessageType::REQUEST);
+    header.instance_id = instanceId &
+                         ocp::accelerator_management::instanceIdMask;
+    header.msg_type = static_cast<uint8_t>(MessageType::PLATFORM_ENVIRONMENTAL);
+
+    auto rc = packHeader(header, msg.hdr);
+    if (rc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    ReadThermalParametersRequest request{};
+    request.hdr.command = static_cast<uint8_t>(
+        PlatformEnvironmentalCommands::READ_THERMAL_PARAMETERS);
+    request.hdr.data_size = sizeof(sensorId);
+    request.sensor_id = sensorId;
+
+    std::memcpy(&msg.data, &request, sizeof(request));
+
+    return ocp::accelerator_management::CompletionCode::SUCCESS;
+}
+
+ocp::accelerator_management::CompletionCode decodeReadThermalParametersRequest(
+    const ocp::accelerator_management::Message& msg, size_t msgLen,
+    uint8_t& sensorId)
+{
+    if (msgLen < sizeof(ocp::accelerator_management::BindingPciVid) +
+                     sizeof(ReadThermalParametersRequest))
+    {
+        return ocp::accelerator_management::CompletionCode::
+            ERR_INVALID_DATA_LENGTH;
+    }
+
+    ReadThermalParametersRequest request{};
+    std::memcpy(&request, &msg.data, sizeof(request));
+
+    if (request.hdr.data_size < sizeof(request.sensor_id))
+    {
+        return ocp::accelerator_management::CompletionCode::ERR_INVALID_DATA;
+    }
+
+    sensorId = request.sensor_id;
+
+    return ocp::accelerator_management::CompletionCode::SUCCESS;
+}
+
+ocp::accelerator_management::CompletionCode encodeReadThermalParametersResponse(
+    uint8_t instanceId, uint8_t cc, uint16_t reasonCode, int32_t threshold,
+    ocp::accelerator_management::Message& msg)
+{
+    ocp::accelerator_management::BindingPciVidInfo header{};
+    header.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    header.instance_id = instanceId &
+                         ocp::accelerator_management::instanceIdMask;
+    header.msg_type = static_cast<uint8_t>(MessageType::PLATFORM_ENVIRONMENTAL);
+
+    auto rc = packHeader(header, msg.hdr);
+    if (rc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    if (cc != static_cast<uint8_t>(
+                  ocp::accelerator_management::CompletionCode::SUCCESS))
+    {
+        return gpu::encodeReasonCode(
+            cc, reasonCode,
+            static_cast<uint8_t>(
+                PlatformEnvironmentalCommands::READ_THERMAL_PARAMETERS),
+            msg);
+    }
+
+    ReadThermalParametersResponse response{};
+    response.hdr.command = static_cast<uint8_t>(
+        PlatformEnvironmentalCommands::READ_THERMAL_PARAMETERS);
+    response.hdr.completion_code = cc;
+    response.hdr.data_size = htole16(sizeof(uint32_t));
+
+    response.threshold = htole32(threshold);
+
+    std::memcpy(&msg.data, &response, sizeof(response));
+
+    return ocp::accelerator_management::CompletionCode::SUCCESS;
+}
+
+ocp::accelerator_management::CompletionCode decodeReadThermalParametersResponse(
+    const ocp::accelerator_management::Message& msg, size_t msgLen, uint8_t& cc,
+    uint16_t& reasonCode, int32_t& threshold)
+{
+    auto rc = gpu::decodeReasonCodeAndCC(msg, msgLen, cc, reasonCode);
+    if (rc != ocp::accelerator_management::CompletionCode::SUCCESS ||
+        cc != static_cast<uint8_t>(
+                  ocp::accelerator_management::CompletionCode::SUCCESS))
+    {
+        return rc;
+    }
+
+    if (msgLen < sizeof(ocp::accelerator_management::BindingPciVid) +
+                     sizeof(ReadThermalParametersResponse))
+    {
+        return ocp::accelerator_management::CompletionCode::
+            ERR_INVALID_DATA_LENGTH;
+    }
+
+    ReadThermalParametersResponse response{};
+    std::memcpy(&response, &msg.data, sizeof(response));
+
+    uint16_t dataSize = le16toh(response.hdr.data_size);
+    if (dataSize != sizeof(int32_t))
+    {
+        return ocp::accelerator_management::CompletionCode::ERR_INVALID_DATA;
+    }
+
+    threshold = response.threshold;
+
+    return ocp::accelerator_management::CompletionCode::SUCCESS;
+}
 } // namespace gpu
