@@ -491,6 +491,156 @@ TEST_F(GpuMctpVdmTests, DecodeGetTemperatureReadingResponseInvalidSize)
     EXPECT_EQ(result, EINVAL); // Should indicate error for invalid data size
 }
 
+// Tests for GpuMctpVdm::encodeReadThermalParametersRequest function
+TEST_F(GpuMctpVdmTests, EncodeReadThermalParametersRequestSuccess)
+{
+    const uint8_t instanceId = 5;
+    const uint8_t sensorId = 1;
+    std::array<uint8_t, sizeof(gpu::ReadThermalParametersRequest)> buf{};
+
+    int result =
+        gpu::encodeReadThermalParametersRequest(instanceId, sensorId, buf);
+
+    EXPECT_EQ(result, 0);
+
+    gpu::ReadThermalParametersRequest request{};
+    std::memcpy(&request, buf.data(), sizeof(request));
+
+    EXPECT_EQ(request.hdr.msgHdr.hdr.pci_vendor_id,
+              htobe16(gpu::nvidiaPciVendorId));
+    EXPECT_EQ(request.hdr.msgHdr.hdr.instance_id &
+                  ocp::accelerator_management::instanceIdBitMask,
+              instanceId & ocp::accelerator_management::instanceIdBitMask);
+    EXPECT_NE(request.hdr.msgHdr.hdr.instance_id &
+                  ocp::accelerator_management::requestBitMask,
+              0);
+    EXPECT_EQ(request.hdr.msgHdr.hdr.ocp_accelerator_management_msg_type,
+              static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+
+    // Verify request data
+    EXPECT_EQ(request.hdr.command,
+              static_cast<uint8_t>(
+                  gpu::PlatformEnvironmentalCommands::READ_THERMAL_PARAMETERS));
+    EXPECT_EQ(request.hdr.data_size, sizeof(sensorId));
+    EXPECT_EQ(request.sensor_id, sensorId);
+}
+
+// Tests for GpuMctpVdm::decodeReadThermalParametersResponse function
+TEST_F(GpuMctpVdmTests, DecodeReadThermalParametersResponseSuccess)
+{
+    // Create a mock successful response
+    std::array<uint8_t, sizeof(gpu::ReadThermalParametersResponse)> buf{};
+
+    gpu::ReadThermalParametersResponse response{};
+    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
+    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    headerInfo.instance_id = 5;
+    headerInfo.msg_type =
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
+
+    gpu::packHeader(headerInfo, response.hdr.msgHdr.hdr);
+
+    // Populate response data
+    response.hdr.command = static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::READ_THERMAL_PARAMETERS);
+    response.hdr.completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS);
+    response.hdr.reserved = 0;
+    response.hdr.data_size = htole16(sizeof(int32_t));
+
+    // Set a threshold value of 85°C (85 * 256 = 21760)
+    response.threshold = htole32(21760);
+
+    std::memcpy(buf.data(), &response, sizeof(response));
+
+    // Test decoding
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    int32_t threshold{};
+
+    int result = gpu::decodeReadThermalParametersResponse(
+        buf, cc, reasonCode, threshold);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+    EXPECT_EQ(threshold, 21760);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeReadThermalParametersResponseError)
+{
+    std::array<uint8_t,
+               sizeof(ocp::accelerator_management::CommonNonSuccessResponse)>
+        buf{};
+
+    // Populate error response data
+    ocp::accelerator_management::CommonNonSuccessResponse errorResponse{};
+    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
+    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    headerInfo.instance_id = 5;
+    headerInfo.msg_type =
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
+
+    gpu::packHeader(headerInfo, errorResponse.msgHdr.hdr);
+
+    errorResponse.command = static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::READ_THERMAL_PARAMETERS);
+    errorResponse.completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
+    errorResponse.reason_code = htole16(0x5678);
+
+    std::memcpy(buf.data(), &errorResponse, sizeof(errorResponse));
+
+    // Test decoding
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    int32_t threshold{};
+
+    int result = gpu::decodeReadThermalParametersResponse(
+        buf, cc, reasonCode, threshold);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
+    EXPECT_EQ(reasonCode, 0x5678);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeReadThermalParametersResponseInvalidSize)
+{
+    // Create a mock response with invalid data_size
+    std::array<uint8_t, sizeof(gpu::ReadThermalParametersResponse)> buf{};
+
+    gpu::ReadThermalParametersResponse response{};
+    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
+    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    headerInfo.instance_id = 5;
+    headerInfo.msg_type =
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
+
+    gpu::packHeader(headerInfo, response.hdr.msgHdr.hdr);
+
+    response.hdr.command = static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::READ_THERMAL_PARAMETERS);
+    response.hdr.completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS);
+    response.hdr.reserved = 0;
+    response.hdr.data_size = htole16(2); // Invalid - should be sizeof(int32_t)
+    response.threshold = htole32(21760);
+
+    std::memcpy(buf.data(), &response, sizeof(response));
+
+    // Test decoding
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    int32_t threshold{};
+
+    int result = gpu::decodeReadThermalParametersResponse(
+        buf, cc, reasonCode, threshold);
+
+    EXPECT_EQ(result, EINVAL); // Should indicate error for invalid data size
+}
 } // namespace gpu_mctp_tests
 
 int main(int argc, char** argv)
