@@ -95,6 +95,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9282046b_6ad0be27",
+        "filename": "src/NotifyWatch.hpp",
+        "patchSetId": 43
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-07T20:14:33Z",
+      "side": 1,
+      "message": "Marking this as resolved based on above reply.",
+      "parentUuid": "bee4df96_5453a433",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 41
+      },
+      "revId": "178e28c9695e26e0cbb64aec4fbe805d07b5b574",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "22f9ac14_45da8029",
@@ -409,6 +433,30 @@
       "side": 1,
       "message": "If by EM reactor you mean a deamon which consumes the EM configuration, then this daemon doesn\u0027t consume configuration but inventory data. As stated in design the purpose of this daemon is -\n\n1. Get -- Expected Connected Cables -- from --\u003e cable-config.json\n2. Get -- Cable Inventory ------------ from --\u003e EntityManager\n3. Diff \u003d #2 minus #1\n4. Generate Cable events for Diff in Step3.\n5. Generate/Resolve the CableEvents based on Cable Inventory changes.\n\nCurrently, in EM there is no way to specify #1, but there is for #2 and thats where #2 will be specified (in Meta case via GPIO HW Inventory for cables).\n\nI am putting this in dbus-sensors as i was asked so as per https://github.com/openbmc/technical-oversight-forum/issues/43.",
       "parentUuid": "87ce51c0_b3d0ac58",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 0
+      },
+      "revId": "178e28c9695e26e0cbb64aec4fbe805d07b5b574",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc78a13d_f50cf5cc",
+        "filename": "src/cable-monitor/CableConfig.hpp",
+        "patchSetId": 43
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-07T20:14:33Z",
+      "side": 1,
+      "message": "I am marking this as resolved for now as i don\u0027t see any further feedback on this. Please feel free to open it if there are still any questions on this. Thanks.",
+      "parentUuid": "fcece088_05fcb40d",
       "range": {
         "startLine": 10,
         "startChar": 0,
