@@ -42,6 +42,7 @@ enum class DeviceCapabilityDiscoveryCommands : uint8_t
 enum class PlatformEnvironmentalCommands : uint8_t
 {
     GET_TEMPERATURE_READING = 0x00,
+    READ_THERMAL_PARAMETERS = 0x02,
 };
 
 /** @brief device identification types
@@ -92,6 +93,12 @@ struct GetNumericSensorReadingRequest
  */
 using GetTemperatureReadingRequest = GetNumericSensorReadingRequest;
 
+/** @struct ReadThermalParametersRequest
+ *
+ *  Structure representing request to read thermal parameters.
+ */
+using ReadThermalParametersRequest = GetNumericSensorReadingRequest;
+
 /** @struct GetTemperatureReadingResponse
  *
  *  Structure representing get temperature reading response.
@@ -100,6 +107,17 @@ struct GetTemperatureReadingResponse
 {
     ocp::accelerator_management::CommonResponse hdr;
     int32_t reading;
+} __attribute__((packed));
+
+/** @struct ReadThermalParametersResponse
+ *
+ *  Structure representing response to read thermal parameters request.
+ *  Contains the thermal threshold value for the requested sensor.
+ */
+struct ReadThermalParametersResponse
+{
+    ocp::accelerator_management::CommonResponse hdr;
+    int32_t threshold;
 } __attribute__((packed));
 
 /**
@@ -242,5 +260,57 @@ ocp::accelerator_management::CompletionCode encodeGetTemperatureReadingResponse(
 ocp::accelerator_management::CompletionCode decodeGetTemperatureReadingResponse(
     const ocp::accelerator_management::Message& msg, size_t msgLen, uint8_t& cc,
     uint16_t& reasonCode, double& temperatureReading);
+
+/** @brief Encode a Read thermal parameters request message
+ *
+ *  @param[in] instance_id - instance ID
+ *  @param[in] sensor_id - sensor id
+ *  @param[out] msg - Reference to message that will be written to
+ *  @return ocp::accelerator_management::CompletionCode::SUCCESS on success,
+ *  otherwise appropriate error code.
+ */
+ocp::accelerator_management::CompletionCode encodeReadThermalParametersRequest(
+    uint8_t instanceId, uint8_t sensorId,
+    ocp::accelerator_management::Message& msg);
+
+/** @brief Decode a Read thermal parameters request message
+ *
+ *  @param[in] msg - request message
+ *  @param[in] msg_len - Length of request message
+ *  @param[out] sensor_id - reference to sensor id
+ *  @return ocp::accelerator_management::CompletionCode::SUCCESS on success,
+ *  otherwise appropriate error code.
+ */
+ocp::accelerator_management::CompletionCode decodeReadThermalParametersRequest(
+    const ocp::accelerator_management::Message& msg, size_t msgLen,
+    uint8_t& sensorId);
+
+/** @brief Encode a Read thermal parameters response message
+ *
+ *  @param[in] instance_id - instance ID
+ *  @param[in] cc - completion code
+ *  @param[in] reason_code - reason code
+ *  @param[in] threshold - thermal threshold
+ *  @param[out] msg - Reference to message that will be written to
+ *  @return ocp::accelerator_management::CompletionCode::SUCCESS on success,
+ *  otherwise appropriate error code.
+ */
+ocp::accelerator_management::CompletionCode encodeReadThermalParametersResponse(
+    uint8_t instanceId, uint8_t cc, uint16_t reasonCode, int32_t threshold,
+    ocp::accelerator_management::Message& msg);
+
+/** @brief Decode a Read thermal parameters response message
+ *
+ *  @param[in] msg - response message
+ *  @param[in] msg_len - Length of response message
+ *  @param[out] cc - reference to completion code
+ *  @param[out] reason_code - reference to reason code
+ *  @param[out] threshold - reference to thermal threshold
+ *  @return ocp::accelerator_management::CompletionCode::SUCCESS on success,
+ *  otherwise appropriate error code.
+ */
+ocp::accelerator_management::CompletionCode decodeReadThermalParametersResponse(
+    const ocp::accelerator_management::Message& msg, size_t msgLen, uint8_t& cc,
+    uint16_t& reasonCode, int32_t& threshold);
 
 } // namespace gpu
