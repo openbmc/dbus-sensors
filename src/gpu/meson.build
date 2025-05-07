@@ -3,6 +3,7 @@ gpusensor_sources = files(
     'GpuMctpVdm.cpp',
     'GpuSensor.cpp',
     'GpuSensorMain.cpp',
+    'GpuThresholds.cpp',
     'OcpMctpVdm.cpp',
 )
 
