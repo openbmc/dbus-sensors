@@ -30,6 +30,7 @@ enum class DeviceCapabilityDiscoveryCommands : uint8_t
 enum class PlatformEnvironmentalCommands : uint8_t
 {
     GET_TEMPERATURE_READING = 0x00,
+    READ_THERMAL_PARAMETERS = 0x02,
 };
 
 enum class DeviceIdentification : uint8_t
@@ -57,10 +58,18 @@ struct GetNumericSensorReadingRequest
 
 using GetTemperatureReadingRequest = GetNumericSensorReadingRequest;
 
+using ReadThermalParametersRequest = GetNumericSensorReadingRequest;
+
 struct GetTemperatureReadingResponse
 {
     ocp::accelerator_management::CommonResponse hdr;
     int32_t reading;
+} __attribute__((packed));
+
+struct ReadThermalParametersResponse
+{
+    ocp::accelerator_management::CommonResponse hdr;
+    int32_t threshold;
 } __attribute__((packed));
 
 int packHeader(const ocp::accelerator_management::BindingPciVidInfo& hdr,
@@ -81,5 +90,13 @@ int decodeGetTemperatureReadingResponse(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     double& temperatureReading);
+
+int encodeReadThermalParametersRequest(uint8_t instanceId, uint8_t sensorId,
+                                       std::span<uint8_t> buf);
+
+int decodeReadThermalParametersResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    int32_t& threshold);
 
 } // namespace gpu
