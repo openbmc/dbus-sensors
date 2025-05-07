@@ -14,6 +14,7 @@
 #include <bits/basic_string.h>
 
 #include <MctpRequester.hpp>
+#include <NvidiaGpuThresholds.hpp>
 #include <boost/asio/io_context.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
@@ -23,6 +24,7 @@
 #include <cstdint>
 #include <memory>
 #include <string>
+#include <utility>
 #include <vector>
 
 GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
@@ -45,9 +47,31 @@ void GpuDevice::makeSensors()
         conn, mctpRequester, name + "_TEMP_0", path, eid, gpuTempSensorId,
         objectServer, std::vector<thresholds::Threshold>{});
 
-    tLimitSensor = std::make_shared<NvidiaGpuTempSensor>(
-        conn, mctpRequester, name + "_TEMP_1", path, eid, gpuTLimitSensorId,
-        objectServer, std::vector<thresholds::Threshold>{});
+    readThermalParameters(
+        eid,
+        std::vector<gpuThresholdId>{gpuTLimitWarnringThresholdId,
+                                    gpuTLimitCriticalThresholdId,
+                                    gpuTLimitHardshutDownThresholdId},
+        mctpRequester, [this](uint8_t rc, std::vector<int32_t> thresholds) {
+            std::vector<thresholds::Threshold> tLimitThresholds{};
+            if (rc == 0)
+            {
+                tLimitThresholds = {
+                    thresholds::Threshold{thresholds::Level::WARNING,
+                                          thresholds::Direction::LOW,
+                                          static_cast<double>(thresholds[0])},
+                    thresholds::Threshold{thresholds::Level::CRITICAL,
+                                          thresholds::Direction::LOW,
+                                          static_cast<double>(thresholds[1])},
+                    thresholds::Threshold{thresholds::Level::HARDSHUTDOWN,
+                                          thresholds::Direction::LOW,
+                                          static_cast<double>(thresholds[2])}};
+            }
+
+            tLimitSensor = std::make_shared<NvidiaGpuTempSensor>(
+                conn, mctpRequester, name + "_TEMP_1", path, eid,
+                gpuTLimitSensorId, objectServer, std::move(tLimitThresholds));
+        });
 
     lg2::info("Added GPU {NAME} Sensors with chassis path: {PATH}.", "NAME",
               name, "PATH", path);
@@ -58,7 +82,10 @@ void GpuDevice::makeSensors()
 void GpuDevice::read()
 {
     tempSensor->update();
-    tLimitSensor->update();
+    if (tLimitSensor)
+    {
+        tLimitSensor->update();
+    }
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait([this](const boost::system::error_code& ec) {
