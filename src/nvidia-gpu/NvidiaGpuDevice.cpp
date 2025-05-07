@@ -12,6 +12,7 @@
 #include <bits/basic_string.h>
 
 #include <MctpRequester.hpp>
+#include <NvidiaGpuThresholds.hpp>
 #include <boost/asio/io_context.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
@@ -21,6 +22,7 @@
 #include <cstdint>
 #include <memory>
 #include <string>
+#include <utility>
 #include <vector>
 
 using namespace std::chrono_literals;
@@ -46,10 +48,32 @@ void GpuDevice::makeSensors()
         conn, mctpRequester, name + "_TEMP_0", path, eid, gpuTempSensorId,
         objectServer, std::vector<thresholds::Threshold>{}, ""));
 
-    sensors.push_back(std::make_shared<GpuTempSensor>(
-        conn, mctpRequester, name + "_TEMP_1", path, eid, gpuTLimitSensorId,
-        objectServer, std::vector<thresholds::Threshold>{},
-        "Thermal Limit(TLIMIT) Temperature is the distance in deg C from the GPU temperature to the first throttle limit."));
+    readThermalParameters(
+        eid,
+        std::vector<gpuThresholdId>{gpuTLimitWarnringThresholdId,
+                                    gpuTLimitCriticalThresholdId,
+                                    gpuTLimitHardshutDownThresholdId},
+        mctpRequester, [this](uint8_t rc, std::vector<int32_t> thresholds) {
+            std::vector<thresholds::Threshold> tLimitThresholds{};
+            if (rc == 0)
+            {
+                tLimitThresholds = {
+                    thresholds::Threshold{thresholds::Level::WARNING,
+                                          thresholds::Direction::LOW,
+                                          static_cast<double>(thresholds[0])},
+                    thresholds::Threshold{thresholds::Level::CRITICAL,
+                                          thresholds::Direction::LOW,
+                                          static_cast<double>(thresholds[1])},
+                    thresholds::Threshold{thresholds::Level::HARDSHUTDOWN,
+                                          thresholds::Direction::LOW,
+                                          static_cast<double>(thresholds[2])}};
+            }
+
+            sensors.push_back(std::make_shared<GpuTempSensor>(
+                conn, mctpRequester, name + "_TEMP_1", path, eid,
+                gpuTLimitSensorId, objectServer, std::move(tLimitThresholds),
+                "Thermal Limit(TLIMIT) Temperature is the distance in deg C from the GPU temperature to the first throttle limit."));
+        });
 
     lg2::info("Added GPU {NAME} Sensors with chassis path: {PATH}.", "NAME",
               name, "PATH", path);
