@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8237d52a_b814f65f",
+        "filename": "src/gpu/MctpRequester.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-07T04:59:25Z",
+      "side": 1,
+      "message": "Since this is quite a long lambda, suggest moving this into a separate function.",
+      "revId": "1d542680295ce7dd7705c328236e1b04dc689359",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13b7269c_285f2e1e",
+        "filename": "src/gpu/MctpRequester.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-07T04:59:25Z",
+      "side": 1,
+      "message": "Is it possible to combine both of these if statements into one?",
+      "revId": "1d542680295ce7dd7705c328236e1b04dc689359",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f474a8a8_7dde3ffa",
+        "filename": "src/gpu/MctpRequester.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-07T04:59:25Z",
+      "side": 1,
+      "message": "Since it is std::unordered_map, is this really needed?",
+      "revId": "1d542680295ce7dd7705c328236e1b04dc689359",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85a0eed4_6fb48728",
+        "filename": "src/gpu/MctpRequester.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-07T04:59:25Z",
+      "side": 1,
+      "message": "Is it possible to combine these 2 maps into a single map?",
+      "revId": "1d542680295ce7dd7705c328236e1b04dc689359",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
