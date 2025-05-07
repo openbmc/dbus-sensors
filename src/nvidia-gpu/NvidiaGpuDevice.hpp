@@ -19,6 +19,7 @@
 #include <cstdint>
 #include <memory>
 #include <string>
+#include <vector>
 
 class GpuDevice
 {
@@ -39,6 +40,9 @@ class GpuDevice
     void makeSensors();
 
     void read();
+
+    void processTLimitThresholds(uint8_t rc,
+                                 const std::vector<int32_t>& thresholds);
 
     uint8_t eid{};
 
