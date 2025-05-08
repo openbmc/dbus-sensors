@@ -14,6 +14,7 @@
 #include <bits/basic_string.h>
 
 #include <MctpRequester.hpp>
+#include <NvidiaGpuPowerSensor.hpp>
 #include <NvidiaGpuThresholds.hpp>
 #include <boost/asio/io_context.hpp>
 #include <phosphor-logging/lg2.hpp>
@@ -73,6 +74,10 @@ void GpuDevice::makeSensors()
                 gpuTLimitSensorId, objectServer, std::move(tLimitThresholds));
         });
 
+    powerSensor = std::make_shared<NvidiaGpuPowerSensor>(
+        conn, mctpRequester, name + "_Power_0", path, eid, gpuPowerSensorId,
+        objectServer, std::vector<thresholds::Threshold>{});
+
     lg2::info("Added GPU {NAME} Sensors with chassis path: {PATH}.", "NAME",
               name, "PATH", path);
 
@@ -86,6 +91,7 @@ void GpuDevice::read()
     {
         tLimitSensor->update();
     }
+    powerSensor->update();
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait([this](const boost::system::error_code& ec) {
