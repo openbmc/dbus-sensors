@@ -13,14 +13,12 @@
 #include <bits/basic_string.h>
 
 #include <MctpRequester.hpp>
-#include <NvidiaDeviceDiscovery.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
 #include <OcpMctpVdm.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
-#include <cstddef>
 #include <cstdint>
 #include <functional>
 #include <memory>
@@ -42,26 +40,12 @@ GpuTempSensor::GpuTempSensor(
     sdbusplus::asio::object_server& objectServer,
     std::vector<thresholds::Threshold>&& thresholdData,
     const std::string_view description) :
-    GpuSensor(escapeName(name), std::move(thresholdData), sensorConfiguration,
-              "temperature", false, true, gpuTempSensorMaxReading,
-              gpuTempSensorMinReading, conn),
-    eid(eid), sensorId{sensorId}, mctpRequester(mctpRequester),
-    objectServer(objectServer)
+    GpuSensor(conn, mctpRequester, escapeName(name), sensorConfiguration,
+              "temperature", gpuTempSensorMaxReading, gpuTempSensorMinReading,
+              eid, sensorId, objectServer, std::move(thresholdData))
 {
     std::string dbusPath =
         sensorPathPrefix + "temperature/"s + escapeName(name);
-
-    sensorInterface = objectServer.add_interface(
-        dbusPath, "xyz.openbmc_project.Sensor.Value");
-
-    for (const auto& threshold : thresholds)
-    {
-        std::string interface = thresholds::getInterface(threshold.level);
-        thresholdInterfaces[static_cast<size_t>(threshold.level)] =
-            objectServer.add_interface(dbusPath, interface);
-    }
-
-    association = objectServer.add_interface(dbusPath, association::interface);
 
     if (!description.empty())
     {
@@ -79,21 +63,10 @@ GpuTempSensor::GpuTempSensor(
 
 GpuTempSensor::~GpuTempSensor()
 {
-    for (const auto& iface : thresholdInterfaces)
-    {
-        objectServer.remove_interface(iface);
-    }
-    objectServer.remove_interface(association);
-    objectServer.remove_interface(sensorInterface);
     if (descriptionInterface)
     {
         objectServer.remove_interface(descriptionInterface);
     }
-}
-
-void GpuTempSensor::checkThresholds()
-{
-    thresholds::checkThresholds(this);
 }
 
 void GpuTempSensor::processResponse(int sendRecvMsgResult,

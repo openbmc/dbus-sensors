@@ -21,7 +21,6 @@
 #include <string>
 #include <vector>
 
-constexpr const char* sensorPathPrefix = "/xyz/openbmc_project/sensors/";
 constexpr const char* deviceType = "NvidiaMctpVdm";
 
 struct DeviceDiscoveryManager

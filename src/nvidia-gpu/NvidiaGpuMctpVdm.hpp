@@ -41,6 +41,7 @@ enum class PlatformEnvironmentalCommands : uint8_t
 {
     GET_TEMPERATURE_READING = 0x00,
     READ_THERMAL_PARAMETERS = 0x02,
+    GET_CURRENT_POWER_DRAW = 0x03,
 };
 
 /** @brief device identification types
@@ -97,6 +98,17 @@ using GetTemperatureReadingRequest = GetNumericSensorReadingRequest;
  */
 using ReadThermalParametersRequest = GetNumericSensorReadingRequest;
 
+/** @struct GetCurrentPowerDrawRequest
+ *
+ *  Structure representing get current power draw request.
+ */
+struct GetCurrentPowerDrawRequest
+{
+    ocp::accelerator_management::CommonRequest hdr;
+    uint8_t sensorId;
+    uint8_t averagingInterval;
+} __attribute__((packed));
+
 /** @struct GetTemperatureReadingResponse
  *
  *  Structure representing get temperature reading response.
@@ -116,6 +128,16 @@ struct ReadThermalParametersResponse
 {
     ocp::accelerator_management::CommonResponse hdr;
     int32_t threshold;
+} __attribute__((packed));
+
+/** @struct GetCurrentPowerDrawResponse
+ *
+ *  Structure representing get current power draw response.
+ */
+struct GetCurrentPowerDrawResponse
+{
+    ocp::accelerator_management::CommonResponse hdr;
+    uint32_t power;
 } __attribute__((packed));
 
 /**
@@ -212,4 +234,31 @@ int decodeReadThermalParametersResponse(
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     int32_t& threshold);
 
+/** @brief Encode a Get current power draw request message
+ *
+ *  @param[in] instance_id - instance ID
+ *  @param[in] sensor_id - sensor id
+ *  @param[in] averaging_interval - averaging interval
+ *  @param[out] buf - Reference to buffer that will contain the request message
+ *  @return ocp::accelerator_management::CompletionCode::SUCCESS on success,
+ *  otherwise appropriate error code.
+ */
+int encodeGetCurrentPowerDrawRequest(uint8_t instanceId, uint8_t sensorId,
+                                     uint8_t averagingInterval,
+                                     std::vector<uint8_t>& buf);
+
+/** @brief Decode a Get current power draw response message
+ *
+ *  @param[in] msg - response message
+ *  @param[in] msg_len - Length of response message
+ *  @param[out] cc - reference to completion code
+ *  @param[out] reason_code - reference to reason code
+ *  @param[out] power - reference to power reading
+ *  @return ocp::accelerator_management::CompletionCode::SUCCESS on success,
+ *  otherwise appropriate error code.
+ */
+int decodeGetCurrentPowerDrawResponse(
+    const std::vector<uint8_t>& buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint32_t& power);
 } // namespace gpu
