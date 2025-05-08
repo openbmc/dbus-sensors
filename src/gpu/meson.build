@@ -1,6 +1,7 @@
 gpusensor_sources = files(
     'GpuDevice.cpp',
     'GpuMctpVdm.cpp',
+    'GpuPowerSensor.cpp',
     'GpuSensor.cpp',
     'GpuSensorMain.cpp',
     'GpuTLimitSensor.cpp',
