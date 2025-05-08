@@ -16,19 +16,21 @@
 #include <memory>
 #include <optional>
 #include <string>
-#include <string_view>
 #include <vector>
 
-constexpr uint8_t gpuTempSensorId{0};
-constexpr uint8_t gpuTLimitSensorId{2};
-
-struct GpuTempSensor :
+/**
+ * @struct GpuPowerSensor
+ * @brief Implements a GPU power sensor that monitors power values
+ * @details Inherits from Sensor base class and enables shared pointer
+ * management via std::enable_shared_from_this
+ */
+struct GpuPowerSensor :
     public GpuSensor,
-    public std::enable_shared_from_this<GpuTempSensor>
+    public std::enable_shared_from_this<GpuPowerSensor>
 {
   public:
     /**
-     * @brief Constructor for GpuTempSensor
+     * @brief Constructor for GpuPowerSensor
      * @param conn D-Bus connection for system communication
      * @param mctpRequester MCTP protocol requester for GPU communication
      * @param name Name of the sensor for identification in the system
@@ -39,18 +41,11 @@ struct GpuTempSensor :
      * @param thresholdData Vector of threshold configurations for temperature
      * monitoring
      */
-    GpuTempSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
-                  mctp::MctpRequester& mctpRequester, const std::string& name,
-                  const std::string& sensorConfiguration, uint8_t eid,
-                  uint8_t sensorId,
-                  sdbusplus::asio::object_server& objectServer,
-                  std::vector<thresholds::Threshold>&& thresholdData,
-                  std::string_view description);
-
-    /**
-     * @brief Destructor
-     */
-    ~GpuTempSensor() override;
+    GpuPowerSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
+                   mctp::MctpRequester& mctpRequester, const std::string& name,
+                   const std::string& sensorConfiguration, uint8_t eid,
+                   sdbusplus::asio::object_server& objectServer,
+                   std::vector<thresholds::Threshold>&& thresholdData);
 
   private:
     /**
@@ -65,7 +60,7 @@ struct GpuTempSensor :
                          std::optional<std::vector<uint8_t>> resp);
 
     /**
-     * @brief Interface for Description property
+     * @brief The sensor ID
      */
-    std::shared_ptr<sdbusplus::asio::dbus_interface> descriptionInterface;
+    uint8_t averagingInterval;
 };

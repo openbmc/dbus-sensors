@@ -12,6 +12,7 @@
 #include <bits/basic_string.h>
 
 #include <MctpRequester.hpp>
+#include <NvidiaGpuPowerSensor.hpp>
 #include <NvidiaGpuThresholds.hpp>
 #include <boost/asio/io_context.hpp>
 #include <phosphor-logging/lg2.hpp>
@@ -47,6 +48,10 @@ void GpuDevice::makeSensors()
     sensors.push_back(std::make_shared<GpuTempSensor>(
         conn, mctpRequester, name + "_TEMP_0", path, eid, gpuTempSensorId,
         objectServer, std::vector<thresholds::Threshold>{}, ""));
+
+    sensors.push_back(std::make_shared<GpuPowerSensor>(
+        conn, mctpRequester, name + "_Power_0", path, eid, objectServer,
+        std::vector<thresholds::Threshold>{}));
 
     readThermalParameters(
         eid,
