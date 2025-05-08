@@ -8,6 +8,7 @@
 
 #include "MctpRequester.hpp"
 #include "NvidiaDeviceDiscovery.hpp"
+#include "NvidiaGpuPowerSensor.hpp"
 #include "NvidiaGpuSensor.hpp"
 
 #include <boost/asio/io_context.hpp>
@@ -58,6 +59,7 @@ class GpuDevice
 
     std::shared_ptr<NvidiaGpuTempSensor> tempSensor;
     std::shared_ptr<NvidiaGpuTempSensor> tLimitSensor;
+    std::shared_ptr<NvidiaGpuPowerSensor> powerSensor;
 
     SensorConfigs configs;
 
