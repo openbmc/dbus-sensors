@@ -1,10 +1,12 @@
 gpusensor_sources = files(
     'GpuDevice.cpp',
     'GpuMctpVdm.cpp',
+    'GpuPowerSensor.cpp',
     'GpuSensor.cpp',
     'GpuSensorMain.cpp',
     'GpuThresholds.cpp',
     'OcpMctpVdm.cpp',
+    'UpdatableSensor.cpp',
 )
 
 gpusensor_include_dir = include_directories('.', is_system: true)

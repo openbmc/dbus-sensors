@@ -24,7 +24,6 @@
 #include <variant>
 #include <vector>
 
-constexpr const char* sensorPathPrefix = "/xyz/openbmc_project/sensors/";
 constexpr const char* deviceType = "NvidiaMctpVdm";
 
 using getSubTreeRet = std::vector<
