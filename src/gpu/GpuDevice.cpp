@@ -12,6 +12,7 @@
 #include <bits/basic_string.h>
 
 #include <GpuMctpVdm.hpp>
+#include <GpuPowerSensor.hpp>
 #include <GpuThresholds.hpp>
 #include <MctpRequester.hpp>
 #include <OcpMctpVdm.hpp>
@@ -62,6 +63,10 @@ void GpuDevice::makeSensors()
 
     lg2::info("Added GPU {NAME} Sensors with chassis path: {PATH}.", "NAME",
               name, "PATH", path);
+
+    sensors.push_back(std::make_shared<GpuPowerSensor>(
+        conn, mctpRequester, name + "_Power_0", path, eid, objectServer,
+        std::vector<thresholds::Threshold>{}));
 
     readThermalParametersBatched(
         eid,
