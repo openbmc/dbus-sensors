@@ -134,6 +134,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8e0c22ae_23bd306e",
+        "filename": "src/gpu/GpuSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-08T14:41:59Z",
+      "side": 1,
+      "message": "I think discoverGpus would also return a list of sensorIDs (eventually we could also get those from EM).",
+      "parentUuid": "34c13ad9_aad5aef8",
+      "revId": "11b9c1a209a5e3f94ad2f885a73bd7b243424067",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1dcc5cd0_30ecb095",
         "filename": "src/gpu/UpdatableSensor.hpp",
         "patchSetId": 3
