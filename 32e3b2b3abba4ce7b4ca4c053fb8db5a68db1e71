@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a3b78e5_5c16803c",
+        "filename": "src/gpu/GpuDevice.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-08T18:07:43Z",
+      "side": 1,
+      "message": "GpuSensor should take SensoriD and you should create multiple instances of the same in a loop",
+      "revId": "32e3b2b3abba4ce7b4ca4c053fb8db5a68db1e71",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f02cef86_a15ff6a3",
+        "filename": "src/gpu/GpuTLimitSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-08T18:07:43Z",
+      "side": 1,
+      "message": "Should we do this as part of thresholds commit? Any reason to add this in this commit?",
+      "revId": "32e3b2b3abba4ce7b4ca4c053fb8db5a68db1e71",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c0332ce_2e925a58",
+        "filename": "src/gpu/GpuTLimitSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-08T18:07:43Z",
+      "side": 1,
+      "message": "Is it ok to do this before introducing thresholds commit?",
+      "revId": "32e3b2b3abba4ce7b4ca4c053fb8db5a68db1e71",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58be6830_ab25f7fc",
+        "filename": "src/gpu/GpuTLimitSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-08T18:07:43Z",
+      "side": 1,
+      "message": "I don\u0027t think we should duplicate this code for all our sensor types. Instead, you have one GpuSensor class and you pass in all the inputs required to be able to deal with different sensor types - sensor ID, encode/decode functions, additinal static d-bus interfaces to be added to the ctor (or do something like https://github.com/openbmc/dbus-sensors/blob/master/src/ipmb/IpmbSensor.cpp#L168 to map to the right encode/decode).\n\nDon\u0027t think we have a strong need to inherit GpuSensor yet. Let me know if you see issues with what I proposed above.",
+      "revId": "32e3b2b3abba4ce7b4ca4c053fb8db5a68db1e71",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5592721_90290450",
+        "filename": "src/gpu/GpuTLimitSensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-08T18:07:43Z",
+      "side": 1,
+      "message": "Same comments as cpp",
+      "revId": "32e3b2b3abba4ce7b4ca4c053fb8db5a68db1e71",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
