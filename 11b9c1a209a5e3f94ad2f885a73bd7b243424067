@@ -1,0 +1,152 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d848d2a4_f44c4434",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-08T14:23:19Z",
+      "side": 1,
+      "message": "I\u0027m not sure we need to say all this. Can you please keep the commit message crisp in terms of why the change was needed - which I think starts somwehere around line 25. Don\u0027t really need this and the next 2 paras.\n\nYou should also say this is in prep for introducing additional sensors.",
+      "revId": "11b9c1a209a5e3f94ad2f885a73bd7b243424067",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da7bac0c_ba677bc1",
+        "filename": "src/gpu/GpuDevice.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-08T14:23:19Z",
+      "side": 1,
+      "message": "commented elsewhere, but I think we need a simpler abstraction/API for device vs sensor",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 71
+      },
+      "revId": "11b9c1a209a5e3f94ad2f885a73bd7b243424067",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2598f54_07f7a609",
+        "filename": "src/gpu/GpuDevice.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-08T14:23:19Z",
+      "side": 1,
+      "message": "Do we need this for single GPU support?",
+      "revId": "11b9c1a209a5e3f94ad2f885a73bd7b243424067",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c43dab50_95159104",
+        "filename": "src/gpu/GpuDevice.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-08T14:23:19Z",
+      "side": 1,
+      "message": "I think these can still be in GpuSensor",
+      "range": {
+        "startLine": 87,
+        "startChar": 0,
+        "endLine": 92,
+        "endChar": 16
+      },
+      "revId": "11b9c1a209a5e3f94ad2f885a73bd7b243424067",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59991541_8dd6c451",
+        "filename": "src/gpu/GpuDevice.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-08T14:23:19Z",
+      "side": 1,
+      "message": "Can still be in GpuSensor",
+      "revId": "11b9c1a209a5e3f94ad2f885a73bd7b243424067",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef56f330_97537e1e",
+        "filename": "src/gpu/GpuSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-08T14:23:19Z",
+      "side": 1,
+      "message": "Do we really need this though for this/immedeately following commit. If this is about multi-GPU support, then we don\u0027t need to bring that in now in this commit.",
+      "revId": "11b9c1a209a5e3f94ad2f885a73bd7b243424067",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34c13ad9_aad5aef8",
+        "filename": "src/gpu/GpuSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-08T14:23:19Z",
+      "side": 1,
+      "message": "Isn\u0027t what we need to pass to createSensors just an EID? I was thinking if this could be something like:\n\neids \u003d discoverGpus(...) // MCTP discovery, EM processing, Query Devices\ncreateSensors(..., eid) // Read and Update sensor values, as before",
+      "revId": "11b9c1a209a5e3f94ad2f885a73bd7b243424067",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1dcc5cd0_30ecb095",
+        "filename": "src/gpu/UpdatableSensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-08T14:23:19Z",
+      "side": 1,
+      "message": "This abstraction doesn\u0027t really seem useful?",
+      "revId": "11b9c1a209a5e3f94ad2f885a73bd7b243424067",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
