@@ -16,6 +16,24 @@
       "message": "It\u0027s unfortunate we even have this case as a possibility.  It means something is wrong with the configuration and we probably shouldn\u0027t even be running this sensor daemon.",
       "revId": "c097efd28f7ac9aed19c64b808f473806b80d8a7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "849f5f05_7cf22bd7",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1000212
+      },
+      "writtenOn": "2025-05-08T22:28:15Z",
+      "side": 1,
+      "message": "My way of testing this was through externalsensor. My first attempt was copying https://github.com/openbmc/entity-manager/blob/master/configurations/kudo_motherboard.json#L864 soon to realize the units needs to be xyz.openbmc_project.Sensor.Value.Unit.DegreesC and not DegreesC.\n\nA possible path forward is to make sure the sensor-\u003eunit _is_ of type sdbusplus::common::xyz::openbmc_project::sensor::Value::Unit and the conversion from string is done at load.",
+      "parentUuid": "4419eabb_ab9e4038",
+      "revId": "c097efd28f7ac9aed19c64b808f473806b80d8a7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
