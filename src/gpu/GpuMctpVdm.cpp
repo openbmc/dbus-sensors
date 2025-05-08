@@ -395,4 +395,131 @@ ocp::accelerator_management::CompletionCode decodeReadThermalParametersResponse(
 
     return ocp::accelerator_management::CompletionCode::SUCCESS;
 }
+
+ocp::accelerator_management::CompletionCode encodeGetCurrentPowerDrawRequest(
+    uint8_t instanceId, uint8_t sensorId, uint8_t averagingInterval,
+    ocp::accelerator_management::Message& msg)
+{
+    ocp::accelerator_management::BindingPciVidInfo header{};
+    header.ocp_accelerator_management_msg_type =
+        static_cast<uint8_t>(ocp::accelerator_management::MessageType::REQUEST);
+    header.instance_id = instanceId &
+                         ocp::accelerator_management::instanceIdMask;
+    header.msg_type = static_cast<uint8_t>(MessageType::PLATFORM_ENVIRONMENTAL);
+
+    auto rc = packHeader(header, msg.hdr);
+    if (rc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    GetCurrentPowerDrawRequest request{};
+    request.hdr.command = static_cast<uint8_t>(
+        PlatformEnvironmentalCommands::GET_CURRENT_POWER_DRAW);
+    request.hdr.data_size = sizeof(sensorId) + sizeof(averagingInterval);
+    request.sensorId = sensorId;
+    request.averagingInterval = averagingInterval;
+
+    std::memcpy(&msg.data, &request, sizeof(request));
+
+    return ocp::accelerator_management::CompletionCode::SUCCESS;
+}
+
+ocp::accelerator_management::CompletionCode decodeGetCurrentPowerDrawRequest(
+    const ocp::accelerator_management::Message& msg, size_t msgLen,
+    uint8_t& sensorId, uint8_t& averagingInterval)
+{
+    if (msgLen < sizeof(ocp::accelerator_management::BindingPciVid) +
+                     sizeof(ReadThermalParametersRequest))
+    {
+        return ocp::accelerator_management::CompletionCode::
+            ERR_INVALID_DATA_LENGTH;
+    }
+
+    GetCurrentPowerDrawRequest request{};
+    std::memcpy(&request, &msg.data, sizeof(request));
+
+    if (request.hdr.data_size < sizeof(request.sensorId))
+    {
+        return ocp::accelerator_management::CompletionCode::ERR_INVALID_DATA;
+    }
+
+    sensorId = request.sensorId;
+    averagingInterval = request.averagingInterval;
+
+    return ocp::accelerator_management::CompletionCode::SUCCESS;
+}
+
+ocp::accelerator_management::CompletionCode encodeGetCurrentPowerDrawResponse(
+    uint8_t instanceId, uint8_t cc, uint16_t reasonCode, uint32_t power,
+    ocp::accelerator_management::Message& msg)
+{
+    ocp::accelerator_management::BindingPciVidInfo header{};
+    header.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    header.instance_id = instanceId &
+                         ocp::accelerator_management::instanceIdMask;
+    header.msg_type = static_cast<uint8_t>(MessageType::PLATFORM_ENVIRONMENTAL);
+
+    auto rc = packHeader(header, msg.hdr);
+    if (rc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    if (cc != static_cast<uint8_t>(
+                  ocp::accelerator_management::CompletionCode::SUCCESS))
+    {
+        return gpu::encodeReasonCode(
+            cc, reasonCode,
+            static_cast<uint8_t>(
+                PlatformEnvironmentalCommands::GET_CURRENT_POWER_DRAW),
+            msg);
+    }
+
+    GetCurrentPowerDrawResponse response{};
+    response.hdr.command = static_cast<uint8_t>(
+        PlatformEnvironmentalCommands::GET_CURRENT_POWER_DRAW);
+    response.hdr.completion_code = cc;
+    response.hdr.data_size = htole16(sizeof(uint32_t));
+
+    response.power = htole32(power);
+
+    std::memcpy(&msg.data, &response, sizeof(response));
+
+    return ocp::accelerator_management::CompletionCode::SUCCESS;
+}
+
+ocp::accelerator_management::CompletionCode decodeGetCurrentPowerDrawResponse(
+    const ocp::accelerator_management::Message& msg, size_t msgLen, uint8_t& cc,
+    uint16_t& reasonCode, uint32_t& power)
+{
+    auto rc = gpu::decodeReasonCodeAndCC(msg, msgLen, cc, reasonCode);
+    if (rc != ocp::accelerator_management::CompletionCode::SUCCESS ||
+        cc != static_cast<uint8_t>(
+                  ocp::accelerator_management::CompletionCode::SUCCESS))
+    {
+        return rc;
+    }
+
+    if (msgLen < sizeof(ocp::accelerator_management::BindingPciVid) +
+                     sizeof(ReadThermalParametersResponse))
+    {
+        return ocp::accelerator_management::CompletionCode::
+            ERR_INVALID_DATA_LENGTH;
+    }
+
+    GetCurrentPowerDrawResponse response{};
+    std::memcpy(&response, &msg.data, sizeof(response));
+
+    uint16_t dataSize = le16toh(response.hdr.data_size);
+    if (dataSize != sizeof(uint32_t))
+    {
+        return ocp::accelerator_management::CompletionCode::ERR_INVALID_DATA;
+    }
+
+    power = response.power;
+
+    return ocp::accelerator_management::CompletionCode::SUCCESS;
+}
 } // namespace gpu

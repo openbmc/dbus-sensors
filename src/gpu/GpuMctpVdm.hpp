@@ -43,6 +43,7 @@ enum class PlatformEnvironmentalCommands : uint8_t
 {
     GET_TEMPERATURE_READING = 0x00,
     READ_THERMAL_PARAMETERS = 0x02,
+    GET_CURRENT_POWER_DRAW = 0x03,
 };
 
 /** @brief device identification types
@@ -99,6 +100,17 @@ using GetTemperatureReadingRequest = GetNumericSensorReadingRequest;
  */
 using ReadThermalParametersRequest = GetNumericSensorReadingRequest;
 
+/** @struct GetCurrentPowerDrawRequest
+ *
+ *  Structure representing get current power draw request.
+ */
+struct GetCurrentPowerDrawRequest
+{
+    ocp::accelerator_management::CommonRequest hdr;
+    uint8_t sensorId;
+    uint8_t averagingInterval;
+} __attribute__((packed));
+
 /** @struct GetTemperatureReadingResponse
  *
  *  Structure representing get temperature reading response.
@@ -118,6 +130,16 @@ struct ReadThermalParametersResponse
 {
     ocp::accelerator_management::CommonResponse hdr;
     int32_t threshold;
+} __attribute__((packed));
+
+/** @struct GetCurrentPowerDrawResponse
+ *
+ *  Structure representing get current power draw response.
+ */
+struct GetCurrentPowerDrawResponse
+{
+    ocp::accelerator_management::CommonResponse hdr;
+    uint32_t power;
 } __attribute__((packed));
 
 /**
@@ -313,4 +335,57 @@ ocp::accelerator_management::CompletionCode decodeReadThermalParametersResponse(
     const ocp::accelerator_management::Message& msg, size_t msgLen, uint8_t& cc,
     uint16_t& reasonCode, int32_t& threshold);
 
+/** @brief Encode a Get current power draw request message
+ *
+ *  @param[in] instance_id - instance ID
+ *  @param[in] sensor_id - sensor id
+ *  @param[in] averaging_interval - averaging interval
+ *  @param[out] msg - Reference to message that will be written to
+ *  @return ocp::accelerator_management::CompletionCode::SUCCESS on success,
+ *  otherwise appropriate error code.
+ */
+ocp::accelerator_management::CompletionCode encodeGetCurrentPowerDrawRequest(
+    uint8_t instanceId, uint8_t sensorId, uint8_t averagingInterval,
+    ocp::accelerator_management::Message& msg);
+
+/** @brief Decode a Get current power draw request message
+ *
+ *  @param[in] msg - request message
+ *  @param[in] msg_len - Length of request message
+ *  @param[out] sensor_id - reference to sensor id
+ *  @param[out] averaging_interval - reference to averaging interval
+ *  @return ocp::accelerator_management::CompletionCode::SUCCESS on success,
+ *  otherwise appropriate error code.
+ */
+ocp::accelerator_management::CompletionCode decodeGetCurrentPowerDrawRequest(
+    const ocp::accelerator_management::Message& msg, size_t msgLen,
+    uint8_t& sensorId, uint8_t& averagingInterval);
+
+/** @brief Encode a Get current power draw response message
+ *
+ *  @param[in] instance_id - instance ID
+ *  @param[in] cc - completion code
+ *  @param[in] reason_code - reason code
+ *  @param[in] power - power reading
+ *  @param[out] msg - Reference to message that will be written to
+ *  @return ocp::accelerator_management::CompletionCode::SUCCESS on success,
+ *  otherwise appropriate error code.
+ */
+ocp::accelerator_management::CompletionCode encodeGetCurrentPowerDrawResponse(
+    uint8_t instanceId, uint8_t cc, uint16_t reasonCode, uint32_t power,
+    ocp::accelerator_management::Message& msg);
+
+/** @brief Decode a Get current power draw response message
+ *
+ *  @param[in] msg - response message
+ *  @param[in] msg_len - Length of response message
+ *  @param[out] cc - reference to completion code
+ *  @param[out] reason_code - reference to reason code
+ *  @param[out] power - reference to power reading
+ *  @return ocp::accelerator_management::CompletionCode::SUCCESS on success,
+ *  otherwise appropriate error code.
+ */
+ocp::accelerator_management::CompletionCode decodeGetCurrentPowerDrawResponse(
+    const ocp::accelerator_management::Message& msg, size_t msgLen, uint8_t& cc,
+    uint16_t& reasonCode, uint32_t& power);
 } // namespace gpu
