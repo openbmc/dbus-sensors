@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "82fb5223_8ca4cc31",
+        "filename": "src/gpu/MctpRequester.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-05-08T13:17:19Z",
+      "side": 1,
+      "message": "Addressed the changes. Created a new function `MctpRequester::handleResponse`",
+      "parentUuid": "8237d52a_b814f65f",
+      "revId": "1d542680295ce7dd7705c328236e1b04dc689359",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "13b7269c_285f2e1e",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-05-07T04:59:25Z",
       "side": 1,
       "message": "Is it possible to combine both of these if statements into one?",
+      "revId": "1d542680295ce7dd7705c328236e1b04dc689359",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13a78ce8_977ac77f",
+        "filename": "src/gpu/MctpRequester.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-05-08T13:17:19Z",
+      "side": 1,
+      "message": "Done. Merged into one if statement.",
+      "parentUuid": "13b7269c_285f2e1e",
       "revId": "1d542680295ce7dd7705c328236e1b04dc689359",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -52,6 +88,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "456f3415_b69c954c",
+        "filename": "src/gpu/MctpRequester.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-05-08T13:17:19Z",
+      "side": 1,
+      "message": "Right, we don\u0027t need these lines. Removed.",
+      "parentUuid": "f474a8a8_7dde3ffa",
+      "revId": "1d542680295ce7dd7705c328236e1b04dc689359",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "85a0eed4_6fb48728",
@@ -65,6 +119,24 @@
       "writtenOn": "2025-05-07T04:59:25Z",
       "side": 1,
       "message": "Is it possible to combine these 2 maps into a single map?",
+      "revId": "1d542680295ce7dd7705c328236e1b04dc689359",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3774ceaa_2100475d",
+        "filename": "src/gpu/MctpRequester.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-05-08T13:17:19Z",
+      "side": 1,
+      "message": "Addressed the changes. Combined into a single map `MctpRequester::activeRequests`. A new `Request` struct is introduced to encapsulate the callbacks, timers and other request related data.",
+      "parentUuid": "85a0eed4_6fb48728",
       "revId": "1d542680295ce7dd7705c328236e1b04dc689359",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
