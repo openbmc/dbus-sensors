@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e86b8782_63c93a15",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2025-05-09T22:35:32Z",
+      "side": 1,
+      "message": "Wow, good catch! Has this bug really been there all this time? Sigh. Good to use `name`, because the `name` member is already properly escaped, because `escapeName(sensorName)` was assigned to the `name` member, in the `Sensor` constructor called during initialization, here in this `ExternalSensor` constructor.",
+      "revId": "db26db28a402253f147d43e04384df9eead76ca4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
