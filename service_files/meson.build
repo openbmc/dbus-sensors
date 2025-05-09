@@ -18,6 +18,7 @@ unit_files = [
     ['psu', 'xyz.openbmc_project.psusensor.service'],
     ['external', 'xyz.openbmc_project.externalsensor.service'],
     ['leakdetector', 'xyz.openbmc_project.leakdetector.service'],
+    ['nvidia-gpu', 'xyz.openbmc_project.nvidiagpusensor.service'],
 ]
 
 fs = import('fs')
