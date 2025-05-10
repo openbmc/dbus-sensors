@@ -251,6 +251,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9e5f23c0_2958897c",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-05-10T02:21:17Z",
+      "side": 1,
+      "message": "What I meant is reading will be set 0 when all bytes are 0xff (data is not available) or the actual data bytes are 0 (valid reading of 0). How would one tell there is no valid reading?",
+      "parentUuid": "c2c7e60e_8afc9d99",
+      "revId": "ac395e0fad7434bec7309fa2bcd9cd084bd670c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b09a0b79_36fe2649",
         "filename": "src/smbpbi/SmbpbiSensor.cpp",
         "patchSetId": 8

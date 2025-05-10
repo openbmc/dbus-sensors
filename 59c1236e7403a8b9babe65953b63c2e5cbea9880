@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7aeb4087_17623283",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-05-10T02:21:17Z",
+      "side": 1,
+      "message": "use the same pattern:\n if (ret \u003c 0) {\n     return ret;\n }\n //process the raw data\n ...\n return 0;",
+      "range": {
+        "startLine": 292,
+        "startChar": 0,
+        "endLine": 292,
+        "endChar": 17
+      },
+      "revId": "59c1236e7403a8b9babe65953b63c2e5cbea9880",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a28154b_955c6852",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-05-10T02:21:17Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 326,
+        "startChar": 2,
+        "endLine": 326,
+        "endChar": 17
+      },
+      "revId": "59c1236e7403a8b9babe65953b63c2e5cbea9880",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
