@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ccccf82_e4dc14c9",
+        "filename": "src/external/ExternalSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2025-05-10T06:47:44Z",
+      "side": 1,
+      "message": "Careful, `std::isfinite()` returns true when it\u0027s a good number. It is the opposite sense of `std::isnan()`!",
+      "revId": "44ebe7a6dabd966efba4053fb4f53bbc27d1f5fd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
