@@ -16,6 +16,24 @@
       "message": "Careful, `std::isfinite()` returns true when it\u0027s a good number. It is the opposite sense of `std::isnan()`!",
       "revId": "44ebe7a6dabd966efba4053fb4f53bbc27d1f5fd",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a36a0e16_8a84f57e",
+        "filename": "src/external/ExternalSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2025-05-10T07:08:03Z",
+      "side": 1,
+      "message": "Thanks for catching the bug!\nUpdated!",
+      "parentUuid": "7ccccf82_e4dc14c9",
+      "revId": "44ebe7a6dabd966efba4053fb4f53bbc27d1f5fd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
