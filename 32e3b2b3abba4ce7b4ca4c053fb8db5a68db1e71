@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7f08733_22242678",
+        "filename": "src/gpu/GpuDevice.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-12T09:21:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a3b78e5_5c16803c",
+      "revId": "32e3b2b3abba4ce7b4ca4c053fb8db5a68db1e71",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f02cef86_a15ff6a3",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-05-08T18:07:43Z",
       "side": 1,
       "message": "Should we do this as part of thresholds commit? Any reason to add this in this commit?",
+      "revId": "32e3b2b3abba4ce7b4ca4c053fb8db5a68db1e71",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "765cc954_60ed5144",
+        "filename": "src/gpu/GpuTLimitSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-12T09:21:55Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "f02cef86_a15ff6a3",
       "revId": "32e3b2b3abba4ce7b4ca4c053fb8db5a68db1e71",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -52,6 +88,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fad7736_831b2d25",
+        "filename": "src/gpu/GpuTLimitSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-12T09:21:55Z",
+      "side": 1,
+      "message": "Yes. The pattern is similar to other dbus-sensor apps.",
+      "parentUuid": "4c0332ce_2e925a58",
+      "revId": "32e3b2b3abba4ce7b4ca4c053fb8db5a68db1e71",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "58be6830_ab25f7fc",
@@ -69,6 +123,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "73ffc1d4_d1602c81",
+        "filename": "src/gpu/GpuTLimitSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-12T09:21:55Z",
+      "side": 1,
+      "message": "Removed GpuTLimitSensor class.",
+      "parentUuid": "58be6830_ab25f7fc",
+      "revId": "32e3b2b3abba4ce7b4ca4c053fb8db5a68db1e71",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a5592721_90290450",
@@ -82,6 +154,24 @@
       "writtenOn": "2025-05-08T18:07:43Z",
       "side": 1,
       "message": "Same comments as cpp",
+      "revId": "32e3b2b3abba4ce7b4ca4c053fb8db5a68db1e71",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5cdecc75_4ccc365c",
+        "filename": "src/gpu/GpuTLimitSensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-12T09:21:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5592721_90290450",
       "revId": "32e3b2b3abba4ce7b4ca4c053fb8db5a68db1e71",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }

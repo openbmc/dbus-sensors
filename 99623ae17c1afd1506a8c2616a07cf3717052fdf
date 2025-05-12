@@ -16,6 +16,24 @@
       "message": "We need to continue adding new unit tests",
       "revId": "99623ae17c1afd1506a8c2616a07cf3717052fdf",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa7f18e2_54cada79",
+        "filename": "src/gpu/meson.build",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-12T09:21:55Z",
+      "side": 1,
+      "message": "No test cases are added in the patch as no new functions and classes are introduced in this patch.",
+      "parentUuid": "14e50639_a8b326f0",
+      "revId": "99623ae17c1afd1506a8c2616a07cf3717052fdf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
