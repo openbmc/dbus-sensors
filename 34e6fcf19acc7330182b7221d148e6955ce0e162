@@ -87,6 +87,24 @@
       "parentUuid": "363f52aa_a24f2e6e",
       "revId": "34e6fcf19acc7330182b7221d148e6955ce0e162",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "968e3f2f_59298b6b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-12T16:08:23Z",
+      "side": 1,
+      "message": "Ideally, yes, we should use the",
+      "parentUuid": "27f3b0d0_7e643bde",
+      "revId": "34e6fcf19acc7330182b7221d148e6955ce0e162",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
