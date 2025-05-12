@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94d4e919_915a8c55",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000926
+      },
+      "writtenOn": "2025-05-12T21:54:17Z",
+      "side": 1,
+      "message": "Can I ask couple of questions regarding IPMI SEL?\n\n1. How will these log messages be interperted in the `ipmitool sel log` output? Will they be mapped to the correct sensorIDs? (If this is the case, does it work only in dynamic IPMI compilation option, or is there any way to get it working with YAML approach? Does it work with the base code of ipmid, or is fb-ipmi-oem necessary to be present)\n\n2. What will be with the systems that currently use sel-logger for threshold logging? Will they get duplicates for every threshold event SEL after this change?",
+      "revId": "ee113ec1d44cce4ef8fe7a5bc76007a4790bd01a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
