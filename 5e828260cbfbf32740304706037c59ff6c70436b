@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "398d8508_4fc3c0d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-12T05:43:39Z",
+      "side": 1,
+      "message": "Need to add Tested section",
+      "revId": "5e828260cbfbf32740304706037c59ff6c70436b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb50808f_47803ab6",
+        "filename": "src/gpu/GpuPowerSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-12T05:43:39Z",
+      "side": 1,
+      "message": "Can you use the proper literal here to denote if this ms/s?",
+      "revId": "5e828260cbfbf32740304706037c59ff6c70436b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4b472ab_2ff9110e",
+        "filename": "src/gpu/GpuPowerSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-12T05:43:39Z",
+      "side": 1,
+      "message": "Same comments as TLIMIT sensor to avoid code dup.",
+      "revId": "5e828260cbfbf32740304706037c59ff6c70436b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d626e32_921d9562",
+        "filename": "src/gpu/meson.build",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-12T05:43:39Z",
+      "side": 1,
+      "message": "Unit tests?",
+      "revId": "5e828260cbfbf32740304706037c59ff6c70436b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
