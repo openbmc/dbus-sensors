@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4edbb253_1b72724d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-05-13T20:49:14Z",
+      "side": 1,
+      "message": "This is for Nvidia Extension, I have added that in the commit message now.",
+      "parentUuid": "a8aceed0_b5df5861",
+      "revId": "8e60fcd7cc4214ec88318122c48be3d4254d36c5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9ee815a8_83edee3d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -31,6 +49,24 @@
       "writtenOn": "2025-05-08T19:35:26Z",
       "side": 1,
       "message": "You need to add testing details.",
+      "revId": "8e60fcd7cc4214ec88318122c48be3d4254d36c5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9120ef2_f3558dad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-05-13T20:49:14Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "9ee815a8_83edee3d",
       "revId": "8e60fcd7cc4214ec88318122c48be3d4254d36c5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -54,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b68c1b5b_fc911ed5",
+        "filename": "src/gpu/MctpRequester.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-05-13T20:49:14Z",
+      "side": 1,
+      "message": "This was the entry point for the \"polling\" routine. The only thing that asyncRecv does is queue up the next async read on the socket. Whenever the recv completes (with/without errors) it queues up the next async read and hence basically polls the socket for the received messages. But now due to changes to the implementation this has been removed. And now we are enqueuing a recv for each message we send out.",
+      "parentUuid": "c5f0cf21_05de068e",
+      "revId": "8e60fcd7cc4214ec88318122c48be3d4254d36c5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "26c079b2_2acf5bc4",
         "filename": "src/gpu/MctpRequester.cpp",
         "patchSetId": 6
@@ -65,6 +119,24 @@
       "writtenOn": "2025-05-08T19:35:26Z",
       "side": 1,
       "message": "Why static?",
+      "revId": "8e60fcd7cc4214ec88318122c48be3d4254d36c5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5f26b39_0bc43aec",
+        "filename": "src/gpu/MctpRequester.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-05-13T20:49:14Z",
+      "side": 1,
+      "message": "As we are just peeking into the message this buffer isn\u0027t really used to read the data. Hence, the buffer is made static in order to avoid redundant creation of a new vector for each asyncRecv call. But with the current change as we are enqueuing multiple receive on the socket I have made the tmp buffer non-static.",
+      "parentUuid": "26c079b2_2acf5bc4",
       "revId": "8e60fcd7cc4214ec88318122c48be3d4254d36c5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -88,6 +160,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "eb8be5b3_e2803a94",
+        "filename": "src/gpu/MctpRequester.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-05-13T20:49:14Z",
+      "side": 1,
+      "message": "Cleaned up.",
+      "parentUuid": "79635829_6d1ea78a",
+      "revId": "8e60fcd7cc4214ec88318122c48be3d4254d36c5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6cd45136_329f5c1f",
         "filename": "src/gpu/MctpRequester.cpp",
         "patchSetId": 6
@@ -99,6 +189,24 @@
       "writtenOn": "2025-05-08T19:35:26Z",
       "side": 1,
       "message": "This function calls asyncRecv() and asyncRecv() calls this function... I think we need a better pattern (RAII-like) instead of the repititive processPendingRequests() and asyncRecv() calls. Or, why not call asyncRecv() only after sending a message?",
+      "revId": "8e60fcd7cc4214ec88318122c48be3d4254d36c5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea13c943_79a8160e",
+        "filename": "src/gpu/MctpRequester.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-05-13T20:49:14Z",
+      "side": 1,
+      "message": "Done. Now we are enqueuing a recv for each message we send out.",
+      "parentUuid": "6cd45136_329f5c1f",
       "revId": "8e60fcd7cc4214ec88318122c48be3d4254d36c5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
