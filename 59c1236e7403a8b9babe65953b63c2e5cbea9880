@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "61bff6c9_ad83589a",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-05-13T22:00:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7aeb4087_17623283",
+      "range": {
+        "startLine": 292,
+        "startChar": 0,
+        "endLine": 292,
+        "endChar": 17
+      },
+      "revId": "59c1236e7403a8b9babe65953b63c2e5cbea9880",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4a28154b_955c6852",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-05-10T02:21:17Z",
       "side": 1,
       "message": "same here",
+      "range": {
+        "startLine": 326,
+        "startChar": 2,
+        "endLine": 326,
+        "endChar": 17
+      },
+      "revId": "59c1236e7403a8b9babe65953b63c2e5cbea9880",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb1869dc_a89ca3cf",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-05-13T22:00:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a28154b_955c6852",
       "range": {
         "startLine": 326,
         "startChar": 2,
