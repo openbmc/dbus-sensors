@@ -346,7 +346,6 @@ bool createSensors(boost::asio::io_context& io,
                     lg2::info("Skipped: '{PATH}': '{NAME}' is already created",
                               "PATH", inputPath, "NAME", sensorName);
                 }
-                continue;
             }
 
             // check hidden properties
