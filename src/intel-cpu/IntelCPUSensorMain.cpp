@@ -338,9 +338,11 @@ bool createSensors(boost::asio::io_context& io,
             auto findSensor = gCpuSensors.find(sensorName);
             if (findSensor != gCpuSensors.end())
             {
-                lg2::debug("Skipped: '{PATH}': '{NAME}' is already created",
-                           "PATH", inputPath, "NAME", sensorName);
-                continue;
+                if (debug)
+                {
+                    lg2::info("Skipped: '{PATH}': '{NAME}' is already created",
+                              "PATH", inputPath, "NAME", sensorName);
+                }
             }
 
             // check hidden properties
