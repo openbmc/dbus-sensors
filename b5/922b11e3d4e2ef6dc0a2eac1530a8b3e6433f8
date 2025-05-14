@@ -1,0 +1,9 @@
+Code-Review+1: Thang Tran <thuutran@amperecomputing.com>
+Code-Review+2: Andrew Jeffery <andrew@codeconstruct.com.au>
+Verified+1: OpenBMC CI <openbmcbump-ci@yahoo.com>
+Submitted-by: Andrew Jeffery <andrew@codeconstruct.com.au>
+Submitted-at: Wed, 14 May 2025 01:20:07 +0000
+Reviewed-on: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/79732
+Comments-Total: 1
+Project: openbmc/dbus-sensors
+Branch: refs/heads/master
