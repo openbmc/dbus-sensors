@@ -64,13 +64,13 @@ class PSUSubEvent : public std::enable_shared_from_this<PSUSubEvent>
     std::string eventName;
 
     PowerState readState;
-    boost::asio::steady_timer waitTimer;
     std::shared_ptr<std::array<char, 128>> buffer;
     void restartRead();
     void handleResponse(const boost::system::error_code& err,
                         size_t bytesTransferred);
     void updateValue(const int& newValue);
     boost::asio::random_access_file inputDev;
+    boost::asio::steady_timer waitTimer;
     std::string psuName;
     std::string groupEventName;
     std::string fanName;

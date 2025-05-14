@@ -146,10 +146,10 @@ PSUSubEvent::PSUSubEvent(
     std::shared_ptr<bool> state, const std::string& psuName, double pollRate) :
     eventInterface(std::move(eventInterface)), asserts(std::move(asserts)),
     combineEvent(std::move(combineEvent)), assertState(std::move(state)),
-    path(path), eventName(eventName), readState(powerState), waitTimer(io),
-
+    path(path), eventName(eventName), readState(powerState),
     inputDev(io, path, boost::asio::random_access_file::read_only),
-    psuName(psuName), groupEventName(groupEventName), systemBus(conn)
+    waitTimer(io), psuName(psuName), groupEventName(groupEventName),
+    systemBus(conn)
 {
     buffer = std::make_shared<std::array<char, 128>>();
     if (pollRate > 0.0)
