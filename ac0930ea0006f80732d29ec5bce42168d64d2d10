@@ -1,0 +1,267 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3bd3ef2_83af5ecd",
+        "filename": "src/gpu/GpuSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-14T02:05:00Z",
+      "side": 1,
+      "message": "Given we\u0027re in the constructor, why not inline the implementation, especially as it just calls `discoverGpus()`. The indirection seems unnecessary.",
+      "revId": "ac0930ea0006f80732d29ec5bce42168d64d2d10",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14d2a7e2_e01d4f3f",
+        "filename": "src/gpu/GpuSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-14T02:05:00Z",
+      "side": 1,
+      "message": "Setup and cleanup of these interfaces should be done in stack-order.",
+      "revId": "ac0930ea0006f80732d29ec5bce42168d64d2d10",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "955dcb4d_379401d8",
+        "filename": "src/gpu/GpuSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-14T02:05:00Z",
+      "side": 1,
+      "message": "Having looked at `procesEndpointConfigs()` below, I think this would be better named `queryEndpoints()`.",
+      "revId": "ac0930ea0006f80732d29ec5bce42168d64d2d10",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9941c24e_5a78626b",
+        "filename": "src/gpu/GpuSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-14T02:05:00Z",
+      "side": 1,
+      "message": "This seems messy. How about:\n\n```\nlg2::error(\"Error processing MCTP endpoints: {ERROR}\", \"ERROR\", ec.message());\n```\n\nTry to make sure log messages can be understood by people who aren\u0027t familiar with the implementation details.\n\nPlease apply this sentiment through in the rest of your log messages.",
+      "revId": "ac0930ea0006f80732d29ec5bce42168d64d2d10",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "300b25ce_9616536b",
+        "filename": "src/gpu/GpuSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-14T02:05:00Z",
+      "side": 1,
+      "message": "The name of this parameter (and the method name) is misleading; the implementation appears to be processing information from objects implementing `xyz.openbmc_project.MCTP.Endpoint` hosted by `mctpd`. This isn\u0027t a \"config\" in the typical sense that is used in dbus-sensors, in that it doesn\u0027t represent an EM config object, it represents an endpoint itself.\n\nCan you please find a better name. Perhaps `endpoints` for the parameter, and `processEndpoints()` for the method.",
+      "range": {
+        "startLine": 126,
+        "startChar": 69,
+        "endLine": 126,
+        "endChar": 76
+      },
+      "revId": "ac0930ea0006f80732d29ec5bce42168d64d2d10",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "424dc844_e025459b",
+        "filename": "src/gpu/GpuSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-14T02:05:00Z",
+      "side": 1,
+      "message": "See similar comment above. I suggest `\"Error processing MCTP endpoint: {ERROR}\"`",
+      "revId": "ac0930ea0006f80732d29ec5bce42168d64d2d10",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e79dfb5_8d028c2f",
+        "filename": "src/gpu/GpuSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-14T02:05:00Z",
+      "side": 1,
+      "message": "Can you please integrate code using the extracted eid and types into this patch?",
+      "revId": "ac0930ea0006f80732d29ec5bce42168d64d2d10",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "296c441a_bcbb63e3",
+        "filename": "src/gpu/GpuSensor.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-14T02:05:00Z",
+      "side": 1,
+      "message": "Is there a reason to avoid `GetSubTreeType` from `Utils.hpp`? If so, please document it in a comment. If not, please change the code to exploit the common type.",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 78
+      },
+      "revId": "ac0930ea0006f80732d29ec5bce42168d64d2d10",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "473aa5d4_5f2b84a6",
+        "filename": "src/gpu/GpuSensor.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-14T02:05:00Z",
+      "side": 1,
+      "message": "Is there a reason to avoid `BasicVariantType` from `Utils.hpp`? If so, please document it in a comment. If not, please change the code to exploit the common type.",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 71
+      },
+      "revId": "ac0930ea0006f80732d29ec5bce42168d64d2d10",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93feb3b3_f9c97fd8",
+        "filename": "src/gpu/GpuSensor.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-14T02:05:00Z",
+      "side": 1,
+      "message": "I don\u0027t find this very informative. What meaning do the members have in practice?",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 3
+      },
+      "revId": "ac0930ea0006f80732d29ec5bce42168d64d2d10",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d5321ed_ef717a36",
+        "filename": "src/gpu/GpuSensor.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-14T02:05:00Z",
+      "side": 1,
+      "message": "This duplicates what the code already tells us, and is liable to getting out of sync with the code itself. The documentation should describe motivation and use, not implementation.\n\nPlease consider the documentation throughout with this in mind, I won\u0027t be commenting on all instances.",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 3
+      },
+      "revId": "ac0930ea0006f80732d29ec5bce42168d64d2d10",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c20b72a_54d16845",
+        "filename": "src/gpu/GpuSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-14T02:05:00Z",
+      "side": 1,
+      "message": "I don\u0027t feel this helpful in practice...",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 3
+      },
+      "revId": "ac0930ea0006f80732d29ec5bce42168d64d2d10",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a62dfdab_197b83f8",
+        "filename": "src/gpu/GpuSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-14T02:05:00Z",
+      "side": 1,
+      "message": "Can you please instead use the match helper functions from sdbusplus to construct the match string?\n\nhttps://github.com/openbmc/sdbusplus/blob/master/include/sdbusplus/bus/match.hpp",
+      "range": {
+        "startLine": 84,
+        "startChar": 8,
+        "endLine": 84,
+        "endChar": 61
+      },
+      "revId": "ac0930ea0006f80732d29ec5bce42168d64d2d10",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
