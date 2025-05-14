@@ -33,6 +33,24 @@
       "message": "Does this work with GPUs from any vendor? We have `intel-cpu` already; I feel this might be better as `nvidia-gpu`, with relevant changes applied throughout the patch.",
       "revId": "0c28086eaea56bfcdd6dc4131b25b0ff4a4d05ec",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3f5299a_1520b48d",
+        "filename": "meson.options",
+        "patchSetId": 15
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-14T02:34:57Z",
+      "side": 1,
+      "message": "@ed@tanous.net would you agree - I believe you had a different opinion. FWIW, there\u0027s also `mcu` which is from Intel.",
+      "parentUuid": "0d253f06_73c88e90",
+      "revId": "0c28086eaea56bfcdd6dc4131b25b0ff4a4d05ec",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
