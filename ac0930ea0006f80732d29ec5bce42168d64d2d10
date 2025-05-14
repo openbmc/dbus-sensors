@@ -128,6 +128,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f72aa87f_db491755",
+        "filename": "src/gpu/GpuSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-14T02:36:41Z",
+      "side": 1,
+      "message": "This was the suggestion from @ed@tanous.net:\n\nPatchset 1: Add GPU management daemon (this repo)\nPatchset 2: Add EM config reading support to dbus-sensors (this commit)\nPatchset 3: Add EM support to em repo (EM repo)\nPatchset 4: Add GB200 EM config (EM repo)\nPatchset 5: Implement basic temperature reading in C++ using a minimum implementation (this repo, next commit which processes the EID).",
+      "parentUuid": "7e79dfb5_8d028c2f",
+      "revId": "ac0930ea0006f80732d29ec5bce42168d64d2d10",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "296c441a_bcbb63e3",
         "filename": "src/gpu/GpuSensor.hpp",
         "patchSetId": 4
