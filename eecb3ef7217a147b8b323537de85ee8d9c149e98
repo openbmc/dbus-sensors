@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f005d45d_ac9ffa45",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-14T01:23:52Z",
+      "side": 1,
+      "message": "This looks fine, though CI hasn\u0027t triggered, likely because you\u0027re not known to be associated with a CLA on record for the project. The process is documented here:\n\nhttps://github.com/openbmc/docs/blob/master/CONTRIBUTING.md#starting-out",
+      "revId": "eecb3ef7217a147b8b323537de85ee8d9c149e98",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
