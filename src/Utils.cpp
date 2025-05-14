@@ -113,7 +113,7 @@ std::optional<std::string> getFullHwmonFilePath(
          */
         searchVal = hwmonBaseName;
     }
-    if (permitSet.find(*searchVal) != permitSet.end())
+    if (permitSet.contains(*searchVal))
     {
         result = directory + "/" + hwmonBaseName + "_input";
     }
