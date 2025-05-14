@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa21a048_4df5a261",
+        "filename": "meson.options",
+        "patchSetId": 17
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-14T12:48:29Z",
+      "side": 1,
+      "message": "This should be enabled or unspecified by default.  We can remove it in the PACKAGECONFIG on the yocto side.  That way we get compile testing of your code.",
+      "revId": "ba6e622daf3d674a5bb5f53ea25296eff7f37d3c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02588712_c6917bdb",
+        "filename": "service_files/xyz.openbmc_project.smbpbisensor.service",
+        "patchSetId": 17
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-14T12:48:29Z",
+      "side": 1,
+      "message": "libexec",
+      "revId": "ba6e622daf3d674a5bb5f53ea25296eff7f37d3c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
