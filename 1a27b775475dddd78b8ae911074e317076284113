@@ -16,6 +16,24 @@
       "message": "A lot of this was in `GpuTempSensor`. Why didn\u0027t we start with the `GpuDevice` abstraction rather than move it all now?",
       "revId": "1a27b775475dddd78b8ae911074e317076284113",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "728a651c_045d29e3",
+        "filename": "src/gpu/GpuDevice.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-14T03:55:17Z",
+      "side": 1,
+      "message": "The earlier commits were aligned with: mplement basic temperature reading in C++ using a minimum implementation.\n\nWe didn\u0027t require the GpuDevice abstraction to read a single temperature sensor. It\u0027s required here to enable other sensors.",
+      "parentUuid": "c9e165b7_96a9ae52",
+      "revId": "1a27b775475dddd78b8ae911074e317076284113",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
