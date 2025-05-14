@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9d409f8_8ab95e82",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 55
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-14T03:25:27Z",
+      "side": 1,
+      "message": "The implementation largely looks fine, though I left a few comments on the inotify handling. The main concern is the cable configuration file. I guess that\u0027s an implementation detail to some degree - it doesn\u0027t prevent us from providing the equivalent information via EM at some point down the track. I\u0027d like some acknowledgement from @ed@tanous.net though.",
+      "revId": "b451b7a8aea5d9ef692322012732f003cca229cc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a15f4ba6_6935d743",
+        "filename": "src/NotifyWatch.cpp",
+        "patchSetId": 55
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-14T03:25:27Z",
+      "side": 1,
+      "message": "You need to make sure this correctly aligned if you\u0027re casting buffer pointers to multi-byte quantities and dereferencing the pointers. See the example here:\n\nhttps://www.man7.org/linux/man-pages/man7/inotify.7.html#EXAMPLES",
+      "revId": "b451b7a8aea5d9ef692322012732f003cca229cc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df4f3670_aabd26d3",
+        "filename": "src/NotifyWatch.cpp",
+        "patchSetId": 55
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-14T03:25:27Z",
+      "side": 1,
+      "message": "could use `buffer.size()` here and eliminate the need for `maxBytes`?",
+      "range": {
+        "startLine": 88,
+        "startChar": 41,
+        "endLine": 88,
+        "endChar": 49
+      },
+      "revId": "b451b7a8aea5d9ef692322012732f003cca229cc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73438ccb_c304f3f1",
+        "filename": "src/NotifyWatch.cpp",
+        "patchSetId": 55
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-14T03:25:27Z",
+      "side": 1,
+      "message": "Would it not be less tedious to `reinterpret_cast\u003cinotify_event\u003e(buffer.data())` and dereference the members directly rather than do all the pointer math throughout. Admittedly there\u0027s a flexible array involved and you\u0027ll still need move over the name bytes, but once you\u0027ve reached the next `inotify_event` (if there are multiple) then you should be okay.\n\nThe wording of `man 7 inotify` suggests that there can be multiple null bytes accounted for in `len`, in which case I expect the kernel is padding appropriately to maintain alignment for the subsequent `inotify_event`.",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 72
+      },
+      "revId": "b451b7a8aea5d9ef692322012732f003cca229cc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73480dd6_8e03aff4",
+        "filename": "src/cable-monitor/CableConfig.hpp",
+        "patchSetId": 55
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-14T03:25:27Z",
+      "side": 1,
+      "message": "Why `.d`? Are we accumulating the configurations underneath it?",
+      "range": {
+        "startLine": 14,
+        "startChar": 64,
+        "endLine": 14,
+        "endChar": 66
+      },
+      "revId": "b451b7a8aea5d9ef692322012732f003cca229cc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bc75fca_3acc6f7f",
+        "filename": "src/cable-monitor/CableConfig.hpp",
+        "patchSetId": 55
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-14T03:25:27Z",
+      "side": 1,
+      "message": "This makes it seem like the answer is no.",
+      "revId": "b451b7a8aea5d9ef692322012732f003cca229cc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
