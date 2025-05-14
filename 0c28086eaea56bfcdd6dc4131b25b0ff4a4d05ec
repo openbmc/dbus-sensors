@@ -16,6 +16,23 @@
       "message": "CI failure seems unrelated to the change - I\u0027m seeing these on other d-bus sensor patches as well.",
       "revId": "0c28086eaea56bfcdd6dc4131b25b0ff4a4d05ec",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d253f06_73c88e90",
+        "filename": "meson.options",
+        "patchSetId": 15
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-14T01:30:23Z",
+      "side": 1,
+      "message": "Does this work with GPUs from any vendor? We have `intel-cpu` already; I feel this might be better as `nvidia-gpu`, with relevant changes applied throughout the patch.",
+      "revId": "0c28086eaea56bfcdd6dc4131b25b0ff4a4d05ec",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
