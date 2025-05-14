@@ -125,10 +125,7 @@ void IpmbSensor::init()
 {
     loadDefaults();
     setInitialProperties(getSubTypeUnits());
-    if (initCommand)
-    {
-        runInitCmd();
-    }
+    runInitCmd();
     read();
 }
 
@@ -151,7 +148,7 @@ static void initCmdCb(const std::weak_ptr<IpmbSensor>& weakRef,
 
 void IpmbSensor::runInitCmd()
 {
-    if (!initCommand)
+    if (!initCommand.has_value())
     {
         return;
     }
@@ -162,7 +159,8 @@ void IpmbSensor::runInitCmd()
         },
         "xyz.openbmc_project.Ipmi.Channel.Ipmb",
         "/xyz/openbmc_project/Ipmi/Channel/Ipmb", "org.openbmc.Ipmb",
-        "sendRequest", commandAddress, netfn, lun, *initCommand, initData);
+        "sendRequest", commandAddress, netfn, lun, initCommand.value_or(0),
+        initData);
 }
 
 void IpmbSensor::loadDefaults()
