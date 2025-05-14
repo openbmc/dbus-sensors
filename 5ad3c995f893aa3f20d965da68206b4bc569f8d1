@@ -1,0 +1,239 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9208de0_fb797ba3",
+        "filename": "src/gpu/GpuSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-14T02:43:33Z",
+      "side": 1,
+      "message": "This should be a weak pointer?",
+      "revId": "5ad3c995f893aa3f20d965da68206b4bc569f8d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "764de301_e4e805fb",
+        "filename": "src/gpu/MctpRequester.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-14T02:43:33Z",
+      "side": 1,
+      "message": "These are packed structs. Why `memcpy()`? You could cast them over the underlying buffer? Using `memcpy()` seems to be removing the advantage of using `__attribute__((packed))`.",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 72
+      },
+      "revId": "5ad3c995f893aa3f20d965da68206b4bc569f8d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0ffcd24_78f98c98",
+        "filename": "src/gpu/MctpRequester.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-14T02:43:33Z",
+      "side": 1,
+      "message": "See https://github.com/openbmc/docs/blob/master/anti-patterns.md#ill-defined-data-structuring-in-lg2-message-strings",
+      "range": {
+        "startLine": 114,
+        "startChar": 16,
+        "endLine": 114,
+        "endChar": 87
+      },
+      "revId": "5ad3c995f893aa3f20d965da68206b4bc569f8d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41b283b1_9b11ae4b",
+        "filename": "src/gpu/MctpRequester.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-14T02:43:33Z",
+      "side": 1,
+      "message": "What is the meaning of `-5` in this context?",
+      "range": {
+        "startLine": 117,
+        "startChar": 21,
+        "endLine": 117,
+        "endChar": 23
+      },
+      "revId": "5ad3c995f893aa3f20d965da68206b4bc569f8d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95242822_490487e2",
+        "filename": "src/gpu/MctpRequester.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-14T02:43:33Z",
+      "side": 1,
+      "message": "What\u0027s the meaning of `-1` here?",
+      "range": {
+        "startLine": 168,
+        "startChar": 21,
+        "endLine": 168,
+        "endChar": 23
+      },
+      "revId": "5ad3c995f893aa3f20d965da68206b4bc569f8d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d93f07b3_6115cc83",
+        "filename": "src/gpu/MctpRequester.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-14T02:43:33Z",
+      "side": 1,
+      "message": "Make it take `std::optional`?",
+      "range": {
+        "startLine": 168,
+        "startChar": 25,
+        "endLine": 168,
+        "endChar": 47
+      },
+      "revId": "5ad3c995f893aa3f20d965da68206b4bc569f8d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e623d17_13a234b2",
+        "filename": "src/gpu/OcpMctpVdm.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-14T02:43:33Z",
+      "side": 1,
+      "message": "Please do not define bitfields conditional on target endianness for wire-format data. Bitfield bit-ordering is implementation defined, see section `[class.bit]` in N4950 (C++23 draft specification):\n\n\u003e Allocation of bit-fields within a class object is implementation-defined. Alignment of bit-fields is implementation-defined.\n\nShifts and masks in host endianness don\u0027t rely on implementation specifics and are thus better practice. However, to use them you must deal with any endianness concerns prior to extracting the field member. As the type is uint8_t here, there are no concerns with endianness anyway, so it\u0027s just a straight shift/mask concern.\n\nI suspect you copied this from libpldm. libpldm has lots of quality issues. Please don\u0027t use it as a reference without asking me first.",
+      "range": {
+        "startLine": 90,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 6
+      },
+      "revId": "5ad3c995f893aa3f20d965da68206b4bc569f8d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97218d56_4ca8b1d8",
+        "filename": "src/gpu/OcpMctpVdm.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-14T02:43:33Z",
+      "side": 1,
+      "message": "As above.",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 108,
+        "endChar": 6
+      },
+      "revId": "5ad3c995f893aa3f20d965da68206b4bc569f8d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5390934e_58ec5270",
+        "filename": "src/gpu/OcpMctpVdm.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-14T02:43:33Z",
+      "side": 1,
+      "message": "Given the implementation is confined to the daemon I\u0027m less concerned about `__attribute__((packed))` here, but you _do_ want to consider _where_ you\u0027ll be requiring endian conversion and when people know whether a value is in wire-endian or host-endian format. Mixing endianness in the same struct member is a recipe for bugs.",
+      "range": {
+        "startLine": 111,
+        "startChar": 2,
+        "endLine": 111,
+        "endChar": 26
+      },
+      "revId": "5ad3c995f893aa3f20d965da68206b4bc569f8d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f58bc581_ca64cb3d",
+        "filename": "src/gpu/OcpMctpVdm.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-14T02:43:33Z",
+      "side": 1,
+      "message": "Is this effectively a flexible array member? If so, I\u0027d strongly recommend against what you\u0027ve done here. The single byte makes `sizeof()`-based calculations tedious and error-prone, which is the last thing needed when parsing message buffers in unsafe languages.",
+      "revId": "5ad3c995f893aa3f20d965da68206b4bc569f8d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddd7212a_69a593d7",
+        "filename": "src/gpu/OcpMctpVdm.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-14T02:43:33Z",
+      "side": 1,
+      "message": "I strongly recommend you avoid using protocol completion codes for implementation purposes. Often erroneous circumstances arise that aren\u0027t described by protocol-defined completion codes (e.g. allocation issues, impossible implementation conditions), and generally the conflation of the two is confusing. I suggest using regular system error codes.\n\nI suggest you fix this throughout.",
+      "revId": "5ad3c995f893aa3f20d965da68206b4bc569f8d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
