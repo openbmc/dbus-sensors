@@ -108,6 +108,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6035a7d9_735351d4",
+        "filename": "src/gpu/GpuPowerSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-14T04:25:57Z",
+      "side": 1,
+      "message": "You would be passing the encode/decode as std::functions, so I don\u0027t know if there would be code duplication (definitely less than what we have now) or loss of readability. I\u0027m fine to hold on this rework until you hear from other revewers/maintainers either way.",
+      "parentUuid": "4a7dcd39_024c98b1",
+      "revId": "5e828260cbfbf32740304706037c59ff6c70436b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3d626e32_921d9562",
         "filename": "src/gpu/meson.build",
         "patchSetId": 2
@@ -137,6 +155,24 @@
       "side": 1,
       "message": "Acknowledged",
       "parentUuid": "3d626e32_921d9562",
+      "revId": "5e828260cbfbf32740304706037c59ff6c70436b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3edf1a7b_198d78e2",
+        "filename": "src/gpu/meson.build",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-14T04:25:57Z",
+      "side": 1,
+      "message": "This is still pending.",
+      "parentUuid": "e7d5f688_8a860e60",
       "revId": "5e828260cbfbf32740304706037c59ff6c70436b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
