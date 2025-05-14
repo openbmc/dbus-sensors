@@ -338,7 +338,7 @@ static void createSensorsCallback(
         std::getline(nameFile, pmbusName);
         nameFile.close();
 
-        if (sensorTypes.find(pmbusName) == sensorTypes.end())
+        if (!sensorTypes.contains(pmbusName))
         {
             // To avoid this error message, add your driver name to
             // the pmbusNames vector at the top of this file.

@@ -751,8 +751,7 @@ bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
                     }
                 }
 
-                if (inventoryIfaces.find(name) == inventoryIfaces.end() &&
-                    present)
+                if (!inventoryIfaces.contains(name) && present)
                 {
                     auto iface = objectServer.add_interface(
                         cpuInventoryPath + std::string("/") + name,

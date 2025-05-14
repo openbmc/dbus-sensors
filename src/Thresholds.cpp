@@ -518,7 +518,7 @@ bool parseThresholdsFromAttr(
     if (auto fileParts = splitFileName(inputPath))
     {
         auto& [type, nr, item] = *fileParts;
-        if (map.count(item) != 0)
+        if (map.contains(item))
         {
             for (const auto& t : map.at(item))
             {
