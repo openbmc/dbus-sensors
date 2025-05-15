@@ -16,6 +16,23 @@
       "message": "Just a friendly reminder to take a look at this commit and provide any feedback if possible.\nI\u0027ve already made changes based on previous comments.",
       "revId": "2b5b7dca09433cc4baad8ca4de8ed23728cb6b68",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6018475c_7d0f7cba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2025-05-15T04:35:46Z",
+      "side": 1,
+      "message": "This is a great idea. I have long been in favor of having more than one readout, one for the user-desired setting, versus another for the hardware-actual setting. The reason is that of fan lag, as you mentioned, and other things such as sensor value quantization. I thought there was an open GitHub issue for this feature request, but there wasn\u0027t. It\u0027s a good idea. Thanks for adding it.",
+      "revId": "2b5b7dca09433cc4baad8ca4de8ed23728cb6b68",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
