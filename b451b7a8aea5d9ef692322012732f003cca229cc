@@ -35,6 +35,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3dd9af80_00fcb4cd",
+        "filename": "src/NotifyWatch.cpp",
+        "patchSetId": 55
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-15T02:05:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a15f4ba6_6935d743",
+      "revId": "b451b7a8aea5d9ef692322012732f003cca229cc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "df4f3670_aabd26d3",
@@ -58,6 +76,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d13e5e0_22c6e6b5",
+        "filename": "src/NotifyWatch.cpp",
+        "patchSetId": 55
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-15T02:05:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df4f3670_aabd26d3",
+      "range": {
+        "startLine": 88,
+        "startChar": 41,
+        "endLine": 88,
+        "endChar": 49
+      },
+      "revId": "b451b7a8aea5d9ef692322012732f003cca229cc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "73438ccb_c304f3f1",
@@ -71,6 +113,30 @@
       "writtenOn": "2025-05-14T03:25:27Z",
       "side": 1,
       "message": "Would it not be less tedious to `reinterpret_cast\u003cinotify_event\u003e(buffer.data())` and dereference the members directly rather than do all the pointer math throughout. Admittedly there\u0027s a flexible array involved and you\u0027ll still need move over the name bytes, but once you\u0027ve reached the next `inotify_event` (if there are multiple) then you should be okay.\n\nThe wording of `man 7 inotify` suggests that there can be multiple null bytes accounted for in `len`, in which case I expect the kernel is padding appropriately to maintain alignment for the subsequent `inotify_event`.",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 72
+      },
+      "revId": "b451b7a8aea5d9ef692322012732f003cca229cc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ec53f81_cbe14766",
+        "filename": "src/NotifyWatch.cpp",
+        "patchSetId": 55
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-15T02:05:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73438ccb_c304f3f1",
       "range": {
         "startLine": 98,
         "startChar": 0,
