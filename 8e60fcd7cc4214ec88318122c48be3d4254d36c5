@@ -354,6 +354,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d99a05d_6359ab6f",
+        "filename": "src/gpu/MctpRequester.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-05-15T23:48:52Z",
+      "side": 1,
+      "message": "Done. Using \u003ccerrno\u003e to provide proper error codes.",
+      "parentUuid": "dea991c9_ba39644d",
+      "revId": "8e60fcd7cc4214ec88318122c48be3d4254d36c5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3cdb0600_d9d69947",
@@ -385,6 +403,24 @@
       "side": 1,
       "message": "This is not done.",
       "parentUuid": "3cdb0600_d9d69947",
+      "revId": "8e60fcd7cc4214ec88318122c48be3d4254d36c5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7c32402_b24085b2",
+        "filename": "src/gpu/MctpRequester.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-05-15T23:48:52Z",
+      "side": 1,
+      "message": "Done. Type aliased to ErrorCode.",
+      "parentUuid": "edf5c7c6_339d8e33",
       "revId": "8e60fcd7cc4214ec88318122c48be3d4254d36c5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
