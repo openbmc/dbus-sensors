@@ -34,6 +34,24 @@
       "parentUuid": "c9e165b7_96a9ae52",
       "revId": "1a27b775475dddd78b8ae911074e317076284113",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc4f4b80_53d65bd9",
+        "filename": "src/gpu/GpuDevice.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-15T00:36:19Z",
+      "side": 1,
+      "message": "Okay, but it seems like needless code churn from the chosen approach to slicing the code into separate patches. As a reviewer I don\u0027t prefer the choice.",
+      "parentUuid": "728a651c_045d29e3",
+      "revId": "1a27b775475dddd78b8ae911074e317076284113",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
