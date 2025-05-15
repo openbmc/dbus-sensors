@@ -33,6 +33,23 @@
       "message": "Do you have any update for this commit @Jan?",
       "revId": "120688056e9cca990004016f7ce78ea4e274762b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9cece7db_7705e894",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2025-05-15T06:02:41Z",
+      "side": 1,
+      "message": "The patch set should also match InterfaceAdded signal for CPU Object path. In the case of inventoryManager service, when create the CPU inventory object path it only creates InterfaceAdded signal, the `Present` property does not change after that.",
+      "revId": "120688056e9cca990004016f7ce78ea4e274762b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
