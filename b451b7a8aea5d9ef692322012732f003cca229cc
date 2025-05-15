@@ -104,6 +104,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4fbedef_981c0d91",
+        "filename": "src/cable-monitor/CableConfig.hpp",
+        "patchSetId": 55
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-15T00:18:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73480dd6_8e03aff4",
+      "range": {
+        "startLine": 14,
+        "startChar": 64,
+        "endLine": 14,
+        "endChar": 66
+      },
+      "revId": "b451b7a8aea5d9ef692322012732f003cca229cc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2bc75fca_3acc6f7f",
@@ -117,6 +141,24 @@
       "writtenOn": "2025-05-14T03:25:27Z",
       "side": 1,
       "message": "This makes it seem like the answer is no.",
+      "revId": "b451b7a8aea5d9ef692322012732f003cca229cc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ab4f80f_b1ada733",
+        "filename": "src/cable-monitor/CableConfig.hpp",
+        "patchSetId": 55
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-15T00:18:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bc75fca_3acc6f7f",
       "revId": "b451b7a8aea5d9ef692322012732f003cca229cc",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
