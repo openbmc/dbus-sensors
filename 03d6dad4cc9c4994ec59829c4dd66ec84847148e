@@ -1,0 +1,828 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec08faa6_5e2103c8",
+        "filename": "service_files/xyz.openbmc_project.leakdetector.service",
+        "patchSetId": 76
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "These should go into libexec per https://github.com/openbmc/docs/blob/master/anti-patterns.md#incorrect-placement-of-executables-in-sbin-usrsbin-or-bin-usrbin",
+      "range": {
+        "startLine": 10,
+        "startChar": 11,
+        "endLine": 10,
+        "endChar": 31
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c3d0d6b_b1f36616",
+        "filename": "src/EntityManager.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "fwiw, `sdbusplus/async.hpp` is provided exactly so you don\u0027t need to do all this stuff.  You could consider anything under `async/` to be \"internal\".\n\nUnless, this is caused by that include-what-you-use clang-tidy stuff?  In which case, we should figure out how to fix that.  Maybe we have to add a hint in sdbusplus so clang-tidy is happier.",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 35
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5714d52_4a4942e9",
+        "filename": "src/EntityManager.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "This is implied by async/match.hpp.  Maybe again this is an IWYU problem induced by clang-tidy that we should fix.",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "982f9b8f_adf9118b",
+        "filename": "src/EntityManager.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "Please use `xyz::openbmc_project::inventory::Item::namespace_path` here.",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6fe0afc_c4bea645",
+        "filename": "src/EntityManager.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "Ideally we would add org.freedesktop.DBus.ObjectManager to the PDI YAML so you can use the client bindings here but it is challenging with GetManagedObjects being essentially a `variant\u003cany\u003e`.",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 77
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22ee4c08_ed73884f",
+        "filename": "src/EntityManager.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "nit: promote this outside the for-loop?  Can\u0027t we skip the entire function if there is no processInventoryAddedCallback?",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15fc7f68_42443299",
+        "filename": "src/EntityManager.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "After seeing the implementation here, I\u0027m a little surprised we don\u0027t have 3 tasks immediately dispatched to the ctx from the constructor (or added to an async_scope that can be co_awaited prior to destructing the class):\n\n```\nctx.spawn(handleInventoryAdded);\nctx.spawn(handleInventoryRemoved);\nctx.spawn(handleInventoryGet);\n```\n\nThen these become private functions.",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "403a488a_62a86fbc",
+        "filename": "src/EntityManager.hpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "It isn\u0027t clear from the name to me why this class is called \"EntityManager\".  Isn\u0027t it _listening_ to entity-manager and not a manager itself?",
+      "range": {
+        "startLine": 15,
+        "startChar": 6,
+        "endLine": 15,
+        "endChar": 19
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a6a980a_f50751e2",
+        "filename": "src/EntityManager.hpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "nit: Can this be named shorter?",
+      "range": {
+        "startLine": 18,
+        "startChar": 10,
+        "endLine": 18,
+        "endChar": 36
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c86d5418_8e9ac371",
+        "filename": "src/EntityManager.hpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "These 3 functions are entirely unclear to me what their purpose is even though they have a \"brief\".  When would I call them?  What do they do?  I have no idea.  Even after reading the implementation I have no idea.",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55565604_7e4b7273",
+        "filename": "src/EntityManager.hpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "nit: My preference on style, especially for co-routines, (and the maintainers can disagree) is:\n\n```\nauto handleInventoryGet() -\u003e stdplus::async::task\u003c\u003e;\n```\n\nThe main reasons:\n- Most modern languages use post-definition types now (Rust and Python are 2 relevant examples) so it makes overall developer experience more consistent.  Modern C++ supports it partially for this reason as well.\n- It is much easier on the eyes when skim-reviewing code because \u0027void\u0027 and \u0027auto\u0027 are both exactly 4 characters, so all function names line up, which is the primary information I care about.  This also means it is way easier to find a function implementation with my eyeballs rather than ctrl-f.\n\n(This suggestion would apply both to definitions and implementations and go through the entire commit.)",
+      "range": {
+        "startLine": 31,
+        "startChar": 4,
+        "endLine": 31,
+        "endChar": 28
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01d8a7b5_392fb051",
+        "filename": "src/EntityManager.hpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "nit: My preference would be much shorter variable names.  Also suggest grouping by purpose and not by type.\n\nSomething like:\n```\naddedCallback\naddedMatch\nremovedCallback\nremovedMatch\n```\n\n\"process\" is definitely superfluous\n\nShort names reduce the \"wall of text\" effect when reading your code.  I know it is a constructor and probably going to be challenging to read to begin with but if you look at lines 23-34 in the next file the \"text to whitespace\" ratio is almost 100% text.  This makes it very very difficult for anyone to comprehend.",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 50
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19194078_889360c4",
+        "filename": "src/GPIOInterface.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "Why would this ever happen?  We don\u0027t need to protect against memory allocation failures, do we?  If we do, we have serious hurt across the entire openbmc stack.\n\n(My opinion is that memory allocation errors are non-existent on modern linux because the only time you can get one is when you run out of address space; which is going to be an even worse problem for you anyhow.)",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a495ef6c_209288e0",
+        "filename": "src/GPIOInterface.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "One of the subtle flaws here is that you have no way to stop the readGPIOAsyncEvent if this class is ever destructed, which means you have no way to write test cases for any of this code.\n\nThis is another case where another `async_scope` with a separate cancellation token might be necessary.",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "446a9b4c_f957b236",
+        "filename": "src/GPIOInterface.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "nit: I prefer `co_return co_await` when the awaited coroutine actually returns something.  As written I have to think about what readGPIOAsync returns, which it turns out is nothing.\n\n`co_await readGPIOAsync(); co_return;`  And actually you don\u0027t need a `co_return` in a void-returning-co-routine if that co-routine does a `co_await` inside.  ie. just like a normal function `[co_]return` is implied.",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 14
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83dcaed9_593521d2",
+        "filename": "src/GPIOInterface.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "Wait, if we have no callback we are doing nothing, right?  So why even have these tasks running in that case?",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49d953d4_1c33d635",
+        "filename": "src/GPIOInterface.hpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "This doesn\u0027t belong in the header.  Put it into the cpp file(s).",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b807c264_980bea2d",
+        "filename": "src/Systemd.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "drop filename.",
+      "range": {
+        "startLine": 42,
+        "startChar": 18,
+        "endLine": 42,
+        "endChar": 29
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53c68889_753a3822",
+        "filename": "src/Systemd.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "drop \u0027what\u0027",
+      "range": {
+        "startLine": 47,
+        "startChar": 17,
+        "endLine": 47,
+        "endChar": 24
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1bb960b_f485f5a4",
+        "filename": "src/leakdetector/LeakDetectionManager.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "This implies those functions should have been private?",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 75
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7600ce5_95955369",
+        "filename": "src/leakdetector/LeakDetectionManager.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "Another \"I cannot destruct this class\" problem.",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d8683c9_c40043af",
+        "filename": "src/leakdetector/LeakDetectionManager.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "Here you are destructing the GPIODetector class but that class does a `ctx.spawn()`.  I suspect you have a potential use-after-free as a result.",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "755d8b09_9e989e79",
+        "filename": "src/leakdetector/LeakDetectionManager.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "nit: Do you want to swap the order?  That way if the `erase` causes a crash you might have more information readily available as to where the crash was.",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98836212_baeba23c",
+        "filename": "src/leakdetector/LeakDetectionManager.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "object_path is already supported by lg2.  Drop the `.filename()` here.",
+      "range": {
+        "startLine": 49,
+        "startChar": 53,
+        "endLine": 49,
+        "endChar": 74
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b793515c_60456ecc",
+        "filename": "src/leakdetector/LeakDetectionManager.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "Uh... why is this a co-routine then?",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 14
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3897727a_23ff2d1e",
+        "filename": "src/leakdetector/LeakDetectionManager.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "Get all the properties in one shot.  That means you do 1 dbus operation instead of 5.\n\n```suggestion\n    auto client \u003d co_await GPIODetectorConfigIntf(ctx)\n                      .service(entity_manager::EntityManager::serviceName)\n                      .path(objectPath.str).properties();\n```",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 44
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c250020_336f4ea3",
+        "filename": "src/leakdetector/LeakDetectionManager.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "nit: can we make these `xyz.openbmc_project.dbus_sensors.leakdetector` going forward?",
+      "range": {
+        "startLine": 158,
+        "startChar": 54,
+        "endLine": 158,
+        "endChar": 66
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03d2e86d_c5513525",
+        "filename": "src/leakdetector/LeakDetectionManager.hpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "Again, I don\u0027t know why to call these.",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be6ac8fc_61802681",
+        "filename": "src/leakdetector/LeakDetectionManager.hpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "Please be consistent with your naming: start vs startup.",
+      "range": {
+        "startLine": 45,
+        "startChar": 29,
+        "endLine": 45,
+        "endChar": 36
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d074f10d_23157cbf",
+        "filename": "src/leakdetector/LeakDetectionManager.hpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "This is a good example where post-return syntax improves readability a lot.",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 70
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ce79bee_5118db94",
+        "filename": "src/leakdetector/LeakEvents.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "Should we use a tuple or struct here instead?  It seems like you\u0027re only using this as a key in a local map?",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 72
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ea62709_3d4d4d88",
+        "filename": "src/leakdetector/LeakEvents.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "nit: I would early return here and eliminate the `else`.",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 8
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8718c63a_c668c032",
+        "filename": "src/leakdetector/LeakEvents.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "Just use `co_await lg2::resolve(ctx, path)` and eliminate this whole function.",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 1
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2399604_61d4a588",
+        "filename": "src/leakdetector/LeakGPIODetector.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "I don\u0027t know if we want dbus_sensor on these also.",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ffc6b59_2251c91d",
+        "filename": "src/leakdetector/LeakGPIODetector.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "Another \"spawn in constructor\" \u003d\u003e \"cannot be deleted\" class.",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27981080_ef39e003",
+        "filename": "src/leakdetector/LeakGPIODetector.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "I don\u0027t fully understand what this is accomplishing.  Can you give some comments as to why we need to track this `emitSignal` state and not send the signal the first time?\n\nI suspect we\u0027re trying to do something where we really should be calling emit_object_added after the first time we set up the property value and the rest of the times we are needing to update the property itself?",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 9
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7a125f1_d9d1cffd",
+        "filename": "src/leakdetector/LeakGPIODetector.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "Why does this need to be spawned?  Isn\u0027t it fairly light-weight to ask systemd to start a unit?  Can we just co_await right here?  Or does the startUnit call block until the unit finishes (I don\u0027t think it does).",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aeac4712_db17ea05",
+        "filename": "src/leakdetector/LeakGPIODetector.hpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "I think this can go in as is, but as a follow up I need to get some code in that emit events properly for the `async::server_t` class.  Right now you\u0027re not going to get events emitted which means object-mapper won\u0027t know about your classes.",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 93,
+        "endChar": 64
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96ec0941_fd732e07",
+        "filename": "src/leakdetector/LeakGPIODetector.hpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "nit: You can probably avoid making this a member function and just make it a static function inside LeakGPIODetector.cpp.",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 41
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0532e5a7_bdcfa4f5",
+        "filename": "src/meson.build",
+        "patchSetId": 76
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T12:51:05Z",
+      "side": 1,
+      "message": "Should these be turned into a static_library?  I suspect so.",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 46
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
