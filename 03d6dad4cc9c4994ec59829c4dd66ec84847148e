@@ -71,6 +71,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "582bae33_5a94d6eb",
+        "filename": "src/EntityManager.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-16T08:03:33Z",
+      "side": 1,
+      "message": "Yes, thats what i used initially but as you pointed out it was tossed out by clang IWYU.\n\nI see an option https://github.com/include-what-you-use/include-what-you-use/blob/master/docs/IWYUPragmas.md#iwyu-pragma-begin_exportsend_exports which instructs clang that the includer is the provider of pragma files.\n\nRaised: https://gerrit.openbmc.org/c/openbmc/sdbusplus/+/80376 .",
+      "parentUuid": "1c3d0d6b_b1f36616",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 35
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5714d52_4a4942e9",
@@ -84,6 +108,24 @@
       "writtenOn": "2025-05-15T12:51:05Z",
       "side": 1,
       "message": "This is implied by async/match.hpp.  Maybe again this is an IWYU problem induced by clang-tidy that we should fix.",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c342e53_1dec0e75",
+        "filename": "src/EntityManager.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-16T08:03:33Z",
+      "side": 1,
+      "message": "Same as https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/75329/comment/1c3d0d6b_b1f36616/ .\n\nRaised: https://gerrit.openbmc.org/c/openbmc/sdbusplus/+/80377",
+      "parentUuid": "f5714d52_4a4942e9",
       "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -358,6 +400,30 @@
       "writtenOn": "2025-05-15T12:51:05Z",
       "side": 1,
       "message": "nit: My preference on style, especially for co-routines, (and the maintainers can disagree) is:\n\n```\nauto handleInventoryGet() -\u003e stdplus::async::task\u003c\u003e;\n```\n\nThe main reasons:\n- Most modern languages use post-definition types now (Rust and Python are 2 relevant examples) so it makes overall developer experience more consistent.  Modern C++ supports it partially for this reason as well.\n- It is much easier on the eyes when skim-reviewing code because \u0027void\u0027 and \u0027auto\u0027 are both exactly 4 characters, so all function names line up, which is the primary information I care about.  This also means it is way easier to find a function implementation with my eyeballs rather than ctrl-f.\n\n(This suggestion would apply both to definitions and implementations and go through the entire commit.)",
+      "range": {
+        "startLine": 31,
+        "startChar": 4,
+        "endLine": 31,
+        "endChar": 28
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bca0f61_f6ecb22f",
+        "filename": "src/EntityManager.hpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-16T08:03:33Z",
+      "side": 1,
+      "message": "That was the original code style i had, but i got a review comment from @ed@tanous.net suggesting that he don\u0027t want to adopt this new pattern for now, hence i had to change all the code to start using the prefix notation rather than postfix.\nI am marking this comment as resolved since it has already been discussed with maintainers and you have marked this as nit.",
+      "parentUuid": "55565604_7e4b7273",
       "range": {
         "startLine": 31,
         "startChar": 4,
@@ -958,6 +1024,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f475396f_87f49b12",
+        "filename": "src/leakdetector/LeakDetectionManager.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-16T08:03:33Z",
+      "side": 1,
+      "message": "I don\u0027t see any other services in dbus_sensors doing this, so for now lets follow that pattern. We can always raise a followup patch for all the services, if needed.",
+      "parentUuid": "4c250020_336f4ea3",
+      "range": {
+        "startLine": 158,
+        "startChar": 54,
+        "endLine": 158,
+        "endChar": 66
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "03d2e86d_c5513525",
@@ -1245,6 +1335,30 @@
       "writtenOn": "2025-05-15T12:51:05Z",
       "side": 1,
       "message": "I don\u0027t fully understand what this is accomplishing.  Can you give some comments as to why we need to track this `emitSignal` state and not send the signal the first time?\n\nI suspect we\u0027re trying to do something where we really should be calling emit_object_added after the first time we set up the property value and the rest of the times we are needing to update the property itself?",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 9
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d125fd0_4e49ae84",
+        "filename": "src/leakdetector/LeakGPIODetector.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-16T08:03:33Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t fully understand what this is accomplishing.  Can you give some comments as to why we need to track this `emitSignal` state and not send the signal the first time?\n\u003e \n\u003e I suspect we\u0027re trying to do something where we really should be calling emit_object_added after the first time we set up the property value and the rest of the times we are needing to update the property itself?\n\nYes, thats what i was trying to accomplish. Dropped this code. Shall i really add emit_added() as you mentioned in other comment that you are planning to fix the issue.",
+      "parentUuid": "27981080_ef39e003",
       "range": {
         "startLine": 58,
         "startChar": 0,
