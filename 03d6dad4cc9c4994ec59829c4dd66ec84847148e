@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "14c502df_df06b797",
+        "filename": "service_files/xyz.openbmc_project.leakdetector.service",
+        "patchSetId": 76
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-16T02:02:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec08faa6_5e2103c8",
+      "range": {
+        "startLine": 10,
+        "startChar": 11,
+        "endLine": 10,
+        "endChar": 31
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1c3d0d6b_b1f36616",
@@ -83,6 +107,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "45adbef9_b3716899",
+        "filename": "src/EntityManager.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-16T02:02:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "982f9b8f_adf9118b",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "c6fe0afc_c4bea645",
         "filename": "src/EntityManager.cpp",
         "patchSetId": 76
@@ -121,6 +163,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8dfaf26_a6dae683",
+        "filename": "src/EntityManager.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-16T02:02:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22ee4c08_ed73884f",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "15fc7f68_42443299",
@@ -138,6 +198,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "08aa07a7_7c58c27e",
+        "filename": "src/EntityManager.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-16T02:02:06Z",
+      "side": 1,
+      "message": "handleInventoryAdded, handleInventoryRemoved have be added to the constructor call and made private since those are async matcher APIs, but inventoryGet is more of a regular function as it can be called at any time depending on usecase, for example, CableMonitor calls it when CableFile is discovered, so will leave that one as such.",
+      "parentUuid": "15fc7f68_42443299",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "403a488a_62a86fbc",
@@ -151,6 +229,30 @@
       "writtenOn": "2025-05-15T12:51:05Z",
       "side": 1,
       "message": "It isn\u0027t clear from the name to me why this class is called \"EntityManager\".  Isn\u0027t it _listening_ to entity-manager and not a manager itself?",
+      "range": {
+        "startLine": 15,
+        "startChar": 6,
+        "endLine": 15,
+        "endChar": 19
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56187b06_a175ccb7",
+        "filename": "src/EntityManager.hpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-16T02:02:06Z",
+      "side": 1,
+      "message": "Changed to EntityManagerInterface instead.",
+      "parentUuid": "403a488a_62a86fbc",
       "range": {
         "startLine": 15,
         "startChar": 6,
@@ -184,6 +286,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d797a8d6_827c5b00",
+        "filename": "src/EntityManager.hpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-16T02:02:06Z",
+      "side": 1,
+      "message": "Changed to just Callback_t based on your next set of comments.",
+      "parentUuid": "8a6a980a_f50751e2",
+      "range": {
+        "startLine": 18,
+        "startChar": 10,
+        "endLine": 18,
+        "endChar": 36
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c86d5418_8e9ac371",
@@ -197,6 +323,24 @@
       "writtenOn": "2025-05-15T12:51:05Z",
       "side": 1,
       "message": "These 3 functions are entirely unclear to me what their purpose is even though they have a \"brief\".  When would I call them?  What do they do?  I have no idea.  Even after reading the implementation I have no idea.",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7eea7373_562a9ea9",
+        "filename": "src/EntityManager.hpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-16T02:02:06Z",
+      "side": 1,
+      "message": "Resolving this comment based on https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/75329/comment/15fc7f68_42443299/ as it seems you got the intent. Please let me know in case there are still any questions.",
+      "parentUuid": "c86d5418_8e9ac371",
       "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -247,6 +391,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "78dd1899_da7703fe",
+        "filename": "src/EntityManager.hpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-16T02:02:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01d8a7b5_392fb051",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 50
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "19194078_889360c4",
@@ -260,6 +428,24 @@
       "writtenOn": "2025-05-15T12:51:05Z",
       "side": 1,
       "message": "Why would this ever happen?  We don\u0027t need to protect against memory allocation failures, do we?  If we do, we have serious hurt across the entire openbmc stack.\n\n(My opinion is that memory allocation errors are non-existent on modern linux because the only time you can get one is when you run out of address space; which is going to be an even worse problem for you anyhow.)",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4ed235c_62b3e1cc",
+        "filename": "src/GPIOInterface.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-16T02:02:06Z",
+      "side": 1,
+      "message": "I didn\u0027t had it originally but ended up adding this to solve a clang issue which didn\u0027t get solved by this but by adding a check later on in the caller, so yes, will drop this.",
+      "parentUuid": "19194078_889360c4",
       "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -304,6 +490,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5251779_93e28ff7",
+        "filename": "src/GPIOInterface.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-16T02:02:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "446a9b4c_f957b236",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 14
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "83dcaed9_593521d2",
@@ -317,6 +527,24 @@
       "writtenOn": "2025-05-15T12:51:05Z",
       "side": 1,
       "message": "Wait, if we have no callback we are doing nothing, right?  So why even have these tasks running in that case?",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ded0742_e1555bee",
+        "filename": "src/GPIOInterface.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-16T02:02:06Z",
+      "side": 1,
+      "message": "Are u saying i should remove this if (updateGPIOStateCallback) check? Not sure if clang will be happy.",
+      "parentUuid": "83dcaed9_593521d2",
       "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -338,6 +566,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "334e3dbb_7bb78e1f",
+        "filename": "src/GPIOInterface.hpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-16T02:02:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49d953d4_1c33d635",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b807c264_980bea2d",
@@ -351,6 +597,30 @@
       "writtenOn": "2025-05-15T12:51:05Z",
       "side": 1,
       "message": "drop filename.",
+      "range": {
+        "startLine": 42,
+        "startChar": 18,
+        "endLine": 42,
+        "endChar": 29
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "873c61d2_4ba1e615",
+        "filename": "src/Systemd.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-16T02:02:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b807c264_980bea2d",
       "range": {
         "startLine": 42,
         "startChar": 18,
@@ -384,6 +654,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a41e768_ca8eab45",
+        "filename": "src/Systemd.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-16T02:02:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53c68889_753a3822",
+      "range": {
+        "startLine": 47,
+        "startChar": 17,
+        "endLine": 47,
+        "endChar": 24
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d1bb960b_f485f5a4",
@@ -397,6 +691,30 @@
       "writtenOn": "2025-05-15T12:51:05Z",
       "side": 1,
       "message": "This implies those functions should have been private?",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 75
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b435082a_aec612d8",
+        "filename": "src/leakdetector/LeakDetectionManager.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-16T02:02:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1bb960b_f485f5a4",
       "range": {
         "startLine": 26,
         "startChar": 0,
@@ -481,6 +799,48 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea8d3cc2_b6a3f41c",
+        "filename": "src/leakdetector/LeakDetectionManager.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-16T02:02:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98836212_baeba23c",
+      "range": {
+        "startLine": 49,
+        "startChar": 53,
+        "endLine": 49,
+        "endChar": 74
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48ff6667_9fcd1335",
+        "filename": "src/leakdetector/LeakDetectionManager.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-16T02:02:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "755d8b09_9e989e79",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b793515c_60456ecc",
@@ -504,6 +864,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "40912a2a_d22980ea",
+        "filename": "src/leakdetector/LeakDetectionManager.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-16T02:02:06Z",
+      "side": 1,
+      "message": "This function has been dropped and left over calls moved to constructor.",
+      "parentUuid": "b793515c_60456ecc",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 14
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3897727a_23ff2d1e",
@@ -517,6 +901,30 @@
       "writtenOn": "2025-05-15T12:51:05Z",
       "side": 1,
       "message": "Get all the properties in one shot.  That means you do 1 dbus operation instead of 5.\n\n```suggestion\n    auto client \u003d co_await GPIODetectorConfigIntf(ctx)\n                      .service(entity_manager::EntityManager::serviceName)\n                      .path(objectPath.str).properties();\n```",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 44
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "836cb09a_3a8debfd",
+        "filename": "src/leakdetector/LeakDetectionManager.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-16T02:02:06Z",
+      "side": 1,
+      "message": "Done. Thanks",
+      "parentUuid": "3897727a_23ff2d1e",
       "range": {
         "startLine": 96,
         "startChar": 0,
@@ -567,6 +975,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "904010eb_97164acc",
+        "filename": "src/leakdetector/LeakDetectionManager.hpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-16T02:02:06Z",
+      "side": 1,
+      "message": "These are the callback handlers for inventory actions which gets passed to EM interface constructor.",
+      "parentUuid": "03d2e86d_c5513525",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "be6ac8fc_61802681",
@@ -580,6 +1006,30 @@
       "writtenOn": "2025-05-15T12:51:05Z",
       "side": 1,
       "message": "Please be consistent with your naming: start vs startup.",
+      "range": {
+        "startLine": 45,
+        "startChar": 29,
+        "endLine": 45,
+        "endChar": 36
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96432b40_523db5b0",
+        "filename": "src/leakdetector/LeakDetectionManager.hpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-16T02:02:06Z",
+      "side": 1,
+      "message": "Dropped this startup function and folded the call into constructor.",
+      "parentUuid": "be6ac8fc_61802681",
       "range": {
         "startLine": 45,
         "startChar": 29,
@@ -659,6 +1109,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "13d12dd0_c2743e7d",
+        "filename": "src/leakdetector/LeakEvents.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-16T02:02:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ea62709_3d4d4d88",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 8
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8718c63a_c668c032",
@@ -672,6 +1146,30 @@
       "writtenOn": "2025-05-15T12:51:05Z",
       "side": 1,
       "message": "Just use `co_await lg2::resolve(ctx, path)` and eliminate this whole function.",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 1
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46d86c6c_4e1d0520",
+        "filename": "src/leakdetector/LeakEvents.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-16T02:02:06Z",
+      "side": 1,
+      "message": "Great, i didn\u0027t knew this API existed. Thanks",
+      "parentUuid": "8718c63a_c668c032",
       "range": {
         "startLine": 65,
         "startChar": 0,
@@ -779,6 +1277,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a85360e_8d9e3fd3",
+        "filename": "src/leakdetector/LeakGPIODetector.hpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-16T02:02:06Z",
+      "side": 1,
+      "message": "Sure Thanks. Will catchup with you on this as there was a patch raised by Alexander as well for sdbusplus. I didn\u0027t get a chance to review that yet.",
+      "parentUuid": "aeac4712_db17ea05",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 93,
+        "endChar": 64
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "96ec0941_fd732e07",
@@ -792,6 +1314,30 @@
       "writtenOn": "2025-05-15T12:51:05Z",
       "side": 1,
       "message": "nit: You can probably avoid making this a member function and just make it a static function inside LeakGPIODetector.cpp.",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 41
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56f94074_dd4b54d8",
+        "filename": "src/leakdetector/LeakGPIODetector.hpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-16T02:02:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96ec0941_fd732e07",
       "range": {
         "startLine": 98,
         "startChar": 0,
