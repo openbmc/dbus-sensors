@@ -1197,6 +1197,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "95235ed5_c9627e8b",
+        "filename": "src/leakdetector/LeakGPIODetector.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-16T03:01:08Z",
+      "side": 1,
+      "message": "I don\u0027t see any dbus sensors service names having any such keyword in there, so lets follow the same for now.",
+      "parentUuid": "d2399604_61d4a588",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9ffc6b59_2251c91d",
@@ -1250,6 +1268,24 @@
       "writtenOn": "2025-05-15T12:51:05Z",
       "side": 1,
       "message": "Why does this need to be spawned?  Isn\u0027t it fairly light-weight to ask systemd to start a unit?  Can we just co_await right here?  Or does the startUnit call block until the unit finishes (I don\u0027t think it does).",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab963804_17c15c65",
+        "filename": "src/leakdetector/LeakGPIODetector.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-16T03:01:08Z",
+      "side": 1,
+      "message": "Initially i had a co_await here as i agree that starting a unit shouldn\u0027t be too expensive, but @ed@tanous.net didn\u0027t wanted to block the scanning on this and suggested for a spawn here, hence so\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/75329/comment/192e817c_fbaa8cde/ .\n\nI am marking this as resolved for now, in case you have a strong opinion on this we can start a discussion thread.",
+      "parentUuid": "b7a125f1_d9d1cffd",
       "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -1361,6 +1397,30 @@
       "writtenOn": "2025-05-15T12:51:05Z",
       "side": 1,
       "message": "Should these be turned into a static_library?  I suspect so.",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 46
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c8c51ce_280c22ef",
+        "filename": "src/meson.build",
+        "patchSetId": 76
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-16T03:01:08Z",
+      "side": 1,
+      "message": "For systemd.cpp, Ed was not in support of making the static lib, please refer here https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/75329/comment/5cd26f5f_5818e588/.\n\nUpdated GPIoInterface and EntityManagerInterface to define static libs.",
+      "parentUuid": "0532e5a7_bdcfa4f5",
       "range": {
         "startLine": 64,
         "startChar": 0,
