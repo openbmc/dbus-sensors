@@ -533,6 +533,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "12106c0e_1bf28b3b",
+        "filename": "src/GPIOInterface.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-17T01:09:32Z",
+      "side": 1,
+      "message": "As discussed in person, this usecase won\u0027t hit at the moment, but once related code becomes available in sdbusplus will migrate to that. Marking this as resolved based on this.",
+      "parentUuid": "a495ef6c_209288e0",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "446a9b4c_f957b236",
@@ -826,6 +844,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "17dce433_95f48c70",
+        "filename": "src/leakdetector/LeakDetectionManager.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-17T01:09:32Z",
+      "side": 1,
+      "message": "Refer https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/75329/comment/a495ef6c_209288e0/",
+      "parentUuid": "a7600ce5_95955369",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6d8683c9_c40043af",
@@ -839,6 +875,24 @@
       "writtenOn": "2025-05-15T12:51:05Z",
       "side": 1,
       "message": "Here you are destructing the GPIODetector class but that class does a `ctx.spawn()`.  I suspect you have a potential use-after-free as a result.",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75863f21_ed6f52db",
+        "filename": "src/leakdetector/LeakDetectionManager.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-17T01:09:32Z",
+      "side": 1,
+      "message": "https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/75329/comment/a495ef6c_209288e0/",
+      "parentUuid": "6d8683c9_c40043af",
       "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -1364,6 +1418,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fac6c224_db4d5888",
+        "filename": "src/leakdetector/LeakGPIODetector.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-17T01:09:32Z",
+      "side": 1,
+      "message": "https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/75329/comment/a495ef6c_209288e0/",
+      "parentUuid": "9ffc6b59_2251c91d",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "27981080_ef39e003",
@@ -1401,6 +1473,30 @@
       "side": 1,
       "message": "\u003e I don\u0027t fully understand what this is accomplishing.  Can you give some comments as to why we need to track this `emitSignal` state and not send the signal the first time?\n\u003e \n\u003e I suspect we\u0027re trying to do something where we really should be calling emit_object_added after the first time we set up the property value and the rest of the times we are needing to update the property itself?\n\nYes, thats what i was trying to accomplish. Dropped this code. Shall i really add emit_added() as you mentioned in other comment that you are planning to fix the issue.",
       "parentUuid": "27981080_ef39e003",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 9
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61aabc69_d8bcd27f",
+        "filename": "src/leakdetector/LeakGPIODetector.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-17T01:09:32Z",
+      "side": 1,
+      "message": "As discussed will just add property set without passing any signal state for now. Patrick will add logic in PDI async bindings to generate the required signals.",
+      "parentUuid": "9d125fd0_4e49ae84",
       "range": {
         "startLine": 58,
         "startChar": 0,
