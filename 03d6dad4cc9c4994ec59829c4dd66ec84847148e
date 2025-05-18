@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2f5c9675_8768d8d0",
+        "filename": "src/EntityManager.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-18T01:39:36Z",
+      "side": 1,
+      "message": "@patrick@stwcx.xyz if the internal-only files in sdbusplus were renamed to follow some kind of pattern, like adding \"detail\" into the path, or \"impl\" (which isn\u0027t quite right) we can just blanket ignore those in the tidy file.\n\nnot going to hold this patch up either way.",
+      "parentUuid": "582bae33_5a94d6eb",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 35
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f5714d52_4a4942e9",
         "filename": "src/EntityManager.cpp",
         "patchSetId": 76
@@ -436,6 +460,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "03476f4d_467be97f",
+        "filename": "src/EntityManager.hpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-18T01:39:36Z",
+      "side": 1,
+      "message": "We had talked about it on discord, and I\u0027m fine with the new pattern, I just wanted to understand why you were doing it.  After we discussed, I now understand, and I don\u0027t have a strong opinion either way, we can mix them up without worry (I didn\u0027t know that at the time I left the last comment).\n\nWill leave it between you and patrick if you want to go back.  I\u0027m fine either way.  FWIW, some of the tidy checks I remember not liking the -\u003e version, but if it works on the current tidy version, we\u0027re good.",
+      "parentUuid": "9bca0f61_f6ecb22f",
+      "range": {
+        "startLine": 31,
+        "startChar": 4,
+        "endLine": 31,
+        "endChar": 28
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "01d8a7b5_392fb051",
         "filename": "src/EntityManager.hpp",
         "patchSetId": 76
@@ -547,6 +595,24 @@
       "side": 1,
       "message": "As discussed in person, this usecase won\u0027t hit at the moment, but once related code becomes available in sdbusplus will migrate to that. Marking this as resolved based on this.",
       "parentUuid": "a495ef6c_209288e0",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f3e1240_3abfaa94",
+        "filename": "src/GPIOInterface.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-18T01:39:36Z",
+      "side": 1,
+      "message": "Can you enlighten me what the plan is here?",
+      "parentUuid": "12106c0e_1bf28b3b",
       "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -1538,6 +1604,24 @@
       "side": 1,
       "message": "Initially i had a co_await here as i agree that starting a unit shouldn\u0027t be too expensive, but @ed@tanous.net didn\u0027t wanted to block the scanning on this and suggested for a spawn here, hence so\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/75329/comment/192e817c_fbaa8cde/ .\n\nI am marking this as resolved for now, in case you have a strong opinion on this we can start a discussion thread.",
       "parentUuid": "b7a125f1_d9d1cffd",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89e86192_a5e67979",
+        "filename": "src/leakdetector/LeakGPIODetector.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-18T01:39:36Z",
+      "side": 1,
+      "message": "It\u0027s another IO that doesn\u0027t matter to the overall flow, so I assumed that it was better to spawn to another task?  Is the expense of spawn something to worry about?",
+      "parentUuid": "ab963804_17c15c65",
       "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
