@@ -37,6 +37,7 @@ owners:
 - vernon.mauery@gmail.com
 - zhikui.ren@intel.com
 - andrew@codeconstruct.com.au
+- patrick@stwcx.xyz
 
 openbmc:
 - name: Andrew Jeffery
@@ -48,6 +49,9 @@ openbmc:
 - name: Jae Hyun Yoo
   email: jae.hyun.yoo@linux.intel.com
   discord: jae
+- name: Patrick Williams
+  email: patrick@stwcx.xyz
+  discord: stwcx
 - name: Vernon Mauery
   email: vernon.mauery@gmail.com
   discord: vmauery
