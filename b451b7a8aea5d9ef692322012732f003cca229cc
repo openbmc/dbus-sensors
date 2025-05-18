@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fa5abe82_634cb83d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 55
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-18T01:47:20Z",
+      "side": 1,
+      "message": "The intent on EM reactors (from the original author, not me) is that they follow the EM configuration file for compile time config, and use the createobject dbus interface for runtime config.  I understand that meta wants to update this config at runtime using some package install system?  That needs to be called out in the commit.\n\n@paligill@gmail.com were you able to look at the addObject dbus method?\n\nhttps://github.com/openbmc/entity-manager/blob/809fbdc2d7052dc7eb3612562eb7b0d2820b924b/src/entity_manager/dbus_interface.cpp#L271\n\nCould your package interact with that to configure how many/what detectors are available.\n\nIf this really comes down to only the config file... I\u0027m willing to let that go, but I\u0027d like to know that we at least looked at the methods intended for this, and can articulate why we need config files instead.\n\nFWIW, the addObject methods are already used in Redfish to create/destroy pid loops and fan control config, so if that\u0027s your goal, we know this essentially already works.",
+      "parentUuid": "f9d409f8_8ab95e82",
+      "revId": "b451b7a8aea5d9ef692322012732f003cca229cc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a15f4ba6_6935d743",
         "filename": "src/NotifyWatch.cpp",
         "patchSetId": 55
