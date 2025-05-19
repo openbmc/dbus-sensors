@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fd01f7a7_1aedccca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 55
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-19T22:24:45Z",
+      "side": 1,
+      "message": "\u003e The intent on EM reactors (from the original author, not me) is that they follow the EM configuration file for compile time config, and use the createobject dbus interface for runtime config.  I understand that meta wants to update this config at runtime using some package install system?  That needs to be called out in the commit.\n\nUpdated the commit message.\n\n\u003e \n\u003e @paligill@gmail.com were you able to look at the addObject dbus method?\n\u003e \n\u003e https://github.com/openbmc/entity-manager/blob/809fbdc2d7052dc7eb3612562eb7b0d2820b924b/src/entity_manager/dbus_interface.cpp#L271\n\u003e \n\u003e Could your package interact with that to configure how many/what detectors are available.\n\u003e \n\u003e If this really comes down to only the config file... I\u0027m willing to let that go, but I\u0027d like to know that we at least looked at the methods intended for this, and can articulate why we need config files instead.\n\u003e \n\u003e FWIW, the addObject methods are already used in Redfish to create/destroy pid loops and fan control config, so if that\u0027s your goal, we know this essentially already works.\n\nI examined the AddObject flow and it provides an interface to add configuration interfaces at runtime. However, the use case here is slightly different.\n\nI aim to utilize the EM config to specify all cables on the board (present via GPIO) as part of the static board configuration in EM. This information remains constant and is not expected to change.\n\nThe dynamic aspect of our setup involves determining which cables from the ones specified in the board configuration are connected for a specific deployment (X) of the RackController. This information is being provided through the config file.\n\nSo, from my understanding i don\u0027t see addObject flow fitting the use case.",
+      "parentUuid": "fa5abe82_634cb83d",
+      "revId": "b451b7a8aea5d9ef692322012732f003cca229cc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a15f4ba6_6935d743",
         "filename": "src/NotifyWatch.cpp",
         "patchSetId": 55
