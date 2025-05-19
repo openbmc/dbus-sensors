@@ -54,6 +54,7 @@
 #include <functional>
 #include <iterator>
 #include <memory>
+#include <optional>
 #include <ranges>
 #include <regex>
 #include <stdexcept>
@@ -62,6 +63,8 @@
 #include <utility>
 #include <variant>
 #include <vector>
+
+static constexpr float gpioBridgeSetupTimeDefault = 1;
 
 // Greedy .* makes group 1 the last match; earlier ones are hubs or muxes.
 static std::regex devRegex(
@@ -363,6 +366,66 @@ static void checkPWMSensor(
 
     pwmSensors[psuName + labelHead] = std::make_unique<PwmSensor>(
         name, pwmPathStr, dbusConnection, objectServer, objPath, "PSU");
+}
+
+std::optional<BridgeGpio> parseBridgeGpioFromConfig(
+    const SensorData& sensorData, const std::string* label)
+{
+    for (const auto& [key, cfgMap] : sensorData)
+    {
+        if (key.find("BridgeGpio") == std::string::npos)
+        {
+            continue;
+        }
+
+        auto findName = cfgMap.find("Name");
+        if (findName == cfgMap.end())
+        {
+            continue;
+        }
+
+        std::string gpioName =
+            std::visit(VariantToStringVisitor(), findName->second);
+
+        int polarity = gpiod::line::ACTIVE_HIGH;
+        auto findPolarity = cfgMap.find("Polarity");
+        if (findPolarity != cfgMap.end())
+        {
+            if (std::string("Low") ==
+                std::visit(VariantToStringVisitor(), findPolarity->second))
+            {
+                polarity = gpiod::line::ACTIVE_LOW;
+            }
+        }
+
+        float setupTime = gpioBridgeSetupTimeDefault;
+        auto findSetupTime = cfgMap.find("SetupTime");
+        if (findSetupTime != cfgMap.end())
+        {
+            setupTime =
+                std::visit(VariantToFloatVisitor(), findSetupTime->second);
+        }
+
+        std::string labelVal;
+        auto findLabel = cfgMap.find("Label");
+        if (findLabel != cfgMap.end())
+        {
+            labelVal = std::visit(VariantToStringVisitor(), findLabel->second);
+        }
+
+        if (label != nullptr && *label != labelVal)
+        {
+            continue;
+        }
+
+        lg2::info("Found BridgeGpio config {LABEL}", "LABEL", labelVal,
+                  "NAME", gpioName, "POL",
+                  (polarity == gpiod::line::ACTIVE_LOW ? "Low" : "High"),
+                  "SETUP_TIME", setupTime);
+
+        return BridgeGpio(gpioName, polarity, setupTime);
+    }
+    return std::nullopt;
 }
 
 static void createSensorsCallback(
@@ -1116,12 +1179,15 @@ static void createSensorsCallback(
             }
             else
             {
+                auto bridgeGpio =
+                    parseBridgeGpioFromConfig(*sensorData, &labelHead);
+
                 sensors[sensorName] = std::make_shared<PSUSensor>(
                     sensorPathStr, sensorType, objectServer, dbusConnection, io,
                     sensorName, std::move(sensorThresholds), *interfacePath,
                     readState, sensorUnits, factor, maxReading, minReading,
                     sensorOffset, labelHead, thresholdConfSize, pollRate,
-                    i2cDev);
+                    i2cDev, std::move(bridgeGpio));
                 sensors[sensorName]->setupRead();
                 ++numCreated;
                 lg2::debug("Created '{NUM}' sensors so far", "NUM", numCreated);

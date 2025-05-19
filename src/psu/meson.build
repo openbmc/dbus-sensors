@@ -13,6 +13,7 @@ executable(
         pwmsensor_dep,
         thresholds_dep,
         utils_dep,
+        gpiodcxx,
     ],
     include_directories: src_inc,
     install: true,
