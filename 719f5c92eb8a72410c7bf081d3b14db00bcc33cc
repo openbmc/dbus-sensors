@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18e4c26b_6e3ceea5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000338
+      },
+      "writtenOn": "2025-05-19T06:00:13Z",
+      "side": 1,
+      "message": "@saptarsis@nvidia.com:\n\nPlease fix the CI.\nPlease split this commit to just handle dynamic EID assigment for USB devices first.\nAdd a follow up commit that does static assignments (this will not be accepted until the EM schema change for static endpoints is)",
+      "revId": "719f5c92eb8a72410c7bf081d3b14db00bcc33cc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
