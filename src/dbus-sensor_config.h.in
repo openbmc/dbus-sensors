@@ -1,7 +1,5 @@
 #pragma once
 
-#include <cstdint>
-
 // clang-format off
 constexpr const int validateUnsecureFeature = @VALIDATION_UNSECURE_FEATURE@;
 
