@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f054d4d_bbc1df3b",
+        "filename": "meson.options",
+        "patchSetId": 17
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-05-19T16:50:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa21a048_4df5a261",
+      "revId": "ba6e622daf3d674a5bb5f53ea25296eff7f37d3c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "02588712_c6917bdb",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-05-14T12:48:29Z",
       "side": 1,
       "message": "libexec",
+      "revId": "ba6e622daf3d674a5bb5f53ea25296eff7f37d3c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32423be2_131cb1cb",
+        "filename": "service_files/xyz.openbmc_project.smbpbisensor.service",
+        "patchSetId": 17
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002169
+      },
+      "writtenOn": "2025-05-19T16:50:06Z",
+      "side": 1,
+      "message": "All dbus-sensors daemons are set up to execute from /usr/bin, I think it\u0027ll be cleaner to change all of them in another patch?",
+      "parentUuid": "02588712_c6917bdb",
       "revId": "ba6e622daf3d674a5bb5f53ea25296eff7f37d3c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
