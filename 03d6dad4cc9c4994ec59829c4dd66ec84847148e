@@ -482,6 +482,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5172f5d1_db63b77f",
+        "filename": "src/EntityManager.hpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-19T18:22:10Z",
+      "side": 1,
+      "message": "Works with tidy, so moved to -\u003e style.",
+      "parentUuid": "03476f4d_467be97f",
+      "range": {
+        "startLine": 31,
+        "startChar": 4,
+        "endLine": 31,
+        "endChar": 28
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01d8a7b5_392fb051",
@@ -613,6 +637,24 @@
       "side": 1,
       "message": "Can you enlighten me what the plan is here?",
       "parentUuid": "12106c0e_1bf28b3b",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4756b212_03245122",
+        "filename": "src/GPIOInterface.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-19T18:22:10Z",
+      "side": 1,
+      "message": "The class needs to maintain own its async_scope so the tasks scheduled for it gets tracked via that and as part of destructor flow this async_scope can be cleaned up to get rid off any pending and waiting to be scheduled tasks. For now the plan is that @patrick@stwcx.xyz will work on adding this to sdbusplus as it seems to have a wider use case in other daemons too and once that code becomes available, this class will be updated to adopt/inherit that.\n\nResolving this comment for now. Please feel free to open this if it needs further discussion. Thanks",
+      "parentUuid": "2f3e1240_3abfaa94",
       "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -1622,6 +1664,24 @@
       "side": 1,
       "message": "It\u0027s another IO that doesn\u0027t matter to the overall flow, so I assumed that it was better to spawn to another task?  Is the expense of spawn something to worry about?",
       "parentUuid": "ab963804_17c15c65",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d29235a1_cddc6e29",
+        "filename": "src/leakdetector/LeakGPIODetector.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-05-19T18:22:10Z",
+      "side": 1,
+      "message": "As per https://www.freedesktop.org/wiki/Software/systemd/dbus/ -\n`StartUnit() enqeues a start job, and possibly depending jobs`\n\nSo, seems like it just queues the job and returns a Job Object, which seems light weight. Based on this i will go ahead and change this to co_wait for now. In future, if it becomes a bottleneck we can always re-visit this.",
+      "parentUuid": "89e86192_a5e67979",
       "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
