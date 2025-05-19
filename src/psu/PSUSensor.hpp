@@ -8,15 +8,88 @@
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/random_access_file.hpp>
 #include <boost/asio/steady_timer.hpp>
+#include <gpiod.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
 #include <array>
+#include <bitset>
 #include <cstddef>
 #include <memory>
+#include <optional>
 #include <string>
+#include <system_error>
 #include <utility>
 #include <vector>
+
+class BridgeGpio
+{
+  public:
+    BridgeGpio(const std::string& name, int polarity, float setupTime) :
+        name(name), polarity(polarity),
+        setupTimeMs(static_cast<unsigned int>(setupTime * 1000)),
+        requestFlags(polarity == gpiod::line::ACTIVE_HIGH
+                         ? std::bitset<32>(0)
+                         : gpiod::line_request::FLAG_ACTIVE_LOW)
+    {
+        line = gpiod::find_line(name);
+        if (!line)
+        {
+            lg2::error("Failed to find GPIO '{NAME}'", "NAME", name);
+            return;
+        }
+
+        if (line.is_used())
+        {
+            lg2::error("GPIO line '{NAME}' is already in use, skipping request",
+                       "NAME", name);
+            return;
+        }
+
+        try
+        {
+            line.request({"psusensor", gpiod::line_request::DIRECTION_OUTPUT,
+                          requestFlags});
+        }
+        catch (const std::system_error& e)
+        {
+            lg2::error("Failed to request GPIO '{NAME}': {REASON}", "NAME",
+                       name, "REASON", e.what());
+        }
+    }
+
+    void set(int value)
+    {
+        if (line)
+        {
+            try
+            {
+                if (!line.is_requested())
+                {
+                    line.request(
+                        {"psusensor", gpiod::line_request::DIRECTION_OUTPUT,
+                         requestFlags});
+                }
+
+                line.set_value(value);
+            }
+            catch (const std::system_error& exc)
+            {
+                lg2::error("Failed to set GPIO '{NAME}' to {VALUE}: {EC}",
+                           "NAME", name, "VALUE", value, "EC", exc.what());
+            }
+        }
+    }
+
+    std::string name;
+    int polarity;
+    unsigned int setupTimeMs;
+    std::bitset<32> requestFlags;
+
+  private:
+    gpiod::line line;
+};
 
 class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
 {
@@ -30,7 +103,8 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
               const PowerState& powerState, std::string_view sensorUnits,
               double factor, double max, double min, double offset,
               const std::string& label, size_t tSize, double pollRate,
-              const std::shared_ptr<I2CDevice>& i2cDevice);
+              const std::shared_ptr<I2CDevice>& i2cDevice,
+              std::optional<BridgeGpio>&& bridgeGpio = std::nullopt);
     ~PSUSensor() override;
     PSUSensor(const PSUSensor&) = delete;
     PSUSensor(PSUSensor&&) = delete;
@@ -53,6 +127,7 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
     // destructed.
     std::array<char, 128> buffer{};
     std::shared_ptr<I2CDevice> i2cDevice;
+    std::optional<BridgeGpio> bridgeGpio;
     sdbusplus::asio::object_server& objServer;
     boost::asio::random_access_file inputDev;
     boost::asio::steady_timer waitTimer;
