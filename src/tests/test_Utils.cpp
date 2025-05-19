@@ -230,8 +230,8 @@ TEST(GetDeviceBusAddrTest, I3CBusAddrValid)
 
     auto ret = getDeviceBusAddr(devName, bus, provisionedId);
     EXPECT_TRUE(ret);
-    EXPECT_EQ(bus, 0);
-    EXPECT_EQ(provisionedId, 0x22400000001);
+    EXPECT_EQ(bus, 0U);
+    EXPECT_EQ(provisionedId, 0x22400000001U);
 }
 
 TEST(GetDeviceBusAddrTest, AllValid)
@@ -242,6 +242,6 @@ TEST(GetDeviceBusAddrTest, AllValid)
 
     auto ret = getDeviceBusAddr(devName, bus, addr);
     EXPECT_TRUE(ret);
-    EXPECT_EQ(bus, 12);
-    EXPECT_EQ(addr, 0xaf);
+    EXPECT_EQ(bus, 12U);
+    EXPECT_EQ(addr, 0xafU);
 }

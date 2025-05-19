@@ -32,7 +32,7 @@ TEST(IPMBSensor, NineBitValidPositive)
     EXPECT_TRUE(IpmbSensor::processReading(ReadingFormat::nineBit, 0, data,
                                            responseValue, errCount));
     EXPECT_EQ(responseValue, 42.0);
-    EXPECT_EQ(errCount, 0);
+    EXPECT_EQ(errCount, 0U);
 }
 
 TEST(IPMBSensor, NineBitValidNegative)
@@ -46,7 +46,7 @@ TEST(IPMBSensor, NineBitValidNegative)
     EXPECT_TRUE(IpmbSensor::processReading(ReadingFormat::nineBit, 0, data,
                                            responseValue, errCount));
     EXPECT_EQ(responseValue, -100.0);
-    EXPECT_EQ(errCount, 0);
+    EXPECT_EQ(errCount, 0U);
 }
 
 TEST(IPMBSensor, NineBitMin)
@@ -60,7 +60,7 @@ TEST(IPMBSensor, NineBitMin)
     EXPECT_TRUE(IpmbSensor::processReading(ReadingFormat::nineBit, 0, data,
                                            responseValue, errCount));
     EXPECT_EQ(responseValue, -255.0);
-    EXPECT_EQ(errCount, 0);
+    EXPECT_EQ(errCount, 0U);
 }
 
 // The Altra Family SoC BMC Interface Specification says the maximum 9-bit value
@@ -76,7 +76,7 @@ TEST(IPMBSensor, NineBitMax)
     EXPECT_TRUE(IpmbSensor::processReading(ReadingFormat::nineBit, 0, data,
                                            responseValue, errCount));
     EXPECT_EQ(responseValue, 255.0);
-    EXPECT_EQ(errCount, 0);
+    EXPECT_EQ(errCount, 0U);
 }
 
 TEST(IPMBSensor, NineBitTooShort)
@@ -126,7 +126,7 @@ TEST(IPMBSensor, TenBitValid1)
     EXPECT_TRUE(IpmbSensor::processReading(ReadingFormat::tenBit, 0, data,
                                            responseValue, errCount));
     EXPECT_EQ(responseValue, 8.0);
-    EXPECT_EQ(errCount, 0);
+    EXPECT_EQ(errCount, 0U);
 }
 
 TEST(IPMBSensor, TenBitValid2)
@@ -141,7 +141,7 @@ TEST(IPMBSensor, TenBitValid2)
                                            responseValue, errCount));
 
     EXPECT_EQ(responseValue, 560.0);
-    EXPECT_EQ(errCount, 0);
+    EXPECT_EQ(errCount, 0U);
 }
 
 TEST(IPMBSensor, TenBitMin)
@@ -156,7 +156,7 @@ TEST(IPMBSensor, TenBitMin)
                                            responseValue, errCount));
 
     EXPECT_EQ(responseValue, 0.0);
-    EXPECT_EQ(errCount, 0);
+    EXPECT_EQ(errCount, 0U);
 }
 
 TEST(IPMBSensor, TenBitValidMax)
@@ -171,7 +171,7 @@ TEST(IPMBSensor, TenBitValidMax)
                                            responseValue, errCount));
 
     EXPECT_EQ(responseValue, 1023.0);
-    EXPECT_EQ(errCount, 0);
+    EXPECT_EQ(errCount, 0U);
 }
 
 TEST(IPMBSensor, TenBitTooShort)
@@ -221,7 +221,7 @@ TEST(IPMBSensor, FifteenBitValid1)
     EXPECT_TRUE(IpmbSensor::processReading(ReadingFormat::fifteenBit, 0, data,
                                            responseValue, errCount));
     EXPECT_EQ(responseValue, 0.730);
-    EXPECT_EQ(errCount, 0);
+    EXPECT_EQ(errCount, 0U);
 }
 
 TEST(IPMBSensor, FifteenBitMin)
@@ -235,7 +235,7 @@ TEST(IPMBSensor, FifteenBitMin)
     EXPECT_TRUE(IpmbSensor::processReading(ReadingFormat::fifteenBit, 0, data,
                                            responseValue, errCount));
     EXPECT_EQ(responseValue, 0.0);
-    EXPECT_EQ(errCount, 0);
+    EXPECT_EQ(errCount, 0U);
 }
 
 TEST(IPMBSensor, FifteenBitMax)
@@ -249,7 +249,7 @@ TEST(IPMBSensor, FifteenBitMax)
     EXPECT_TRUE(IpmbSensor::processReading(ReadingFormat::fifteenBit, 0, data,
                                            responseValue, errCount));
     EXPECT_EQ(responseValue, 32.767);
-    EXPECT_EQ(errCount, 0);
+    EXPECT_EQ(errCount, 0U);
 }
 
 TEST(IPMBSensor, FifteenBitTooShort)
