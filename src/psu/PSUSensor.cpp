@@ -35,6 +35,7 @@
 #include <cstddef>
 #include <limits>
 #include <memory>
+#include <optional>
 #include <stdexcept>
 #include <string>
 #include <utility>
@@ -53,10 +54,12 @@ PSUSensor::PSUSensor(
     const std::string& sensorConfiguration, const PowerState& powerState,
     const std::string& sensorUnits, unsigned int factor, double max, double min,
     double offset, const std::string& label, size_t tSize, double pollRate,
-    const std::shared_ptr<I2CDevice>& i2cDevice) :
+    const std::shared_ptr<I2CDevice>& i2cDevice,
+    std::optional<BridgeGpio>&& bridgeGpio) :
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
            objectType, false, false, max, min, conn, powerState),
-    i2cDevice(i2cDevice), objServer(objectServer),
+    i2cDevice(i2cDevice), bridgeGpio(std::move(bridgeGpio)),
+    objServer(objectServer),
     inputDev(io, path, boost::asio::random_access_file::read_only),
     waitTimer(io), path(path), sensorFactor(factor), sensorOffset(offset),
     thresholdTimer(io)
@@ -149,6 +152,24 @@ void PSUSensor::deactivate()
     path = "";
 }
 
+void PSUSensor::doAsyncRead()
+{
+    auto weak = weak_from_this();
+    auto buf = buffer;
+
+    inputDev.async_read_some_at(
+        0, boost::asio::buffer(buf->data(), buf->size() - 1),
+        [weak, buf](const boost::system::error_code& ec, size_t bytesRead) {
+            std::shared_ptr<PSUSensor> self = weak.lock();
+            if (!self)
+            {
+                return;
+            }
+
+            self->handleResponse(ec, bytesRead);
+        });
+}
+
 void PSUSensor::setupRead()
 {
     if (!readingStateGood())
@@ -166,22 +187,32 @@ void PSUSensor::setupRead()
     }
 
     std::weak_ptr<PSUSensor> weak = weak_from_this();
-    // Note, we are building a asio buffer that is one char smaller than
-    // the actual data structure, so that we can always append the null
-    // terminator.  This can go away once std::from_chars<double> is available
-    // in the standard
-    inputDev.async_read_some_at(
-        0, boost::asio::buffer(buffer->data(), buffer->size() - 1),
-        [weak, buffer{buffer}](const boost::system::error_code& ec,
-                               size_t bytesRead) {
-            std::shared_ptr<PSUSensor> self = weak.lock();
+
+    if (bridgeGpio.has_value())
+    {
+        bridgeGpio->set(1);
+
+        waitTimer.expires_after(
+            std::chrono::milliseconds(bridgeGpio->setupTimeMs));
+        waitTimer.async_wait([weak](const boost::system::error_code& ec) {
+            if (ec == boost::asio::error::operation_aborted)
+            {
+                return;
+            }
+
+            auto self = weak.lock();
             if (!self)
             {
                 return;
             }
 
-            self->handleResponse(ec, bytesRead);
+            self->doAsyncRead();
         });
+    }
+    else
+    {
+        doAsyncRead();
+    }
 }
 
 void PSUSensor::restartRead()
@@ -241,6 +272,11 @@ void PSUSensor::handleResponse(const boost::system::error_code& err,
     {
         lg2::error("Could not parse input from '{PATH}'", "PATH", path);
         incrementError();
+    }
+
+    if (bridgeGpio)
+    {
+        (*bridgeGpio).set(0);
     }
 
     restartRead();
