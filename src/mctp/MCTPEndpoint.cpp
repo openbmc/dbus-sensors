@@ -47,6 +47,12 @@ MCTPDDevice::MCTPDDevice(
     connection(connection), interface(interface), physaddr(physaddr)
 {}
 
+MCTPDDevice::MCTPDDevice(
+    const std::shared_ptr<sdbusplus::asio::connection>& connection,
+    const std::string& usbInterfaceName) :
+    connection(connection), usbInterfaceName(usbInterfaceName)
+{}
+
 void MCTPDDevice::onEndpointInterfacesRemoved(
     const std::weak_ptr<MCTPDDevice>& weak, const std::string& objpath,
     sdbusplus::message_t& msg)
@@ -116,10 +122,20 @@ void MCTPDDevice::setup(
                 "INVENTORY_PATH", objpath);
         }
     };
-    connection->async_method_call(
-        onSetup, mctpdBusName,
-        mctpdControlPath + std::string("/interfaces/") + interface,
-        mctpdControlInterface, "AssignEndpoint", physaddr);
+    if (!usbInterfaceName.empty())
+    {
+        connection->async_method_call(
+            onSetup, mctpdBusName,
+            mctpdControlPath + std::string("/interfaces/") + usbInterfaceName,
+            mctpdControlInterface, "AssignEndpoint", physaddr);
+    }
+    else
+    {
+        connection->async_method_call(
+            onSetup, mctpdBusName,
+            mctpdControlPath + std::string("/interfaces/") + interface,
+            mctpdControlInterface, "AssignEndpoint", physaddr);
+    }
 }
 
 void MCTPDDevice::endpointRemoved()
@@ -405,4 +421,62 @@ std::string I2CMCTPDDevice::interfaceFromBus(int bus)
     }
 
     return it->path().filename();
+}
+
+/* Changes for MCTPUSBDevice */
+
+std::optional<SensorBaseConfigMap> USBMCTPDDevice::match(
+    const SensorData& config)
+{
+    auto iface = config.find(configInterfaceName(configType));
+    if (iface == config.end())
+    {
+        return std::nullopt;
+    }
+    return iface->second;
+}
+
+bool USBMCTPDDevice::match(const std::set<std::string>& interfaces)
+{
+    return interfaces.contains(configInterfaceName(configType));
+}
+
+std::shared_ptr<USBMCTPDDevice> USBMCTPDDevice::from(
+    const std::shared_ptr<sdbusplus::asio::connection>& connection,
+    const SensorBaseConfigMap& iface)
+{
+    auto mName = iface.find("Name");
+    auto mType = iface.find("Type");
+    auto mInterface = iface.find("Interface");
+    if (mType == iface.end())
+    {
+        throw std::invalid_argument(
+            "No 'Type' member found for provided configuration object");
+    }
+
+    auto type = std::visit(VariantToStringVisitor(), mType->second);
+    if (type != configType)
+    {
+        throw std::invalid_argument("Not an USB device");
+    }
+
+    if (mName == iface.end() || mType == iface.end() ||
+        mInterface == iface.end())
+    {
+        throw std::invalid_argument(
+            "Configuration object violates MCTPUSBDevice schema");
+    }
+
+    auto usbInterfaceName =
+        std::visit(VariantToStringVisitor(), mInterface->second);
+
+    try
+    {
+        return std::make_shared<USBMCTPDDevice>(connection, usbInterfaceName);
+    }
+    catch (const MCTPException& ex)
+    {
+        warning("Failed to create MCTPUSBDevice");
+        return {};
+    }
 }

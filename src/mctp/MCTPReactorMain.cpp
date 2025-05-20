@@ -22,6 +22,7 @@
 #include <optional>
 #include <set>
 #include <stdexcept>
+#include <string>
 #include <system_error>
 #include <vector>
 
@@ -81,9 +82,16 @@ static std::shared_ptr<MCTPDevice> deviceFromConfig(
     {
         std::optional<SensorBaseConfigMap> iface;
         // NOLINTNEXTLINE(bugprone-assignment-in-if-condition)
-        if ((iface = I2CMCTPDDevice::match(config)))
+        iface = I2CMCTPDDevice::match(config);
+        if (iface)
         {
             return I2CMCTPDDevice::from(connection, *iface);
+        }
+
+        iface = USBMCTPDDevice::match(config);
+        if (iface)
+        {
+            return USBMCTPDDevice::from(connection, *iface);
         }
     }
     catch (const std::invalid_argument& ex)
@@ -241,6 +249,12 @@ int main()
         auto gsc = std::make_shared<GetSensorConfiguration>(
             systemBus, std::bind_front(manageMCTPEntity, systemBus, reactor));
         gsc->getConfiguration({"MCTPI2CTarget"});
+    });
+
+    boost::asio::post(io, [reactor, systemBus]() {
+        auto gsc = std::make_shared<GetSensorConfiguration>(
+            systemBus, std::bind_front(manageMCTPEntity, systemBus, reactor));
+        gsc->getConfiguration({"MCTPUSBDevice"});
     });
 
     io.run();
