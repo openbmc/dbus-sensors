@@ -20,13 +20,17 @@
 #include <exception>
 #include <filesystem>
 #include <format>
+#include <fstream>
 #include <functional>
+#include <iterator>
 #include <map>
 #include <memory>
+#include <numeric>
 #include <optional>
 #include <set>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <system_error>
 #include <utility>
 #include <variant>
@@ -502,4 +506,204 @@ std::string I3CMCTPDDevice::interfaceFromBus(int bus)
     error("No matching net device found for I3C bus {I3C_BUS} at {NET_DEVICE}",
           "I3C_BUS", bus, "NET_DEVICE", netdir);
     throw MCTPException("No matching net device found for the specified bus");
+}
+
+/*
+ * Given the sysfs path for a USB root hub, determines the bus number. An
+ * example root hub path on an AST2600 is
+ * /sys/devices/platform/ahb/1e6a3000.usb. This function identifies the
+ * correct bus device directory (e.g. "usb1") by looking for a "busnum"
+ * attribute file within it, and returns the content of that file.
+ */
+std::string USBMCTPDDevice::busFromRootHubPath(
+    const std::filesystem::path& rootHubPath)
+{
+    std::error_code ec;
+    std::filesystem::directory_iterator it(rootHubPath, ec);
+    if (ec)
+    {
+        error("Unable to open RootHubPath {PATH}", "PATH", rootHubPath);
+        throw MCTPException("Invalid RootHubPath");
+    }
+
+    for (const auto& entry : it)
+    {
+        const auto& path = entry.path();
+        if (!entry.is_directory() ||
+            !path.filename().string().starts_with("usb"))
+        {
+            continue;
+        }
+
+        std::filesystem::path busnumPath = path / "busnum";
+        if (!std::filesystem::exists(busnumPath))
+        {
+            continue;
+        }
+        std::ifstream busnumFile(busnumPath);
+        std::string busnum;
+        if (busnumFile >> busnum && !busnum.empty())
+        {
+            return busnum;
+        }
+    }
+
+    error(
+        "No directory containing a 'busnum' file found under RootHubPath {PATH}",
+        "PATH", rootHubPath);
+    throw MCTPException("Could not determine bus number");
+}
+
+/*
+ * Given the components of a USB device's sysfs path, construct the full path
+ * and determine the network interface name associated with it.
+ */
+std::string USBMCTPDDevice::interfaceFromSysfs(
+    const std::string& bus, const std::string& port, uint8_t configuration,
+    uint8_t interfaceNum)
+{
+    std::filesystem::path netdir =
+        std::format("/sys/bus/usb/devices/{}-{}/{}-{}:{}.{}/net", bus, port,
+                    bus, port, configuration, interfaceNum);
+    std::error_code ec;
+    std::filesystem::directory_iterator it(netdir, ec);
+    if (ec || it == std::filesystem::end(it))
+    {
+        error("No net device associated with USB device at {NET_DEVICE}",
+              "NET_DEVICE", netdir);
+        throw MCTPException("Device is not configured as an MCTP interface");
+    }
+
+    return it->path().filename();
+}
+
+std::optional<SensorBaseConfigMap> USBMCTPDDevice::match(
+    const SensorData& config)
+{
+    auto iface = config.find(configInterfaceName(configType));
+    if (iface == config.end())
+    {
+        return std::nullopt;
+    }
+    return iface->second;
+}
+
+bool USBMCTPDDevice::match(const std::set<std::string>& interfaces)
+{
+    return interfaces.contains(configInterfaceName(configType));
+}
+
+std::shared_ptr<USBMCTPDDevice> USBMCTPDDevice::from(
+    const std::shared_ptr<sdbusplus::asio::connection>& connection,
+    const SensorBaseConfigMap& iface)
+{
+    auto mName = iface.find("Name");
+    auto mType = iface.find("Type");
+    if (mType == iface.end())
+    {
+        throw std::invalid_argument(
+            "No 'Type' member found for provided configuration object");
+    }
+
+    auto type = std::visit(VariantToStringVisitor(), mType->second);
+    if (type != configType)
+    {
+        throw std::invalid_argument("Not an USB device");
+    }
+
+    auto mRootHubPosition = iface.find("RootHubPosition");
+    auto mPort = iface.find("Port");
+    auto mConfiguration = iface.find("Configuration");
+    auto mInterface = iface.find("Interface");
+
+    if (mName == iface.end() || mRootHubPosition == iface.end() ||
+        mPort == iface.end() || mConfiguration == iface.end() ||
+        mInterface == iface.end())
+    {
+        throw std::invalid_argument(
+            "Configuration object violates MCTPUSBDevice schema");
+    }
+
+    // Check SOC family
+    std::ifstream socFamilyFile("/sys/bus/soc/devices/soc0/family");
+    if (!socFamilyFile)
+    {
+        throw MCTPException("Unable to read SOC family information");
+    }
+    std::string socFamily;
+    std::getline(socFamilyFile, socFamily);
+    if (socFamily.find("AST2600") == std::string::npos)
+    {
+        error("Unsupported SOC for USB MCTP: {SOC_FAMILY}", "SOC_FAMILY",
+              socFamily);
+        throw MCTPException("Unsupported SOC for USB MCTP");
+    }
+
+    // Map RootHubPosition to actual path
+    auto rootHubPosition =
+        std::visit(VariantToStringVisitor(), mRootHubPosition->second);
+    std::string rootHubPath;
+    if (rootHubPosition == "0")
+    {
+        rootHubPath = "/sys/devices/platform/ahb/1e6a3000.usb";
+    }
+    else if (rootHubPosition == "1")
+    {
+        rootHubPath = "/sys/devices/platform/ahb/1e6b0000.usb";
+    }
+    else
+    {
+        error("Invalid RootHubPosition: {POSITION}", "POSITION",
+              rootHubPosition);
+        throw std::invalid_argument("Invalid RootHubPosition");
+    }
+
+    auto portArray = std::visit(VariantToNumArrayVisitor<uint8_t, uint64_t>(),
+                                mPort->second);
+    if (portArray.empty())
+    {
+        throw std::invalid_argument("Bad Port value");
+    }
+
+    // Convert port array to dot-separated string (e.g., [1, 2, 1] -> "1.2.1")
+    std::string port = std::accumulate(
+        std::next(portArray.begin()), portArray.end(),
+        std::to_string(portArray[0]), [](const std::string& acc, uint8_t val) {
+            return acc + "." + std::to_string(val);
+        });
+
+    auto sConfiguration =
+        std::visit(VariantToStringVisitor(), mConfiguration->second);
+    uint8_t configuration{};
+    auto [cptr, cec] = std::from_chars(
+        sConfiguration.data(), sConfiguration.data() + sConfiguration.size(),
+        configuration);
+    if (cec != std::errc{})
+    {
+        throw std::invalid_argument("Bad Configuration value");
+    }
+
+    auto sInterface = std::visit(VariantToStringVisitor(), mInterface->second);
+    uint8_t interfaceNum{};
+    auto [iptr, iec] = std::from_chars(
+        sInterface.data(), sInterface.data() + sInterface.size(), interfaceNum);
+    if (iec != std::errc{})
+    {
+        throw std::invalid_argument("Bad Interface value");
+    }
+
+    try
+    {
+        std::string bus = busFromRootHubPath(rootHubPath);
+        std::string interface =
+            interfaceFromSysfs(bus, port, configuration, interfaceNum);
+        return std::make_shared<USBMCTPDDevice>(connection, interface);
+    }
+    catch (const MCTPException& ex)
+    {
+        warning(
+            "Failed to create MCTPUSBDevice at [ RootHubPosition: {POSITION}, port: {USB_PORT} ]: {EXCEPTION}",
+            "POSITION", rootHubPosition, "USB_PORT", port, "EXCEPTION", ex);
+        return {};
+    }
 }
