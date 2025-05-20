@@ -406,3 +406,71 @@ std::string I2CMCTPDDevice::interfaceFromBus(int bus)
 
     return it->path().filename();
 }
+
+std::optional<SensorBaseConfigMap> USBMCTPDDevice::match(
+    const SensorData& config)
+{
+    auto iface = config.find(configInterfaceName(configType));
+    if (iface == config.end())
+    {
+        return std::nullopt;
+    }
+    return iface->second;
+}
+
+bool USBMCTPDDevice::match(const std::set<std::string>& interfaces)
+{
+    return interfaces.contains(configInterfaceName(configType));
+}
+
+std::shared_ptr<USBMCTPDDevice> USBMCTPDDevice::from(
+    const std::shared_ptr<sdbusplus::asio::connection>& connection,
+    const SensorBaseConfigMap& iface)
+{
+    auto mName = iface.find("Name");
+    auto mType = iface.find("Type");
+    auto mInterface = iface.find("Interface");
+    if (mType == iface.end())
+    {
+        throw std::invalid_argument(
+            "No 'Type' member found for provided configuration object");
+    }
+
+    auto type = std::visit(VariantToStringVisitor(), mType->second);
+    if (type != configType)
+    {
+        throw std::invalid_argument("Not an USB device");
+    }
+
+    if (mName == iface.end() || mType == iface.end() ||
+        mInterface == iface.end())
+    {
+        throw std::invalid_argument(
+            "Configuration object violates MCTPUSBDevice schema");
+    }
+
+    auto interface = std::visit(VariantToStringVisitor(), mInterface->second);
+
+    std::filesystem::path netInterfaceSysfsPath =
+        std::filesystem::path("/sys/class/net/") / interface;
+
+    if (!std::filesystem::exists(netInterfaceSysfsPath))
+    {
+        error(
+            "MCTP USB Device: Network interface '{NET_IFACE}' not found in sysfs at {SYSFS_PATH}",
+            "NET_IFACE", interface, "SYSFS_PATH",
+            netInterfaceSysfsPath.string());
+        throw MCTPException(
+            "Provided USB interface name does not exist as a network interface");
+    }
+
+    try
+    {
+        return std::make_shared<USBMCTPDDevice>(connection, interface);
+    }
+    catch (const MCTPException& ex)
+    {
+        warning("Failed to create MCTPUSBDevice");
+        return {};
+    }
+}
