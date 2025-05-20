@@ -326,3 +326,24 @@ class I2CMCTPDDevice : public MCTPDDevice
 
     static std::string interfaceFromBus(int bus);
 };
+
+class USBMCTPDDevice : public MCTPDDevice
+{
+  public:
+    static std::optional<SensorBaseConfigMap> match(const SensorData& config);
+    static bool match(const std::set<std::string>& interfaces);
+    static std::shared_ptr<USBMCTPDDevice> from(
+        const std::shared_ptr<sdbusplus::asio::connection>& connection,
+        const SensorBaseConfigMap& iface);
+
+    USBMCTPDDevice() = delete;
+    USBMCTPDDevice(
+        const std::shared_ptr<sdbusplus::asio::connection>& connection,
+        const std::string& interface, const std::vector<uint8_t>& address) :
+        MCTPDDevice(connection, interface, address)
+    {}
+    ~USBMCTPDDevice() override = default;
+
+  private:
+    static constexpr const char* configType = "MCTPUSBDevice";
+};
