@@ -93,6 +93,12 @@ static std::shared_ptr<MCTPDevice> deviceFromConfig(
             info("Creating I3CMCTPDDevice");
             return I3CMCTPDDevice::from(connection, *iface);
         }
+
+        iface = USBMCTPDDevice::match(config);
+        if (iface)
+        {
+            return USBMCTPDDevice::from(connection, *iface);
+        }
     }
     catch (const std::invalid_argument& ex)
     {
@@ -133,7 +139,8 @@ static void removeInventory(const std::shared_ptr<MCTPReactor>& reactor,
         msg.unpack<sdbusplus::message::object_path, std::set<std::string>>();
     try
     {
-        if (I2CMCTPDDevice::match(removed) || I3CMCTPDDevice::match(removed))
+        if (I2CMCTPDDevice::match(removed) || I3CMCTPDDevice::match(removed) ||
+            USBMCTPDDevice::match(removed))
         {
             reactor->unmanageMCTPDevice(path.str);
         }
@@ -248,7 +255,8 @@ int main()
     boost::asio::post(io, [reactor, systemBus]() {
         auto gsc = std::make_shared<GetSensorConfiguration>(
             systemBus, std::bind_front(manageMCTPEntity, systemBus, reactor));
-        gsc->getConfiguration({"MCTPI2CTarget", "MCTPI3CTarget"});
+        gsc->getConfiguration(
+            {"MCTPI2CTarget", "MCTPI3CTarget", "MCTPUSBDevice"});
     });
 
     io.run();
