@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcacd9c9_38ff6f2d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-20T23:37:54Z",
+      "side": 1,
+      "message": "Hi Saptarsi, I have a couple of queries inline.",
+      "revId": "6bed40d1ffdd49e89142cb3a8d118628630c3949",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d881590_7b68dbe4",
+        "filename": "src/mctp/MCTPEndpoint.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-20T23:37:54Z",
+      "side": 1,
+      "message": "USB isn\u0027t the only point-to-point protocol (not requiring a bus address) - we have the serial binding too. I think this can just be `interface` like in the constructor above.",
+      "range": {
+        "startLine": 271,
+        "startChar": 35,
+        "endLine": 271,
+        "endChar": 51
+      },
+      "revId": "6bed40d1ffdd49e89142cb3a8d118628630c3949",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a53200c6_cec2043a",
+        "filename": "src/mctp/MCTPEndpoint.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-20T23:37:54Z",
+      "side": 1,
+      "message": "Why? We already have the `interface` member above.",
+      "revId": "6bed40d1ffdd49e89142cb3a8d118628630c3949",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
