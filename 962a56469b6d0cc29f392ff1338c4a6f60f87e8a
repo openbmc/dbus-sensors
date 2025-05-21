@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53f55e45_f20c1cbe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-21T19:44:48Z",
+      "side": 1,
+      "message": "Please include more than a one sentence commit message.  WHY is this needed?",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 35
+      },
+      "revId": "962a56469b6d0cc29f392ff1338c4a6f60f87e8a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "390cb86b_00585bd5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-21T19:44:48Z",
+      "side": 1,
+      "message": "Which platform?  Which other patches were required to get this test result?",
+      "revId": "962a56469b6d0cc29f392ff1338c4a6f60f87e8a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b93546be_51f5a3df",
+        "filename": "src/gpu/GpuDevice.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-21T19:44:48Z",
+      "side": 1,
+      "message": "This is a HUUUUUGE lambda.  Please make the lambda call a function to do the actual processing.",
+      "range": {
+        "startLine": 98,
+        "startChar": 18,
+        "endLine": 98,
+        "endChar": 35
+      },
+      "revId": "962a56469b6d0cc29f392ff1338c4a6f60f87e8a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
