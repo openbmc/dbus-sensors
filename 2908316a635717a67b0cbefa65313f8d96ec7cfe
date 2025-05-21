@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69317c5c_9ba6f562",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-21T19:36:21Z",
+      "side": 1,
+      "message": "LGTM once the naming thing is decided.",
+      "revId": "2908316a635717a67b0cbefa65313f8d96ec7cfe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
