@@ -41,6 +41,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de571c6c_f99d1923",
+        "filename": "src/mctp/MCTPEndpoint.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1002305
+      },
+      "writtenOn": "2025-05-21T04:25:14Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "8d881590_7b68dbe4",
+      "range": {
+        "startLine": 271,
+        "startChar": 35,
+        "endLine": 271,
+        "endChar": 51
+      },
+      "revId": "6bed40d1ffdd49e89142cb3a8d118628630c3949",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a53200c6_cec2043a",
@@ -54,6 +78,24 @@
       "writtenOn": "2025-05-20T23:37:54Z",
       "side": 1,
       "message": "Why? We already have the `interface` member above.",
+      "revId": "6bed40d1ffdd49e89142cb3a8d118628630c3949",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dacb58c4_7fb3931c",
+        "filename": "src/mctp/MCTPEndpoint.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1002305
+      },
+      "writtenOn": "2025-05-21T04:25:14Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "a53200c6_cec2043a",
       "revId": "6bed40d1ffdd49e89142cb3a8d118628630c3949",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
