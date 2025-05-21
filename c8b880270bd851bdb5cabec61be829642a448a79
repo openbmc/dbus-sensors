@@ -239,6 +239,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4452dc5e_e731e780",
+        "filename": "src/gpu/GpuMctpVdm.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-21T19:38:23Z",
+      "side": 1,
+      "message": "Bytes bitfields don\u0027t require an ifdef.  Convert network byte order to normal, then access the bits.\n\n\nLooks like andrew already said the same?  Can this be closed?",
+      "parentUuid": "c2cf643c_2bdaeb79",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 92,
+        "endChar": 37
+      },
+      "revId": "c8b880270bd851bdb5cabec61be829642a448a79",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c99a88b2_80e07e6b",
         "filename": "src/gpu/GpuMctpVdm.hpp",
         "patchSetId": 2
