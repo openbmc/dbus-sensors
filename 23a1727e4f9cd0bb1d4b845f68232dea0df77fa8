@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52944587_3ab216b3",
+        "filename": "src/gpu/GpuSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-21T19:40:11Z",
+      "side": 1,
+      "message": "Please follow the coding standard throughout this daemon, and don\u0027t define lambdas more than a few lines/",
+      "range": {
+        "startLine": 162,
+        "startChar": 0,
+        "endLine": 162,
+        "endChar": 37
+      },
+      "revId": "23a1727e4f9cd0bb1d4b845f68232dea0df77fa8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
