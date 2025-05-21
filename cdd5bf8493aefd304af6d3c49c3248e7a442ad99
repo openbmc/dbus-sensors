@@ -45,6 +45,98 @@
       },
       "revId": "cdd5bf8493aefd304af6d3c49c3248e7a442ad99",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a89c997_43ce17ec",
+        "filename": "src/gpu/types.hpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-21T19:52:05Z",
+      "side": 1,
+      "message": "Remove, and just inline.  There are other Response classes that confuse this",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 38
+      },
+      "revId": "cdd5bf8493aefd304af6d3c49c3248e7a442ad99",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b263019e_4f119946",
+        "filename": "src/gpu/types.hpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-21T19:52:05Z",
+      "side": 1,
+      "message": "Remove.",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 22
+      },
+      "revId": "cdd5bf8493aefd304af6d3c49c3248e7a442ad99",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1288e0b_e919f1dd",
+        "filename": "src/gpu/types.hpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-21T19:52:05Z",
+      "side": 1,
+      "message": "Please don\u0027t redefine base types for things like this.  If you need to hold an FD, use an RAII fd class (there are several options).",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 21
+      },
+      "revId": "cdd5bf8493aefd304af6d3c49c3248e7a442ad99",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3742b20d_b22f9753",
+        "filename": "src/gpu/types.hpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-21T19:52:05Z",
+      "side": 1,
+      "message": "Lets use composition here.  We\u0027re adding one field, it\u0027s not clear that inheritance helps us in this case.",
+      "range": {
+        "startLine": 97,
+        "startChar": 30,
+        "endLine": 97,
+        "endChar": 37
+      },
+      "revId": "cdd5bf8493aefd304af6d3c49c3248e7a442ad99",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
