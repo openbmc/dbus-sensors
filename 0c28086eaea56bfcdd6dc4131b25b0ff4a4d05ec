@@ -51,6 +51,24 @@
       "parentUuid": "0d253f06_73c88e90",
       "revId": "0c28086eaea56bfcdd6dc4131b25b0ff4a4d05ec",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0165550c_7d59936a",
+        "filename": "meson.options",
+        "patchSetId": 15
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-21T19:36:02Z",
+      "side": 1,
+      "message": "Like we talked about in the technical oversight forum, I don\u0027t have a strong opinion on naming here.  The intent was that because this does implement a spec that in theory could evolve, and AMD has an implementation of (even if it requires lots of VDM) we could keep it generic.  FWIW, We did the same thing with Intel originally, calling it cpu-sensor, then later changed to intel-cpu-sensor when it was clear that AMD/ARM/Other CPUs wouldn\u0027t be able to reuse most of the code.\n\nWhatever you and deepak work out is fine with me.  Deepak, lets just branch predict Andrew and call it nvidia-gpu for now, but assume that I will approve regardless.",
+      "parentUuid": "b3f5299a_1520b48d",
+      "revId": "0c28086eaea56bfcdd6dc4131b25b0ff4a4d05ec",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
