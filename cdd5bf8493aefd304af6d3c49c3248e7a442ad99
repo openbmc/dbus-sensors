@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2167bcb_5e7c0d0c",
+        "filename": "src/gpu/MctpSocket.hpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-21T19:48:14Z",
+      "side": 1,
+      "message": "Please make this a member variable rather than inheritence.  We\u0027d like to be able to review which interfaces are coming from socket and which are coming from MCTPSocket.",
+      "range": {
+        "startLine": 27,
+        "startChar": 19,
+        "endLine": 27,
+        "endChar": 71
+      },
+      "revId": "cdd5bf8493aefd304af6d3c49c3248e7a442ad99",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3f9e280_e37d7eb2",
+        "filename": "src/gpu/MctpSocket.hpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-21T19:48:14Z",
+      "side": 1,
+      "message": "nit, by convention please call these ec.",
+      "range": {
+        "startLine": 79,
+        "startChar": 69,
+        "endLine": 79,
+        "endChar": 72
+      },
+      "revId": "cdd5bf8493aefd304af6d3c49c3248e7a442ad99",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
