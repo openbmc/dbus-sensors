@@ -3,6 +3,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "37458c9c_b42d0020",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-22T09:41:37Z",
+      "side": 1,
+      "message": "Don\u0027t need this now.",
+      "revId": "23a1727e4f9cd0bb1d4b845f68232dea0df77fa8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8fd35fae_d2b87ae2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-22T09:41:37Z",
+      "side": 1,
+      "message": "Not needed anymore. EM config is merged.",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 81
+      },
+      "revId": "23a1727e4f9cd0bb1d4b845f68232dea0df77fa8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "52944587_3ab216b3",
         "filename": "src/gpu/GpuSensor.cpp",
         "patchSetId": 10
@@ -20,6 +60,23 @@
         "endLine": 162,
         "endChar": 37
       },
+      "revId": "23a1727e4f9cd0bb1d4b845f68232dea0df77fa8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7979df44_76ed1540",
+        "filename": "src/gpu/GpuSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-22T09:41:37Z",
+      "side": 1,
+      "message": "long lambda...",
       "revId": "23a1727e4f9cd0bb1d4b845f68232dea0df77fa8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
