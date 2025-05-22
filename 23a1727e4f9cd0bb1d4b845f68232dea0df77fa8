@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f86d31bb_a946527f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-22T13:54:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37458c9c_b42d0020",
+      "revId": "23a1727e4f9cd0bb1d4b845f68232dea0df77fa8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8fd35fae_d2b87ae2",
@@ -31,6 +49,30 @@
       "writtenOn": "2025-05-22T09:41:37Z",
       "side": 1,
       "message": "Not needed anymore. EM config is merged.",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 81
+      },
+      "revId": "23a1727e4f9cd0bb1d4b845f68232dea0df77fa8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d0cb4fc_0a85c6e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-22T13:54:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8fd35fae_d2b87ae2",
       "range": {
         "startLine": 27,
         "startChar": 0,
@@ -64,6 +106,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "19c60002_56d0c4cf",
+        "filename": "src/gpu/GpuSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-22T13:54:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52944587_3ab216b3",
+      "range": {
+        "startLine": 162,
+        "startChar": 0,
+        "endLine": 162,
+        "endChar": 37
+      },
+      "revId": "23a1727e4f9cd0bb1d4b845f68232dea0df77fa8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7979df44_76ed1540",
@@ -81,6 +147,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7066230a_7ae894c4",
+        "filename": "src/gpu/GpuSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-22T13:54:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7979df44_76ed1540",
+      "revId": "23a1727e4f9cd0bb1d4b845f68232dea0df77fa8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fcc0a7f7_864c7ee6",
@@ -94,6 +178,24 @@
       "writtenOn": "2025-05-22T06:25:51Z",
       "side": 1,
       "message": "There still are some of these with the magic numbers - please fix.",
+      "revId": "23a1727e4f9cd0bb1d4b845f68232dea0df77fa8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a67e6ebc_87edd7e7",
+        "filename": "src/gpu/MctpRequester.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-22T13:54:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcc0a7f7_864c7ee6",
       "revId": "23a1727e4f9cd0bb1d4b845f68232dea0df77fa8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }

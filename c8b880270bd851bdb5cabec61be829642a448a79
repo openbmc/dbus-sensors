@@ -261,6 +261,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ef80194_9cf8839e",
+        "filename": "src/gpu/GpuMctpVdm.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-22T13:54:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4452dc5e_e731e780",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 92,
+        "endChar": 37
+      },
+      "revId": "c8b880270bd851bdb5cabec61be829642a448a79",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c99a88b2_80e07e6b",
@@ -499,6 +523,30 @@
       "side": 1,
       "message": "@haghera@nvidia.com isn\u0027t this fixed (Andrew had the same comment?)?. This returns an int (errno) now and the spec codes are returned through output params (similar to libpldm).",
       "parentUuid": "8c52c3cf_599fde98",
+      "range": {
+        "startLine": 443,
+        "startChar": 68,
+        "endLine": 443,
+        "endChar": 79
+      },
+      "revId": "c8b880270bd851bdb5cabec61be829642a448a79",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aafda785_006a0328",
+        "filename": "src/gpu/GpuMctpVdm.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-22T13:54:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "251cae99_10306bd0",
       "range": {
         "startLine": 443,
         "startChar": 68,
