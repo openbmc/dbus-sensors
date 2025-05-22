@@ -22,6 +22,23 @@
       },
       "revId": "23a1727e4f9cd0bb1d4b845f68232dea0df77fa8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fcc0a7f7_864c7ee6",
+        "filename": "src/gpu/MctpRequester.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-22T06:25:51Z",
+      "side": 1,
+      "message": "There still are some of these with the magic numbers - please fix.",
+      "revId": "23a1727e4f9cd0bb1d4b845f68232dea0df77fa8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
