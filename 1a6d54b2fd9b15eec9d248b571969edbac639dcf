@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09082648_5733ac2a",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1000338
+      },
+      "writtenOn": "2025-05-22T04:34:52Z",
+      "side": 1,
+      "message": "Nit: The comment seems unnecessary, remove?",
+      "revId": "1a6d54b2fd9b15eec9d248b571969edbac639dcf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01ee7de2_ec70811c",
+        "filename": "src/mctp/MCTPReactorMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000338
+      },
+      "writtenOn": "2025-05-22T04:34:52Z",
+      "side": 1,
+      "message": "Still needed?",
+      "revId": "1a6d54b2fd9b15eec9d248b571969edbac639dcf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b10c2318_70f9e639",
+        "filename": "src/mctp/MCTPReactorMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000338
+      },
+      "writtenOn": "2025-05-22T04:34:52Z",
+      "side": 1,
+      "message": "This NOLINT can now go away",
+      "revId": "1a6d54b2fd9b15eec9d248b571969edbac639dcf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
