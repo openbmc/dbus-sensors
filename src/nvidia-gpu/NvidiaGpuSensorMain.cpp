@@ -5,15 +5,14 @@
  */
 
 #include "MctpRequester.hpp"
-#include "NvidiaGpuSensor.hpp"
 #include "Utils.hpp"
 
+#include <NvidiaDeviceDiscovery.hpp>
 #include <boost/asio/error.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/post.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <boost/container/flat_map.hpp>
-#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/bus.hpp>
@@ -27,7 +26,8 @@
 #include <string>
 #include <vector>
 
-boost::container::flat_map<std::string, std::shared_ptr<GpuTempSensor>> sensors;
+boost::container::flat_map<std::string, std::shared_ptr<DeviceDiscoveryManager>>
+    deviceDiscoveryManager;
 
 void configTimerExpiryCallback(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
@@ -38,11 +38,8 @@ void configTimerExpiryCallback(
     {
         return; // we're being canceled
     }
-    createSensors(io, objectServer, sensors, dbusConnection, mctpRequester);
-    if (sensors.empty())
-    {
-        lg2::info("Configuration not detected");
-    }
+    createSensors(io, objectServer, deviceDiscoveryManager, dbusConnection,
+                  mctpRequester);
 }
 
 int main()
@@ -56,7 +53,8 @@ int main()
     mctp::MctpRequester mctpRequester(io);
 
     boost::asio::post(io, [&]() {
-        createSensors(io, objectServer, sensors, systemBus, mctpRequester);
+        createSensors(io, objectServer, deviceDiscoveryManager, systemBus,
+                      mctpRequester);
     });
 
     boost::asio::steady_timer configTimer(io);
@@ -73,7 +71,7 @@ int main()
 
     std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
         setupPropertiesChangedMatches(
-            *systemBus, std::to_array<const char*>({sensorType}), eventHandler);
+            *systemBus, std::to_array<const char*>({deviceType}), eventHandler);
 
     // Watch for entity-manager to remove configuration interfaces
     // so the corresponding sensors can be removed.
@@ -81,7 +79,9 @@ int main()
         static_cast<sdbusplus::bus_t&>(*systemBus),
         sdbusplus::bus::match::rules::interfacesRemovedAtPath(
             std::string(inventoryPath)),
-        [](sdbusplus::message_t& msg) { interfaceRemoved(msg, sensors); });
+        [](sdbusplus::message_t& msg) {
+            interfaceRemoved(msg, deviceDiscoveryManager);
+        });
 
     io.run();
     return 0;
