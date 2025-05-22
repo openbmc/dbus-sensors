@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7c66643_b1907129",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2025-05-22T09:53:59Z",
+      "side": 1,
+      "message": "I don\u0027t think we should change this boolean, which represents that this device was probed by instantiateDevices(). But hasLabelPowerState() should be a condition next to `if (activateOnly \u0026\u0026 !findI2CDev-\u003esecond.second)`, like `if (activateOnly \u0026\u0026 (!findI2CDev-\u003esecond.second || hasLabelPowerState(*baseConfig)))`. That means the device was already probed before and the sensor was there, but needs to be re-activated.\n\nBut I wonder why this condition passes`https://github.com/openbmc/dbus-sensors/blob/02c4366be0eb2409c81784c989dfb690cd41af58/src/DeviceMgmt.hpp#L138` when the deactived sensor has `isActive() \u003d\u003d false`. Otherwise, the device will be instantiated again and has `findI2CDev-\u003esecond.second \u003d\u003d true` \u003d\u003e then be able to pass your condition.",
+      "revId": "44c209d712a19884fcb30d24049c51dfd8f5b05d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
