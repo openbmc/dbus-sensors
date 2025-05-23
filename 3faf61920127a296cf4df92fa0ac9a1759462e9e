@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56750d06_7b998d94",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-23T04:33:08Z",
+      "side": 1,
+      "message": "needs fixes as commemted elsewhere",
+      "revId": "3faf61920127a296cf4df92fa0ac9a1759462e9e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb51e5b1_a814c59c",
+        "filename": "src/gpu/GpuPowerSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-23T04:33:08Z",
+      "side": 1,
+      "message": "long lambda - move to function",
+      "revId": "3faf61920127a296cf4df92fa0ac9a1759462e9e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d455bba_a9084fac",
+        "filename": "src/gpu/meson.build",
+        "patchSetId": 7
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-23T04:33:08Z",
+      "side": 1,
+      "message": "needs name changes",
+      "revId": "3faf61920127a296cf4df92fa0ac9a1759462e9e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
