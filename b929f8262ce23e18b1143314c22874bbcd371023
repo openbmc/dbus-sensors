@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee98768f_6d0c3c3a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-23T14:36:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27346f1e_104fe957",
+      "revId": "b929f8262ce23e18b1143314c22874bbcd371023",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "75c80a17_87057869",
@@ -31,6 +49,30 @@
       "writtenOn": "2025-05-23T03:54:05Z",
       "side": 1,
       "message": "Fix this the way I commented elsewhere",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 7
+      },
+      "revId": "b929f8262ce23e18b1143314c22874bbcd371023",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc850a4c_b5dba48d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-23T14:36:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75c80a17_87057869",
       "range": {
         "startLine": 12,
         "startChar": 0,
@@ -64,6 +106,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc52858a_102135fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-23T14:36:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72676711_880d9437",
+      "range": {
+        "startLine": 14,
+        "startChar": 21,
+        "endLine": 14,
+        "endChar": 29
+      },
+      "revId": "b929f8262ce23e18b1143314c22874bbcd371023",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4339461e_7eabd188",
@@ -77,6 +143,30 @@
       "writtenOn": "2025-05-23T03:54:05Z",
       "side": 1,
       "message": "Fix this the way I commented elsewhere",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 81
+      },
+      "revId": "b929f8262ce23e18b1143314c22874bbcd371023",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16458842_01c36251",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-23T14:36:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4339461e_7eabd188",
       "range": {
         "startLine": 23,
         "startChar": 0,
