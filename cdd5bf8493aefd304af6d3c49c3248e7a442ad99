@@ -47,6 +47,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "562e5f84_de6102dc",
+        "filename": "src/gpu/MctpSocket.hpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-05-23T06:14:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3f9e280_e37d7eb2",
+      "range": {
+        "startLine": 79,
+        "startChar": 69,
+        "endLine": 79,
+        "endChar": 72
+      },
+      "revId": "cdd5bf8493aefd304af6d3c49c3248e7a442ad99",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1a89c997_43ce17ec",
@@ -60,6 +84,30 @@
       "writtenOn": "2025-05-21T19:52:05Z",
       "side": 1,
       "message": "Remove, and just inline.  There are other Response classes that confuse this",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 38
+      },
+      "revId": "cdd5bf8493aefd304af6d3c49c3248e7a442ad99",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4414e616_42821fa9",
+        "filename": "src/gpu/types.hpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-05-23T06:14:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a89c997_43ce17ec",
       "range": {
         "startLine": 32,
         "startChar": 0,
@@ -93,6 +141,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a132992f_d19adebf",
+        "filename": "src/gpu/types.hpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-05-23T06:14:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b263019e_4f119946",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 22
+      },
+      "revId": "cdd5bf8493aefd304af6d3c49c3248e7a442ad99",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b1288e0b_e919f1dd",
@@ -106,6 +178,30 @@
       "writtenOn": "2025-05-21T19:52:05Z",
       "side": 1,
       "message": "Please don\u0027t redefine base types for things like this.  If you need to hold an FD, use an RAII fd class (there are several options).",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 21
+      },
+      "revId": "cdd5bf8493aefd304af6d3c49c3248e7a442ad99",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15a7a392_f8bd58d7",
+        "filename": "src/gpu/types.hpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-05-23T06:14:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1288e0b_e919f1dd",
       "range": {
         "startLine": 44,
         "startChar": 0,
