@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2176a0ff_b75bab2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-23T14:35:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e63b5075_a723955d",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 12
+      },
+      "revId": "04aef0bb5fa7598645e2581b8ca4f8d8473c0cc4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aeb34482_60a74265",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-05-23T03:48:55Z",
       "side": 1,
       "message": "You should write this as:\n\nTested: Built an image for gb200nvl-obmc ...",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 67
+      },
+      "revId": "04aef0bb5fa7598645e2581b8ca4f8d8473c0cc4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cae4e061_71fb294f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-23T14:35:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aeb34482_60a74265",
       "range": {
         "startLine": 20,
         "startChar": 0,
@@ -64,6 +112,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a37d2ed9_6e2d3bd8",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-23T14:35:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cdcf00ce_cbfb1697",
+      "revId": "04aef0bb5fa7598645e2581b8ca4f8d8473c0cc4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "04f0aafc_4b90bd9e",
@@ -77,6 +143,24 @@
       "writtenOn": "2025-05-23T03:48:55Z",
       "side": 1,
       "message": "This is where we should be constructing GpuDevice...",
+      "revId": "04aef0bb5fa7598645e2581b8ca4f8d8473c0cc4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "645860d7_20d764cd",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-23T14:35:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04f0aafc_4b90bd9e",
       "revId": "04aef0bb5fa7598645e2581b8ca4f8d8473c0cc4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -104,6 +188,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff853ac3_1f08c658",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-23T14:35:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b46e7c0d_fb48d7cc",
+      "range": {
+        "startLine": 132,
+        "startChar": 0,
+        "endLine": 133,
+        "endChar": 21
+      },
+      "revId": "04aef0bb5fa7598645e2581b8ca4f8d8473c0cc4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "379541ca_9a9869a0",
@@ -117,6 +225,24 @@
       "writtenOn": "2025-05-23T03:48:55Z",
       "side": 1,
       "message": "At this time we still don\u0027t know it\u0027s a GPU, also this doesn\u0027t fit class member of GpuDevice",
+      "revId": "04aef0bb5fa7598645e2581b8ca4f8d8473c0cc4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "691a9645_bbb83ec4",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-23T14:35:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "379541ca_9a9869a0",
       "revId": "04aef0bb5fa7598645e2581b8ca4f8d8473c0cc4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -144,6 +270,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0091cb75_4306a4f8",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-23T14:35:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9d1a127_257b9c92",
+      "range": {
+        "startLine": 191,
+        "startChar": 38,
+        "endLine": 191,
+        "endChar": 56
+      },
+      "revId": "04aef0bb5fa7598645e2581b8ca4f8d8473c0cc4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1890d6e3_b751f19b",
@@ -157,6 +307,24 @@
       "writtenOn": "2025-05-23T03:48:55Z",
       "side": 1,
       "message": "declare closer to use",
+      "revId": "04aef0bb5fa7598645e2581b8ca4f8d8473c0cc4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a80d30f_e12d4cfd",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-23T14:35:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1890d6e3_b751f19b",
       "revId": "04aef0bb5fa7598645e2581b8ca4f8d8473c0cc4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -178,6 +346,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "952197b8_ec225f6a",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-23T14:35:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fe1b807_52f0f2dc",
+      "revId": "04aef0bb5fa7598645e2581b8ca4f8d8473c0cc4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b522fdf_f6b095c5",
@@ -191,6 +377,24 @@
       "writtenOn": "2025-05-23T03:48:55Z",
       "side": 1,
       "message": "As commented in the hpp, this doesn\u0027t fit GPUDevice class member",
+      "revId": "04aef0bb5fa7598645e2581b8ca4f8d8473c0cc4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18fe1879_59273a59",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-23T14:35:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b522fdf_f6b095c5",
       "revId": "04aef0bb5fa7598645e2581b8ca4f8d8473c0cc4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -218,6 +422,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a25f260_1786f01f",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-23T14:35:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4034b3ce_008f5bcb",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 71
+      },
+      "revId": "04aef0bb5fa7598645e2581b8ca4f8d8473c0cc4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "51667c85_d146b653",
@@ -231,6 +459,24 @@
       "writtenOn": "2025-05-23T03:48:55Z",
       "side": 1,
       "message": "It\u0027s odd that the class represents a single GPU device, but has a method to discover all GPUs... Seems like this should exist at a higher scope.",
+      "revId": "04aef0bb5fa7598645e2581b8ca4f8d8473c0cc4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ecfa761_ba218226",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-23T14:35:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51667c85_d146b653",
       "revId": "04aef0bb5fa7598645e2581b8ca4f8d8473c0cc4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -258,6 +504,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf637e8d_bdd54a5d",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-23T14:35:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4d6946a_2c1eeb8a",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 50
+      },
+      "revId": "04aef0bb5fa7598645e2581b8ca4f8d8473c0cc4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "494d0c30_0eeca9c1",
@@ -271,6 +541,24 @@
       "writtenOn": "2025-05-23T03:48:55Z",
       "side": 1,
       "message": "Why not pass EID to the ctor?",
+      "revId": "04aef0bb5fa7598645e2581b8ca4f8d8473c0cc4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4ec7aa8_49d3b773",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-23T14:35:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "494d0c30_0eeca9c1",
       "revId": "04aef0bb5fa7598645e2581b8ca4f8d8473c0cc4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
