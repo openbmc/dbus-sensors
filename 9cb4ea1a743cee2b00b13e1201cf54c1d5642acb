@@ -16,6 +16,24 @@
       "message": "@zhikuiren8@gmail.com does this mean you\u0027re not covered by a CLA any longer? Or are you still on Intel\u0027s CLA?",
       "revId": "9cb4ea1a743cee2b00b13e1201cf54c1d5642acb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c4d6fa3_d7953d00",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000559
+      },
+      "writtenOn": "2025-05-23T18:35:46Z",
+      "side": 1,
+      "message": "I am not on Intel\u0027s CLA anymore",
+      "parentUuid": "ced18ad2_99ce901a",
+      "revId": "9cb4ea1a743cee2b00b13e1201cf54c1d5642acb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
