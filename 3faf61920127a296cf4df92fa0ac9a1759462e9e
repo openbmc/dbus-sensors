@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e69c542_0d0092e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-23T14:37:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56750d06_7b998d94",
+      "revId": "3faf61920127a296cf4df92fa0ac9a1759462e9e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eb51e5b1_a814c59c",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "66c70ff9_2979b78a",
+        "filename": "src/gpu/GpuPowerSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-23T14:37:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb51e5b1_a814c59c",
+      "revId": "3faf61920127a296cf4df92fa0ac9a1759462e9e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d455bba_a9084fac",
@@ -48,6 +84,24 @@
       "writtenOn": "2025-05-23T04:33:08Z",
       "side": 1,
       "message": "needs name changes",
+      "revId": "3faf61920127a296cf4df92fa0ac9a1759462e9e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b01e3963_6426a6d2",
+        "filename": "src/gpu/meson.build",
+        "patchSetId": 7
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-23T14:37:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d455bba_a9084fac",
       "revId": "3faf61920127a296cf4df92fa0ac9a1759462e9e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
