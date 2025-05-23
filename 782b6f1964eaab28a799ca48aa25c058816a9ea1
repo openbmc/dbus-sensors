@@ -18,6 +18,23 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "56882779_cae38b0e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002345
+      },
+      "writtenOn": "2025-05-23T05:54:30Z",
+      "side": 1,
+      "message": "Some minor suggestions",
+      "revId": "782b6f1964eaab28a799ca48aa25c058816a9ea1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b0d087ad_0dfd7172",
@@ -48,6 +65,57 @@
       "writtenOn": "2025-05-23T05:37:28Z",
       "side": 1,
       "message": "we can add check before here, something like we do for I2C devices #399 \n\nif (ec || it \u003d\u003d std::filesystem::end(it))\n    {\n        error(\"No net device associated with I2C bus {I2C_BUS} at {NET_DEVICE}\",\n              \"I2C_BUS\", bus, \"NET_DEVICE\", netdir);\n        throw MCTPException(\"Bus is not configured as an MCTP interface\");\n    }",
+      "revId": "782b6f1964eaab28a799ca48aa25c058816a9ea1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8e6a32c_87565273",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1002345
+      },
+      "writtenOn": "2025-05-23T05:54:30Z",
+      "side": 1,
+      "message": "Probably dont need to pass address from here and simply pass empty vector while passing argument for MCTPDevice constructor",
+      "revId": "782b6f1964eaab28a799ca48aa25c058816a9ea1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9e87a58_83565476",
+        "filename": "src/mctp/MCTPEndpoint.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1002345
+      },
+      "writtenOn": "2025-05-23T05:54:30Z",
+      "side": 1,
+      "message": "Please update the note section with dependency on gerrit patch which has schema change for MCTPUSBDevice\n\nhttps://gerrit.openbmc.org/c/openbmc/entity-manager/+/77381",
+      "revId": "782b6f1964eaab28a799ca48aa25c058816a9ea1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "597bac5d_e7d3578f",
+        "filename": "src/mctp/MCTPEndpoint.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1002345
+      },
+      "writtenOn": "2025-05-23T05:54:30Z",
+      "side": 1,
+      "message": "Can we avoid sending address altogether since its supposed to be an empty vector? we can pass as std::vector\u003cuint8_t\u003e{} argument when going to MCTPDDevice constructor\n\nAlso we can avoid sending it to MCTPUSBDevice object from .cpp file",
       "revId": "782b6f1964eaab28a799ca48aa25c058816a9ea1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
