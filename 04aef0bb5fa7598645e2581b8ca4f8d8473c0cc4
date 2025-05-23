@@ -1,0 +1,278 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e63b5075_a723955d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-23T03:48:55Z",
+      "side": 1,
+      "message": "nit: there are typos; needs rephrasing",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 12
+      },
+      "revId": "04aef0bb5fa7598645e2581b8ca4f8d8473c0cc4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aeb34482_60a74265",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-23T03:48:55Z",
+      "side": 1,
+      "message": "You should write this as:\n\nTested: Built an image for gb200nvl-obmc ...",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 67
+      },
+      "revId": "04aef0bb5fa7598645e2581b8ca4f8d8473c0cc4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdcf00ce_cbfb1697",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-23T03:48:55Z",
+      "side": 1,
+      "message": "Should not be GpuDevice class member, can just be a function in relevant namespace",
+      "revId": "04aef0bb5fa7598645e2581b8ca4f8d8473c0cc4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04f0aafc_4b90bd9e",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-23T03:48:55Z",
+      "side": 1,
+      "message": "This is where we should be constructing GpuDevice...",
+      "revId": "04aef0bb5fa7598645e2581b8ca4f8d8473c0cc4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b46e7c0d_fb48d7cc",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-23T03:48:55Z",
+      "side": 1,
+      "message": "this can go the ctor",
+      "range": {
+        "startLine": 132,
+        "startChar": 0,
+        "endLine": 133,
+        "endChar": 21
+      },
+      "revId": "04aef0bb5fa7598645e2581b8ca4f8d8473c0cc4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "379541ca_9a9869a0",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-23T03:48:55Z",
+      "side": 1,
+      "message": "At this time we still don\u0027t know it\u0027s a GPU, also this doesn\u0027t fit class member of GpuDevice",
+      "revId": "04aef0bb5fa7598645e2581b8ca4f8d8473c0cc4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9d1a127_257b9c92",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-23T03:48:55Z",
+      "side": 1,
+      "message": "nit: as this contains MCTP endpoint info retrieved from D-Bus, I think we should name it accordingly",
+      "range": {
+        "startLine": 191,
+        "startChar": 38,
+        "endLine": 191,
+        "endChar": 56
+      },
+      "revId": "04aef0bb5fa7598645e2581b8ca4f8d8473c0cc4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1890d6e3_b751f19b",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-23T03:48:55Z",
+      "side": 1,
+      "message": "declare closer to use",
+      "revId": "04aef0bb5fa7598645e2581b8ca4f8d8473c0cc4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fe1b807_52f0f2dc",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-23T03:48:55Z",
+      "side": 1,
+      "message": "We should get EID here and then proceed",
+      "revId": "04aef0bb5fa7598645e2581b8ca4f8d8473c0cc4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b522fdf_f6b095c5",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-23T03:48:55Z",
+      "side": 1,
+      "message": "As commented in the hpp, this doesn\u0027t fit GPUDevice class member",
+      "revId": "04aef0bb5fa7598645e2581b8ca4f8d8473c0cc4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4034b3ce_008f5bcb",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-23T03:48:55Z",
+      "side": 1,
+      "message": "need using directives for better readability",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 71
+      },
+      "revId": "04aef0bb5fa7598645e2581b8ca4f8d8473c0cc4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51667c85_d146b653",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-23T03:48:55Z",
+      "side": 1,
+      "message": "It\u0027s odd that the class represents a single GPU device, but has a method to discover all GPUs... Seems like this should exist at a higher scope.",
+      "revId": "04aef0bb5fa7598645e2581b8ca4f8d8473c0cc4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4d6946a_2c1eeb8a",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-23T03:48:55Z",
+      "side": 1,
+      "message": "Seems like this should exist at a higher scope.",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 50
+      },
+      "revId": "04aef0bb5fa7598645e2581b8ca4f8d8473c0cc4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "494d0c30_0eeca9c1",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-23T03:48:55Z",
+      "side": 1,
+      "message": "Why not pass EID to the ctor?",
+      "revId": "04aef0bb5fa7598645e2581b8ca4f8d8473c0cc4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
