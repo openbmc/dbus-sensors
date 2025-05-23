@@ -119,6 +119,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca5a3a60_2d2637e2",
+        "filename": "src/EntityManager.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-23T14:19:38Z",
+      "side": 1,
+      "message": "I\u0027ll add the IWYU pragmas to make it clearer in sdbusplus.",
+      "parentUuid": "2f5c9675_8768d8d0",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 35
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5714d52_4a4942e9",
@@ -1686,6 +1710,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ced268df_2667e985",
+        "filename": "src/leakdetector/LeakGPIODetector.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-23T14:19:38Z",
+      "side": 1,
+      "message": "\u003e Is the expense of spawn something to worry about?\n\nSpawning itself isn\u0027t expensive; but it\u0027s not something that really should be done as much as it is being done in this daemon.  It is roughly equivalent to launching a detached pthread.  Once you spawn it you have no way to track completion and/or errors.\n\nI\u0027ve talked to Jagpal about adding some additional support in sdbusplus for some of these use cases to handle it better.  There is an async_scope already in stdexec but it\u0027s a little bit of code to set it up and join on it later; I\u0027d like to make that more consumable.",
+      "parentUuid": "d29235a1_cddc6e29",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aeac4712_db17ea05",
@@ -1817,6 +1859,30 @@
       "side": 1,
       "message": "For systemd.cpp, Ed was not in support of making the static lib, please refer here https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/75329/comment/5cd26f5f_5818e588/.\n\nUpdated GPIoInterface and EntityManagerInterface to define static libs.",
       "parentUuid": "0532e5a7_bdcfa4f5",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 46
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7e96a43_a1220e32",
+        "filename": "src/meson.build",
+        "patchSetId": 76
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-23T14:19:38Z",
+      "side": 1,
+      "message": "I don\u0027t really understand why we are creating N static libraries.  I would suggest just one static library for all the sdbusplus::async-based support.\n\nI see there seems to be a pattern here in dbus-sensors of every .cpp file being its own static library, which is not clear to me why.  I guess if you\u0027re just following that pattern here, ok, but I don\u0027t really understand it.\n\nThe point of making a static_library is that the code all gets compiled once.  The compiler is still smart enough to only pick the bits out of you actually need.",
+      "parentUuid": "8c8c51ce_280c22ef",
       "range": {
         "startLine": 64,
         "startChar": 0,

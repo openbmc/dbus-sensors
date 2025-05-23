@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fcf1a56_8ea3d120",
+        "filename": "src/EntityManagerInterface.cpp",
+        "patchSetId": 85
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-23T14:19:38Z",
+      "side": 1,
+      "message": "Is it necessary to add these in the constructor as members or can they be local variables in the `handleInventory*` tasks?  Is there an advantage to having them in the constructor in that their destructor is called when the class is destructed, which maybe cancels the task?",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 58
+      },
+      "revId": "2a2038fabe3156b1f97b4721e255e869bbb29670",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d3366ed_8ef602ba",
+        "filename": "src/EntityManagerInterface.cpp",
+        "patchSetId": 85
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-23T14:19:38Z",
+      "side": 1,
+      "message": "nit: use `std::ranges::find(interfaces, interfaceName)`",
+      "range": {
+        "startLine": 111,
+        "startChar": 21,
+        "endLine": 111,
+        "endChar": 63
+      },
+      "revId": "2a2038fabe3156b1f97b4721e255e869bbb29670",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ba1947c_a1f008be",
+        "filename": "src/EntityManagerInterface.hpp",
+        "patchSetId": 85
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-23T14:19:38Z",
+      "side": 1,
+      "message": "nit: this header can be removed, right?",
+      "revId": "2a2038fabe3156b1f97b4721e255e869bbb29670",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0795f16_2c89a556",
+        "filename": "src/GPIOInterface.cpp",
+        "patchSetId": 85
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-23T14:19:38Z",
+      "side": 1,
+      "message": "Can we throw in the constructor?  I\u0027m trying to figure out what are the cases where someone did this purposefully and wants the class to do nothing...",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 5
+      },
+      "revId": "2a2038fabe3156b1f97b4721e255e869bbb29670",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d50cedfc_61fceea4",
+        "filename": "src/leakdetector/LeakEvents.cpp",
+        "patchSetId": 85
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-23T14:19:38Z",
+      "side": 1,
+      "message": "nit: Can you move this up to line 24 and use it on line 33/35 also?",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 70
+      },
+      "revId": "2a2038fabe3156b1f97b4721e255e869bbb29670",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
