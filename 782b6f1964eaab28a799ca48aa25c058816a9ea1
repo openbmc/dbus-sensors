@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cb9ebec_5868d1c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002345
+      },
+      "writtenOn": "2025-05-23T05:37:28Z",
+      "side": 1,
+      "message": "Hello Saptarshi,\n\nSome suggestions on interface name validity check",
+      "revId": "782b6f1964eaab28a799ca48aa25c058816a9ea1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0d087ad_0dfd7172",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1002345
+      },
+      "writtenOn": "2025-05-23T05:37:28Z",
+      "side": 1,
+      "message": "Should we add check for Interface name if its a valid mctp device or not?",
+      "revId": "782b6f1964eaab28a799ca48aa25c058816a9ea1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0514d81_803fe6d1",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1002345
+      },
+      "writtenOn": "2025-05-23T05:37:28Z",
+      "side": 1,
+      "message": "we can add check before here, something like we do for I2C devices #399 \n\nif (ec || it \u003d\u003d std::filesystem::end(it))\n    {\n        error(\"No net device associated with I2C bus {I2C_BUS} at {NET_DEVICE}\",\n              \"I2C_BUS\", bus, \"NET_DEVICE\", netdir);\n        throw MCTPException(\"Bus is not configured as an MCTP interface\");\n    }",
+      "revId": "782b6f1964eaab28a799ca48aa25c058816a9ea1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
