@@ -27,3 +27,14 @@ test(
     ),
     workdir: meson.current_source_dir(),
 )
+
+test(
+    'requester_test',
+    executable(
+        'requester_test',
+        'RequesterTest.cpp',
+        implicit_include_directories: false,
+        include_directories: gpusensor_test_include_dirs,
+        dependencies: [gtest_dep, gmock_dep, boost, phosphor_logging_dep, uring],
+    ),
+)
