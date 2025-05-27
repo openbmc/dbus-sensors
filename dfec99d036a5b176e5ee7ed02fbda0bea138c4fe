@@ -1,0 +1,400 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce740700_6073cc79",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-27T18:04:26Z",
+      "side": 1,
+      "message": "Was this done intentionally because of a bug/issue?  Please add some comments about why.",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 34
+      },
+      "revId": "dfec99d036a5b176e5ee7ed02fbda0bea138c4fe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5946601e_72ff656c",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-27T18:04:26Z",
+      "side": 1,
+      "message": "Please use the appropriate methods for this socket (ie https://live.boost.org/doc/libs/1_85_0/doc/html/boost_asio/reference/basic_datagram_socket/async_receive.html)",
+      "range": {
+        "startLine": 75,
+        "startChar": 21,
+        "endLine": 75,
+        "endChar": 29
+      },
+      "revId": "dfec99d036a5b176e5ee7ed02fbda0bea138c4fe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "073d3252_ab42fff5",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-27T18:04:26Z",
+      "side": 1,
+      "message": "Why do we immediately copy?  Why not read directly into the struct?",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 56
+      },
+      "revId": "dfec99d036a5b176e5ee7ed02fbda0bea138c4fe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad0767e4_02d65b63",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-27T18:04:26Z",
+      "side": 1,
+      "message": "nit, no need for {}",
+      "range": {
+        "startLine": 140,
+        "startChar": 32,
+        "endLine": 140,
+        "endChar": 34
+      },
+      "revId": "dfec99d036a5b176e5ee7ed02fbda0bea138c4fe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e75e9ef5_b0680b3e",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-27T18:04:26Z",
+      "side": 1,
+      "message": "same as above, why create then immediately copy?",
+      "range": {
+        "startLine": 157,
+        "startChar": 0,
+        "endLine": 157,
+        "endChar": 48
+      },
+      "revId": "dfec99d036a5b176e5ee7ed02fbda0bea138c4fe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a752d31_6f2f8056",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-27T18:04:26Z",
+      "side": 1,
+      "message": "Sample rate of 1S with a timeout of 2S?  Something seems off in that?  Potentialy a sensor with a single failure could take 3 seconds to read?",
+      "range": {
+        "startLine": 173,
+        "startChar": 25,
+        "endLine": 173,
+        "endChar": 27
+      },
+      "revId": "dfec99d036a5b176e5ee7ed02fbda0bea138c4fe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3da12e09_507b598c",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-27T18:04:26Z",
+      "side": 1,
+      "message": "Why are we doing peek here?  just read the full message in one shot.",
+      "range": {
+        "startLine": 185,
+        "startChar": 38,
+        "endLine": 185,
+        "endChar": 46
+      },
+      "revId": "dfec99d036a5b176e5ee7ed02fbda0bea138c4fe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "540fe6ae_eecbce8e",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-27T18:04:26Z",
+      "side": 1,
+      "message": "With peek, timer shouldn\u0027t be canceled until the full message is read.",
+      "revId": "dfec99d036a5b176e5ee7ed02fbda0bea138c4fe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a59b3065_098bdd80",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-27T18:04:26Z",
+      "side": 1,
+      "message": "The way you have non blocking setup, you need to handle would_block errors here.  Although I suspect that\u0027s not actually required.",
+      "revId": "dfec99d036a5b176e5ee7ed02fbda0bea138c4fe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30c14cff_b064e108",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-27T18:04:26Z",
+      "side": 1,
+      "message": "nit, this-\u003e all over is not required.",
+      "range": {
+        "startLine": 200,
+        "startChar": 12,
+        "endLine": 200,
+        "endChar": 18
+      },
+      "revId": "dfec99d036a5b176e5ee7ed02fbda0bea138c4fe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60af1c4c_6b84e717",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-27T18:04:26Z",
+      "side": 1,
+      "message": "Please don\u0027t do usings like this to obfuscate the type.  The type will never change, there\u0027s no need to make someone look it up separately.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 27
+      },
+      "revId": "dfec99d036a5b176e5ee7ed02fbda0bea138c4fe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4fed7e4_20b57483",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-27T18:04:26Z",
+      "side": 1,
+      "message": "Doxygen style comments like this are throughout this commit.\n\n1. I don\u0027t think any openbmc repo as ever run doxygen\n2. The descriptions of these arguments are not helpful and add nothing on top of the commit.\n\n\nFeel free to add freeform comments where needed, but do not duplicate information.  Nothing in dbus-sensors is a concrete library, APIs can change as needed.",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 7
+      },
+      "revId": "dfec99d036a5b176e5ee7ed02fbda0bea138c4fe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f79467f_66d63484",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-27T18:04:26Z",
+      "side": 1,
+      "message": "Please don\u0027t keep a separate variable for this.  mctpSocket.native_descriptor() will give the same result.",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 20
+      },
+      "revId": "dfec99d036a5b176e5ee7ed02fbda0bea138c4fe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "333d46a2_3599fbf3",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-27T18:04:26Z",
+      "side": 1,
+      "message": "Why is the message type per socket?  That\u0027s a bit of an odd abstraction requiring opening a socket per type?",
+      "revId": "dfec99d036a5b176e5ee7ed02fbda0bea138c4fe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4de7db7_1fdaa26d",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-27T18:04:26Z",
+      "side": 1,
+      "message": "Why do we need to static cast here?  This looks like something where we\u0027ve messed up the type system?  Either QUERY_DEVICE_IDENTIFICATION needs to be the correct type (uint8_t) or header needs to use a QUERY_DEVICE_IDENTIFICATION as its type.",
+      "range": {
+        "startLine": 46,
+        "startChar": 26,
+        "endLine": 46,
+        "endChar": 46
+      },
+      "revId": "dfec99d036a5b176e5ee7ed02fbda0bea138c4fe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c30db0d_4103e05a",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-27T18:04:26Z",
+      "side": 1,
+      "message": "Please improve this code.  We\u0027re copying multiple pieces of data around when we should be building in place.",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 69
+      },
+      "revId": "dfec99d036a5b176e5ee7ed02fbda0bea138c4fe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b0fd3ef_ade6e919",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-27T18:04:26Z",
+      "side": 1,
+      "message": "This should be coming from an EM config by convention.",
+      "range": {
+        "startLine": 41,
+        "startChar": 36,
+        "endLine": 41,
+        "endChar": 52
+      },
+      "revId": "dfec99d036a5b176e5ee7ed02fbda0bea138c4fe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "724fc487_93c35b86",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-27T18:04:26Z",
+      "side": 1,
+      "message": "by convention, all error_code instances should be captured by const error_code\u0026",
+      "range": {
+        "startLine": 402,
+        "startChar": 12,
+        "endLine": 402,
+        "endChar": 40
+      },
+      "revId": "dfec99d036a5b176e5ee7ed02fbda0bea138c4fe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

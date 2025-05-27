@@ -559,6 +559,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b6990048_9ff98dae",
+        "filename": "src/gpu/GpuMctpVdm.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-27T18:04:26Z",
+      "side": 1,
+      "message": "Harshit, please give at least some indication of what the change that was made was.  \"Done\" makes things hard to re-review when there were different suggestions made",
+      "parentUuid": "aafda785_006a0328",
+      "range": {
+        "startLine": 443,
+        "startChar": 68,
+        "endLine": 443,
+        "endChar": 79
+      },
+      "revId": "c8b880270bd851bdb5cabec61be829642a448a79",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d89004d1_b8c51a4f",
         "filename": "src/gpu/MctpRequester.cpp",
         "patchSetId": 2
