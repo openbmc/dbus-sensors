@@ -33,6 +33,29 @@
       "message": "nit: create after TLIMIT sensor for better ordering/readability",
       "revId": "e11b33f444d3040de8390d8cde97f754c1c45247",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0657d6b9_1f556b05",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerSensor.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-27T14:43:24Z",
+      "side": 1,
+      "message": "Not sure where this was introduced, but there\u0027s no need for an abstract class here for every sensor.  We know all the sensor types at compile time, and there\u0027s a finite number of them.  Just enumerate them in the main GPU device class.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 21
+      },
+      "revId": "e11b33f444d3040de8390d8cde97f754c1c45247",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
