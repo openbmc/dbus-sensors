@@ -47,7 +47,6 @@ NvidiaGpuPowerSensor::NvidiaGpuPowerSensor(
     eid(eid), sensorId{sensorId},
     averagingInterval{gpuPowerAveragingIntervalInSec},
     mctpRequester(mctpRequester), objectServer(objectServer)
-
 {
     setInitialProperties(sensor_paths::unitWatts);
 }

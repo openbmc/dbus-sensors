@@ -20,6 +20,7 @@
 #include <vector>
 
 constexpr uint8_t gpuPowerSensorId{0};
+constexpr uint8_t gpuDramPowerSensorId{0};
 
 struct NvidiaGpuPowerSensor : public Sensor
 {
