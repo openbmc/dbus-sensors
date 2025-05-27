@@ -56,6 +56,30 @@
       },
       "revId": "e11b33f444d3040de8390d8cde97f754c1c45247",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fe9fe27_ccbe491c",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerSensor.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-27T14:59:45Z",
+      "side": 1,
+      "message": "@ed@tanous.net is your concern with the abstract GpuSensor class or introducing the new GpuPowerSensor class or both?\n\nI also think (I have an old unresolved commit on this patch) that we likely need just one class for the sensor (is this what you are also suggesting)? There are some subtle differences b/w the sensor types - the request message for eg, but those can just be arguments to the main sensor class constructor or just be called according to the sensor type/ID.",
+      "parentUuid": "0657d6b9_1f556b05",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 21
+      },
+      "revId": "e11b33f444d3040de8390d8cde97f754c1c45247",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
