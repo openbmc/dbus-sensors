@@ -22,6 +22,7 @@
 
 constexpr uint8_t gpuTempSensorId{0};
 constexpr uint8_t gpuTLimitSensorId{2};
+constexpr uint8_t gpuDramTempSensorId{1};
 
 struct NvidiaGpuTempSensor :
     public Sensor,
