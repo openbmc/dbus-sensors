@@ -61,6 +61,7 @@ class GpuDevice
 
     std::shared_ptr<NvidiaGpuTempSensor> tempSensor;
     std::shared_ptr<NvidiaGpuTempSensor> tLimitSensor;
+    std::shared_ptr<NvidiaGpuTempSensor> dramTempSensor;
     std::shared_ptr<NvidiaGpuPowerSensor> powerSensor;
     std::shared_ptr<NvidiaGpuEnergySensor> energySensor;
     std::shared_ptr<NvidiaGpuVoltageSensor> voltageSensor;
