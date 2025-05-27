@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a25dc4b8_d4d0cc26",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 55
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-27T19:23:15Z",
+      "side": 1,
+      "message": "\u003e What you described is roughly how fans are already modeled. They model connectors, then they model the plugged in devices. AddObject is used to instantiate the plugged in devices.\n\nAre there any upstream examples of this?  I can\u0027t find any.",
+      "parentUuid": "3455ddc4_6066f2cb",
+      "revId": "b451b7a8aea5d9ef692322012732f003cca229cc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a15f4ba6_6935d743",
         "filename": "src/NotifyWatch.cpp",
         "patchSetId": 55
