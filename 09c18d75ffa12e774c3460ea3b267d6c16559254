@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57afb708_15a5507d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-05-27T18:47:13Z",
+      "side": 1,
+      "message": "This PR is a sibling to the merged tmp411 PR @ https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/78534/2\n\nThe other PR was accepted, but this one ran into a merge conflict when that happened, and wasn\u0027t noticed for a while -- partially because HPE has spent the last couple months focused on internal forked BMC repo restructuring, with an aim to enable a smoother upstreaming process from HPE in the coming months.",
+      "revId": "09c18d75ffa12e774c3460ea3b267d6c16559254",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
