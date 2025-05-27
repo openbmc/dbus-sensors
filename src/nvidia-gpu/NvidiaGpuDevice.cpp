@@ -74,6 +74,12 @@ void GpuDevice::makeSensors()
                 gpuTLimitSensorId, objectServer, std::move(tLimitThresholds));
         });
 
+    dramTempSensor = std::make_shared<NvidiaGpuTempSensor>(
+        conn, mctpRequester, name + "_DRAM_0_TEMP_0", path, eid,
+        gpuDramTempSensorId, objectServer,
+        std::vector<thresholds::Threshold>{thresholds::Threshold{
+            thresholds::Level::CRITICAL, thresholds::Direction::HIGH, 95.0}});
+
     powerSensor = std::make_shared<NvidiaGpuPowerSensor>(
         conn, mctpRequester, name + "_Power_0", path, eid, gpuPowerSensorId,
         objectServer, std::vector<thresholds::Threshold>{});
@@ -89,6 +95,7 @@ void GpuDevice::read()
     tempSensor->update();
     tLimitSensor->update();
     powerSensor->update();
+    dramTempSensor->update();
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait([this](const boost::system::error_code& ec) {
