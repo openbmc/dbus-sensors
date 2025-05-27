@@ -60,6 +60,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "009fc682_f490f991",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensor.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-27T13:30:11Z",
+      "side": 1,
+      "message": "Should this file be named NvidiaGpuTempSensor?",
+      "revId": "6b65b83d877e405db18b45733b9746d0aba87075",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e47e19b6_36a8497f",
         "filename": "src/nvidia-gpu/NvidiaGpuSensorMain.cpp",
         "patchSetId": 14
@@ -71,6 +88,23 @@
       "writtenOn": "2025-05-27T12:29:48Z",
       "side": 1,
       "message": "Use \u0027using\u0027 directive for the std::string",
+      "revId": "6b65b83d877e405db18b45733b9746d0aba87075",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45641dd5_f9763c71",
+        "filename": "src/nvidia-gpu/UpdatableSensor.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-27T13:30:11Z",
+      "side": 1,
+      "message": "Should this file be named NvidiaGpuSensor?",
       "revId": "6b65b83d877e405db18b45733b9746d0aba87075",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
