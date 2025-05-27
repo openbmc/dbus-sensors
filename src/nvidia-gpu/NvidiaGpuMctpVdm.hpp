@@ -32,6 +32,7 @@ enum class PlatformEnvironmentalCommands : uint8_t
     GET_TEMPERATURE_READING = 0x00,
     READ_THERMAL_PARAMETERS = 0x02,
     GET_CURRENT_POWER_DRAW = 0x03,
+    GET_CURRENT_ENERGY_COUNTER = 0x06,
 };
 
 enum class DeviceIdentification : uint8_t
@@ -68,6 +69,8 @@ struct GetCurrentPowerDrawRequest
     uint8_t averagingInterval;
 } __attribute__((packed));
 
+using GetCurrentEnergyCounterRequest = GetNumericSensorReadingRequest;
+
 struct GetTemperatureReadingResponse
 {
     ocp::accelerator_management::CommonResponse hdr;
@@ -84,6 +87,12 @@ struct GetCurrentPowerDrawResponse
 {
     ocp::accelerator_management::CommonResponse hdr;
     uint32_t power;
+} __attribute__((packed));
+
+struct GetCurrentEnergyCounterResponse
+{
+    ocp::accelerator_management::CommonResponse hdr;
+    uint64_t energy;
 } __attribute__((packed));
 
 int packHeader(const ocp::accelerator_management::BindingPciVidInfo& hdr,
@@ -121,4 +130,12 @@ int decodeGetCurrentPowerDrawResponse(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     uint32_t& power);
+
+int encodeGetCurrentEnergyCounterRequest(uint8_t instanceId, uint8_t sensorId,
+                                         std::span<uint8_t> buf);
+
+int decodeGetCurrentEnergyCounterResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint64_t& energy);
 } // namespace gpu
