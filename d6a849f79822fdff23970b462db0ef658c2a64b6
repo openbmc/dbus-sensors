@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3638498f_a8abaf4b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-27T18:35:36Z",
+      "side": 1,
+      "message": "Do we expect people to actually use this sensor?  It\u0027s not clear why we would support it outside of a diagnostic capacity.",
+      "revId": "d6a849f79822fdff23970b462db0ef658c2a64b6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
