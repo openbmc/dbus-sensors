@@ -28,7 +28,6 @@
 
 using namespace std::literals;
 
-constexpr uint8_t gpuPowerSensorId{0};
 /**
  * @brief GPU Power Sensor Averaging Interval in seconds, 0 implies default
  */
@@ -41,12 +40,12 @@ static constexpr double gpuPowerSensorMinReading =
 GpuPowerSensor::GpuPowerSensor(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, const std::string& name,
-    const std::string& sensorConfiguration, uint8_t eid,
+    const std::string& sensorConfiguration, uint8_t eid, uint8_t sensorId,
     sdbusplus::asio::object_server& objectServer,
     std::vector<thresholds::Threshold>&& thresholdData) :
     GpuSensor(conn, mctpRequester, escapeName(name), sensorConfiguration,
               "power", gpuPowerSensorMaxReading, gpuPowerSensorMinReading, eid,
-              gpuPowerSensorId, objectServer, std::move(thresholdData)),
+              sensorId, objectServer, std::move(thresholdData)),
     averagingInterval{gpuPowerAveragingIntervalInSec}
 {
     setInitialProperties(sensor_paths::unitWatts);

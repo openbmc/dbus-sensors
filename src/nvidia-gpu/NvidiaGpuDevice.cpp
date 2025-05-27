@@ -57,7 +57,12 @@ void GpuDevice::makeSensors()
         ""));
 
     sensors.push_back(std::make_shared<GpuPowerSensor>(
-        conn, mctpRequester, name + "_Power_0", path, eid, objectServer,
+        conn, mctpRequester, name + "_Power_0", path, eid, gpuPowerSensorId,
+        objectServer, std::vector<thresholds::Threshold>{}));
+
+    sensors.push_back(std::make_shared<GpuPowerSensor>(
+        conn, mctpRequester, name + "_DRAM_0_Power_0", path, eid,
+        gpuDramPowerSensorId, objectServer,
         std::vector<thresholds::Threshold>{}));
 
     readThermalParameters(

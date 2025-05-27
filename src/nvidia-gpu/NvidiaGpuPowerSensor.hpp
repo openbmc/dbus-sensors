@@ -18,6 +18,9 @@
 #include <string>
 #include <vector>
 
+constexpr uint8_t gpuPowerSensorId{0};
+constexpr uint8_t gpuDramPowerSensorId{0};
+
 /**
  * @struct GpuPowerSensor
  * @brief Implements a GPU power sensor that monitors power values
@@ -37,6 +40,7 @@ struct GpuPowerSensor :
      * @param sensorConfiguration Configuration string for the sensor containing
      * setup parameters
      * @param eid EID of the device endpoint
+     * @param sensorId Sensor Id for the power sensor
      * @param objectServer D-Bus object server for exposing sensor interfaces
      * @param thresholdData Vector of threshold configurations for temperature
      * monitoring
@@ -44,6 +48,7 @@ struct GpuPowerSensor :
     GpuPowerSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
                    mctp::MctpRequester& mctpRequester, const std::string& name,
                    const std::string& sensorConfiguration, uint8_t eid,
+                   uint8_t sensorId,
                    sdbusplus::asio::object_server& objectServer,
                    std::vector<thresholds::Threshold>&& thresholdData);
 
