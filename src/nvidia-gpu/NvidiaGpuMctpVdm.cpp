@@ -349,5 +349,69 @@ int decodeGetCurrentEnergyCounterResponse(
 
     return 0;
 }
+
+int encodeGetVoltageRequest(uint8_t instanceId, uint8_t sensorId,
+                            std::span<uint8_t> buf)
+{
+    if (buf.size() < sizeof(GetVoltageRequest))
+    {
+        return EINVAL;
+    }
+
+    auto* msg = reinterpret_cast<GetVoltageRequest*>(buf.data());
+
+    ocp::accelerator_management::BindingPciVidInfo header{};
+    header.ocp_accelerator_management_msg_type =
+        static_cast<uint8_t>(ocp::accelerator_management::MessageType::REQUEST);
+    header.instance_id = instanceId &
+                         ocp::accelerator_management::instanceIdBitMask;
+    header.msg_type = static_cast<uint8_t>(MessageType::PLATFORM_ENVIRONMENTAL);
+
+    auto rc = packHeader(header, msg->hdr.msgHdr.hdr);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    msg->hdr.command =
+        static_cast<uint8_t>(PlatformEnvironmentalCommands::GET_VOLTAGE);
+    msg->hdr.data_size = sizeof(sensorId);
+    msg->sensor_id = sensorId;
+
+    return 0;
+}
+
+int decodeGetVoltageResponse(std::span<const uint8_t> buf,
+                             ocp::accelerator_management::CompletionCode& cc,
+                             uint16_t& reasonCode, uint32_t& voltage)
+{
+    auto rc =
+        ocp::accelerator_management::decodeReasonCodeAndCC(buf, cc, reasonCode);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    if (buf.size() < sizeof(GetVoltageResponse))
+    {
+        return EINVAL;
+    }
+
+    const auto* response =
+        reinterpret_cast<const GetVoltageResponse*>(buf.data());
+
+    const uint16_t dataSize = le16toh(response->hdr.data_size);
+
+    if (dataSize != sizeof(uint32_t))
+    {
+        return EINVAL;
+    }
+
+    voltage = le32toh(response->voltage);
+
+    return 0;
+}
 // NOLINTEND(cppcoreguidelines-pro-type-reinterpret-cast)
 } // namespace gpu
