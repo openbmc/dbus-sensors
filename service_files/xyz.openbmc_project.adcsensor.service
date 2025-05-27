@@ -8,7 +8,7 @@ After=xyz.openbmc_project.EntityManager.service
 [Service]
 Restart=always
 RestartSec=5
-ExecStart=/usr/bin/adcsensor
+ExecStart=/usr/libexec/dbus-sensors/adcsensor
 
 [Install]
 WantedBy=multi-user.target

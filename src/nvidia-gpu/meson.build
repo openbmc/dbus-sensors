@@ -10,4 +10,5 @@ executable(
     include_directories: [gpusensor_include_dir, sensor_include_dir],
     dependencies: [thresholds_dep, utils_dep],
     install: true,
+    install_dir: get_option('libexecdir') / 'dbus-sensors',
 )
