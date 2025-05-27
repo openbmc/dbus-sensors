@@ -17,5 +17,5 @@ executable(
     ],
     include_directories: src_inc,
     install: true,
-    install_dir: get_option('libexecdir') / 'dbus-sensors',
+    install_dir: '/usr/libexec/dbus-sensors',
 )
