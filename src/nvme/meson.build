@@ -10,4 +10,5 @@ executable(
     dependencies: nvme_deps,
     include_directories: src_inc,
     install: true,
+    install_dir: get_option('libexecdir') / 'dbus-sensors',
 )
