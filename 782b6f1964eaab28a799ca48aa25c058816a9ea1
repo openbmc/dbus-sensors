@@ -52,6 +52,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc1524b7_ce4c0495",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1002305
+      },
+      "writtenOn": "2025-05-27T07:01:27Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "b0d087ad_0dfd7172",
+      "revId": "782b6f1964eaab28a799ca48aa25c058816a9ea1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a0514d81_803fe6d1",
