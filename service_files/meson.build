@@ -6,19 +6,19 @@ systemd_system_unit_dir = systemd.get_variable(
 
 unit_files = [
     ['adc', 'xyz.openbmc_project.adcsensor.service'],
-    ['intel-cpu', 'xyz.openbmc_project.intelcpusensor.service'],
     ['exit-air', 'xyz.openbmc_project.exitairsensor.service'],
+    ['external', 'xyz.openbmc_project.externalsensor.service'],
     ['fan', 'xyz.openbmc_project.fansensor.service'],
     ['hwmon-temp', 'xyz.openbmc_project.hwmontempsensor.service'],
-    ['ipmb', 'xyz.openbmc_project.ipmbsensor.service'],
+    ['intel-cpu', 'xyz.openbmc_project.intelcpusensor.service'],
     ['intrusion', 'xyz.openbmc_project.intrusionsensor.service'],
+    ['ipmb', 'xyz.openbmc_project.ipmbsensor.service'],
+    ['leakdetector', 'xyz.openbmc_project.leakdetector.service'],
     ['mctp', 'xyz.openbmc_project.mctpreactor.service'],
     ['mcu', 'xyz.openbmc_project.mcutempsensor.service'],
     ['nvidia-gpu', 'xyz.openbmc_project.nvidiagpusensor.service'],
     ['nvme', 'xyz.openbmc_project.nvmesensor.service'],
     ['psu', 'xyz.openbmc_project.psusensor.service'],
-    ['external', 'xyz.openbmc_project.externalsensor.service'],
-    ['leakdetector', 'xyz.openbmc_project.leakdetector.service'],
 ]
 
 fs = import('fs')
