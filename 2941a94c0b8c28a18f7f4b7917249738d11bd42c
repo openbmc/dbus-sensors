@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fe1b975_e8495239",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-27T17:00:50Z",
+      "side": 1,
+      "message": "Commit wide comment - let\u0027s remove doxygen doc - other dbus sensor apps dont have it and it\u0027s hard to keep correct...",
+      "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0431bb3b_cdf52051",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-27T17:00:50Z",
+      "side": 1,
+      "message": "why do we need this here and in the ocp file?",
+      "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c906700_7913a6d5",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensor.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-27T17:00:50Z",
+      "side": 1,
+      "message": "can these be combined?",
+      "range": {
+        "startLine": 214,
+        "startChar": 0,
+        "endLine": 226,
+        "endChar": 5
+      },
+      "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de414ee0_51ac470b",
+        "filename": "src/nvidia-gpu/OcpMctpVdm.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-27T17:00:50Z",
+      "side": 1,
+      "message": "Had this comment on an older patchset - let\u0027s add only what is used in this commit. Same goes for some of the helper functions in this file which are not used anywhere. This will help make the commit concise.",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 46
+      },
+      "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
