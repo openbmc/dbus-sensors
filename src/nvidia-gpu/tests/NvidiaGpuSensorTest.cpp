@@ -795,6 +795,158 @@ TEST_F(GpuMctpVdmTests, DecodeGetCurrentPowerDrawResponseInvalidSize)
 
     EXPECT_EQ(result, EINVAL); // Should indicate error for invalid data size
 }
+
+// Tests for GpuMctpVdm::encodeGetCurrentEnergyCounterRequest function
+TEST_F(GpuMctpVdmTests, EncodeGetCurrentEnergyCounterRequestSuccess)
+{
+    const uint8_t instanceId = 7;
+    const uint8_t sensorId = 3;
+    std::array<uint8_t, sizeof(gpu::GetCurrentEnergyCounterRequest)> buf{};
+
+    int result =
+        gpu::encodeGetCurrentEnergyCounterRequest(instanceId, sensorId, buf);
+
+    EXPECT_EQ(result, 0);
+
+    gpu::GetCurrentEnergyCounterRequest request{};
+    std::memcpy(&request, buf.data(), sizeof(request));
+
+    EXPECT_EQ(request.hdr.msgHdr.hdr.pci_vendor_id,
+              htobe16(gpu::nvidiaPciVendorId));
+    EXPECT_EQ(request.hdr.msgHdr.hdr.instance_id &
+                  ocp::accelerator_management::instanceIdBitMask,
+              instanceId & ocp::accelerator_management::instanceIdBitMask);
+    EXPECT_NE(request.hdr.msgHdr.hdr.instance_id &
+                  ocp::accelerator_management::requestBitMask,
+              0);
+    EXPECT_EQ(request.hdr.msgHdr.hdr.ocp_accelerator_management_msg_type,
+              static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+
+    // Verify request data
+    EXPECT_EQ(
+        request.hdr.command,
+        static_cast<uint8_t>(
+            gpu::PlatformEnvironmentalCommands::GET_CURRENT_ENERGY_COUNTER));
+    EXPECT_EQ(request.hdr.data_size, sizeof(sensorId));
+    EXPECT_EQ(request.sensor_id, sensorId);
+}
+
+// Tests for GpuMctpVdm::decodeGetCurrentEnergyCounterResponse function
+TEST_F(GpuMctpVdmTests, DecodeGetCurrentEnergyCounterResponseSuccess)
+{
+    // Create a mock successful response
+    std::array<uint8_t, sizeof(gpu::GetCurrentEnergyCounterResponse)> buf{};
+
+    gpu::GetCurrentEnergyCounterResponse response{};
+    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
+    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    headerInfo.instance_id = 7;
+    headerInfo.msg_type =
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
+
+    gpu::packHeader(headerInfo, response.hdr.msgHdr.hdr);
+
+    // Populate response data
+    response.hdr.command = static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_CURRENT_ENERGY_COUNTER);
+    response.hdr.completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS);
+    response.hdr.reserved = 0;
+    response.hdr.data_size = htole16(sizeof(uint64_t));
+
+    // Set an energy value of 1000 Wh (1000 * 3600 = 3600000 Joules)
+    response.energy = htole64(3600000);
+
+    std::memcpy(buf.data(), &response, sizeof(response));
+
+    // Test decoding
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint64_t energy{};
+
+    int result =
+        gpu::decodeGetCurrentEnergyCounterResponse(buf, cc, reasonCode, energy);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+    EXPECT_EQ(energy, 3600000);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetCurrentEnergyCounterResponseError)
+{
+    std::array<uint8_t,
+               sizeof(ocp::accelerator_management::CommonNonSuccessResponse)>
+        buf{};
+
+    // Populate error response data
+    ocp::accelerator_management::CommonNonSuccessResponse errorResponse{};
+    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
+    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    headerInfo.instance_id = 7;
+    headerInfo.msg_type =
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
+
+    gpu::packHeader(headerInfo, errorResponse.msgHdr.hdr);
+
+    errorResponse.command = static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_CURRENT_ENERGY_COUNTER);
+    errorResponse.completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
+    errorResponse.reason_code = htole16(0xDEF0);
+
+    std::memcpy(buf.data(), &errorResponse, sizeof(errorResponse));
+
+    // Test decoding
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint64_t energy{};
+
+    int result =
+        gpu::decodeGetCurrentEnergyCounterResponse(buf, cc, reasonCode, energy);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
+    EXPECT_EQ(reasonCode, 0xDEF0);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetCurrentEnergyCounterResponseInvalidSize)
+{
+    // Create a mock response with invalid data_size
+    std::array<uint8_t, sizeof(gpu::GetCurrentEnergyCounterResponse)> buf{};
+
+    gpu::GetCurrentEnergyCounterResponse response{};
+    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
+    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    headerInfo.instance_id = 7;
+    headerInfo.msg_type =
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
+
+    gpu::packHeader(headerInfo, response.hdr.msgHdr.hdr);
+
+    response.hdr.command = static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_CURRENT_ENERGY_COUNTER);
+    response.hdr.completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS);
+    response.hdr.reserved = 0;
+    response.hdr.data_size = htole16(4); // Invalid - should be sizeof(uint64_t)
+    response.energy = htole64(3600000);
+
+    std::memcpy(buf.data(), &response, sizeof(response));
+
+    // Test decoding
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint64_t energy{};
+
+    int result =
+        gpu::decodeGetCurrentEnergyCounterResponse(buf, cc, reasonCode, energy);
+
+    EXPECT_EQ(result, EINVAL); // Should indicate error for invalid data size
+}
 } // namespace gpu_mctp_tests
 
 int main(int argc, char** argv)
