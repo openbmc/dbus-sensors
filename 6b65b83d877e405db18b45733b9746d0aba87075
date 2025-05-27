@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa0e25cc_f9e3d3dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-27T12:29:48Z",
+      "side": 1,
+      "message": "A few more comments, post which this would look good to me",
+      "revId": "6b65b83d877e405db18b45733b9746d0aba87075",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "301775f5_f1e7862d",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-27T12:29:48Z",
+      "side": 1,
+      "message": "Do we actually do a lookup based on this name again or is the name used? Do we need this to be a map for some future commit?",
+      "range": {
+        "startLine": 99,
+        "startChar": 18,
+        "endLine": 99,
+        "endChar": 25
+      },
+      "revId": "6b65b83d877e405db18b45733b9746d0aba87075",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79b647f7_d5d0734d",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-27T12:29:48Z",
+      "side": 1,
+      "message": "nit: I would create a top level namespace called nvidiamctpvdm (for the struct and the free functions) and call the struct DeviceMgr",
+      "revId": "6b65b83d877e405db18b45733b9746d0aba87075",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e47e19b6_36a8497f",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensorMain.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-27T12:29:48Z",
+      "side": 1,
+      "message": "Use \u0027using\u0027 directive for the std::string",
+      "revId": "6b65b83d877e405db18b45733b9746d0aba87075",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
