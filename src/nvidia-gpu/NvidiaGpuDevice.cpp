@@ -12,6 +12,7 @@
 #include <bits/basic_string.h>
 
 #include <MctpRequester.hpp>
+#include <NvidiaGpuEnergySensor.hpp>
 #include <NvidiaGpuPowerSensor.hpp>
 #include <NvidiaGpuThresholds.hpp>
 #include <boost/asio/io_context.hpp>
@@ -64,6 +65,10 @@ void GpuDevice::makeSensors()
         conn, mctpRequester, name + "_DRAM_0_Power_0", path, eid,
         gpuDramPowerSensorId, objectServer,
         std::vector<thresholds::Threshold>{}));
+
+    sensors.push_back(std::make_shared<GpuEnergySensor>(
+        conn, mctpRequester, name + "_Energy_0", path, eid, gpuEnergySensorId,
+        objectServer, std::vector<thresholds::Threshold>{}));
 
     readThermalParameters(
         eid,

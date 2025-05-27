@@ -42,6 +42,7 @@ enum class PlatformEnvironmentalCommands : uint8_t
     GET_TEMPERATURE_READING = 0x00,
     READ_THERMAL_PARAMETERS = 0x02,
     GET_CURRENT_POWER_DRAW = 0x03,
+    GET_CURRENT_ENERGY_COUNTER = 0x06,
 };
 
 /** @brief device identification types
@@ -109,6 +110,12 @@ struct GetCurrentPowerDrawRequest
     uint8_t averagingInterval;
 } __attribute__((packed));
 
+/** @struct GetCurrentEnergyCounterRequest
+ *
+ *  Structure representing request to get current energy counter reading.
+ */
+using GetCurrentEnergyCounterRequest = GetNumericSensorReadingRequest;
+
 /** @struct GetTemperatureReadingResponse
  *
  *  Structure representing get temperature reading response.
@@ -138,6 +145,17 @@ struct GetCurrentPowerDrawResponse
 {
     ocp::accelerator_management::CommonResponse hdr;
     uint32_t power;
+} __attribute__((packed));
+
+/** @struct GetCurrentEnergyCounterResponse
+ *
+ *  Structure representing response for current energy counter request.
+ *  Contains the energy counter value from the requested sensor.
+ */
+struct GetCurrentEnergyCounterResponse
+{
+    ocp::accelerator_management::CommonResponse hdr;
+    uint64_t energy;
 } __attribute__((packed));
 
 /**
@@ -261,4 +279,27 @@ int decodeGetCurrentPowerDrawResponse(
     const std::vector<uint8_t>& buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     uint32_t& power);
+
+/** @brief Encode a Get current energy counter request message
+ *
+ *  @param[in] instanceId - Instance ID
+ *  @param[in] sensorId - Sensor ID
+ *  @param[out] buf - Reference to buffer that will contain the request message
+ *  @return 0 on success, otherwise appropriate error code.
+ */
+int encodeGetCurrentEnergyCounterRequest(uint8_t instanceId, uint8_t sensorId,
+                                         std::vector<uint8_t>& buf);
+
+/** @brief Decode a Get current energy counter response message
+ *
+ *  @param[in] buf - Response message buffer
+ *  @param[out] cc - Reference to completion code to be populated
+ *  @param[out] reasonCode - Reference to reason code to be populated
+ *  @param[out] energy - Reference to energy counter value to be populated
+ *  @return 0 on success, otherwise appropriate error code.
+ */
+int decodeGetCurrentEnergyCounterResponse(
+    const std::vector<uint8_t>& buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint64_t& energy);
 } // namespace gpu
