@@ -20,6 +20,7 @@
 #include <vector>
 
 constexpr uint8_t gpuTempSensorId{0};
+constexpr uint8_t gpuDramTempSensorId{1};
 constexpr uint8_t gpuTLimitSensorId{2};
 
 struct GpuTempSensor :

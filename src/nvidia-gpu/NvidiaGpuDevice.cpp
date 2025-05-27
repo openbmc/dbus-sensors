@@ -49,6 +49,13 @@ void GpuDevice::makeSensors()
         conn, mctpRequester, name + "_TEMP_0", path, eid, gpuTempSensorId,
         objectServer, std::vector<thresholds::Threshold>{}, ""));
 
+    sensors.push_back(std::make_shared<GpuTempSensor>(
+        conn, mctpRequester, name + "_DRAM_0_TEMP_0", path, eid,
+        gpuDramTempSensorId, objectServer,
+        std::vector<thresholds::Threshold>{thresholds::Threshold{
+            thresholds::Level::CRITICAL, thresholds::Direction::HIGH, 95.0}},
+        ""));
+
     sensors.push_back(std::make_shared<GpuPowerSensor>(
         conn, mctpRequester, name + "_Power_0", path, eid, objectServer,
         std::vector<thresholds::Threshold>{}));
