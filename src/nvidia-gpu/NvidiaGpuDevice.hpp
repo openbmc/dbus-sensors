@@ -12,6 +12,7 @@
 #include "NvidiaGpuSensor.hpp"
 
 #include <NvidiaGpuEnergySensor.hpp>
+#include <NvidiaGpuVoltageSensor.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <sdbusplus/asio/connection.hpp>
@@ -60,6 +61,7 @@ class GpuDevice
     std::shared_ptr<NvidiaGpuTempSensor> dramTempSensor;
     std::shared_ptr<NvidiaGpuPowerSensor> dramPowerSensor;
     std::shared_ptr<NvidiaGpuEnergySensor> energySensor;
+    std::shared_ptr<NvidiaGpuVoltageSensor> voltageSensor;
 
     SensorConfigs configs;
 
