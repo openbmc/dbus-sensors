@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5423f80_470922d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-05-27T19:43:45Z",
+      "side": 1,
+      "message": "Main thing is lots of allocation in the hot path. If you want to instrument to find any further allocations I missed during review, the following snippet is helpful but not for any kind of production use...\n\nvoid *operator new(size_t size)\n{\n    void *p \u003d malloc(size);\n    if (!p) throw std::bad_alloc;\n    std::cout \u003c\u003c \"allocated \" \u003c\u003c size \u003c\u003c std::endl;\n    std::cout \u003c\u003c std::stacktrace::current();\n    return p;\n}\n\nvoid operator delete(void *p)\n{\n    free(p);\n}",
+      "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0a0a32f0_be68193b",
@@ -14,6 +31,23 @@
       "writtenOn": "2025-05-27T19:22:23Z",
       "side": 1,
       "message": "You should be able to avoid holding a raw socket here, and let boost handle it completely. Something along the lines of:\n\n\nboost::asio::generic::datagram_protocol protocol {AF_MCTP, 0};\nsock \u003d boost::asio::basic_datagram_socket\u003cboost::asio::generic::datagram_protocol\u003e{ctx, protocoll};",
+      "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59410004_a3558cd6",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-05-27T19:43:45Z",
+      "side": 1,
+      "message": "you should be able to avoid this completely if you just use the boost socket everywhere and specify blocking vs non blocking APIs when appropriate, or just use the non blocking API\u0027s throughout.",
       "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -207,6 +241,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "64968110_8ba6243c",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensor.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-05-27T19:43:45Z",
+      "side": 1,
+      "message": "nit, and I could go either way on this. having both an error code *and* a std::optional\u003cstd::vector\u003e\u003e of the payload is dual encoding failure modes for no functional reason. Either we have the amount of bytes necessary to decode a response, or we don\u0027t. my preference would be to send an int and a span of bytes, or an optional and take care of your logging on the socket handler side. I\u0027m leaning towards the former, having your client check the error code before using the result is relatively standard, and we haven\u0027t really even solved that problem here, so all we\u0027re doing is convoluting the process more than if we had just given an int and a vector.",
+      "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "030201e3_a50427df",
         "filename": "src/nvidia-gpu/NvidiaGpuSensor.cpp",
         "patchSetId": 15
@@ -241,6 +292,23 @@
         "endLine": 226,
         "endChar": 5
       },
+      "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a7697af_3db975f5",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensor.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-05-27T19:43:45Z",
+      "side": 1,
+      "message": "We know the size of the request statically, right? no need to invoke dynamic allocation.",
       "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
