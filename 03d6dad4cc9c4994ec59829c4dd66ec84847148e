@@ -530,6 +530,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bedcf2d_23bb94e1",
+        "filename": "src/EntityManager.hpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-27T14:09:34Z",
+      "side": 1,
+      "message": "👍",
+      "parentUuid": "5172f5d1_db63b77f",
+      "range": {
+        "startLine": 31,
+        "startChar": 4,
+        "endLine": 31,
+        "endChar": 28
+      },
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01d8a7b5_392fb051",
@@ -679,6 +703,24 @@
       "side": 1,
       "message": "The class needs to maintain own its async_scope so the tasks scheduled for it gets tracked via that and as part of destructor flow this async_scope can be cleaned up to get rid off any pending and waiting to be scheduled tasks. For now the plan is that @patrick@stwcx.xyz will work on adding this to sdbusplus as it seems to have a wider use case in other daemons too and once that code becomes available, this class will be updated to adopt/inherit that.\n\nResolving this comment for now. Please feel free to open this if it needs further discussion. Thanks",
       "parentUuid": "2f3e1240_3abfaa94",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c3f6699_a69cd664",
+        "filename": "src/GPIOInterface.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-27T14:09:34Z",
+      "side": 1,
+      "message": "I\u0027m assuming we mean this async_scope? \n https://github.com/NVIDIA/stdexec/blob/f2576ce22cea0981a7bb6ee484bf394250451dd3/include/exec/async_scope.hpp#L775\n \nAnywhere else that was discussed?  I don\u0027t want to hold this patch on it, but I do want to understand this coroutine stuff.  The only bug here is just that we can\u0027t write tests?  If so, that\u0027s easy.",
+      "parentUuid": "4756b212_03245122",
       "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -1723,6 +1765,24 @@
       "writtenOn": "2025-05-23T14:19:38Z",
       "side": 1,
       "message": "\u003e Is the expense of spawn something to worry about?\n\nSpawning itself isn\u0027t expensive; but it\u0027s not something that really should be done as much as it is being done in this daemon.  It is roughly equivalent to launching a detached pthread.  Once you spawn it you have no way to track completion and/or errors.\n\nI\u0027ve talked to Jagpal about adding some additional support in sdbusplus for some of these use cases to handle it better.  There is an async_scope already in stdexec but it\u0027s a little bit of code to set it up and join on it later; I\u0027d like to make that more consumable.",
+      "parentUuid": "d29235a1_cddc6e29",
+      "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8e41f00_43eb1bf0",
+        "filename": "src/leakdetector/LeakGPIODetector.cpp",
+        "patchSetId": 76
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-27T14:09:34Z",
+      "side": 1,
+      "message": "👍",
       "parentUuid": "d29235a1_cddc6e29",
       "revId": "03d6dad4cc9c4994ec59829c4dd66ec84847148e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
