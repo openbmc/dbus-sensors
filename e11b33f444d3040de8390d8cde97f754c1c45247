@@ -37,6 +37,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "60a5a352_23e8591a",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-27T18:32:07Z",
+      "side": 1,
+      "message": "I commented this somewhere else, but comments like this aren\u0027t useful.\n\n1. The variable is instanceId, not instance_id.\n2. I\u0027m pretty sure I can figure out that instanceId means instance id without this comment.\n\nPlease just remove the doxygen comments as there\u0027s no requirement for full doxygen.  Please leave comments in prose where there are subtleties about how the API is used.",
+      "range": {
+        "startLine": 239,
+        "startChar": 15,
+        "endLine": 239,
+        "endChar": 40
+      },
+      "revId": "e11b33f444d3040de8390d8cde97f754c1c45247",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0657d6b9_1f556b05",
         "filename": "src/nvidia-gpu/NvidiaGpuPowerSensor.hpp",
         "patchSetId": 9
