@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6321f4da_f81df064",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-27T13:33:20Z",
+      "side": 1,
+      "message": "Don\u0027t disable other sensors any more; we have the queueing commit in place.",
+      "revId": "e11b33f444d3040de8390d8cde97f754c1c45247",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fd41e3d_c441ac80",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-27T13:33:20Z",
+      "side": 1,
+      "message": "nit: create after TLIMIT sensor for better ordering/readability",
+      "revId": "e11b33f444d3040de8390d8cde97f754c1c45247",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
