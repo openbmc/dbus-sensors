@@ -1044,6 +1044,171 @@ TEST_F(GpuMctpVdmTests, DecodeGetCurrentEnergyCounterResponseInvalidSize)
     EXPECT_EQ(result, EINVAL); // Should indicate error for invalid data size
 }
 
+// Tests for GpuMctpVdm::encodeGetVoltageRequest function
+TEST_F(GpuMctpVdmTests, EncodeGetVoltageRequestSuccess)
+{
+    const uint8_t instanceId = 7;
+    const uint8_t sensorId = 3;
+    std::vector<uint8_t> buf;
+
+    int result = gpu::encodeGetVoltageRequest(instanceId, sensorId, buf);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(buf.size(), sizeof(ocp::accelerator_management::Message) +
+                              sizeof(gpu::GetVoltageRequest));
+
+    // Verify header
+    ocp::accelerator_management::Message msg{};
+    std::memcpy(&msg, buf.data(), sizeof(msg));
+
+    EXPECT_EQ(msg.hdr.pci_vendor_id, htobe16(gpu::nvidiaPciVendorId));
+    EXPECT_EQ(msg.hdr.instance_id &
+                  ocp::accelerator_management::instanceIdBitMask,
+              instanceId & ocp::accelerator_management::instanceIdBitMask);
+    EXPECT_NE(msg.hdr.instance_id & ocp::accelerator_management::requestBitMask,
+              0);
+    EXPECT_EQ(msg.hdr.ocp_accelerator_management_msg_type,
+              static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+
+    // Verify request data
+    gpu::GetVoltageRequest request{};
+    std::memcpy(&request, buf.data() + sizeof(msg), sizeof(request));
+
+    EXPECT_EQ(
+        request.hdr.command,
+        static_cast<uint8_t>(gpu::PlatformEnvironmentalCommands::GET_VOLTAGE));
+    EXPECT_EQ(request.hdr.data_size, sizeof(sensorId));
+    EXPECT_EQ(request.sensor_id, sensorId);
+}
+
+// Tests for GpuMctpVdm::decodeGetVoltageResponse function
+TEST_F(GpuMctpVdmTests, DecodeGetVoltageResponseSuccess)
+{
+    // Create a mock successful response
+    std::vector<uint8_t> buf(sizeof(ocp::accelerator_management::Message) +
+                             sizeof(gpu::GetVoltageResponse));
+
+    // Populate Message header
+    ocp::accelerator_management::Message msg{};
+    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
+    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    headerInfo.instance_id = 7;
+    headerInfo.msg_type =
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
+
+    gpu::packHeader(headerInfo, msg.hdr);
+    std::memcpy(buf.data(), &msg, sizeof(msg));
+
+    // Populate response data
+    gpu::GetVoltageResponse response{};
+    response.hdr.command =
+        static_cast<uint8_t>(gpu::PlatformEnvironmentalCommands::GET_VOLTAGE);
+    response.hdr.completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS);
+    response.hdr.reserved = 0;
+    response.hdr.data_size = htole16(sizeof(uint32_t));
+
+    // Set voltage value (1200 mV)
+    response.voltage = htole64(1200);
+
+    std::memcpy(buf.data() + sizeof(msg), &response, sizeof(response));
+
+    // Test decoding
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint32_t voltage{};
+
+    int result = gpu::decodeGetVoltageResponse(buf, cc, reasonCode, voltage);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+    EXPECT_EQ(voltage, 1200);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetVoltageResponseError)
+{
+    // Create a mock error response
+    std::vector<uint8_t> buf(
+        sizeof(ocp::accelerator_management::Message) +
+        sizeof(ocp::accelerator_management::CommonNonSuccessResponse));
+
+    // Populate Message header
+    ocp::accelerator_management::Message msg{};
+    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
+    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    headerInfo.instance_id = 7;
+    headerInfo.msg_type =
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
+
+    gpu::packHeader(headerInfo, msg.hdr);
+    std::memcpy(buf.data(), &msg, sizeof(msg));
+
+    // Populate error response data
+    ocp::accelerator_management::CommonNonSuccessResponse errorResponse{};
+    errorResponse.command =
+        static_cast<uint8_t>(gpu::PlatformEnvironmentalCommands::GET_VOLTAGE);
+    errorResponse.completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERROR);
+    errorResponse.reason_code = htole16(0xABCD);
+
+    std::memcpy(buf.data() + sizeof(msg), &errorResponse,
+                sizeof(errorResponse));
+
+    // Test decoding
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint32_t voltage{};
+
+    int result = gpu::decodeGetVoltageResponse(buf, cc, reasonCode, voltage);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERROR);
+    EXPECT_EQ(reasonCode, 0xABCD);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetVoltageResponseInvalidSize)
+{
+    // Create a mock response with invalid data_size
+    std::vector<uint8_t> buf(sizeof(ocp::accelerator_management::Message) +
+                             sizeof(gpu::GetVoltageResponse));
+
+    // Populate Message header
+    ocp::accelerator_management::Message msg{};
+    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
+    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    headerInfo.instance_id = 7;
+    headerInfo.msg_type =
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
+
+    gpu::packHeader(headerInfo, msg.hdr);
+    std::memcpy(buf.data(), &msg, sizeof(msg));
+
+    // Populate response data with incorrect data_size
+    gpu::GetVoltageResponse response{};
+    response.hdr.command =
+        static_cast<uint8_t>(gpu::PlatformEnvironmentalCommands::GET_VOLTAGE);
+    response.hdr.completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS);
+    response.hdr.reserved = 0;
+    response.hdr.data_size = htole16(2); // Invalid - should be sizeof(uint32_t)
+    response.voltage = htole64(1200);
+
+    std::memcpy(buf.data() + sizeof(msg), &response, sizeof(response));
+
+    // Test decoding
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint32_t voltage{};
+
+    int result = gpu::decodeGetVoltageResponse(buf, cc, reasonCode, voltage);
+
+    EXPECT_EQ(result, EINVAL); // Should indicate error for invalid data size
+}
+
 } // namespace gpu_mctp_tests
 
 int main(int argc, char** argv)

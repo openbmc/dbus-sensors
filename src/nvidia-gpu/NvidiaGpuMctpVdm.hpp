@@ -43,6 +43,7 @@ enum class PlatformEnvironmentalCommands : uint8_t
     READ_THERMAL_PARAMETERS = 0x02,
     GET_CURRENT_POWER_DRAW = 0x03,
     GET_CURRENT_ENERGY_COUNTER = 0x06,
+    GET_VOLTAGE = 0x06,
 };
 
 /** @brief device identification types
@@ -116,6 +117,12 @@ struct GetCurrentPowerDrawRequest
  */
 using GetCurrentEnergyCounterRequest = GetNumericSensorReadingRequest;
 
+/** @struct GetVoltageRequest
+ *
+ *  Structure representing request to get voltage reading.
+ */
+using GetVoltageRequest = GetNumericSensorReadingRequest;
+
 /** @struct GetTemperatureReadingResponse
  *
  *  Structure representing get temperature reading response.
@@ -156,6 +163,17 @@ struct GetCurrentEnergyCounterResponse
 {
     ocp::accelerator_management::CommonResponse hdr;
     uint64_t energy;
+} __attribute__((packed));
+
+/** @struct GetVoltageResponse
+ *
+ *  Structure representing response for voltage reading request.
+ *  Contains the voltage value from the requested sensor.
+ */
+struct GetVoltageResponse
+{
+    ocp::accelerator_management::CommonResponse hdr;
+    uint64_t voltage;
 } __attribute__((packed));
 
 /**
@@ -302,4 +320,26 @@ int decodeGetCurrentEnergyCounterResponse(
     const std::vector<uint8_t>& buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     uint64_t& energy);
+
+/** @brief Encode a Get voltage request message
+ *
+ *  @param[in] instanceId - Instance ID
+ *  @param[in] sensorId - Sensor ID
+ *  @param[out] buf - Reference to buffer that will contain the request message
+ *  @return 0 on success, otherwise appropriate error code.
+ */
+int encodeGetVoltageRequest(uint8_t instanceId, uint8_t sensorId,
+                            std::vector<uint8_t>& buf);
+
+/** @brief Decode a Get voltage response message
+ *
+ *  @param[in] buf - Response message buffer
+ *  @param[out] cc - Reference to completion code to be populated
+ *  @param[out] reasonCode - Reference to reason code to be populated
+ *  @param[out] voltage - Reference to voltage value to be populated
+ *  @return 0 on success, otherwise appropriate error code.
+ */
+int decodeGetVoltageResponse(const std::vector<uint8_t>& buf,
+                             ocp::accelerator_management::CompletionCode& cc,
+                             uint16_t& reasonCode, uint32_t& voltage);
 } // namespace gpu

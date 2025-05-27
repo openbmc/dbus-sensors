@@ -15,6 +15,7 @@
 #include <NvidiaGpuEnergySensor.hpp>
 #include <NvidiaGpuPowerSensor.hpp>
 #include <NvidiaGpuThresholds.hpp>
+#include <NvidiaGpuVoltageSensor.hpp>
 #include <boost/asio/io_context.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
@@ -68,6 +69,10 @@ void GpuDevice::makeSensors()
 
     sensors.push_back(std::make_shared<GpuEnergySensor>(
         conn, mctpRequester, name + "_Energy_0", path, eid, gpuEnergySensorId,
+        objectServer, std::vector<thresholds::Threshold>{}));
+
+    sensors.push_back(std::make_shared<GpuVoltageSensor>(
+        conn, mctpRequester, name + "_Voltage_0", path, eid, gpuVoltageSensorId,
         objectServer, std::vector<thresholds::Threshold>{}));
 
     readThermalParameters(
