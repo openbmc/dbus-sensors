@@ -3,6 +3,142 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0a0a32f0_be68193b",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-05-27T19:22:23Z",
+      "side": 1,
+      "message": "You should be able to avoid holding a raw socket here, and let boost handle it completely. Something along the lines of:\n\n\nboost::asio::generic::datagram_protocol protocol {AF_MCTP, 0};\nsock \u003d boost::asio::basic_datagram_socket\u003cboost::asio::generic::datagram_protocol\u003e{ctx, protocoll};",
+      "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a767bbd1_08ef0bd7",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-05-27T19:22:23Z",
+      "side": 1,
+      "message": "Can we have the caller pass in a buffer to place the response into, rather than forcing an allocation. They will generally have a better idea of the expected size and can handle that more elegantly than we can in this class.",
+      "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c57b7298_7213ab93",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-05-27T19:22:23Z",
+      "side": 1,
+      "message": "Any reason we\u0027re not using boost::system::error_code? it automatically does stringification of the error codes for you and doesn\u0027t rely on \"which typing\"",
+      "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c78d661b_28cffef6",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-05-27T19:22:23Z",
+      "side": 1,
+      "message": "nit, this is overly verbose. you can just take sizeof(reqHdr), which will avoid dual maintenance if this type ever changes. Same feedback on line 116.",
+      "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "caf17d5f_7b6d3129",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-05-27T19:22:23Z",
+      "side": 1,
+      "message": "Don\u0027t force your clients to have allocated memory, this can and probably should be a std::span\u003cstd::uint8_t\u003e or similar.",
+      "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "800d0af1_e1f9f6ff",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-05-27T19:22:23Z",
+      "side": 1,
+      "message": "this may (likely will) invoke malloc/new on copy. Consider using std::move_only_function if possible.",
+      "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c61c0cb_0e5ce790",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-05-27T19:22:23Z",
+      "side": 1,
+      "message": "why not use the boost handlers for this? something along the lines of\n\nstruct sockaddr_mctp addr; // do your initialization\nboost::asio::generic::datagram_protocol::endpoint ep(\u0026addr, sizeof(addr), AF_MCTP);\n\nand later, \n\nsock.send_to(reqMsg.data(), reqMsg.size(), ep);\n\nThat way you don\u0027t have to worry about weirdness around size differences between the sockaddr_mctp and the storage type sockaddr, boost will take care of it for you.\n\nYou may also want to consider using the non blocking version of this call so your thread can do meaningful work while this is being sent. This may require copying of same data, but for many mctp packets, copying data that\u0027s potentially already in the cache is quite cheap, especially compared to blocking io.",
+      "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd30029d_acd3392c",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-05-27T19:22:23Z",
+      "side": 1,
+      "message": "do we expect for this client to be handling multiple messages simultaneously? if not, we can avoid allocating a vector for this and just cache the response. If we have a reasonable upper bound on concurrent messages, consider using something similar to a boost::containers::static_vector of array\u0027s to avoid malloc/new as well as the cache misses involved. BMC\u0027s generally have a decent amount of ram to spare for stuff like this, especially if the message sizes are in the 10s or hundreds of bytes.",
+      "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2fe1b975_e8495239",
         "filename": "src/nvidia-gpu/MctpRequester.hpp",
         "patchSetId": 15
@@ -20,6 +156,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "af03c584_2c1b3f04",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-05-27T19:22:23Z",
+      "side": 1,
+      "message": "similar to previous comments about interfaces that enforce memory allocation, please use a known owning view like std::span. This goes for pretty much any \"public\" interface that takes a vector but really just needs a view of some bytes in contiguous memory.",
+      "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c9c9028_d3718bb3",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-05-27T19:22:23Z",
+      "side": 1,
+      "message": "nit: missing a const here.",
+      "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0431bb3b_cdf52051",
         "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
         "patchSetId": 15
@@ -31,6 +201,23 @@
       "writtenOn": "2025-05-27T17:00:50Z",
       "side": 1,
       "message": "why do we need this here and in the ocp file?",
+      "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "030201e3_a50427df",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensor.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-05-27T19:22:23Z",
+      "side": 1,
+      "message": "Again, there\u0027s no reason to call new here. We know the message size statically.",
       "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
