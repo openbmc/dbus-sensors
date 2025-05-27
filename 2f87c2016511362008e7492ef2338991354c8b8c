@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b18042a2_6e0fa73e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-05-27T02:18:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2eec7fc5_a09c9df0",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 20
+      },
+      "revId": "2f87c2016511362008e7492ef2338991354c8b8c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7e89e437_99fe9030",
@@ -37,6 +61,24 @@
       "writtenOn": "2025-05-23T07:39:35Z",
       "side": 1,
       "message": "Specify what meta layer, what patches.",
+      "revId": "2f87c2016511362008e7492ef2338991354c8b8c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ecccb6e_37317be7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-05-27T02:18:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e89e437_99fe9030",
       "revId": "2f87c2016511362008e7492ef2338991354c8b8c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -58,6 +100,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "95d12caa_194db892",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 25
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-05-27T02:18:18Z",
+      "side": 1,
+      "message": "I have simplified the change in the new patchset. The changes are made to the MctpRequester itself. Some Template parameters (and a related concept of a socket) are still required for the Tests, hence have been preserved. The public facing API hasn\u0027t changed.",
+      "parentUuid": "babca2c8_cf51ae7b",
+      "revId": "2f87c2016511362008e7492ef2338991354c8b8c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e3d3674d_a61a4244",
@@ -75,6 +135,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1067123_85852e80",
+        "filename": "src/gpu/KernelSocketInterface.hpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-05-27T02:18:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3d3674d_a61a4244",
+      "revId": "2f87c2016511362008e7492ef2338991354c8b8c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "165784f8_da73c338",
@@ -88,6 +166,30 @@
       "writtenOn": "2025-05-23T07:39:35Z",
       "side": 1,
       "message": "I am not sure we need this. See comment elsewhere.",
+      "range": {
+        "startLine": 116,
+        "startChar": 0,
+        "endLine": 156,
+        "endChar": 47
+      },
+      "revId": "2f87c2016511362008e7492ef2338991354c8b8c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3a4c14a_6c3eb9e1",
+        "filename": "src/gpu/types.hpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-05-27T02:18:18Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "165784f8_da73c338",
       "range": {
         "startLine": 116,
         "startChar": 0,
