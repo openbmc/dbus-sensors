@@ -14,6 +14,7 @@
 #include <bits/basic_string.h>
 
 #include <MctpRequester.hpp>
+#include <NvidiaGpuEnergySensor.hpp>
 #include <NvidiaGpuPowerSensor.hpp>
 #include <NvidiaGpuThresholds.hpp>
 #include <boost/asio/io_context.hpp>
@@ -89,6 +90,10 @@ void GpuDevice::makeSensors()
         gpuDramPowerSensorId, objectServer,
         std::vector<thresholds::Threshold>{});
 
+    energySensor = std::make_shared<NvidiaGpuEnergySensor>(
+        conn, mctpRequester, name + "_Energy_0", path, eid, gpuEnergySensorId,
+        objectServer, std::vector<thresholds::Threshold>{});
+
     lg2::info("Added GPU {NAME} Sensors with chassis path: {PATH}.", "NAME",
               name, "PATH", path);
 
@@ -105,6 +110,7 @@ void GpuDevice::read()
     powerSensor->update();
     dramTempSensor->update();
     dramPowerSensor->update();
+    energySensor->update();
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait([this](const boost::system::error_code& ec) {
