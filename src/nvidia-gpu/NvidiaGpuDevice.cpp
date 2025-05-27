@@ -84,6 +84,11 @@ void GpuDevice::makeSensors()
         conn, mctpRequester, name + "_Power_0", path, eid, gpuPowerSensorId,
         objectServer, std::vector<thresholds::Threshold>{});
 
+    dramPowerSensor = std::make_shared<NvidiaGpuPowerSensor>(
+        conn, mctpRequester, name + "_DRAM_0_Power_0", path, eid,
+        gpuDramPowerSensorId, objectServer,
+        std::vector<thresholds::Threshold>{});
+
     lg2::info("Added GPU {NAME} Sensors with chassis path: {PATH}.", "NAME",
               name, "PATH", path);
 
@@ -96,6 +101,7 @@ void GpuDevice::read()
     tLimitSensor->update();
     powerSensor->update();
     dramTempSensor->update();
+    dramPowerSensor->update();
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait([this](const boost::system::error_code& ec) {
