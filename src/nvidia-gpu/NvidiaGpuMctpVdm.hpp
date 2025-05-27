@@ -33,6 +33,7 @@ enum class PlatformEnvironmentalCommands : uint8_t
     READ_THERMAL_PARAMETERS = 0x02,
     GET_CURRENT_POWER_DRAW = 0x03,
     GET_CURRENT_ENERGY_COUNTER = 0x06,
+    GET_VOLTAGE = 0x0F,
 };
 
 enum class DeviceIdentification : uint8_t
@@ -71,6 +72,8 @@ struct GetCurrentPowerDrawRequest
 
 using GetCurrentEnergyCounterRequest = GetNumericSensorReadingRequest;
 
+using GetVoltageRequest = GetNumericSensorReadingRequest;
+
 struct GetTemperatureReadingResponse
 {
     ocp::accelerator_management::CommonResponse hdr;
@@ -93,6 +96,12 @@ struct GetCurrentEnergyCounterResponse
 {
     ocp::accelerator_management::CommonResponse hdr;
     uint64_t energy;
+} __attribute__((packed));
+
+struct GetVoltageResponse
+{
+    ocp::accelerator_management::CommonResponse hdr;
+    uint32_t voltage;
 } __attribute__((packed));
 
 int packHeader(const ocp::accelerator_management::BindingPciVidInfo& hdr,
@@ -138,4 +147,11 @@ int decodeGetCurrentEnergyCounterResponse(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     uint64_t& energy);
+
+int encodeGetVoltageRequest(uint8_t instanceId, uint8_t sensorId,
+                            std::span<uint8_t> buf);
+
+int decodeGetVoltageResponse(std::span<const uint8_t> buf,
+                             ocp::accelerator_management::CompletionCode& cc,
+                             uint16_t& reasonCode, uint32_t& voltage);
 } // namespace gpu
