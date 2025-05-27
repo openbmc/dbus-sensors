@@ -11,7 +11,7 @@ BusName=xyz.openbmc_project.MCTPReactor
 
 Restart=always
 RestartSec=5
-ExecStart=/usr/bin/mctpreactor
+ExecStart=/usr/libexec/dbus-sensors/mctpreactor
 
 [Install]
 WantedBy=multi-user.target
