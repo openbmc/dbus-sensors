@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3455ddc4_6066f2cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 55
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-05-27T19:11:27Z",
+      "side": 1,
+      "message": "What you described is roughly how fans are already modeled.  They model connectors, then they model the plugged in devices.  AddObject is used to instantiate the plugged in devices.  The goal was that individual sensors would be stateless.  This breaks that design.\n\nI\u0027m not here to try to continue to block.  I suspect this design will cause you issues in the future with persistence and sensors starting at the wrong time or with the wrong config, but it is what it is.  THat\u0027s something you can go sort out.",
+      "parentUuid": "fd01f7a7_1aedccca",
+      "revId": "b451b7a8aea5d9ef692322012732f003cca229cc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a15f4ba6_6935d743",
         "filename": "src/NotifyWatch.cpp",
         "patchSetId": 55
