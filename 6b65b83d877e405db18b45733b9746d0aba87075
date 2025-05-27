@@ -60,6 +60,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2d6efd30_312bdfb1",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-05-27T15:06:47Z",
+      "side": 1,
+      "message": "I dont think we even need separate devicediscovery and device file. Just device with namespaces as above and one device class (think if you really need the device and the decicemgr class - I have comments elsewhere about whther the device map is even useful).",
+      "parentUuid": "79b647f7_d5d0734d",
+      "revId": "6b65b83d877e405db18b45733b9746d0aba87075",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "009fc682_f490f991",
         "filename": "src/nvidia-gpu/NvidiaGpuSensor.hpp",
         "patchSetId": 14
