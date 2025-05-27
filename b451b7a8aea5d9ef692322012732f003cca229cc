@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "81d3d781_02051111",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 55
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-27T20:39:17Z",
+      "side": 1,
+      "message": "Oh.  You are referring to an OEM Redfish provider.",
+      "parentUuid": "a25dc4b8_d4d0cc26",
+      "revId": "b451b7a8aea5d9ef692322012732f003cca229cc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a15f4ba6_6935d743",
         "filename": "src/NotifyWatch.cpp",
         "patchSetId": 55
