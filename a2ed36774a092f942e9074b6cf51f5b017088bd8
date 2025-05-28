@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60f613bc_05e52e65",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-05-28T17:21:38Z",
+      "side": 1,
+      "message": "Thanks for the changes, big improvement over the last patch set, mostly little things left from my side",
+      "revId": "a2ed36774a092f942e9074b6cf51f5b017088bd8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a235cfdb_92c422db",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-05-28T17:21:38Z",
+      "side": 1,
+      "message": "remove commented out code please.",
+      "revId": "a2ed36774a092f942e9074b6cf51f5b017088bd8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c0ee645_37f7fe84",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-05-28T17:21:38Z",
+      "side": 1,
+      "message": "consider std::move_only_function since we\u0027re owning the callback throughout the send/recv cycle and you\u0027re taking this by value...I\u0027m relatively certain this will cause mallocs but test please if you choose not to use std::move_only_function.",
+      "revId": "a2ed36774a092f942e9074b6cf51f5b017088bd8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6242588_94af5018",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-05-28T17:21:38Z",
+      "side": 1,
+      "message": "you\u0027re not checking that buf holds enough bytes before you copy. this may lead to memory corruption.",
+      "revId": "a2ed36774a092f942e9074b6cf51f5b017088bd8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8069086_2c2f5e0e",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-05-28T17:21:38Z",
+      "side": 1,
+      "message": "check that msgLen is of sufficient size before copy.",
+      "revId": "a2ed36774a092f942e9074b6cf51f5b017088bd8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
