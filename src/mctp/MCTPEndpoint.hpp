@@ -326,3 +326,26 @@ class I2CMCTPDDevice : public MCTPDDevice
 
     static std::string interfaceFromBus(int bus);
 };
+
+class I3CMCTPDDevice : public MCTPDDevice
+{
+  public:
+    static std::optional<SensorBaseConfigMap> match(const SensorData& config);
+    static bool match(const std::set<std::string>& interfaces);
+    static std::shared_ptr<I3CMCTPDDevice> from(
+        const std::shared_ptr<sdbusplus::asio::connection>& connection,
+        const SensorBaseConfigMap& iface);
+
+    I3CMCTPDDevice() = delete;
+    I3CMCTPDDevice(
+        const std::shared_ptr<sdbusplus::asio::connection>& connection, int bus,
+        std::vector<uint8_t> physaddr) :
+        MCTPDDevice(connection, interfaceFromBus(bus), physaddr)
+    {}
+    ~I3CMCTPDDevice() override = default;
+
+  private:
+    static constexpr const char* configType = "MCTPI3CTarget";
+
+    static std::string interfaceFromBus(int bus);
+};
