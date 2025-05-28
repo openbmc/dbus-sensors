@@ -329,7 +329,23 @@ std::optional<SensorBaseConfigMap> I2CMCTPDDevice::match(
     return iface->second;
 }
 
+std::optional<SensorBaseConfigMap> I3CMCTPDDevice::match(
+    const SensorData& config)
+{
+    auto iface = config.find(configInterfaceName(configType));
+    if (iface == config.end())
+    {
+        return std::nullopt;
+    }
+    return iface->second;
+}
+
 bool I2CMCTPDDevice::match(const std::set<std::string>& interfaces)
+{
+    return interfaces.contains(configInterfaceName(configType));
+}
+
+bool I3CMCTPDDevice::match(const std::set<std::string>& interfaces)
 {
     return interfaces.contains(configInterfaceName(configType));
 }
@@ -391,6 +407,61 @@ std::shared_ptr<I2CMCTPDDevice> I2CMCTPDDevice::from(
     }
 }
 
+std::shared_ptr<I3CMCTPDDevice> I3CMCTPDDevice::from(
+    const std::shared_ptr<sdbusplus::asio::connection>& connection,
+    const SensorBaseConfigMap& iface)
+{
+    auto mType = iface.find("Type");
+    if (mType == iface.end())
+    {
+        throw std::invalid_argument(
+            "No 'Type' member found for provided configuration object");
+    }
+
+    auto type = std::visit(VariantToStringVisitor(), mType->second);
+    if (type != configType)
+    {
+        throw std::invalid_argument("Not an I3C device");
+    }
+
+    auto mAddress = iface.find("Address");
+    auto mBus = iface.find("Bus");
+    auto mName = iface.find("Name");
+    if (mAddress == iface.end() || mBus == iface.end() || mName == iface.end())
+    {
+        throw std::invalid_argument(
+            "Configuration object violates MCTPI3CTarget schema");
+    }
+
+    auto address = std::visit(VariantToNumArrayVisitor<uint8_t, uint64_t>(),
+                              mAddress->second);
+    if (address.empty())
+    {
+        throw std::invalid_argument("Bad device address");
+    }
+
+    auto sBus = std::visit(VariantToStringVisitor(), mBus->second);
+    int bus{};
+    auto [bptr,
+          bec] = std::from_chars(sBus.data(), sBus.data() + sBus.size(), bus);
+    if (bec != std::errc{})
+    {
+        throw std::invalid_argument("Bad bus index");
+    }
+
+    try
+    {
+        return std::make_shared<I3CMCTPDDevice>(connection, bus, address);
+    }
+    catch (const MCTPException& ex)
+    {
+        warning(
+            "Failed to create I3CMCTPDDevice at [ bus: {I3C_BUS} ]: {EXCEPTION}",
+            "I3C_BUS", bus, "EXCEPTION", ex);
+        return {};
+    }
+}
+
 std::string I2CMCTPDDevice::interfaceFromBus(int bus)
 {
     std::filesystem::path netdir =
@@ -405,4 +476,30 @@ std::string I2CMCTPDDevice::interfaceFromBus(int bus)
     }
 
     return it->path().filename();
+}
+
+std::string I3CMCTPDDevice::interfaceFromBus(int bus)
+{
+    std::filesystem::path netdir = std::format("/sys/devices/virtual/net");
+    std::error_code ec;
+    std::filesystem::directory_iterator it(netdir, ec);
+    if (ec || it == std::filesystem::end(it))
+    {
+        error("No net device associated with I3C bus {I3C_BUS} at {NET_DEVICE}",
+              "I3C_BUS", bus, "NET_DEVICE", netdir);
+        throw MCTPException("Bus is not configured as an MCTP interface");
+    }
+
+    std::string targetInterface = std::format("mctpi3c{}", bus);
+    for (const auto& entry : std::filesystem::directory_iterator(netdir))
+    {
+        if (entry.is_directory() && entry.path().filename() == targetInterface)
+        {
+            return targetInterface;
+        }
+    }
+
+    error("No matching net device found for I3C bus {I3C_BUS} at {NET_DEVICE}",
+          "I3C_BUS", bus, "NET_DEVICE", netdir);
+    throw MCTPException("No matching net device found for the specified bus");
 }
