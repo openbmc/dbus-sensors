@@ -35,6 +35,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "409c6dde_22ad26bd",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-28T16:33:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a0a32f0_be68193b",
+      "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "59410004_a3558cd6",
@@ -48,6 +66,24 @@
       "writtenOn": "2025-05-27T19:43:45Z",
       "side": 1,
       "message": "you should be able to avoid this completely if you just use the boost socket everywhere and specify blocking vs non blocking APIs when appropriate, or just use the non blocking API\u0027s throughout.",
+      "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9659ba7_306c5562",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-28T16:33:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59410004_a3558cd6",
       "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -69,6 +105,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ceb18aa4_e6b9ab14",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-28T16:33:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a767bbd1_08ef0bd7",
+      "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c57b7298_7213ab93",
@@ -82,6 +136,24 @@
       "writtenOn": "2025-05-27T19:22:23Z",
       "side": 1,
       "message": "Any reason we\u0027re not using boost::system::error_code? it automatically does stringification of the error codes for you and doesn\u0027t rely on \"which typing\"",
+      "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "489b1528_891993f0",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-28T16:33:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c57b7298_7213ab93",
       "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -103,6 +175,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e06a950_f6bec4dd",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-28T16:33:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c78d661b_28cffef6",
+      "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "caf17d5f_7b6d3129",
@@ -116,6 +206,24 @@
       "writtenOn": "2025-05-27T19:22:23Z",
       "side": 1,
       "message": "Don\u0027t force your clients to have allocated memory, this can and probably should be a std::span\u003cstd::uint8_t\u003e or similar.",
+      "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7256884d_5a52af03",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-28T16:33:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caf17d5f_7b6d3129",
       "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -137,6 +245,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f096a1ce_f7d4f34d",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-28T16:33:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "800d0af1_e1f9f6ff",
+      "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c61c0cb_0e5ce790",
@@ -154,6 +280,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c361359b_040c17fc",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-28T16:33:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c61c0cb_0e5ce790",
+      "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bd30029d_acd3392c",
@@ -167,6 +311,24 @@
       "writtenOn": "2025-05-27T19:22:23Z",
       "side": 1,
       "message": "do we expect for this client to be handling multiple messages simultaneously? if not, we can avoid allocating a vector for this and just cache the response. If we have a reasonable upper bound on concurrent messages, consider using something similar to a boost::containers::static_vector of array\u0027s to avoid malloc/new as well as the cache misses involved. BMC\u0027s generally have a decent amount of ram to spare for stuff like this, especially if the message sizes are in the 10s or hundreds of bytes.",
+      "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17e51579_c9673181",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-28T16:33:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd30029d_acd3392c",
       "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -205,6 +367,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0de94fc_8d589a05",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-28T16:33:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af03c584_2c1b3f04",
+      "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1c9c9028_d3718bb3",
@@ -218,6 +398,24 @@
       "writtenOn": "2025-05-27T19:22:23Z",
       "side": 1,
       "message": "nit: missing a const here.",
+      "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7c15625_51112dc6",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-28T16:33:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c9c9028_d3718bb3",
       "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -239,6 +437,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "05353dca_fd14acf1",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-28T16:33:52Z",
+      "side": 1,
+      "message": "the one in the ocp file takes pci vendor id as parameter, this one sets it to nvidia vendor it.",
+      "parentUuid": "0431bb3b_cdf52051",
+      "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "64968110_8ba6243c",
@@ -256,6 +472,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a157c356_7047620a",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensor.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-28T16:33:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64968110_8ba6243c",
+      "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "030201e3_a50427df",
@@ -269,6 +503,24 @@
       "writtenOn": "2025-05-27T19:22:23Z",
       "side": 1,
       "message": "Again, there\u0027s no reason to call new here. We know the message size statically.",
+      "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48fd9afe_14a8f3e4",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensor.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-28T16:33:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "030201e3_a50427df",
       "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -296,6 +548,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b292a7cd_24a48ddf",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensor.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-28T16:33:52Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "8c906700_7913a6d5",
+      "range": {
+        "startLine": 214,
+        "startChar": 0,
+        "endLine": 226,
+        "endChar": 5
+      },
+      "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4a7697af_3db975f5",
@@ -309,6 +585,24 @@
       "writtenOn": "2025-05-27T19:43:45Z",
       "side": 1,
       "message": "We know the size of the request statically, right? no need to invoke dynamic allocation.",
+      "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "715f2c98_2a992d76",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensor.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-28T16:33:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a7697af_3db975f5",
       "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -349,6 +643,30 @@
       "writtenOn": "2025-05-27T17:00:50Z",
       "side": 1,
       "message": "Had this comment on an older patchset - let\u0027s add only what is used in this commit. Same goes for some of the helper functions in this file which are not used anywhere. This will help make the commit concise.",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 46
+      },
+      "revId": "2941a94c0b8c28a18f7f4b7917249738d11bd42c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5513695_4fdf47e4",
+        "filename": "src/nvidia-gpu/OcpMctpVdm.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-28T16:33:52Z",
+      "side": 1,
+      "message": "All of this definition are being used in source files.",
+      "parentUuid": "de414ee0_51ac470b",
       "range": {
         "startLine": 27,
         "startChar": 0,
