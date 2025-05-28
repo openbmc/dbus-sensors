@@ -97,6 +97,7 @@ static const I2CDeviceTypeMap sensorTypes{
     {"ISL69243", I2CDeviceType{"isl69243", true}},
     {"ISL69260", I2CDeviceType{"isl69260", true}},
     {"LM25066", I2CDeviceType{"lm25066", true}},
+    {"LM5066I", I2CDeviceType{"lm5066i", true}},
     {"LTC2945", I2CDeviceType{"ltc2945", true}},
     {"LTC4286", I2CDeviceType{"ltc4286", true}},
     {"LTC4287", I2CDeviceType{"ltc4287", true}},
