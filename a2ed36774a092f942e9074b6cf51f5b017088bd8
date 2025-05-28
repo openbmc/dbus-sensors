@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "79db557f_d035ce42",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-05-28T17:40:20Z",
+      "side": 1,
+      "message": "we\u0027re never actually cancelling anything about the message processing, right? So if a message comes in after, say, three seconds, how do we handle that?",
+      "revId": "a2ed36774a092f942e9074b6cf51f5b017088bd8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a235cfdb_92c422db",
         "filename": "src/nvidia-gpu/MctpRequester.cpp",
         "patchSetId": 16
@@ -37,6 +54,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "249fb4fd_b5f20ae8",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-05-28T17:40:20Z",
+      "side": 1,
+      "message": "whats this accomplishing with a shared pointer? Are we trying to outlive the class we\u0027re inside of? how will that even work if we\u0027re relying on a class method to pass this to, i.e. processRcvMsg",
+      "revId": "a2ed36774a092f942e9074b6cf51f5b017088bd8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd9d9fc3_85f434c4",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-05-28T17:40:20Z",
+      "side": 1,
+      "message": "is this still valid? we\u0027re specifying the length of the recv call when we invoke it. Is there a case in which we get 0 bytes? Also this is unsigned, so it won\u0027t be less than zero.",
+      "revId": "a2ed36774a092f942e9074b6cf51f5b017088bd8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6c0ee645_37f7fe84",
         "filename": "src/nvidia-gpu/MctpRequester.cpp",
         "patchSetId": 16
@@ -48,6 +99,23 @@
       "writtenOn": "2025-05-28T17:21:38Z",
       "side": 1,
       "message": "consider std::move_only_function since we\u0027re owning the callback throughout the send/recv cycle and you\u0027re taking this by value...I\u0027m relatively certain this will cause mallocs but test please if you choose not to use std::move_only_function.",
+      "revId": "a2ed36774a092f942e9074b6cf51f5b017088bd8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ba2ac4b_884c6dde",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-05-28T17:40:20Z",
+      "side": 1,
+      "message": "nit, style. What\u0027s the benefit of these lambdas compared to just sending in the error code to handleSendMsgCompletion and using std::bind_front. same feedback for other \"long lambdas\".",
       "revId": "a2ed36774a092f942e9074b6cf51f5b017088bd8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
