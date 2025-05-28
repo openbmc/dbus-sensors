@@ -72,6 +72,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "41653f5b_0f517454",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1000338
+      },
+      "writtenOn": "2025-05-28T13:49:40Z",
+      "side": 1,
+      "message": "How would we do that if the interface name is an altname/alias?",
+      "parentUuid": "bc1524b7_ce4c0495",
+      "revId": "782b6f1964eaab28a799ca48aa25c058816a9ea1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a0514d81_803fe6d1",
         "filename": "src/mctp/MCTPEndpoint.cpp",
         "patchSetId": 8
