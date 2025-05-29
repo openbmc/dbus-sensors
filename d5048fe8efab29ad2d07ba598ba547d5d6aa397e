@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd434b8a_cf30e0e5",
+        "filename": "src/psu/PSUSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-29T01:43:29Z",
+      "side": 1,
+      "message": "This comment must be attached to the buffer handling, which you\u0027ve now moved. It no-longer makes sense in its current location.",
+      "range": {
+        "startLine": 172,
+        "startChar": 0,
+        "endLine": 175,
+        "endChar": 22
+      },
+      "revId": "d5048fe8efab29ad2d07ba598ba547d5d6aa397e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffdfa1a8_38202ea1",
+        "filename": "src/psu/PSUSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-29T01:43:29Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we deassert the bridge GPIO unconditionally? There\u0027s a whole bunch of error-handling above that means that it might stay asserted unexpectedly.",
+      "revId": "d5048fe8efab29ad2d07ba598ba547d5d6aa397e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fb863d0_4f608e73",
+        "filename": "src/psu/PSUSensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-29T01:43:29Z",
+      "side": 1,
+      "message": "Can we make this a bool?",
+      "range": {
+        "startLine": 28,
+        "startChar": 46,
+        "endLine": 28,
+        "endChar": 49
+      },
+      "revId": "d5048fe8efab29ad2d07ba598ba547d5d6aa397e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af343ef0_ec07fe19",
+        "filename": "src/psu/PSUSensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-29T01:43:29Z",
+      "side": 1,
+      "message": "Can you please resolve this out-of-line (i.e. extract it to assignment to a variable)?",
+      "range": {
+        "startLine": 43,
+        "startChar": 21,
+        "endLine": 45,
+        "endChar": 63
+      },
+      "revId": "d5048fe8efab29ad2d07ba598ba547d5d6aa397e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79f9fa9e_cb395627",
+        "filename": "src/psu/PSUSensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-29T01:43:29Z",
+      "side": 1,
+      "message": "Can we please include the error itself in the log entry?",
+      "revId": "d5048fe8efab29ad2d07ba598ba547d5d6aa397e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7cce3174_8400cec7",
+        "filename": "src/psu/PSUSensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-29T01:43:29Z",
+      "side": 1,
+      "message": "Can you please include the value we were trying to set the line to when the error occurred?\n\nAlso why `set_value`? Can we please use complete sentences in log messages?",
+      "revId": "d5048fe8efab29ad2d07ba598ba547d5d6aa397e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c245448_b95d237a",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-29T01:43:29Z",
+      "side": 1,
+      "message": "Please write log messages for humans. You don\u0027t need to include every variable in the log _message_. Including variables in the log _entry_ means they\u0027re still captured in case you need them.\n\nSee https://github.com/openbmc/docs/blob/master/anti-patterns.md#ill-defined-data-structuring-in-lg2-message-strings\n\nYou can write this as:\n\n```\nlg2::info(\"Found BridgeGpio config {LABEL}\", \"LABEL\", labelVal, \"NAME\", gpioName, \"POLARITY\", ..., \"TIME\", setupTime);\n```\n\nAlso why is the `\"TIME\"` entry not called `\"SETUP_TIME\"`? `\"TIME\"` is a bit general and ambiguous.",
+      "range": {
+        "startLine": 357,
+        "startChar": 42,
+        "endLine": 357,
+        "endChar": 103
+      },
+      "revId": "d5048fe8efab29ad2d07ba598ba547d5d6aa397e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
