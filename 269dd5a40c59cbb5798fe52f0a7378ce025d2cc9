@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e92908e_22e73583",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-05-29T12:14:52Z",
+      "side": 1,
+      "message": "There is a concern about limiting the support for ```MuxChannel``` and the i2c devices behind it to only dbus-sensors.\n\nhttps://discord.com/channels/775381525260664832/1187158775438778408/1377610867423842415\n\nThere are other devices which may be handled by other daemons such as Voltage regulators (implemented in phosphor-bmc-code-mgmt) which will not be able to use the code here for ```MuxChannel``` support.\n\nEssentially most daemons consuming ```Bus``` property today would need to be capable to consume ```MuxChannel``` property.\n\nI see at least 2 options if people want to create a more general solution which can work for all daemons.\n\n1) Handle the mux internally in EM and expose ```Bus``` field as before which is just the ```MuxChannel``` property resolved by EM at runtime. That will not require any changes to existing daemons to be able to access devices behind the mux.\n\n2) Write some configuration parsing library which can then be pulled in by daemons to resolve their ```MuxChannel``` properties into a concrete ```Bus```.",
+      "range": {
+        "startLine": 23,
+        "startChar": 63,
+        "endLine": 26,
+        "endChar": 44
+      },
+      "revId": "269dd5a40c59cbb5798fe52f0a7378ce025d2cc9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "5584b80d_120c77fe",
