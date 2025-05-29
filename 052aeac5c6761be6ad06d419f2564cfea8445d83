@@ -73,6 +73,63 @@
       "message": "Looks good to me",
       "revId": "052aeac5c6761be6ad06d419f2564cfea8445d83",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9858660d_440dc079",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-29T02:11:22Z",
+      "side": 1,
+      "message": "Can you please review https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/80593 ?",
+      "revId": "052aeac5c6761be6ad06d419f2564cfea8445d83",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2e71bf0_a031c629",
+        "filename": "src/mctp/MCTPReactorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-29T02:11:22Z",
+      "side": 1,
+      "message": "You need to match on the removal here.",
+      "revId": "052aeac5c6761be6ad06d419f2564cfea8445d83",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19b8fb0c_4f20201f",
+        "filename": "src/mctp/MCTPReactorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-29T02:11:22Z",
+      "side": 1,
+      "message": "You shouldn\u0027t need a separate getConfiguration() call here. Instead you can add to the configuration list in the call on line 249.",
+      "range": {
+        "startLine": 252,
+        "startChar": 1,
+        "endLine": 257,
+        "endChar": 1
+      },
+      "revId": "052aeac5c6761be6ad06d419f2564cfea8445d83",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
