@@ -34,6 +34,125 @@
       "parentUuid": "5584b80d_120c77fe",
       "revId": "269dd5a40c59cbb5798fe52f0a7378ce025d2cc9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e072763b_1aa34610",
+        "filename": "src/DeviceMgmt.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-05-29T10:30:19Z",
+      "side": 1,
+      "message": "inverting the conditional and then looking for \n```std::get_if\u003cstd::uint64_t\u003e(\u0026findBus-\u003esecond) !\u003d nullptr```\nmay help to reduce the nesting here which helps the readability.",
+      "revId": "269dd5a40c59cbb5798fe52f0a7378ce025d2cc9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62bd3060_fce0f4ff",
+        "filename": "src/DeviceMgmt.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-05-29T10:30:19Z",
+      "side": 1,
+      "message": "```bus``` can be const or can inline the whole expression",
+      "revId": "269dd5a40c59cbb5798fe52f0a7378ce025d2cc9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b6d3bc7_1e67e05f",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-05-29T10:30:19Z",
+      "side": 1,
+      "message": "separate class can go in separate .hpp and .cpp file 😊",
+      "revId": "269dd5a40c59cbb5798fe52f0a7378ce025d2cc9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65d6d743_ebb3cb59",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-05-29T10:30:19Z",
+      "side": 1,
+      "message": "Why is the implementation in the .hpp file.\n\nThe implementation can go into the .cpp file 😊",
+      "revId": "269dd5a40c59cbb5798fe52f0a7378ce025d2cc9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2a6380d_2559725a",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-05-29T10:30:19Z",
+      "side": 1,
+      "message": "The bus number is unsigned, right?",
+      "revId": "269dd5a40c59cbb5798fe52f0a7378ce025d2cc9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e4a7270_aec22172",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-05-29T10:30:19Z",
+      "side": 1,
+      "message": "separate class can go in separate .hpp and .cpp file",
+      "revId": "269dd5a40c59cbb5798fe52f0a7378ce025d2cc9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a16ba567_161f6e32",
+        "filename": "src/tests/test_I2C.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-05-29T10:30:19Z",
+      "side": 1,
+      "message": "Amazing, so many tests 👍 😊",
+      "revId": "269dd5a40c59cbb5798fe52f0a7378ce025d2cc9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
