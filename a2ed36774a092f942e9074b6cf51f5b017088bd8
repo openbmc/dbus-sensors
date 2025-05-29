@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "48cd6cc5_74a5893e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-29T01:26:25Z",
+      "side": 1,
+      "message": "Please make this a regular markdown reference. Links should not be put into code blocks.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 3
+      },
+      "revId": "a2ed36774a092f942e9074b6cf51f5b017088bd8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8dd9a217_9de5bf57",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-29T01:26:25Z",
+      "side": 1,
+      "message": "This patch is no-longer necessary.",
+      "revId": "a2ed36774a092f942e9074b6cf51f5b017088bd8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "60f613bc_05e52e65",
@@ -122,6 +162,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1188cc6f_bd29ee83",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-29T01:26:25Z",
+      "side": 1,
+      "message": "This needs to be on its own line? Should be fixed throughout.",
+      "range": {
+        "startLine": 3,
+        "startChar": 36,
+        "endLine": 3,
+        "endChar": 71
+      },
+      "revId": "a2ed36774a092f942e9074b6cf51f5b017088bd8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "047ccd54_755e835a",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-29T01:26:25Z",
+      "side": 1,
+      "message": "What does received mean in the context of a request message? Is this a responder?",
+      "range": {
+        "startLine": 70,
+        "startChar": 31,
+        "endLine": 70,
+        "endChar": 39
+      },
+      "revId": "a2ed36774a092f942e9074b6cf51f5b017088bd8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b6242588_94af5018",
         "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
         "patchSetId": 16
@@ -150,6 +236,23 @@
       "writtenOn": "2025-05-28T17:21:38Z",
       "side": 1,
       "message": "check that msgLen is of sufficient size before copy.",
+      "revId": "a2ed36774a092f942e9074b6cf51f5b017088bd8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5256f361_6a88e4c7",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-05-29T01:26:25Z",
+      "side": 1,
+      "message": "I think this is making the same mistake of decomposing a message into its constituent members that was made in libpldm. It\u0027s less of a problem as you\u0027re using references and don\u0027t need the validity tests as a consequence, but decoding into a message struct is tidier IMO.",
       "revId": "a2ed36774a092f942e9074b6cf51f5b017088bd8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
