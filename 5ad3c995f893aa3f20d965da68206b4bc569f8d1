@@ -85,6 +85,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6621689d_dc3b3cbc",
+        "filename": "src/gpu/MctpRequester.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-05-29T07:47:50Z",
+      "side": 1,
+      "message": "@haghera@nvidia.com `std::bit_cast` should help here.",
+      "parentUuid": "2e382a7e_4002ce4d",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 72
+      },
+      "revId": "5ad3c995f893aa3f20d965da68206b4bc569f8d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b0ffcd24_78f98c98",
         "filename": "src/gpu/MctpRequester.cpp",
         "patchSetId": 6

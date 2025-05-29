@@ -677,6 +677,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d7cbb8c3_b2e8f3c5",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-05-29T07:47:50Z",
+      "side": 1,
+      "message": "@haghera@nvidia.com you can use `std::bit_cast`",
+      "parentUuid": "2462c0a1_ca4f6362",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 69
+      },
+      "revId": "dfec99d036a5b176e5ee7ed02fbda0bea138c4fe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4b0fd3ef_ade6e919",
         "filename": "src/nvidia-gpu/NvidiaGpuSensor.cpp",
         "patchSetId": 13
