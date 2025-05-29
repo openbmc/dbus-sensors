@@ -36,6 +36,23 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4550c8d_3b24f44d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2025-05-29T12:01:32Z",
+      "side": 1,
+      "message": "Hi @jonico.eustaquio@fii-na.com, do you think you want to weigh in these concerns raised in Discord about where to put the code parsing MuxChannel config? https://discord.com/channels/775381525260664832/1187158775438778408/1377610867423842415",
+      "revId": "269dd5a40c59cbb5798fe52f0a7378ce025d2cc9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e072763b_1aa34610",
