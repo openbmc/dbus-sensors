@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "64c6eafb_9d12e4d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-29T14:42:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48cd6cc5_74a5893e",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 3
+      },
+      "revId": "a2ed36774a092f942e9074b6cf51f5b017088bd8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8dd9a217_9de5bf57",
@@ -37,6 +61,24 @@
       "writtenOn": "2025-05-29T01:26:25Z",
       "side": 1,
       "message": "This patch is no-longer necessary.",
+      "revId": "a2ed36774a092f942e9074b6cf51f5b017088bd8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e0ed8ee_92807020",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-29T14:42:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8dd9a217_9de5bf57",
       "revId": "a2ed36774a092f942e9074b6cf51f5b017088bd8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -75,6 +117,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf58b0e9_44f2880c",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-29T14:42:29Z",
+      "side": 1,
+      "message": "We would treat it as response for a request waiting at that time. This commit isn\u0027t about covering every production use case but to implement something simple. To handle such cases more, enhanced MctpRequest is being introduce with the patch https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/80023.",
+      "parentUuid": "79db557f_d035ce42",
+      "revId": "a2ed36774a092f942e9074b6cf51f5b017088bd8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a235cfdb_92c422db",
@@ -88,6 +148,24 @@
       "writtenOn": "2025-05-28T17:21:38Z",
       "side": 1,
       "message": "remove commented out code please.",
+      "revId": "a2ed36774a092f942e9074b6cf51f5b017088bd8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9777defa_f449ae0b",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-29T14:42:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a235cfdb_92c422db",
       "revId": "a2ed36774a092f942e9074b6cf51f5b017088bd8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -109,6 +187,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9463ff5_6c34e929",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-29T14:42:29Z",
+      "side": 1,
+      "message": "`async_receive_from` takes `ep` as a reference and it needs to outlive this function call.",
+      "parentUuid": "249fb4fd_b5f20ae8",
+      "revId": "a2ed36774a092f942e9074b6cf51f5b017088bd8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cd9d9fc3_85f434c4",
@@ -122,6 +218,24 @@
       "writtenOn": "2025-05-28T17:40:20Z",
       "side": 1,
       "message": "is this still valid? we\u0027re specifying the length of the recv call when we invoke it. Is there a case in which we get 0 bytes? Also this is unsigned, so it won\u0027t be less than zero.",
+      "revId": "a2ed36774a092f942e9074b6cf51f5b017088bd8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5522339c_e1680fea",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-29T14:42:29Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "cd9d9fc3_85f434c4",
       "revId": "a2ed36774a092f942e9074b6cf51f5b017088bd8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -143,6 +257,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f57cc2d2_0f32bad9",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-29T14:42:29Z",
+      "side": 1,
+      "message": "time callback also need a callback along side response handlers and hence it is not feasible to use std::move_only_function. Such performance enhancement can be implemented in https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/80023.",
+      "parentUuid": "6c0ee645_37f7fe84",
+      "revId": "a2ed36774a092f942e9074b6cf51f5b017088bd8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9ba2ac4b_884c6dde",
@@ -160,6 +292,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "92ed3461_a9641c03",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-29T14:42:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ba2ac4b_884c6dde",
+      "revId": "a2ed36774a092f942e9074b6cf51f5b017088bd8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1188cc6f_bd29ee83",
@@ -173,6 +323,30 @@
       "writtenOn": "2025-05-29T01:26:25Z",
       "side": 1,
       "message": "This needs to be on its own line? Should be fixed throughout.",
+      "range": {
+        "startLine": 3,
+        "startChar": 36,
+        "endLine": 3,
+        "endChar": 71
+      },
+      "revId": "a2ed36774a092f942e9074b6cf51f5b017088bd8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef6bc211_c6502eb3",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-29T14:42:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1188cc6f_bd29ee83",
       "range": {
         "startLine": 3,
         "startChar": 36,
@@ -206,6 +380,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d65d408a_86f0a689",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-29T14:42:29Z",
+      "side": 1,
+      "message": "Removed the documentation.",
+      "parentUuid": "047ccd54_755e835a",
+      "range": {
+        "startLine": 70,
+        "startChar": 31,
+        "endLine": 70,
+        "endChar": 39
+      },
+      "revId": "a2ed36774a092f942e9074b6cf51f5b017088bd8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b6242588_94af5018",
@@ -223,6 +421,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "738b0aa8_66fd92ed",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-29T14:42:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6242588_94af5018",
+      "revId": "a2ed36774a092f942e9074b6cf51f5b017088bd8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b8069086_2c2f5e0e",
@@ -236,6 +452,24 @@
       "writtenOn": "2025-05-28T17:21:38Z",
       "side": 1,
       "message": "check that msgLen is of sufficient size before copy.",
+      "revId": "a2ed36774a092f942e9074b6cf51f5b017088bd8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65087729_ed2d6492",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-29T14:42:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8069086_2c2f5e0e",
       "revId": "a2ed36774a092f942e9074b6cf51f5b017088bd8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },

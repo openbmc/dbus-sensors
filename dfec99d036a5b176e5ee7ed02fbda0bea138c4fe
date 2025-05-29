@@ -382,6 +382,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "43fd3318_3c811182",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-29T14:42:29Z",
+      "side": 1,
+      "message": "Not using non-blocking now.",
+      "parentUuid": "a59b3065_098bdd80",
+      "revId": "dfec99d036a5b176e5ee7ed02fbda0bea138c4fe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "30c14cff_b064e108",
@@ -513,6 +531,30 @@
       "side": 1,
       "message": "doxygen is installed in the CI container. libpldm will add a documentation build target if doxygen is detected (features!).",
       "parentUuid": "b4fed7e4_20b57483",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 7
+      },
+      "revId": "dfec99d036a5b176e5ee7ed02fbda0bea138c4fe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3352882_f8d0c34d",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-29T14:42:29Z",
+      "side": 1,
+      "message": "Removed doxygen document from everywhere.",
+      "parentUuid": "2bcdeafe_30731980",
       "range": {
         "startLine": 41,
         "startChar": 0,
@@ -701,6 +743,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c958ea6a_556417cb",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-29T14:42:29Z",
+      "side": 1,
+      "message": "Wouldn\u0027t `std::bit_cast` use `std::memcpy` anyway?",
+      "parentUuid": "d7cbb8c3_b2e8f3c5",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 69
+      },
+      "revId": "dfec99d036a5b176e5ee7ed02fbda0bea138c4fe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4b0fd3ef_ade6e919",
         "filename": "src/nvidia-gpu/NvidiaGpuSensor.cpp",
         "patchSetId": 13
@@ -712,6 +778,30 @@
       "writtenOn": "2025-05-27T18:04:26Z",
       "side": 1,
       "message": "This should be coming from an EM config by convention.",
+      "range": {
+        "startLine": 41,
+        "startChar": 36,
+        "endLine": 41,
+        "endChar": 52
+      },
+      "revId": "dfec99d036a5b176e5ee7ed02fbda0bea138c4fe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80e090b5_4dc95fc8",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-29T14:42:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b0fd3ef_ade6e919",
       "range": {
         "startLine": 41,
         "startChar": 36,
