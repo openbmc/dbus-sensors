@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d402c30_f47b5a70",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002305
+      },
+      "writtenOn": "2025-05-30T04:02:52Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "3a47f454_0b2108dd",
+      "revId": "052aeac5c6761be6ad06d419f2564cfea8445d83",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "242bcaec_0f860ff4",
@@ -41,6 +59,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7338255_0d5761be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002305
+      },
+      "writtenOn": "2025-05-30T04:02:52Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "242bcaec_0f860ff4",
+      "range": {
+        "startLine": 10,
+        "startChar": 39,
+        "endLine": 10,
+        "endChar": 44
+      },
+      "revId": "052aeac5c6761be6ad06d419f2564cfea8445d83",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3651cf99_c75d9f48",
@@ -54,6 +96,24 @@
       "writtenOn": "2025-05-29T01:48:27Z",
       "side": 1,
       "message": "How do we know this is a USB device from the output here?\n\nI don\u0027t think this has much value.",
+      "revId": "052aeac5c6761be6ad06d419f2564cfea8445d83",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf005026_1e8d4413",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1002305
+      },
+      "writtenOn": "2025-05-30T04:02:52Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "3651cf99_c75d9f48",
       "revId": "052aeac5c6761be6ad06d419f2564cfea8445d83",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -109,6 +169,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4986b42_badfe0c6",
+        "filename": "src/mctp/MCTPReactorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1002305
+      },
+      "writtenOn": "2025-05-30T04:02:52Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "d2e71bf0_a031c629",
+      "revId": "052aeac5c6761be6ad06d419f2564cfea8445d83",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "19b8fb0c_4f20201f",
@@ -122,6 +200,30 @@
       "writtenOn": "2025-05-29T02:11:22Z",
       "side": 1,
       "message": "You shouldn\u0027t need a separate getConfiguration() call here. Instead you can add to the configuration list in the call on line 249.",
+      "range": {
+        "startLine": 252,
+        "startChar": 1,
+        "endLine": 257,
+        "endChar": 1
+      },
+      "revId": "052aeac5c6761be6ad06d419f2564cfea8445d83",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79a271ea_54007711",
+        "filename": "src/mctp/MCTPReactorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1002305
+      },
+      "writtenOn": "2025-05-30T04:02:52Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "19b8fb0c_4f20201f",
       "range": {
         "startLine": 252,
         "startChar": 1,
