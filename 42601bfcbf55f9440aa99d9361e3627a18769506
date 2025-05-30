@@ -71,6 +71,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "112d11e2_4a6466a6",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-05-30T17:51:24Z",
+      "side": 1,
+      "message": "just saw that we have a file level nolint which is fine, disregard my first question. Second one still stands.",
+      "parentUuid": "31dcba93_8121bf7b",
+      "revId": "42601bfcbf55f9440aa99d9361e3627a18769506",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1c1edfca_543b403d",
         "filename": "src/nvidia-gpu/NvidiaGpuSensor.cpp",
         "patchSetId": 18
