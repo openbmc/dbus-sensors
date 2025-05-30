@@ -670,6 +670,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "79df3e23_6443846b",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-30T12:53:12Z",
+      "side": 1,
+      "message": "We expect the scoped enum that contains QUERY_DEVICE_IDENTIFICATION to grow big to contain all command codes.",
+      "parentUuid": "b4de7db7_1fdaa26d",
+      "range": {
+        "startLine": 46,
+        "startChar": 26,
+        "endLine": 46,
+        "endChar": 46
+      },
+      "revId": "dfec99d036a5b176e5ee7ed02fbda0bea138c4fe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c30db0d_4103e05a",
@@ -755,6 +779,30 @@
       "side": 1,
       "message": "Wouldn\u0027t `std::bit_cast` use `std::memcpy` anyway?",
       "parentUuid": "d7cbb8c3_b2e8f3c5",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 69
+      },
+      "revId": "dfec99d036a5b176e5ee7ed02fbda0bea138c4fe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45a83e55_48895c63",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-05-30T12:53:12Z",
+      "side": 1,
+      "message": "Replaced it with reinterpret_cast.",
+      "parentUuid": "c958ea6a_556417cb",
       "range": {
         "startLine": 50,
         "startChar": 0,
