@@ -20,6 +20,7 @@
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/bus.hpp>
 #include <sdbusplus/bus/match.hpp>
 #include <sdbusplus/message.hpp>
 
@@ -507,8 +508,8 @@ int main()
 
     boost::asio::steady_timer configTimer(io);
 
-    std::function<void(sdbusplus::message::message&)> eventHandler =
-        [&](sdbusplus::message::message&) {
+    std::function<void(sdbusplus::message_t&)> eventHandler =
+        [&](sdbusplus::message_t&) {
             configTimer.expires_after(std::chrono::seconds(1));
             // create a timer because normally multiple properties change
             configTimer.async_wait([&](const boost::system::error_code& ec) {
@@ -530,8 +531,8 @@ int main()
             });
         };
 
-    sdbusplus::bus::match::match configMatch(
-        static_cast<sdbusplus::bus::bus&>(*systemBus),
+    sdbusplus::bus::match_t configMatch(
+        static_cast<sdbusplus::bus_t&>(*systemBus),
         "type='signal',member='PropertiesChanged',"
         "path_namespace='" +
             std::string(inventoryPath) +
