@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95aff5dc_6318f153",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-05-30T17:50:50Z",
+      "side": 1,
+      "message": "so in the timeout case here, considering the following flow:\n1. Client sends a message\n2. it times out, we give callback to the client.\n3. Client sends another message\n4. response for first message comes in, before the response of the second\n5. We cancel the timer of the first response.\n6. response for the second message never comes in\n7. No timeout for the second message.\n8. effective deadlock as we never get a callback for the second message, so the state machine never moves forward.\n\nAm I missing something here?",
+      "revId": "42601bfcbf55f9440aa99d9361e3627a18769506",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06264961_7389fdd3",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-05-30T17:50:50Z",
+      "side": 1,
+      "message": "non blocking, why obfuscate the return code? the ec is effectively just an errno under the hood.",
+      "revId": "42601bfcbf55f9440aa99d9361e3627a18769506",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc92a75d_f78d6ef5",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-05-30T17:50:50Z",
+      "side": 1,
+      "message": "at some point, this should probably be applied to more stuff than just nsm commands, but not an issue for now.",
+      "revId": "42601bfcbf55f9440aa99d9361e3627a18769506",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31dcba93_8121bf7b",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-05-30T17:50:50Z",
+      "side": 1,
+      "message": "Do we need a nolintnextline here? Also, is this well formed? Relying on an lvalue reference to extend the lifetime, for some reason I thought this was only allowed on const lvalue references...\n\nthe legalize about this from cppreference.\n\n```\nWhenever a reference is bound to a temporary object or to a subobject thereof, the lifetime of the temporary object is extended to match the lifetime of the reference (check temporary object lifetime exceptions), where the temporary object or its subobject is denoted by one of following expression:\n\na prvalue expression of an object type,\n(until C++17)\na temporary materialization conversion,\n(since C++17)\na parenthesized expression (e), where e is one of these expressions,\na built-in subscript expression of form a[n] or n[a], where a is an array and is one of these expressions,\na class member access expression of form e.m, where e is one of these expressions and m designates a non-static data member of object type,\na pointer-to-member operation of form e.*mp, where e is one of these expressions and mp is a pointer to data member,\na const_cast, static_cast, dynamic_cast, or reinterpret_cast conversion without a user-defined conversion that converts one of these expressions to the glvalue refers to the object designated by the operand, or to its complete object or a subobject thereof (an explicit cast expression is interpreted as a sequence of these casts),\na conditional expression of form cond ? e1 : e2 that is a glvalue, where e1 or e2 is one of these expressions, or\na built-in comma expression of form x, e that is a glvalue, where e is one of these expressions.\n```\n\nWhy not just keep this as a pointer?",
+      "revId": "42601bfcbf55f9440aa99d9361e3627a18769506",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c1edfca_543b403d",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensor.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-05-30T17:50:50Z",
+      "side": 1,
+      "message": "Won\u0027t this still allocate in the hot path? I thought we agreed to make a std::move_only_function in the GPUTempSensor class for each bound callback at init (this will allocate, but a one time allocation at init time is fine), move it into the MctpRequester class at send/recv time, and then upon callback move it back out to the GpuTempSensor class.",
+      "revId": "42601bfcbf55f9440aa99d9361e3627a18769506",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8bc89f4a_aa5400f6",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensorMain.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-05-30T17:50:50Z",
+      "side": 1,
+      "message": "Did we agree to do path filtering here?",
+      "revId": "42601bfcbf55f9440aa99d9361e3627a18769506",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
