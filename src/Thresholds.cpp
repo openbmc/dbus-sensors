@@ -270,23 +270,34 @@ static std::vector<ChangeParam> checkThresholds(Sensor* sensor, double value)
         {
             if (value >= threshold.value)
             {
-                thresholdChanges.emplace_back(threshold, true, value);
+                if (threshold.retryCount < threshold.maxRetryCount)
+                {
+                    threshold.retryCount += 1;
+                }
+                else
+                {
+                    thresholdChanges.emplace_back(threshold, true, value);
+                }
                 if (++cHiTrue < assertLogCount)
                 {
                     lg2::info(
                         "Sensor name: {NAME}, high threshold: {THRESHOLD}, "
-                        "assert value: {VALUE}, raw data: {RAW_DATA}",
+                        "assert value: {VALUE}, raw data: {RAW_DATA}, "
+                        "retry count: {RETYR_COUNT}",
                         "NAME", sensor->name, "THRESHOLD", threshold.value,
-                        "VALUE", value, "RAW_DATA", sensor->rawValue);
+                        "VALUE", value, "RAW_DATA", sensor->rawValue,
+                        "RETYR_COUNT", threshold.retryCount);
                 }
             }
             else if (value < (threshold.value - threshold.hysteresis))
             {
+                threshold.retryCount = 0;
                 thresholdChanges.emplace_back(threshold, false, value);
                 ++cHiFalse;
             }
             else
             {
+                threshold.retryCount = 0;
                 ++cHiMidstate;
             }
         }
@@ -294,23 +305,34 @@ static std::vector<ChangeParam> checkThresholds(Sensor* sensor, double value)
         {
             if (value <= threshold.value)
             {
-                thresholdChanges.emplace_back(threshold, true, value);
+                if (threshold.retryCount < threshold.maxRetryCount)
+                {
+                    threshold.retryCount += 1;
+                }
+                else
+                {
+                    thresholdChanges.emplace_back(threshold, true, value);
+                }
                 if (++cLoTrue < assertLogCount)
                 {
                     lg2::info(
                         "Sensor name: {NAME}, low threshold: {THRESHOLD}, "
-                        "assert value: {VALUE}, raw data: {RAW_DATA}",
+                        "assert value: {VALUE}, raw data: {RAW_DATA}, "
+                        "retry count: {RETYR_COUNT}",
                         "NAME", sensor->name, "THRESHOLD", threshold.value,
-                        "VALUE", value, "RAW_DATA", sensor->rawValue);
+                        "VALUE", value, "RAW_DATA", sensor->rawValue,
+                        "RETYR_COUNT", threshold.retryCount);
                 }
             }
             else if (value > (threshold.value + threshold.hysteresis))
             {
+                threshold.retryCount = 0;
                 thresholdChanges.emplace_back(threshold, false, value);
                 ++cLoFalse;
             }
             else
             {
+                threshold.retryCount = 0;
                 ++cLoMidstate;
             }
         }

@@ -330,6 +330,30 @@ struct Sensor
                     return 1;
                 });
             iface->register_property(alarm, false);
+
+            // Temporary workaround to set the maximum number of retries for
+            // each threshold based on the sensor unit type. Once the EM
+            // configuration supports the maximum number of retries, this needs
+            // to be deleted.
+            //
+            // default:
+            //   - maxRetryCount = 0
+            // unitVolts:
+            //   - maxRetryCount = 1
+            // unitDegreesC:
+            //   - maxRetryCount = 2
+            if (unit == sensor_paths::unitVolts)
+            {
+                threshold.maxRetryCount = 1;
+            }
+            else if (unit == sensor_paths::unitDegreesC)
+            {
+                threshold.maxRetryCount = 2;
+            }
+            else
+            {
+                threshold.maxRetryCount = 0;
+            }
         }
         if (!sensorInterface->initialize())
         {
