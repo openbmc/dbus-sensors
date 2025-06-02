@@ -56,6 +56,23 @@
       },
       "revId": "3e786d1e0f626e4ac82e8b5cd13a7f936f25b46f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ee6ec29_b267625b",
+        "filename": "src/mctp/MCTPReactorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1002305
+      },
+      "writtenOn": "2025-06-02T05:29:29Z",
+      "side": 1,
+      "message": "Can remove this `bugprone-assignment-in-if-condition` by defining the `iface`. Check https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/80452",
+      "revId": "3e786d1e0f626e4ac82e8b5cd13a7f936f25b46f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
