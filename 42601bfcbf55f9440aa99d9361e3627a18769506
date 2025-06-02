@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f21e282_0e24c3c8",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-06-02T13:34:01Z",
+      "side": 1,
+      "message": "This commit isn\u0027t about covering every edge case possible, but to implement something simple as suggested bu Ed. To handle such cases more enhanced MctpRequest is being introduce with the patch https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/80023.",
+      "parentUuid": "95aff5dc_6318f153",
+      "revId": "42601bfcbf55f9440aa99d9361e3627a18769506",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "06264961_7389fdd3",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "29b80bf3_3c179436",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-06-02T13:34:01Z",
+      "side": 1,
+      "message": "Suggested by Andrew Jeffery to use system code everywhere for consistency.",
+      "parentUuid": "06264961_7389fdd3",
+      "revId": "42601bfcbf55f9440aa99d9361e3627a18769506",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc92a75d_f78d6ef5",
@@ -48,6 +84,24 @@
       "writtenOn": "2025-05-30T17:50:50Z",
       "side": 1,
       "message": "at some point, this should probably be applied to more stuff than just nsm commands, but not an issue for now.",
+      "revId": "42601bfcbf55f9440aa99d9361e3627a18769506",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca3b8c3f_a6693682",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-06-02T13:34:01Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "bc92a75d_f78d6ef5",
       "revId": "42601bfcbf55f9440aa99d9361e3627a18769506",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -87,6 +141,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3416b4ae_dacfcc01",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-06-02T13:34:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "112d11e2_4a6466a6",
+      "revId": "42601bfcbf55f9440aa99d9361e3627a18769506",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1c1edfca_543b403d",
@@ -104,6 +176,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba33438d_27371907",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensor.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-06-02T13:34:01Z",
+      "side": 1,
+      "message": "We would then need to add dynamic parameter eid as first argument to that move_only_function and I am not sure if we can do that. Besides, wouldn\u0027t std::move_only_function would have SOO (Small Object Optimization) and wouldn\u0027t allocate if possible. On our target size of std::bind_front is 16 and size of the lamda is 8. I have replaced std::bind_front with lamda.",
+      "parentUuid": "1c1edfca_543b403d",
+      "revId": "42601bfcbf55f9440aa99d9361e3627a18769506",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8bc89f4a_aa5400f6",
@@ -117,6 +207,24 @@
       "writtenOn": "2025-05-30T17:50:50Z",
       "side": 1,
       "message": "Did we agree to do path filtering here?",
+      "revId": "42601bfcbf55f9440aa99d9361e3627a18769506",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71641257_a644abde",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensorMain.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-06-02T13:34:01Z",
+      "side": 1,
+      "message": "We do not need it since we have specified the property name we are interested in in the property-changed-signal-match subscription that this function is callback of. It is also done this way in ipmb and I have kept it same.",
+      "parentUuid": "8bc89f4a_aa5400f6",
       "revId": "42601bfcbf55f9440aa99d9361e3627a18769506",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
