@@ -330,6 +330,10 @@ struct Sensor
                     return 1;
                 });
             iface->register_property(alarm, false);
+
+            // Temporary workaround function to set the maximum number of
+            // retries for the threshold.
+            setThresholdMaxRetry();
         }
         if (!sensorInterface->initialize())
         {
@@ -598,5 +602,27 @@ struct Sensor
         internalSet = true;
         updateProperty(sensorInterface, value, newValue, "Value");
         internalSet = false;
+    }
+
+    // Temporary workaround function to set the maximum number of retries for
+    // each threshold based on the sensor unit type. Once the EM configuration
+    // supports the maximum number of retries, the function needs to be deleted.
+    // Unit::Volts:
+    //   - maxRetryCount = 1
+    // Unit::DegreesC:
+    //   - maxRetryCount = 2
+    void setThresholdMaxRetry()
+    {
+        for (auto& threshold : thresholds)
+        {
+            if (units == Unit::Volts)
+            {
+                threshold.maxRetryCount = 1;
+            }
+            else if (units == Unit::DegreesC)
+            {
+                threshold.maxRetryCount = 2;
+            }
+        }
     }
 };
