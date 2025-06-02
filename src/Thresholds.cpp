@@ -27,6 +27,7 @@
 #include <vector>
 
 static constexpr bool debug = false;
+static constexpr int maxDealyAssertCount = 1;
 namespace thresholds
 {
 Level findThresholdLevel(uint8_t sev)
@@ -270,18 +271,28 @@ static std::vector<ChangeParam> checkThresholds(Sensor* sensor, double value)
         {
             if (value >= threshold.value)
             {
-                thresholdChanges.emplace_back(threshold, true, value);
+                if (threshold.delayAssertCount < maxDealyAssertCount)
+                {
+                    threshold.delayAssertCount += 1;
+                }
+                else
+                {
+                    thresholdChanges.emplace_back(threshold, true, value);
+                }
                 if (++cHiTrue < assertLogCount)
                 {
                     lg2::info(
                         "Sensor name: {NAME}, high threshold: {THRESHOLD}, "
-                        "assert value: {VALUE}, raw data: {RAW_DATA}",
+                        "assert value: {VALUE}, raw data: {RAW_DATA}, "
+                        "delayAssertCount: {DELAY_ASSERT}",
                         "NAME", sensor->name, "THRESHOLD", threshold.value,
-                        "VALUE", value, "RAW_DATA", sensor->rawValue);
+                        "VALUE", value, "RAW_DATA", sensor->rawValue,
+                        "DELAY_ASSERT", threshold.delayAssertCount);
                 }
             }
             else if (value < (threshold.value - threshold.hysteresis))
             {
+                threshold.delayAssertCount = 0;
                 thresholdChanges.emplace_back(threshold, false, value);
                 ++cHiFalse;
             }
@@ -294,18 +305,28 @@ static std::vector<ChangeParam> checkThresholds(Sensor* sensor, double value)
         {
             if (value <= threshold.value)
             {
-                thresholdChanges.emplace_back(threshold, true, value);
+                if (threshold.delayAssertCount < maxDealyAssertCount)
+                {
+                    threshold.delayAssertCount += 1;
+                }
+                else
+                {
+                    thresholdChanges.emplace_back(threshold, true, value);
+                }
                 if (++cLoTrue < assertLogCount)
                 {
                     lg2::info(
                         "Sensor name: {NAME}, low threshold: {THRESHOLD}, "
-                        "assert value: {VALUE}, raw data: {RAW_DATA}",
+                        "assert value: {VALUE}, raw data: {RAW_DATA}, "
+                        "delayAssertCount: {DELAY_ASSERT}",
                         "NAME", sensor->name, "THRESHOLD", threshold.value,
-                        "VALUE", value, "RAW_DATA", sensor->rawValue);
+                        "VALUE", value, "RAW_DATA", sensor->rawValue,
+                        "DELAY_ASSERT", threshold.delayAssertCount);
                 }
             }
             else if (value > (threshold.value + threshold.hysteresis))
             {
+                threshold.delayAssertCount = 0;
                 thresholdChanges.emplace_back(threshold, false, value);
                 ++cLoFalse;
             }
