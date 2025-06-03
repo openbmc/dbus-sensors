@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "c16814ea_1595e65b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002135
+      },
+      "writtenOn": "2025-06-03T09:29:03Z",
+      "side": 1,
+      "message": "Acknowledged and removed from the description.",
+      "parentUuid": "db3aec6c_2191fc54",
+      "revId": "3e786d1e0f626e4ac82e8b5cd13a7f936f25b46f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "188b6af1_6f2fc8bd",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 5
@@ -58,6 +76,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b666cc1_7ad2a842",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1002135
+      },
+      "writtenOn": "2025-06-03T09:29:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad33fae5_64867bc8",
+      "range": {
+        "startLine": 424,
+        "startChar": 44,
+        "endLine": 424,
+        "endChar": 49
+      },
+      "revId": "3e786d1e0f626e4ac82e8b5cd13a7f936f25b46f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8ee6ec29_b267625b",
@@ -71,6 +113,24 @@
       "writtenOn": "2025-06-02T05:29:29Z",
       "side": 1,
       "message": "Can remove this `bugprone-assignment-in-if-condition` by defining the `iface`. Check https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/80452",
+      "revId": "3e786d1e0f626e4ac82e8b5cd13a7f936f25b46f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72e5a4b7_f7c8e413",
+        "filename": "src/mctp/MCTPReactorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1002135
+      },
+      "writtenOn": "2025-06-03T09:29:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ee6ec29_b267625b",
       "revId": "3e786d1e0f626e4ac82e8b5cd13a7f936f25b46f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
