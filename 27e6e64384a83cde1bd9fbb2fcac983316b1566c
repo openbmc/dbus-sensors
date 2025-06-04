@@ -16,6 +16,24 @@
       "message": "this will still have to allocate in the hot path right? Did we check with any instrumentation that this doesn\u0027t allocate?",
       "revId": "27e6e64384a83cde1bd9fbb2fcac983316b1566c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c616a9c3_4a9710a3",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensor.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-06-04T13:31:52Z",
+      "side": 1,
+      "message": "Yes, I have checked by overloading operator new (entire backtrace is being printed in it) and confirmed that this is not doing any allocation.",
+      "parentUuid": "a10d7f6b_9ae179f0",
+      "revId": "27e6e64384a83cde1bd9fbb2fcac983316b1566c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
