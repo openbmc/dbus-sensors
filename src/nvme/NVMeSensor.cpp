@@ -95,8 +95,11 @@ bool NVMeSensor::sample()
         }
 
         scanDelay--;
+    } 
+    else 
+    {
+        scanDelay = 0;
     }
-
     return scanDelay == 0;
 }
 
