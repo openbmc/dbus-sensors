@@ -72,6 +72,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bec8ed0_63c98705",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-06-05T14:27:27Z",
+      "side": 1,
+      "message": "1) Ack\n2) Timer is no longer armed as it expired, callback was called.\n3) Timer is re-armed in handleSendMsgCompletion. Request has been sent.\n4) Ack\n5) Timer is cancelled - there is just one timer (so correlation to first/second response doesn\u0027t apply; we are not doing queueing of messages in this patch)\n6) Ack\n7) Ack, timer was not armed post 5).\n8) We don\u0027t get deadlocked/blocked here. Client will continue to send messages when the sensor poll timer (a different) expires.\n\nAm I missing something?",
+      "parentUuid": "34c67e68_3de41c11",
+      "revId": "42601bfcbf55f9440aa99d9361e3627a18769506",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "06264961_7389fdd3",
