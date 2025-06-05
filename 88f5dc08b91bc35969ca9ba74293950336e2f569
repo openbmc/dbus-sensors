@@ -121,6 +121,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a10d2d8a_fdb86eb5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2025-06-05T22:25:30Z",
+      "side": 1,
+      "message": "Definitely. This is what I was trying to explain earlier, but rephrased better. It is clear we need to distinguish between the achieved setting (comes from the hardware) versus the desired setting (comes from the user).",
+      "parentUuid": "f689ece2_bf895165",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 59
+      },
+      "revId": "88f5dc08b91bc35969ca9ba74293950336e2f569",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c8df5304_7821269c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -156,6 +180,30 @@
       "side": 1,
       "message": "No, nothing fails from a BMC perspective.  The phosphor-pid-control won\u0027t write the PWM (via dbus-sensors) because it sees that the \"Currently Driven PWM\" matches its desired PWM target, but if the chip is in the middle of a ramp, this \"Currently Driven\" doesn\u0027t match the \"Desired Target\".  It causes phosphor-pid-control to miss setting the fans.",
       "parentUuid": "c8df5304_7821269c",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 49
+      },
+      "revId": "88f5dc08b91bc35969ca9ba74293950336e2f569",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93436665_3d20b737",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2025-06-05T22:25:30Z",
+      "side": 1,
+      "message": "Yep, you got it. This is another good reason why we need to have visibility into both of them, because they won\u0027t always match each other.",
+      "parentUuid": "28fdc90c_15dd6bb1",
       "range": {
         "startLine": 46,
         "startChar": 0,
