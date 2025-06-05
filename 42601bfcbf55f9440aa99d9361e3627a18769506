@@ -90,6 +90,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f43776cf_7b5c92cc",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-06-05T20:56:53Z",
+      "side": 1,
+      "message": "doh, thanks for the correction.",
+      "parentUuid": "4bec8ed0_63c98705",
+      "revId": "42601bfcbf55f9440aa99d9361e3627a18769506",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "06264961_7389fdd3",
