@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "701958f5_37b465b5",
+        "filename": "src/cable-monitor/CableEvents.cpp",
+        "patchSetId": 79
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-06-06T08:11:14Z",
+      "side": 1,
+      "message": "```\n^[[1m../subprojects/sdbusplus/include/sdbusplus/async/stdexec/../stdexec/__detail/__optional.hpp:123:9: ^[[0m^[[0;1;31merror: ^[[0m^[[1mBranch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch,-warnings-as-errors]^[[0m \n  123 |         STDEXEC_ASSERT(__has_value);^[[0m\n      | ^[[0;1;32m        ^\n^[[0m^[[1m../subprojects/sdbusplus/include/sdbusplus/async/stdexec/../stdexec/__detail/__config.hpp:501:9: ^[[0m^[[0;1;36mnote: ^[[0mexpanded from macro \u0027STDEXEC_ASSERT\u0027^[[0m\n  501 |         STDEXEC_ASSERT_FN(_XP);                                                \\^[[0m\n      | ^[[0;1;32m        ^\n^[[0m^[[1m../subprojects/sdbusplus/include/sdbusplus/async/stdexec/../stdexec/__detail/__config.hpp:505:27: ^[[0m^[[0;1;36mnote: ^[[0mexpanded from macro \u0027STDEXEC_ASSERT_FN\u0027^[[0m\n  505 | #define STDEXEC_ASSERT_FN assert^[[0m\n      | ^[[0;1;32m                          ^\n^[[0m^[[1m/usr/include/assert.h:103:7: ^[[0m^[[0;1;36mnote: ^[[0mexpanded from macro \u0027assert\u0027^[[0m\n  103 |      (static_cast \u003cbool\u003e (expr)                                         \\^[[0m\n      | ^[[0;1;32m      ^\n^[[0m^[[1m../src/cable-monitor/CableEvents.cpp:18:9: ^[[0m^[[0;1;36mnote: ^[[0mAssuming \u0027type\u0027 is equal to connected^[[0m\n   18 |     if (type \u003d\u003d Type::connected)^[[0m\n      | ^[[0;1;32m        ^~~~~~~~~~~~~~~~~~~~~~~\n^[[0m^[[1m../src/cable-monitor/CableEvents.cpp:18:5: ^[[0m^[[0;1;36mnote: ^[[0mTaking true branch^[[0m\n   18 |     if (type \u003d\u003d Type::connected)^[[0m\n      | ^[[0;1;32m    ^\n^[[0m^[[1m../src/cable-monitor/CableEvents.cpp:21:13: ^[[0m^[[0;1;36mnote: ^[[0mAssuming the condition is true^[[0m\n   21 |         if (pendingEvent !\u003d pendingEvents.end())^[[0m\n      | ^[[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n^[[0m^[[1m../src/cable-monitor/CableEvents.cpp:21:9: ^[[0m^[[0;1;36mnote: ^[[0mTaking true branch^[[0m\n   21 |         if (pendingEvent !\u003d pendingEvents.end())^[[0m\n      | ^[[0;1;32m        ^\n^[[0m^[[1m../src/cable-monitor/CableEvents.cpp:23:13: ^[[0m^[[0;1;36mnote: ^[[0mCalling \u0027__promise::await_transform\u0027^[[0m\n   23 |             co_await lg2::resolve(ctx, pendingEvent-\u003esecond);^[[0m\n      | ^[[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n^[[0m^[[1m../subprojects/sdbusplus/include/sdbusplus/async/stdexec/task.hpp:434:44: ^[[0m^[[0;1;36mnote: ^[[0mCalling \u0027__optional::operator*\u0027^[[0m\n  434 |                              get_scheduler(*__context_)),^[[0m\n      | ^[[0;1;32m                                           ^~~~~~~~~~~\n^[[0m^[[1m../subprojects/sdbusplus/include/sdbusplus/async/stdexec/../stdexec/__detail/__optional.hpp:123:9: ^[[0m^[[0;1;36mnote: ^[[0mBranch condition evaluates to a garbage value^[[0m\n  123 |         STDEXEC_ASSERT(__has_value);^[[0m\n      | ^[[0;1;32m        ^\n^[[0m^[[1m../subprojects/sdbusplus/include/sdbusplus/async/stdexec/../stdexec/__detail/__config.hpp:501:9: ^[[0m^[[0;1;36mnote: ^[[0mexpanded from macro \u0027STDEXEC_ASSERT\u0027^[[0m\n  501 |         STDEXEC_ASSERT_FN(_XP);                                                \\^[[0m\n      | ^[[0;1;32m        ^                 ~~~\n^[[0m^[[1m../subprojects/sdbusplus/include/sdbusplus/async/stdexec/../stdexec/__detail/__config.hpp:505:27: ^[[0m^[[0;1;36mnote: ^[[0mexpanded from macro \u0027STDEXEC_ASSERT_FN\u0027^[[0m\n  505 | #define STDEXEC_ASSERT_FN assert^[[0m\n      | ^[[0;1;32m                          ^\n^[[0m^[[1m/usr/include/assert.h:103:7: ^[[0m^[[0;1;36mnote: ^[[0mexpanded from macro \u0027assert\u0027^[[0m\n  103 |      (static_cast \u003cbool\u003e (expr)                                         \\^[[0m\n      | ^[[0;1;32m      ^                   ~~~~\n      \n```\n\nLooks like clang seems to be unhappy with STDEXEC_ASSERT.",
+      "parentUuid": "2024bc37_4845a1b0",
+      "revId": "ac789e67528d83c3427867fd275e95815111746d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7918ed0c_7f72955f",
         "filename": "src/cable-monitor/CableMonitor.cpp",
         "patchSetId": 79
@@ -31,6 +49,24 @@
       "writtenOn": "2025-06-06T06:11:20Z",
       "side": 1,
       "message": "Again here?",
+      "revId": "ac789e67528d83c3427867fd275e95815111746d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16ddac68_75e83a71",
+        "filename": "src/cable-monitor/CableMonitor.cpp",
+        "patchSetId": 79
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-06-06T08:11:14Z",
+      "side": 1,
+      "message": "Done.\n\nThis was not required and seemed like a remnant after a change, so dropped it.",
+      "parentUuid": "7918ed0c_7f72955f",
       "revId": "ac789e67528d83c3427867fd275e95815111746d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
