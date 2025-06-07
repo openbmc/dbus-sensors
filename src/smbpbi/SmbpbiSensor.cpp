@@ -232,40 +232,35 @@ int SmbpbiSensor::i2cReadDataBytes(uint8_t* reading, int length)
 
     int ret = 0;
     struct i2c_rdwr_ioctl_data args = {nullptr, 0};
-    struct i2c_msg msg = {0, 0, 0, nullptr};
+    std::array<struct i2c_msg, 2> msgs = {
+        {{0, 0, 0, nullptr}, {0, 0, 0, nullptr}}};
     std::array<uint8_t, 8> cmd{};
 
-    msg.addr = addr;
-    args.msgs = &msg;
-    args.nmsgs = 1;
+    args.msgs = msgs.data();
+    args.nmsgs = msgs.size();
 
-    msg.flags = 0;
-    msg.buf = cmd.data();
+    msgs[0].addr = addr;
+    msgs[0].flags = 0;
+    msgs[0].buf = cmd.data();
     // handle two bytes offset
     if (offset > 255)
     {
-        msg.len = 2;
-        msg.buf[0] = offset >> 8;
-        msg.buf[1] = offset & 0xFF;
+        msgs[0].len = 2;
+        msgs[0].buf[0] = offset >> 8;
+        msgs[0].buf[1] = offset & 0xFF;
     }
     else
     {
-        msg.len = 1;
-        msg.buf[0] = offset & 0xFF;
+        msgs[0].len = 1;
+        msgs[0].buf[0] = offset & 0xFF;
     }
+
+    msgs[1].addr = addr;
+    msgs[1].flags = I2C_M_RD;
+    msgs[1].len = length;
+    msgs[1].buf = reading;
 
     // write offset
-    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
-    ret = ioctl(fd, I2C_RDWR, &args);
-    if (ret < 0)
-    {
-        return ret;
-    }
-
-    msg.flags = I2C_M_RD;
-    msg.len = length;
-    msg.buf = reading;
-
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
     ret = ioctl(fd, I2C_RDWR, &args);
     if (ret < 0)
