@@ -56,9 +56,10 @@ SmbpbiSensor::SmbpbiSensor(
     std::vector<thresholds::Threshold>&& thresholdData, uint8_t busId,
     uint8_t addr, uint16_t offset, std::string& sensorUnits,
     std::string& valueType, size_t pollTime, double minVal, double maxVal,
-    std::string& path) :
+    std::string& path, const PowerState& powerState) :
     Sensor(escapeName(sensorName), std::move(thresholdData),
-           sensorConfiguration, objType, false, false, maxVal, minVal, conn),
+           sensorConfiguration, objType, false, false, maxVal, minVal, conn,
+           powerState),
     busId(busId), addr(addr), offset(offset), sensorUnits(sensorUnits),
     valueType(valueType), objectServer(objectServer),
     inputDev(io, path, boost::asio::random_access_file::read_only),
@@ -407,6 +408,8 @@ static void createSensorCallback(
 
             uint16_t off = loadVariant<uint16_t>(entry.second, "ReadOffset");
 
+            PowerState pwrState = getPowerState(entry.second);
+
             std::string sensorUnits =
                 loadVariant<std::string>(entry.second, "Units");
 
@@ -424,21 +427,22 @@ static void createSensorCallback(
             double minVal = loadVariant<double>(entry.second, "MinValue");
 
             double maxVal = loadVariant<double>(entry.second, "MaxValue");
-            lg2::debug(
-                "Configuration parsed for \n\t {CONF}\nwith\n"
-                "\tName: {NAME}\n"
-                "\tBus: {BUS}\n"
-                "\tAddress:{ADDR}\n"
-                "\tOffset: {OFF}\n"
-                "\tType : {TYPE}\n"
-                "\tValue Type : {VALUETYPE}\n"
-                "\tPollrate: {RATE}\n"
-                "\tMinValue: {MIN}\n"
-                "\tMaxValue: {MAX}\n",
-                "CONF", entry.first, "NAME", name, "BUS",
-                static_cast<int>(busId), "ADDR", static_cast<int>(addr), "OFF",
-                static_cast<int>(off), "UNITS", sensorUnits, "VALUETYPE",
-                valueType, "RATE", rate, "MIN", minVal, "MAX", maxVal);
+            lg2::debug("Configuration parsed for \n\t {CONF}\nwith\n"
+                       "\tName: {NAME}\n"
+                       "\tBus: {BUS}\n"
+                       "\tAddress:{ADDR}\n"
+                       "\tOffset: {OFF}\n"
+                       "\tType : {TYPE}\n"
+                       "\tValue Type : {VALUETYPE}\n"
+                       "\tPollrate: {RATE}\n"
+                       "\tMinValue: {MIN}\n"
+                       "\tMaxValue: {MAX}\n"
+                       "\tPowerState: {PWRSTATE}\n",
+                       "CONF", entry.first, "NAME", name, "BUS",
+                       static_cast<int>(busId), "ADDR", static_cast<int>(addr),
+                       "OFF", static_cast<int>(off), "UNITS", sensorUnits,
+                       "VALUETYPE", valueType, "RATE", rate, "MIN", minVal,
+                       "MAX", maxVal, "PWRSTATE", pwrState);
 
             auto& sensor = sensors[name];
             sensor = nullptr;
@@ -448,7 +452,7 @@ static void createSensorCallback(
             sensor = std::make_unique<SmbpbiSensor>(
                 dbusConnection, io, name, pathPair.first, objectType,
                 objectServer, std::move(sensorThresholds), busId, addr, off,
-                sensorUnits, valueType, rate, minVal, maxVal, path);
+                sensorUnits, valueType, rate, minVal, maxVal, path, pwrState);
 
             sensor->init();
         }
