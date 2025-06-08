@@ -59,9 +59,10 @@ SmbpbiSensor::SmbpbiSensor(
     std::vector<thresholds::Threshold>&& thresholdData, uint8_t busId,
     uint8_t addr, uint16_t offset, std::string& sensorUnits,
     std::string& valueType, size_t pollTime, double minVal, double maxVal,
-    std::string& path) :
+    std::string& path, const PowerState& powerState) :
     Sensor(escapeName(sensorName), std::move(thresholdData),
-           sensorConfiguration, objType, false, false, maxVal, minVal, conn),
+           sensorConfiguration, objType, false, false, maxVal, minVal, conn,
+           powerState),
     busId(busId), addr(addr), offset(offset), sensorUnits(sensorUnits),
     valueType(valueType), objectServer(objectServer),
     inputDev(io, path, boost::asio::random_access_file::read_only),
@@ -118,7 +119,14 @@ SmbpbiSensor::~SmbpbiSensor()
 
 void SmbpbiSensor::init()
 {
+    markAvailable(true);
     read();
+}
+
+void SmbpbiSensor::deactivate()
+{
+    markAvailable(false);
+    waitTimer.cancel();
 }
 
 void SmbpbiSensor::checkThresholds()
@@ -421,6 +429,8 @@ static void createSensorCallback(
 
             uint16_t off = loadVariant<uint16_t>(entry.second, "ReadOffset");
 
+            PowerState pwrState = getPowerState(entry.second);
+
             std::string sensorUnits =
                 loadVariant<std::string>(entry.second, "Units");
 
@@ -449,12 +459,13 @@ static void createSensorCallback(
                           "\tValue Type : {VALUETYPE}\n"
                           "\tPollrate: {RATE}\n"
                           "\tMinValue: {MIN}\n"
-                          "\tMaxValue: {MAX}\n",
+                          "\tMaxValue: {MAX}\n"
+                          "\tPowerState: {PWRSTATE}\n",
                           "CONF", entry.first, "NAME", name, "BUS",
                           static_cast<int>(busId), "ADDR",
                           static_cast<int>(addr), "OFF", static_cast<int>(off),
                           "UNITS", sensorUnits, "VALUETYPE", valueType, "RATE",
-                          rate, "MIN", minVal, "MAX", maxVal);
+                          rate, "MIN", minVal, "MAX", maxVal, "PWRSTATE", pwrState);
             }
 
             auto& sensor = sensors[name];
@@ -465,7 +476,7 @@ static void createSensorCallback(
             sensor = std::make_unique<SmbpbiSensor>(
                 dbusConnection, io, name, pathPair.first, objectType,
                 objectServer, std::move(sensorThresholds), busId, addr, off,
-                sensorUnits, valueType, rate, minVal, maxVal, path);
+                sensorUnits, valueType, rate, minVal, maxVal, path, pwrState);
 
             sensor->init();
         }
@@ -492,6 +503,28 @@ void createSensors(
         },
         entityManagerName, "/xyz/openbmc_project/inventory",
         "org.freedesktop.DBus.ObjectManager", "GetManagedObjects");
+}
+
+static void powerStateChanged(PowerState type, bool newState)
+{
+    if (type != PowerState::on)
+    {
+        return;
+    }
+    for (auto& [name, sensor] : sensors)
+    {
+        if (sensor != nullptr && sensor->readState == type)
+        {
+            if (newState)
+            {
+                sensor->init();
+            }
+            else
+            {
+                sensor->deactivate();
+            }
+        }
+    }
 }
 
 int main()
@@ -542,6 +575,12 @@ int main()
         eventHandler);
 
     setupManufacturingModeMatch(*systemBus);
+
+    auto powerCallBack = [](PowerState type, bool state) {
+        powerStateChanged(type, state);
+    };
+    setupPowerMatchCallback(systemBus, powerCallBack);
+
     io.run();
     return 0;
 }
