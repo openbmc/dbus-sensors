@@ -51,6 +51,24 @@
       "parentUuid": "6018475c_7d0f7cba",
       "revId": "2b5b7dca09433cc4baad8ca4de8ed23728cb6b68",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20712d6c_90173c29",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2025-06-09T05:49:50Z",
+      "side": 1,
+      "message": "\u003e I thought there was an open GitHub issue for this feature request, but there wasn\u0027t\n\nThere was indeed one issue since 2023 directly related to this issue (https://github.com/openbmc/dbus-sensors/issues/25).\n\nAlthough we internally chose to modify the max31790 driver to show the user-requested PWM in pwm* file (show MAX31790_REG_PWMOUT register value instead of MAX31790_REG_PWM_DUTY_CYCLE, because pwm* is for setting the desired PWM to the fan, we think it should show back the value we set) as a WA for this issue, I think it can be closed with this patch.",
+      "parentUuid": "42e8d499_befaa5ec",
+      "revId": "2b5b7dca09433cc4baad8ca4de8ed23728cb6b68",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
