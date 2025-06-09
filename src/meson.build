@@ -66,7 +66,7 @@ systemdinterface_src = files('SystemdInterface.cpp')
 gpiointerface_a = static_library(
     'gpiointerface_a',
     'GPIOInterface.cpp',
-    dependencies: default_deps,
+    dependencies: [default_deps, gpiodcxx],
 )
 
 gpiointerface_dep = declare_dependency(
