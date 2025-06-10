@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "39a45cdc_dd3c97ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 79
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-06-10T00:26:26Z",
+      "side": 1,
+      "message": "There are no EM schemas needed here as it relies on Cable Inventory notifications. These cable inventories can be discovered by EM through some existing ways, for example, via gpio-presence daemon if their presence uses a gpio interface.",
+      "parentUuid": "5e0ad606_dab48544",
+      "revId": "ac789e67528d83c3427867fd275e95815111746d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2024bc37_4845a1b0",
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "Can you please add a comment above the NOLINT as to why it\u0027s necessary? And the same in any other instances throughout.",
       "parentUuid": "701958f5_37b465b5",
+      "revId": "ac789e67528d83c3427867fd275e95815111746d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "586035c5_b47d47fe",
+        "filename": "src/cable-monitor/CableEvents.cpp",
+        "patchSetId": 79
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-06-10T00:26:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2242601f_b8e57c26",
       "revId": "ac789e67528d83c3427867fd275e95815111746d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
