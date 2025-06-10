@@ -78,6 +78,57 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "615dc2df_f475b288",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-06-10T11:00:18Z",
+      "side": 1,
+      "message": "it not good to add devices directly under discovery manager. May be we can have discovery manager has utility and and have nsm context as container for all devices that get discovered part of EM rule.",
+      "revId": "6b65b83d877e405db18b45733b9746d0aba87075",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36133b71_44d9a1c3",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-06-10T11:00:18Z",
+      "side": 1,
+      "message": "nsm-context -\u003e nsm-device -\u003e gpu/mcu/cx etc",
+      "revId": "6b65b83d877e405db18b45733b9746d0aba87075",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43a52033_3e1c4a81",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-06-10T11:00:18Z",
+      "side": 1,
+      "message": "we could split this into device and contained elements. gpu device has sensors, inventory info etc. Only sensor would be periodically refreshed and inventory would be just one time.",
+      "revId": "6b65b83d877e405db18b45733b9746d0aba87075",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "009fc682_f490f991",
         "filename": "src/nvidia-gpu/NvidiaGpuSensor.hpp",
         "patchSetId": 14
@@ -89,6 +140,24 @@
       "writtenOn": "2025-05-27T13:30:11Z",
       "side": 1,
       "message": "Should this file be named NvidiaGpuTempSensor?",
+      "revId": "6b65b83d877e405db18b45733b9746d0aba87075",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "701c2fcb_14a9d27b",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensor.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-06-10T11:00:18Z",
+      "side": 1,
+      "message": "@deepak.kodihalli.83@gmail.com, do we want nvidia name to go in most of the data structures ? all the code is already inside nvidia-gpu, is not that imply its only for nvidia devices ? \ndo we have consider nvidia-gpu name ? if we need to add other device type management like mcu, cx here ? or other devices would be added part of new folder called nvidia-mcu ?",
+      "parentUuid": "009fc682_f490f991",
       "revId": "6b65b83d877e405db18b45733b9746d0aba87075",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
