@@ -22,6 +22,7 @@
 #include <cstdint>
 #include <cstring>
 #include <functional>
+#include <memory>
 #include <span>
 #include <utility>
 
@@ -30,12 +31,12 @@ using namespace std::literals;
 namespace mctp
 {
 
-MctpRequester::MctpRequester(boost::asio::io_context& ctx) :
+Requester::Requester(boost::asio::io_context& ctx) :
     mctpSocket(ctx, boost::asio::generic::datagram_protocol{AF_MCTP, 0}),
     expiryTimer(ctx)
 {}
 
-void MctpRequester::processRecvMsg(
+void Requester::processRecvMsg(
     uint8_t eid, const std::span<const uint8_t> reqMsg,
     const std::span<uint8_t> respMsg, const boost::system::error_code& ec,
     const size_t /*length*/)
@@ -104,7 +105,7 @@ void MctpRequester::processRecvMsg(
     completionCallback(0);
 }
 
-void MctpRequester::handleSendMsgCompletion(
+void Requester::handleSendMsgCompletion(
     uint8_t eid, const std::span<const uint8_t> reqMsg,
     std::span<uint8_t> respMsg, const boost::system::error_code& ec,
     size_t /* length */)
@@ -129,13 +130,13 @@ void MctpRequester::handleSendMsgCompletion(
 
     mctpSocket.async_receive_from(
         boost::asio::mutable_buffer(respMsg), recvEndPoint,
-        std::bind_front(&MctpRequester::processRecvMsg, this, eid, reqMsg,
+        std::bind_front(&Requester::processRecvMsg, this, eid, reqMsg,
                         respMsg));
 }
 
-void MctpRequester::sendRecvMsg(
-    uint8_t eid, const std::span<const uint8_t> reqMsg,
-    std::span<uint8_t> respMsg, std::move_only_function<void(int)> callback)
+void Requester::sendRecvMsg(uint8_t eid, const std::span<const uint8_t> reqMsg,
+                            std::span<uint8_t> respMsg,
+                            std::move_only_function<void(int)> callback)
 {
     if (reqMsg.size() < sizeof(ocp::accelerator_management::BindingPciVid))
     {
@@ -156,7 +157,47 @@ void MctpRequester::sendRecvMsg(
 
     mctpSocket.async_send_to(
         boost::asio::const_buffer(reqMsg), sendEndPoint,
-        std::bind_front(&MctpRequester::handleSendMsgCompletion, this, eid,
-                        reqMsg, respMsg));
+        std::bind_front(&Requester::handleSendMsgCompletion, this, eid, reqMsg,
+                        respMsg));
 }
+
+void QueuingRequester::sendRecvMsg(uint8_t eid, std::span<const uint8_t> reqMsg,
+                                   std::span<uint8_t> respMsg,
+                                   std::move_only_function<void(int)> callback)
+{
+    auto reqCtx =
+        std::make_unique<RequestContext>(reqMsg, respMsg, std::move(callback));
+
+    // Add request to queue
+    auto& queue = requestContextQueue[eid];
+    queue.push(std::move(reqCtx));
+
+    // If this is the only request in the queue, process request immediately
+    if (queue.size() == 1)
+    {
+        processNextRequest(eid);
+    }
+}
+
+void QueuingRequester::processNextRequest(uint8_t eid)
+{
+    auto& queue = requestContextQueue[eid];
+    if (queue.empty())
+    {
+        return;
+    }
+
+    const auto& reqCtx = queue.front();
+    requester.sendRecvMsg(eid, reqCtx->reqMsg, reqCtx->respMsg,
+                          [this, eid, callback = std::move(reqCtx->callback)](
+                              int result) mutable {
+                              requestContextQueue[eid].pop();
+
+                              // Call the original callback
+                              callback(result);
+
+                              processNextRequest(eid);
+                          });
+}
+
 } // namespace mctp
