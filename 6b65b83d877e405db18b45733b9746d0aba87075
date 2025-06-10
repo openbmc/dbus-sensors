@@ -95,6 +95,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "39d8009d_8ebf88a6",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-06-10T11:52:56Z",
+      "side": 1,
+      "message": "@rohitpai77@gmail.com at this point of time this commit gets nothing from EM rule. Let\u0027s keep this commit as the simplest code that works (clear and concise guideline).",
+      "parentUuid": "615dc2df_f475b288",
+      "revId": "6b65b83d877e405db18b45733b9746d0aba87075",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "36133b71_44d9a1c3",
         "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.hpp",
         "patchSetId": 14
@@ -106,6 +124,24 @@
       "writtenOn": "2025-06-10T11:00:18Z",
       "side": 1,
       "message": "nsm-context -\u003e nsm-device -\u003e gpu/mcu/cx etc",
+      "revId": "6b65b83d877e405db18b45733b9746d0aba87075",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8e6ea60_187c8d42",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-06-10T11:52:56Z",
+      "side": 1,
+      "message": "@rohitpai77@gmail.com we\u0027re intentionally avoiding the term NSM as you may have noticed.",
+      "parentUuid": "36133b71_44d9a1c3",
       "revId": "6b65b83d877e405db18b45733b9746d0aba87075",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -158,6 +194,24 @@
       "side": 1,
       "message": "@deepak.kodihalli.83@gmail.com, do we want nvidia name to go in most of the data structures ? all the code is already inside nvidia-gpu, is not that imply its only for nvidia devices ? \ndo we have consider nvidia-gpu name ? if we need to add other device type management like mcu, cx here ? or other devices would be added part of new folder called nvidia-mcu ?",
       "parentUuid": "009fc682_f490f991",
+      "revId": "6b65b83d877e405db18b45733b9746d0aba87075",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f942ddff_dcad085f",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensor.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-06-10T11:52:56Z",
+      "side": 1,
+      "message": "@rohitpai77@gmail.com similar pattern as intel-cpu. Adding other device types should not be an issue.",
+      "parentUuid": "701c2fcb_14a9d27b",
       "revId": "6b65b83d877e405db18b45733b9746d0aba87075",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
