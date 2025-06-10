@@ -14,6 +14,9 @@
 #include <cstdint>
 #include <cstring>
 #include <span>
+#include <string>
+#include <variant>
+#include <vector>
 
 namespace gpu
 {
@@ -152,5 +155,84 @@ int decodeGetTemperatureReadingResponse(
 
     return 0;
 }
+
+int encodeGetInventoryInformationRequest(uint8_t instanceId, uint8_t propertyId,
+                                         std::span<uint8_t> buf)
+{
+    if (buf.size() < sizeof(GetInventoryInformationRequest))
+    {
+        return EINVAL;
+    }
+
+    auto* msg = reinterpret_cast<GetInventoryInformationRequest*>(buf.data());
+
+    ocp::accelerator_management::BindingPciVidInfo header{};
+    header.ocp_accelerator_management_msg_type =
+        static_cast<uint8_t>(ocp::accelerator_management::MessageType::REQUEST);
+    header.instance_id = instanceId &
+                         ocp::accelerator_management::instanceIdBitMask;
+    header.msg_type = static_cast<uint8_t>(MessageType::PLATFORM_ENVIRONMENTAL);
+
+    auto rc = packHeader(header, msg->hdr.msgHdr.hdr);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    msg->hdr.command = static_cast<uint8_t>(
+        PlatformEnvironmentalCommands::GET_INVENTORY_INFORMATION);
+    msg->hdr.data_size = sizeof(propertyId);
+    msg->property_id = propertyId;
+
+    return 0;
+}
+
+int decodeGetInventoryInformationResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    InventoryPropertyId propertyId, InventoryInfo& info)
+{
+    auto rc =
+        ocp::accelerator_management::decodeReasonCodeAndCC(buf, cc, reasonCode);
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    if (buf.size() < (sizeof(ocp::accelerator_management::CommonResponse) + 1))
+    {
+        return EINVAL;
+    }
+
+    const auto* response =
+        reinterpret_cast<const GetInventoryInformationResponse*>(buf.data());
+    uint16_t dataSize = le16toh(response->hdr.data_size);
+
+    if (dataSize == 0)
+    {
+        return EINVAL;
+    }
+
+    switch (propertyId)
+    {
+        case InventoryPropertyId::BOARD_PART_NUMBER:
+        case InventoryPropertyId::SERIAL_NUMBER:
+        case InventoryPropertyId::MARKETING_NAME:
+            info = std::string(
+                reinterpret_cast<const char*>(response->data),
+                strnlen(reinterpret_cast<const char*>(response->data),
+                        dataSize));
+            break;
+        case InventoryPropertyId::DEVICE_GUID:
+            info =
+                std::vector<uint8_t>(response->data, response->data + dataSize);
+            break;
+        default:
+            return EINVAL;
+    }
+    return 0;
+}
+
 // NOLINTEND(cppcoreguidelines-pro-type-reinterpret-cast)
 } // namespace gpu
