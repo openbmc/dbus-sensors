@@ -22,6 +22,7 @@
 #include <cstdint>
 #include <cstring>
 #include <functional>
+#include <memory>
 #include <span>
 #include <utility>
 
@@ -30,16 +31,18 @@ using namespace std::literals;
 namespace mctp
 {
 
-MctpRequester::MctpRequester(boost::asio::io_context& ctx) :
+Requester::Requester(boost::asio::io_context& ctx) :
     mctpSocket(ctx, boost::asio::generic::datagram_protocol{AF_MCTP, 0}),
     expiryTimer(ctx)
 {}
 
-void MctpRequester::processRecvMsg(
+void Requester::processRecvMsg(
     uint8_t eid, const std::span<const uint8_t> reqMsg,
     const std::span<uint8_t> respMsg, const boost::system::error_code& ec,
     const size_t /*length*/)
 {
+    auto& callback = completionCallbacks.at(eid);
+
     expiryTimer.cancel();
 
     if (ec)
@@ -47,7 +50,7 @@ void MctpRequester::processRecvMsg(
         lg2::error(
             "MctpRequester failed to receive data from the MCTP socket - ErrorCode={EC}, Error={ER}.",
             "EC", ec.value(), "ER", ec.message());
-        completionCallback(EIO);
+        callback(EIO);
         return;
     }
 
@@ -58,7 +61,7 @@ void MctpRequester::processRecvMsg(
     if (respAddr->smctp_type != msgType)
     {
         lg2::error("MctpRequester: Message type mismatch");
-        completionCallback(EPROTO);
+        callback(EPROTO);
         return;
     }
 
@@ -69,7 +72,7 @@ void MctpRequester::processRecvMsg(
         lg2::error(
             "MctpRequester: EID mismatch - expected={EID}, received={REID}",
             "EID", eid, "REID", respEid);
-        completionCallback(EPROTO);
+        callback(EPROTO);
         return;
     }
 
@@ -96,46 +99,49 @@ void MctpRequester::processRecvMsg(
                 "MctpRequester: Instance ID mismatch - request={REQ}, response={RESP}",
                 "REQ", static_cast<int>(reqInstanceId), "RESP",
                 static_cast<int>(respInstanceId));
-            completionCallback(EPROTO);
+            callback(EPROTO);
             return;
         }
     }
 
-    completionCallback(0);
+    callback(0);
 }
 
-void MctpRequester::handleSendMsgCompletion(
+void Requester::handleSendMsgCompletion(
     uint8_t eid, const std::span<const uint8_t> reqMsg,
     std::span<uint8_t> respMsg, const boost::system::error_code& ec,
     size_t /* length */)
 {
+    auto& callback = completionCallbacks.at(eid);
+
     if (ec)
     {
         lg2::error(
             "MctpRequester failed to send data from the MCTP socket - ErrorCode={EC}, Error={ER}.",
             "EC", ec.value(), "ER", ec.message());
-        completionCallback(EIO);
+        callback(EIO);
         return;
     }
 
     expiryTimer.expires_after(2s);
 
-    expiryTimer.async_wait([this](const boost::system::error_code& ec) {
+    expiryTimer.async_wait([this, eid](const boost::system::error_code& ec) {
         if (ec != boost::asio::error::operation_aborted)
         {
-            completionCallback(ETIME);
+            auto& callback = completionCallbacks.at(eid);
+            callback(ETIME);
         }
     });
 
     mctpSocket.async_receive_from(
         boost::asio::mutable_buffer(respMsg), recvEndPoint,
-        std::bind_front(&MctpRequester::processRecvMsg, this, eid, reqMsg,
+        std::bind_front(&Requester::processRecvMsg, this, eid, reqMsg,
                         respMsg));
 }
 
-void MctpRequester::sendRecvMsg(
-    uint8_t eid, const std::span<const uint8_t> reqMsg,
-    std::span<uint8_t> respMsg, std::move_only_function<void(int)> callback)
+void Requester::sendRecvMsg(uint8_t eid, const std::span<const uint8_t> reqMsg,
+                            std::span<uint8_t> respMsg,
+                            std::move_only_function<void(int)> callback)
 {
     if (reqMsg.size() < sizeof(ocp::accelerator_management::BindingPciVid))
     {
@@ -144,7 +150,7 @@ void MctpRequester::sendRecvMsg(
         return;
     }
 
-    completionCallback = std::move(callback);
+    completionCallbacks[eid] = std::move(callback);
 
     struct sockaddr_mctp addr{};
     addr.smctp_family = AF_MCTP;
@@ -156,7 +162,51 @@ void MctpRequester::sendRecvMsg(
 
     mctpSocket.async_send_to(
         boost::asio::const_buffer(reqMsg), sendEndPoint,
-        std::bind_front(&MctpRequester::handleSendMsgCompletion, this, eid,
-                        reqMsg, respMsg));
+        std::bind_front(&Requester::handleSendMsgCompletion, this, eid, reqMsg,
+                        respMsg));
 }
+
+void QueuingRequester::sendRecvMsg(uint8_t eid, std::span<const uint8_t> reqMsg,
+                                   std::span<uint8_t> respMsg,
+                                   std::move_only_function<void(int)> callback)
+{
+    auto reqCtx =
+        std::make_unique<RequestContext>(reqMsg, respMsg, std::move(callback));
+
+    // Add request to queue
+    auto& queue = requestContextQueues[eid];
+    queue.push(std::move(reqCtx));
+
+    processQueue(eid);
+}
+
+void QueuingRequester::handleResult(uint8_t eid, int result)
+{
+    const auto& reqCtx = activeRequestContexts[eid];
+
+    reqCtx->callback(result); // Call the original callback
+
+    activeRequestContexts.erase(eid);
+
+    processQueue(eid);
+}
+
+void QueuingRequester::processQueue(uint8_t eid)
+{
+    auto& queue = requestContextQueues[eid];
+    if (queue.empty() || activeRequestContexts.contains(eid))
+    {
+        return;
+    }
+
+    activeRequestContexts[eid] = std::move(queue.front());
+    queue.pop();
+
+    const auto& reqCtx = activeRequestContexts[eid];
+
+    requester.sendRecvMsg(
+        eid, reqCtx->reqMsg, reqCtx->respMsg,
+        std::bind_front(&QueuingRequester::handleResult, this, eid));
+}
+
 } // namespace mctp
