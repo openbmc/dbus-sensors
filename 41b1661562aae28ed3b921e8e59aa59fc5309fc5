@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ebbb9a3_91a0644d",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 1002305
+      },
+      "writtenOn": "2025-06-10T07:35:38Z",
+      "side": 1,
+      "message": "Need to still figure out a way to make the bus number deterministic.",
+      "revId": "41b1661562aae28ed3b921e8e59aa59fc5309fc5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
