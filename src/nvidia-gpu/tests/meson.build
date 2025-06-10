@@ -19,6 +19,7 @@ test(
     executable(
         'nvidiagpusensor_test',
         'NvidiaGpuSensorTest.cpp',
+        'NvidiaDeviceInventoryMctpVdm.cpp',
         '../OcpMctpVdm.cpp',
         '../NvidiaGpuMctpVdm.cpp',
         implicit_include_directories: false,
