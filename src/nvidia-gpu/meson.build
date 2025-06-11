@@ -6,6 +6,7 @@ gpusensor_sources = files(
     'NvidiaGpuSensor.cpp',
     'NvidiaGpuSensorMain.cpp',
     'OcpMctpVdm.cpp',
+    'Inventory.cpp',
 )
 
 gpusensor_include_dir = include_directories('.', is_system: true)
