@@ -16,6 +16,57 @@
       "message": "in my mind, there\u0027s no reason to mix together queuing and the request response cycle. We should be able to keep mctprequester in its current (much improved) form and have the queueing stuff just deal with queueing and calling back to the client. It can hand an internal callback to the mctprequester and deal with when to tell mctprequester to do its thing. When its contract to the client is satisfied, it will call the \"top level callback\" to the client saying \"done\".",
       "revId": "3051c2932f0edef373932d9e50d35a586cac492b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "289e9860_0dbdf4f6",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 27
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-06-11T10:24:27Z",
+      "side": 1,
+      "message": "let me know if below sequence is valid one \n\nFirst request to EID1:\nasync_wait is set up for first response\nNo response comes from EID1\nSecond request to EID2:\nAnother async_wait is set up for second response\nResponse comes from EID2\nProblem:\nThe first async_wait will be triggered by the EID2 response\nIt will read the message and call the callback with EID2\nThe callback will check the EID and drop the message\nBut the second async_wait is still pending and might never get the response\n\n\nIs this a problem or handled is some other way ?",
+      "revId": "3051c2932f0edef373932d9e50d35a586cac492b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66cb3801_a9815f29",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 27
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-06-11T10:24:27Z",
+      "side": 1,
+      "message": "any limit on max outstanding pending requests ?",
+      "revId": "3051c2932f0edef373932d9e50d35a586cac492b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e1a8948_2a45ffb2",
+        "filename": "src/nvidia-gpu/types.hpp",
+        "patchSetId": 27
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-06-11T10:24:27Z",
+      "side": 1,
+      "message": "nit - rename vec to data or something similar.",
+      "revId": "3051c2932f0edef373932d9e50d35a586cac492b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
