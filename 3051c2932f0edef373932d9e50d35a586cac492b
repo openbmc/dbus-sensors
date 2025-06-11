@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e897894e_1140c056",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 27
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-06-11T17:15:02Z",
+      "side": 1,
+      "message": "We are no longer using the implementation from patchset 27.",
+      "revId": "3051c2932f0edef373932d9e50d35a586cac492b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cb2591ec_2f382cae",
@@ -35,6 +52,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "abca4378_51b5f023",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 27
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-06-11T17:15:02Z",
+      "side": 1,
+      "message": "This is not a problem. For each send there\u0027s a corresponding recv work that is queued up. This is done in order to ensure that there\u0027s always an async recv pending for every request sent. The async recv handler is agnostic of the request context in which it was scheduled/queued as it checks for the right request metadata and then invokes the corresponding callback.",
+      "parentUuid": "289e9860_0dbdf4f6",
+      "revId": "3051c2932f0edef373932d9e50d35a586cac492b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "66cb3801_a9815f29",
@@ -52,6 +87,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c8100b9_13a86886",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 27
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-06-11T17:15:02Z",
+      "side": 1,
+      "message": "There\u0027s no limit as such, we should be able to handle as many requests as many are queued up.",
+      "parentUuid": "66cb3801_a9815f29",
+      "revId": "3051c2932f0edef373932d9e50d35a586cac492b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2e1a8948_2a45ffb2",
@@ -65,6 +118,24 @@
       "writtenOn": "2025-06-11T10:24:27Z",
       "side": 1,
       "message": "nit - rename vec to data or something similar.",
+      "revId": "3051c2932f0edef373932d9e50d35a586cac492b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d093c0d7_5732c207",
+        "filename": "src/nvidia-gpu/types.hpp",
+        "patchSetId": 27
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-06-11T17:15:02Z",
+      "side": 1,
+      "message": "No longer using this implementation.",
+      "parentUuid": "2e1a8948_2a45ffb2",
       "revId": "3051c2932f0edef373932d9e50d35a586cac492b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
