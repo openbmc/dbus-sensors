@@ -417,7 +417,6 @@ int decodeGetVoltageResponse(std::span<const uint8_t> buf,
     return 0;
 }
 
-
 int encodeGetInventoryInformationRequest(uint8_t instanceId, uint8_t propertyId,
                                          std::span<uint8_t> buf)
 {
