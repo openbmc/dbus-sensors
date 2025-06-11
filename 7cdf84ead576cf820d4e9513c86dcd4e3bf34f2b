@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc0501cb_2f8f5081",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1000338
+      },
+      "writtenOn": "2025-06-11T10:51:25Z",
+      "side": 1,
+      "message": "Would be good to provide an example of what the sysfs path for the host controller/root looks like say on the AST2600",
+      "revId": "7cdf84ead576cf820d4e9513c86dcd4e3bf34f2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f58f2d65_0575ccf4",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1000338
+      },
+      "writtenOn": "2025-06-11T10:51:25Z",
+      "side": 1,
+      "message": "Still don\u0027t think this is fool-proof. With the usbmon module enabled. I also get a directory called `usbmon` in the same path. That would break this code based on which entry the iterator returns first. Can we instead look for the busnum file within the said directory?",
+      "revId": "7cdf84ead576cf820d4e9513c86dcd4e3bf34f2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
