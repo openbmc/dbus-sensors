@@ -18,6 +18,7 @@
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/asio/property.hpp>
 
 #include <chrono>
 #include <cstdint>
@@ -36,7 +37,18 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
     mctpRequester(mctpRequester), conn(conn), objectServer(objectServer),
     configs(configs), name(escapeName(name)), path(path)
 {
+    createAcceleratorInterface();
     makeSensors();
+}
+
+void GpuDevice::createAcceleratorInterface()
+{
+    std::string inventoryPath = "/xyz/openbmc_project/inventory/" + name;
+    acceleratorInterface = objectServer.add_interface(
+        inventoryPath, "xyz.openbmc_project.Inventory.Item.Accelerator");
+
+    acceleratorInterface->register_property("Type", std::string("GPU"));
+    acceleratorInterface->initialize();
 }
 
 void GpuDevice::makeSensors()

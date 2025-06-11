@@ -14,6 +14,7 @@
 #include <boost/asio/steady_timer.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/asio/property.hpp>
 
 #include <chrono>
 #include <cstdint>
@@ -37,6 +38,7 @@ class GpuDevice
 
   private:
     void makeSensors();
+    void createAcceleratorInterface();
 
     void read();
 
@@ -59,4 +61,6 @@ class GpuDevice
     std::string name;
 
     std::string path;
+
+    std::shared_ptr<sdbusplus::asio::dbus_interface> acceleratorInterface;
 };
