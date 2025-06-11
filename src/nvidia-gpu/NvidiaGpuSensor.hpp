@@ -41,6 +41,20 @@ struct NvidiaGpuTempSensor :
   private:
     void processResponse(int sendRecvMsgResult);
 
+    void processQueryDeviceIdResponse(uint8_t eid, int sendRecvMsgResult);
+
+    void queryEndpoints(const boost::system::error_code& ec,
+                        const GetSubTreeType& ret);
+
+    void processEndpoint(const boost::system::error_code& ec,
+                         const SensorBaseConfigMap& endpoint);
+    void processGpuEndpoint(uint8_t eid);
+
+    void requestDevicePartNumber();
+    void handleDevicePartNumberResponse(int sendRecvMsgResult);
+    std::array<uint8_t, sizeof(ocp::accelerator_management::Message) + sizeof(gpu::GetInventoryInformationRequest)> getDevicePartNumberRequest{};
+    std::array<uint8_t, sizeof(ocp::accelerator_management::Message) + sizeof(gpu::GetInventoryInformationResponse)> getDevicePartNumberResponse{};
+
     uint8_t eid{};
 
     uint8_t sensorId;
@@ -56,4 +70,15 @@ struct NvidiaGpuTempSensor :
 
     std::array<uint8_t, sizeof(gpu::GetTemperatureReadingResponse)>
         getTemperatureReadingResponse{};
+
+    std::array<uint8_t, sizeof(ocp::accelerator_management::Message) +
+                            sizeof(gpu::QueryDeviceIdentificationRequest)>
+        queryDeviceIdentificationRequest{};
+
+    std::array<uint8_t, sizeof(ocp::accelerator_management::Message) +
+                            sizeof(gpu::QueryDeviceIdentificationResponse)>
+        queryDeviceIdentificationResponse{};
+
+    std::shared_ptr<sdbusplus::asio::dbus_interface> assetIface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> acceleratorIface;
 };

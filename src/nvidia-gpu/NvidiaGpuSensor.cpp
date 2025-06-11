@@ -125,3 +125,61 @@ void NvidiaGpuTempSensor::update()
         eid, getTemperatureReadingRequest, getTemperatureReadingResponse,
         [this](int sendRecvMsgResult) { processResponse(sendRecvMsgResult); });
 }
+
+void GpuTempSensor::requestDevicePartNumber()
+{
+    int rc = gpu::encodeGetInventoryInformationRequest(
+        0, static_cast<uint8_t>(gpu::InventoryPropertyId::DEVICE_PART_NUMBER), getDevicePartNumberRequest);
+    if (rc != 0)
+    {
+        lg2::error("Failed to encode device part number request: rc={RC}", "RC", rc);
+        return;
+    }
+
+    mctpRequester.sendRecvMsg(
+        eid, getDevicePartNumberRequest, getDevicePartNumberResponse,
+        [this](int sendRecvMsgResult) { handleDevicePartNumberResponse(sendRecvMsgResult); });
+}
+
+void GpuTempSensor::handleDevicePartNumberResponse(int sendRecvMsgResult)
+{
+    if (sendRecvMsgResult != 0)
+    {
+        lg2::error("Failed to get device part number: rc={RC}", "RC", sendRecvMsgResult);
+        return;
+    }
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode = 0;
+    gpu::InventoryInfo info;
+
+    int rc = gpu::decodeGetInventoryInformationResponse(
+        getDevicePartNumberResponse, cc, reasonCode, gpu::InventoryPropertyId::DEVICE_PART_NUMBER, info);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        lg2::error("Failed to decode device part number: rc={RC}, cc={CC}, reason={REASON}",
+                   "RC", rc, "CC", cc, "REASON", reasonCode);
+        return;
+    }
+
+    std::string partNumber;
+    if (std::holds_alternative<std::string>(info))
+    {
+        partNumber = std::get<std::string>(info);
+        if (assetIface)
+        {
+            assetIface->set_property("PartNumber", partNumber);
+        }
+        else
+        {
+            lg2::error("Asset interface not initialized when updating PartNumber");
+        }
+    }
+    else
+    {
+        lg2::error("Device part number not a string");
+        return;
+    }
+}
+
