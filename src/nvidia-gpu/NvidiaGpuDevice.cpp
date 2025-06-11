@@ -6,6 +6,7 @@
 
 #include "NvidiaGpuDevice.hpp"
 
+#include "Inventory.hpp"
 #include "NvidiaDeviceDiscovery.hpp"
 #include "NvidiaGpuSensor.hpp"
 #include "Thresholds.hpp"
@@ -42,6 +43,8 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
     mctpRequester(mctpRequester), conn(conn), objectServer(objectServer),
     configs(configs), name(escapeName(name)), path(path)
 {
+    inventory = std::make_unique<Inventory>(conn, objectServer, name,
+                                            Inventory::DeviceType::GPU);
     makeSensors();
 }
 
