@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include "Inventory.hpp"
 #include "MctpRequester.hpp"
 #include "NvidiaDeviceDiscovery.hpp"
 #include "NvidiaGpuPowerSensor.hpp"
@@ -71,4 +72,6 @@ class GpuDevice
     std::string name;
 
     std::string path;
+
+    std::shared_ptr<Inventory> inventory;
 };
