@@ -16,6 +16,24 @@
       "message": "Can I ask couple of questions regarding IPMI SEL?\n\n1. How will these log messages be interperted in the `ipmitool sel log` output? Will they be mapped to the correct sensorIDs? (If this is the case, does it work only in dynamic IPMI compilation option, or is there any way to get it working with YAML approach? Does it work with the base code of ipmid, or is fb-ipmi-oem necessary to be present)\n\n2. What will be with the systems that currently use sel-logger for threshold logging? Will they get duplicates for every threshold event SEL after this change?",
       "revId": "ee113ec1d44cce4ef8fe7a5bc76007a4790bd01a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2bc0b92_8ce01376",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000212
+      },
+      "writtenOn": "2025-06-11T18:13:22Z",
+      "side": 1,
+      "message": "(1) These are primarily for redfish side of things. Someone more familiar with IPMI SEL entries should update https://github.com/openbmc/phosphor-host-ipmid/blob/master/selutility.cpp#L292.\n (2) Yes. If a platform is using phosphor-sel-logger with log-threshold option enabled, they will get duplicate logs. There are two options here:\n   (a) Disable it (Now that I have put up https://gerrit.openbmc.org/c/openbmc/phosphor-virtual-sensor/+/80773 (virtual sensors) and https://gerrit.openbmc.org/c/openbmc/pldm/+/77525 (pldm), it should not be needed anymore once all 3 gets merged (Some platforms might not use pldm or virtual sensors or both so it should not matter for those platforms)\n   (b) Disable these, by adding filters: https://github.com/openbmc/phosphor-logging?tab\u003dreadme-ov-file#event-log-filtering to phosphor-logging. I could propose these filters if it helps.",
+      "parentUuid": "94d4e919_915a8c55",
+      "revId": "ee113ec1d44cce4ef8fe7a5bc76007a4790bd01a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
