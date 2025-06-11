@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d492503_a03f5dd4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-06-11T14:11:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "323c959a_42063869",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 17
+      },
+      "revId": "91aaf2a86168541d18ecac5476afe41e46999e36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "afcb00e3_e7ad8e31",
@@ -70,6 +94,54 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "151886bb_62504a50",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-06-11T14:11:28Z",
+      "side": 1,
+      "message": "We were copying it in member data of `DeviceDiscoveryManager`.",
+      "parentUuid": "afcb00e3_e7ad8e31",
+      "range": {
+        "startLine": 250,
+        "startChar": 16,
+        "endLine": 250,
+        "endChar": 23
+      },
+      "revId": "91aaf2a86168541d18ecac5476afe41e46999e36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c69b2188_fcd89b1c",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-06-11T14:11:28Z",
+      "side": 1,
+      "message": "We were copying `path` in member data of `DeviceDiscoveryManager`.",
+      "parentUuid": "3e0928f1_2b38a1cc",
+      "range": {
+        "startLine": 250,
+        "startChar": 25,
+        "endLine": 250,
+        "endChar": 29
+      },
+      "revId": "91aaf2a86168541d18ecac5476afe41e46999e36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "36bc340e_391ef95c",
@@ -83,6 +155,30 @@
       "writtenOn": "2025-06-11T06:02:36Z",
       "side": 1,
       "message": "Same comment as I had in the previous patch. I don\u0027t see a reason to make this a C++ class. All of these get handed over to the device class. I recommend having only the device class. Endpoint discovery can remain as utlity functions (like createSensors).",
+      "range": {
+        "startLine": 69,
+        "startChar": 1,
+        "endLine": 79,
+        "endChar": 21
+      },
+      "revId": "91aaf2a86168541d18ecac5476afe41e46999e36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52bdd250_c929d9b4",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-06-11T14:11:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36bc340e_391ef95c",
       "range": {
         "startLine": 69,
         "startChar": 1,
@@ -110,6 +206,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1af02e36_a5427e67",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-06-11T14:11:28Z",
+      "side": 1,
+      "message": "We have polling loop implemented at Device level and not at the sensor level currently there is only one Poll Rate value which is same for every sensor. Once we have different category of sensors even then polling would be implemented at device level and only device class needs keep track of all the different polling frequency.",
+      "parentUuid": "b41dbcf0_3faea175",
+      "revId": "91aaf2a86168541d18ecac5476afe41e46999e36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "55c9e538_c94dcb55",
@@ -123,6 +237,24 @@
       "writtenOn": "2025-06-11T06:02:36Z",
       "side": 1,
       "message": "Same as above",
+      "revId": "91aaf2a86168541d18ecac5476afe41e46999e36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "128b5acd_4f9bcb37",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-06-11T14:11:28Z",
+      "side": 1,
+      "message": "We have polling loop implemented at Device level and thus timer used for polling is managed by device class.",
+      "parentUuid": "55c9e538_c94dcb55",
       "revId": "91aaf2a86168541d18ecac5476afe41e46999e36",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -144,6 +276,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "be5d68ce_62d8ee09",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensorMain.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-06-11T14:11:28Z",
+      "side": 1,
+      "message": "Now removed.",
+      "parentUuid": "fb310ee7_20b6311a",
+      "revId": "91aaf2a86168541d18ecac5476afe41e46999e36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4895d9bf_719b982b",
@@ -157,6 +307,24 @@
       "writtenOn": "2025-06-11T06:02:36Z",
       "side": 1,
       "message": "Let\u0027s do the name change in a separate commit (that can come in later) please.",
+      "revId": "91aaf2a86168541d18ecac5476afe41e46999e36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f15153f_986d0fbf",
+        "filename": "src/nvidia-gpu/NvidiaGpuTempSensor.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-06-11T14:11:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4895d9bf_719b982b",
       "revId": "91aaf2a86168541d18ecac5476afe41e46999e36",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
