@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cd63eae_03e16953",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000338
+      },
+      "writtenOn": "2025-06-11T09:20:32Z",
+      "side": 1,
+      "message": "Please push an update tyo https://gerrit.openbmc.org/c/openbmc/entity-manager/+/77381 as well.",
+      "revId": "a85a05cbbbf13c6ec11f901ce719828887809672",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a397eb8c_5f7e1aae",
