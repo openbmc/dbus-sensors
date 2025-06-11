@@ -1,0 +1,141 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "afcb00e3_e7ad8e31",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-06-11T06:02:36Z",
+      "side": 1,
+      "message": "A reference to a local is being passed? How is this working?",
+      "range": {
+        "startLine": 250,
+        "startChar": 16,
+        "endLine": 250,
+        "endChar": 23
+      },
+      "revId": "91aaf2a86168541d18ecac5476afe41e46999e36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e0928f1_2b38a1cc",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-06-11T06:02:36Z",
+      "side": 1,
+      "message": "Is the \u0027path\u0027 reference going to remain valid?",
+      "range": {
+        "startLine": 250,
+        "startChar": 25,
+        "endLine": 250,
+        "endChar": 29
+      },
+      "revId": "91aaf2a86168541d18ecac5476afe41e46999e36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36bc340e_391ef95c",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-06-11T06:02:36Z",
+      "side": 1,
+      "message": "Same comment as I had in the previous patch. I don\u0027t see a reason to make this a C++ class. All of these get handed over to the device class. I recommend having only the device class. Endpoint discovery can remain as utlity functions (like createSensors).",
+      "range": {
+        "startLine": 69,
+        "startChar": 1,
+        "endLine": 79,
+        "endChar": 21
+      },
+      "revId": "91aaf2a86168541d18ecac5476afe41e46999e36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b41dbcf0_3faea175",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-06-11T06:02:36Z",
+      "side": 1,
+      "message": "This should be in the sensor class - it is the property of a sensor and not device.",
+      "revId": "91aaf2a86168541d18ecac5476afe41e46999e36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55c9e538_c94dcb55",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-06-11T06:02:36Z",
+      "side": 1,
+      "message": "Same as above",
+      "revId": "91aaf2a86168541d18ecac5476afe41e46999e36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb310ee7_20b6311a",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensorMain.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-06-11T06:02:36Z",
+      "side": 1,
+      "message": "Are we going to have multiple DeviceDiscoveryManagers?\n\nAs commented elsewhere, I don\u0027t recommend a class for device discovery. A map of devices here makes sense to me.",
+      "revId": "91aaf2a86168541d18ecac5476afe41e46999e36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4895d9bf_719b982b",
+        "filename": "src/nvidia-gpu/NvidiaGpuTempSensor.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-06-11T06:02:36Z",
+      "side": 1,
+      "message": "Let\u0027s do the name change in a separate commit (that can come in later) please.",
+      "revId": "91aaf2a86168541d18ecac5476afe41e46999e36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
