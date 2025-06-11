@@ -92,6 +92,11 @@ enum class InventoryPropertyId : uint8_t
     NVLINK_PEER_TYPE = 36
 };
 
+enum class NvidiaVDMDeviceType
+{
+    Unknown,
+    GPU,
+};
 struct QueryDeviceIdentificationRequest
 {
     ocp::accelerator_management::CommonRequest hdr;
