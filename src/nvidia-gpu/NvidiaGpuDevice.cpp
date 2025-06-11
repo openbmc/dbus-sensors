@@ -6,6 +6,7 @@
 
 #include "NvidiaGpuDevice.hpp"
 
+#include "Inventory.hpp"
 #include "NvidiaDeviceDiscovery.hpp"
 #include "NvidiaGpuSensor.hpp"
 #include "Thresholds.hpp"
@@ -18,6 +19,7 @@
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/asio/property.hpp>
 
 #include <chrono>
 #include <cstdint>
@@ -36,6 +38,9 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
     mctpRequester(mctpRequester), conn(conn), objectServer(objectServer),
     configs(configs), name(escapeName(name)), path(path)
 {
+    inventory = std::make_unique<Inventory>(
+        conn, objectServer, this->name, mctpRequester,
+        Inventory::DeviceType::GPU, eid);
     makeSensors();
 }
 
