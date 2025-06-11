@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a397eb8c_5f7e1aae",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1000338
+      },
+      "writtenOn": "2025-06-11T09:04:47Z",
+      "side": 1,
+      "message": "Any reason why these are non-member functions? Not that that is wrong, but seems to deviate from the functions in I2CMCTPDevice, for ex.",
+      "revId": "a85a05cbbbf13c6ec11f901ce719828887809672",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4de060a6_32be801e",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 1000338
+      },
+      "writtenOn": "2025-06-11T09:04:47Z",
+      "side": 1,
+      "message": "Would it be better to lookup the busnum attribute file instead? Is the `usb\u003cbus_num\u003e` pattern guaranteed to be there?\nAt the very least, please remove the hardcoded value 3 here and use something like std::string_view(\"usb\")::length(), which would still be compile time evaluated",
+      "revId": "a85a05cbbbf13c6ec11f901ce719828887809672",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
