@@ -8,7 +8,14 @@
 
 #include <array>
 #include <memory>
+#include <optional>
 #include <string>
+#include <string_view>
+
+using InventoryRequestBuffer =
+    std::array<uint8_t, sizeof(gpu::GetInventoryInformationRequest)>;
+using InventoryResponseBuffer =
+    std::array<uint8_t, sizeof(gpu::GetInventoryInformationResponse)>;
 
 class Inventory
 {
@@ -25,7 +32,25 @@ class Inventory
               mctp::MctpRequester& mctpRequester, DeviceType deviceType,
               uint8_t eid);
 
+    void fetchPartNumber();
+    void fetchSerialNumber();
+    void update();
+
+    static std::optional<std::string_view> dbusPropertyNameForId(
+        gpu::InventoryPropertyId propertyId);
+
   private:
+    void requestInventoryProperty(
+        gpu::InventoryPropertyId propertyId,
+        std::shared_ptr<InventoryRequestBuffer> requestBuffer,
+        std::shared_ptr<InventoryResponseBuffer> responseBuffer);
+
+    void handleInventoryPropertyResponse(
+        gpu::InventoryPropertyId propertyId, int sendRecvMsgResult,
+        std::shared_ptr<InventoryRequestBuffer> requestBuffer,
+        std::shared_ptr<InventoryResponseBuffer> responseBuffer);
+
+    std::shared_ptr<sdbusplus::asio::dbus_interface> assetIface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> acceleratorInterface;
 
     std::string path;
