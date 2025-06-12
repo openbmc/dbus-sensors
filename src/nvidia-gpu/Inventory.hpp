@@ -8,6 +8,7 @@
 #include <sdbusplus/asio/object_server.hpp>
 
 #include <array>
+#include <chrono>
 #include <memory>
 #include <optional>
 #include <string>
