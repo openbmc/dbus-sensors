@@ -25,11 +25,27 @@ class Inventory
               mctp::MctpRequester& mctpRequester, DeviceType deviceType,
               uint8_t eid);
 
+    void requestPartNumber();
+    void requestSerialNumber();
+    void update();
+
   private:
+    void requestInventoryProperty(gpu::InventoryPropertyId propertyId,
+                                  const std::string& dbusProperty,
+                                  int& attempts);
+    void handleInventoryPropertyResponse(gpu::InventoryPropertyId propertyId,
+                                         const std::string& dbusProperty,
+                                         int& attempts, int sendRecvMsgResult);
+
+    std::shared_ptr<sdbusplus::asio::dbus_interface> assetIface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> acceleratorInterface;
 
     std::string path;
     mctp::MctpRequester& mctpRequester;
     DeviceType deviceType;
     uint8_t eid;
+    std::array<uint8_t, sizeof(gpu::GetInventoryInformationRequest)>
+        requestBuffer{};
+    std::array<uint8_t, sizeof(gpu::GetInventoryInformationResponse)>
+        responseBuffer{};
 };
