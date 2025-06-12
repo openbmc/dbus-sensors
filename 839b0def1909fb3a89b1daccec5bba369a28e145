@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "796ed961_428f80ad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-06-12T05:30:14Z",
+      "side": 1,
+      "message": "Code seems fine to me. Have one minor question. Can +1 after a re-test.",
+      "revId": "839b0def1909fb3a89b1daccec5bba369a28e145",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a9ec4f0_27e3b418",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-06-12T05:30:14Z",
+      "side": 1,
+      "message": "Why is this not static? Anyway this method is called once at startup so it probably doesn\u0027t matter much...",
+      "revId": "839b0def1909fb3a89b1daccec5bba369a28e145",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
