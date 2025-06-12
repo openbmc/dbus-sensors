@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7f274db_d1f88a5b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-06-12T16:17:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6321f4da_f81df064",
+      "revId": "e11b33f444d3040de8390d8cde97f754c1c45247",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9fd41e3d_c441ac80",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3779de2_88e7dcab",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-06-12T16:17:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9fd41e3d_c441ac80",
+      "revId": "e11b33f444d3040de8390d8cde97f754c1c45247",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "60a5a352_23e8591a",
@@ -48,6 +84,30 @@
       "writtenOn": "2025-05-27T18:32:07Z",
       "side": 1,
       "message": "I commented this somewhere else, but comments like this aren\u0027t useful.\n\n1. The variable is instanceId, not instance_id.\n2. I\u0027m pretty sure I can figure out that instanceId means instance id without this comment.\n\nPlease just remove the doxygen comments as there\u0027s no requirement for full doxygen.  Please leave comments in prose where there are subtleties about how the API is used.",
+      "range": {
+        "startLine": 239,
+        "startChar": 15,
+        "endLine": 239,
+        "endChar": 40
+      },
+      "revId": "e11b33f444d3040de8390d8cde97f754c1c45247",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ec0e803_9731873d",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-06-12T16:17:38Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "60a5a352_23e8591a",
       "range": {
         "startLine": 239,
         "startChar": 15,
