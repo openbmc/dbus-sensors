@@ -34,8 +34,8 @@ Interfaces  xyz.openbmc_project.Sensor.Value
 
 ```
 
-Sensor interfaces collection are described
-[here](https://github.com/openbmc/phosphor-dbus-interfaces/tree/master/yaml/xyz/openbmc_project/Sensor).
+Sensor interfaces collection are described in
+[phosphor-dbus-interfaces](https://github.com/openbmc/phosphor-dbus-interfaces/tree/master/yaml/xyz/openbmc_project/Sensor).
 
 Consumer examples of these interfaces are
 [Redfish](https://github.com/openbmc/bmcweb/blob/master/redfish-core/lib/sensors.hpp),
@@ -53,8 +53,8 @@ check thresholds periodically. PropertiesChanged signals will be broadcasted for
 other services to consume when value or threshold status change. OperationStatus
 is set to false if the sensor is determined to be faulty.
 
-A simple sensor example can be found
-[here](https://github.com/openbmc/entity-manager/blob/master/docs/my_first_sensors.md).
+A simple sensor example can be found in
+[entity-manager examples](https://github.com/openbmc/entity-manager/blob/master/docs/my_first_sensors.md).
 
 ## configuration
 
