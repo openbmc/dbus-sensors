@@ -401,8 +401,9 @@ bool checkThresholds(Sensor* sensor)
     {
         assertThresholds(sensor, change.assertValue, change.threshold.level,
                          change.threshold.direction, change.asserted);
-        if (change.threshold.level == thresholds::Level::CRITICAL &&
-            change.asserted)
+        if ((change.threshold.level == thresholds::Level::CRITICAL ||
+        change.threshold.level == thresholds::Level::HARDSHUTDOWN) &&
+        change.asserted)
         {
             status = false;
         }
@@ -512,6 +513,8 @@ bool parseThresholdsFromAttr(
                  std::make_tuple("lcrit", Level::CRITICAL, Direction::LOW, 0.0),
                  std::make_tuple("crit", Level::CRITICAL, Direction::HIGH,
                                  offset),
+                 std::make_tuple("lhshutdown", Level::HARDSHUTDOWN, Direction::LOW, 0.0),
+                 std::make_tuple("hshutdown", Level::HARDSHUTDOWN, Direction::HIGH, offset),
              }},
         };
 
