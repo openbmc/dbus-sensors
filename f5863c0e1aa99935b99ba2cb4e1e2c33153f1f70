@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d45b47ac_2a6a54fd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-06-12T05:50:17Z",
+      "side": 1,
+      "message": "Looks simple and clean. Can +1 after retest.",
+      "revId": "f5863c0e1aa99935b99ba2cb4e1e2c33153f1f70",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
