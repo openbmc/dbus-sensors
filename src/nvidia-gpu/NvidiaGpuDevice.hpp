@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include "Inventory.hpp"
 #include "MctpRequester.hpp"
 #include "NvidiaDeviceDiscovery.hpp"
 #include "NvidiaGpuSensor.hpp"
@@ -63,4 +64,6 @@ class GpuDevice
     std::string path;
 
     std::shared_ptr<sdbusplus::asio::dbus_interface> acceleratorInterface;
+
+    std::unique_ptr<Inventory> inventory;
 };

@@ -38,6 +38,10 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
     configs(configs), name(escapeName(name)), path(path)
 {
     createAcceleratorInterface();
+    // Create Inventory interface for this GPU
+    inventory = std::make_unique<Inventory>(conn, objectServer, this->name,
+                                            mctpRequester, eid);
+    inventory->update();
     makeSensors();
 }
 
