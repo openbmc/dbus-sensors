@@ -16,6 +16,8 @@ static constexpr const char* assetIfaceName =
     "xyz.openbmc_project.Inventory.Decorator.Asset";
 static constexpr const char* uuidIfaceName =
     "xyz.openbmc_project.Common.UUID";
+static constexpr const char* revisionIfaceName =
+    "xyz.openbmc_project.Inventory.Decorator.Revision";
 
 Inventory::Inventory(
     const std::shared_ptr<sdbusplus::asio::connection>& /*conn*/,
@@ -47,6 +49,8 @@ void Inventory::initializeInterfaces(sdbusplus::asio::object_server& objectServe
 
     uuidInterface = objectServer.add_interface(path, uuidIfaceName);
     uuidInterface->initialize();
+    revisionIface = objectServer.add_interface(path, revisionIfaceName);
+    revisionIface->initialize();
 
     // Register properties with their respective interfaces
     registerProperty(gpu::InventoryPropertyId::BOARD_PART_NUMBER,
@@ -54,9 +58,9 @@ void Inventory::initializeInterfaces(sdbusplus::asio::object_server& objectServe
     registerProperty(gpu::InventoryPropertyId::SERIAL_NUMBER,
                     assetIfaceName, "SerialNumber");
     registerProperty(gpu::InventoryPropertyId::MARKETING_NAME,
-                    assetIfaceName, "MarketingName");
+                    assetIfaceName, "Model");
     registerProperty(gpu::InventoryPropertyId::DEVICE_PART_NUMBER,
-                    assetIfaceName, "PartNumber");
+                    assetIfaceName, "Version");
     registerProperty(gpu::InventoryPropertyId::DEVICE_GUID,
                     uuidIfaceName, "UUID");
 }
@@ -77,6 +81,10 @@ void Inventory::registerProperty(gpu::InventoryPropertyId propertyId,
     else if (interfaceName == uuidIfaceName)
     {
         interface = uuidInterface;
+    }
+    else if (interfaceName == revisionIfaceName)
+    {
+        interface = revisionIface;
     }
 
     if (interface)
@@ -99,6 +107,16 @@ void Inventory::fetchSerialNumber()
 void Inventory::fetchUUID()
 {
     fetchInventoryProperty(gpu::InventoryPropertyId::DEVICE_GUID);
+}
+
+void Inventory::fetchMarketingName()
+{
+    fetchInventoryProperty(gpu::InventoryPropertyId::MARKETING_NAME);
+}
+
+void Inventory::fetchDevicePartNumber()
+{
+    fetchInventoryProperty(gpu::InventoryPropertyId::DEVICE_PART_NUMBER);
 }
 
 void Inventory::fetchInventoryProperty(gpu::InventoryPropertyId propertyId)
@@ -254,6 +272,8 @@ void Inventory::update()
     fetchBoardPartNumber();
     fetchSerialNumber();
     fetchUUID();
+    fetchMarketingName();
+    fetchDevicePartNumber();
 }
 
 std::optional<std::string_view> Inventory::dbusPropertyNameForId(
@@ -266,9 +286,9 @@ std::optional<std::string_view> Inventory::dbusPropertyNameForId(
         case gpu::InventoryPropertyId::SERIAL_NUMBER:
             return "SerialNumber";
         case gpu::InventoryPropertyId::MARKETING_NAME:
-            return "MarketingName";
+            return "Model";
         case gpu::InventoryPropertyId::DEVICE_PART_NUMBER:
-            return "PartNumber";
+            return "Version";
         case gpu::InventoryPropertyId::DEVICE_GUID:
             return "UUID";
         // Add more as needed
