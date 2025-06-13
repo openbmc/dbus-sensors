@@ -141,6 +141,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3552c209_419522ff",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-06-13T08:00:37Z",
+      "side": 1,
+      "message": "\u003e Applications running on the BMC should be able to determine when a previously\nreported error is no longer relevant\n\nImagine a system repeatedly crossing critical thresholds on some sensor.\nWith this implementation, the EventLog entry is always set to resolved once the sensor value comes back to normal.\n\nBut the cause of the issue has not been determined, so it is not resolved?\n\nMaybe i have some misunderstanding of how this is used in practice.\n\nThis patch is really doing 2 things at once:\n- Adding structured logging for the Threshold Events\n- Auto-resolving log entries\n\nMaybe it would benefit the patch if it were split in 2 patches.",
+      "parentUuid": "c24271a8_e2e4d7f9",
+      "revId": "1b7b573302b1a0ddfebd2323b8098258d9fd8b42",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0c70a32d_24ff3df0",
