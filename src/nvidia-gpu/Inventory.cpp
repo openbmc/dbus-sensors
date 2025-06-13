@@ -26,6 +26,8 @@ constexpr const char* acceleratorIfaceName =
 static constexpr const char* assetIfaceName =
     "xyz.openbmc_project.Inventory.Decorator.Asset";
 static constexpr const char* uuidIfaceName = "xyz.openbmc_project.Common.UUID";
+static constexpr const char* revisionIfaceName =
+    "xyz.openbmc_project.Inventory.Decorator.Revision";
 
 Inventory::Inventory(
     const std::shared_ptr<sdbusplus::asio::connection>& /*conn*/,
@@ -48,12 +50,19 @@ Inventory::Inventory(
                      "SerialNumber");
     registerProperty(gpu::InventoryPropertyId::BOARD_PART_NUMBER, assetIface,
                      "PartNumber");
+    registerProperty(gpu::InventoryPropertyId::MARKETING_NAME, assetIface,
+                     "Model");
     assetIface->initialize();
 
     uuidInterface = objectServer.add_interface(path, uuidIfaceName);
     registerProperty(gpu::InventoryPropertyId::DEVICE_GUID, uuidInterface,
                      "UUID");
     uuidInterface->initialize();
+
+    revisionIface = objectServer.add_interface(path, revisionIfaceName);
+    registerProperty(gpu::InventoryPropertyId::DEVICE_PART_NUMBER,
+                     revisionIface, "Version");
+    revisionIface->initialize();
 
     // Static properties
     if (deviceType == gpu::DeviceIdentification::DEVICE_GPU)
