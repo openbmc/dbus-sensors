@@ -6,22 +6,27 @@
 #include <NvidiaGpuMctpVdm.hpp>
 #include <OcpMctpVdm.hpp>
 #include <boost/asio/io_context.hpp>
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_io.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
+#include <algorithm>
 #include <cstdint>
 #include <memory>
 #include <optional>
 #include <string>
 #include <unordered_map>
 #include <variant>
+#include <vector>
 
 constexpr const char* inventoryPrefix = "/xyz/openbmc_project/inventory/";
 constexpr const char* acceleratorIfaceName =
     "xyz.openbmc_project.Inventory.Item.Accelerator";
 static constexpr const char* assetIfaceName =
     "xyz.openbmc_project.Inventory.Decorator.Asset";
+static constexpr const char* uuidIfaceName = "xyz.openbmc_project.Common.UUID";
 
 Inventory::Inventory(
     const std::shared_ptr<sdbusplus::asio::connection>& /*conn*/,
@@ -36,6 +41,7 @@ Inventory::Inventory(
     responseBuffer = std::make_shared<InventoryResponseBuffer>();
 
     std::string path = inventoryPrefix + name;
+
     assetIface = objectServer.add_interface(path, assetIfaceName);
     assetIface->register_property("Manufacturer", std::string("NVIDIA"));
     // Register properties which need to be fetched from the device
@@ -44,6 +50,11 @@ Inventory::Inventory(
     registerProperty(gpu::InventoryPropertyId::BOARD_PART_NUMBER, assetIface,
                      "PartNumber");
     assetIface->initialize();
+
+    uuidInterface = objectServer.add_interface(path, uuidIfaceName);
+    registerProperty(gpu::InventoryPropertyId::DEVICE_GUID, uuidInterface,
+                     "UUID");
+    uuidInterface->initialize();
 
     // Static properties
     if (deviceType == gpu::DeviceIdentification::DEVICE_GPU)
@@ -163,16 +174,79 @@ void Inventory::handleInventoryPropertyResponse(
             "REASON", reasonCode);
 
         if (rc == 0 &&
-            cc == ocp::accelerator_management::CompletionCode::SUCCESS &&
-            std::holds_alternative<std::string>(info))
+            cc == ocp::accelerator_management::CompletionCode::SUCCESS)
         {
-            std::string value = std::get<std::string>(info);
-            it->second.interface->set_property(it->second.propertyName, value);
-            lg2::info(
-                "Successfully received property ID {PROP_ID} for {NAME} with value: {VALUE}",
-                "PROP_ID", static_cast<uint8_t>(propertyId), "NAME", name,
-                "VALUE", value);
-            success = true;
+            std::string value;
+
+            // Handle different property types based on property ID
+            switch (propertyId)
+            {
+                case gpu::InventoryPropertyId::BOARD_PART_NUMBER:
+                case gpu::InventoryPropertyId::SERIAL_NUMBER:
+                case gpu::InventoryPropertyId::MARKETING_NAME:
+                case gpu::InventoryPropertyId::DEVICE_PART_NUMBER:
+                    if (std::holds_alternative<std::string>(info))
+                    {
+                        value = std::get<std::string>(info);
+                    }
+                    else
+                    {
+                        lg2::error(
+                            "Property ID {PROP_ID} for {NAME} expected string but got different type",
+                            "PROP_ID", static_cast<uint8_t>(propertyId), "NAME",
+                            name);
+                        break;
+                    }
+                    break;
+
+                case gpu::InventoryPropertyId::DEVICE_GUID:
+                    if (std::holds_alternative<std::vector<uint8_t>>(info))
+                    {
+                        const auto& guidBytes =
+                            std::get<std::vector<uint8_t>>(info);
+                        if (guidBytes.size() >= 16)
+                        {
+                            boost::uuids::uuid uuid;
+                            std::copy(guidBytes.begin(), guidBytes.begin() + 16,
+                                      uuid.begin());
+                            value = boost::uuids::to_string(uuid);
+                        }
+                        else
+                        {
+                            lg2::error(
+                                "Property ID {PROP_ID} for {NAME} GUID size {SIZE} is less than 16 bytes",
+                                "PROP_ID", static_cast<uint8_t>(propertyId),
+                                "NAME", name, "SIZE", guidBytes.size());
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        lg2::error(
+                            "Property ID {PROP_ID} for {NAME} expected vector<uint8_t> but got different type",
+                            "PROP_ID", static_cast<uint8_t>(propertyId), "NAME",
+                            name);
+                        break;
+                    }
+                    break;
+
+                default:
+                    lg2::error("Unsupported property ID {PROP_ID} for {NAME}",
+                               "PROP_ID", static_cast<uint8_t>(propertyId),
+                               "NAME", name);
+                    break;
+            }
+
+            if (!value.empty())
+            {
+                it->second.interface->set_property(it->second.propertyName,
+                                                   value);
+                lg2::info(
+                    "Successfully received property ID {PROP_ID} for {NAME} with value: {VALUE}",
+                    "PROP_ID", static_cast<uint8_t>(propertyId), "NAME", name,
+                    "VALUE", value);
+                success = true;
+            }
         }
     }
 
