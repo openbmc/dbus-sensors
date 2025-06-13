@@ -10,6 +10,7 @@
 #include "MctpRequester.hpp"
 #include "NvidiaDeviceDiscovery.hpp"
 #include "NvidiaGpuSensor.hpp"
+#include "NvidiaGpuMctpVdm.hpp"
 
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/steady_timer.hpp>
@@ -22,7 +23,12 @@
 #include <memory>
 #include <string>
 
-class GpuDevice
+using InventoryRequestBuffer =
+    std::array<uint8_t, sizeof(gpu::GetInventoryInformationRequest)>;
+using InventoryResponseBuffer =
+    std::array<uint8_t, sizeof(gpu::GetInventoryInformationResponse)>;
+
+class GpuDevice : public std::enable_shared_from_this<GpuDevice>
 {
   public:
     GpuDevice(const SensorConfigs& configs, const std::string& name,
@@ -39,30 +45,23 @@ class GpuDevice
 
   private:
     void makeSensors();
-
     void read();
+    void fetchUUID();
+    void handleUUIDResponse(int sendRecvMsgResult,
+                           std::shared_ptr<InventoryResponseBuffer> responseBuffer);
 
     uint8_t eid{};
-
     std::chrono::milliseconds sensorPollMs;
-
     boost::asio::steady_timer waitTimer;
-
     mctp::MctpRequester& mctpRequester;
-
     std::shared_ptr<sdbusplus::asio::connection> conn;
-
     sdbusplus::asio::object_server& objectServer;
-
     std::shared_ptr<NvidiaGpuTempSensor> tempSensor;
-
     SensorConfigs configs;
-
     std::string name;
-
     std::string path;
-
+    std::string uuid;
     std::shared_ptr<sdbusplus::asio::dbus_interface> acceleratorInterface;
-
+    std::shared_ptr<sdbusplus::asio::dbus_interface> uuidInterface;
     std::unique_ptr<Inventory> inventory;
 };
