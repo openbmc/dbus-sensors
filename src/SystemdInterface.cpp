@@ -31,13 +31,12 @@ auto SystemdInterface::startUnit(sdbusplus::async::context& ctx,
                 .path("/org/freedesktop/systemd1")
                 .interface("org.freedesktop.systemd1.Manager");
 
-        std::variant<sdbusplus::message::object_path> jobObjectPath =
-            co_await systemd
-                .call<std::variant<sdbusplus::message::object_path>>(
-                    ctx, "StartUnit", sysdUnit, "replace");
+        sdbusplus::message::object_path jobObjectPath =
+            co_await systemd.call<sdbusplus::message::object_path>(
+                ctx, "StartUnit", sysdUnit, "replace");
 
         debug("Started {UNIT} with {JOBID}", "UNIT", sysdUnit, "JOBID",
-              std::get<sdbusplus::message::object_path>(jobObjectPath));
+              jobObjectPath.str);
     }
     catch (const std::exception& e)
     {
