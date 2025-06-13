@@ -10,7 +10,7 @@
 #include <functional>
 #include <string>
 #include <string_view>
-#include <utility>
+#include <tuple>
 
 namespace leak
 {
@@ -19,13 +19,17 @@ namespace config
 {
 
 /** @brief Leak level to systemd target service map */
-static constexpr std::array<std::pair<config::DetectorLevel, std::string_view>,
-                            2>
-    leakActionTargets = {{{config::DetectorLevel::warning,
-                           "xyz.openbmc_project.leakdetector.warning@"},
-                          {config::DetectorLevel::critical,
-                           "xyz.openbmc_project.leakdetector.critical@"}}};
-
+static constexpr std::array<
+    std::tuple<config::DetectorLevel, std::string_view, std::string_view>, 4>
+    leakActionTargets = {
+        {{config::DetectorLevel::warning, "assert",
+          "xyz.openbmc_project.leakdetector.warning.assert@"},
+         {config::DetectorLevel::warning, "deassert",
+          "xyz.openbmc_project.leakdetector.warning.deassert@"},
+         {config::DetectorLevel::critical, "assert",
+          "xyz.openbmc_project.leakdetector.critical.assert@"},
+         {config::DetectorLevel::critical, "deassert",
+          "xyz.openbmc_project.leakdetector.critical.deassert@"}}};
 } // namespace config
 
 static auto getObjectPath(const std::string& detectorName)
@@ -67,18 +71,20 @@ auto GPIODetector::updateGPIOStateAsync(bool gpioState)
 
         co_await leakEvents.generateLeakEvent(getObjectPath(config.name),
                                               state_, config.level);
-        if (state_ != DetectorIntf::DetectorState::Normal)
+        std::string action = (state_ == DetectorIntf::DetectorState::Normal)
+                                 ? "deassert"
+                                 : "assert";
+
+        for (const auto& [level, action_str, serviceSuffix] :
+             config::leakActionTargets)
         {
-            for (const auto& [level, serviceSuffix] : config::leakActionTargets)
+            if (config.level == level && action_str == action)
             {
-                if (config.level == level)
-                {
-                    auto target = std::string(serviceSuffix) + config.name +
-                                  ".service";
-                    debug("Starting systemd target {TARGET}", "TARGET", target);
-                    co_await systemd::SystemdInterface::startUnit(ctx, target);
-                    break;
-                }
+                auto target = std::string(serviceSuffix) + config.name +
+                              ".service";
+                debug("Starting systemd target {TARGET}", "TARGET", target);
+                co_await systemd::SystemdInterface::startUnit(ctx, target);
+                break;
             }
         }
     }
