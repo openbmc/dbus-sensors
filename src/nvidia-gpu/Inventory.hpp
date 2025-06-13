@@ -36,6 +36,7 @@ class Inventory : public std::enable_shared_from_this<Inventory>
 
     void fetchBoardPartNumber();
     void fetchSerialNumber();
+    void fetchUUID();
     void update();
 
   private:
@@ -61,6 +62,7 @@ class Inventory : public std::enable_shared_from_this<Inventory>
 
     std::shared_ptr<sdbusplus::asio::dbus_interface> assetIface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> acceleratorInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> uuidInterface;
 
     std::string name;
     mctp::MctpRequester& mctpRequester;
