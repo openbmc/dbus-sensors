@@ -24,6 +24,8 @@ static constexpr const char* acceleratorIfaceName =
 static constexpr const char* assetIfaceName =
     "xyz.openbmc_project.Inventory.Decorator.Asset";
 static constexpr const char* uuidIfaceName = "xyz.openbmc_project.Common.UUID";
+static constexpr const char* revisionIfaceName =
+    "xyz.openbmc_project.Inventory.Decorator.Revision";
 
 Inventory::Inventory(
     [[maybe_unused]] const std::shared_ptr<sdbusplus::asio::connection>&,
@@ -42,6 +44,7 @@ Inventory::Inventory(
         objectServer.add_interface(path, acceleratorIfaceName);
     assetIface = objectServer.add_interface(path, assetIfaceName);
     uuidInterface = objectServer.add_interface(path, uuidIfaceName);
+    revisionIface = objectServer.add_interface(path, revisionIfaceName);
 
     // Static properties
     if (deviceType == DeviceType::GPU)
@@ -55,12 +58,17 @@ Inventory::Inventory(
                      "SerialNumber");
     registerProperty(gpu::InventoryPropertyId::BOARD_PART_NUMBER,
                      assetIfaceName, "PartNumber");
+    registerProperty(gpu::InventoryPropertyId::MARKETING_NAME, assetIfaceName,
+                     "Model");
+    registerProperty(gpu::InventoryPropertyId::DEVICE_PART_NUMBER,
+                     revisionIfaceName, "Version");
     registerProperty(gpu::InventoryPropertyId::DEVICE_GUID, uuidIfaceName,
                      "UUID");
 
     acceleratorInterface->initialize();
     assetIface->initialize();
     uuidInterface->initialize();
+    revisionIface->initialize();
     processNextProperty();
 }
 
@@ -80,6 +88,10 @@ void Inventory::registerProperty(gpu::InventoryPropertyId propertyId,
     else if (interfaceName == uuidIfaceName)
     {
         interface = uuidInterface;
+    }
+    else if (interfaceName == revisionIfaceName)
+    {
+        interface = revisionIface;
     }
 
     if (interface)
@@ -102,6 +114,16 @@ void Inventory::fetchSerialNumber()
 void Inventory::fetchUUID()
 {
     fetchInventoryProperty(gpu::InventoryPropertyId::DEVICE_GUID);
+}
+
+void Inventory::fetchMarketingName()
+{
+    fetchInventoryProperty(gpu::InventoryPropertyId::MARKETING_NAME);
+}
+
+void Inventory::fetchDevicePartNumber()
+{
+    fetchInventoryProperty(gpu::InventoryPropertyId::DEVICE_PART_NUMBER);
 }
 
 void Inventory::fetchInventoryProperty(gpu::InventoryPropertyId propertyId)
@@ -313,4 +335,6 @@ void Inventory::update()
     fetchBoardPartNumber();
     fetchSerialNumber();
     fetchUUID();
+    fetchMarketingName();
+    fetchDevicePartNumber();
 }
