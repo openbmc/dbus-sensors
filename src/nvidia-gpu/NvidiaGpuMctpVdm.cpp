@@ -492,5 +492,70 @@ int decodeGetInventoryInformationResponse(
     return 0;
 }
 
+int encodeGetCurrentClockFrequencyRequest(uint8_t instanceId, uint8_t clockId,
+                                          std::span<uint8_t> buf)
+{
+    if (buf.size() < sizeof(GetCurrentClockFrequencyRequest))
+    {
+        return EINVAL;
+    }
+
+    auto* msg = reinterpret_cast<GetCurrentClockFrequencyRequest*>(buf.data());
+
+    ocp::accelerator_management::BindingPciVidInfo header{};
+    header.ocp_accelerator_management_msg_type =
+        static_cast<uint8_t>(ocp::accelerator_management::MessageType::REQUEST);
+    header.instance_id = instanceId &
+                         ocp::accelerator_management::instanceIdBitMask;
+    header.msg_type = static_cast<uint8_t>(MessageType::PLATFORM_ENVIRONMENTAL);
+
+    auto rc = packHeader(header, msg->hdr.msgHdr.hdr);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    msg->hdr.command = static_cast<uint8_t>(
+        PlatformEnvironmentalCommands::GET_CURRENT_CLOCK_FREQUENCY);
+    msg->hdr.data_size = sizeof(clockId);
+    msg->clock_id = clockId;
+
+    return 0;
+}
+
+int decodeGetCurrentClockFrequencyResponse(
+    const std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint32_t& clockFrequency)
+{
+    auto rc =
+        ocp::accelerator_management::decodeReasonCodeAndCC(buf, cc, reasonCode);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    if (buf.size() < sizeof(GetCurrentClockFrequencyResponse))
+    {
+        return EINVAL;
+    }
+
+    const auto* response =
+        reinterpret_cast<const GetCurrentClockFrequencyResponse*>(buf.data());
+
+    uint16_t dataSize = le16toh(response->hdr.data_size);
+
+    if (dataSize != sizeof(uint32_t))
+    {
+        return EINVAL;
+    }
+
+    clockFrequency = le32toh(response->clock_frequency);
+
+    return 0;
+}
+
 // NOLINTEND(cppcoreguidelines-pro-type-reinterpret-cast)
 } // namespace gpu
