@@ -23,6 +23,8 @@ constexpr const char* acceleratorIfaceName =
 static constexpr const char* assetIfaceName =
     "xyz.openbmc_project.Inventory.Decorator.Asset";
 static constexpr const char* uuidIfaceName = "xyz.openbmc_project.Common.UUID";
+static constexpr const char* revisionIfaceName =
+    "xyz.openbmc_project.Inventory.Decorator.Revision";
 
 Inventory::Inventory(
     const std::shared_ptr<sdbusplus::asio::connection>& /*conn*/,
@@ -41,6 +43,7 @@ Inventory::Inventory(
         objectServer.add_interface(path, acceleratorIfaceName);
     assetIface = objectServer.add_interface(path, assetIfaceName);
     uuidInterface = objectServer.add_interface(path, uuidIfaceName);
+    revisionIface = objectServer.add_interface(path, revisionIfaceName);
 
     // Static properties
     if (deviceType == gpu::NvidiaVDMDeviceType::GPU)
@@ -56,10 +59,15 @@ Inventory::Inventory(
                      "PartNumber");
     registerProperty(gpu::InventoryPropertyId::DEVICE_GUID, uuidInterface,
                      "UUID");
+    registerProperty(gpu::InventoryPropertyId::MARKETING_NAME, assetIface,
+                     "Model");
+    registerProperty(gpu::InventoryPropertyId::DEVICE_PART_NUMBER,
+                     revisionIface, "Version");
 
     acceleratorInterface->initialize();
     assetIface->initialize();
     uuidInterface->initialize();
+    revisionIface->initialize();
     processNextProperty();
 }
 
@@ -88,6 +96,16 @@ void Inventory::fetchSerialNumber()
 void Inventory::fetchUUID()
 {
     fetchInventoryProperty(gpu::InventoryPropertyId::DEVICE_GUID);
+}
+
+void Inventory::fetchMarketingName()
+{
+    fetchInventoryProperty(gpu::InventoryPropertyId::MARKETING_NAME);
+}
+
+void Inventory::fetchDevicePartNumber()
+{
+    fetchInventoryProperty(gpu::InventoryPropertyId::DEVICE_PART_NUMBER);
 }
 
 void Inventory::fetchInventoryProperty(gpu::InventoryPropertyId propertyId)
@@ -300,4 +318,6 @@ void Inventory::update()
     fetchBoardPartNumber();
     fetchSerialNumber();
     fetchUUID();
+    fetchMarketingName();
+    fetchDevicePartNumber();
 }
