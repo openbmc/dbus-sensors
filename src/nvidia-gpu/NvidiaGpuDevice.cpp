@@ -42,6 +42,7 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
     inventory =
         std::make_unique<Inventory>(conn, objectServer, name, mctpRequester,
                                    Inventory::DeviceType::GPU, eid, io);
+    inventory->setLocationCode(name);
     
     uuidInterface = objectServer.add_interface(path, uuidInterfaceName);
     uuidInterface->register_property("UUID", std::string{});
