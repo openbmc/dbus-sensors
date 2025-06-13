@@ -47,6 +47,7 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
     inventory = std::make_shared<Inventory>(
         conn, objectServer, name, mctpRequester,
         gpu::DeviceIdentification::DEVICE_GPU, eid, io);
+
     makeSensors();
 }
 
