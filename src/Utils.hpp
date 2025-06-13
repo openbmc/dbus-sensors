@@ -428,3 +428,5 @@ bool getDeviceBusAddr(const std::string& deviceName, T& bus, T& addr)
 
     return true;
 }
+
+std::string formatUuid(const std::vector<uint8_t>& uuidBytes);
