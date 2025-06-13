@@ -18,6 +18,8 @@ static constexpr const char* uuidIfaceName =
     "xyz.openbmc_project.Common.UUID";
 static constexpr const char* revisionIfaceName =
     "xyz.openbmc_project.Inventory.Decorator.Revision";
+static constexpr const char* locationCodeIfaceName =
+    "xyz.openbmc_project.Inventory.Decorator.LocationCode";
 
 Inventory::Inventory(
     const std::shared_ptr<sdbusplus::asio::connection>& /*conn*/,
@@ -26,15 +28,15 @@ Inventory::Inventory(
     DeviceType deviceType, uint8_t eid, boost::asio::io_context& io) :
     path(std::string(inventoryPrefix) + inventoryName),
     mctpRequester(mctpRequester), deviceType(deviceType), eid(eid),
-    retryTimer(io)
+    retryTimer(io), objectServer(objectServer)
 {
     requestBuffer = std::make_shared<InventoryRequestBuffer>();
     responseBuffer = std::make_shared<InventoryResponseBuffer>();
 
-    initializeInterfaces(objectServer);
+    initializeInterfaces();
 }
 
-void Inventory::initializeInterfaces(sdbusplus::asio::object_server& objectServer)
+void Inventory::initializeInterfaces()
 {
     if (deviceType == DeviceType::GPU)
     {
@@ -92,6 +94,17 @@ void Inventory::registerProperty(gpu::InventoryPropertyId propertyId,
         interface->register_property(propertyName, std::string{});
         properties[propertyId] = {interface, propertyName, 0, false};
     }
+}
+
+void Inventory::setLocationCode(const std::string& locationCode)
+{
+    if (!locationCodeIface)
+    {
+        locationCodeIface =
+            objectServer.add_interface(path, locationCodeIfaceName);
+    }
+    locationCodeIface->register_property("LocationCode", locationCode);
+    locationCodeIface->initialize();
 }
 
 void Inventory::fetchBoardPartNumber()
