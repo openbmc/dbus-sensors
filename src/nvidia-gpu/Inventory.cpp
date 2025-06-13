@@ -15,6 +15,7 @@
 #include <optional>
 #include <string>
 #include <variant>
+#include <vector>
 
 static constexpr const char* inventoryPrefix =
     "/xyz/openbmc_project/inventory/";
@@ -22,6 +23,7 @@ static constexpr const char* acceleratorIfaceName =
     "xyz.openbmc_project.Inventory.Item.Accelerator";
 static constexpr const char* assetIfaceName =
     "xyz.openbmc_project.Inventory.Decorator.Asset";
+static constexpr const char* uuidIfaceName = "xyz.openbmc_project.Common.UUID";
 
 Inventory::Inventory(
     const std::shared_ptr<sdbusplus::asio::connection>& /*conn*/,
@@ -39,6 +41,7 @@ Inventory::Inventory(
     acceleratorInterface =
         objectServer.add_interface(path, acceleratorIfaceName);
     assetIface = objectServer.add_interface(path, assetIfaceName);
+    uuidInterface = objectServer.add_interface(path, uuidIfaceName);
 
     // Static properties
     if (deviceType == DeviceType::GPU)
@@ -52,9 +55,12 @@ Inventory::Inventory(
                      "SerialNumber");
     registerProperty(gpu::InventoryPropertyId::BOARD_PART_NUMBER, assetIface,
                      "PartNumber");
+    registerProperty(gpu::InventoryPropertyId::DEVICE_GUID, uuidInterface,
+                     "UUID");
 
     acceleratorInterface->initialize();
     assetIface->initialize();
+    uuidInterface->initialize();
     processNextProperty();
 }
 
@@ -78,6 +84,11 @@ void Inventory::fetchBoardPartNumber()
 void Inventory::fetchSerialNumber()
 {
     fetchInventoryProperty(gpu::InventoryPropertyId::SERIAL_NUMBER);
+}
+
+void Inventory::fetchUUID()
+{
+    fetchInventoryProperty(gpu::InventoryPropertyId::DEVICE_GUID);
 }
 
 void Inventory::fetchInventoryProperty(gpu::InventoryPropertyId propertyId)
@@ -170,20 +181,68 @@ void Inventory::handleInventoryPropertyResponse(
             "REASON", reasonCode);
 
         if (rc == 0 &&
-            cc == ocp::accelerator_management::CompletionCode::SUCCESS &&
-            std::holds_alternative<std::string>(info))
+            cc == ocp::accelerator_management::CompletionCode::SUCCESS)
         {
-            std::string value = std::get<std::string>(info);
-            auto it = properties.find(propertyId);
-            if (it != properties.end())
+            std::string value;
+
+            // Handle different property types based on property ID
+            switch (propertyId)
             {
-                it->second.interface->set_property(it->second.propertyName,
-                                                   value);
-                lg2::info(
-                    "Successfully received property ID {PROP_ID} for {NAME} with value: {VALUE}",
-                    "PROP_ID", static_cast<uint8_t>(propertyId), "NAME", name,
-                    "VALUE", value);
-                success = true;
+                case gpu::InventoryPropertyId::BOARD_PART_NUMBER:
+                case gpu::InventoryPropertyId::SERIAL_NUMBER:
+                case gpu::InventoryPropertyId::MARKETING_NAME:
+                case gpu::InventoryPropertyId::DEVICE_PART_NUMBER:
+                    if (std::holds_alternative<std::string>(info))
+                    {
+                        value = std::get<std::string>(info);
+                    }
+                    else
+                    {
+                        lg2::error(
+                            "Property ID {PROP_ID} for {NAME} expected string but got different type",
+                            "PROP_ID", static_cast<uint8_t>(propertyId), "NAME",
+                            name);
+                        break;
+                    }
+                    break;
+
+                case gpu::InventoryPropertyId::DEVICE_GUID:
+                    if (std::holds_alternative<std::vector<uint8_t>>(info))
+                    {
+                        const auto& guidBytes =
+                            std::get<std::vector<uint8_t>>(info);
+                        value = formatUuid(guidBytes);
+                    }
+                    else
+                    {
+                        lg2::error(
+                            "Property ID {PROP_ID} for {NAME} expected vector<uint8_t> but got different type",
+                            "PROP_ID", static_cast<uint8_t>(propertyId), "NAME",
+                            name);
+                        break;
+                    }
+                    break;
+
+                default:
+                    lg2::error("Unsupported property ID {PROP_ID} for {NAME}",
+                               "PROP_ID", static_cast<uint8_t>(propertyId),
+                               "NAME", name);
+                    break;
+            }
+
+            if (!value.empty())
+            {
+                auto it = properties.find(propertyId);
+                if (it != properties.end())
+                {
+                    it->second.interface->set_property(it->second.propertyName,
+                                                       value);
+                    lg2::info(
+                        "Successfully received property ID {PROP_ID} for {NAME} with value: {VALUE}",
+                        "PROP_ID", static_cast<uint8_t>(propertyId), "NAME",
+                        name, "VALUE", value);
+                    success = true;
+                }
             }
         }
     }
@@ -246,4 +305,5 @@ void Inventory::update()
 {
     fetchBoardPartNumber();
     fetchSerialNumber();
+    fetchUUID();
 }
