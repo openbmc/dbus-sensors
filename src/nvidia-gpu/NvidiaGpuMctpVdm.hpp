@@ -41,6 +41,7 @@ enum class PlatformEnvironmentalCommands : uint8_t
     READ_THERMAL_PARAMETERS = 0x02,
     GET_CURRENT_POWER_DRAW = 0x03,
     GET_CURRENT_ENERGY_COUNTER = 0x06,
+    GET_CURRENT_CLOCK_FREQUENCY = 0x0B,
     GET_INVENTORY_INFORMATION = 0x0C,
     GET_VOLTAGE = 0x0F,
 };
@@ -97,6 +98,12 @@ enum class NvidiaVDMDeviceType
     Unknown,
     GPU,
 };
+enum class ClockType : uint8_t
+{
+    GRAPHICS_CLOCK = 0,
+    MEMORY_CLOCK = 1,
+};
+
 struct QueryDeviceIdentificationRequest
 {
     ocp::accelerator_management::CommonRequest hdr;
@@ -172,6 +179,18 @@ struct GetInventoryInformationResponse
     std::array<uint8_t, maxInventoryDataSize> data;
 } __attribute__((packed));
 
+struct GetCurrentClockFrequencyRequest
+{
+    ocp::accelerator_management::CommonRequest hdr;
+    uint8_t clock_id;
+} __attribute__((packed));
+
+struct GetCurrentClockFrequencyResponse
+{
+    ocp::accelerator_management::CommonResponse hdr;
+    uint32_t clock_frequency;
+} __attribute__((packed));
+
 int packHeader(const ocp::accelerator_management::BindingPciVidInfo& hdr,
                ocp::accelerator_management::BindingPciVid& msg);
 
@@ -230,5 +249,13 @@ int decodeGetInventoryInformationResponse(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     InventoryPropertyId propertyId, InventoryValue& value);
+
+int encodeGetCurrentClockFrequencyRequest(uint8_t instanceId, uint8_t clockId,
+                                          std::span<uint8_t> buf);
+
+int decodeGetCurrentClockFrequencyResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint32_t& clockFrequency);
 
 } // namespace gpu
