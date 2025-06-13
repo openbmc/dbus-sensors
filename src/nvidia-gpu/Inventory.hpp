@@ -31,6 +31,8 @@ class Inventory : public std::enable_shared_from_this<Inventory>
               gpu::DeviceIdentification deviceType, uint8_t eid,
               boost::asio::io_context& io);
 
+    void setLocationCode(const std::string& locationCode);
+
   private:
     struct PropertyInfo
     {
@@ -59,6 +61,7 @@ class Inventory : public std::enable_shared_from_this<Inventory>
     std::shared_ptr<sdbusplus::asio::dbus_interface> acceleratorInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> uuidInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> revisionIface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> locationCodeIface;
 
     std::string name;
     mctp::MctpRequester& mctpRequester;
@@ -69,4 +72,5 @@ class Inventory : public std::enable_shared_from_this<Inventory>
     std::shared_ptr<InventoryResponseBuffer> responseBuffer;
     PropertyRetryHandler retryHandler;
     std::shared_ptr<Memory> memoryModule;
+    sdbusplus::asio::object_server& objectServer;
 };
