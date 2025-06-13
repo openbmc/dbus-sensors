@@ -15,6 +15,7 @@ static constexpr const char* acceleratorIfaceName =
     "xyz.openbmc_project.Inventory.Item.Accelerator";
 static constexpr const char* assetIfaceName =
     "xyz.openbmc_project.Inventory.Decorator.Asset";
+static constexpr const char* uuidIfaceName = "xyz.openbmc_project.Common.UUID";
 
 Inventory::Inventory(
     const std::shared_ptr<sdbusplus::asio::connection>& /*conn*/,
@@ -31,6 +32,7 @@ Inventory::Inventory(
     acceleratorInterface =
         objectServer.add_interface(path, acceleratorIfaceName);
     assetIface = objectServer.add_interface(path, assetIfaceName);
+    uuidInterface = objectServer.add_interface(path, uuidIfaceName);
 
     // Static properties
     if (deviceType == DeviceType::GPU)
@@ -44,9 +46,12 @@ Inventory::Inventory(
                      "SerialNumber");
     registerProperty(gpu::InventoryPropertyId::BOARD_PART_NUMBER,
                      assetIfaceName, "PartNumber");
+    registerProperty(gpu::InventoryPropertyId::DEVICE_GUID, uuidIfaceName,
+                     "UUID");
 
     acceleratorInterface->initialize();
     assetIface->initialize();
+    uuidInterface->initialize();
     processNextProperty();
 }
 
@@ -62,6 +67,10 @@ void Inventory::registerProperty(gpu::InventoryPropertyId propertyId,
     else if (interfaceName == acceleratorIfaceName)
     {
         interface = acceleratorInterface;
+    }
+    else if (interfaceName == uuidIfaceName)
+    {
+        interface = uuidInterface;
     }
 
     if (interface)
@@ -79,6 +88,11 @@ void Inventory::fetchBoardPartNumber()
 void Inventory::fetchSerialNumber()
 {
     fetchInventoryProperty(gpu::InventoryPropertyId::SERIAL_NUMBER);
+}
+
+void Inventory::fetchUUID()
+{
+    fetchInventoryProperty(gpu::InventoryPropertyId::DEVICE_GUID);
 }
 
 void Inventory::fetchInventoryProperty(gpu::InventoryPropertyId propertyId)
@@ -244,6 +258,7 @@ void Inventory::update()
 {
     fetchBoardPartNumber();
     fetchSerialNumber();
+    fetchUUID();
 }
 
 std::optional<std::string_view> Inventory::dbusPropertyNameForId(
@@ -259,6 +274,8 @@ std::optional<std::string_view> Inventory::dbusPropertyNameForId(
             return "MarketingName";
         case gpu::InventoryPropertyId::DEVICE_PART_NUMBER:
             return "PartNumber";
+        case gpu::InventoryPropertyId::DEVICE_GUID:
+            return "UUID";
         // Add more as needed
         default:
             return std::nullopt;
