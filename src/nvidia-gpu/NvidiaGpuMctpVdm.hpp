@@ -34,6 +34,7 @@ enum class PlatformEnvironmentalCommands : uint8_t
 {
     GET_TEMPERATURE_READING = 0x00,
     GET_INVENTORY_INFORMATION = 0x0C,
+    GET_CURRENT_CLOCK_FREQUENCY = 0x0B,
 };
 
 enum class DeviceIdentification : uint8_t
@@ -84,6 +85,12 @@ enum class InventoryPropertyId : uint8_t
     FPGA_MCTP_BRIDGE_UUID = 129,
 };
 
+enum class ClockType : uint8_t
+{
+    GRAPHICS_CLOCK = 0,
+    MEMORY_CLOCK = 1,
+};
+
 struct QueryDeviceIdentificationRequest
 {
     ocp::accelerator_management::CommonRequest hdr;
@@ -126,6 +133,18 @@ struct GetInventoryInformationResponse
 
 using InventoryInfo = std::variant<std::string, std::vector<uint8_t>>;
 
+struct GetCurrentClockFrequencyRequest
+{
+    ocp::accelerator_management::CommonRequest hdr;
+    uint8_t clock_id;
+} __attribute__((packed));
+
+struct GetCurrentClockFrequencyResponse
+{
+    ocp::accelerator_management::CommonResponse hdr;
+    uint32_t clock_frequency;
+} __attribute__((packed));
+
 int packHeader(const ocp::accelerator_management::BindingPciVidInfo& hdr,
                ocp::accelerator_management::BindingPciVid& msg);
 
@@ -152,5 +171,13 @@ int decodeGetInventoryInformationResponse(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     InventoryPropertyId propertyId, InventoryInfo& info);
+
+int encodeGetCurrentClockFrequencyRequest(uint8_t instanceId, uint8_t clockId,
+                                         std::span<uint8_t> buf);
+
+int decodeGetCurrentClockFrequencyResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint32_t& clockFrequency);
 
 } // namespace gpu
