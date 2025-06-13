@@ -41,6 +41,7 @@ class Inventory : public std::enable_shared_from_this<Inventory>
     void fetchMarketingName();
     void fetchDevicePartNumber();
     void update();
+    void setLocationCode(const std::string& locationCode);
 
     static std::optional<std::string_view> dbusPropertyNameForId(
         gpu::InventoryPropertyId propertyId);
@@ -70,12 +71,14 @@ class Inventory : public std::enable_shared_from_this<Inventory>
     std::shared_ptr<sdbusplus::asio::dbus_interface> acceleratorInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> uuidInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> revisionIface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> locationCodeIface;
 
     std::string name;
     mctp::MctpRequester& mctpRequester;
     DeviceType deviceType;
     uint8_t eid;
     boost::asio::steady_timer retryTimer;
+    sdbusplus::asio::object_server& objectServer;
     std::unordered_map<gpu::InventoryPropertyId, PropertyInfo> properties;
     std::shared_ptr<InventoryRequestBuffer> requestBuffer;
     std::shared_ptr<InventoryResponseBuffer> responseBuffer;
