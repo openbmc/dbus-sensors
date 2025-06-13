@@ -55,6 +55,8 @@
 #include <utility>
 #include <variant>
 #include <vector>
+#include <sstream>
+#include <iomanip>
 
 static bool powerStatusOn = false;
 static bool biosHasPost = false;
@@ -881,4 +883,22 @@ std::vector<std::unique_ptr<sdbusplus::bus::match_t>>
         types.push_back(type.data());
     }
     return setupPropertiesChangedMatches(bus, {types}, handler);
+}
+
+std::string formatUuid(const std::vector<uint8_t>& uuidBytes)
+{
+    if (uuidBytes.size() < 16)
+    {
+        lg2::error("formatUuid: input size {SIZE} is less than 16 bytes", "SIZE", uuidBytes.size());
+        return "";
+    }
+    std::ostringstream oss;
+    oss << std::hex << std::setfill('0');
+    for (size_t i = 0; i < 16; ++i)
+    {
+        if (i == 4 || i == 6 || i == 8 || i == 10)
+            oss << '-';
+        oss << std::setw(2) << static_cast<int>(uuidBytes[i]);
+    }
+    return oss.str();
 }
