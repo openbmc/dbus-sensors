@@ -14,6 +14,8 @@ static constexpr const char* acceleratorIfaceName =
     "xyz.openbmc_project.Inventory.Item.Accelerator";
 static constexpr const char* assetIfaceName =
     "xyz.openbmc_project.Inventory.Decorator.Asset";
+static constexpr const char* revisionIfaceName =
+    "xyz.openbmc_project.Inventory.Decorator.Revision";
 
 Inventory::Inventory(
     const std::shared_ptr<sdbusplus::asio::connection>& /*conn*/,
@@ -35,7 +37,12 @@ Inventory::Inventory(
     assetIface = objectServer.add_interface(path, assetIfaceName);
     assetIface->register_property("PartNumber", std::string{});
     assetIface->register_property("SerialNumber", std::string{});
+    assetIface->register_property("Model", std::string{});
     assetIface->initialize();
+
+    revisionIface = objectServer.add_interface(path, revisionIfaceName);
+    revisionIface->register_property("Version", std::string{});
+    revisionIface->initialize();
 }
 
 void Inventory::fetchBoardPartNumber()
@@ -51,6 +58,22 @@ void Inventory::fetchSerialNumber()
     auto req = std::make_shared<InventoryRequestBuffer>();
     auto resp = std::make_shared<InventoryResponseBuffer>();
     requestInventoryProperty(gpu::InventoryPropertyId::SERIAL_NUMBER, req,
+                             resp);
+}
+
+void Inventory::fetchMarketingName()
+{
+    auto req = std::make_shared<InventoryRequestBuffer>();
+    auto resp = std::make_shared<InventoryResponseBuffer>();
+    requestInventoryProperty(gpu::InventoryPropertyId::MARKETING_NAME, req,
+                             resp);
+}
+
+void Inventory::fetchDevicePartNumber()
+{
+    auto req = std::make_shared<InventoryRequestBuffer>();
+    auto resp = std::make_shared<InventoryResponseBuffer>();
+    requestInventoryProperty(gpu::InventoryPropertyId::DEVICE_PART_NUMBER, req,
                              resp);
 }
 
@@ -158,6 +181,8 @@ void Inventory::update()
 {
     fetchBoardPartNumber();
     fetchSerialNumber();
+    fetchMarketingName();
+    fetchDevicePartNumber();
 }
 
 std::optional<std::string_view> Inventory::dbusPropertyNameForId(
@@ -170,9 +195,9 @@ std::optional<std::string_view> Inventory::dbusPropertyNameForId(
         case gpu::InventoryPropertyId::SERIAL_NUMBER:
             return "SerialNumber";
         case gpu::InventoryPropertyId::MARKETING_NAME:
-            return "MarketingName";
+            return "Model";
         case gpu::InventoryPropertyId::DEVICE_PART_NUMBER:
-            return "PartNumber";
+            return "Version";
         // Add more as needed
         default:
             return std::nullopt;
