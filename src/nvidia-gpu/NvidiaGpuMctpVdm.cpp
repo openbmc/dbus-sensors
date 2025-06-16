@@ -495,7 +495,7 @@ int decodeGetInventoryInformationResponse(
 }
 
 int encodeGetCurrentClockFrequencyRequest(uint8_t instanceId, uint8_t clockId,
-                                         std::span<uint8_t> buf)
+                                          std::span<uint8_t> buf)
 {
     if (buf.size() < sizeof(GetCurrentClockFrequencyRequest))
     {

@@ -46,7 +46,8 @@ TEST(NvidiaGpuClockFrequencyMctpVdmTest, DecodeGetCurrentClockFrequencyResponse)
     response->completion_code = static_cast<uint8_t>(
         ocp::accelerator_management::CompletionCode::SUCCESS);
     response->reserved = 0;
-    response->data_size = htole16(sizeof(uint32_t)); // 4 bytes for clock frequency
+    response->data_size =
+        htole16(sizeof(uint32_t)); // 4 bytes for clock frequency
 
     // Set clock frequency to 1500 MHz
     uint32_t clockFreq = htole32(1500);
@@ -57,14 +58,16 @@ TEST(NvidiaGpuClockFrequencyMctpVdmTest, DecodeGetCurrentClockFrequencyResponse)
     uint16_t reasonCode;
     uint32_t frequency;
 
-    auto rc = decodeGetCurrentClockFrequencyResponse(buf, cc, reasonCode, frequency);
+    auto rc =
+        decodeGetCurrentClockFrequencyResponse(buf, cc, reasonCode, frequency);
     EXPECT_EQ(rc, 0);
     EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
     EXPECT_EQ(reasonCode, 0);
     EXPECT_EQ(frequency, 1500);
 }
 
-TEST(NvidiaGpuClockFrequencyMctpVdmTest, DecodeGetCurrentClockFrequencyResponseError)
+TEST(NvidiaGpuClockFrequencyMctpVdmTest,
+     DecodeGetCurrentClockFrequencyResponseError)
 {
     std::array<uint8_t, 256> buf{};
     auto* response =
@@ -90,7 +93,9 @@ TEST(NvidiaGpuClockFrequencyMctpVdmTest, DecodeGetCurrentClockFrequencyResponseE
     uint16_t reasonCode;
     uint32_t frequency;
 
-    auto rc = decodeGetCurrentClockFrequencyResponse(buf, cc, reasonCode, frequency);
+    auto rc =
+        decodeGetCurrentClockFrequencyResponse(buf, cc, reasonCode, frequency);
     EXPECT_EQ(rc, 0);
-    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERR_INVALID_DATA);
-} 
+    EXPECT_EQ(cc,
+              ocp::accelerator_management::CompletionCode::ERR_INVALID_DATA);
+}

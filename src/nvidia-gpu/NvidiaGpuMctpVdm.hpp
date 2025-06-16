@@ -246,7 +246,7 @@ int decodeGetInventoryInformationResponse(
     InventoryPropertyId propertyId, InventoryInfo& info);
 
 int encodeGetCurrentClockFrequencyRequest(uint8_t instanceId, uint8_t clockId,
-                                         std::span<uint8_t> buf);
+                                          std::span<uint8_t> buf);
 
 int decodeGetCurrentClockFrequencyResponse(
     std::span<const uint8_t> buf,
