@@ -1,7 +1,10 @@
 #pragma once
 
 #include "MctpRequester.hpp"
+#include "Memory.hpp"
 #include "NvidiaGpuMctpVdm.hpp"
+#include "PropertyRetryHandler.hpp"
+#include "Utils.hpp"
 
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/steady_timer.hpp>
@@ -36,7 +39,6 @@ class Inventory : public std::enable_shared_from_this<Inventory>
     {
         std::shared_ptr<sdbusplus::asio::dbus_interface> interface;
         std::string propertyName;
-        int retryCount{0};
         bool isPending{false};
     };
     void sendInventoryPropertyRequest(gpu::InventoryPropertyId propertyId);
@@ -65,10 +67,9 @@ class Inventory : public std::enable_shared_from_this<Inventory>
     mctp::MctpRequester& mctpRequester;
     gpu::DeviceIdentification deviceType;
     uint8_t eid;
-    boost::asio::steady_timer retryTimer;
     std::unordered_map<gpu::InventoryPropertyId, PropertyInfo> properties;
     std::shared_ptr<InventoryRequestBuffer> requestBuffer;
     std::shared_ptr<InventoryResponseBuffer> responseBuffer;
-    static constexpr std::chrono::seconds retryDelay{5};
-    static constexpr int maxRetryAttempts = 3;
+    PropertyRetryHandler retryHandler;
+    std::shared_ptr<Memory> memoryModule;
 };
