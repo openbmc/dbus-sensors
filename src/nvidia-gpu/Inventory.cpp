@@ -37,7 +37,7 @@ Inventory::Inventory(
     const gpu::DeviceIdentification deviceTypeIn, const uint8_t eid,
     boost::asio::io_context& io) :
     name(escapeName(inventoryName)), mctpRequester(mctpRequester),
-    deviceType(deviceTypeIn), eid(eid), retryTimer(io)
+    deviceType(deviceTypeIn), eid(eid), retryHandler(io)
 {
     requestBuffer = std::make_shared<InventoryRequestBuffer>();
     responseBuffer = std::make_shared<InventoryResponseBuffer>();
@@ -72,6 +72,12 @@ Inventory::Inventory(
             objectServer.add_interface(path, acceleratorIfaceName);
         acceleratorInterface->register_property("Type", std::string("GPU"));
         acceleratorInterface->initialize();
+
+        // Initialize memory module for GPU devices
+        memoryModule = std::make_shared<Memory>(
+            nullptr, objectServer, name + "_DRAM_0", mctpRequester, eid, io);
+
+        memoryModule->setProcessorAssociation(path);
     }
 
     processNextProperty();
@@ -85,7 +91,7 @@ void Inventory::registerProperty(
     if (interface)
     {
         interface->register_property(propertyName, std::string{});
-        properties[propertyId] = {interface, propertyName, 0, true};
+        properties[propertyId] = {interface, propertyName, true};
     }
 }
 
@@ -108,7 +114,6 @@ void Inventory::markPropertyPending(
     std::unordered_map<gpu::InventoryPropertyId, PropertyInfo>::iterator it)
 {
     it->second.isPending = true;
-    it->second.retryCount = 0;
 }
 
 void Inventory::markPropertyProcessed(
@@ -259,38 +264,23 @@ void Inventory::handleInventoryPropertyResponse(
         }
     }
 
-    if (!success)
+    std::string propertyName =
+        "Property ID " + std::to_string(static_cast<uint8_t>(propertyId));
+    bool retryScheduled = retryHandler.handleRetry(
+        success, propertyName, [this]() { this->processNextProperty(); },
+        [it](const std::string& error) {
+            lg2::error("Property failed: {ERROR}", "ERROR", error);
+            markPropertyProcessed(it);
+        });
+
+    if (!retryScheduled)
     {
-        it->second.retryCount++;
-        if (it->second.retryCount >= maxRetryAttempts)
+        if (success)
         {
-            lg2::error(
-                "Property ID {PROP_ID} for {NAME} failed after {ATTEMPTS} attempts",
-                "PROP_ID", static_cast<uint8_t>(propertyId), "NAME", name,
-                "ATTEMPTS", maxRetryAttempts);
             markPropertyProcessed(it);
         }
-        else
-        {
-            retryTimer.expires_after(retryDelay);
-            retryTimer.async_wait([this](const boost::system::error_code& ec) {
-                if (ec)
-                {
-                    lg2::error("Retry timer error for {NAME}: {ERROR}", "NAME",
-                               name, "ERROR", ec.message());
-                    return;
-                }
-                this->processNextProperty();
-            });
-            return;
-        }
+        processNextProperty();
     }
-    else
-    {
-        markPropertyProcessed(it);
-    }
-
-    processNextProperty();
 }
 
 void Inventory::processNextProperty()
