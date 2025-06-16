@@ -34,6 +34,24 @@
       "parentUuid": "94d4e919_915a8c55",
       "revId": "ee113ec1d44cce4ef8fe7a5bc76007a4790bd01a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1000427c_f4fa4d2e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2025-06-16T03:28:04Z",
+      "side": 1,
+      "message": "Hi @amithash@meta.com,\nCurrently, when dbus-sensors emits threshold event signal, the phosphor-sel-logger will create 2 journal logs for IPMI and Redfish.\nIf we disable log-threshold option in phosphor-sel-logger, no IPMI journal logs are created.\nI think we have to add the code to add IPMI journal log in the Dbus-sensors also.",
+      "parentUuid": "c2bc0b92_8ce01376",
+      "revId": "ee113ec1d44cce4ef8fe7a5bc76007a4790bd01a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
