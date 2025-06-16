@@ -11,6 +11,7 @@
 #include "NvidiaDeviceDiscovery.hpp"
 #include "NvidiaGpuPowerSensor.hpp"
 #include "NvidiaGpuSensor.hpp"
+#include "Memory.hpp"
 
 #include <NvidiaGpuEnergySensor.hpp>
 #include <NvidiaGpuVoltageSensor.hpp>
@@ -24,6 +25,7 @@
 #include <cstdint>
 #include <memory>
 #include <string>
+#include <vector>
 
 class GpuDevice
 {
@@ -70,4 +72,5 @@ class GpuDevice
     std::string path;
 
     std::unique_ptr<Inventory> inventory;
+    std::shared_ptr<Memory> memoryModule;
 };
