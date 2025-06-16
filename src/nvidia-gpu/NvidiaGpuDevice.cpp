@@ -7,6 +7,7 @@
 #include "NvidiaGpuDevice.hpp"
 
 #include "Inventory.hpp"
+#include "Memory.hpp"
 #include "NvidiaDeviceDiscovery.hpp"
 #include "NvidiaGpuSensor.hpp"
 #include "Thresholds.hpp"
@@ -48,6 +49,15 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
     inventory->setLocationCode(name);
 
     makeSensors();
+
+    std::string dramName = "DRAM_0";
+    std::string memoryName = escapeName(name) + "_" + dramName;
+
+    memoryModule = std::make_shared<Memory>(conn, objectServer, memoryName,
+                                            mctpRequester, eid, io);
+
+    memoryModule->setMemoryType("HBM");
+    memoryModule->update();
 }
 
 void GpuDevice::makeSensors()
