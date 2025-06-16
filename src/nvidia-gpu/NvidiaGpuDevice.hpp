@@ -12,6 +12,7 @@
 #include "NvidiaGpuPowerSensor.hpp"
 #include "NvidiaGpuSensor.hpp"
 #include "NvidiaGpuMctpVdm.hpp"
+#include "Memory.hpp"
 
 #include <NvidiaGpuEnergySensor.hpp>
 #include <NvidiaGpuVoltageSensor.hpp>
@@ -25,6 +26,7 @@
 #include <cstdint>
 #include <memory>
 #include <string>
+#include <vector>
 
 using InventoryRequestBuffer =
     std::array<uint8_t, sizeof(gpu::GetInventoryInformationRequest)>;
@@ -72,4 +74,5 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
     std::shared_ptr<sdbusplus::asio::dbus_interface> acceleratorInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> uuidInterface;
     std::unique_ptr<Inventory> inventory;
+    std::shared_ptr<Memory> memoryModule;
 };
