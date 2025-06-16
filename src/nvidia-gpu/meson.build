@@ -1,6 +1,7 @@
 gpusensor_sources = files(
     'Inventory.cpp',
     'MctpRequester.cpp',
+    'Memory.cpp',
     'NvidiaDeviceDiscovery.cpp',
     'NvidiaGpuDevice.cpp',
     'NvidiaGpuEnergySensor.cpp',
