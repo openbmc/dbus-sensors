@@ -5,6 +5,7 @@
  */
 
 #include "NvidiaGpuDevice.hpp"
+#include "Memory.hpp"
 
 #include "Inventory.hpp"
 #include "NvidiaDeviceDiscovery.hpp"
@@ -43,6 +44,15 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
     inventory->setLocationCode(name);
     
     makeSensors();
+
+    std::string dramName = "DRAM_0";
+    std::string memoryName = name + "_" + dramName;
+
+    memoryModule = std::make_shared<Memory>(
+        conn, objectServer, memoryName, mctpRequester, eid, io);
+
+    memoryModule->setMemoryType("HBM");
+    memoryModule->update();
 }
 
 void GpuDevice::makeSensors()
