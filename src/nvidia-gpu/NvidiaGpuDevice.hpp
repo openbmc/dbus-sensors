@@ -8,6 +8,7 @@
 
 #include "Inventory.hpp"
 #include "MctpRequester.hpp"
+#include "Memory.hpp"
 #include "NvidiaDeviceDiscovery.hpp"
 #include "NvidiaGpuPowerSensor.hpp"
 #include "NvidiaGpuSensor.hpp"
@@ -73,4 +74,5 @@ class GpuDevice
     std::string path;
 
     std::unique_ptr<Inventory> inventory;
+    std::shared_ptr<Memory> memoryModule;
 };
