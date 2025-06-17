@@ -33,6 +33,24 @@
       "message": "Why is this not static? Anyway this method is called once at startup so it probably doesn\u0027t matter much...",
       "revId": "839b0def1909fb3a89b1daccec5bba369a28e145",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bb435cf_b4689db7",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-06-17T07:03:52Z",
+      "side": 1,
+      "message": "Now they are on heap since it need to outlive this function.",
+      "parentUuid": "6a9ec4f0_27e3b418",
+      "revId": "839b0def1909fb3a89b1daccec5bba369a28e145",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
