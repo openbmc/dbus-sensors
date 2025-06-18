@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73577e57_db47393f",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensor.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-06-18T14:43:56Z",
+      "side": 1,
+      "message": "We didn\u0027t seem to need this before and we also see the sensor value being modified on D-Bus so I don\u0027t know why we need this now.\n\nThere are other existing sensors that also use hardcoded min/max but don\u0027t deal with hysteresisPublish.",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 26
+      },
+      "revId": "fa2a5b9f69a3df4c07105ea87aec38937101c36a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
