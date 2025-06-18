@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ddc307c_e3b54e75",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerSensor.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-06-18T15:31:31Z",
+      "side": 1,
+      "message": "Don\u0027t think we need this, as commented elsewhere.",
+      "revId": "c8dab7217fe4178c5f3ad460bf070eb05b5a779c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "525142ad_2bab360e",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerSensor.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-06-18T15:31:31Z",
+      "side": 1,
+      "message": "Do we need a sanity check on the power value before division?",
+      "revId": "c8dab7217fe4178c5f3ad460bf070eb05b5a779c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
