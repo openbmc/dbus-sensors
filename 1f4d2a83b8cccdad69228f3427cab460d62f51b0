@@ -39,6 +39,30 @@
       },
       "revId": "1f4d2a83b8cccdad69228f3427cab460d62f51b0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d2b4dd5_a8f50ecd",
+        "filename": "src/nvidia-gpu/NvidiaGpuEnergySensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-06-18T15:50:03Z",
+      "side": 1,
+      "message": "We discussed this briefly. There is an energy type accounted for in Redfish and D-Bus. Isn\u0027t counter for energy typical?",
+      "parentUuid": "2da0a1e9_fbe1abe3",
+      "range": {
+        "startLine": 44,
+        "startChar": 15,
+        "endLine": 44,
+        "endChar": 21
+      },
+      "revId": "1f4d2a83b8cccdad69228f3427cab460d62f51b0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "295a3556_f6625626",
+        "filename": "src/nvidia-gpu/NvidiaGpuEnergySensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-06-18T15:50:03Z",
+      "side": 1,
+      "message": "not needed?",
+      "revId": "128c91da0eccc3c1ea919020183bac37e9754ab3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9a59857_d9788112",
+        "filename": "src/nvidia-gpu/NvidiaGpuEnergySensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-06-18T15:50:03Z",
+      "side": 1,
+      "message": "sanity check needed?",
+      "revId": "128c91da0eccc3c1ea919020183bac37e9754ab3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
