@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac7ef2e9_cbc66a60",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-06-18T15:05:57Z",
+      "side": 1,
+      "message": "Don\u0027t we get the values from B40?",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 3
+      },
+      "revId": "c20108d2669667a5dec7a40d50a8a901e96fefdd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "314fea41_13d26f4f",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-06-18T15:05:57Z",
+      "side": 1,
+      "message": "Better to use std::bind_front for a static/private method.",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 13
+      },
+      "revId": "c20108d2669667a5dec7a40d50a8a901e96fefdd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29d07212_269b8f9e",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-06-18T15:05:57Z",
+      "side": 1,
+      "message": "I think we should do this outside the callback (that way you also dont need the check on line 85). It can take a thresholds arg that callback may populate, else default thresholds value.",
+      "revId": "c20108d2669667a5dec7a40d50a8a901e96fefdd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aba86c31_da41fb5e",
+        "filename": "src/nvidia-gpu/NvidiaGpuThresholds.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-06-18T15:05:57Z",
+      "side": 1,
+      "message": "dead code",
+      "revId": "c20108d2669667a5dec7a40d50a8a901e96fefdd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19a13a80_e00999f2",
+        "filename": "src/nvidia-gpu/NvidiaGpuThresholds.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-06-18T15:05:57Z",
+      "side": 1,
+      "message": "Any benefit making this a move_only function?",
+      "revId": "c20108d2669667a5dec7a40d50a8a901e96fefdd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
