@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd3e0e5c_fb45b933",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 32
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-06-18T14:18:47Z",
+      "side": 1,
+      "message": "For whatever reasin if the EID didn\u0027t exist in the map, what\u0027ll happen is a slient insertion with an empty callback? If so, I think it\u0027s better to use at() and let an exception be thrown in case the eid didn\u0027t exist in the map.",
+      "revId": "1213bcb2574195967087920407ac0ce7e4184fc5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40da116a_679ed1cb",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 32
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-06-18T14:18:47Z",
+      "side": 1,
+      "message": "I don\u0027t understand why we need activeRequestContexts. We can just keep this in the requestContextQueue until we get called back from Requester...",
+      "range": {
+        "startLine": 181,
+        "startChar": 25,
+        "endLine": 181,
+        "endChar": 46
+      },
+      "revId": "1213bcb2574195967087920407ac0ce7e4184fc5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c1fef21_4243da88",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 32
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-06-18T14:18:47Z",
+      "side": 1,
+      "message": "Better to use an std::bind_front instead of lambda here to align with guidelines and how we\u0027ve done this in the rest of the patches. You could bind a private method just like Requester::handleSendMsgCompletion.",
+      "revId": "1213bcb2574195967087920407ac0ce7e4184fc5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
