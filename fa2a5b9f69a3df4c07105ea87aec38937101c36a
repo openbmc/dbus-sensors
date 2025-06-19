@@ -22,6 +22,30 @@
       },
       "revId": "fa2a5b9f69a3df4c07105ea87aec38937101c36a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58c04583_246656ce",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensor.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-06-19T09:14:58Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "73577e57_db47393f",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 26
+      },
+      "revId": "fa2a5b9f69a3df4c07105ea87aec38937101c36a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
