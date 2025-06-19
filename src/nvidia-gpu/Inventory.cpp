@@ -32,6 +32,8 @@ static constexpr const char* revisionIfaceName =
     "xyz.openbmc_project.Inventory.Decorator.Revision";
 static constexpr const char* locationCodeIfaceName =
     "xyz.openbmc_project.Inventory.Decorator.LocationCode";
+static constexpr const char* associationIfaceName =
+    "xyz.openbmc_project.Association.Definitions";
 
 Inventory::Inventory(
     const std::shared_ptr<sdbusplus::asio::connection>& /*conn*/,
@@ -41,7 +43,8 @@ Inventory::Inventory(
     boost::asio::io_context& io) :
     name(escapeName(inventoryName)), mctpRequester(mctpRequester),
     deviceType(deviceTypeIn), eid(eid), retryHandler(io),
-    inventoryPath(std::string(inventoryPrefix) + escapeName(inventoryName))
+    inventoryPath(std::string(inventoryPrefix) + escapeName(inventoryName)),
+    objectServer(objectServer)
 {
     requestBuffer = std::make_shared<InventoryRequestBuffer>();
     responseBuffer = std::make_shared<InventoryResponseBuffer>();
@@ -304,4 +307,14 @@ void Inventory::processNextProperty()
         lg2::info("No pending properties found to process for {NAME}", "NAME",
                   name);
     }
+}
+
+void Inventory::setAssociation(const std::string& chassisPath)
+{
+    std::string path = std::string(inventoryPrefix) + name;
+    associationInterface =
+        objectServer.add_interface(path, associationIfaceName);
+    associations.emplace_back("contained_by", "containing", chassisPath);
+    associationInterface->register_property("Associations", associations);
+    associationInterface->initialize();
 }
