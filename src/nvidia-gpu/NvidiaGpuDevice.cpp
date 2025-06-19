@@ -58,6 +58,7 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
                                             mctpRequester, eid, io);
 
     memoryModule->setMemoryType("HBM");
+    memoryModule->setProcessorAssociation(inventory->getInventoryPath());
     memoryModule->update();
 }
 
