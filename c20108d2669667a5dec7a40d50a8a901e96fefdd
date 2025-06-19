@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6b5a778_c2fe732c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-06-19T09:35:13Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "8cb9c85c_6e4668f3",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 3
+      },
+      "revId": "c20108d2669667a5dec7a40d50a8a901e96fefdd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "314fea41_13d26f4f",
@@ -130,6 +154,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c35bc17e_6748e660",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-06-19T09:35:13Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "96be02e5_a8e88f42",
+      "revId": "c20108d2669667a5dec7a40d50a8a901e96fefdd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aba86c31_da41fb5e",
@@ -196,6 +238,24 @@
       "side": 1,
       "message": "I don\u0027t see any. `std::function` may allocate on copy but call to this function is only during the initialization.",
       "parentUuid": "19a13a80_e00999f2",
+      "revId": "c20108d2669667a5dec7a40d50a8a901e96fefdd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "edb5de27_bf46cabb",
+        "filename": "src/nvidia-gpu/NvidiaGpuThresholds.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-06-19T09:35:13Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "b2d2534e_58fb804d",
       "revId": "c20108d2669667a5dec7a40d50a8a901e96fefdd",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
