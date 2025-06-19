@@ -35,8 +35,7 @@ using namespace std::literals;
 // GPU Power Sensor Averaging Interval in seconds, 0 implies default
 constexpr uint8_t gpuPowerAveragingIntervalInSec{0};
 
-static constexpr double gpuPowerSensorMaxReading =
-    std::numeric_limits<uint32_t>::max() / 1000.0;
+static constexpr double gpuPowerSensorMaxReading = 5000;
 static constexpr double gpuPowerSensorMinReading =
     std::numeric_limits<uint32_t>::min();
 
