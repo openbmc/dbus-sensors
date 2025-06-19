@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "77aeb98f_229df28c",
+        "filename": "src/nvidia-gpu/NvidiaGpuVoltageSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-06-19T09:26:06Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "7b8fcdbd_0f343f17",
+      "revId": "b55847f2a3c973678eecded0ba6fbc6064ee82b4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c3b2cdfa_5293b5d7",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-06-18T15:56:12Z",
       "side": 1,
       "message": "sanity check?",
+      "revId": "b55847f2a3c973678eecded0ba6fbc6064ee82b4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5234cf70_775edaa9",
+        "filename": "src/nvidia-gpu/NvidiaGpuVoltageSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-06-19T09:26:06Z",
+      "side": 1,
+      "message": "not needed since a double can hold all value of uint32_t.",
+      "parentUuid": "c3b2cdfa_5293b5d7",
       "revId": "b55847f2a3c973678eecded0ba6fbc6064ee82b4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
