@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8cb9c85c_6e4668f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-06-19T09:22:28Z",
+      "side": 1,
+      "message": "B40 is responding with value of 0 for each of this thresholds.",
+      "parentUuid": "ac7ef2e9_cbc66a60",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 3
+      },
+      "revId": "c20108d2669667a5dec7a40d50a8a901e96fefdd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "314fea41_13d26f4f",
         "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
         "patchSetId": 15
@@ -37,6 +61,30 @@
       "writtenOn": "2025-06-18T15:05:57Z",
       "side": 1,
       "message": "Better to use std::bind_front for a static/private method.",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 13
+      },
+      "revId": "c20108d2669667a5dec7a40d50a8a901e96fefdd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15d9ce19_a5bcd59f",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-06-19T09:22:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "314fea41_13d26f4f",
       "range": {
         "startLine": 56,
         "startChar": 0,
@@ -66,6 +114,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "96be02e5_a8e88f42",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-06-19T09:22:28Z",
+      "side": 1,
+      "message": "It\u0027s not support with Sensor base class. Sensor class initializes all dbus-sensor interfaces (including thresholds interface) and also populates those interfaces with threshold value during the call to `setInitialProperties`. If we populated threshold later we have to call this function later but then sensor value won\u0027t be updated meanwhile as Sensor.Value interface won\u0027t be initialized until call to that function and it would result into error log each time we try to update the sensor value.",
+      "parentUuid": "29d07212_269b8f9e",
+      "revId": "c20108d2669667a5dec7a40d50a8a901e96fefdd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "aba86c31_da41fb5e",
         "filename": "src/nvidia-gpu/NvidiaGpuThresholds.cpp",
         "patchSetId": 15
@@ -77,6 +143,24 @@
       "writtenOn": "2025-06-18T15:05:57Z",
       "side": 1,
       "message": "dead code",
+      "revId": "c20108d2669667a5dec7a40d50a8a901e96fefdd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6510b1dc_fa6086b1",
+        "filename": "src/nvidia-gpu/NvidiaGpuThresholds.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-06-19T09:22:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aba86c31_da41fb5e",
       "revId": "c20108d2669667a5dec7a40d50a8a901e96fefdd",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -94,6 +178,24 @@
       "writtenOn": "2025-06-18T15:05:57Z",
       "side": 1,
       "message": "Any benefit making this a move_only function?",
+      "revId": "c20108d2669667a5dec7a40d50a8a901e96fefdd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2d2534e_58fb804d",
+        "filename": "src/nvidia-gpu/NvidiaGpuThresholds.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-06-19T09:22:28Z",
+      "side": 1,
+      "message": "I don\u0027t see any. `std::function` may allocate on copy but call to this function is only during the initialization.",
+      "parentUuid": "19a13a80_e00999f2",
       "revId": "c20108d2669667a5dec7a40d50a8a901e96fefdd",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
