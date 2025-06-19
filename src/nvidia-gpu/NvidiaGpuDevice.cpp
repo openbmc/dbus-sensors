@@ -48,6 +48,7 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
         std::make_shared<Inventory>(conn, objectServer, name, mctpRequester,
                                     gpu::NvidiaVDMDeviceType::GPU, eid, io);
     inventory->setLocationCode(name);
+    inventory->setAssociation(path);
 
     makeSensors();
 
