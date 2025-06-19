@@ -49,6 +49,7 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
         conn, objectServer, name, mctpRequester,
         gpu::DeviceIdentification::DEVICE_GPU, eid, io);
     inventory->setLocationCode(name);
+    inventory->setAssociation(path);
 
     makeSensors();
 
