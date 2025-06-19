@@ -5,6 +5,7 @@
 #include <boost/asio/io_context.hpp>
 #include <phosphor-logging/lg2.hpp>
 
+#include <filesystem>
 #include <iomanip>
 #include <optional>
 #include <sstream>
@@ -22,6 +23,8 @@ static constexpr const char* revisionIfaceName =
     "xyz.openbmc_project.Inventory.Decorator.Revision";
 static constexpr const char* locationCodeIfaceName =
     "xyz.openbmc_project.Inventory.Decorator.LocationCode";
+static constexpr const char* associationIfaceName =
+    "xyz.openbmc_project.Association.Definitions";
 
 Inventory::Inventory(
     const std::shared_ptr<sdbusplus::asio::connection>& /*conn*/,
@@ -30,17 +33,18 @@ Inventory::Inventory(
     DeviceType deviceTypeIn, uint8_t eid, boost::asio::io_context& io) :
     name(escapeName(inventoryName)), mctpRequester(mctpRequester),
     deviceType(deviceTypeIn), eid(eid), retryTimer(io),
-    objectServer(objectServer)
+    objectServer(objectServer),
+    inventoryPath(std::string(inventoryPrefix) + escapeName(inventoryName))
 {
     requestBuffer = std::make_shared<InventoryRequestBuffer>();
     responseBuffer = std::make_shared<InventoryResponseBuffer>();
 
-    std::string path = std::string(inventoryPrefix) + name;
     acceleratorInterface =
-        objectServer.add_interface(path, acceleratorIfaceName);
-    assetIface = objectServer.add_interface(path, assetIfaceName);
-    uuidInterface = objectServer.add_interface(path, uuidIfaceName);
-    revisionIface = objectServer.add_interface(path, revisionIfaceName);
+        objectServer.add_interface(inventoryPath, acceleratorIfaceName);
+    assetIface = objectServer.add_interface(inventoryPath, assetIfaceName);
+    uuidInterface = objectServer.add_interface(inventoryPath, uuidIfaceName);
+    revisionIface =
+        objectServer.add_interface(inventoryPath, revisionIfaceName);
 
     // Static properties
     if (deviceType == DeviceType::GPU)
@@ -65,6 +69,7 @@ Inventory::Inventory(
     assetIface->initialize();
     uuidInterface->initialize();
     revisionIface->initialize();
+
     processNextProperty();
 }
 
@@ -99,11 +104,10 @@ void Inventory::registerProperty(gpu::InventoryPropertyId propertyId,
 
 void Inventory::setLocationCode(const std::string& locationCode)
 {
-    std::string path = std::string(inventoryPrefix) + name;
     if (!locationCodeIface)
     {
         locationCodeIface =
-            objectServer.add_interface(path, locationCodeIfaceName);
+            objectServer.add_interface(inventoryPath, locationCodeIfaceName);
     }
     locationCodeIface->register_property("LocationCode", locationCode);
     locationCodeIface->initialize();
@@ -345,4 +349,19 @@ void Inventory::update()
     fetchUUID();
     fetchMarketingName();
     fetchDevicePartNumber();
+}
+
+std::string Inventory::getInventoryPath() const
+{
+    return inventoryPath;
+}
+
+void Inventory::setAssociation(const std::string& chassisPath)
+{
+    std::string path = std::string(inventoryPrefix) + name;
+    associationInterface =
+        objectServer.add_interface(path, associationIfaceName);
+    associations.emplace_back("parent_chassis", "all_processor", chassisPath);
+    associationInterface->register_property("Associations", associations);
+    associationInterface->initialize();
 }
