@@ -1,6 +1,7 @@
 #pragma once
 
 #include "MctpRequester.hpp"
+#include "Utils.hpp"
 
 #include <NvidiaGpuMctpVdm.hpp>
 #include <boost/asio/io_context.hpp>
@@ -15,6 +16,7 @@
 #include <optional>
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 using InventoryRequestBuffer =
     std::array<uint8_t, sizeof(gpu::GetInventoryInformationRequest)>;
@@ -44,6 +46,7 @@ class Inventory : public std::enable_shared_from_this<Inventory>
     void update();
     void setLocationCode(const std::string& locationCode);
     std::string getInventoryPath() const;
+    void setAssociation(const std::string& chassisPath);
 
   private:
     struct PropertyInfo
@@ -72,6 +75,7 @@ class Inventory : public std::enable_shared_from_this<Inventory>
     std::shared_ptr<sdbusplus::asio::dbus_interface> uuidInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> revisionIface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> locationCodeIface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> associationInterface;
 
     std::string name;
     mctp::MctpRequester& mctpRequester;
@@ -83,6 +87,7 @@ class Inventory : public std::enable_shared_from_this<Inventory>
     std::unordered_map<gpu::InventoryPropertyId, PropertyInfo> properties;
     std::shared_ptr<InventoryRequestBuffer> requestBuffer;
     std::shared_ptr<InventoryResponseBuffer> responseBuffer;
+    std::vector<Association> associations;
     static constexpr std::chrono::seconds retryDelay{5};
     static constexpr int maxRetryAttempts = 3;
 };
