@@ -15,6 +15,7 @@
 #include <cstdint>
 #include <memory>
 #include <string>
+#include <vector>
 
 class Memory : public std::enable_shared_from_this<Memory>
 {
