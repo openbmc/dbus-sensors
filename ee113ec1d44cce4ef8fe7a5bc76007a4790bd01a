@@ -52,6 +52,24 @@
       "parentUuid": "c2bc0b92_8ce01376",
       "revId": "ee113ec1d44cce4ef8fe7a5bc76007a4790bd01a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3039e0eb_56be9be7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-06-19T21:33:26Z",
+      "side": 1,
+      "message": "What is the \"IPMI journal log\"?  We shouldn\u0027t be adding IPMI-specific code in dbus-sensors.  If there is functionality missing, I suspect we need something in either:\n- phosphor-logging (less likely)\n- ipmi itself\n- rsyslog magic\n\nThere is already an option in phosphor-logging to enable journal if that\u0027s something you want: https://github.com/openbmc/phosphor-logging/blob/master/lib/lg2_commit.cpp#L132 .  This is the thing that might need some ipmi and/or rsyslog machinery to fully enable.\n\n\u003e Currently, when dbus-sensors emits threshold event signal, the phosphor-sel-logger will create 2 journal logs for IPMI and Redfish.\n\nUsing new-style events is an overall direction.  I\u0027m fine if we point out what needs to be fixed and get it fixed, but we shouldn\u0027t hold up a dbus-sensors commit for a missing IPMI functionality.  We already have these events in other repositories.",
+      "parentUuid": "1000427c_f4fa4d2e",
+      "revId": "ee113ec1d44cce4ef8fe7a5bc76007a4790bd01a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
