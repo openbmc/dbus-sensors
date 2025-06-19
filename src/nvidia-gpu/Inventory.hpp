@@ -43,6 +43,7 @@ class Inventory : public std::enable_shared_from_this<Inventory>
     void fetchDevicePartNumber();
     void update();
     void setLocationCode(const std::string& locationCode);
+    std::string getInventoryPath() const;
 
   private:
     struct PropertyInfo
@@ -78,6 +79,7 @@ class Inventory : public std::enable_shared_from_this<Inventory>
     uint8_t eid;
     boost::asio::steady_timer retryTimer;
     sdbusplus::asio::object_server& objectServer;
+    std::string inventoryPath;
     std::unordered_map<gpu::InventoryPropertyId, PropertyInfo> properties;
     std::shared_ptr<InventoryRequestBuffer> requestBuffer;
     std::shared_ptr<InventoryResponseBuffer> responseBuffer;
