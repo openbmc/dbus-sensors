@@ -68,6 +68,15 @@ NvidiaGpuPowerSensor::NvidiaGpuPowerSensor(
 
     association = objectServer.add_interface(dbusPath, association::interface);
 
+    // Sensor values are only updated when the difference between the new and
+    // previous value exceeds the hysteresisPublish threshold. This threshold
+    // defaults to ((max - min) * 0.0001). Since this sensor lacks defined
+    // min/max values, theoretical limits are used instead, creating a large
+    // hysteresisPublish value that blocks D-Bus updates. Setting
+    // hysteresisPublish to 0 forces all sensor value changes to be published
+    // to D-Bus.
+    hysteresisPublish = 0;
+
     setInitialProperties(sensor_paths::unitWatts);
 }
 
