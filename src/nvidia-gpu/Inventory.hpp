@@ -76,4 +76,5 @@ class Inventory : public std::enable_shared_from_this<Inventory>
     PropertyRetryHandler retryHandler;
     std::shared_ptr<Memory> memoryModule;
     sdbusplus::asio::object_server& objectServer;
+    std::string inventoryPath;
 };
