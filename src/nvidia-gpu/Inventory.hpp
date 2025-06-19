@@ -15,6 +15,7 @@
 #include <optional>
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 using InventoryRequestBuffer =
     std::array<uint8_t, sizeof(gpu::GetInventoryInformationRequest)>;
@@ -30,6 +31,8 @@ class Inventory : public std::enable_shared_from_this<Inventory>
               mctp::MctpRequester& mctpRequester,
               gpu::DeviceIdentification deviceType, uint8_t eid,
               boost::asio::io_context& io);
+
+    void setAssociation(const std::string& chassisPath);
 
   private:
     struct PropertyInfo
@@ -60,6 +63,7 @@ class Inventory : public std::enable_shared_from_this<Inventory>
     std::shared_ptr<sdbusplus::asio::dbus_interface> uuidInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> revisionIface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> locationCodeIface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> associationInterface;
 
     std::string name;
     mctp::MctpRequester& mctpRequester;
@@ -71,4 +75,6 @@ class Inventory : public std::enable_shared_from_this<Inventory>
     PropertyRetryHandler retryHandler;
     std::shared_ptr<Memory> memoryModule;
     std::string inventoryPath;
+    std::vector<Association> associations;
+    sdbusplus::asio::object_server& objectServer;
 };
