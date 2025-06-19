@@ -38,17 +38,18 @@ Inventory::Inventory(
     boost::asio::io_context& io) :
     name(escapeName(inventoryName)), mctpRequester(mctpRequester),
     deviceType(deviceTypeIn), eid(eid), retryTimer(io),
-    objectServer(objectServer)
+    objectServer(objectServer),
+    inventoryPath(std::string(inventoryPrefix) + escapeName(inventoryName))
 {
     requestBuffer = std::make_shared<InventoryRequestBuffer>();
     responseBuffer = std::make_shared<InventoryResponseBuffer>();
 
-    std::string path = inventoryPrefix + name;
     acceleratorInterface =
-        objectServer.add_interface(path, acceleratorIfaceName);
-    assetIface = objectServer.add_interface(path, assetIfaceName);
-    uuidInterface = objectServer.add_interface(path, uuidIfaceName);
-    revisionIface = objectServer.add_interface(path, revisionIfaceName);
+        objectServer.add_interface(inventoryPath, acceleratorIfaceName);
+    assetIface = objectServer.add_interface(inventoryPath, assetIfaceName);
+    uuidInterface = objectServer.add_interface(inventoryPath, uuidIfaceName);
+    revisionIface =
+        objectServer.add_interface(inventoryPath, revisionIfaceName);
 
     // Static properties
     if (deviceType == gpu::NvidiaVDMDeviceType::GPU)
@@ -90,11 +91,10 @@ void Inventory::registerProperty(
 
 void Inventory::setLocationCode(const std::string& locationCode)
 {
-    std::string path = std::string(inventoryPrefix) + name;
     if (!locationCodeIface)
     {
         locationCodeIface =
-            objectServer.add_interface(path, locationCodeIfaceName);
+            objectServer.add_interface(inventoryPath, locationCodeIfaceName);
     }
     locationCodeIface->register_property("LocationCode", locationCode);
     locationCodeIface->initialize();
@@ -351,4 +351,9 @@ void Inventory::update()
     fetchUUID();
     fetchMarketingName();
     fetchDevicePartNumber();
+}
+
+std::string Inventory::getInventoryPath() const
+{
+    return inventoryPath;
 }
