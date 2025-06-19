@@ -40,14 +40,13 @@ Inventory::Inventory(
     const gpu::DeviceIdentification deviceTypeIn, const uint8_t eid,
     boost::asio::io_context& io) :
     name(escapeName(inventoryName)), mctpRequester(mctpRequester),
-    deviceType(deviceTypeIn), eid(eid), retryHandler(io)
+    deviceType(deviceTypeIn), eid(eid), retryHandler(io),
+    inventoryPath(std::string(inventoryPrefix) + escapeName(inventoryName))
 {
     requestBuffer = std::make_shared<InventoryRequestBuffer>();
     responseBuffer = std::make_shared<InventoryResponseBuffer>();
 
-    std::string path = inventoryPrefix + name;
-
-    assetIface = objectServer.add_interface(path, assetIfaceName);
+    assetIface = objectServer.add_interface(inventoryPath, assetIfaceName);
     assetIface->register_property("Manufacturer", std::string("NVIDIA"));
     // Register properties which need to be fetched from the device
     registerProperty(gpu::InventoryPropertyId::SERIAL_NUMBER, assetIface,
@@ -58,17 +57,19 @@ Inventory::Inventory(
                      "Model");
     assetIface->initialize();
 
-    uuidInterface = objectServer.add_interface(path, uuidIfaceName);
+    uuidInterface = objectServer.add_interface(inventoryPath, uuidIfaceName);
     registerProperty(gpu::InventoryPropertyId::DEVICE_GUID, uuidInterface,
                      "UUID");
     uuidInterface->initialize();
 
-    revisionIface = objectServer.add_interface(path, revisionIfaceName);
+    revisionIface =
+        objectServer.add_interface(inventoryPath, revisionIfaceName);
     registerProperty(gpu::InventoryPropertyId::DEVICE_PART_NUMBER,
                      revisionIface, "Version");
     revisionIface->initialize();
 
-    locationCodeIface = objectServer.add_interface(path, locationCodeIfaceName);
+    locationCodeIface =
+        objectServer.add_interface(inventoryPath, locationCodeIfaceName);
     locationCodeIface->register_property("LocationCode", inventoryName);
     locationCodeIface->initialize();
 
@@ -76,7 +77,7 @@ Inventory::Inventory(
     if (deviceType == gpu::DeviceIdentification::DEVICE_GPU)
     {
         acceleratorInterface =
-            objectServer.add_interface(path, acceleratorIfaceName);
+            objectServer.add_interface(inventoryPath, acceleratorIfaceName);
         acceleratorInterface->register_property("Type", std::string("GPU"));
         acceleratorInterface->initialize();
 
@@ -84,7 +85,7 @@ Inventory::Inventory(
         memoryModule = std::make_shared<Memory>(
             nullptr, objectServer, name + "_DRAM_0", mctpRequester, eid, io);
 
-        memoryModule->setProcessorAssociation(path);
+        memoryModule->setProcessorAssociation(inventoryPath);
     }
 
     processNextProperty();

@@ -70,4 +70,5 @@ class Inventory : public std::enable_shared_from_this<Inventory>
     std::shared_ptr<InventoryResponseBuffer> responseBuffer;
     PropertyRetryHandler retryHandler;
     std::shared_ptr<Memory> memoryModule;
+    std::string inventoryPath;
 };
