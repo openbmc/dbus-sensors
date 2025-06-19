@@ -48,7 +48,7 @@ Memory::Memory(const std::shared_ptr<sdbusplus::asio::connection>& /*conn*/,
 
 void Memory::setProcessorAssociation(const std::string& processorPath)
 {
-    associations.emplace_back("parent_processor", "all_memory", processorPath);
+    associations.emplace_back("contained_by", "containing", processorPath);
     associationInterface->set_property("Associations", associations);
 }
 
