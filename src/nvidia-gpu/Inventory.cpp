@@ -6,6 +6,7 @@
 #include <optional>
 #include <string_view>
 #include <utility>
+#include <filesystem>
 
 constexpr int maxRetryAttempts = 3;
 static constexpr const char* inventoryPrefix =
@@ -20,6 +21,8 @@ static constexpr const char* revisionIfaceName =
     "xyz.openbmc_project.Inventory.Decorator.Revision";
 static constexpr const char* locationCodeIfaceName =
     "xyz.openbmc_project.Inventory.Decorator.LocationCode";
+static constexpr const char* associationIfaceName =
+    "xyz.openbmc_project.Association.Definitions";
 
 Inventory::Inventory(
     const std::shared_ptr<sdbusplus::asio::connection>& /*conn*/,
@@ -65,6 +68,13 @@ void Inventory::initializeInterfaces()
                     assetIfaceName, "Version");
     registerProperty(gpu::InventoryPropertyId::DEVICE_GUID,
                     uuidIfaceName, "UUID");
+
+    // Initialize association interface for GPU to chassis association
+    associationInterface = objectServer.add_interface(path, associationIfaceName);
+    std::string chassisPath = std::filesystem::path(path).parent_path().string();
+    associations.emplace_back("parent_chassis", "all_processor", chassisPath);
+    associationInterface->register_property("Associations", associations);
+    associationInterface->initialize();
 }
 
 void Inventory::registerProperty(gpu::InventoryPropertyId propertyId,
