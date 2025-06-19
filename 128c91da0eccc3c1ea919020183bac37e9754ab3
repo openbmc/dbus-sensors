@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "10b7b694_58c83ee5",
+        "filename": "src/nvidia-gpu/NvidiaGpuEnergySensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-06-19T09:25:34Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "295a3556_f6625626",
+      "revId": "128c91da0eccc3c1ea919020183bac37e9754ab3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d9a59857_d9788112",
         "filename": "src/nvidia-gpu/NvidiaGpuEnergySensor.cpp",
         "patchSetId": 6
@@ -31,6 +49,24 @@
       "writtenOn": "2025-06-18T15:50:03Z",
       "side": 1,
       "message": "sanity check needed?",
+      "revId": "128c91da0eccc3c1ea919020183bac37e9754ab3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be63ae78_87b63a6c",
+        "filename": "src/nvidia-gpu/NvidiaGpuEnergySensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-06-19T09:25:34Z",
+      "side": 1,
+      "message": "not needed since a double can hold all value of uint64_t.",
+      "parentUuid": "d9a59857_d9788112",
       "revId": "128c91da0eccc3c1ea919020183bac37e9754ab3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
