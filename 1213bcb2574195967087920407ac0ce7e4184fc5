@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0af98bf7_19a86cb8",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 32
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-06-19T02:20:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd3e0e5c_fb45b933",
+      "revId": "1213bcb2574195967087920407ac0ce7e4184fc5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "40da116a_679ed1cb",
@@ -31,6 +49,30 @@
       "writtenOn": "2025-06-18T14:18:47Z",
       "side": 1,
       "message": "I don\u0027t understand why we need activeRequestContexts. We can just keep this in the requestContextQueue until we get called back from Requester...",
+      "range": {
+        "startLine": 181,
+        "startChar": 25,
+        "endLine": 181,
+        "endChar": 46
+      },
+      "revId": "1213bcb2574195967087920407ac0ce7e4184fc5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dae5f254_dead7e12",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 32
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-06-19T02:20:59Z",
+      "side": 1,
+      "message": "This was done to solve the issue where the first request for each command wasn\u0027t getting queued and back-to-back requests were sent to the GPU with the implementation where we keep the active request context in the queue. Also there\u0027s no explicit way to track an active request with that implementation; `activeRequestContexts` helps provide that.",
+      "parentUuid": "40da116a_679ed1cb",
       "range": {
         "startLine": 181,
         "startChar": 25,
@@ -72,6 +114,24 @@
       "side": 1,
       "message": "Guideline is https://github.com/openbmc/docs/blob/master/anti-patterns.md#very-long-lambda-callbacks",
       "parentUuid": "8c1fef21_4243da88",
+      "revId": "1213bcb2574195967087920407ac0ce7e4184fc5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "076757d0_f7240846",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 32
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-06-19T02:20:59Z",
+      "side": 1,
+      "message": "Done. Using std::bind_front now to call the member function `handleResult`.",
+      "parentUuid": "fb01d778_545b3ea4",
       "revId": "1213bcb2574195967087920407ac0ce7e4184fc5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
