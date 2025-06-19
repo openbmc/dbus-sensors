@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "67ab1657_7eb40d38",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerSensor.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-06-19T09:24:56Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "6ddc307c_e3b54e75",
+      "revId": "c8dab7217fe4178c5f3ad460bf070eb05b5a779c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "525142ad_2bab360e",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-06-18T15:31:31Z",
       "side": 1,
       "message": "Do we need a sanity check on the power value before division?",
+      "revId": "c8dab7217fe4178c5f3ad460bf070eb05b5a779c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccaef426_2f216b87",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerSensor.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-06-19T09:24:56Z",
+      "side": 1,
+      "message": "Not needed since a double can hold all value of uint32_t.",
+      "parentUuid": "525142ad_2bab360e",
       "revId": "c8dab7217fe4178c5f3ad460bf070eb05b5a779c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
