@@ -8,6 +8,7 @@
 #include <optional>
 #include <string_view>
 #include <utility>
+#include <filesystem>
 
 static constexpr const char* inventoryPrefix =
     "/xyz/openbmc_project/inventory/";
@@ -20,6 +21,8 @@ static constexpr const char* revisionIfaceName =
     "xyz.openbmc_project.Inventory.Decorator.Revision";
 static constexpr const char* locationCodeIfaceName =
     "xyz.openbmc_project.Inventory.Decorator.LocationCode";
+static constexpr const char* associationIfaceName =
+    "xyz.openbmc_project.Association.Definitions";
 
 Inventory::Inventory(
     const std::shared_ptr<sdbusplus::asio::connection>& /*conn*/,
@@ -62,6 +65,14 @@ Inventory::Inventory(
     assetIface->initialize();
     uuidInterface->initialize();
     revisionIface->initialize();
+
+    // Initialize association interface for GPU to chassis association
+    associationInterface = objectServer.add_interface(path, associationIfaceName);
+    std::string chassisPath = std::filesystem::path(path).parent_path().string();
+    associations.emplace_back("parent_chassis", "all_processor", chassisPath);
+    associationInterface->register_property("Associations", associations);
+    associationInterface->initialize();
+
     processNextProperty();
 }
 
