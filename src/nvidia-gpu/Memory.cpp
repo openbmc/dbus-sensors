@@ -17,6 +17,8 @@ static constexpr const char* inventoryPrefix =
     "/xyz/openbmc_project/inventory/";
 static constexpr const char* dimmIfaceName =
     "xyz.openbmc_project.Inventory.Item.Dimm";
+static constexpr const char* associationIfaceName =
+    "xyz.openbmc_project.Association.Definitions";
 
 Memory::Memory(const std::shared_ptr<sdbusplus::asio::connection>& /*conn*/,
                sdbusplus::asio::object_server& objectServer,
@@ -36,11 +38,22 @@ Memory::Memory(const std::shared_ptr<sdbusplus::asio::connection>& /*conn*/,
     dimmInterface->register_property("Manufacturer", std::string("Nvidia"));
     dimmInterface->register_property("MemoryType", std::string{});
     dimmInterface->initialize();
+
+    associationInterface =
+        objectServer.add_interface(path, associationIfaceName);
+    associationInterface->register_property("Associations", associations);
+    associationInterface->initialize();
 }
 
 void Memory::setMemoryType(const std::string& type)
 {
     dimmInterface->set_property("MemoryType", type);
+}
+
+void Memory::setProcessorAssociation(const std::string& processorPath)
+{
+    associations.emplace_back("parent_processor", "all_memory", processorPath);
+    associationInterface->set_property("Associations", associations);
 }
 
 void Memory::update()
