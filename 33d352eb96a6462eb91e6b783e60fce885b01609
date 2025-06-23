@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6990252d_adb56e6c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002135
+      },
+      "writtenOn": "2025-06-23T05:17:00Z",
+      "side": 1,
+      "message": "Hi @andrew@codeconstruct.com.au and @ed@tanous.net,\nI think this is good to go now, if there\u0027s no further issue to address?",
+      "revId": "33d352eb96a6462eb91e6b783e60fce885b01609",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
