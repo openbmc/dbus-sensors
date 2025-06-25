@@ -34,6 +34,24 @@
       "parentUuid": "e7c66643_b1907129",
       "revId": "44c209d712a19884fcb30d24049c51dfd8f5b05d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cbf1174_fa90408d",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2025-06-25T03:27:28Z",
+      "side": 1,
+      "message": "\u003e I wonder why they only check the first sensor found if it is active or not. It looks wrong.\n\nYeah, agree.\n\n\u003e Do they want to reinstantiate the I2C device if one of the sensors is deactivated? I don\u0027t know.\n\nI think it instead should be: if there\u0027s one active sensor found that belongs to the device, the device info should be enlisted from that sensor.\n\n`createSensorsCallback` should check for sensor\u0027s active state to return instead of device\u0027s. But I think the Label power state check is acceptable.",
+      "parentUuid": "5857e05a_78348d5c",
+      "revId": "44c209d712a19884fcb30d24049c51dfd8f5b05d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
