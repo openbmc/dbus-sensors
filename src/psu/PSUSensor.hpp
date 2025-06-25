@@ -56,6 +56,7 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
     unsigned int sensorFactor;
     double sensorOffset;
     thresholds::ThresholdTimer thresholdTimer;
+    std::string sensorUnits;
     void restartRead();
     void handleResponse(const boost::system::error_code& err, size_t bytesRead);
     void checkThresholds() override;

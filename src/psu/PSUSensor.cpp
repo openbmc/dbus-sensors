@@ -59,7 +59,7 @@ PSUSensor::PSUSensor(
     i2cDevice(i2cDevice), objServer(objectServer),
     inputDev(io, path, boost::asio::random_access_file::read_only),
     waitTimer(io), path(path), sensorFactor(factor), sensorOffset(offset),
-    thresholdTimer(io)
+    thresholdTimer(io), sensorUnits(sensorUnits)
 {
     buffer = std::make_shared<std::array<char, 128>>();
     std::string unitPath = sensor_paths::getPathForUnits(sensorUnits);
@@ -234,8 +234,19 @@ void PSUSensor::handleResponse(const boost::system::error_code& err,
 
     try
     {
-        rawValue = std::stod(bufferRef.data());
-        updateValue((rawValue / sensorFactor) + sensorOffset);
+        double tempRawValue = std::stod(bufferRef.data());
+        double tempValue = (tempRawValue / sensorFactor) + sensorOffset;
+        if (sensorUnits == sensor_paths::unitVolts && tempValue <= 0)
+        {
+            lg2::error(
+                "Unexpected reading, name: {NAME}, raw: {RAW}, value: {VALUE}",
+                "NAME", name, "RAW", tempRawValue, "VALUE", tempValue);
+        }
+        else
+        {
+            rawValue = tempRawValue;
+            updateValue(tempValue);
+        }
     }
     catch (const std::invalid_argument&)
     {
