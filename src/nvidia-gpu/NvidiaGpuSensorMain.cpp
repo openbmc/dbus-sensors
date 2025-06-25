@@ -8,6 +8,7 @@
 #include "Utils.hpp"
 
 #include <NvidiaDeviceDiscovery.hpp>
+#include <NvidiaSmaDevice.hpp>
 #include <boost/asio/error.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/post.hpp>
@@ -27,6 +28,7 @@
 #include <vector>
 
 boost::container::flat_map<std::string, std::shared_ptr<GpuDevice>> gpuDevices;
+boost::container::flat_map<std::string, std::shared_ptr<SmaDevice>> smaDevices;
 
 void configTimerExpiryCallback(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
@@ -37,7 +39,8 @@ void configTimerExpiryCallback(
     {
         return; // we're being canceled
     }
-    createSensors(io, objectServer, gpuDevices, dbusConnection, mctpRequester);
+    createSensors(io, objectServer, gpuDevices, smaDevices, dbusConnection,
+                  mctpRequester);
 }
 
 int main()
@@ -51,7 +54,8 @@ int main()
     mctp::MctpRequester mctpRequester(io);
 
     boost::asio::post(io, [&]() {
-        createSensors(io, objectServer, gpuDevices, systemBus, mctpRequester);
+        createSensors(io, objectServer, gpuDevices, smaDevices, systemBus,
+                      mctpRequester);
     });
 
     boost::asio::steady_timer configTimer(io);
@@ -76,7 +80,9 @@ int main()
         static_cast<sdbusplus::bus_t&>(*systemBus),
         sdbusplus::bus::match::rules::interfacesRemovedAtPath(
             std::string(inventoryPath)),
-        [](sdbusplus::message_t& msg) { interfaceRemoved(msg, gpuDevices); });
+        [](sdbusplus::message_t& msg) {
+            interfaceRemoved(msg, gpuDevices, smaDevices);
+        });
 
     io.run();
     return 0;
