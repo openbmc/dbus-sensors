@@ -38,7 +38,8 @@ enum class PlatformEnvironmentalCommands : uint8_t
 
 enum class DeviceIdentification : uint8_t
 {
-    DEVICE_GPU = 0
+    DEVICE_GPU = 0,
+    DEVICE_SMA = 5
 };
 
 struct QueryDeviceIdentificationRequest
