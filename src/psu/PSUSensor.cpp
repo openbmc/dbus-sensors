@@ -234,9 +234,20 @@ void PSUSensor::handleResponse(const boost::system::error_code& err,
 
     try
     {
-        rawValue = std::stod(bufferRef.data());
-        updateValue((rawValue / sensorFactor) + sensorOffset);
-    }
+        double tempRawValue = std::stod(bufferRef.data());
+        double tempValue = (tempRawValue / sensorFactor) + sensorOffset;
+        if (units == Unit::Volts && tempValue <= 0)
+        {
+            lg2::error(
+                "Unexpected reading, name: {NAME}, raw: {RAW}, value: {VALUE}",
+                "NAME", name, "RAW", tempRawValue, "VALUE", tempValue);
+        }
+        else
+        {
+            rawValue = tempRawValue;
+            updateValue(tempValue);
+        }
+    }   
     catch (const std::invalid_argument&)
     {
         lg2::error("Could not parse input from '{PATH}'", "PATH", path);
