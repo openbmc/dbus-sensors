@@ -40,6 +40,7 @@ using namespace std::literals;
 constexpr uint8_t gpuTempSensorId{0};
 static constexpr double gpuTempSensorMaxReading = 127;
 static constexpr double gpuTempSensorMinReading = -128;
+static constexpr auto sensorPollRate = 1000ms;
 
 GpuTempSensor::GpuTempSensor(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
@@ -348,12 +349,22 @@ void processSensorConfigs(
 
             std::string name = loadVariant<std::string>(cfg, "Name");
 
-            uint64_t pollRate = loadVariant<uint64_t>(cfg, "PollRate");
+            auto pollRate = sensorPollRate;
+            try
+            {
+                pollRate = std::chrono::milliseconds(
+                    loadVariant<uint64_t>(cfg, "PollRate"));
+            }
+            catch (const std::invalid_argument&)
+            {
+                // PollRate is an optional config
+                // Avoid emptt catch block
+                pollRate = sensorPollRate;
+            }
 
             sensors[name] = std::make_shared<GpuTempSensor>(
                 dbusConnection, io, mctpRequester, name, path, objectServer,
-                std::vector<thresholds::Threshold>{},
-                std::chrono::milliseconds{pollRate});
+                std::vector<thresholds::Threshold>{}, pollRate);
 
             lg2::info(
                 "Added GPU Temperature Sensor {NAME} with chassis path: {PATH}.",
