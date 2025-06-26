@@ -28,10 +28,13 @@
 #include <cstdint>
 #include <memory>
 #include <span>
+#include <stdexcept>
 #include <string>
 #include <utility>
 #include <variant>
 #include <vector>
+
+static constexpr auto sensorPollRateMs = 1000;
 
 void processQueryDeviceIdResponse(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
@@ -318,7 +321,15 @@ void processSensorConfigs(
 
             configs.name = loadVariant<std::string>(cfg, "Name");
 
-            configs.pollRate = loadVariant<uint64_t>(cfg, "PollRate");
+            try
+            {
+                configs.pollRate = loadVariant<uint64_t>(cfg, "PollRate");
+            }
+            catch (const std::invalid_argument&)
+            {
+                // PollRate is an optional config
+                configs.pollRate = sensorPollRateMs;
+            }
 
             discoverDevices(io, objectServer, gpuDevices, smaDevices,
                             dbusConnection, mctpRequester, configs, path);
