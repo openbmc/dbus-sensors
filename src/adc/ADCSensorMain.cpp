@@ -259,6 +259,14 @@ void createSensors(
                     }
                 }
 
+                float offset = 0.0;
+                auto findOffset = baseConfiguration->second.find("Offset");
+                if (findOffset != baseConfiguration->second.end())
+                {
+                    offset =
+                        std::visit(VariantToFloatVisitor(), findOffset->second);
+                }
+
                 float pollRate =
                     getPollRate(baseConfiguration->second, pollRateDefault);
                 PowerState readState = getPowerState(baseConfiguration->second);
@@ -307,7 +315,7 @@ void createSensors(
 
                 sensor = std::make_shared<ADCSensor>(
                     path.string(), objectServer, dbusConnection, io, sensorName,
-                    std::move(sensorThresholds), scaleFactor, pollRate,
+                    std::move(sensorThresholds), scaleFactor, offset, pollRate,
                     readState, *interfacePath, std::move(bridgeGpio));
                 sensor->setupRead();
             }

@@ -55,14 +55,14 @@ ADCSensor::ADCSensor(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     boost::asio::io_context& io, const std::string& sensorName,
     std::vector<thresholds::Threshold>&& thresholdsIn, const double scaleFactor,
-    const float pollRate, PowerState readState,
+    const double offset, const float pollRate, PowerState readState,
     const std::string& sensorConfiguration,
     std::optional<BridgeGpio>&& bridgeGpio) :
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
            "ADC", false, false, maxVoltageReading / scaleFactor,
            minVoltageReading / scaleFactor, conn, readState),
     objServer(objectServer), inputDev(io), waitTimer(io), path(path),
-    scaleFactor(scaleFactor),
+    scaleFactor(scaleFactor), offset(offset),
     sensorPollMs(static_cast<unsigned int>(pollRate * 1000)),
     bridgeGpio(std::move(bridgeGpio)), thresholdTimer(io)
 {
@@ -219,6 +219,11 @@ void ADCSensor::handleResponse(const boost::system::error_code& err)
         {
             rawValue = std::stod(response);
             double nvalue = (rawValue / sensorScaleFactor) / scaleFactor;
+            if (nvalue > 0.1)
+            {
+                // Do not apply offset
+                nvalue += offset;
+            }
             nvalue = std::round(nvalue * roundFactor) / roundFactor;
             updateValue(nvalue);
         }
