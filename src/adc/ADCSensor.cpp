@@ -45,6 +45,7 @@
 
 // scaling factor from hwmon
 static constexpr unsigned int sensorScaleFactor = 1000;
+double offset = 0.0;
 
 static constexpr double roundFactor = 10000;     // 3 decimal places
 static constexpr double maxVoltageReading = 1.8; // pre sensor scaling
@@ -55,14 +56,14 @@ ADCSensor::ADCSensor(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     boost::asio::io_context& io, const std::string& sensorName,
     std::vector<thresholds::Threshold>&& thresholdsIn, const double scaleFactor,
-    const float pollRate, PowerState readState,
+    const double offset, const float pollRate, PowerState readState,
     const std::string& sensorConfiguration,
     std::optional<BridgeGpio>&& bridgeGpio) :
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
            "ADC", false, false, maxVoltageReading / scaleFactor,
            minVoltageReading / scaleFactor, conn, readState),
     objServer(objectServer), inputDev(io), waitTimer(io), path(path),
-    scaleFactor(scaleFactor),
+    scaleFactor(scaleFactor), offset(offset),
     sensorPollMs(static_cast<unsigned int>(pollRate * 1000)),
     bridgeGpio(std::move(bridgeGpio)), thresholdTimer(io)
 {
@@ -218,7 +219,8 @@ void ADCSensor::handleResponse(const boost::system::error_code& err)
         try
         {
             rawValue = std::stod(response);
-            double nvalue = (rawValue / sensorScaleFactor) / scaleFactor;
+            double nvalue = ((rawValue / sensorScaleFactor) / scaleFactor) +
+                            offset;
             nvalue = std::round(nvalue * roundFactor) / roundFactor;
             updateValue(nvalue);
         }
