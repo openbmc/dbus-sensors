@@ -142,6 +142,30 @@
       },
       "revId": "29ed962cbe5316570aab2d8988b5f926103a62b0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c69e85b5_8ccc04e8",
+        "filename": "src/leakdetector/LeakGPIODetector.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-06-27T01:14:09Z",
+      "side": 1,
+      "message": "\u003e My issue is this is a straight-up breaking change for anyone who had already configured the old targets.\n\u003e \n\u003e Is no-one using the original targets?\n\nThe only use case at the moment is for Meta in https://github.com/openbmc/openbmc/blob/master/meta-facebook/meta-ventura/recipes-phosphor/sensors/dbus-sensors/xyz.openbmc_project.leakdetector.critical%40.service and there is already patch on gerrit to move to new targets. It will be merged after this change goes in.",
+      "parentUuid": "980b8018_0309a09c",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 1
+      },
+      "revId": "29ed962cbe5316570aab2d8988b5f926103a62b0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
