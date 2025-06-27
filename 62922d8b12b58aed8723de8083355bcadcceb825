@@ -18,6 +18,42 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c4f5b30_85e08e88",
+        "filename": "src/adc/ADCSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1002064
+      },
+      "writtenOn": "2025-06-27T06:22:22Z",
+      "side": 1,
+      "message": "We have removed the unnecessary global variables.",
+      "parentUuid": "9538c0f3_15bf31ec",
+      "revId": "62922d8b12b58aed8723de8083355bcadcceb825",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52234113_c6907c2d",
+        "filename": "src/adc/ADCSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1002064
+      },
+      "writtenOn": "2025-06-27T06:22:22Z",
+      "side": 1,
+      "message": "We have removed the unnecessary global variables.",
+      "parentUuid": "9538c0f3_15bf31ec",
+      "revId": "62922d8b12b58aed8723de8083355bcadcceb825",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4f2b5816_fa3b6083",
@@ -31,6 +67,24 @@
       "writtenOn": "2025-06-27T02:03:30Z",
       "side": 1,
       "message": "Can you point to the EM schema that describes this property?",
+      "revId": "62922d8b12b58aed8723de8083355bcadcceb825",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "452712c9_ef07b30b",
+        "filename": "src/adc/ADCSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1002064
+      },
+      "writtenOn": "2025-06-27T06:22:22Z",
+      "side": 1,
+      "message": "\"Offset\" is a newly added property. We’ll update the corresponding schema to include its definition.",
+      "parentUuid": "4f2b5816_fa3b6083",
       "revId": "62922d8b12b58aed8723de8083355bcadcceb825",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
