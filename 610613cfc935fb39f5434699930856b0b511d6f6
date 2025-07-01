@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "96394801_ebf506e0",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-07-01T22:47:14Z",
+      "side": 1,
+      "message": "Is there a reason these need to be shared_ptrs ?",
+      "range": {
+        "startLine": 62,
+        "startChar": 4,
+        "endLine": 62,
+        "endChar": 19
+      },
+      "revId": "610613cfc935fb39f5434699930856b0b511d6f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c4a65ecc_3b759f06",
         "filename": "src/nvidia-gpu/NvidiaGpuPowerSensor.cpp",
         "patchSetId": 17
