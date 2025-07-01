@@ -267,7 +267,8 @@ class MCTPDDevice :
     MCTPDDevice(const std::shared_ptr<sdbusplus::asio::connection>& connection,
                 const std::string& interface,
                 const std::vector<uint8_t>& physaddr,
-                std::optional<uint8_t> staticEID = std::nullopt);
+                std::optional<uint8_t> staticEID = std::nullopt,
+                bool bridged = false);
     MCTPDDevice(const MCTPDDevice& other) = delete;
     MCTPDDevice(MCTPDDevice&& other) = delete;
     ~MCTPDDevice() override = default;
@@ -287,8 +288,10 @@ class MCTPDDevice :
     const std::string interface;
     const std::vector<uint8_t> physaddr;
     const std::optional<uint8_t> staticEID;
+    std::optional<int> networkId; // Used for bridged devices
     std::shared_ptr<MCTPDEndpoint> endpoint;
     std::unique_ptr<sdbusplus::bus::match_t> removeMatch;
+    bool bridged;
 
     /**
      * @brief Actions to perform once endpoint setup has succeeded
@@ -318,8 +321,10 @@ class I2CMCTPDDevice : public MCTPDDevice
     I2CMCTPDDevice() = delete;
     I2CMCTPDDevice(
         const std::shared_ptr<sdbusplus::asio::connection>& connection, int bus,
-        uint8_t physaddr, std::optional<uint8_t> staticEID = std::nullopt) :
-        MCTPDDevice(connection, interfaceFromBus(bus), {physaddr}, staticEID)
+        uint8_t physaddr, std::optional<uint8_t> staticEID = std::nullopt,
+        bool bridged = false) :
+        MCTPDDevice(connection, interfaceFromBus(bus), {physaddr}, staticEID,
+                    bridged)
     {}
     ~I2CMCTPDDevice() override = default;
 
@@ -342,8 +347,9 @@ class I3CMCTPDDevice : public MCTPDDevice
     I3CMCTPDDevice(
         const std::shared_ptr<sdbusplus::asio::connection>& connection, int bus,
         const std::vector<uint8_t>& physaddr,
-        std::optional<uint8_t> staticEID = std::nullopt) :
-        MCTPDDevice(connection, interfaceFromBus(bus), physaddr, staticEID)
+        std::optional<uint8_t> staticEID = std::nullopt, bool bridged = false) :
+        MCTPDDevice(connection, interfaceFromBus(bus), physaddr, staticEID,
+                    bridged)
     {}
     ~I3CMCTPDDevice() override = default;
 
