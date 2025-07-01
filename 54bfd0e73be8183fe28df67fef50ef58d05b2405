@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29680c64_4ba28ea8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 34
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-07-01T22:37:07Z",
+      "side": 1,
+      "message": "at() is almost universally incorrect in an async reactor.",
+      "revId": "54bfd0e73be8183fe28df67fef50ef58d05b2405",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3bcc33eb_6a74420d",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 34
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-07-01T22:37:07Z",
+      "side": 1,
+      "message": "uncaught exception.  Use find.",
+      "range": {
+        "startLine": 44,
+        "startChar": 41,
+        "endLine": 44,
+        "endChar": 43
+      },
+      "revId": "54bfd0e73be8183fe28df67fef50ef58d05b2405",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2f2ad4a_fc574320",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 34
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-07-01T22:37:07Z",
+      "side": 1,
+      "message": "same here.",
+      "range": {
+        "startLine": 115,
+        "startChar": 41,
+        "endLine": 115,
+        "endChar": 43
+      },
+      "revId": "54bfd0e73be8183fe28df67fef50ef58d05b2405",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
