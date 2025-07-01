@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a52ad6e_62f819b6",
+        "filename": "src/nvidia-gpu/NvidiaGpuThresholds.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-07-01T22:45:16Z",
+      "side": 1,
+      "message": "Please don\u0027t declare static buffers like this.  Attach them to an appropriately scoped object to ensure this code is reentrant.",
+      "range": {
+        "startLine": 59,
+        "startChar": 4,
+        "endLine": 59,
+        "endChar": 10
+      },
+      "revId": "39afbf50f5262c6d728c3e0b8a564b06e003d05d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
