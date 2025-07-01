@@ -43,8 +43,9 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
     mctpRequester(mctpRequester), conn(conn), objectServer(objectServer),
     configs(configs), name(escapeName(name)), path(path)
 {
-    inventory = std::make_shared<Inventory>(conn, objectServer, name,
-                                            gpu::NvidiaVDMDeviceType::GPU);
+    inventory =
+        std::make_shared<Inventory>(conn, objectServer, name, mctpRequester,
+                                    gpu::NvidiaVDMDeviceType::GPU, eid, io);
     makeSensors();
 }
 
