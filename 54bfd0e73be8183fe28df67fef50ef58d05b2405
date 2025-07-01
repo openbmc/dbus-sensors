@@ -18,6 +18,23 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9cc8008a_e3b0aff7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 34
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-07-01T22:39:35Z",
+      "side": 1,
+      "message": "fix all uses of at(), then this LGTM.",
+      "revId": "54bfd0e73be8183fe28df67fef50ef58d05b2405",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3bcc33eb_6a74420d",
@@ -59,6 +76,75 @@
         "startChar": 41,
         "endLine": 115,
         "endChar": 43
+      },
+      "revId": "54bfd0e73be8183fe28df67fef50ef58d05b2405",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddb775ba_7cce2258",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 34
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-07-01T22:39:35Z",
+      "side": 1,
+      "message": "Nit, please use vector, or boost devector to avoid mallocs in the hot path.",
+      "range": {
+        "startLine": 18,
+        "startChar": 10,
+        "endLine": 18,
+        "endChar": 15
+      },
+      "revId": "54bfd0e73be8183fe28df67fef50ef58d05b2405",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc0bbd0a_89f79422",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 34
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-07-01T22:39:35Z",
+      "side": 1,
+      "message": "Keeping these in a seperate data structure can lead to use after free issues.",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 35
+      },
+      "revId": "54bfd0e73be8183fe28df67fef50ef58d05b2405",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a6ed5dc_bf4cd628",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 34
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-07-01T22:39:35Z",
+      "side": 1,
+      "message": "pass by rvalue reference \u0026\u0026",
+      "range": {
+        "startLine": 101,
+        "startChar": 32,
+        "endLine": 101,
+        "endChar": 66
       },
       "revId": "54bfd0e73be8183fe28df67fef50ef58d05b2405",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
