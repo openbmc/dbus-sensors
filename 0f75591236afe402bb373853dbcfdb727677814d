@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eecffd30_81f28fde",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-07-01T22:53:12Z",
+      "side": 1,
+      "message": "Can we just fix this?  There\u0027s a reasonable range for wattage we can just define (5000 watts?) rather than take the full range of the sensor?",
+      "range": {
+        "startLine": 11,
+        "startChar": 45,
+        "endLine": 12,
+        "endChar": 59
+      },
+      "revId": "0f75591236afe402bb373853dbcfdb727677814d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
