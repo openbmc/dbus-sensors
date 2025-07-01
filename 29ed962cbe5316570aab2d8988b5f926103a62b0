@@ -166,6 +166,30 @@
       },
       "revId": "29ed962cbe5316570aab2d8988b5f926103a62b0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c65ecce1_f231ec50",
+        "filename": "src/leakdetector/LeakGPIODetector.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001896
+      },
+      "writtenOn": "2025-07-01T17:12:06Z",
+      "side": 1,
+      "message": "Hi, @andrew@codeconstruct.com.au\n\nCould you help to review about this change? Thanks",
+      "parentUuid": "c69e85b5_8ccc04e8",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 1
+      },
+      "revId": "29ed962cbe5316570aab2d8988b5f926103a62b0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
