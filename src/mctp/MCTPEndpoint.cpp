@@ -36,6 +36,8 @@ PHOSPHOR_LOG2_USING;
 
 static constexpr const char* mctpdBusName = "au.com.codeconstruct.MCTP1";
 static constexpr const char* mctpdControlPath = "/au/com/codeconstruct/mctp1";
+static constexpr const char* mctpdNetworkInterface =
+    "au.com.codeconstruct.MCTP.Network1";
 static constexpr const char* mctpdControlInterface =
     "au.com.codeconstruct.MCTP.BusOwner1";
 static constexpr const char* mctpdEndpointControlInterface =
@@ -44,9 +46,9 @@ static constexpr const char* mctpdEndpointControlInterface =
 MCTPDDevice::MCTPDDevice(
     const std::shared_ptr<sdbusplus::asio::connection>& connection,
     const std::string& interface, const std::vector<uint8_t>& physaddr,
-    std::optional<uint8_t> staticEID) :
+    std::optional<uint8_t> staticEID, bool bridged) :
     connection(connection), interface(interface), physaddr(physaddr),
-    staticEID(staticEID)
+    staticEID(staticEID), bridged(bridged)
 {}
 
 void MCTPDDevice::onEndpointInterfacesRemoved(
@@ -97,7 +99,7 @@ void MCTPDDevice::setup(
     // Use a lambda to separate state validation from business logic,
     // where the business logic for a successful setup() is encoded in
     // MctpdDevice::finaliseEndpoint()
-    auto onSetup = [weak{weak_from_this()}, added{std::move(added)}](
+    auto onSetup = [weak{weak_from_this()}, added{added}](
                        const boost::system::error_code& ec, uint8_t eid,
                        int network, const std::string& objpath,
                        bool allocated [[maybe_unused]]) mutable {
@@ -118,13 +120,88 @@ void MCTPDDevice::setup(
                 "INVENTORY_PATH", objpath);
         }
     };
+    auto onSetupBridged = [weak{weak_from_this()}, added{added},
+                           staticEID{staticEID}, networkId{networkId}](
+                              const boost::system::error_code& ec,
+                              const std::string& objpath,
+                              bool allocated [[maybe_unused]]) mutable {
+        if (ec)
+        {
+            error("Failed to assign static EID: {EID}, error: {ERROR}", "EID",
+                  staticEID.value_or(0), "ERROR", ec.message());
+            added(ec, {});
+            return;
+        }
+
+        if (!staticEID.has_value() || !networkId.has_value())
+        {
+            error("No static EID or Network ID provided");
+            added(boost::system::errc::make_error_code(
+                      boost::system::errc::invalid_argument),
+                  {});
+            return;
+        }
+        if (auto self = weak.lock())
+        {
+            self->finaliseEndpoint(objpath, *staticEID, *networkId, added);
+        }
+        else
+        {
+            info(
+                "Device object for inventory at '{INVENTORY_PATH}' was destroyed concurrent to completion of its endpoint setup",
+                "INVENTORY_PATH", objpath);
+        }
+    };
+
     if (staticEID.has_value())
     {
-        connection->async_method_call(
-            onSetup, mctpdBusName,
-            mctpdControlPath + std::string("/interfaces/") + interface,
-            mctpdControlInterface, "AssignEndpointStatic", physaddr,
-            staticEID.value());
+        if (bridged)
+        {
+            connection->async_method_call(
+                [weak{weak_from_this()},
+                 onSetupBridged{std::move(onSetupBridged)}](
+                    const boost::system::error_code& ec,
+                    const std::variant<uint32_t>& value) {
+                    if (ec)
+                    {
+                        error(
+                            "Failed to get Network ID for bridged device: {ERROR}",
+                            "ERROR", ec.message());
+                        return;
+                    }
+
+                    if (auto self = weak.lock())
+                    {
+                        self->networkId = std::get<uint32_t>(value);
+                        self->connection->async_method_call(
+                            onSetupBridged, mctpdBusName,
+                            std::format("{}/networks/{}", mctpdControlPath,
+                                        self->networkId.value()),
+                            mctpdNetworkInterface, "LearnEndpoint",
+                            self->staticEID.value());
+                    }
+                    else
+                    {
+                        info(
+                            "Device object for inventory at '{INVENTORY_PATH}' was destroyed concurrent to completion of its endpoint setup",
+                            "INVENTORY_PATH",
+                            mctpdControlPath + std::string("/interfaces/") +
+                                self->interface);
+                    }
+                },
+                mctpdBusName,
+                mctpdControlPath + std::string("/interfaces/") + interface,
+                "org.freedesktop.DBus.Properties", "Get",
+                "au.com.codeconstruct.MCTP.Interface1", "NetworkId");
+        }
+        else
+        {
+            connection->async_method_call(
+                onSetup, mctpdBusName,
+                mctpdControlPath + std::string("/interfaces/") + interface,
+                mctpdControlInterface, "AssignEndpointStatic", physaddr,
+                staticEID.value());
+        }
     }
     else
     {
@@ -384,6 +461,7 @@ std::shared_ptr<I2CMCTPDDevice> I2CMCTPDDevice::from(
     auto mBus = iface.find("Bus");
     auto mName = iface.find("Name");
     auto mStaticEID = iface.find("StaticEndpointID");
+    auto mBridged = iface.find("Bridged");
     if (mAddress == iface.end() || mBus == iface.end() || mName == iface.end())
     {
         throw std::invalid_argument(
@@ -415,10 +493,20 @@ std::shared_ptr<I2CMCTPDDevice> I2CMCTPDDevice::from(
                                mStaticEID->second);
     }
 
+    bool bridged{};
+    if (mBridged != iface.end())
+    {
+        bridged = std::get<bool>(mBridged->second);
+    }
+    else
+    {
+        bridged = false;
+    }
+
     try
     {
         return std::make_shared<I2CMCTPDDevice>(connection, bus, address,
-                                                staticEID);
+                                                staticEID, bridged);
     }
     catch (const MCTPException& ex)
     {
@@ -450,6 +538,7 @@ std::shared_ptr<I3CMCTPDDevice> I3CMCTPDDevice::from(
     auto mBus = iface.find("Bus");
     auto mName = iface.find("Name");
     auto mStaticEID = iface.find("StaticEndpointID");
+    auto mBridged = iface.find("Bridged");
     if (mAddress == iface.end() || mBus == iface.end() || mName == iface.end())
     {
         throw std::invalid_argument(
@@ -479,10 +568,20 @@ std::shared_ptr<I3CMCTPDDevice> I3CMCTPDDevice::from(
                                mStaticEID->second);
     }
 
+    bool bridged{};
+    if (mBridged != iface.end())
+    {
+        bridged = std::get<bool>(mBridged->second);
+    }
+    else
+    {
+        bridged = false;
+    }
+
     try
     {
         return std::make_shared<I3CMCTPDDevice>(connection, bus, address,
-                                                staticEID);
+                                                staticEID, bridged);
     }
     catch (const MCTPException& ex)
     {
