@@ -42,8 +42,9 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
     mctpRequester(mctpRequester), conn(conn), objectServer(objectServer),
     configs(configs), name(escapeName(name)), path(path)
 {
-    inventory = std::make_unique<Inventory>(conn, objectServer, name,
-                                            Inventory::DeviceType::GPU);
+    inventory =
+        std::make_unique<Inventory>(conn, objectServer, name, mctpRequester,
+                                    Inventory::DeviceType::GPU, eid, io);
     makeSensors();
 }
 
