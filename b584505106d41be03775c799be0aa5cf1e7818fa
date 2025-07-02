@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4006cb2e_8c94aa2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-07-02T19:15:57Z",
+      "side": 1,
+      "message": "Can you give actual evidence of these things?  I don\u0027t really know what the \"SEL\" for this would look like and it isn\u0027t obvious from the code.  Just claiming \"pass\" doesn\u0027t really help anyone now or in the future.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 68
+      },
+      "revId": "b584505106d41be03775c799be0aa5cf1e7818fa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
