@@ -58,6 +58,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "436152fa_0b0f9f26",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 34
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-07-02T14:54:53Z",
+      "side": 1,
+      "message": "Done. Now the MctpRequester checks if the completionCallbacks contains the callback for the eid.",
+      "parentUuid": "3bcc33eb_6a74420d",
+      "range": {
+        "startLine": 44,
+        "startChar": 41,
+        "endLine": 44,
+        "endChar": 43
+      },
+      "revId": "54bfd0e73be8183fe28df67fef50ef58d05b2405",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d2f2ad4a_fc574320",
@@ -71,6 +95,30 @@
       "writtenOn": "2025-07-01T22:37:07Z",
       "side": 1,
       "message": "same here.",
+      "range": {
+        "startLine": 115,
+        "startChar": 41,
+        "endLine": 115,
+        "endChar": 43
+      },
+      "revId": "54bfd0e73be8183fe28df67fef50ef58d05b2405",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0229bd8_41e418c1",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 34
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-07-02T14:54:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2f2ad4a_fc574320",
       "range": {
         "startLine": 115,
         "startChar": 41,
@@ -106,6 +154,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d94ce9b3_0058950b",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 34
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-07-02T14:54:53Z",
+      "side": 1,
+      "message": "How will a vector/devector help in avoiding allocations? Are you saying that maybe we already reserve a size of max instance ids in the vector?",
+      "parentUuid": "ddb775ba_7cce2258",
+      "range": {
+        "startLine": 18,
+        "startChar": 10,
+        "endLine": 18,
+        "endChar": 15
+      },
+      "revId": "54bfd0e73be8183fe28df67fef50ef58d05b2405",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dc0bbd0a_89f79422",
         "filename": "src/nvidia-gpu/MctpRequester.hpp",
         "patchSetId": 34
@@ -129,6 +201,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7be286a2_c4e60a10",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 34
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-07-02T14:54:53Z",
+      "side": 1,
+      "message": "Not sure if I get this. We need `RequestContext` in order to store the queued request\u0027s buffers. As the lifetime of these buffers is the responsibility of the caller, how will the use after free issues will be seen?",
+      "parentUuid": "dc0bbd0a_89f79422",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 35
+      },
+      "revId": "54bfd0e73be8183fe28df67fef50ef58d05b2405",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9a6ed5dc_bf4cd628",
         "filename": "src/nvidia-gpu/MctpRequester.hpp",
         "patchSetId": 34
@@ -140,6 +236,30 @@
       "writtenOn": "2025-07-01T22:39:35Z",
       "side": 1,
       "message": "pass by rvalue reference \u0026\u0026",
+      "range": {
+        "startLine": 101,
+        "startChar": 32,
+        "endLine": 101,
+        "endChar": 66
+      },
+      "revId": "54bfd0e73be8183fe28df67fef50ef58d05b2405",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77949d51_ac739faf",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 34
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-07-02T14:54:53Z",
+      "side": 1,
+      "message": "As we are already moving the callback function (with std::move) while creating the RequestContext not sure why we need to pass it as an rvalue reference explicitly",
+      "parentUuid": "9a6ed5dc_bf4cd628",
       "range": {
         "startLine": 101,
         "startChar": 32,
