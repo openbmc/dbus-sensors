@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "871cc288_05ab6a6d",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-07-02T12:59:00Z",
+      "side": 1,
+      "message": "In ordered to that I think we need some sort of polymorphic container - as member data of the Device class - that contains all Sensor objects of different derived types and to update them we can iterate over that container calling a virtual member function of each object. It would be awkward to do ordered update with current implementation where we have each sensor individually as member data of the Device class.",
+      "parentUuid": "f778fad5_6873145f",
+      "revId": "170feb5d1e96007b607677a1667c93209066354e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fdb854f7_c6215ad0",
         "filename": "src/nvidia-gpu/NvidiaGpuEnergySensor.cpp",
         "patchSetId": 8
@@ -31,6 +49,30 @@
       "writtenOn": "2025-07-01T22:49:44Z",
       "side": 1,
       "message": "nit: This seems like a really excessive way to say \"0.0\"",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 40
+      },
+      "revId": "170feb5d1e96007b607677a1667c93209066354e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15eff760_c4c2a291",
+        "filename": "src/nvidia-gpu/NvidiaGpuEnergySensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-07-02T12:59:00Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "fdb854f7_c6215ad0",
       "range": {
         "startLine": 38,
         "startChar": 4,
