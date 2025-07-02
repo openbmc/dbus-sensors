@@ -34,6 +34,24 @@
       "parentUuid": "b4cceead_ccc66512",
       "revId": "b810ff72249da1a4ccec92fc19f2d00106f9b3e8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b49a4ce_502f38d6",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-07-02T13:03:21Z",
+      "side": 1,
+      "message": "Base class doesn\u0027t have handling for NaN. With 0 every single sensor value update will be retrievable through d-bus.",
+      "parentUuid": "71018938_922815fb",
+      "revId": "b810ff72249da1a4ccec92fc19f2d00106f9b3e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
