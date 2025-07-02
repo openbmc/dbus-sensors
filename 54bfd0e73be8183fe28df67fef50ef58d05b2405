@@ -178,6 +178,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "37de89b1_c3b59a5f",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 34
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-07-02T15:52:22Z",
+      "side": 1,
+      "message": "\u003e How will a vector/devector help in avoiding allocations?\n\ndevector/vector retain memory, and allocate at power of 2 sizes as needed, so in general the only allocation will be the first round of sensor updates.\n\n\u003e Are you saying that maybe we already reserve a size of max instance ids in the vector?\n\nno, reserve is not required here (unless we know exactly how many requests can be in flight), just let the implementation handle it.",
+      "parentUuid": "d94ce9b3_0058950b",
+      "range": {
+        "startLine": 18,
+        "startChar": 10,
+        "endLine": 18,
+        "endChar": 15
+      },
+      "revId": "54bfd0e73be8183fe28df67fef50ef58d05b2405",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dc0bbd0a_89f79422",
         "filename": "src/nvidia-gpu/MctpRequester.hpp",
         "patchSetId": 34
@@ -225,6 +249,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3451bf2e_5bea5c47",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 34
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-07-02T15:52:22Z",
+      "side": 1,
+      "message": "Span is a pointer to memory.  It will generally be seen on startup/shutdown/reinit. RequestContext should maintain its own buffers (probably vector of char/uint8).",
+      "parentUuid": "7be286a2_c4e60a10",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 35
+      },
+      "revId": "54bfd0e73be8183fe28df67fef50ef58d05b2405",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9a6ed5dc_bf4cd628",
         "filename": "src/nvidia-gpu/MctpRequester.hpp",
         "patchSetId": 34
@@ -260,6 +308,30 @@
       "side": 1,
       "message": "As we are already moving the callback function (with std::move) while creating the RequestContext not sure why we need to pass it as an rvalue reference explicitly",
       "parentUuid": "9a6ed5dc_bf4cd628",
+      "range": {
+        "startLine": 101,
+        "startChar": 32,
+        "endLine": 101,
+        "endChar": 66
+      },
+      "revId": "54bfd0e73be8183fe28df67fef50ef58d05b2405",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "515807c4_c4a3a3c5",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 34
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-07-02T15:52:22Z",
+      "side": 1,
+      "message": "Because it prevents an extra move constructor.  This is a nit.",
+      "parentUuid": "77949d51_ac739faf",
       "range": {
         "startLine": 101,
         "startChar": 32,
