@@ -70,6 +70,24 @@
       "parentUuid": "1000427c_f4fa4d2e",
       "revId": "ee113ec1d44cce4ef8fe7a5bc76007a4790bd01a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de4b654a_bdc31c24",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2025-07-03T07:43:46Z",
+      "side": 1,
+      "message": "I investigated the method applications are logging threshold events (dbus-sensors/phosphor-virtual-sensors/pldm. I see that they are emitting signals to phosphor-sel-logger to notify events. phosphor-sel-logger reads messages to create logs for both IPMI and Redfish.\nI see that you are updating the method to log threshold events in dbus-sensors/phosphor-virtual-sensors/pldm, should we update phosphor-sel-logger instead?",
+      "parentUuid": "3039e0eb_56be9be7",
+      "revId": "ee113ec1d44cce4ef8fe7a5bc76007a4790bd01a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
