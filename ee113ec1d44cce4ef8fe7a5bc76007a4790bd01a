@@ -88,6 +88,24 @@
       "parentUuid": "3039e0eb_56be9be7",
       "revId": "ee113ec1d44cce4ef8fe7a5bc76007a4790bd01a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f15a2a8_46306a4f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-07-03T15:32:48Z",
+      "side": 1,
+      "message": "\u003e I see that you are updating the method to log threshold events in dbus-sensors/phosphor-virtual-sensors/pldm, should we update phosphor-sel-logger instead?\n\nNo.  phosphor-sel-logger is an optional component.  We should not rely on this for mainline behavior, such as reporting threshold events.\n\nIn my opinion, this was a poor implementation decision originally.",
+      "parentUuid": "de4b654a_bdc31c24",
+      "revId": "ee113ec1d44cce4ef8fe7a5bc76007a4790bd01a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
