@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1df5fcc7_ba78fe81",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-07-04T07:29:05Z",
+      "side": 1,
+      "message": "Perhaps you mean \u0027non-neighbour\u0027 or \u0027bridged\u0027? To me, \u0027local\u0027 refers to the endpoint associated with the current device.",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 7,
+        "endChar": 43
+      },
+      "revId": "b63a84ef60effd438c4ae8abba199e6718a0f17d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f158bcd4_d8dd3a3b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-07-04T07:29:05Z",
+      "side": 1,
+      "message": "Is this meant to be a reference for a URL? I think you forgot to include the URL?",
+      "range": {
+        "startLine": 9,
+        "startChar": 65,
+        "endLine": 9,
+        "endChar": 68
+      },
+      "revId": "b63a84ef60effd438c4ae8abba199e6718a0f17d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f32014bf_9c1082bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-07-04T07:29:05Z",
+      "side": 1,
+      "message": "Can you please mark this as WIP until the EM schema is approved?",
+      "revId": "b63a84ef60effd438c4ae8abba199e6718a0f17d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb93f9c4_232662cb",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-07-04T07:29:05Z",
+      "side": 1,
+      "message": "Perhaps this is the wrong include?",
+      "revId": "b63a84ef60effd438c4ae8abba199e6718a0f17d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3508d0bb_413e859f",
+        "filename": "src/mctp/MCTPEndpoint.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-07-04T07:29:05Z",
+      "side": 1,
+      "message": "This seems like an odd comment; the network ID is relevant for all devices?",
+      "range": {
+        "startLine": 291,
+        "startChar": 34,
+        "endLine": 291,
+        "endChar": 61
+      },
+      "revId": "b63a84ef60effd438c4ae8abba199e6718a0f17d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
