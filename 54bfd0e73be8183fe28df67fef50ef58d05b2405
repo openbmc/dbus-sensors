@@ -200,6 +200,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "55fd48fa_15358767",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 34
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-07-04T17:20:23Z",
+      "side": 1,
+      "message": "Done, using a devector now.",
+      "parentUuid": "37de89b1_c3b59a5f",
+      "range": {
+        "startLine": 18,
+        "startChar": 10,
+        "endLine": 18,
+        "endChar": 15
+      },
+      "revId": "54bfd0e73be8183fe28df67fef50ef58d05b2405",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dc0bbd0a_89f79422",
@@ -273,6 +297,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fecb952e_92976c84",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 34
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-07-04T17:20:23Z",
+      "side": 1,
+      "message": "But if the requester makes a copy of the message wouldn\u0027t that defeat the point of passing in just the view to the request buffer? Currently each sensor has preallocated request and response buffers and we are just passing the view of it to the requester.",
+      "parentUuid": "3451bf2e_5bea5c47",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 35
+      },
+      "revId": "54bfd0e73be8183fe28df67fef50ef58d05b2405",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9a6ed5dc_bf4cd628",
         "filename": "src/nvidia-gpu/MctpRequester.hpp",
         "patchSetId": 34
@@ -332,6 +380,30 @@
       "side": 1,
       "message": "Because it prevents an extra move constructor.  This is a nit.",
       "parentUuid": "77949d51_ac739faf",
+      "range": {
+        "startLine": 101,
+        "startChar": 32,
+        "endLine": 101,
+        "endChar": 66
+      },
+      "revId": "54bfd0e73be8183fe28df67fef50ef58d05b2405",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9b92e8e_36ecd932",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 34
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-07-04T17:20:23Z",
+      "side": 1,
+      "message": "Done, passing by rvalue reference now.",
+      "parentUuid": "515807c4_c4a3a3c5",
       "range": {
         "startLine": 101,
         "startChar": 32,
