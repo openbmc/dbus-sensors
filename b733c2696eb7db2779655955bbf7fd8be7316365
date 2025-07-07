@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d4f58dd_bc096ae1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2025-07-07T02:22:33Z",
+      "side": 1,
+      "message": "Note that this change is not integrated to any release (or the main branch) of the mctp utils, as it depends on a proposed kernel implementation of the routing support.\n\nOnce that kernel support has been merged to netdev, we will integrate this commit, but it is unlikely to use the same SHA, so you\u0027ll likely need to update this reference when that happens.",
+      "revId": "b733c2696eb7db2779655955bbf7fd8be7316365",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
