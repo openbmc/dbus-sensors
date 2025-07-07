@@ -16,6 +16,24 @@
       "message": "Why do we need per-sensor pollrates?",
       "revId": "113fb5ac85f9003c5099664fd1b404963f77fdc9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6ffb890_faf0dfbe",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.hpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-07-07T15:17:07Z",
+      "side": 1,
+      "message": "These struct will hold the `Device` config as read from Entity-Manager and hence `pollRate` is treated as per-device poll rate.",
+      "parentUuid": "ed392872_1b006cc9",
+      "revId": "113fb5ac85f9003c5099664fd1b404963f77fdc9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
