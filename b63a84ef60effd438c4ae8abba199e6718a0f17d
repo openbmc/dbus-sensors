@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "344b7902_3bb6778e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002135
+      },
+      "writtenOn": "2025-07-07T02:01:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1df5fcc7_ba78fe81",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 7,
+        "endChar": 43
+      },
+      "revId": "b63a84ef60effd438c4ae8abba199e6718a0f17d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f158bcd4_d8dd3a3b",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-07-04T07:29:05Z",
       "side": 1,
       "message": "Is this meant to be a reference for a URL? I think you forgot to include the URL?",
+      "range": {
+        "startLine": 9,
+        "startChar": 65,
+        "endLine": 9,
+        "endChar": 68
+      },
+      "revId": "b63a84ef60effd438c4ae8abba199e6718a0f17d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "536bfc7e_219c922e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002135
+      },
+      "writtenOn": "2025-07-07T02:01:54Z",
+      "side": 1,
+      "message": "Link added, thanks for reminding. 😊",
+      "parentUuid": "f158bcd4_d8dd3a3b",
       "range": {
         "startLine": 9,
         "startChar": 65,
@@ -64,6 +112,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7ffc26e_1e682509",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002135
+      },
+      "writtenOn": "2025-07-07T02:01:54Z",
+      "side": 1,
+      "message": "Marked as WIP.\nReference for schema: [#81552]\n\n[#81552]: https://gerrit.openbmc.org/c/openbmc/entity-manager/+/81552",
+      "parentUuid": "f32014bf_9c1082bf",
+      "revId": "b63a84ef60effd438c4ae8abba199e6718a0f17d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eb93f9c4_232662cb",
@@ -81,6 +147,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "95d719b5_15c653f9",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1002135
+      },
+      "writtenOn": "2025-07-07T02:01:54Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "eb93f9c4_232662cb",
+      "revId": "b63a84ef60effd438c4ae8abba199e6718a0f17d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3508d0bb_413e859f",
@@ -94,6 +178,30 @@
       "writtenOn": "2025-07-04T07:29:05Z",
       "side": 1,
       "message": "This seems like an odd comment; the network ID is relevant for all devices?",
+      "range": {
+        "startLine": 291,
+        "startChar": 34,
+        "endLine": 291,
+        "endChar": 61
+      },
+      "revId": "b63a84ef60effd438c4ae8abba199e6718a0f17d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "792740ad_3ba96533",
+        "filename": "src/mctp/MCTPEndpoint.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1002135
+      },
+      "writtenOn": "2025-07-07T02:01:54Z",
+      "side": 1,
+      "message": "`Used for bridged devices` -\u003e `Neccessary for calling LearnEndpoint method on Network1 interface`\n\nAs this is an input parameter for the method.",
+      "parentUuid": "3508d0bb_413e859f",
       "range": {
         "startLine": 291,
         "startChar": 34,
