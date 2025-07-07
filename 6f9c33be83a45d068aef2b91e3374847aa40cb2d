@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41bbedf3_85c7da83",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-07-07T13:52:06Z",
+      "side": 1,
+      "message": "is it possible to use `[[maybe_unused]]`?",
+      "revId": "6f9c33be83a45d068aef2b91e3374847aa40cb2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66d6f799_f76438cf",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-07-07T13:52:06Z",
+      "side": 1,
+      "message": "nit : can we make `deviceType` const?",
+      "revId": "6f9c33be83a45d068aef2b91e3374847aa40cb2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75fc13a9_e458f952",
+        "filename": "src/nvidia-gpu/Inventory.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-07-07T13:52:06Z",
+      "side": 1,
+      "message": "Should we use the enum that is already there in the `NvidiaGpuMctpVdm.hpp` for Device type?",
+      "revId": "6f9c33be83a45d068aef2b91e3374847aa40cb2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
