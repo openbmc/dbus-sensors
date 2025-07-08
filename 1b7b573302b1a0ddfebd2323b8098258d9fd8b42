@@ -159,6 +159,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfd84998_b801625d",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1000212
+      },
+      "writtenOn": "2025-07-08T17:53:14Z",
+      "side": 1,
+      "message": "\u003e\u003e But the cause of the issue has not been determined, so it is not resolved?\n\nI dont think thats the intention of the resolution for at least sensor threshold events. The issue was the sensor value was out-of-range. Once the sensor value is back in range, the issue is resolved. There may have been an underlying issue yes, the log entry is the proof of that.",
+      "parentUuid": "3552c209_419522ff",
+      "revId": "1b7b573302b1a0ddfebd2323b8098258d9fd8b42",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0c70a32d_24ff3df0",
