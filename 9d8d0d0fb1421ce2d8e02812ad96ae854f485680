@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5c765f73_cbcc72e3",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-09T12:13:50Z",
+      "side": 1,
+      "message": "It\u0027s uint8",
+      "parentUuid": "6eaff765_b6e2c063",
+      "revId": "9d8d0d0fb1421ce2d8e02812ad96ae854f485680",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3653b8ff_d7325f61",
         "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
         "patchSetId": 12
@@ -48,6 +66,52 @@
       "writtenOn": "2025-07-07T13:36:36Z",
       "side": 1,
       "message": "nit : can we mark all parameters as const wherever it is possible?",
+      "revId": "9d8d0d0fb1421ce2d8e02812ad96ae854f485680",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "898de85d_c29230ec",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-09T12:13:50Z",
+      "side": 1,
+      "message": "Can this also be a span? Is a copy needed?",
+      "range": {
+        "startLine": 486,
+        "startChar": 19,
+        "endLine": 486,
+        "endChar": 30
+      },
+      "revId": "9d8d0d0fb1421ce2d8e02812ad96ae854f485680",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bea9b81b_8898dee4",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-09T12:13:50Z",
+      "side": 1,
+      "message": "Do we need these?",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 90,
+        "endChar": 32
+      },
       "revId": "9d8d0d0fb1421ce2d8e02812ad96ae854f485680",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -71,6 +135,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2d1cb20f_b8a48779",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-09T12:13:50Z",
+      "side": 1,
+      "message": "Where is this limit coming from?",
+      "parentUuid": "4034f7a6_aa155751",
+      "revId": "9d8d0d0fb1421ce2d8e02812ad96ae854f485680",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ed667a70_9f84ae1a",
         "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
         "patchSetId": 12
@@ -82,6 +164,52 @@
       "writtenOn": "2025-07-07T13:36:36Z",
       "side": 1,
       "message": "Should this be moved to top of the file?",
+      "revId": "9d8d0d0fb1421ce2d8e02812ad96ae854f485680",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ece92aa_ec1495ea",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-09T12:13:50Z",
+      "side": 1,
+      "message": "What\u0027s the std::string for? Char arrays? Can this just be a vectory of uint8\u0027s and we convert as need be?",
+      "range": {
+        "startLine": 170,
+        "startChar": 35,
+        "endLine": 170,
+        "endChar": 46
+      },
+      "revId": "9d8d0d0fb1421ce2d8e02812ad96ae854f485680",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9b85094_9609ca92",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-09T12:13:50Z",
+      "side": 1,
+      "message": "What do we plan to use for BuildDate?",
+      "range": {
+        "startLine": 170,
+        "startChar": 48,
+        "endLine": 170,
+        "endChar": 68
+      },
       "revId": "9d8d0d0fb1421ce2d8e02812ad96ae854f485680",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
