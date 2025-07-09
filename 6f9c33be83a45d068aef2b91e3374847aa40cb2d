@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cebe7ee8_50c5a959",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-09T12:26:07Z",
+      "side": 1,
+      "message": "not really needed",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 6
+      },
+      "revId": "6f9c33be83a45d068aef2b91e3374847aa40cb2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "41bbedf3_85c7da83",
         "filename": "src/nvidia-gpu/Inventory.cpp",
         "patchSetId": 18
@@ -37,6 +60,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "110d5fb9_1ea19be3",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-09T12:26:07Z",
+      "side": 1,
+      "message": "escapeName(name)?",
+      "range": {
+        "startLine": 26,
+        "startChar": 58,
+        "endLine": 26,
+        "endChar": 62
+      },
+      "revId": "6f9c33be83a45d068aef2b91e3374847aa40cb2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d1e56d7_addc9557",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-09T12:26:07Z",
+      "side": 1,
+      "message": "Do we want to creation an association to the chassis object created by EM?",
+      "revId": "6f9c33be83a45d068aef2b91e3374847aa40cb2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "75fc13a9_e458f952",
         "filename": "src/nvidia-gpu/Inventory.hpp",
         "patchSetId": 18
@@ -48,6 +111,23 @@
       "writtenOn": "2025-07-07T13:52:06Z",
       "side": 1,
       "message": "Should we use the enum that is already there in the `NvidiaGpuMctpVdm.hpp` for Device type?",
+      "revId": "6f9c33be83a45d068aef2b91e3374847aa40cb2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d7182a5_43333926",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-09T12:26:07Z",
+      "side": 1,
+      "message": "Why is this unique but the sensors are shared?",
       "revId": "6f9c33be83a45d068aef2b91e3374847aa40cb2d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
