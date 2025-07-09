@@ -46,6 +46,30 @@
       },
       "revId": "0f75591236afe402bb373853dbcfdb727677814d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f5ce1bf_b948b4fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-09T09:14:40Z",
+      "side": 1,
+      "message": "@haghera@nvidia.com why dont we fix this for power sensor in this commit as suggested, and create a different one for Voltage/Energy based on the feedback (introduce NaN handling or pick a range)",
+      "parentUuid": "78271b07_ac70c418",
+      "range": {
+        "startLine": 11,
+        "startChar": 45,
+        "endLine": 12,
+        "endChar": 59
+      },
+      "revId": "0f75591236afe402bb373853dbcfdb727677814d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
