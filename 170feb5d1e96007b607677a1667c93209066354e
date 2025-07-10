@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d6936848_b15f4674",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-07-10T14:58:27Z",
+      "side": 1,
+      "message": "You\u0027re over thinking it a little:\n\nvoid updateSensors(){\n  updateTempSensors();\n  updatePowerSensors();\n  updateOtherSensors();\n  call timer(updateSensors);\n\n}\\\n\nPlease fix in next patchset.",
+      "parentUuid": "871cc288_05ab6a6d",
+      "revId": "170feb5d1e96007b607677a1667c93209066354e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fdb854f7_c6215ad0",
         "filename": "src/nvidia-gpu/NvidiaGpuEnergySensor.cpp",
         "patchSetId": 8
