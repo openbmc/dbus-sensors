@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "13c8281a_183079d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-07-10T14:55:59Z",
+      "side": 1,
+      "message": "So we should remove this code until it\u0027s correct?",
+      "parentUuid": "a6b5a778_c2fe732c",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 3
+      },
+      "revId": "c20108d2669667a5dec7a40d50a8a901e96fefdd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "314fea41_13d26f4f",
         "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
         "patchSetId": 15
