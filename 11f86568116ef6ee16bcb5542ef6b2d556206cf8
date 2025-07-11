@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43ee45d2_33081f42",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-07-11T19:41:04Z",
+      "side": 1,
+      "message": "NSM shouldn\u0027t be owning interfaces directly.  This leads to duplication where we have a \"card\" declared by EM, and an \"Accelerator\" hosted by NSM for what\u0027s ultimately one \"card\".\n\nThis can append interfaces to the existing path.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 53
+      },
+      "revId": "11f86568116ef6ee16bcb5542ef6b2d556206cf8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
