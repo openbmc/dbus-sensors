@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "303df64b_93d6b62d",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-11T14:25:54Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "83dcbdb8_6fdba59c",
+      "revId": "9d8d0d0fb1421ce2d8e02812ad96ae854f485680",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6eaff765_b6e2c063",
@@ -53,6 +71,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "73a64281_64dd4b02",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-11T14:25:54Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "5c765f73_cbcc72e3",
+      "revId": "9d8d0d0fb1421ce2d8e02812ad96ae854f485680",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3653b8ff_d7325f61",
@@ -66,6 +102,24 @@
       "writtenOn": "2025-07-07T13:36:36Z",
       "side": 1,
       "message": "nit : can we mark all parameters as const wherever it is possible?",
+      "revId": "9d8d0d0fb1421ce2d8e02812ad96ae854f485680",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0ea94b1_29d90803",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-11T14:25:54Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "3653b8ff_d7325f61",
       "revId": "9d8d0d0fb1421ce2d8e02812ad96ae854f485680",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -93,6 +147,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90f1e2d7_a7b4ca17",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-11T14:25:54Z",
+      "side": 1,
+      "message": "we need to copy the data from resposne buffer which is reused for other queries to the class member. yes vector is needed and span cant be used for this.",
+      "parentUuid": "898de85d_c29230ec",
+      "range": {
+        "startLine": 486,
+        "startChar": 19,
+        "endLine": 486,
+        "endChar": 30
+      },
+      "revId": "9d8d0d0fb1421ce2d8e02812ad96ae854f485680",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bea9b81b_8898dee4",
@@ -106,6 +184,30 @@
       "writtenOn": "2025-07-09T12:13:50Z",
       "side": 1,
       "message": "Do we need these?",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 90,
+        "endChar": 32
+      },
+      "revId": "9d8d0d0fb1421ce2d8e02812ad96ae854f485680",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d676fc8_d670c114",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-11T14:25:54Z",
+      "side": 1,
+      "message": "Yes might not need this.",
+      "parentUuid": "bea9b81b_8898dee4",
       "range": {
         "startLine": 89,
         "startChar": 0,
@@ -147,6 +249,24 @@
       "side": 1,
       "message": "Where is this limit coming from?",
       "parentUuid": "4034f7a6_aa155751",
+      "revId": "9d8d0d0fb1421ce2d8e02812ad96ae854f485680",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a314822_5f4a375a",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-11T14:25:54Z",
+      "side": 1,
+      "message": "From the spec NSM response length can go upto 65535. But for mast of the inventory properties we dont have allocate this buffer. So limiting to 256. We can increase it if we have use case later.",
+      "parentUuid": "2d1cb20f_b8a48779",
       "revId": "9d8d0d0fb1421ce2d8e02812ad96ae854f485680",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -204,6 +324,72 @@
       "writtenOn": "2025-07-09T12:13:50Z",
       "side": 1,
       "message": "What do we plan to use for BuildDate?",
+      "range": {
+        "startLine": 170,
+        "startChar": 48,
+        "endLine": 170,
+        "endChar": 68
+      },
+      "revId": "9d8d0d0fb1421ce2d8e02812ad96ae854f485680",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0ed0a23_4ad554d7",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-11T14:25:54Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "ed667a70_9f84ae1a",
+      "revId": "9d8d0d0fb1421ce2d8e02812ad96ae854f485680",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16841b8e_50d79560",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-11T14:25:54Z",
+      "side": 1,
+      "message": "varint helps us to model easily different data types. Only UUID is array of bytes rest of the data type is string.",
+      "parentUuid": "9ece92aa_ec1495ea",
+      "range": {
+        "startLine": 170,
+        "startChar": 35,
+        "endLine": 170,
+        "endChar": 46
+      },
+      "revId": "9d8d0d0fb1421ce2d8e02812ad96ae854f485680",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40e1c441_9346b176",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-11T14:25:54Z",
+      "side": 1,
+      "message": "std::vector\u003cuint8_t\u003e should work for any char array which requires a different representation. Rest can easily converted to string.",
+      "parentUuid": "a9b85094_9609ca92",
       "range": {
         "startLine": 170,
         "startChar": 48,
