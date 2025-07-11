@@ -61,7 +61,6 @@
 #include <variant>
 #include <vector>
 
-static constexpr bool debug = false;
 static std::regex i2cDevRegex(R"((\/i2c\-\d+\/\d+-[a-fA-F0-9]{4,4})(\/|$))");
 
 static const I2CDeviceTypeMap sensorTypes{
@@ -438,13 +437,10 @@ static void createSensorsCallback(
 
             if ((*confBus != bus) || (*confAddr != addr))
             {
-                if constexpr (debug)
-                {
-                    lg2::error(
-                        "Configuration skipping '{CONFBUS}'-'{CONFADDR}' because not {BUS}-{ADDR}",
-                        "CONFBUS", *confBus, "CONFADDR", *confAddr, "BUS", bus,
-                        "ADDR", addr);
-                }
+                lg2::debug(
+                    "Configuration skipping '{CONFBUS}'-'{CONFADDR}' because not {BUS}-{ADDR}",
+                    "CONFBUS", *confBus, "CONFADDR", *confAddr, "BUS", bus,
+                    "ADDR", addr);
                 continue;
             }
 
@@ -547,10 +543,7 @@ static void createSensorsCallback(
         /* read max value in sysfs for in, curr, power, temp, ... */
         if (!findFiles(directory, R"(\w\d+_max$)", sensorPaths, 0))
         {
-            if constexpr (debug)
-            {
-                lg2::error("No max name in PSU");
-            }
+            lg2::debug("No max name in PSU");
         }
 
         float pollRate = getPollRate(*baseConfig, PSUSensor::defaultSensorPoll);
@@ -619,12 +612,9 @@ static void createSensorsCallback(
                 std::ifstream labelFile(labelPath);
                 if (!labelFile.good())
                 {
-                    if constexpr (debug)
-                    {
-                        lg2::error(
-                            "Input file '{PATH}' has no corresponding label file",
-                            "PATH", sensorPath.string());
-                    }
+                    lg2::debug(
+                        "Input file '{PATH}' has no corresponding label file",
+                        "PATH", sensorPath.string());
                     // hwmon *_input filename with number:
                     // temp1, temp2, temp3, ...
                     labelHead =
@@ -659,12 +649,8 @@ static void createSensorsCallback(
                     if (std::find(findLabels.begin(), findLabels.end(),
                                   labelHead) == findLabels.end())
                     {
-                        if constexpr (debug)
-                        {
-                            lg2::error(
-                                "could not find {LABEL} in the Labels list",
-                                "LABEL", labelHead);
-                        }
+                        lg2::debug("could not find {LABEL} in the Labels list",
+                                   "LABEL", labelHead);
                         continue;
                     }
                 }
@@ -677,11 +663,8 @@ static void createSensorsCallback(
                 labelHead = sensorNameStr.substr(0, findIIOHyphen);
             }
 
-            if constexpr (debug)
-            {
-                lg2::error("Sensor type: {NAME}, label: {LABEL}", "NAME",
-                           sensorNameSubStr, "LABEL", labelHead);
-            }
+            lg2::debug("Sensor type: {NAME}, label: {LABEL}", "NAME",
+                       sensorNameSubStr, "LABEL", labelHead);
 
             if (!findLabels.empty())
             {
@@ -689,12 +672,8 @@ static void createSensorsCallback(
                 if (std::find(findLabels.begin(), findLabels.end(),
                               labelHead) == findLabels.end())
                 {
-                    if constexpr (debug)
-                    {
-                        lg2::error(
-                            "could not find '{LABEL}' in the Labels list",
-                            "LABEL", labelHead);
-                    }
+                    lg2::debug("could not find '{LABEL}' in the Labels list",
+                               "LABEL", labelHead);
                     continue;
                 }
             }
@@ -706,12 +685,9 @@ static void createSensorsCallback(
                 labelMatch.find(static_cast<std::string>(labelHeadView));
             if (findProperty == labelMatch.end())
             {
-                if constexpr (debug)
-                {
-                    lg2::error(
-                        "Could not find matching default property for '{LABEL}'",
-                        "LABEL", labelHead);
-                }
+                lg2::debug(
+                    "Could not find matching default property for '{LABEL}'",
+                    "LABEL", labelHead);
                 continue;
             }
 
@@ -874,13 +850,9 @@ static void createSensorsCallback(
 
                 psuNameFromIndex = psuNames[nameIndex];
 
-                if constexpr (debug)
-                {
-                    lg2::error(
-                        "'{LABEL}' paired with '{NAME}' at index '{INDEX}'",
-                        "LABEL", labelHead, "NAME", psuNameFromIndex, "INDEX",
-                        nameIndex);
-                }
+                lg2::debug("'{LABEL}' paired with '{NAME}' at index '{INDEX}'",
+                           "LABEL", labelHead, "NAME", psuNameFromIndex,
+                           "INDEX", nameIndex);
             }
 
             if (devType == DevTypes::HWMON)
@@ -912,12 +884,9 @@ static void createSensorsCallback(
                                         findScaleFactor->second);
                 }
 
-                if constexpr (debug)
-                {
-                    lg2::error(
-                        "Sensor scaling factor '{FACTOR}' string '{SCALE_FACTOR}'",
-                        "FACTOR", factor, "SCALE_FACTOR", strScaleFactor);
-                }
+                lg2::debug(
+                    "Sensor scaling factor '{FACTOR}' string '{SCALE_FACTOR}'",
+                    "FACTOR", factor, "SCALE_FACTOR", strScaleFactor);
             }
 
             std::vector<thresholds::Threshold> sensorThresholds;
@@ -936,16 +905,12 @@ static void createSensorsCallback(
                 continue;
             }
 
-            if constexpr (debug)
-            {
-                lg2::error("Sensor properties - Name: {NAME}, Scale: {SCALE}, "
-                           "Min: {MIN}, Max: {MAX}, Offset: {OFFSET}",
-                           "NAME", psuProperty.labelTypeName, "SCALE",
-                           psuProperty.sensorScaleFactor, "MIN",
-                           psuProperty.minReading, "MAX",
-                           psuProperty.maxReading, "OFFSET",
-                           psuProperty.sensorOffset);
-            }
+            lg2::debug("Sensor properties - Name: {NAME}, Scale: {SCALE}, "
+                       "Min: {MIN}, Max: {MAX}, Offset: {OFFSET}",
+                       "NAME", psuProperty.labelTypeName, "SCALE",
+                       psuProperty.sensorScaleFactor, "MIN",
+                       psuProperty.minReading, "MAX", psuProperty.maxReading,
+                       "OFFSET", psuProperty.sensorOffset);
 
             std::string sensorName = psuProperty.labelTypeName;
             if (customizedName)
@@ -972,12 +937,9 @@ static void createSensorsCallback(
                 }
             }
 
-            if constexpr (debug)
-            {
-                lg2::error("Sensor name: {NAME}, path: {PATH}, type: {TYPE}",
-                           "NAME", sensorName, "PATH", sensorPathStr, "TYPE",
-                           sensorType);
-            }
+            lg2::debug("Sensor name: {NAME}, path: {PATH}, type: {TYPE}",
+                       "NAME", sensorName, "PATH", sensorPathStr, "TYPE",
+                       sensorType);
             // destruct existing one first if already created
 
             auto& sensor = sensors[sensorName];
@@ -1001,11 +963,7 @@ static void createSensorsCallback(
                     pollRate, i2cDev);
                 sensors[sensorName]->setupRead();
                 ++numCreated;
-                if constexpr (debug)
-                {
-                    lg2::error("Created '{NUM}' sensors so far", "NUM",
-                               numCreated);
-                }
+                lg2::debug("Created '{NUM}' sensors so far", "NUM", numCreated);
             }
         }
 
@@ -1021,10 +979,7 @@ static void createSensorsCallback(
         }
     }
 
-    if constexpr (debug)
-    {
-        lg2::error("Created total of '{NUM}' sensors", "NUM", numCreated);
-    }
+    lg2::debug("Created total of '{NUM}' sensors", "NUM", numCreated);
 }
 
 static void getPresentCpus(

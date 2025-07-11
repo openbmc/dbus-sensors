@@ -42,8 +42,6 @@
 
 static constexpr const char* sensorPathPrefix = "/xyz/openbmc_project/sensors/";
 
-static constexpr bool debug = false;
-
 PSUSensor::PSUSensor(
     const std::string& path, const std::string& objectType,
     sdbusplus::asio::object_server& objectServer,
@@ -63,16 +61,13 @@ PSUSensor::PSUSensor(
 {
     buffer = std::make_shared<std::array<char, 128>>();
     std::string unitPath = sensor_paths::getPathForUnits(sensorUnits);
-    if constexpr (debug)
-    {
-        lg2::debug(
-            "Constructed sensor - path: {PATH}, type: {TYPE}, config: {CONFIG}, "
-            "typename: {TYPENAME}, factor: {FACTOR}, min: {MIN}, max: {MAX}, "
-            "offset: {OFFSET}, name: {NAME}",
-            "PATH", path, "TYPE", objectType, "CONFIG", sensorConfiguration,
-            "TYPENAME", unitPath, "FACTOR", factor, "MIN", min, "MAX", max,
-            "OFFSET", offset, "NAME", sensorName);
-    }
+    lg2::debug(
+        "Constructed sensor - path: {PATH}, type: {TYPE}, config: {CONFIG}, "
+        "typename: {TYPENAME}, factor: {FACTOR}, min: {MIN}, max: {MAX}, "
+        "offset: {OFFSET}, name: {NAME}",
+        "PATH", path, "TYPE", objectType, "CONFIG", sensorConfiguration,
+        "TYPENAME", unitPath, "FACTOR", factor, "MIN", min, "MAX", max,
+        "OFFSET", offset, "NAME", sensorName);
     if (pollRate > 0.0)
     {
         sensorPollMs = static_cast<unsigned int>(pollRate * 1000);
