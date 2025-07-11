@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "98a55bd7_6c583718",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-11T14:47:06Z",
+      "side": 1,
+      "message": "prefer to limit the scope to file. I can remove it if you think there is other reason not to do it.",
+      "parentUuid": "cebe7ee8_50c5a959",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 6
+      },
+      "revId": "6f9c33be83a45d068aef2b91e3374847aa40cb2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "41bbedf3_85c7da83",
         "filename": "src/nvidia-gpu/Inventory.cpp",
         "patchSetId": 18
@@ -37,6 +61,24 @@
       "writtenOn": "2025-07-07T13:52:06Z",
       "side": 1,
       "message": "is it possible to use `[[maybe_unused]]`?",
+      "revId": "6f9c33be83a45d068aef2b91e3374847aa40cb2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "398f7a9f_d557637f",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-11T14:47:06Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "41bbedf3_85c7da83",
       "revId": "6f9c33be83a45d068aef2b91e3374847aa40cb2d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -54,6 +96,24 @@
       "writtenOn": "2025-07-07T13:52:06Z",
       "side": 1,
       "message": "nit : can we make `deviceType` const?",
+      "revId": "6f9c33be83a45d068aef2b91e3374847aa40cb2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5be0b5fb_db4776b9",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-11T14:47:06Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "66d6f799_f76438cf",
       "revId": "6f9c33be83a45d068aef2b91e3374847aa40cb2d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -81,6 +141,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "92b5fe74_ad2b8d6c",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-11T14:47:06Z",
+      "side": 1,
+      "message": "name already get initialised with this name(escapeName(inventoryName)",
+      "parentUuid": "110d5fb9_1ea19be3",
+      "range": {
+        "startLine": 26,
+        "startChar": 58,
+        "endLine": 26,
+        "endChar": 62
+      },
+      "revId": "6f9c33be83a45d068aef2b91e3374847aa40cb2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d1e56d7_addc9557",
@@ -94,6 +178,24 @@
       "writtenOn": "2025-07-09T12:26:07Z",
       "side": 1,
       "message": "Do we want to creation an association to the chassis object created by EM?",
+      "revId": "6f9c33be83a45d068aef2b91e3374847aa40cb2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f90735ad_22a1a2bc",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-11T14:47:06Z",
+      "side": 1,
+      "message": "I have next set of MR for associations\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/81258",
+      "parentUuid": "3d1e56d7_addc9557",
       "revId": "6f9c33be83a45d068aef2b91e3374847aa40cb2d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -115,6 +217,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "31185161_557dce08",
+        "filename": "src/nvidia-gpu/Inventory.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-11T14:47:06Z",
+      "side": 1,
+      "message": "would prefer it here as its more of data interpretation in the context of inventory.",
+      "parentUuid": "75fc13a9_e458f952",
+      "revId": "6f9c33be83a45d068aef2b91e3374847aa40cb2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d7182a5_43333926",
@@ -128,6 +248,24 @@
       "writtenOn": "2025-07-09T12:26:07Z",
       "side": 1,
       "message": "Why is this unique but the sensors are shared?",
+      "revId": "6f9c33be83a45d068aef2b91e3374847aa40cb2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6667eab6_8e29e4f4",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-11T14:47:06Z",
+      "side": 1,
+      "message": "dont expect inventory ownership to be with any other object hence unique. I think it should be the case for sensors too, I dont know why they were mades shared unless we have use case of shared ownership.",
+      "parentUuid": "2d7182a5_43333926",
       "revId": "6f9c33be83a45d068aef2b91e3374847aa40cb2d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
