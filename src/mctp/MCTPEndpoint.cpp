@@ -17,6 +17,7 @@
 #include <cassert>
 #include <charconv>
 #include <cstdint>
+#include <cstdlib>
 #include <exception>
 #include <filesystem>
 #include <format>
@@ -43,8 +44,10 @@ static constexpr const char* mctpdEndpointControlInterface =
 
 MCTPDDevice::MCTPDDevice(
     const std::shared_ptr<sdbusplus::asio::connection>& connection,
-    const std::string& interface, const std::vector<uint8_t>& physaddr) :
-    connection(connection), interface(interface), physaddr(physaddr)
+    const std::string& interface, const std::vector<uint8_t>& physaddr,
+    uint8_t localEID) :
+    connection(connection), interface(interface), physaddr(physaddr),
+    localEID(localEID)
 {}
 
 void MCTPDDevice::onEndpointInterfacesRemoved(
@@ -92,6 +95,39 @@ void MCTPDDevice::setup(
     std::function<void(const std::error_code& ec,
                        const std::shared_ptr<MCTPEndpoint>& ep)>&& added)
 {
+    std::string upCmd = std::format("ip link set {} up", interface);
+    if (std::system(upCmd.c_str()) != 0) // NOLINT(cert-env33-c)
+    {
+        error("Failed to bring up interface '{INTERFACE}'", "INTERFACE",
+              interface);
+        added(std::make_error_code(std::errc::io_error), {});
+        return;
+    }
+
+    // Check if the EID already exists on the interface first, Local EID
+    // persists across reboots sometimes
+    std::string checkCmd = std::format("mctp addr show {} | grep -q 'eid {}'",
+                                       interface, localEID);
+    if (std::system(checkCmd.c_str()) == 0) // NOLINT(cert-env33-c)
+    {
+        info(
+            "Local EID {LOCAL_EID} already exists on interface '{INTERFACE}', skipping add",
+            "LOCAL_EID", localEID, "INTERFACE", interface);
+    }
+    else
+    {
+        // EID doesn't exist, try to add it
+        std::string addrCmd =
+            std::format("mctp addr add {} dev {}", localEID, interface);
+        if (std::system(addrCmd.c_str()) != 0) // NOLINT(cert-env33-c)
+        {
+            error(
+                "Failed to add local EID {LOCAL_EID} to interface '{INTERFACE}'",
+                "LOCAL_EID", localEID, "INTERFACE", interface);
+            added(std::make_error_code(std::errc::io_error), {});
+            return;
+        }
+    }
     // Use a lambda to separate state validation from business logic,
     // where the business logic for a successful setup() is encoded in
     // MctpdDevice::finaliseEndpoint()
@@ -370,6 +406,7 @@ std::shared_ptr<I2CMCTPDDevice> I2CMCTPDDevice::from(
     auto mAddress = iface.find("Address");
     auto mBus = iface.find("Bus");
     auto mName = iface.find("Name");
+    auto mLocalEID = iface.find("LocalEID");
     if (mAddress == iface.end() || mBus == iface.end() || mName == iface.end())
     {
         throw std::invalid_argument(
@@ -394,9 +431,24 @@ std::shared_ptr<I2CMCTPDDevice> I2CMCTPDDevice::from(
         throw std::invalid_argument("Bad bus index");
     }
 
+    uint8_t localEID = 8; // default
+    if (mLocalEID != iface.end())
+    {
+        auto sLocalEID =
+            std::visit(VariantToStringVisitor(), mLocalEID->second);
+        auto [ptr, ec] = std::from_chars(
+            sLocalEID.data(), sLocalEID.data() + sLocalEID.size(), localEID);
+        if (ec != std::errc{})
+        {
+            warning("Bad local EID value, using default");
+            localEID = 8;
+        }
+    }
+
     try
     {
-        return std::make_shared<I2CMCTPDDevice>(connection, bus, address);
+        return std::make_shared<I2CMCTPDDevice>(connection, bus, address,
+                                                localEID);
     }
     catch (const MCTPException& ex)
     {
@@ -427,6 +479,7 @@ std::shared_ptr<I3CMCTPDDevice> I3CMCTPDDevice::from(
     auto mAddress = iface.find("Address");
     auto mBus = iface.find("Bus");
     auto mName = iface.find("Name");
+    auto mLocalEID = iface.find("LocalEID");
     if (mAddress == iface.end() || mBus == iface.end() || mName == iface.end())
     {
         throw std::invalid_argument(
@@ -449,9 +502,24 @@ std::shared_ptr<I3CMCTPDDevice> I3CMCTPDDevice::from(
         throw std::invalid_argument("Bad bus index");
     }
 
+    uint8_t localEID = 8; // default
+    if (mLocalEID != iface.end())
+    {
+        auto sLocalEID =
+            std::visit(VariantToStringVisitor(), mLocalEID->second);
+        auto [ptr, ec] = std::from_chars(
+            sLocalEID.data(), sLocalEID.data() + sLocalEID.size(), localEID);
+        if (ec != std::errc{})
+        {
+            warning("Bad local EID value, using default");
+            localEID = 8;
+        }
+    }
+
     try
     {
-        return std::make_shared<I3CMCTPDDevice>(connection, bus, address);
+        return std::make_shared<I3CMCTPDDevice>(connection, bus, address,
+                                                localEID);
     }
     catch (const MCTPException& ex)
     {
