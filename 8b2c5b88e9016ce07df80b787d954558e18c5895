@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d688eb5a_e065d833",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-14T04:26:36Z",
+      "side": 1,
+      "message": "we could easily reset and free up this with dynamic allocation or in future create other buffers required which may point to the same requestBuffer if needed.",
+      "parentUuid": "bb51ec4b_0ffcc441",
+      "revId": "8b2c5b88e9016ce07df80b787d954558e18c5895",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4642c409_b02934ea",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-07-07T14:04:01Z",
       "side": 1,
       "message": "Can we directly have interface object of type `std::shared_ptr\u003csdbusplus::asio::dbus_interface\u003e` as parameter instead?",
+      "revId": "8b2c5b88e9016ce07df80b787d954558e18c5895",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07da5eaf_09893145",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-14T04:26:36Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "4642c409_b02934ea",
       "revId": "8b2c5b88e9016ce07df80b787d954558e18c5895",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -52,6 +88,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f35f52a_64326966",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-14T04:26:36Z",
+      "side": 1,
+      "message": "yes Name is sufficient.",
+      "parentUuid": "763424af_544871a7",
+      "revId": "8b2c5b88e9016ce07df80b787d954558e18c5895",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "37dd061f_60366d56",
@@ -69,6 +123,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f65fd21_69fad940",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-14T04:26:36Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "37dd061f_60366d56",
+      "revId": "8b2c5b88e9016ce07df80b787d954558e18c5895",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "04d95463_3cfe26b8",
@@ -82,6 +154,24 @@
       "writtenOn": "2025-07-07T14:04:01Z",
       "side": 1,
       "message": "Can this be private?",
+      "revId": "8b2c5b88e9016ce07df80b787d954558e18c5895",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8653171_2c43b198",
+        "filename": "src/nvidia-gpu/Inventory.hpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-14T04:26:36Z",
+      "side": 1,
+      "message": "yes but it will help us later if we have use case to trigger any single property refresh from outside.",
+      "parentUuid": "04d95463_3cfe26b8",
       "revId": "8b2c5b88e9016ce07df80b787d954558e18c5895",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
