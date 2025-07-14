@@ -22,6 +22,30 @@
       },
       "revId": "11f86568116ef6ee16bcb5542ef6b2d556206cf8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36977774_0ede66e6",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-14T08:55:48Z",
+      "side": 1,
+      "message": "NSM is discovering device type and creating device interfaces on the object path it owns. I think it\u0027s not feasible for NSM to create interface on the object paths owned by EM (Not sure if this is what you are suggesting). \nAs per our inventory design doc, we agreed EM will create chassis/board interface and NSM app will create the device specific interfaces like (Item.Accelerator). NSM might eventually has to support writeable properties on the interfaces for which it has to own the interface directly.",
+      "parentUuid": "43ee45d2_33081f42",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 53
+      },
+      "revId": "11f86568116ef6ee16bcb5542ef6b2d556206cf8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
