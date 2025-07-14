@@ -84,6 +84,16 @@ static std::shared_ptr<MCTPDevice> deviceFromConfig(
         if (iface)
         {
             info("Creating I2CMCTPDDevice");
+            // Check if LocalEID is in MCTP.Interface and inject it
+            auto mctpIface = config.find("xyz.openbmc_project.MCTP.Interface");
+            if (mctpIface != config.end())
+            {
+                auto localEID = mctpIface->second.find("LocalEID");
+                if (localEID != mctpIface->second.end())
+                {
+                    (*iface)["LocalEID"] = localEID->second;
+                }
+            }
             return I2CMCTPDDevice::from(connection, *iface);
         }
 
@@ -91,6 +101,16 @@ static std::shared_ptr<MCTPDevice> deviceFromConfig(
         if (iface)
         {
             info("Creating I3CMCTPDDevice");
+            // Check if LocalEID is in MCTP.Interface and inject it
+            auto mctpIface = config.find("xyz.openbmc_project.MCTP.Interface");
+            if (mctpIface != config.end())
+            {
+                auto localEID = mctpIface->second.find("LocalEID");
+                if (localEID != mctpIface->second.end())
+                {
+                    (*iface)["LocalEID"] = localEID->second;
+                }
+            }
             return I3CMCTPDDevice::from(connection, *iface);
         }
     }
