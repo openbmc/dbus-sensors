@@ -83,6 +83,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "26bf0977_f0f86881",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-14T04:58:28Z",
+      "side": 1,
+      "message": "The clang-tidy needs parameters to be named.",
+      "parentUuid": "398f7a9f_d557637f",
+      "revId": "6f9c33be83a45d068aef2b91e3374847aa40cb2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "66d6f799_f76438cf",
