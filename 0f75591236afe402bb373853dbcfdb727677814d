@@ -94,6 +94,30 @@
       },
       "revId": "0f75591236afe402bb373853dbcfdb727677814d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "351a0015_c59fe1cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-07-16T09:13:38Z",
+      "side": 1,
+      "message": "Max value is now set to 5000.",
+      "parentUuid": "6bb3a033_2b50069a",
+      "range": {
+        "startLine": 11,
+        "startChar": 45,
+        "endLine": 12,
+        "endChar": 59
+      },
+      "revId": "0f75591236afe402bb373853dbcfdb727677814d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
