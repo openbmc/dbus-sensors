@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "361aa98d_7d8b66ba",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2025-07-17T18:33:17Z",
+      "side": 1,
+      "message": "This brought up another question. The purpose of `Target` versus `Value` is subtle. I think, but am not entirely sure, that there were 3 reasons:\n* `Target` is integer, from 0 to 255, so it easily maintains a 1:1 correspondence to the underlying Linux kernel `hwmon` interface (for fan PWM).\n* Being an integer, it can always be easily compared for equality without floating-point loss, which is important for the optimization of avoiding duplicate settings if the setting already matches what was desired.\n* `Target` is always read/write, versus `Value` which was always read-only until late 2021 when the `ValueMutability` feature landed.\n\nOther than these, the `Target` value is interchangeable with `Value`, IIRC. They update each other, in lockstep. Changing one, always and instantly, will change the other. At least that\u0027s how it\u0027s been, in my experience, for fan PWM.\n\nTo change the meaning of `Target` or `Value` now, to have it reflect the delayed response from the hardware instead of the user\u0027s instantaneous desired intent, might have other side effects. We might need a third field. However, this would require an interface change. The advantage of adding a third field is that it would help disambiguate all of this historical baggage, and it would help greatly for user-settable sensors, to avoid the race condition between the desired setting (flowing down from user to hardware), and the actual value (flowing up from hardware to user).",
+      "revId": "ef1c7c9f45411f510b4acf681fd15440a0490188",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0e44e551_b490a9d3",
         "filename": "src/PwmSensor.cpp",
         "patchSetId": 14
