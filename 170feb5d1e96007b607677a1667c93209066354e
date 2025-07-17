@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ebccb0d7_a643f463",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-07-17T06:22:20Z",
+      "side": 1,
+      "message": "How is it different from what is implemented currently?",
+      "parentUuid": "d6936848_b15f4674",
+      "revId": "170feb5d1e96007b607677a1667c93209066354e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fdb854f7_c6215ad0",
         "filename": "src/nvidia-gpu/NvidiaGpuEnergySensor.cpp",
         "patchSetId": 8
