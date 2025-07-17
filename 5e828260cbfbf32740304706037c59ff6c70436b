@@ -124,6 +124,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d04b21d_fb36c87a",
+        "filename": "src/gpu/GpuPowerSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-07-17T06:20:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6035a7d9_735351d4",
+      "revId": "5e828260cbfbf32740304706037c59ff6c70436b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d626e32_921d9562",
