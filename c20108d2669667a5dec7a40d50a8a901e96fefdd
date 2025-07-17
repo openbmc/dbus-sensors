@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5b893c05_4741355d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-07-17T06:16:43Z",
+      "side": 1,
+      "message": "This is already fixed in the latest gpu firmware. I will test with it and update the results here.",
+      "parentUuid": "13c8281a_183079d0",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 3
+      },
+      "revId": "c20108d2669667a5dec7a40d50a8a901e96fefdd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "314fea41_13d26f4f",
         "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
         "patchSetId": 15
