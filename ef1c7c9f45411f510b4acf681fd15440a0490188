@@ -51,6 +51,24 @@
       "parentUuid": "0e44e551_b490a9d3",
       "revId": "ef1c7c9f45411f510b4acf681fd15440a0490188",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2996994_8ec2e2f0",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-07-17T08:55:52Z",
+      "side": 1,
+      "message": "\u003e suggested that we should retain the original functionality of setting the PWM via the Value property as well.\n\nThe `Sensor.Value` interface is documented to be read-only and it has been that way ever since the interface was first documented in the PDI in 2016.\n\nIt\u0027s a Sensor, reading a value. There is no sense in writing to it. Conceptually it does not make any sense (at least not to me).\n\n@patrick@stwcx.xyz Should we update the yaml on `Sensor.Value` to clarify that it is also meant as a writable control interface in some cases?\n\nOtherwise we could probably add a big \n```lg2::error(\"Writing to a read-only sensor interface\")```\nstatement into the setter there and leave it there for a while to see if anything actually uses the interface in that way.",
+      "parentUuid": "75c6b038_3d787791",
+      "revId": "ef1c7c9f45411f510b4acf681fd15440a0490188",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
