@@ -33,6 +33,24 @@
       "message": "So in case of `- Delayed Reflection Drivers (e.g., max31790)`\nwe can set `Value` property (which is meaningless, since we do not control the currently driven PWM) and it then goes ahead to set `Target` property.\n\n@eric.yang.wiwynn@gmail.com\nWhy would a caller not directly set `Target` property?\n\nThe `Sensor.Value` interface is documented to be read-only.\n\n\u003e All Sensor.Value properties are read-only.\n\nhttps://github.com/openbmc/phosphor-dbus-interfaces/blob/master/yaml/xyz/openbmc_project/Sensor/Value.interface.yaml",
       "revId": "ef1c7c9f45411f510b4acf681fd15440a0490188",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75c6b038_3d787791",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1002134
+      },
+      "writtenOn": "2025-07-17T06:46:22Z",
+      "side": 1,
+      "message": "I originally thought that users could control the PWM simply by setting the `Target` property.\nHowever, [discussions in the comments of Patchset 4] suggested that we should retain the original functionality of setting the PWM via the `Value` property as well.\nAdditionally, I\u0027m not sure whether other parts of the OpenBMC codebase set the PWM through the `Value` property.\nMoreover, I need `Target` to reflect the user’s intended PWM value in order to address the issue this patch is meant to solve.\nThat’s why I implemented this by calling the set `Target` property method here.\n\nRegardless of whether setting the `Value` property also sets the PWM, this does not affect resolving issues such as the `Delayed Reflection Drivers` problem, as long as the `Target` property always reflects the user\u0027s intent and does not change according to the actual PWM file value from the driver.\n\n[discussions in the comments of Patchset 4]: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/79824/comment/51cb8408_c5930df4/",
+      "parentUuid": "0e44e551_b490a9d3",
+      "revId": "ef1c7c9f45411f510b4acf681fd15440a0490188",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
