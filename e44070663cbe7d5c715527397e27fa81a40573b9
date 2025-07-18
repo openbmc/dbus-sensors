@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac140024_1b0286b8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001242
+      },
+      "writtenOn": "2025-07-18T01:24:55Z",
+      "side": 1,
+      "message": "I\u0027ve updated my GitHub profile to reflect my membership to the Googlers organization. There should be an org-wide CLA which covers this contribution. Is there a way to trigger a re-evaluation of CI?",
+      "revId": "e44070663cbe7d5c715527397e27fa81a40573b9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
