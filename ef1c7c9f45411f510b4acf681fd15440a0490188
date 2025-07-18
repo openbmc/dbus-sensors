@@ -140,6 +140,24 @@
       "parentUuid": "0ec0e0bf_777bdfd9",
       "revId": "ef1c7c9f45411f510b4acf681fd15440a0490188",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c6e12d2_9ed9e59d",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2025-07-18T23:44:32Z",
+      "side": 1,
+      "message": "Thanks! Reviewed it.\n\nFYI, I also tried to find the equivalent sensor write handler in the Redfish server, `bmcweb`, but did not find it after a quick look. I\u0027m pretty sure this feature exists already, it might have been in a local patch? Regardless, the `ValueMutability` interface is intended for any situation in which there\u0027s a sensor write request coming in from an external source and we need to validate if it\u0027s allowed or not.\n\nThe important thing here is that `Value` can be written to, just like `Target`, and there\u0027s really no prohibition on the user doing so, if they have permission, so we have to handle these equivalently. I wonder if we should add additional fields, perhaps `IntendedValue` and/or `HardwareValue`, to disambiguate?",
+      "parentUuid": "9dc94a4c_1ba49011",
+      "revId": "ef1c7c9f45411f510b4acf681fd15440a0490188",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
