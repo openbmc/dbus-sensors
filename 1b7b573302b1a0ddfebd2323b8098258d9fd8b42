@@ -177,6 +177,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e502695c_2014bc4a",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1000212
+      },
+      "writtenOn": "2025-07-21T17:43:47Z",
+      "side": 1,
+      "message": "I looked into splitting it into two commits. But that just moves like 10-20 lines of code into another commit with not that much benefit in readability. I will keep this as is.",
+      "parentUuid": "dfd84998_b801625d",
+      "revId": "1b7b573302b1a0ddfebd2323b8098258d9fd8b42",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0c70a32d_24ff3df0",
