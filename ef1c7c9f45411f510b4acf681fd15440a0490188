@@ -158,6 +158,24 @@
       "parentUuid": "9dc94a4c_1ba49011",
       "revId": "ef1c7c9f45411f510b4acf681fd15440a0490188",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a502e90f_4684551b",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-07-21T08:05:06Z",
+      "side": 1,
+      "message": "Maybe i am not getting the big picture here, but do we actually need a Pwm `Sensor`?\n\nThe PID loop is taking temperatures and adjusting the pwm value to control the fan speed.\n\nIf the fan speed is not reaching the requested value after some time then that\u0027s an error condition.\n\nSince the pwm is a control input which is assumed to just \u0027work\u0027 if correctly configured. So we should be able to assume it always has the correct value?\n\nLooked into the `max31790` datasheet and there they mention the delay to reflection can be up to `125ms` which i would consider to be a minor delay and probably nothing to worry about in the control loop.\n\nSince the PwmSensor looks like the interface boundary between the sysfs and the PID loop, can we just shortcut the implementation to store the pwm value internally anytime the user sets it and return that if requested?\n\nIf there is anything bypassing the PwmSensor, that\u0027s broken anyways?\n\nAnother point: concepts like \u0027Threshold\u0027 do not make sense for a control input.",
+      "parentUuid": "3c6e12d2_9ed9e59d",
+      "revId": "ef1c7c9f45411f510b4acf681fd15440a0490188",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
