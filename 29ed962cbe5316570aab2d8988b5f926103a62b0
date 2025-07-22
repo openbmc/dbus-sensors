@@ -190,6 +190,30 @@
       },
       "revId": "29ed962cbe5316570aab2d8988b5f926103a62b0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4eb2f02e_24515685",
+        "filename": "src/leakdetector/LeakGPIODetector.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-07-22T00:16:58Z",
+      "side": 1,
+      "message": "In the future, please document external interfaces such as these, and think about future use-cases up-front to avoid the pain of changing them down the track. This is precisely what makes software design a tricky business.",
+      "parentUuid": "c65ecce1_f231ec50",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 1
+      },
+      "revId": "29ed962cbe5316570aab2d8988b5f926103a62b0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
