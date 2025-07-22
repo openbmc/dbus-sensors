@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31b5469b_0d742173",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-22T12:04:43Z",
+      "side": 1,
+      "message": "nit: s/RF/Redfish",
+      "revId": "1eaffb2bd538f52fdd265df98a3cecc547b8be0e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41a56e38_f013b5b8",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-22T12:04:43Z",
+      "side": 1,
+      "message": "nit: you don\u0027t need this",
+      "range": {
+        "startLine": 26,
+        "startChar": 27,
+        "endLine": 26,
+        "endChar": 38
+      },
+      "revId": "1eaffb2bd538f52fdd265df98a3cecc547b8be0e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df2ea9fc_05c5670d",
+        "filename": "src/nvidia-gpu/Inventory.hpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-22T12:04:43Z",
+      "side": 1,
+      "message": "I have same suggestion as Harshit. We can use the Nvidia VDM device type here.",
+      "revId": "1eaffb2bd538f52fdd265df98a3cecc547b8be0e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b989b0da_defc5f53",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.hpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-22T12:04:43Z",
+      "side": 1,
+      "message": "shared_ptr (commented elsewhere)",
+      "revId": "1eaffb2bd538f52fdd265df98a3cecc547b8be0e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

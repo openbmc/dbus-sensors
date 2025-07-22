@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "17877478_a9cd609d",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-22T12:04:43Z",
+      "side": 1,
+      "message": "You get the same effect without it. Don\u0027t see it used this way elsewhere.",
+      "parentUuid": "98a55bd7_6c583718",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 6
+      },
+      "revId": "6f9c33be83a45d068aef2b91e3374847aa40cb2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "41bbedf3_85c7da83",
         "filename": "src/nvidia-gpu/Inventory.cpp",
         "patchSetId": 18
@@ -284,6 +308,24 @@
       "side": 1,
       "message": "dont expect inventory ownership to be with any other object hence unique. I think it should be the case for sensors too, I dont know why they were mades shared unless we have use case of shared ownership.",
       "parentUuid": "2d7182a5_43333926",
+      "revId": "6f9c33be83a45d068aef2b91e3374847aa40cb2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4291ca08_6af439c1",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-22T12:04:43Z",
+      "side": 1,
+      "message": "It is a best practice for async. Please change.",
+      "parentUuid": "6667eab6_8e29e4f4",
       "revId": "6f9c33be83a45d068aef2b91e3374847aa40cb2d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
