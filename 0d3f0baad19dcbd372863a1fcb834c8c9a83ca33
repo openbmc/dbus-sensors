@@ -1,0 +1,198 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f901788_89ede6ae",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-23T05:57:19Z",
+      "side": 1,
+      "message": "nit: dont need this",
+      "range": {
+        "startLine": 38,
+        "startChar": 23,
+        "endLine": 38,
+        "endChar": 34
+      },
+      "revId": "0d3f0baad19dcbd372863a1fcb834c8c9a83ca33",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34a37040_f66dd646",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-23T05:57:19Z",
+      "side": 1,
+      "message": "Can you do this even without checking DeviceType?",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 66
+      },
+      "revId": "0d3f0baad19dcbd372863a1fcb834c8c9a83ca33",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ef3559b_5707730e",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-23T05:57:19Z",
+      "side": 1,
+      "message": "string_view is better",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 22
+      },
+      "revId": "0d3f0baad19dcbd372863a1fcb834c8c9a83ca33",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a99644f0_c506d0c7",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-23T05:57:19Z",
+      "side": 1,
+      "message": "Do we need a log for the else case?",
+      "revId": "0d3f0baad19dcbd372863a1fcb834c8c9a83ca33",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ca606fd_e1c14c53",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-23T05:57:19Z",
+      "side": 1,
+      "message": "Let\u0027s avoid a double find()",
+      "revId": "0d3f0baad19dcbd372863a1fcb834c8c9a83ca33",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1e6ac72_7492e790",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-23T05:57:19Z",
+      "side": 1,
+      "message": "Is this (and the other functions in this call stack) used in this commit? If not, please remove.",
+      "revId": "0d3f0baad19dcbd372863a1fcb834c8c9a83ca33",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f06d1ae_8b772cde",
+        "filename": "src/nvidia-gpu/Inventory.hpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-23T05:57:19Z",
+      "side": 1,
+      "message": "Do all these need to be public?",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 18
+      },
+      "revId": "0d3f0baad19dcbd372863a1fcb834c8c9a83ca33",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41321240_0484dd2c",
+        "filename": "src/nvidia-gpu/Inventory.hpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-23T05:57:19Z",
+      "side": 1,
+      "message": "Do we really need the name here?",
+      "revId": "0d3f0baad19dcbd372863a1fcb834c8c9a83ca33",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73ecef69_6374dd39",
+        "filename": "src/nvidia-gpu/Inventory.hpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-23T05:57:19Z",
+      "side": 1,
+      "message": "Based on the name, hard to distinghuish what this one vs requestInventoryProperty does",
+      "revId": "0d3f0baad19dcbd372863a1fcb834c8c9a83ca33",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e0c3d04_3c733372",
+        "filename": "src/nvidia-gpu/Inventory.hpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-23T05:57:19Z",
+      "side": 1,
+      "message": "This one is marked const but the others are not. Are both intentional?",
+      "revId": "0d3f0baad19dcbd372863a1fcb834c8c9a83ca33",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
