@@ -214,6 +214,30 @@
       },
       "revId": "29ed962cbe5316570aab2d8988b5f926103a62b0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33cc90cb_424c198a",
+        "filename": "src/leakdetector/LeakGPIODetector.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-07-23T17:55:38Z",
+      "side": 1,
+      "message": "Sure, thanks for the feedback. Will raise a followup PR to add some documentation to the leak detector dir related to these services.",
+      "parentUuid": "4eb2f02e_24515685",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 1
+      },
+      "revId": "29ed962cbe5316570aab2d8988b5f926103a62b0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
