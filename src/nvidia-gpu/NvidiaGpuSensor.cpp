@@ -64,6 +64,26 @@ NvidiaGpuTempSensor::NvidiaGpuTempSensor(
     association = objectServer.add_interface(dbusPath, association::interface);
 
     setInitialProperties(sensor_paths::unitDegreesC);
+
+    if (sensorId == gpuTLimitSensorId)
+    {
+        sensorTypeInterface = objectServer.add_interface(
+            dbusPath, "xyz.openbmc_project.Sensor.Type");
+
+        sensorTypeInterface->register_property(
+            "ReadingBasis",
+            "xyz.openbmc_project.Sensor.Type.ReadingBasisType.Headroom"s);
+        sensorTypeInterface->register_property(
+            "Implementation",
+            "xyz.openbmc_project.Sensor.Type.ImplementationType.Synthesized"s);
+
+        if (!sensorTypeInterface->initialize())
+        {
+            lg2::error(
+                "Error initializing Type Interface for Temperature Sensor for eid {EID} and sensor id {SID}",
+                "EID", eid, "SID", sensorId);
+        }
+    }
 }
 
 NvidiaGpuTempSensor::~NvidiaGpuTempSensor()
@@ -74,6 +94,10 @@ NvidiaGpuTempSensor::~NvidiaGpuTempSensor()
     }
     objectServer.remove_interface(association);
     objectServer.remove_interface(sensorInterface);
+    if (sensorTypeInterface)
+    {
+        objectServer.remove_interface(sensorTypeInterface);
+    }
 }
 
 void NvidiaGpuTempSensor::checkThresholds()
