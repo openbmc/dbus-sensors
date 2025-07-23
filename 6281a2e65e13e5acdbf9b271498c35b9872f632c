@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78f0c6a5_6e32aaff",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-23T06:34:05Z",
+      "side": 1,
+      "message": "Why isn\u0027t there a change in the ctor like other properties?",
+      "revId": "6281a2e65e13e5acdbf9b271498c35b9872f632c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40819de2_c67677e3",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-23T06:34:05Z",
+      "side": 1,
+      "message": "What is this for?",
+      "revId": "6281a2e65e13e5acdbf9b271498c35b9872f632c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "516ee476_d19d40ff",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-23T06:34:05Z",
+      "side": 1,
+      "message": "where it this called? why not do this in the ctor like other properties?",
+      "revId": "6281a2e65e13e5acdbf9b271498c35b9872f632c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5899747b_59d22ec9",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-23T06:34:05Z",
+      "side": 1,
+      "message": "This shouldn\u0027t require special handling.",
+      "revId": "6281a2e65e13e5acdbf9b271498c35b9872f632c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
