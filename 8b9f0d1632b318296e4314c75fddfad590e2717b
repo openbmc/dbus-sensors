@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9fdd8ab_eb27883d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-23T07:01:51Z",
+      "side": 1,
+      "message": "Redfish",
+      "range": {
+        "startLine": 9,
+        "startChar": 66,
+        "endLine": 9,
+        "endChar": 68
+      },
+      "revId": "8b9f0d1632b318296e4314c75fddfad590e2717b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98129220_06e72db7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-23T07:01:51Z",
+      "side": 1,
+      "message": "This is exceeding recommended column length.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 92
+      },
+      "revId": "8b9f0d1632b318296e4314c75fddfad590e2717b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "909a2654_1a4f6311",
+        "filename": "src/nvidia-gpu/Memory.cpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-23T07:01:51Z",
+      "side": 1,
+      "message": "Let\u0027s use associations documented in PDI. If none for this purpose, let\u0027s add these.",
+      "range": {
+        "startLine": 55,
+        "startChar": 30,
+        "endLine": 55,
+        "endChar": 62
+      },
+      "revId": "8b9f0d1632b318296e4314c75fddfad590e2717b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
