@@ -26,6 +26,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "210fdac1_4e047d56",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-23T06:31:42Z",
+      "side": 1,
+      "message": "Why are these 0? General comment: if some testing is pending in any commit in this chain, please mark the commit as WIP.",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 63
+      },
+      "revId": "f99b0a9cabfccf72c4d84e00c380ce6c531d0f11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3a98fde6_b185497e",
         "filename": "src/nvidia-gpu/Memory.cpp",
         "patchSetId": 25
