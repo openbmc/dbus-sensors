@@ -32,9 +32,7 @@
 
 using namespace std::literals;
 
-// Reading from the device is in millivolts and unit set on the dbus is volts.
-static constexpr double gpuVoltageSensorMaxReading =
-    std::numeric_limits<uint32_t>::max() / 1000000.0;
+static constexpr double gpuVoltageSensorMaxReading = 50;
 static constexpr double gpuVoltageSensorMinReading =
     std::numeric_limits<uint32_t>::min();
 
