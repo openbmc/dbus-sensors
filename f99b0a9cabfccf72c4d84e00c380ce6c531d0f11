@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0c16414_e8877d8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-23T06:29:56Z",
+      "side": 1,
+      "message": "nit: the case here keeps changing across commits. Please keep it consistent: \"nvidia-gpu:\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 10
+      },
+      "revId": "f99b0a9cabfccf72c4d84e00c380ce6c531d0f11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a98fde6_b185497e",
+        "filename": "src/nvidia-gpu/Memory.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-23T06:29:56Z",
+      "side": 1,
+      "message": "I don\u0027t think we need another class and code duplication here. Let\u0027s do this in inventory for memory type.",
+      "revId": "f99b0a9cabfccf72c4d84e00c380ce6c531d0f11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "151078d0_9f1b36fb",
+        "filename": "src/nvidia-gpu/Memory.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-23T06:29:56Z",
+      "side": 1,
+      "message": "Most of this is dup from the Inventory class.",
+      "range": {
+        "startLine": 73,
+        "startChar": 4,
+        "endLine": 131,
+        "endChar": 19
+      },
+      "revId": "f99b0a9cabfccf72c4d84e00c380ce6c531d0f11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5ae2edc_e6a18fa5",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-23T06:29:56Z",
+      "side": 1,
+      "message": "you can use a string literal here instead of a variable",
+      "range": {
+        "startLine": 53,
+        "startChar": 54,
+        "endLine": 53,
+        "endChar": 62
+      },
+      "revId": "f99b0a9cabfccf72c4d84e00c380ce6c531d0f11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82064498_195f7c75",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-23T06:29:56Z",
+      "side": 1,
+      "message": "Do we care about ordering? Inventory, Sensors, Memory?",
+      "revId": "f99b0a9cabfccf72c4d84e00c380ce6c531d0f11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
