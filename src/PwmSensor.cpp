@@ -82,20 +82,17 @@ PwmSensor::PwmSensor(const std::string& pwmname, const std::string& sysPath,
                 return -1;
             }
 
+            auto getInt = getValue();
             double reqValue = (req / 100.0) * pwmMax;
-            double respValue = (resp / 100.0) * pwmMax;
             auto reqInt = static_cast<uint32_t>(std::round(reqValue));
-            auto respInt = static_cast<uint32_t>(std::round(respValue));
             // Avoid floating-point equality, compare as integers
-            if (reqInt == respInt)
+            if (reqInt != getInt)
             {
-                return 1;
+                setValue(reqInt);
+                controlInterface->signal_property("Target");
             }
-            setValue(reqInt);
+
             resp = req;
-
-            controlInterface->signal_property("Target");
-
             return 1;
         },
         [this](double& curVal) {
@@ -129,17 +126,17 @@ PwmSensor::PwmSensor(const std::string& pwmname, const std::string& sysPath,
                 throw std::runtime_error("Value out of range");
                 return -1;
             }
-            if (req == resp)
-            {
-                return 1;
-            }
+            auto getInt = getValue();
             auto scaledValue = static_cast<double>(req) / targetIfaceMax;
             auto roundValue = std::round(scaledValue * pwmMax);
-            setValue(static_cast<uint32_t>(roundValue));
+
+            if (getInt != roundValue)
+            {
+                setValue(static_cast<uint32_t>(roundValue));
+                sensorInterface->signal_property("Value");
+            }
+
             resp = req;
-
-            sensorInterface->signal_property("Value");
-
             return 1;
         },
         [this](uint64_t& curVal) {
