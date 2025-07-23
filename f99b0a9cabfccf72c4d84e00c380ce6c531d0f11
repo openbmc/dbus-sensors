@@ -66,6 +66,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "65030514_e86f8bb0",
+        "filename": "src/nvidia-gpu/Memory.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-07-23T09:24:55Z",
+      "side": 1,
+      "message": "Can this be done in Constructor?",
+      "revId": "f99b0a9cabfccf72c4d84e00c380ce6c531d0f11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "151078d0_9f1b36fb",
         "filename": "src/nvidia-gpu/Memory.cpp",
         "patchSetId": 25
