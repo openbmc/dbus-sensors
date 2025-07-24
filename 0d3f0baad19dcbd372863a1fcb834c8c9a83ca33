@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8e88f92_2d7da409",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-24T15:31:25Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "4f901788_89ede6ae",
+      "range": {
+        "startLine": 38,
+        "startChar": 23,
+        "endLine": 38,
+        "endChar": 34
+      },
+      "revId": "0d3f0baad19dcbd372863a1fcb834c8c9a83ca33",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "34a37040_f66dd646",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-07-23T05:57:19Z",
       "side": 1,
       "message": "Can you do this even without checking DeviceType?",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 66
+      },
+      "revId": "0d3f0baad19dcbd372863a1fcb834c8c9a83ca33",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3169d5c7_ecb77b28",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-24T15:31:25Z",
+      "side": 1,
+      "message": "Currently I have kept this as common code for all device types. The only thing that has device type check is the type of device itself. When we add more device type we can put any other conditions required.",
+      "parentUuid": "34a37040_f66dd646",
       "range": {
         "startLine": 39,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb7367fd_2b8c99f3",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-24T15:31:25Z",
+      "side": 1,
+      "message": "the register_property requires the same signature.",
+      "parentUuid": "1ef3559b_5707730e",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 22
+      },
+      "revId": "0d3f0baad19dcbd372863a1fcb834c8c9a83ca33",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "35e3d7c2_f2bcf371",
@@ -83,6 +155,24 @@
       "writtenOn": "2025-07-23T09:21:30Z",
       "side": 1,
       "message": "Would it be better to implement the property update book keeping and retry mechanism outside of this? I see that class of `Memory` also uses similar logic. This common logic can be used there directly?",
+      "revId": "0d3f0baad19dcbd372863a1fcb834c8c9a83ca33",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea837a41_0a305c1c",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-24T15:31:25Z",
+      "side": 1,
+      "message": "I had tried that initially but it becomes so complex because of the differences in encode/decode APIs and buffer used for that. The framework in inventory uses single buffer and does sequential processing of properties. This might not be applicable for all other properties. If we have abstract all of this then at the common code its has not much to make it generic.",
+      "parentUuid": "35e3d7c2_f2bcf371",
       "revId": "0d3f0baad19dcbd372863a1fcb834c8c9a83ca33",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -104,6 +194,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "19ffd641_f277a147",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-24T15:31:25Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "a99644f0_c506d0c7",
+      "revId": "0d3f0baad19dcbd372863a1fcb834c8c9a83ca33",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0d9d677d_a76e9941",
@@ -117,6 +225,24 @@
       "writtenOn": "2025-07-23T06:01:03Z",
       "side": 1,
       "message": "I think we should retry based on rc/cc?",
+      "revId": "0d3f0baad19dcbd372863a1fcb834c8c9a83ca33",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f36a02f7_65107e94",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-24T15:31:25Z",
+      "side": 1,
+      "message": "success flag here is set based on rc/cc.",
+      "parentUuid": "0d9d677d_a76e9941",
       "revId": "0d3f0baad19dcbd372863a1fcb834c8c9a83ca33",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -138,6 +264,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e83d5fc_7f37f921",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-24T15:31:25Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "5ca606fd_e1c14c53",
+      "revId": "0d3f0baad19dcbd372863a1fcb834c8c9a83ca33",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b3774274_5b125414",
@@ -151,6 +295,24 @@
       "writtenOn": "2025-07-23T06:07:42Z",
       "side": 1,
       "message": "It is possible we can start off sensor reads while we\u0027re waiting here, right? Any concerns doing that?",
+      "revId": "0d3f0baad19dcbd372863a1fcb834c8c9a83ca33",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "691466ac_fc818914",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-24T15:31:25Z",
+      "side": 1,
+      "message": "no there is no concern. If its for same EID then request would be queued.",
+      "parentUuid": "b3774274_5b125414",
       "revId": "0d3f0baad19dcbd372863a1fcb834c8c9a83ca33",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -172,6 +334,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a708a24a_6abde76f",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-24T15:31:25Z",
+      "side": 1,
+      "message": "update API can be used at later point if for some invent handling we want to refresh all the properties. Currently only Inventory object creation does property fetch which can fail after 3 retires. At later point in time if we want to refresh the properties then we can use the update API.",
+      "parentUuid": "f1e6ac72_7492e790",
+      "revId": "0d3f0baad19dcbd372863a1fcb834c8c9a83ca33",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "24e3bd39_7c29978b",
@@ -185,6 +365,24 @@
       "writtenOn": "2025-07-23T09:21:30Z",
       "side": 1,
       "message": "Is it better to call this function in constructor itself based on the type of the device? If we are going to use only one class for all device type we might have to fetch only selected properties based on device type.",
+      "revId": "0d3f0baad19dcbd372863a1fcb834c8c9a83ca33",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62796b4b_8f8468af",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-24T15:31:25Z",
+      "side": 1,
+      "message": "update can help us for any future implementation where we might have to refresh inventory property after invent like re-discovery. We can add any device type logic in future if its applicable. for now its all common.",
+      "parentUuid": "24e3bd39_7c29978b",
       "revId": "0d3f0baad19dcbd372863a1fcb834c8c9a83ca33",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -212,6 +410,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d51f56ed_24d4871f",
+        "filename": "src/nvidia-gpu/Inventory.hpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-24T15:31:25Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "4f06d1ae_8b772cde",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 18
+      },
+      "revId": "0d3f0baad19dcbd372863a1fcb834c8c9a83ca33",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "41321240_0484dd2c",
@@ -225,6 +447,24 @@
       "writtenOn": "2025-07-23T05:57:19Z",
       "side": 1,
       "message": "Do we really need the name here?",
+      "revId": "0d3f0baad19dcbd372863a1fcb834c8c9a83ca33",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47a2fb6d_d2d2f390",
+        "filename": "src/nvidia-gpu/Inventory.hpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-24T15:31:25Z",
+      "side": 1,
+      "message": "yes propertyName used as a key to update the interface. We could have more than one property on the interface.",
+      "parentUuid": "41321240_0484dd2c",
       "revId": "0d3f0baad19dcbd372863a1fcb834c8c9a83ca33",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -246,6 +486,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fe38dac_f38aabf1",
+        "filename": "src/nvidia-gpu/Inventory.hpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-24T15:31:25Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "73ecef69_6374dd39",
+      "revId": "0d3f0baad19dcbd372863a1fcb834c8c9a83ca33",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9e0c3d04_3c733372",
@@ -259,6 +517,24 @@
       "writtenOn": "2025-07-23T05:57:19Z",
       "side": 1,
       "message": "This one is marked const but the others are not. Are both intentional?",
+      "revId": "0d3f0baad19dcbd372863a1fcb834c8c9a83ca33",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "418aaaf8_34e5cf4a",
+        "filename": "src/nvidia-gpu/Inventory.hpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-24T15:31:25Z",
+      "side": 1,
+      "message": "yes because others change the member variables.",
+      "parentUuid": "9e0c3d04_3c733372",
       "revId": "0d3f0baad19dcbd372863a1fcb834c8c9a83ca33",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
