@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36a6342d_873fc95b",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000338
+      },
+      "writtenOn": "2025-07-24T03:55:52Z",
+      "side": 1,
+      "message": "Need to figure out a solution to this NOLINT. We could do this over the netlink socket or alternatively use popen() (there is precedence here in OpenBMC, but we may get the same warning?). Alternatively, perhaps use boost?",
+      "revId": "de9264e4a9c756922c0421dea7138396d966c429",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8296ad6c_ae00bac5",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000338
+      },
+      "writtenOn": "2025-07-24T03:55:52Z",
+      "side": 1,
+      "message": "Local EID persists across BMC reboots? I don\u0027t think that is true. Could you check and rephrase this? Perhaps you meant that it may already have been assigned for a different target on the same interface?",
+      "range": {
+        "startLine": 107,
+        "startChar": 63,
+        "endLine": 108,
+        "endChar": 40
+      },
+      "revId": "de9264e4a9c756922c0421dea7138396d966c429",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e27091cc_1e7e452b",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1000338
+      },
+      "writtenOn": "2025-07-24T03:55:52Z",
+      "side": 1,
+      "message": "Why 8?",
+      "revId": "de9264e4a9c756922c0421dea7138396d966c429",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
