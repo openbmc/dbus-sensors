@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "25a7b06e_1ea08515",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001538
+      },
+      "writtenOn": "2025-07-24T20:00:47Z",
+      "side": 1,
+      "message": "Please see https://gerrit.openbmc.org/c/openbmc/entity-manager/+/75484 which tries to implement option 1 to try to move the solution out of dbus-sensors and handles the mux and expose the `Bus` field in entity-manager.",
+      "parentUuid": "6e92908e_22e73583",
+      "range": {
+        "startLine": 23,
+        "startChar": 63,
+        "endLine": 26,
+        "endChar": 44
+      },
+      "revId": "269dd5a40c59cbb5798fe52f0a7378ce025d2cc9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "5584b80d_120c77fe",
