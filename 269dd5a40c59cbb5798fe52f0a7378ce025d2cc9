@@ -100,6 +100,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c70d5a6_d47f3b89",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001538
+      },
+      "writtenOn": "2025-07-24T20:01:40Z",
+      "side": 1,
+      "message": "Please see https://gerrit.openbmc.org/c/openbmc/entity-manager/+/75484 which attempts to resolve the MuxChannel objects and expose the `Bus` field.",
+      "parentUuid": "b4550c8d_3b24f44d",
+      "revId": "269dd5a40c59cbb5798fe52f0a7378ce025d2cc9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e072763b_1aa34610",
