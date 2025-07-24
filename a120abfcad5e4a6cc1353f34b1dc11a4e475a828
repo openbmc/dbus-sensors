@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d155528e_20ecbe27",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 890,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-24T15:54:52Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "12b51eac_a376c467",
+      "revId": "a120abfcad5e4a6cc1353f34b1dc11a4e475a828",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "185def51_582017c0",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f09c98f2_df7b5b6f",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-24T15:54:52Z",
+      "side": 1,
+      "message": "Yes. if it changes in the future we can adopt as per the device type.",
+      "parentUuid": "185def51_582017c0",
+      "revId": "a120abfcad5e4a6cc1353f34b1dc11a4e475a828",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "37672093_64380166",
@@ -48,6 +84,24 @@
       "writtenOn": "2025-07-23T06:15:49Z",
       "side": 1,
       "message": "We could have done this in the previous commit...",
+      "revId": "a120abfcad5e4a6cc1353f34b1dc11a4e475a828",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0933a865_f3e5c835",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-07-24T15:54:52Z",
+      "side": 1,
+      "message": "kept is separate for managing the test results better.",
+      "parentUuid": "37672093_64380166",
       "revId": "a120abfcad5e4a6cc1353f34b1dc11a4e475a828",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
