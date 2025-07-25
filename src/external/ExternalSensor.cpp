@@ -54,7 +54,15 @@ ExternalSensor::ExternalSensor(
     for (const auto& threshold : thresholds)
     {
         std::string interface = thresholds::getInterface(threshold.level);
-        thresholdInterfaces[static_cast<size_t>(threshold.level)] =
+        size_t index = static_cast<size_t>(threshold.level);
+        if (thresholdInterfaces[index])
+        {
+            lg2::error("{INTERFACE} under {PATH} has already been created",
+                       "INTERFACE", interface, "PATH", objectPath);
+            continue;
+        }
+
+        thresholdInterfaces[index] =
             objectServer.add_interface(objectPath, interface);
     }
 

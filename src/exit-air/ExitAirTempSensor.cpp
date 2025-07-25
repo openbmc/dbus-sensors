@@ -173,20 +173,26 @@ CFMSensor::CFMSensor(std::shared_ptr<sdbusplus::asio::connection>& conn,
            cfmMinReading, conn, PowerState::on),
     parent(parent), objServer(objectServer)
 {
+    std::string dbusPath = "/xyz/openbmc_project/sensors/airflow/" + name;
     sensorInterface = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/airflow/" + name,
-        "xyz.openbmc_project.Sensor.Value");
+        dbusPath, "xyz.openbmc_project.Sensor.Value");
 
     for (const auto& threshold : thresholds)
     {
         std::string interface = thresholds::getInterface(threshold.level);
-        thresholdInterfaces[static_cast<size_t>(threshold.level)] =
-            objectServer.add_interface(
-                "/xyz/openbmc_project/sensors/airflow/" + name, interface);
+        size_t index = static_cast<size_t>(threshold.level);
+        if (thresholdInterfaces[index])
+        {
+            lg2::error("{INTERFACE} under {PATH} has already been created",
+                       "INTERFACE", interface, "PATH", dbusPath);
+            continue;
+        }
+
+        thresholdInterfaces[index] =
+            objectServer.add_interface(dbusPath, interface);
     }
 
-    association = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/airflow/" + name, association::interface);
+    association = objectServer.add_interface(dbusPath, association::interface);
 
     setInitialProperties(sensor_paths::unitCFM);
 
@@ -499,20 +505,25 @@ ExitAirTempSensor::ExitAirTempSensor(
            exitAirMinReading, conn, PowerState::on),
     objServer(objectServer)
 {
+    std::string dbusPath = "/xyz/openbmc_project/sensors/temperature/" + name;
     sensorInterface = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/temperature/" + name,
-        "xyz.openbmc_project.Sensor.Value");
+        dbusPath, "xyz.openbmc_project.Sensor.Value");
 
     for (const auto& threshold : thresholds)
     {
         std::string interface = thresholds::getInterface(threshold.level);
-        thresholdInterfaces[static_cast<size_t>(threshold.level)] =
-            objectServer.add_interface(
-                "/xyz/openbmc_project/sensors/temperature/" + name, interface);
+        size_t index = static_cast<size_t>(threshold.level);
+        if (thresholdInterfaces[index])
+        {
+            lg2::error("{INTERFACE} under {PATH} has already been created",
+                       "INTERFACE", interface, "PATH", dbusPath);
+            continue;
+        }
+
+        thresholdInterfaces[index] =
+            objectServer.add_interface(dbusPath, interface);
     }
-    association = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/temperature/" + name,
-        association::interface);
+    association = objectServer.add_interface(dbusPath, association::interface);
     setInitialProperties(sensor_paths::unitDegreesC);
 }
 
