@@ -75,12 +75,17 @@ HwmonTempSensor::HwmonTempSensor(
 
     for (const auto& threshold : thresholds)
     {
+        size_t index = static_cast<size_t>(threshold.level);
+        if (thresholdInterfaces[index])
+        {
+            continue;
+        }
+
         std::string interface = thresholds::getInterface(threshold.level);
-        thresholdInterfaces[static_cast<size_t>(threshold.level)] =
-            objectServer.add_interface(
-                "/xyz/openbmc_project/sensors/" +
-                    thisSensorParameters.typeName + "/" + name,
-                interface);
+        thresholdInterfaces[index] = objectServer.add_interface(
+            "/xyz/openbmc_project/sensors/" + thisSensorParameters.typeName +
+                "/" + name,
+            interface);
     }
     association = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/" + thisSensorParameters.typeName + "/" +
