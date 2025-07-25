@@ -64,6 +64,7 @@ static constexpr double minValueTemperature = -128;     // DegreesC
 
 static const I2CDeviceTypeMap sensorTypes{
     {"ADM1021", I2CDeviceType{"adm1021", true}},
+    {"BME280", I2CDeviceType{"bme280", false}},
     {"DPS310", I2CDeviceType{"dps310", false}},
     {"EMC1403", I2CDeviceType{"emc1403", true}},
     {"EMC1412", I2CDeviceType{"emc1412", true}},
@@ -385,11 +386,15 @@ void createSensors(
                 // Temperature has "Name", pressure has "Name1"
                 auto findSensorName = baseConfigMap.find("Name");
                 int index = 1;
-                if (thisSensorParameters.typeName == "pressure" ||
-                    thisSensorParameters.typeName == "humidity")
+                if (thisSensorParameters.typeName == "pressure")
                 {
-                    findSensorName = baseConfigMap.find("Name1");
+                    findSensorName = baseConfigMap.find("NamePressure");
                     index = 2;
+                }
+                if (thisSensorParameters.typeName == "humidity")
+                {
+                    findSensorName = baseConfigMap.find("NameHumidity");
+                    index = 3;
                 }
 
                 if (findSensorName == baseConfigMap.end())
