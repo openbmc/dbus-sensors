@@ -22,6 +22,7 @@
 #include "sensor.hpp"
 
 #include <boost/asio/io_context.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
@@ -53,20 +54,25 @@ NVMeSensor::NVMeSensor(sdbusplus::asio::object_server& objectServer,
         throw std::invalid_argument("Invalid bus: Bus ID must not be negative");
     }
 
+    std::string dbusPath = "/xyz/openbmc_project/sensors/temperature/" + name;
     sensorInterface = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/temperature/" + name,
-        "xyz.openbmc_project.Sensor.Value");
+        dbusPath, "xyz.openbmc_project.Sensor.Value");
 
     for (const auto& threshold : thresholds)
     {
         std::string interface = thresholds::getInterface(threshold.level);
-        thresholdInterfaces[static_cast<size_t>(threshold.level)] =
-            objectServer.add_interface(
-                "/xyz/openbmc_project/sensors/temperature/" + name, interface);
+        size_t index = static_cast<size_t>(threshold.level);
+        if (thresholdInterfaces[index])
+        {
+            lg2::error("{INTERFACE} under {PATH} has already been created",
+                       "INTERFACE", interface, "PATH", dbusPath);
+            continue;
+        }
+
+        thresholdInterfaces[index] =
+            objectServer.add_interface(dbusPath, interface);
     }
-    association = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/temperature/" + name,
-        association::interface);
+    association = objectServer.add_interface(dbusPath, association::interface);
 
     setInitialProperties(sensor_paths::unitDegreesC);
     // Mark as unavailable until the first packet has been received over NVMe
