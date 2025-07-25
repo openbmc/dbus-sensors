@@ -68,24 +68,26 @@ HwmonTempSensor::HwmonTempSensor(
     scaleValue(thisSensorParameters.scaleValue),
     sensorPollMs(static_cast<unsigned int>(pollRate * 1000))
 {
+    std::string dbusPath = "/xyz/openbmc_project/sensors/" +
+                           thisSensorParameters.typeName + "/" + name;
     sensorInterface = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/" + thisSensorParameters.typeName + "/" +
-            name,
-        "xyz.openbmc_project.Sensor.Value");
+        dbusPath, "xyz.openbmc_project.Sensor.Value");
 
     for (const auto& threshold : thresholds)
     {
         std::string interface = thresholds::getInterface(threshold.level);
-        thresholdInterfaces[static_cast<size_t>(threshold.level)] =
-            objectServer.add_interface(
-                "/xyz/openbmc_project/sensors/" +
-                    thisSensorParameters.typeName + "/" + name,
-                interface);
+        size_t index = static_cast<size_t>(threshold.level);
+        if (thresholdInterfaces[index])
+        {
+            lg2::error("{INTERFACE} under {PATH} has already been created",
+                       "INTERFACE", interface, "PATH", dbusPath);
+            continue;
+        }
+
+        thresholdInterfaces[index] =
+            objectServer.add_interface(dbusPath, interface);
     }
-    association = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/" + thisSensorParameters.typeName + "/" +
-            name,
-        association::interface);
+    association = objectServer.add_interface(dbusPath, association::interface);
     setInitialProperties(thisSensorParameters.units);
 }
 
