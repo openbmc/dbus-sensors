@@ -61,20 +61,25 @@ TachSensor::TachSensor(
     inputDev(io, path, boost::asio::random_access_file::read_only),
     waitTimer(io), path(path), led(ledIn)
 {
+    std::string dbusPath = "/xyz/openbmc_project/sensors/fan_tach/" + name;
     sensorInterface = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/fan_tach/" + name,
-        "xyz.openbmc_project.Sensor.Value");
+        dbusPath, "xyz.openbmc_project.Sensor.Value");
 
     for (const auto& threshold : thresholds)
     {
         std::string interface = thresholds::getInterface(threshold.level);
-        thresholdInterfaces[static_cast<size_t>(threshold.level)] =
-            objectServer.add_interface(
-                "/xyz/openbmc_project/sensors/fan_tach/" + name, interface);
+        size_t index = static_cast<size_t>(threshold.level);
+        if (thresholdInterfaces[index])
+        {
+            lg2::error("{INTERFACE} under {PATH} has already been created",
+                       "INTERFACE", interface, "PATH", dbusPath);
+            continue;
+        }
+
+        thresholdInterfaces[index] =
+            objectServer.add_interface(dbusPath, interface);
     }
-    association = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/fan_tach/" + name,
-        association::interface);
+    association = objectServer.add_interface(dbusPath, association::interface);
 
     if (presence)
     {
@@ -90,9 +95,7 @@ TachSensor::TachSensor(
             "/xyz/openbmc_project/inventory/" + name, association::interface);
         itemAssoc->register_property(
             "Associations",
-            std::vector<Association>{
-                {"sensors", "inventory",
-                 "/xyz/openbmc_project/sensors/fan_tach/" + name}});
+            std::vector<Association>{{"sensors", "inventory", dbusPath}});
         itemAssoc->initialize();
     }
     setInitialProperties(sensor_paths::unitRPMs);
