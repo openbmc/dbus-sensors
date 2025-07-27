@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b1c3c49_4a8a1eae",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-27T18:32:41Z",
+      "side": 1,
+      "message": "Does the static EID come from an EM config?",
+      "revId": "4535998590234969adb4ad58c1fb89d1ffaaf006",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba5080a0_a70b0a3f",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-27T18:32:41Z",
+      "side": 1,
+      "message": "Is this for bridge/device behind bridge? I\u0027m a bit confused as the commit message mentions a different API for bridged devices.",
+      "revId": "4535998590234969adb4ad58c1fb89d1ffaaf006",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9ca0d57_69597a63",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-27T18:32:41Z",
+      "side": 1,
+      "message": "Has the patch been tested on I2C and I3C endpoints? Bridges? Please add details.",
+      "revId": "4535998590234969adb4ad58c1fb89d1ffaaf006",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
