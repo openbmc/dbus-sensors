@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0ccc1b6f_ea18248a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-27T18:34:36Z",
+      "side": 1,
+      "message": "FYI there\u0027s also https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/76613",
+      "revId": "4535998590234969adb4ad58c1fb89d1ffaaf006",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6b1c3c49_4a8a1eae",
         "filename": "src/mctp/MCTPEndpoint.cpp",
         "patchSetId": 5
