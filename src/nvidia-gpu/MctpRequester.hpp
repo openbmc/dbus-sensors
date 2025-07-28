@@ -6,7 +6,6 @@
 
 #pragma once
 
-#include <OcpMctpVdm.hpp>
 #include <boost/asio/generic/datagram_protocol.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/steady_timer.hpp>
@@ -35,11 +34,14 @@ class Requester
 
     Requester& operator=(Requester&&) = delete;
 
-    explicit Requester(boost::asio::io_context& ctx);
+    using ResponseHandler = std::move_only_function<void(
+        uint8_t eid, std::span<uint8_t> respMsg, int errorCode)>;
+
+    explicit Requester(boost::asio::io_context& ctx, uint8_t msgType,
+                       ResponseHandler&& responseHandler);
 
     void sendRecvMsg(uint8_t eid, std::span<const uint8_t> reqMsg,
-                     std::span<uint8_t> respMsg,
-                     std::move_only_function<void(int)> callback);
+                     std::span<uint8_t> respMsg);
 
   private:
     void processRecvMsg(std::span<const uint8_t> reqMsg,
@@ -53,39 +55,34 @@ class Requester
 
     boost::asio::generic::datagram_protocol::socket mctpSocket;
 
-    static constexpr size_t maxMessageSize = 65536 + 256;
-
     boost::asio::generic::datagram_protocol::endpoint sendEndPoint;
 
     boost::asio::generic::datagram_protocol::endpoint recvEndPoint;
 
-    boost::asio::steady_timer expiryTimer;
+    ResponseHandler responseHandler;
 
-    std::unordered_map<uint8_t, std::move_only_function<void(int)>>
-        completionCallbacks;
-
-    static constexpr uint8_t msgType = ocp::accelerator_management::messageType;
+    uint8_t msgType;
 };
 
-class QueuingRequester
+class NvidiaMctpVdmRequester
 {
   public:
-    QueuingRequester() = delete;
-    QueuingRequester(const QueuingRequester&) = delete;
-    QueuingRequester(QueuingRequester&&) = delete;
-    QueuingRequester& operator=(const QueuingRequester&) = delete;
-    QueuingRequester& operator=(QueuingRequester&&) = delete;
+    NvidiaMctpVdmRequester() = delete;
+    NvidiaMctpVdmRequester(const NvidiaMctpVdmRequester&) = delete;
+    NvidiaMctpVdmRequester(NvidiaMctpVdmRequester&&) = delete;
+    NvidiaMctpVdmRequester& operator=(const NvidiaMctpVdmRequester&) = delete;
+    NvidiaMctpVdmRequester& operator=(NvidiaMctpVdmRequester&&) = delete;
 
-    explicit QueuingRequester(boost::asio::io_context& ctx) : requester(ctx) {}
+    explicit NvidiaMctpVdmRequester(boost::asio::io_context& ctx);
 
-    void sendRecvMsg(uint8_t eid, std::span<const uint8_t> reqMsg,
+    void sendRecvMsg(uint8_t eid, std::span<uint8_t> reqMsg,
                      std::span<uint8_t> respMsg,
                      std::move_only_function<void(int)> callback);
 
   private:
     struct RequestContext
     {
-        std::span<const uint8_t> reqMsg;
+        std::span<uint8_t> reqMsg;
         std::span<uint8_t> respMsg;
         std::move_only_function<void(int)> callback;
 
@@ -96,21 +93,22 @@ class QueuingRequester
         RequestContext& operator=(RequestContext&&) = default;
         ~RequestContext() = default;
 
-        explicit RequestContext(std::span<const uint8_t> req,
-                                std::span<uint8_t> resp,
+        explicit RequestContext(std::span<uint8_t> req, std::span<uint8_t> resp,
                                 std::move_only_function<void(int)>&& cb) :
             reqMsg(req), respMsg(resp), callback(std::move(cb))
         {}
     };
 
-    void handleResult(uint8_t eid, int result);
+    void handleResult(uint8_t eid, std::span<uint8_t> respMsg, int result);
     void processQueue(uint8_t eid);
+    void handleResponse(uint8_t eid, std::span<uint8_t> respMsg, int ec);
 
     Requester requester;
+    boost::asio::steady_timer expiryTimer;
     std::unordered_map<
         uint8_t, boost::container::devector<std::unique_ptr<RequestContext>>>
         requestContextQueues;
 };
 
-using MctpRequester = QueuingRequester;
+using MctpRequester = NvidiaMctpVdmRequester;
 } // namespace mctp
