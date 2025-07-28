@@ -91,8 +91,12 @@ IntelCPUSensor::IntelCPUSensor(
             {
                 std::string interface =
                     thresholds::getInterface(threshold.level);
-                thresholdInterfaces[static_cast<size_t>(threshold.level)] =
-                    objectServer.add_interface(interfacePath, interface);
+                if (thresholdInterfaces[static_cast<size_t>(threshold.level)] ==
+                    nullptr)
+                {
+                    thresholdInterfaces[static_cast<size_t>(threshold.level)] =
+                        objectServer.add_interface(interfacePath, interface);
+                }
             }
             association = objectServer.add_interface(interfacePath,
                                                      association::interface);

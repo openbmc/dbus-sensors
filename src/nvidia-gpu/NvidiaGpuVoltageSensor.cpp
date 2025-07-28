@@ -58,8 +58,12 @@ NvidiaGpuVoltageSensor::NvidiaGpuVoltageSensor(
     for (const auto& threshold : thresholds)
     {
         std::string interface = thresholds::getInterface(threshold.level);
-        thresholdInterfaces[static_cast<size_t>(threshold.level)] =
-            objectServer.add_interface(dbusPath, interface);
+        if (thresholdInterfaces[static_cast<size_t>(threshold.level)] ==
+            nullptr)
+        {
+            thresholdInterfaces[static_cast<size_t>(threshold.level)] =
+                objectServer.add_interface(dbusPath, interface);
+        }
     }
 
     association = objectServer.add_interface(dbusPath, association::interface);

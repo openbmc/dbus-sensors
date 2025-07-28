@@ -81,9 +81,14 @@ MCUTempSensor::MCUTempSensor(
     for (const auto& threshold : thresholds)
     {
         std::string interface = thresholds::getInterface(threshold.level);
-        thresholdInterfaces[static_cast<size_t>(threshold.level)] =
-            objectServer.add_interface(
-                "/xyz/openbmc_project/sensors/temperature/" + name, interface);
+        if (thresholdInterfaces[static_cast<size_t>(threshold.level)] ==
+            nullptr)
+        {
+            thresholdInterfaces[static_cast<size_t>(threshold.level)] =
+                objectServer.add_interface(
+                    "/xyz/openbmc_project/sensors/temperature/" + name,
+                    interface);
+        }
     }
     association = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/temperature/" + name,
