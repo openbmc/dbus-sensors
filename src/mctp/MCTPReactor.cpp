@@ -7,7 +7,6 @@
 #include <boost/system/detail/error_code.hpp>
 #include <phosphor-logging/lg2.hpp>
 
-#include <cstdlib>
 #include <memory>
 #include <optional>
 #include <string>

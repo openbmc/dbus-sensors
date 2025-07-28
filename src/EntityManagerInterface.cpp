@@ -74,9 +74,9 @@ auto EntityManagerInterface::handleInventoryAdded() -> sdbusplus::async::task<>
 
     while (!ctx.stop_requested())
     {
-        auto [objectPath, inventoryData] =
-            co_await addedMatch
-                .next<sdbusplus::message::object_path, SensorData>();
+        auto result = co_await addedMatch
+                          .next<sdbusplus::message::object_path, SensorData>();
+        auto& [objectPath, inventoryData] = result;
 
         for (const auto& interfaceName : interfaceNames)
         {
@@ -104,9 +104,10 @@ auto EntityManagerInterface::handleInventoryRemoved()
 
     while (!ctx.stop_requested())
     {
-        auto [objectPath, interfaces] =
+        auto result =
             co_await removedMatch
                 .next<sdbusplus::message::object_path, interface_list_t>();
+        auto& [objectPath, interfaces] = result;
 
         for (const auto& interfaceName : interfaceNames)
         {

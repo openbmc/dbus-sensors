@@ -1,6 +1,5 @@
 #pragma once
 
-#include <cstring>
 #include <string>
 
 namespace sensor_paths

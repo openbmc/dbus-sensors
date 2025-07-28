@@ -8,7 +8,6 @@
 #include <array>
 #include <cerrno>
 #include <cstdint>
-#include <cstring>
 #include <filesystem>
 #include <memory>
 #include <span>
