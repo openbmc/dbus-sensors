@@ -2,8 +2,6 @@
 
 #include <sdbusplus/async.hpp>
 
-#include <cerrno>
-#include <cstring>
 #include <functional>
 #include <memory>
 #include <string>
