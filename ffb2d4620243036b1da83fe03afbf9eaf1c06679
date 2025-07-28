@@ -16,6 +16,24 @@
       "message": "Can you please give a brief description of what the issues actually are, to set expectations for what we will see in the implementation?",
       "revId": "ffb2d4620243036b1da83fe03afbf9eaf1c06679",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5df2f78_b2f2319e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-07-28T02:47:32Z",
+      "side": 1,
+      "message": "Also, see this advice:\n\n\u003e Describe your changes in imperative mood, e.g. “make xyzzy do frotz” instead of “[This patch] makes xyzzy do frotz” or “[I] changed xyzzy to do frotz”, as if you are giving orders to the codebase to change its behaviour.\n\nhttps://docs.kernel.org/process/submitting-patches.html#describe-your-changes",
+      "parentUuid": "af1573eb_53f0fe92",
+      "revId": "ffb2d4620243036b1da83fe03afbf9eaf1c06679",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
