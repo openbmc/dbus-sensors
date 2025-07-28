@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af1573eb_53f0fe92",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-07-28T02:38:38Z",
+      "side": 1,
+      "message": "Can you please give a brief description of what the issues actually are, to set expectations for what we will see in the implementation?",
+      "revId": "ffb2d4620243036b1da83fe03afbf9eaf1c06679",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
