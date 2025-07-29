@@ -651,13 +651,20 @@ void createSensors(
             enableFanInput(fanOutputPath);
             auto fanInputPath = getFanInputPath(fanOutputPath);
 
+            auto isTachlessFan = false;
+            if (fanInputPath == path) // if paths match, no tachometer was
+                                      // found, so this is a tachless fan
+            {
+                isTachlessFan = true;
+            }
+
             auto& tachSensor = tachSensors[sensorName];
             tachSensor = nullptr;
             tachSensor = std::make_shared<TachSensor>(
                 fanInputPath.string(), baseType, objectServer, dbusConnection,
                 presenceGpio, redundancy, io, sensorName,
-                std::move(sensorThresholds), *interfacePath, limits, powerState,
-                led);
+                std::move(sensorThresholds), *interfacePath, limits,
+                isTachlessFan, powerState, led);
             tachSensor->setupRead();
 
             if (!pwmPath.empty() && std::filesystem::exists(pwmPath) &&
