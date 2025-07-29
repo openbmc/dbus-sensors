@@ -71,7 +71,7 @@ static_assert(std::tuple_size<decltype(sensorTypes)>::value == FanTypes::max,
 
 constexpr const char* redundancyConfiguration =
     "xyz.openbmc_project.Configuration.FanRedundancy";
-static std::regex inputRegex(R"(fan(\d+)_input)");
+static std::regex inputRegex(R"(pwm(\d+))");
 
 // todo: power supply fan redundancy
 std::optional<RedundancySensor> systemRedundancy;
@@ -198,15 +198,16 @@ bool findPwmPath(const std::filesystem::path& directory, unsigned int pwm,
     return true;
 }
 
-// The argument to this function should be the fanN_input file that we want to
-// enable. The function will locate the corresponding fanN_enable file if it
-// exists. Note that some drivers don't provide this file if the sensors are
-// always enabled.
-void enableFanInput(const std::filesystem::path& fanInputPath)
+// The argument to this function should be the pwmN file associated with the
+// fanN that we want to enable. The function will locate the corresponding
+// fanN_enable file if it exists. Note that some drivers don't provide this
+// file if the sensors are always enabled.
+void enableFanInput(const std::filesystem::path& fanOutputPath)
 {
     std::error_code ec;
-    std::string path(fanInputPath.string());
-    boost::replace_last(path, "input", "enable");
+    std::string path(fanOutputPath.string());
+    boost::replace_last(path, "pwm", "fan");
+    path += "_enable";
 
     bool exists = std::filesystem::exists(path, ec);
     if (ec || !exists)
@@ -220,6 +221,30 @@ void enableFanInput(const std::filesystem::path& fanInputPath)
         return;
     }
     enableFile << 1;
+}
+
+// Takes a pwmN filepath as a parameter
+// returns 'fanN_input' path if it exists, otherwise returns the original pwmN
+// path.'
+//
+// Returning the original pwm path enables monitoring for fans with no
+// accessible tachometer by presenting a tachSensor object on dbus with the
+// 'aspirational pwm' as starting input. This can be combined with GPIO reads
+// for checking fan status.
+std::filesystem::path getFanInputPath(
+    const std::filesystem::path& fanOutputPath)
+{
+    std::string path(fanOutputPath.string());
+    boost::replace_last(path, "pwm", "fan"); // look for fanN_input
+    path += "_input";
+    std::filesystem::path fanInputPath(path);
+
+    if (std::filesystem::exists(fanInputPath))
+    {
+        return fanInputPath;
+    }
+
+    return fanOutputPath;
 }
 
 void createRedundancySensor(
@@ -293,17 +318,17 @@ void createSensors(
                                                     const ManagedObjectType&
                                                         sensorConfigurations) {
         bool firstScan = sensorsChanged == nullptr;
-        std::vector<std::filesystem::path> paths;
-        if (!findFiles(std::filesystem::path("/sys/class/hwmon"),
-                       R"(fan\d+_input)", paths))
+        std::vector<std::filesystem::path> fanOutputPaths;
+        if (!findFiles(std::filesystem::path("/sys/class/hwmon"), R"(pwm\d+)",
+                       fanOutputPaths))
         {
-            lg2::error("No fan sensors in system");
+            lg2::error("No fan pwm controls in system");
             return;
         }
 
         // iterate through all found fan sensors, and try to match them with
         // configuration
-        for (const auto& path : paths)
+        for (const auto& path : fanOutputPaths)
         {
             std::smatch match;
             std::string pathStr = path.string();
@@ -624,11 +649,12 @@ void createSensors(
             findLimits(limits, baseConfiguration);
 
             enableFanInput(path);
+            auto fanInputPath = getFanInputPath(path);
 
             auto& tachSensor = tachSensors[sensorName];
             tachSensor = nullptr;
             tachSensor = std::make_shared<TachSensor>(
-                path.string(), baseType, objectServer, dbusConnection,
+                fanInputPath.string(), baseType, objectServer, dbusConnection,
                 presenceGpio, redundancy, io, sensorName,
                 std::move(sensorThresholds), *interfacePath, limits, powerState,
                 led);
