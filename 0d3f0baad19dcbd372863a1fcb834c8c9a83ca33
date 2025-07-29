@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7ecb6830_285f757e",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-29T07:26:29Z",
+      "side": 1,
+      "message": "Why would we add accelerator to CX?",
+      "parentUuid": "3169d5c7_ecb77b28",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 66
+      },
+      "revId": "0d3f0baad19dcbd372863a1fcb834c8c9a83ca33",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1ef3559b_5707730e",
         "filename": "src/nvidia-gpu/Inventory.cpp",
         "patchSetId": 29
@@ -354,6 +378,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7a6f5115_4b0213d0",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-29T07:26:29Z",
+      "side": 1,
+      "message": "Let\u0027s not add dead code in this commit.",
+      "parentUuid": "a708a24a_6abde76f",
+      "revId": "0d3f0baad19dcbd372863a1fcb834c8c9a83ca33",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "24e3bd39_7c29978b",
         "filename": "src/nvidia-gpu/Inventory.cpp",
         "patchSetId": 29
@@ -500,6 +542,24 @@
       "side": 1,
       "message": "Acknowledged",
       "parentUuid": "73ecef69_6374dd39",
+      "revId": "0d3f0baad19dcbd372863a1fcb834c8c9a83ca33",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a404022a_41228e79",
+        "filename": "src/nvidia-gpu/Inventory.hpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-07-29T07:26:29Z",
+      "side": 1,
+      "message": "Still not clear to me 😊. The other one makes a request. This one?",
+      "parentUuid": "1fe38dac_f38aabf1",
       "revId": "0d3f0baad19dcbd372863a1fcb834c8c9a83ca33",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
