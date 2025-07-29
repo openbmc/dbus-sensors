@@ -71,7 +71,7 @@ static_assert(std::tuple_size<decltype(sensorTypes)>::value == FanTypes::max,
 
 constexpr const char* redundancyConfiguration =
     "xyz.openbmc_project.Configuration.FanRedundancy";
-static std::regex inputRegex(R"(fan(\d+)_input)");
+static std::regex outputRegex(R"(pwm(\d+))");
 
 // todo: power supply fan redundancy
 std::optional<RedundancySensor> systemRedundancy;
@@ -206,8 +206,9 @@ bool findPwmPath(const std::filesystem::path& directory, unsigned int pwm,
 void enableFanInput(const std::filesystem::path& fanOutputPath)
 {
     std::error_code ec;
-    std::string path(fanInputPath.string());
-    boost::replace_last(path, "input", "enable");
+    std::string path(fanOutputPath.string());
+    boost::replace_last(path, "pwm", "fan");
+    path += "_enable";
 
     bool exists = std::filesystem::exists(path, ec);
     if (ec || !exists)
@@ -312,25 +313,25 @@ void createSensors(
                                                     const ManagedObjectType&
                                                         sensorConfigurations) {
         bool firstScan = sensorsChanged == nullptr;
-        std::vector<std::filesystem::path> paths;
-        if (!findFiles(std::filesystem::path("/sys/class/hwmon"),
-                       R"(fan\d+_input)", paths))
+        std::vector<std::filesystem::path> fanOutputPaths;
+        if (!findFiles(std::filesystem::path("/sys/class/hwmon"), R"(pwm\d+)",
+                       fanOutputPaths))
         {
-            lg2::error("No fan sensors in system");
+            lg2::error("No fan pwm controls in system");
             return;
         }
 
         // iterate through all found fan sensors, and try to match them with
         // configuration
-        for (const auto& path : paths)
+        for (const auto& fanOutputPath : fanOutputPaths)
         {
             std::smatch match;
-            std::string pathStr = path.string();
+            std::string outputPathStr = fanOutputPath.string();
 
-            std::regex_search(pathStr, match, inputRegex);
+            std::regex_search(outputPathStr, match, outputRegex);
             std::string indexStr = *(match.begin() + 1);
 
-            std::filesystem::path directory = path.parent_path();
+            std::filesystem::path directory = fanOutputPath.parent_path();
             FanTypes fanType = getFanType(directory);
             std::string cfgIntf = configInterfaceName(sensorTypes[fanType]);
 
@@ -414,7 +415,7 @@ void createSensors(
             if (sensorData == nullptr)
             {
                 lg2::error("failed to find match for '{PATH}'", "PATH",
-                           path.string());
+                           fanOutputPath.string());
                 continue;
             }
 
@@ -424,7 +425,7 @@ void createSensors(
             {
                 lg2::error(
                     "could not determine configuration name for '{PATH}'",
-                    "PATH", path.string());
+                    "PATH", fanOutputPath.string());
                 continue;
             }
             std::string sensorName =
@@ -642,12 +643,13 @@ void createSensors(
 
             findLimits(limits, baseConfiguration);
 
-            enableFanInput(path);
+            enableFanInput(fanOutputPath);
+            auto fanInputPath = getFanInputPath(fanOutputPath);
 
             auto& tachSensor = tachSensors[sensorName];
             tachSensor = nullptr;
             tachSensor = std::make_shared<TachSensor>(
-                path.string(), baseType, objectServer, dbusConnection,
+                fanInputPath.string(), baseType, objectServer, dbusConnection,
                 presenceGpio, redundancy, io, sensorName,
                 std::move(sensorThresholds), *interfacePath, limits, powerState,
                 led);
