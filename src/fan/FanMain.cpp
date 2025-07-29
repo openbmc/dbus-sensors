@@ -304,6 +304,8 @@ void createSensors(
         pwmSensors,
     boost::container::flat_map<std::string, std::weak_ptr<PresenceGpio>>&
         presenceGpios,
+    boost::container::flat_map<std::string, std::weak_ptr<PresenceGpio>>&
+        statusMonitorGpios,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     const std::shared_ptr<boost::container::flat_set<std::string>>&
         sensorsChanged,
@@ -313,6 +315,7 @@ void createSensors(
         GetSensorConfiguration>(dbusConnection, [&io, &objectServer,
                                                  &tachSensors, &pwmSensors,
                                                  &presenceGpios,
+                                                 &statusMonitorGpios,
                                                  &dbusConnection,
                                                  sensorsChanged](
                                                     const ManagedObjectType&
@@ -555,8 +558,102 @@ void createSensors(
                     }
                 }
             }
+
+            auto statusMonitorConfig =
+                 sensorData->find(cfgIntf + std::string(".StatusMonitor"));  //monitor for failures
+
+            std::shared_ptr<PresenceGpio> statusMonitorGpio(nullptr);
+
+            // statusMonitor sensors are optional
+            if (statusMonitorConfig != sensorData->end())
+            {
+                auto findFailPolarity = statusMonitorConfig->second.find("Polarity");
+                auto findFailPinName = statusMonitorConfig->second.find("PinName");
+
+                if (findFailPinName == statusMonitorConfig->second.end() ||
+                    findFailPolarity == statusMonitorConfig->second.end())
+                {
+                    lg2::error("Malformed statusMonitor Configuration");
+                }
+                else
+                {
+                    bool inverted =
+                        std::get<std::string>(findFailPolarity->second) == "Low";
+                    const auto* pinName =
+                        std::get_if<std::string>(&findFailPinName->second);
+
+                    if (pinName != nullptr)
+                    {
+                        auto findstatusMonitorGpio = statusMonitorGpios.find(*pinName);
+                        if (findstatusMonitorGpio != statusMonitorGpios.end())
+                        {
+                            auto p = findstatusMonitorGpio->second.lock();
+                            if (p)
+                            {
+                                statusMonitorGpio = p;
+                            }
+                        }
+                        if (!statusMonitorGpio)
+                        {
+                            auto findstatusMonitorType =
+                                statusMonitorConfig->second.find("MonitorType");
+                            bool polling = false;
+                            if (findstatusMonitorType != statusMonitorConfig->second.end())
+                            {
+                                auto mType = std::get<std::string>(
+                                    findstatusMonitorType->second);
+                                if (mType == "Polling")
+                                {
+                                    polling = true;
+                                }
+                                else if (mType != "Event")
+                                {
+                                    lg2::error(
+                                        "Unsupported GPIO MonitorType of '{TYPE}' for '{NAME}', "
+                                        "supported types: Polling, Event default",
+                                        "TYPE", mType, "NAME", sensorName);
+                                }
+                            }
+                            try
+                            {
+                                if (polling)
+                                {
+                                    statusMonitorGpio =
+                                        std::make_shared<PollingPresenceGpio>(
+                                            "Fan", sensorName, *pinName,
+                                            inverted, io);
+                                }
+                                else
+                                {
+                                    statusMonitorGpio =
+                                        std::make_shared<EventPresenceGpio>(
+                                            "Fan", sensorName, *pinName,
+                                            inverted, io);
+                                }
+                                statusMonitorGpios[*pinName] = statusMonitorGpio;
+                            }
+                            catch (const std::system_error& e)
+                            {
+                                lg2::error(
+                                    "Failed to create GPIO monitor object for "
+                                    "'{PIN_NAME}' / '{SENSOR_NAME}': '{ERROR}'",
+                                    "PIN_NAME", *pinName, "SENSOR_NAME",
+                                    sensorName, "ERROR", e);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        lg2::error(
+                            "Malformed statusMonitor pinName for sensor '{NAME}'",
+                            "NAME", sensorName);
+                    }
+                }
+            }
+
             std::optional<RedundancySensor>* redundancy = nullptr;
-            if (fanType == FanTypes::aspeed)
+            if (fanType == FanTypes::aspeed || 
+                fanType == FanTypes::hpe)
             {
                 redundancy = &systemRedundancy;
             }
@@ -655,7 +752,7 @@ void createSensors(
             tachSensor = nullptr;
             tachSensor = std::make_shared<TachSensor>(
                 fanInputPath.string(), baseType, objectServer, dbusConnection,
-                presenceGpio, redundancy, io, sensorName,
+                presenceGpio, statusMonitorGpio, redundancy, io, sensorName,
                 std::move(sensorThresholds), *interfacePath, limits, powerState,
                 led);
             tachSensor->setupRead();
@@ -692,12 +789,14 @@ int main()
         pwmSensors;
     boost::container::flat_map<std::string, std::weak_ptr<PresenceGpio>>
         presenceGpios;
+    boost::container::flat_map<std::string, std::weak_ptr<PresenceGpio>>
+        statusMonitorGpios;
     auto sensorsChanged =
         std::make_shared<boost::container::flat_set<std::string>>();
 
     boost::asio::post(io, [&]() {
         createSensors(io, objectServer, tachSensors, pwmSensors, presenceGpios,
-                      systemBus, nullptr);
+                      statusMonitorGpios, systemBus, nullptr);
     });
 
     boost::asio::steady_timer filterTimer(io);
@@ -724,7 +823,8 @@ int main()
                     return;
                 }
                 createSensors(io, objectServer, tachSensors, pwmSensors,
-                              presenceGpios, systemBus, sensorsChanged, 5);
+                              presenceGpios, statusMonitorGpios, systemBus,
+                              sensorsChanged, 5);
             });
         };
 
