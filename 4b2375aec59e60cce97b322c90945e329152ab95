@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35ed8ab0_af548def",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-07-29T15:10:27Z",
+      "side": 1,
+      "message": "Note: OpenBMC CI \u0027Verified -1\u0027  report doesn\u0027t seem to be about this specific change:\n\n\u003e[51/115] Compiling C++ object src/psu/psusensor.p/PSUSensorMain.cpp.o\nninja: build stopped: subcommand failed.\nTraceback (most recent call last):\n  File \"/data0/jenkins/workspace/ci-repository/openbmc/openbmc-build-scripts/scripts/unit-test.py\", line 1485, in \u003cmodule\u003e\n    build_and_install(UNIT_TEST_PKG, True)\n    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^\n...",
+      "revId": "4b2375aec59e60cce97b322c90945e329152ab95",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
