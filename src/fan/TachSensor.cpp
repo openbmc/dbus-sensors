@@ -48,6 +48,7 @@ TachSensor::TachSensor(
     sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     std::shared_ptr<PresenceGpio>& presenceGpio,
+    std::shared_ptr<PresenceGpio>& statusMonitorGpio,
     std::optional<RedundancySensor>* redundancy, boost::asio::io_context& io,
     const std::string& fanName,
     std::vector<thresholds::Threshold>&& thresholdsIn,
@@ -58,6 +59,7 @@ TachSensor::TachSensor(
            objectType, false, false, limits.second, limits.first, conn,
            powerState),
     objServer(objectServer), redundancy(redundancy), presence(presenceGpio),
+    statusMonitor(statusMonitorGpio),
     inputDev(io, path, boost::asio::random_access_file::read_only),
     waitTimer(io), path(path), led(ledIn)
 {
@@ -94,6 +96,12 @@ TachSensor::TachSensor(
                 {"sensors", "inventory",
                  "/xyz/openbmc_project/sensors/fan_tach/" + name}});
         itemAssoc->initialize();
+    }
+
+    if (statusMonitor)
+    {
+        statusMonitor->monitorPresence(); // kick off monitoring (polling) for
+                                          // the status/fail bit or handle
     }
     setInitialProperties(sensor_paths::unitRPMs);
 }
@@ -156,6 +164,7 @@ void TachSensor::handleResponse(const boost::system::error_code& err,
         return; // we're being destroyed
     }
     bool missing = false;
+    bool failed = false;
     size_t pollTime = pwmPollMs;
     if (presence)
     {
@@ -166,6 +175,16 @@ void TachSensor::handleResponse(const boost::system::error_code& err,
             pollTime = sensorFailedPollTimeMs;
         }
         itemIface->set_property("Present", !missing);
+    }
+
+    if (!missing && statusMonitor)
+    {
+        failed = statusMonitor->isPresent();
+        if (failed)
+        {
+            markFunctional(false);
+            pollTime = sensorFailedPollTimeMs;
+        }
     }
 
     if (!missing)
@@ -198,7 +217,18 @@ void TachSensor::handleResponse(const boost::system::error_code& err,
 
 void TachSensor::checkThresholds()
 {
-    bool status = thresholds::checkThresholds(this);
+    auto status = thresholds::checkThresholds(this);
+
+    if (statusMonitor)
+    {
+        auto failureDetected = statusMonitor->isPresent();
+
+        if (failureDetected)
+        {
+            status = false;
+            lg2::error("Failure detected for '{NAME}'", "NAME", name);
+        }
+    }
 
     if ((redundancy != nullptr) && *redundancy)
     {
