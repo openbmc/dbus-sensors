@@ -294,6 +294,87 @@ void createRedundancySensor(
         "org.freedesktop.DBus.ObjectManager", "GetManagedObjects");
 }
 
+void setupGpioPolling(
+    const SensorData::const_iterator& gpioConfig, const std::string& sensorName,
+    std::shared_ptr<PresenceGpio>& gpioBit,
+    boost::container::flat_map<std::string, std::weak_ptr<PresenceGpio>>&
+        gpioBits,
+    boost::asio::io_context& io)
+{
+    auto findPolarity = gpioConfig->second.find("Polarity");
+    auto findPinName = gpioConfig->second.find("PinName");
+
+    if (findPinName == gpioConfig->second.end() ||
+        findPolarity == gpioConfig->second.end())
+    {
+        lg2::error("Malformed Presence Configuration");
+    }
+    else
+    {
+        bool inverted = std::get<std::string>(findPolarity->second) == "Low";
+        const auto* pinName = std::get_if<std::string>(&findPinName->second);
+
+        if (pinName != nullptr)
+        {
+            auto findgpioBit = gpioBits.find(*pinName);
+            if (findgpioBit != gpioBits.end())
+            {
+                auto p = findgpioBit->second.lock();
+                if (p)
+                {
+                    gpioBit = p;
+                }
+            }
+            if (!gpioBit)
+            {
+                auto findMonitorType = gpioConfig->second.find("MonitorType");
+                bool polling = false;
+                if (findMonitorType != gpioConfig->second.end())
+                {
+                    auto mType = std::get<std::string>(findMonitorType->second);
+                    if (mType == "Polling")
+                    {
+                        polling = true;
+                    }
+                    else if (mType != "Event")
+                    {
+                        lg2::error(
+                            "Unsupported GPIO MonitorType of '{TYPE}' for '{NAME}', "
+                            "supported types: Polling, Event default",
+                            "TYPE", mType, "NAME", sensorName);
+                    }
+                }
+                try
+                {
+                    if (polling)
+                    {
+                        gpioBit = std::make_shared<PollingPresenceGpio>(
+                            "Fan", sensorName, *pinName, inverted, io);
+                    }
+                    else
+                    {
+                        gpioBit = std::make_shared<EventPresenceGpio>(
+                            "Fan", sensorName, *pinName, inverted, io);
+                    }
+                    gpioBits[*pinName] = gpioBit;
+                }
+                catch (const std::system_error& e)
+                {
+                    lg2::error("Failed to create GPIO monitor object for "
+                               "'{PIN_NAME}' / '{SENSOR_NAME}': '{ERROR}'",
+                               "PIN_NAME", *pinName, "SENSOR_NAME", sensorName,
+                               "ERROR", e);
+                }
+            }
+        }
+        else
+        {
+            lg2::error("Malformed Presence pinName for sensor '{NAME}'", "NAME",
+                       sensorName);
+        }
+    }
+}
+
 void createSensors(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
     boost::container::flat_map<std::string, std::shared_ptr<TachSensor>>&
@@ -302,11 +383,24 @@ void createSensors(
         pwmSensors,
     boost::container::flat_map<std::string, std::weak_ptr<PresenceGpio>>&
         presenceGpios,
+    boost::container::flat_map<std::string, std::weak_ptr<PresenceGpio>>&
+        statusMonitorGpios,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     const std::shared_ptr<boost::container::flat_set<std::string>>&
         sensorsChanged,
     size_t retries = 0)
 {
+<<<<<<< PATCH SET (037c63 fan status updates via gpio reads)
+    auto getter = std::make_shared<GetSensorConfiguration>(
+        dbusConnection,
+        [&io, &objectServer, &tachSensors, &pwmSensors, &presenceGpios,
+         &statusMonitorGpios, &dbusConnection,
+         sensorsChanged](const ManagedObjectType& sensorConfigurations) {
+            bool firstScan = sensorsChanged == nullptr;
+            std::vector<std::filesystem::path> fanOutputPaths;
+            if (!findFiles(std::filesystem::path("/sys/class/hwmon"),
+                           R"(pwm\d+)", fanOutputPaths))
+=======
     auto getter = std::make_shared<
         GetSensorConfiguration>(dbusConnection, [&io, &objectServer,
                                                  &tachSensors, &pwmSensors,
@@ -346,329 +440,296 @@ void createSensors(
             const std::string* interfacePath = nullptr;
             const SensorBaseConfiguration* baseConfiguration = nullptr;
             for (const auto& [intfPath, cfgData] : sensorConfigurations)
+>>>>>>> BASE      (c233b4 tachless fan support)
             {
-                // find the base of the configuration to see if indexes
-                // match
-                auto sensorBaseFind = cfgData.find(cfgIntf);
-                if (sensorBaseFind == cfgData.end())
-                {
-                    continue;
-                }
+                lg2::error("No fan pwm controls in system");
+                return;
+            }
 
+<<<<<<< PATCH SET (037c63 fan status updates via gpio reads)
+            // iterate through all found fan sensors, and try to match them with
+            // configuration
+            for (const auto& fanOutputPath : fanOutputPaths)
+            {
+                std::smatch match;
+                std::string outputPathStr = fanOutputPath.string();
+=======
                 baseConfiguration = &(*sensorBaseFind);
                 interfacePath = &intfPath.str;
                 baseType = sensorTypes[fanType];
+>>>>>>> BASE      (c233b4 tachless fan support)
 
-                auto findIndex = baseConfiguration->second.find("Index");
-                if (findIndex == baseConfiguration->second.end())
-                {
-                    lg2::error("'{INTERFACE}' missing index", "INTERFACE",
-                               baseConfiguration->first);
-                    continue;
-                }
-                unsigned int configIndex = std::visit(
-                    VariantToUnsignedIntVisitor(), findIndex->second);
-                if (configIndex != index)
-                {
-                    continue;
-                }
-                if (fanType == FanTypes::aspeed ||
-                    fanType == FanTypes::nuvoton || fanType == FanTypes::hpe)
-                {
-                    // there will be only 1 aspeed or nuvoton or hpe sensor
-                    // object in sysfs, we found the fan
-                    sensorData = &cfgData;
-                    break;
-                }
-                if (fanType == FanTypes::i2c)
-                {
-                    std::string deviceName =
-                        std::filesystem::read_symlink(directory / "device")
-                            .filename();
+                std::regex_search(outputPathStr, match, outputRegex);
+                std::string indexStr = *(match.begin() + 1);
 
-                    size_t bus = 0;
-                    size_t addr = 0;
-                    if (!getDeviceBusAddr(deviceName, bus, addr))
+                std::filesystem::path directory = fanOutputPath.parent_path();
+                FanTypes fanType = getFanType(directory);
+                std::string cfgIntf = configInterfaceName(sensorTypes[fanType]);
+
+                // convert to 0 based
+                size_t index = std::stoul(indexStr) - 1;
+
+                const char* baseType = nullptr;
+                const SensorData* sensorData = nullptr;
+                const std::string* interfacePath = nullptr;
+                const SensorBaseConfiguration* baseConfiguration = nullptr;
+                for (const auto& [path, cfgData] : sensorConfigurations)
+                {
+                    // find the base of the configuration to see if indexes
+                    // match
+                    auto sensorBaseFind = cfgData.find(cfgIntf);
+                    if (sensorBaseFind == cfgData.end())
                     {
                         continue;
                     }
 
-                    auto findBus = baseConfiguration->second.find("Bus");
-                    auto findAddress =
-                        baseConfiguration->second.find("Address");
-                    if (findBus == baseConfiguration->second.end() ||
-                        findAddress == baseConfiguration->second.end())
+                    baseConfiguration = &(*sensorBaseFind);
+                    interfacePath = &path.str;
+                    baseType = sensorTypes[fanType];
+
+                    auto findIndex = baseConfiguration->second.find("Index");
+                    if (findIndex == baseConfiguration->second.end())
                     {
-                        lg2::error("'{INTERFACE}' missing bus or address",
-                                   "INTERFACE", baseConfiguration->first);
+                        lg2::error("'{INTERFACE}' missing index", "INTERFACE",
+                                   baseConfiguration->first);
                         continue;
                     }
-                    unsigned int configBus = std::visit(
-                        VariantToUnsignedIntVisitor(), findBus->second);
-                    unsigned int configAddress = std::visit(
-                        VariantToUnsignedIntVisitor(), findAddress->second);
-
-                    if (configBus == bus && configAddress == addr)
+                    unsigned int configIndex = std::visit(
+                        VariantToUnsignedIntVisitor(), findIndex->second);
+                    if (configIndex != index)
                     {
+                        continue;
+                    }
+                    if (fanType == FanTypes::aspeed ||
+                        fanType == FanTypes::nuvoton ||
+                        fanType == FanTypes::hpe)
+                    {
+                        // there will be only 1 aspeed or nuvoton or hpe sensor
+                        // object in sysfs, we found the fan
                         sensorData = &cfgData;
                         break;
                     }
-                }
-            }
-            if (sensorData == nullptr)
-            {
-                lg2::error("failed to find match for '{PATH}'", "PATH",
-                           fanOutputPath.string());
-                continue;
-            }
-
-            auto findSensorName = baseConfiguration->second.find("Name");
-
-            if (findSensorName == baseConfiguration->second.end())
-            {
-                lg2::error(
-                    "could not determine configuration name for '{PATH}'",
-                    "PATH", fanOutputPath.string());
-                continue;
-            }
-            std::string sensorName =
-                std::get<std::string>(findSensorName->second);
-
-            // on rescans, only update sensors we were signaled by
-            auto findSensor = tachSensors.find(sensorName);
-            if (!firstScan && findSensor != tachSensors.end())
-            {
-                bool found = false;
-                for (auto it = sensorsChanged->begin();
-                     it != sensorsChanged->end(); it++)
-                {
-                    if (it->ends_with(findSensor->second->name))
+                    if (fanType == FanTypes::i2c)
                     {
-                        sensorsChanged->erase(it);
-                        findSensor->second = nullptr;
-                        found = true;
-                        break;
+                        std::string deviceName =
+                            std::filesystem::read_symlink(directory / "device")
+                                .filename();
+
+                        size_t bus = 0;
+                        size_t addr = 0;
+                        if (!getDeviceBusAddr(deviceName, bus, addr))
+                        {
+                            continue;
+                        }
+
+                        auto findBus = baseConfiguration->second.find("Bus");
+                        auto findAddress =
+                            baseConfiguration->second.find("Address");
+                        if (findBus == baseConfiguration->second.end() ||
+                            findAddress == baseConfiguration->second.end())
+                        {
+                            lg2::error("'{INTERFACE}' missing bus or address",
+                                       "INTERFACE", baseConfiguration->first);
+                            continue;
+                        }
+                        unsigned int configBus = std::visit(
+                            VariantToUnsignedIntVisitor(), findBus->second);
+                        unsigned int configAddress = std::visit(
+                            VariantToUnsignedIntVisitor(), findAddress->second);
+
+                        if (configBus == bus && configAddress == addr)
+                        {
+                            sensorData = &cfgData;
+                            break;
+                        }
                     }
                 }
-                if (!found)
+                if (sensorData == nullptr)
                 {
+                    lg2::error("failed to find match for '{PATH}'", "PATH",
+                               fanOutputPath.string());
                     continue;
                 }
-            }
-            std::vector<thresholds::Threshold> sensorThresholds;
-            if (!parseThresholdsFromConfig(*sensorData, sensorThresholds))
-            {
-                lg2::error("error populating thresholds for '{NAME}'", "NAME",
-                           sensorName);
-            }
 
-            auto presenceConfig =
-                sensorData->find(cfgIntf + std::string(".Presence"));
+                auto findSensorName = baseConfiguration->second.find("Name");
 
-            std::shared_ptr<PresenceGpio> presenceGpio(nullptr);
-
-            // presence sensors are optional
-            if (presenceConfig != sensorData->end())
-            {
-                auto findPolarity = presenceConfig->second.find("Polarity");
-                auto findPinName = presenceConfig->second.find("PinName");
-
-                if (findPinName == presenceConfig->second.end() ||
-                    findPolarity == presenceConfig->second.end())
+                if (findSensorName == baseConfiguration->second.end())
                 {
-                    lg2::error("Malformed Presence Configuration");
+                    lg2::error(
+                        "could not determine configuration name for '{PATH}'",
+                        "PATH", fanOutputPath.string());
+                    continue;
                 }
-                else
-                {
-                    bool inverted =
-                        std::get<std::string>(findPolarity->second) == "Low";
-                    const auto* pinName =
-                        std::get_if<std::string>(&findPinName->second);
+                std::string sensorName =
+                    std::get<std::string>(findSensorName->second);
 
-                    if (pinName != nullptr)
+                // on rescans, only update sensors we were signaled by
+                auto findSensor = tachSensors.find(sensorName);
+                if (!firstScan && findSensor != tachSensors.end())
+                {
+                    bool found = false;
+                    for (auto it = sensorsChanged->begin();
+                         it != sensorsChanged->end(); it++)
                     {
-                        auto findPresenceGpio = presenceGpios.find(*pinName);
-                        if (findPresenceGpio != presenceGpios.end())
+                        if (it->ends_with(findSensor->second->name))
                         {
-                            auto p = findPresenceGpio->second.lock();
-                            if (p)
-                            {
-                                presenceGpio = p;
-                            }
-                        }
-                        if (!presenceGpio)
-                        {
-                            auto findMonitorType =
-                                presenceConfig->second.find("MonitorType");
-                            bool polling = false;
-                            if (findMonitorType != presenceConfig->second.end())
-                            {
-                                auto mType = std::get<std::string>(
-                                    findMonitorType->second);
-                                if (mType == "Polling")
-                                {
-                                    polling = true;
-                                }
-                                else if (mType != "Event")
-                                {
-                                    lg2::error(
-                                        "Unsupported GPIO MonitorType of '{TYPE}' for '{NAME}', "
-                                        "supported types: Polling, Event default",
-                                        "TYPE", mType, "NAME", sensorName);
-                                }
-                            }
-                            try
-                            {
-                                if (polling)
-                                {
-                                    presenceGpio =
-                                        std::make_shared<PollingPresenceGpio>(
-                                            "Fan", sensorName, *pinName,
-                                            inverted, io);
-                                }
-                                else
-                                {
-                                    presenceGpio =
-                                        std::make_shared<EventPresenceGpio>(
-                                            "Fan", sensorName, *pinName,
-                                            inverted, io);
-                                }
-                                presenceGpios[*pinName] = presenceGpio;
-                            }
-                            catch (const std::system_error& e)
-                            {
-                                lg2::error(
-                                    "Failed to create GPIO monitor object for "
-                                    "'{PIN_NAME}' / '{SENSOR_NAME}': '{ERROR}'",
-                                    "PIN_NAME", *pinName, "SENSOR_NAME",
-                                    sensorName, "ERROR", e);
-                            }
+                            sensorsChanged->erase(it);
+                            findSensor->second = nullptr;
+                            found = true;
+                            break;
                         }
                     }
-                    else
+                    if (!found)
                     {
-                        lg2::error(
-                            "Malformed Presence pinName for sensor '{NAME}'",
-                            "NAME", sensorName);
-                    }
-                }
-            }
-            std::optional<RedundancySensor>* redundancy = nullptr;
-            if (fanType == FanTypes::aspeed)
-            {
-                redundancy = &systemRedundancy;
-            }
-
-            PowerState powerState = getPowerState(baseConfiguration->second);
-
-            constexpr double defaultMaxReading = 25000;
-            constexpr double defaultMinReading = 0;
-            std::pair<double, double> limits =
-                std::make_pair(defaultMinReading, defaultMaxReading);
-
-            auto connector =
-                sensorData->find(cfgIntf + std::string(".Connector"));
-
-            std::optional<std::string> led;
-            std::string pwmName;
-            std::filesystem::path pwmPath;
-
-            // The Mutable parameter is optional, defaulting to false
-            bool isValueMutable = false;
-            if (connector != sensorData->end())
-            {
-                auto findPwm = connector->second.find("Pwm");
-                if (findPwm != connector->second.end())
-                {
-                    size_t pwm = std::visit(VariantToUnsignedIntVisitor(),
-                                            findPwm->second);
-                    if (!findPwmPath(directory, pwm, pwmPath))
-                    {
-                        lg2::error(
-                            "Connector for '{NAME}' no pwm channel found!",
-                            "NAME", sensorName);
                         continue;
                     }
+                }
+                std::vector<thresholds::Threshold> sensorThresholds;
+                if (!parseThresholdsFromConfig(*sensorData, sensorThresholds))
+                {
+                    lg2::error("error populating thresholds for '{NAME}'",
+                               "NAME", sensorName);
+                }
 
-                    std::filesystem::path pwmEnableFile =
-                        "pwm" + std::to_string(pwm + 1) + "_enable";
-                    std::filesystem::path enablePath =
-                        pwmPath.parent_path() / pwmEnableFile;
-                    enablePwm(enablePath);
+                auto presenceConfig =
+                    sensorData->find(cfgIntf + std::string(".Presence"));
 
-                    /* use pwm name override if found in configuration else
-                     * use default */
-                    auto findOverride = connector->second.find("PwmName");
-                    if (findOverride != connector->second.end())
+                std::shared_ptr<PresenceGpio> presenceGpio(nullptr);
+
+                // presence sensors are optional
+                if (presenceConfig != sensorData->end())
+                {
+                    setupGpioPolling(presenceConfig, sensorName, presenceGpio,
+                                     presenceGpios, io);
+                }
+
+                auto statusMonitorConfig = sensorData->find(
+                    cfgIntf +
+                    std::string(".StatusMonitor")); // monitor for failures
+
+                std::shared_ptr<PresenceGpio> statusMonitorGpio(nullptr);
+
+                // statusMonitor sensors are optional
+                if (statusMonitorConfig != sensorData->end())
+                {
+                    setupGpioPolling(statusMonitorConfig, sensorName,
+                                     statusMonitorGpio, statusMonitorGpios, io);
+                }
+
+                std::optional<RedundancySensor>* redundancy = nullptr;
+                redundancy = &systemRedundancy;
+
+                PowerState powerState =
+                    getPowerState(baseConfiguration->second);
+
+                constexpr double defaultMaxReading = 25000;
+                constexpr double defaultMinReading = 0;
+                std::pair<double, double> limits =
+                    std::make_pair(defaultMinReading, defaultMaxReading);
+
+                auto connector =
+                    sensorData->find(cfgIntf + std::string(".Connector"));
+
+                std::optional<std::string> led;
+                std::string pwmName;
+                std::filesystem::path pwmPath;
+
+                // The Mutable parameter is optional, defaulting to false
+                bool isValueMutable = false;
+                if (connector != sensorData->end())
+                {
+                    auto findPwm = connector->second.find("Pwm");
+                    if (findPwm != connector->second.end())
                     {
-                        pwmName = std::visit(VariantToStringVisitor(),
-                                             findOverride->second);
+                        size_t pwm = std::visit(VariantToUnsignedIntVisitor(),
+                                                findPwm->second);
+                        if (!findPwmPath(directory, pwm, pwmPath))
+                        {
+                            lg2::error(
+                                "Connector for '{NAME}' no pwm channel found!",
+                                "NAME", sensorName);
+                            continue;
+                        }
+
+                        std::filesystem::path pwmEnableFile =
+                            "pwm" + std::to_string(pwm + 1) + "_enable";
+                        std::filesystem::path enablePath =
+                            pwmPath.parent_path() / pwmEnableFile;
+                        enablePwm(enablePath);
+
+                        /* use pwm name override if found in configuration else
+                         * use default */
+                        auto findOverride = connector->second.find("PwmName");
+                        if (findOverride != connector->second.end())
+                        {
+                            pwmName = std::visit(VariantToStringVisitor(),
+                                                 findOverride->second);
+                        }
+                        else
+                        {
+                            pwmName = "Pwm_" + std::to_string(pwm + 1);
+                        }
+
+                        // Check PWM sensor mutability
+                        auto findMutable = connector->second.find("Mutable");
+                        if (findMutable != connector->second.end())
+                        {
+                            const auto* ptrMutable =
+                                std::get_if<bool>(&(findMutable->second));
+                            if (ptrMutable != nullptr)
+                            {
+                                isValueMutable = *ptrMutable;
+                            }
+                        }
                     }
                     else
                     {
-                        pwmName = "Pwm_" + std::to_string(pwm + 1);
+                        lg2::error("Connector for '{NAME}' missing pwm!",
+                                   "NAME", sensorName);
                     }
 
-                    // Check PWM sensor mutability
-                    auto findMutable = connector->second.find("Mutable");
-                    if (findMutable != connector->second.end())
+                    auto findLED = connector->second.find("LED");
+                    if (findLED != connector->second.end())
                     {
-                        const auto* ptrMutable =
-                            std::get_if<bool>(&(findMutable->second));
-                        if (ptrMutable != nullptr)
+                        const auto* ledName =
+                            std::get_if<std::string>(&(findLED->second));
+                        if (ledName == nullptr)
                         {
-                            isValueMutable = *ptrMutable;
+                            lg2::error("Wrong format for LED of '{NAME}'",
+                                       "NAME", sensorName);
+                        }
+                        else
+                        {
+                            led = *ledName;
                         }
                     }
                 }
-                else
-                {
-                    lg2::error("Connector for '{NAME}' missing pwm!", "NAME",
-                               sensorName);
-                }
 
-                auto findLED = connector->second.find("LED");
-                if (findLED != connector->second.end())
+                findLimits(limits, baseConfiguration);
+
+                enableFanInput(fanOutputPath);
+                auto fanInputPath = getFanInputPath(fanOutputPath);
+
+                auto& tachSensor = tachSensors[sensorName];
+                tachSensor = nullptr;
+                tachSensor = std::make_shared<TachSensor>(
+                    fanInputPath.string(), baseType, objectServer,
+                    dbusConnection, presenceGpio, statusMonitorGpio, redundancy,
+                    io, sensorName, std::move(sensorThresholds), *interfacePath,
+                    limits, powerState, led);
+                tachSensor->setupRead();
+
+                if (!pwmPath.empty() && std::filesystem::exists(pwmPath) &&
+                    (pwmSensors.count(pwmPath) == 0U))
                 {
-                    const auto* ledName =
-                        std::get_if<std::string>(&(findLED->second));
-                    if (ledName == nullptr)
-                    {
-                        lg2::error("Wrong format for LED of '{NAME}'", "NAME",
-                                   sensorName);
-                    }
-                    else
-                    {
-                        led = *ledName;
-                    }
+                    pwmSensors[pwmPath] = std::make_unique<PwmSensor>(
+                        pwmName, pwmPath, dbusConnection, objectServer,
+                        *interfacePath, "Fan", isValueMutable);
                 }
             }
 
-            findLimits(limits, baseConfiguration);
-
-            enableFanInput(fanOutputPath);
-            auto fanInputPath = getFanInputPath(fanOutputPath);
-
-            auto& tachSensor = tachSensors[sensorName];
-            tachSensor = nullptr;
-            tachSensor = std::make_shared<TachSensor>(
-                fanInputPath.string(), baseType, objectServer, dbusConnection,
-                presenceGpio, redundancy, io, sensorName,
-                std::move(sensorThresholds), *interfacePath, limits, powerState,
-                led);
-            tachSensor->setupRead();
-
-            if (!pwmPath.empty() && std::filesystem::exists(pwmPath) &&
-                (pwmSensors.count(pwmPath) == 0U))
-            {
-                pwmSensors[pwmPath] = std::make_unique<PwmSensor>(
-                    pwmName, pwmPath, dbusConnection, objectServer,
-                    *interfacePath, "Fan", isValueMutable);
-            }
-        }
-
-        createRedundancySensor(tachSensors, dbusConnection, objectServer);
-    });
+            createRedundancySensor(tachSensors, dbusConnection, objectServer);
+        });
     getter->getConfiguration(
         std::vector<std::string>{sensorTypes.begin(), sensorTypes.end()},
         retries);
@@ -690,12 +751,14 @@ int main()
         pwmSensors;
     boost::container::flat_map<std::string, std::weak_ptr<PresenceGpio>>
         presenceGpios;
+    boost::container::flat_map<std::string, std::weak_ptr<PresenceGpio>>
+        statusMonitorGpios;
     auto sensorsChanged =
         std::make_shared<boost::container::flat_set<std::string>>();
 
     boost::asio::post(io, [&]() {
         createSensors(io, objectServer, tachSensors, pwmSensors, presenceGpios,
-                      systemBus, nullptr);
+                      statusMonitorGpios, systemBus, nullptr);
     });
 
     boost::asio::steady_timer filterTimer(io);
@@ -722,7 +785,8 @@ int main()
                     return;
                 }
                 createSensors(io, objectServer, tachSensors, pwmSensors,
-                              presenceGpios, systemBus, sensorsChanged, 5);
+                              presenceGpios, statusMonitorGpios, systemBus,
+                              sensorsChanged, 5);
             });
         };
 
