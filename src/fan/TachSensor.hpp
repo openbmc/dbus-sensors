@@ -72,7 +72,7 @@ class TachSensor :
                boost::asio::io_context& io, const std::string& fanName,
                std::vector<thresholds::Threshold>&& thresholds,
                const std::string& sensorConfiguration,
-               const std::pair<double, double>& limits,
+               const std::pair<double, double>& limits, bool isTachless,
                const PowerState& powerState,
                const std::optional<std::string>& led);
     ~TachSensor() override;
@@ -87,6 +87,7 @@ class TachSensor :
     std::shared_ptr<PresenceGpio> presence;
     std::shared_ptr<sdbusplus::asio::dbus_interface> itemIface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> itemAssoc;
+    bool isTachlessFan = false;
     boost::asio::random_access_file inputDev;
     boost::asio::steady_timer waitTimer;
     std::string path;
