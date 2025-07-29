@@ -52,12 +52,13 @@ TachSensor::TachSensor(
     const std::string& fanName,
     std::vector<thresholds::Threshold>&& thresholdsIn,
     const std::string& sensorConfiguration,
-    const std::pair<double, double>& limits, const PowerState& powerState,
-    const std::optional<std::string>& ledIn) :
+    const std::pair<double, double>& limits, const bool isTachless,
+    const PowerState& powerState, const std::optional<std::string>& ledIn) :
     Sensor(escapeName(fanName), std::move(thresholdsIn), sensorConfiguration,
            objectType, false, false, limits.second, limits.first, conn,
            powerState),
     objServer(objectServer), redundancy(redundancy), presence(presenceGpio),
+    isTachlessFan(isTachless),
     inputDev(io, path, boost::asio::random_access_file::read_only),
     waitTimer(io), path(path), led(ledIn)
 {
@@ -183,6 +184,15 @@ void TachSensor::handleResponse(const boost::system::error_code& err,
             }
             else
             {
+                if (isTachlessFan)
+                {
+                    // Calculate a displayable RPM from MaxReading defined for a
+                    // fan if this is a tachless fan
+                    static const auto PWM_DUTY_MAX = 255;
+                    auto calcFract = (double)nvalue / PWM_DUTY_MAX;
+                    nvalue = static_cast<int>(calcFract * this->maxValue);
+                }
+
                 updateValue(nvalue);
             }
         }
