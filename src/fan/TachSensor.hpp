@@ -68,6 +68,7 @@ class TachSensor :
                sdbusplus::asio::object_server& objectServer,
                std::shared_ptr<sdbusplus::asio::connection>& conn,
                std::shared_ptr<PresenceGpio>& presence,
+               std::shared_ptr<PresenceGpio>& statusMonitor,
                std::optional<RedundancySensor>* redundancy,
                boost::asio::io_context& io, const std::string& fanName,
                std::vector<thresholds::Threshold>&& thresholds,
@@ -85,6 +86,7 @@ class TachSensor :
     sdbusplus::asio::object_server& objServer;
     std::optional<RedundancySensor>* redundancy;
     std::shared_ptr<PresenceGpio> presence;
+    std::shared_ptr<PresenceGpio> statusMonitor;
     std::shared_ptr<sdbusplus::asio::dbus_interface> itemIface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> itemAssoc;
     boost::asio::random_access_file inputDev;
