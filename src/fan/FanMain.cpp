@@ -234,7 +234,15 @@ std::filesystem::path getFanInputPath(
     path += "_input";
     std::filesystem::path fanInputPath(path);
 
-    return fanInputPath;
+    if (std::filesystem::exists(fanInputPath))
+    {
+        return fanInputPath;
+    }
+
+    // if fanInputPath doesn't exist, it's a tachless fan,
+    // so return the original hwmon/pwmN path for use in
+    // a 'virtual tachSensor'
+    return fanOutputPath;
 }
 
 void createRedundancySensor(
