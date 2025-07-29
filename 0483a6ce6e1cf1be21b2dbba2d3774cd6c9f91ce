@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50509282_efeb0164",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-07-29T15:04:34Z",
+      "side": 1,
+      "message": "The use of findPwmPath here might be a little redundant since we\u0027re starting from the \u0027pwmN\u0027 path above now, but the sanity check being done here still makes sense, so I didn\u0027t want to jump the gun and try to change the logic here until there\u0027s a call to do so.",
+      "revId": "0483a6ce6e1cf1be21b2dbba2d3774cd6c9f91ce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
