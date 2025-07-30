@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd0b22d4_0cda163b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-07-30T17:43:57Z",
+      "side": 1,
+      "message": "If Arj is ok with the commit message now, I suspect this can go.",
+      "revId": "0d2f96f1e95a6a37f00a3c458c8562d6af92e4a4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
