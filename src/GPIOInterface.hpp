@@ -17,12 +17,20 @@ class GPIOInterface
 
     GPIOInterface() = delete;
 
+    /** @brief Constructor to configure the GPIO interface in read event mode */
     GPIOInterface(sdbusplus::async::context& ctx,
                   const std::string& consumerName, const std::string& pinName,
                   bool activeLow, Callback_t updateStateCallback);
 
+    /** @brief Constructor to configure the GPIO interface in set/write mode */
+    GPIOInterface(sdbusplus::async::context& ctx,
+                  const std::string& consumerName, const std::string& pinName);
+
     /** @brief Start the GPIO Interface */
     auto start() -> sdbusplus::async::task<>;
+
+    /** @brief Set the GPIO value. Only valid in set/write mode */
+    auto setValue(bool value) -> bool;
 
   private:
     /** @brief Read the gpio state asynchronously */
@@ -37,6 +45,9 @@ class GPIOInterface
     gpiod::line line;
     /** File descriptor based async event handler */
     std::unique_ptr<sdbusplus::async::fdio> fdioInstance;
+    /** Is GPIOInterface in Input Direction. True for read event mode, false
+     * otherwise  */
+    bool inputMode = true;
 };
 
 } // namespace gpio
