@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d5dd54e_cc67737d",
+        "filename": "src/nvidia-gpu/NvidiaGpuVoltageSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-07-30T17:46:00Z",
+      "side": 1,
+      "message": "Should we go 100 here just to have a round number?",
+      "range": {
+        "startLine": 35,
+        "startChar": 53,
+        "endLine": 35,
+        "endChar": 55
+      },
+      "revId": "3c63db63ced4e5f185c53ef052a7867e314ceafc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
