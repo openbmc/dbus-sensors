@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b49dc41_3e491435",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-07-30T15:36:42Z",
+      "side": 1,
+      "message": "fanOutputPath was refactored from \u0027path\u0027 and \nfanOutputPaths was refactored from \u0027paths\u0027 \n\nThis was done to make the logic easier to follow, especially since \u0027path\u0027 is already used in a different context in the loop below. \n\nThere\u0027s no real logic changes happening in this loop. \n\nThe \u0027interesting\u0027 changes are in the RegEx, path manipulation functions, and in checking to see if a fan has a fanN_input file before deciding to pass a hwmon/pwmN or hwmon/fanN_input path to TachSensor at init.",
+      "revId": "eea754c088cdf51b8ec573cc737c7e9e8b1df082",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
