@@ -1,0 +1,15 @@
+
+[Unit]
+Description=Valve Monitor for Liquid Cooling
+Requires=xyz.openbmc_project.EntityManager.service
+After=xyz.openbmc_project.EntityManager.service
+
+[Service]
+Type=dbus
+BusName=xyz.openbmc_project.valvemonitor
+Restart=always
+RestartSec=5
+ExecStart=/usr/libexec/dbus-sensors/valvemonitor
+
+[Install]
+WantedBy=multi-user.target

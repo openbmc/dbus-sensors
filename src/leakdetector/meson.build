@@ -14,7 +14,7 @@ executable(
         utils_dep,
         phosphor_dbus_interfaces_dep,
         gpiodcxx,
-        gpiointerface_dep,
+        gpiinterface_dep,
         entitymanagerinterface_dep,
     ],
     include_directories: src_inc,
