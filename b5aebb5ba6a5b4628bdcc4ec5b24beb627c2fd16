@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b488aed8_5a8f1cd8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-07-30T21:31:19Z",
+      "side": 1,
+      "message": "Goes with this PR that enables entity-manager to setup cooling/cooled_by associations as called out in EMConfigs.\n\nhttps://gerrit.openbmc.org/c/openbmc/entity-manager/+/82408\n\nI think I\u0027m about 95% of the way to \u0027something that makes sense\u0027 but will definitely be hitting Discord in the next few days to ask for help in making sure I\u0027ve organized things in a way that actually makes sense.",
+      "revId": "b5aebb5ba6a5b4628bdcc4ec5b24beb627c2fd16",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
