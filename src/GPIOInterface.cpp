@@ -52,13 +52,65 @@ GPIOInterface::GPIOInterface(sdbusplus::async::context& ctx,
     fdioInstance = std::make_unique<sdbusplus::async::fdio>(ctx, lineFd);
 }
 
+GPIOInterface::GPIOInterface(sdbusplus::async::context& ctx,
+                             const std::string& consumerName,
+                             const std::string& pinName) :
+    ctx(ctx), pinName(pinName)
+{
+    line = gpiod::find_line(pinName);
+    if (!line)
+    {
+        throw std::runtime_error("Failed to find GPIO line for " + pinName);
+    }
+    try
+    {
+        line.request({consumerName, gpiod::line_request::DIRECTION_OUTPUT, 0});
+    }
+    catch (std::exception& e)
+    {
+        throw std::runtime_error("Failed to request line for " + pinName +
+                                 " with error " + e.what());
+    }
+
+    // Set input mode to false as GPIO is in output mode
+    inputMode = false;
+}
+
 auto GPIOInterface::start() -> sdbusplus::async::task<>
 {
+    if (!inputMode)
+    {
+        debug("GPIOInterface is not in input mode");
+        co_return;
+    }
+
     // Start the async read for the GPIO line
     ctx.spawn(readGPIOAsyncEvent());
 
     // Read the initial GPIO value
     co_await readGPIOAsync();
+}
+
+auto GPIOInterface::setValue(bool value) -> bool
+{
+    if (inputMode)
+    {
+        error("GPIOInterface is in input mode, so set value is not allowed");
+        return false;
+    }
+
+    try
+    {
+        line.set_value(value ? 1 : 0);
+    }
+    catch (std::exception& e)
+    {
+        error("Failed to set value for GPIO line {LINENAME} with error {ERROR}",
+              "LINENAME", pinName, "ERROR", e);
+        return false;
+    }
+
+    return true;
 }
 
 auto GPIOInterface::readGPIOAsync() -> sdbusplus::async::task<>
