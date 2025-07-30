@@ -63,15 +63,27 @@ pwmsensor_dep = declare_dependency(
 
 systemdinterface_src = files('SystemdInterface.cpp')
 
-gpiointerface_a = static_library(
-    'gpiointerface_a',
-    'GPIOInterface.cpp',
+gpiinterface_a = static_library(
+    'gpiinterface_a',
+    'GPIInterface.cpp',
     dependencies: [default_deps, gpiodcxx],
 )
 
-gpiointerface_dep = declare_dependency(
+gpiinterface_dep = declare_dependency(
     include_directories: ['.'],
-    link_with: [gpiointerface_a],
+    link_with: [gpiinterface_a],
+    dependencies: default_deps,
+)
+
+gpointerface_a = static_library(
+    'gpointerface_a',
+    'GPOInterface.cpp',
+    dependencies: [default_deps, gpiodcxx],
+)
+
+gpointerface_dep = declare_dependency(
+    include_directories: ['.'],
+    link_with: [gpointerface_a],
     dependencies: default_deps,
 )
 
