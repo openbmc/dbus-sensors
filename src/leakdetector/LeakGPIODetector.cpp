@@ -44,14 +44,14 @@ GPIODetector::GPIODetector(sdbusplus::async::context& ctx, Events& leakEvents,
                            const config::DetectorConfig& config) :
     DetectorIntf(ctx, getObjectPath(config.name).str.c_str()), ctx(ctx),
     leakEvents(leakEvents), config(config),
-    gpioInterface(ctx, config.name, config.pinName,
-                  (config.polarity == config::PinPolarity::activeLow),
-                  std::bind_front(&GPIODetector::updateGPIOStateAsync, this))
+    inputInterface(ctx, config.name, config.pinName,
+                   (config.polarity == config::PinPolarity::activeLow),
+                   std::bind_front(&GPIODetector::updateGPIOStateAsync, this))
 {
     pretty_name<false>(config.name);
     type<false>(config.type);
 
-    ctx.spawn(gpioInterface.start());
+    ctx.spawn(inputInterface.start());
 
     debug("Created leak detector {NAME}", "NAME", config.name);
 }

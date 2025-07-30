@@ -1,4 +1,4 @@
-#include "GPIOInterface.hpp"
+#include "GPIInterface.hpp"
 
 #include <gpiod.hpp>
 #include <phosphor-logging/lg2.hpp>
@@ -15,10 +15,10 @@ namespace gpio
 
 PHOSPHOR_LOG2_USING;
 
-GPIOInterface::GPIOInterface(sdbusplus::async::context& ctx,
-                             const std::string& consumerName,
-                             const std::string& pinName, bool activeLow,
-                             Callback_t updateStateCallback) :
+GPIInterface::GPIInterface(sdbusplus::async::context& ctx,
+                           const std::string& consumerName,
+                           const std::string& pinName, bool activeLow,
+                           Callback_t updateStateCallback) :
     ctx(ctx), pinName(pinName),
     updateStateCallback(std::move(updateStateCallback))
 {
@@ -29,7 +29,7 @@ GPIOInterface::GPIOInterface(sdbusplus::async::context& ctx,
     line = gpiod::find_line(pinName);
     if (!line)
     {
-        throw std::runtime_error("Failed to find GPIO line for " + pinName);
+        throw std::runtime_error("Failed to find GPI line for " + pinName);
     }
     try
     {
@@ -46,27 +46,27 @@ GPIOInterface::GPIOInterface(sdbusplus::async::context& ctx,
     if (lineFd < 0)
     {
         throw std::runtime_error(
-            "Failed to get event fd for GPIO line " + pinName);
+            "Failed to get event fd for GPI line " + pinName);
     }
 
     fdioInstance = std::make_unique<sdbusplus::async::fdio>(ctx, lineFd);
 }
 
-auto GPIOInterface::start() -> sdbusplus::async::task<>
+auto GPIInterface::start() -> sdbusplus::async::task<>
 {
-    // Start the async read for the GPIO line
-    ctx.spawn(readGPIOAsyncEvent());
+    // Start the async read for the GPI line
+    ctx.spawn(readGPIAsyncEvent());
 
-    // Read the initial GPIO value
-    co_await readGPIOAsync();
+    // Read the initial GPI value
+    co_await readGPIAsync();
 }
 
-auto GPIOInterface::readGPIOAsync() -> sdbusplus::async::task<>
+auto GPIInterface::readGPIAsync() -> sdbusplus::async::task<>
 {
     auto lineValue = line.get_value();
     if (lineValue < 0)
     {
-        error("Failed to read GPIO line {LINENAME}", "LINENAME", pinName);
+        error("Failed to read GPI line {LINENAME}", "LINENAME", pinName);
         co_return;
     }
     co_await updateStateCallback(lineValue == gpiod::line_event::RISING_EDGE);
@@ -74,7 +74,7 @@ auto GPIOInterface::readGPIOAsync() -> sdbusplus::async::task<>
     co_return;
 }
 
-auto GPIOInterface::readGPIOAsyncEvent() -> sdbusplus::async::task<>
+auto GPIInterface::readGPIAsyncEvent() -> sdbusplus::async::task<>
 {
     while (!ctx.stop_requested())
     {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GPIOInterface.hpp"
+#include "GPIInterface.hpp"
 #include "LeakEvents.hpp"
 
 #include <phosphor-logging/lg2.hpp>
@@ -96,7 +96,7 @@ class GPIODetector : public DetectorIntf
     sdbusplus::async::context& ctx;
     Events& leakEvents;
     config::DetectorConfig config;
-    gpio::GPIOInterface gpioInterface;
+    gpio::GPIInterface inputInterface;
 };
 
 } // namespace leak
