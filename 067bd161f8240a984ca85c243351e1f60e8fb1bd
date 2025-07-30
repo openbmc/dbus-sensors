@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af8916ab_4fdb8a82",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-07-30T14:18:22Z",
+      "side": 1,
+      "message": "This PR resolves an issue with \u0027TachSensor\u0027 sensor records reporting the pwm duty cycle as \u0027rpm\u0027 for fans with no readable tachometer.\n\nAlternatively, instead of reporting a \u0027calculated RPM\u0027 for TachSensors in webui, we can hide TachSensor objects from redfish/webui sensor page by leveraging cooling/cooled_by association handling (PR to do this on the way).\n\nThat method involves connecting fans to the chassis via a cooling/cooled_by relationship called out in an Entity-Manager config, plus adding simple code to TachSensors.cpp to skip adding the \u0027usual association\u0027 records for TachSensor.\n\nFans control still works, but TachSensor objects won\u0027t be displayed as chassis sensors in webui.",
+      "revId": "067bd161f8240a984ca85c243351e1f60e8fb1bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
