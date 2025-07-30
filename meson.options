@@ -107,3 +107,9 @@ option(
     value: 'enabled',
     description: 'Enable Cable monitor.',
 )
+option(
+    'valve-monitor',
+    type: 'feature',
+    value: 'enabled',
+    description: 'Enable valve monitor.',
+)
