@@ -632,7 +632,9 @@ void setInventoryAssociation(
     associations.emplace_back("inventory", "sensors", inventoryPath);
     associations.emplace_back("chassis", "all_sensors", chassisPath);
 
-    association->register_property("Associations", associations);
+    if (association->register_property("Associations", associations) == false)
+        association->set_property("Associations", associations); //if Associations prop already exists, just set it
+    
     association->initialize();
 }
 
@@ -657,6 +659,15 @@ std::optional<std::string> findContainingChassis(std::string_view configParent,
         {
             if (std::find(interfaces.begin(), interfaces.end(),
                           "xyz.openbmc_project.Inventory.Item.System") !=
+                interfaces.end())
+            {
+                return obj;
+            }
+
+            // pick up devices linked to chassis via up/downstream port
+            // connections
+            if (std::find(interfaces.begin(), interfaces.end(),
+                          "xyz.openbmc_project.Inventory.Item.Chassis") !=
                 interfaces.end())
             {
                 return obj;
