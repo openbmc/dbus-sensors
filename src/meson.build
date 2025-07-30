@@ -172,3 +172,7 @@ endif
 if get_option('cable-monitor').allowed()
     subdir('cable-monitor')
 endif
+
+if get_option('valve-monitor').allowed()
+    subdir('valve-monitor')
+endif
