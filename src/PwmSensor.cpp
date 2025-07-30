@@ -176,16 +176,7 @@ PwmSensor::PwmSensor(const std::string& pwmname, const std::string& sysPath,
     association = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/fan_pwm/" + name, association::interface);
 
-    // PowerSupply sensors should be associated with chassis board path
-    // and inventory along with psu object.
-    if (sensorType == "PSU")
-    {
-        createInventoryAssoc(conn, association, sensorConfiguration);
-    }
-    else
-    {
-        createAssociation(association, sensorConfiguration);
-    }
+    createInventoryAssoc(conn, association, sensorConfiguration);
 }
 PwmSensor::~PwmSensor()
 {

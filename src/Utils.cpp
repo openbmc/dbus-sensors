@@ -632,7 +632,13 @@ void setInventoryAssociation(
     associations.emplace_back("inventory", "sensors", inventoryPath);
     associations.emplace_back("chassis", "all_sensors", chassisPath);
 
-    association->register_property("Associations", associations);
+    if (!association->register_property("Associations", associations))
+    {
+        association->set_property(
+            "Associations",
+            associations); // if Associations prop already exists, just set it
+    }
+
     association->initialize();
 }
 
