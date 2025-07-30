@@ -82,20 +82,19 @@ TachSensor::TachSensor(
         itemIface =
             objectServer.add_interface("/xyz/openbmc_project/inventory/" + name,
                                        "xyz.openbmc_project.Inventory.Item");
+
         itemIface->register_property("PrettyName",
                                      std::string()); // unused property
         itemIface->register_property("Present", true);
         itemIface->initialize();
+
         itemAssoc = objectServer.add_interface(
             "/xyz/openbmc_project/inventory/" + name, association::interface);
-        itemAssoc->register_property(
-            "Associations",
-            std::vector<Association>{
-                {"sensors", "inventory",
-                 "/xyz/openbmc_project/sensors/fan_tach/" + name}});
-        itemAssoc->initialize();
+
+        createInventoryAssoc(conn, itemAssoc, sensorConfiguration);
     }
     setInitialProperties(sensor_paths::unitRPMs);
+    createInventoryAssoc(conn, association, sensorConfiguration);
 }
 
 TachSensor::~TachSensor()
