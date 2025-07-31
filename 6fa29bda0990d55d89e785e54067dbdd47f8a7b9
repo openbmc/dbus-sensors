@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec4d5a60_202609d9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-07-31T20:49:29Z",
+      "side": 1,
+      "message": "Marking some old and responded-to comments as \u0027done\u0027",
+      "revId": "6fa29bda0990d55d89e785e54067dbdd47f8a7b9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
