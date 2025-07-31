@@ -40,6 +40,7 @@ enum class PlatformEnvironmentalCommands : uint8_t
     GET_TEMPERATURE_READING = 0x00,
     READ_THERMAL_PARAMETERS = 0x02,
     GET_CURRENT_POWER_DRAW = 0x03,
+    GET_MAX_OBSERVED_POWER = 0x04,
     GET_CURRENT_ENERGY_COUNTER = 0x06,
     GET_INVENTORY_INFORMATION = 0x0C,
     GET_VOLTAGE = 0x0F,
@@ -114,7 +115,7 @@ using GetTemperatureReadingRequest = GetNumericSensorReadingRequest;
 
 using ReadThermalParametersRequest = GetNumericSensorReadingRequest;
 
-struct GetCurrentPowerDrawRequest
+struct GetPowerDrawRequest
 {
     ocp::accelerator_management::CommonRequest hdr;
     uint8_t sensorId;
@@ -137,7 +138,7 @@ struct ReadThermalParametersResponse
     int32_t threshold;
 } __attribute__((packed));
 
-struct GetCurrentPowerDrawResponse
+struct GetPowerDrawResponse
 {
     ocp::accelerator_management::CommonResponse hdr;
     uint32_t power;
@@ -194,14 +195,13 @@ int decodeReadThermalParametersResponse(
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     int32_t& threshold);
 
-int encodeGetCurrentPowerDrawRequest(uint8_t instanceId, uint8_t sensorId,
-                                     uint8_t averagingInterval,
-                                     std::span<uint8_t> buf);
+int encodeGetPowerDrawRequest(
+    PlatformEnvironmentalCommands commandCode, uint8_t instanceId,
+    uint8_t sensorId, uint8_t averagingInterval, std::span<uint8_t> buf);
 
-int decodeGetCurrentPowerDrawResponse(
-    std::span<const uint8_t> buf,
-    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
-    uint32_t& power);
+int decodeGetPowerDrawResponse(std::span<const uint8_t> buf,
+                               ocp::accelerator_management::CompletionCode& cc,
+                               uint16_t& reasonCode, uint32_t& power);
 
 int encodeGetCurrentEnergyCounterRequest(uint8_t instanceId, uint8_t sensorId,
                                          std::span<uint8_t> buf);
@@ -225,5 +225,4 @@ int decodeGetInventoryInformationResponse(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     InventoryPropertyId propertyId, InventoryValue& value);
-
 } // namespace gpu
