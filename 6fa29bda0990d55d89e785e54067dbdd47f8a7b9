@@ -16,6 +16,23 @@
       "message": "Marking some old and responded-to comments as \u0027done\u0027",
       "revId": "6fa29bda0990d55d89e785e54067dbdd47f8a7b9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b985476_8d3eda23",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-07-31T20:53:43Z",
+      "side": 1,
+      "message": "The split-sibling to this PR was merged a good while back (see relation chain) -- this one just got caught in \u0027merge conflict\u0027 jail afterwards, and didn\u0027t get noticed for awhile.\n\nNow I\u0027m looking to get it out the door so I can merge an EM config, then put some cooling/cooled_by association Entity-Manager config examples on top for further discussions there.",
+      "revId": "6fa29bda0990d55d89e785e54067dbdd47f8a7b9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
