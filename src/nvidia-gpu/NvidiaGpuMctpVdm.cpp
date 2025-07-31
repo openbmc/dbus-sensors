@@ -412,5 +412,39 @@ int decodeGetVoltageResponse(std::span<const uint8_t> buf,
 
     return 0;
 }
+
+int encodeGetMaxObservedPowerRequest(uint8_t instanceId, uint8_t sensorId,
+                                     uint8_t averagingInterval,
+                                     std::span<uint8_t> buf)
+{
+    if (buf.size() < sizeof(GetMaxObservedPowerRequest))
+    {
+        return EINVAL;
+    }
+
+    auto* msg = reinterpret_cast<GetMaxObservedPowerRequest*>(buf.data());
+
+    ocp::accelerator_management::BindingPciVidInfo header{};
+    header.ocp_accelerator_management_msg_type =
+        static_cast<uint8_t>(ocp::accelerator_management::MessageType::REQUEST);
+    header.instance_id = instanceId &
+                         ocp::accelerator_management::instanceIdBitMask;
+    header.msg_type = static_cast<uint8_t>(MessageType::PLATFORM_ENVIRONMENTAL);
+
+    auto rc = packHeader(header, msg->hdr.msgHdr.hdr);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    msg->hdr.command = static_cast<uint8_t>(
+        PlatformEnvironmentalCommands::GET_MAX_OBSERVED_POWER);
+    msg->hdr.data_size = sizeof(sensorId) + sizeof(averagingInterval);
+    msg->sensorId = sensorId;
+    msg->averagingInterval = averagingInterval;
+
+    return 0;
+}
 // NOLINTEND(cppcoreguidelines-pro-type-reinterpret-cast)
 } // namespace gpu
