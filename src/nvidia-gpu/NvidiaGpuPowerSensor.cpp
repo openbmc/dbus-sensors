@@ -97,7 +97,7 @@ void NvidiaGpuPowerSensor::processResponse(int sendRecvMsgResult)
     uint32_t power = 0;
 
     const int rc =
-        gpu::decodeGetCurrentPowerDrawResponse(response, cc, reasonCode, power);
+        gpu::decodeGetPowerDrawResponse(response, cc, reasonCode, power);
 
     if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
     {
@@ -115,8 +115,9 @@ void NvidiaGpuPowerSensor::processResponse(int sendRecvMsgResult)
 
 void NvidiaGpuPowerSensor::update()
 {
-    const int rc = gpu::encodeGetCurrentPowerDrawRequest(
-        0, sensorId, averagingInterval, request);
+    const int rc = gpu::encodeGetPowerDrawRequest(
+        gpu::PlatformEnvironmentalCommands::GET_CURRENT_POWER_DRAW, 0, sensorId,
+        averagingInterval, request);
 
     if (rc != 0)
     {
