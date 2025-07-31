@@ -648,14 +648,16 @@ TEST_F(GpuMctpVdmTests, EncodeGetCurrentPowerDrawRequestSuccess)
     const uint8_t instanceId = 6;
     const uint8_t sensorId = 2;
     const uint8_t averagingInterval = 10;
-    std::array<uint8_t, sizeof(gpu::GetCurrentPowerDrawRequest)> buf{};
+    gpu::PlatformEnvironmentalCommands commandCode =
+        gpu::PlatformEnvironmentalCommands::GET_CURRENT_POWER_DRAW;
+    std::array<uint8_t, sizeof(gpu::GetPowerDrawRequest)> buf{};
 
-    int result = gpu::encodeGetCurrentPowerDrawRequest(instanceId, sensorId,
-                                                       averagingInterval, buf);
+    int result = gpu::encodeGetPowerDrawRequest(
+        commandCode, instanceId, sensorId, averagingInterval, buf);
 
     EXPECT_EQ(result, 0);
 
-    gpu::GetCurrentPowerDrawRequest request{};
+    gpu::GetPowerDrawRequest request{};
     std::memcpy(&request, buf.data(), sizeof(request));
 
     EXPECT_EQ(request.hdr.msgHdr.hdr.pci_vendor_id,
@@ -670,9 +672,7 @@ TEST_F(GpuMctpVdmTests, EncodeGetCurrentPowerDrawRequestSuccess)
               static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
 
     // Verify request data
-    EXPECT_EQ(request.hdr.command,
-              static_cast<uint8_t>(
-                  gpu::PlatformEnvironmentalCommands::GET_CURRENT_POWER_DRAW));
+    EXPECT_EQ(request.hdr.command, static_cast<uint8_t>(commandCode));
     EXPECT_EQ(request.hdr.data_size,
               sizeof(sensorId) + sizeof(averagingInterval));
     EXPECT_EQ(request.sensorId, sensorId);
@@ -683,9 +683,9 @@ TEST_F(GpuMctpVdmTests, EncodeGetCurrentPowerDrawRequestSuccess)
 TEST_F(GpuMctpVdmTests, DecodeGetCurrentPowerDrawResponseSuccess)
 {
     // Create a mock successful response
-    std::array<uint8_t, sizeof(gpu::GetCurrentPowerDrawResponse)> buf{};
+    std::array<uint8_t, sizeof(gpu::GetPowerDrawResponse)> buf{};
 
-    gpu::GetCurrentPowerDrawResponse response{};
+    gpu::GetPowerDrawResponse response{};
     ocp::accelerator_management::BindingPciVidInfo headerInfo{};
     headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
         ocp::accelerator_management::MessageType::RESPONSE);
@@ -713,8 +713,7 @@ TEST_F(GpuMctpVdmTests, DecodeGetCurrentPowerDrawResponseSuccess)
     uint16_t reasonCode{};
     uint32_t power{};
 
-    int result =
-        gpu::decodeGetCurrentPowerDrawResponse(buf, cc, reasonCode, power);
+    int result = gpu::decodeGetPowerDrawResponse(buf, cc, reasonCode, power);
 
     EXPECT_EQ(result, 0);
     EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
@@ -752,8 +751,7 @@ TEST_F(GpuMctpVdmTests, DecodeGetCurrentPowerDrawResponseError)
     uint16_t reasonCode{};
     uint32_t power{};
 
-    int result =
-        gpu::decodeGetCurrentPowerDrawResponse(buf, cc, reasonCode, power);
+    int result = gpu::decodeGetPowerDrawResponse(buf, cc, reasonCode, power);
 
     EXPECT_EQ(result, 0);
     EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
@@ -763,9 +761,9 @@ TEST_F(GpuMctpVdmTests, DecodeGetCurrentPowerDrawResponseError)
 TEST_F(GpuMctpVdmTests, DecodeGetCurrentPowerDrawResponseInvalidSize)
 {
     // Create a mock response with invalid data_size
-    std::array<uint8_t, sizeof(gpu::GetCurrentPowerDrawResponse)> buf{};
+    std::array<uint8_t, sizeof(gpu::GetPowerDrawResponse)> buf{};
 
-    gpu::GetCurrentPowerDrawResponse response{};
+    gpu::GetPowerDrawResponse response{};
     ocp::accelerator_management::BindingPciVidInfo headerInfo{};
     headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
         ocp::accelerator_management::MessageType::RESPONSE);
@@ -790,8 +788,7 @@ TEST_F(GpuMctpVdmTests, DecodeGetCurrentPowerDrawResponseInvalidSize)
     uint16_t reasonCode{};
     uint32_t power{};
 
-    int result =
-        gpu::decodeGetCurrentPowerDrawResponse(buf, cc, reasonCode, power);
+    int result = gpu::decodeGetPowerDrawResponse(buf, cc, reasonCode, power);
 
     EXPECT_EQ(result, EINVAL); // Should indicate error for invalid data size
 }
