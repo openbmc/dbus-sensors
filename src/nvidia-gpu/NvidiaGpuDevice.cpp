@@ -17,6 +17,7 @@
 #include <MctpRequester.hpp>
 #include <NvidiaGpuEnergySensor.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
+#include <NvidiaGpuPowerPeakReading.hpp>
 #include <NvidiaGpuPowerSensor.hpp>
 #include <NvidiaGpuVoltageSensor.hpp>
 #include <OcpMctpVdm.hpp>
@@ -80,6 +81,10 @@ void GpuDevice::makeSensors()
     powerSensor = std::make_shared<NvidiaGpuPowerSensor>(
         conn, mctpRequester, name + "_Power_0", path, eid, gpuPowerSensorId,
         objectServer, std::vector<thresholds::Threshold>{});
+
+    peakPower = std::make_shared<NvidiaGpuPowerPeakReading>(
+        mctpRequester, name + "_Power_0", eid, gpuPeakPowerSensorId,
+        objectServer);
 
     energySensor = std::make_shared<NvidiaGpuEnergySensor>(
         conn, mctpRequester, name + "_Energy_0", path, eid, gpuEnergySensorId,
@@ -200,6 +205,7 @@ void GpuDevice::read()
     }
     dramTempSensor->update();
     powerSensor->update();
+    peakPower->update();
     energySensor->update();
     voltageSensor->update();
 
