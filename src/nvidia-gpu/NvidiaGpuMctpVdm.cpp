@@ -218,16 +218,16 @@ int decodeReadThermalParametersResponse(
     return 0;
 }
 
-int encodeGetCurrentPowerDrawRequest(uint8_t instanceId, uint8_t sensorId,
-                                     uint8_t averagingInterval,
-                                     std::span<uint8_t> buf)
+int encodeGetPowerDrawRequest(PlatformEnvironmentalCommands commandCode,
+                              uint8_t instanceId, uint8_t sensorId,
+                              uint8_t averagingInterval, std::span<uint8_t> buf)
 {
-    if (buf.size() < sizeof(GetCurrentPowerDrawRequest))
+    if (buf.size() < sizeof(GetPowerDrawRequest))
     {
         return EINVAL;
     }
 
-    auto* msg = reinterpret_cast<GetCurrentPowerDrawRequest*>(buf.data());
+    auto* msg = reinterpret_cast<GetPowerDrawRequest*>(buf.data());
 
     ocp::accelerator_management::BindingPciVidInfo header{};
     header.ocp_accelerator_management_msg_type =
@@ -243,8 +243,7 @@ int encodeGetCurrentPowerDrawRequest(uint8_t instanceId, uint8_t sensorId,
         return rc;
     }
 
-    msg->hdr.command = static_cast<uint8_t>(
-        PlatformEnvironmentalCommands::GET_CURRENT_POWER_DRAW);
+    msg->hdr.command = static_cast<uint8_t>(commandCode);
     msg->hdr.data_size = sizeof(sensorId) + sizeof(averagingInterval);
     msg->sensorId = sensorId;
     msg->averagingInterval = averagingInterval;
@@ -252,10 +251,9 @@ int encodeGetCurrentPowerDrawRequest(uint8_t instanceId, uint8_t sensorId,
     return 0;
 }
 
-int decodeGetCurrentPowerDrawResponse(
-    std::span<const uint8_t> buf,
-    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
-    uint32_t& power)
+int decodeGetPowerDrawResponse(std::span<const uint8_t> buf,
+                               ocp::accelerator_management::CompletionCode& cc,
+                               uint16_t& reasonCode, uint32_t& power)
 {
     auto rc =
         ocp::accelerator_management::decodeReasonCodeAndCC(buf, cc, reasonCode);
@@ -265,13 +263,13 @@ int decodeGetCurrentPowerDrawResponse(
         return rc;
     }
 
-    if (buf.size() < sizeof(GetCurrentPowerDrawResponse))
+    if (buf.size() < sizeof(GetPowerDrawResponse))
     {
         return EINVAL;
     }
 
     const auto* response =
-        reinterpret_cast<const GetCurrentPowerDrawResponse*>(buf.data());
+        reinterpret_cast<const GetPowerDrawResponse*>(buf.data());
 
     const uint16_t dataSize = le16toh(response->hdr.data_size);
 
@@ -330,7 +328,7 @@ int decodeGetCurrentEnergyCounterResponse(
         return rc;
     }
 
-    if (buf.size() < sizeof(GetCurrentPowerDrawResponse))
+    if (buf.size() < sizeof(GetPowerDrawResponse))
     {
         return EINVAL;
     }
