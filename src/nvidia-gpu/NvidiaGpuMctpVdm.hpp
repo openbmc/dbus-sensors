@@ -32,6 +32,7 @@ enum class PlatformEnvironmentalCommands : uint8_t
     GET_TEMPERATURE_READING = 0x00,
     READ_THERMAL_PARAMETERS = 0x02,
     GET_CURRENT_POWER_DRAW = 0x03,
+    GET_MAX_OBSERVED_POWER = 0x04,
     GET_CURRENT_ENERGY_COUNTER = 0x06,
     GET_VOLTAGE = 0x0F,
 };
@@ -75,6 +76,13 @@ using GetCurrentEnergyCounterRequest = GetNumericSensorReadingRequest;
 
 using GetVoltageRequest = GetNumericSensorReadingRequest;
 
+struct GetMaxObservedPowerRequest
+{
+    ocp::accelerator_management::CommonRequest hdr;
+    uint8_t sensorId;
+    uint8_t averagingInterval;
+} __attribute__((packed));
+
 struct GetTemperatureReadingResponse
 {
     ocp::accelerator_management::CommonResponse hdr;
@@ -103,6 +111,12 @@ struct GetVoltageResponse
 {
     ocp::accelerator_management::CommonResponse hdr;
     uint32_t voltage;
+} __attribute__((packed));
+
+struct GetMaxObservedPowerResponse
+{
+    ocp::accelerator_management::CommonResponse hdr;
+    uint32_t peakPower;
 } __attribute__((packed));
 
 int packHeader(const ocp::accelerator_management::BindingPciVidInfo& hdr,
@@ -155,4 +169,13 @@ int encodeGetVoltageRequest(uint8_t instanceId, uint8_t sensorId,
 int decodeGetVoltageResponse(std::span<const uint8_t> buf,
                              ocp::accelerator_management::CompletionCode& cc,
                              uint16_t& reasonCode, uint32_t& voltage);
+
+int encodeGetMaxObservedPowerRequest(uint8_t instanceId, uint8_t sensorId,
+                                     uint8_t averagingInterval,
+                                     std::span<uint8_t> buf);
+
+int decodeGetMaxObservedPowerResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint32_t& peakPower);
 } // namespace gpu
