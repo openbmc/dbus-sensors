@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1d01cf14_345aa225",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-08-01T01:42:05Z",
+      "side": 1,
+      "message": "Can you please review https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/82199 ?",
+      "revId": "ef1c7c9f45411f510b4acf681fd15440a0490188",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "361aa98d_7d8b66ba",
         "filename": "src/PwmSensor.cpp",
         "patchSetId": 14
