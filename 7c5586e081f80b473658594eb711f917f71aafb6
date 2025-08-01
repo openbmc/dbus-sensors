@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cdaadd7_142562dd",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-08-01T14:42:25Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "4dbdc84c_b9168394",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 47
+      },
+      "revId": "7c5586e081f80b473658594eb711f917f71aafb6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "92aedfc8_4924aa18",
@@ -47,6 +71,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cad94f80_e0f3d7a4",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-08-01T14:42:25Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "92aedfc8_4924aa18",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 110,
+        "endChar": 1
+      },
+      "revId": "7c5586e081f80b473658594eb711f917f71aafb6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "189577b3_053ecf57",
@@ -60,6 +108,24 @@
       "writtenOn": "2025-07-23T06:18:14Z",
       "side": 1,
       "message": "Are these being called?",
+      "revId": "7c5586e081f80b473658594eb711f917f71aafb6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb7bf4c0_8c1a3f6e",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-08-01T14:42:25Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "189577b3_053ecf57",
       "revId": "7c5586e081f80b473658594eb711f917f71aafb6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
