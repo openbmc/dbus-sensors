@@ -1,0 +1,10 @@
+Code-Review+1: Deepak Kodihalli <deepak.kodihalli.83@gmail.com>
+Code-Review+2: Andrew Jeffery <andrew@codeconstruct.com.au>
+Code-Review+1: Alejandro Leal <alejandrolealislaflores@hotmail.com>
+Verified+1: OpenBMC CI <openbmcbump-ci@yahoo.com>
+Submitted-by: Andrew Jeffery <andrew@codeconstruct.com.au>
+Submitted-at: Fri, 01 Aug 2025 00:46:35 +0000
+Reviewed-on: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/79891
+Comments-Total: 2
+Project: openbmc/dbus-sensors
+Branch: refs/heads/master
