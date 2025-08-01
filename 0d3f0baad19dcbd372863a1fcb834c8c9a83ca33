@@ -119,6 +119,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ccc9802_27e97719",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-08-01T14:41:02Z",
+      "side": 1,
+      "message": "Ok I see. Fixed it.",
+      "parentUuid": "7ecb6830_285f757e",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 66
+      },
+      "revId": "0d3f0baad19dcbd372863a1fcb834c8c9a83ca33",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ef3559b_5707730e",
@@ -394,6 +418,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0af71bdc_bbc6a137",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-08-01T14:41:02Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "7a6f5115_4b0213d0",
+      "revId": "0d3f0baad19dcbd372863a1fcb834c8c9a83ca33",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "24e3bd39_7c29978b",
@@ -560,6 +602,24 @@
       "side": 1,
       "message": "Still not clear to me 😊. The other one makes a request. This one?",
       "parentUuid": "1fe38dac_f38aabf1",
+      "revId": "0d3f0baad19dcbd372863a1fcb834c8c9a83ca33",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e7fbde9_13e21133",
+        "filename": "src/nvidia-gpu/Inventory.hpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-08-01T14:41:02Z",
+      "side": 1,
+      "message": "fetchInventoryProperty - API which checks if any inventory property is pending to be updated. It runs through the map and find what needs to be updated. I have renamed this one now for more clarity. \n\nsendInventoryPropertyRequest takes property ID does encode and makes the actual request.",
+      "parentUuid": "a404022a_41228e79",
       "revId": "0d3f0baad19dcbd372863a1fcb834c8c9a83ca33",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
