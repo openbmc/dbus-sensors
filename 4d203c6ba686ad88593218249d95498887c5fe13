@@ -57,6 +57,24 @@
       "parentUuid": "966321b9_2d5c3d7b",
       "revId": "4d203c6ba686ad88593218249d95498887c5fe13",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28f617bf_6e9ef4e3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2025-08-01T01:50:42Z",
+      "side": 1,
+      "message": "These two patches solve the same problem. It\u0027s up to you to decide which one to merge. I have no problem with it 😊",
+      "parentUuid": "eec20e13_34f7ec46",
+      "revId": "4d203c6ba686ad88593218249d95498887c5fe13",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
