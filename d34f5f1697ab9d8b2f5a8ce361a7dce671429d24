@@ -16,6 +16,24 @@
       "message": "LGTM, but CI failure needs to be resolved.",
       "revId": "d34f5f1697ab9d8b2f5a8ce361a7dce671429d24",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d35e672c_8483f9ff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-08-01T06:01:30Z",
+      "side": 1,
+      "message": "@rohitpai77@gmail.com rebase should fix CI.",
+      "parentUuid": "9d3b9e1d_060527b6",
+      "revId": "d34f5f1697ab9d8b2f5a8ce361a7dce671429d24",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
