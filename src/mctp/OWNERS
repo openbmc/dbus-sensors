@@ -31,22 +31,11 @@
 # It is expected that these 4 sections will be listed in the order above and
 # data within them will be kept sorted.
 
+inherited: true
 owners:
-- ed@tanous.net
-- jae.hyun.yoo@linux.intel.com
-- vernon.mauery@gmail.com
-- zhikui.ren@intel.com
+- andrew@codeconstruct.com.au
 
 openbmc:
-- name: Ed Tanous
-  email: ed@tanous.net
-  discord: edtanous
-- name: Jae Hyun Yoo
-  email: jae.hyun.yoo@linux.intel.com
-  discord: jae
-- name: Vernon Mauery
-  email: vernon.mauery@gmail.com
-  discord: vmauery
-- name: Zhikui Ren
-  email: zhikui.ren@intel.com
-  discord: Zhikui
+- name: Andrew Jeffery
+  email: andrew@codeconstruct.com.au
+  discord: arj
