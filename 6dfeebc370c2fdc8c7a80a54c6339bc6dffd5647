@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fecf11e4_d78fa3d9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001426
+      },
+      "writtenOn": "2025-08-05T16:28:38Z",
+      "side": 1,
+      "message": "Related change in entity-manager:\nhttps://gerrit.openbmc.org/c/openbmc/entity-manager/+/82560",
+      "revId": "6dfeebc370c2fdc8c7a80a54c6339bc6dffd5647",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
