@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c605da12_f29edf14",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-08-05T16:40:23Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "f0c16414_e8877d8c",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 10
+      },
+      "revId": "f99b0a9cabfccf72c4d84e00c380ce6c531d0f11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "210fdac1_4e047d56",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-07-23T06:31:42Z",
       "side": 1,
       "message": "Why are these 0? General comment: if some testing is pending in any commit in this chain, please mark the commit as WIP.",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 63
+      },
+      "revId": "f99b0a9cabfccf72c4d84e00c380ce6c531d0f11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4cd47f5b_bb9b01c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-08-05T16:40:23Z",
+      "side": 1,
+      "message": "I have tested this updated the previous commit but missed to update this one.",
+      "parentUuid": "210fdac1_4e047d56",
       "range": {
         "startLine": 31,
         "startChar": 0,
@@ -64,6 +112,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b251d9f7_497da286",
+        "filename": "src/nvidia-gpu/Memory.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-08-05T16:40:23Z",
+      "side": 1,
+      "message": "I think memory needs its own class because it separate class of property under Type 3 spect and does not fall under inventory properties. We have separate encode/decode and buffer management for this which can managed well with separate class. \n\nWhat I have done is I have moved this memory inside inventory so that at high level its can still consider as part of inventory. \nI have also reworked to remove any duplicate code and have util class for managing all the retries. \nPlease let me know if you are ok with this.",
+      "parentUuid": "3a98fde6_b185497e",
+      "revId": "f99b0a9cabfccf72c4d84e00c380ce6c531d0f11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "65030514_e86f8bb0",
@@ -81,6 +147,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd586788_182f30e9",
+        "filename": "src/nvidia-gpu/Memory.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-08-05T16:40:23Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "65030514_e86f8bb0",
+      "revId": "f99b0a9cabfccf72c4d84e00c380ce6c531d0f11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "151078d0_9f1b36fb",
@@ -94,6 +178,30 @@
       "writtenOn": "2025-07-23T06:29:56Z",
       "side": 1,
       "message": "Most of this is dup from the Inventory class.",
+      "range": {
+        "startLine": 73,
+        "startChar": 4,
+        "endLine": 131,
+        "endChar": 19
+      },
+      "revId": "f99b0a9cabfccf72c4d84e00c380ce6c531d0f11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9941c175_1b9674c5",
+        "filename": "src/nvidia-gpu/Memory.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-08-05T16:40:23Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "151078d0_9f1b36fb",
       "range": {
         "startLine": 73,
         "startChar": 4,
@@ -127,6 +235,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a4cdf83_f6eed2e0",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-08-05T16:40:23Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "c5ae2edc_e6a18fa5",
+      "range": {
+        "startLine": 53,
+        "startChar": 54,
+        "endLine": 53,
+        "endChar": 62
+      },
+      "revId": "f99b0a9cabfccf72c4d84e00c380ce6c531d0f11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "82064498_195f7c75",
@@ -140,6 +272,24 @@
       "writtenOn": "2025-07-23T06:29:56Z",
       "side": 1,
       "message": "Do we care about ordering? Inventory, Sensors, Memory?",
+      "revId": "f99b0a9cabfccf72c4d84e00c380ce6c531d0f11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "453bda58_f1d9bf1d",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-08-05T16:40:23Z",
+      "side": 1,
+      "message": "no it should not matter.",
+      "parentUuid": "82064498_195f7c75",
       "revId": "f99b0a9cabfccf72c4d84e00c380ce6c531d0f11",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
