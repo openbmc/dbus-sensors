@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3fbec1b_75301230",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-08-05T23:59:13Z",
+      "side": 1,
+      "message": "Adding Reviewers: @deepak.kodihalli.83@gmail.com @haghera@nvidia.com @rohitpai77@gmail.com",
+      "revId": "a6652ea410d7732f1c1c16ee9cf5f2d0a980d152",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
