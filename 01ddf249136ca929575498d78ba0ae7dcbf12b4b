@@ -1,4 +1,22 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c8541d8_8ce10bdb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-08-05T23:34:24Z",
+      "side": 1,
+      "message": "I appreciate the help you\u0027ve given myself and others for things not in your normal scope, and appreciate whatever continued involvement you\u0027re able to have with the project after this change, even if it\u0027s not direct maintainership.",
+      "revId": "01ddf249136ca929575498d78ba0ae7dcbf12b4b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ],
   "submitRequirementResults": []
 }
