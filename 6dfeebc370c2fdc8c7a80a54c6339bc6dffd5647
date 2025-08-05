@@ -16,6 +16,23 @@
       "message": "Related change in entity-manager:\nhttps://gerrit.openbmc.org/c/openbmc/entity-manager/+/82560",
       "revId": "6dfeebc370c2fdc8c7a80a54c6339bc6dffd5647",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d404216_8efa3af4",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2025-08-05T20:07:33Z",
+      "side": 1,
+      "message": "So this isn\u0027t changing the name of the sysfs file being read for humidity for the existing si7020/hdc1080 sensors that are only humidity/temp?",
+      "revId": "6dfeebc370c2fdc8c7a80a54c6339bc6dffd5647",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
