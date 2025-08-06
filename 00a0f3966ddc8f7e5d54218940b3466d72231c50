@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76b10970_de2af060",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 39
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-08-06T09:02:25Z",
+      "side": 1,
+      "message": "PDI for this is https://gerrit.openbmc.org/c/openbmc/phosphor-dbus-interfaces/+/82586",
+      "revId": "00a0f3966ddc8f7e5d54218940b3466d72231c50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
