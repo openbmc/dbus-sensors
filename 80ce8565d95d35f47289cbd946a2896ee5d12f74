@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "53cac65a_2ca7dbab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-08-06T10:50:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d6376ea_6a87f925",
+      "revId": "80ce8565d95d35f47289cbd946a2896ee5d12f74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aa2fe746_5971246f",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-08-04T12:27:29Z",
       "side": 1,
       "message": "Which property below represents Peak? Or is PeakPower a different object?",
+      "revId": "80ce8565d95d35f47289cbd946a2896ee5d12f74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9b14cd4_07b8cea0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-08-06T10:50:58Z",
+      "side": 1,
+      "message": "It\u0027s in interface `xyz.openbmc_project.Common.Statistics`. Updated the commit message with get call on that interface.",
+      "parentUuid": "aa2fe746_5971246f",
       "revId": "80ce8565d95d35f47289cbd946a2896ee5d12f74",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -52,6 +88,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "55ee17fb_579953a1",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-08-06T10:50:58Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "3eeb23d9_016eaa87",
+      "revId": "80ce8565d95d35f47289cbd946a2896ee5d12f74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1e56dc78_745bc07b",
@@ -69,6 +123,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c40c0fed_3b7fa421",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-08-06T10:50:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e56dc78_745bc07b",
+      "revId": "80ce8565d95d35f47289cbd946a2896ee5d12f74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e3742bf1_215f267e",
@@ -82,6 +154,24 @@
       "writtenOn": "2025-08-04T12:27:29Z",
       "side": 1,
       "message": "Can we reuse power encode/decode APIs?",
+      "revId": "80ce8565d95d35f47289cbd946a2896ee5d12f74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f31c9de3_7965e6f3",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-08-06T10:50:58Z",
+      "side": 1,
+      "message": "I have reused decode API. We can\u0027t reuse encode API as it is different command code that GetPowerDraw.",
+      "parentUuid": "e3742bf1_215f267e",
       "revId": "80ce8565d95d35f47289cbd946a2896ee5d12f74",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -116,6 +206,24 @@
       "writtenOn": "2025-08-04T12:27:29Z",
       "side": 1,
       "message": "Don\u0027t think we need a struct for this.",
+      "revId": "80ce8565d95d35f47289cbd946a2896ee5d12f74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5734c504_aca1a0fe",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerPeakReading.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-08-06T10:50:58Z",
+      "side": 1,
+      "message": "I have used struct to maintain the state variables (eid, mctpRequester, dbusInterface etc) that are needed. If we don\u0027t use struct then we would be passing a reference to the data (eid, mctpRequester, dbusInterface etc) as the first argument to the all the free functions, which is essentially what struct does for us here.",
+      "parentUuid": "5df7c822_522306ec",
       "revId": "80ce8565d95d35f47289cbd946a2896ee5d12f74",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
