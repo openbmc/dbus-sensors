@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a261eb35_2b463345",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-08-06T12:02:26Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "d9fdd8ab_eb27883d",
+      "range": {
+        "startLine": 9,
+        "startChar": 66,
+        "endLine": 9,
+        "endChar": 68
+      },
+      "revId": "8b9f0d1632b318296e4314c75fddfad590e2717b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "98129220_06e72db7",
@@ -47,6 +71,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5d507bc_27c74c90",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-08-06T12:02:26Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "98129220_06e72db7",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 92
+      },
+      "revId": "8b9f0d1632b318296e4314c75fddfad590e2717b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "909a2654_1a4f6311",
@@ -60,6 +108,30 @@
       "writtenOn": "2025-07-23T07:01:51Z",
       "side": 1,
       "message": "Let\u0027s use associations documented in PDI. If none for this purpose, let\u0027s add these.",
+      "range": {
+        "startLine": 55,
+        "startChar": 30,
+        "endLine": 55,
+        "endChar": 62
+      },
+      "revId": "8b9f0d1632b318296e4314c75fddfad590e2717b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "680964d4_3202dcf4",
+        "filename": "src/nvidia-gpu/Memory.cpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001486
+      },
+      "writtenOn": "2025-08-06T12:02:26Z",
+      "side": 1,
+      "message": "https://gerrit.openbmc.org/c/openbmc/phosphor-dbus-interfaces/+/82584",
+      "parentUuid": "909a2654_1a4f6311",
       "range": {
         "startLine": 55,
         "startChar": 30,
