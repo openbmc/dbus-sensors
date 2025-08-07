@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67051fd0_7f547264",
+        "filename": "src/nvidia-gpu/InstanceDb.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-08-07T00:10:04Z",
+      "side": 1,
+      "message": "I feel [std::expected](https://en.cppreference.com/w/cpp/utility/expected.html) is a more idiomatic choice.",
+      "range": {
+        "startLine": 31,
+        "startChar": 18,
+        "endLine": 31,
+        "endChar": 31
+      },
+      "revId": "9a10aaafd1bb1f664b7844f17c17ecf37a53c82b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "372df646_8844c314",
+        "filename": "src/nvidia-gpu/InstanceDb.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-08-07T00:10:04Z",
+      "side": 1,
+      "message": "This is an unexpected program state, log a message?",
+      "range": {
+        "startLine": 57,
+        "startChar": 44,
+        "endLine": 57,
+        "endChar": 74
+      },
+      "revId": "9a10aaafd1bb1f664b7844f17c17ecf37a53c82b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c43544f_e0db2a94",
+        "filename": "src/nvidia-gpu/InstanceDb.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-08-07T00:10:04Z",
+      "side": 1,
+      "message": "This is an illegal program state, right? Log a message?",
+      "range": {
+        "startLine": 57,
+        "startChar": 12,
+        "endLine": 57,
+        "endChar": 40
+      },
+      "revId": "9a10aaafd1bb1f664b7844f17c17ecf37a53c82b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2344b114_8d136627",
+        "filename": "src/nvidia-gpu/InstanceDb.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-08-07T00:10:04Z",
+      "side": 1,
+      "message": "This is a double-free and a sign of larger problems; log a message?",
+      "range": {
+        "startLine": 58,
+        "startChar": 12,
+        "endLine": 58,
+        "endChar": 53
+      },
+      "revId": "9a10aaafd1bb1f664b7844f17c17ecf37a53c82b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71910697_f4152709",
+        "filename": "src/nvidia-gpu/InstanceDb.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-08-07T00:10:04Z",
+      "side": 1,
+      "message": "So no other processes will be communicating with the GPU(s) using the VDM protocol?",
+      "revId": "9a10aaafd1bb1f664b7844f17c17ecf37a53c82b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
