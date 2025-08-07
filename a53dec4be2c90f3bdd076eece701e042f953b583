@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f33f9a3f_20d2198c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-08-07T22:18:22Z",
+      "side": 1,
+      "message": "I am also experimenting with maybe just hiding sensor/fan_tach objects from the chassis sensors display by simply not associating them with each other if we\u0027re controlling a tachless fan.",
+      "revId": "a53dec4be2c90f3bdd076eece701e042f953b583",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
