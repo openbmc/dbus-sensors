@@ -33,6 +33,24 @@
       "message": "So this isn\u0027t changing the name of the sysfs file being read for humidity for the existing si7020/hdc1080 sensors that are only humidity/temp?",
       "revId": "6dfeebc370c2fdc8c7a80a54c6339bc6dffd5647",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4057e3b6_390e3aba",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1001426
+      },
+      "writtenOn": "2025-08-07T09:58:48Z",
+      "side": 1,
+      "message": "yes, this change does not alter the sysfs filename or reading mechanism for existing SI7020 or HDC1080 sensors that report only humidity and temperature.\nThe logic here simply uses baseConfigMap[\"Name2\"] for the display or labeling purpose, and the actual sysfs file being accessed remains unchanged.\nSo this won\u0027t interfere with the sysfs interaction for existing sensors.\n\nLet me know if you’d like me to clarify this further in a code comment.",
+      "parentUuid": "0d404216_8efa3af4",
+      "revId": "6dfeebc370c2fdc8c7a80a54c6339bc6dffd5647",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
