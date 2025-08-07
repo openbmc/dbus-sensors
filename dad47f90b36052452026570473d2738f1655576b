@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61ed2cec_957528d9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-08-07T20:06:07Z",
+      "side": 1,
+      "message": "Patchset 10-\u003e11 extracts the pre-existing sanity checking logic for GPIO Presence pin into a re-usable function w/o further modification.\n\nPatchset 11-\u003e12 refactors the variable names to reflect the now-local scope, and updates \u0027gpio status monitor\u0027 handling to use the new function, instead of relying on copy/pasted inline sanity checking code.\n\nThese two patches *did not* have CI tool formatting applied to them before commit to make human review a little simpler.\n\nI\u0027ll likely put up another commit later with CI-tool suggested formatting once I\u0027ve confirmed the CI tool is working for dbus-sensors (I was having a bit of trouble with it the other week...)",
+      "revId": "dad47f90b36052452026570473d2738f1655576b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
