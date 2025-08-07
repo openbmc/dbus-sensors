@@ -16,6 +16,23 @@
       "message": "Patchset 11 separates out the already existing GPIO config sanity check into it\u0027s own callable function without altering the logic.\n\nNext patchset will refactor names to reflect the new \u0027local\u0027 usages.\n\nMy hope is that doing it this way will make it easier for folks who don\u0027t know the logic here well to glance over the changes in parts and go \"yeah, that makes enough sense\"",
       "revId": "e1d9b46e71b185a79a3bf630171b2dba8e93e2f7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96a442c6_1329cf09",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-08-07T19:41:01Z",
+      "side": 1,
+      "message": "The logic here has not been changed from the lines removed from 478 - 559, beyond key variables being passed in through a header for easier reuse now.",
+      "revId": "e1d9b46e71b185a79a3bf630171b2dba8e93e2f7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
