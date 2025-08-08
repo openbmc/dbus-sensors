@@ -70,6 +70,54 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0eff0ae_e3356d48",
+        "filename": "src/nvidia-gpu/InstanceDb.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-08-08T10:20:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c43544f_e0db2a94",
+      "range": {
+        "startLine": 57,
+        "startChar": 12,
+        "endLine": 57,
+        "endChar": 40
+      },
+      "revId": "9a10aaafd1bb1f664b7844f17c17ecf37a53c82b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b597254_02e0ed39",
+        "filename": "src/nvidia-gpu/InstanceDb.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-08-08T10:20:33Z",
+      "side": 1,
+      "message": "Addressed. Logging an error message now.",
+      "parentUuid": "372df646_8844c314",
+      "range": {
+        "startLine": 57,
+        "startChar": 44,
+        "endLine": 57,
+        "endChar": 74
+      },
+      "revId": "9a10aaafd1bb1f664b7844f17c17ecf37a53c82b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2344b114_8d136627",
@@ -83,6 +131,30 @@
       "writtenOn": "2025-08-07T00:10:04Z",
       "side": 1,
       "message": "This is a double-free and a sign of larger problems; log a message?",
+      "range": {
+        "startLine": 58,
+        "startChar": 12,
+        "endLine": 58,
+        "endChar": 53
+      },
+      "revId": "9a10aaafd1bb1f664b7844f17c17ecf37a53c82b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9b90caf_13bfbc1c",
+        "filename": "src/nvidia-gpu/InstanceDb.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-08-08T10:20:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2344b114_8d136627",
       "range": {
         "startLine": 58,
         "startChar": 12,
