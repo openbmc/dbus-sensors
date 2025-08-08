@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "76bdc522_d52b631d",
+        "filename": "src/nvidia-gpu/InstanceDb.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-08-08T10:38:15Z",
+      "side": 1,
+      "message": "Trying to understand this better. What would be the unexpected type be in the case of std::expected? a `std::error_code`? or maybe an error string? In both cases, really there\u0027s just one unexpected state: \"We don\u0027t have any instance ids left\". I feel std::optional also conveys the same thing, isn\u0027t it?",
+      "parentUuid": "67051fd0_7f547264",
+      "range": {
+        "startLine": 31,
+        "startChar": 18,
+        "endLine": 31,
+        "endChar": 31
+      },
+      "revId": "9a10aaafd1bb1f664b7844f17c17ecf37a53c82b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "372df646_8844c314",
         "filename": "src/nvidia-gpu/InstanceDb.hpp",
         "patchSetId": 3
