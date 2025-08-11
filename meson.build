@@ -43,7 +43,7 @@ boost = dependency(
     include_type: 'system',
     fallback: 'boost-meson',
 )
-sdbusplus = dependency('sdbusplus', include_type: 'system')
+sdbusplus = dependency('sdbusplus')
 phosphor_logging_dep = dependency('phosphor-logging')
 
 default_deps = [
