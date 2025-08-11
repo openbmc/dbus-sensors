@@ -38,7 +38,7 @@ uring = dependency('liburing', include_type: 'system')
 nlohmann_json_dep = dependency('nlohmann_json', include_type: 'system')
 gpiodcxx = dependency('libgpiodcxx', default_options: ['bindings=cxx'])
 boost = dependency('boost', version: '>=1.83.0', include_type: 'system')
-sdbusplus = dependency('sdbusplus', include_type: 'system')
+sdbusplus = dependency('sdbusplus')
 phosphor_logging_dep = dependency('phosphor-logging')
 
 default_deps = [
