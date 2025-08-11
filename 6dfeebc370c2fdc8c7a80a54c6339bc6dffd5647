@@ -51,6 +51,24 @@
       "parentUuid": "0d404216_8efa3af4",
       "revId": "6dfeebc370c2fdc8c7a80a54c6339bc6dffd5647",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cc0bc68_eb7595e4",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2025-08-11T15:40:54Z",
+      "side": 1,
+      "message": "\u003e So this won\u0027t interfere with the sysfs interaction for existing sensors.\n\nThanks for clarifying.",
+      "parentUuid": "4057e3b6_390e3aba",
+      "revId": "6dfeebc370c2fdc8c7a80a54c6339bc6dffd5647",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
