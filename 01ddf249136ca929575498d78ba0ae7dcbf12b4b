@@ -16,6 +16,23 @@
       "message": "I appreciate the help you\u0027ve given myself and others for things not in your normal scope, and appreciate whatever continued involvement you\u0027re able to have with the project after this change, even if it\u0027s not direct maintainership.",
       "revId": "01ddf249136ca929575498d78ba0ae7dcbf12b4b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d68a96d6_0a1aa209",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-08-12T20:15:59Z",
+      "side": 1,
+      "message": "Would it be good to put these all in the root OWNERS directory?  This is the only repository that uses OWNERS in subdirectories I think.  I think the reason we decided to typically avoid these in subdirectories is it is worse for discoverability.",
+      "revId": "01ddf249136ca929575498d78ba0ae7dcbf12b4b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ],
   "submitRequirementResults": []
