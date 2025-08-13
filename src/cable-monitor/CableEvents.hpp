@@ -33,7 +33,7 @@ class Events
         std::unordered_map<std::string, sdbusplus::message::object_path>;
 
     sdbusplus::async::context& ctx;
-    event_map_t pendingEvents;
+    event_map_t pendingEvents{};
 };
 
 } // namespace cable
