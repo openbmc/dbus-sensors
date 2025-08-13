@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a938f2a_d985a8de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 39
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-08-13T13:39:28Z",
+      "side": 1,
+      "message": "Nit (probably): isn\u0027t there a preference to add some namespaces between \"inventory\" and the last segement? Say ...inventory/processor/\u003clast segment\u003e?",
+      "range": {
+        "startLine": 17,
+        "startChar": 91,
+        "endLine": 17,
+        "endChar": 126
+      },
+      "revId": "7d9638f6ad02fb2d59cb9b0997301e83dc607a97",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "878e3b71_a1ccc845",
+        "filename": "src/nvidia-gpu/Memory.cpp",
+        "patchSetId": 39
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-08-13T13:39:28Z",
+      "side": 1,
+      "message": "Item.Dimm doesn\u0027t look like the right choice as it has several other properties that don\u0027t apply to Nvidia GPU DRAM.",
+      "revId": "7d9638f6ad02fb2d59cb9b0997301e83dc607a97",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31bbe488_7f9cd565",
+        "filename": "src/nvidia-gpu/Memory.cpp",
+        "patchSetId": 39
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-08-13T13:39:28Z",
+      "side": 1,
+      "message": "I think this should go to the association commit that you have for proc:mem.",
+      "revId": "7d9638f6ad02fb2d59cb9b0997301e83dc607a97",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

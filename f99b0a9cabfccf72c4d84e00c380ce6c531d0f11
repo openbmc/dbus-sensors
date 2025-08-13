@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e042d9b5_86d06b91",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-08-13T13:39:28Z",
+      "side": 1,
+      "message": "nit: this was not done.",
+      "parentUuid": "c605da12_f29edf14",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 10
+      },
+      "revId": "f99b0a9cabfccf72c4d84e00c380ce6c531d0f11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "210fdac1_4e047d56",
         "filename": "/COMMIT_MSG",
         "patchSetId": 25
