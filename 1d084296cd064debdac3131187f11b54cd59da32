@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92d1ad77_c00bf377",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 40
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-08-13T13:54:03Z",
+      "side": 1,
+      "message": "Looks fine but there are comments on the GPU DRAM patch.",
+      "revId": "1d084296cd064debdac3131187f11b54cd59da32",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
