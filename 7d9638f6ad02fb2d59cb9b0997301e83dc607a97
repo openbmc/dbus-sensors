@@ -56,6 +56,23 @@
       "message": "I think this should go to the association commit that you have for proc:mem.",
       "revId": "7d9638f6ad02fb2d59cb9b0997301e83dc607a97",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d688920_e5bc6e6f",
+        "filename": "src/nvidia-gpu/Memory.cpp",
+        "patchSetId": 39
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-08-13T13:53:12Z",
+      "side": 1,
+      "message": "Do we even need this given we have containing/contained_by? If yes, why and then we would also need to document it.",
+      "revId": "7d9638f6ad02fb2d59cb9b0997301e83dc607a97",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
