@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67aa4d79_d8dc11de",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 38
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-08-13T13:41:36Z",
+      "side": 1,
+      "message": "I would move this patch below the GPU DRAM.",
+      "revId": "8ed9bc6fdef6cd204a9d32e15f5a40feaea324cf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05e05302_2e3d74f7",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 38
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-08-13T13:41:36Z",
+      "side": 1,
+      "message": "nit: whitespace",
+      "revId": "8ed9bc6fdef6cd204a9d32e15f5a40feaea324cf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
