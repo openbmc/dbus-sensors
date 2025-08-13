@@ -72,6 +72,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1d8dc32_e2cc08ba",
+        "filename": "src/nvidia-gpu/InstanceDb.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1002377
+      },
+      "writtenOn": "2025-08-13T23:19:38Z",
+      "side": 1,
+      "message": "For this implementation, I think, `-EAGAIN` is the only one that applies. Don\u0027t see any other unexpected states that the code could go into. Anyways, the function now returns a `std::error_code` in unexpected states.",
+      "parentUuid": "2ed24807_7f1477d2",
+      "range": {
+        "startLine": 31,
+        "startChar": 18,
+        "endLine": 31,
+        "endChar": 31
+      },
+      "revId": "9a10aaafd1bb1f664b7844f17c17ecf37a53c82b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "372df646_8844c314",
