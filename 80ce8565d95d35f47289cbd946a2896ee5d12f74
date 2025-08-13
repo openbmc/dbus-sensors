@@ -108,6 +108,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f91c6db9_ba7ee888",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-08-13T13:10:48Z",
+      "side": 1,
+      "message": "How is that not causing a problem?",
+      "parentUuid": "55ee17fb_579953a1",
+      "revId": "80ce8565d95d35f47289cbd946a2896ee5d12f74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1e56dc78_745bc07b",
         "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
         "patchSetId": 1
@@ -178,6 +196,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "39c80b92_4a9c1031",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-08-13T13:10:48Z",
+      "side": 1,
+      "message": "Isn\u0027t the difference just the cmd enum? That can be a function param and you can reuse encode API?",
+      "parentUuid": "f31c9de3_7965e6f3",
+      "revId": "80ce8565d95d35f47289cbd946a2896ee5d12f74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c6bf1691_d79436e0",
         "filename": "src/nvidia-gpu/NvidiaGpuPowerPeakReading.cpp",
         "patchSetId": 1
@@ -213,6 +249,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5e2f56fa_0df61cd8",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerPeakReading.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-08-13T13:10:48Z",
+      "side": 1,
+      "message": "I agree with your comments on the PDI patch. Also, not sure if we want to define a Common.Statistics which seems like an alternative to telemetry, I see following options:\n\n1) Object can be in the sensors/power/\u003csensor_name\u003e namespace with a well-known name (peak_). The same would have to be handled in bmxweb.\n2) Define new sensor/power/peak/\u003csensor_name\u003e namespace.\n3) OEM PDI.\n\nCan you please start discussion on Discord fans-and-sensors?",
+      "parentUuid": "65aa671f_642e8c91",
+      "revId": "80ce8565d95d35f47289cbd946a2896ee5d12f74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5df7c822_522306ec",
         "filename": "src/nvidia-gpu/NvidiaGpuPowerPeakReading.hpp",
         "patchSetId": 1
@@ -242,6 +296,24 @@
       "side": 1,
       "message": "I have used struct to maintain the state variables (eid, mctpRequester, dbusInterface etc) that are needed. If we don\u0027t use struct then we would be passing a reference to the data (eid, mctpRequester, dbusInterface etc) as the first argument to the all the free functions, which is essentially what struct does for us here.",
       "parentUuid": "5df7c822_522306ec",
+      "revId": "80ce8565d95d35f47289cbd946a2896ee5d12f74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7923489_f752d308",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerPeakReading.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-08-13T13:10:48Z",
+      "side": 1,
+      "message": "I meant reuse power sensor struct",
+      "parentUuid": "5734c504_aca1a0fe",
       "revId": "80ce8565d95d35f47289cbd946a2896ee5d12f74",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
