@@ -190,8 +190,9 @@ struct SensorUnit
     auto operator<=>(const SensorUnit&) const = default;
 };
 
-static constexpr const std::array<SensorUnit, 6> sensorTable{{
+static constexpr const std::array<SensorUnit, 7> sensorTable{{
     {"curr", sensor_paths::unitAmperes},
+    {"current", sensor_paths::unitAmperes},
     {"fan", sensor_paths::unitRPMs},
     {"in", sensor_paths::unitVolts},
     {"power", sensor_paths::unitWatts},
@@ -203,6 +204,8 @@ constexpr static auto labelMatch = std::to_array<PSUProperty>({
     {"curr", "Output Current", 255, 0, 3, 0},
     {"fan", "Fan Speed ", 30000, 0, 0, 0},
     {"iin", "Input Current", 20, 0, 3, 0},
+    {"in_current", "Output Current", 255, 0, 3, 0},
+    {"in_power", "Output Power", 3000, 0, 6, 0},
     {"in_voltage", "Output Voltage", 255, 0, 3, 0},
     {"in", "Output Voltage", 255, 0, 3, 0},
     {"iout", "Output Current", 255, 0, 3, 0},
