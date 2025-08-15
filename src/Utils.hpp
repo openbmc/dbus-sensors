@@ -75,10 +75,10 @@ void setupPowerMatchCallback(
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
     std::function<void(PowerState type, bool state)>&& callback);
 void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn);
-bool getSensorConfiguration(
-    const std::string& type,
+void getSensorConfiguration(
+    const std::vector<std::string>& types,
     const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
-    ManagedObjectType& resp, bool useCache);
+    bool useCache, std::function<void(const ManagedObjectType&)>&& callback);
 
 bool getSensorConfiguration(
     const std::string& type,
