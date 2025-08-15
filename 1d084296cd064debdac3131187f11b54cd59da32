@@ -16,6 +16,23 @@
       "message": "Looks fine but there are comments on the GPU DRAM patch.",
       "revId": "1d084296cd064debdac3131187f11b54cd59da32",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f513e5b_29268c34",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 40
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-08-15T06:00:12Z",
+      "side": 1,
+      "message": "GPU DRAM patches need rework.",
+      "revId": "1d084296cd064debdac3131187f11b54cd59da32",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
