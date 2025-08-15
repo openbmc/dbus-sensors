@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "596efefb_00c2db03",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 35
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-08-15T06:00:42Z",
+      "side": 1,
+      "message": "GPU DRAM patches need rework (that patch consumes these encode/decode APIs)",
+      "revId": "4b4ffc43b1cfd692f00d0dd8401078f38f8b09a3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
