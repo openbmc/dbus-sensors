@@ -151,52 +151,70 @@ std::set<std::string> getPermitSet(const SensorBaseConfigMap& config)
     return permitSet;
 }
 
-bool getSensorConfiguration(
-    const std::string& type,
+void getSensorConfiguration(
+    const std::vector<std::string>& types,
     const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
-    ManagedObjectType& resp, bool useCache)
+    bool useCache, std::function<void(const ManagedObjectType&)>&& callback)
 {
     static ManagedObjectType managedObj;
-    std::string typeIntf = configInterfaceName(type);
-
     if (!useCache)
     {
         managedObj.clear();
-        sdbusplus::message_t getManagedObjects =
-            dbusConnection->new_method_call(
-                entityManagerName, "/xyz/openbmc_project/inventory",
-                "org.freedesktop.DBus.ObjectManager", "GetManagedObjects");
-        try
-        {
-            sdbusplus::message_t reply =
-                dbusConnection->call(getManagedObjects);
-            reply.read(managedObj);
-        }
-        catch (const sdbusplus::exception_t& e)
-        {
-            lg2::error(
-                "While calling GetManagedObjects on service: '{SERVICE_NAME}'"
-                " exception name: '{EXCEPTION_NAME}' and description: "
-                "'{EXCEPTION_DESCRIPTION}' was thrown",
-                "SERVICE_NAME", entityManagerName, "EXCEPTION_NAME", e.name(),
-                "EXCEPTION_DESCRIPTION", e.description());
-            return false;
-        }
+
+        dbusConnection->async_method_call(
+            [types, callback](boost::system::error_code ec,
+                              const ManagedObjectType& managedObjResp) {
+                if (ec)
+                {
+                    std::cerr << "While calling GetManagedObjects on service:"
+                              << entityManagerName << " ec: " << ec.message();
+                    return;
+                }
+                managedObj = managedObjResp;
+
+                ManagedObjectType resp;
+                std::string typeIntf;
+                for (const std::string& type : types)
+                {
+                    typeIntf = configInterfaceName(type);
+                    for (const auto& pathPair : managedObj)
+                    {
+                        for (const auto& [intf, cfg] : pathPair.second)
+                        {
+                            if (intf.starts_with(typeIntf))
+                            {
+                                resp.emplace(pathPair);
+                                break;
+                            }
+                        }
+                    }
+                }
+                callback(resp);
+            },
+            entityManagerName, "/xyz/openbmc_project/inventory",
+            "org.freedesktop.DBus.ObjectManager", "GetManagedObjects");
+        return;
     }
-    for (const auto& pathPair : managedObj)
+
+    ManagedObjectType resp;
+    std::string typeIntf;
+    for (const std::string& type : types)
     {
-        for (const auto& [intf, cfg] : pathPair.second)
+        typeIntf = configInterfaceName(type);
+        for (const auto& pathPair : managedObj)
         {
-            if (intf.starts_with(typeIntf))
+            for (const auto& [intf, cfg] : pathPair.second)
             {
-                resp.emplace(pathPair);
-                break;
+                if (intf.starts_with(typeIntf))
+                {
+                    resp.emplace(pathPair);
+                    break;
+                }
             }
         }
     }
-    return true;
+    callback(resp);
 }
-
 bool findFiles(const std::filesystem::path& dirPath,
                std::string_view matchString,
                std::vector<std::filesystem::path>& foundPaths, int symlinkDepth)
