@@ -29,7 +29,6 @@
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/bus.hpp>
 #include <sdbusplus/bus/match.hpp>
-#include <sdbusplus/exception.hpp>
 #include <sdbusplus/message.hpp>
 #include <sdbusplus/message/native_types.hpp>
 
@@ -151,52 +150,73 @@ std::set<std::string> getPermitSet(const SensorBaseConfigMap& config)
     return permitSet;
 }
 
-bool getSensorConfiguration(
-    const std::string& type,
+void getSensorConfiguration(
+    const std::vector<std::string>& types,
     const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
-    ManagedObjectType& resp, bool useCache)
+    bool useCache, std::function<void(const ManagedObjectType&)>&& callback)
 {
     static ManagedObjectType managedObj;
-    std::string typeIntf = configInterfaceName(type);
-
-    if (!useCache)
+    if (useCache)
     {
-        managedObj.clear();
-        sdbusplus::message_t getManagedObjects =
-            dbusConnection->new_method_call(
-                entityManagerName, "/xyz/openbmc_project/inventory",
-                "org.freedesktop.DBus.ObjectManager", "GetManagedObjects");
-        try
+        ManagedObjectType resp;
+        std::string typeIntf;
+        for (const std::string& type : types)
         {
-            sdbusplus::message_t reply =
-                dbusConnection->call(getManagedObjects);
-            reply.read(managedObj);
-        }
-        catch (const sdbusplus::exception_t& e)
-        {
-            lg2::error(
-                "While calling GetManagedObjects on service: '{SERVICE_NAME}'"
-                " exception name: '{EXCEPTION_NAME}' and description: "
-                "'{EXCEPTION_DESCRIPTION}' was thrown",
-                "SERVICE_NAME", entityManagerName, "EXCEPTION_NAME", e.name(),
-                "EXCEPTION_DESCRIPTION", e.description());
-            return false;
-        }
-    }
-    for (const auto& pathPair : managedObj)
-    {
-        for (const auto& [intf, cfg] : pathPair.second)
-        {
-            if (intf.starts_with(typeIntf))
+            typeIntf = configInterfaceName(type);
+            for (const auto& pathPair : managedObj)
             {
-                resp.emplace(pathPair);
-                break;
+                for (const auto& [intf, cfg] : pathPair.second)
+                {
+                    if (intf.starts_with(typeIntf))
+                    {
+                        resp.emplace(pathPair);
+                        break;
+                    }
+                }
             }
         }
+        callback(resp);
+        return;
     }
-    return true;
-}
 
+    managedObj.clear();
+    dbusConnection->async_method_call(
+        [types, callback](boost::system::error_code ec,
+                          const ManagedObjectType& managedObjResp) {
+            if (ec)
+            {
+                lg2::error(
+                    "While calling GetManagedObjects on service: '{SERVICE_NAME}'"
+                    " error description: "
+                    "'{EXCEPTION_DESCRIPTION}' was thrown",
+                    "SERVICE_NAME", entityManagerName, "EXCEPTION_DESCRIPTION",
+                    ec.message());
+                return;
+            }
+            managedObj = managedObjResp;
+
+            ManagedObjectType resp;
+            std::string typeIntf;
+            for (const std::string& type : types)
+            {
+                typeIntf = configInterfaceName(type);
+                for (const auto& pathPair : managedObj)
+                {
+                    for (const auto& [intf, cfg] : pathPair.second)
+                    {
+                        if (intf.starts_with(typeIntf))
+                        {
+                            resp.emplace(pathPair);
+                            break;
+                        }
+                    }
+                }
+            }
+            callback(resp);
+        },
+        entityManagerName, "/xyz/openbmc_project/inventory",
+        "org.freedesktop.DBus.ObjectManager", "GetManagedObjects");
+}
 bool findFiles(const std::filesystem::path& dirPath,
                std::string_view matchString,
                std::vector<std::filesystem::path>& foundPaths, int symlinkDepth)
