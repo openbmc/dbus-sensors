@@ -58,22 +58,11 @@ static const std::map<std::string, std::string> compatibleHwmonNames = {
     // use the available Hwmon class.
 };
 
-static void createSensorsFromConfig(
+void createSensorsFromConfigCallback(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objServer,
-    const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
-    std::shared_ptr<ChassisIntrusionSensor>& pSensor)
+    std::shared_ptr<ChassisIntrusionSensor>& pSensor,
+    const ManagedObjectType& sensorConfigurations)
 {
-    // find matched configuration according to sensor type
-    ManagedObjectType sensorConfigurations;
-    bool useCache = false;
-
-    if (!getSensorConfiguration(sensorType, dbusConnection,
-                                sensorConfigurations, useCache))
-    {
-        lg2::error("error communicating to entity manager");
-        return;
-    }
-
     const SensorData* sensorData = nullptr;
     const std::pair<std::string, SensorBaseConfigMap>* baseConfiguration =
         nullptr;
@@ -232,6 +221,21 @@ static void createSensorsFromConfig(
         lg2::error("Reset the occupied sensor pointer");
         pSensor = nullptr;
     }
+}
+
+static void createSensorsFromConfig(
+    boost::asio::io_context& io, sdbusplus::asio::object_server& objServer,
+    const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
+    std::shared_ptr<ChassisIntrusionSensor>& pSensor)
+{
+    auto callback = [&io, &objServer,
+                     &pSensor](const ManagedObjectType& sensorConfigurations) {
+        createSensorsFromConfigCallback(io, objServer, pSensor,
+                                        sensorConfigurations);
+    };
+
+    // find matched configuration according to sensor type
+    getSensorConfiguration({sensorType}, dbusConnection, false, callback);
 }
 
 static constexpr bool debugLanLeash = false;
