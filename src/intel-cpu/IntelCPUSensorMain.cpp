@@ -700,22 +700,17 @@ void detectCpuAsync(
     });
 }
 
-bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
-                  boost::container::flat_set<CPUConfig>& cpuConfigs,
-                  ManagedObjectType& sensorConfigs,
-                  sdbusplus::asio::object_server& objectServer)
+void getCpuConfigCallback(
+    boost::asio::io_context& io,
+    std::shared_ptr<sdbusplus::asio::connection>& systemBus,
+    boost::container::flat_set<CPUConfig>& cpuConfigs,
+    ManagedObjectType& sensorConfigs,
+    sdbusplus::asio::object_server& objectServer,
+    boost::asio::steady_timer& pingTimer,
+    boost::asio::steady_timer& creationTimer,
+    const ManagedObjectType& sensorConfigurations)
 {
-    bool useCache = false;
-    sensorConfigs.clear();
-    // use new data the first time, then refresh
-    for (const char* type : sensorTypes)
-    {
-        if (!getSensorConfiguration(type, systemBus, sensorConfigs, useCache))
-        {
-            return false;
-        }
-        useCache = true;
-    }
+    sensorConfigs = sensorConfigurations;
 
     // check PECI client addresses and names from CPU configuration
     // before starting ping operation
@@ -804,10 +799,36 @@ bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
         {
             lg2::info("CPU configs are parsed");
         }
-        return true;
+        detectCpuAsync(pingTimer, creationTimer, io, objectServer, systemBus,
+                       +cpuConfigs, sensorConfigs);
+    }
+}
+
+void getCpuConfig(boost::asio::io_context& io,
+                  std::shared_ptr<sdbusplus::asio::connection>& systemBus,
+                  boost::container::flat_set<CPUConfig>& cpuConfigs,
+                  ManagedObjectType& sensorConfigs,
+                  sdbusplus::asio::object_server& objectServer,
+                  boost::asio::steady_timer& pingTimer,
+                  boost::asio::steady_timer& creationTimer)
+{
+    sensorConfigs.clear();
+    // use new data the first time, then refresh
+    if (sensorTypes.empty())
+    {
+        return;
     }
 
-    return false;
+    auto callback = [&io, &systemBus, &cpuConfigs, &sensorConfigs,
+                     &objectServer, &pingTimer, &creationTimer](
+                        const ManagedObjectType& sensorConfigurations) {
+        getCpuConfigCallback(io, systemBus, cpuConfigs, sensorConfigs,
+                             objectServer, pingTimer, creationTimer,
+                             sensorConfigurations);
+    };
+    getSensorConfiguration(
+        std::vector<std::string>(sensorTypes.begin(), sensorTypes.end()),
+        systemBus, false, callback);
 }
 
 int main()
@@ -830,11 +851,8 @@ int main()
             return; // we're being canceled
         }
 
-        if (getCpuConfig(systemBus, cpuConfigs, sensorConfigs, objectServer))
-        {
-            detectCpuAsync(pingTimer, creationTimer, io, objectServer,
-                           systemBus, cpuConfigs, sensorConfigs);
-        }
+        getCpuConfig(io, systemBus, cpuConfigs, sensorConfigs, objectServer,
+                     pingTimer, creationTimer);
     });
 
     std::function<void(sdbusplus::message_t&)> eventHandler =
@@ -858,12 +876,8 @@ int main()
                     return; // we're being canceled
                 }
 
-                if (getCpuConfig(systemBus, cpuConfigs, sensorConfigs,
-                                 objectServer))
-                {
-                    detectCpuAsync(pingTimer, creationTimer, io, objectServer,
-                                   systemBus, cpuConfigs, sensorConfigs);
-                }
+                getCpuConfig(io, systemBus, cpuConfigs, sensorConfigs,
+                             objectServer, pingTimer, creationTimer);
             });
         };
 
