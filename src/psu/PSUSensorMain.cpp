@@ -187,6 +187,7 @@ struct SensorUnit
 
 static constexpr const std::array<SensorUnit, 6> sensorTable{{
     {"curr", sensor_paths::unitAmperes},
+    {"current", sensor_paths::unitAmperes},
     {"fan", sensor_paths::unitRPMs},
     {"in", sensor_paths::unitVolts},
     {"power", sensor_paths::unitWatts},
@@ -198,6 +199,8 @@ static constexpr std::array<PSUProperty, 20> labelMatch{{
     {"curr", "Output Current", 255, 0, 3, 0},
     {"fan", "Fan Speed ", 30000, 0, 0, 0},
     {"iin", "Input Current", 20, 0, 3, 0},
+    {"in_current", "Output Current", 255, 0, 3, 0},
+    {"in_power", "Output Power", 3000, 0, 6, 0},
     {"in_voltage", "Output Voltage", 255, 0, 3, 0},
     {"in", "Output Voltage", 255, 0, 3, 0},
     {"iout", "Output Current", 255, 0, 3, 0},
@@ -1175,6 +1178,55 @@ void createSensors(
     getter->getConfiguration(types);
 }
 
+<<<<<<< HEAD
+=======
+void propertyInitialize()
+{
+    sensorTable = {{"power", sensor_paths::unitWatts},
+                   {"curr", sensor_paths::unitAmperes},
+                   {"temp", sensor_paths::unitDegreesC},
+                   {"in", sensor_paths::unitVolts},
+                   {"voltage", sensor_paths::unitVolts},
+                   {"fan", sensor_paths::unitRPMs},
+                   {"current", sensor_paths::unitAmperes}};
+
+    labelMatch = {
+        {"pin", PSUProperty("Input Power", 3000, 0, 6, 0)},
+        {"pout", PSUProperty("Output Power", 3000, 0, 6, 0)},
+        {"power", PSUProperty("Output Power", 3000, 0, 6, 0)},
+        {"in_power", PSUProperty("Output Power", 3000, 0, 6, 0)},
+        {"maxpin", PSUProperty("Max Input Power", 3000, 0, 6, 0)},
+        {"vin", PSUProperty("Input Voltage", 300, 0, 3, 0)},
+        {"maxvin", PSUProperty("Max Input Voltage", 300, 0, 3, 0)},
+        {"in_voltage", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+        {"voltage", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+        {"vout", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+        {"vmon", PSUProperty("Auxiliary Input Voltage", 255, 0, 3, 0)},
+        {"in", PSUProperty("Output Voltage", 255, 0, 3, 0)},
+        {"iin", PSUProperty("Input Current", 20, 0, 3, 0)},
+        {"iout", PSUProperty("Output Current", 255, 0, 3, 0)},
+        {"curr", PSUProperty("Output Current", 255, 0, 3, 0)},
+        {"in_current", PSUProperty("Output Current", 255, 0, 3, 0)},
+        {"maxiout", PSUProperty("Max Output Current", 255, 0, 3, 0)},
+        {"temp", PSUProperty("Temperature", 127, -128, 3, 0)},
+        {"maxtemp", PSUProperty("Max Temperature", 127, -128, 3, 0)},
+        {"fan", PSUProperty("Fan Speed ", 30000, 0, 0, 0)}};
+
+    limitEventMatch = {{"PredictiveFailure", {"max_alarm", "min_alarm"}},
+                       {"Failure", {"crit_alarm", "lcrit_alarm"}}};
+
+    eventMatch = {{"PredictiveFailure", {"power1_alarm"}},
+                  {"Failure", {"in2_alarm"}},
+                  {"ACLost", {"in1_beep"}},
+                  {"ConfigureError", {"in1_fault"}}};
+
+    devParamMap = {
+        {DevTypes::HWMON, {1, R"(\w\d+_input$)", "([A-Za-z]+)[0-9]*_"}},
+        {DevTypes::IIO,
+         {2, R"(\w+_(raw|input)$)", "^(in|out)_([A-Za-z]+)[0-9]*_"}}};
+}
+
+>>>>>>> 085b3a3 (PSUSensor:add property to sensorTable and labelMatch)
 static void powerStateChanged(
     PowerState type, bool newState,
     boost::container::flat_map<std::string, std::shared_ptr<PSUSensor>>&
