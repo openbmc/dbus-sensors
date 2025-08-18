@@ -40,6 +40,17 @@ owners:
 reviewers:
 - deepak.kodihalli.83@gmail.com
 
+matchers:
+- partial_regex: src/(EntityManagerInterface|GPIOInterface|NotifyWatch|SystemdInterface).*
+  owners:
+    - paligill@gmail.com
+- partial_regex: src/leakdetector
+  owners:
+    - paligill@gmail.com
+- partial_regex: src/cable-monitor
+  owners:
+    - paligill@gmail.com
+
 openbmc:
 - name: Ed Tanous
   email: ed@tanous.net
@@ -56,3 +67,6 @@ openbmc:
 - name: Deepak Kodihalli
   email: deepak.kodihalli.83@gmail.com
   discord: dkodihal
+- name: Jagpal Singh Gill
+  email: paligill@gmail.com
+  discord: jagpalgill
