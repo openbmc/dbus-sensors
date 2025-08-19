@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "f82dc3e7_cc532e82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-08-19T14:29:59Z",
+      "side": 1,
+      "message": "Isn\u0027t this the bug we need to fix?",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 55
+      },
+      "revId": "1641a2ee2a874b6cfb50f1625eb0ff4b6dae6e4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "9ba008ed_64f47728",
@@ -31,6 +54,40 @@
       "writtenOn": "2025-08-06T00:56:41Z",
       "side": 1,
       "message": "@ed@tanous.net @vernon.mauery@gmail.com\nAny comments on this one?",
+      "revId": "1641a2ee2a874b6cfb50f1625eb0ff4b6dae6e4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32fb40e1_3ebbf3c7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-08-19T14:29:59Z",
+      "side": 1,
+      "message": "Is this an issue in practice?  I can\u0027t say I\u0027ve ever seen this in an EM review, but sure.\n\nThe amount of duplication here is a little worrying. Should we abstract these operations to a common method?  I believe a lot of the thresholding things are already common.",
+      "revId": "1641a2ee2a874b6cfb50f1625eb0ff4b6dae6e4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51576a31_0e20c144",
+        "filename": "src/adc/ADCSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-08-19T14:29:59Z",
+      "side": 1,
+      "message": "We should log something, given this is a bad config.",
       "revId": "1641a2ee2a874b6cfb50f1625eb0ff4b6dae6e4f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
