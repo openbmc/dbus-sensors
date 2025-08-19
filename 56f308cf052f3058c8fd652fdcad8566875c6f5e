@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "478ef911_06c893b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 40
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-08-19T02:22:33Z",
+      "side": 1,
+      "message": "This isn\u0027t correct.  @deepak.kodihalli.83@gmail.com please review.  An individual GPU can\u0027t know its location code in a greater system\n\nFor example, if there were more than one of this GPU in the system, this location code would be wrong.",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 93
+      },
+      "revId": "56f308cf052f3058c8fd652fdcad8566875c6f5e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9255bd59_fe56a1f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 40
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-08-19T02:22:33Z",
+      "side": 1,
+      "message": "@deepak.kodihalli.83@gmail.com Please review the below.  This implementation isn\u0027t correct.  NSM can\u0027t have the location data for the platform.",
+      "revId": "56f308cf052f3058c8fd652fdcad8566875c6f5e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
