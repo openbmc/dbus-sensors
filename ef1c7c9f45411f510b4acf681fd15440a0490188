@@ -35,6 +35,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "88f13fde_ed48f821",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002134
+      },
+      "writtenOn": "2025-08-19T11:07:11Z",
+      "side": 1,
+      "message": "I believe the approach in [Gerrit 82199] can also resolve the issue that my commit aims to address, since it will re-check the hardware PWM value regardless.\nHowever, this method introduces additional reads of the hardware PWM value and does not use the dbus value as a cache.\nI\u0027m not sure whether this behavior would be acceptable.\n\n[Gerrit 82199]: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/82199",
+      "parentUuid": "1d01cf14_345aa225",
+      "revId": "ef1c7c9f45411f510b4acf681fd15440a0490188",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "361aa98d_7d8b66ba",
@@ -191,6 +209,24 @@
       "side": 1,
       "message": "Maybe i am not getting the big picture here, but do we actually need a Pwm `Sensor`?\n\nThe PID loop is taking temperatures and adjusting the pwm value to control the fan speed.\n\nIf the fan speed is not reaching the requested value after some time then that\u0027s an error condition.\n\nSince the pwm is a control input which is assumed to just \u0027work\u0027 if correctly configured. So we should be able to assume it always has the correct value?\n\nLooked into the `max31790` datasheet and there they mention the delay to reflection can be up to `125ms` which i would consider to be a minor delay and probably nothing to worry about in the control loop.\n\nSince the PwmSensor looks like the interface boundary between the sysfs and the PID loop, can we just shortcut the implementation to store the pwm value internally anytime the user sets it and return that if requested?\n\nIf there is anything bypassing the PwmSensor, that\u0027s broken anyways?\n\nAnother point: concepts like \u0027Threshold\u0027 do not make sense for a control input.",
       "parentUuid": "3c6e12d2_9ed9e59d",
+      "revId": "ef1c7c9f45411f510b4acf681fd15440a0490188",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9939391a_f2ada59e",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1002134
+      },
+      "writtenOn": "2025-08-19T11:07:11Z",
+      "side": 1,
+      "message": "Would it be preferable to avoid making the `Target` property reflect pure “user intent,” and instead keep the user intent as an internal variable used to decide whether to write to the hardware?\nThis would keep the external properties aligned with the actual hardware PWM value while still preserving intent internally for comparison.\n\nSeparately, I reviewed [Gerrit 82199].\nIt addresses inconsistencies by re-reading the hardware PWM in the setters and updating only when the hardware differs.\nThat should also solve this issue, but it does increase reads of the hardware PWM file.\n\n@patrick@stwcx.xyz, could you kindly share your thoughts or preference?\n\n[Gerrit 82199]: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/82199",
+      "parentUuid": "a502e90f_4684551b",
       "revId": "ef1c7c9f45411f510b4acf681fd15440a0490188",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
