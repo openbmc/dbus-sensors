@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06344c40_23174a32",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-08-19T02:19:53Z",
+      "side": 1,
+      "message": "This method is now huge.  Please break it down in the next patch.",
+      "revId": "87cd654ffa9474068dec71cc4ff42fd4cf253b49",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
