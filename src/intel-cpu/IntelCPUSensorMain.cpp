@@ -81,13 +81,14 @@ enum State
 struct CPUConfig
 {
     CPUConfig(const uint64_t& bus, const uint64_t& addr,
-              const std::string& name, const State& state) :
-        bus(bus), addr(addr), name(name), state(state)
+              const std::string& name, const State& state, const bool present) :
+        bus(bus), addr(addr), name(name), state(state), present(present)
     {}
     int bus;
     int addr;
     std::string name;
     State state;
+    bool present;
 
     bool operator<(const CPUConfig& rhs) const
     {
@@ -502,7 +503,8 @@ void detectCpu(boost::asio::steady_timer& pingTimer,
 
     for (CPUConfig& config : cpuConfigs)
     {
-        if (config.state == State::READY)
+        // Only continue the scan if the CPU is installed.
+        if ((config.state == State::READY) || !config.present)
         {
             continue;
         }
@@ -751,7 +753,7 @@ bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
                     }
                 }
 
-                if (!inventoryIfaces.contains(name) && present)
+                if (!inventoryIfaces.contains(name) && present.has_value())
                 {
                     auto iface = objectServer.add_interface(
                         cpuInventoryPath + std::string("/") + name,
@@ -789,7 +791,8 @@ bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
                         "BUS", bus, "ADDR", addr, "NAME", name, "TYPE", type);
                 }
 
-                cpuConfigs.emplace(bus, addr, name, State::OFF);
+                // if present was not set, then assume presence istrue.
+                cpuConfigs.emplace(bus, addr, name, State::OFF, present.has_value() ? *present : true);
             }
         }
     }
