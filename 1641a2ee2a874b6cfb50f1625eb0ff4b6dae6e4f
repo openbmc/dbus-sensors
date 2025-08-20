@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "edd541bb_70d10794",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2025-08-20T08:45:29Z",
+      "side": 1,
+      "message": "Since thresholdInterfaces is of type `std::array` and uses the `Severity` property value as its index, the D-Bus path is created twice during sensor initialization, as shown below:\n```\n\"Thresholds\": [\n    {\n        \"Direction\": \"greater than\",\n        \"Name\": \"upper critical\",\n        \"Severity\": 1,\n        \"Value\": 14.364\n    },\n    {\n        \"Direction\": \"less than\",\n        \"Name\": \"lower critical\",\n        \"Severity\": 1,\n        \"Value\": 9.576\n    }\n],\n\"Type\": \"ADC\"\n```\nThis results in the following assignments:\n```\nthresholdInterfaces[1] \u003d objectServer.add_interface(dbusPath, interface);\nthresholdInterfaces[1] \u003d objectServer.add_interface(dbusPath, interface);\n```\nIn reality, the array only retains the last assignment, so during destruction only one interface is removed.\nTherefore, this issue is not caused by the destructor but rather by the creation logic, where we need to validate whether an interface with the same Severity property has already been created.",
+      "parentUuid": "f82dc3e7_cc532e82",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 55
+      },
+      "revId": "1641a2ee2a874b6cfb50f1625eb0ff4b6dae6e4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "9ba008ed_64f47728",
@@ -77,6 +101,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7caabd13_23e3c89d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2025-08-20T08:45:29Z",
+      "side": 1,
+      "message": "During BMC stress testing, sensor thresholds are frequently modified.\nEach modification causes dbus-sensors to reload the sensor and create a new D-Bus path.\nThis issue leads to a memory leak after repeated operations.\nTo avoid breaking the existing logic, we should first check whether the object already exists before calling the `add_interface` method on D-Bus.",
+      "parentUuid": "32fb40e1_3ebbf3c7",
+      "revId": "1641a2ee2a874b6cfb50f1625eb0ff4b6dae6e4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "51576a31_0e20c144",
         "filename": "src/adc/ADCSensor.cpp",
         "patchSetId": 4
@@ -88,6 +130,24 @@
       "writtenOn": "2025-08-19T14:29:59Z",
       "side": 1,
       "message": "We should log something, given this is a bad config.",
+      "revId": "1641a2ee2a874b6cfb50f1625eb0ff4b6dae6e4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f06151c4_7bf1c92a",
+        "filename": "src/adc/ADCSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2025-08-20T08:45:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51576a31_0e20c144",
       "revId": "1641a2ee2a874b6cfb50f1625eb0ff4b6dae6e4f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
