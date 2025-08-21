@@ -124,6 +124,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8025c0e_ddd59656",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-08-21T14:02:48Z",
+      "side": 1,
+      "message": "Because class NvidiaGpuPowerPeakReading adds Common.Statistics interface while class NvidiaGpuPowerSensor adds Sensor.Value interface.",
+      "parentUuid": "f91c6db9_ba7ee888",
+      "revId": "80ce8565d95d35f47289cbd946a2896ee5d12f74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1e56dc78_745bc07b",
@@ -212,6 +230,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e050beca_486ac5a8",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-08-21T14:02:48Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "39c80b92_4a9c1031",
+      "revId": "80ce8565d95d35f47289cbd946a2896ee5d12f74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c6bf1691_d79436e0",
@@ -267,6 +303,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "df99365a_4d44968c",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerPeakReading.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-08-21T14:02:48Z",
+      "side": 1,
+      "message": "Started it here - https://discord.com/channels/775381525260664832/1187158775438778408/1406908051939917844.",
+      "parentUuid": "5e2f56fa_0df61cd8",
+      "revId": "80ce8565d95d35f47289cbd946a2896ee5d12f74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5df7c822_522306ec",
         "filename": "src/nvidia-gpu/NvidiaGpuPowerPeakReading.hpp",
         "patchSetId": 1
@@ -314,6 +368,24 @@
       "side": 1,
       "message": "I meant reuse power sensor struct",
       "parentUuid": "5734c504_aca1a0fe",
+      "revId": "80ce8565d95d35f47289cbd946a2896ee5d12f74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fe3ce24_d96ce257",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerPeakReading.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-08-21T14:02:48Z",
+      "side": 1,
+      "message": "We can\u0027t do that. class NvidiaGpuPowerPeakReading uses Common.Statistics interface while class NvidiaGpuPowerSensor uses Sensor.Value interface to publish sensor values.",
+      "parentUuid": "b7923489_f752d308",
       "revId": "80ce8565d95d35f47289cbd946a2896ee5d12f74",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
