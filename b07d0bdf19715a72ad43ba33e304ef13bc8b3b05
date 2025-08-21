@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c4e3a9e_aaab72cf",
+        "filename": "src/cable-monitor/CableEvents.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-08-21T16:40:01Z",
+      "side": 1,
+      "message": "Is it possible that we try to `generateCableEvent` for the same `type` twice in a row?  I guess that\u0027s probably not possible right now, but the way the code is currently written we could end up resolving a `disconnected` event while also trying to create a new one.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 5
+      },
+      "revId": "b07d0bdf19715a72ad43ba33e304ef13bc8b3b05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

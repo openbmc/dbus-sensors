@@ -36,6 +36,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c795b70_3977971a",
+        "filename": "src/cable-monitor/CableEvents.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-08-21T16:40:01Z",
+      "side": 1,
+      "message": "Done.  In the future, please mark the comment as resolved on your own when you\u0027ve taken care of it.",
+      "parentUuid": "df0616c0_f32adcca",
+      "revId": "eb1455f67792c017a24a7f78ba72b32c8ec85296",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0a330029_853bf5b0",
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "Appreciate your review. I kept the warning level as it was before, but I’ve changed it to debug level now.",
       "parentUuid": "0a330029_853bf5b0",
+      "revId": "eb1455f67792c017a24a7f78ba72b32c8ec85296",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08b61852_c9f3a26e",
+        "filename": "src/cable-monitor/CableEvents.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-08-21T16:40:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de8199ed_85113505",
       "revId": "eb1455f67792c017a24a7f78ba72b32c8ec85296",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
