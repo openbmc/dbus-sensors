@@ -22,6 +22,30 @@
       },
       "revId": "b07d0bdf19715a72ad43ba33e304ef13bc8b3b05",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "092bc609_a2f820f4",
+        "filename": "src/cable-monitor/CableEvents.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1002520
+      },
+      "writtenOn": "2025-08-22T00:49:54Z",
+      "side": 1,
+      "message": "I think the GPIO controller must detect the level change and then trigger an IRQ to inform the BMC of the edge event.\nI guess you just mentioned the bouncing case. This could happen when the cable has a poor connection. If there’s a double trigger in a short period, we should check the cable.",
+      "parentUuid": "4c4e3a9e_aaab72cf",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 5
+      },
+      "revId": "b07d0bdf19715a72ad43ba33e304ef13bc8b3b05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
