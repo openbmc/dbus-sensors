@@ -229,7 +229,7 @@ bool findFiles(const std::filesystem::path& dirPath,
         for (auto p = std::filesystem::recursive_directory_iterator(
                  dirPath,
                  std::filesystem::directory_options::follow_directory_symlink);
-             p != std::filesystem::recursive_directory_iterator(); ++p)
+             p != std::filesystem::recursive_directory_iterator();)
         {
             std::string path = p->path().string();
             if (!is_directory(*p))
@@ -243,6 +243,14 @@ bool findFiles(const std::filesystem::path& dirPath,
             {
                 p.disable_recursion_pending();
             }
+            p.increment(ec);
+            if (ec)
+            {
+                // Ignore errors that can happen when files are deleted
+                // while iterating.
+                p.disable_recursion_pending();
+                p.increment(ec);
+            }
         }
         return true;
     }
@@ -252,7 +260,7 @@ bool findFiles(const std::filesystem::path& dirPath,
     for (auto p = std::filesystem::recursive_directory_iterator(
              dirPath,
              std::filesystem::directory_options::follow_directory_symlink);
-         p != std::filesystem::recursive_directory_iterator(); ++p)
+         p != std::filesystem::recursive_directory_iterator();)
     {
         std::vector<std::regex>::iterator matchPiece = matchPieces.begin();
         std::filesystem::path::iterator pathIt = p->path().begin();
@@ -299,6 +307,14 @@ bool findFiles(const std::filesystem::path& dirPath,
         if (p.depth() >= symlinkDepth)
         {
             p.disable_recursion_pending();
+        }
+        p.increment(ec);
+        if (ec)
+        {
+            // Ignore errors that can happen when files are deleted while
+            // iterating.
+            p.disable_recursion_pending();
+            p.increment(ec);
         }
     }
     return true;
