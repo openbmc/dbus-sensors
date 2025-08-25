@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44a78fc1_75ae9591",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-08-25T06:45:45Z",
+      "side": 1,
+      "message": "Worth logging ec?",
+      "revId": "4035a9906efa8fb95639561611625d99423419fb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38a86ce0_703d8dc9",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-08-25T06:45:45Z",
+      "side": 1,
+      "message": "Can this only occur if files are deleted while iterating?",
+      "revId": "4035a9906efa8fb95639561611625d99423419fb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44f1d5b4_fc0a603a",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-08-25T06:45:45Z",
+      "side": 1,
+      "message": "Why is this needed?",
+      "revId": "4035a9906efa8fb95639561611625d99423419fb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d81c5e4e_c1da5d62",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-08-25T06:45:45Z",
+      "side": 1,
+      "message": "Can the same error occur again?",
+      "revId": "4035a9906efa8fb95639561611625d99423419fb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
