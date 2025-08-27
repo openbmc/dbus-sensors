@@ -53,21 +53,24 @@
 #include <variant>
 #include <vector>
 
-// The following two structures need to be consistent
-static auto sensorTypes{std::to_array<const char*>(
-    {"AspeedFan", "I2CFan", "NuvotonFan", "HPEFan"})};
-
 enum FanTypes
 {
-    aspeed = 0,
+    BmcBuiltIn = 0,
     i2c,
-    nuvoton,
-    hpe,
     max,
 };
 
-static_assert(std::tuple_size<decltype(sensorTypes)>::value == FanTypes::max,
-              "sensorTypes element number is not equal to FanTypes number");
+struct FanConfigPair
+{
+    const char* configName;
+    FanTypes type;
+};
+
+static auto sensorTypes{std::to_array<FanConfigPair>(
+    {{"HPEFan", FanTypes::BmcBuiltIn},
+     {"AspeedFan", FanTypes::BmcBuiltIn},
+     {"NuvotonFan", FanTypes::BmcBuiltIn},
+     {"I2CFan", FanTypes::i2c}})};
 
 constexpr const char* redundancyConfiguration =
     "xyz.openbmc_project.Configuration.FanRedundancy";
@@ -77,12 +80,13 @@ static std::regex outputRegex(R"(pwm(\d+))");
 std::optional<RedundancySensor> systemRedundancy;
 
 static const std::map<std::string, FanTypes> compatibleFanTypes = {
-    {"aspeed,ast2400-pwm-tacho", FanTypes::aspeed},
-    {"aspeed,ast2500-pwm-tacho", FanTypes::aspeed},
-    {"aspeed,ast2600-pwm-tach", FanTypes::aspeed},
-    {"nuvoton,npcm750-pwm-fan", FanTypes::nuvoton},
-    {"nuvoton,npcm845-pwm-fan", FanTypes::nuvoton},
-    {"hpe,gxp-fan-ctrl", FanTypes::hpe}
+    {"hpe,gxp-fan-ctrl", FanTypes::BmcBuiltIn},
+    {"aspeed,ast2400-pwm-tacho", FanTypes::BmcBuiltIn},
+    {"aspeed,ast2500-pwm-tacho", FanTypes::BmcBuiltIn},
+    {"aspeed,ast2600-pwm-tach", FanTypes::BmcBuiltIn},
+    {"nuvoton,npcm750-pwm-fan", FanTypes::BmcBuiltIn},
+    {"nuvoton,npcm845-pwm-fan", FanTypes::BmcBuiltIn},
+    
     // add compatible string here for new fan type
 };
 
@@ -330,6 +334,7 @@ void createSensors(
         // configuration
         for (const auto& fanOutputPath : fanOutputPaths)
         {
+            lg2::error("CTS: Looking at fanOutputPath: {OUTPATH}", "OUTPATH", fanOutputPath.string());
             std::smatch match;
             std::string outputPathStr = fanOutputPath.string();
 
@@ -338,7 +343,7 @@ void createSensors(
 
             std::filesystem::path directory = fanOutputPath.parent_path();
             FanTypes fanType = getFanType(directory);
-            std::string cfgIntf = configInterfaceName(sensorTypes[fanType]);
+            std::string cfgIntf = "";
 
             // convert to 0 based
             size_t index = std::stoul(indexStr) - 1;
@@ -347,39 +352,71 @@ void createSensors(
             const SensorData* sensorData = nullptr;
             const std::string* interfacePath = nullptr;
             const SensorBaseConfiguration* baseConfiguration = nullptr;
+            lg2::error("CTS: About to loop over sensorConfigurations");
             for (const auto& [path, cfgData] : sensorConfigurations)
             {
-                // find the base of the configuration to see if indexes
-                // match
-                auto sensorBaseFind = cfgData.find(cfgIntf);
-                if (sensorBaseFind == cfgData.end())
+                lg2::error("CTS: About to loop over sensorConfigurations for path {PATH}", "PATH", path.str);
+                for (const FanConfigPair& fanElement : sensorTypes)
                 {
+                    lg2::error("CTS: about to check fanType");
+                    if (fanElement.type != fanType)
+                    {
+                        lg2::error("-CTS: fanElement.type: {FANE} != fanType: {FANT}", "FANE", fanElement.type, "FANT", fanType );
+                        continue;
+                    }
+                    lg2::error("+CTS: fanElement.type: {FANE} == fanType: {FANT}", "FANE", fanElement.type, "FANT", fanType);
+                    cfgIntf = configInterfaceName(fanElement.configName);
+                    lg2::error("+CTS: cfgIntf set to: {CFG}", "CFG", cfgIntf);
+                    auto sensorBaseFind = cfgData.find(cfgIntf);
+                    if (sensorBaseFind == cfgData.end())
+                    {
+                        lg2::error("-CTS: sensorBaseFind failed for {CFG}", "CFG", cfgIntf); //we're currently not getting past this point. I don't think it's related to the cooling_by stuff, but maybe...
+                        continue;
+                    }
+
+                    lg2::error("-CTS: about to set baseType to {BTYPE}", "BTYPE", fanElement.configName);
+                    baseType = fanElement.configName;
+                    baseConfiguration = &(*sensorBaseFind);
+                    auto findIndex =
+                        baseConfiguration->second.find("Index");
+                    lg2::error("-CTS: index check for Index");
+                    if (findIndex == baseConfiguration->second.end())
+                    {
+                        lg2::error("'{INTERFACE}' missing index",
+                                   "INTERFACE", baseConfiguration->first);
+
+                        continue;
+                    }
+                    unsigned int configIndex = std::visit(
+                        VariantToUnsignedIntVisitor(), findIndex->second);
+                    if (configIndex != index)
+                    {
+                        continue;
+                    }
+                    lg2::error("-CTS: IndexMatch found for Index {MATCH_NO}", "MATCH_NO", index);
+                    break;
+                }
+                if (baseType == nullptr || baseConfiguration == nullptr)
+                {
+                    if (baseType == nullptr)
+                        lg2::error("-CTS: baseType == nullptr. Exiting!");
+
+                    else if (baseConfiguration == nullptr)
+                        lg2::error("-CTS: baseConfiguration == nullptr. Exiting!");
+                    
                     continue;
                 }
 
-                baseConfiguration = &(*sensorBaseFind);
                 interfacePath = &path.str;
-                baseType = sensorTypes[fanType];
 
-                auto findIndex = baseConfiguration->second.find("Index");
-                if (findIndex == baseConfiguration->second.end())
+                lg2::error("-CTS: set interface path to {PATH}", "PATH", path.str);
+
+                if (fanType == FanTypes::BmcBuiltIn)
                 {
-                    lg2::error("'{INTERFACE}' missing index", "INTERFACE",
-                               baseConfiguration->first);
-                    continue;
-                }
-                unsigned int configIndex = std::visit(
-                    VariantToUnsignedIntVisitor(), findIndex->second);
-                if (configIndex != index)
-                {
-                    continue;
-                }
-                if (fanType == FanTypes::aspeed ||
-                    fanType == FanTypes::nuvoton || fanType == FanTypes::hpe)
-                {
-                    // there will be only 1 aspeed or nuvoton or hpe sensor
+                    // there will be only 1 'builtin' sensor
                     // object in sysfs, we found the fan
                     sensorData = &cfgData;
+                    lg2::error("-CTS: set sensorData for BmcBuiltIn");
                     break;
                 }
                 if (fanType == FanTypes::i2c)
@@ -425,7 +462,7 @@ void createSensors(
             }
 
             auto findSensorName = baseConfiguration->second.find("Name");
-
+            lg2::error("-CTS: sensorName found");
             if (findSensorName == baseConfiguration->second.end())
             {
                 lg2::error(
@@ -556,7 +593,7 @@ void createSensors(
                 }
             }
             std::optional<RedundancySensor>* redundancy = nullptr;
-            if (fanType == FanTypes::aspeed)
+            if (fanType == FanTypes::BmcBuiltIn)
             {
                 redundancy = &systemRedundancy;
             }
@@ -645,7 +682,7 @@ void createSensors(
                     }
                 }
             }
-
+            lg2::error("-CTS: about to findLimits");
             findLimits(limits, baseConfiguration);
 
             enableFanInput(fanOutputPath);
@@ -671,9 +708,16 @@ void createSensors(
 
         createRedundancySensor(tachSensors, dbusConnection, objectServer);
     });
-    getter->getConfiguration(
-        std::vector<std::string>{sensorTypes.begin(), sensorTypes.end()},
-        retries);
+    std::vector<std::string> types;
+    types.reserve(sensorTypes.size());
+    for (const FanConfigPair& typePair : sensorTypes)
+    {
+        lg2::error("types.emplace_back for getConfiguration, interface: {CONFIGNAME}", "CONFIGNAME", configInterfaceName(typePair.configName));
+        types.emplace_back(typePair.configName);
+    }
+
+    lg2::error("about to getConfiguration for types");
+    getter->getConfiguration(types, retries);
 }
 
 int main()
@@ -728,8 +772,18 @@ int main()
             });
         };
 
+    std::vector<const char*> types;
+    types.reserve(sensorTypes.size());
+    for (const FanConfigPair& typePair : sensorTypes)
+    {
+        lg2::error("types.emplace_back for setupPropertiesChangedMatches: {CONFIGNAME}", "CONFIGNAME", configInterfaceName(typePair.configName));
+        types.emplace_back(typePair.configName);
+    }
+
     std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
-        setupPropertiesChangedMatches(*systemBus, sensorTypes, eventHandler);
+        setupPropertiesChangedMatches(*systemBus, types, eventHandler);
+
+        lg2::error("-CTS: called setupPropertiesChangedMatches");
 
     // redundancy sensor
     std::function<void(sdbusplus::message_t&)> redundancyHandler =
