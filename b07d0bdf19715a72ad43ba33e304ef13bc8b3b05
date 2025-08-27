@@ -3,6 +3,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "76d319d1_2a94f01f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-08-27T22:09:00Z",
+      "side": 1,
+      "message": "You only need to resolve the CableDisconnected when Cable gets connected on that port. There is no resolution for CableConnected.",
+      "revId": "b07d0bdf19715a72ad43ba33e304ef13bc8b3b05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b9d7118_16e5763e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-08-27T22:09:00Z",
+      "side": 1,
+      "message": "What do you mean by \"CableConnected log that was not emitted\"?\n\nAt the beginning we don\u0027t send CableConnected logs if the cable are already connected. They are only sent in response to resolution for CableDisconnected errors.",
+      "revId": "b07d0bdf19715a72ad43ba33e304ef13bc8b3b05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4c4e3a9e_aaab72cf",
         "filename": "src/cable-monitor/CableEvents.cpp",
         "patchSetId": 17
@@ -44,6 +78,23 @@
         "endLine": 26,
         "endChar": 5
       },
+      "revId": "b07d0bdf19715a72ad43ba33e304ef13bc8b3b05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4769a23_37e283be",
+        "filename": "src/cable-monitor/CableEvents.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-08-27T22:09:00Z",
+      "side": 1,
+      "message": "Connected is a positive acknowledgement and an event (not error), so you don\u0027t need to resolve it.\n\nDisconnected is an error which will be resolved by Connected event.\n\nThats the reason we don\u0027t mark the connected as Pending. The current implemented logic is correct based on the event definition in https://github.com/openbmc/phosphor-dbus-interfaces/blob/master/yaml/xyz/openbmc_project/State/Cable.events.yaml",
       "revId": "b07d0bdf19715a72ad43ba33e304ef13bc8b3b05",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
