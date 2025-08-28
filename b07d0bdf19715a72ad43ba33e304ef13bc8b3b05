@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d30d685_15c174f2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002520
+      },
+      "writtenOn": "2025-08-28T10:47:18Z",
+      "side": 1,
+      "message": "Thanks for pointing it out. I misunderstood the resolved field in the log entry and thought it was an invalid flag in a positive log.",
+      "parentUuid": "76d319d1_2a94f01f",
+      "revId": "b07d0bdf19715a72ad43ba33e304ef13bc8b3b05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7b9d7118_16e5763e",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-08-27T22:09:00Z",
       "side": 1,
       "message": "What do you mean by \"CableConnected log that was not emitted\"?\n\nAt the beginning we don\u0027t send CableConnected logs if the cable are already connected. They are only sent in response to resolution for CableDisconnected errors.",
+      "revId": "b07d0bdf19715a72ad43ba33e304ef13bc8b3b05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f17dbac_acba86b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002520
+      },
+      "writtenOn": "2025-08-28T10:47:18Z",
+      "side": 1,
+      "message": "I think I misunderstood the design of cable-monitor, since our ventura-phosphor-multi-gpio-monitor.json recorded positive events instead of negative ones.\nSo I wondered why this did not emit a positive event log, which is why I submitted this PR.",
+      "parentUuid": "7b9d7118_16e5763e",
       "revId": "b07d0bdf19715a72ad43ba33e304ef13bc8b3b05",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -95,6 +131,24 @@
       "writtenOn": "2025-08-27T22:09:00Z",
       "side": 1,
       "message": "Connected is a positive acknowledgement and an event (not error), so you don\u0027t need to resolve it.\n\nDisconnected is an error which will be resolved by Connected event.\n\nThats the reason we don\u0027t mark the connected as Pending. The current implemented logic is correct based on the event definition in https://github.com/openbmc/phosphor-dbus-interfaces/blob/master/yaml/xyz/openbmc_project/State/Cable.events.yaml",
+      "revId": "b07d0bdf19715a72ad43ba33e304ef13bc8b3b05",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "feb0754a_6a2ce1c1",
+        "filename": "src/cable-monitor/CableEvents.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1002520
+      },
+      "writtenOn": "2025-08-28T10:47:18Z",
+      "side": 1,
+      "message": "Thanks for the detailed explanation. I now understand CableConnected logs are only for resolving CableDisconnected errors. If there’s no need to log positive events in the future (like we did with gpio-monitor on Ventura), then this PR should be abandoned.",
+      "parentUuid": "e4769a23_37e283be",
       "revId": "b07d0bdf19715a72ad43ba33e304ef13bc8b3b05",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
