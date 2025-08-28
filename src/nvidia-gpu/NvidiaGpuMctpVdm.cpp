@@ -11,6 +11,7 @@
 #include <endian.h>
 
 #include <cerrno>
+#include <cstddef>
 #include <cstdint>
 #include <span>
 #include <vector>
@@ -490,5 +491,89 @@ int decodeGetInventoryInformationResponse(
     return 0;
 }
 
+int encodeQueryScalarGroupTelemetryV2Request(
+    uint8_t instanceId, PciePortType portType, uint8_t upstreamPortNumber,
+    uint8_t portNumber, uint8_t groupId, std::span<uint8_t> buf)
+{
+    if (buf.size() < sizeof(QueryScalarGroupTelemetryV2Request))
+    {
+        return EINVAL;
+    }
+
+    auto* msg =
+        reinterpret_cast<QueryScalarGroupTelemetryV2Request*>(buf.data());
+
+    ocp::accelerator_management::BindingPciVidInfo header{};
+    header.ocp_accelerator_management_msg_type =
+        static_cast<uint8_t>(ocp::accelerator_management::MessageType::REQUEST);
+    header.instance_id = instanceId &
+                         ocp::accelerator_management::instanceIdBitMask;
+    header.msg_type = static_cast<uint8_t>(MessageType::PCIE_LINK);
+
+    auto rc = packHeader(header, msg->hdr.msgHdr.hdr);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    msg->hdr.command =
+        static_cast<uint8_t>(PcieLinkCommands::QueryScalarGroupTelemetryV2);
+    msg->hdr.data_size = 3;
+    msg->upstreamPortNumber =
+        (static_cast<uint8_t>(portType) << 7) | (upstreamPortNumber & 0x7F);
+    msg->portNumber = portNumber;
+    msg->groupId = groupId;
+
+    return 0;
+}
+
+int decodeQueryScalarGroupTelemetryV2Response(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    size_t& numTelemetryValues, std::vector<uint32_t>& telemetryValues)
+{
+    auto rc =
+        ocp::accelerator_management::decodeReasonCodeAndCC(buf, cc, reasonCode);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    if (buf.size() < sizeof(ocp::accelerator_management::CommonResponse))
+    {
+        return EINVAL;
+    }
+
+    const auto* response =
+        reinterpret_cast<const ocp::accelerator_management::CommonResponse*>(
+            buf.data());
+
+    const uint16_t dataSize = le16toh(response->data_size);
+
+    if (buf.size() <
+        dataSize + sizeof(ocp::accelerator_management::CommonResponse))
+    {
+        return EINVAL;
+    }
+
+    numTelemetryValues = dataSize / sizeof(uint32_t);
+
+    if (telemetryValues.size() < numTelemetryValues)
+    {
+        telemetryValues.resize(numTelemetryValues);
+    }
+
+    const auto* telemetryDataPtr = reinterpret_cast<const uint32_t*>(
+        buf.data() + sizeof(ocp::accelerator_management::CommonResponse));
+
+    for (size_t i = 0; i < numTelemetryValues; i++)
+    {
+        telemetryValues[i] = le32toh(telemetryDataPtr[i]);
+    }
+
+    return 0;
+}
 // NOLINTEND(cppcoreguidelines-pro-type-reinterpret-cast)
 } // namespace gpu
