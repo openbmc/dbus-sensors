@@ -25,10 +25,12 @@ struct SensorConfigs
 {
     std::string name;
     uint64_t pollRate{};
+    std::string fabricName;
 };
 
 class GpuDevice;
 class SmaDevice;
+class PcieDevice;
 
 void createSensors(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
@@ -36,6 +38,8 @@ void createSensors(
         gpuDevices,
     boost::container::flat_map<std::string, std::shared_ptr<SmaDevice>>&
         smaDevices,
+    boost::container::flat_map<std::string, std::shared_ptr<PcieDevice>>&
+        pcieDevices,
     const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     mctp::MctpRequester& mctpRequester);
 
@@ -44,4 +48,6 @@ void interfaceRemoved(
     boost::container::flat_map<std::string, std::shared_ptr<GpuDevice>>&
         gpuDevices,
     boost::container::flat_map<std::string, std::shared_ptr<SmaDevice>>&
-        smaDevices);
+        smaDevices,
+    boost::container::flat_map<std::string, std::shared_ptr<PcieDevice>>&
+        pcieDevices);
