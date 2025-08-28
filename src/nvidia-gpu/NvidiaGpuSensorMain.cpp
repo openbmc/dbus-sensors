@@ -7,6 +7,7 @@
 #include "Utils.hpp"
 
 #include <NvidiaDeviceDiscovery.hpp>
+#include <NvidiaPcieDevice.hpp>
 #include <NvidiaSmaDevice.hpp>
 #include <boost/asio/error.hpp>
 #include <boost/asio/io_context.hpp>
@@ -31,6 +32,8 @@
 
 boost::container::flat_map<std::string, std::shared_ptr<GpuDevice>> gpuDevices;
 boost::container::flat_map<std::string, std::shared_ptr<SmaDevice>> smaDevices;
+boost::container::flat_map<std::string, std::shared_ptr<PcieDevice>>
+    pcieDevices;
 
 void configTimerExpiryCallback(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
@@ -41,8 +44,8 @@ void configTimerExpiryCallback(
     {
         return; // we're being canceled
     }
-    createSensors(io, objectServer, gpuDevices, smaDevices, dbusConnection,
-                  mctpRequester);
+    createSensors(io, objectServer, gpuDevices, smaDevices, pcieDevices,
+                  dbusConnection, mctpRequester);
 }
 
 int main()
@@ -57,8 +60,8 @@ int main()
     mctp::MctpRequester mctpRequester(io);
 
     boost::asio::post(io, [&]() {
-        createSensors(io, objectServer, gpuDevices, smaDevices, systemBus,
-                      mctpRequester);
+        createSensors(io, objectServer, gpuDevices, smaDevices, pcieDevices,
+                      systemBus, mctpRequester);
     });
 
     boost::asio::steady_timer configTimer(io);
@@ -84,7 +87,7 @@ int main()
         sdbusplus::bus::match::rules::interfacesRemovedAtPath(
             std::string(inventoryPath)),
         [](sdbusplus::message_t& msg) {
-            interfaceRemoved(msg, gpuDevices, smaDevices);
+            interfaceRemoved(msg, gpuDevices, smaDevices, pcieDevices);
         });
 
     try
