@@ -26,6 +26,7 @@ constexpr uint16_t nvidiaPciVendorId = 0x10de;
 enum class MessageType : uint8_t
 {
     DEVICE_CAPABILITY_DISCOVERY = 0,
+    PCIE_LINK = 2,
     PLATFORM_ENVIRONMENTAL = 3
 };
 
@@ -45,9 +46,15 @@ enum class PlatformEnvironmentalCommands : uint8_t
     GET_VOLTAGE = 0x0F,
 };
 
+enum class PcieLinkCommands : uint8_t
+{
+    QueryScalarGroupTelemetryV2 = 0x24,
+};
+
 enum class DeviceIdentification : uint8_t
 {
     DEVICE_GPU = 0,
+    DEVICE_PCIE = 2,
     DEVICE_SMA = 5
 };
 
@@ -92,6 +99,12 @@ enum class InventoryPropertyId : uint8_t
     NVLINK_PEER_TYPE = 36
 };
 
+enum class PciePortType : uint8_t
+{
+    UPSTREAM = 0,
+    DOWNSTREAM = 1,
+};
+
 struct QueryDeviceIdentificationRequest
 {
     ocp::accelerator_management::CommonRequest hdr;
@@ -124,6 +137,14 @@ struct GetPowerDrawRequest
 using GetCurrentEnergyCounterRequest = GetNumericSensorReadingRequest;
 
 using GetVoltageRequest = GetNumericSensorReadingRequest;
+
+struct QueryScalarGroupTelemetryV2Request
+{
+    ocp::accelerator_management::CommonRequest hdr;
+    uint8_t upstreamPortNumber;
+    uint8_t portNumber;
+    uint8_t groupId;
+} __attribute__((packed));
 
 struct GetTemperatureReadingResponse
 {
@@ -224,5 +245,14 @@ int decodeGetInventoryInformationResponse(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     InventoryPropertyId propertyId, InventoryValue& value);
+
+int encodeQueryScalarGroupTelemetryV2Request(
+    uint8_t instanceId, PciePortType portType, uint8_t upstreamPortNumber,
+    uint8_t portNumber, uint8_t groupId, std::span<uint8_t> buf);
+
+int decodeQueryScalarGroupTelemetryV2Response(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    size_t& numTelemetryValues, std::vector<uint32_t>& telemetryValues);
 
 } // namespace gpu
