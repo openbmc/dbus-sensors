@@ -10,6 +10,8 @@ gpusensor_sources = files(
     'NvidiaGpuSensor.cpp',
     'NvidiaGpuThresholds.cpp',
     'NvidiaGpuVoltageSensor.cpp',
+    'NvidiaPcieDevice.cpp',
+    'NvidiaPcieInterface.cpp',
     'NvidiaSmaDevice.cpp',
     'OcpMctpVdm.cpp',
 )
