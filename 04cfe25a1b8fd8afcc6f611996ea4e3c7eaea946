@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c514c26_34422e83",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-08-29T21:57:19Z",
+      "side": 1,
+      "message": "As I understand it, before this PR ,IntelCPU has been reading a GPIO pin for CPU presence (optiona) and effectively discarding the value.\n\nThis saves the result of the GPIO read to the CPUConfig object that\u0027s created for each EntityManager CPU stanza so it can be referenced later -- like when deciding if we need to scan an empty CPU slot or not.",
+      "revId": "04cfe25a1b8fd8afcc6f611996ea4e3c7eaea946",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "891059a6_40011158",
+        "filename": "src/intel-cpu/IntelCPUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-08-29T21:57:19Z",
+      "side": 1,
+      "message": "When creating a CPUConfig object, we\u0027re already (optionally) doing a GPIO pin read to determine expected CPU slot population.\n\nPreviously we were tossing the value out, but now we save that info, and can use it to skip unnecessary scanning of known-empty CPU slots.",
+      "revId": "04cfe25a1b8fd8afcc6f611996ea4e3c7eaea946",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6beb551e_a5ad154c",
+        "filename": "src/intel-cpu/IntelCPUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-08-29T21:57:19Z",
+      "side": 1,
+      "message": "adding a config.present check here allows us to skip further scanning of a slot (which triggers PECI sys log messages) for a slot flagged as not-present (generally via a GPIO pin check defined in the Entity Manager CPU stanza)",
+      "revId": "04cfe25a1b8fd8afcc6f611996ea4e3c7eaea946",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e23bbd9c_b122da00",
+        "filename": "src/intel-cpu/IntelCPUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 796,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-08-29T21:57:19Z",
+      "side": 1,
+      "message": "tracking CPU \u0027presence\u0027 (based on GPIO pin reads) in cpuConfigs allows us to tell if a given CPU slot (as called out in an Entity-Manager stanza) is expected to be empty.\n\nThis can help us avoid doing things like repeatedly trying to check an empty slot to see if it\u0027s been populated and flooding syslog with PECI status messages.",
+      "revId": "04cfe25a1b8fd8afcc6f611996ea4e3c7eaea946",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
