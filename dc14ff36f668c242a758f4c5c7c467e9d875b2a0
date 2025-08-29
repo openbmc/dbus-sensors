@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65985eeb_c5424145",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-08-29T21:04:35Z",
+      "side": 1,
+      "message": "This PR should now only include changes that clean up FanSensor handling for everyone without actually affecting any fan functionality.\n\nA child PR to this one adds the logic change required to support Tachless fan sensors in just a few lines -- but I thought it would easier to review if I kept this first part as free as possible of logic changes.\n\nAnd a child PR to *that* aims to depreciate the need for distinguishing between non-i2c fans like AspeedFan or HpeFan. Based on ideas \u0026 code Ed T had worked on previous.\n\nI\u0027ll probably be pushing on this more next week on Discord :)",
+      "revId": "dc14ff36f668c242a758f4c5c7c467e9d875b2a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a9b7564_d6a5aeec",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-08-29T21:04:35Z",
+      "side": 1,
+      "message": "Used at the start of the \": fanOutputPaths\" loop to identify hwmon sub-directories with fan-associated nodes inside.\n\nThis change allows us to start scanning from file \u0027hwmon/pwmN\u0027 (all hwmon-controllable fans should have this) instead of from \u0027fanN_input\u0027 (not all fans expose this).\n\nString manipulation logic has been adjusted accordingly, and all objects are ultimately being passed the same paths as before -- it\u0027s should be easier to follow the code now.",
+      "revId": "dc14ff36f668c242a758f4c5c7c467e9d875b2a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "137b2a2d_dab9a39c",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-08-29T21:04:35Z",
+      "side": 1,
+      "message": "instead of path manipulation going from fanN_input -\u003e fanN_enable, we now go from pwmN -\u003e fanN_enable\n\nDoes not affect fan functionality.",
+      "revId": "dc14ff36f668c242a758f4c5c7c467e9d875b2a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3efb3bc1_15c63513",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-08-29T21:04:35Z",
+      "side": 1,
+      "message": "Handles path string manipulation from hwmon/pwmN -\u003e hwmon/fanN_input.\n\nNeeded so we can continue to pass the usual \u0027fanN_input\u0027 path(s) for TachSensor object init.\n\nNo changes to any fan functions expected as a result of this change.",
+      "revId": "dc14ff36f668c242a758f4c5c7c467e9d875b2a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "472b4d7e_22dd9501",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-08-29T21:04:35Z",
+      "side": 1,
+      "message": "I thought this new statement made more sense since we\u0027re starting our checks from a fan control/output path (pwmN) now.",
+      "revId": "dc14ff36f668c242a758f4c5c7c467e9d875b2a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68e95c78_8a5c8c11",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-08-29T21:04:35Z",
+      "side": 1,
+      "message": "the modified regex from above is now used to match an output path (pwmN) instead of starting from an input path (fanN_input)",
+      "revId": "dc14ff36f668c242a758f4c5c7c467e9d875b2a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d77011f0_27d2a0e8",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 642,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-08-29T21:04:35Z",
+      "side": 1,
+      "message": "we still want a fan sensor input path in the end to pass to TachSensor init, so we get it here.",
+      "revId": "dc14ff36f668c242a758f4c5c7c467e9d875b2a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
