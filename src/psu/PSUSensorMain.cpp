@@ -526,6 +526,7 @@ static void createSensorsCallback(
         checkGroupEvent(directory.string(), groupEventPathList);
 
         PowerState readState = getPowerState(*baseConfig);
+        size_t readSlot = getSlotId(*baseConfig);
 
         /* Check if there are more sensors in the same interface */
         int i = 1;
@@ -1162,7 +1163,7 @@ void propertyInitialize()
 }
 
 static void powerStateChanged(
-    PowerState type, bool newState,
+    PowerState type, bool newState, size_t slotId,
     boost::container::flat_map<std::string, std::shared_ptr<PSUSensor>>&
         sensors,
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
@@ -1178,7 +1179,11 @@ static void powerStateChanged(
         {
             if (sensor != nullptr && sensor->readState == type)
             {
-                sensor->deactivate();
+                if ((slotId == sensor->slotId) &&
+                    (type == PowerState::chassisOn))
+                {
+                    sensor->deactivate();
+                }
             }
         }
     }
@@ -1199,8 +1204,8 @@ int main()
     propertyInitialize();
 
     auto powerCallBack = [&io, &objectServer,
-                          &systemBus](PowerState type, bool state) {
-        powerStateChanged(type, state, sensors, io, objectServer, systemBus);
+                          &systemBus](PowerState type, bool state, size_t slotId) {
+        powerStateChanged(type, state, sensors, slotId io, objectServer, systemBus);
     };
 
     setupPowerMatchCallback(systemBus, powerCallBack);
