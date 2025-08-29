@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bd4e304_d0a12a15",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 27
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002229
+      },
+      "writtenOn": "2025-08-29T17:18:00Z",
+      "side": 1,
+      "message": "The change has been rebased to the latest revision and is now up to date. I would appreciate it if you could review at your convenience. Thank you.",
+      "revId": "ede895b99675e9a819cb9143d5900d3f0d7c12ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

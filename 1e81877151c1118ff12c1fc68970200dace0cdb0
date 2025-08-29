@@ -106,6 +106,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6cfca6ad_998803ae",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1002229
+      },
+      "writtenOn": "2025-08-29T17:18:00Z",
+      "side": 1,
+      "message": "Hi @ed@tanous.net,\n\nThanks for the review. I understand the concern about moving from a singleton to multi-instance state. To make sure I’m aligned with your intent, here’s my understanding of the power/chassis/POST state related variables:\n\n1.These are system-level (process-wide) states, not sensor-specific.\n\n2,Multiple sensors (PSU/CPU/Hwmon/Fan) consume this state; none of them “own” it.\nThe state is owned/managed by the system/BMC; sensors are readers of that global state.\n\n3.Global accessibility is intentional — for example, an isPowerOn()-style query may be needed from many places.\n\n4.Moving from single-slot to multi-slot changes the cardinality but not the ownership nature (we’re tracking multiple systems, not changing who owns the state).\n\nCould you confirm if this matches what you had in mind? If so, do you still prefer these to be wrapped in a class (instead of raw globals)? If yes, any guidance on ownership/lifecycle would be very helpful (e.g., per-daemon shared instance vs. per-sensor instance, and where initialization should happen). I’ll follow your recommendation and update the patch accordingly. Thank you very much.",
+      "parentUuid": "ca5e2a59_edcf2ddd",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 0
+      },
+      "revId": "1e81877151c1118ff12c1fc68970200dace0cdb0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0297921c_652fbcb1",
         "filename": "src/Utils.cpp",
         "patchSetId": 26
@@ -117,6 +141,30 @@
       "writtenOn": "2024-12-02T23:55:32Z",
       "side": 1,
       "message": "nit, use std::format here.",
+      "range": {
+        "startLine": 313,
+        "startChar": 0,
+        "endLine": 313,
+        "endChar": 60
+      },
+      "revId": "1e81877151c1118ff12c1fc68970200dace0cdb0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "496bb398_0c462370",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1002229
+      },
+      "writtenOn": "2025-08-29T17:18:00Z",
+      "side": 1,
+      "message": "Fixed in patch27",
+      "parentUuid": "0297921c_652fbcb1",
       "range": {
         "startLine": 313,
         "startChar": 0,
@@ -140,6 +188,30 @@
       "writtenOn": "2024-12-02T23:55:32Z",
       "side": 1,
       "message": "Pass size_t by value.  Many other cases need fixed as well.",
+      "range": {
+        "startLine": 328,
+        "startChar": 23,
+        "endLine": 328,
+        "endChar": 29
+      },
+      "revId": "1e81877151c1118ff12c1fc68970200dace0cdb0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a86f5d7c_6b031b86",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1002229
+      },
+      "writtenOn": "2025-08-29T17:18:00Z",
+      "side": 1,
+      "message": "Fixed in patch27",
+      "parentUuid": "f5b6a0dd_3fda48f7",
       "range": {
         "startLine": 328,
         "startChar": 23,
@@ -198,6 +270,54 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9072b87c_35e5dfed",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 1002229
+      },
+      "writtenOn": "2025-08-29T17:18:00Z",
+      "side": 1,
+      "message": "Fixed in patch27.\nPer your recommendation, I have updated the code to use std::from_chars and included robust error handling to prevent exceptions. Kindly let me know if anything else is needed.",
+      "parentUuid": "871d657f_6a34c2f9",
+      "range": {
+        "startLine": 535,
+        "startChar": 12,
+        "endLine": 535,
+        "endChar": 21
+      },
+      "revId": "1e81877151c1118ff12c1fc68970200dace0cdb0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e0b5f54_85e43cb3",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 1002229
+      },
+      "writtenOn": "2025-08-29T17:18:00Z",
+      "side": 1,
+      "message": "Fixed in patch27",
+      "parentUuid": "9bf2f7f6_54c7ab2e",
+      "range": {
+        "startLine": 534,
+        "startChar": 0,
+        "endLine": 535,
+        "endChar": 67
+      },
+      "revId": "1e81877151c1118ff12c1fc68970200dace0cdb0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2b92a07e_faa07439",
         "filename": "src/Utils.cpp",
         "patchSetId": 26
@@ -244,6 +364,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5b7189ec_d8d1da03",
+        "filename": "src/Utils.hpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1002229
+      },
+      "writtenOn": "2025-08-29T17:18:00Z",
+      "side": 1,
+      "message": "Fixed in patch27",
+      "parentUuid": "b7dfdaea_083d77a6",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 43
+      },
+      "revId": "1e81877151c1118ff12c1fc68970200dace0cdb0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3ba9b415_292e6ef6",
         "filename": "src/psu/PSUSensor.hpp",
         "patchSetId": 26
@@ -255,6 +399,30 @@
       "writtenOn": "2024-12-02T22:26:13Z",
       "side": 1,
       "message": "Why use reference here? this can be just pass by value IMO",
+      "range": {
+        "startLine": 29,
+        "startChar": 14,
+        "endLine": 29,
+        "endChar": 34
+      },
+      "revId": "1e81877151c1118ff12c1fc68970200dace0cdb0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f190ef1b_abe165c4",
+        "filename": "src/psu/PSUSensor.hpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1002229
+      },
+      "writtenOn": "2025-08-29T17:18:00Z",
+      "side": 1,
+      "message": "Fixed in patch27",
+      "parentUuid": "3ba9b415_292e6ef6",
       "range": {
         "startLine": 29,
         "startChar": 14,
