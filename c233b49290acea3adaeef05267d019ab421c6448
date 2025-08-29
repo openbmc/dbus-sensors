@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "185f7da8_475c38c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-08-29T20:26:20Z",
+      "side": 1,
+      "message": "I decided to split out the (admittedly simple) support for tachless fans into a separate PR @ 83209: fan path disambiguation+ | https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/83209\n\nin hopes it\u0027ll be easier to get reviewers to review stuff if I can truthfully advertise on discord as \"there\u0027s no functional changes happening in this code, it could all be classified as logical tidying up\" :)\n\nThis PR now *only* includes the functional change needed for tachless fan support.",
+      "revId": "c233b49290acea3adaeef05267d019ab421c6448",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "063a6c01_f9164358",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-08-29T20:26:20Z",
+      "side": 1,
+      "message": "If the output path fanN_input exists, then it\u0027s a standard fan, so return the fanN_input path.\n\nIF the file doesn\u0027t exist, it\u0027s a tachless fan, and TachSensor can be passed the \u0027pwmN\u0027 path to be used as a kind of \u0027virtual tachSensor\u0027 by phosphor-pid-control.\n\nNo other logical changes required for basic tachless fan support.",
+      "revId": "c233b49290acea3adaeef05267d019ab421c6448",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
