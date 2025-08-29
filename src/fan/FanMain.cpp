@@ -198,11 +198,12 @@ bool findPwmPath(const std::filesystem::path& directory, unsigned int pwm,
     return true;
 }
 
-// The argument to this function should be the fanN_input file that we want to
+// The argument to this function should be the pwmN file with index 'N' that
+// matches the index of the fanN_enable file to
 // enable. The function will locate the corresponding fanN_enable file if it
 // exists. Note that some drivers don't provide this file if the sensors are
 // always enabled.
-void enableFanInput(const std::filesystem::path& fanInputPath)
+void enableFanInput(const std::filesystem::path& fanOutputPath)
 {
     std::error_code ec;
     std::string path(fanInputPath.string());
@@ -220,6 +221,24 @@ void enableFanInput(const std::filesystem::path& fanInputPath)
         return;
     }
     enableFile << 1;
+}
+
+// Takes a pwmN filepath as a parameter
+// returns 'fanN_input' path
+std::filesystem::path getFanInputPath(
+    const std::filesystem::path& fanOutputPath)
+{
+    std::string path(fanOutputPath.string());
+    boost::replace_last(path, "pwm", "fan"); // look for fanN_input
+    path += "_input";
+    std::filesystem::path fanInputPath(path);
+
+    if (std::filesystem::exists(fanInputPath))
+    {
+        return fanInputPath;
+    }
+
+    return fanOutputPath;
 }
 
 void createRedundancySensor(
@@ -322,7 +341,7 @@ void createSensors(
             const SensorData* sensorData = nullptr;
             const std::string* interfacePath = nullptr;
             const SensorBaseConfiguration* baseConfiguration = nullptr;
-            for (const auto& [path, cfgData] : sensorConfigurations)
+            for (const auto& [intfPath, cfgData] : sensorConfigurations)
             {
                 // find the base of the configuration to see if indexes
                 // match
@@ -333,7 +352,7 @@ void createSensors(
                 }
 
                 baseConfiguration = &(*sensorBaseFind);
-                interfacePath = &path.str;
+                interfacePath = &intfPath.str;
                 baseType = sensorTypes[fanType];
 
                 auto findIndex = baseConfiguration->second.find("Index");
