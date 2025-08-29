@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb729aed_50e52c71",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-08-29T16:21:15Z",
+      "side": 1,
+      "message": "I\u0027m probably going to add more comments later around the main sensorTypes loop added in this PR -- but I think this should be a good start to explaining things.",
+      "revId": "8f27164d6532847d57ae17a3ee0ddb3efdb65aaf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e0e46c1_0cb8bf34",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-08-29T16:21:15Z",
+      "side": 1,
+      "message": "The logic below no longer relies on",
+      "revId": "8f27164d6532847d57ae17a3ee0ddb3efdb65aaf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0a8b315_93c84505",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-08-29T16:21:15Z",
+      "side": 1,
+      "message": "GenericFan?\n\nIf we wanted, it should be simple to add an entry for string \u0027GenericFan\u0027 and have future EMConfigs use that \u0027type\u0027 to call out fan stanzas. \n\nExisting Fan Types would continue to work, but could also be seemlessly swapped out in existing EMConfigs.\n\nCould be turned into a new Gerrit PR for further discussion if folks particularly like the sound of that... (comment here to vote on that :)",
+      "revId": "8f27164d6532847d57ae17a3ee0ddb3efdb65aaf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7766d8ea_d47dc5fb",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-08-29T16:21:15Z",
+      "side": 1,
+      "message": "the indexVal check allows us to know if the new sensorTypes loop ended without making an hwmon pwm index -\u003e Entity-Manager fan index match first. \n\nThis mean the fan record (SensorConfiguration object) being scanned didn\u0027t have an index # (as called out in the Entity-Manager fan stanza) that matches against the index # of the fanOutputPath (ie ../hwmon0/pwm1\u0027). In that case, move onto the nexst SensorObject and do the same checks.\n\nWe need an index match to continue the rest of the process.",
+      "revId": "8f27164d6532847d57ae17a3ee0ddb3efdb65aaf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15a48e6e_87ee0b48",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-08-29T16:21:15Z",
+      "side": 1,
+      "message": "Adjusts for the new sensorTypes array contents, but logic is the same as before.",
+      "revId": "8f27164d6532847d57ae17a3ee0ddb3efdb65aaf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef83b38a_ebe427ff",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 761,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-08-29T16:21:15Z",
+      "side": 1,
+      "message": "Adjusts for the new sensorTypes array contents, but logic is the same as before.",
+      "revId": "8f27164d6532847d57ae17a3ee0ddb3efdb65aaf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

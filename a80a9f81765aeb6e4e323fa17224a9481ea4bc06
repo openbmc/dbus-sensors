@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54235f26_bfce1b1f",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-08-29T16:21:15Z",
+      "side": 0,
+      "message": "sensorTypes is redefined below as an array populated by FanConfigPair structs -- which store these strings as \u0027configName\u0027 \n\nReferences to sensorTypes have all been updated accordingly.",
+      "revId": "a80a9f81765aeb6e4e323fa17224a9481ea4bc06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6096f5c_60193ae6",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-08-29T16:21:15Z",
+      "side": 0,
+      "message": "static_assert below is no longer needed because the arrays no longer need to be synced.",
+      "revId": "a80a9f81765aeb6e4e323fa17224a9481ea4bc06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d2d1725_d432772d",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-08-29T16:21:15Z",
+      "side": 0,
+      "message": "Fan logic in the daemon below no longer needs to distinguish between specific non-i2c fan types -- so we\u0027ve replaced those FanType entries above with FanType::BmcBuiltIt",
+      "revId": "a80a9f81765aeb6e4e323fa17224a9481ea4bc06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1e3815e_6bd5e889",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-08-29T16:21:15Z",
+      "side": 0,
+      "message": "cfgIntf is now set inside a nested loop that cycles through each fanType.\n\nReasoning:\n\nAs we loop through all the SensorConfiguration objects passed into this callback, we know they\u0027re all fan sensor records, but we don\u0027t know which type -- AspedFan, NuvotonFan, HPEFan, I2CFan ect.\n\na vital \u0027sensorBase\u0027 lookup currently works by querying for a specific configuration interface (xyz.openbmc_project.Configuration.Aspeedfan or .HPEFan, ect.) \n\nSetting cfgIntf inside the new loop ensures we\u0027ll keep querying for the sensorBase with each valid fan interface type until we find the handle we want from the SensorConfig object.\n\n-------------\n\nA future improvement might be to try and find sensorBase without doing the lookup via interface type, but I\u0027m not sure it would save that many cycles with the short (and unlikely to grow, after this improvement) list of valid fan type strings to watch for -- but I\u0027m not sure how that would work yet (see the \n\n\u003eauto sensorBaseFind \u003d cfgData.find(cfgIntf);\n\ncall around line 366 for the lookup in question.",
+      "revId": "a80a9f81765aeb6e4e323fa17224a9481ea4bc06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fa78f9d_a9f5eee8",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-08-29T16:21:15Z",
+      "side": 0,
+      "message": "The \u0027red\u0027 code (logic) here is virtually unchanged, except it\u0027s moved into the SensorsType loop. \n\nThis doesn\u0027t change overall behavior because the SensorsTypes loop will only get to this point when we\u0027ve already found the appropriate interface matches to run through the entire process once per valid record match.",
+      "revId": "a80a9f81765aeb6e4e323fa17224a9481ea4bc06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
