@@ -16,6 +16,24 @@
       "message": "Tachless fan support in the relationship chain is not required for this code, but basing it on that makes it easy to test this out on HPE hardware.\n\nCurrently, I\u0027m thinking I\u0027m going to split the \u0027tachless fan support\u0027 PR into 2 smaller, but logically separated PRs -- one with the HPE-specific changes, and one that only includes code that should make FanSensor more readable for anyone without affecting any underlying logic (beyond expected starting points for string manipulations).\n\nI\u0027m thinking I might promote this PR and that upcoming \u0027not-HPE specific\u0027 one at being FanSensor fixup without in-depth understanding required -- which would also make it easier to get the HPE-specific (specific tachless fan support) included on top of it all later.",
       "revId": "c214080e3fdf40ccdf0ad8efada835d7871256e8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28c6ffcd_7f07076c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-08-29T22:11:13Z",
+      "side": 1,
+      "message": "Done.\n\nThe (non-critical) parent PRs for this gerrit are now split into:\n\n83209: fan path disambiguation+ | https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/83209 \n\n82362: tachless fan support | https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/82362",
+      "parentUuid": "c2fbcb53_1dd645c4",
+      "revId": "c214080e3fdf40ccdf0ad8efada835d7871256e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
