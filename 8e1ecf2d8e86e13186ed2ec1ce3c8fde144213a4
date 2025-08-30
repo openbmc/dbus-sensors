@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "680d45d6_95da924a",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-08-30T15:37:03Z",
+      "side": 1,
+      "message": "we loop over a list of possible sensorTypes to discover which one the current sensorConfiguration object contains.\n\nOnce a match is found (setting sensorBase and matching the index), this loop will exit, and sensor creation steps will continue like normal.",
+      "revId": "8e1ecf2d8e86e13186ed2ec1ce3c8fde144213a4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
