@@ -18,6 +18,23 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "91905919_0f00cbb3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-08-30T14:12:21Z",
+      "side": 1,
+      "message": "Added some additional commentary around some usages of \u0027pwm\u0027 and \u0027pwmPath\u0027 that are *not* affected by the fanN_input -\u003e pwmN change here.\n\nJust looking to cover some bases on why some changes were made (or not made).",
+      "revId": "dc14ff36f668c242a758f4c5c7c467e9d875b2a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a9b7564_d6a5aeec",
@@ -105,6 +122,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8cee8245_343f483c",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-08-30T14:12:21Z",
+      "side": 1,
+      "message": "This is a sanity check whose logic is not affected by the hwmon/fanN_input -\u003e hwmon/pwmN changeover.\n\nIt essentially checks \"does the sensorConfiguration (Entity-Manager config fan record) path have a pwmN index that matches a hwmon/pwmN node that exists? If no, skip to next record.\n\nThe result of the sanity check is later used to handle for fans with pwm control, but no \u0027pwm sensor\u0027 offered.\n\nIt\u0027s likely I could simplify the logic if this PR is accepted, but it\u0027d be a separate PR for discussion, since it may end up adjusting more than just simple string/path logic.",
+      "revId": "dc14ff36f668c242a758f4c5c7c467e9d875b2a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d77011f0_27d2a0e8",
         "filename": "src/fan/FanMain.cpp",
         "patchSetId": 4
@@ -116,6 +150,23 @@
       "writtenOn": "2025-08-29T21:04:35Z",
       "side": 1,
       "message": "we still want a fan sensor input path in the end to pass to TachSensor init, so we get it here.",
+      "revId": "dc14ff36f668c242a758f4c5c7c467e9d875b2a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd353c6e_b2405ec4",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-08-30T14:12:21Z",
+      "side": 1,
+      "message": "The \u0027pwmPath\u0027 logic below is not affected by the changeover to starting from path hwmon/pwmN instead of hwmon/fanN_input.\n\nMy understanding is  that this handles cases where Entity-Manager config records defined info for fan pwm control, but not pwm sensor info for lookup.\n\nI suspect the logic could be simplified here, but as it\u0027s a parallel hwmon/pwmN lookup that uses the result in interesting ways, I\u0027ll see if this PR is successful before trying to touch up the (ain\u0027t broke) logic there.",
       "revId": "dc14ff36f668c242a758f4c5c7c467e9d875b2a0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
