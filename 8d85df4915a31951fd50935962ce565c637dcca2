@@ -98,6 +98,54 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b0d03a81_489771c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-08-30T14:49:13Z",
+      "side": 1,
+      "message": "Looking over the code here again, I think I see what Ed\u0027s getting at -- \n\nIf we only have a handful of supported ACDSensors",
+      "parentUuid": "d9287ee2_cedb68b7",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 2
+      },
+      "revId": "8d85df4915a31951fd50935962ce565c637dcca2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae2d12ec_b3da8df0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-08-30T14:49:13Z",
+      "side": 1,
+      "message": "As I understand it, this PR would add the option for defining min/max values (that would need some calculations I don\u0027t understand applied) at the entity-manager config level for ADCsensor stanzas.\n\n-- but leaving Min/Max blank would still continue on with today\u0027s behavior as the default.\n\nThis seems like an improvement to me, even if the ideal option would have the ADCSensor daemon recognize \"oh hey, it\u0027s this type of ADC\" and set the correct min/max automatically -- I\u0027m not too sure how that would look, since I don\u0027t see compatible string lookups happening in there like I\u0027m used to seeing in FanSensor cod I\u0027ve been digging in...\n\nMaybe it\u0027d be as simple as adding a compatible string lookup, and matching against a list of known ADC compatible strings and setting a max value there?\n\nA little more complicated, but would save folks the trouble of having to calculate/pass around numbers for the same pieces of HW and plug them into every EntityManager stanza making use of that HW.\n\nI wonder if starting that as a separate PR for discussion could be worthwhile re: letting this part move forward without that element?",
+      "parentUuid": "d9287ee2_cedb68b7",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 2
+      },
+      "revId": "8d85df4915a31951fd50935962ce565c637dcca2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b2f22ff8_743c790e",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
