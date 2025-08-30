@@ -54,6 +54,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "373ecfda_fae524fb",
+        "filename": "src/intel-cpu/IntelCPUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 751,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-08-30T19:26:28Z",
+      "side": 1,
+      "message": "You can see how \u0027present\u0027 was originally being handled here -- a \u003cctrl+F\u003e \"present\" -- the GPIO Pin value is read as a boolean, written to dbus under ..Item.Present, and then discarded.\n\nLater checks against the CPUConfig object aren\u0027t querying dbus for presence info -- and I think it makes more sense anyways to save the presence reading to CPUConfig on initial creation for easy access later.\n\nRight now, we\u0027re just saving the data to dbus on initial creation, then never touching it again.",
+      "revId": "04cfe25a1b8fd8afcc6f611996ea4e3c7eaea946",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e23bbd9c_b122da00",
         "filename": "src/intel-cpu/IntelCPUSensorMain.cpp",
         "patchSetId": 5
