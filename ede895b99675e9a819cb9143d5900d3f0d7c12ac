@@ -16,6 +16,23 @@
       "message": "The change has been rebased to the latest revision and is now up to date. I would appreciate it if you could review at your convenience. Thank you.",
       "revId": "ede895b99675e9a819cb9143d5900d3f0d7c12ac",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2d49e02_9f815099",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 27
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000044
+      },
+      "writtenOn": "2025-09-01T07:49:50Z",
+      "side": 1,
+      "message": "How about using `const size_t slotId` as the key of the map, instead of constructing the string?",
+      "revId": "ede895b99675e9a819cb9143d5900d3f0d7c12ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
