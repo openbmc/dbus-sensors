@@ -170,6 +170,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "07a4d26b_af8b694d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-02T22:48:05Z",
+      "side": 1,
+      "message": "I\u0027m still really not sure why we don\u0027t have a (compile time or runtime) check that just sets all BMC ADC values to a 1.8 or 3.3v source.  We can\u0027t have a mix, so putting it in the per-platform configuration when a given image can only have one or the other doesn\u0027t make sense and duplicates a lot of code.\n\nWhat I suspect is that we\u0027re trying to adjust the min/max values to provide better ranging somewhere else and let redfish represent different min/max values.\n\n\u003e AAdding Max/Min values in the EM for ADC sensors makes it easier for users to understand the purpose of those properties, even though they have to calculate them from the Vref value\n\none very important thing that EM configs do is they do not push implementation details into the config.  Thresholds in the config file should be in volts, any conversion for ranging should be done in the sensor daemon itself.",
+      "parentUuid": "e59211f4_ccbdd63f",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 2
+      },
+      "revId": "8d85df4915a31951fd50935962ce565c637dcca2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b2f22ff8_743c790e",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1

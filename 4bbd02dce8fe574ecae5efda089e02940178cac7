@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "850f724a_75a24118",
+        "filename": "src/adc/ADCSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-02T22:48:05Z",
+      "side": 0,
+      "message": "ScaleFactor looks like it\u0027s now completely ignored.  We cannot assume that all configs will have a min/max set, so you\u0027ll need to implement fallback behavior.",
+      "range": {
+        "startLine": 61,
+        "startChar": 31,
+        "endLine": 61,
+        "endChar": 42
+      },
+      "revId": "4bbd02dce8fe574ecae5efda089e02940178cac7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
