@@ -414,6 +414,23 @@
       "message": "Huh, looks like I +1\u0027d this in the past -- but looks like it got cleared out, even without the patchset changing?\n\nChanges still look sensible to my eyes.\n\nEd had some questions asked earlier, but seems like that all got replied to...",
       "revId": "8d85df4915a31951fd50935962ce565c637dcca2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dec30500_f6f52b58",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-02T22:48:48Z",
+      "side": 1,
+      "message": "As written, this looks like it breaks every ADC config that doesn\u0027t have an explicit min/max?",
+      "revId": "8d85df4915a31951fd50935962ce565c637dcca2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
