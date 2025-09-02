@@ -732,6 +732,7 @@ static void createSensorsCallback(
             std::string keyMax = labelHead + "_Max";
             std::string keyOffset = labelHead + "_Offset";
             std::string keyPowerState = labelHead + "_PowerState";
+            std::string keyPollRate = labelHead + "_PollRate";
 
             bool customizedName = false;
             auto findCustomName = baseConfig->find(keyName);
@@ -837,6 +838,18 @@ static void createSensorsCallback(
             {
                 lg2::error("Min must be less than Max");
                 continue;
+            }
+
+            auto findPollRate = baseConfig->find(keyPollRate);
+            if (findPollRate != baseConfig->end())
+            {
+                pollRate =
+                    std::visit(VariantToDoubleVisitor(), findPollRate->second);
+            }
+            else
+            {
+                pollRate =
+                    getPollRate(*baseConfig, PSUSensor::defaultSensorPoll);
             }
 
             // If the sensor name is being customized by config file,
