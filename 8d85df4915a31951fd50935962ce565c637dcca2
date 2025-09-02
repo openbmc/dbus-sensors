@@ -146,6 +146,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3f6d473d_2b3f9089",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2025-09-02T03:19:43Z",
+      "side": 1,
+      "message": "@Christopher.Sides+GitHub@gmail.com, the adcsensor is setting the Max/min values properties based on the Vref value of hardware (the default vaule is 1.8V as https://github.com/openbmc/dbus-sensors/blob/master/src/adc/ADCSensor.cpp#L50). The MaxValue is `Vref/scaleFactor` as https://github.com/openbmc/dbus-sensors/blob/master/src/adc/ADCSensor.cpp#L62, MinValue is 0. Ed suggested to add Vref property in the EM.\n\n\n\u003e Looking over the code here again, I think I see what Ed\u0027s getting at --\n\u003e\n\u003e If we only have a handful of supported ACDSensors\n\nAdding Max/Min values in the EM for ADC sensors makes it easier for users to understand the purpose of those properties, even though they have to calculate them from the Vref value. Besides that, it makes consistency between applications in the dbus-sensors.",
+      "parentUuid": "b0d03a81_489771c7",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 2
+      },
+      "revId": "8d85df4915a31951fd50935962ce565c637dcca2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b2f22ff8_743c790e",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
