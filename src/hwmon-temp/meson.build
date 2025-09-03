@@ -6,6 +6,6 @@ executable(
     'HwmonTempSensor.cpp',
     dependencies: [default_deps, devicemgmt_dep, thresholds_dep, utils_dep],
     include_directories: src_inc,
-    install: true,
+    install: get_option('hwmon-temp').allowed(),
     install_dir: '/usr/libexec/dbus-sensors',
 )

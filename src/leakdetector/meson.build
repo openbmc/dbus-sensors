@@ -16,6 +16,6 @@ executable(
         entitymanagerinterface_dep,
     ],
     include_directories: src_inc,
-    install: true,
+    install: get_option('leakdetector').allowed(),
     install_dir: '/usr/libexec/dbus-sensors',
 )

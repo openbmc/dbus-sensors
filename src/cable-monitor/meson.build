@@ -14,6 +14,6 @@ executable(
         entitymanagerinterface_dep,
     ],
     include_directories: src_inc,
-    install: true,
+    install: get_option('cable-monitor').allowed(),
     install_dir: get_option('libexecdir') / 'dbus-sensors',
 )

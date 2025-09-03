@@ -4,6 +4,6 @@ executable(
     'MCTPReactor.cpp',
     'MCTPEndpoint.cpp',
     dependencies: [default_deps, utils_dep],
-    install: true,
+    install: get_option('mctp').allowed(),
     install_dir: '/usr/libexec/dbus-sensors',
 )

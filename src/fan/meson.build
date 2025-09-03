@@ -8,6 +8,6 @@ executable(
     '../PwmSensor.cpp',
     dependencies: [default_deps, gpiodcxx, thresholds_dep, utils_dep],
     include_directories: src_inc,
-    install: true,
+    install: get_option('fan').allowed(),
     install_dir: '/usr/libexec/dbus-sensors',
 )

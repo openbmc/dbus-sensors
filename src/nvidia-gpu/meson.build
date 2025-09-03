@@ -23,7 +23,7 @@ executable(
     implicit_include_directories: false,
     include_directories: [gpusensor_include_dir, sensor_include_dir],
     dependencies: [thresholds_dep, utils_dep],
-    install: true,
+    install: get_option('nvidia-gpu').allowed(),
     install_dir: '/usr/libexec/dbus-sensors',
 )
 

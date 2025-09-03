@@ -9,6 +9,6 @@ executable(
     sources: nvme_srcs,
     dependencies: nvme_deps,
     include_directories: src_inc,
-    install: true,
+    install: get_option('nvme').allowed(),
     install_dir: '/usr/libexec/dbus-sensors',
 )
