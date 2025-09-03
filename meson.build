@@ -37,12 +37,35 @@ i2c = meson.get_compiler('cpp').find_library('i2c')
 uring = dependency('liburing', include_type: 'system')
 nlohmann_json_dep = dependency('nlohmann_json', include_type: 'system')
 gpiodcxx = dependency('libgpiodcxx', default_options: ['bindings=cxx'])
-boost = dependency('boost', version: '>=1.83.0', include_type: 'system')
+boost_dep = dependency(
+    'boost',
+    version: '>=1.88.0',
+    include_type: 'system',
+    required: false,
+)
+if not boost_dep.found()
+    cmake = import('cmake')
+    opt = cmake.subproject_options()
+    boost_libs = ['asio', 'headers']
+    opt.add_cmake_defines(
+        {
+            'BOOST_INCLUDE_LIBRARIES': ';'.join(boost_libs),
+            'BUILD_SHARED_LIBS': 'OFF',
+        },
+    )
+
+    boost = cmake.subproject('boost', required: true, options: opt)
+    boost_dep = []
+    foreach boost_lib : boost_libs
+        boost_lib_instance = boost.dependency('boost_' + boost_lib).as_system()
+        boost_dep += [boost_lib_instance]
+    endforeach
+endif
 sdbusplus = dependency('sdbusplus', include_type: 'system')
 phosphor_logging_dep = dependency('phosphor-logging')
 
 default_deps = [
-    boost,
+    boost_dep,
     nlohmann_json_dep,
     phosphor_logging_dep,
     sdbusplus,
