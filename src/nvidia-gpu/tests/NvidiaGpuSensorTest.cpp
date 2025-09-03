@@ -719,7 +719,7 @@ TEST_F(GpuMctpVdmTests, DecodeGetCurrentPowerDrawResponseSuccess)
     EXPECT_EQ(result, 0);
     EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
     EXPECT_EQ(reasonCode, 0);
-    EXPECT_EQ(power, 250);
+    EXPECT_EQ(power, 250U);
 }
 
 TEST_F(GpuMctpVdmTests, DecodeGetCurrentPowerDrawResponseError)
@@ -871,7 +871,7 @@ TEST_F(GpuMctpVdmTests, DecodeGetCurrentEnergyCounterResponseSuccess)
     EXPECT_EQ(result, 0);
     EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
     EXPECT_EQ(reasonCode, 0);
-    EXPECT_EQ(energy, 3600000);
+    EXPECT_EQ(energy, 3600000U);
 }
 
 TEST_F(GpuMctpVdmTests, DecodeGetCurrentEnergyCounterResponseError)
@@ -1020,7 +1020,7 @@ TEST_F(GpuMctpVdmTests, DecodeGetVoltageResponseSuccess)
     EXPECT_EQ(result, 0);
     EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
     EXPECT_EQ(reasonCode, 0);
-    EXPECT_EQ(voltage, 12500);
+    EXPECT_EQ(voltage, 12500U);
 }
 
 TEST_F(GpuMctpVdmTests, DecodeGetVoltageResponseError)
