@@ -37,7 +37,12 @@ i2c = meson.get_compiler('cpp').find_library('i2c')
 uring = dependency('liburing', include_type: 'system')
 nlohmann_json_dep = dependency('nlohmann_json', include_type: 'system')
 gpiodcxx = dependency('libgpiodcxx', default_options: ['bindings=cxx'])
-boost = dependency('boost', version: '>=1.83.0', include_type: 'system')
+boost = dependency(
+    'boost',
+    version: '>=1.88.0',
+    include_type: 'system',
+    fallback: 'boost-meson',
+)
 sdbusplus = dependency('sdbusplus', include_type: 'system')
 phosphor_logging_dep = dependency('phosphor-logging')
 
