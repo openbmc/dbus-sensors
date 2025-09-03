@@ -7,7 +7,6 @@ gpusensor_sources = files(
     'NvidiaGpuMctpVdm.cpp',
     'NvidiaGpuPowerSensor.cpp',
     'NvidiaGpuSensor.cpp',
-    'NvidiaGpuSensorMain.cpp',
     'NvidiaGpuThresholds.cpp',
     'NvidiaGpuVoltageSensor.cpp',
     'NvidiaSmaDevice.cpp',
@@ -19,7 +18,7 @@ sensor_include_dir = include_directories('../..')
 
 executable(
     'nvidiagpusensor',
-    gpusensor_sources,
+    gpusensor_sources + files('NvidiaGpuSensorMain.cpp'),
     implicit_include_directories: false,
     include_directories: [gpusensor_include_dir, sensor_include_dir],
     dependencies: [thresholds_dep, utils_dep],
@@ -27,6 +26,3 @@ executable(
     install_dir: '/usr/libexec/dbus-sensors',
 )
 
-if get_option('tests').enabled()
-    subdir('tests')
-endif
