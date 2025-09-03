@@ -194,6 +194,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "75d7bac7_62156a7b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2025-09-03T07:06:25Z",
+      "side": 1,
+      "message": "I am not sure that all ADC sensors in a platform have same Vref value, I think it depend on the hardware design.",
+      "parentUuid": "07a4d26b_af8b694d",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 2
+      },
+      "revId": "8d85df4915a31951fd50935962ce565c637dcca2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b2f22ff8_743c790e",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -433,6 +457,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "94012a8e_778534eb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2025-09-03T07:06:25Z",
+      "side": 1,
+      "message": "I set the default maximum value of adc sensor is 1.8v/ScaleFactor and minimun is 0. If the EM configuration does not have Max/Min value, the default values shall be used.",
+      "parentUuid": "dec30500_f6f52b58",
+      "revId": "8d85df4915a31951fd50935962ce565c637dcca2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7b65d999_d96f2411",
@@ -456,6 +498,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbf874f6_c3f8096c",
+        "filename": "src/adc/ADCSensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2025-09-03T07:06:25Z",
+      "side": 1,
+      "message": "I created struct SensorRange in the `sensor.hpp` file as your suggestion.",
+      "parentUuid": "7b65d999_d96f2411",
+      "range": {
+        "startLine": 76,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 53
+      },
+      "revId": "8d85df4915a31951fd50935962ce565c637dcca2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c9da879_769291d1",
@@ -469,6 +535,30 @@
       "writtenOn": "2025-09-02T22:50:35Z",
       "side": 1,
       "message": "Not all BMCs are 1.8 VREF",
+      "range": {
+        "startLine": 309,
+        "startChar": 20,
+        "endLine": 309,
+        "endChar": 23
+      },
+      "revId": "8d85df4915a31951fd50935962ce565c637dcca2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1298af6_66d6768e",
+        "filename": "src/adc/ADCSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2025-09-03T07:06:25Z",
+      "side": 1,
+      "message": "To avoid impacting to other platforms, if they do not have Max/Min properties in the EM then the maximum value shall be `1.8V/scalefactor` as current implementation.",
+      "parentUuid": "2c9da879_769291d1",
       "range": {
         "startLine": 309,
         "startChar": 20,
