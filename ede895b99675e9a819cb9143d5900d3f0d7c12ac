@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5ece679a_deaec0b6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 27
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001127
+      },
+      "writtenOn": "2025-09-03T13:32:09Z",
+      "side": 1,
+      "message": "Could you please also include the corresponding changes for NVMeSensor?\nfor example:\n```\nsrc/nvme/NVMeSensor.cpp:\n@@ -42,10 +42,10 @@ NVMeSensor::NVMeSensor(sdbusplus::asio::object_server\u0026 objectServer,\n                        const std::string\u0026 sensorName,\n                        std::vector\u003cthresholds::Threshold\u003e\u0026\u0026 thresholdsIn,\n                        const std::string\u0026 sensorConfiguration,\n-                       const int busNumber, const uint8_t slaveAddr) :\n+                       const int busNumber, const uint8_t slaveAddr, const size_t slotId) :\n     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,\n            NVMeSensor::sensorType, false, false, maxReading, minReading, conn,\n-           PowerState::on),\n+           PowerState::on, slotId),\n     bus(busNumber), address(slaveAddr), objServer(objectServer)\n\n\nsrc/nvme/NVMeSensor.hpp:\n@@ -23,7 +23,7 @@ class NVMeSensor : public Sensor\n                const std::string\u0026 sensorName,\n                std::vector\u003cthresholds::Threshold\u003e\u0026\u0026 thresholds,\n                const std::string\u0026 sensorConfiguration, int busNumber,\n-               uint8_t slaveAddr);\n+               uint8_t slaveAddr, const size_t slotId);\n     ~NVMeSensor() override;\n\n\nsrc/nvme/NVMeSensorMain.cpp:\n@@ -179,6 +179,7 @@ static void handleSensorConfigurations(\n         std::optional\u003cstd::string\u003e sensorName \u003d\n             extractSensorName(interfacePath, sensorConfig);\n         uint8_t slaveAddr \u003d extractSlaveAddr(interfacePath, sensorConfig);\n+        size_t readSlot \u003d getSlotId(sensorConfig);\n         std::optional\u003cint\u003e rootBus \u003d deriveRootBus(busNumber);\n \n         if (!(busNumber \u0026\u0026 sensorName \u0026\u0026 rootBus))\n@@ -205,7 +206,7 @@ static void handleSensorConfigurations(\n                 std::make_shared\u003cNVMeSensor\u003e(\n                     objectServer, io, dbusConnection, *sensorName,\n                     std::move(sensorThresholds), interfacePath, *busNumber,\n-                    slaveAddr);\n+                    slaveAddr, readSlot);\n \n             context-\u003eaddSensor(sensorPtr);\n```",
+      "revId": "ede895b99675e9a819cb9143d5900d3f0d7c12ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e2d49e02_9f815099",
         "filename": "src/Utils.cpp",
         "patchSetId": 27
