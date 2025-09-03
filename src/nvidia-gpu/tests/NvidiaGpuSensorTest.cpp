@@ -1095,9 +1095,3 @@ TEST_F(GpuMctpVdmTests, DecodeGetVoltageResponseInvalidSize)
     EXPECT_EQ(result, EINVAL); // Should indicate error for invalid data size
 }
 } // namespace gpu_mctp_tests
-
-int main(int argc, char** argv)
-{
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
