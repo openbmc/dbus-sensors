@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee277df3_df7cd75d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-09-04T00:57:52Z",
+      "side": 1,
+      "message": "What does it matter if CI installs them if they\u0027re all enabled by default? I\u0027m missing something here.\n\nCan you be more specific about the problem?",
+      "revId": "cda64f67cdb80cb63ff83c28ea747c6cee3adb5a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
