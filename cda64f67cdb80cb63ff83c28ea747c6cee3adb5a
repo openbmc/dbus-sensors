@@ -16,6 +16,24 @@
       "message": "What does it matter if CI installs them if they\u0027re all enabled by default? I\u0027m missing something here.\n\nCan you be more specific about the problem?",
       "revId": "cda64f67cdb80cb63ff83c28ea747c6cee3adb5a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "afacf59a_9344dd7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-04T02:53:47Z",
+      "side": 1,
+      "message": "I guess that’s fair.  i probably should’ve stated it less as a problem than just what looked like a cleanup, but maybe we don’t actually want that.\n\nwill think on it.",
+      "parentUuid": "ee277df3_df7cd75d",
+      "revId": "cda64f67cdb80cb63ff83c28ea747c6cee3adb5a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
