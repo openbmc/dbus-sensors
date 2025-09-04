@@ -34,6 +34,24 @@
       "parentUuid": "ee277df3_df7cd75d",
       "revId": "cda64f67cdb80cb63ff83c28ea747c6cee3adb5a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "254abcde_4a5eda9d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-04T14:52:15Z",
+      "side": 1,
+      "message": "You\u0027re right, the reasoning on this was dubious.  Removing.",
+      "parentUuid": "afacf59a_9344dd7c",
+      "revId": "cda64f67cdb80cb63ff83c28ea747c6cee3adb5a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
