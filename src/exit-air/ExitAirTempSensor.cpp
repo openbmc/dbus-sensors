@@ -46,6 +46,7 @@
 #include <memory>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <variant>
 #include <vector>
@@ -68,7 +69,7 @@ static constexpr double cfmMinReading = 0;
 static constexpr size_t minSystemCfm = 50;
 
 constexpr const auto monitorTypes{
-    std::to_array<const char*>({exitAirType, cfmType})};
+    std::to_array<std::string_view>({exitAirType, cfmType})};
 
 static std::vector<std::shared_ptr<CFMSensor>> cfmSensors;
 
@@ -912,8 +913,7 @@ void createSensor(sdbusplus::asio::object_server& objectServer,
                 exitAirSensor->updateReading();
             }
         });
-    getter->getConfiguration(
-        std::vector<std::string>(monitorTypes.begin(), monitorTypes.end()));
+    getter->getConfiguration(monitorTypes);
 }
 
 int main()

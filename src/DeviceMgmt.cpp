@@ -4,20 +4,25 @@
 
 #include <phosphor-logging/lg2.hpp>
 
+#include <algorithm>
 #include <cstdint>
 #include <filesystem>
 #include <fstream>
 #include <iomanip>
 #include <ios>
 #include <optional>
+#include <span>
 #include <sstream>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <system_error>
+#include <utility>
 #include <variant>
 
 std::optional<I2CDeviceParams> getI2CDeviceParams(
-    const I2CDeviceTypeMap& dtmap, const SensorBaseConfigMap& cfg)
+    std::span<const std::pair<std::string_view, I2CDeviceType>> dtmap,
+    const SensorBaseConfigMap& cfg)
 {
     auto findType = cfg.find("Type");
     auto findBus = cfg.find("Bus");
@@ -37,7 +42,10 @@ std::optional<I2CDeviceParams> getI2CDeviceParams(
         return std::nullopt;
     }
 
-    auto findDevType = dtmap.find(type->c_str());
+    auto findDevType =
+        std::ranges::find_if(dtmap.begin(), dtmap.end(), [type](const auto& a) {
+            return a.first == *type;
+        });
     if (findDevType == dtmap.end())
     {
         return std::nullopt;
@@ -63,7 +71,7 @@ bool I2CDeviceParams::devicePresent() const
 {
     std::filesystem::path path = i2cBusPath(bus) / deviceDirName(bus, address);
 
-    if (type->createsHWMon)
+    if (type.createsHWMon)
     {
         path /= "hwmon";
     }
@@ -119,7 +127,7 @@ int I2CDevice::create() const
         return -1;
     }
 
-    ctor << params.type->name << " " << params.address << "\n";
+    ctor << params.type.name << " " << params.address << "\n";
     ctor.flush();
     if (!ctor.good())
     {

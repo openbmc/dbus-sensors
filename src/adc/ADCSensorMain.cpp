@@ -46,6 +46,7 @@
 #include <regex>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <variant>
 #include <vector>
@@ -53,7 +54,7 @@
 static constexpr float pollRateDefault = 0.5;
 static constexpr float gpioBridgeSetupTimeDefault = 0.02;
 
-static constexpr auto sensorTypes{std::to_array<const char*>({"ADC"})};
+static constexpr auto sensorTypes{std::to_array<std::string_view>({"ADC"})};
 static std::regex inputRegex(R"(in(\d+)_input)");
 
 static boost::container::flat_map<size_t, bool> cpuPresence;
@@ -131,7 +132,7 @@ void createSensors(
                     baseConfiguration = nullptr;
 
                     // find base configuration
-                    for (const char* type : sensorTypes)
+                    for (const std::string_view type : sensorTypes)
                     {
                         auto sensorBase =
                             cfgData.find(configInterfaceName(type));
@@ -309,8 +310,7 @@ void createSensors(
             }
         });
 
-    getter->getConfiguration(
-        std::vector<std::string>{sensorTypes.begin(), sensorTypes.end()});
+    getter->getConfiguration(sensorTypes);
 }
 
 int main()

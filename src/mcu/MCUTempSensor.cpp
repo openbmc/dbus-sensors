@@ -298,9 +298,11 @@ int main()
             });
         };
 
+    static constexpr auto sensorTypes{
+        std::to_array<std::string_view>({sensorType})};
+
     std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
-        setupPropertiesChangedMatches(
-            *systemBus, std::to_array<const char*>({sensorType}), eventHandler);
+        setupPropertiesChangedMatches(*systemBus, sensorTypes, eventHandler);
     setupManufacturingModeMatch(*systemBus);
     io.run();
     return 0;

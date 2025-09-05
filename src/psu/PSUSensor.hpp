@@ -27,7 +27,7 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
               boost::asio::io_context& io, const std::string& sensorName,
               std::vector<thresholds::Threshold>&& thresholds,
               const std::string& sensorConfiguration,
-              const PowerState& powerState, const std::string& sensorUnits,
+              const PowerState& powerState, std::string_view sensorUnits,
               unsigned int factor, double max, double min, double offset,
               const std::string& label, size_t tSize, double pollRate,
               const std::shared_ptr<I2CDevice>& i2cDevice);
@@ -69,17 +69,10 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
         static_cast<unsigned int>(defaultSensorPoll * 1000);
 };
 
-class PSUProperty
+struct PSUProperty
 {
-  public:
-    PSUProperty(std::string name, double max, double min, unsigned int factor,
-                double offset) :
-        labelTypeName(std::move(name)), maxReading(max), minReading(min),
-        sensorScaleFactor(factor), sensorOffset(offset)
-    {}
-    ~PSUProperty() = default;
-
-    std::string labelTypeName;
+    std::string_view hwmonLabelName;
+    std::string_view labelTypeName;
     double maxReading;
     double minReading;
     unsigned int sensorScaleFactor;
