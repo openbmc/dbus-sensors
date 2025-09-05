@@ -2,6 +2,7 @@
 
 #include <regex>
 #include <string>
+#include <string_view>
 
 namespace sensor_paths
 {
@@ -10,7 +11,7 @@ namespace sensor_paths
 // with
 // phosphor-dbus-interfaces/blob/master/yaml/xyz/openbmc_project/Sensor/Value.interface.yaml#L38
 
-std::string getPathForUnits(const std::string& units)
+std::string getPathForUnits(std::string_view units)
 {
     if (units == "DegreesC" || units == unitDegreesC)
     {
