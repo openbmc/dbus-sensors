@@ -28,6 +28,7 @@
 #include <functional>
 #include <memory>
 #include <string>
+#include <string_view>
 #include <vector>
 
 boost::container::flat_map<std::string, std::shared_ptr<GpuDevice>> gpuDevices;
@@ -75,10 +76,9 @@ int main()
                 configTimerExpiryCallback, std::ref(io), std::ref(objectServer),
                 std::ref(systemBus), std::ref(mctpRequester)));
         };
-
+    std::array<std::string_view, 1> deviceTypes({deviceType});
     std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
-        setupPropertiesChangedMatches(
-            *systemBus, std::to_array<const char*>({deviceType}), eventHandler);
+        setupPropertiesChangedMatches(*systemBus, deviceTypes, eventHandler);
 
     // Watch for entity-manager to remove configuration interfaces
     // so the corresponding sensors can be removed.

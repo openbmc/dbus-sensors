@@ -274,9 +274,9 @@ static void getNicNameInfo(
                 lg2::error("can't find matched NIC name.");
             }
         });
-
-    getter->getConfiguration(
-        std::vector<std::string>{nicTypes.begin(), nicTypes.end()});
+    std::vector<std::string_view> nicTypesView{nicTypes.begin(),
+                                               nicTypes.end()};
+    getter->getConfiguration(nicTypesView);
 }
 
 static void processLanStatusChange(sdbusplus::message_t& message)
@@ -496,9 +496,10 @@ int main()
             });
         };
 
+    static constexpr std::array<std::string_view, 1> sensorTypes{{sensorType}};
+
     std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
-        setupPropertiesChangedMatches(
-            *systemBus, std::to_array<const char*>({sensorType}), eventHandler);
+        setupPropertiesChangedMatches(*systemBus, sensorTypes, eventHandler);
 
     if (initializeLanStatus(systemBus))
     {
