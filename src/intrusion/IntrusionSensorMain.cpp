@@ -47,7 +47,7 @@
 
 static constexpr const char* sensorType = "ChassisIntrusionSensor";
 static constexpr const char* nicType = "NIC";
-static constexpr auto nicTypes{std::to_array<const char*>({nicType})};
+static constexpr auto nicTypes{std::to_array<std::string_view>({nicType})};
 
 static const std::map<std::string, std::string> compatibleHwmonNames = {
     {"Aspeed2600_Hwmon", "intrusion0_alarm"}
@@ -274,9 +274,7 @@ static void getNicNameInfo(
                 lg2::error("can't find matched NIC name.");
             }
         });
-
-    getter->getConfiguration(
-        std::vector<std::string>{nicTypes.begin(), nicTypes.end()});
+    getter->getConfiguration(nicTypes);
 }
 
 static void processLanStatusChange(sdbusplus::message_t& message)
@@ -491,9 +489,10 @@ int main()
             });
         };
 
+    static constexpr std::array<std::string_view, 1> sensorTypes{{sensorType}};
+
     std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
-        setupPropertiesChangedMatches(
-            *systemBus, std::to_array<const char*>({sensorType}), eventHandler);
+        setupPropertiesChangedMatches(*systemBus, sensorTypes, eventHandler);
 
     if (initializeLanStatus(systemBus))
     {

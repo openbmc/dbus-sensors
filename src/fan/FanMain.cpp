@@ -48,14 +48,15 @@
 #include <optional>
 #include <regex>
 #include <string>
+#include <string_view>
 #include <system_error>
 #include <utility>
 #include <variant>
 #include <vector>
 
 // The following two structures need to be consistent
-static auto sensorTypes{std::to_array<const char*>(
-    {"AspeedFan", "I2CFan", "NuvotonFan", "HPEFan"})};
+static constexpr std::array<std::string_view, 4> sensorTypes{
+    {"AspeedFan", "I2CFan", "NuvotonFan", "HPEFan"}};
 
 enum FanTypes
 {
@@ -319,7 +320,7 @@ void createSensors(
             // convert to 0 based
             size_t index = std::stoul(indexStr) - 1;
 
-            const char* baseType = nullptr;
+            std::string_view baseType;
             const SensorData* sensorData = nullptr;
             const std::string* interfacePath = nullptr;
             const SensorBaseConfiguration* baseConfiguration = nullptr;
@@ -646,9 +647,7 @@ void createSensors(
 
         createRedundancySensor(tachSensors, dbusConnection, objectServer);
     });
-    getter->getConfiguration(
-        std::vector<std::string>{sensorTypes.begin(), sensorTypes.end()},
-        retries);
+    getter->getConfiguration(sensorTypes, retries);
 }
 
 int main()
