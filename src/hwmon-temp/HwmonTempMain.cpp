@@ -45,7 +45,9 @@
 #include <memory>
 #include <optional>
 #include <regex>
+#include <span>
 #include <string>
+#include <string_view>
 #include <system_error>
 #include <utility>
 #include <variant>
@@ -62,45 +64,46 @@ static constexpr double minValueRelativeHumidity = 0;   // PercentRH
 static constexpr double maxValueTemperature = 127;      // DegreesC
 static constexpr double minValueTemperature = -128;     // DegreesC
 
-static const I2CDeviceTypeMap sensorTypes{
-    {"ADM1021", I2CDeviceType{"adm1021", true}},
-    {"BME280", I2CDeviceType{"bme280", false}},
-    {"DPS310", I2CDeviceType{"dps310", false}},
-    {"EMC1403", I2CDeviceType{"emc1403", true}},
-    {"EMC1412", I2CDeviceType{"emc1412", true}},
-    {"EMC1413", I2CDeviceType{"emc1413", true}},
-    {"EMC1414", I2CDeviceType{"emc1414", true}},
-    {"G751", I2CDeviceType{"g751", true}},
-    {"HDC1080", I2CDeviceType{"hdc1080", false}},
-    {"JC42", I2CDeviceType{"jc42", true}},
-    {"LM75A", I2CDeviceType{"lm75a", true}},
-    {"LM95234", I2CDeviceType{"lm95234", true}},
-    {"MAX31725", I2CDeviceType{"max31725", true}},
-    {"MAX31730", I2CDeviceType{"max31730", true}},
-    {"MAX6581", I2CDeviceType{"max6581", true}},
-    {"MAX6654", I2CDeviceType{"max6654", true}},
-    {"MAX6639", I2CDeviceType{"max6639", true}},
-    {"MCP9600", I2CDeviceType{"mcp9600", false}},
-    {"NCT6779", I2CDeviceType{"nct6779", true}},
-    {"NCT7802", I2CDeviceType{"nct7802", true}},
-    {"PT5161L", I2CDeviceType{"pt5161l", true}},
-    {"SBTSI", I2CDeviceType{"sbtsi", true}},
-    {"SI7020", I2CDeviceType{"si7020", false}},
-    {"TMP100", I2CDeviceType{"tmp100", true}},
-    {"TMP1075", I2CDeviceType{"tmp1075", true}},
-    {"TMP112", I2CDeviceType{"tmp112", true}},
-    {"TMP175", I2CDeviceType{"tmp175", true}},
-    {"TMP411", I2CDeviceType{"tmp411", true}},
-    {"TMP421", I2CDeviceType{"tmp421", true}},
-    {"TMP432", I2CDeviceType{"tmp432", true}},
-    {"TMP441", I2CDeviceType{"tmp441", true}},
-    {"TMP451", I2CDeviceType{"tmp451", true}},
-    {"TMP461", I2CDeviceType{"tmp461", true}},
-    {"TMP464", I2CDeviceType{"tmp464", true}},
-    {"TMP468", I2CDeviceType{"tmp468", true}},
-    {"TMP75", I2CDeviceType{"tmp75", true}},
-    {"W83773G", I2CDeviceType{"w83773g", true}},
-};
+static constexpr auto sensorTypes =
+    std::to_array<std::pair<std::string_view, I2CDeviceType>>({
+        {"ADM1021", I2CDeviceType{"adm1021", true}},
+        {"BME280", I2CDeviceType{"bme280", false}},
+        {"DPS310", I2CDeviceType{"dps310", false}},
+        {"EMC1403", I2CDeviceType{"emc1403", true}},
+        {"EMC1412", I2CDeviceType{"emc1412", true}},
+        {"EMC1413", I2CDeviceType{"emc1413", true}},
+        {"EMC1414", I2CDeviceType{"emc1414", true}},
+        {"G751", I2CDeviceType{"g751", true}},
+        {"HDC1080", I2CDeviceType{"hdc1080", false}},
+        {"JC42", I2CDeviceType{"jc42", true}},
+        {"LM75A", I2CDeviceType{"lm75a", true}},
+        {"LM95234", I2CDeviceType{"lm95234", true}},
+        {"MAX31725", I2CDeviceType{"max31725", true}},
+        {"MAX31730", I2CDeviceType{"max31730", true}},
+        {"MAX6581", I2CDeviceType{"max6581", true}},
+        {"MAX6654", I2CDeviceType{"max6654", true}},
+        {"MAX6639", I2CDeviceType{"max6639", true}},
+        {"MCP9600", I2CDeviceType{"mcp9600", false}},
+        {"NCT6779", I2CDeviceType{"nct6779", true}},
+        {"NCT7802", I2CDeviceType{"nct7802", true}},
+        {"PT5161L", I2CDeviceType{"pt5161l", true}},
+        {"SBTSI", I2CDeviceType{"sbtsi", true}},
+        {"SI7020", I2CDeviceType{"si7020", false}},
+        {"TMP100", I2CDeviceType{"tmp100", true}},
+        {"TMP1075", I2CDeviceType{"tmp1075", true}},
+        {"TMP112", I2CDeviceType{"tmp112", true}},
+        {"TMP175", I2CDeviceType{"tmp175", true}},
+        {"TMP411", I2CDeviceType{"tmp411", true}},
+        {"TMP421", I2CDeviceType{"tmp421", true}},
+        {"TMP432", I2CDeviceType{"tmp432", true}},
+        {"TMP441", I2CDeviceType{"tmp441", true}},
+        {"TMP451", I2CDeviceType{"tmp451", true}},
+        {"TMP461", I2CDeviceType{"tmp461", true}},
+        {"TMP464", I2CDeviceType{"tmp464", true}},
+        {"TMP468", I2CDeviceType{"tmp468", true}},
+        {"TMP75", I2CDeviceType{"tmp75", true}},
+        {"W83773G", I2CDeviceType{"w83773g", true}},
+    });
 
 static struct SensorParams getSensorParameters(
     const std::filesystem::path& path)
@@ -543,11 +546,11 @@ void createSensors(
                 }
             }
         });
-    std::vector<std::string> types;
+    std::vector<std::string_view> types;
     types.reserve(sensorTypes.size());
     for (const auto& [type, dt] : sensorTypes)
     {
-        types.push_back(type);
+        types.emplace_back(type);
     }
     getter->getConfiguration(types);
 }
@@ -650,7 +653,11 @@ int main()
         };
 
     std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
-        setupPropertiesChangedMatches(*systemBus, sensorTypes, eventHandler);
+        setupPropertiesChangedMatches(
+            *systemBus,
+            std::span<const std::pair<std::string_view, I2CDeviceType>>(
+                sensorTypes),
+            eventHandler);
     setupManufacturingModeMatch(*systemBus);
 
     // Watch for entity-manager to remove configuration interfaces

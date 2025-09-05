@@ -51,6 +51,7 @@
 #include <regex>
 #include <sstream>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <variant>
 #include <vector>
@@ -99,7 +100,7 @@ static constexpr const char* peciDevPath = "/sys/bus/peci/devices/";
 static constexpr const char* rescanPath = "/sys/bus/peci/rescan";
 static constexpr const unsigned int rankNumMax = 8;
 
-static constexpr auto sensorTypes{std::to_array<const char*>({"XeonCPU"})};
+static constexpr auto sensorTypes{std::to_array<std::string_view>({"XeonCPU"})};
 static constexpr auto hiddenProps{std::to_array<const char*>(
     {IntelCPUSensor::labelTcontrol, "Tthrottle", "Tjmax"})};
 
@@ -247,7 +248,7 @@ bool createSensors(boost::asio::io_context& io,
         for (const auto& [path, cfgData] : sensorConfigs)
         {
             sensorData = &cfgData;
-            for (const char* type : sensorTypes)
+            for (const std::string_view type : sensorTypes)
             {
                 sensorType = type;
                 auto sensorBase =
@@ -691,7 +692,7 @@ bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
     bool useCache = false;
     sensorConfigs.clear();
     // use new data the first time, then refresh
-    for (const char* type : sensorTypes)
+    for (std::string_view type : sensorTypes)
     {
         if (!getSensorConfiguration(type, systemBus, sensorConfigs, useCache))
         {
@@ -702,7 +703,7 @@ bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
 
     // check PECI client addresses and names from CPU configuration
     // before starting ping operation
-    for (const char* type : sensorTypes)
+    for (const std::string_view type : sensorTypes)
     {
         for (const auto& [path, cfgData] : sensorConfigs)
         {

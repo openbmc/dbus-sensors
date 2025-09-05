@@ -15,7 +15,7 @@
 class NVMeSensor : public Sensor
 {
   public:
-    static constexpr const char* sensorType = "NVME1000";
+    static constexpr std::string_view sensorType = "NVME1000";
 
     NVMeSensor(sdbusplus::asio::object_server& objectServer,
                boost::asio::io_context& io,
