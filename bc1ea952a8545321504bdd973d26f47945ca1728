@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5bed9355_5570f276",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 46
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-05T20:03:25Z",
+      "side": 1,
+      "message": "This path isn\u0027t correct.  inventoryPrefix can\u0027t be hardcoded, and needs to be based on the EM config that created this.",
+      "range": {
+        "startLine": 317,
+        "startChar": 0,
+        "endLine": 317,
+        "endChar": 59
+      },
+      "revId": "bc1ea952a8545321504bdd973d26f47945ca1728",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77782a98_07b5649e",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 46
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-05T20:03:25Z",
+      "side": 1,
+      "message": "Please use the appropriate dbus types for doing path construction (object_path).",
+      "range": {
+        "startLine": 317,
+        "startChar": 0,
+        "endLine": 317,
+        "endChar": 59
+      },
+      "revId": "bc1ea952a8545321504bdd973d26f47945ca1728",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f87742c0_8e4779dc",
+        "filename": "src/nvidia-gpu/Inventory.hpp",
+        "patchSetId": 46
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-05T20:03:25Z",
+      "side": 1,
+      "message": "Why is this a member variable?  SHouldn\u0027t it just be in the main scope?",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 42
+      },
+      "revId": "bc1ea952a8545321504bdd973d26f47945ca1728",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
