@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "d4285424_f9feb992",
         "filename": "/COMMIT_MSG",
@@ -20,10 +21,10 @@
         "endChar": 36
       },
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "a564dba8_ac41502c",
         "filename": "/COMMIT_MSG",
@@ -44,10 +45,10 @@
         "endChar": 36
       },
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "c177ca24_8c90982b",
         "filename": "/COMMIT_MSG",
@@ -68,10 +69,10 @@
         "endChar": 36
       },
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "b1c177d8_e853a74d",
         "filename": "/COMMIT_MSG",
@@ -92,10 +93,10 @@
         "endChar": 36
       },
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "d59e1735_6c63997d",
         "filename": "/COMMIT_MSG",
@@ -116,10 +117,10 @@
         "endChar": 36
       },
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "f041d049_df48a6de",
         "filename": "/COMMIT_MSG",
@@ -139,10 +140,10 @@
         "endChar": 61
       },
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "e4a1fdf1_60b198c0",
         "filename": "/COMMIT_MSG",
@@ -163,10 +164,10 @@
         "endChar": 61
       },
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "36f0aec2_331082ff",
         "filename": "/COMMIT_MSG",
@@ -186,10 +187,10 @@
         "endChar": 0
       },
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "35d176d4_45164439",
         "filename": "/COMMIT_MSG",
@@ -210,10 +211,10 @@
         "endChar": 0
       },
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "efb97138_802b656c",
         "filename": "/COMMIT_MSG",
@@ -234,10 +235,10 @@
         "endChar": 0
       },
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "b78b0a9e_054482b6",
         "filename": "/COMMIT_MSG",
@@ -258,10 +259,10 @@
         "endChar": 0
       },
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "ea64a48c_773bbc06",
         "filename": "include/CPUSensor.hpp",
@@ -281,10 +282,10 @@
         "endChar": 25
       },
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "de4e9435_51a93be1",
         "filename": "include/CPUSensor.hpp",
@@ -305,10 +306,10 @@
         "endChar": 25
       },
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "30db6eef_745f5566",
         "filename": "include/ExitAirTempSensor.hpp",
@@ -328,10 +329,10 @@
         "endChar": 58
       },
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "1710bc51_a3169517",
         "filename": "src/ADCSensor.cpp",
@@ -351,10 +352,10 @@
         "endChar": 64
       },
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "77f3d7e6_dec3336c",
         "filename": "src/ADCSensor.cpp",
@@ -375,10 +376,10 @@
         "endChar": 64
       },
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "2abd762c_efdeb240",
         "filename": "src/ADCSensor.cpp",
@@ -398,10 +399,10 @@
         "endChar": 23
       },
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "1555a096_89aff555",
         "filename": "src/ADCSensor.cpp",
@@ -422,10 +423,10 @@
         "endChar": 23
       },
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "70e3e658_357af833",
         "filename": "src/ADCSensor.cpp",
@@ -445,10 +446,10 @@
         "endChar": 47
       },
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "7fe51555_6cd27f49",
         "filename": "src/ADCSensor.cpp",
@@ -469,10 +470,10 @@
         "endChar": 47
       },
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "3d88021e_f0109438",
         "filename": "src/ADCSensorMain.cpp",
@@ -492,10 +493,10 @@
         "endChar": 75
       },
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "be702af6_9a18450c",
         "filename": "src/ADCSensorMain.cpp",
@@ -516,10 +517,10 @@
         "endChar": 75
       },
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "6effc6d3_9a585f3d",
         "filename": "src/ADCSensorMain.cpp",
@@ -540,10 +541,10 @@
         "endChar": 75
       },
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "84fb7387_468c5c89",
         "filename": "src/ADCSensorMain.cpp",
@@ -563,10 +564,10 @@
         "endChar": 45
       },
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "0fb7dfa5_8a61ccfe",
         "filename": "src/ADCSensorMain.cpp",
@@ -587,10 +588,10 @@
         "endChar": 45
       },
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "f3362f74_b4acd272",
         "filename": "src/FanMain.cpp",
@@ -604,10 +605,10 @@
       "side": 1,
       "message": "It looks like a lot of changes took place here and below, with respect to PWM numbering and string path building. I am curious why? The old code worked, and was well tested.",
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "8ebce238_09d5e892",
         "filename": "src/FanMain.cpp",
@@ -622,10 +623,10 @@
       "message": "This patchset has been rebased.  I suspect you looked at the diff between patchset 1 and patchset N.  If you compare patchset N to master, this has no diff.\n\nWith that said, happy to discuss outside the context of this patchset if you think this is wrong.",
       "parentUuid": "f3362f74_b4acd272",
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "f4dc25dd_43abf92b",
         "filename": "src/FanMain.cpp",
@@ -640,10 +641,10 @@
       "message": "Thanks, you\u0027re correct.",
       "parentUuid": "8ebce238_09d5e892",
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "44b23482_5f42d3ec",
         "filename": "src/HwmonTempMain.cpp",
@@ -657,10 +658,10 @@
       "side": 1,
       "message": "Perhaps group this constant with the others in HwmonTempSensor.cpp file?",
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "c7ef5425_ee281159",
         "filename": "src/HwmonTempMain.cpp",
@@ -675,10 +676,10 @@
       "message": "Yes, this was because I looked at an earlier patchset instead of the base. Good to know the base has been updated, to result in less conflict.",
       "parentUuid": "44b23482_5f42d3ec",
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "1faee3ef_1657509a",
         "filename": "src/HwmonTempMain.cpp",
@@ -692,10 +693,10 @@
       "side": 1,
       "message": "Curious why float used here, not double.",
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "23711c10_e0cc81ce",
         "filename": "src/HwmonTempMain.cpp",
@@ -710,10 +711,10 @@
       "message": "This isn\u0027t part of the diff.  Happy to talk about this out of band.",
       "parentUuid": "1faee3ef_1657509a",
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "86393357_19d711bb",
         "filename": "src/HwmonTempMain.cpp",
@@ -728,10 +729,10 @@
       "message": "Thanks, I see it now, good that there\u0027s no changes against the base.",
       "parentUuid": "23711c10_e0cc81ce",
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "b20486d9_fa5c7940",
         "filename": "src/HwmonTempSensor.cpp",
@@ -745,10 +746,10 @@
       "side": 1,
       "message": "The pollRate feature is new, not merely a code cleanup. As such, it will benefit from being in a second change. This change is already rather large.",
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "8b22db1d_2dd90684",
         "filename": "src/HwmonTempSensor.cpp",
@@ -763,10 +764,10 @@
       "message": "Pollrate was added in a different patch.  Please diff patchset N to master, not patchset 1 to patchset N.",
       "parentUuid": "b20486d9_fa5c7940",
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "78d79cfb_bcf0b00c",
         "filename": "src/HwmonTempSensor.cpp",
@@ -781,10 +782,10 @@
       "message": "Got it.",
       "parentUuid": "8b22db1d_2dd90684",
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "b38aec97_4e693fb1",
         "filename": "src/HwmonTempSensor.cpp",
@@ -798,10 +799,10 @@
       "side": 1,
       "message": "Multiplying floating-point should multiply by 1000.0",
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "a7c230e7_22315f3a",
         "filename": "src/HwmonTempSensor.cpp",
@@ -816,10 +817,10 @@
       "message": "Agreed, although this is equally as correct\n\nWith that said, see previous notes, I think you looked at the wrong diff.",
       "parentUuid": "b38aec97_4e693fb1",
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "cda1653a_218b18fc",
         "filename": "src/HwmonTempSensor.cpp",
@@ -834,8 +835,8 @@
       "message": "Yep, although 1000.0 is clearer and it prevents the compiler from wrongly casting it to integer too early. As you said, though, that\u0027s not the subject of this patch.",
       "parentUuid": "a7c230e7_22315f3a",
       "revId": "1fa1b44924a7bda4ff89ed4cd2ad9c0ae1338f06",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
-  ]
+  ],
+  "submitRequirementResults": []
 }
