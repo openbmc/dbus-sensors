@@ -88,7 +88,7 @@ void setupPowerMatchCallback(
     std::function<void(PowerState type, bool state)>&& callback);
 void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn);
 bool getSensorConfiguration(
-    const std::string& type,
+    std::string_view type,
     const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     ManagedObjectType& resp, bool useCache);
 
@@ -105,9 +105,9 @@ bool readingStateGood(const PowerState& powerState);
 constexpr const char* configInterfacePrefix =
     "xyz.openbmc_project.Configuration.";
 
-inline std::string configInterfaceName(const std::string& type)
+inline std::string configInterfaceName(std::string_view type)
 {
-    return std::string(configInterfacePrefix) + type;
+    return std::format("{}{}", configInterfacePrefix, type);
 }
 
 namespace mapper
@@ -307,7 +307,7 @@ struct GetSensorConfiguration :
             interface);
     }
 
-    void getConfiguration(const std::vector<std::string>& types,
+    void getConfiguration(std::span<const std::string_view> types,
                           size_t retries = 0)
     {
         if (retries > 5)
@@ -345,7 +345,10 @@ struct GetSensorConfiguration :
                                        "ERROR_MESSAGE", ec.message());
                             return;
                         }
-                        self->getConfiguration(interfaces, retries - 1);
+                        std::vector<std::string_view> ifaces(interfaces.begin(),
+                                                             interfaces.end());
+
+                        self->getConfiguration(ifaces, retries - 1);
                     });
 
                     return;
@@ -398,7 +401,8 @@ void setupManufacturingModeMatch(sdbusplus::asio::connection& conn);
 bool getManufacturingMode();
 std::vector<std::unique_ptr<sdbusplus::bus::match_t>>
     setupPropertiesChangedMatches(
-        sdbusplus::asio::connection& bus, std::span<const char* const> types,
+        sdbusplus::asio::connection& bus,
+        std::span<const std::string_view> types,
         const std::function<void(sdbusplus::message_t&)>& handler);
 
 template <typename T>

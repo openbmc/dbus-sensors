@@ -24,27 +24,16 @@
 
 struct I2CDeviceType
 {
-    const char* name;
+    std::string_view name;
     bool createsHWMon;
 };
-
-struct I2CDeviceComparator
-{
-    bool operator()(const std::string& a, const std::string& b) const noexcept
-    {
-        return strcasecmp(a.c_str(), b.c_str()) < 0;
-    }
-};
-
-using I2CDeviceTypeMap =
-    boost::container::flat_map<std::string, I2CDeviceType, I2CDeviceComparator>;
 
 struct I2CDeviceParams
 {
     I2CDeviceParams(const I2CDeviceType& type, uint64_t bus, uint64_t address) :
-        type(&type), bus(bus), address(address) {};
+        type(type), bus(bus), address(address) {};
 
-    const I2CDeviceType* type;
+    const I2CDeviceType& type;
     uint64_t bus;
     uint64_t address;
 
@@ -53,7 +42,8 @@ struct I2CDeviceParams
 };
 
 std::optional<I2CDeviceParams> getI2CDeviceParams(
-    const I2CDeviceTypeMap& dtmap, const SensorBaseConfigMap& cfg);
+    std::span<const std::pair<std::string_view, I2CDeviceType>> dtmap,
+    const SensorBaseConfigMap& cfg);
 
 class I2CDevice
 {
@@ -73,7 +63,8 @@ class I2CDevice
 // in the other.
 std::vector<std::unique_ptr<sdbusplus::bus::match_t>>
     setupPropertiesChangedMatches(
-        sdbusplus::asio::connection& bus, const I2CDeviceTypeMap& typeMap,
+        sdbusplus::asio::connection& bus,
+        std::span<const std::pair<std::string_view, I2CDeviceType>> typeMap,
         const std::function<void(sdbusplus::message_t&)>& handler);
 
 // Helper find function because some sensors use underscores in their names
@@ -95,7 +86,7 @@ boost::container::flat_map<std::string,
         const ManagedObjectType& sensorConfigs,
         const boost::container::flat_map<std::string, std::shared_ptr<T>>&
             sensors,
-        const I2CDeviceTypeMap& sensorTypes)
+        std::span<const std::pair<std::string_view, I2CDeviceType>> sensorTypes)
 {
     boost::container::flat_map<std::string,
                                std::pair<std::shared_ptr<I2CDevice>, bool>>
@@ -173,7 +164,7 @@ boost::container::flat_map<std::string,
                 {
                     lg2::error(
                         "Failed to instantiate '{NAME}' at address '{ADDR}' on bus '{BUS}'",
-                        "NAME", params->type->name, "ADDR", params->address,
+                        "NAME", params->type.name, "ADDR", params->address,
                         "BUS", params->bus);
                 }
             }

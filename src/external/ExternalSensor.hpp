@@ -19,7 +19,7 @@ class ExternalSensor :
 {
   public:
     ExternalSensor(
-        const std::string& objectType,
+        std::string_view objectType,
         sdbusplus::asio::object_server& objectServer,
         std::shared_ptr<sdbusplus::asio::connection>& conn,
         const std::string& sensorName, const std::string& sensorUnits,

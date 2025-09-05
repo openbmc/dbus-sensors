@@ -17,11 +17,12 @@
 #include <memory>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
 ExternalSensor::ExternalSensor(
-    const std::string& objectType, sdbusplus::asio::object_server& objectServer,
+    std::string_view objectType, sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     const std::string& sensorName, const std::string& sensorUnits,
     std::vector<thresholds::Threshold>&& thresholdsIn,
