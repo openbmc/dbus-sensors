@@ -10,7 +10,7 @@ namespace sensor_paths
 // with
 // phosphor-dbus-interfaces/blob/master/yaml/xyz/openbmc_project/Sensor/Value.interface.yaml#L38
 
-std::string getPathForUnits(const std::string& units)
+std::string getPathForUnits(const std::string_view units)
 {
     if (units == "DegreesC" || units == unitDegreesC)
     {
