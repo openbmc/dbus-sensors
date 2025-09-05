@@ -23,6 +23,7 @@
 #include <functional>
 #include <memory>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <variant>
 #include <vector>
@@ -55,7 +56,7 @@
 // https://gerrit.openbmc-project.xyz/c/openbmc/docs/+/41452
 // https://github.com/openbmc/docs/tree/master/designs/
 
-static const char* sensorType = "ExternalSensor";
+static constexpr std::string_view sensorType = "ExternalSensor";
 
 void updateReaper(
     boost::container::flat_map<std::string, std::shared_ptr<ExternalSensor>>&
@@ -318,8 +319,8 @@ void createSensors(
                            sensorName);
             }
         });
-
-    getter->getConfiguration(std::vector<std::string>{sensorType});
+    constexpr std::array<std::string_view, 1> sensorTypes{{sensorType}};
+    getter->getConfiguration(sensorTypes);
 }
 
 int main()
@@ -374,9 +375,9 @@ int main()
                 });
         };
 
+    static constexpr std::array<std::string_view, 1> sensorTypes{{sensorType}};
     std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
-        setupPropertiesChangedMatches(
-            *systemBus, std::to_array<const char*>({sensorType}), eventHandler);
+        setupPropertiesChangedMatches(*systemBus, sensorTypes, eventHandler);
 
     lg2::debug("ExternalSensor service entering main loop");
 

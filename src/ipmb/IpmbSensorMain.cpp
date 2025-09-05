@@ -21,6 +21,7 @@
 #include <functional>
 #include <memory>
 #include <string>
+#include <string_view>
 #include <variant>
 #include <vector>
 
@@ -127,9 +128,10 @@ int main()
             });
         };
 
+    static constexpr std::array<std::string_view, 1> sensorTypes{{sensorType}};
+
     std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
-        setupPropertiesChangedMatches(
-            *systemBus, std::to_array<const char*>({sensorType}), eventHandler);
+        setupPropertiesChangedMatches(*systemBus, sensorTypes, eventHandler);
 
     sdbusplus::bus::match_t powerChangeMatch(
         static_cast<sdbusplus::bus_t&>(*systemBus),

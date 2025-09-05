@@ -28,7 +28,7 @@ constexpr const char* unitPascals =
 constexpr const char* unitPercentRH =
     "xyz.openbmc_project.Sensor.Value.Unit.PercentRH";
 
-std::string getPathForUnits(const std::string& units);
+std::string getPathForUnits(std::string_view units);
 
 std::string escapePathForDbus(const std::string& name);
 

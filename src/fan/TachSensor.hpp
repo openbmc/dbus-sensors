@@ -64,7 +64,7 @@ class TachSensor :
     public std::enable_shared_from_this<TachSensor>
 {
   public:
-    TachSensor(const std::string& path, const std::string& objectType,
+    TachSensor(const std::string& path, std::string_view objectType,
                sdbusplus::asio::object_server& objectServer,
                std::shared_ptr<sdbusplus::asio::connection>& conn,
                std::shared_ptr<PresenceGpio>& presence,

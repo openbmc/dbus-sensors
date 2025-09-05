@@ -248,7 +248,8 @@ int main()
     boost::asio::post(io, [reactor, systemBus]() {
         auto gsc = std::make_shared<GetSensorConfiguration>(
             systemBus, std::bind_front(manageMCTPEntity, systemBus, reactor));
-        gsc->getConfiguration({"MCTPI2CTarget", "MCTPI3CTarget"});
+        std::vector<std::string_view> types{"MCTPI2CTarget", "MCTPI3CTarget"};
+        gsc->getConfiguration(types);
     });
 
     io.run();
