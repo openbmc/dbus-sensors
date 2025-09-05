@@ -1,0 +1,314 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "944709fc_d91f3431",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-05T17:06:57Z",
+      "side": 1,
+      "message": "This patch is out of date with the direction MCTP has taken, please use the latest MCTPd",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 52
+      },
+      "revId": "202c6496655fb136808542fb90de6a3b2f1ba76e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc73acbc_54008b85",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-05T17:06:57Z",
+      "side": 1,
+      "message": "WHy is this now unused?  If we don\u0027t need it, just remove it.",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 59
+      },
+      "revId": "202c6496655fb136808542fb90de6a3b2f1ba76e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e27dd522_c08a352a",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-05T17:06:57Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 44,
+        "startChar": 6,
+        "endLine": 44,
+        "endChar": 18
+      },
+      "revId": "202c6496655fb136808542fb90de6a3b2f1ba76e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41401b7d_03bb759e",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-05T17:06:57Z",
+      "side": 1,
+      "message": "This will construct a timer if it doesn\u0027t already exist, which would be an error.  use find, and log if the timer isn\u0027t foudn.",
+      "range": {
+        "startLine": 118,
+        "startChar": 16,
+        "endLine": 118,
+        "endChar": 21
+      },
+      "revId": "202c6496655fb136808542fb90de6a3b2f1ba76e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d5ca878_6fb6a3eb",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-05T17:06:57Z",
+      "side": 1,
+      "message": "This check needs done at the location where the reinterpret pointer is interpreted as a BindingPciVid request.",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 5
+      },
+      "revId": "202c6496655fb136808542fb90de6a3b2f1ba76e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cd1d7a5_789f4bb8",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-05T17:06:57Z",
+      "side": 1,
+      "message": "I don\u0027t see any explicit handling for timeouts.  in the case where\n\n1 request is issued\n2 timeout asserts\n3 response is received late\n\n\nwe need some kind of log to show that it returned late, and ensure that we don\u0027t call the callback twice.",
+      "revId": "202c6496655fb136808542fb90de6a3b2f1ba76e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19a53a8e_8c08211b",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-05T17:06:57Z",
+      "side": 1,
+      "message": "Please don\u0027t use auto like this.  It obfuscates the type.",
+      "range": {
+        "startLine": 164,
+        "startChar": 4,
+        "endLine": 164,
+        "endChar": 8
+      },
+      "revId": "202c6496655fb136808542fb90de6a3b2f1ba76e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b3f4e1e_d17b3bcc",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-05T17:06:57Z",
+      "side": 1,
+      "message": "Same here.  Please familiarize yourself with the difference in c++ between operator[] and find().  They have different behavior, and you want find here.  If the queue doesn\u0027t exist, you want to have an error returned.",
+      "range": {
+        "startLine": 164,
+        "startChar": 18,
+        "endLine": 164,
+        "endChar": 38
+      },
+      "revId": "202c6496655fb136808542fb90de6a3b2f1ba76e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "329f17f3_5a569f43",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-05T17:06:57Z",
+      "side": 1,
+      "message": "Don\u0027t you need to pop the message off the queue somewhere?",
+      "revId": "202c6496655fb136808542fb90de6a3b2f1ba76e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf485e8a_efb92ae9",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-05T17:06:57Z",
+      "side": 1,
+      "message": "Need length checks for any reinterpret_cast per secure coding rules.",
+      "range": {
+        "startLine": 169,
+        "startChar": 0,
+        "endLine": 179,
+        "endChar": 32
+      },
+      "revId": "202c6496655fb136808542fb90de6a3b2f1ba76e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d46e1de_59de0eab",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-05T17:06:57Z",
+      "side": 1,
+      "message": "see comment above, the way this is used, this could just be one timer.",
+      "range": {
+        "startLine": 221,
+        "startChar": 0,
+        "endLine": 221,
+        "endChar": 41
+      },
+      "revId": "202c6496655fb136808542fb90de6a3b2f1ba76e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91a1e2a1_e1f6cf95",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-05T17:06:57Z",
+      "side": 1,
+      "message": "mctp socket needs to be3 the last thing declared so it is the first destroyed, otherwise you will have use after free shutdown issues.",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 63
+      },
+      "revId": "202c6496655fb136808542fb90de6a3b2f1ba76e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af59256e_76c844cd",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-05T17:06:57Z",
+      "side": 1,
+      "message": "handleResult and handleResponse seem very similar in name?  Maybe name them differently?",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 73
+      },
+      "revId": "202c6496655fb136808542fb90de6a3b2f1ba76e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "139f3118_b35eb22b",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-05T17:06:57Z",
+      "side": 1,
+      "message": "We have a queue here already, we shouldn\u0027t be spinning up a timer every time we get a request.  We need one timer, and to track timeouts for each request.",
+      "range": {
+        "startLine": 109,
+        "startChar": 8,
+        "endLine": 109,
+        "endChar": 20
+      },
+      "revId": "202c6496655fb136808542fb90de6a3b2f1ba76e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
