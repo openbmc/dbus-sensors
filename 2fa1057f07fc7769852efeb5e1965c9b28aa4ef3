@@ -16,6 +16,23 @@
       "message": "@haghera@nvidia.com suggestion from Patrick was to get community consensus on the right PDI approach - please send email on the mailing list with details.",
       "revId": "2fa1057f07fc7769852efeb5e1965c9b28aa4ef3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fdcd01f_0cf3b392",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-05T20:16:32Z",
+      "side": 1,
+      "message": "Also to be clear, this isn\u0027t about Patrick, this isn\u0027t implemented correctly to Redfish which requires a reset.",
+      "revId": "2fa1057f07fc7769852efeb5e1965c9b28aa4ef3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
