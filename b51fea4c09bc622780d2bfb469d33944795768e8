@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "18d469a1_5724cf94",
         "filename": "/COMMIT_MSG",
@@ -20,10 +21,10 @@
         "endChar": 37
       },
       "revId": "b51fea4c09bc622780d2bfb469d33944795768e8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "aba2980a_19efb1ad",
         "filename": "/COMMIT_MSG",
@@ -43,10 +44,10 @@
         "endChar": 70
       },
       "revId": "b51fea4c09bc622780d2bfb469d33944795768e8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "987a8190_8d09a083",
         "filename": "src/HwmonTempSensor.cpp",
@@ -66,10 +67,10 @@
         "endChar": 7
       },
       "revId": "b51fea4c09bc622780d2bfb469d33944795768e8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "91ecb7e6_891b5d79",
         "filename": "src/HwmonTempSensor.cpp",
@@ -90,8 +91,8 @@
         "endChar": 7
       },
       "revId": "b51fea4c09bc622780d2bfb469d33944795768e8",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
-  ]
+  ],
+  "submitRequirementResults": []
 }
