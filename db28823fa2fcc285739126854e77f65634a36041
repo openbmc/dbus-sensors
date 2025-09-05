@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "e50c8f7e_929e3f58",
         "filename": "/COMMIT_MSG",
@@ -20,10 +21,10 @@
         "endChar": 29
       },
       "revId": "db28823fa2fcc285739126854e77f65634a36041",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "c50383bd_3548f1dd",
         "filename": "/COMMIT_MSG",
@@ -43,10 +44,10 @@
         "endChar": 23
       },
       "revId": "db28823fa2fcc285739126854e77f65634a36041",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "61667ca3_34863773",
         "filename": "/COMMIT_MSG",
@@ -67,10 +68,10 @@
         "endChar": 23
       },
       "revId": "db28823fa2fcc285739126854e77f65634a36041",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "bfa86a77_b082a230",
         "filename": "/COMMIT_MSG",
@@ -91,10 +92,10 @@
         "endChar": 23
       },
       "revId": "db28823fa2fcc285739126854e77f65634a36041",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "a9cf185e_f5c3fb41",
         "filename": "/COMMIT_MSG",
@@ -114,10 +115,10 @@
         "endChar": 68
       },
       "revId": "db28823fa2fcc285739126854e77f65634a36041",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "58e61a70_71da0101",
         "filename": "/COMMIT_MSG",
@@ -138,10 +139,10 @@
         "endChar": 68
       },
       "revId": "db28823fa2fcc285739126854e77f65634a36041",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "52ba90cb_fe55f0c8",
         "filename": "/COMMIT_MSG",
@@ -162,8 +163,8 @@
         "endChar": 68
       },
       "revId": "db28823fa2fcc285739126854e77f65634a36041",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
-  ]
+  ],
+  "submitRequirementResults": []
 }
