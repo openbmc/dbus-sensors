@@ -125,6 +125,23 @@
       "message": "another unsafe reinterpret_cast.",
       "revId": "903a37714d5e1e63dfa827c0c5f61ae14084942f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29a669d6_f9351376",
+        "filename": "src/nvidia-gpu/tests/meson.build",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-05T17:25:36Z",
+      "side": 1,
+      "message": "I suspect we don\u0027t need a new executable for this, we can just add the new cpp to the existing nvidiagpusensor_test?",
+      "revId": "903a37714d5e1e63dfa827c0c5f61ae14084942f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
