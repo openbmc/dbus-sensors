@@ -266,7 +266,7 @@ struct Sensor
         return 1;
     }
 
-    void setInitialProperties(const std::string& unit,
+    void setInitialProperties(const std::string_view unit,
                               const std::string& label = std::string(),
                               size_t thresholdSize = 0)
     {
@@ -278,7 +278,7 @@ struct Sensor
 
         createAssociation(association, configurationPath);
 
-        sensorInterface->register_property("Unit", unit);
+        sensorInterface->register_property("Unit", std::string(unit));
         sensorInterface->register_property("MaxValue", maxValue);
         sensorInterface->register_property("MinValue", minValue);
         sensorInterface->register_property(
