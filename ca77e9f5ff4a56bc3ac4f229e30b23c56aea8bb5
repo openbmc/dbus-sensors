@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "e69146f3_32fb6cdd",
         "filename": "src/PSUSensorMain.cpp",
@@ -20,10 +21,10 @@
         "endChar": 18
       },
       "revId": "ca77e9f5ff4a56bc3ac4f229e30b23c56aea8bb5",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "1d673788_522abdbf",
         "filename": "src/PSUSensorMain.cpp",
@@ -43,10 +44,10 @@
         "endChar": 54
       },
       "revId": "ca77e9f5ff4a56bc3ac4f229e30b23c56aea8bb5",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "f94ae316_88c17c2d",
         "filename": "src/PSUSensorMain.cpp",
@@ -67,10 +68,10 @@
         "endChar": 54
       },
       "revId": "ca77e9f5ff4a56bc3ac4f229e30b23c56aea8bb5",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "bbfa5760_7accdb46",
         "filename": "src/PSUSensorMain.cpp",
@@ -90,8 +91,8 @@
         "endChar": 28
       },
       "revId": "ca77e9f5ff4a56bc3ac4f229e30b23c56aea8bb5",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
-  ]
+  ],
+  "submitRequirementResults": []
 }
