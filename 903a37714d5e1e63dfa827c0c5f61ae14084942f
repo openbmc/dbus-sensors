@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0cd28b73_1c63fecb",
+        "filename": "src/nvidia-gpu/InstanceDb.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-05T17:24:55Z",
+      "side": 1,
+      "message": "Can we please change this to make an raii class that encapsulates this?\n\nAs written, if an exception is thrown, the instance id will never be freed.  Internally it can still track the uint8.\n\n```\nstruct InstanceId{\n    InstanceId(uint8_t id): id(id){}\n\n    ~InstanceId(){\n       db.free(id);\n    }\n    uint8_t id;\n    InstanceIdDb\u0026 db;\n};\n```\n\nso that we\u0027re exception safe?",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 5
+      },
+      "revId": "903a37714d5e1e63dfa827c0c5f61ae14084942f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b30ba264_f1966d4f",
+        "filename": "src/nvidia-gpu/InstanceDb.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-05T17:24:55Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we maintain allocated instance ids instead of unallocated?",
+      "range": {
+        "startLine": 84,
+        "startChar": 41,
+        "endLine": 84,
+        "endChar": 52
+      },
+      "revId": "903a37714d5e1e63dfa827c0c5f61ae14084942f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a51c14c_0f16ed0c",
+        "filename": "src/nvidia-gpu/InstanceDb.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-05T17:24:55Z",
+      "side": 1,
+      "message": "unordered_map\n\nFor such a small map, we probably want boost::container::flat_map if we still want things in order.\n\n\na nit, but std::bitset is going to be a lot more space efficient if we only have 32 clients.",
+      "range": {
+        "startLine": 85,
+        "startChar": 9,
+        "endLine": 85,
+        "endChar": 12
+      },
+      "revId": "903a37714d5e1e63dfa827c0c5f61ae14084942f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "123abcfc_bd332b06",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-05T17:24:55Z",
+      "side": 1,
+      "message": "Unsafe reinterpret cast.  We should only be casting these to a type in one place, and length checks are always required.",
+      "revId": "903a37714d5e1e63dfa827c0c5f61ae14084942f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85a47db0_badd2cb5",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-05T17:24:55Z",
+      "side": 1,
+      "message": "(please do\u0027nt fix it here, but follow up) if these are truly 5 bit-wide fields, we should just declare them that way so we\u0027re not doing bit level manipulation.",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 70
+      },
+      "revId": "903a37714d5e1e63dfa827c0c5f61ae14084942f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f649113f_aee3c8d6",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-05T17:24:55Z",
+      "side": 1,
+      "message": "another unsafe reinterpret_cast.",
+      "revId": "903a37714d5e1e63dfa827c0c5f61ae14084942f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
