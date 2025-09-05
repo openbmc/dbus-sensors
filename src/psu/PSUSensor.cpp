@@ -37,6 +37,7 @@
 #include <memory>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
@@ -49,9 +50,9 @@ PSUSensor::PSUSensor(
     boost::asio::io_context& io, const std::string& sensorName,
     std::vector<thresholds::Threshold>&& thresholdsIn,
     const std::string& sensorConfiguration, const PowerState& powerState,
-    const std::string& sensorUnits, unsigned int factor, double max, double min,
-    double offset, const std::string& label, size_t tSize, double pollRate,
-    const std::shared_ptr<I2CDevice>& i2cDevice) :
+    const std::string_view sensorUnits, unsigned int factor, double max,
+    double min, double offset, const std::string& label, size_t tSize,
+    double pollRate, const std::shared_ptr<I2CDevice>& i2cDevice) :
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
            objectType, false, false, max, min, conn, powerState),
     i2cDevice(i2cDevice), objServer(objectServer),

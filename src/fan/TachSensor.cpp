@@ -37,6 +37,7 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <system_error>
 #include <utility>
 #include <vector>
@@ -44,7 +45,7 @@
 static constexpr unsigned int pwmPollMs = 500;
 
 TachSensor::TachSensor(
-    const std::string& path, const std::string& objectType,
+    const std::string& path, std::string_view objectType,
     sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     std::shared_ptr<PresenceGpio>& presenceGpio,
