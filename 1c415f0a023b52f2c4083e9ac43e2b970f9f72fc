@@ -50,6 +50,24 @@
       "message": "I like it. This is another reason `PWMSensor` is unique for having more than one field (`Value` and `Target`). The value written down by software can differ from the value coming up from the hardware. The normal `dbus-sensors` caching logic must not be used in this case, because as you said, comparing the value being written to the prior value written is not sufficient, as the hardware can unilaterally change out the value from underneath us. So, we need to check the value coming up from the hardware, and the value previously pushed down by the user, and only inhibit the write if BOTH of these already match what is attempting to be written again.",
       "revId": "1c415f0a023b52f2c4083e9ac43e2b970f9f72fc",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62a5f0f7_d1b1fe16",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2025-09-06T06:44:34Z",
+      "side": 1,
+      "message": "Yes. The changes here must not attempt to compete with the https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/79824 changes. I think both patches have the same intention of fixing the underlying bug. I will leave it up to the community to decide which solution is best.",
+      "parentUuid": "e91e90c3_c2924077",
+      "revId": "1c415f0a023b52f2c4083e9ac43e2b970f9f72fc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
