@@ -33,6 +33,23 @@
       "message": "It seems this change can also address the issue encountered in [Gerrit 79824]. \nHowever, it introduces additional reads of the hardware PWM file and does not rely on the D-Bus property to decide whether to write to hardware.\n\nI’m not sure if this approach is preferable and would appreciate input from other reviewers.\n\n[Gerrit 79824]: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/79824",
       "revId": "1c415f0a023b52f2c4083e9ac43e2b970f9f72fc",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b720d82_358817b0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000520
+      },
+      "writtenOn": "2025-09-06T06:41:27Z",
+      "side": 1,
+      "message": "I like it. This is another reason `PWMSensor` is unique for having more than one field (`Value` and `Target`). The value written down by software can differ from the value coming up from the hardware. The normal `dbus-sensors` caching logic must not be used in this case, because as you said, comparing the value being written to the prior value written is not sufficient, as the hardware can unilaterally change out the value from underneath us. So, we need to check the value coming up from the hardware, and the value previously pushed down by the user, and only inhibit the write if BOTH of these already match what is attempting to be written again.",
+      "revId": "1c415f0a023b52f2c4083e9ac43e2b970f9f72fc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
