@@ -70,6 +70,23 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d939c37b_b4fb5c94",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2025-09-08T07:16:44Z",
+      "side": 1,
+      "message": "LGTM.",
+      "revId": "ef1c7c9f45411f510b4acf681fd15440a0490188",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "361aa98d_7d8b66ba",
@@ -262,6 +279,24 @@
       "side": 1,
       "message": "Would it be preferable to avoid making the `Target` property reflect pure “user intent,” and instead keep the user intent as an internal variable used to decide whether to write to the hardware?\nThis would keep the external properties aligned with the actual hardware PWM value while still preserving intent internally for comparison.\n\nSeparately, I reviewed [Gerrit 82199].\nIt addresses inconsistencies by re-reading the hardware PWM in the setters and updating only when the hardware differs.\nThat should also solve this issue, but it does increase reads of the hardware PWM file.\n\n@patrick@stwcx.xyz, could you kindly share your thoughts or preference?\n\n[Gerrit 82199]: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/82199",
       "parentUuid": "a502e90f_4684551b",
+      "revId": "ef1c7c9f45411f510b4acf681fd15440a0490188",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd7ae0e8_98318d7e",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2025-09-08T07:16:44Z",
+      "side": 1,
+      "message": "I prefer this over [Gerrit 82199](https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/82199).\n\nWhen it comes to phosphor-fan-presence repo, phosphor-fan-monitor service compares between `Target` and `Value` for a configured period of time to see if `Value` lies within the allowed range computed from `Target` and a set of offset, deviation, ... This is to ensure that the physical fans are running at the desired speed set to `Target` by phosphor-fan-control service. If this check fails, `Functional` property is set to false for fan inventory objects under phosphor-inventory-manager \u003d\u003e fan fault LED might be turned ON.\n\nIf both `Value` and `Target` show hardware value, this check will never fail. So separate implementations of the two can better adhere to their names and help in those monitoring practices.\n\nTo double check, if I intentionally set 255 to a fan that was previously controlled to be running at 150, `Value` will show the new speed and `Target` will still show 150/255, right?",
+      "parentUuid": "9939391a_f2ada59e",
       "revId": "ef1c7c9f45411f510b4acf681fd15440a0490188",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
