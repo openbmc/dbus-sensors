@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f73e5328_ef35373e",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2025-09-08T04:26:58Z",
+      "side": 1,
+      "message": "Is there a PDI patch somewhere?",
+      "revId": "3b671dfaed5aef4a3ce210bb4cd981a15b53b9f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aead0efa_bb8998c0",
+        "filename": "src/fan/TachSensor.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2025-09-08T04:26:58Z",
+      "side": 1,
+      "message": "If statusMonitor is failed, does it need to go on to check sysfs value?\n\nCan it be placed in the code beneath? like:\n\n```\nif (!missing)\n{\n    // status \u003d statusMonitor-\u003eisPresent();\n    if (!err \u0026\u0026 !status)\n    {\n    ...\n    }\n    else\n    {\n      // increase error, set poll time.\n    }\n    ...\n```",
+      "revId": "3b671dfaed5aef4a3ce210bb4cd981a15b53b9f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
