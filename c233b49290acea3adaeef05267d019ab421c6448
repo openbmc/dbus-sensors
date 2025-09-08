@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "aacf22e0_47106cac",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2025-09-08T04:02:50Z",
+      "side": 1,
+      "message": "pwmPath?",
+      "range": {
+        "startLine": 230,
+        "startChar": 33,
+        "endLine": 230,
+        "endChar": 46
+      },
+      "revId": "c233b49290acea3adaeef05267d019ab421c6448",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "063a6c01_f9164358",
         "filename": "src/fan/FanMain.cpp",
         "patchSetId": 10
