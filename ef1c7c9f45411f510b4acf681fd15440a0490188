@@ -87,6 +87,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff323545_801db73a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2025-09-09T09:31:55Z",
+      "side": 1,
+      "message": "I prefer this over Gerrit 82199.\n\nWhen it comes to phosphor-fan-presence repo, phosphor-fan-monitor service compares between Target and Value for a configured period of time to see if Value lies within the allowed range computed from Target and a set of offset, deviation, ... This is to ensure that the physical fans are running at the desired speed set to Target by phosphor-fan-control service. If this check fails, Functional property is set to false for fan inventory objects under phosphor-inventory-manager \u003d\u003e fan fault LED might be turned ON.\n\nIf both Value and Target show hardware value, this check will never fail. So separate implementations of the two can better adhere to their names and help in those monitoring practices.",
+      "parentUuid": "d939c37b_b4fb5c94",
+      "revId": "ef1c7c9f45411f510b4acf681fd15440a0490188",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "361aa98d_7d8b66ba",
@@ -315,6 +333,24 @@
       "side": 1,
       "message": "Thank you for your feedback and support.\n\nIf you mean a fan whose `Target` was set to 150, and the PWM is changed to 255 via the driver or an I2C command, then `Value` will show 100% (the new hardware PWM 255) while `Target` will still show 150.\n\nIn other words, only the `Value` follows the hardware value reported by the driver; the `Target` only changes when the user sets it via D-Bus.",
       "parentUuid": "bd7ae0e8_98318d7e",
+      "revId": "ef1c7c9f45411f510b4acf681fd15440a0490188",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5b9cd0d_aa2ceb61",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2025-09-09T09:31:55Z",
+      "side": 1,
+      "message": "\u003e If you mean a fan whose Target was set to 150, and the PWM is changed to 255 via the driver or an I2C command, then Value will show 100% (the new hardware PWM 255) while Target will still show 150.\n\nYes that\u0027s what I meant.\n\n\u003e In other words, only the Value follows the hardware value reported by the driver; the Target only changes when the user sets it via D-Bus.\n\nAs expected. Thanks.",
+      "parentUuid": "766b7992_34ae076c",
       "revId": "ef1c7c9f45411f510b4acf681fd15440a0490188",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
