@@ -1,5 +1,7 @@
 #pragma once
 
+#mesondefine NVME_SMBUS_PEC
+
 // clang-format off
 constexpr const int validateUnsecureFeature = @VALIDATION_UNSECURE_FEATURE@;
 

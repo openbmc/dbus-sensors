@@ -99,6 +99,16 @@ static void execBasicQuery(int bus, uint8_t addr, uint8_t cmd,
             return;
         }
 
+#ifdef NVME_SMBUS_PEC
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
+        if (::ioctl(fileHandle.handle(), I2C_PEC, 1) < 0)
+        {
+            lg2::warning(
+                "Could not set PEC to device '{ADDR}' for bus '{BUS}': '{ERRNO}'",
+                "ADDR", lg2::hex, addr, "BUS", bus, "ERRNO", errno);
+        }
+#endif
+
         resp.resize(UINT8_MAX + 1);
 
         /* Issue the NVMe MI basic command */
