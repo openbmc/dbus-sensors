@@ -396,9 +396,19 @@ void processSensorConfigs(
                 configs.nicNetworkPortType = "Ethernet";
             }
 
-            discoverDevices(io, objectServer, gpuDevices, smaDevices,
-                            pcieDevices, dbusConnection, mctpRequester, configs,
-                            path);
+            try
+            {
+                uint8_t eid = loadVariant<uint8_t>(cfg, "StaticEid");
+                queryDeviceIdentification(
+                    io, objectServer, gpuDevices, smaDevices, pcieDevices,
+                    dbusConnection, mctpRequester, configs, path, eid);
+            }
+            catch (const std::invalid_argument&)
+            {
+                discoverDevices(io, objectServer, gpuDevices, smaDevices,
+                                pcieDevices, dbusConnection, mctpRequester,
+                                configs, path);
+            }
 
             lg2::info(
                 "Detected configuration {NAME} of type {TYPE} at path: {PATH}.",
