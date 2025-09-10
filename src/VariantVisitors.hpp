@@ -92,3 +92,19 @@ struct VariantToNumArrayVisitor
             boost::typeindex::type_id<T>().pretty_name() + " to vector<U>");
     }
 };
+
+struct VariantToBoolVisitor
+{
+    template <typename T>
+    bool operator()(const T& t) const
+    {
+        if constexpr (std::is_same_v<T, bool>)
+        {
+            return t;
+        }
+
+        throw std::invalid_argument(
+            "Cannot translate type " +
+            boost::typeindex::type_id<T>().pretty_name() + " to bool");
+    }
+};
