@@ -339,8 +339,18 @@ void processSensorConfigs(
                 configs.pollRate = sensorPollRateMs;
             }
 
-            discoverDevices(io, objectServer, gpuDevices, smaDevices,
-                            dbusConnection, mctpRequester, configs, path);
+            try
+            {
+                uint8_t eid = loadVariant<uint8_t>(cfg, "StaticEid");
+                queryDeviceIdentification(io, objectServer, gpuDevices,
+                                          smaDevices, dbusConnection,
+                                          mctpRequester, configs, path, eid);
+            }
+            catch (const std::invalid_argument&)
+            {
+                discoverDevices(io, objectServer, gpuDevices, smaDevices,
+                                dbusConnection, mctpRequester, configs, path);
+            }
 
             lg2::info(
                 "Detected configuration {NAME} of type {TYPE} at path: {PATH}.",
