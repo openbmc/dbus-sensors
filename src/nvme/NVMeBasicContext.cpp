@@ -3,7 +3,6 @@
 #include "NVMeContext.hpp"
 #include "NVMeSensor.hpp"
 
-#include <endian.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
 
@@ -48,37 +47,15 @@ extern "C"
  * https://nvmexpress.org/wp-content/uploads/NVMe_Management_-_Technical_Note_on_Basic_Management_Command.pdf
  */
 
-static std::shared_ptr<std::array<uint8_t, 6>> encodeBasicQuery(
-    int bus, uint8_t device, uint8_t offset)
+struct BasicQueryCmd
 {
-    if (bus < 0)
-    {
-        throw std::domain_error("Invalid bus argument");
-    }
+    int bus;
+    uint8_t device;
+    uint8_t offset;
+    bool smbusPEC;
+};
 
-    /* bus + address + command */
-    uint32_t busle = htole32(static_cast<uint32_t>(bus));
-    auto command =
-        std::make_shared<std::array<uint8_t, sizeof(busle) + 1 + 1>>();
-    memcpy(command->data(), &busle, sizeof(busle));
-    (*command)[sizeof(busle) + 0] = device;
-    (*command)[sizeof(busle) + 1] = offset;
-
-    return command;
-}
-
-static void decodeBasicQuery(const std::array<uint8_t, 6>& req, int& bus,
-                             uint8_t& device, uint8_t& offset)
-{
-    uint32_t busle = 0;
-
-    memcpy(&busle, req.data(), sizeof(busle));
-    bus = le32toh(busle);
-    device = req[sizeof(busle) + 0];
-    offset = req[sizeof(busle) + 1];
-}
-
-static void execBasicQuery(int bus, uint8_t addr, uint8_t cmd,
+static void execBasicQuery(int bus, uint8_t addr, uint8_t cmd, bool smbusPEC,
                            std::vector<uint8_t>& resp)
 {
     int32_t size = 0;
@@ -93,10 +70,22 @@ static void execBasicQuery(int bus, uint8_t addr, uint8_t cmd,
         if (::ioctl(fileHandle.handle(), I2C_SLAVE, addr) == -1)
         {
             lg2::error(
-                "Failed to configure device address '{ADDR}' for bus '{BUS}': ERRNO",
+                "Failed to configure device address '{ADDR}' for bus '{BUS}': '{ERRNO}'",
                 "ADDR", lg2::hex, addr, "BUS", bus, "ERRNO", lg2::hex, errno);
             resp.resize(0);
             return;
+        }
+
+        if (smbusPEC)
+        {
+            // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
+            if (::ioctl(fileHandle.handle(), I2C_PEC, 1) < 0)
+            {
+                lg2::error(
+                    "Could not set PEC to device '{ADDR}' for bus '{BUS}': '{ERRNO}'",
+                    "ADDR", lg2::hex, addr, "BUS", bus, "ERRNO", errno);
+                return;
+            }
         }
 
         resp.resize(UINT8_MAX + 1);
@@ -138,17 +127,12 @@ static ssize_t processBasicQueryStream(FileHandle& in, FileHandle& out)
 
     while (true)
     {
-        uint8_t device = 0;
-        uint8_t offset = 0;
         uint8_t len = 0;
-        int bus = 0;
-
-        /* bus + address + command */
-        std::array<uint8_t, sizeof(uint32_t) + 1 + 1> req{};
+        BasicQueryCmd req{};
 
         /* Read the command parameters */
-        ssize_t rc = ::read(in.handle(), req.data(), req.size());
-        if (rc != static_cast<ssize_t>(req.size()))
+        ssize_t rc = ::read(in.handle(), &req, sizeof(req));
+        if (rc != static_cast<ssize_t>(sizeof(req)))
         {
             lg2::error(
                 "Failed to read request from in descriptor '{ERROR_MESSAGE}'",
@@ -160,10 +144,8 @@ static ssize_t processBasicQueryStream(FileHandle& in, FileHandle& out)
             return -EIO;
         }
 
-        decodeBasicQuery(req, bus, device, offset);
-
         /* Execute the query */
-        execBasicQuery(bus, device, offset, resp);
+        execBasicQuery(req.bus, req.device, req.offset, req.smbusPEC, resp);
 
         /* Write out the response length */
         len = resp.size();
@@ -285,11 +267,18 @@ void NVMeBasicContext::readAndProcessNVMeSensor()
         return;
     }
 
-    auto command = encodeBasicQuery(sensor->bus, sensor->address, 0x00);
+    if (sensor->bus < 0)
+    {
+        throw std::domain_error("Invalid bus argument");
+    }
+
+    BasicQueryCmd tmpCmd = {sensor->bus, sensor->address, 0x00,
+                            sensor->smbusPEC};
+    auto command = std::make_shared<BasicQueryCmd>(tmpCmd);
 
     /* Issue the request */
     boost::asio::async_write(
-        reqStream, boost::asio::buffer(command->data(), command->size()),
+        reqStream, boost::asio::buffer(command.get(), sizeof(*command)),
         [command](boost::system::error_code ec, std::size_t) {
             if (ec)
             {
