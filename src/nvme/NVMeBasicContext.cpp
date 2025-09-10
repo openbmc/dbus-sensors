@@ -1,5 +1,7 @@
 #include "NVMeBasicContext.hpp"
 
+#include "dbus-sensor_config.h"
+
 #include "NVMeContext.hpp"
 #include "NVMeSensor.hpp"
 
@@ -97,6 +99,17 @@ static void execBasicQuery(int bus, uint8_t addr, uint8_t cmd,
                 "ADDR", lg2::hex, addr, "BUS", bus, "ERRNO", lg2::hex, errno);
             resp.resize(0);
             return;
+        }
+
+        if constexpr (nvmeSMBusPEC == 1)
+        {
+            // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
+            if (::ioctl(fileHandle.handle(), I2C_PEC, 1) < 0)
+            {
+                lg2::warning(
+                    "Could not set PEC to device '{ADDR}' for bus '{BUS}': '{ERRNO}'",
+                    "ADDR", lg2::hex, addr, "BUS", bus, "ERRNO", errno);
+            }
         }
 
         resp.resize(UINT8_MAX + 1);

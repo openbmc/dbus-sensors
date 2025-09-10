@@ -107,3 +107,9 @@ option(
     value: 'enabled',
     description: 'Enable Cable monitor.',
 )
+option(
+    'nvme-smbus-pec',
+    type: 'feature',
+    value: 'disabled',
+    description: 'Enables SMBus Packet-Error-Checking (PEC) in smbus driver for NVMe device.',
+)
