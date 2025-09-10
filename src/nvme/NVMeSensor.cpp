@@ -36,17 +36,19 @@
 static constexpr double maxReading = 127;
 static constexpr double minReading = 0;
 
-NVMeSensor::NVMeSensor(sdbusplus::asio::object_server& objectServer,
-                       boost::asio::io_context& /*unused*/,
-                       std::shared_ptr<sdbusplus::asio::connection>& conn,
-                       const std::string& sensorName,
-                       std::vector<thresholds::Threshold>&& thresholdsIn,
-                       const std::string& sensorConfiguration,
-                       const int busNumber, const uint8_t slaveAddr) :
+NVMeSensor::NVMeSensor(
+    sdbusplus::asio::object_server& objectServer,
+    boost::asio::io_context& /*unused*/,
+    std::shared_ptr<sdbusplus::asio::connection>& conn,
+    const std::string& sensorName,
+    std::vector<thresholds::Threshold>&& thresholdsIn,
+    const std::string& sensorConfiguration, const int busNumber,
+    const uint8_t slaveAddr, bool smbusPEC) :
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
            NVMeSensor::sensorType, false, false, maxReading, minReading, conn,
            PowerState::on),
-    bus(busNumber), address(slaveAddr), objServer(objectServer)
+    bus(busNumber), address(slaveAddr), smbusPEC(smbusPEC),
+    objServer(objectServer)
 {
     if (bus < 0)
     {

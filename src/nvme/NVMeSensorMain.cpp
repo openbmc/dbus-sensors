@@ -100,6 +100,18 @@ static std::optional<std::string> extractSensorName(
     return std::get<std::string>(findSensorName->second);
 }
 
+static std::optional<std::string> extractPEC(
+    const SensorBaseConfigMap& properties)
+{
+    auto findPEC = properties.find("PEC");
+    if (findPEC == properties.end())
+    {
+        return std::nullopt;
+    }
+
+    return std::visit(VariantToStringVisitor(), findPEC->second);
+}
+
 static std::filesystem::path deriveRootBusPath(int busNumber)
 {
     return "/sys/bus/i2c/devices/i2c-" + std::to_string(busNumber) +
@@ -193,6 +205,13 @@ static void handleSensorConfigurations(
                        *sensorName);
         }
 
+        bool smbusPEC = false;
+        std::optional<std::string> smbusPECStr = extractPEC(sensorConfig);
+        if (smbusPECStr)
+        {
+            smbusPEC = (*smbusPECStr == "Required");
+        }
+
         try
         {
             // May throw for an invalid rootBus
@@ -205,7 +224,7 @@ static void handleSensorConfigurations(
                 std::make_shared<NVMeSensor>(
                     objectServer, io, dbusConnection, *sensorName,
                     std::move(sensorThresholds), interfacePath, *busNumber,
-                    slaveAddr);
+                    slaveAddr, smbusPEC);
 
             context->addSensor(sensorPtr);
         }
