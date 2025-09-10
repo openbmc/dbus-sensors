@@ -7,6 +7,8 @@ conf_data.set10(
     'INSECURE_UNRESTRICTED_SENSOR_OVERRIDE',
     get_option('insecure-sensor-override').allowed(),
 )
+conf_data.set10('NVME_SMBUS_PEC', get_option('nvme-smbus-pec').allowed())
+
 configure_file(
     input: 'dbus-sensor_config.h.in',
     output: 'dbus-sensor_config.h',
