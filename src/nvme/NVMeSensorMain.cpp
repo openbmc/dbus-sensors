@@ -100,6 +100,17 @@ static std::optional<std::string> extractSensorName(
     return std::get<std::string>(findSensorName->second);
 }
 
+static bool extractPECEnabling(const SensorBaseConfigMap& properties)
+{
+    auto findPECEnabling = properties.find("EnablePEC");
+    if (findPECEnabling == properties.end())
+    {
+        return false;
+    }
+
+    return std::visit(VariantToBoolVisitor(), findPECEnabling->second);
+}
+
 static std::filesystem::path deriveRootBusPath(int busNumber)
 {
     return "/sys/bus/i2c/devices/i2c-" + std::to_string(busNumber) +
@@ -193,6 +204,8 @@ static void handleSensorConfigurations(
                        *sensorName);
         }
 
+        bool smbusPEC = extractPECEnabling(sensorConfig);
+
         try
         {
             // May throw for an invalid rootBus
@@ -205,7 +218,7 @@ static void handleSensorConfigurations(
                 std::make_shared<NVMeSensor>(
                     objectServer, io, dbusConnection, *sensorName,
                     std::move(sensorThresholds), interfacePath, *busNumber,
-                    slaveAddr);
+                    slaveAddr, smbusPEC);
 
             context->addSensor(sensorPtr);
         }
