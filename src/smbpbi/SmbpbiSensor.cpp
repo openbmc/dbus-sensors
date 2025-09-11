@@ -349,14 +349,16 @@ void SmbpbiSensor::waitReadCallback(const boost::system::error_code& ec)
         return;
     }
 
-    if (ret >= 0)
+    if (ret >= 0 && ((temp >= minValue && temp <= maxValue) ||
+                     (sensorType == "energy" && temp >= minValue)))
     {
         lg2::debug("Value update to {TEMP}", "TEMP", temp);
         updateValue(temp);
     }
     else
     {
-        lg2::error("Invalid read getRegsInfo");
+        lg2::error("Invalid read at offset: {OFFSET} with value: {VALUE}",
+                   "OFFSET", offset, "VALUE", temp);
         incrementError();
     }
     read();
