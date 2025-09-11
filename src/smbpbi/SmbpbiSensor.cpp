@@ -349,15 +349,35 @@ void SmbpbiSensor::waitReadCallback(const boost::system::error_code& ec)
         return;
     }
 
-    if (ret >= 0)
+    auto outOfRange = [this](auto reading) {
+        if (reading <= this->minValue)
+        {
+            return true;
+        }
+        if ((reading >= this->maxValue) && (this->sensorType != "energy"))
+        {
+            return true;
+        }
+        return false;
+    };
+
+    if (ret < 0)
     {
-        lg2::debug("Value update to {TEMP}", "TEMP", temp);
-        updateValue(temp);
+        lg2::error("Invalid read at offset: {OFFSET} with value: {VALUE}",
+                   "OFFSET", offset, "VALUE", temp);
+        incrementError();
+    }
+    else if (outOfRange(temp))
+    {
+        lg2::error(
+            "Reading out of range at offset: {OFFSET} with value: {VALUE}",
+            "OFFSET", offset, "VALUE", temp);
+        incrementError();
     }
     else
     {
-        lg2::error("Invalid read getRegsInfo");
-        incrementError();
+        lg2::debug("Value update to {TEMP}", "TEMP", temp);
+        updateValue(temp);
     }
     read();
 }
