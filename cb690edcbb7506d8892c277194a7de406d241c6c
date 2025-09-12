@@ -16,6 +16,24 @@
       "message": "Can you please rather define this to the value `1` when enabled or `0` when not. From there we can do:\n\n```\nif constexpr (NVME_SMBUS_SPEC \u003d\u003d 1) {\n    if (::ioctl(...) \u003c 0) {\n        lg2::warning(...);\n     }\n}\n```\n\nThis makes sure it is always visible to the compiler and we won\u0027t have untested issues with syntax creeping in.",
       "revId": "cb690edcbb7506d8892c277194a7de406d241c6c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63415709_7bf60ddc",
+        "filename": "src/nvme/NVMeBasicContext.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2025-09-12T07:04:17Z",
+      "side": 1,
+      "message": "changed the option to feature type, and use if constexpr ()",
+      "parentUuid": "249ca29c_84b2d58e",
+      "revId": "cb690edcbb7506d8892c277194a7de406d241c6c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
