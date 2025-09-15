@@ -46,6 +46,30 @@
       },
       "revId": "f0ad3ac5cbfcf6f52b20e3ead1256b7067cf589a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00ec4144_eb2db26e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-15T14:53:48Z",
+      "side": 1,
+      "message": "\u003e multiple devices would appear as PCIe Devices in redfish.\n\nRight, this is the bug.  In the case of things like Alon8, with multiple Cx8s on the same board, exposing them as separate PCIe devices might not be correct.",
+      "parentUuid": "b8ee345d_d3356217",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 46
+      },
+      "revId": "f0ad3ac5cbfcf6f52b20e3ead1256b7067cf589a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
