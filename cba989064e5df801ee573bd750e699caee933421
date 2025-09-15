@@ -16,6 +16,24 @@
       "message": "Why would this be a meson option and not an entity-manager config?  Devices not supporting PEC would be based on the firmware of the NVMe and not based on the source mainboard, right?  How could this be a compile time decision?",
       "revId": "cba989064e5df801ee573bd750e699caee933421",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4363864_95a858ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-09-15T01:32:42Z",
+      "side": 1,
+      "message": "That\u0027s a fair question. I think I was distracted by seeing something I anticipated (the `ioctl()`, rather than some userspace attempt at PEC processing), and something I was surprised by (`#ifdef` for conditional support).\n\nBut yes, this really should be an EM property of the drive in question.",
+      "parentUuid": "f87e8459_b21d88ec",
+      "revId": "cba989064e5df801ee573bd750e699caee933421",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
