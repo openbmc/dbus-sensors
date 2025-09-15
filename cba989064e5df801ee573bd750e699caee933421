@@ -52,6 +52,24 @@
       "parentUuid": "a4363864_95a858ac",
       "revId": "cba989064e5df801ee573bd750e699caee933421",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72dd8dfc_2f820e0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-15T18:58:27Z",
+      "side": 1,
+      "message": "+1 to moving this to an EM config given that this is based on the drive model, not a specific bmc.",
+      "parentUuid": "6dfc5143_a2f825cd",
+      "revId": "cba989064e5df801ee573bd750e699caee933421",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
