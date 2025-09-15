@@ -142,6 +142,30 @@
       },
       "revId": "23199402b3cee659e244541d2f8ec4bbf23b0b0f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e532aba7_4432327a",
+        "filename": "meson.build",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-15T15:31:21Z",
+      "side": 1,
+      "message": "Yep, I\u0027m aware of the provide section, but it looks like sdbusplus is also a single dependency object that gets returned:\n\nhttps://gerrit.openbmc.org/plugins/gitiles/openbmc/phosphor-dbus-interfaces/+/69292c29dfe991512141f5063b4d3ed8679f567f/subprojects/sdbusplus.wrap\n\nI\u0027ll take a deeper look again today.  This was all months ago and I threw a couple of hours at it and gave up.  I can give it another shot.",
+      "parentUuid": "5ca5c883_b52e7817",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 5
+      },
+      "revId": "23199402b3cee659e244541d2f8ec4bbf23b0b0f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
