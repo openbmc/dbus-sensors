@@ -1,0 +1,10 @@
+[wrap-file]
+directory = boost-1.89.0
+
+source_url = https://github.com/boostorg/boost/releases/download/boost-1.89.0/boost-1.89.0-cmake.tar.gz
+source_hash = 954a01219bf818c7fb850fa610c2c8c71a4fa28fa32a1900056bcb6ff58cf908
+source_filename = 1_89_0.tar.gz
+patch_directory = boost
+
+[provide]
+boost = boost_dep

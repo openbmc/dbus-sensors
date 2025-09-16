@@ -1,6 +1,10 @@
 build*/
 subprojects/*
 !subprojects/*.wrap
+
+# meson auto generates a wrap redirect. Ignore it.
+subprojects/boost.wrap
+
 !subprojects/.clang-tidy
 !subprojects/.clang-format
 !subprojects/.clang-tidy-ignore
