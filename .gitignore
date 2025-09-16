@@ -1,6 +1,9 @@
 build*/
 subprojects/*
 !subprojects/*.wrap
+# Meson automatically generates a wrap redirect for this
+subprojects/boost.wrap
+
 !subprojects/.clang-tidy
 !subprojects/.clang-format
 !subprojects/.clang-tidy-ignore
