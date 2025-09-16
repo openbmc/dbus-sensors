@@ -33,6 +33,24 @@
       "message": "Also to be clear, this isn\u0027t about Patrick, this isn\u0027t implemented correctly to Redfish which requires a reset.",
       "revId": "2fa1057f07fc7769852efeb5e1965c9b28aa4ef3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93b6f008_1f454379",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-09-16T11:39:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3456409a_a948f09f",
+      "revId": "2fa1057f07fc7769852efeb5e1965c9b28aa4ef3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

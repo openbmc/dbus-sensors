@@ -319,6 +319,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b2159e7_13b4ffc4",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerPeakReading.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-09-16T11:39:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df99365a_4d44968c",
+      "revId": "80ce8565d95d35f47289cbd946a2896ee5d12f74",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5df7c822_522306ec",
