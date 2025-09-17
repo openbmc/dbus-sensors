@@ -42,14 +42,16 @@ static auto getObjectPath(const std::string& detectorName)
 
 GPIODetector::GPIODetector(sdbusplus::async::context& ctx, Events& leakEvents,
                            const config::DetectorConfig& config) :
-    DetectorIntf(ctx, getObjectPath(config.name).str.c_str()), ctx(ctx),
-    leakEvents(leakEvents), config(config),
+    DetectorIntf(ctx, getObjectPath(config.name).str.c_str(),
+                 DetectorIntf::Definitions::properties_t{},
+                 DetectorIntf::Detector::properties_t{
+                     config.name, DetectorState::Normal, config.type}),
+    ctx(ctx), leakEvents(leakEvents), config(config),
     gpioInterface(ctx, config.name, config.pinName,
                   (config.polarity == config::PinPolarity::activeLow),
                   std::bind_front(&GPIODetector::updateGPIOStateAsync, this))
 {
-    pretty_name<false>(config.name);
-    type<false>(config.type);
+    Detector::emit_added();
 
     ctx.spawn(gpioInterface.start());
 
