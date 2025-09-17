@@ -94,9 +94,9 @@ class GPIODetector : public DetectorIntf
 
     auto createAssociations() -> void;
 
+  private:
     auto updateGPIOStateAsync(bool gpioState) -> sdbusplus::async::task<>;
 
-  private:
     sdbusplus::async::context& ctx;
     Events& leakEvents;
     config::DetectorConfig config;
