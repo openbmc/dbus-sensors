@@ -16,6 +16,24 @@
       "message": "This is \"upstream\".  What does this mean?",
       "revId": "0dbf783a41f976046776970aebeca9778c50da7d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eef86703_fe85868d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002479
+      },
+      "writtenOn": "2025-09-17T06:11:00Z",
+      "side": 1,
+      "message": "This corresponds to dbus-sensors. To avoid confusion, it has been changed to a URL.",
+      "parentUuid": "dcd08aed_06c2e195",
+      "revId": "0dbf783a41f976046776970aebeca9778c50da7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
