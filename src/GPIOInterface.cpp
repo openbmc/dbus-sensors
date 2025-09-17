@@ -4,6 +4,7 @@
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/async.hpp>
 
+#include <chrono>
 #include <exception>
 #include <memory>
 #include <stdexcept>
@@ -80,6 +81,15 @@ auto GPIOInterface::readGPIOAsyncEvent() -> sdbusplus::async::task<>
     {
         // Wait for the fd event for the line to change
         co_await fdioInstance->next();
+
+        // event_read() does not clear the EPOLLIN flag immediately; it is
+        // cleared during the subsequent epoll check. Therefore, call event_wait
+        // with a zero timeout to ensure that event_read() is only invoked when
+        // an event is available, preventing it from blocking.
+        if (!line.event_wait(std::chrono::milliseconds(0)))
+        {
+            continue;
+        }
 
         line.event_read();
         auto lineValue = line.get_value();
