@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce8ebd64_f4f35114",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002229
+      },
+      "writtenOn": "2025-09-17T13:00:25Z",
+      "side": 1,
+      "message": "We parse the slot ID from the EntityManager configuration. Specifically, we read the “SlotId” field from the sensor’s config and pass it through during construction.  \nExample:\n```\n{\n            \"Name\": \"MEDUSA_MB2_12VHSC\",\n            \"PowerState\": \"ChassisOn\",\n            \"SlotId\": \"2\",\n}\n```\nRef:\nSchema update of Emtity-Manager:\nhttps://gerrit.openbmc.org/c/openbmc/entity-manager/+/74072",
+      "parentUuid": "e5c6e5b6_53cc545e",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 65
+      },
+      "revId": "1e81877151c1118ff12c1fc68970200dace0cdb0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d331e0e_5f18f1d1",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-12-02T22:26:13Z",
       "side": 1,
       "message": "1. Did you verify that sensors with a different slotID are not affected by chassis7 state? Please add that result\n2. Did you verify that sensors without slotID are linked to chassis0 power state? Please add that result",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 12
+      },
+      "revId": "1e81877151c1118ff12c1fc68970200dace0cdb0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3118d6fc_3b073ace",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1002229
+      },
+      "writtenOn": "2025-09-17T13:00:25Z",
+      "side": 1,
+      "message": "Thanks for the questions. I’ve added both verification results to the commit (Patch 28), under “Test Result”:\n\n1.Sensors with a different slotId are not affected by chassis7 state\n-Demonstrated by power off/on chassis7: only slot7 sensors were deactivated/activated \n\u003e slot7 Chassis power off\n```\nSep 17 15:15:02 bmc psusensor[2041]: PowerStateChanged: Slot 7, newState: Off, PowerState_type: ChassisOn\nSep 17 15:15:02 bmc psusensor[2041]: Checking slot 0, sensor FANBOARD0 ADC_3V3_STBY_VOLT_V  PowerState_type: ChassisOn\nSep 17 15:15:02 bmc psusensor[2041]: Checking slot 0, sensor FANBOARD0 ADC_48V_AUX_VOLT_V  PowerState_type: ChassisOn\n...\nSep 17 15:15:02 bmc psusensor[2041]: Checking slot 6, sensor MEDUSA_MB6_HSC_12V_TEMP_C  PowerState_type: ChassisOn\n...\nSep 17 15:15:02 bmc psusensor[2041]: Checking slot 7, sensor MEDUSA_MB7_HSC_12V_INPUT_1_PWR_W  PowerState_type: ChassisOn\nSep 17 15:15:02 bmc psusensor[2041]: Deactivating slot 7, sensor MEDUSA_MB7_HSC_12V_INPUT_1_PWR_W, due to PowerState::chassisOn\nSep 17 15:15:02 bmc psusensor[2041]: Checking slot 7, sensor MEDUSA_MB7_HSC_12V_INPUT_VOLT_V  PowerState_type: ChassisOn\nSep 17 15:15:02 bmc psusensor[2041]: Deactivating slot 7, sensor MEDUSA_MB7_HSC_12V_INPUT_VOLT_V, due to PowerState::chassisOn\n```\n\u003e slot7 Chassis power on\n```\nSep 17 15:19:18 bmc psusensor[2041]: PowerStateChanged: Slot 7, newState: On, PowerState_type: ChassisOn\nSep 17 15:19:18 bmc psusensor[2041]: Sensor properties - Name: MEDUSA_MB7_HSC_12V_OUTPUT_VOLT_V, Scale: 3, Min: 0.000000, Max: 255.000000, Offset: 0.\nSep 17 15:19:18 bmc psusensor[2041]: Activated existing \u0027MEDUSA_MB7_HSC_12V_OUTPUT_VOLT_V\u0027 sensor\nSep 17 15:19:18 bmc psusensor[2041]: Sensor properties - Name: MEDUSA_MB7_HSC_12V_1_CURR_A, Scale: 500, Min: 0.000000, Max: 255.000000, Offset: 0.000\nSep 17 15:19:18 bmc psusensor[2041]: Activated existing \u0027MEDUSA_MB7_HSC_12V_1_CURR_A\u0027 sensor\nSep 17 15:19:18 bmc psusensor[2041]: Sensor properties - Name: MEDUSA_MB7_HSC_12V_INPUT_1_PWR_W, Scale: 500000, Min: 0.000000, Max: 3000.000000, Offs\nSep 17 15:19:18 bmc psusensor[2041]: Activated existing \u0027MEDUSA_MB7_HSC_12V_INPUT_1_PWR_W\u0027 sensor\nSep 17 15:19:18 bmc psusensor[2041]: Sensor properties - Name: MEDUSA_MB7_HSC_12V_INPUT_VOLT_V, Scale: 3, Min: 0.000000, Max: 300.000000, Offset: 0.0\nSep 17 15:19:18 bmc psusensor[2041]: Activated existing \u0027MEDUSA_MB7_HSC_12V_INPUT_VOLT_V\u0027 sensor\nSep 17 15:19:18 bmc psusensor[2041]: Sensor properties - Name: MEDUSA_MB7_HSC_12V_TEMP_C, Scale: 3, Min: -128.000000, Max: 127.000000, Offset: 0.0000\nSep 17 15:19:18 bmc psusensor[2041]: Activated existing \u0027MEDUSA_MB7_HSC_12V_TEMP_C\u0027 sensor\n```\n\n2.Sensors without slotID are linked to chassis0 \n```\nSep 17 15:15:02 bmc psusensor[2041]: Checking slot 0, sensor FANBOARD0 ADC_3V3_STBY_VOLT_V  PowerState_type: ChassisOn\nSep 17 15:15:02 bmc psusensor[2041]: Checking slot 0, sensor FANBOARD0 ADC_48V_AUX_VOLT_V  PowerState_type: ChassisOn\n```",
+      "parentUuid": "5d331e0e_5f18f1d1",
       "range": {
         "startLine": 31,
         "startChar": 0,
@@ -316,6 +364,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9d627c9_476ff484",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 1002229
+      },
+      "writtenOn": "2025-09-17T13:00:25Z",
+      "side": 1,
+      "message": "Mark as resolved",
+      "parentUuid": "9072b87c_35e5dfed",
+      "range": {
+        "startLine": 535,
+        "startChar": 12,
+        "endLine": 535,
+        "endChar": 21
+      },
+      "revId": "1e81877151c1118ff12c1fc68970200dace0cdb0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2b92a07e_faa07439",
@@ -376,6 +448,30 @@
       "side": 1,
       "message": "Fixed in patch27",
       "parentUuid": "b7dfdaea_083d77a6",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 43
+      },
+      "revId": "1e81877151c1118ff12c1fc68970200dace0cdb0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89f06190_599e1241",
+        "filename": "src/Utils.hpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1002229
+      },
+      "writtenOn": "2025-09-17T13:00:25Z",
+      "side": 1,
+      "message": "Mark as resolved",
+      "parentUuid": "5b7189ec_d8d1da03",
       "range": {
         "startLine": 71,
         "startChar": 0,
