@@ -6,6 +6,7 @@
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/async.hpp>
 #include <sdbusplus/async/server.hpp>
+#include <sdbusplus/message/native_types.hpp>
 #include <xyz/openbmc_project/Association/Definitions/aserver.hpp>
 #include <xyz/openbmc_project/Configuration/GPIOLeakDetector/client.hpp>
 #include <xyz/openbmc_project/State/Leak/Detector/aserver.hpp>
@@ -74,6 +75,7 @@ struct DetectorConfig
     std::string pinName = Defaults::pinName;
     PinPolarity polarity = PinPolarity::unknown;
     DetectorLevel level = DetectorLevel::unknown;
+    sdbusplus::message::object_path parentInventoryPath;
 
     struct Defaults
     {
@@ -89,6 +91,8 @@ class GPIODetector : public DetectorIntf
   public:
     explicit GPIODetector(sdbusplus::async::context& ctx, Events& leakEvents,
                           const config::DetectorConfig& config);
+
+    auto createAssociations() -> void;
 
     auto updateGPIOStateAsync(bool gpioState) -> sdbusplus::async::task<>;
 

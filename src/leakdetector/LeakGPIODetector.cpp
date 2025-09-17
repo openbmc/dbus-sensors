@@ -13,6 +13,7 @@
 #include <string>
 #include <string_view>
 #include <tuple>
+#include <vector>
 
 namespace leak
 {
@@ -55,9 +56,27 @@ GPIODetector::GPIODetector(sdbusplus::async::context& ctx, Events& leakEvents,
 {
     Detector::emit_added();
 
+    createAssociations();
+
     ctx.spawn(gpioInterface.start());
 
     debug("Created leak detector {NAME}", "NAME", config.name);
+}
+
+auto GPIODetector::createAssociations() -> void
+{
+    using association_t = std::tuple<std::string, std::string, std::string>;
+    using association_list_t = std::vector<association_t>;
+    association_list_t associationList;
+
+    association_t association = {"monitoring", "monitored_by",
+                                 config.parentInventoryPath};
+
+    associationList.emplace_back(association);
+
+    associations(associationList);
+
+    Definitions::emit_added();
 }
 
 auto GPIODetector::updateGPIOStateAsync(bool gpioState)

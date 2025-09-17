@@ -132,9 +132,14 @@ auto DetectionManager::getDetectorConfig(
         co_return std::nullopt;
     }
 
-    debug("Detector config: {NAME} {PIN_NAME} {POLARITY} {LEVEL}", "NAME",
-          config.name, "PIN_NAME", config.pinName, "POLARITY", config.polarity,
-          "LEVEL", config.level);
+    config.parentInventoryPath =
+        std::filesystem::path(objectPath.str).parent_path().string();
+
+    debug(
+        "Detector config: {NAME} {PIN_NAME} {POLARITY} {LEVEL} {INVENTORY_PATH}",
+        "NAME", config.name, "PIN_NAME", config.pinName, "POLARITY",
+        config.polarity, "LEVEL", config.level, "INVENTORY_PATH",
+        config.parentInventoryPath);
 
     co_return config;
 }
