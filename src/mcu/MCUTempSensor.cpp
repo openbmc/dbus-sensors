@@ -53,8 +53,6 @@ extern "C"
 #include <linux/i2c-dev.h>
 }
 
-constexpr const bool debug = false;
-
 constexpr const char* sensorType = "MCUTempSensor";
 static constexpr double mcuTempMaxReading = 0xFF;
 static constexpr double mcuTempMinReading = 0;
@@ -182,11 +180,8 @@ void MCUTempSensor::read()
         if (ret >= 0)
         {
             double v = static_cast<double>(temp) / 1000;
-            if constexpr (debug)
-            {
-                lg2::error("Value update to '{VALUE}' raw reading '{RAW}'",
-                           "VALUE", v, "RAW", temp);
-            }
+            lg2::debug("Value update to '{VALUE}' raw reading '{RAW}'", "VALUE",
+                       v, "RAW", temp);
             updateValue(v);
         }
         else
@@ -243,15 +238,12 @@ void createSensors(
                     std::string sensorClass =
                         loadVariant<std::string>(cfg, "Class");
 
-                    if constexpr (debug)
-                    {
-                        lg2::error(
-                            "Configuration parsed for '{INTERFACE}' with Name: {NAME}, Bus: {BUS}, "
-                            "Address: {ADDRESS}, Reg: {REG}, Class: {CLASS}",
-                            "INTERFACE", intf, "NAME", name, "BUS", busId,
-                            "ADDRESS", mcuAddress, "REG", tempReg, "CLASS",
-                            sensorClass);
-                    }
+                    lg2::debug(
+                        "Configuration parsed for '{INTERFACE}' with Name: {NAME}, Bus: {BUS}, "
+                        "Address: {ADDRESS}, Reg: {REG}, Class: {CLASS}",
+                        "INTERFACE", intf, "NAME", name, "BUS", busId,
+                        "ADDRESS", mcuAddress, "REG", tempReg, "CLASS",
+                        sensorClass);
 
                     auto& sensor = sensors[name];
 

@@ -41,8 +41,6 @@ extern "C"
 #include <sys/ioctl.h>
 }
 
-constexpr const bool debug = false;
-
 constexpr const char* configInterface =
     "xyz.openbmc_project.Configuration.SmbpbiVirtualEeprom";
 constexpr const char* sensorRootPath = "/xyz/openbmc_project/sensors/";
@@ -285,11 +283,8 @@ int SmbpbiSensor::readRawEEPROMData(double& data)
         data = std::numeric_limits<double>::quiet_NaN();
         return 0;
     }
-    if (debug)
-    {
-        lg2::error("offset: {OFFSET} reading: {READING}", "OFFSET", offset,
-                   "READING", reading);
-    }
+    lg2::debug("offset: {OFFSET} reading: {READING}", "OFFSET", offset,
+               "READING", reading);
     if (sensorType == "temperature")
     {
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
@@ -356,10 +351,7 @@ void SmbpbiSensor::waitReadCallback(const boost::system::error_code& ec)
 
     if (ret >= 0)
     {
-        if constexpr (debug)
-        {
-            lg2::error("Value update to {TEMP}", "TEMP", temp);
-        }
+        lg2::debug("Value update to {TEMP}", "TEMP", temp);
         updateValue(temp);
     }
     else
@@ -432,24 +424,21 @@ static void createSensorCallback(
             double minVal = loadVariant<double>(entry.second, "MinValue");
 
             double maxVal = loadVariant<double>(entry.second, "MaxValue");
-            if constexpr (debug)
-            {
-                lg2::info("Configuration parsed for \n\t {CONF}\nwith\n"
-                          "\tName: {NAME}\n"
-                          "\tBus: {BUS}\n"
-                          "\tAddress:{ADDR}\n"
-                          "\tOffset: {OFF}\n"
-                          "\tType : {TYPE}\n"
-                          "\tValue Type : {VALUETYPE}\n"
-                          "\tPollrate: {RATE}\n"
-                          "\tMinValue: {MIN}\n"
-                          "\tMaxValue: {MAX}\n",
-                          "CONF", entry.first, "NAME", name, "BUS",
-                          static_cast<int>(busId), "ADDR",
-                          static_cast<int>(addr), "OFF", static_cast<int>(off),
-                          "UNITS", sensorUnits, "VALUETYPE", valueType, "RATE",
-                          rate, "MIN", minVal, "MAX", maxVal);
-            }
+            lg2::debug(
+                "Configuration parsed for \n\t {CONF}\nwith\n"
+                "\tName: {NAME}\n"
+                "\tBus: {BUS}\n"
+                "\tAddress:{ADDR}\n"
+                "\tOffset: {OFF}\n"
+                "\tType : {TYPE}\n"
+                "\tValue Type : {VALUETYPE}\n"
+                "\tPollrate: {RATE}\n"
+                "\tMinValue: {MIN}\n"
+                "\tMaxValue: {MAX}\n",
+                "CONF", entry.first, "NAME", name, "BUS",
+                static_cast<int>(busId), "ADDR", static_cast<int>(addr), "OFF",
+                static_cast<int>(off), "UNITS", sensorUnits, "VALUETYPE",
+                valueType, "RATE", rate, "MIN", minVal, "MAX", maxVal);
 
             auto& sensor = sensors[name];
             sensor = nullptr;

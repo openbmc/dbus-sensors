@@ -26,7 +26,6 @@
 #include <variant>
 #include <vector>
 
-static constexpr bool debug = false;
 namespace thresholds
 {
 Level findThresholdLevel(uint8_t sev)
@@ -325,15 +324,12 @@ static std::vector<ChangeParam> checkThresholds(Sensor* sensor, double value)
     if (cDebugThrottle >= 1000)
     {
         cDebugThrottle = 0;
-        if constexpr (debug)
-        {
-            lg2::error("checkThresholds: High T= {HIGH_TRUE}, F= {HIGH_FALSE},"
-                       " M= {HIGH_MIDSTATE}, Low T= {LOW_TRUE}, F= {LOW_FALSE},"
-                       " M= {LOW_MIDSTATE}",
-                       "HIGH_TRUE", cHiTrue, "HIGH_FALSE", cHiFalse,
-                       "HIGH_MIDSTATE", cHiMidstate, "LOW_TRUE", cLoTrue,
-                       "LOW_FALSE", cLoFalse, "LOW_MIDSTATE", cLoMidstate);
-        }
+        lg2::debug("checkThresholds: High T= {HIGH_TRUE}, F= {HIGH_FALSE},"
+                   " M= {HIGH_MIDSTATE}, Low T= {LOW_TRUE}, F= {LOW_FALSE},"
+                   " M= {LOW_MIDSTATE}",
+                   "HIGH_TRUE", cHiTrue, "HIGH_FALSE", cHiFalse,
+                   "HIGH_MIDSTATE", cHiMidstate, "LOW_TRUE", cLoTrue,
+                   "LOW_FALSE", cLoFalse, "LOW_MIDSTATE", cLoMidstate);
     }
 
     return thresholdChanges;
@@ -528,11 +524,8 @@ bool parseThresholdsFromAttr(
                 if (auto val = readFile(attrPath, scaleFactor))
                 {
                     *val += offset;
-                    if (debug)
-                    {
-                        lg2::info("Threshold: '{PATH}': '{VALUE}'", "PATH",
-                                  attrPath, "VALUE", *val);
-                    }
+                    lg2::debug("Threshold: '{PATH}': '{VALUE}'", "PATH",
+                               attrPath, "VALUE", *val);
                     thresholdVector.emplace_back(level, direction, *val,
                                                  hysteresis);
                 }
