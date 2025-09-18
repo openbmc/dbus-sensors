@@ -35,6 +35,23 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "94af246c_7fe206d4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-09-18T16:47:46Z",
+      "side": 1,
+      "message": "I\u0027ve realized this change would break 1:many pwm:tach configurations as coded today. \n\nI\u0027m going to rethink that part of my approach.",
+      "revId": "dc14ff36f668c242a758f4c5c7c467e9d875b2a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a9b7564_d6a5aeec",
@@ -105,6 +122,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f8afa7be_5ba2c2c7",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-09-18T16:47:46Z",
+      "side": 1,
+      "message": "Great point. I think this particular issue might solved by taking the \u0027index\u0027 value from the associated fan EntityManager record and using it here... \n\nbut while I was thinking about that, I realized that my current changes would also break fans for situations with 1 pwm for control, but multiple tach sensors.\n\nSo that\u0027s something else for me to think about before my next update. Thanks for the help!",
+      "parentUuid": "ef355545_b2d5b647",
+      "revId": "dc14ff36f668c242a758f4c5c7c467e9d875b2a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "46954f9f_39a3a7db",
         "filename": "src/fan/FanMain.cpp",
         "patchSetId": 4
@@ -116,6 +151,30 @@
       "writtenOn": "2025-09-08T04:02:43Z",
       "side": 1,
       "message": "How about pwmPaths for clarity?",
+      "range": {
+        "startLine": 313,
+        "startChar": 23,
+        "endLine": 313,
+        "endChar": 37
+      },
+      "revId": "dc14ff36f668c242a758f4c5c7c467e9d875b2a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9856d42_be092e5b",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-09-18T16:47:46Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "46954f9f_39a3a7db",
       "range": {
         "startLine": 313,
         "startChar": 23,
@@ -179,6 +238,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "286f5516_32ff9e30",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-09-18T16:47:46Z",
+      "side": 1,
+      "message": "Good point. I\u0027ll keep this in mind for my next update (which will probably change things around a fair bit, now that I\u0027m thinking about 1:many pwm:tach relationships too...)",
+      "parentUuid": "6f6e9160_9b92b6bb",
+      "revId": "dc14ff36f668c242a758f4c5c7c467e9d875b2a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8cee8245_343f483c",
         "filename": "src/fan/FanMain.cpp",
         "patchSetId": 4
@@ -224,6 +301,24 @@
       "writtenOn": "2025-09-08T04:02:43Z",
       "side": 1,
       "message": "How do we assure that this fan path exist in sysfs? I see your next patch and I do think it should be within this patch to avoid impacts to normal fan configs.",
+      "revId": "dc14ff36f668c242a758f4c5c7c467e9d875b2a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a295899e_17835547",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 642,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-09-18T16:47:46Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "0702cd11_bee0d09d",
       "revId": "dc14ff36f668c242a758f4c5c7c467e9d875b2a0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
