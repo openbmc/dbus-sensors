@@ -49,8 +49,6 @@ extern "C"
 #include <linux/i2c-dev.h>
 }
 
-static constexpr bool debug = false;
-
 static constexpr unsigned int defaultPollSec = 1;
 static constexpr unsigned int sensorFailedPollSec = 5;
 static unsigned int intrusionSensorPollSec = defaultPollSec;
@@ -83,11 +81,8 @@ void ChassisIntrusionSensor::updateValue(const size_t& value)
         return;
     }
 
-    if constexpr (debug)
-    {
-        lg2::info("Update value from '{VALUE}' to '{NEWVALUE}'", "VALUE",
-                  mValue, "NEWVALUE", newValue);
-    }
+    lg2::debug("Update value from '{VALUE}' to '{NEWVALUE}'", "VALUE", mValue,
+               "NEWVALUE", newValue);
 
     // Automatic Rearm mode allows direct update
     // Manual Rearm mode requires a rearm action to clear the intrusion
@@ -128,10 +123,7 @@ int ChassisIntrusionPchSensor::readSensor()
     int32_t statusReg = pchStatusRegIntrusion;
 
     int32_t value = i2c_smbus_read_byte_data(mBusFd, statusReg);
-    if constexpr (debug)
-    {
-        lg2::info("Pch type: raw value is '{VALUE}'", "VALUE", value);
-    }
+    lg2::debug("Pch type: raw value is '{VALUE}'", "VALUE", value);
 
     if (value < 0)
     {
@@ -142,10 +134,7 @@ int ChassisIntrusionPchSensor::readSensor()
     // Get status value with mask
     value &= statusMask;
 
-    if constexpr (debug)
-    {
-        lg2::info("Pch type: masked raw value is '{VALUE}'", "VALUE", value);
-    }
+    lg2::debug("Pch type: masked raw value is '{VALUE}'", "VALUE", value);
     return value;
 }
 
@@ -191,10 +180,7 @@ int ChassisIntrusionGpioSensor::readSensor()
 {
     mGpioLine.event_read();
     auto value = mGpioLine.get_value();
-    if constexpr (debug)
-    {
-        lg2::info("Gpio type: raw value is '{VALUE}'", "VALUE", value);
-    }
+    lg2::debug("Gpio type: raw value is '{VALUE}'", "VALUE", value);
     return value;
 }
 
@@ -246,10 +232,7 @@ int ChassisIntrusionHwmonSensor::readSensor()
     try
     {
         value = std::stoi(line);
-        if constexpr (debug)
-        {
-            lg2::info("Hwmon type: raw value is '{VALUE}'", "VALUE", value);
-        }
+        lg2::debug("Hwmon type: raw value is '{VALUE}'", "VALUE", value);
     }
     catch (const std::invalid_argument& e)
     {
@@ -464,12 +447,9 @@ ChassisIntrusionHwmonSensor::ChassisIntrusionHwmonSensor(
     // Expecting only one hwmon file for one given chassis
     mHwmonPath = paths[0].string();
 
-    if constexpr (debug)
-    {
-        lg2::info(
-            "Found '{NUM_PATHS}' paths for intrusion status. The first path is: '{PATH}'",
-            "NUM_PATHS", paths.size(), "PATH", mHwmonPath);
-    }
+    lg2::debug(
+        "Found '{NUM_PATHS}' paths for intrusion status. The first path is: '{PATH}'",
+        "NUM_PATHS", paths.size(), "PATH", mHwmonPath);
 }
 
 ChassisIntrusionSensor::~ChassisIntrusionSensor()
