@@ -50,8 +50,6 @@
 #include <variant>
 #include <vector>
 
-constexpr const bool debug = false;
-
 static constexpr double ipmbMaxReading = 0xFF;
 static constexpr double ipmbMinReading = 0;
 
@@ -431,16 +429,14 @@ void IpmbSensor::ipmbRequestCompletionCb(const boost::system::error_code& ec,
         return;
     }
     const std::vector<uint8_t>& data = std::get<5>(response);
-    if constexpr (debug)
+
+    std::ostringstream tempStream;
+    for (int d : data)
     {
-        std::ostringstream tempStream;
-        for (int d : data)
-        {
-            tempStream << std::setfill('0') << std::setw(2) << std::hex << d
-                       << " ";
-        }
-        lg2::info("'{NAME}': '{DATA}'", "NAME", name, "DATA", tempStream.str());
+        tempStream << std::setfill('0') << std::setw(2) << std::hex << d << " ";
     }
+    lg2::debug("'{NAME}': '{DATA}'", "NAME", name, "DATA", tempStream.str());
+
     if (data.empty())
     {
         incrementError();
