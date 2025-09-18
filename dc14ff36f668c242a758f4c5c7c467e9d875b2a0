@@ -87,6 +87,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "499413ad_a1082a55",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-09-18T21:39:13Z",
+      "side": 1,
+      "message": "Original comment no longer applies.",
+      "parentUuid": "8a9b7564_d6a5aeec",
+      "revId": "dc14ff36f668c242a758f4c5c7c467e9d875b2a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "137b2a2d_dab9a39c",
@@ -462,6 +480,24 @@
       "writtenOn": "2025-08-30T14:12:21Z",
       "side": 1,
       "message": "The \u0027pwmPath\u0027 logic below is not affected by the changeover to starting from path hwmon/pwmN instead of hwmon/fanN_input.\n\nMy understanding is  that this handles cases where Entity-Manager config records defined info for fan pwm control, but not pwm sensor info for lookup.\n\nI suspect the logic could be simplified here, but as it\u0027s a parallel hwmon/pwmN lookup that uses the result in interesting ways, I\u0027ll see if this PR is successful before trying to touch up the (ain\u0027t broke) logic there.",
+      "revId": "dc14ff36f668c242a758f4c5c7c467e9d875b2a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66975ec5_fcf11c86",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-09-18T21:39:13Z",
+      "side": 1,
+      "message": "Done. Comment no longer directly applies to the simplified code...\n\nAll previous existing fan_input based fans will continue to work like they did before.",
+      "parentUuid": "dd353c6e_b2405ec4",
       "revId": "dc14ff36f668c242a758f4c5c7c467e9d875b2a0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }

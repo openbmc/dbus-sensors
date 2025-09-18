@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60802a59_36d4f9e1",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-09-18T21:39:13Z",
+      "side": 1,
+      "message": "We now check for hwmon/pwm# files here too-- but we\u0027ll do another check below that allows us to discard any pwm nodes for non-tachless fans. \n\nThis preserves existing behavior for fans with tachs (most of them).",
+      "revId": "59d6ab48e83fcce97dd1b95c94b5a753b4141768",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
