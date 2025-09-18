@@ -41,6 +41,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "476f215c_2a4146f8",
+        "filename": "src/intel-cpu/meson.build",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-09-18T15:27:22Z",
+      "side": 1,
+      "message": "meson does not support what you are suggesting.\n\nIt may look retarded, but that\u0027s how it works i guess.\n\nFor meson the `include_directories` is a special object.\n\n```\n\n../src/intel-cpu/meson.build:4:22: ERROR: Object \u003c[IncludeDirsHolder] holds [IncludeDirs]: \u003cIncludeDirs src/[\u0027.\u0027]\u003e\u003e of type IncludeDirs does not support the `+` operator.\n\nA full log can be found at /home/alexander/upstreaming/dbus-sensors/build/meson-logs/meson-log.txt\nFAILED: build.ninja \n/usr/bin/meson --internal regenerate /home/alexander/upstreaming/dbus-sensors .\nninja: error: rebuilding \u0027build.ninja\u0027: subcommand failed\n[alexander@alexanderarchlinux dbus-sensors]$ git diff\ndiff --git a/src/intel-cpu/meson.build b/src/intel-cpu/meson.build\nindex bc05e4e..cd7697a 100644\n--- a/src/intel-cpu/meson.build\n+++ b/src/intel-cpu/meson.build\n@@ -1,7 +1,7 @@\n intel_cpu_inc \u003d src_inc\n \n if not meson.get_compiler(\u0027cpp\u0027).has_header(\u0027linux/peci-ioctl.h\u0027)\n-    intel_cpu_inc \u003d [src_inc, \u0027../../include\u0027]\n+    intel_cpu_inc +\u003d [\u0027../../include\u0027]\n endif\n \n executable(\n```",
+      "parentUuid": "93b6bed7_53624d43",
+      "range": {
+        "startLine": 4,
+        "startChar": 4,
+        "endLine": 4,
+        "endChar": 17
+      },
+      "revId": "22d2b9ea73bff7e392a11c5114e684c469e8ad25",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "33e31102_2bf877ef",
@@ -54,6 +78,30 @@
       "writtenOn": "2025-09-18T15:19:21Z",
       "side": 1,
       "message": "Not needed on this patchset, but I would really like to see these files in these common includes encapsulated in at least a dependency declaration.",
+      "range": {
+        "startLine": 102,
+        "startChar": 10,
+        "endLine": 102,
+        "endChar": 29
+      },
+      "revId": "22d2b9ea73bff7e392a11c5114e684c469e8ad25",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "840fdd4f_4825b885",
+        "filename": "src/meson.build",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-09-18T15:27:22Z",
+      "side": 1,
+      "message": "Makes sense.\n\nWhat do you think of `src/common` to put the files which are used by multiple sensors?",
+      "parentUuid": "33e31102_2bf877ef",
       "range": {
         "startLine": 102,
         "startChar": 10,
