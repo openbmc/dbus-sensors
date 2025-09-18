@@ -45,8 +45,6 @@
 #include <variant>
 #include <vector>
 
-static constexpr bool debug = false;
-
 static constexpr const char* sensorType = "ChassisIntrusionSensor";
 static constexpr const char* nicType = "NIC";
 static constexpr auto nicTypes{std::to_array<const char*>({nicType})};
@@ -131,12 +129,9 @@ static void createSensorsFromConfig(
                     pSensor = std::make_shared<ChassisIntrusionGpioSensor>(
                         autoRearm, io, objServer, gpioInverted);
                     pSensor->start();
-                    if (debug)
-                    {
-                        lg2::info(
-                            "find chassis intrusion sensor polarity inverted flag is '{GPIO_INVERTED}'",
-                            "GPIO_INVERTED", gpioInverted);
-                    }
+                    lg2::debug(
+                        "find chassis intrusion sensor polarity inverted flag is '{GPIO_INVERTED}'",
+                        "GPIO_INVERTED", gpioInverted);
                     return;
                 }
                 catch (const std::bad_variant_access& e)
@@ -199,12 +194,9 @@ static void createSensorsFromConfig(
                     pSensor = std::make_shared<ChassisIntrusionPchSensor>(
                         autoRearm, io, objServer, busId, slaveAddr);
                     pSensor->start();
-                    if (debug)
-                    {
-                        lg2::info(
-                            "find matched bus '{BUS}', matched slave addr '{ADDR}'",
-                            "BUS", busId, "ADDR", slaveAddr);
-                    }
+                    lg2::debug(
+                        "find matched bus '{BUS}', matched slave addr '{ADDR}'",
+                        "BUS", busId, "ADDR", slaveAddr);
                     return;
                 }
                 catch (const std::bad_variant_access& e)
@@ -234,7 +226,6 @@ static void createSensorsFromConfig(
     }
 }
 
-static constexpr bool debugLanLeash = false;
 boost::container::flat_map<int, bool> lanStatusMap;
 boost::container::flat_map<int, std::string> lanInfoMap;
 boost::container::flat_map<std::string, int> pathSuffixMap;
@@ -272,11 +263,8 @@ static void getNicNameInfo(
                     if (pEthIndex != nullptr && pName != nullptr)
                     {
                         lanInfoMap[*pEthIndex] = *pName;
-                        if (debugLanLeash)
-                        {
-                            lg2::info("find name of eth{ETH_INDEX} is '{NAME}'",
-                                      "ETH_INDEX", *pEthIndex, "NAME", *pName);
-                        }
+                        lg2::debug("find name of eth{ETH_INDEX} is '{NAME}'",
+                                   "ETH_INDEX", *pEthIndex, "NAME", *pName);
                     }
                 }
             }
@@ -358,15 +346,12 @@ static void processLanStatusChange(sdbusplus::message_t& message)
         }
     }
 
-    if (debugLanLeash)
-    {
-        lg2::info(
-            "ethNum = {ETH_INDEX}, state = {LAN_STATUS}, oldLanConnected = {OLD_LAN_CONNECTED}, "
-            "newLanConnected = {NEW_LAN_CONNECTED}",
-            "ETH_INDEX", ethNum, "LAN_STATUS", *pState, "OLD_LAN_CONNECTED",
-            (oldLanConnected ? "true" : "false"), "NEW_LAN_CONNECTED",
-            (newLanConnected ? "true" : "false"));
-    }
+    lg2::debug(
+        "ethNum = {ETH_INDEX}, state = {LAN_STATUS}, oldLanConnected = {OLD_LAN_CONNECTED}, "
+        "newLanConnected = {NEW_LAN_CONNECTED}",
+        "ETH_INDEX", ethNum, "LAN_STATUS", *pState, "OLD_LAN_CONNECTED",
+        (oldLanConnected ? "true" : "false"), "NEW_LAN_CONNECTED",
+        (newLanConnected ? "true" : "false"));
 
     if (oldLanConnected != newLanConnected)
     {
@@ -405,10 +390,7 @@ static bool initializeLanStatus(
     // iterate through all found eth files, and save ifindex
     for (const std::filesystem::path& fileName : files)
     {
-        if (debugLanLeash)
-        {
-            lg2::info("Reading '{NAME}'", "NAME", fileName);
-        }
+        lg2::debug("Reading '{NAME}'", "NAME", fileName);
         std::ifstream sysFile(fileName);
         if (!sysFile.good())
         {
@@ -437,12 +419,9 @@ static bool initializeLanStatus(
 
         // save pathSuffix
         pathSuffixMap[pathSuffix] = ethNum;
-        if (debugLanLeash)
-        {
-            lg2::info(
-                "ethNum = {ETH_INDEX}, ifindex = {LINE}, pathSuffix = {PATH}",
-                "ETH_INDEX", ethNum, "LINE", line, "PATH", pathSuffix);
-        }
+        lg2::debug(
+            "ethNum = {ETH_INDEX}, ifindex = {LINE}, pathSuffix = {PATH}",
+            "ETH_INDEX", ethNum, "LINE", line, "PATH", pathSuffix);
 
         // init lan connected status from networkd
         conn->async_method_call(
@@ -464,13 +443,9 @@ static bool initializeLanStatus(
                 bool isLanConnected =
                     (*pState == "routable" || *pState == "carrier" ||
                      *pState == "degraded");
-                if (debugLanLeash)
-                {
-                    lg2::info(
-                        "ethNum = {ETH_INDEX}, init LAN status = {STATUS}",
-                        "ETH_INDEX", ethNum, "STATUS",
-                        (isLanConnected ? "true" : "false"));
-                }
+                lg2::debug("ethNum = {ETH_INDEX}, init LAN status = {STATUS}",
+                           "ETH_INDEX", ethNum, "STATUS",
+                           (isLanConnected ? "true" : "false"));
                 lanStatusMap[ethNum] = isLanConnected;
             },
             "org.freedesktop.network1",
