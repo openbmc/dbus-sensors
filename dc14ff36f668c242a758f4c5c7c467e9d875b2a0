@@ -54,6 +54,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "30f3bf7a_832d278b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-09-18T21:22:19Z",
+      "side": 1,
+      "message": "I\u0027m polishing things up now, but the new method should be even simpler to review, and less potential for disruption.\n\nThe old method changed all fans over to starting from \u0027hwmon/pwm\u0027 instea of \u0027hwmon/fan_input\u0027 -- but it turns out that would break handling for 1:many pwm:tach configurations.\n\nThe new method simply adds \u0027hwmon/pwm\u0027 to the lookup path, then discards any \u0027pwm\u0027 node that isn\u0027t isn\u0027t tachless, preserving existing behavior for all \u0027standard\u0027 (not tachless) hwmon fans.",
+      "parentUuid": "94af246c_7fe206d4",
+      "revId": "dc14ff36f668c242a758f4c5c7c467e9d875b2a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8a9b7564_d6a5aeec",
         "filename": "src/fan/FanMain.cpp",
         "patchSetId": 4
@@ -86,6 +104,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "45317cf3_95f2b42e",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-09-18T21:22:19Z",
+      "side": 1,
+      "message": "Done. No longer applies.",
+      "parentUuid": "137b2a2d_dab9a39c",
+      "revId": "dc14ff36f668c242a758f4c5c7c467e9d875b2a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3efb3bc1_15c63513",
@@ -99,6 +135,24 @@
       "writtenOn": "2025-08-29T21:04:35Z",
       "side": 1,
       "message": "Handles path string manipulation from hwmon/pwmN -\u003e hwmon/fanN_input.\n\nNeeded so we can continue to pass the usual \u0027fanN_input\u0027 path(s) for TachSensor object init.\n\nNo changes to any fan functions expected as a result of this change.",
+      "revId": "dc14ff36f668c242a758f4c5c7c467e9d875b2a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "664563a9_0bbf9394",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-09-18T21:22:19Z",
+      "side": 1,
+      "message": "Done. No longer applies.",
+      "parentUuid": "3efb3bc1_15c63513",
       "revId": "dc14ff36f668c242a758f4c5c7c467e9d875b2a0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -202,6 +256,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "956c3213_48305fb1",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-09-18T21:22:19Z",
+      "side": 1,
+      "message": "Done. No longer applies.",
+      "parentUuid": "472b4d7e_22dd9501",
+      "revId": "dc14ff36f668c242a758f4c5c7c467e9d875b2a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "68e95c78_8a5c8c11",
@@ -215,6 +287,24 @@
       "writtenOn": "2025-08-29T21:04:35Z",
       "side": 1,
       "message": "the modified regex from above is now used to match an output path (pwmN) instead of starting from an input path (fanN_input)",
+      "revId": "dc14ff36f668c242a758f4c5c7c467e9d875b2a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b6b8df3_e561f1f2",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-09-18T21:22:19Z",
+      "side": 1,
+      "message": "Done. No longer applies.",
+      "parentUuid": "68e95c78_8a5c8c11",
       "revId": "dc14ff36f668c242a758f4c5c7c467e9d875b2a0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -271,6 +361,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "09193073_8b01fb7f",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-09-18T21:22:19Z",
+      "side": 1,
+      "message": "Done. No longer applies.",
+      "parentUuid": "8cee8245_343f483c",
+      "revId": "dc14ff36f668c242a758f4c5c7c467e9d875b2a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d77011f0_27d2a0e8",
@@ -319,6 +427,24 @@
       "side": 1,
       "message": "Acknowledged",
       "parentUuid": "0702cd11_bee0d09d",
+      "revId": "dc14ff36f668c242a758f4c5c7c467e9d875b2a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a46b5d40_576b68f7",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 642,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-09-18T21:22:19Z",
+      "side": 1,
+      "message": "Done. No longer applies.",
+      "parentUuid": "d77011f0_27d2a0e8",
       "revId": "dc14ff36f668c242a758f4c5c7c467e9d875b2a0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },

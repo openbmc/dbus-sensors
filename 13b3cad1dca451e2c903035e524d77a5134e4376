@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "16cb9af6_b982bb09",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-09-18T21:22:19Z",
+      "side": 0,
+      "message": "Done. No longer applies.",
+      "parentUuid": "dc958f2b_0d25bad5",
+      "revId": "13b3cad1dca451e2c903035e524d77a5134e4376",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8e08641d_ea46229a",
