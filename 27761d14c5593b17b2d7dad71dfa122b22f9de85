@@ -16,6 +16,24 @@
       "message": "This URL is deceptive because I _think_ this commit is actually from an nvidia fork of dbus-sensors.\n\n@ed@tanous.net - Can we get someone from Nvidia to contribute the patch referenced here directly into dbus-sensors?",
       "revId": "27761d14c5593b17b2d7dad71dfa122b22f9de85",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "319aa24f_1b91ee22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-09-18T16:08:43Z",
+      "side": 1,
+      "message": "The upstream code is actually broken though in that it uses uppercase E instead of lowercase E for \"energy\".",
+      "parentUuid": "f6527fe4_51fc20aa",
+      "revId": "27761d14c5593b17b2d7dad71dfa122b22f9de85",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
