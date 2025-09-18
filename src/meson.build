@@ -99,6 +99,8 @@ notifywatch_dep = declare_dependency(
     dependencies: default_deps,
 )
 
+src_inc = include_directories('.')
+
 peci_incdirs = []
 if not meson.get_compiler('cpp').has_header('linux/peci-ioctl.h')
     peci_incdirs = ['../include']

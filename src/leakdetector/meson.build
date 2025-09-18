@@ -1,4 +1,3 @@
-src_inc = include_directories('..')
 phosphor_dbus_interfaces_dep = dependency('phosphor-dbus-interfaces')
 
 executable(
