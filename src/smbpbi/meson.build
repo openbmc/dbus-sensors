@@ -1,4 +1,3 @@
-src_inc = include_directories('..')
 
 executable(
     'smbpbisensor',
