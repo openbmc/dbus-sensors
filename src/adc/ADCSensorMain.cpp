@@ -50,7 +50,6 @@
 #include <variant>
 #include <vector>
 
-static constexpr bool debug = false;
 static constexpr float pollRateDefault = 0.5;
 static constexpr float gpioBridgeSetupTimeDefault = 0.02;
 
@@ -169,11 +168,8 @@ void createSensors(
                 }
                 if (sensorData == nullptr)
                 {
-                    if constexpr (debug)
-                    {
-                        lg2::error("failed to find match for '{PATH}'", "PATH",
-                                   path.string());
-                    }
+                    lg2::debug("failed to find match for '{PATH}'", "PATH",
+                               path.string());
                     continue;
                 }
 
