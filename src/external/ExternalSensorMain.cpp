@@ -55,8 +55,6 @@
 // https://gerrit.openbmc-project.xyz/c/openbmc/docs/+/41452
 // https://github.com/openbmc/docs/tree/master/designs/
 
-static constexpr bool debug = false;
-
 static const char* sensorType = "ExternalSensor";
 
 void updateReaper(
@@ -117,10 +115,7 @@ void updateReaper(
 
     if (!needCheck)
     {
-        if constexpr (debug)
-        {
-            lg2::error("Next ExternalSensor timer idle");
-        }
+        lg2::debug("Next ExternalSensor timer idle");
 
         return;
     }
@@ -143,13 +138,9 @@ void updateReaper(
         updateReaper(sensors, timer, std::chrono::steady_clock::now());
     });
 
-    if constexpr (debug)
-    {
-        lg2::error(
-            "Next ExternalSensor timer '{VALUE}' us", "VALUE",
-            std::chrono::duration_cast<std::chrono::microseconds>(nextCheck)
-                .count());
-    }
+    lg2::debug("Next ExternalSensor timer '{VALUE}' us", "VALUE",
+               std::chrono::duration_cast<std::chrono::microseconds>(nextCheck)
+                   .count());
 }
 
 void createSensors(
@@ -161,10 +152,7 @@ void createSensors(
         sensorsChanged,
     boost::asio::steady_timer& reaperTimer)
 {
-    if constexpr (debug)
-    {
-        lg2::error("ExternalSensor considering creating sensors");
-    }
+    lg2::debug("ExternalSensor considering creating sensors");
 
     auto getter = std::make_shared<GetSensorConfiguration>(
         dbusConnection,
@@ -293,12 +281,8 @@ void createSensors(
                             sensorsChanged->erase(it);
                             findSensor->second = nullptr;
                             found = true;
-                            if constexpr (debug)
-                            {
-                                lg2::error(
-                                    "ExternalSensor '{NAME}' change found",
-                                    "NAME", sensorName);
-                            }
+                            lg2::debug("ExternalSensor '{NAME}' change found",
+                                       "NAME", sensorName);
                             break;
                         }
                     }
@@ -330,11 +314,8 @@ void createSensors(
                         updateReaper(sensors, reaperTimer, now);
                     });
 
-                if constexpr (debug)
-                {
-                    lg2::error("ExternalSensor '{NAME}' created", "NAME",
-                               sensorName);
-                }
+                lg2::debug("ExternalSensor '{NAME}' created", "NAME",
+                           sensorName);
             }
         });
 
@@ -343,10 +324,7 @@ void createSensors(
 
 int main()
 {
-    if constexpr (debug)
-    {
-        lg2::error("ExternalSensor service starting up");
-    }
+    lg2::debug("ExternalSensor service starting up");
 
     boost::asio::io_context io;
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
@@ -378,11 +356,8 @@ int main()
 
             const auto* messagePath = message.get_path();
             sensorsChanged->insert(messagePath);
-            if constexpr (debug)
-            {
-                lg2::error("ExternalSensor change event received: '{PATH}'",
-                           "PATH", messagePath);
-            }
+            lg2::debug("ExternalSensor change event received: '{PATH}'", "PATH",
+                       messagePath);
 
             // this implicitly cancels the timer
             filterTimer.expires_after(std::chrono::seconds(1));
@@ -409,10 +384,7 @@ int main()
         setupPropertiesChangedMatches(
             *systemBus, std::to_array<const char*>({sensorType}), eventHandler);
 
-    if constexpr (debug)
-    {
-        lg2::error("ExternalSensor service entering main loop");
-    }
+    lg2::debug("ExternalSensor service entering main loop");
 
     io.run();
 }
