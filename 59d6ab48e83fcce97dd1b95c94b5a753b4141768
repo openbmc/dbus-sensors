@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4a1c3153_d16464f6",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-09-18T22:51:12Z",
+      "side": 1,
+      "message": "tachless-fan or otherwise, the result is a path ending with \u0027fanN_enable\u0027 -- same as before.",
+      "revId": "59d6ab48e83fcce97dd1b95c94b5a753b4141768",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "60802a59_36d4f9e1",
         "filename": "src/fan/FanMain.cpp",
         "patchSetId": 8
@@ -14,6 +31,23 @@
       "writtenOn": "2025-09-18T21:39:13Z",
       "side": 1,
       "message": "We now check for hwmon/pwm# files here too-- but we\u0027ll do another check below that allows us to discard any pwm nodes for non-tachless fans. \n\nThis preserves existing behavior for fans with tachs (most of them).",
+      "revId": "59d6ab48e83fcce97dd1b95c94b5a753b4141768",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a63496da_975ecc2b",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-09-18T22:51:12Z",
+      "side": 1,
+      "message": "Below is the code this loop used to start off with.\n\nAbove is newly added code to discard any \u0027pwm\u0027 paths that aren\u0027t associated with tachless fan HW (which keeps behavior the same as it was previously for \u0027normal\u0027 hwmon fan with a tach sensor)",
       "revId": "59d6ab48e83fcce97dd1b95c94b5a753b4141768",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }

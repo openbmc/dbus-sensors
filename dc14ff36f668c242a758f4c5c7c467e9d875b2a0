@@ -210,6 +210,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "669c0fab_1cca9ffb",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-09-18T22:51:12Z",
+      "side": 1,
+      "message": "In the new version, all hwmon fans with fanN_input nodes are handled like they were originally (back to starting searches with \u0027fanN_input\u0027) -- so breaking support for these fans should no longer be a worry.\n\nI thought about how the index issue you mentioned would work for a tachless fan, and for now, the recommendation is to set \u0027index\u003dn\u0027 and \u0027pwm\u003dn\u0027 in the same EntityManager fan record in order to support a tachless fan with index\u003dn.\n\nFor now, we assume if there is a FanN_enable record, it\u0027ll match that n. Again, this bit of logic only applies to tachless fans, which have no fanN_input nodes.",
+      "parentUuid": "f8afa7be_5ba2c2c7",
+      "revId": "dc14ff36f668c242a758f4c5c7c467e9d875b2a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "46954f9f_39a3a7db",
@@ -358,6 +376,24 @@
       "side": 1,
       "message": "Good point. I\u0027ll keep this in mind for my next update (which will probably change things around a fair bit, now that I\u0027m thinking about 1:many pwm:tach relationships too...)",
       "parentUuid": "6f6e9160_9b92b6bb",
+      "revId": "dc14ff36f668c242a758f4c5c7c467e9d875b2a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf68888b_1cb4d372",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-09-18T22:51:12Z",
+      "side": 1,
+      "message": "After the latest change, only tachless fans will need to worry about potential issues with pwm# !\u003d index# -- and I think I\u0027ve got that solved out too.\n\nMy thinking is that tachless fans have no fanN_input records, so they use pwmN nodes as a \u0027virtual tach input\u0027 for PID control to work with. Since that\u0027s the case, the pwm index N should always be \u003d\u003d the \u0027virtual tach\u0027 index N for tachless fans. \n\n...With that in mind, setting \u0027index\u003dN\u0027 and \u0027pwm\u003dN\u0027 in EntityManager fan config records gets tachless fans working, and I think makes sense conceptually.",
+      "parentUuid": "286f5516_32ff9e30",
       "revId": "dc14ff36f668c242a758f4c5c7c467e9d875b2a0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
