@@ -16,6 +16,8 @@
 
 #include "ChassisIntrusionSensor.hpp"
 
+#include "utils/Utils.hpp"
+
 #include <fcntl.h>
 #include <linux/i2c.h>
 #include <sys/ioctl.h>
@@ -23,7 +25,6 @@
 #include <systemd/sd-journal.h>
 #include <unistd.h>
 
-#include <Utils.hpp>
 #include <boost/asio/error.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/posix/stream_descriptor.hpp>

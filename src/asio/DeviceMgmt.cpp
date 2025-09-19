@@ -1,6 +1,6 @@
 #include "DeviceMgmt.hpp"
 
-#include "Utils.hpp"
+#include "utils/Utils.hpp"
 
 #include <phosphor-logging/lg2.hpp>
 

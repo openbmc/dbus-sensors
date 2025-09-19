@@ -18,8 +18,8 @@
 
 #include "dbus-sensor_config.h"
 
-#include "DeviceMgmt.hpp"
-#include "VariantVisitors.hpp"
+#include "asio/DeviceMgmt.hpp"
+#include "utils/VariantVisitors.hpp"
 
 #include <boost/asio/error.hpp>
 #include <boost/asio/steady_timer.hpp>

@@ -6,8 +6,8 @@
 #pragma once
 
 #include "MctpRequester.hpp"
-#include "Thresholds.hpp"
-#include "sensor.hpp"
+#include "asio/Thresholds.hpp"
+#include "asio/sensor.hpp"
 
 #include <NvidiaGpuMctpVdm.hpp>
 #include <sdbusplus/asio/connection.hpp>
