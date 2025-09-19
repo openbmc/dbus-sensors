@@ -7,8 +7,8 @@
 
 #include "NvidiaDeviceDiscovery.hpp"
 #include "NvidiaGpuTempSensor.hpp"
-#include "Thresholds.hpp"
-#include "Utils.hpp"
+#include "asio/Thresholds.hpp"
+#include "utils/Utils.hpp"
 
 #include <bits/basic_string.h>
 
