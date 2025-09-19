@@ -15,10 +15,10 @@
 #include <NvidiaUtils.hpp>
 #include <OcpMctpVdm.hpp>
 #include <SerialQueue.hpp>
-#include <Utils.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/message/native_types.hpp>
+#include <utils/Utils.hpp>
 
 #include <algorithm>
 #include <cstdint>

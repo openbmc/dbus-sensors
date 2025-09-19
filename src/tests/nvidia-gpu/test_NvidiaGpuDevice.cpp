@@ -10,7 +10,7 @@
 #include "NvidiaGpuMctpVdm.hpp"
 #include "NvidiaSensorConfig.hpp"
 #include "OcpMctpVdm.hpp"
-#include "Utils.hpp"
+#include "utils/Utils.hpp"
 
 #include <sdbusplus/exception.hpp>
 

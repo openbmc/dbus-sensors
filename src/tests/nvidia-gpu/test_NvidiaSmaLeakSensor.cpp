@@ -9,7 +9,7 @@
 #include "NvidiaSmaLeakSensor.hpp"
 #include "OcpMctpVdm.hpp"
 #include "TestUtils.hpp"
-#include "Thresholds.hpp"
+#include "asio/Thresholds.hpp"
 
 #include <MessagePackUnpackUtils.hpp>
 
