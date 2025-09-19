@@ -34,6 +34,24 @@
       "parentUuid": "f6527fe4_51fc20aa",
       "revId": "27761d14c5593b17b2d7dad71dfa122b22f9de85",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6acab38d_5e927442",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002479
+      },
+      "writtenOn": "2025-09-19T02:42:20Z",
+      "side": 1,
+      "message": "Using an uppercase \"E\" does cause issues, so we changed it to a lowercase \"e\". The Nvidia commit indeed comes from the Nvidia fork.",
+      "parentUuid": "319aa24f_1b91ee22",
+      "revId": "27761d14c5593b17b2d7dad71dfa122b22f9de85",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
