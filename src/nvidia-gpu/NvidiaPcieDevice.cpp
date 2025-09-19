@@ -14,7 +14,7 @@
 #include "NvidiaPciePortMetrics.hpp"
 #include "NvidiaSensorConfig.hpp"
 #include "NvidiaUtils.hpp"
-#include "Utils.hpp"
+#include "utils/Utils.hpp"
 
 #include <MctpRequester.hpp>
 #include <OcpMctpVdm.hpp>

@@ -8,8 +8,8 @@
 #include "NvidiaGpuTempSensor.hpp"
 #include "NvidiaSensorConfig.hpp"
 #include "NvidiaSmaLeakSensor.hpp"
-#include "Thresholds.hpp"
-#include "Utils.hpp"
+#include "asio/Thresholds.hpp"
+#include "utils/Utils.hpp"
 
 #include <MctpRequester.hpp>
 #include <NvidiaGpuMctpVdm.hpp>

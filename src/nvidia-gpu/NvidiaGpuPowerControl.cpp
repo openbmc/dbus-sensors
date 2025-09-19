@@ -7,7 +7,7 @@
 
 #include "NvidiaGpuControlErrors.hpp"
 #include "NvidiaUtils.hpp"
-#include "Utils.hpp"
+#include "utils/Utils.hpp"
 
 #include <Inventory.hpp>
 #include <MctpRequester.hpp>

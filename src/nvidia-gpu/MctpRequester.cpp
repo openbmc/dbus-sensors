@@ -5,7 +5,7 @@
 
 #include "MctpRequester.hpp"
 
-#include "MctpAsioEndpoint.hpp"
+#include "asio/MctpAsioEndpoint.hpp"
 
 #include <sys/socket.h>
 

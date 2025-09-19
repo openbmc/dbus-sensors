@@ -2,9 +2,9 @@
 
 #include "dbus-sensor_config.h"
 
-#include "SensorPaths.hpp"
 #include "Thresholds.hpp"
-#include "Utils.hpp"
+#include "utils/SensorPaths.hpp"
+#include "utils/Utils.hpp"
 
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
