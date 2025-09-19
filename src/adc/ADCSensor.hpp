@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Thresholds.hpp"
-#include "Utils.hpp"
-#include "sensor.hpp"
+#include "asio/Thresholds.hpp"
+#include "asio/sensor.hpp"
+#include "utils/Utils.hpp"
 
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/posix/stream_descriptor.hpp>

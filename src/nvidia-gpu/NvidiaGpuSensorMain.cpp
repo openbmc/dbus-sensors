@@ -4,7 +4,7 @@
  */
 
 #include "MctpRequester.hpp"
-#include "Utils.hpp"
+#include "utils/Utils.hpp"
 
 #include <NvidiaDeviceDiscovery.hpp>
 #include <NvidiaSmaDevice.hpp>

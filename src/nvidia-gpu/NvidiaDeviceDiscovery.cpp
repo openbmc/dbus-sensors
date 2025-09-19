@@ -7,7 +7,7 @@
 
 #include "NvidiaGpuDevice.hpp"
 #include "NvidiaSmaDevice.hpp"
-#include "Utils.hpp"
+#include "utils/Utils.hpp"
 
 #include <bits/basic_string.h>
 
