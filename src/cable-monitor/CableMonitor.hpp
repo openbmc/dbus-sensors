@@ -2,8 +2,8 @@
 
 #include "CableConfig.hpp"
 #include "CableEvents.hpp"
-#include "EntityManagerInterface.hpp"
-#include "NotifyWatch.hpp"
+#include "common/EntityManagerInterface.hpp"
+#include "common/NotifyWatch.hpp"
 
 #include <sdbusplus/async.hpp>
 #include <sdbusplus/message/native_types.hpp>

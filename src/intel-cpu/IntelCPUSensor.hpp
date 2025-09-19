@@ -1,7 +1,8 @@
 #pragma once
 
-#include "Thresholds.hpp"
-#include "Utils.hpp"
+#include "common/Thresholds.hpp"
+#include "common/Utils.hpp"
+#include "common/sensor.hpp"
 
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/posix/stream_descriptor.hpp>
@@ -12,7 +13,6 @@
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
-#include <sensor.hpp>
 
 #include <cstddef>
 #include <cstdint>

@@ -15,7 +15,7 @@
 */
 
 #include "ChassisIntrusionSensor.hpp"
-#include "Utils.hpp"
+#include "common/Utils.hpp"
 
 #include <boost/asio/error.hpp>
 #include <boost/asio/io_context.hpp>
