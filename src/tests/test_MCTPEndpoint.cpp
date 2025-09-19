@@ -1,5 +1,5 @@
 #include "MCTPEndpoint.hpp"
-#include "Utils.hpp"
+#include "common/Utils.hpp"
 
 #include <stdexcept>
 

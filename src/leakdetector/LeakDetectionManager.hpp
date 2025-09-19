@@ -1,6 +1,6 @@
-#include "EntityManagerInterface.hpp"
 #include "LeakEvents.hpp"
 #include "LeakGPIODetector.hpp"
+#include "common/EntityManagerInterface.hpp"
 
 #include <sdbusplus/async.hpp>
 #include <sdbusplus/message/native_types.hpp>

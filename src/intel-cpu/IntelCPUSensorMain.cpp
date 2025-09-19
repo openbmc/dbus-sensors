@@ -15,9 +15,9 @@
 */
 
 #include "IntelCPUSensor.hpp"
-#include "Thresholds.hpp"
-#include "Utils.hpp"
-#include "VariantVisitors.hpp"
+#include "common/Thresholds.hpp"
+#include "common/Utils.hpp"
+#include "common/VariantVisitors.hpp"
 
 #include <peci.h>
 

@@ -15,9 +15,9 @@
 */
 
 #include "ADCSensor.hpp"
-#include "Thresholds.hpp"
-#include "Utils.hpp"
-#include "VariantVisitors.hpp"
+#include "common/Thresholds.hpp"
+#include "common/Utils.hpp"
+#include "common/VariantVisitors.hpp"
 
 #include <boost/algorithm/string/case_conv.hpp>
 #include <boost/asio/error.hpp>

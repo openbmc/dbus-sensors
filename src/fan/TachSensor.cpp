@@ -17,10 +17,10 @@
 #include "TachSensor.hpp"
 
 #include "PresenceGpio.hpp"
-#include "SensorPaths.hpp"
-#include "Thresholds.hpp"
-#include "Utils.hpp"
-#include "sensor.hpp"
+#include "common/SensorPaths.hpp"
+#include "common/Thresholds.hpp"
+#include "common/Utils.hpp"
+#include "common/sensor.hpp"
 
 #include <boost/asio/buffer.hpp>
 #include <boost/asio/error.hpp>

@@ -2,7 +2,7 @@
 
 #include "MCTPDeviceRepository.hpp"
 #include "MCTPEndpoint.hpp"
-#include "Utils.hpp"
+#include "common/Utils.hpp"
 
 #include <cstdint>
 #include <functional>
