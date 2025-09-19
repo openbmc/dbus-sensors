@@ -9,8 +9,8 @@
 #include "Inventory.hpp"
 #include "NvidiaDeviceDiscovery.hpp"
 #include "NvidiaGpuSensor.hpp"
-#include "Thresholds.hpp"
-#include "Utils.hpp"
+#include "asio/Thresholds.hpp"
+#include "utils/Utils.hpp"
 
 #include <bits/basic_string.h>
 

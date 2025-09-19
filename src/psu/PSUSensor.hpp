@@ -1,9 +1,9 @@
 #pragma once
 
-#include "DeviceMgmt.hpp"
-#include "Thresholds.hpp"
-#include "Utils.hpp"
-#include "sensor.hpp"
+#include "asio/DeviceMgmt.hpp"
+#include "asio/Thresholds.hpp"
+#include "asio/sensor.hpp"
+#include "utils/Utils.hpp"
 
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/random_access_file.hpp>
