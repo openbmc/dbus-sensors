@@ -1,8 +1,8 @@
 #include "Thresholds.hpp"
 
-#include "Utils.hpp"
-#include "VariantVisitors.hpp"
 #include "sensor.hpp"
+#include "utils/Utils.hpp"
+#include "utils/VariantVisitors.hpp"
 
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/asio/error.hpp>
