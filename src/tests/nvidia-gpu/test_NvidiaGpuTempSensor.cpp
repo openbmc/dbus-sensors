@@ -10,7 +10,7 @@
 #include "NvidiaGpuTempSensor.hpp"
 #include "NvidiaSensorUtils.hpp"
 #include "OcpMctpVdm.hpp"
-#include "Thresholds.hpp"
+#include "asio/Thresholds.hpp"
 
 #include <sdbusplus/exception.hpp>
 

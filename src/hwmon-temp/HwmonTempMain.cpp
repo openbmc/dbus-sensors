@@ -14,11 +14,11 @@
 // limitations under the License.
 */
 
-#include "DeviceMgmt.hpp"
 #include "HwmonTempSensor.hpp"
-#include "SensorPaths.hpp"
-#include "Thresholds.hpp"
-#include "Utils.hpp"
+#include "asio/DeviceMgmt.hpp"
+#include "asio/Thresholds.hpp"
+#include "utils/SensorPaths.hpp"
+#include "utils/Utils.hpp"
 
 #include <boost/asio/error.hpp>
 #include <boost/asio/io_context.hpp>

@@ -32,6 +32,6 @@ test(
         dependencies: [gmock_dep, ut_deps_list, utils_dep, mctpasio_dep],
         link_with: [thresholds_a],
         implicit_include_directories: false,
-        include_directories: gpusensor_inc,
+        include_directories: [src_inc, config_incdir, gpusensor_inc],
     ),
 )
