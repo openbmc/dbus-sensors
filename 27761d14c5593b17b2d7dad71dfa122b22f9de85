@@ -52,6 +52,41 @@
       "parentUuid": "319aa24f_1b91ee22",
       "revId": "27761d14c5593b17b2d7dad71dfa122b22f9de85",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "798bed90_c81bac47",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-19T16:41:28Z",
+      "side": 1,
+      "message": "Contributing this patch seems fine based on the licenses?  The E fix seems fine as well?",
+      "parentUuid": "6acab38d_5e927442",
+      "revId": "27761d14c5593b17b2d7dad71dfa122b22f9de85",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e16772b1_fa2a20dc",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-19T16:41:28Z",
+      "side": 1,
+      "message": "If we end up reworking this, this branch is a mess and needs some cleanup.",
+      "revId": "27761d14c5593b17b2d7dad71dfa122b22f9de85",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
