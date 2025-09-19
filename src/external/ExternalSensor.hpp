@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Thresholds.hpp"
-#include "Utils.hpp"
-#include "sensor.hpp"
+#include "common/Thresholds.hpp"
+#include "common/Utils.hpp"
+#include "common/sensor.hpp"
 
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>

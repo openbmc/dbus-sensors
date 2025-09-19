@@ -7,10 +7,10 @@
 #include "NvidiaGpuPowerSensor.hpp"
 
 #include "MctpRequester.hpp"
-#include "SensorPaths.hpp"
-#include "Thresholds.hpp"
-#include "Utils.hpp"
-#include "sensor.hpp"
+#include "common/SensorPaths.hpp"
+#include "common/Thresholds.hpp"
+#include "common/Utils.hpp"
+#include "common/sensor.hpp"
 
 #include <bits/basic_string.h>
 

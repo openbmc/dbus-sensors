@@ -1,6 +1,6 @@
 #include "MCTPEndpoint.hpp"
 #include "MCTPReactor.hpp"
-#include "Utils.hpp"
+#include "common/Utils.hpp"
 
 #include <cstdint>
 #include <functional>

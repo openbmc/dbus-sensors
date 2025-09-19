@@ -8,8 +8,8 @@
 
 #include "NvidiaDeviceDiscovery.hpp"
 #include "NvidiaGpuSensor.hpp"
-#include "Thresholds.hpp"
-#include "Utils.hpp"
+#include "common/Thresholds.hpp"
+#include "common/Utils.hpp"
 
 #include <bits/basic_string.h>
 

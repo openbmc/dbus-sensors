@@ -1,9 +1,9 @@
 #pragma once
 
 #include "PresenceGpio.hpp"
-#include "Thresholds.hpp"
-#include "Utils.hpp"
-#include "sensor.hpp"
+#include "common/Thresholds.hpp"
+#include "common/Utils.hpp"
+#include "common/sensor.hpp"
 
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/random_access_file.hpp>

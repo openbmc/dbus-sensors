@@ -16,10 +16,10 @@
 
 #include "HwmonTempSensor.hpp"
 
-#include "DeviceMgmt.hpp"
-#include "Thresholds.hpp"
-#include "Utils.hpp"
-#include "sensor.hpp"
+#include "common/DeviceMgmt.hpp"
+#include "common/Thresholds.hpp"
+#include "common/Utils.hpp"
+#include "common/sensor.hpp"
 
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/asio/buffer.hpp>

@@ -1,7 +1,7 @@
 #include "ExternalSensor.hpp"
-#include "Thresholds.hpp"
-#include "Utils.hpp"
-#include "VariantVisitors.hpp"
+#include "common/Thresholds.hpp"
+#include "common/Utils.hpp"
+#include "common/VariantVisitors.hpp"
 
 #include <boost/asio/error.hpp>
 #include <boost/asio/io_context.hpp>

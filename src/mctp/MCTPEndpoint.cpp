@@ -1,7 +1,7 @@
 #include "MCTPEndpoint.hpp"
 
-#include "Utils.hpp"
-#include "VariantVisitors.hpp"
+#include "common/Utils.hpp"
+#include "common/VariantVisitors.hpp"
 
 #include <bits/fs_dir.h>
 
