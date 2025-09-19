@@ -16,8 +16,8 @@
 
 #include "PSUEvent.hpp"
 
-#include "SensorPaths.hpp"
-#include "Utils.hpp"
+#include "utils/SensorPaths.hpp"
+#include "utils/Utils.hpp"
 
 #include <boost/asio/buffer.hpp>
 #include <boost/asio/error.hpp>

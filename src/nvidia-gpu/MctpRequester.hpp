@@ -5,8 +5,8 @@
 
 #pragma once
 
-#include <MctpAsioEndpoint.hpp>
 #include <OcpMctpVdm.hpp>
+#include <asio/MctpAsioEndpoint.hpp>
 #include <boost/asio/generic/datagram_protocol.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/steady_timer.hpp>

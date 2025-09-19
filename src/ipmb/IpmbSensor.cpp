@@ -17,11 +17,11 @@
 #include "IpmbSensor.hpp"
 
 #include "IpmbSDRSensor.hpp"
-#include "SensorPaths.hpp"
-#include "Thresholds.hpp"
-#include "Utils.hpp"
-#include "VariantVisitors.hpp"
-#include "sensor.hpp"
+#include "asio/Thresholds.hpp"
+#include "asio/sensor.hpp"
+#include "utils/SensorPaths.hpp"
+#include "utils/Utils.hpp"
+#include "utils/VariantVisitors.hpp"
 
 #include <boost/asio/error.hpp>
 #include <boost/asio/io_context.hpp>

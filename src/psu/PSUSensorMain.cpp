@@ -14,14 +14,14 @@
 // limitations under the License.
 */
 
-#include "DeviceMgmt.hpp"
 #include "PSUEvent.hpp"
 #include "PSUSensor.hpp"
-#include "PwmSensor.hpp"
-#include "SensorPaths.hpp"
-#include "Thresholds.hpp"
-#include "Utils.hpp"
-#include "VariantVisitors.hpp"
+#include "asio/DeviceMgmt.hpp"
+#include "asio/PwmSensor.hpp"
+#include "asio/Thresholds.hpp"
+#include "utils/SensorPaths.hpp"
+#include "utils/Utils.hpp"
+#include "utils/VariantVisitors.hpp"
 
 #include <boost/algorithm/string/case_conv.hpp>
 #include <boost/algorithm/string/replace.hpp>

@@ -5,6 +5,8 @@
 
 #include "NvidiaGpuCurrentUtilization.hpp"
 
+#include "utils/Utils.hpp"
+
 #include <bits/basic_string.h>
 
 #include <MctpRequester.hpp>
@@ -13,7 +15,6 @@
 #include <NvidiaLongRunningHandler.hpp>
 #include <NvidiaUtils.hpp>
 #include <OcpMctpVdm.hpp>
-#include <Utils.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>

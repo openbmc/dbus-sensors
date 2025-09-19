@@ -4,15 +4,16 @@
  */
 
 #pragma once
-#include "Thresholds.hpp"
-#include "Utils.hpp"
+
+#include "asio/Thresholds.hpp"
+#include "asio/sensor.hpp"
+#include "utils/Utils.hpp"
 
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/random_access_file.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
-#include <sensor.hpp>
 
 #include <array>
 #include <cstddef>

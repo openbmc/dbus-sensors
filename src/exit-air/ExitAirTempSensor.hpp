@@ -1,11 +1,11 @@
 #pragma once
-#include "Thresholds.hpp"
+#include "asio/Thresholds.hpp"
+#include "asio/sensor.hpp"
 
 #include <boost/container/flat_map.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/bus/match.hpp>
-#include <sensor.hpp>
 
 #include <chrono>
 #include <cstdint>

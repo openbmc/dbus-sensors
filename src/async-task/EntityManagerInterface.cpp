@@ -1,6 +1,6 @@
 #include "EntityManagerInterface.hpp"
 
-#include "Utils.hpp"
+#include "utils/Utils.hpp"
 
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/async.hpp>
