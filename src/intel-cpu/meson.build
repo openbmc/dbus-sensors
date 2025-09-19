@@ -8,7 +8,7 @@ executable(
     'IntelCPUSensorMain.cpp',
     'IntelCPUSensor.cpp',
     dependencies: [default_deps, gpiodcxx, thresholds_dep, utils_dep, peci_dep],
-    include_directories: src_inc,
+    include_directories: [src_inc, config_incdir],
     install: true,
     install_dir: '/usr/libexec/dbus-sensors',
 )

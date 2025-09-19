@@ -15,11 +15,11 @@
 */
 
 #include "PresenceGpio.hpp"
-#include "PwmSensor.hpp"
 #include "TachSensor.hpp"
-#include "Thresholds.hpp"
-#include "Utils.hpp"
-#include "VariantVisitors.hpp"
+#include "asio/PwmSensor.hpp"
+#include "asio/Thresholds.hpp"
+#include "utils/Utils.hpp"
+#include "utils/VariantVisitors.hpp"
 
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/asio/error.hpp>

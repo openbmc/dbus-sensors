@@ -6,8 +6,8 @@
 
 #include "NvidiaGpuDevice.hpp"
 
-#include "Thresholds.hpp"
-#include "Utils.hpp"
+#include "asio/Thresholds.hpp"
+#include "utils/Utils.hpp"
 
 #include <Inventory.hpp>
 #include <MctpRequester.hpp>

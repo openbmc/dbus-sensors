@@ -14,13 +14,17 @@ gpusensor_sources = files(
 )
 
 gpusensor_include_dir = include_directories('.', is_system: true)
-sensor_include_dir = include_directories('../..')
+sensor_include_dir = include_directories('..')
 
 executable(
     'nvidiagpusensor',
     gpusensor_sources + files('NvidiaGpuSensorMain.cpp'),
     implicit_include_directories: false,
-    include_directories: [gpusensor_include_dir, sensor_include_dir],
+    include_directories: [
+        gpusensor_include_dir,
+        sensor_include_dir,
+        config_incdir,
+    ],
     dependencies: [thresholds_dep, utils_dep],
     install: true,
     install_dir: '/usr/libexec/dbus-sensors',

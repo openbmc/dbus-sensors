@@ -1,7 +1,7 @@
 #pragma once
 
-#include "GPIOInterface.hpp"
 #include "LeakEvents.hpp"
+#include "async_task/GPIOInterface.hpp"
 
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/async.hpp>
