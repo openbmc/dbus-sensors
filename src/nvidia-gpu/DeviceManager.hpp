@@ -10,7 +10,7 @@
 #include "NvidiaPcieDevice.hpp"
 #include "NvidiaSensorConfig.hpp"
 #include "NvidiaSmaDevice.hpp"
-#include "Utils.hpp"
+#include "utils/Utils.hpp"
 
 #include <boost/asio/io_context.hpp>
 #include <boost/container/flat_map.hpp>

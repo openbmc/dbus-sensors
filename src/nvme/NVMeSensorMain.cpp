@@ -17,9 +17,9 @@
 #include "NVMeBasicContext.hpp"
 #include "NVMeContext.hpp"
 #include "NVMeSensor.hpp"
-#include "Thresholds.hpp"
-#include "Utils.hpp"
-#include "VariantVisitors.hpp"
+#include "asio/Thresholds.hpp"
+#include "utils/Utils.hpp"
+#include "utils/VariantVisitors.hpp"
 
 #include <boost/asio/error.hpp>
 #include <boost/asio/io_context.hpp>

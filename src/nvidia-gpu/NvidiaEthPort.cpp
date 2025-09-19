@@ -6,7 +6,7 @@
 #include "NvidiaEthPort.hpp"
 
 #include "NvidiaUtils.hpp"
-#include "Utils.hpp"
+#include "utils/Utils.hpp"
 
 #include <bits/basic_string.h>
 

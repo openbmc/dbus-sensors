@@ -16,9 +16,9 @@
 
 #include "PwmSensor.hpp"
 
-#include "SensorPaths.hpp"
-#include "Utils.hpp"
 #include "sensor.hpp"
+#include "utils/SensorPaths.hpp"
+#include "utils/Utils.hpp"
 
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
