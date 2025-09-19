@@ -6,7 +6,7 @@
 #include "NvidiaGpuPowerPeakReading.hpp"
 
 #include "MctpRequester.hpp"
-#include "Utils.hpp"
+#include "utils/Utils.hpp"
 
 #include <bits/basic_string.h>
 

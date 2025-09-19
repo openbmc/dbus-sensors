@@ -2,7 +2,7 @@
 
 #include "MCTPDeviceRepository.hpp"
 #include "MCTPEndpoint.hpp"
-#include "Utils.hpp"
+#include "utils/Utils.hpp"
 
 #include <boost/system/detail/error_code.hpp>
 #include <phosphor-logging/lg2.hpp>
