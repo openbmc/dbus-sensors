@@ -6,7 +6,7 @@
 #include "NvidiaGpuClockSpeedControl.hpp"
 
 #include "NvidiaUtils.hpp"
-#include "Utils.hpp"
+#include "utils/Utils.hpp"
 
 #include <MctpRequester.hpp>
 #include <NvidiaGpuMctpVdm.hpp>

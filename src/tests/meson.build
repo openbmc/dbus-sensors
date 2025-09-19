@@ -32,10 +32,10 @@ test(
     executable(
         'test_utils',
         'test_Utils.cpp',
-        '../Utils.cpp',
-        dependencies: ut_deps_list,
+        dependencies: [ut_deps_list],
+        link_with: [utils_a],
         implicit_include_directories: false,
-        include_directories: src_inc,
+        include_directories: [src_inc, config_incdir],
     ),
 )
 
@@ -44,13 +44,12 @@ test(
     executable(
         'test_ipmb',
         '../ipmb/IpmbSensor.cpp',
-        '../Utils.cpp',
         '../ipmb/IpmbSDRSensor.cpp',
         'test_IpmbSensor.cpp',
         dependencies: ut_deps_list,
         link_with: [utils_a, thresholds_a, devicemgmt_a],
         implicit_include_directories: false,
-        include_directories: src_inc,
+        include_directories: [src_inc, config_incdir],
     ),
 )
 
@@ -63,7 +62,7 @@ test(
         '../mctp/MCTPEndpoint.cpp',
         dependencies: [gmock_dep, ut_deps_list, utils_dep],
         implicit_include_directories: false,
-        include_directories: '../mctp',
+        include_directories: ['../mctp', src_inc, config_incdir],
     ),
 )
 
@@ -75,7 +74,7 @@ test(
         '../mctp/MCTPEndpoint.cpp',
         dependencies: [gmock_dep, ut_deps_list, utils_dep],
         implicit_include_directories: false,
-        include_directories: '../mctp',
+        include_directories: ['../mctp', src_inc, config_incdir],
     ),
 )
 
@@ -89,6 +88,6 @@ test(
         dependencies: [gmock_dep, ut_deps_list, utils_dep, mctpasio_dep],
         link_with: [thresholds_a],
         implicit_include_directories: false,
-        include_directories: '../nvidia-gpu',
+        include_directories: ['../nvidia-gpu', src_inc, config_incdir],
     ),
 )
