@@ -1,7 +1,7 @@
 #include "LeakGPIODetector.hpp"
 
 #include "LeakEvents.hpp"
-#include "SystemdInterface.hpp"
+#include "async-task/SystemdInterface.hpp"
 
 #include <sdbusplus/async.hpp>
 #include <sdbusplus/message/native_types.hpp>

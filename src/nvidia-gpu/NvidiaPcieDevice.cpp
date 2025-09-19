@@ -7,7 +7,7 @@
 
 #include "NvidiaDeviceDiscovery.hpp"
 #include "NvidiaPcieInterface.hpp"
-#include "Utils.hpp"
+#include "utils/Utils.hpp"
 
 #include <MctpRequester.hpp>
 #include <boost/asio/io_context.hpp>
