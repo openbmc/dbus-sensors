@@ -1,5 +1,7 @@
 #pragma once
 
+#include "dbus-sensor_config.h"
+
 #include "CableConfig.hpp"
 #include "CableEvents.hpp"
 #include "EntityManagerInterface.hpp"
