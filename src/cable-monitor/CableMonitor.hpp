@@ -4,6 +4,7 @@
 #include "CableEvents.hpp"
 #include "EntityManagerInterface.hpp"
 #include "NotifyWatch.hpp"
+#include "dbus-sensor_config.h"
 
 #include <sdbusplus/async.hpp>
 #include <sdbusplus/message/native_types.hpp>
