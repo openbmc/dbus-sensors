@@ -70,8 +70,9 @@ auto Monitor::configUpdateHandler(std::string configFileName)
         co_return;
     }
     co_await entityManager.handleInventoryGet();
-    ctx.spawn(sdbusplus::async::sleep_for(ctx, std::chrono::seconds(5)) |
-              stdexec::then([&]() { reconcileCableData(); }));
+    ctx.spawn(sdbusplus::async::sleep_for(
+        ctx, std::chrono::seconds(reconcileDelayTime)) |
+        stdexec::then([&]() { reconcileCableData(); }));
 }
 
 auto Monitor::start() -> sdbusplus::async::task<>
