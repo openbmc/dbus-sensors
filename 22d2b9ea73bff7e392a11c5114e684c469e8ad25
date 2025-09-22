@@ -110,6 +110,30 @@
       },
       "revId": "22d2b9ea73bff7e392a11c5114e684c469e8ad25",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa4f5a1c_9b0191b4",
+        "filename": "src/meson.build",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-09-22T11:45:24Z",
+      "side": 1,
+      "message": "I have introduced `src/common` here https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/83895",
+      "parentUuid": "840fdd4f_4825b885",
+      "range": {
+        "startLine": 102,
+        "startChar": 10,
+        "endLine": 102,
+        "endChar": 29
+      },
+      "revId": "22d2b9ea73bff7e392a11c5114e684c469e8ad25",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
