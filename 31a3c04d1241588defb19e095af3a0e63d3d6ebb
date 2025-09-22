@@ -70,6 +70,30 @@
       },
       "revId": "31a3c04d1241588defb19e095af3a0e63d3d6ebb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d85ff650_7ebb7185",
+        "filename": "src/intrusion/ChassisIntrusionSensor.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2025-09-22T02:58:34Z",
+      "side": 1,
+      "message": "Addressed in https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/76254",
+      "parentUuid": "12d7658d_f13b4d76",
+      "range": {
+        "startLine": 65,
+        "startChar": 26,
+        "endLine": 65,
+        "endChar": 43
+      },
+      "revId": "31a3c04d1241588defb19e095af3a0e63d3d6ebb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
