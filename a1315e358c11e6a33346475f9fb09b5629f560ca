@@ -168,6 +168,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b85482be_57523475",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2025-09-22T03:00:07Z",
+      "side": 1,
+      "message": "Both places using this interface have been approached with fixes that were all merged: https://gerrit.openbmc.org/c/openbmc/phosphor-host-ipmid/+/68621 and https://gerrit.openbmc.org/c/openbmc/intel-ipmi-oem/+/76690.",
+      "parentUuid": "2f1e4563_97d5b836",
+      "range": {
+        "startLine": 12,
+        "startChar": 5,
+        "endLine": 12,
+        "endChar": 45
+      },
+      "revId": "a1315e358c11e6a33346475f9fb09b5629f560ca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1025c92c_d565b3da",
