@@ -4,4 +4,6 @@
 constexpr const int validateUnsecureFeature = @VALIDATION_UNSECURE_FEATURE@;
 
 constexpr const int insecureSensorOverride = @INSECURE_UNRESTRICTED_SENSOR_OVERRIDE@;
+
+constexpr const int reconcileDelayTime = @RECONCILE_DELAY_TIME@;
 // clang-format on
