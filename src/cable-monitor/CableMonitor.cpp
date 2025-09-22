@@ -1,5 +1,7 @@
 #include "CableMonitor.hpp"
 
+#include "dbus-sensor_config.h"
+
 #include "CableConfig.hpp"
 
 #include <phosphor-logging/lg2.hpp>
@@ -70,7 +72,8 @@ auto Monitor::configUpdateHandler(std::string configFileName)
         co_return;
     }
     co_await entityManager.handleInventoryGet();
-    ctx.spawn(sdbusplus::async::sleep_for(ctx, std::chrono::seconds(5)) |
+    ctx.spawn(sdbusplus::async::sleep_for(
+                  ctx, std::chrono::seconds(reconcileDelayTime)) |
               stdexec::then([&]() { reconcileCableData(); }));
 }
 
