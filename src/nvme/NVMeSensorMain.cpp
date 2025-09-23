@@ -17,13 +17,13 @@
 #include "NVMeBasicContext.hpp"
 #include "NVMeContext.hpp"
 #include "NVMeSensor.hpp"
+#include "Reactor.hpp"
 #include "Thresholds.hpp"
 #include "Utils.hpp"
 #include "VariantVisitors.hpp"
 
 #include <boost/asio/error.hpp>
 #include <boost/asio/io_context.hpp>
-#include <boost/asio/post.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
@@ -270,21 +270,22 @@ static void interfaceRemoved(sdbusplus::message_t& message, NVMEMap& contexts)
 int main()
 {
     boost::asio::io_context io;
-    auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
-    systemBus->request_name("xyz.openbmc_project.NVMeSensor");
-    sdbusplus::asio::object_server objectServer(systemBus, true);
-    objectServer.add_manager("/xyz/openbmc_project/sensors");
+    Reactor reactor("xyz.openbmc_project.NVMeSensor", true, io);
 
-    boost::asio::post(io,
-                      [&]() { createSensors(io, objectServer, systemBus); });
+    reactor.requestName();
 
-    boost::asio::steady_timer filterTimer(io);
-    std::function<void(sdbusplus::message_t&)> eventHandler =
-        [&filterTimer, &io, &objectServer, &systemBus](sdbusplus::message_t&) {
-            // this implicitly cancels the timer
-            filterTimer.expires_after(std::chrono::seconds(1));
+    reactor.objectServer.add_manager("/xyz/openbmc_project/sensors");
 
-            filterTimer.async_wait([&](const boost::system::error_code& ec) {
+    reactor.post([&]() {
+        createSensors(reactor.io, reactor.objectServer, reactor.systemBus);
+    });
+
+    reactor.eventHandler = [&reactor](sdbusplus::message_t&) {
+        // this implicitly cancels the timer
+        reactor.filterTimer.expires_after(std::chrono::seconds(1));
+
+        reactor.filterTimer.async_wait(
+            [&](const boost::system::error_code& ec) {
                 if (ec == boost::asio::error::operation_aborted)
                 {
                     return; // we're being canceled
@@ -297,25 +298,25 @@ int main()
                     return;
                 }
 
-                createSensors(io, objectServer, systemBus);
+                createSensors(reactor.io, reactor.objectServer,
+                              reactor.systemBus);
             });
-        };
+    };
 
-    std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
-        setupPropertiesChangedMatches(
-            *systemBus, std::to_array<const char*>({NVMeSensor::sensorType}),
-            eventHandler);
+    reactor.matches = setupPropertiesChangedMatches(
+        *reactor.systemBus,
+        std::to_array<const char*>({NVMeSensor::sensorType}),
+        reactor.eventHandler);
 
     // Watch for entity-manager to remove configuration interfaces
     // so the corresponding sensors can be removed.
     auto ifaceRemovedMatch = std::make_unique<sdbusplus::bus::match_t>(
-        static_cast<sdbusplus::bus_t&>(*systemBus),
+        static_cast<sdbusplus::bus_t&>(*reactor.systemBus),
         "type='signal',member='InterfacesRemoved',arg0path='" +
             std::string(inventoryPath) + "/'",
         [](sdbusplus::message_t& msg) {
             interfaceRemoved(msg, nvmeDeviceMap);
         });
 
-    setupManufacturingModeMatch(*systemBus);
-    io.run();
+    return reactor.run();
 }

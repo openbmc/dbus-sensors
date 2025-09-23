@@ -15,6 +15,7 @@
 */
 
 #include "IntelCPUSensor.hpp"
+#include "Reactor.hpp"
 #include "Thresholds.hpp"
 #include "Utils.hpp"
 #include "VariantVisitors.hpp"
@@ -30,7 +31,6 @@
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
-#include <sdbusplus/bus/match.hpp>
 #include <sdbusplus/message.hpp>
 
 #include <algorithm>
@@ -793,63 +793,63 @@ bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
 int main()
 {
     boost::asio::io_context io;
-    auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
+    Reactor reactor("xyz.openbmc_project.IntelCPUSensor", true, io);
+
     boost::container::flat_set<CPUConfig> cpuConfigs;
 
-    sdbusplus::asio::object_server objectServer(systemBus, true);
-    objectServer.add_manager("/xyz/openbmc_project/sensors");
-    boost::asio::steady_timer pingTimer(io);
-    boost::asio::steady_timer creationTimer(io);
-    boost::asio::steady_timer filterTimer(io);
+    reactor.objectServer.add_manager("/xyz/openbmc_project/sensors");
+    boost::asio::steady_timer pingTimer(reactor.io);
+    boost::asio::steady_timer creationTimer(reactor.io);
     ManagedObjectType sensorConfigs;
 
-    filterTimer.expires_after(std::chrono::seconds(1));
-    filterTimer.async_wait([&](const boost::system::error_code& ec) {
+    reactor.filterTimer.expires_after(std::chrono::seconds(1));
+    reactor.filterTimer.async_wait([&](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
         {
             return; // we're being canceled
         }
 
-        if (getCpuConfig(systemBus, cpuConfigs, sensorConfigs, objectServer))
+        if (getCpuConfig(reactor.systemBus, cpuConfigs, sensorConfigs,
+                         reactor.objectServer))
         {
-            detectCpuAsync(pingTimer, creationTimer, io, objectServer,
-                           systemBus, cpuConfigs, sensorConfigs);
+            detectCpuAsync(pingTimer, creationTimer, reactor.io,
+                           reactor.objectServer, reactor.systemBus, cpuConfigs,
+                           sensorConfigs);
         }
     });
 
-    std::function<void(sdbusplus::message_t&)> eventHandler =
-        [&](sdbusplus::message_t& message) {
-            if (message.is_method_error())
-            {
-                lg2::error("callback method error");
-                return;
-            }
+    reactor.eventHandler = [&](sdbusplus::message_t& message) {
+        if (message.is_method_error())
+        {
+            lg2::error("callback method error");
+            return;
+        }
 
-            lg2::debug("'{PATH}' is changed", "PATH", message.get_path());
+        lg2::debug("'{PATH}' is changed", "PATH", message.get_path());
 
-            // this implicitly cancels the timer
-            filterTimer.expires_after(std::chrono::seconds(1));
-            filterTimer.async_wait([&](const boost::system::error_code& ec) {
+        // this implicitly cancels the timer
+        reactor.filterTimer.expires_after(std::chrono::seconds(1));
+        reactor.filterTimer.async_wait(
+            [&](const boost::system::error_code& ec) {
                 if (ec == boost::asio::error::operation_aborted)
                 {
                     return; // we're being canceled
                 }
 
-                if (getCpuConfig(systemBus, cpuConfigs, sensorConfigs,
-                                 objectServer))
+                if (getCpuConfig(reactor.systemBus, cpuConfigs, sensorConfigs,
+                                 reactor.objectServer))
                 {
-                    detectCpuAsync(pingTimer, creationTimer, io, objectServer,
-                                   systemBus, cpuConfigs, sensorConfigs);
+                    detectCpuAsync(pingTimer, creationTimer, reactor.io,
+                                   reactor.objectServer, reactor.systemBus,
+                                   cpuConfigs, sensorConfigs);
                 }
             });
-        };
+    };
 
-    std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
-        setupPropertiesChangedMatches(*systemBus, sensorTypes, eventHandler);
+    reactor.matches = setupPropertiesChangedMatches(
+        *reactor.systemBus, sensorTypes, reactor.eventHandler);
 
-    systemBus->request_name("xyz.openbmc_project.IntelCPUSensor");
+    reactor.requestName();
 
-    setupManufacturingModeMatch(*systemBus);
-    io.run();
-    return 0;
+    return reactor.run();
 }
