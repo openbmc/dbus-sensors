@@ -51,6 +51,24 @@
       "parentUuid": "3456409a_a948f09f",
       "revId": "2fa1057f07fc7769852efeb5e1965c9b28aa4ef3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8253f97_e7d40cd0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-09-23T11:03:14Z",
+      "side": 1,
+      "message": "Implementing a Reset requires issuing a NSM command to the GPU on demand exposed via dbus api, infra for which does not existing in nvidiagpusensors app yet. Should we add support for the PATCH operation in separate patch and only implement GET operation with this patch?",
+      "parentUuid": "9fdcd01f_0cf3b392",
+      "revId": "2fa1057f07fc7769852efeb5e1965c9b28aa4ef3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
