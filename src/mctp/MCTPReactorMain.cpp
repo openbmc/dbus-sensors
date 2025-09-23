@@ -1,9 +1,9 @@
 #include "MCTPEndpoint.hpp"
 #include "MCTPReactor.hpp"
+#include "Reactor.hpp"
 #include "Utils.hpp"
 
 #include <boost/asio/io_context.hpp>
-#include <boost/asio/post.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
@@ -14,7 +14,6 @@
 #include <sdbusplus/message/native_types.hpp>
 
 #include <chrono>
-#include <cstdlib>
 #include <format>
 #include <functional>
 #include <map>
@@ -188,13 +187,14 @@ static void exitReactor(boost::asio::io_context* io, sdbusplus::message_t& msg)
 
 int main()
 {
+    boost::asio::io_context io;
+    Reactor reactor("xyz.openbmc_project.MCTPReactor", false, io);
+
     constexpr std::chrono::seconds period(5);
 
-    boost::asio::io_context io;
-    auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
-    DBusAssociationServer associationServer(systemBus);
-    auto reactor = std::make_shared<MCTPReactor>(associationServer);
-    boost::asio::steady_timer clock(io);
+    DBusAssociationServer associationServer(reactor.systemBus);
+    auto mctpReactor = std::make_shared<MCTPReactor>(associationServer);
+    boost::asio::steady_timer clock(reactor.io);
 
     std::function<void(const boost::system::error_code&)> alarm =
         [&](const boost::system::error_code& ec) {
@@ -204,7 +204,7 @@ int main()
             }
             clock.expires_after(period);
             clock.async_wait(alarm);
-            reactor->tick();
+            mctpReactor->tick();
         };
     clock.expires_after(period);
     clock.async_wait(alarm);
@@ -215,15 +215,15 @@ int main()
         rules::nameOwnerChanged("xyz.openbmc_project.EntityManager");
 
     auto entityManagerNameLostMatch = sdbusplus::bus::match_t(
-        static_cast<sdbusplus::bus_t&>(*systemBus), entityManagerNameLostSpec,
-        std::bind_front(exitReactor, &io));
+        static_cast<sdbusplus::bus_t&>(*reactor.systemBus),
+        entityManagerNameLostSpec, std::bind_front(exitReactor, &reactor.io));
 
     const std::string mctpdNameLostSpec =
         rules::nameOwnerChanged("au.com.codeconstruct.MCTP1");
 
     auto mctpdNameLostMatch = sdbusplus::bus::match_t(
-        static_cast<sdbusplus::bus_t&>(*systemBus), mctpdNameLostSpec,
-        std::bind_front(exitReactor, &io));
+        static_cast<sdbusplus::bus_t&>(*reactor.systemBus), mctpdNameLostSpec,
+        std::bind_front(exitReactor, &reactor.io));
 
     const std::string interfacesRemovedMatchSpec =
         rules::sender("xyz.openbmc_project.EntityManager") +
@@ -231,8 +231,9 @@ int main()
         rules::interfacesRemovedAtPath("/xyz/openbmc_project/inventory/");
 
     auto interfacesRemovedMatch = sdbusplus::bus::match_t(
-        static_cast<sdbusplus::bus_t&>(*systemBus), interfacesRemovedMatchSpec,
-        std::bind_front(removeInventory, reactor));
+        static_cast<sdbusplus::bus_t&>(*reactor.systemBus),
+        interfacesRemovedMatchSpec,
+        std::bind_front(removeInventory, mctpReactor));
 
     const std::string interfacesAddedMatchSpec =
         rules::sender("xyz.openbmc_project.EntityManager") +
@@ -240,18 +241,18 @@ int main()
         rules::interfacesAddedAtPath("/xyz/openbmc_project/inventory/");
 
     auto interfacesAddedMatch = sdbusplus::bus::match_t(
-        static_cast<sdbusplus::bus_t&>(*systemBus), interfacesAddedMatchSpec,
-        std::bind_front(addInventory, systemBus, reactor));
+        static_cast<sdbusplus::bus_t&>(*reactor.systemBus),
+        interfacesAddedMatchSpec,
+        std::bind_front(addInventory, reactor.systemBus, mctpReactor));
 
-    systemBus->request_name("xyz.openbmc_project.MCTPReactor");
+    reactor.requestName();
 
-    boost::asio::post(io, [reactor, systemBus]() {
+    reactor.post([&reactor, mctpReactor]() {
         auto gsc = std::make_shared<GetSensorConfiguration>(
-            systemBus, std::bind_front(manageMCTPEntity, systemBus, reactor));
+            reactor.systemBus,
+            std::bind_front(manageMCTPEntity, reactor.systemBus, mctpReactor));
         gsc->getConfiguration({"MCTPI2CTarget", "MCTPI3CTarget"});
     });
 
-    io.run();
-
-    return EXIT_SUCCESS;
+    return reactor.run();
 }
