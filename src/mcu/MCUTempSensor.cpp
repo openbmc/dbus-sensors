@@ -17,6 +17,7 @@
 #include "MCUTempSensor.hpp"
 
 #include "SensorPaths.hpp"
+#include "SensorReactor.hpp"
 #include "Thresholds.hpp"
 #include "Utils.hpp"
 #include "sensor.hpp"
@@ -28,13 +29,11 @@
 
 #include <boost/asio/error.hpp>
 #include <boost/asio/io_context.hpp>
-#include <boost/asio/post.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <boost/container/flat_map.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
-#include <sdbusplus/bus/match.hpp>
 #include <sdbusplus/message.hpp>
 
 #include <array>
@@ -56,8 +55,6 @@ extern "C"
 constexpr const char* sensorType = "MCUTempSensor";
 static constexpr double mcuTempMaxReading = 0xFF;
 static constexpr double mcuTempMinReading = 0;
-
-boost::container::flat_map<std::string, std::unique_ptr<MCUTempSensor>> sensors;
 
 MCUTempSensor::MCUTempSensor(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
@@ -195,7 +192,7 @@ void MCUTempSensor::read()
 
 void createSensors(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
-    boost::container::flat_map<std::string, std::unique_ptr<MCUTempSensor>>&
+    boost::container::flat_map<std::string, std::shared_ptr<MCUTempSensor>>&
         sensors,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
 {
@@ -262,46 +259,41 @@ void createSensors(
 
 int main()
 {
-    boost::asio::io_context io;
-    auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
-    sdbusplus::asio::object_server objectServer(systemBus, true);
-    objectServer.add_manager("/xyz/openbmc_project/sensors");
+    SensorReactor<MCUTempSensor> reactor("xyz.openbmc_project.MCUTempSensor",
+                                         true);
 
-    systemBus->request_name("xyz.openbmc_project.MCUTempSensor");
-
-    boost::asio::post(io, [&]() {
-        createSensors(io, objectServer, sensors, systemBus);
+    reactor.post([&]() {
+        createSensors(reactor.io, reactor.objectServer, reactor.sensors,
+                      reactor.systemBus);
     });
 
-    boost::asio::steady_timer configTimer(io);
+    boost::asio::steady_timer configTimer(reactor.io);
 
-    std::function<void(sdbusplus::message_t&)> eventHandler =
-        [&](sdbusplus::message_t&) {
-            configTimer.expires_after(std::chrono::seconds(1));
-            // create a timer because normally multiple properties change
-            configTimer.async_wait([&](const boost::system::error_code& ec) {
-                if (ec == boost::asio::error::operation_aborted)
-                {
-                    return; // we're being canceled
-                }
-                // config timer error
-                if (ec)
-                {
-                    lg2::error("timer error");
-                    return;
-                }
-                createSensors(io, objectServer, sensors, systemBus);
-                if (sensors.empty())
-                {
-                    lg2::info("Configuration not detected");
-                }
-            });
-        };
+    reactor.eventHandler = [&](sdbusplus::message_t&) {
+        configTimer.expires_after(std::chrono::seconds(1));
+        // create a timer because normally multiple properties change
+        configTimer.async_wait([&](const boost::system::error_code& ec) {
+            if (ec == boost::asio::error::operation_aborted)
+            {
+                return; // we're being canceled
+            }
+            // config timer error
+            if (ec)
+            {
+                lg2::error("timer error");
+                return;
+            }
+            createSensors(reactor.io, reactor.objectServer, reactor.sensors,
+                          reactor.systemBus);
+            if (reactor.sensors.empty())
+            {
+                lg2::info("Configuration not detected");
+            }
+        });
+    };
 
-    std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
-        setupPropertiesChangedMatches(
-            *systemBus, std::to_array<const char*>({sensorType}), eventHandler);
-    setupManufacturingModeMatch(*systemBus);
-    io.run();
-    return 0;
+    reactor.matches = setupPropertiesChangedMatches(
+        *reactor.systemBus, std::to_array<const char*>({sensorType}),
+        reactor.eventHandler);
+    return reactor.run();
 }

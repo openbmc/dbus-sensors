@@ -17,12 +17,12 @@
 #include "DeviceMgmt.hpp"
 #include "HwmonTempSensor.hpp"
 #include "SensorPaths.hpp"
+#include "SensorReactor.hpp"
 #include "Thresholds.hpp"
 #include "Utils.hpp"
 
 #include <boost/asio/error.hpp>
 #include <boost/asio/io_context.hpp>
-#include <boost/asio/post.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <boost/container/flat_map.hpp>
 #include <boost/container/flat_set.hpp>
@@ -605,40 +605,32 @@ static void powerStateChanged(
 
 int main()
 {
-    boost::asio::io_context io;
-    auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
-    sdbusplus::asio::object_server objectServer(systemBus, true);
-    objectServer.add_manager("/xyz/openbmc_project/sensors");
-    systemBus->request_name("xyz.openbmc_project.HwmonTempSensor");
+    SensorReactor<HwmonTempSensor> reactor(
+        "xyz.openbmc_project.HwmonTempSensor", true);
 
-    boost::container::flat_map<std::string, std::shared_ptr<HwmonTempSensor>>
-        sensors;
-    auto sensorsChanged =
-        std::make_shared<boost::container::flat_set<std::string>>();
-
-    auto powerCallBack = [&sensors, &io, &objectServer,
-                          &systemBus](PowerState type, bool state) {
-        powerStateChanged(type, state, sensors, io, objectServer, systemBus);
+    auto powerCallBack = [&reactor](PowerState type, bool state) {
+        powerStateChanged(type, state, reactor.sensors, reactor.io,
+                          reactor.objectServer, reactor.systemBus);
     };
-    setupPowerMatchCallback(systemBus, powerCallBack);
+    setupPowerMatchCallback(reactor.systemBus, powerCallBack);
 
-    boost::asio::post(io, [&]() {
-        createSensors(io, objectServer, sensors, systemBus, nullptr, false);
+    reactor.post([&]() {
+        createSensors(reactor.io, reactor.objectServer, reactor.sensors,
+                      reactor.systemBus, nullptr, false);
     });
 
-    boost::asio::steady_timer filterTimer(io);
-    std::function<void(sdbusplus::message_t&)> eventHandler =
-        [&](sdbusplus::message_t& message) {
-            if (message.is_method_error())
-            {
-                lg2::error("callback method error");
-                return;
-            }
-            sensorsChanged->insert(message.get_path());
-            // this implicitly cancels the timer
-            filterTimer.expires_after(std::chrono::seconds(1));
+    reactor.eventHandler = [&](sdbusplus::message_t& message) {
+        if (message.is_method_error())
+        {
+            lg2::error("callback method error");
+            return;
+        }
+        reactor.sensorsChanged->insert(message.get_path());
+        // this implicitly cancels the timer
+        reactor.filterTimer.expires_after(std::chrono::seconds(1));
 
-            filterTimer.async_wait([&](const boost::system::error_code& ec) {
+        reactor.filterTimer.async_wait(
+            [&](const boost::system::error_code& ec) {
                 if (ec == boost::asio::error::operation_aborted)
                 {
                     /* we were canceled*/
@@ -649,26 +641,24 @@ int main()
                     lg2::error("timer error");
                     return;
                 }
-                createSensors(io, objectServer, sensors, systemBus,
-                              sensorsChanged, false);
+                createSensors(reactor.io, reactor.objectServer, reactor.sensors,
+                              reactor.systemBus, reactor.sensorsChanged, false);
             });
-        };
+    };
 
-    std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
-        setupPropertiesChangedMatches(*systemBus, sensorTypes, eventHandler);
-    setupManufacturingModeMatch(*systemBus);
-
+    reactor.matches = setupPropertiesChangedMatches(
+        *reactor.systemBus, sensorTypes, reactor.eventHandler);
     // Watch for entity-manager to remove configuration interfaces
     // so the corresponding sensors can be removed.
     auto ifaceRemovedMatch = std::make_unique<sdbusplus::bus::match_t>(
-        static_cast<sdbusplus::bus_t&>(*systemBus),
+        static_cast<sdbusplus::bus_t&>(*reactor.systemBus),
         "type='signal',member='InterfacesRemoved',arg0path='" +
             std::string(inventoryPath) + "/'",
-        [&sensors](sdbusplus::message_t& msg) {
-            interfaceRemoved(msg, sensors);
+        [&reactor](sdbusplus::message_t& msg) {
+            interfaceRemoved(msg, reactor.sensors);
         });
 
-    matches.emplace_back(std::move(ifaceRemovedMatch));
+    reactor.matches.emplace_back(std::move(ifaceRemovedMatch));
 
-    io.run();
+    return reactor.run();
 }
