@@ -1,10 +1,10 @@
 #include "IpmbSDRSensor.hpp"
 #include "IpmbSensor.hpp"
+#include "Reactor.hpp"
 #include "Utils.hpp"
 
 #include <boost/asio/error.hpp>
 #include <boost/asio/io_context.hpp>
-#include <boost/asio/post.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <boost/container/flat_map.hpp>
 #include <phosphor-logging/lg2.hpp>
@@ -97,65 +97,65 @@ void reinitSensors(sdbusplus::message_t& message)
 int main()
 {
     boost::asio::io_context io;
-    auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
-    sdbusplus::asio::object_server objectServer(systemBus, true);
-    objectServer.add_manager("/xyz/openbmc_project/sensors");
-    systemBus->request_name("xyz.openbmc_project.IpmbSensor");
+    Reactor reactor("xyz.openbmc_project.IpmbSensor", true, io);
 
-    initCmdTimer = std::make_unique<boost::asio::steady_timer>(io);
+    reactor.objectServer.add_manager("/xyz/openbmc_project/sensors");
 
-    boost::asio::post(io, [&]() {
-        createSensors(io, objectServer, sensors, systemBus);
+    reactor.requestName();
+
+    initCmdTimer = std::make_unique<boost::asio::steady_timer>(reactor.io);
+
+    reactor.post([&]() {
+        createSensors(reactor.io, reactor.objectServer, sensors,
+                      reactor.systemBus);
     });
 
-    boost::asio::steady_timer configTimer(io);
+    boost::asio::steady_timer configTimer(reactor.io);
 
-    std::function<void(sdbusplus::message_t&)> eventHandler =
-        [&](sdbusplus::message_t&) {
-            configTimer.expires_after(std::chrono::seconds(1));
-            // create a timer because normally multiple properties change
-            configTimer.async_wait([&](const boost::system::error_code& ec) {
-                if (ec == boost::asio::error::operation_aborted)
-                {
-                    return; // we're being canceled
-                }
-                createSensors(io, objectServer, sensors, systemBus);
-                if (sensors.empty())
-                {
-                    lg2::info("Configuration not detected");
-                }
-            });
-        };
+    reactor.eventHandler = [&](sdbusplus::message_t&) {
+        configTimer.expires_after(std::chrono::seconds(1));
+        // create a timer because normally multiple properties change
+        configTimer.async_wait([&](const boost::system::error_code& ec) {
+            if (ec == boost::asio::error::operation_aborted)
+            {
+                return; // we're being canceled
+            }
+            createSensors(reactor.io, reactor.objectServer, sensors,
+                          reactor.systemBus);
+            if (sensors.empty())
+            {
+                lg2::info("Configuration not detected");
+            }
+        });
+    };
 
-    std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
-        setupPropertiesChangedMatches(
-            *systemBus, std::to_array<const char*>({sensorType}), eventHandler);
+    reactor.matches = setupPropertiesChangedMatches(
+        *reactor.systemBus, std::to_array<const char*>({sensorType}),
+        reactor.eventHandler);
 
     sdbusplus::bus::match_t powerChangeMatch(
-        static_cast<sdbusplus::bus_t&>(*systemBus),
+        static_cast<sdbusplus::bus_t&>(*reactor.systemBus),
         "type='signal',interface='" + std::string(properties::interface) +
             "',path='" + std::string(power::path) + "',arg0='" +
             std::string(power::interface) + "'",
         reinitSensors);
 
     auto matchSignal = std::make_shared<sdbusplus::bus::match_t>(
-        static_cast<sdbusplus::bus_t&>(*systemBus),
+        static_cast<sdbusplus::bus_t&>(*reactor.systemBus),
         "type='signal',member='PropertiesChanged',path_namespace='" +
             std::string(inventoryPath) + "',arg0namespace='" +
             configInterfaceName(sdrInterface) + "'",
-        [&systemBus](sdbusplus::message_t& msg) {
-            sdrHandler(sdrsensor, msg, systemBus);
+        [&reactor](sdbusplus::message_t& msg) {
+            sdrHandler(sdrsensor, msg, reactor.systemBus);
         });
 
     // Watch for entity-manager to remove configuration interfaces
     // so the corresponding sensors can be removed.
     auto ifaceRemovedMatch = std::make_shared<sdbusplus::bus::match_t>(
-        static_cast<sdbusplus::bus_t&>(*systemBus),
+        static_cast<sdbusplus::bus_t&>(*reactor.systemBus),
         "type='signal',member='InterfacesRemoved',arg0path='" +
             std::string(inventoryPath) + "/'",
         [](sdbusplus::message_t& msg) { interfaceRemoved(msg, sensors); });
 
-    setupManufacturingModeMatch(*systemBus);
-    io.run();
-    return 0;
+    return reactor.run();
 }

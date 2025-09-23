@@ -16,6 +16,7 @@
 
 #include "ExitAirTempSensor.hpp"
 
+#include "Reactor.hpp"
 #include "SensorPaths.hpp"
 #include "Thresholds.hpp"
 #include "Utils.hpp"
@@ -25,7 +26,6 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/asio/error.hpp>
 #include <boost/asio/io_context.hpp>
-#include <boost/asio/post.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <boost/container/flat_map.hpp>
 #include <phosphor-logging/lg2.hpp>
@@ -919,38 +919,37 @@ void createSensor(sdbusplus::asio::object_server& objectServer,
 int main()
 {
     boost::asio::io_context io;
-    auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
-    sdbusplus::asio::object_server objectServer(systemBus, true);
-    objectServer.add_manager("/xyz/openbmc_project/sensors");
-    systemBus->request_name("xyz.openbmc_project.ExitAirTempSensor");
+    Reactor reactor("xyz.openbmc_project.ExitAirTempSensor", true, io);
+    reactor.objectServer.add_manager("/xyz/openbmc_project/sensors");
+
+    reactor.requestName();
+
     std::shared_ptr<ExitAirTempSensor> sensor =
         nullptr; // wait until we find the config
 
-    boost::asio::post(io,
-                      [&]() { createSensor(objectServer, sensor, systemBus); });
+    reactor.post([&]() {
+        createSensor(reactor.objectServer, sensor, reactor.systemBus);
+    });
 
-    boost::asio::steady_timer configTimer(io);
+    boost::asio::steady_timer configTimer(reactor.io);
 
-    std::function<void(sdbusplus::message_t&)> eventHandler =
-        [&](sdbusplus::message_t&) {
-            configTimer.expires_after(std::chrono::seconds(1));
-            // create a timer because normally multiple properties change
-            configTimer.async_wait([&](const boost::system::error_code& ec) {
-                if (ec == boost::asio::error::operation_aborted)
-                {
-                    return; // we're being canceled
-                }
-                createSensor(objectServer, sensor, systemBus);
-                if (!sensor)
-                {
-                    lg2::info("Configuration not detected");
-                }
-            });
-        };
-    std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
-        setupPropertiesChangedMatches(*systemBus, monitorTypes, eventHandler);
+    reactor.eventHandler = [&](sdbusplus::message_t&) {
+        configTimer.expires_after(std::chrono::seconds(1));
+        // create a timer because normally multiple properties change
+        configTimer.async_wait([&](const boost::system::error_code& ec) {
+            if (ec == boost::asio::error::operation_aborted)
+            {
+                return; // we're being canceled
+            }
+            createSensor(reactor.objectServer, sensor, reactor.systemBus);
+            if (!sensor)
+            {
+                lg2::info("Configuration not detected");
+            }
+        });
+    };
+    reactor.matches = setupPropertiesChangedMatches(
+        *reactor.systemBus, monitorTypes, reactor.eventHandler);
 
-    setupManufacturingModeMatch(*systemBus);
-    io.run();
-    return 0;
+    return reactor.run();
 }

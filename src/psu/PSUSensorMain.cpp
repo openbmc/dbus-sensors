@@ -18,6 +18,7 @@
 #include "PSUEvent.hpp"
 #include "PSUSensor.hpp"
 #include "PwmSensor.hpp"
+#include "Reactor.hpp"
 #include "SensorPaths.hpp"
 #include "Thresholds.hpp"
 #include "Utils.hpp"
@@ -27,7 +28,6 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/asio/error.hpp>
 #include <boost/asio/io_context.hpp>
-#include <boost/asio/post.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <boost/container/flat_map.hpp>
 #include <boost/container/flat_set.hpp>
@@ -1151,33 +1151,32 @@ static void powerStateChanged(
 int main()
 {
     boost::asio::io_context io;
-    auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
+    Reactor reactor("xyz.openbmc_project.PSUSensor", true, io);
 
-    sdbusplus::asio::object_server objectServer(systemBus, true);
-    objectServer.add_manager("/xyz/openbmc_project/sensors");
-    objectServer.add_manager("/xyz/openbmc_project/control");
-    systemBus->request_name("xyz.openbmc_project.PSUSensor");
-    auto sensorsChanged =
-        std::make_shared<boost::container::flat_set<std::string>>();
+    reactor.objectServer.add_manager("/xyz/openbmc_project/sensors");
+    reactor.objectServer.add_manager("/xyz/openbmc_project/control");
+
+    reactor.requestName();
 
     propertyInitialize();
 
-    auto powerCallBack = [&io, &objectServer,
-                          &systemBus](PowerState type, bool state) {
-        powerStateChanged(type, state, sensors, io, objectServer, systemBus);
+    auto powerCallBack = [&reactor](PowerState type, bool state) {
+        powerStateChanged(type, state, sensors, reactor.io,
+                          reactor.objectServer, reactor.systemBus);
     };
 
-    setupPowerMatchCallback(systemBus, powerCallBack);
+    setupPowerMatchCallback(reactor.systemBus, powerCallBack);
 
-    boost::asio::post(io, [&]() {
-        createSensors(io, objectServer, systemBus, nullptr, false);
+    reactor.post([&]() {
+        createSensors(reactor.io, reactor.objectServer, reactor.systemBus,
+                      nullptr, false);
     });
-    boost::asio::steady_timer filterTimer(io);
-    std::function<void(sdbusplus::message_t&)> eventHandler =
-        [&](sdbusplus::message_t& message) {
-            sensorsChanged->insert(message.get_path());
-            filterTimer.expires_after(std::chrono::seconds(3));
-            filterTimer.async_wait([&](const boost::system::error_code& ec) {
+
+    reactor.eventHandler = [&](sdbusplus::message_t& message) {
+        reactor.sensorsChanged->insert(message.get_path());
+        reactor.filterTimer.expires_after(std::chrono::seconds(3));
+        reactor.filterTimer.async_wait(
+            [&](const boost::system::error_code& ec) {
                 if (ec == boost::asio::error::operation_aborted)
                 {
                     return;
@@ -1186,12 +1185,12 @@ int main()
                 {
                     lg2::error("timer error");
                 }
-                createSensors(io, objectServer, systemBus, sensorsChanged,
-                              false);
+                createSensors(reactor.io, reactor.objectServer,
+                              reactor.systemBus, reactor.sensorsChanged, false);
             });
-        };
+    };
 
-    boost::asio::steady_timer cpuFilterTimer(io);
+    boost::asio::steady_timer cpuFilterTimer(reactor.io);
     std::function<void(sdbusplus::message_t&)> cpuPresenceHandler =
         [&](sdbusplus::message_t& message) {
             std::string path = message.get_path();
@@ -1246,22 +1245,22 @@ int main()
                     lg2::error("timer error");
                     return;
                 }
-                createSensors(io, objectServer, systemBus, nullptr, false);
+                createSensors(reactor.io, reactor.objectServer,
+                              reactor.systemBus, nullptr, false);
             });
         };
 
-    std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
-        setupPropertiesChangedMatches(*systemBus, sensorTypes, eventHandler);
+    reactor.matches = setupPropertiesChangedMatches(
+        *reactor.systemBus, sensorTypes, reactor.eventHandler);
 
-    matches.emplace_back(std::make_unique<sdbusplus::bus::match_t>(
-        static_cast<sdbusplus::bus_t&>(*systemBus),
+    reactor.matches.emplace_back(std::make_unique<sdbusplus::bus::match_t>(
+        static_cast<sdbusplus::bus_t&>(*reactor.systemBus),
         "type='signal',member='PropertiesChanged',path_namespace='" +
             std::string(cpuInventoryPath) +
             "',arg0namespace='xyz.openbmc_project.Inventory.Item'",
         cpuPresenceHandler));
 
-    getPresentCpus(systemBus);
+    getPresentCpus(reactor.systemBus);
 
-    setupManufacturingModeMatch(*systemBus);
-    io.run();
+    return reactor.run();
 }

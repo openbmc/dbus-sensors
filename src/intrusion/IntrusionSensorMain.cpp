@@ -15,6 +15,7 @@
 */
 
 #include "ChassisIntrusionSensor.hpp"
+#include "Reactor.hpp"
 #include "Utils.hpp"
 
 #include <boost/asio/error.hpp>
@@ -458,48 +459,44 @@ static bool initializeLanStatus(
 
 int main()
 {
+    boost::asio::io_context io;
     std::shared_ptr<ChassisIntrusionSensor> intrusionSensor;
 
-    // setup connection to dbus
-    boost::asio::io_context io;
-    auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
+    Reactor reactor("xyz.openbmc_project.IntrusionSensor", false, io);
 
-    // setup object server, define interface
-    systemBus->request_name("xyz.openbmc_project.IntrusionSensor");
+    reactor.requestName();
 
-    sdbusplus::asio::object_server objServer(systemBus, true);
+    reactor.objectServer.add_manager("/xyz/openbmc_project/Chassis");
 
-    objServer.add_manager("/xyz/openbmc_project/Chassis");
-
-    createSensorsFromConfig(io, objServer, systemBus, intrusionSensor);
+    createSensorsFromConfig(reactor.io, reactor.objectServer, reactor.systemBus,
+                            intrusionSensor);
 
     // callback to handle configuration change
-    boost::asio::steady_timer filterTimer(io);
-    std::function<void(sdbusplus::message_t&)> eventHandler =
-        [&](sdbusplus::message_t&) {
-            // this implicitly cancels the timer
-            filterTimer.expires_after(std::chrono::seconds(1));
-            filterTimer.async_wait([&](const boost::system::error_code& ec) {
+    reactor.eventHandler = [&](sdbusplus::message_t& /*unused*/) {
+        // this implicitly cancels the timer
+        reactor.filterTimer.expires_after(std::chrono::seconds(1));
+        reactor.filterTimer.async_wait(
+            [&](const boost::system::error_code& ec) {
                 if (ec == boost::asio::error::operation_aborted)
                 {
                     // timer was cancelled
                     return;
                 }
                 lg2::info("rescan due to configuration change");
-                createSensorsFromConfig(io, objServer, systemBus,
-                                        intrusionSensor);
+                createSensorsFromConfig(reactor.io, reactor.objectServer,
+                                        reactor.systemBus, intrusionSensor);
             });
-        };
+    };
 
-    std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
-        setupPropertiesChangedMatches(
-            *systemBus, std::to_array<const char*>({sensorType}), eventHandler);
+    reactor.matches = setupPropertiesChangedMatches(
+        *reactor.systemBus, std::to_array<const char*>({sensorType}),
+        reactor.eventHandler);
 
-    if (initializeLanStatus(systemBus))
+    if (initializeLanStatus(reactor.systemBus))
     {
         // add match to monitor lan status change
         sdbusplus::bus::match_t lanStatusMatch(
-            static_cast<sdbusplus::bus_t&>(*systemBus),
+            static_cast<sdbusplus::bus_t&>(*reactor.systemBus),
             "type='signal', member='PropertiesChanged',"
             "arg0namespace='org.freedesktop.network1.Link'",
             [](sdbusplus::message_t& msg) { processLanStatusChange(msg); });
@@ -507,14 +504,14 @@ int main()
         // add match to monitor entity manager signal about nic name config
         // change
         sdbusplus::bus::match_t lanConfigMatch(
-            static_cast<sdbusplus::bus_t&>(*systemBus),
+            static_cast<sdbusplus::bus_t&>(*reactor.systemBus),
             "type='signal', member='PropertiesChanged',path_namespace='" +
                 std::string(inventoryPath) + "',arg0namespace='" +
                 configInterfaceName(nicType) + "'",
-            [&systemBus](sdbusplus::message_t&) { getNicNameInfo(systemBus); });
+            [&reactor](sdbusplus::message_t& /*unused*/) {
+                getNicNameInfo(reactor.systemBus);
+            });
     }
 
-    io.run();
-
-    return 0;
+    return reactor.run();
 }

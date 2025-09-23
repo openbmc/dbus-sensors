@@ -4,6 +4,7 @@
  */
 
 #include "MctpRequester.hpp"
+#include "Reactor.hpp"
 #include "Utils.hpp"
 
 #include <NvidiaDeviceDiscovery.hpp>
@@ -11,7 +12,6 @@
 #include <NvidiaSmaDevice.hpp>
 #include <boost/asio/error.hpp>
 #include <boost/asio/io_context.hpp>
-#include <boost/asio/post.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <boost/container/flat_map.hpp>
 #include <phosphor-logging/lg2.hpp>
@@ -51,39 +51,40 @@ void configTimerExpiryCallback(
 int main()
 {
     boost::asio::io_context io;
-    auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
-    sdbusplus::asio::object_server objectServer(systemBus, true);
-    objectServer.add_manager("/xyz/openbmc_project/sensors");
-    objectServer.add_manager("/xyz/openbmc_project/inventory");
-    systemBus->request_name("xyz.openbmc_project.GpuSensor");
+    Reactor reactor("xyz.openbmc_project.GpuSensor", false, io);
 
-    mctp::MctpRequester mctpRequester(io);
+    reactor.objectServer.add_manager("/xyz/openbmc_project/sensors");
+    reactor.objectServer.add_manager("/xyz/openbmc_project/inventory");
 
-    boost::asio::post(io, [&]() {
-        createSensors(io, objectServer, gpuDevices, smaDevices, pcieDevices,
-                      systemBus, mctpRequester);
+    reactor.requestName();
+
+    mctp::MctpRequester mctpRequester(reactor.io);
+
+    reactor.post([&]() {
+        createSensors(reactor.io, reactor.objectServer, gpuDevices, smaDevices,
+                      pcieDevices, reactor.systemBus, mctpRequester);
     });
 
-    boost::asio::steady_timer configTimer(io);
+    boost::asio::steady_timer configTimer(reactor.io);
 
-    std::function<void(sdbusplus::message_t&)> eventHandler =
-        [&configTimer, &io, &objectServer, &systemBus,
-         &mctpRequester](sdbusplus::message_t&) {
+    reactor.eventHandler =
+        [&configTimer, &reactor, &mctpRequester](sdbusplus::message_t&) {
             configTimer.expires_after(std::chrono::seconds(1));
             // create a timer because normally multiple properties change
             configTimer.async_wait(std::bind_front(
-                configTimerExpiryCallback, std::ref(io), std::ref(objectServer),
-                std::ref(systemBus), std::ref(mctpRequester)));
+                configTimerExpiryCallback, std::ref(reactor.io),
+                std::ref(reactor.objectServer), std::ref(reactor.systemBus),
+                std::ref(mctpRequester)));
         };
 
-    std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
-        setupPropertiesChangedMatches(
-            *systemBus, std::to_array<const char*>({deviceType}), eventHandler);
+    reactor.matches = setupPropertiesChangedMatches(
+        *reactor.systemBus, std::to_array<const char*>({deviceType}),
+        reactor.eventHandler);
 
     // Watch for entity-manager to remove configuration interfaces
     // so the corresponding sensors can be removed.
     auto ifaceRemovedMatch = std::make_shared<sdbusplus::bus::match_t>(
-        static_cast<sdbusplus::bus_t&>(*systemBus),
+        static_cast<sdbusplus::bus_t&>(*reactor.systemBus),
         sdbusplus::bus::match::rules::interfacesRemovedAtPath(
             std::string(inventoryPath)),
         [](sdbusplus::message_t& msg) {
@@ -92,7 +93,7 @@ int main()
 
     try
     {
-        io.run();
+        return reactor.run();
     }
     catch (const std::exception& e)
     {
@@ -100,6 +101,4 @@ int main()
                    e.what());
         return EXIT_FAILURE;
     }
-
-    return 0;
 }
