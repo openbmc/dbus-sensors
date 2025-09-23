@@ -16,6 +16,7 @@
 
 #include "PresenceGpio.hpp"
 #include "PwmSensor.hpp"
+#include "Reactor.hpp"
 #include "TachSensor.hpp"
 #include "Thresholds.hpp"
 #include "Utils.hpp"
@@ -24,7 +25,6 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/asio/error.hpp>
 #include <boost/asio/io_context.hpp>
-#include <boost/asio/post.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <boost/container/flat_map.hpp>
 #include <boost/container/flat_set.hpp>
@@ -653,40 +653,38 @@ void createSensors(
 int main()
 {
     boost::asio::io_context io;
-    auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
-    sdbusplus::asio::object_server objectServer(systemBus, true);
+    Reactor reactor("xyz.openbmc_project.FanSensor", true, io);
 
-    objectServer.add_manager("/xyz/openbmc_project/sensors");
-    objectServer.add_manager("/xyz/openbmc_project/control");
-    objectServer.add_manager("/xyz/openbmc_project/inventory");
-    systemBus->request_name("xyz.openbmc_project.FanSensor");
+    reactor.objectServer.add_manager("/xyz/openbmc_project/sensors");
+    reactor.objectServer.add_manager("/xyz/openbmc_project/control");
+    reactor.objectServer.add_manager("/xyz/openbmc_project/inventory");
+
+    reactor.requestName();
+
     boost::container::flat_map<std::string, std::shared_ptr<TachSensor>>
         tachSensors;
     boost::container::flat_map<std::string, std::unique_ptr<PwmSensor>>
         pwmSensors;
     boost::container::flat_map<std::string, std::weak_ptr<PresenceGpio>>
         presenceGpios;
-    auto sensorsChanged =
-        std::make_shared<boost::container::flat_set<std::string>>();
 
-    boost::asio::post(io, [&]() {
-        createSensors(io, objectServer, tachSensors, pwmSensors, presenceGpios,
-                      systemBus, nullptr);
+    reactor.post([&]() {
+        createSensors(reactor.io, reactor.objectServer, tachSensors, pwmSensors,
+                      presenceGpios, reactor.systemBus, nullptr);
     });
 
-    boost::asio::steady_timer filterTimer(io);
-    std::function<void(sdbusplus::message_t&)> eventHandler =
-        [&](sdbusplus::message_t& message) {
-            if (message.is_method_error())
-            {
-                lg2::error("callback method error");
-                return;
-            }
-            sensorsChanged->insert(message.get_path());
-            // this implicitly cancels the timer
-            filterTimer.expires_after(std::chrono::seconds(1));
+    reactor.eventHandler = [&](sdbusplus::message_t& message) {
+        if (message.is_method_error())
+        {
+            lg2::error("callback method error");
+            return;
+        }
+        reactor.sensorsChanged->insert(message.get_path());
+        // this implicitly cancels the timer
+        reactor.filterTimer.expires_after(std::chrono::seconds(1));
 
-            filterTimer.async_wait([&](const boost::system::error_code& ec) {
+        reactor.filterTimer.async_wait(
+            [&](const boost::system::error_code& ec) {
                 if (ec == boost::asio::error::operation_aborted)
                 {
                     /* we were canceled*/
@@ -697,28 +695,28 @@ int main()
                     lg2::error("timer error");
                     return;
                 }
-                createSensors(io, objectServer, tachSensors, pwmSensors,
-                              presenceGpios, systemBus, sensorsChanged, 5);
+                createSensors(reactor.io, reactor.objectServer, tachSensors,
+                              pwmSensors, presenceGpios, reactor.systemBus,
+                              reactor.sensorsChanged, 5);
             });
-        };
+    };
 
-    std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
-        setupPropertiesChangedMatches(*systemBus, sensorTypes, eventHandler);
+    reactor.matches = setupPropertiesChangedMatches(
+        *reactor.systemBus, sensorTypes, reactor.eventHandler);
 
     // redundancy sensor
     std::function<void(sdbusplus::message_t&)> redundancyHandler =
-        [&tachSensors, &systemBus, &objectServer](sdbusplus::message_t&) {
-            createRedundancySensor(tachSensors, systemBus, objectServer);
+        [&tachSensors, &reactor](sdbusplus::message_t&) {
+            createRedundancySensor(tachSensors, reactor.systemBus,
+                                   reactor.objectServer);
         };
     auto match = std::make_unique<sdbusplus::bus::match_t>(
-        static_cast<sdbusplus::bus_t&>(*systemBus),
+        static_cast<sdbusplus::bus_t&>(*reactor.systemBus),
         "type='signal',member='PropertiesChanged',path_namespace='" +
             std::string(inventoryPath) + "',arg0namespace='" +
             redundancyConfiguration + "'",
         std::move(redundancyHandler));
-    matches.emplace_back(std::move(match));
+    reactor.matches.emplace_back(std::move(match));
 
-    setupManufacturingModeMatch(*systemBus);
-    io.run();
-    return 0;
+    return reactor.run();
 }
