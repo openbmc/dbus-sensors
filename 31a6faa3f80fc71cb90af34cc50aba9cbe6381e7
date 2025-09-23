@@ -22,6 +22,30 @@
       },
       "revId": "31a6faa3f80fc71cb90af34cc50aba9cbe6381e7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "512f0a74_f5fd2a16",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-09-23T12:42:29Z",
+      "side": 1,
+      "message": "\u003e and may remove the need to move everything under src/common/.\n\nMaybe you have some extra input here since you know the code much better.\n\nCurrently we have `struct Sensor` which is for an individual sensor and for example `class ADCSensor` which inherits from `Sensor`.\n\nBut we do not have something like `class SensorManager` or `class SensorReactor` right?\nSomething to hold the io context and all the other stuff\n\nfrom ADCSensor\n```\nint main()\n{\n    boost::asio::io_context io; \n    auto systemBus \u003d std::make_shared\u003csdbusplus::asio::connection\u003e(io);\n    sdbusplus::asio::object_server objectServer(systemBus, true);\n    objectServer.add_manager(\"/xyz/openbmc_project/sensors\");\n\n    systemBus-\u003erequest_name(\"xyz.openbmc_project.ADCSensor\");\n    boost::container::flat_map\u003cstd::string, std::shared_ptr\u003cADCSensor\u003e\u003e sensors;\n    auto sensorsChanged \u003d\n        std::make_shared\u003cboost::container::flat_set\u003cstd::string\u003e\u003e();\n```\n\nfrom HwmonTempSensor\n```\n\nint main()\n{\n    boost::asio::io_context io; \n    auto systemBus \u003d std::make_shared\u003csdbusplus::asio::connection\u003e(io);\n    sdbusplus::asio::object_server objectServer(systemBus, true);\n    objectServer.add_manager(\"/xyz/openbmc_project/sensors\");\n    systemBus-\u003erequest_name(\"xyz.openbmc_project.HwmonTempSensor\");\n\n    boost::container::flat_map\u003cstd::string, std::shared_ptr\u003cHwmonTempSensor\u003e\u003e\n        sensors;\n    auto sensorsChanged \u003d\n        std::make_shared\u003cboost::container::flat_set\u003cstd::string\u003e\u003e();\n```\n\nPSUSensor is similar as well.\n\nSo we have all this common logic and common variables but nothing to contain it.\n\nNow if someone asks \"where do i find the common code\", i do not want to say `src`,\ni want to say `src/common` and `tests/common`.\n\nIf we tell them `src/` ! then it may be overwhelming for that person since there is so many sensors directories in there. So it may be distracting a reader from understanding how the \u0027generic\u0027 sensor code works.\n\nIt\u0027s also distracting from `meson.build` perspective since we are mixing the building of common code with meson `subdir(...)` calls.\n\nThis is how it looks for me\n```\n[alexander@alexanderarchlinux dbus-sensors]$ ls src/\nadc                         FileHandle.hpp     NotifyWatch.cpp  SystemdInterface.cpp\ncable-monitor               GPIOInterface.cpp  NotifyWatch.hpp  SystemdInterface.hpp\ndbus-sensor_config.h.in     GPIOInterface.hpp  nvidia-gpu       tests\nDeviceMgmt.cpp              hwmon-temp         nvme             Thresholds.cpp\nDeviceMgmt.hpp              intel-cpu          psu              Thresholds.hpp\nEntityManagerInterface.cpp  intrusion          PwmSensor.cpp    Utils.cpp\nEntityManagerInterface.hpp  ipmb               PwmSensor.hpp    Utils.hpp\nexit-air                    leakdetector       sensor.hpp       VariantVisitors.hpp\nexternal                    mctp               SensorPaths.cpp\nfan                         mcu                SensorPaths.hpp\nFileHandle.cpp              meson.build        smbpbi\n```\n\nwhen it is actually much smaller\n\n```\n[alexander@alexanderarchlinux dbus-sensors]$ ls src/common/\nDeviceMgmt.cpp              GPIOInterface.cpp  PwmSensor.hpp         Thresholds.cpp\nDeviceMgmt.hpp              GPIOInterface.hpp  sensor.hpp            Thresholds.hpp\nEntityManagerInterface.cpp  meson.build        SensorPaths.cpp       Utils.cpp\nEntityManagerInterface.hpp  NotifyWatch.cpp    SensorPaths.hpp       Utils.hpp\nFileHandle.cpp              NotifyWatch.hpp    SystemdInterface.cpp  VariantVisitors.hpp\nFileHandle.hpp              PwmSensor.cpp      SystemdInterface.hpp\n```\n\n### include patterns\n\n\u003e feel this is helpful because it explicitly aligns the source with the repository\u0027s file hierarchy\n\n\nYes but then an ADC sensor reactor will `#include adc/ADCSensor.hpp`, right? \nWhich makes it look like it\u0027s including a library or something when it\u0027s including it\u0027s own header.\n\nMaking it appear as if it\u0027s own header was somehow more distant than the common code.",
+      "parentUuid": "7fe6bc5b_02332c71",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 32
+      },
+      "revId": "31a6faa3f80fc71cb90af34cc50aba9cbe6381e7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
