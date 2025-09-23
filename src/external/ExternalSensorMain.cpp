@@ -1,18 +1,16 @@
 #include "ExternalSensor.hpp"
+#include "SensorReactor.hpp"
 #include "Thresholds.hpp"
 #include "Utils.hpp"
 #include "VariantVisitors.hpp"
 
 #include <boost/asio/error.hpp>
-#include <boost/asio/io_context.hpp>
-#include <boost/asio/post.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <boost/container/flat_map.hpp>
 #include <boost/container/flat_set.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
-#include <sdbusplus/bus/match.hpp>
 #include <sdbusplus/message.hpp>
 #include <sdbusplus/message/native_types.hpp>
 
@@ -348,28 +346,18 @@ int main()
         lg2::error("ExternalSensor service starting up");
     }
 
-    boost::asio::io_context io;
-    auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
-    sdbusplus::asio::object_server objectServer(systemBus, true);
+    SensorReactor<ExternalSensor> reactor("xyz.openbmc_project.ExternalSensor",
+                                          false);
 
-    objectServer.add_manager("/xyz/openbmc_project/sensors");
-    systemBus->request_name("xyz.openbmc_project.ExternalSensor");
+    boost::asio::steady_timer reaperTimer(reactor.io);
 
-    boost::container::flat_map<std::string, std::shared_ptr<ExternalSensor>>
-        sensors;
-    auto sensorsChanged =
-        std::make_shared<boost::container::flat_set<std::string>>();
-    boost::asio::steady_timer reaperTimer(io);
-
-    boost::asio::post(io, [&objectServer, &sensors, &systemBus,
-                           &reaperTimer]() {
-        createSensors(objectServer, sensors, systemBus, nullptr, reaperTimer);
+    reactor.post([&reactor, &reaperTimer]() {
+        createSensors(reactor.objectServer, reactor.sensors, reactor.systemBus,
+                      nullptr, reaperTimer);
     });
 
-    boost::asio::steady_timer filterTimer(io);
-    std::function<void(sdbusplus::message_t&)> eventHandler =
-        [&objectServer, &sensors, &systemBus, &sensorsChanged, &filterTimer,
-         &reaperTimer](sdbusplus::message_t& message) mutable {
+    reactor.eventHandler =
+        [&reactor, &reaperTimer](sdbusplus::message_t& message) mutable {
             if (message.is_method_error())
             {
                 lg2::error("callback method error");
@@ -377,7 +365,7 @@ int main()
             }
 
             const auto* messagePath = message.get_path();
-            sensorsChanged->insert(messagePath);
+            reactor.sensorsChanged->insert(messagePath);
             if constexpr (debug)
             {
                 lg2::error("ExternalSensor change event received: '{PATH}'",
@@ -385,10 +373,10 @@ int main()
             }
 
             // this implicitly cancels the timer
-            filterTimer.expires_after(std::chrono::seconds(1));
+            reactor.filterTimer.expires_after(std::chrono::seconds(1));
 
-            filterTimer.async_wait(
-                [&objectServer, &sensors, &systemBus, &sensorsChanged,
+            reactor.filterTimer.async_wait(
+                [&reactor,
                  &reaperTimer](const boost::system::error_code& ec) mutable {
                     if (ec != boost::system::errc::success)
                     {
@@ -400,19 +388,20 @@ int main()
                         return;
                     }
 
-                    createSensors(objectServer, sensors, systemBus,
-                                  sensorsChanged, reaperTimer);
+                    createSensors(reactor.objectServer, reactor.sensors,
+                                  reactor.systemBus, reactor.sensorsChanged,
+                                  reaperTimer);
                 });
         };
 
-    std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
-        setupPropertiesChangedMatches(
-            *systemBus, std::to_array<const char*>({sensorType}), eventHandler);
+    reactor.matches = setupPropertiesChangedMatches(
+        *reactor.systemBus, std::to_array<const char*>({sensorType}),
+        reactor.eventHandler);
 
     if constexpr (debug)
     {
         lg2::error("ExternalSensor service entering main loop");
     }
 
-    io.run();
+    return reactor.run();
 }
