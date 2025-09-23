@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a330ebdb_27cce117",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-09-23T19:57:09Z",
+      "side": 1,
+      "message": "Before this update, filename could only be \u0027fanN_input.\u0027 After the update, the filename can be \u0027fanN_input\u0027 OR \u0027pwmN\u0027.\n\nThis check here lets us filter out those newly-included pwmN paths for all standard (non-tachless) fans. After this point, everything is \u0027business as usual\u0027 for standard fans, with \u0027isTachlessFan\u0027 checks gating any tachless-specific path-string manipulations as needed.",
+      "revId": "d237475b6395b81dac035f70db15fa8e1874a918",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00cacaa2_c3d0075d",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 682,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-09-23T19:57:09Z",
+      "side": 1,
+      "message": "enableFanInput behavior is unchanged for standard (non-tachless) fans.",
+      "revId": "d237475b6395b81dac035f70db15fa8e1874a918",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
