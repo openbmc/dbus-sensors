@@ -35,21 +35,19 @@ class Requester
 
     Requester& operator=(Requester&&) = delete;
 
-    explicit Requester(boost::asio::io_context& ctx);
+    explicit Requester(boost::asio::io_context& ctx, uint8_t eid);
 
-    void sendRecvMsg(uint8_t eid, std::span<const uint8_t> reqMsg,
+    void sendRecvMsg(std::span<const uint8_t> reqMsg,
                      std::span<uint8_t> respMsg,
                      std::move_only_function<void(int)> callback);
 
   private:
-    void processRecvMsg(std::span<const uint8_t> reqMsg,
-                        std::span<uint8_t> respMsg,
-                        const boost::system::error_code& ec, size_t length);
+    void processRecvMsg(const boost::system::error_code& ec, size_t length);
 
-    void handleSendMsgCompletion(uint8_t eid, std::span<const uint8_t> reqMsg,
-                                 std::span<uint8_t> respMsg,
-                                 const boost::system::error_code& ec,
+    void handleSendMsgCompletion(const boost::system::error_code& ec,
                                  size_t length);
+
+    void notifyClient(int rc);
 
     boost::asio::generic::datagram_protocol::socket mctpSocket;
 
@@ -57,12 +55,13 @@ class Requester
 
     boost::asio::generic::datagram_protocol::endpoint sendEndPoint;
 
-    boost::asio::generic::datagram_protocol::endpoint recvEndPoint;
-
     boost::asio::steady_timer expiryTimer;
+    uint8_t eid;
 
-    std::unordered_map<uint8_t, std::move_only_function<void(int)>>
-        completionCallbacks;
+    uint8_t iid{};
+    std::move_only_function<void(int)> cb;
+    std::span<uint8_t> respMsg;
+    bool hasTransactionPending = false;
 
     static constexpr uint8_t msgType = ocp::accelerator_management::messageType;
 };
@@ -76,7 +75,7 @@ class QueuingRequester
     QueuingRequester& operator=(const QueuingRequester&) = delete;
     QueuingRequester& operator=(QueuingRequester&&) = delete;
 
-    explicit QueuingRequester(boost::asio::io_context& ctx) : requester(ctx) {}
+    explicit QueuingRequester(boost::asio::io_context& ctx) : io{ctx} {}
 
     void sendRecvMsg(uint8_t eid, std::span<const uint8_t> reqMsg,
                      std::span<uint8_t> respMsg,
@@ -103,13 +102,16 @@ class QueuingRequester
         {}
     };
 
-    void handleResult(uint8_t eid, int result);
-    void processQueue(uint8_t eid);
+    struct HandlerSocket
+    {
+        boost::container::devector<std::unique_ptr<RequestContext>> queue;
+        std::unique_ptr<Requester> requester;
+    };
 
-    Requester requester;
-    std::unordered_map<
-        uint8_t, boost::container::devector<std::unique_ptr<RequestContext>>>
-        requestContextQueues;
+    void handleResult(uint8_t eid, int result);
+    void processQueue(HandlerSocket& handler, uint8_t eid);
+    boost::asio::io_context& io;
+    std::unordered_map<uint8_t, HandlerSocket> requestContextQueues;
 };
 
 using MctpRequester = QueuingRequester;
