@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fe6bc5b_02332c71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-09-23T00:11:08Z",
+      "side": 1,
+      "message": "Not suggesting you change your approach necessarily, so marking this as resolved to start with.\n\nMy approach here has been to use `executable(..., implicit_include_directories: false, ...)`, and then provide an explicit list of include directories, which in this case we\u0027d constrain to `src/`. From there the `#include \"...\"` directive in each translation unit needs to use the path relative to `src/`, which helps disambiguate. I feel this is helpful because it explicitly aligns the source with the repository\u0027s file hierarchy and may remove the need to move everything under `src/common/`.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 32
+      },
+      "revId": "31a6faa3f80fc71cb90af34cc50aba9cbe6381e7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
