@@ -124,5 +124,13 @@ void NvidiaGpuVoltageSensor::update()
 
     mctpRequester.sendRecvMsg(
         eid, request, response,
-        [this](int sendRecvMsgResult) { processResponse(sendRecvMsgResult); });
+        [weak{weak_from_this()}](int sendRecvMsgResult) {
+            std::shared_ptr<NvidiaGpuVoltageSensor> self = weak.lock();
+            if (!self)
+            {
+                lg2::error("invalid reference to NvidiaGpuVoltageSensor");
+                return;
+            }
+            self->processResponse(sendRecvMsgResult);
+        });
 }

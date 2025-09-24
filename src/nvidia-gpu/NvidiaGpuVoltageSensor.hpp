@@ -22,7 +22,9 @@
 
 constexpr uint8_t gpuVoltageSensorId{0};
 
-struct NvidiaGpuVoltageSensor : public Sensor
+struct NvidiaGpuVoltageSensor :
+    public Sensor,
+    public std::enable_shared_from_this<NvidiaGpuVoltageSensor>
 {
   public:
     NvidiaGpuVoltageSensor(
