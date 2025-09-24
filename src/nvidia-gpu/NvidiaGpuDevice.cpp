@@ -213,11 +213,18 @@ void GpuDevice::read()
     voltageSensor->update();
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
-    waitTimer.async_wait([this](const boost::system::error_code& ec) {
-        if (ec)
-        {
-            return;
-        }
-        read();
-    });
-};
+    waitTimer.async_wait(
+        [weak{weak_from_this()}](const boost::system::error_code& ec) {
+            std::shared_ptr<GpuDevice> self = weak.lock();
+            if (!self)
+            {
+                lg2::error("Invalid reference to GpuDevice");
+                return;
+            }
+            if (ec)
+            {
+                return;
+            }
+            self->read();
+        });
+}
