@@ -42,10 +42,12 @@ constexpr const char* cpuInventoryPath =
     "/xyz/openbmc_project/inventory/system/chassis/motherboard";
 const std::regex illegalDbusRegex("[^A-Za-z0-9_]");
 
+using Association = std::tuple<std::string, std::string, std::string>;
 using BasicVariantType =
     std::variant<std::vector<std::string>, std::vector<uint8_t>,
                  std::vector<std::uint64_t>, std::string, int64_t, uint64_t,
-                 double, int32_t, uint32_t, int16_t, uint16_t, uint8_t, bool>;
+                 double, int32_t, uint32_t, int16_t, uint16_t, uint8_t, bool,
+                 std::vector<Association>>;
 using SensorBaseConfigMap =
     boost::container::flat_map<std::string, BasicVariantType>;
 using SensorBaseConfiguration = std::pair<std::string, SensorBaseConfigMap>;
@@ -56,7 +58,6 @@ using ManagedObjectType =
 using GetSubTreeType = std::vector<
     std::pair<std::string,
               std::vector<std::pair<std::string, std::vector<std::string>>>>>;
-using Association = std::tuple<std::string, std::string, std::string>;
 
 inline std::string escapeName(const std::string& sensorName)
 {

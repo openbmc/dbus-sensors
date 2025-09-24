@@ -159,8 +159,43 @@ void PSUSensor::handleResponseStatic(const std::weak_ptr<PSUSensor>& weak,
     self->handleResponse(ec, bytesRead);
 }
 
+void PSUSensor::setSkipRead(bool skip)
+{
+    if (skip)
+    {
+        stopRead();
+    }
+    else
+    {
+        startRead();
+    }
+}
+
+void PSUSensor::stopRead()
+{
+    markAvailable(false);
+    updateValue(std::numeric_limits<double>::quiet_NaN());
+    stopped = true;
+    waitTimer.cancel();
+}
+
+void PSUSensor::startRead()
+{
+    if (!stopped)
+    {
+        return;
+    }
+    stopped = false;
+    restartRead();
+}
+
 void PSUSensor::setupRead()
 {
+    if (stopped)
+    {
+        return;
+    }
+
     if (!readingStateGood())
     {
         markAvailable(false);
@@ -185,7 +220,7 @@ void PSUSensor::restartRead()
             return;
         }
         std::shared_ptr<PSUSensor> self = weakRef.lock();
-        if (self)
+        if (self && !self->stopped)
         {
             self->setupRead();
         }
@@ -208,6 +243,11 @@ void PSUSensor::handleResponse(const boost::system::error_code& err,
         lg2::error("Bad file descriptor for '{PATH}'", "PATH", path);
         return;
     }
+    if (stopped)
+    {
+        return;
+    }
+
     if (err || bytesRead == 0)
     {
         if (readingStateGood())
