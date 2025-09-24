@@ -26,6 +26,7 @@ struct I2CDeviceType
 {
     std::string_view name;
     bool createsHWMon;
+    bool pauseOnUpdate = false;
 };
 
 struct I2CDeviceParams

@@ -46,7 +46,7 @@ PSUCombineEvent::PSUCombineEvent(
     boost::asio::io_context& io, const std::string& psuName,
     const PowerState& powerState, EventPathList& eventPathList,
     GroupEventPathList& groupEventPathList, const std::string& combineEventName,
-    double pollRate) : objServer(objectServer)
+    double pollRate, bool skipRead) : objServer(objectServer)
 {
     std::string psuNameEscaped = sensor_paths::escapePathForDbus(psuName);
     eventInterface = objServer.add_interface(
@@ -74,7 +74,14 @@ PSUCombineEvent::PSUCombineEvent(
             auto p = std::make_shared<PSUSubEvent>(
                 eventInterface, path, conn, io, powerState, eventName,
                 eventName, assert, combineEvent, state, psuName, pollRate);
-            p->setupRead();
+            if (skipRead)
+            {
+                p->stopRead();
+            }
+            else
+            {
+                p->setupRead();
+            }
 
             events[eventPSUName].emplace_back(p);
             asserts.emplace_back(assert);
@@ -96,7 +103,14 @@ PSUCombineEvent::PSUCombineEvent(
                 auto p = std::make_shared<PSUSubEvent>(
                     eventInterface, path, conn, io, powerState, groupEventName,
                     eventName, assert, combineEvent, state, psuName, pollRate);
-                p->setupRead();
+                if (skipRead)
+                {
+                    p->stopRead();
+                }
+                else
+                {
+                    p->setupRead();
+                }
                 events[eventPSUName].emplace_back(p);
 
                 asserts.emplace_back(assert);
@@ -118,6 +132,24 @@ PSUCombineEvent::~PSUCombineEvent()
     }
     events.clear();
     objServer.remove_interface(eventInterface);
+}
+
+void PSUCombineEvent::setSkipRead(bool skip)
+{
+    for (auto& [psuName, subEvents] : events)
+    {
+        for (auto& subEventPtr : subEvents)
+        {
+            if (skip)
+            {
+                subEventPtr->stopRead();
+            }
+            else
+            {
+                subEventPtr->startRead();
+            }
+        }
+    }
 }
 
 static boost::container::flat_map<std::string,
@@ -190,6 +222,11 @@ PSUSubEvent::~PSUSubEvent()
 
 void PSUSubEvent::setupRead()
 {
+    if (stopped)
+    {
+        return;
+    }
+
     if (!readingStateGood(readState))
     {
         // Deassert the event
@@ -213,6 +250,11 @@ void PSUSubEvent::handleResponse(const boost::system::error_code& err,
 
     if ((err == boost::system::errc::bad_file_descriptor) ||
         (err == boost::asio::error::misc_errors::not_found))
+    {
+        return;
+    }
+
+    if (stopped)
     {
         return;
     }
@@ -279,6 +321,22 @@ void PSUSubEvent::restartRead()
     waitTimer.expires_after(std::chrono::milliseconds(eventPollMs));
     waitTimer.async_wait(
         std::bind_front(&PSUSubEvent::handleTimeout, weak_from_this()));
+}
+
+void PSUSubEvent::stopRead()
+{
+    stopped = true;
+    waitTimer.cancel();
+}
+
+void PSUSubEvent::startRead()
+{
+    if (!stopped)
+    {
+        return;
+    }
+    stopped = false;
+    restartRead();
 }
 
 // Any of the sub events of one event is asserted, then the event will be
