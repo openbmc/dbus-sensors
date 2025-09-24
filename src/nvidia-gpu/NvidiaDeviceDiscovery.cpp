@@ -106,9 +106,13 @@ void processQueryDeviceIdResponse(
             auto smaName = configs.name + "_SMA_" +
                            std::to_string(responseInstanceId);
 
-            smaDevices[smaName] =
-                std::make_shared<SmaDevice>(configs, smaName, path, conn, eid,
-                                            io, mctpRequester, objectServer);
+            auto sma = smaDevices
+                           .insert(std::make_pair(
+                               smaName, std::make_shared<SmaDevice>(
+                                            configs, smaName, path, conn, eid,
+                                            io, mctpRequester, objectServer)))
+                           .first;
+            (*sma).second->init();
             break;
         }
     }

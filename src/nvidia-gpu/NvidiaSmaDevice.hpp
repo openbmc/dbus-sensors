@@ -20,7 +20,7 @@
 #include <memory>
 #include <string>
 
-class SmaDevice
+class SmaDevice : public std::enable_shared_from_this<SmaDevice>
 {
   public:
     SmaDevice(const SensorConfigs& configs, const std::string& name,
@@ -34,6 +34,8 @@ class SmaDevice
     {
         return path;
     }
+
+    void init();
 
   private:
     void makeSensors();

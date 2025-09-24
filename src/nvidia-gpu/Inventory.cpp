@@ -154,9 +154,15 @@ void Inventory::sendInventoryPropertyRequest(
 
     mctpRequester.sendRecvMsg(
         eid, *requestBuffer,
-        [this, propertyId](const std::error_code& result,
-                           std::span<const uint8_t> buffer) {
-            this->handleInventoryPropertyResponse(propertyId, result, buffer);
+        [weak{weak_from_this()}, propertyId](const std::error_code& ec,
+                                             std::span<const uint8_t> buffer) {
+            std::shared_ptr<Inventory> self = weak.lock();
+            if (!self)
+            {
+                lg2::error("Invalid Inventory reference");
+                return;
+            }
+            self->handleInventoryPropertyResponse(propertyId, ec, buffer);
         });
 }
 
@@ -279,15 +285,22 @@ void Inventory::handleInventoryPropertyResponse(
         else
         {
             retryTimer.expires_after(retryDelay);
-            retryTimer.async_wait([this](const boost::system::error_code& ec) {
-                if (ec)
-                {
-                    lg2::error("Retry timer error for {NAME}: {ERROR}", "NAME",
-                               name, "ERROR", ec.message());
-                    return;
-                }
-                this->processNextProperty();
-            });
+            retryTimer.async_wait(
+                [weak{weak_from_this()}](const boost::system::error_code& ec) {
+                    std::shared_ptr<Inventory> self = weak.lock();
+                    if (!self)
+                    {
+                        lg2::error("Invalid reference to Inventory");
+                        return;
+                    }
+                    if (ec)
+                    {
+                        lg2::error("Retry timer error for {NAME}: {ERROR}",
+                                   "NAME", self->name, "ERROR", ec.message());
+                        return;
+                    }
+                    self->processNextProperty();
+                });
             return;
         }
     }
