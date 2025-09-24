@@ -151,11 +151,18 @@ void Inventory::sendInventoryPropertyRequest(
         "Sending inventory request for property ID {PROP_ID} to EID {EID} for {NAME}",
         "PROP_ID", static_cast<uint8_t>(propertyId), "EID", eid, "NAME", name);
 
-    mctpRequester.sendRecvMsg(eid, *requestBuffer, *responseBuffer,
-                              [this, propertyId](int sendRecvMsgResult) {
-                                  this->handleInventoryPropertyResponse(
-                                      propertyId, sendRecvMsgResult);
-                              });
+    mctpRequester.sendRecvMsg(
+        eid, *requestBuffer, *responseBuffer,
+        [weak{weak_from_this()}, propertyId](int sendRecvMsgResult) {
+            std::shared_ptr<Inventory> self = weak.lock();
+            if (!self)
+            {
+                lg2::error("Invalid Inventory reference");
+                return;
+            }
+            self->handleInventoryPropertyResponse(propertyId,
+                                                  sendRecvMsgResult);
+        });
 }
 
 void Inventory::handleInventoryPropertyResponse(
@@ -276,15 +283,22 @@ void Inventory::handleInventoryPropertyResponse(
         else
         {
             retryTimer.expires_after(retryDelay);
-            retryTimer.async_wait([this](const boost::system::error_code& ec) {
-                if (ec)
-                {
-                    lg2::error("Retry timer error for {NAME}: {ERROR}", "NAME",
-                               name, "ERROR", ec.message());
-                    return;
-                }
-                this->processNextProperty();
-            });
+            retryTimer.async_wait(
+                [weak{weak_from_this()}](const boost::system::error_code& ec) {
+                    std::shared_ptr<Inventory> self = weak.lock();
+                    if (!self)
+                    {
+                        lg2::error("Invalid reference to Inventory");
+                        return;
+                    }
+                    if (ec)
+                    {
+                        lg2::error("Retry timer error for {NAME}: {ERROR}",
+                                   "NAME", self->name, "ERROR", ec.message());
+                        return;
+                    }
+                    self->processNextProperty();
+                });
             return;
         }
     }

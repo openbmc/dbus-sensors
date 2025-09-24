@@ -130,5 +130,13 @@ void NvidiaGpuPowerSensor::update()
 
     mctpRequester.sendRecvMsg(
         eid, request, response,
-        [this](int sendRecvMsgResult) { processResponse(sendRecvMsgResult); });
+        [weak{weak_from_this()}](int sendRecvMsgResult) {
+            std::shared_ptr<NvidiaGpuPowerSensor> self = weak.lock();
+            if (!self)
+            {
+                lg2::error("Invalid reference to NvidiaGpuPowerSensor");
+                return;
+            }
+            self->processResponse(sendRecvMsgResult);
+        });
 }
