@@ -144,9 +144,14 @@ void PSUSensor::deactivate()
     path = "";
 }
 
+void PSUSensor::setSkipRead(bool skip)
+{
+    skipReading = skip;
+}
+
 void PSUSensor::setupRead()
 {
-    if (!readingStateGood())
+    if (!readingStateGood() || skipReading)
     {
         markAvailable(false);
         updateValue(std::numeric_limits<double>::quiet_NaN());
