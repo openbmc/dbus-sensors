@@ -59,6 +59,7 @@
 #include <stdexcept>
 #include <string>
 #include <string_view>
+#include <unordered_set>
 #include <utility>
 #include <variant>
 #include <vector>
@@ -173,6 +174,21 @@ struct DevParams
     std::string_view nameRegEx;
 };
 
+struct FwUpdateEntry
+{
+    std::unordered_set<std::string> sensorNames;
+    std::string psuName;
+    bool activating = false;
+};
+
+static constexpr auto firmwareTypes = std::to_array<std::string_view>({
+    "MP2X6XXFirmware",
+    "MP292XFirmware",
+    "MP297XFirmware",
+    "MP5998Firmware",
+    "MP994XFirmware",
+});
+
 static boost::container::flat_map<std::string, std::shared_ptr<PSUSensor>>
     sensors;
 static boost::container::flat_map<std::string, std::unique_ptr<PSUCombineEvent>>
@@ -231,6 +247,18 @@ constexpr static auto devParamMap =
         {{DevTypes::HWMON, {1, R"(\w\d+_input$)", "([A-Za-z]+)[0-9]*_"}},
          {DevTypes::IIO,
           {2, R"(\w+_(raw|input)$)", "^(in|out)_([A-Za-z]+)[0-9]*_"}}});
+
+static boost::container::flat_map<std::string, FwUpdateEntry>
+    firmwareUpdateStates;
+
+namespace i2c_vr
+{
+const static constexpr char* busname = "xyz.openbmc_project.Software.I2CVR";
+const static constexpr char* interface =
+    "xyz.openbmc_project.Software.Activation";
+const static constexpr char* path = "/xyz/openbmc_project/software";
+const static constexpr char* property = "Activation";
+} // namespace i2c_vr
 
 // Function CheckEvent will check each attribute from eventMatch table in the
 // sysfs. If the attributes exists in sysfs, then store the complete path
@@ -360,6 +388,107 @@ static void checkPWMSensor(
         name, pwmPathStr, dbusConnection, objectServer, objPath, "PSU");
 }
 
+static void handleFirmwareUpdate(std::string_view path, bool activating)
+{
+    std::filesystem::path fwPath(path);
+    std::regex fwRegex("_[0-9]+$");
+    std::string fwName =
+        std::regex_replace(fwPath.filename().string(), fwRegex, "");
+    auto& fwUpdateState = firmwareUpdateStates[fwName];
+    if (fwUpdateState.activating == activating)
+    {
+        return;
+    }
+    fwUpdateState.activating = activating;
+
+    for (const auto& sensorName : fwUpdateState.sensorNames)
+    {
+        auto sensorIt = sensors.find(sensorName);
+        if (sensorIt != sensors.end() && sensorIt->second != nullptr)
+        {
+            sensorIt->second->setSkipRead(activating);
+        }
+    }
+
+    if (!fwUpdateState.psuName.empty())
+    {
+        auto eventIt =
+            combineEvents.find(fwUpdateState.psuName + "OperationalStatus");
+        if (eventIt != combineEvents.end() && eventIt->second != nullptr)
+        {
+            eventIt->second->setSkipRead(activating);
+        }
+    }
+}
+
+void setupFirmwareUpdateMatch(
+    const std::shared_ptr<sdbusplus::asio::connection>& conn,
+    std::vector<std::unique_ptr<sdbusplus::bus::match_t>>& matches)
+{
+    matches.emplace_back(std::make_unique<sdbusplus::bus::match_t>(
+        static_cast<sdbusplus::bus_t&>(*conn),
+        "type='signal',member='PropertiesChanged',interface='" +
+            std::string(properties::interface) + "',path_namespace='" +
+            std::string(i2c_vr::path) + "',arg0='" +
+            std::string(i2c_vr::interface) + "',sender='" +
+            std::string(i2c_vr::busname) + "'",
+        [](sdbusplus::message_t& message) {
+            std::string objectName;
+            boost::container::flat_map<std::string, BasicVariantType> values;
+            message.read(objectName, values);
+
+            auto findActivation = values.find(i2c_vr::property);
+            if (findActivation != values.end())
+            {
+                if (const auto* activation =
+                        std::get_if<std::string>(&findActivation->second))
+                {
+                    handleFirmwareUpdate(message.get_path(),
+                                         activation->ends_with(".Activating"));
+                }
+            }
+        }));
+}
+
+void checkInitialFwUpdateState(
+    const std::shared_ptr<sdbusplus::asio::connection>& conn)
+{
+    ManagedObjectType fwObjects;
+    try
+    {
+        auto getObjects = conn->new_method_call(
+            i2c_vr::busname, i2c_vr::path, "org.freedesktop.DBus.ObjectManager",
+            "GetManagedObjects");
+        auto resp = conn->call(getObjects);
+        resp.read(fwObjects);
+    }
+    catch (const sdbusplus::exception_t& e)
+    {
+        lg2::error("Error getting firmware objects: '{ERROR_MESSAGE}'",
+                   "ERROR_MESSAGE", e.what());
+        return;
+    }
+
+    for (const auto& [path, interfaces] : fwObjects)
+    {
+        auto it = interfaces.find(i2c_vr::interface);
+        if (it == interfaces.end())
+        {
+            continue;
+        }
+        auto findActivation = it->second.find(i2c_vr::property);
+        if (findActivation != it->second.end())
+        {
+            if (const auto* activation =
+                    std::get_if<std::string>(&findActivation->second))
+            {
+                handleFirmwareUpdate(path.str,
+                                     activation->ends_with(".Activating"));
+            }
+        }
+    }
+}
+
 static void createSensorsCallback(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
@@ -372,6 +501,41 @@ static void createSensorsCallback(
     bool firstScan = sensorsChanged == nullptr;
 
     auto devices = instantiateDevices(sensorConfigs, sensors, sensorTypes);
+
+    boost::container::flat_map<std::pair<uint64_t, uint64_t>, std::string>
+        devToFwName;
+    for (const auto& [path, cfgData] : sensorConfigs)
+    {
+        for (const auto& type : firmwareTypes)
+        {
+            auto fwBase = cfgData.find(configInterfaceName(type));
+            if (fwBase != cfgData.end())
+            {
+                const auto& fwProperties = fwBase->second;
+                auto busProp = fwProperties.find("Bus");
+                auto addrProp = fwProperties.find("Address");
+                auto nameProp = fwProperties.find("Name");
+                if (busProp == fwProperties.end() ||
+                    addrProp == fwProperties.end() ||
+                    nameProp == fwProperties.end())
+                {
+                    break;
+                }
+
+                const uint64_t* fwBus = std::get_if<uint64_t>(&busProp->second);
+                const uint64_t* fwAddr =
+                    std::get_if<uint64_t>(&addrProp->second);
+                const std::string* fwNameStr =
+                    std::get_if<std::string>(&nameProp->second);
+                if (fwBus != nullptr && fwAddr != nullptr &&
+                    fwNameStr != nullptr)
+                {
+                    devToFwName[{*fwBus, *fwAddr}] = *fwNameStr;
+                }
+                break;
+            }
+        }
+    }
 
     std::vector<std::filesystem::path> pmbusPaths;
     findFiles(std::filesystem::path("/sys/bus/iio/devices"), "name",
@@ -596,6 +760,20 @@ static void createSensorsCallback(
                 escapeName(std::get<std::string>(findPSUName->second)));
             findPSUName = baseConfig->find("Name" + std::to_string(i++));
         } while (findPSUName != baseConfig->end());
+
+        bool skipReading = false;
+        const std::string* fwName = nullptr;
+        auto findFwName = devToFwName.find({bus, addr});
+        if (findFwName != devToFwName.end())
+        {
+            fwName = &findFwName->second;
+            auto& fwUpdateState = firmwareUpdateStates[*fwName];
+            fwUpdateState.psuName = *psuName;
+            if (fwUpdateState.activating)
+            {
+                skipReading = true;
+            }
+        }
 
         std::vector<std::filesystem::path> sensorPaths;
         const auto* param = std::find_if(
@@ -1066,6 +1244,16 @@ static void createSensorsCallback(
                     readState, findSensorUnit->units, factor, maxReading,
                     minReading, sensorOffset, labelHead, thresholdConfSize,
                     pollRate, i2cDev);
+
+                if (fwName != nullptr)
+                {
+                    firmwareUpdateStates[*fwName].sensorNames.insert(
+                        sensorName);
+                    if (skipReading)
+                    {
+                        sensors[sensorName]->setSkipRead(true);
+                    }
+                }
                 sensors[sensorName]->setupRead();
                 ++numCreated;
                 lg2::debug("Created '{NUM}' sensors so far", "NUM", numCreated);
@@ -1080,7 +1268,7 @@ static void createSensorsCallback(
                 std::make_unique<PSUCombineEvent>(
                     objectServer, dbusConnection, io, *psuName, readState,
                     eventPathList, groupEventPathList, "OperationalStatus",
-                    pollRate);
+                    pollRate, skipReading);
         }
     }
 
@@ -1169,8 +1357,12 @@ void createSensors(
                                   sensorConfigs, sensorsChanged, activateOnly);
         });
     std::vector<std::string_view> types;
-    types.reserve(sensorTypes.size());
+    types.reserve(sensorTypes.size() + firmwareTypes.size());
     for (const auto& [type, dt] : sensorTypes)
+    {
+        types.emplace_back(type);
+    }
+    for (const auto& type : firmwareTypes)
     {
         types.emplace_back(type);
     }
@@ -1300,8 +1492,18 @@ int main()
             });
         };
 
+    std::vector<std::string_view> types;
+    types.reserve(sensorTypes.size() + firmwareTypes.size());
+    for (const auto& [type, dt] : sensorTypes)
+    {
+        types.push_back(type);
+    }
+    for (const auto& type : firmwareTypes)
+    {
+        types.push_back(type);
+    }
     std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
-        setupPropertiesChangedMatches(*systemBus, sensorTypes, eventHandler);
+        setupPropertiesChangedMatches(*systemBus, types, eventHandler);
 
     matches.emplace_back(std::make_unique<sdbusplus::bus::match_t>(
         static_cast<sdbusplus::bus_t&>(*systemBus),
@@ -1311,6 +1513,9 @@ int main()
         cpuPresenceHandler));
 
     getPresentCpus(systemBus);
+
+    setupFirmwareUpdateMatch(systemBus, matches);
+    checkInitialFwUpdateState(systemBus);
 
     setupManufacturingModeMatch(*systemBus);
     io.run();

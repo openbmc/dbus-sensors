@@ -146,6 +146,11 @@ void PSUSensor::deactivate()
     path = "";
 }
 
+void PSUSensor::setSkipRead(bool skip)
+{
+    skipReading = skip;
+}
+
 void PSUSensor::handleResponseStatic(const std::weak_ptr<PSUSensor>& weak,
                                      const boost::system::error_code& ec,
                                      size_t bytesRead)
@@ -161,7 +166,7 @@ void PSUSensor::handleResponseStatic(const std::weak_ptr<PSUSensor>& weak,
 
 void PSUSensor::setupRead()
 {
-    if (!readingStateGood())
+    if (!readingStateGood() || skipReading)
     {
         markAvailable(false);
         updateValue(std::numeric_limits<double>::quiet_NaN());

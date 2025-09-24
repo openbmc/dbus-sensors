@@ -46,7 +46,8 @@ PSUCombineEvent::PSUCombineEvent(
     boost::asio::io_context& io, const std::string& psuName,
     const PowerState& powerState, EventPathList& eventPathList,
     GroupEventPathList& groupEventPathList, const std::string& combineEventName,
-    double pollRate) : objServer(objectServer)
+    double pollRate, bool skipRead) :
+    objServer(objectServer), skipReading(std::make_shared<bool>(skipRead))
 {
     std::string psuNameEscaped = sensor_paths::escapePathForDbus(psuName);
     eventInterface = objServer.add_interface(
@@ -73,7 +74,8 @@ PSUCombineEvent::PSUCombineEvent(
         {
             auto p = std::make_shared<PSUSubEvent>(
                 eventInterface, path, conn, io, powerState, eventName,
-                eventName, assert, combineEvent, state, psuName, pollRate);
+                eventName, assert, combineEvent, state, psuName, pollRate,
+                skipReading);
             p->setupRead();
 
             events[eventPSUName].emplace_back(p);
@@ -95,7 +97,8 @@ PSUCombineEvent::PSUCombineEvent(
             {
                 auto p = std::make_shared<PSUSubEvent>(
                     eventInterface, path, conn, io, powerState, groupEventName,
-                    eventName, assert, combineEvent, state, psuName, pollRate);
+                    eventName, assert, combineEvent, state, psuName, pollRate,
+                    skipReading);
                 p->setupRead();
                 events[eventPSUName].emplace_back(p);
 
@@ -118,6 +121,11 @@ PSUCombineEvent::~PSUCombineEvent()
     }
     events.clear();
     objServer.remove_interface(eventInterface);
+}
+
+void PSUCombineEvent::setSkipRead(bool skip)
+{
+    *skipReading = skip;
 }
 
 static boost::container::flat_map<std::string,
@@ -145,13 +153,14 @@ PSUSubEvent::PSUSubEvent(
     const std::string& groupEventName, const std::string& eventName,
     std::shared_ptr<std::set<std::string>> asserts,
     std::shared_ptr<std::set<std::string>> combineEvent,
-    std::shared_ptr<bool> state, const std::string& psuName, double pollRate) :
+    std::shared_ptr<bool> state, const std::string& psuName, double pollRate,
+    std::shared_ptr<bool> skipReading) :
     eventInterface(std::move(eventInterface)), asserts(std::move(asserts)),
     combineEvent(std::move(combineEvent)), assertState(std::move(state)),
     path(path), eventName(eventName), readState(powerState),
     inputDev(io, path, boost::asio::random_access_file::read_only),
     waitTimer(io), psuName(psuName), groupEventName(groupEventName),
-    systemBus(conn)
+    systemBus(conn), skipReading(std::move(skipReading))
 {
     if (pollRate > 0.0)
     {
@@ -194,6 +203,11 @@ void PSUSubEvent::setupRead()
     {
         // Deassert the event
         updateValue(0);
+        restartRead();
+        return;
+    }
+    if (*skipReading)
+    {
         restartRead();
         return;
     }
