@@ -123,5 +123,13 @@ void NvidiaGpuTempSensor::update()
 
     mctpRequester.sendRecvMsg(
         eid, getTemperatureReadingRequest, getTemperatureReadingResponse,
-        [this](int sendRecvMsgResult) { processResponse(sendRecvMsgResult); });
+        [weak{weak_from_this()}](int sendRecvMsgResult) {
+            std::shared_ptr<NvidiaGpuTempSensor> self = weak.lock();
+            if (!self)
+            {
+                lg2::error("Invalid reference to NvidiaGpuTempSensor");
+                return;
+            }
+            self->processResponse(sendRecvMsgResult);
+        });
 }

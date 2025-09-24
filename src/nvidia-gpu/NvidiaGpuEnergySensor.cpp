@@ -126,5 +126,13 @@ void NvidiaGpuEnergySensor::update()
 
     mctpRequester.sendRecvMsg(
         eid, request, response,
-        [this](int sendRecvMsgResult) { processResponse(sendRecvMsgResult); });
+        [weak{weak_from_this()}](int sendRecvMsgResult) {
+            std::shared_ptr<NvidiaGpuEnergySensor> self = weak.lock();
+            if (!self)
+            {
+                lg2::error("invalid reference to NvidiaGpuEnergySensor");
+                return;
+            }
+            self->processResponse(sendRecvMsgResult);
+        });
 }
