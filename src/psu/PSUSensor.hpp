@@ -41,6 +41,7 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
                   const std::shared_ptr<I2CDevice>& newI2CDevice);
     void deactivate();
     bool isActive();
+    void setSkipRead(bool skip);
 
     std::shared_ptr<I2CDevice> getI2CDevice() const
     {
@@ -61,12 +62,15 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
     double sensorOffset;
     thresholds::ThresholdTimer thresholdTimer;
     void restartRead();
+    void stopRead();
+    void startRead();
     static void handleResponseStatic(const std::weak_ptr<PSUSensor>& weak,
                                      const boost::system::error_code& ec,
                                      size_t bytesRead);
     void handleResponse(const boost::system::error_code& err, size_t bytesRead);
     void checkThresholds() override;
     unsigned int sensorPollMs = defaultSensorPollMs;
+    bool stopped{false};
 
     static constexpr size_t warnAfterErrorCount = 10;
 

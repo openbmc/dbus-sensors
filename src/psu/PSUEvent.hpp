@@ -60,6 +60,8 @@ class PSUSubEvent : public std::enable_shared_from_this<PSUSubEvent>
     std::shared_ptr<std::set<std::string>> combineEvent;
     std::shared_ptr<bool> assertState;
     void setupRead();
+    void stopRead();
+    void startRead();
 
   private:
     int value = 0;
@@ -91,6 +93,7 @@ class PSUSubEvent : public std::enable_shared_from_this<PSUSubEvent>
     std::string deassertMessage;
     std::shared_ptr<sdbusplus::asio::connection> systemBus;
     unsigned int eventPollMs = defaultEventPollMs;
+    bool stopped{false};
     static constexpr unsigned int defaultEventPollMs = 1000;
     static constexpr size_t warnAfterErrorCount = 10;
 };
@@ -103,8 +106,10 @@ class PSUCombineEvent
                     boost::asio::io_context& io, const std::string& psuName,
                     const PowerState& powerState, EventPathList& eventPathList,
                     GroupEventPathList& groupEventPathList,
-                    const std::string& combineEventName, double pollRate);
+                    const std::string& combineEventName, double pollRate,
+                    bool skipRead);
     ~PSUCombineEvent();
+    void setSkipRead(bool skip);
 
     sdbusplus::asio::object_server& objServer;
     std::shared_ptr<sdbusplus::asio::dbus_interface> eventInterface;
