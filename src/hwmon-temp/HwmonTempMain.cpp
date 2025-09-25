@@ -235,6 +235,17 @@ static SensorConfigMap buildSensorConfigMap(
             if (nameCfg != cfg.end())
             {
                 hwmonNames.push_back(std::get<std::string>(nameCfg->second));
+
+                const auto namesCfg = cfg.find("ExtraNames");
+                if (namesCfg != cfg.end() &&
+                    std::holds_alternative<std::vector<std::string>>(
+                        namesCfg->second))
+                {
+                    const auto names =
+                        std::get<std::vector<std::string>>(namesCfg->second);
+                    hwmonNames.append_range(names);
+                }
+
                 size_t i = 1;
                 while (true)
                 {
@@ -470,18 +481,40 @@ void createSensors(
 
                 // Looking for keys like "Name1" for temp2_input,
                 // "Name2" for temp3_input, etc.
-                int i = 0;
+                size_t i = 0;
                 while (true)
                 {
                     ++i;
                     auto findKey =
                         baseConfigMap.find("Name" + std::to_string(i));
-                    if (findKey == baseConfigMap.end())
+                    auto findNames = baseConfigMap.find("ExtraNames");
+
+                    std::string sensorName;
+
+                    if (findKey != baseConfigMap.end())
+                    {
+                        sensorName = std::get<std::string>(findKey->second);
+                    }
+                    if (findNames != baseConfigMap.end())
+                    {
+                        const auto sensorNames =
+                            std::get<std::vector<std::string>>(
+                                findNames->second);
+
+                        // "Name1", ... was 1-based, "ExtraNames" is 0-based
+                        const size_t adjustedIndex = i - 1;
+                        if (adjustedIndex >= sensorNames.size())
+                        {
+                            break;
+                        }
+                        sensorName = sensorNames[adjustedIndex];
+                    }
+
+                    if (sensorName.empty())
                     {
                         break;
                     }
-                    std::string sensorName =
-                        std::get<std::string>(findKey->second);
+
                     hwmonFile = getFullHwmonFilePath(
                         directory.string(), "temp" + std::to_string(i + 1),
                         permitSet);
