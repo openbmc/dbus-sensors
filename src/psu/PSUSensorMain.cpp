@@ -127,6 +127,7 @@ static const I2CDeviceTypeMap sensorTypes{
     {"PXE1610", I2CDeviceType{"pxe1610", true}},
     {"RAA228000", I2CDeviceType{"raa228000", true}},
     {"RAA228004", I2CDeviceType{"raa228004", true}},
+    {"RAA228006", I2CDeviceType{"raa228006", true}},
     {"RAA228228", I2CDeviceType{"raa228228", true}},
     {"RAA228620", I2CDeviceType{"raa228620", true}},
     {"RAA229001", I2CDeviceType{"raa229001", true}},
