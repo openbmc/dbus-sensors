@@ -24,6 +24,8 @@ class GPIOInterface
     /** @brief Start the GPIO Interface */
     auto start() -> sdbusplus::async::task<>;
 
+    int getGPIOValue();
+
   private:
     /** @brief Read the gpio state asynchronously */
     auto readGPIOAsync() -> sdbusplus::async::task<>;
