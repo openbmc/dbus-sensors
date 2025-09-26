@@ -112,7 +112,7 @@ void NvidiaGpuTempSensor::processResponse(int sendRecvMsgResult)
 void NvidiaGpuTempSensor::update()
 {
     auto rc = gpu::encodeGetTemperatureReadingRequest(
-        0, sensorId, getTemperatureReadingRequest);
+        gpu::getNextIid(), sensorId, getTemperatureReadingRequest);
 
     if (rc != 0)
     {

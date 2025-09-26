@@ -112,7 +112,8 @@ void NvidiaGpuVoltageSensor::processResponse(int sendRecvMsgResult)
 
 void NvidiaGpuVoltageSensor::update()
 {
-    auto rc = gpu::encodeGetVoltageRequest(0, sensorId, request);
+    auto rc =
+        gpu::encodeGetVoltageRequest(gpu::getNextIid(), sensorId, request);
 
     if (rc != 0)
     {

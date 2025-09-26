@@ -125,7 +125,7 @@ void queryDeviceIdentification(
         std::array<uint8_t, sizeof(gpu::QueryDeviceIdentificationResponse)>>();
 
     auto rc = gpu::encodeQueryDeviceIdentificationRequest(
-        0, *queryDeviceIdentificationRequest);
+        gpu::getNextIid(), *queryDeviceIdentificationRequest);
     if (rc != 0)
     {
         lg2::error(
