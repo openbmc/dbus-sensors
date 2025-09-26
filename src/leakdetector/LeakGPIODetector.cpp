@@ -7,6 +7,7 @@
 #include <sdbusplus/message/native_types.hpp>
 
 #include <array>
+#include <chrono>
 #include <functional>
 #include <string>
 #include <string_view>
@@ -59,8 +60,29 @@ GPIODetector::GPIODetector(sdbusplus::async::context& ctx, Events& leakEvents,
 auto GPIODetector::updateGPIOStateAsync(bool gpioState)
     -> sdbusplus::async::task<>
 {
-    auto newState = gpioState ? DetectorIntf::DetectorState::Abnormal
-                              : DetectorIntf::DetectorState::Normal;
+    DetectorIntf::DetectorState newState = DetectorIntf::DetectorState::Normal;
+
+    if (gpioState)
+    {
+        newState = DetectorIntf::DetectorState::Abnormal;
+    }
+
+    if (newState == state_)
+    {
+        co_return;
+    }
+
+    // debounce: wait 300ms and re-read GPIO
+    co_await sdbusplus::async::sleep_for(ctx, std::chrono::milliseconds(300));
+    auto gpioValue = gpioInterface.getGPIOValue();
+    auto stableState =
+        (gpioValue == 0 && config.polarity == config::PinPolarity::activeLow) ||
+        (gpioValue == 1 && config.polarity == config::PinPolarity::activeHigh);
+
+    if (stableState)
+    {
+        newState = DetectorIntf::DetectorState::Abnormal;
+    }
 
     debug("Updating detector {DETECTOR} state to {STATE}", "DETECTOR",
           config.name, "STATE", newState);

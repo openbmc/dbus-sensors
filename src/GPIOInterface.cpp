@@ -61,6 +61,16 @@ auto GPIOInterface::start() -> sdbusplus::async::task<>
     co_await readGPIOAsync();
 }
 
+int GPIOInterface::getGPIOValue()
+{
+    int val = line.get_value();
+    if (val < 0)
+    {
+        throw std::runtime_error("Failed to read GPIO line " + pinName);
+    }
+    return val;
+}
+
 auto GPIOInterface::readGPIOAsync() -> sdbusplus::async::task<>
 {
     auto lineValue = line.get_value();
