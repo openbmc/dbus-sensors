@@ -61,7 +61,19 @@ auto GPIODetector::updateGPIOStateAsync(bool gpioState)
 {
     auto newState = gpioState ? DetectorIntf::DetectorState::Abnormal
                               : DetectorIntf::DetectorState::Normal;
+    if (newState == state_)
+    {
+        co_return;
+    }
 
+    // debounce: wait 300ms and re-read GPIO
+    co_await sdbusplus::async::sleep_for(ctx, std::chrono::milliseconds(300));
+    auto gpioValue = gpioInterface.getGPIOValue();
+    auto stableState = (gpioValue == 0 && config.polarity == config::PinPolarity::activeLow) ||
+                       (gpioValue == 1 && config.polarity == config::PinPolarity::activeHigh);
+
+    newState = stableState ? DetectorIntf::DetectorState::Abnormal
+                           : DetectorIntf::DetectorState::Normal;
     debug("Updating detector {DETECTOR} state to {STATE}", "DETECTOR",
           config.name, "STATE", newState);
 
