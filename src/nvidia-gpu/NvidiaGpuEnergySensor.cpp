@@ -113,7 +113,8 @@ void NvidiaGpuEnergySensor::processResponse(int sendRecvMsgResult)
 
 void NvidiaGpuEnergySensor::update()
 {
-    auto rc = gpu::encodeGetCurrentEnergyCounterRequest(0, sensorId, request);
+    auto rc = gpu::encodeGetCurrentEnergyCounterRequest(gpu::getNextIid(),
+                                                        sensorId, request);
 
     if (rc != 0)
     {

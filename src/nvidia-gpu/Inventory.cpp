@@ -134,7 +134,7 @@ void Inventory::sendInventoryPropertyRequest(
     gpu::InventoryPropertyId propertyId)
 {
     int rc = gpu::encodeGetInventoryInformationRequest(
-        0, static_cast<uint8_t>(propertyId), *requestBuffer);
+        gpu::getNextIid(), static_cast<uint8_t>(propertyId), *requestBuffer);
     if (rc != 0)
     {
         lg2::error(

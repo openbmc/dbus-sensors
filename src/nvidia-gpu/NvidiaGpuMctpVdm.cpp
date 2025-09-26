@@ -17,6 +17,16 @@
 
 namespace gpu
 {
+
+uint8_t getNextIid()
+{
+    static uint8_t iid = 0;
+    uint8_t retIid = iid;
+
+    iid = (iid + 1) & ocp::accelerator_management::instanceIdBitMask;
+    return retIid;
+}
+
 // These functions encode/decode data communicated over the network
 // The use of reinterpret_cast enables direct memory access to raw byte buffers
 // without doing unnecessary data copying

@@ -119,7 +119,7 @@ void NvidiaGpuPowerSensor::processResponse(int sendRecvMsgResult)
 void NvidiaGpuPowerSensor::update()
 {
     const int rc = gpu::encodeGetCurrentPowerDrawRequest(
-        0, sensorId, averagingInterval, request);
+        gpu::getNextIid(), sensorId, averagingInterval, request);
 
     if (rc != 0)
     {

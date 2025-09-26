@@ -226,4 +226,6 @@ int decodeGetInventoryInformationResponse(
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     InventoryPropertyId propertyId, InventoryValue& value);
 
+uint8_t getNextIid();
+
 } // namespace gpu
