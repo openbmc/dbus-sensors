@@ -23,7 +23,6 @@
 #include <cstdint>
 #include <cstring>
 #include <functional>
-#include <memory>
 #include <span>
 #include <utility>
 
@@ -173,8 +172,7 @@ void MctpRequester::sendRecvMsg(uint8_t eid, std::span<const uint8_t> reqMsg,
                                 std::span<uint8_t> respMsg,
                                 std::move_only_function<void(int)> callback)
 {
-    auto reqCtx =
-        std::make_unique<RequestContext>(reqMsg, respMsg, std::move(callback));
+    RequestContext reqCtx(reqMsg, respMsg, std::move(callback));
 
     // Add request to queue
     auto& queue = requestContextQueues[eid];
@@ -188,10 +186,20 @@ void MctpRequester::sendRecvMsg(uint8_t eid, std::span<const uint8_t> reqMsg,
 
 void MctpRequester::handleResult(uint8_t eid, int result)
 {
-    auto& queue = requestContextQueues[eid];
-    const auto& reqCtx = queue.front();
+    auto it = requestContextQueues.find(eid);
+    if (it == requestContextQueues.end())
+    {
+        lg2::error("MctpRequester: Failed to find the queue for the EID: {EID}",
+                   "EID", static_cast<int>(eid));
+        return;
+    }
 
-    reqCtx->callback(result); // Call the original callback
+    boost::container::devector<RequestContext>& queue = it->second;
+
+    RequestContext& reqCtx = queue.front();
+
+    // Call the original callback
+    reqCtx.callback(result);
 
     queue.pop_front();
 
@@ -210,7 +218,7 @@ void MctpRequester::processQueue(uint8_t eid)
     const auto& reqCtx = queue.front();
 
     requester.sendRecvMsg(
-        eid, reqCtx->reqMsg, reqCtx->respMsg,
+        eid, reqCtx.reqMsg, reqCtx.respMsg,
         std::bind_front(&MctpRequester::handleResult, this, eid));
 }
 
