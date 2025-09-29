@@ -9,6 +9,7 @@
 #include "NvidiaDeviceDiscovery.hpp"
 #include "NvidiaPcieInterface.hpp"
 
+#include <NvidiaPciePort.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <sdbusplus/asio/connection.hpp>
@@ -18,11 +19,18 @@
 #include <cstdint>
 #include <memory>
 #include <string>
+#include <vector>
 
 constexpr const char* pcieDevicePathPrefix =
     "/xyz/openbmc_project/inventory/pcie_devices/";
 
-class PcieDevice
+struct PcieDeviceInfo
+{
+    uint16_t numUpstreamPorts{};
+    std::vector<uint8_t> numDownstreamPorts;
+};
+
+class PcieDevice : public std::enable_shared_from_this<PcieDevice>
 {
   public:
     PcieDevice(const SensorConfigs& configs, const std::string& name,
@@ -44,6 +52,13 @@ class PcieDevice
 
     void read();
 
+    void getPciePortCounts();
+
+    void processPciePortCountsResponse(const std::error_code& ec,
+                                       std::span<const uint8_t> response);
+
+    PcieDeviceInfo pcieDeviceInfo;
+
     uint8_t eid{};
 
     std::chrono::milliseconds sensorPollMs;
@@ -62,5 +77,10 @@ class PcieDevice
 
     std::string path;
 
+    std::array<uint8_t, sizeof(ocp::accelerator_management::CommonRequest)>
+        request{};
+
     std::shared_ptr<NvidiaPcieInterface> pcieInterface;
+
+    std::vector<std::shared_ptr<NvidiaPciePortInfo>> pciePorts;
 };
