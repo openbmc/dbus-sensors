@@ -21,8 +21,8 @@
 #include <vector>
 
 void processReadThermalParameterResponse(
-    const std::function<void(uint8_t, int32_t)>& callback,
-    const std::span<const uint8_t> respMsg, int sendRecvMsgResult)
+    std::move_only_function<void(uint8_t, int32_t)>&& callback,
+    int sendRecvMsgResult, const std::span<const uint8_t> respMsg)
 {
     if (sendRecvMsgResult != 0)
     {
@@ -52,15 +52,12 @@ void processReadThermalParameterResponse(
     callback(0, threshold);
 };
 
-void readThermalParameter(uint8_t eid, uint8_t id,
-                          mctp::MctpRequester& mctpRequester,
-                          const std::function<void(uint8_t, int32_t)>& callback)
+void readThermalParameter(
+    uint8_t eid, uint8_t id, mctp::MctpRequester& mctpRequester,
+    std::move_only_function<void(uint8_t, int32_t)>&& callback)
 {
     auto reqMsg = std::make_shared<
         std::array<uint8_t, sizeof(gpu::ReadThermalParametersRequest)>>();
-
-    auto respMsg = std::make_shared<
-        std::array<uint8_t, sizeof(gpu::ReadThermalParametersResponse)>>();
 
     auto rc = gpu::encodeReadThermalParametersRequest(0, id, *reqMsg);
     if (rc != 0)
@@ -73,10 +70,11 @@ void readThermalParameter(uint8_t eid, uint8_t id,
     }
 
     mctpRequester.sendRecvMsg(
-        eid, *reqMsg, *respMsg,
-        [reqMsg, respMsg, callback](int sendRecvMsgResult) {
-            processReadThermalParameterResponse(callback, *respMsg,
-                                                sendRecvMsgResult);
+        eid, *reqMsg,
+        [callback{std::move(callback)}](
+            int sendRecvMsgResult, std::span<const uint8_t> response) mutable {
+            processReadThermalParameterResponse(std::move(callback),
+                                                sendRecvMsgResult, response);
         });
 }
 
