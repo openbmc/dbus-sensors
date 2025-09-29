@@ -373,6 +373,30 @@ void processSensorConfigs(
 
             try
             {
+                configs.nicPcieUpstreamPortCount =
+                    loadVariant<uint64_t>(cfg, "NicPcieUpstreamPortCount");
+            }
+            catch (const std::invalid_argument&)
+            {
+                // NicPcieUpstreamPortCount is an optional config
+                configs.nicPcieUpstreamPortCount = 0;
+            }
+
+            try
+            {
+                configs.nicPcieDownstreamPortCountPerUpstreamPort =
+                    loadVariant<uint64_t>(
+                        cfg, "NicPcieDownstreamPortCountPerUpstreamPort");
+            }
+            catch (const std::invalid_argument&)
+            {
+                // NicPcieDownstreamPortCountPerUpstreamPort is an optional
+                // config
+                configs.nicPcieDownstreamPortCountPerUpstreamPort = 0;
+            }
+
+            try
+            {
                 uint8_t eid = loadVariant<uint8_t>(cfg, "StaticEid");
                 queryDeviceIdentification(
                     io, objectServer, gpuDevices, smaDevices, pcieDevices,
