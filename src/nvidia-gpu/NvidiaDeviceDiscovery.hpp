@@ -26,6 +26,8 @@ struct SensorConfigs
     std::string name;
     std::string nicName;
     uint64_t pollRate{};
+    uint64_t nicPcieUpstreamPortCount{};
+    uint64_t nicPcieDownstreamPortCountPerUpstreamPort{};
 };
 
 class GpuDevice;
