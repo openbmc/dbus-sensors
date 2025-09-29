@@ -7,7 +7,6 @@ gpusensor_sources = files(
     'NvidiaGpuMctpVdm.cpp',
     'NvidiaGpuPowerSensor.cpp',
     'NvidiaGpuSensor.cpp',
-    'NvidiaGpuThresholds.cpp',
     'NvidiaGpuVoltageSensor.cpp',
     'NvidiaSmaDevice.cpp',
     'OcpMctpVdm.cpp',
