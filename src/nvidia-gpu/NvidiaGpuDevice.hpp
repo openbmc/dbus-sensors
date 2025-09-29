@@ -26,7 +26,7 @@
 #include <string>
 #include <vector>
 
-class GpuDevice
+class GpuDevice : public std::enable_shared_from_this<GpuDevice>
 {
   public:
     GpuDevice(const SensorConfigs& configs, const std::string& name,
@@ -48,10 +48,15 @@ class GpuDevice
 
     void read();
 
-    void processTLimitThresholds(uint8_t rc,
-                                 const std::vector<int32_t>& thresholds);
+    void processTLimitThresholds(const std::error_code& ec);
+
+    void getTLimitThresholds();
 
     uint8_t eid{};
+
+    void getNextThermalParameter();
+    void readThermalParameterCallback(const std::error_code& ec,
+                                      std::span<const uint8_t> buffer);
 
     std::chrono::milliseconds sensorPollMs;
 
@@ -70,6 +75,11 @@ class GpuDevice
     std::shared_ptr<NvidiaGpuPowerPeakReading> peakPower;
     std::shared_ptr<NvidiaGpuEnergySensor> energySensor;
     std::shared_ptr<NvidiaGpuVoltageSensor> voltageSensor;
+
+    std::array<uint8_t, sizeof(gpu::ReadThermalParametersRequest)>
+        thermalParamReqMsg{};
+    std::array<uint8_t, 3> thresholds{};
+    size_t current_threshold_index{};
 
     SensorConfigs configs;
 
