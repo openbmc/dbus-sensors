@@ -105,8 +105,7 @@ class MctpRequester
     void processQueue(uint8_t eid);
 
     Requester requester;
-    std::unordered_map<
-        uint8_t, boost::container::devector<std::unique_ptr<RequestContext>>>
+    std::unordered_map<uint8_t, boost::container::devector<RequestContext>>
         requestContextQueues;
 };
 
