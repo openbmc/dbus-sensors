@@ -54,8 +54,6 @@ class Requester
 
     boost::asio::generic::datagram_protocol::socket mctpSocket;
 
-    static constexpr size_t maxMessageSize = 65536 + 256;
-
     boost::asio::generic::datagram_protocol::endpoint recvEndPoint;
 
     boost::asio::steady_timer expiryTimer;
