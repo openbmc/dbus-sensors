@@ -48,6 +48,7 @@ enum class PlatformEnvironmentalCommands : uint8_t
 
 enum class PcieLinkCommands : uint8_t
 {
+    ListPCIePorts = 0x07,
     QueryScalarGroupTelemetryV2 = 0x24,
 };
 
@@ -254,5 +255,12 @@ int decodeQueryScalarGroupTelemetryV2Response(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     size_t& numTelemetryValues, std::vector<uint32_t>& telemetryValues);
+
+int encodeListPciePortsRequest(uint8_t instanceId, std::span<uint8_t> buf);
+
+int decodeListPciePortsResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint16_t& numUpstreamPorts, std::vector<uint8_t>& numDownstreamPorts);
 
 } // namespace gpu
