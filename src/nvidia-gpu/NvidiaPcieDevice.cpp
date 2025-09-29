@@ -7,7 +7,9 @@
 #include "NvidiaPcieDevice.hpp"
 
 #include "NvidiaDeviceDiscovery.hpp"
+#include "NvidiaGpuMctpVdm.hpp"
 #include "NvidiaPcieInterface.hpp"
+#include "NvidiaPciePort.hpp"
 #include "Utils.hpp"
 
 #include <MctpRequester.hpp>
@@ -40,6 +42,27 @@ void PcieDevice::makeSensors()
     pcieInterface = std::make_shared<NvidiaPcieInterface>(
         conn, mctpRequester, name, path, eid, objectServer);
 
+    uint64_t downstreamPortIndex{};
+
+    for (uint64_t i = 0; i < configs.nicPcieUpstreamPortCount; ++i)
+    {
+        pciePorts.emplace_back(std::make_shared<NvidiaPciePortInfo>(
+            conn, mctpRequester, name + "/Ports/UP_" + std::to_string(i), path,
+            eid, gpu::PciePortType::UPSTREAM, i, i, objectServer));
+
+        for (uint64_t j = 0;
+             j < configs.nicPcieDownstreamPortCountPerUpstreamPort; ++j)
+        {
+            pciePorts.emplace_back(std::make_shared<NvidiaPciePortInfo>(
+                conn, mctpRequester,
+                name + "/Ports/DOWN_" + std::to_string(downstreamPortIndex),
+                path, eid, gpu::PciePortType::DOWNSTREAM, i,
+                downstreamPortIndex, objectServer));
+
+            ++downstreamPortIndex;
+        }
+    }
+
     lg2::info("Added PCIe {NAME} Sensors with chassis path: {PATH}.", "NAME",
               name, "PATH", path);
 
@@ -49,6 +72,11 @@ void PcieDevice::makeSensors()
 void PcieDevice::read()
 {
     pcieInterface->update();
+
+    for (auto& port : pciePorts)
+    {
+        port->update();
+    }
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait([this](const boost::system::error_code& ec) {

@@ -39,7 +39,7 @@ nlohmann_json_dep = dependency('nlohmann_json', include_type: 'system')
 gpiodcxx = dependency('libgpiodcxx', default_options: ['bindings=cxx'])
 boost = dependency(
     'boost',
-    version: '>=1.88.0',
+    version: '>=1.87.0',
     include_type: 'system',
     fallback: 'boost-meson',
 )

@@ -212,6 +212,11 @@ void processEndpoint(
         return;
     }
 
+    if (eid != 54)
+    {
+        return;
+    }
+
     auto hasMctpTypes = endpoint.find("SupportedMessageTypes");
     std::vector<uint8_t> mctpTypes{};
 
@@ -371,6 +376,30 @@ void processSensorConfigs(
             {
                 // NicName is an optional config
                 configs.nicName = configs.name + "_ConnectX";
+            }
+
+            try
+            {
+                configs.nicPcieUpstreamPortCount =
+                    loadVariant<uint64_t>(cfg, "NicPcieUpstreamPortCount");
+            }
+            catch (const std::invalid_argument&)
+            {
+                // NicPcieUpstreamPortCount is an optional config
+                configs.nicPcieUpstreamPortCount = 0;
+            }
+
+            try
+            {
+                configs.nicPcieDownstreamPortCountPerUpstreamPort =
+                    loadVariant<uint64_t>(
+                        cfg, "NicPcieDownstreamPortCountPerUpstreamPort");
+            }
+            catch (const std::invalid_argument&)
+            {
+                // NicPcieDownstreamPortCountPerUpstreamPort is an optional
+                // config
+                configs.nicPcieDownstreamPortCountPerUpstreamPort = 0;
             }
 
             discoverDevices(io, objectServer, gpuDevices, smaDevices,
