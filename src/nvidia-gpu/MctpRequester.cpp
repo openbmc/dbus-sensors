@@ -172,9 +172,9 @@ void Requester::sendRecvMsg(uint8_t eid, const std::span<const uint8_t> reqMsg,
                         respMsg));
 }
 
-void QueuingRequester::sendRecvMsg(uint8_t eid, std::span<const uint8_t> reqMsg,
-                                   std::span<uint8_t> respMsg,
-                                   std::move_only_function<void(int)> callback)
+void MctpRequester::sendRecvMsg(uint8_t eid, std::span<const uint8_t> reqMsg,
+                                std::span<uint8_t> respMsg,
+                                std::move_only_function<void(int)> callback)
 {
     auto reqCtx =
         std::make_unique<RequestContext>(reqMsg, respMsg, std::move(callback));
@@ -189,7 +189,7 @@ void QueuingRequester::sendRecvMsg(uint8_t eid, std::span<const uint8_t> reqMsg,
     }
 }
 
-void QueuingRequester::handleResult(uint8_t eid, int result)
+void MctpRequester::handleResult(uint8_t eid, int result)
 {
     auto& queue = requestContextQueues[eid];
     const auto& reqCtx = queue.front();
@@ -201,7 +201,7 @@ void QueuingRequester::handleResult(uint8_t eid, int result)
     processQueue(eid);
 }
 
-void QueuingRequester::processQueue(uint8_t eid)
+void MctpRequester::processQueue(uint8_t eid)
 {
     auto& queue = requestContextQueues[eid];
 
@@ -214,7 +214,7 @@ void QueuingRequester::processQueue(uint8_t eid)
 
     requester.sendRecvMsg(
         eid, reqCtx->reqMsg, reqCtx->respMsg,
-        std::bind_front(&QueuingRequester::handleResult, this, eid));
+        std::bind_front(&MctpRequester::handleResult, this, eid));
 }
 
 } // namespace mctp
