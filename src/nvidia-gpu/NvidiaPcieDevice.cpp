@@ -7,7 +7,9 @@
 #include "NvidiaPcieDevice.hpp"
 
 #include "NvidiaDeviceDiscovery.hpp"
+#include "NvidiaGpuMctpVdm.hpp"
 #include "NvidiaPcieInterface.hpp"
+#include "NvidiaPciePort.hpp"
 #include "Utils.hpp"
 
 #include <MctpRequester.hpp>
@@ -15,9 +17,11 @@
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/message/native_types.hpp>
 
 #include <chrono>
 #include <cstdint>
+#include <format>
 #include <memory>
 #include <string>
 
@@ -58,6 +62,34 @@ void PcieDevice::makeSensors()
     pcieInterface = std::make_shared<NvidiaPcieInterface>(
         conn, mctpRequester, name, path, fabricPath, eid, objectServer);
 
+    uint64_t downstreamPortIndex = 0;
+
+    for (uint64_t i = 0; i < configs.nicPcieUpstreamPortCount; ++i)
+    {
+        sdbusplus::message::object_path portPath =
+            sdbusplus::message::object_path(name) / "Ports" /
+            std::format("UP_{}", i);
+
+        pciePorts.emplace_back(std::make_shared<NvidiaPciePortInfo>(
+            conn, mctpRequester, portPath, name, path, eid,
+            gpu::PciePortType::UPSTREAM, i, i, objectServer));
+
+        for (uint64_t j = 0;
+             j < configs.nicPcieDownstreamPortCountPerUpstreamPort; ++j)
+        {
+            sdbusplus::message::object_path portPath =
+                sdbusplus::message::object_path(name) / "Ports" /
+                std::format("DOWN_{}", downstreamPortIndex);
+
+            pciePorts.emplace_back(std::make_shared<NvidiaPciePortInfo>(
+                conn, mctpRequester, portPath, name, path, eid,
+                gpu::PciePortType::DOWNSTREAM, i, downstreamPortIndex,
+                objectServer));
+
+            ++downstreamPortIndex;
+        }
+    }
+
     lg2::info("Added PCIe {NAME} Sensors with chassis path: {PATH}.", "NAME",
               name, "PATH", path);
 
@@ -67,6 +99,11 @@ void PcieDevice::makeSensors()
 void PcieDevice::read()
 {
     pcieInterface->update();
+
+    for (auto& port : pciePorts)
+    {
+        port->update();
+    }
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait([this](const boost::system::error_code& ec) {

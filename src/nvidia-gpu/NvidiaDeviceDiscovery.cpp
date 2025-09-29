@@ -374,6 +374,30 @@ void processSensorConfigs(
                 configs.pollRate = sensorPollRateMs;
             }
 
+            try
+            {
+                configs.nicPcieUpstreamPortCount =
+                    loadVariant<uint64_t>(cfg, "NicPcieUpstreamPortCount");
+            }
+            catch (const std::invalid_argument&)
+            {
+                // NicPcieUpstreamPortCount is an optional config
+                configs.nicPcieUpstreamPortCount = 0;
+            }
+
+            try
+            {
+                configs.nicPcieDownstreamPortCountPerUpstreamPort =
+                    loadVariant<uint64_t>(
+                        cfg, "NicPcieDownstreamPortCountPerUpstreamPort");
+            }
+            catch (const std::invalid_argument&)
+            {
+                // NicPcieDownstreamPortCountPerUpstreamPort is an optional
+                // config
+                configs.nicPcieDownstreamPortCountPerUpstreamPort = 0;
+            }
+
             discoverDevices(io, objectServer, gpuDevices, smaDevices,
                             pcieDevices, dbusConnection, mctpRequester, configs,
                             path);
