@@ -39,7 +39,8 @@ struct NvidiaGpuPowerSensor : public Sensor
     void update();
 
   private:
-    void processResponse(int sendRecvMsgResult);
+    void processResponse(int sendRecvMsgResult,
+                         std::span<const uint8_t> response);
 
     uint8_t eid{};
 
@@ -54,6 +55,4 @@ struct NvidiaGpuPowerSensor : public Sensor
     sdbusplus::asio::object_server& objectServer;
 
     std::array<uint8_t, sizeof(gpu::GetCurrentPowerDrawRequest)> request{};
-
-    std::array<uint8_t, sizeof(gpu::GetCurrentPowerDrawResponse)> response{};
 };

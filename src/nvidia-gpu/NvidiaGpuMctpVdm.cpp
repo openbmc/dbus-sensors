@@ -120,7 +120,7 @@ int encodeGetTemperatureReadingRequest(uint8_t instanceId, uint8_t sensorId,
 }
 
 int decodeGetTemperatureReadingResponse(
-    const std::span<const uint8_t> buf,
+    std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     double& temperatureReading)
 {

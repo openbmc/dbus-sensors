@@ -148,15 +148,15 @@ void Inventory::sendInventoryPropertyRequest(
         "Sending inventory request for property ID {PROP_ID} to EID {EID} for {NAME}",
         "PROP_ID", static_cast<uint8_t>(propertyId), "EID", eid, "NAME", name);
 
-    mctpRequester.sendRecvMsg(eid, *requestBuffer, *responseBuffer,
-                              [this, propertyId](int sendRecvMsgResult) {
-                                  this->handleInventoryPropertyResponse(
-                                      propertyId, sendRecvMsgResult);
-                              });
+    mctpRequester.sendRecvMsg(
+        eid, *requestBuffer,
+        std::bind_front(&Inventory::handleInventoryPropertyResponse, this,
+                        propertyId));
 }
 
 void Inventory::handleInventoryPropertyResponse(
-    gpu::InventoryPropertyId propertyId, int sendRecvMsgResult)
+    gpu::InventoryPropertyId propertyId, int sendRecvMsgResult,
+    std::span<const uint8_t> response)
 {
     auto it = properties.find(propertyId);
     if (it == properties.end())
@@ -174,7 +174,7 @@ void Inventory::handleInventoryPropertyResponse(
         uint16_t reasonCode = 0;
         gpu::InventoryValue info;
         int rc = gpu::decodeGetInventoryInformationResponse(
-            *responseBuffer, cc, reasonCode, propertyId, info);
+            response, cc, reasonCode, propertyId, info);
 
         lg2::info(
             "Response for property ID {PROP_ID} from {NAME}, sendRecvMsgResult: {RESULT}, decode_rc: {RC}, completion_code: {CC}, reason_code: {REASON}",
