@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include <MctpEndpoint.hpp>
 #include <OcpMctpVdm.hpp>
 #include <boost/asio/generic/datagram_protocol.hpp>
 #include <boost/asio/io_context.hpp>
@@ -54,7 +55,7 @@ class Requester
 
     boost::asio::generic::datagram_protocol::socket mctpSocket;
 
-    boost::asio::generic::datagram_protocol::endpoint recvEndPoint;
+    MctpEndpoint recvEndPoint;
 
     boost::asio::steady_timer expiryTimer;
 

@@ -41,23 +41,19 @@ void Requester::processRecvMsg(
     const std::span<const uint8_t> reqMsg, const std::span<uint8_t> respMsg,
     const boost::system::error_code& ec, const size_t /*length*/)
 {
-    const auto* respAddr =
-        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
-        reinterpret_cast<const struct sockaddr_mctp*>(recvEndPoint.data());
+    uint8_t eid = recvEndPoint.eid();
 
-    uint8_t eid = respAddr->smctp_addr.s_addr;
-
-    if (!completionCallbacks.contains(eid))
+    auto callbackIt = completionCallbacks.find(eid);
+    if (callbackIt == completionCallbacks.end())
     {
         lg2::error(
             "MctpRequester failed to get the callback for the EID: {EID}",
             "EID", static_cast<int>(eid));
         return;
     }
+    auto& callback = callbackIt->second;
 
-    auto& callback = completionCallbacks.at(eid);
-
-    if (respAddr->smctp_type != msgType)
+    if (recvEndPoint.type() != msgType)
     {
         lg2::error("MctpRequester: Message type mismatch");
         callback(EPROTO);
@@ -141,7 +137,7 @@ void Requester::handleSendMsgCompletion(
     });
 
     mctpSocket.async_receive_from(
-        boost::asio::mutable_buffer(respMsg), recvEndPoint,
+        boost::asio::mutable_buffer(respMsg), recvEndPoint.endpoint,
         std::bind_front(&Requester::processRecvMsg, this, reqMsg, respMsg));
 }
 
