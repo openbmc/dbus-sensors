@@ -207,8 +207,7 @@ void MctpRequester::handleSendMsgCompletion(
 void MctpRequester::sendRecvMsg(
     uint8_t eid, std::span<const uint8_t> reqMsg,
     std::move_only_function<void(const std::error_code&,
-                                 std::span<const uint8_t>)>
-        callback)
+                                 std::span<const uint8_t>)>&& callback)
 {
     auto reqCtx = std::make_unique<RequestContext>(reqMsg, std::move(callback));
 
