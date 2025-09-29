@@ -148,11 +148,11 @@ void Inventory::sendInventoryPropertyRequest(
         "Sending inventory request for property ID {PROP_ID} to EID {EID} for {NAME}",
         "PROP_ID", static_cast<uint8_t>(propertyId), "EID", eid, "NAME", name);
 
-    mctpRequester.sendRecvMsg(eid, *requestBuffer, *responseBuffer,
-                              [this, propertyId](int sendRecvMsgResult) {
-                                  this->handleInventoryPropertyResponse(
-                                      propertyId, sendRecvMsgResult);
-                              });
+    mctpRequester.sendRecvMsg(
+        eid, *requestBuffer, [this, propertyId](int sendRecvMsgResult) {
+            this->handleInventoryPropertyResponse(propertyId,
+                                                  sendRecvMsgResult);
+        });
 }
 
 void Inventory::handleInventoryPropertyResponse(

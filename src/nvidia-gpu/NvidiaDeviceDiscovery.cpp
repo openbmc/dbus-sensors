@@ -136,14 +136,14 @@ void queryDeviceIdentification(
 
     mctpRequester.sendRecvMsg(
         eid, *queryDeviceIdentificationRequest,
-        *queryDeviceIdentificationResponse,
         [&io, &objectServer, &gpuDevices, &smaDevices, conn, &mctpRequester,
-         configs, path, eid, queryDeviceIdentificationRequest,
-         queryDeviceIdentificationResponse](int sendRecvMsgResult) {
+         configs, path, eid,
+         queryDeviceIdentificationRequest](int sendRecvMsgResult) {
+            std::span<uint8_t> queryDeviceIdentificationResponse;
             processQueryDeviceIdResponse(
                 io, objectServer, gpuDevices, smaDevices, conn, mctpRequester,
                 configs, path, eid, sendRecvMsgResult,
-                *queryDeviceIdentificationResponse);
+                queryDeviceIdentificationResponse);
         });
 }
 

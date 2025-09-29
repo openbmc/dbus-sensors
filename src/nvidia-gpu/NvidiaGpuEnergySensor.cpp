@@ -123,7 +123,7 @@ void NvidiaGpuEnergySensor::update()
         return;
     }
 
-    mctpRequester.sendRecvMsg(
-        eid, request, response,
-        [this](int sendRecvMsgResult) { processResponse(sendRecvMsgResult); });
+    mctpRequester.sendRecvMsg(eid, request, [this](int sendRecvMsgResult) {
+        processResponse(sendRecvMsgResult);
+    });
 }

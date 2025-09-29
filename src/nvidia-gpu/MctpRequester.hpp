@@ -12,6 +12,8 @@
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <boost/container/devector.hpp>
+#include <boost/container/flat_map.hpp>
+#include <boost/container/small_vector.hpp>
 
 #include <cstddef>
 #include <cstdint>
@@ -40,16 +42,14 @@ class Requester
     explicit Requester(boost::asio::io_context& ctx);
 
     void sendRecvMsg(uint8_t eid, std::span<const uint8_t> reqMsg,
-                     std::span<uint8_t> respMsg,
                      std::move_only_function<void(int)> callback);
 
   private:
-    void processRecvMsg(std::span<const uint8_t> reqMsg,
-                        std::span<uint8_t> respMsg,
-                        const boost::system::error_code& ec, size_t length);
+    uint8_t getNextInstanceId();
 
-    void handleSendMsgCompletion(uint8_t eid, std::span<const uint8_t> reqMsg,
-                                 std::span<uint8_t> respMsg,
+    void processRecvMsg(const boost::system::error_code& ec, size_t length);
+
+    void handleSendMsgCompletion(uint8_t eid,
                                  const boost::system::error_code& ec,
                                  size_t length);
 
@@ -59,10 +59,19 @@ class Requester
 
     boost::asio::steady_timer expiryTimer;
 
-    std::unordered_map<uint8_t, std::move_only_function<void(int)>>
+    struct CompletionMatch
+    {
+        uint8_t eid;
+        uint8_t instanceId;
+        auto operator<=>(const CompletionMatch&) const = default;
+        bool operator==(const CompletionMatch&) const = default;
+    };
+
+    boost::container::flat_map<CompletionMatch,
+                               std::move_only_function<void(int)>>
         completionCallbacks;
 
-    static constexpr uint8_t msgType = ocp::accelerator_management::messageType;
+    std::array<uint8_t, 256> responseBuffer;
 };
 
 class MctpRequester
@@ -77,14 +86,12 @@ class MctpRequester
     explicit MctpRequester(boost::asio::io_context& ctx) : requester(ctx) {}
 
     void sendRecvMsg(uint8_t eid, std::span<const uint8_t> reqMsg,
-                     std::span<uint8_t> respMsg,
                      std::move_only_function<void(int)> callback);
 
   private:
     struct RequestContext
     {
-        std::span<const uint8_t> reqMsg;
-        std::span<uint8_t> respMsg;
+        boost::container::small_vector<uint8_t, 32> reqMsg;
         std::move_only_function<void(int)> callback;
 
         RequestContext(const RequestContext&) = delete;
@@ -95,9 +102,8 @@ class MctpRequester
         ~RequestContext() = default;
 
         explicit RequestContext(std::span<const uint8_t> req,
-                                std::span<uint8_t> resp,
                                 std::move_only_function<void(int)>&& cb) :
-            reqMsg(req), respMsg(resp), callback(std::move(cb))
+            reqMsg(req.begin(), req.end()), callback(std::move(cb))
         {}
     };
 

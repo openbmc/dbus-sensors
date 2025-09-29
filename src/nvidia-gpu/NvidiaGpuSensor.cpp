@@ -79,7 +79,8 @@ void NvidiaGpuTempSensor::checkThresholds()
     thresholds::checkThresholds(this);
 }
 
-void NvidiaGpuTempSensor::processResponse(int sendRecvMsgResult)
+void NvidiaGpuTempSensor::processResponse(
+    int sendRecvMsgResult, std::span<uint8_t> getTemperatureReadingResponse)
 {
     if (sendRecvMsgResult != 0)
     {
@@ -122,6 +123,8 @@ void NvidiaGpuTempSensor::update()
     }
 
     mctpRequester.sendRecvMsg(
-        eid, getTemperatureReadingRequest, getTemperatureReadingResponse,
-        [this](int sendRecvMsgResult) { processResponse(sendRecvMsgResult); });
+        eid, getTemperatureReadingRequest, [this](int sendRecvMsgResult) {
+            std::span<uint8_t> getTemperatureReadingResponse;
+            processResponse(sendRecvMsgResult, getTemperatureReadingResponse);
+        });
 }

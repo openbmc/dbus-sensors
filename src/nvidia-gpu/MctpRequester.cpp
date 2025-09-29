@@ -37,29 +37,9 @@ Requester::Requester(boost::asio::io_context& ctx) :
     expiryTimer(ctx)
 {}
 
-void Requester::processRecvMsg(
-    const std::span<const uint8_t> reqMsg, const std::span<uint8_t> respMsg,
-    const boost::system::error_code& ec, const size_t /*length*/)
+void Requester::processRecvMsg(const boost::system::error_code& ec,
+                               const size_t length)
 {
-    uint8_t eid = recvEndPoint.eid();
-
-    auto callbackIt = completionCallbacks.find(eid);
-    if (callbackIt == completionCallbacks.end())
-    {
-        lg2::error(
-            "MctpRequester failed to get the callback for the EID: {EID}",
-            "EID", static_cast<int>(eid));
-        return;
-    }
-    auto& callback = callbackIt->second;
-
-    if (recvEndPoint.type() != msgType)
-    {
-        lg2::error("MctpRequester: Message type mismatch");
-        callback(EPROTO);
-        return;
-    }
-
     expiryTimer.cancel();
 
     if (ec)
@@ -67,62 +47,62 @@ void Requester::processRecvMsg(
         lg2::error(
             "MctpRequester failed to receive data from the MCTP socket - ErrorCode={EC}, Error={ER}.",
             "EC", ec.value(), "ER", ec.message());
-        callback(EIO);
         return;
     }
 
-    if (respMsg.size() > sizeof(ocp::accelerator_management::BindingPciVid))
+    std::span<const uint8_t> respMsg(responseBuffer.data(), length);
+
+    uint8_t eid = recvEndPoint.eid();
+
+    if (recvEndPoint.type() != ocp::accelerator_management::messageType)
     {
-        const auto* reqHdr =
-            // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
-            reinterpret_cast<const ocp::accelerator_management::BindingPciVid*>(
-                reqMsg.data());
-
-        uint8_t reqInstanceId = reqHdr->instance_id &
-                                ocp::accelerator_management::instanceIdBitMask;
-        const auto* respHdr =
-            // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
-            reinterpret_cast<const ocp::accelerator_management::BindingPciVid*>(
-                respMsg.data());
-
-        uint8_t respInstanceId = respHdr->instance_id &
-                                 ocp::accelerator_management::instanceIdBitMask;
-
-        if (reqInstanceId != respInstanceId)
-        {
-            lg2::error(
-                "MctpRequester: Instance ID mismatch - request={REQ}, response={RESP}",
-                "REQ", static_cast<int>(reqInstanceId), "RESP",
-                static_cast<int>(respInstanceId));
-            callback(EPROTO);
-            return;
-        }
+        lg2::error("MctpRequester: Message type mismatch");
+        return;
     }
+
+    if (respMsg.size() < sizeof(ocp::accelerator_management::BindingPciVid))
+    {
+        lg2::error("MctpRequester: Message too small to be PCI vdm");
+        return;
+    }
+
+    const ocp::accelerator_management::BindingPciVid* respHdr =
+        std::bit_cast<const ocp::accelerator_management::BindingPciVid*>(
+            respMsg.data());
+
+    uint8_t respInstanceId =
+        respHdr->instance_id & ocp::accelerator_management::instanceIdBitMask;
+
+    auto callbackIt =
+        completionCallbacks.find(CompletionMatch(eid, respInstanceId));
+    if (callbackIt == completionCallbacks.end())
+    {
+        lg2::error(
+            "MctpRequester: Couldn't find callback for message with EID={EID} and Instance ID={INSTANCE_ID}",
+            "EID", eid, "INSTANCE_ID", respInstanceId);
+        return;
+    }
+    auto& callback = callbackIt->second;
 
     callback(0);
 }
 
 void Requester::handleSendMsgCompletion(
-    uint8_t eid, const std::span<const uint8_t> reqMsg,
-    std::span<uint8_t> respMsg, const boost::system::error_code& ec,
-    size_t /* length */)
+    uint8_t eid, const boost::system::error_code& ec, size_t /* length */)
 {
-    if (!completionCallbacks.contains(eid))
+    if (ec)
     {
         lg2::error(
-            "MctpRequester failed to get the callback for the EID: {EID}",
-            "EID", static_cast<int>(eid));
+            "MctpRequester failed to send data from the MCTP socket - ErrorCode={EC}, Error={ER}.",
+            "EC", ec.value(), "ER", ec.message());
         return;
     }
-
-    auto& callback = completionCallbacks.at(eid);
 
     if (ec)
     {
         lg2::error(
             "MctpRequester failed to send data from the MCTP socket - ErrorCode={EC}, Error={ER}.",
             "EC", ec.value(), "ER", ec.message());
-        callback(EIO);
         return;
     }
 
@@ -131,18 +111,35 @@ void Requester::handleSendMsgCompletion(
     expiryTimer.async_wait([this, eid](const boost::system::error_code& ec) {
         if (ec != boost::asio::error::operation_aborted)
         {
-            auto& callback = completionCallbacks.at(eid);
-            callback(ETIME);
+            // Success, do nothing
+            return;
         }
+        lg2::error(
+            "MctpRequester: Message timed out - ErrorCode={EC}, Error={ER}.",
+            "EC", ec.value(), "ER", ec.message());
+
+        // TODO handle error
     });
 
     mctpSocket.async_receive_from(
-        boost::asio::mutable_buffer(respMsg), recvEndPoint.endpoint,
-        std::bind_front(&Requester::processRecvMsg, this, reqMsg, respMsg));
+        boost::asio::mutable_buffer(responseBuffer.data(),
+                                    responseBuffer.size()),
+        recvEndPoint.endpoint,
+        std::bind_front(&Requester::processRecvMsg, this));
+}
+
+uint8_t Requester::getNextInstanceId()
+{
+    static uint8_t instanceId = 0;
+    instanceId++;
+    if (instanceId > ocp::accelerator_management::instanceIdBitMask)
+    {
+        instanceId = 0;
+    }
+    return instanceId;
 }
 
 void Requester::sendRecvMsg(uint8_t eid, const std::span<const uint8_t> reqMsg,
-                            std::span<uint8_t> respMsg,
                             std::move_only_function<void(int)> callback)
 {
     if (reqMsg.size() < sizeof(ocp::accelerator_management::BindingPciVid))
@@ -152,12 +149,14 @@ void Requester::sendRecvMsg(uint8_t eid, const std::span<const uint8_t> reqMsg,
         return;
     }
 
-    completionCallbacks[eid] = std::move(callback);
+    uint8_t instanceId = getNextInstanceId();
+
+    completionCallbacks[CompletionMatch(eid, instanceId)] = std::move(callback);
 
     struct sockaddr_mctp addr{};
     addr.smctp_family = AF_MCTP;
     addr.smctp_addr.s_addr = eid;
-    addr.smctp_type = msgType;
+    addr.smctp_type = ocp::accelerator_management::messageType;
     addr.smctp_tag = MCTP_TAG_OWNER;
 
     using endpoint = boost::asio::generic::datagram_protocol::endpoint;
@@ -165,15 +164,13 @@ void Requester::sendRecvMsg(uint8_t eid, const std::span<const uint8_t> reqMsg,
 
     mctpSocket.async_send_to(
         boost::asio::const_buffer(reqMsg), sendEndPoint,
-        std::bind_front(&Requester::handleSendMsgCompletion, this, eid, reqMsg,
-                        respMsg));
+        std::bind_front(&Requester::handleSendMsgCompletion, this, eid));
 }
 
 void MctpRequester::sendRecvMsg(uint8_t eid, std::span<const uint8_t> reqMsg,
-                                std::span<uint8_t> respMsg,
                                 std::move_only_function<void(int)> callback)
 {
-    RequestContext reqCtx(reqMsg, respMsg, std::move(callback));
+    RequestContext reqCtx(reqMsg, std::move(callback));
 
     // Add request to queue
     auto& queue = requestContextQueues[eid];
@@ -219,7 +216,7 @@ void MctpRequester::processQueue(uint8_t eid)
     const auto& reqCtx = queue.front();
 
     requester.sendRecvMsg(
-        eid, reqCtx.reqMsg, reqCtx.respMsg,
+        eid, reqCtx.reqMsg,
         std::bind_front(&MctpRequester::handleResult, this, eid));
 }
 

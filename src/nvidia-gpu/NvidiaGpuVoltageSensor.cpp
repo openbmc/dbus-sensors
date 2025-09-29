@@ -121,7 +121,8 @@ void NvidiaGpuVoltageSensor::update()
         return;
     }
 
-    mctpRequester.sendRecvMsg(
-        eid, request, response,
-        [this](int sendRecvMsgResult) { processResponse(sendRecvMsgResult); });
+    mctpRequester.sendRecvMsg(eid, request, [this](int sendRecvMsgResult) {
+        std::span<const uint8_t> respMsg;
+        processResponse(sendRecvMsgResult);
+    });
 }

@@ -128,7 +128,7 @@ void NvidiaGpuPowerSensor::update()
             "EID", eid, "SID", sensorId, "RC", rc);
     }
 
-    mctpRequester.sendRecvMsg(
-        eid, request, response,
-        [this](int sendRecvMsgResult) { processResponse(sendRecvMsgResult); });
+    mctpRequester.sendRecvMsg(eid, request, [this](int sendRecvMsgResult) {
+        processResponse(sendRecvMsgResult);
+    });
 }
