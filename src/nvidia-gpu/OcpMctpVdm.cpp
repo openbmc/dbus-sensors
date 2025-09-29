@@ -33,20 +33,19 @@ int packHeader(uint16_t pciVendorId, const BindingPciVidInfo& hdr,
         return EINVAL;
     }
 
-    msg.instance_id = hdr.instance_id & instanceIdBitMask;
+    msg.instance_id = hdr.instance_id;
 
     if (hdr.ocp_accelerator_management_msg_type ==
         static_cast<uint8_t>(MessageType::REQUEST))
     {
-        msg.instance_id |= requestBitMask;
+        msg.request_or_response = 1;
     }
     else
     {
-        msg.instance_id &= ~requestBitMask;
+        msg.request_or_response = 0;
     }
 
     msg.pci_vendor_id = htobe16(pciVendorId);
-    msg.instance_id &= ~instanceIdReservedBitMask;
     msg.ocp_version = ocpVersion & ocpVersionBitMask;
     msg.ocp_version |= (ocpType << ocpTypeBitOffset) & ocpTypeBitMask;
     msg.ocp_accelerator_management_msg_type = hdr.msg_type;
