@@ -26,6 +26,7 @@
 #include <algorithm>
 #include <array>
 #include <cstdint>
+#include <functional>
 #include <memory>
 #include <span>
 #include <stdexcept>
@@ -45,7 +46,7 @@ void processQueryDeviceIdResponse(
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, const SensorConfigs& configs,
     const std::string& path, uint8_t eid, int sendRecvMsgResult,
-    std::span<uint8_t> queryDeviceIdentificationResponse)
+    std::span<const uint8_t> queryDeviceIdentificationResponse)
 {
     if (sendRecvMsgResult != 0)
     {
@@ -121,9 +122,6 @@ void queryDeviceIdentification(
     auto queryDeviceIdentificationRequest = std::make_shared<
         std::array<uint8_t, sizeof(gpu::QueryDeviceIdentificationRequest)>>();
 
-    auto queryDeviceIdentificationResponse = std::make_shared<
-        std::array<uint8_t, sizeof(gpu::QueryDeviceIdentificationResponse)>>();
-
     auto rc = gpu::encodeQueryDeviceIdentificationRequest(
         0, *queryDeviceIdentificationRequest);
     if (rc != 0)
@@ -136,15 +134,10 @@ void queryDeviceIdentification(
 
     mctpRequester.sendRecvMsg(
         eid, *queryDeviceIdentificationRequest,
-        *queryDeviceIdentificationResponse,
-        [&io, &objectServer, &gpuDevices, &smaDevices, conn, &mctpRequester,
-         configs, path, eid, queryDeviceIdentificationRequest,
-         queryDeviceIdentificationResponse](int sendRecvMsgResult) {
-            processQueryDeviceIdResponse(
-                io, objectServer, gpuDevices, smaDevices, conn, mctpRequester,
-                configs, path, eid, sendRecvMsgResult,
-                *queryDeviceIdentificationResponse);
-        });
+        std::bind_front(&processQueryDeviceIdResponse, std::ref(io),
+                        std::ref(objectServer), std::ref(gpuDevices),
+                        std::ref(smaDevices), conn, std::ref(mctpRequester),
+                        configs, path, eid));
 }
 
 void processEndpoint(

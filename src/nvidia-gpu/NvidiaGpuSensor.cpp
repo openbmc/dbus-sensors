@@ -25,6 +25,7 @@
 #include <cstdint>
 #include <functional>
 #include <memory>
+#include <span>
 #include <string>
 #include <utility>
 #include <vector>
@@ -79,7 +80,9 @@ void NvidiaGpuTempSensor::checkThresholds()
     thresholds::checkThresholds(this);
 }
 
-void NvidiaGpuTempSensor::processResponse(int sendRecvMsgResult)
+void NvidiaGpuTempSensor::processResponse(
+    int sendRecvMsgResult,
+    std::span<const uint8_t> getTemperatureReadingResponse)
 {
     if (sendRecvMsgResult != 0)
     {
@@ -122,6 +125,6 @@ void NvidiaGpuTempSensor::update()
     }
 
     mctpRequester.sendRecvMsg(
-        eid, getTemperatureReadingRequest, getTemperatureReadingResponse,
-        [this](int sendRecvMsgResult) { processResponse(sendRecvMsgResult); });
+        eid, getTemperatureReadingRequest,
+        std::bind_front(&NvidiaGpuTempSensor::processResponse, this));
 }
