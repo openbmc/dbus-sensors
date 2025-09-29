@@ -12,6 +12,7 @@
 #include <cerrno>
 #include <cstddef>
 #include <cstdint>
+#include <cstring>
 #include <span>
 #include <vector>
 
@@ -564,12 +565,121 @@ int decodeQueryScalarGroupTelemetryV2Response(
         telemetryValues.resize(numTelemetryValues);
     }
 
-    const auto* telemetryDataPtr = reinterpret_cast<const uint32_t*>(
-        buf.data() + sizeof(ocp::accelerator_management::CommonResponse));
+    const auto* telemetryDataPtr =
+        buf.data() + sizeof(ocp::accelerator_management::CommonResponse);
 
     for (size_t i = 0; i < numTelemetryValues; i++)
     {
-        telemetryValues[i] = le32toh(telemetryDataPtr[i]);
+        std::memcpy(&telemetryValues[i],
+                    telemetryDataPtr + i * sizeof(uint32_t), sizeof(uint32_t));
+
+        telemetryValues[i] = le32toh(telemetryValues[i]);
+    }
+
+    return 0;
+}
+
+int encodeListPciePortsRequest(uint8_t instanceId, std::span<uint8_t> buf)
+{
+    if (buf.size() < sizeof(ocp::accelerator_management::CommonRequest))
+    {
+        return EINVAL;
+    }
+
+    auto* msg = reinterpret_cast<ocp::accelerator_management::CommonRequest*>(
+        buf.data());
+
+    ocp::accelerator_management::BindingPciVidInfo header{};
+    header.ocp_accelerator_management_msg_type =
+        static_cast<uint8_t>(ocp::accelerator_management::MessageType::REQUEST);
+    header.instance_id = instanceId &
+                         ocp::accelerator_management::instanceIdBitMask;
+    header.msg_type = static_cast<uint8_t>(MessageType::PCIE_LINK);
+
+    auto rc = packHeader(header, msg->msgHdr.hdr);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    msg->command = static_cast<uint8_t>(PcieLinkCommands::ListPCIePorts);
+    msg->data_size = 0;
+
+    return 0;
+}
+
+int decodeListPciePortsResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint16_t& numUpstreamPorts, std::vector<uint8_t>& numDownstreamPorts)
+{
+    auto rc =
+        ocp::accelerator_management::decodeReasonCodeAndCC(buf, cc, reasonCode);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    if (buf.size() < sizeof(ocp::accelerator_management::CommonResponse))
+    {
+        return EINVAL;
+    }
+
+    const auto* response =
+        reinterpret_cast<const ocp::accelerator_management::CommonResponse*>(
+            buf.data());
+
+    const uint16_t dataSize = le16toh(response->data_size);
+
+    if (buf.size() <
+        dataSize + sizeof(ocp::accelerator_management::CommonResponse))
+    {
+        return EINVAL;
+    }
+
+    if (dataSize < sizeof(uint16_t))
+    {
+        return EINVAL;
+    }
+
+    uint16_t upstreamPorts = 0;
+
+    std::memcpy(&upstreamPorts,
+                buf.data() +
+                    sizeof(ocp::accelerator_management::CommonResponse),
+                sizeof(uint16_t));
+
+    upstreamPorts = le16toh(upstreamPorts);
+
+    numUpstreamPorts = 0;
+    numDownstreamPorts.clear();
+    numDownstreamPorts.reserve(upstreamPorts);
+
+    for (size_t i = 0; i < upstreamPorts; i++)
+    {
+        const size_t offset =
+            sizeof(ocp::accelerator_management::CommonResponse) +
+            sizeof(uint16_t) + i * 2 * sizeof(uint8_t);
+
+        if (offset + 2 * sizeof(uint8_t) > buf.size())
+        {
+            return EINVAL;
+        }
+
+        const uint8_t isInternal =
+            *reinterpret_cast<const uint8_t*>(buf.data() + offset);
+
+        // Count only external upstream ports
+        if (isInternal == 0)
+        {
+            ++numUpstreamPorts;
+
+            const uint8_t downstreamPorts = *reinterpret_cast<const uint8_t*>(
+                buf.data() + offset + sizeof(uint8_t));
+            numDownstreamPorts.push_back(downstreamPorts);
+        }
     }
 
     return 0;
