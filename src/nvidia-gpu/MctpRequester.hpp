@@ -56,8 +56,6 @@ class Requester
 
     static constexpr size_t maxMessageSize = 65536 + 256;
 
-    boost::asio::generic::datagram_protocol::endpoint sendEndPoint;
-
     boost::asio::generic::datagram_protocol::endpoint recvEndPoint;
 
     boost::asio::steady_timer expiryTimer;
