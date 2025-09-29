@@ -26,6 +26,8 @@ class Inventory : public std::enable_shared_from_this<Inventory>
               gpu::DeviceIdentification deviceType, uint8_t eid,
               boost::asio::io_context& io);
 
+    void init();
+
   private:
     struct PropertyInfo
     {
