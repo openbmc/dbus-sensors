@@ -54,7 +54,6 @@ class MctpRequester
     using cb_t = std::move_only_function<void(const std::error_code&,
                                               std::span<const uint8_t>)>;
 
-    static constexpr size_t maxMessageSize = 65536 + 256;
     static constexpr uint8_t msgType = ocp::accelerator_management::messageType;
 
     struct RequestContext
