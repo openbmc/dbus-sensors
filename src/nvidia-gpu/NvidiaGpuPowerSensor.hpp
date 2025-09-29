@@ -45,7 +45,7 @@ struct NvidiaGpuPowerSensor : public Sensor
 
     uint8_t sensorId;
 
-    uint8_t averagingInterval;
+    uint8_t averagingInterval = 0;
 
     std::shared_ptr<sdbusplus::asio::connection> conn;
 

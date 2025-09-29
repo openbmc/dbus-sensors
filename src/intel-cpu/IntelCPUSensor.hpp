@@ -51,7 +51,7 @@ class IntelCPUSensor :
     double privTcontrol;
     double dtsOffset;
     bool show;
-    size_t pollTime;
+    size_t pollTime{IntelCPUSensor::sensorPollMs};
     bool loggedInterfaceDown = false;
     uint8_t minMaxReadCounter{0};
     int fd{};

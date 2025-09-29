@@ -59,8 +59,7 @@ IntelCPUSensor::IntelCPUSensor(
     objServer(objectServer), inputDev(io), waitTimer(io),
     nameTcontrol("Tcontrol CPU" + std::to_string(cpuId)), path(path),
     privTcontrol(std::numeric_limits<double>::quiet_NaN()),
-    dtsOffset(dtsOffset), show(show), pollTime(IntelCPUSensor::sensorPollMs)
-
+    dtsOffset(dtsOffset), show(show)
 {
     if (show)
     {
