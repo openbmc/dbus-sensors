@@ -42,10 +42,10 @@ class MctpRequester
 
     explicit MctpRequester(boost::asio::io_context& ctx);
 
-    void sendRecvMsg(uint8_t eid, std::span<const uint8_t> reqMsg,
-                     std::move_only_function<void(const std::error_code&,
-                                                  std::span<const uint8_t>)>
-                         callback);
+    void sendRecvMsg(
+        uint8_t eid, std::span<const uint8_t> reqMsg,
+        std::move_only_function<void(const std::error_code&,
+                                     std::span<const uint8_t>)>&& callback);
 
   private:
     using cb_t = std::move_only_function<void(const std::error_code&,

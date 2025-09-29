@@ -10,6 +10,7 @@
 #include "NvidiaDeviceDiscovery.hpp"
 #include "NvidiaPcieInterface.hpp"
 
+#include <NvidiaPciePort.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <sdbusplus/asio/connection.hpp>
@@ -19,6 +20,7 @@
 #include <cstdint>
 #include <memory>
 #include <string>
+#include <vector>
 
 constexpr const char* pcieDevicePathPrefix =
     "/xyz/openbmc_project/inventory/PCIeDevices/";
@@ -70,4 +72,6 @@ class PcieDevice
     static std::unordered_map<std::string,
                               std::shared_ptr<sdbusplus::asio::dbus_interface>>
         fabricInterfaces;
+
+    std::vector<std::shared_ptr<NvidiaPciePortInfo>> pciePorts;
 };
