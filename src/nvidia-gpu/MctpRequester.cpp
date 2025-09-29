@@ -164,7 +164,8 @@ void Requester::sendRecvMsg(uint8_t eid, const std::span<const uint8_t> reqMsg,
     addr.smctp_type = msgType;
     addr.smctp_tag = MCTP_TAG_OWNER;
 
-    sendEndPoint = {&addr, sizeof(addr)};
+    using endpoint = boost::asio::generic::datagram_protocol::endpoint;
+    endpoint sendEndPoint{&addr, sizeof(addr)};
 
     mctpSocket.async_send_to(
         boost::asio::const_buffer(reqMsg), sendEndPoint,
@@ -173,8 +174,8 @@ void Requester::sendRecvMsg(uint8_t eid, const std::span<const uint8_t> reqMsg,
 }
 
 void MctpRequester::sendRecvMsg(uint8_t eid, std::span<const uint8_t> reqMsg,
-                                   std::span<uint8_t> respMsg,
-                                   std::move_only_function<void(int)> callback)
+                                std::span<uint8_t> respMsg,
+                                std::move_only_function<void(int)> callback)
 {
     auto reqCtx =
         std::make_unique<RequestContext>(reqMsg, respMsg, std::move(callback));
