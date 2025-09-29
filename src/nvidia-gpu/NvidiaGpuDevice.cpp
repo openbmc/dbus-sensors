@@ -6,7 +6,6 @@
 
 #include "NvidiaGpuDevice.hpp"
 
-#include "NvidiaGpuThresholds.hpp"
 #include "Thresholds.hpp"
 #include "Utils.hpp"
 
@@ -19,18 +18,31 @@
 #include <NvidiaGpuPowerSensor.hpp>
 #include <NvidiaGpuSensor.hpp>
 #include <NvidiaGpuVoltageSensor.hpp>
+#include <OcpMctpVdm.hpp>
 #include <boost/asio/io_context.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
+#include <array>
 #include <chrono>
 #include <cstdint>
 #include <functional>
 #include <memory>
+#include <span>
 #include <string>
+#include <system_error>
 #include <utility>
 #include <vector>
+
+static constexpr uint8_t gpuTLimitCriticalThresholdId{1};
+static constexpr uint8_t gpuTLimitWarningThresholdId{2};
+static constexpr uint8_t gpuTLimitHardshutDownThresholdId{4};
+
+// nota bene: the order has to match the order in processTLimitThresholds
+static constexpr std::array<uint8_t, 3> thresholdIds{
+    gpuTLimitWarningThresholdId, gpuTLimitCriticalThresholdId,
+    gpuTLimitHardshutDownThresholdId};
 
 GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
                      const std::string& path,
@@ -60,14 +72,6 @@ void GpuDevice::makeSensors()
         conn, mctpRequester, name + "_TEMP_0", path, eid, gpuTempSensorId,
         objectServer, std::vector<thresholds::Threshold>{});
 
-    readThermalParameters(
-        eid,
-        std::vector<gpuThresholdId>{gpuTLimitWarnringThresholdId,
-                                    gpuTLimitCriticalThresholdId,
-                                    gpuTLimitHardshutDownThresholdId},
-        mctpRequester,
-        std::bind_front(&GpuDevice::processTLimitThresholds, this));
-
     dramTempSensor = std::make_shared<NvidiaGpuTempSensor>(
         conn, mctpRequester, name + "_DRAM_0_TEMP_0", path, eid,
         gpuDramTempSensorId, objectServer,
@@ -90,17 +94,93 @@ void GpuDevice::makeSensors()
         conn, mctpRequester, name + "_Voltage_0", path, eid, gpuVoltageSensorId,
         objectServer, std::vector<thresholds::Threshold>{});
 
+    getTLimitThresholds();
+
     lg2::info("Added GPU {NAME} Sensors with chassis path: {PATH}.", "NAME",
               name, "PATH", path);
-
     read();
 }
 
-void GpuDevice::processTLimitThresholds(uint8_t rc,
-                                        const std::vector<int32_t>& thresholds)
+void GpuDevice::getTLimitThresholds()
+{
+    thresholds = {};
+    current_threshold_index = 0;
+    getNextThermalParameter();
+}
+
+void GpuDevice::readThermalParameterCallback(const std::error_code& ec,
+                                             std::span<const uint8_t> buffer)
+{
+    if (ec)
+    {
+        lg2::error(
+            "Error reading thermal parameter: sending message over MCTP failed, rc={RC}",
+            "RC", ec.message());
+        processTLimitThresholds(ec);
+        return;
+    }
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode = 0;
+    int32_t threshold = 0;
+
+    int rc = gpu::decodeReadThermalParametersResponse(buffer, cc, reasonCode,
+                                                      threshold);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        lg2::error(
+            "Error reading thermal parameter: decode failed, rc={RC}, cc={CC}, reasonCode={RESC}",
+            "RC", rc, "CC", cc, "RESC", reasonCode);
+        processTLimitThresholds(ec);
+        return;
+    }
+
+    thresholds[current_threshold_index] = threshold;
+
+    current_threshold_index++;
+
+    if (current_threshold_index < thresholdIds.size())
+    {
+        getNextThermalParameter();
+        return;
+    }
+    processTLimitThresholds(std::error_code{});
+}
+
+void GpuDevice::getNextThermalParameter()
+{
+    uint8_t id = thresholdIds[current_threshold_index];
+    auto rc =
+        gpu::encodeReadThermalParametersRequest(0, id, thermalParamReqMsg);
+    if (rc != 0)
+    {
+        lg2::error(
+            "Error reading thermal parameter for eid {EID} and parameter id {PID} : encode failed. rc={RC}",
+            "EID", eid, "PID", id, "RC", rc);
+        processTLimitThresholds(
+            std::make_error_code(static_cast<std::errc>(rc)));
+        return;
+    }
+
+    mctpRequester.sendRecvMsg(
+        eid, thermalParamReqMsg,
+        [weak{weak_from_this()}](const std::error_code& ec,
+                                 std::span<const uint8_t> buffer) {
+            std::shared_ptr<GpuDevice> self = weak.lock();
+            if (!self)
+            {
+                lg2::error("Failed to get lock on GpuDevice");
+                return;
+            }
+            self->readThermalParameterCallback(ec, buffer);
+        });
+}
+
+void GpuDevice::processTLimitThresholds(const std::error_code& ec)
 {
     std::vector<thresholds::Threshold> tLimitThresholds{};
-    if (rc == 0)
+    if (!ec)
     {
         tLimitThresholds = {
             thresholds::Threshold{thresholds::Level::WARNING,
