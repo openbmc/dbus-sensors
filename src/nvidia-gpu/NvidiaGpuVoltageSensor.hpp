@@ -39,7 +39,8 @@ struct NvidiaGpuVoltageSensor : public Sensor
     void update();
 
   private:
-    void processResponse(int sendRecvMsgResult);
+    void processResponse(int sendRecvMsgResult,
+                         std::span<const uint8_t> response);
 
     uint8_t eid{};
 
@@ -52,6 +53,4 @@ struct NvidiaGpuVoltageSensor : public Sensor
     sdbusplus::asio::object_server& objectServer;
 
     std::array<uint8_t, sizeof(gpu::GetVoltageRequest)> request{};
-
-    std::array<uint8_t, sizeof(gpu::GetVoltageResponse)> response{};
 };

@@ -2,6 +2,8 @@
 #include <boost/asio/generic/datagram_protocol.hpp>
 #include <phosphor-logging/lg2.hpp>
 
+#include <utility>
+
 // Becuase of issues with glibc not matching linux, we need to make sure these
 // are included AFTER the system headers, which are implictly included by boost.
 // clang-format off
@@ -20,10 +22,6 @@ struct MctpEndpoint
     MctpEndpoint& operator=(MctpEndpoint&&) = delete;
 
     boost::asio::generic::datagram_protocol::endpoint endpoint;
-
-    MctpEndpoint(boost::asio::generic::datagram_protocol::endpoint endpoint) :
-        endpoint(endpoint)
-    {}
 
     uint8_t eid() const
     {

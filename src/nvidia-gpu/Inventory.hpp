@@ -41,7 +41,8 @@ class Inventory : public std::enable_shared_from_this<Inventory>
     };
     void sendInventoryPropertyRequest(gpu::InventoryPropertyId propertyId);
     void handleInventoryPropertyResponse(gpu::InventoryPropertyId propertyId,
-                                         int sendRecvMsgResult);
+                                         int sendRecvMsgResult,
+                                         std::span<const uint8_t> response);
     void processNextProperty();
     void processInventoryProperty(gpu::InventoryPropertyId propertyId);
     void registerProperty(

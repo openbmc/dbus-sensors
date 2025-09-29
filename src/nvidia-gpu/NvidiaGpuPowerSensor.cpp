@@ -26,6 +26,7 @@
 #include <functional>
 #include <limits>
 #include <memory>
+#include <span>
 #include <string>
 #include <utility>
 #include <vector>
@@ -82,7 +83,8 @@ void NvidiaGpuPowerSensor::checkThresholds()
     thresholds::checkThresholds(this);
 }
 
-void NvidiaGpuPowerSensor::processResponse(int sendRecvMsgResult)
+void NvidiaGpuPowerSensor::processResponse(int sendRecvMsgResult,
+                                           std::span<const uint8_t> response)
 {
     if (sendRecvMsgResult != 0)
     {
@@ -126,6 +128,6 @@ void NvidiaGpuPowerSensor::update()
     }
 
     mctpRequester.sendRecvMsg(
-        eid, request, response,
-        [this](int sendRecvMsgResult) { processResponse(sendRecvMsgResult); });
+        eid, request,
+        std::bind_front(&NvidiaGpuPowerSensor::processResponse, this));
 }
