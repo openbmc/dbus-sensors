@@ -184,13 +184,13 @@ void GpuDevice::processTLimitThresholds(const std::error_code& ec)
     {
         tLimitThresholds = {
             thresholds::Threshold{thresholds::Level::WARNING,
-                                  thresholds::Direction::LOW,
+                                  thresholds::Direction::HIGH,
                                   static_cast<double>(thresholds[0])},
             thresholds::Threshold{thresholds::Level::CRITICAL,
-                                  thresholds::Direction::LOW,
+                                  thresholds::Direction::HIGH,
                                   static_cast<double>(thresholds[1])},
             thresholds::Threshold{thresholds::Level::HARDSHUTDOWN,
-                                  thresholds::Direction::LOW,
+                                  thresholds::Direction::HIGH,
                                   static_cast<double>(thresholds[2])}};
     }
 
