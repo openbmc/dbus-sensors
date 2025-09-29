@@ -84,9 +84,13 @@ void processQueryDeviceIdResponse(
             auto gpuName = configs.name + '_' +
                            std::to_string(responseInstanceId);
 
-            gpuDevices[gpuName] =
-                std::make_shared<GpuDevice>(configs, gpuName, path, conn, eid,
-                                            io, mctpRequester, objectServer);
+            auto gpu = gpuDevices
+                           .insert(std::make_pair(
+                               gpuName, std::make_shared<GpuDevice>(
+                                            configs, gpuName, path, conn, eid,
+                                            io, mctpRequester, objectServer)))
+                           .first;
+            (*gpu).second->init();
             break;
         }
 
