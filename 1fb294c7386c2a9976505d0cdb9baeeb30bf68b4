@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "998dffb7_78b18e79",
+        "filename": "src/nvidia-gpu/MctpEndpoint.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-29T23:22:06Z",
+      "side": 1,
+      "message": "This was an error I saw, then a quick googling of the error.  I can get more details together (probably tomorrow).",
+      "parentUuid": "95048e72_dbe07170",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 80
+      },
+      "revId": "1fb294c7386c2a9976505d0cdb9baeeb30bf68b4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5ba89a03_7dcecd30",
         "filename": "src/nvidia-gpu/MctpEndpoint.hpp",
         "patchSetId": 1
@@ -37,6 +61,24 @@
       "writtenOn": "2025-09-29T23:09:39Z",
       "side": 1,
       "message": "Can we consider unifying this with `src/mctp/MctpEndpoint.[ch]pp`? Maybe promote it under `src/`?",
+      "revId": "1fb294c7386c2a9976505d0cdb9baeeb30bf68b4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84353fea_22bfbff0",
+        "filename": "src/nvidia-gpu/MctpEndpoint.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-29T23:22:06Z",
+      "side": 1,
+      "message": "Happy to unify if we can, but I don\u0027t really see how.  To use the asio sockets, we explicitly need something that can explicitly use\n\nboost::asio::generic::datagram_protocol::endpoint\n\nI\u0027m not sure Making the exiting MCTPEndpoint inherit from that class makes sense.  Maybe we just make this asio class inherit from MCTPEndpoint?   Although I\u0027m not sure the interfaces quite match up.\n\nWhat are your thoughts?",
+      "parentUuid": "5ba89a03_7dcecd30",
       "revId": "1fb294c7386c2a9976505d0cdb9baeeb30bf68b4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
