@@ -349,8 +349,8 @@ void MctpRequester::processQueue(uint8_t eid)
     addr.smctp_addr.s_addr = eid;
     addr.smctp_type = msgType;
     addr.smctp_tag = MCTP_TAG_OWNER;
-
-    sendEndPoint = {&addr, sizeof(addr)};
+    using endpoint = boost::asio::generic::datagram_protocol::endpoint;
+    endpoint sendEndPoint{&addr, sizeof(addr)};
 
     mctpSocket.async_send_to(
         boost::asio::const_buffer(req.data(), req.size()), sendEndPoint,
