@@ -9,6 +9,7 @@
 #include <endian.h>
 
 #include <array>
+#include <bit>
 #include <cerrno>
 #include <cstdint>
 #include <cstring>
@@ -1089,5 +1090,312 @@ TEST_F(GpuMctpVdmTests, DecodeGetVoltageResponseInvalidSize)
     int result = gpu::decodeGetVoltageResponse(buf, cc, reasonCode, voltage);
 
     EXPECT_EQ(result, EINVAL); // Should indicate error for invalid data size
+}
+
+TEST_F(GpuMctpVdmTests, EncodeQueryScalarGroupTelemetryV2RequestSuccess)
+{
+    const uint8_t instanceId = 10;
+    const gpu::PciePortType portType = gpu::PciePortType::DOWNSTREAM;
+    const uint8_t upstreamPortNumber = 3;
+    const uint8_t portNumber = 5;
+    const uint8_t groupId = 2;
+    std::array<uint8_t, sizeof(gpu::QueryScalarGroupTelemetryV2Request)> buf{};
+
+    int result = gpu::encodeQueryScalarGroupTelemetryV2Request(
+        instanceId, portType, upstreamPortNumber, portNumber, groupId, buf);
+
+    EXPECT_EQ(result, 0);
+
+    gpu::QueryScalarGroupTelemetryV2Request request{};
+    std::memcpy(&request, buf.data(), sizeof(request));
+
+    EXPECT_EQ(request.hdr.msgHdr.hdr.pci_vendor_id,
+              htobe16(gpu::nvidiaPciVendorId));
+    EXPECT_EQ(request.hdr.msgHdr.hdr.instance_id &
+                  ocp::accelerator_management::instanceIdBitMask,
+              instanceId & ocp::accelerator_management::instanceIdBitMask);
+    EXPECT_NE(request.hdr.msgHdr.hdr.instance_id &
+                  ocp::accelerator_management::requestBitMask,
+              0);
+    EXPECT_EQ(request.hdr.msgHdr.hdr.ocp_accelerator_management_msg_type,
+              static_cast<uint8_t>(gpu::MessageType::PCIE_LINK));
+
+    EXPECT_EQ(request.hdr.command,
+              static_cast<uint8_t>(
+                  gpu::PcieLinkCommands::QueryScalarGroupTelemetryV2));
+    EXPECT_EQ(request.hdr.data_size, 3);
+    EXPECT_EQ(request.upstreamPortNumber,
+              (static_cast<uint8_t>(portType) << 7) |
+                  (upstreamPortNumber & 0x7F));
+    EXPECT_EQ(request.portNumber, portNumber);
+    EXPECT_EQ(request.groupId, groupId);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeQueryScalarGroupTelemetryV2ResponseSuccess)
+{
+    const size_t numValues = 4;
+    std::vector<uint8_t> buf(
+        sizeof(ocp::accelerator_management::CommonResponse) +
+        numValues * sizeof(uint32_t));
+
+    ocp::accelerator_management::CommonResponse* response =
+        std::bit_cast<ocp::accelerator_management::CommonResponse*>(buf.data());
+
+    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
+    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    headerInfo.instance_id = 10;
+    headerInfo.msg_type = static_cast<uint8_t>(gpu::MessageType::PCIE_LINK);
+
+    gpu::packHeader(headerInfo, response->msgHdr.hdr);
+
+    response->command = static_cast<uint8_t>(
+        gpu::PcieLinkCommands::QueryScalarGroupTelemetryV2);
+    response->completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS);
+    response->reserved = 0;
+    response->data_size = htole16(numValues * sizeof(uint32_t));
+
+    uint8_t* telemetryData =
+        buf.data() + sizeof(ocp::accelerator_management::CommonResponse);
+
+    for (int i = 0; i < static_cast<int>(numValues); ++i)
+    {
+        const uint32_t value = htole32((i + 1) * 100);
+        std::memcpy(telemetryData + i * sizeof(value), &value, sizeof(value));
+    }
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    size_t numTelemetryValues{};
+    std::vector<uint32_t> telemetryValues{};
+
+    int result = gpu::decodeQueryScalarGroupTelemetryV2Response(
+        buf, cc, reasonCode, numTelemetryValues, telemetryValues);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+    EXPECT_EQ(numTelemetryValues, numValues);
+    ASSERT_EQ(telemetryValues.size(), numValues);
+    EXPECT_EQ(telemetryValues[0], 100U);
+    EXPECT_EQ(telemetryValues[1], 200U);
+    EXPECT_EQ(telemetryValues[2], 300U);
+    EXPECT_EQ(telemetryValues[3], 400U);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeQueryScalarGroupTelemetryV2ResponseError)
+{
+    std::array<uint8_t,
+               sizeof(ocp::accelerator_management::CommonNonSuccessResponse)>
+        buf{};
+
+    ocp::accelerator_management::CommonNonSuccessResponse errorResponse{};
+    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
+    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    headerInfo.instance_id = 10;
+    headerInfo.msg_type = static_cast<uint8_t>(gpu::MessageType::PCIE_LINK);
+
+    gpu::packHeader(headerInfo, errorResponse.msgHdr.hdr);
+
+    errorResponse.command = static_cast<uint8_t>(
+        gpu::PcieLinkCommands::QueryScalarGroupTelemetryV2);
+    errorResponse.completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
+    errorResponse.reason_code = htole16(0x5678);
+
+    std::memcpy(buf.data(), &errorResponse, sizeof(errorResponse));
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    size_t numTelemetryValues{};
+    std::vector<uint32_t> telemetryValues{};
+
+    int result = gpu::decodeQueryScalarGroupTelemetryV2Response(
+        buf, cc, reasonCode, numTelemetryValues, telemetryValues);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
+    EXPECT_EQ(reasonCode, 0x5678);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeQueryScalarGroupTelemetryV2ResponseInvalidSize)
+{
+    std::array<uint8_t, sizeof(ocp::accelerator_management::Message)> buf{};
+
+    ocp::accelerator_management::Message msg{};
+    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
+    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    headerInfo.instance_id = 10;
+    headerInfo.msg_type = static_cast<uint8_t>(gpu::MessageType::PCIE_LINK);
+
+    gpu::packHeader(headerInfo, msg.hdr);
+    std::memcpy(buf.data(), &msg, sizeof(msg));
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    size_t numTelemetryValues{};
+    std::vector<uint32_t> telemetryValues{};
+
+    int result = gpu::decodeQueryScalarGroupTelemetryV2Response(
+        buf, cc, reasonCode, numTelemetryValues, telemetryValues);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+TEST_F(GpuMctpVdmTests, EncodeListPciePortsRequestSuccess)
+{
+    const uint8_t instanceId = 11;
+    std::array<uint8_t, sizeof(ocp::accelerator_management::CommonRequest)>
+        buf{};
+
+    int result = gpu::encodeListPciePortsRequest(instanceId, buf);
+
+    EXPECT_EQ(result, 0);
+
+    ocp::accelerator_management::CommonRequest request{};
+    std::memcpy(&request, buf.data(), sizeof(request));
+
+    EXPECT_EQ(request.msgHdr.hdr.pci_vendor_id,
+              htobe16(gpu::nvidiaPciVendorId));
+    EXPECT_EQ(request.msgHdr.hdr.instance_id &
+                  ocp::accelerator_management::instanceIdBitMask,
+              instanceId & ocp::accelerator_management::instanceIdBitMask);
+    EXPECT_NE(request.msgHdr.hdr.instance_id &
+                  ocp::accelerator_management::requestBitMask,
+              0);
+    EXPECT_EQ(request.msgHdr.hdr.ocp_accelerator_management_msg_type,
+              static_cast<uint8_t>(gpu::MessageType::PCIE_LINK));
+
+    EXPECT_EQ(request.command,
+              static_cast<uint8_t>(gpu::PcieLinkCommands::ListPCIePorts));
+    EXPECT_EQ(request.data_size, 0);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeListPciePortsResponseSuccess)
+{
+    const size_t totalUpstreamPorts = 2;
+    std::vector<uint8_t> buf(
+        sizeof(ocp::accelerator_management::CommonResponse) + sizeof(uint16_t) +
+        totalUpstreamPorts * 2 * sizeof(uint8_t));
+
+    ocp::accelerator_management::CommonResponse* response =
+        std::bit_cast<ocp::accelerator_management::CommonResponse*>(buf.data());
+
+    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
+    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    headerInfo.instance_id = 11;
+    headerInfo.msg_type = static_cast<uint8_t>(gpu::MessageType::PCIE_LINK);
+
+    gpu::packHeader(headerInfo, response->msgHdr.hdr);
+
+    response->command =
+        static_cast<uint8_t>(gpu::PcieLinkCommands::ListPCIePorts);
+    response->completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS);
+    response->reserved = 0;
+    response->data_size =
+        htole16(sizeof(uint16_t) + totalUpstreamPorts * 2 * sizeof(uint8_t));
+
+    const uint16_t upstreamPorts = htole16(totalUpstreamPorts);
+    std::memcpy(buf.data() +
+                    sizeof(ocp::accelerator_management::CommonResponse),
+                &upstreamPorts, sizeof(uint16_t));
+
+    uint8_t* portData = std::bit_cast<uint8_t*>(
+        buf.data() + sizeof(ocp::accelerator_management::CommonResponse) +
+        sizeof(uint16_t));
+    portData[0] = 0;
+    portData[1] = 4;
+    portData[2] = 1;
+    portData[3] = 2;
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint16_t numUpstreamPorts{};
+    std::vector<uint8_t> numDownstreamPorts{};
+
+    int result = gpu::decodeListPciePortsResponse(
+        buf, cc, reasonCode, numUpstreamPorts, numDownstreamPorts);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+    EXPECT_EQ(numUpstreamPorts, 1);
+    ASSERT_EQ(numDownstreamPorts.size(), 1);
+    EXPECT_EQ(numDownstreamPorts[0], 4);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeListPciePortsResponseError)
+{
+    std::array<uint8_t,
+               sizeof(ocp::accelerator_management::CommonNonSuccessResponse)>
+        buf{};
+
+    ocp::accelerator_management::CommonNonSuccessResponse errorResponse{};
+    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
+    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    headerInfo.instance_id = 11;
+    headerInfo.msg_type = static_cast<uint8_t>(gpu::MessageType::PCIE_LINK);
+
+    gpu::packHeader(headerInfo, errorResponse.msgHdr.hdr);
+
+    errorResponse.command =
+        static_cast<uint8_t>(gpu::PcieLinkCommands::ListPCIePorts);
+    errorResponse.completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
+    errorResponse.reason_code = htole16(0xBEEF);
+
+    std::memcpy(buf.data(), &errorResponse, sizeof(errorResponse));
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint16_t numUpstreamPorts{};
+    std::vector<uint8_t> numDownstreamPorts{};
+
+    int result = gpu::decodeListPciePortsResponse(
+        buf, cc, reasonCode, numUpstreamPorts, numDownstreamPorts);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
+    EXPECT_EQ(reasonCode, 0xBEEF);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeListPciePortsResponseInvalidSize)
+{
+    std::array<uint8_t, sizeof(ocp::accelerator_management::CommonResponse)>
+        buf{};
+
+    ocp::accelerator_management::CommonResponse* response =
+        std::bit_cast<ocp::accelerator_management::CommonResponse*>(buf.data());
+
+    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
+    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    headerInfo.instance_id = 11;
+    headerInfo.msg_type = static_cast<uint8_t>(gpu::MessageType::PCIE_LINK);
+
+    gpu::packHeader(headerInfo, response->msgHdr.hdr);
+
+    response->command =
+        static_cast<uint8_t>(gpu::PcieLinkCommands::ListPCIePorts);
+    response->completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS);
+    response->reserved = 0;
+    response->data_size = htole16(1);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint16_t numUpstreamPorts{};
+    std::vector<uint8_t> numDownstreamPorts{};
+
+    int result = gpu::decodeListPciePortsResponse(
+        buf, cc, reasonCode, numUpstreamPorts, numDownstreamPorts);
+
+    EXPECT_EQ(result, EINVAL);
 }
 } // namespace gpu_mctp_tests
