@@ -99,7 +99,6 @@ class MctpRequester
     void processQueue(uint8_t eid);
 
     boost::asio::io_context& io;
-    boost::asio::generic::datagram_protocol::endpoint sendEndPoint;
 
     boost::asio::generic::datagram_protocol::socket mctpSocket;
     std::array<uint8_t, maxMessageSize> buffer{};
