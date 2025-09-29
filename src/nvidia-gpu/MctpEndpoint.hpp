@@ -25,10 +25,13 @@ struct MctpEndpoint
 
     boost::asio::generic::datagram_protocol::endpoint endpoint;
 
+<<<<<<< PATCH SET (197766 nvidia-gpu: WIP: change buffering)
+=======
     MctpEndpoint(boost::asio::generic::datagram_protocol::endpoint endpoint) :
         endpoint(std::move(endpoint))
     {}
 
+>>>>>>> BASE      (5f4ffe Make RequestContext use value)
     uint8_t eid() const
     {
         if (endpoint.size() < sizeof(struct sockaddr_mctp))

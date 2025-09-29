@@ -44,7 +44,9 @@ struct NvidiaGpuTempSensor :
     void update();
 
   private:
-    void processResponse(int sendRecvMsgResult);
+    void processResponse(
+        int sendRecvMsgResult,
+        std::span<const uint8_t> getTemperatureReadingResponse);
 
     uint8_t eid{};
 
@@ -58,7 +60,4 @@ struct NvidiaGpuTempSensor :
 
     std::array<uint8_t, sizeof(gpu::GetTemperatureReadingRequest)>
         getTemperatureReadingRequest{};
-
-    std::array<uint8_t, sizeof(gpu::GetTemperatureReadingResponse)>
-        getTemperatureReadingResponse{};
 };
