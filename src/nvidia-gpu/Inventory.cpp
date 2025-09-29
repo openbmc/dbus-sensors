@@ -73,7 +73,10 @@ Inventory::Inventory(
         acceleratorInterface->register_property("Type", std::string("GPU"));
         acceleratorInterface->initialize();
     }
+}
 
+void Inventory::init()
+{
     processNextProperty();
 }
 

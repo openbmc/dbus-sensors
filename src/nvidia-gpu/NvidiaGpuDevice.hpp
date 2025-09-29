@@ -40,6 +40,8 @@ class GpuDevice
         return path;
     }
 
+    void init();
+
   private:
     void makeSensors();
 
