@@ -22,6 +22,7 @@
 
 namespace mctp
 {
+
 class Requester
 {
   public:
@@ -67,16 +68,16 @@ class Requester
     static constexpr uint8_t msgType = ocp::accelerator_management::messageType;
 };
 
-class QueuingRequester
+class MctpRequester
 {
   public:
-    QueuingRequester() = delete;
-    QueuingRequester(const QueuingRequester&) = delete;
-    QueuingRequester(QueuingRequester&&) = delete;
-    QueuingRequester& operator=(const QueuingRequester&) = delete;
-    QueuingRequester& operator=(QueuingRequester&&) = delete;
+    MctpRequester() = delete;
+    MctpRequester(const MctpRequester&) = delete;
+    MctpRequester(MctpRequester&&) = delete;
+    MctpRequester& operator=(const MctpRequester&) = delete;
+    MctpRequester& operator=(MctpRequester&&) = delete;
 
-    explicit QueuingRequester(boost::asio::io_context& ctx) : requester(ctx) {}
+    explicit MctpRequester(boost::asio::io_context& ctx) : requester(ctx) {}
 
     void sendRecvMsg(uint8_t eid, std::span<const uint8_t> reqMsg,
                      std::span<uint8_t> respMsg,
@@ -112,5 +113,4 @@ class QueuingRequester
         requestContextQueues;
 };
 
-using MctpRequester = QueuingRequester;
 } // namespace mctp
