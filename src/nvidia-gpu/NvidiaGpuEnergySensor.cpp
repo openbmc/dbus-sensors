@@ -23,8 +23,10 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <limits>
 #include <memory>
+#include <span>
 #include <string>
 #include <utility>
 #include <vector>
@@ -80,7 +82,8 @@ void NvidiaGpuEnergySensor::checkThresholds()
     thresholds::checkThresholds(this);
 }
 
-void NvidiaGpuEnergySensor::processResponse(int sendRecvMsgResult)
+void NvidiaGpuEnergySensor::processResponse(int sendRecvMsgResult,
+                                            std::span<const uint8_t> response)
 {
     if (sendRecvMsgResult != 0)
     {
@@ -124,6 +127,6 @@ void NvidiaGpuEnergySensor::update()
     }
 
     mctpRequester.sendRecvMsg(
-        eid, request, response,
-        [this](int sendRecvMsgResult) { processResponse(sendRecvMsgResult); });
+        eid, request,
+        std::bind_front(&NvidiaGpuEnergySensor::processResponse, this));
 }

@@ -55,8 +55,11 @@ enum class MessageType : uint8_t
 
 struct BindingPciVid
 {
-    uint16_t pci_vendor_id;                      //!< PCI defined vendor ID
-    uint8_t instance_id;                         //!< Instance ID
+    uint16_t pci_vendor_id; //!< PCI defined vendor ID
+    uint8_t request_or_response:1;
+    uint8_t datagram:1;
+    uint8_t reserved:1;
+    uint8_t instance_id:5;                       //!< Instance ID
     uint8_t ocp_version;                         //!< OCP version
     uint8_t ocp_accelerator_management_msg_type; //!< Message Type
 } __attribute__((packed));

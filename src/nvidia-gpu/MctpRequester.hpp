@@ -12,6 +12,8 @@
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <boost/container/devector.hpp>
+#include <boost/container/flat_map.hpp>
+#include <boost/container/small_vector.hpp>
 
 #include <cstddef>
 #include <cstdint>
@@ -24,6 +26,8 @@
 namespace mctp
 {
 
+<<<<<<< PATCH SET (94f6a7 nvidia-gpu: WIP: change buffering)
+=======
 class Requester
 {
   public:
@@ -65,6 +69,7 @@ class Requester
     static constexpr uint8_t msgType = ocp::accelerator_management::messageType;
 };
 
+>>>>>>> BASE      (42d0c5 Make RequestContext use value)
 class MctpRequester
 {
   public:
@@ -74,18 +79,18 @@ class MctpRequester
     MctpRequester& operator=(const MctpRequester&) = delete;
     MctpRequester& operator=(MctpRequester&&) = delete;
 
-    explicit MctpRequester(boost::asio::io_context& ctx) : requester(ctx) {}
+    explicit MctpRequester(boost::asio::io_context& ctx);
 
-    void sendRecvMsg(uint8_t eid, std::span<const uint8_t> reqMsg,
-                     std::span<uint8_t> respMsg,
-                     std::move_only_function<void(int)> callback);
+    void sendRecvMsg(
+        uint8_t eid, std::span<const uint8_t> reqMsg,
+        std::move_only_function<void(int, std::span<const uint8_t>)>&&
+            callback);
 
   private:
     struct RequestContext
     {
-        std::span<const uint8_t> reqMsg;
-        std::span<uint8_t> respMsg;
-        std::move_only_function<void(int)> callback;
+        boost::container::small_vector<uint8_t, 32> reqMsg;
+        std::move_only_function<void(int, std::span<const uint8_t>)> callback;
 
         RequestContext(const RequestContext&) = delete;
         RequestContext& operator=(const RequestContext&) = delete;
@@ -94,19 +99,52 @@ class MctpRequester
         RequestContext& operator=(RequestContext&&) = default;
         ~RequestContext() = default;
 
-        explicit RequestContext(std::span<const uint8_t> req,
-                                std::span<uint8_t> resp,
-                                std::move_only_function<void(int)>&& cb) :
-            reqMsg(req), respMsg(resp), callback(std::move(cb))
+        explicit RequestContext(
+            std::span<const uint8_t> req,
+            std::move_only_function<void(int, std::span<const uint8_t>)>&& cb) :
+            reqMsg(req.begin(), req.end()), callback(std::move(cb))
         {}
     };
 
-    void handleResult(uint8_t eid, int result);
+    void handleResult(uint8_t eid, int result,
+                      std::span<const uint8_t> response);
     void processQueue(uint8_t eid);
 
-    Requester requester;
+    void startReceiving();
+
+    static uint8_t getNextInstanceId();
+
+    void processRecvMsg(const boost::system::error_code& ec, size_t length);
+
+    void handleSendMsgCompletion(uint8_t eid,
+                                 const boost::system::error_code& ec,
+                                 size_t length);
+
+    MctpEndpoint recvEndPoint;
+
+    struct CompletionMatch
+    {
+        uint8_t eid;
+        uint8_t instanceId;
+        auto operator<=>(const CompletionMatch&) const = default;
+        bool operator==(const CompletionMatch&) const = default;
+    };
+
+    // Queue of requests for each EID
     std::unordered_map<uint8_t, boost::container::devector<RequestContext>>
         requestContextQueues;
+
+    // Map of completion callbacks for each request
+    boost::container::flat_map<
+        CompletionMatch,
+        std::move_only_function<void(int, std::span<const uint8_t>)>>
+        completionCallbacks;
+
+    std::array<uint8_t, 256> responseBuffer{};
+
+    boost::asio::generic::datagram_protocol::socket mctpSocket;
+
+    boost::asio::steady_timer expiryTimer;
 };
 
 } // namespace mctp
