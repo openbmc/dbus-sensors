@@ -45,9 +45,8 @@ TEST_F(OcpMctpVdmTests, PackHeaderRequestSuccess)
 
     EXPECT_EQ(result, 0);
     EXPECT_EQ(msg.pci_vendor_id, htobe16(pciVendorId));
-    EXPECT_EQ(msg.instance_id & ocp::accelerator_management::instanceIdBitMask,
-              5);
-    EXPECT_NE(msg.instance_id & ocp::accelerator_management::requestBitMask, 0);
+    EXPECT_EQ(msg.instance_id, 5);
+    EXPECT_NE(msg.request_or_response, 0);
     EXPECT_EQ(msg.ocp_version & 0x0F, ocp::accelerator_management::ocpVersion);
     EXPECT_EQ((msg.ocp_version & 0xF0) >>
                   ocp::accelerator_management::ocpTypeBitOffset,
@@ -70,9 +69,8 @@ TEST_F(OcpMctpVdmTests, PackHeaderResponseSuccess)
 
     EXPECT_EQ(result, 0);
     EXPECT_EQ(msg.pci_vendor_id, htobe16(pciVendorId));
-    EXPECT_EQ(msg.instance_id & ocp::accelerator_management::instanceIdBitMask,
-              10);
-    EXPECT_EQ(msg.instance_id & ocp::accelerator_management::requestBitMask, 0);
+    EXPECT_EQ(msg.instance_id, 10);
+    EXPECT_EQ(msg.request_or_response, 0);
     EXPECT_EQ(msg.ocp_version & 0x0F, ocp::accelerator_management::ocpVersion);
     EXPECT_EQ((msg.ocp_version & 0xF0) >>
                   ocp::accelerator_management::ocpTypeBitOffset,
@@ -185,9 +183,8 @@ TEST_F(GpuMctpVdmTests, PackHeaderSuccess)
 
     EXPECT_EQ(result, 0);
     EXPECT_EQ(msg.pci_vendor_id, htobe16(gpu::nvidiaPciVendorId));
-    EXPECT_EQ(msg.instance_id & ocp::accelerator_management::instanceIdBitMask,
-              5);
-    EXPECT_NE(msg.instance_id & ocp::accelerator_management::requestBitMask, 0);
+    EXPECT_EQ(msg.instance_id, 5);
+    EXPECT_NE(msg.request_or_response, 0);
     EXPECT_EQ(msg.ocp_version & 0x0F, ocp::accelerator_management::ocpVersion);
     EXPECT_EQ((msg.ocp_version & 0xF0) >>
                   ocp::accelerator_management::ocpTypeBitOffset,
@@ -210,12 +207,8 @@ TEST_F(GpuMctpVdmTests, EncodeQueryDeviceIdentificationRequestSuccess)
 
     EXPECT_EQ(request.hdr.msgHdr.hdr.pci_vendor_id,
               htobe16(gpu::nvidiaPciVendorId));
-    EXPECT_EQ(request.hdr.msgHdr.hdr.instance_id &
-                  ocp::accelerator_management::instanceIdBitMask,
-              instanceId & ocp::accelerator_management::instanceIdBitMask);
-    EXPECT_NE(request.hdr.msgHdr.hdr.instance_id &
-                  ocp::accelerator_management::requestBitMask,
-              0);
+    EXPECT_EQ(request.hdr.msgHdr.hdr.instance_id, instanceId);
+    EXPECT_NE(request.hdr.msgHdr.hdr.request_or_response, 0);
 
     EXPECT_EQ(request.hdr.command,
               static_cast<uint8_t>(gpu::DeviceCapabilityDiscoveryCommands::
@@ -358,12 +351,9 @@ TEST_F(GpuMctpVdmTests, EncodeGetTemperatureReadingRequestSuccess)
 
     EXPECT_EQ(request.hdr.msgHdr.hdr.pci_vendor_id,
               htobe16(gpu::nvidiaPciVendorId));
-    EXPECT_EQ(request.hdr.msgHdr.hdr.instance_id &
-                  ocp::accelerator_management::instanceIdBitMask,
-              instanceId & ocp::accelerator_management::instanceIdBitMask);
-    EXPECT_NE(request.hdr.msgHdr.hdr.instance_id &
-                  ocp::accelerator_management::requestBitMask,
-              0);
+    EXPECT_EQ(request.hdr.msgHdr.hdr.instance_id, instanceId);
+    EXPECT_NE(request.hdr.msgHdr.hdr.request_or_response, 0);
+
     EXPECT_EQ(request.hdr.msgHdr.hdr.ocp_accelerator_management_msg_type,
               static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
 
@@ -508,12 +498,8 @@ TEST_F(GpuMctpVdmTests, EncodeReadThermalParametersRequestSuccess)
 
     EXPECT_EQ(request.hdr.msgHdr.hdr.pci_vendor_id,
               htobe16(gpu::nvidiaPciVendorId));
-    EXPECT_EQ(request.hdr.msgHdr.hdr.instance_id &
-                  ocp::accelerator_management::instanceIdBitMask,
-              instanceId & ocp::accelerator_management::instanceIdBitMask);
-    EXPECT_NE(request.hdr.msgHdr.hdr.instance_id &
-                  ocp::accelerator_management::requestBitMask,
-              0);
+    EXPECT_EQ(request.hdr.msgHdr.hdr.instance_id, instanceId);
+    EXPECT_NE(request.hdr.msgHdr.hdr.request_or_response, 0);
     EXPECT_EQ(request.hdr.msgHdr.hdr.ocp_accelerator_management_msg_type,
               static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
 
@@ -660,12 +646,8 @@ TEST_F(GpuMctpVdmTests, EncodeGetCurrentPowerDrawRequestSuccess)
 
     EXPECT_EQ(request.hdr.msgHdr.hdr.pci_vendor_id,
               htobe16(gpu::nvidiaPciVendorId));
-    EXPECT_EQ(request.hdr.msgHdr.hdr.instance_id &
-                  ocp::accelerator_management::instanceIdBitMask,
-              instanceId & ocp::accelerator_management::instanceIdBitMask);
-    EXPECT_NE(request.hdr.msgHdr.hdr.instance_id &
-                  ocp::accelerator_management::requestBitMask,
-              0);
+    EXPECT_EQ(request.hdr.msgHdr.hdr.instance_id, instanceId);
+    EXPECT_NE(request.hdr.msgHdr.hdr.request_or_response, 0);
     EXPECT_EQ(request.hdr.msgHdr.hdr.ocp_accelerator_management_msg_type,
               static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
 
@@ -813,12 +795,9 @@ TEST_F(GpuMctpVdmTests, EncodeGetCurrentEnergyCounterRequestSuccess)
 
     EXPECT_EQ(request.hdr.msgHdr.hdr.pci_vendor_id,
               htobe16(gpu::nvidiaPciVendorId));
-    EXPECT_EQ(request.hdr.msgHdr.hdr.instance_id &
-                  ocp::accelerator_management::instanceIdBitMask,
-              instanceId & ocp::accelerator_management::instanceIdBitMask);
-    EXPECT_NE(request.hdr.msgHdr.hdr.instance_id &
-                  ocp::accelerator_management::requestBitMask,
-              0);
+    EXPECT_EQ(request.hdr.msgHdr.hdr.instance_id, instanceId);
+    EXPECT_NE(request.hdr.msgHdr.hdr.request_or_response, 0);
+
     EXPECT_EQ(request.hdr.msgHdr.hdr.ocp_accelerator_management_msg_type,
               static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
 
@@ -964,12 +943,9 @@ TEST_F(GpuMctpVdmTests, EncodeGetVoltageRequestSuccess)
 
     EXPECT_EQ(request.hdr.msgHdr.hdr.pci_vendor_id,
               htobe16(gpu::nvidiaPciVendorId));
-    EXPECT_EQ(request.hdr.msgHdr.hdr.instance_id &
-                  ocp::accelerator_management::instanceIdBitMask,
-              instanceId & ocp::accelerator_management::instanceIdBitMask);
-    EXPECT_NE(request.hdr.msgHdr.hdr.instance_id &
-                  ocp::accelerator_management::requestBitMask,
-              0);
+    EXPECT_EQ(request.hdr.msgHdr.hdr.instance_id, instanceId);
+    EXPECT_NE(request.hdr.msgHdr.hdr.request_or_response, 0);
+
     EXPECT_EQ(request.hdr.msgHdr.hdr.ocp_accelerator_management_msg_type,
               static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
 
