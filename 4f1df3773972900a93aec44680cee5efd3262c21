@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bd45a67_fb023b56",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-29T21:25:47Z",
+      "side": 1,
+      "message": "In theory we could also implement this per uid, but I\u0027m not sure that\u0027s worth it.",
+      "revId": "4f1df3773972900a93aec44680cee5efd3262c21",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5046419d_d97d0a59",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-29T21:25:47Z",
+      "side": 1,
+      "message": "Code golf/nitpick\n\nstatic uint8_t instanceId \u003d 0xFF;\ninstanceId++;\ninstanceId \u0026\u003d ocp::accelerator_management::instanceIdBitMask;\nreturn instanceId;\n\n\n\nThe above is slightly easier to read, and gets the same result without an extra variable or a compound statement.  Change if you want.",
+      "revId": "4f1df3773972900a93aec44680cee5efd3262c21",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64d7885d_ed7fdfae",
+        "filename": "src/nvidia-gpu/NvidiaGpuVoltageSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-29T21:25:47Z",
+      "side": 1,
+      "message": "Should this be done in the mctp layer?",
+      "revId": "4f1df3773972900a93aec44680cee5efd3262c21",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
