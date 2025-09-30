@@ -10,6 +10,7 @@
 #include "NvidiaPcieInterface.hpp"
 
 #include <NvidiaPciePort.hpp>
+#include <NvidiaPciePortMetrics.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <sdbusplus/asio/connection.hpp>
@@ -21,8 +22,7 @@
 #include <string>
 #include <vector>
 
-constexpr const char* pcieDevicePathPrefix =
-    "/xyz/openbmc_project/inventory/pcie_devices/";
+constexpr const char* pcieDevicePathPrefix = "/xyz/openbmc_project/inventory/";
 
 struct PcieDeviceInfo
 {
@@ -83,4 +83,5 @@ class PcieDevice : public std::enable_shared_from_this<PcieDevice>
     std::shared_ptr<NvidiaPcieInterface> pcieInterface;
 
     std::vector<std::shared_ptr<NvidiaPciePortInfo>> pciePorts;
+    std::vector<std::shared_ptr<NvidiaPciePortMetrics>> pciePortMetrics;
 };

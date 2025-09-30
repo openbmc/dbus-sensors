@@ -56,6 +56,7 @@ int main()
     objectServer.add_manager("/xyz/openbmc_project/sensors");
     objectServer.add_manager("/xyz/openbmc_project/inventory");
     objectServer.add_manager("/xyz/openbmc_project/software");
+    objectServer.add_manager("/xyz/openbmc_project/metric");
     systemBus->request_name("xyz.openbmc_project.GpuSensor");
 
     mctp::MctpRequester mctpRequester(io);
