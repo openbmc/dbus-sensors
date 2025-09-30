@@ -16,6 +16,24 @@
       "message": "Hi @patrick@stwcx.xyz,\n\nIf there are no issues with this commit, could you please help merge it?\nThank you very much!",
       "revId": "a7b3fcd9d1e94c45d46930539c817462fb8cae09",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e29cedd2_1eba82c2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-09-30T15:13:40Z",
+      "side": 1,
+      "message": "I\u0027m not a maintainer (listed in the OWNERS file) of this repository.\n\n@ed@tanous.net",
+      "parentUuid": "295a626d_e95e9900",
+      "revId": "a7b3fcd9d1e94c45d46930539c817462fb8cae09",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
