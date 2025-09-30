@@ -99,6 +99,24 @@
       "parentUuid": "84353fea_22bfbff0",
       "revId": "1fb294c7386c2a9976505d0cdb9baeeb30bf68b4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de50dadb_78a6ea4c",
+        "filename": "src/nvidia-gpu/MctpEndpoint.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-09-30T15:27:36Z",
+      "side": 1,
+      "message": "Specifically here, what are you thinking?  I could pull the asio dependency into MctpEndpoint? (maybe through an ifdef?). That doesn\u0027t seem right.\n\nIt looks like these might be two objects with the same name but different purposes.  This one is a wrapper to reasonably get at the sockaddr_mctp in a safe way.  src/mctp/MCTPEndpoint.hpp looks like a wrapper around dbus to watch for endpoint changes.  I suspect we should just name them appropriately?\n\nMCTPAddress for this one?\nExisting could go to MCTPDBusEndpoint\nand this one becomes MCTPNetEndpoint.",
+      "parentUuid": "95591ad2_d232af40",
+      "revId": "1fb294c7386c2a9976505d0cdb9baeeb30bf68b4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
