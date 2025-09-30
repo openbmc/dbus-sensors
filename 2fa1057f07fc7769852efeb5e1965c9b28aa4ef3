@@ -69,6 +69,24 @@
       "parentUuid": "9fdcd01f_0cf3b392",
       "revId": "2fa1057f07fc7769852efeb5e1965c9b28aa4ef3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7194d8f3_8c202674",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-09-30T15:55:57Z",
+      "side": 1,
+      "message": "Updated the commit message with the current limitation.",
+      "parentUuid": "f8253f97_e7d40cd0",
+      "revId": "2fa1057f07fc7769852efeb5e1965c9b28aa4ef3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
