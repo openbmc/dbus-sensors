@@ -37,6 +37,7 @@
 const constexpr char* jsonStore = "/var/configuration/flattened.json";
 const constexpr char* inventoryPath = "/xyz/openbmc_project/inventory";
 const constexpr char* entityManagerName = "xyz.openbmc_project.EntityManager";
+const constexpr char* metricPath = "/xyz/openbmc_project/metric/";
 
 constexpr const char* cpuInventoryPath =
     "/xyz/openbmc_project/inventory/system/chassis/motherboard";
