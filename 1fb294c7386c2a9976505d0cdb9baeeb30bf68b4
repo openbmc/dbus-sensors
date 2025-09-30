@@ -81,6 +81,24 @@
       "parentUuid": "5ba89a03_7dcecd30",
       "revId": "1fb294c7386c2a9976505d0cdb9baeeb30bf68b4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95591ad2_d232af40",
+        "filename": "src/nvidia-gpu/MctpEndpoint.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-09-30T01:19:36Z",
+      "side": 1,
+      "message": "Yeah, I understand there\u0027s a bit of a mismatch in the current needs, but I think that points to it all needing some design thought (which I haven\u0027t done). It just doesn\u0027t seem great to have two similarly named classes floating around doing completely different things.",
+      "parentUuid": "84353fea_22bfbff0",
+      "revId": "1fb294c7386c2a9976505d0cdb9baeeb30bf68b4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
