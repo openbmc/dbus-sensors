@@ -6,18 +6,21 @@
 #include "Thresholds.hpp"
 #include "Utils.hpp"
 
+#include <phosphor-logging/commit.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/exception.hpp>
 #include <sdbusplus/message/native_types.hpp>
 #include <xyz/openbmc_project/Sensor/Value/common.hpp>
+#include <xyz/openbmc_project/Sensor/event.hpp>
 
 #include <array>
 #include <cerrno>
 #include <cmath>
 #include <cstddef>
 #include <cstdlib>
+#include <exception>
 #include <functional>
 #include <limits>
 #include <memory>
@@ -75,13 +78,15 @@ struct Sensor
            const std::string& configurationPath, std::string_view objectType,
            bool isSettable, bool isMutable, const double max, const double min,
            std::shared_ptr<sdbusplus::asio::connection>& conn,
-           PowerState readState = PowerState::always) :
+           PowerState readState = PowerState::always,
+           bool reportReadingEvents = true) :
         name(sensor_paths::escapePathForDbus(name)),
         configurationPath(configurationPath),
         configInterface(configInterfaceName(objectType)),
         isSensorSettable(isSettable), isValueMutable(isMutable), maxValue(max),
         minValue(min), thresholds(std::move(thresholdData)),
         dbusConnection(conn), readState(readState),
+        reportReadingEvents(reportReadingEvents),
         instrumentation(enableInstrumentation
                             ? std::make_unique<SensorInstrumentation>()
                             : nullptr)
@@ -126,6 +131,7 @@ struct Sensor
     double hysteresisPublish = 1.0;
     std::shared_ptr<sdbusplus::asio::connection> dbusConnection;
     PowerState readState;
+    bool reportReadingEvents;
     size_t errCount{0};
     std::unique_ptr<SensorInstrumentation> instrumentation;
 
@@ -246,6 +252,7 @@ struct Sensor
 
     int setSensorValue(const double& newValue, double& oldValue)
     {
+        bool updated = false;
         if (!internalSet)
         {
             if (insecureSensorOverride == 0 && !isSensorSettable &&
@@ -256,6 +263,7 @@ struct Sensor
 
             oldValue = newValue;
             overriddenState = true;
+            updated = true;
             // check thresholds for external set
             value = newValue;
             checkThresholds();
@@ -269,6 +277,12 @@ struct Sensor
         else if (!overriddenState)
         {
             oldValue = newValue;
+            updated = true;
+        }
+
+        if (updated)
+        {
+            logReadingEvent(newValue);
         }
         return 1;
     }
@@ -575,6 +589,70 @@ struct Sensor
     }
 
   private:
+    bool invalidReadingLogged = false;
+
+    void logReadingEvent(const double& newValue)
+    {
+        if (!reportReadingEvents)
+        {
+            return;
+        }
+
+        // A sensor that depends on a power state (from the Entity Manager
+        // configuration) is expected to become invalid when that state is
+        // not met, so don't log events for it then.
+        if (!readingStateGood())
+        {
+            return;
+        }
+
+        if (std::isnan(newValue))
+        {
+            if (!invalidReadingLogged)
+            {
+                logInvalidSensorReading();
+            }
+        }
+        else if (invalidReadingLogged)
+        {
+            logSensorRestored();
+        }
+    }
+
+    void logInvalidSensorReading()
+    {
+        namespace errors = sdbusplus::error::xyz::openbmc_project::Sensor;
+        auto objPath = sensorInterface->get_object_path();
+        try
+        {
+            lg2::commit(errors::InvalidSensorReading("SENSOR_NAME", objPath));
+            invalidReadingLogged = true;
+        }
+        catch (const std::exception& e)
+        {
+            lg2::error(
+                "Could not create InvalidSensorReading log entry for {SENSOR}: {ERROR}",
+                "SENSOR", objPath, "ERROR", e);
+        }
+    }
+
+    void logSensorRestored()
+    {
+        namespace events = sdbusplus::event::xyz::openbmc_project::Sensor;
+        auto objPath = sensorInterface->get_object_path();
+        try
+        {
+            lg2::commit(events::SensorRestored("SENSOR_NAME", objPath));
+            invalidReadingLogged = false;
+        }
+        catch (const std::exception& e)
+        {
+            lg2::error(
+                "Could not create SensorRestored log entry for {SENSOR}: {ERROR}",
+                "SENSOR", objPath, "ERROR", e);
+        }
+    }
+
     // If one of the thresholds for a dbus interface is provided
     // we have to set the other one as dbus properties are never
     // optional.
