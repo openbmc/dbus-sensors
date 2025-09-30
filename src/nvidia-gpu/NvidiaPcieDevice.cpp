@@ -9,6 +9,7 @@
 #include "NvidiaGpuMctpVdm.hpp"
 #include "NvidiaPcieInterface.hpp"
 #include "NvidiaPciePort.hpp"
+#include "NvidiaPciePortMetrics.hpp"
 #include "Utils.hpp"
 
 #include <MctpRequester.hpp>
@@ -136,6 +137,19 @@ void PcieDevice::makeSensors()
             conn, mctpRequester, portPath, name, path, eid,
             gpu::PciePortType::UPSTREAM, i, i, objectServer));
 
+        pciePortErrors.emplace_back(std::make_shared<NvidiaPciePortErrors>(
+            conn, mctpRequester, portPath, path, eid,
+            gpu::PciePortType::UPSTREAM, i, i, objectServer));
+
+        pciePortCounters.emplace_back(std::make_shared<NvidiaPciePortCounters>(
+            conn, mctpRequester, portPath, path, eid,
+            gpu::PciePortType::UPSTREAM, i, i, objectServer));
+
+        pciePortL0ToRecoveryCounts.emplace_back(
+            std::make_shared<NvidiaPciePortL0ToRecoveryCount>(
+                conn, mctpRequester, portPath, path, eid,
+                gpu::PciePortType::UPSTREAM, i, i, objectServer));
+
         for (uint64_t j = 0; j < pcieDeviceInfo.numDownstreamPorts[i]; ++j)
         {
             sdbusplus::message::object_path portPath =
@@ -146,6 +160,23 @@ void PcieDevice::makeSensors()
                 conn, mctpRequester, portPath, name, path, eid,
                 gpu::PciePortType::DOWNSTREAM, i, downstreamPortIndex,
                 objectServer));
+
+            pciePortErrors.emplace_back(std::make_shared<NvidiaPciePortErrors>(
+                conn, mctpRequester, portPath, path, eid,
+                gpu::PciePortType::DOWNSTREAM, i, downstreamPortIndex,
+                objectServer));
+
+            pciePortCounters.emplace_back(
+                std::make_shared<NvidiaPciePortCounters>(
+                    conn, mctpRequester, portPath, path, eid,
+                    gpu::PciePortType::DOWNSTREAM, i, downstreamPortIndex,
+                    objectServer));
+
+            pciePortL0ToRecoveryCounts.emplace_back(
+                std::make_shared<NvidiaPciePortL0ToRecoveryCount>(
+                    conn, mctpRequester, portPath, path, eid,
+                    gpu::PciePortType::DOWNSTREAM, i, downstreamPortIndex,
+                    objectServer));
 
             ++downstreamPortIndex;
         }
@@ -164,6 +195,21 @@ void PcieDevice::read()
     for (auto& port : pciePorts)
     {
         port->update();
+    }
+
+    for (auto& portError : pciePortErrors)
+    {
+        portError->update();
+    }
+
+    for (auto& portCounter : pciePortCounters)
+    {
+        portCounter->update();
+    }
+
+    for (auto& portL0ToRecoveryCount : pciePortL0ToRecoveryCounts)
+    {
+        portL0ToRecoveryCount->update();
     }
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
