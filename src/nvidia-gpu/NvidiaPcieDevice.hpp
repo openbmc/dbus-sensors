@@ -11,6 +11,7 @@
 #include "NvidiaPcieInterface.hpp"
 
 #include <NvidiaPciePort.hpp>
+#include <NvidiaPciePortMetrics.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <sdbusplus/asio/connection.hpp>
@@ -88,4 +89,8 @@ class PcieDevice : public std::enable_shared_from_this<PcieDevice>
     static std::shared_ptr<sdbusplus::asio::dbus_interface> fabricInterface;
 
     std::vector<std::shared_ptr<NvidiaPciePortInfo>> pciePorts;
+    std::vector<std::shared_ptr<NvidiaPciePortErrors>> pciePortErrors;
+    std::vector<std::shared_ptr<NvidiaPciePortCounters>> pciePortCounters;
+    std::vector<std::shared_ptr<NvidiaPciePortL0ToRecoveryCount>>
+        pciePortL0ToRecoveryCounts;
 };
