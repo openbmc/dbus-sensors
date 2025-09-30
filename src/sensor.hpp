@@ -6,12 +6,14 @@
 #include "Thresholds.hpp"
 #include "Utils.hpp"
 
+#include <phosphor-logging/commit.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/exception.hpp>
 #include <sdbusplus/message/native_types.hpp>
 #include <xyz/openbmc_project/Sensor/Value/common.hpp>
+#include <xyz/openbmc_project/Sensor/event.hpp>
 
 #include <array>
 #include <cerrno>
@@ -23,6 +25,7 @@
 #include <memory>
 #include <stdexcept>
 #include <string>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
@@ -128,6 +131,7 @@ struct Sensor
     PowerState readState;
     size_t errCount{0};
     std::unique_ptr<SensorInstrumentation> instrumentation;
+    std::unordered_map<std::string, bool> invalidReadingLoggedMap;
 
     // This member variable provides a hook that can be used to receive
     // notification whenever this Sensor's value is externally set via D-Bus.
@@ -246,6 +250,7 @@ struct Sensor
 
     int setSensorValue(const double& newValue, double& oldValue)
     {
+        bool updated = false;
         if (!internalSet)
         {
             if (insecureSensorOverride == 0 && !isSensorSettable &&
@@ -256,6 +261,7 @@ struct Sensor
 
             oldValue = newValue;
             overriddenState = true;
+            updated = true;
             // check thresholds for external set
             value = newValue;
             checkThresholds();
@@ -269,6 +275,20 @@ struct Sensor
         else if (!overriddenState)
         {
             oldValue = newValue;
+            updated = true;
+        }
+
+        if (updated)
+        {
+            auto objPath = sensorInterface->get_object_path();
+            if (std::isnan(newValue) && !invalidReadingLoggedMap[objPath])
+            {
+                logInvalidSensorReading();
+            }
+            else if (!std::isnan(newValue) && invalidReadingLoggedMap[objPath])
+            {
+                logSensorRestored();
+            }
         }
         return 1;
     }
@@ -618,5 +638,37 @@ struct Sensor
         internalSet = true;
         updateProperty(sensorInterface, value, newValue, "Value");
         internalSet = false;
+    }
+
+    void logInvalidSensorReading()
+    {
+        namespace errors = sdbusplus::error::xyz::openbmc_project::Sensor;
+        auto objPath = sensorInterface->get_object_path();
+        try
+        {
+            lg2::commit(errors::InvalidSensorReading("SENSOR_NAME", objPath));
+            invalidReadingLoggedMap[objPath] = true;
+        }
+        catch (const std::exception& e)
+        {
+            lg2::error(
+                "Could not create InvalidSensorReading log entry for {SENSOR}",
+                "SENSOR", objPath);
+        }
+    }
+    void logSensorRestored()
+    {
+        namespace events = sdbusplus::event::xyz::openbmc_project::Sensor;
+        auto objPath = sensorInterface->get_object_path();
+        try
+        {
+            lg2::commit(events::SensorRestored("SENSOR_NAME", objPath));
+            invalidReadingLoggedMap[objPath] = false;
+        }
+        catch (const std::exception& e)
+        {
+            lg2::error("Could not create SensorRestored log entry for {SENSOR}",
+                       "SENSOR", objPath);
+        }
     }
 };
