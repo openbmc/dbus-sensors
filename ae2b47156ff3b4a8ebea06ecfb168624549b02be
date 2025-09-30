@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8713030_9f4d8737",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 35
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002229
+      },
+      "writtenOn": "2025-09-30T09:05:02Z",
+      "side": 1,
+      "message": "Hi @patrick@stwcx.xyz, @andrew@codeconstruct.com.au, @ed@tanous.net, @zhikuiren8@gmail.com, @pmb@meta.com,\n\nI\u0027ve updated the patch to resolve the merge conflict.\n\nCould you please review this change and proceed with merging if there are no further concerns? Thank you very much!",
+      "revId": "ae2b47156ff3b4a8ebea06ecfb168624549b02be",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
