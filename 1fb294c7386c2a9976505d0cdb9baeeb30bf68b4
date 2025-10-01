@@ -225,6 +225,24 @@
       "parentUuid": "0a094d10_d3bb1a35",
       "revId": "1fb294c7386c2a9976505d0cdb9baeeb30bf68b4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6d79d45_0de0716c",
+        "filename": "src/nvidia-gpu/MctpEndpoint.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-01T19:57:42Z",
+      "side": 1,
+      "message": "updated to do that.\n\nI agree, a generic socket class would be a good thing.  That\u0027s where I\u0027m hoping to get cleaning up MctpRequester:\n\nhttps://github.com/openbmc/dbus-sensors/blob/master/src/nvidia-gpu/MctpRequester.hpp\n\nWhich I\u0027m starting to hack together here:\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/84097",
+      "parentUuid": "42d6b8d9_75c1011e",
+      "revId": "1fb294c7386c2a9976505d0cdb9baeeb30bf68b4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
