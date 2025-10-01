@@ -68,6 +68,24 @@
       "message": "I\u0027m a bit surprised that what the kernel labels in is named output.   maybe it\u0027s because it\u0027s a standalone measuring component?\n\nhas the driver been accepted by the upstream kernel?\n\nbut I note that in_voltage appears above.\n\nis there any sorting or grouping here?",
       "revId": "a7b3fcd9d1e94c45d46930539c817462fb8cae09",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36b29027_a35e2e97",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 1152,
+      "author": {
+        "id": 1002509
+      },
+      "writtenOn": "2025-10-01T07:08:15Z",
+      "side": 1,
+      "message": "Based on the suggestion, I have reordered in_current and in_power. These two are sysfs interfaces provided by the RTQ6056 driver, which is already included in the Linux kernel (located at linux/drivers/iio/adc/rtq6056.c).\n\nSince the RTQ6056 is an independent measurement component and does not directly distinguish between power source and load, I mapped it to \"Output\" in the labelMatch based on the contextual interpretation in the actual application scenario.",
+      "parentUuid": "637643b6_0fda162e",
+      "revId": "a7b3fcd9d1e94c45d46930539c817462fb8cae09",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
