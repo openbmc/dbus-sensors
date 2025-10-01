@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fae0268_eb3f265c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-01T23:52:03Z",
+      "side": 1,
+      "message": "Can you talk through why the existing implementation wasn\u0027t enough?\n\nhttps://github.com/openbmc/dbus-sensors/blob/aba6fcac54aba04c8ce03d8aea7cdf30922f34d8/src/sensor.hpp#L273",
+      "revId": "6ba34716353464bd9171437a7511bffcf72e14bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
