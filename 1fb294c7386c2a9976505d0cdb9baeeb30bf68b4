@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e71749e9_ebb690de",
+        "filename": "src/nvidia-gpu/MctpEndpoint.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-10-01T01:42:21Z",
+      "side": 1,
+      "message": "Sure, but what _specifically_ is the problem? And what\u0027s being done to fix it at the source? These are work-arounds.",
+      "parentUuid": "8459a36b_1e09f3d6",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 80
+      },
+      "revId": "1fb294c7386c2a9976505d0cdb9baeeb30bf68b4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5ba89a03_7dcecd30",
         "filename": "src/nvidia-gpu/MctpEndpoint.hpp",
         "patchSetId": 1
@@ -139,6 +163,24 @@
       "side": 1,
       "message": "Specifically here, what are you thinking?  I could pull the asio dependency into MctpEndpoint? (maybe through an ifdef?). That doesn\u0027t seem right.\n\nIt looks like these might be two objects with the same name but different purposes.  This one is a wrapper to reasonably get at the sockaddr_mctp in a safe way.  src/mctp/MCTPEndpoint.hpp looks like a wrapper around dbus to watch for endpoint changes.  I suspect we should just name them appropriately?\n\nMCTPAddress for this one?\nExisting could go to MCTPDBusEndpoint\nand this one becomes MCTPNetEndpoint.",
       "parentUuid": "95591ad2_d232af40",
+      "revId": "1fb294c7386c2a9976505d0cdb9baeeb30bf68b4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a094d10_d3bb1a35",
+        "filename": "src/nvidia-gpu/MctpEndpoint.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-10-01T01:42:21Z",
+      "side": 1,
+      "message": "So my comment was more idle musing than something actionable.\n\nHowever, I expect it\u0027s not worth trying to talk to an endpoint if it\u0027s not represented in the mctpd object tree. Given that instances of the classes in `src/mctp/MCTPEndpoint.[ch]pp` reflect the MCTP endpoint\u0027s lifecycle, it would seem sensible for that `MCTPEndpoint` to be able to produce one of these ASIO wrappers?\n\nAgain, just musing on an possible direction, not intending to hold anything up necessarily. Maybe fixing naming does solve the problem, though I\u0027d more lean towards incorporating `ASIO` or `Socket` for this class, given they\u0027re fundamental to its implementation.",
+      "parentUuid": "de50dadb_78a6ea4c",
       "revId": "1fb294c7386c2a9976505d0cdb9baeeb30bf68b4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
