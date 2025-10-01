@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "aef06284_234fa244",
+        "filename": "src/nvidia-gpu/MctpEndpoint.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-01T18:45:03Z",
+      "side": 1,
+      "message": "\u003e Sure, but what specifically is the problem? \n\nCode doesn\u0027t compile and warns about mismatching enums (because they do mismatch)\n\nSpecifically, the headers are mismatched between some specific linux versions and glibc.  My understanding is that the source is already fixed, but you can\u0027t really backport the new user API headers, so the workaround seems to be to make sure that you #include headers in the right order, which is what we did before, just implicitly.  I also don\u0027t understand this fully, I just rearranged the #includes and triggered this issue.\n\nIf there\u0027s a better fix, I\u0027m happy to do it, I just don\u0027t see what that would be.",
+      "parentUuid": "e71749e9_ebb690de",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 80
+      },
+      "revId": "1fb294c7386c2a9976505d0cdb9baeeb30bf68b4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5ba89a03_7dcecd30",
         "filename": "src/nvidia-gpu/MctpEndpoint.hpp",
         "patchSetId": 1
@@ -181,6 +205,24 @@
       "side": 1,
       "message": "So my comment was more idle musing than something actionable.\n\nHowever, I expect it\u0027s not worth trying to talk to an endpoint if it\u0027s not represented in the mctpd object tree. Given that instances of the classes in `src/mctp/MCTPEndpoint.[ch]pp` reflect the MCTP endpoint\u0027s lifecycle, it would seem sensible for that `MCTPEndpoint` to be able to produce one of these ASIO wrappers?\n\nAgain, just musing on an possible direction, not intending to hold anything up necessarily. Maybe fixing naming does solve the problem, though I\u0027d more lean towards incorporating `ASIO` or `Socket` for this class, given they\u0027re fundamental to its implementation.",
       "parentUuid": "de50dadb_78a6ea4c",
+      "revId": "1fb294c7386c2a9976505d0cdb9baeeb30bf68b4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42d6b8d9_75c1011e",
+        "filename": "src/nvidia-gpu/MctpEndpoint.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-01T18:45:03Z",
+      "side": 1,
+      "message": "\u003e So my comment was more idle musing than something actionable.\n\u003e \n\u003e However, I expect it\u0027s not worth trying to talk to an endpoint if it\u0027s not represented in the mctpd object tree. Given that instances of the classes in `src/mctp/MCTPEndpoint.[ch]pp` reflect the MCTP endpoint\u0027s lifecycle, it would seem sensible for that `MCTPEndpoint` to be able to produce one of these ASIO wrappers?\n\nMy thought there is to not impose an asio requirement for applications that didn\u0027t otherwise need it.  I could move this into something like src/mctp/asio/x.hpp just so it\u0027s common, then at least we have something common?\n\n\u003e \n\u003e Again, just musing on an possible direction, not intending to hold anything up necessarily. Maybe fixing naming does solve the problem, though I\u0027d more lean towards incorporating `ASIO` or `Socket` for this class, given they\u0027re fundamental to its implementation.\n\nI can rename, I think that\u0027s a good idea.",
+      "parentUuid": "0a094d10_d3bb1a35",
       "revId": "1fb294c7386c2a9976505d0cdb9baeeb30bf68b4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
