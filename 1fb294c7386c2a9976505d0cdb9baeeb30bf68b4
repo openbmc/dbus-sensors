@@ -122,6 +122,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "34474106_84a47718",
+        "filename": "src/nvidia-gpu/MctpEndpoint.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-10-01T22:54:17Z",
+      "side": 1,
+      "message": "\u003e If there\u0027s a better fix, I\u0027m happy to do it, I just don\u0027t see what that would be.\n\nI\u0027m trying to understand that and I already asked for the specifics. To clarify, I\u0027d like to see the actual compiler error output of this specific problem, which may help me pinpoint patches that might fix it, if they exist. Not trying to be painful here, just if something\u0027s broken with the headers, it\u0027s broken for more than just dbus-sensors, and so deserves a fix that isn\u0027t a work-around specific to dbus-sensors.\n\nMaybe it\u0027s the case that this is the best we can do in the circumstances, but it certainly isn\u0027t clear to me that it\u0027s true, yet.",
+      "parentUuid": "aef06284_234fa244",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 80
+      },
+      "revId": "1fb294c7386c2a9976505d0cdb9baeeb30bf68b4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5ba89a03_7dcecd30",
         "filename": "src/nvidia-gpu/MctpEndpoint.hpp",
         "patchSetId": 1
