@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "467c25a0_25ba017c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-10-01T15:26:58Z",
+      "side": 1,
+      "message": "Self-marking this as \u0027-1\u0027 but not abandoning it outright in case we want to revisit later.\n\nWe\u0027ve probably got a better method of handling \u0027tach display\u0027 for \u0027tachless fans\u0027 in the work.\n\nie, connect the fans to chassis in EMConfigs via ports for cooled/cooled_by associations, then if it\u0027s a \u0027tachless fan\u0027 fansensor daemon just won\u0027t associate the \u0027tach sensor\u0027 records with the chassis.\n\nThat\u0027ll be enough to let swampd do what it needs to do with the tach sensor records on dbus, but without displaying those values through redfish/chassis sensors page of bmcweb\u0027s webui.",
+      "revId": "99e7c76b8d40e57861adb7bb8212f094bb0e1355",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
