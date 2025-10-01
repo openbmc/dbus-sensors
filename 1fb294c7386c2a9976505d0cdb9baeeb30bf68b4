@@ -146,6 +146,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4126c353_ae3b7ea9",
+        "filename": "src/nvidia-gpu/MctpEndpoint.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-01T23:32:04Z",
+      "side": 1,
+      "message": "\u003e To clarify, I\u0027d like to see the actual compiler error output of this specific problem,\n\nGotcha, I thought the bugs had examples, but sure.  Actual error is:\n\n```In file included from ../subprojects/boost-1.89.0/libs/asio/include/boost/asio/detail/socket_types.hpp:86,\n                 from ../subprojects/boost-1.89.0/libs/asio/include/boost/asio/detail/buffer_sequence_adapter.hpp:21,\n                 from ../subprojects/boost-1.89.0/libs/asio/include/boost/asio/detail/io_uring_service.hpp:24,\n                 from ../subprojects/boost-1.89.0/libs/asio/include/boost/asio/detail/impl/scheduler.ipp:28,\n                 from ../subprojects/boost-1.89.0/libs/asio/include/boost/asio/detail/scheduler.hpp:242,\n                 from ../subprojects/boost-1.89.0/libs/asio/include/boost/asio/system_context.hpp:19,\n                 from ../subprojects/boost-1.89.0/libs/asio/include/boost/asio/impl/system_executor.hpp:21,\n                 from ../subprojects/boost-1.89.0/libs/asio/include/boost/asio/system_executor.hpp:671,\n                 from ../subprojects/boost-1.89.0/libs/asio/include/boost/asio/associated_executor.hpp:24,\n                 from ../subprojects/boost-1.89.0/libs/asio/include/boost/asio/detail/initiate_dispatch.hpp:20,\n                 from ../subprojects/boost-1.89.0/libs/asio/include/boost/asio/detail/wrapped_handler.hpp:20,\n                 from ../subprojects/boost-1.89.0/libs/asio/include/boost/asio/io_context.hpp:26,\n                 from ../subprojects/boost-1.89.0/libs/asio/include/boost/asio/detail/io_object_impl.hpp:23,\n                 from ../subprojects/boost-1.89.0/libs/asio/include/boost/asio/basic_socket.hpp:23,\n                 from ../subprojects/boost-1.89.0/libs/asio/include/boost/asio/basic_datagram_socket.hpp:20,\n                 from ../subprojects/boost-1.89.0/libs/asio/include/boost/asio/generic/datagram_protocol.hpp:21,\n                 from ../src/MctpAsioEndpoint.hpp:14,\n                 from ../src/nvidia-gpu/MctpRequester.hpp:9,\n                 from ../src/nvidia-gpu/NvidiaGpuThresholds.hpp:9,\n                 from ../src/nvidia-gpu/NvidiaGpuThresholds.cpp:7:\n/usr/include/net/if.h:44:14: error: ‘IFF_UP’ conflicts with a previous declaration\n   44 |     IFF_UP \u003d 0x1,               /* Interface is up.  */\n      |              ^~~\nIn file included from /usr/include/linux/netdevice.h:29,\n                 from /usr/include/linux/mctp.h:14,\n                 from ../src/MctpAsioEndpoint.hpp:11:\n/usr/include/linux/if.h:83:9: note: previous declaration ‘net_device_flags IFF_UP’\n   83 |         IFF_UP                          \u003d 1\u003c\u003c0,  /* sysfs */\n      |         ^~~~~~\n/usr/include/net/if.h:46:21: error: ‘IFF_BROADCAST’ conflicts with a previous declaration\n   46 |     IFF_BROADCAST \u003d 0x2,        /* Broadcast address valid.  */\n      |                     ^~~\n/usr/include/linux/if.h:84:9: note: previous declaration ‘net_device_flags IFF_BROADCAST’\n   84 |         IFF_BROADCAST                   \u003d 1\u003c\u003c1,  /* __volatile__ */\n      |         ^~~~~~~~~~~~~\n/usr/include/net/if.h:48:17: error: ‘IFF_DEBUG’ conflicts with a previous declaration\n   48 |     IFF_DEBUG \u003d 0x4,            /* Turn on debugging.  */\n      |                 ^~~\n/usr/include/linux/if.h:85:9: note: previous declaration ‘net_device_flags IFF_DEBUG’\n   85 |         IFF_DEBUG                       \u003d 1\u003c\u003c2,  /* sysfs */\n      |         ^~~~~~~~~\n/usr/include/net/if.h:50:20: error: ‘IFF_LOOPBACK’ conflicts with a previous declaration\n   50 |     IFF_LOOPBACK \u003d 0x8,         /* Is a loopback net.  */\n```",
+      "parentUuid": "34474106_84a47718",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 80
+      },
+      "revId": "1fb294c7386c2a9976505d0cdb9baeeb30bf68b4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5ba89a03_7dcecd30",
         "filename": "src/nvidia-gpu/MctpEndpoint.hpp",
         "patchSetId": 1
