@@ -16,6 +16,46 @@
       "message": "Can this change be merged ?",
       "revId": "4425838b34e58a0e407693d2ba1313755e0c6c78",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9cdf85d_435079d7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-01T23:15:22Z",
+      "side": 1,
+      "message": "Left one comment.  Fix if you want, but the change is really about ergonomics for sensors that have multiple units, so I\u0027m not that invested.",
+      "revId": "4425838b34e58a0e407693d2ba1313755e0c6c78",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "275a38e6_cd79ceb2",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-01T23:15:22Z",
+      "side": 1,
+      "message": "I\u0027m not in love with this naming scheme for multi-unit entries.\n\nIdeally should be:\n\nTemperatureName\nPressureName\nHumidityName\n\nAs properties, but I get we\u0027ve used the default \"name\" to define the temp sensor in other places, so I guess this is fine.",
+      "range": {
+        "startLine": 390,
+        "startChar": 57,
+        "endLine": 390,
+        "endChar": 69
+      },
+      "revId": "4425838b34e58a0e407693d2ba1313755e0c6c78",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
