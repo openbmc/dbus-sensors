@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "63b9128b_bd19f6e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-10-01T15:20:47Z",
+      "side": 1,
+      "message": "Odds are good this PR will be abandonded in favor of the work being done here to add cooling/cooled_by associations for fan and chassis.\n\nhttps://gerrit.openbmc.org/c/openbmc/entity-manager/+/82408\n\nWith that in place, tachless fans can simply skip the step that associates a \u0027tach sensor\u0027 with the \u0027chassis sensors\u0027 list. That\u0027ll make it so tachless fans don\u0027t display any (estimated/calculated) tach values for tachs they don\u0027t actually have.",
+      "revId": "acbec5561053a079351e721d1b520079f5650cc6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0d69e159_aa7d1333",
@@ -31,6 +48,24 @@
       "writtenOn": "2025-09-08T04:03:01Z",
       "side": 1,
       "message": "This must have been defined as const somewhere that can be reused, right?",
+      "revId": "acbec5561053a079351e721d1b520079f5650cc6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d2b21cf_dcd57b53",
+        "filename": "src/fan/TachSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-10-01T15:20:47Z",
+      "side": 1,
+      "message": "Thanks for the comments.\n\nYou\u0027re almost certainly correct here, but I suspect that\u0027s all in the PWM-related classes, and not (currently) available in TachSensor. If we end up moving this PR forward, I\u0027ll dig deeper on that.\n\nThat said, this PR *may* end up getting abandoned in favor of the the work being done in inventory for cooling/cooled_by associations between fans and chassis.\n\nWith that method, I can set \u0027tachless\u0027 fans to simply not show any \u0027TachSensor\u0027 entries on the sensors redfish/webui page, and that\u0027d be preferable to displaying an estimated/calculated tach speed.",
+      "parentUuid": "924b3219_d2af94b1",
       "revId": "acbec5561053a079351e721d1b520079f5650cc6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
