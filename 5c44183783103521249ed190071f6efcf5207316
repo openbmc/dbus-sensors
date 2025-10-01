@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "401b957a_88b2b4c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-01T23:33:09Z",
+      "side": 1,
+      "message": "Fixed",
+      "parentUuid": "cb07b275_a1968985",
+      "range": {
+        "startLine": 7,
+        "startChar": 5,
+        "endLine": 7,
+        "endChar": 17
+      },
+      "revId": "5c44183783103521249ed190071f6efcf5207316",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "2ed4ca3c_cef1fc48",
         "filename": "src/MctpAsioEndpoint.hpp",
         "patchSetId": 9
