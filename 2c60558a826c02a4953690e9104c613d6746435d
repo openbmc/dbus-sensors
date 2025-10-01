@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c995761_9cf8cfd3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-01T23:07:18Z",
+      "side": 1,
+      "message": "?  What global default?  The pollrate is pulled from the per-device config.",
+      "range": {
+        "startLine": 7,
+        "startChar": 51,
+        "endLine": 7,
+        "endChar": 57
+      },
+      "revId": "2c60558a826c02a4953690e9104c613d6746435d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50ec06c6_b9448b7a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-01T23:07:18Z",
+      "side": 1,
+      "message": "This implies that this X_PollRate property already existed.  You\u0027re ADDING a per sensor pollrate property.\n\nUpdate this commit message to that effect, then specify WHY you\u0027re adding a pollrate per sensor for PWM sensors.  That part isn\u0027t clear, doesn\u0027t the sensor live on the same bus/pmbus page?  Changing the polling rate of one doesn\u0027t seem likely to change any behavior.",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 41
+      },
+      "revId": "2c60558a826c02a4953690e9104c613d6746435d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
