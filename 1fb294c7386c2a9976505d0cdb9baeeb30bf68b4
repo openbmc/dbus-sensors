@@ -194,6 +194,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8b94b4a8_0ff913ea",
+        "filename": "src/nvidia-gpu/MctpEndpoint.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-10-01T23:36:33Z",
+      "side": 1,
+      "message": "Oh. So. Because the first header you moved was `\u003clinux/mctp.h\u003e` I had the impression that we\u0027d messed something up with the kernel MCTP headers (... that I wasn\u0027t aware of), and that the links were just to similar \"linux / glibc messed up, here\u0027s how we resolved it\" issues.\n\nCan you mention the specific conflicting definitions in the comment so it\u0027s clear that the links are actually directly relevant?",
+      "parentUuid": "00b5fd6c_d02e2ec3",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 80
+      },
+      "revId": "1fb294c7386c2a9976505d0cdb9baeeb30bf68b4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5ba89a03_7dcecd30",
         "filename": "src/nvidia-gpu/MctpEndpoint.hpp",
         "patchSetId": 1
