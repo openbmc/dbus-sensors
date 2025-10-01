@@ -51,6 +51,23 @@
       "message": "Hi @ed@tanous.net @vernon.mauery@gmail.com @jae.hyun.yoo@linux.intel.com ,\n\nIf there are no issues with this commit, could you please help merge it?\nThank you very much!",
       "revId": "a7b3fcd9d1e94c45d46930539c817462fb8cae09",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "637643b6_0fda162e",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 1152,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2025-10-01T04:53:05Z",
+      "side": 1,
+      "message": "I\u0027m a bit surprised that what the kernel labels in is named output.   maybe it\u0027s because it\u0027s a standalone measuring component?\n\nhas the driver been accepted by the upstream kernel?\n\nbut I note that in_voltage appears above.\n\nis there any sorting or grouping here?",
+      "revId": "a7b3fcd9d1e94c45d46930539c817462fb8cae09",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
