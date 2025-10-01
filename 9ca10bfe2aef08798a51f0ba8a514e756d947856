@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e7d576f_058cd962",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-01T23:44:42Z",
+      "side": 1,
+      "message": "Phrasing.  I\u0027m not sure what this is trying to say.  Maybe \"almost all sensors\" ?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 15
+      },
+      "revId": "9ca10bfe2aef08798a51f0ba8a514e756d947856",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "3a5d0e9c_069dad63",
@@ -14,6 +37,80 @@
       "writtenOn": "2025-09-18T02:29:55Z",
       "side": 1,
       "message": "@ed@tanous.net, Could you take your time to review this commit again?",
+      "revId": "9ca10bfe2aef08798a51f0ba8a514e756d947856",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7e776cf_5ce6b8bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-01T23:44:42Z",
+      "side": 1,
+      "message": "Couple minor changes, then this looks fine.",
+      "revId": "9ca10bfe2aef08798a51f0ba8a514e756d947856",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34bbe024_15c3acf0",
+        "filename": "src/adc/ADCSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-01T23:44:42Z",
+      "side": 1,
+      "message": "Please put this comment above.  It make no sense to have a new line just to fix a comment.",
+      "range": {
+        "startLine": 310,
+        "startChar": 24,
+        "endLine": 310,
+        "endChar": 46
+      },
+      "revId": "9ca10bfe2aef08798a51f0ba8a514e756d947856",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "897eac3c_cb9bff69",
+        "filename": "src/adc/ADCSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-01T23:44:42Z",
+      "side": 1,
+      "message": "This function is already huge, and already a lambda (somehthing we\u0027d like to avoid in the future)\n\nplease refactor so that this function doesn\u0027t get any larger with your change.",
+      "revId": "9ca10bfe2aef08798a51f0ba8a514e756d947856",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "622ea835_18552b59",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-01T23:44:42Z",
+      "side": 1,
+      "message": "Other things in this file use VariantToFloatVisitor. SHoudl we be consistent?",
       "revId": "9ca10bfe2aef08798a51f0ba8a514e756d947856",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
