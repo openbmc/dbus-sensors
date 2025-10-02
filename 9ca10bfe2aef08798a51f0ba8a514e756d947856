@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "1ceaade1_4007498a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2025-10-02T13:35:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e7d576f_058cd962",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 15
+      },
+      "revId": "9ca10bfe2aef08798a51f0ba8a514e756d947856",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "3a5d0e9c_069dad63",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -81,6 +105,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7796e6f9_64f7fbdc",
+        "filename": "src/adc/ADCSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2025-10-02T13:35:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34bbe024_15c3acf0",
+      "range": {
+        "startLine": 310,
+        "startChar": 24,
+        "endLine": 310,
+        "endChar": 46
+      },
+      "revId": "9ca10bfe2aef08798a51f0ba8a514e756d947856",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "897eac3c_cb9bff69",
@@ -98,6 +146,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e170316_7315502d",
+        "filename": "src/adc/ADCSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2025-10-02T13:35:09Z",
+      "side": 1,
+      "message": "Moved to independent getSensorRange function to get sensor range.",
+      "parentUuid": "897eac3c_cb9bff69",
+      "revId": "9ca10bfe2aef08798a51f0ba8a514e756d947856",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "622ea835_18552b59",
@@ -111,6 +177,24 @@
       "writtenOn": "2025-10-01T23:44:42Z",
       "side": 1,
       "message": "Other things in this file use VariantToFloatVisitor. SHoudl we be consistent?",
+      "revId": "9ca10bfe2aef08798a51f0ba8a514e756d947856",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "216d187e_92a2ab62",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2025-10-02T13:35:09Z",
+      "side": 1,
+      "message": "Moved to independent getSensorRange function to get sensor range.",
+      "parentUuid": "622ea835_18552b59",
       "revId": "9ca10bfe2aef08798a51f0ba8a514e756d947856",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
