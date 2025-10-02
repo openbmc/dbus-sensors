@@ -68,6 +68,24 @@
       "parentUuid": "64d7885d_ed7fdfae",
       "revId": "4f1df3773972900a93aec44680cee5efd3262c21",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c05e7d7_77589af6",
+        "filename": "src/nvidia-gpu/NvidiaGpuVoltageSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-02T00:41:11Z",
+      "side": 1,
+      "message": "My thinking is that because it\u0027s global to the application/mctp connection, there\u0027s no value other than getNextIid() that an api could put that would make this correct.",
+      "parentUuid": "98117cc6_76068ad4",
+      "revId": "4f1df3773972900a93aec44680cee5efd3262c21",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
