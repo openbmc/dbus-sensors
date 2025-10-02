@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "deb1a962_99af05ba",
+        "filename": "src/adc/ADCSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-02T18:08:15Z",
+      "side": 1,
+      "message": "specificaly, check for \"isfinite(scaleFactor) \u0026\u0026 scaleFactor !\u003d 0.0\"",
+      "parentUuid": "54f49573_67b0d588",
+      "range": {
+        "startLine": 312,
+        "startChar": 54,
+        "endLine": 312,
+        "endChar": 65
+      },
+      "revId": "e46ddc1603a930baa9e3d6b92d23ea6b4617fdd9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "37f76cc2_ec3a1b3a",
         "filename": "src/hwmon-temp/HwmonTempMain.cpp",
         "patchSetId": 3
