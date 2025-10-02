@@ -16,6 +16,81 @@
       "message": "That this has been pending over a month without any comments already shows this project is in need of additional help in maintenance.\n\n+1 because jagpal is already maintaining https://github.com/openbmc/phosphor-bmc-code-mgmt and IMO it\u0027s been going well so far.",
       "revId": "ea3f3b3333461b61d3952b74ba1f712f7174c734",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ee567f9_ecadc1fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-02T19:34:45Z",
+      "side": 1,
+      "message": "\u003e That this has been pending over a month without any comments already shows this project is in need of additional help in maintenance.\n\nAt the end of the day, this decision needs to come from developers.  The fact that nobody replied for a month might just be due to developers not having a strong opinion here?  I\u0027m going to take that stance, because the alternative (nobody cares enough about these interfaces or Jagpal maintaining them) doesn\u0027t sound great to me and would imply we\u0027ve done something wrong.\n\nFWIW, I keep a prioritized list of reviews, and if nobody has reviewed something, it falls lower on the list for me personally.   Keep in mind, there are currently listed 4 top level maintainers in dbus-sensors (was 5 until recently), but most of them are absent.  Thats something we need to clear up at TOF level, but arguably this new maintainer decision should\u0027ve been driven by consensus and not \"does Ed think this is a good idea\" which seems to be what\u0027s implied.",
+      "parentUuid": "28062b74_a6b473cc",
+      "revId": "ea3f3b3333461b61d3952b74ba1f712f7174c734",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70d787f3_94a18510",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-02T19:34:45Z",
+      "side": 1,
+      "message": "Jagpal, I see you\u0027ve only signed up to maintain the two applications you had a hand in.  This is fine, but PLEASE do not check in generic reactor components into the individual handlers just because you have the power.  I\u0027d really like you to get to the point where you\u0027re comfortable navigating the common code as well, and this is an excellent first step.\n\nI\u0027ll note that of the 4 maintainers listed, at least 2 people failed to update their new emails, which I assume implicitly means they don\u0027t want to maintain anymore.  This is something to be taken up, and is likely why they also haven\u0027t replied to this review.\n\nOverall, I\u0027m in support.  Lets get the files cleaned up, and give a little time now that some people have reviewed it in case anyone else wants to chime in and give their support, then this LGTM.",
+      "revId": "ea3f3b3333461b61d3952b74ba1f712f7174c734",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9100c765_ed7a6dae",
+        "filename": "OWNERS",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-02T19:34:45Z",
+      "side": 1,
+      "message": "Selectively calling out files like this isn\u0027t something I really want to support.  Either you support the common code AS A WHOLE, or you don\u0027t.  Simple as that.  These files very likely will be renamed/split/combined, and I don\u0027t really want to be changing the owners file every time that happens.\n\nIf there\u0027s some common theme on these files that we can codify in the folder structure, I\u0027m happy to support that, but these kind of seem like a listing of \"files Jagpal wrote\" which I don\u0027t think we want to maintain.\n\nlets get this file list removed for now so we can get this approved in concept, and see if we can restructure a little bit to make this not a list of files.  (i\u0027m open to options on what that looks like, and there\u0027s some discussion already on alexanders review).",
+      "range": {
+        "startLine": 44,
+        "startChar": 22,
+        "endLine": 44,
+        "endChar": 87
+      },
+      "revId": "ea3f3b3333461b61d3952b74ba1f712f7174c734",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6881039_06230f3b",
+        "filename": "OWNERS",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-02T19:34:45Z",
+      "side": 1,
+      "message": "Please take a look at\n\nsrc/mctp/OWNERS\n\nwe seem to be going the \"file per folder\" path at the moment.  I don\u0027t have a strong opinion either way aside from I\u0027d like us to remain consistent, and that\u0027s the pattern we have.",
+      "revId": "ea3f3b3333461b61d3952b74ba1f712f7174c734",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
