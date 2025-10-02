@@ -16,6 +16,24 @@
       "message": "Looking to see what other people say about this.  I don\u0027t find this organization easier to use than what we\u0027ve got given the current scale of things.  I\u0027d much rather we go more specific folders like\n\nasio\nreactor\n\nthat can match the appropriate namespaces rather than just having one common folder for everything.  Looking forward to what other people think, but blanket rearranging this when the code that\u0027s underneath it is already pretty manageable seems like a lot of effort for very little gain.",
       "revId": "6ba3656a47f3cebcf217a2b622e13f946f64ca06",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44eac6e0_d0503539",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-10-02T11:00:07Z",
+      "side": 1,
+      "message": "\u003e I\u0027d much rather we go more specific folders like\n\nCan you further explain which files would go in which directory?\n\n\u003e that can match the appropriate namespaces\n\nThe namespaces are mostly per-file/per-class around here. Such as namespaces `thresholds`, `notify_watch`, `sensor_paths`, `systemd`.\n\nThere is no common parent namespace or such. And changing that would be a bigger diff.\n\nDo you really want to have a separate directory for each namespace?\n\n\u003e but blanket rearranging this when the code that\u0027s underneath it is already pretty manageable seems like a lot of effort for very little gain.\n\nHow do you plan to solve the issue of ambiguity w.r.t. include statements?\n\nCurrently it\u0027s not clear to the reader if it\u0027s a common header or sensor specific header being included.\n\nLet\u0027s take an example from nvidia code\n\n```\n#include \"Inventory.hpp\"\n\n#include \"Utils.hpp\"\n\n#include \u003cMctpRequester.hpp\u003e\n#include \u003cNvidiaGpuMctpVdm.hpp\u003e\n#include \u003cOcpMctpVdm.hpp\u003e\n#include \u003cboost/asio/io_context.hpp\u003e\n```\n\nwhere we include `Inventory.hpp` and `Utils.hpp`. Now which of those is a common header and which of those is specific to nvidia gpu sensor? It\u0027s hard to tell.\n\nSome includes are even using inconsistent include style (brackets / quotes).",
+      "parentUuid": "67bc863d_62f5a62b",
+      "revId": "6ba3656a47f3cebcf217a2b622e13f946f64ca06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
