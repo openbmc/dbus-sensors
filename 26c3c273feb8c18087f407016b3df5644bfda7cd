@@ -33,6 +33,24 @@
       "message": "I\u0027m confused, doesn\u0027t this mean this app now responds to this EID?  Doesn\u0027t that mean that we\u0027re now binding to the eid of the GPU?",
       "revId": "26c3c273feb8c18087f407016b3df5644bfda7cd",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f5db492_d2190cc7",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-02T02:37:03Z",
+      "side": 1,
+      "message": "it means that all packets with `msgType` on this eid will get received by this socket. per discussions on the side, I\u0027m fine with keeping this as a single socket design and changing the buffering structure.",
+      "parentUuid": "d5037d86_c2469800",
+      "revId": "26c3c273feb8c18087f407016b3df5644bfda7cd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
