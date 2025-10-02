@@ -218,6 +218,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "030736db_40f2bda0",
+        "filename": "src/nvidia-gpu/MctpEndpoint.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-02T00:32:13Z",
+      "side": 1,
+      "message": "Ah, that makes more sense.  Yeah, no problems with mctp.h\n\nI added the actual compiler error in the comment.",
+      "parentUuid": "8b94b4a8_0ff913ea",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 80
+      },
+      "revId": "1fb294c7386c2a9976505d0cdb9baeeb30bf68b4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5ba89a03_7dcecd30",
         "filename": "src/nvidia-gpu/MctpEndpoint.hpp",
         "patchSetId": 1
