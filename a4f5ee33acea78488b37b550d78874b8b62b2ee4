@@ -34,6 +34,24 @@
       "parentUuid": "485f629a_1e5bdb40",
       "revId": "a4f5ee33acea78488b37b550d78874b8b62b2ee4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "279c120a_c1bd544e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-10-02T18:41:06Z",
+      "side": 1,
+      "message": "\u003e Reviewing 2 lines at a time across N patches is a pain.\n\nYou can squash it locally for review. I don\u0027t see the issue.",
+      "parentUuid": "6a577d58_4c6a9dfe",
+      "revId": "a4f5ee33acea78488b37b550d78874b8b62b2ee4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
