@@ -102,6 +102,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "29df0bc3_d2cd209f",
+        "filename": "OWNERS",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-10-03T20:24:30Z",
+      "side": 1,
+      "message": "I agree we can move the files into folders with some defined topics. That will also help to create some buckets in terms of general code readability/maintainability. Based on above comment from Ed, I just noticed that there is already an open discussion between Alexander and Ed here https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/83895/comments/67bc863d_62f5a62b. So, will reply there and will also try to help with some of that effort.\n\nFor this PR, \n- I will add the OWNERS file into src/leakdetector and src/cable-monitor to make it consistent as asked by Ed here https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/82895/comment/b6881039_06230f3b/.\n- I will drop the partial_regex for individual files at the moment and will add the OWNERS for named folders for common code when that gets merged.\n \n\nPS: Having said this i am open to help with maintaining common code, no specific reservation to these set of files.",
+      "parentUuid": "618a7d7e_484c6de2",
+      "range": {
+        "startLine": 44,
+        "startChar": 22,
+        "endLine": 44,
+        "endChar": 87
+      },
+      "revId": "ea3f3b3333461b61d3952b74ba1f712f7174c734",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b6881039_06230f3b",
         "filename": "OWNERS",
         "patchSetId": 1
