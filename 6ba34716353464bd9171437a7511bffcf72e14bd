@@ -16,6 +16,24 @@
       "message": "Can you talk through why the existing implementation wasn\u0027t enough?\n\nhttps://github.com/openbmc/dbus-sensors/blob/aba6fcac54aba04c8ce03d8aea7cdf30922f34d8/src/sensor.hpp#L273",
       "revId": "6ba34716353464bd9171437a7511bffcf72e14bd",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fef17821_eb34d38c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2025-10-03T01:18:36Z",
+      "side": 1,
+      "message": "Hi @ed@tanous.net, Current SmbpbiSensor implementation does not assign the PowerState config, so it will be set to `PowerState::always` by default.\n\nThis commit updates the SmbpbiSensor constructor to ensure the PowerState value can be configured correctly.",
+      "parentUuid": "7fae0268_eb3f265c",
+      "revId": "6ba34716353464bd9171437a7511bffcf72e14bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
