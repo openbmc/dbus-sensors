@@ -34,6 +34,24 @@
       "parentUuid": "67bc863d_62f5a62b",
       "revId": "6ba3656a47f3cebcf217a2b622e13f946f64ca06",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fefc1a8_be4dfac4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-10-03T21:06:05Z",
+      "side": 1,
+      "message": "@alexander.hansen@9elements.com As a first cut probably we can move the files into their subsequent buckets which doesn\u0027t have to be concretely based on absolute namespace. Probably something as under -\n\nreactor -  (asynchronus method agnostic common code for all reactors)\n* SensorPaths.hpp\n* SensorPaths.cpp\n\nasio\n* DeviceMgmt.hpp\n* DeviceMgmt.cpp\n* Thresholds.hpp\n* Thresholds.cpp\n* PwmSensor.cpp\n* PwmSensor.hpp\n\nasync_task -\n* EntityManagerInterface.cpp\n* EntityManagerInterface.hpp\n* GPIOInterface.cpp\n* GPIOInterface.hpp\n* NotifyWatch.cpp\n* NotifyWatch.hpp\n* SystemdInterface.hpp\n* SystemdInterface.cpp\n\nutils -\n* Utils.cpp\n* Utils.hpp\n* VariantVisitors.hpp\n* FileHandle.cpp\n* FileHandle.hpp  \u003c\u003c This only provides a RAII wrapper for fd, so seems better in utils\n\nFor header inclusion, we can probably choose \u003cdir\u003e/\u003cfilename.hpp\u003e related inclusion for outside (from local dir) to give some hint on where the header is being included from.\n\nWould let others comment about their feedback.",
+      "parentUuid": "44eac6e0_d0503539",
+      "revId": "6ba3656a47f3cebcf217a2b622e13f946f64ca06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
