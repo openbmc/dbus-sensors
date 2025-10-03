@@ -34,6 +34,24 @@
       "parentUuid": "7fae0268_eb3f265c",
       "revId": "6ba34716353464bd9171437a7511bffcf72e14bd",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3637ece9_6e82ccfa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-03T01:22:36Z",
+      "side": 1,
+      "message": "Other sensors rely on the implementation in sensor.hpp.  Any reason we need more than that here?",
+      "parentUuid": "fef17821_eb34d38c",
+      "revId": "6ba34716353464bd9171437a7511bffcf72e14bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
