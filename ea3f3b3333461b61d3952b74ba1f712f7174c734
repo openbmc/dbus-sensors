@@ -78,6 +78,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "618a7d7e_484c6de2",
+        "filename": "OWNERS",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-10-03T16:17:23Z",
+      "side": 1,
+      "message": "@paligill@gmail.com Is there some refactoring we can do to make it clear which parts use ASIO and which parts use sdbusplus::async?  I think that would make it clearing than an arbitrary list of files.",
+      "parentUuid": "9100c765_ed7a6dae",
+      "range": {
+        "startLine": 44,
+        "startChar": 22,
+        "endLine": 44,
+        "endChar": 87
+      },
+      "revId": "ea3f3b3333461b61d3952b74ba1f712f7174c734",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b6881039_06230f3b",
         "filename": "OWNERS",
         "patchSetId": 1
