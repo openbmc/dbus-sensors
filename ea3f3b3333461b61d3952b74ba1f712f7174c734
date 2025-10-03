@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ff17ed7f_c0134ca4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-10-03T20:27:58Z",
+      "side": 1,
+      "message": "\u003e do not check in generic reactor components into the individual handlers\n\nWhat do you mean by mean by this? Can you be more specific?",
+      "parentUuid": "70d787f3_94a18510",
+      "revId": "ea3f3b3333461b61d3952b74ba1f712f7174c734",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9100c765_ed7a6dae",
         "filename": "OWNERS",
         "patchSetId": 1
@@ -137,6 +155,24 @@
       "writtenOn": "2025-10-02T19:34:45Z",
       "side": 1,
       "message": "Please take a look at\n\nsrc/mctp/OWNERS\n\nwe seem to be going the \"file per folder\" path at the moment.  I don\u0027t have a strong opinion either way aside from I\u0027d like us to remain consistent, and that\u0027s the pattern we have.",
+      "revId": "ea3f3b3333461b61d3952b74ba1f712f7174c734",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc93f4ab_11616aa3",
+        "filename": "OWNERS",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-10-03T20:27:58Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "b6881039_06230f3b",
       "revId": "ea3f3b3333461b61d3952b74ba1f712f7174c734",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
