@@ -78,6 +78,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "838a2bf5_56311993",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-10-06T13:15:07Z",
+      "side": 1,
+      "message": "Why doesn\u0027t this use the GetIid() introduced in an older patchset?",
+      "revId": "26c3c273feb8c18087f407016b3df5644bfda7cd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d5037d86_c2469800",
         "filename": "src/nvidia-gpu/MctpRequester.cpp",
         "patchSetId": 2
