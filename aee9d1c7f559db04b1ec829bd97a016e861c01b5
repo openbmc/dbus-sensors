@@ -22,6 +22,30 @@
       },
       "revId": "aee9d1c7f559db04b1ec829bd97a016e861c01b5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87b5beaa_e7c76c6a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002692
+      },
+      "writtenOn": "2025-10-06T16:41:12Z",
+      "side": 1,
+      "message": "In our use case, we need to read the temperature from a MCU on GPU. When using `i2cget` to get value manually, it is a 8 bit integer. We need to keep it on this value instead of divided by 1000, so that\u0027s why `scaleValue` is included.",
+      "parentUuid": "b06c6c89_03f98754",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 64
+      },
+      "revId": "aee9d1c7f559db04b1ec829bd97a016e861c01b5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
