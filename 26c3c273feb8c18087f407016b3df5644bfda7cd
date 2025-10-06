@@ -43,6 +43,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "56a73618_01f28d69",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-06T15:57:29Z",
+      "side": 1,
+      "message": "it may prevent some level of the problems, but it doesn\u0027t fix the real problem. Which is that we are binding whatever the last thing we got in to the next packet we\u0027re getting, and the buffer\u0027s are client buffers. So no matter what the next message is, we\u0027re writing it into the last buffer we got. This led to all sorts of problems as sends and send completes and receives can all interleave. This patchset will change to just keep a buffer internally.",
+      "parentUuid": "87f9c173_1ff746f9",
+      "revId": "26c3c273feb8c18087f407016b3df5644bfda7cd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f9ff861b_bef798bf",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -89,6 +107,24 @@
       "writtenOn": "2025-10-06T13:15:07Z",
       "side": 1,
       "message": "Why doesn\u0027t this use the GetIid() introduced in an older patchset?",
+      "revId": "26c3c273feb8c18087f407016b3df5644bfda7cd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a56c6a8_e8f1fbab",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-06T15:57:29Z",
+      "side": 1,
+      "message": "Not sure if you\u0027re talking about 82594 or the patch earlier in this patch series. If the former, I just didn\u0027t know about it, if the latter that function just retrieves the next iid.",
+      "parentUuid": "838a2bf5_56311993",
       "revId": "26c3c273feb8c18087f407016b3df5644bfda7cd",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
