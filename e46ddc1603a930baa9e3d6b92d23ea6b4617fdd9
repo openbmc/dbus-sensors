@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8ba5708_eaf9c881",
+        "filename": "src/adc/ADCSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2025-10-06T07:26:05Z",
+      "side": 1,
+      "message": "I updated line 256 to check `scaleFactor`.",
+      "parentUuid": "deb1a962_99af05ba",
+      "range": {
+        "startLine": 312,
+        "startChar": 54,
+        "endLine": 312,
+        "endChar": 65
+      },
+      "revId": "e46ddc1603a930baa9e3d6b92d23ea6b4617fdd9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "37f76cc2_ec3a1b3a",
@@ -61,6 +85,24 @@
       "writtenOn": "2025-10-02T18:07:31Z",
       "side": 1,
       "message": "This confuses me.  We now effectively do\n\nrange.minimum \u003d thisSensorParameters.minValue\ngetSensorRange();\nthisSensorParameters.minValue \u003d range.minimum;\n\nIt\u0027s not clear to me why we do that.\n\nProbably you just want to have getSensorRange return SensorRange directly?",
+      "revId": "e46ddc1603a930baa9e3d6b92d23ea6b4617fdd9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1067c877_b9777cc1",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1001198
+      },
+      "writtenOn": "2025-10-06T07:26:05Z",
+      "side": 1,
+      "message": "\u003e This confuses me.  We now effectively do\n\u003e \n\u003e range.minimum \u003d thisSensorParameters.minValue\n\nThis step sets the default value of sensor\u0027s range.\n\n\u003e getSensorRange();\n\nThe `getSensorRange` function updates the sensor\u0027s range if the base configuration includes `MaxValue/MinValue` properties, else the range will be the default values.\n\n\u003e thisSensorParameters.minValue \u003d range.minimum;\n\nUpdate the sensor parameters based on the calculated range.\n\n\u003e \n\u003e It\u0027s not clear to me why we do that.\n\u003e \n\u003e Probably you just want to have getSensorRange return SensorRange directly?\n\nIf the base configuration does not include `MaxVaue/MinValue`, we can not return SensorRange directly. I also update the name of `getSensorRange` to `updateSensorRange`.",
+      "parentUuid": "37f76cc2_ec3a1b3a",
       "revId": "e46ddc1603a930baa9e3d6b92d23ea6b4617fdd9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
