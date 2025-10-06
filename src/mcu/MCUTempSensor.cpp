@@ -41,6 +41,7 @@
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
+#include <exception>
 #include <functional>
 #include <memory>
 #include <string>
@@ -56,6 +57,7 @@ extern "C"
 constexpr const char* sensorType = "MCUTempSensor";
 static constexpr double mcuTempMaxReading = 0xFF;
 static constexpr double mcuTempMinReading = 0;
+static constexpr double defaultScaleValue = 0.001;
 
 boost::container::flat_map<std::string, std::unique_ptr<MCUTempSensor>> sensors;
 
@@ -65,12 +67,12 @@ MCUTempSensor::MCUTempSensor(
     const std::string& sensorConfiguration,
     sdbusplus::asio::object_server& objectServer,
     std::vector<thresholds::Threshold>&& thresholdData, uint8_t busId,
-    uint8_t mcuAddress, uint8_t tempReg) :
+    uint8_t mcuAddress, uint8_t tempReg, double scaleValue) :
     Sensor(escapeName(sensorName), std::move(thresholdData),
            sensorConfiguration, "MCUTempSensor", false, false,
            mcuTempMaxReading, mcuTempMinReading, conn),
     busId(busId), mcuAddress(mcuAddress), tempReg(tempReg),
-    objectServer(objectServer), waitTimer(io)
+    scaleValue(scaleValue), objectServer(objectServer), waitTimer(io)
 {
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/temperature/" + name,
@@ -182,6 +184,12 @@ void MCUTempSensor::read()
             double v = static_cast<double>(temp) / 1000;
             lg2::debug("Value update to '{VALUE}' raw reading '{RAW}'", "VALUE",
                        v, "RAW", temp);
+            double v = static_cast<double>(temp) * scaleValue;
+            if constexpr (debug)
+            {
+                lg2::error("Value update to '{VALUE}' raw reading '{RAW}'",
+                           "VALUE", v, "RAW", temp);
+            }
             updateValue(v);
         }
         else
@@ -234,6 +242,21 @@ void createSensors(
                     uint8_t busId = loadVariant<uint8_t>(cfg, "Bus");
                     uint8_t mcuAddress = loadVariant<uint8_t>(cfg, "Address");
                     uint8_t tempReg = loadVariant<uint8_t>(cfg, "Reg");
+                    double scale = std::nan("");
+                    try
+                    {
+                        scale = loadVariant<double>(cfg, "Scale");
+                    }
+                    catch (const std::exception& e)
+                    {
+                        if constexpr (debug)
+                        {
+                            std::cerr << "Failed to load Scale for " << name << ": "
+                                    << e.what() << ". Using default value of "
+                                    << defaultScaleValue << "\n";
+                        }
+                        scale = defaultScaleValue;
+                    }
 
                     std::string sensorClass =
                         loadVariant<std::string>(cfg, "Class");
@@ -249,8 +272,8 @@ void createSensors(
 
                     sensor = std::make_unique<MCUTempSensor>(
                         dbusConnection, io, name, path, objectServer,
-                        std::move(sensorThresholds), busId, mcuAddress,
-                        tempReg);
+                        std::move(sensorThresholds), busId, mcuAddress, tempReg,
+                        scale);
 
                     sensor->init();
                 }
