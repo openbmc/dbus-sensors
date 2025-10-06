@@ -52,6 +52,24 @@
       "parentUuid": "44eac6e0_d0503539",
       "revId": "6ba3656a47f3cebcf217a2b622e13f946f64ca06",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04da0944_f34a6c3b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-10-06T08:51:26Z",
+      "side": 1,
+      "message": "Looks reasonable to me 👍. Thanks for the detailed list.\n\nSplit it into \n\n`asio/`, `async_task/` and `utils/` since `utils/` \ncode already builds together,\nso i did not want to separate the `SensorPaths.cpp` from the others.\n\nThis way we keep this patch to a restructuring of files into folders and not introduce a restructuring of build targets at the same time.\n\n\u003e Would let others comment about their feedback.\n\nLeaving it as unresolved then for now.",
+      "parentUuid": "4fefc1a8_be4dfac4",
+      "revId": "6ba3656a47f3cebcf217a2b622e13f946f64ca06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
