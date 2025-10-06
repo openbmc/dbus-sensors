@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c495b571_1640c5a1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-10-06T08:25:21Z",
+      "side": 1,
+      "message": "Also has CI failure.",
+      "revId": "94eeb2a9d45dfbab022eb9587038c984cf0a8a2e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99329a93_cfa203e2",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-10-06T08:25:21Z",
+      "side": 1,
+      "message": "Can we update Alon8 config to include this? Wouldn\u0027t this just be the existing Name property in EM configs?",
+      "revId": "94eeb2a9d45dfbab022eb9587038c984cf0a8a2e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a05dd80a_83641c9d",
+        "filename": "src/nvidia-gpu/NvidiaPcieDevice.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-10-06T08:25:21Z",
+      "side": 1,
+      "message": "Why do we need this PCIeInterface class, and not have OOB mgmt properties as part of PCIeDevice?",
+      "revId": "94eeb2a9d45dfbab022eb9587038c984cf0a8a2e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ba91fc2_746d265f",
+        "filename": "src/nvidia-gpu/NvidiaPcieInterface.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-10-06T08:25:21Z",
+      "side": 1,
+      "message": "If this is the key interface we\u0027re adding, then same comment as before - why not have this code in PCIeDevice?",
+      "revId": "94eeb2a9d45dfbab022eb9587038c984cf0a8a2e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
