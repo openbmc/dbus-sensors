@@ -19,7 +19,8 @@ struct MCUTempSensor : public Sensor
                   const std::string& sensorConfiguration,
                   sdbusplus::asio::object_server& objectServer,
                   std::vector<thresholds::Threshold>&& thresholdData,
-                  uint8_t busId, uint8_t mcuAddress, uint8_t tempReg);
+                  uint8_t busId, uint8_t mcuAddress, uint8_t tempReg,
+                  double scaleValue);
     ~MCUTempSensor() override;
 
     void checkThresholds() override;
@@ -29,6 +30,7 @@ struct MCUTempSensor : public Sensor
     uint8_t busId;
     uint8_t mcuAddress;
     uint8_t tempReg;
+    double scaleValue;
 
   private:
     int getMCURegsInfoWord(uint8_t regs, int32_t* pu32data) const;
