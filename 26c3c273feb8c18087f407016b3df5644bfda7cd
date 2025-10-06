@@ -3,6 +3,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0c606946_654f98ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-10-06T12:49:47Z",
+      "side": 1,
+      "message": "Could you mention here what the issues were?",
+      "range": {
+        "startLine": 13,
+        "startChar": 22,
+        "endLine": 13,
+        "endChar": 33
+      },
+      "revId": "26c3c273feb8c18087f407016b3df5644bfda7cd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87f9c173_1ff746f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-10-06T12:49:47Z",
+      "side": 1,
+      "message": "Does https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/82594/7 make this any better?\n\nAlso need @haghera@nvidia.com and @akurdunkar@nvidia.com to review this.",
+      "revId": "26c3c273feb8c18087f407016b3df5644bfda7cd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f9ff861b_bef798bf",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
