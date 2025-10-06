@@ -86,6 +86,24 @@
       "parentUuid": "98117cc6_76068ad4",
       "revId": "4f1df3773972900a93aec44680cee5efd3262c21",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5e13039_6f210443",
+        "filename": "src/nvidia-gpu/NvidiaGpuVoltageSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-10-06T12:01:21Z",
+      "side": 1,
+      "message": "https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/82594 does it in the MCTP layer. I don\u0027t think we need both the patches. My vote is to do it in the MCTP layer.",
+      "parentUuid": "4c05e7d7_77589af6",
+      "revId": "4f1df3773972900a93aec44680cee5efd3262c21",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

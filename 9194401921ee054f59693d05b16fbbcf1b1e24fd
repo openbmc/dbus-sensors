@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc6b0139_0cdd2867",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-10-06T12:01:21Z",
+      "side": 1,
+      "message": "Can you add testing details?",
+      "revId": "9194401921ee054f59693d05b16fbbcf1b1e24fd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0c452bb_e40d335f",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-10-06T12:01:21Z",
+      "side": 1,
+      "message": "What would we do for retries of the same command?",
+      "revId": "9194401921ee054f59693d05b16fbbcf1b1e24fd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcde393e_212f0192",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-10-06T12:01:21Z",
+      "side": 1,
+      "message": "There\u0027s also a max number of instance IDs the spec allows (32 iirc).",
+      "revId": "9194401921ee054f59693d05b16fbbcf1b1e24fd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
