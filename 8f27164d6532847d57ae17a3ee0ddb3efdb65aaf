@@ -72,6 +72,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ce8dcab4_ccccc317",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-06T17:22:17Z",
+      "side": 1,
+      "message": "I agree with the premise, I dislike the name \"GenericFan\".  It should be something like \"BmcConnectedFan\" so the name is able to be disambiguated directly without documentation.\n\n\"GenericFan\" could mean anything.",
+      "parentUuid": "f0a8b315_93c84505",
+      "revId": "8f27164d6532847d57ae17a3ee0ddb3efdb65aaf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7766d8ea_d47dc5fb",
         "filename": "src/fan/FanMain.cpp",
         "patchSetId": 11
