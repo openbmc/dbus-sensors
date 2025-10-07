@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b079528_77b9ebf3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-10-07T12:51:10Z",
+      "side": 1,
+      "message": "This needs more details I think to state how static EID is injected in an EM config.\n\nDo we intend to merge the platform init code that injects static EID (or merged already? if not, please add link here)",
+      "revId": "a4267e3988303054dceb20bb1c087428eb248087",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "369c459f_a85420fa",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-10-07T12:51:10Z",
+      "side": 1,
+      "message": "This assumes only one EID per config? Alon8 has multiple, right?\n\nIs this for the bridge or endpoints behind the bridge?",
+      "revId": "a4267e3988303054dceb20bb1c087428eb248087",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
