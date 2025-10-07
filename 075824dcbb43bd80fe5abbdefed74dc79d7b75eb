@@ -41,6 +41,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9586d4c7_9409dcab",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-07T13:04:34Z",
+      "side": 1,
+      "message": "`name` is used to derive dbus Object path and we need to put the telemetry report interface at the same object path as Sensor.Value and hence it has to be `Power_0`.",
+      "parentUuid": "1e590a51_8ad4ddab",
+      "range": {
+        "startLine": 79,
+        "startChar": 31,
+        "endLine": 79,
+        "endChar": 39
+      },
+      "revId": "075824dcbb43bd80fe5abbdefed74dc79d7b75eb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb475aa8_c3d2823b",
@@ -54,6 +78,24 @@
       "writtenOn": "2025-10-06T07:21:36Z",
       "side": 1,
       "message": "Nit: does the nsame statisticsInterface still make sense? We aren\u0027t using that interface and are using Telemetry instead. Side Note: Let\u0027s abandon the Common.Statistics PDI patch.",
+      "revId": "075824dcbb43bd80fe5abbdefed74dc79d7b75eb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ffa54a6_47905a9d",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerPeakReading.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-07T13:04:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb475aa8_c3d2823b",
       "revId": "075824dcbb43bd80fe5abbdefed74dc79d7b75eb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
