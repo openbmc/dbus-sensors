@@ -70,6 +70,30 @@
       },
       "revId": "aee9d1c7f559db04b1ec829bd97a016e861c01b5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b8928ab_a8ef9162",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002692
+      },
+      "writtenOn": "2025-10-07T02:15:31Z",
+      "side": 1,
+      "message": "\u003e So this is adding a new MCU type?\n\nI don\u0027t think so. I thought that this service is designed for reading the general MCU device that exposed on i2c bus. Adding the `scaleValue` is just for increasing its flexibility.\n\nDo you mean that we should provide the default scale value for each MCU type?",
+      "parentUuid": "248b34c5_84ca424b",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 64
+      },
+      "revId": "aee9d1c7f559db04b1ec829bd97a016e861c01b5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
