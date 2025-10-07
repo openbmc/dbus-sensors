@@ -142,6 +142,30 @@
       },
       "revId": "f0ad3ac5cbfcf6f52b20e3ead1256b7067cf589a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6cb6449_649ed0c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-07T16:46:24Z",
+      "side": 1,
+      "message": "Because we have one \"device\" that hosts multiple CX8s.",
+      "parentUuid": "caf9e8d1_d1a5f626",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 46
+      },
+      "revId": "f0ad3ac5cbfcf6f52b20e3ead1256b7067cf589a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
