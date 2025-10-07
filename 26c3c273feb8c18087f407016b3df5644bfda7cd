@@ -186,6 +186,57 @@
       "parentUuid": "d5037d86_c2469800",
       "revId": "26c3c273feb8c18087f407016b3df5644bfda7cd",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "990ca193_88982dcf",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-07T15:30:34Z",
+      "side": 1,
+      "message": "Can we make error log include `eid`?",
+      "revId": "26c3c273feb8c18087f407016b3df5644bfda7cd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97ff8fee_994fce76",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-07T15:30:34Z",
+      "side": 1,
+      "message": "Are we running into object lifetime issue if we don\u0027t move out `reqCtx` first before calling callaback?",
+      "revId": "26c3c273feb8c18087f407016b3df5644bfda7cd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3d6e6f1_18d10e18",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-07T15:30:34Z",
+      "side": 1,
+      "message": "Does this mean that we now have a separate socket opened for each eid? would this have a performance impact? To avoid it can `Requester` class maintain state based on `eid` similar to `QueuingRequester` class? Or we can just combine the two class into one?",
+      "revId": "26c3c273feb8c18087f407016b3df5644bfda7cd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
