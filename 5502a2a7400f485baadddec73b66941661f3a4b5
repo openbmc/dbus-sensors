@@ -16,6 +16,24 @@
       "message": "Need upstream PDI updates for propreties and paths. Need to align with https://github.com/openbmc/docs/blob/master/designs/bmc-health-monitor.md in terms of D-Bus path and property naming.",
       "revId": "5502a2a7400f485baadddec73b66941661f3a4b5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65c62851_8c98020f",
+        "filename": "src/nvidia-gpu/NvidiaPciePortMetrics.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-07T13:17:10Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "bacfd446_9121d94f",
+      "revId": "5502a2a7400f485baadddec73b66941661f3a4b5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
