@@ -16,6 +16,24 @@
       "message": "LGTM.  Waiting on https://gerrit.openbmc.org/c/openbmc/phosphor-dbus-interfaces/+/81658 to merge",
       "revId": "7e7d34f1fc9ece20c49230772e00ec48c48cc23c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf57df11_b3cacbd4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-07T13:02:40Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "262d3963_c3cff87e",
+      "revId": "7e7d34f1fc9ece20c49230772e00ec48c48cc23c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
