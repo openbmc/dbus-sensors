@@ -214,6 +214,30 @@
       },
       "revId": "f0ad3ac5cbfcf6f52b20e3ead1256b7067cf589a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "657a125e_ad80a7d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-08T00:09:36Z",
+      "side": 1,
+      "message": "\"The `PCIeDevice` schema describes the properties of a PCIe device that is attached to a system. It also describes the location, such as a slot, socket, or bay, where a unit can be installed, by populating a resource instance with an absent state if a unit is not present.\"\n\nIf we\u0027re noting the \"slot\" it\u0027s plugged into, it would be nonsensical to have two devices in one slot?",
+      "parentUuid": "54f1c487_ec1563e0",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 46
+      },
+      "revId": "f0ad3ac5cbfcf6f52b20e3ead1256b7067cf589a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
