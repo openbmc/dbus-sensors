@@ -36,7 +36,8 @@ struct NvidiaGpuPowerPeakReading
     void update();
 
   private:
-    void processResponse(int sendRecvMsgResult);
+    void processResponse(const std::error_code& ec,
+                         std::span<const uint8_t> buffer);
 
     uint8_t eid{};
 
@@ -54,8 +55,6 @@ struct NvidiaGpuPowerPeakReading
     sdbusplus::asio::object_server& objectServer;
 
     std::array<uint8_t, sizeof(gpu::GetPowerDrawRequest)> request{};
-
-    std::array<uint8_t, sizeof(gpu::GetPowerDrawResponse)> response{};
 
     std::shared_ptr<sdbusplus::asio::dbus_interface> telemetryReportInterface;
 };

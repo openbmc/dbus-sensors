@@ -16,11 +16,6 @@
 #include <string>
 #include <unordered_map>
 
-using InventoryRequestBuffer =
-    std::array<uint8_t, sizeof(gpu::GetInventoryInformationRequest)>;
-using InventoryResponseBuffer =
-    std::array<uint8_t, sizeof(gpu::GetInventoryInformationResponse)>;
-
 class Inventory : public std::enable_shared_from_this<Inventory>
 {
   public:
@@ -41,7 +36,8 @@ class Inventory : public std::enable_shared_from_this<Inventory>
     };
     void sendInventoryPropertyRequest(gpu::InventoryPropertyId propertyId);
     void handleInventoryPropertyResponse(gpu::InventoryPropertyId propertyId,
-                                         int sendRecvMsgResult);
+                                         const std::error_code& ec,
+                                         std::span<const uint8_t> buffer);
     void processNextProperty();
     void processInventoryProperty(gpu::InventoryPropertyId propertyId);
     void registerProperty(
@@ -67,8 +63,8 @@ class Inventory : public std::enable_shared_from_this<Inventory>
     uint8_t eid;
     boost::asio::steady_timer retryTimer;
     std::unordered_map<gpu::InventoryPropertyId, PropertyInfo> properties;
-    std::shared_ptr<InventoryRequestBuffer> requestBuffer;
-    std::shared_ptr<InventoryResponseBuffer> responseBuffer;
+    std::array<uint8_t, sizeof(gpu::GetInventoryInformationRequest)>
+        requestBuffer{};
     static constexpr std::chrono::seconds retryDelay{5};
     static constexpr int maxRetryAttempts = 3;
 };

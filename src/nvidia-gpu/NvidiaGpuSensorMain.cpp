@@ -14,6 +14,7 @@
 #include <boost/asio/post.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <boost/container/flat_map.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/bus.hpp>
@@ -22,6 +23,8 @@
 
 #include <array>
 #include <chrono>
+#include <cstdlib>
+#include <exception>
 #include <functional>
 #include <memory>
 #include <string>
@@ -85,6 +88,16 @@ int main()
             interfaceRemoved(msg, gpuDevices, smaDevices);
         });
 
-    io.run();
+    try
+    {
+        io.run();
+    }
+    catch (const std::exception& e)
+    {
+        lg2::error("fatal error caught during processing: {MSG}", "MSG",
+                   e.what());
+        return EXIT_FAILURE;
+    }
+
     return 0;
 }
