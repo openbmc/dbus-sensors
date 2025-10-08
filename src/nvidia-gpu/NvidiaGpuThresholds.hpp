@@ -14,9 +14,9 @@
 
 using gpuThresholdId = uint8_t;
 
-constexpr gpuThresholdId gpuTLimitCriticalThresholdId{1};
-constexpr gpuThresholdId gpuTLimitWarnringThresholdId{2};
-constexpr gpuThresholdId gpuTLimitHardshutDownThresholdId{4};
+static constexpr gpuThresholdId gpuTLimitCriticalThresholdId{1};
+static constexpr gpuThresholdId gpuTLimitWarnringThresholdId{2};
+static constexpr gpuThresholdId gpuTLimitHardshutDownThresholdId{4};
 
 void readThermalParameters(
     uint8_t eid, const std::vector<gpuThresholdId>& ids,

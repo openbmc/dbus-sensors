@@ -17,7 +17,9 @@
 #include <array>
 #include <cstdint>
 #include <memory>
+#include <span>
 #include <string>
+#include <system_error>
 #include <vector>
 
 constexpr uint8_t gpuVoltageSensorId{0};
@@ -39,7 +41,8 @@ struct NvidiaGpuVoltageSensor : public Sensor
     void update();
 
   private:
-    void processResponse(int sendRecvMsgResult);
+    void processResponse(const std::error_code& ec,
+                         std::span<const uint8_t> buffer);
 
     uint8_t eid{};
 
@@ -52,6 +55,4 @@ struct NvidiaGpuVoltageSensor : public Sensor
     sdbusplus::asio::object_server& objectServer;
 
     std::array<uint8_t, sizeof(gpu::GetVoltageRequest)> request{};
-
-    std::array<uint8_t, sizeof(gpu::GetVoltageResponse)> response{};
 };

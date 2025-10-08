@@ -26,7 +26,9 @@
 #include <functional>
 #include <limits>
 #include <memory>
+#include <span>
 #include <string>
+#include <system_error>
 #include <utility>
 #include <vector>
 
@@ -80,13 +82,14 @@ void NvidiaGpuVoltageSensor::checkThresholds()
     thresholds::checkThresholds(this);
 }
 
-void NvidiaGpuVoltageSensor::processResponse(int sendRecvMsgResult)
+void NvidiaGpuVoltageSensor::processResponse(const std::error_code& ec,
+                                             std::span<const uint8_t> buffer)
 {
-    if (sendRecvMsgResult != 0)
+    if (ec)
     {
         lg2::error(
             "Error updating Voltage Sensor: sending message over MCTP failed, rc={RC}",
-            "RC", sendRecvMsgResult);
+            "RC", ec.message());
         return;
     }
 
@@ -95,7 +98,7 @@ void NvidiaGpuVoltageSensor::processResponse(int sendRecvMsgResult)
     uint32_t voltageValue = 0;
 
     auto rc =
-        gpu::decodeGetVoltageResponse(response, cc, reasonCode, voltageValue);
+        gpu::decodeGetVoltageResponse(buffer, cc, reasonCode, voltageValue);
 
     if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
     {
@@ -122,6 +125,8 @@ void NvidiaGpuVoltageSensor::update()
     }
 
     mctpRequester.sendRecvMsg(
-        eid, request, response,
-        [this](int sendRecvMsgResult) { processResponse(sendRecvMsgResult); });
+        eid, request,
+        [this](const std::error_code& ec, std::span<const uint8_t> buffer) {
+            processResponse(ec, buffer);
+        });
 }
