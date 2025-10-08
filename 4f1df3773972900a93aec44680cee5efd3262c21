@@ -104,6 +104,24 @@
       "parentUuid": "4c05e7d7_77589af6",
       "revId": "4f1df3773972900a93aec44680cee5efd3262c21",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bdbe041_8cfa72b5",
+        "filename": "src/nvidia-gpu/NvidiaGpuVoltageSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-08T00:11:27Z",
+      "side": 1,
+      "message": "https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/82594 is far more complicated than what this patch is proposing, and also hasn\u0027t been responded to in a month.\n\nI\u0027d advocate for a merge of the two.  The simple in-memory increasing uuid being done in the mctp layer.",
+      "parentUuid": "b5e13039_6f210443",
+      "revId": "4f1df3773972900a93aec44680cee5efd3262c21",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
