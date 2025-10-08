@@ -6,20 +6,18 @@
 
 #include "NvidiaGpuDevice.hpp"
 
-#include "Inventory.hpp"
-#include "NvidiaDeviceDiscovery.hpp"
-#include "NvidiaGpuSensor.hpp"
+#include "NvidiaGpuThresholds.hpp"
 #include "Thresholds.hpp"
 #include "Utils.hpp"
 
-#include <bits/basic_string.h>
-
+#include <Inventory.hpp>
 #include <MctpRequester.hpp>
+#include <NvidiaDeviceDiscovery.hpp>
 #include <NvidiaGpuEnergySensor.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
 #include <NvidiaGpuPowerPeakReading.hpp>
 #include <NvidiaGpuPowerSensor.hpp>
-#include <NvidiaGpuThresholds.hpp>
+#include <NvidiaGpuSensor.hpp>
 #include <NvidiaGpuVoltageSensor.hpp>
 #include <boost/asio/io_context.hpp>
 #include <phosphor-logging/lg2.hpp>
@@ -137,4 +135,4 @@ void GpuDevice::read()
         }
         read();
     });
-}
+};

@@ -20,7 +20,9 @@
 #include <cstdint>
 #include <functional>
 #include <memory>
+#include <span>
 #include <string>
+#include <system_error>
 
 using namespace std::literals;
 
@@ -50,13 +52,14 @@ NvidiaGpuPowerPeakReading::~NvidiaGpuPowerPeakReading()
     objectServer.remove_interface(telemetryReportInterface);
 }
 
-void NvidiaGpuPowerPeakReading::processResponse(int sendRecvMsgResult)
+void NvidiaGpuPowerPeakReading::processResponse(const std::error_code& ec,
+                                                std::span<const uint8_t> buffer)
 {
-    if (sendRecvMsgResult != 0)
+    if (ec)
     {
         lg2::error(
             "Error updating Peak Power Sensor for eid {EID} and sensor id {SID} : sending message over MCTP failed, rc={RC}",
-            "EID", eid, "SID", sensorId, "RC", sendRecvMsgResult);
+            "EID", eid, "SID", sensorId, "RC", ec.message());
         return;
     }
 
@@ -65,7 +68,7 @@ void NvidiaGpuPowerPeakReading::processResponse(int sendRecvMsgResult)
     uint32_t peakPower = 0;
 
     const int rc =
-        gpu::decodeGetPowerDrawResponse(response, cc, reasonCode, peakPower);
+        gpu::decodeGetPowerDrawResponse(buffer, cc, reasonCode, peakPower);
 
     if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
     {
@@ -97,6 +100,8 @@ void NvidiaGpuPowerPeakReading::update()
     }
 
     mctpRequester.sendRecvMsg(
-        eid, request, response,
-        [this](int sendRecvMsgResult) { processResponse(sendRecvMsgResult); });
+        eid, request,
+        [this](const std::error_code& ec, std::span<const uint8_t> buffer) {
+            processResponse(ec, buffer);
+        });
 }
