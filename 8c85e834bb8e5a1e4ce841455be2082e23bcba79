@@ -16,6 +16,24 @@
       "message": "Can you add Tested?",
       "revId": "8c85e834bb8e5a1e4ce841455be2082e23bcba79",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "589ececc_757dbb94",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-08T20:22:44Z",
+      "side": 1,
+      "message": "The current code doesn\u0027t seem to work on the platform I have (see Marcs series), so I\u0027m not sure how to test on this patch.  Once we get to the end of the series we can test, or if you want to cherry pick this to your platforms, maybe that works?",
+      "parentUuid": "b99dfed8_7b5c8c20",
+      "revId": "8c85e834bb8e5a1e4ce841455be2082e23bcba79",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
