@@ -30,6 +30,7 @@
 #include <span>
 #include <stdexcept>
 #include <string>
+#include <system_error>
 #include <utility>
 #include <variant>
 #include <vector>
@@ -44,14 +45,15 @@ void processQueryDeviceIdResponse(
         smaDevices,
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, const SensorConfigs& configs,
-    const std::string& path, uint8_t eid, int sendRecvMsgResult,
-    std::span<uint8_t> queryDeviceIdentificationResponse)
+    const std::string& path, uint8_t eid,
+    const std::error_code& sendRecvMsgResult,
+    std::span<const uint8_t> queryDeviceIdentificationResponse)
 {
-    if (sendRecvMsgResult != 0)
+    if (sendRecvMsgResult)
     {
         lg2::error(
             "Error processing MCTP endpoint with eid {EID} : sending message over MCTP failed, rc={RC}",
-            "EID", eid, "RC", sendRecvMsgResult);
+            "EID", eid, "RC", sendRecvMsgResult.message());
         return;
     }
 
@@ -121,9 +123,6 @@ void queryDeviceIdentification(
     auto queryDeviceIdentificationRequest = std::make_shared<
         std::array<uint8_t, sizeof(gpu::QueryDeviceIdentificationRequest)>>();
 
-    auto queryDeviceIdentificationResponse = std::make_shared<
-        std::array<uint8_t, sizeof(gpu::QueryDeviceIdentificationResponse)>>();
-
     auto rc = gpu::encodeQueryDeviceIdentificationRequest(
         0, *queryDeviceIdentificationRequest);
     if (rc != 0)
@@ -136,14 +135,12 @@ void queryDeviceIdentification(
 
     mctpRequester.sendRecvMsg(
         eid, *queryDeviceIdentificationRequest,
-        *queryDeviceIdentificationResponse,
         [&io, &objectServer, &gpuDevices, &smaDevices, conn, &mctpRequester,
-         configs, path, eid, queryDeviceIdentificationRequest,
-         queryDeviceIdentificationResponse](int sendRecvMsgResult) {
-            processQueryDeviceIdResponse(
-                io, objectServer, gpuDevices, smaDevices, conn, mctpRequester,
-                configs, path, eid, sendRecvMsgResult,
-                *queryDeviceIdentificationResponse);
+         configs, path, eid, queryDeviceIdentificationRequest](
+            const std::error_code& ec, std::span<const uint8_t> response) {
+            processQueryDeviceIdResponse(io, objectServer, gpuDevices,
+                                         smaDevices, conn, mctpRequester,
+                                         configs, path, eid, ec, response);
         });
 }
 
