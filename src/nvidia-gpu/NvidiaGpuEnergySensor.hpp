@@ -39,7 +39,8 @@ struct NvidiaGpuEnergySensor : public Sensor
     void update();
 
   private:
-    void processResponse(int sendRecvMsgResult);
+    void processResponse(const std::error_code& ec,
+                         std::span<const uint8_t> buffer);
 
     uint8_t eid{};
 
@@ -52,7 +53,4 @@ struct NvidiaGpuEnergySensor : public Sensor
     sdbusplus::asio::object_server& objectServer;
 
     std::array<uint8_t, sizeof(gpu::GetCurrentEnergyCounterRequest)> request{};
-
-    std::array<uint8_t, sizeof(gpu::GetCurrentEnergyCounterResponse)>
-        response{};
 };

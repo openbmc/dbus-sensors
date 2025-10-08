@@ -16,7 +16,9 @@
 #include <cstdint>
 #include <memory>
 #include <optional>
+#include <span>
 #include <string>
+#include <system_error>
 #include <unordered_map>
 #include <variant>
 #include <vector>
@@ -40,7 +42,6 @@ Inventory::Inventory(
     deviceType(deviceTypeIn), eid(eid), retryTimer(io)
 {
     requestBuffer = std::make_shared<InventoryRequestBuffer>();
-    responseBuffer = std::make_shared<InventoryResponseBuffer>();
 
     std::string path = inventoryPrefix + name;
 
@@ -148,15 +149,17 @@ void Inventory::sendInventoryPropertyRequest(
         "Sending inventory request for property ID {PROP_ID} to EID {EID} for {NAME}",
         "PROP_ID", static_cast<uint8_t>(propertyId), "EID", eid, "NAME", name);
 
-    mctpRequester.sendRecvMsg(eid, *requestBuffer, *responseBuffer,
-                              [this, propertyId](int sendRecvMsgResult) {
-                                  this->handleInventoryPropertyResponse(
-                                      propertyId, sendRecvMsgResult);
-                              });
+    mctpRequester.sendRecvMsg(
+        eid, *requestBuffer,
+        [this, propertyId](const std::error_code& result,
+                           std::span<const uint8_t> buffer) {
+            this->handleInventoryPropertyResponse(propertyId, result, buffer);
+        });
 }
 
 void Inventory::handleInventoryPropertyResponse(
-    gpu::InventoryPropertyId propertyId, int sendRecvMsgResult)
+    gpu::InventoryPropertyId propertyId, const std::error_code& result,
+    std::span<const uint8_t> buffer)
 {
     auto it = properties.find(propertyId);
     if (it == properties.end())
@@ -168,18 +171,18 @@ void Inventory::handleInventoryPropertyResponse(
     }
 
     bool success = false;
-    if (sendRecvMsgResult == 0)
+    if (!result)
     {
         ocp::accelerator_management::CompletionCode cc{};
         uint16_t reasonCode = 0;
         gpu::InventoryValue info;
         int rc = gpu::decodeGetInventoryInformationResponse(
-            *responseBuffer, cc, reasonCode, propertyId, info);
+            buffer, cc, reasonCode, propertyId, info);
 
         lg2::info(
             "Response for property ID {PROP_ID} from {NAME}, sendRecvMsgResult: {RESULT}, decode_rc: {RC}, completion_code: {CC}, reason_code: {REASON}",
             "PROP_ID", static_cast<uint8_t>(propertyId), "NAME", name, "RESULT",
-            sendRecvMsgResult, "RC", rc, "CC", static_cast<uint8_t>(cc),
+            result.message(), "RC", rc, "CC", static_cast<uint8_t>(cc),
             "REASON", reasonCode);
 
         if (rc == 0 &&
