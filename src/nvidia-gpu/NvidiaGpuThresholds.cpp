@@ -18,17 +18,18 @@
 #include <functional>
 #include <memory>
 #include <span>
+#include <system_error>
 #include <vector>
 
 void processReadThermalParameterResponse(
     const std::function<void(uint8_t, int32_t)>& callback,
-    const std::span<const uint8_t> respMsg, int sendRecvMsgResult)
+    const std::error_code& ec, std::span<const uint8_t> respMsg)
 {
-    if (sendRecvMsgResult != 0)
+    if (ec)
     {
         lg2::error(
             "Error reading thermal parameter: sending message over MCTP failed, rc={RC}",
-            "RC", sendRecvMsgResult);
+            "RC", ec.message());
         callback(EPROTO, 0);
         return;
     }
@@ -59,9 +60,6 @@ void readThermalParameter(uint8_t eid, uint8_t id,
     auto reqMsg = std::make_shared<
         std::array<uint8_t, sizeof(gpu::ReadThermalParametersRequest)>>();
 
-    auto respMsg = std::make_shared<
-        std::array<uint8_t, sizeof(gpu::ReadThermalParametersResponse)>>();
-
     auto rc = gpu::encodeReadThermalParametersRequest(0, id, *reqMsg);
     if (rc != 0)
     {
@@ -73,10 +71,10 @@ void readThermalParameter(uint8_t eid, uint8_t id,
     }
 
     mctpRequester.sendRecvMsg(
-        eid, *reqMsg, *respMsg,
-        [reqMsg, respMsg, callback](int sendRecvMsgResult) {
-            processReadThermalParameterResponse(callback, *respMsg,
-                                                sendRecvMsgResult);
+        eid, *reqMsg,
+        [reqMsg,
+         callback](const std::error_code& ec, std::span<const uint8_t> buff) {
+            processReadThermalParameterResponse(callback, ec, buff);
         });
 }
 

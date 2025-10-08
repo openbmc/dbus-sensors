@@ -25,7 +25,9 @@
 #include <cstdint>
 #include <functional>
 #include <memory>
+#include <span>
 #include <string>
+#include <system_error>
 #include <utility>
 #include <vector>
 
@@ -79,13 +81,14 @@ void NvidiaGpuTempSensor::checkThresholds()
     thresholds::checkThresholds(this);
 }
 
-void NvidiaGpuTempSensor::processResponse(int sendRecvMsgResult)
+void NvidiaGpuTempSensor::processResponse(const std::error_code& ec,
+                                          std::span<const uint8_t> buffer)
 {
-    if (sendRecvMsgResult != 0)
+    if (ec)
     {
         lg2::error(
             "Error updating Temperature Sensor for eid {EID} and sensor id {SID} : sending message over MCTP failed, rc={RC}",
-            "EID", eid, "SID", sensorId, "RC", sendRecvMsgResult);
+            "EID", eid, "SID", sensorId, "RC", ec.message());
         return;
     }
 
@@ -93,8 +96,8 @@ void NvidiaGpuTempSensor::processResponse(int sendRecvMsgResult)
     uint16_t reasonCode = 0;
     double tempValue = 0;
 
-    auto rc = gpu::decodeGetTemperatureReadingResponse(
-        getTemperatureReadingResponse, cc, reasonCode, tempValue);
+    auto rc = gpu::decodeGetTemperatureReadingResponse(buffer, cc, reasonCode,
+                                                       tempValue);
 
     if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
     {
@@ -122,6 +125,8 @@ void NvidiaGpuTempSensor::update()
     }
 
     mctpRequester.sendRecvMsg(
-        eid, getTemperatureReadingRequest, getTemperatureReadingResponse,
-        [this](int sendRecvMsgResult) { processResponse(sendRecvMsgResult); });
+        eid, getTemperatureReadingRequest,
+        [this](const std::error_code& ec, std::span<const uint8_t> buffer) {
+            processResponse(ec, buffer);
+        });
 }

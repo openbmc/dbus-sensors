@@ -26,7 +26,9 @@
 #include <functional>
 #include <limits>
 #include <memory>
+#include <span>
 #include <string>
+#include <system_error>
 #include <utility>
 #include <vector>
 
@@ -82,13 +84,14 @@ void NvidiaGpuPowerSensor::checkThresholds()
     thresholds::checkThresholds(this);
 }
 
-void NvidiaGpuPowerSensor::processResponse(int sendRecvMsgResult)
+void NvidiaGpuPowerSensor::processResponse(const std::error_code& ec,
+                                           std::span<const uint8_t> buffer)
 {
-    if (sendRecvMsgResult != 0)
+    if (ec)
     {
         lg2::error(
             "Error updating Power Sensor for eid {EID} and sensor id {SID} : sending message over MCTP failed, rc={RC}",
-            "EID", eid, "SID", sensorId, "RC", sendRecvMsgResult);
+            "EID", eid, "SID", sensorId, "RC", ec.message());
         return;
     }
 
@@ -97,7 +100,7 @@ void NvidiaGpuPowerSensor::processResponse(int sendRecvMsgResult)
     uint32_t power = 0;
 
     const int rc =
-        gpu::decodeGetCurrentPowerDrawResponse(response, cc, reasonCode, power);
+        gpu::decodeGetCurrentPowerDrawResponse(buffer, cc, reasonCode, power);
 
     if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
     {
@@ -126,6 +129,8 @@ void NvidiaGpuPowerSensor::update()
     }
 
     mctpRequester.sendRecvMsg(
-        eid, request, response,
-        [this](int sendRecvMsgResult) { processResponse(sendRecvMsgResult); });
+        eid, request,
+        [this](const std::error_code& ec, std::span<const uint8_t> buffer) {
+            processResponse(ec, buffer);
+        });
 }
