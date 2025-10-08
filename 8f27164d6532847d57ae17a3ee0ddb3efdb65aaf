@@ -88,6 +88,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c89578ed_9302f369",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-10-08T15:54:50Z",
+      "side": 1,
+      "message": "I like that \u0027BmcConnectedFan\u0027 would tell you exactly what it is. \n\nIt\u0027s such a small change to add support, so I went ahead and just added it as an option while alphabetizing the FanTypes::BmcBuiltIn items.",
+      "parentUuid": "ce8dcab4_ccccc317",
+      "revId": "8f27164d6532847d57ae17a3ee0ddb3efdb65aaf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7766d8ea_d47dc5fb",
