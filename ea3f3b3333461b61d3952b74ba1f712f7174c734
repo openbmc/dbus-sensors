@@ -91,6 +91,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7adc1406_1d4cb43c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-08T00:05:50Z",
+      "side": 1,
+      "message": "Lets try to keep the common code common, and ideally not have the \"asio\" and \"coroutines\" versions of every generic object.  Ideally we\u0027d have a pattern that lets us do common code, and just have simple methods with wrappers/ifdefs/templates/whatever around the IO portions.",
+      "parentUuid": "ff17ed7f_c0134ca4",
+      "revId": "ea3f3b3333461b61d3952b74ba1f712f7174c734",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9100c765_ed7a6dae",
         "filename": "OWNERS",
         "patchSetId": 1
@@ -150,6 +168,30 @@
       "side": 1,
       "message": "I agree we can move the files into folders with some defined topics. That will also help to create some buckets in terms of general code readability/maintainability. Based on above comment from Ed, I just noticed that there is already an open discussion between Alexander and Ed here https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/83895/comments/67bc863d_62f5a62b. So, will reply there and will also try to help with some of that effort.\n\nFor this PR, \n- I will add the OWNERS file into src/leakdetector and src/cable-monitor to make it consistent as asked by Ed here https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/82895/comment/b6881039_06230f3b/.\n- I will drop the partial_regex for individual files at the moment and will add the OWNERS for named folders for common code when that gets merged.\n \n\nPS: Having said this i am open to help with maintaining common code, no specific reservation to these set of files.",
       "parentUuid": "618a7d7e_484c6de2",
+      "range": {
+        "startLine": 44,
+        "startChar": 22,
+        "endLine": 44,
+        "endChar": 87
+      },
+      "revId": "ea3f3b3333461b61d3952b74ba1f712f7174c734",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f4401e0_13c9956f",
+        "filename": "OWNERS",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-08T00:05:50Z",
+      "side": 1,
+      "message": "\u003e So, will reply there and will also try to help with some of that effort.\n\nI appreciate it.\n\n\u003e Having said this i am open to help with maintaining common code, no specific reservation to these set of files.\n\nI REALLY appreciate this.",
+      "parentUuid": "29df0bc3_d2cd209f",
       "range": {
         "startLine": 44,
         "startChar": 22,
