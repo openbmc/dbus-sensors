@@ -190,6 +190,30 @@
       },
       "revId": "f0ad3ac5cbfcf6f52b20e3ead1256b7067cf589a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54f1c487_ec1563e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-08T00:08:31Z",
+      "side": 1,
+      "message": "\u003e each CX8 is a PCIeDevice\n\nIn terms of Redfish interfaces, I expect that each CX8 would be in the same API?  If not, lets document where that is that one physical device could be representing two devices.",
+      "parentUuid": "4484814e_5240f661",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 46
+      },
+      "revId": "f0ad3ac5cbfcf6f52b20e3ead1256b7067cf589a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
