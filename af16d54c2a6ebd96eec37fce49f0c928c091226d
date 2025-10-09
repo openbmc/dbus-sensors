@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8237c1de_9e0ce791",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-09T18:07:09Z",
+      "side": 1,
+      "message": "call receive here.",
+      "revId": "af16d54c2a6ebd96eec37fce49f0c928c091226d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38c4f88b_4ff8231c",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-09T18:07:09Z",
+      "side": 1,
+      "message": "use this thing: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/84095/14/src/MctpAsioEndpoint.hpp",
+      "revId": "af16d54c2a6ebd96eec37fce49f0c928c091226d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48ad4678_b275fca9",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-09T18:07:09Z",
+      "side": 1,
+      "message": "check the request bit in the packet and then rebind receive.",
+      "revId": "af16d54c2a6ebd96eec37fce49f0c928c091226d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ceed1a7d_35362bf1",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-09T18:07:09Z",
+      "side": 1,
+      "message": "spell out the type.",
+      "revId": "af16d54c2a6ebd96eec37fce49f0c928c091226d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a675a7e2_761768ab",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-09T18:07:09Z",
+      "side": 1,
+      "message": "just bail out and rebind, rely on the timer.",
+      "revId": "af16d54c2a6ebd96eec37fce49f0c928c091226d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83c0df81_7fc47af2",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-09T18:07:09Z",
+      "side": 1,
+      "message": "rename this",
+      "revId": "af16d54c2a6ebd96eec37fce49f0c928c091226d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
