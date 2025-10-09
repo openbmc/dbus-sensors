@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3fc8872_d7923fb7",
+        "filename": "src/nvidia-gpu/NvidiaPciePort.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000020
+      },
+      "writtenOn": "2025-10-09T21:15:47Z",
+      "side": 1,
+      "message": "Can you get these documented in PDI ?",
+      "revId": "156ddaa9e07c60ca3c4cfdf440e91dbea1a1e11b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
