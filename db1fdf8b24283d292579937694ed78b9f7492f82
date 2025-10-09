@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "654c6ab9_f410970c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-09T19:30:46Z",
+      "side": 1,
+      "message": "doh, will do.",
+      "parentUuid": "28174c29_8cd6aa57",
+      "revId": "db1fdf8b24283d292579937694ed78b9f7492f82",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "eecff38d_1cd0e756",
         "filename": "src/nvidia-gpu/Inventory.cpp",
         "patchSetId": 2
