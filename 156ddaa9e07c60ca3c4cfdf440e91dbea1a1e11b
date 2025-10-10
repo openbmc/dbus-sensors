@@ -16,6 +16,24 @@
       "message": "Can you get these documented in PDI ?",
       "revId": "156ddaa9e07c60ca3c4cfdf440e91dbea1a1e11b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad932e50_2a63c02c",
+        "filename": "src/nvidia-gpu/NvidiaPciePort.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-10T22:40:36Z",
+      "side": 1,
+      "message": "contained_by and containing is already documented, isn\u0027t it?",
+      "parentUuid": "c3fc8872_d7923fb7",
+      "revId": "156ddaa9e07c60ca3c4cfdf440e91dbea1a1e11b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
