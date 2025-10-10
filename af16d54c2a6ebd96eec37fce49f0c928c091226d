@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ef90c69_3559efc5",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-10T21:04:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8237c1de_9e0ce791",
+      "revId": "af16d54c2a6ebd96eec37fce49f0c928c091226d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "38c4f88b_4ff8231c",
@@ -52,6 +70,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf4c738d_de7cfce1",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-10T21:04:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48ad4678_b275fca9",
+      "revId": "af16d54c2a6ebd96eec37fce49f0c928c091226d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ceed1a7d_35362bf1",
@@ -65,6 +101,24 @@
       "writtenOn": "2025-10-09T18:07:09Z",
       "side": 1,
       "message": "spell out the type.",
+      "revId": "af16d54c2a6ebd96eec37fce49f0c928c091226d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f66ab295_76a0db83",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-10T21:04:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ceed1a7d_35362bf1",
       "revId": "af16d54c2a6ebd96eec37fce49f0c928c091226d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -86,6 +140,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d18e551_7737d39f",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-10T21:04:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a675a7e2_761768ab",
+      "revId": "af16d54c2a6ebd96eec37fce49f0c928c091226d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "83c0df81_7fc47af2",
@@ -99,6 +171,24 @@
       "writtenOn": "2025-10-09T18:07:09Z",
       "side": 1,
       "message": "rename this",
+      "revId": "af16d54c2a6ebd96eec37fce49f0c928c091226d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d397c355_b15d75da",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-10T21:04:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83c0df81_7fc47af2",
       "revId": "af16d54c2a6ebd96eec37fce49f0c928c091226d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
