@@ -425,6 +425,30 @@
       },
       "revId": "d9a9f626cca6ff65dca7d43d5e807bd702c58b76",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c68fdbca_4c5d1d4a",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-13T22:41:41Z",
+      "side": 1,
+      "message": "kk.",
+      "parentUuid": "48dbeb6e_ab96ef7f",
+      "range": {
+        "startLine": 122,
+        "startChar": 44,
+        "endLine": 122,
+        "endChar": 67
+      },
+      "revId": "d9a9f626cca6ff65dca7d43d5e807bd702c58b76",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
