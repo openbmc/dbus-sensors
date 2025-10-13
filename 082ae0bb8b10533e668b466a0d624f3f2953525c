@@ -16,6 +16,24 @@
       "message": "The map used in `SensorReactor` is of `shared_ptr` so we may need to look more closely here.\n\nI am not sure why the map is of a different type here compared to other sensor reactors.",
       "revId": "082ae0bb8b10533e668b466a0d624f3f2953525c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02533268_fd58ed05",
+        "filename": "src/mcu/MCUTempSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-10-13T15:44:13Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "9b5370d4_0b1a43f0",
+      "revId": "082ae0bb8b10533e668b466a0d624f3f2953525c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

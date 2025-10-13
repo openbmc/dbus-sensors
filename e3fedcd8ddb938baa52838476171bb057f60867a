@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4ed6be2_796c114a",
+        "filename": "src/Reactor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-10-13T15:44:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cfc8481d_f11b34ed",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 48
+      },
+      "revId": "e3fedcd8ddb938baa52838476171bb057f60867a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1261b313_578ee7c2",
@@ -37,6 +61,24 @@
       "writtenOn": "2025-09-24T15:35:33Z",
       "side": 1,
       "message": "This controls if the manufacturing match thingy is called before `io.run()` function.\n\nSetting up this mode is very common among dbus-sensors reactors.",
+      "revId": "e3fedcd8ddb938baa52838476171bb057f60867a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48eac4e8_7f3d3733",
+        "filename": "src/Reactor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-10-13T15:44:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1261b313_578ee7c2",
       "revId": "e3fedcd8ddb938baa52838476171bb057f60867a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -58,6 +100,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "235b1e90_4080baa9",
+        "filename": "src/Reactor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-10-13T15:44:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7385035_3b243460",
+      "revId": "e3fedcd8ddb938baa52838476171bb057f60867a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "11a27dc2_5219f584",
@@ -71,6 +131,24 @@
       "writtenOn": "2025-09-24T15:35:33Z",
       "side": 1,
       "message": "Also looking for input for a good comment for this one.\nMaintainers will know its purpose.",
+      "revId": "e3fedcd8ddb938baa52838476171bb057f60867a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ec31cab_c895236c",
+        "filename": "src/Reactor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-10-13T15:44:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11a27dc2_5219f584",
       "revId": "e3fedcd8ddb938baa52838476171bb057f60867a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -92,6 +170,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7e0680f_e9d4a8a7",
+        "filename": "src/Reactor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-10-13T15:44:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3100abf6_32f6ee81",
+      "revId": "e3fedcd8ddb938baa52838476171bb057f60867a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "62792e47_afdaa816",
@@ -105,6 +201,24 @@
       "writtenOn": "2025-09-24T15:35:33Z",
       "side": 1,
       "message": "Left a few comments which should hopefully make the review easier",
+      "revId": "e3fedcd8ddb938baa52838476171bb057f60867a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfd2d23c_b084051c",
+        "filename": "src/adc/ADCSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-10-13T15:44:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62792e47_afdaa816",
       "revId": "e3fedcd8ddb938baa52838476171bb057f60867a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -126,6 +240,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "09f9e923_874bcc9b",
+        "filename": "src/adc/ADCSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-10-13T15:44:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42c84e3f_04b96fa3",
+      "revId": "e3fedcd8ddb938baa52838476171bb057f60867a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "964b712d_0a11d16b",
@@ -139,6 +271,24 @@
       "writtenOn": "2025-09-24T15:35:33Z",
       "side": 1,
       "message": "The `eventHandler` is used in lots of reactors here, so `Reactor` class already provides this variable for us, no need for each reactor to declare this again.",
+      "revId": "e3fedcd8ddb938baa52838476171bb057f60867a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddb6b827_ef264f41",
+        "filename": "src/adc/ADCSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-10-13T15:44:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "964b712d_0a11d16b",
       "revId": "e3fedcd8ddb938baa52838476171bb057f60867a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -160,6 +310,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4495ed21_7b74674e",
+        "filename": "src/adc/ADCSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-10-13T15:44:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1d5f996_d12f3a63",
+      "revId": "e3fedcd8ddb938baa52838476171bb057f60867a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a130ff50_1183187f",
@@ -173,6 +341,24 @@
       "writtenOn": "2025-09-24T15:35:33Z",
       "side": 1,
       "message": "`matches` var is a storage for DBus matches, same as before, but with `Reactor` class it is already there and no need to re-define in each reactor.\n\nLater on it would be good to have separate vars for the matches based on their purpose instead of a big vector for all of them.",
+      "revId": "e3fedcd8ddb938baa52838476171bb057f60867a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f05c01e_734470d4",
+        "filename": "src/adc/ADCSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-10-13T15:44:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a130ff50_1183187f",
       "revId": "e3fedcd8ddb938baa52838476171bb057f60867a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -194,6 +380,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "00c3b424_af977370",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-10-13T15:44:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7f2b31c_200d1e85",
+      "revId": "e3fedcd8ddb938baa52838476171bb057f60867a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1c10af1a_6fd20b9b",
@@ -207,6 +411,24 @@
       "writtenOn": "2025-09-24T15:35:33Z",
       "side": 1,
       "message": "Here the path for objectManager is different thus we pass it in to avoid the default",
+      "revId": "e3fedcd8ddb938baa52838476171bb057f60867a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0152b1e9_9afaeab4",
+        "filename": "src/intrusion/IntrusionSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-10-13T15:44:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c10af1a_6fd20b9b",
       "revId": "e3fedcd8ddb938baa52838476171bb057f60867a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -228,6 +450,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3cfccb1c_aeabfd7a",
+        "filename": "src/mctp/MCTPReactorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-10-13T15:44:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5573990e_e519abe2",
+      "revId": "e3fedcd8ddb938baa52838476171bb057f60867a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "53515350_e71e590e",
@@ -241,6 +481,24 @@
       "writtenOn": "2025-09-24T15:35:33Z",
       "side": 1,
       "message": "with `Reactor` the bus name is requested manually via this call.",
+      "revId": "e3fedcd8ddb938baa52838476171bb057f60867a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "adb5eae9_b44e9852",
+        "filename": "src/mctp/MCTPReactorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-10-13T15:44:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53515350_e71e590e",
       "revId": "e3fedcd8ddb938baa52838476171bb057f60867a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -262,6 +520,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ca56137_7b74b8ae",
+        "filename": "src/mcu/MCUTempSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-10-13T15:44:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eeb7df9a_ac8a5e02",
+      "revId": "e3fedcd8ddb938baa52838476171bb057f60867a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14a37c97_79455ad0",
@@ -275,6 +551,24 @@
       "writtenOn": "2025-09-24T15:35:33Z",
       "side": 1,
       "message": "One may think this new nvidia code surely must be so much different than the other reactors, right?\n\nBut it can re-use `io`, `systemBus`, `objectServer`, `eventHandler` and `matches`.\n\nSo the re-use is 5 variables which it does not need to define by itself anymore.\n\nIf there is a sentiment that it is not acceptable to use a class of which several members then are not used, we can think about splitting `ReactorBase` out of `Reactor` to provide the bare essentials.\n\n\nBut IMO we may have more fun trying to make the reactors more uniform rather than unique.",
+      "revId": "e3fedcd8ddb938baa52838476171bb057f60867a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd8f38f9_f8505f90",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-10-13T15:44:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14a37c97_79455ad0",
       "revId": "e3fedcd8ddb938baa52838476171bb057f60867a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
