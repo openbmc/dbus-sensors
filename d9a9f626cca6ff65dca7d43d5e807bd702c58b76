@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "301e37c8_08e72218",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-13T16:41:56Z",
+      "side": 1,
+      "message": "requestBuffer need not be a shared_pointer at all. I think in my last patch I got rid of that.",
+      "parentUuid": "9b38849f_4a7f90a6",
+      "range": {
+        "startLine": 153,
+        "startChar": 14,
+        "endLine": 153,
+        "endChar": 27
+      },
+      "revId": "d9a9f626cca6ff65dca7d43d5e807bd702c58b76",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "45c0c720_ae56ee44",
         "filename": "src/nvidia-gpu/Inventory.cpp",
         "patchSetId": 6
@@ -37,6 +61,30 @@
       "writtenOn": "2025-10-13T16:15:16Z",
       "side": 1,
       "message": "Should be if(result), right?",
+      "range": {
+        "startLine": 174,
+        "startChar": 9,
+        "endLine": 174,
+        "endChar": 15
+      },
+      "revId": "d9a9f626cca6ff65dca7d43d5e807bd702c58b76",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "770c84ee_ca319920",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-13T16:41:56Z",
+      "side": 1,
+      "message": "std::error_code is implicitly convertible to bool the same way that an int in posix error codes is. result should probably be renamed to error_code to avoid this confusion.",
+      "parentUuid": "45c0c720_ae56ee44",
       "range": {
         "startLine": 174,
         "startChar": 9,
@@ -72,6 +120,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "88af9aeb_f8a17fa9",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-13T16:41:56Z",
+      "side": 1,
+      "message": "yeah, ideally this could be something value based, like an optional view of the object but that gets complicated with dangers around dangling references and esoteric stuff like lifetime extensions of lvalue references. I\u0027ll change this to just be a pointer.",
+      "parentUuid": "937bf136_ef70f3f1",
+      "range": {
+        "startLine": 38,
+        "startChar": 7,
+        "endLine": 38,
+        "endChar": 71
+      },
+      "revId": "d9a9f626cca6ff65dca7d43d5e807bd702c58b76",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5175bf0b_69ab758d",
         "filename": "src/nvidia-gpu/MctpRequester.cpp",
         "patchSetId": 6
@@ -83,6 +155,30 @@
       "writtenOn": "2025-10-13T16:15:16Z",
       "side": 1,
       "message": "This isn\u0027t a \"bind\".  maybe call it \"startReceive\"?",
+      "range": {
+        "startLine": 75,
+        "startChar": 21,
+        "endLine": 75,
+        "endChar": 24
+      },
+      "revId": "d9a9f626cca6ff65dca7d43d5e807bd702c58b76",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "586adf88_7c8b6cf6",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-13T16:41:56Z",
+      "side": 1,
+      "message": "ack, I missed this from my original comments.",
+      "parentUuid": "5175bf0b_69ab758d",
       "range": {
         "startLine": 75,
         "startChar": 21,
@@ -118,6 +214,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b5cf4072_eb7b3402",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-13T16:41:56Z",
+      "side": 1,
+      "message": "ack.",
+      "parentUuid": "7f32dd48_4cd513a9",
+      "range": {
+        "startLine": 88,
+        "startChar": 35,
+        "endLine": 88,
+        "endChar": 57
+      },
+      "revId": "d9a9f626cca6ff65dca7d43d5e807bd702c58b76",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9be92544_eb57136e",
         "filename": "src/nvidia-gpu/MctpRequester.cpp",
         "patchSetId": 6
@@ -129,6 +249,30 @@
       "writtenOn": "2025-10-13T16:15:16Z",
       "side": 1,
       "message": "This looks wrong.  span is a pointer and a length. This looks like it\u0027s being loaded with a pointer and a pointer + a length.",
+      "range": {
+        "startLine": 122,
+        "startChar": 44,
+        "endLine": 122,
+        "endChar": 67
+      },
+      "revId": "d9a9f626cca6ff65dca7d43d5e807bd702c58b76",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d688d45_e3a0e72a",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-13T16:41:56Z",
+      "side": 1,
+      "message": "its being loaded with two iterators here, not pointers, which there is a constructor for.",
+      "parentUuid": "9be92544_eb57136e",
       "range": {
         "startLine": 122,
         "startChar": 44,
