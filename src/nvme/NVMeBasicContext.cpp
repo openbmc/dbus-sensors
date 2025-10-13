@@ -99,6 +99,11 @@ static void execBasicQuery(int bus, uint8_t addr, uint8_t cmd,
             return;
         }
 
+        if (::ioctl(fileHandle.handle(), I2C_PEC, 1) < 0)
+        {
+            lg2::debug("PEC not support");
+        }
+
         resp.resize(UINT8_MAX + 1);
 
         /* Issue the NVMe MI basic command */
