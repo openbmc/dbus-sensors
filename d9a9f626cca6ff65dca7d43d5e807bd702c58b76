@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3d728d82_d410fd3f",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-13T19:01:22Z",
+      "side": 1,
+      "message": "\u003e I think in my last patch I got rid of that.\n\nNo, so long as the result is correct, I don\u0027t care.  Also this was a bug before, so I\u0027m not worried about it in this review context.",
+      "parentUuid": "9cffc10b_3cb5296f",
+      "range": {
+        "startLine": 153,
+        "startChar": 14,
+        "endLine": 153,
+        "endChar": 27
+      },
+      "revId": "d9a9f626cca6ff65dca7d43d5e807bd702c58b76",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "45c0c720_ae56ee44",
         "filename": "src/nvidia-gpu/Inventory.cpp",
         "patchSetId": 6
@@ -143,6 +167,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2e567af_03881cf6",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-13T19:01:22Z",
+      "side": 1,
+      "message": "brain fart.  Fine as is.",
+      "parentUuid": "13e75dad_86ba7185",
+      "range": {
+        "startLine": 174,
+        "startChar": 9,
+        "endLine": 174,
+        "endChar": 15
+      },
+      "revId": "d9a9f626cca6ff65dca7d43d5e807bd702c58b76",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "937bf136_ef70f3f1",
@@ -180,6 +228,30 @@
       "side": 1,
       "message": "yeah, ideally this could be something value based, like an optional view of the object but that gets complicated with dangers around dangling references and esoteric stuff like lifetime extensions of lvalue references. I\u0027ll change this to just be a pointer.",
       "parentUuid": "937bf136_ef70f3f1",
+      "range": {
+        "startLine": 38,
+        "startChar": 7,
+        "endLine": 38,
+        "endChar": 71
+      },
+      "revId": "d9a9f626cca6ff65dca7d43d5e807bd702c58b76",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f903d09d_717f2d79",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-13T19:01:22Z",
+      "side": 1,
+      "message": "👍\n\nC++26 gets std::optional\u003cBindingPciVid\u0026\u003e that we could return later.  Not today though.",
+      "parentUuid": "88af9aeb_f8a17fa9",
       "range": {
         "startLine": 38,
         "startChar": 7,
@@ -321,6 +393,30 @@
       "side": 1,
       "message": "its being loaded with two iterators here, not pointers, which there is a constructor for.",
       "parentUuid": "9be92544_eb57136e",
+      "range": {
+        "startLine": 122,
+        "startChar": 44,
+        "endLine": 122,
+        "endChar": 67
+      },
+      "revId": "d9a9f626cca6ff65dca7d43d5e807bd702c58b76",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48dbeb6e_ab96ef7f",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-13T19:01:22Z",
+      "side": 1,
+      "message": "I\u0027ll be damned, that constructor does exist..... with that said, lets just load in length and not do iterator incrementing ourselves if it\u0027s just going to get converted from size_t -\u003e iterator -\u003e size_t",
+      "parentUuid": "4d688d45_e3a0e72a",
       "range": {
         "startLine": 122,
         "startChar": 44,
