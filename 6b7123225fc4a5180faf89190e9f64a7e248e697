@@ -1,4 +1,22 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2ef6e5e_dd72e696",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-10-13T15:23:57Z",
+      "side": 1,
+      "message": "sorry for the dumb question:\n\nWhy is this PeakReading stuff only implemented for Nvidia gpu sensor?\n\nIt sounds like a feature that could potentially apply to other sensors which store peak readings internally. It could even be computed based on observed values for sensors which do not store peak reading internally.\n\nI did not find anything in the redfish spec saying that it must be a hardware backed value.\n\nSo i am kind of surprised there is no common code, can someone explain to me 😊",
+      "revId": "6b7123225fc4a5180faf89190e9f64a7e248e697",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ],
   "submitRequirementResults": []
 }
