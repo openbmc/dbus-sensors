@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9cffc10b_3cb5296f",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-13T16:48:31Z",
+      "side": 1,
+      "message": "I can bring that into this patch or fix it in a subsequent patch...this patch is already doing a lot.",
+      "parentUuid": "301e37c8_08e72218",
+      "range": {
+        "startLine": 153,
+        "startChar": 14,
+        "endLine": 153,
+        "endChar": 27
+      },
+      "revId": "d9a9f626cca6ff65dca7d43d5e807bd702c58b76",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "45c0c720_ae56ee44",
         "filename": "src/nvidia-gpu/Inventory.cpp",
         "patchSetId": 6
