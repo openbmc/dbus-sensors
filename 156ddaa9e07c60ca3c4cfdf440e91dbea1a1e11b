@@ -34,6 +34,24 @@
       "parentUuid": "c3fc8872_d7923fb7",
       "revId": "156ddaa9e07c60ca3c4cfdf440e91dbea1a1e11b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95a8848c_502d066d",
+        "filename": "src/nvidia-gpu/NvidiaPciePort.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000020
+      },
+      "writtenOn": "2025-10-13T14:04:15Z",
+      "side": 1,
+      "message": "I guess it could be covered by https://github.com/openbmc/phosphor-dbus-interfaces/blob/f85ae8afbb5e4be7d83a15ef9b6f24da74d41c4f/yaml/xyz/openbmc_project/Inventory/Item/README.md?plain\u003d1#L21\n\nBut I think the association should be {connecting, connected_to}, becuase that is Port to other items",
+      "parentUuid": "ad932e50_2a63c02c",
+      "revId": "156ddaa9e07c60ca3c4cfdf440e91dbea1a1e11b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
