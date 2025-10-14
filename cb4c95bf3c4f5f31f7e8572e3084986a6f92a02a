@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32f638ac_ae2c72db",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-14T12:48:04Z",
+      "side": 1,
+      "message": "This wouldn\u0027t work on platforms where EM configs for some devices include `StaticEid` and EM configs for other devices do not include it, correct?",
+      "revId": "cb4c95bf3c4f5f31f7e8572e3084986a6f92a02a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
