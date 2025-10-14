@@ -16,6 +16,24 @@
       "message": "@haghera@nvidia.com why were these LOW before?",
       "revId": "5608588a25e629472398a90d31ae9313fc24ab86",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88b87e20_94d88734",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-14T11:02:37Z",
+      "side": 1,
+      "message": "We have modeled it based on HGX H100 and HGX B200/B300, where they were LOW.",
+      "parentUuid": "c856c7a4_923e8a5b",
+      "revId": "5608588a25e629472398a90d31ae9313fc24ab86",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
