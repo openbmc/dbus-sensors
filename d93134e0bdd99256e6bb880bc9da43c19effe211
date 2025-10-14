@@ -16,6 +16,24 @@
       "message": "Can you please enumerate the folders you have created in your commit message as well?",
       "revId": "d93134e0bdd99256e6bb880bc9da43c19effe211",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52a80813_5e123367",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-10-14T08:08:34Z",
+      "side": 1,
+      "message": "Done 👍",
+      "parentUuid": "328a3909_ad8ae3d4",
+      "revId": "d93134e0bdd99256e6bb880bc9da43c19effe211",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
