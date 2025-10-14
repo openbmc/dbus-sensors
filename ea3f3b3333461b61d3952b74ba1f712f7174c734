@@ -107,6 +107,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c4830f2_bb23be3b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-10-14T00:43:15Z",
+      "side": 1,
+      "message": "\u003e Lets try to keep the common code common, and ideally not have the \"asio\" and \"coroutines\" versions of every generic object.  Ideally we\u0027d have a pattern that lets us do common code, and just have simple methods with wrappers/ifdefs/templates/whatever around the IO portions.\n\n\nIts a good northstar but we also need to keep in mind that asio and couroutines are 2 different coding patterns. asio is callback based and couroutines follows continuous code pattern with co_await suspension points. Hence, we need to be careful about how we abstract them. Having said that, this is a topic for future discussion when we will evaluate this refactoring, so i am marking this as resolved.",
+      "parentUuid": "7adc1406_1d4cb43c",
+      "revId": "ea3f3b3333461b61d3952b74ba1f712f7174c734",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9100c765_ed7a6dae",
@@ -192,6 +210,30 @@
       "side": 1,
       "message": "\u003e So, will reply there and will also try to help with some of that effort.\n\nI appreciate it.\n\n\u003e Having said this i am open to help with maintaining common code, no specific reservation to these set of files.\n\nI REALLY appreciate this.",
       "parentUuid": "29df0bc3_d2cd209f",
+      "range": {
+        "startLine": 44,
+        "startChar": 22,
+        "endLine": 44,
+        "endChar": 87
+      },
+      "revId": "ea3f3b3333461b61d3952b74ba1f712f7174c734",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f25db5a_d1303d30",
+        "filename": "OWNERS",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2025-10-14T00:43:15Z",
+      "side": 1,
+      "message": "I am marking this as resolved and let\u0027s continue further discussion on this topic in https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/83895, where i had provided feedback to Alexander on organizing the folder structure.",
+      "parentUuid": "6f4401e0_13c9956f",
       "range": {
         "startLine": 44,
         "startChar": 22,
