@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d03dfc5_cc3736f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-15T19:08:05Z",
+      "side": 1,
+      "message": "Can we make sure we test all the files we change? This in particular changed object lifetime management for sensors subtly.",
+      "revId": "7bf26267f77ee6a0fa1af2f3a72592c72f442e80",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99f2bcf6_f9d63aec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-15T19:08:05Z",
+      "side": 1,
+      "message": "we subtly changed object lifetime stuff in this class, can we either back out the changes to it or give it a real test?",
+      "revId": "7bf26267f77ee6a0fa1af2f3a72592c72f442e80",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca57775d_5917241b",
+        "filename": "src/Reactor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-15T19:08:05Z",
+      "side": 1,
+      "message": "why not use composition here?",
+      "revId": "7bf26267f77ee6a0fa1af2f3a72592c72f442e80",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f0c51a3_3b8d079d",
+        "filename": "src/Reactor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-15T19:08:05Z",
+      "side": 1,
+      "message": "whats the purpose of having this return anything?",
+      "revId": "7bf26267f77ee6a0fa1af2f3a72592c72f442e80",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e10dda59_77727381",
+        "filename": "src/Reactor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-15T19:08:05Z",
+      "side": 1,
+      "message": "why is this protected? This class has no other invariants and its not clear what we\u0027re solving by restricting access to this one member.",
+      "revId": "7bf26267f77ee6a0fa1af2f3a72592c72f442e80",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04878fbf_543cbc0c",
+        "filename": "src/Reactor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-15T19:08:05Z",
+      "side": 1,
+      "message": "it seems a bit draconion to have this class own the io_reactor. This won\u0027t extend to more complicated use cases like those in nvidia-gpu, why not allow the user to pass in the io_context by reference and drop implementations of `run` and `post`. post itself requires an allocation unnecessarily as well via std::function, potentially after the object initialization phase. By having this class own io_context, we\u0027re also reliant on object member ordering to have the constructor work, which is a bit nuanced.",
+      "revId": "7bf26267f77ee6a0fa1af2f3a72592c72f442e80",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0d5314b_fbca2f9c",
+        "filename": "src/mcu/MCUTempSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-15T19:08:05Z",
+      "side": 1,
+      "message": "another instance of this pattern. Move to std::make_shared?",
+      "revId": "7bf26267f77ee6a0fa1af2f3a72592c72f442e80",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a34e44e_49840ee5",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-15T19:08:05Z",
+      "side": 1,
+      "message": "this seems at least kind of wonky to assign a unique_ptr to a shared_ptr. i\u0027m a little surprised this works.",
+      "revId": "7bf26267f77ee6a0fa1af2f3a72592c72f442e80",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
