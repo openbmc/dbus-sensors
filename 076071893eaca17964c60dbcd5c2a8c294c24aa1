@@ -16,6 +16,24 @@
       "message": "Please add details on issues during testing/testing details.",
       "revId": "076071893eaca17964c60dbcd5c2a8c294c24aa1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b54ead6c_32432ced",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-16T18:42:50Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "22bcdd79_3b3b7f68",
+      "revId": "076071893eaca17964c60dbcd5c2a8c294c24aa1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
