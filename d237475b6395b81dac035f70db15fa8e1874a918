@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8feeea8c_d084ede6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-16T18:51:43Z",
+      "side": 1,
+      "message": "All maintainers can +2 anything, it\u0027s expected (and enforced at merge time) that they only +2 the things for which they have permissions.  All good, just FYI.",
+      "parentUuid": "46b8de1f_f06b6029",
+      "revId": "d237475b6395b81dac035f70db15fa8e1874a918",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a330ebdb_27cce117",
