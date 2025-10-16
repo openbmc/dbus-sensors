@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31902602_0d760c51",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2025-10-16T15:12:56Z",
+      "side": 1,
+      "message": "Removing the item.fan interface addition for now, since bmcweb isn\u0027t picking it up, so it\u0027s just adding to the noise for now.\n\nMay re-add it after further experiments or in a future PR.",
+      "revId": "c0634e513df8547bd5c963cbb7ee70cfe07c3e88",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
