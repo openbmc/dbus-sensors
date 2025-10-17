@@ -454,6 +454,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3dec6620_4c93a0dc",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-17T01:29:51Z",
+      "side": 1,
+      "message": "This could potentially cause buffer to be overwritten.\n\nWe should do this after callbacks have been called.",
+      "revId": "d9a9f626cca6ff65dca7d43d5e807bd702c58b76",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9be92544_eb57136e",
         "filename": "src/nvidia-gpu/MctpRequester.cpp",
         "patchSetId": 6
@@ -584,6 +601,24 @@
       "writtenOn": "2025-10-14T07:29:08Z",
       "side": 1,
       "message": "What if we\u0027re run out of the 32 instance ids? Isn\u0027t throwning an error better?",
+      "revId": "d9a9f626cca6ff65dca7d43d5e807bd702c58b76",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58bb3467_117a5b57",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-17T01:29:51Z",
+      "side": 1,
+      "message": "We can only send one message per eid.  If we \"run out\" of iids for a given eid, something is very...very wrong.  I\u0027m also not sure how you would detect that given there\u0027s only one iid allowed at a time.\n\nif you could suggest the code you\u0027d like to see here, that would be good.",
+      "parentUuid": "a92121ce_b6787d59",
       "revId": "d9a9f626cca6ff65dca7d43d5e807bd702c58b76",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
