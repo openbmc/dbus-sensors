@@ -14,6 +14,7 @@
 #include <cstdint>
 #include <cstring>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include <gtest/gtest.h>
@@ -1659,4 +1660,649 @@ TEST_F(GpuMctpVdmTests, DecodeListPciePortsResponseInvalidSize)
 
     EXPECT_EQ(result, EINVAL);
 }
+
+// Tests for GpuMctpVdm::decodeAggregateResponse function
+TEST_F(GpuMctpVdmTests, DecodeAggregateResponsePowerOf2LengthEncodingValid)
+{
+    // Test with power-of-2 length encoding and valid bit set
+    std::vector<uint8_t> buf = {
+        0x10, 0xde, 0x00, 0x89, 0x01, 0x0f, // Message header
+        0x00,                               // completion_code (SUCCESS)
+        0x03, 0x00, // telemetryCount = 3 (little-endian)
+        // Item 0: tag=0x01, tagInfo=0x05 (power-of-2, valueLength=2, valid=1)
+        // length = 1 << 2 = 4 bytes
+        0x01, 0x05, 0x11, 0x22, 0x33, 0x44,
+        // Item 1: tag=0x02, tagInfo=0x07 (power-of-2, valueLength=3, valid=1)
+        // length = 1 << 3 = 8 bytes
+        0x02, 0x07, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF, 0x00, 0x11,
+        // Item 2: tag=0x03, tagInfo=0x01 (power-of-2, valueLength=0, valid=1)
+        // length = 1 << 0 = 1 byte
+        0x03, 0x01, 0x55};
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+
+    struct HandlerData
+    {
+        std::vector<uint8_t> tags;
+        std::vector<uint8_t> lengths;
+        std::vector<std::vector<uint8_t>> values;
+    } handlerData;
+
+    auto handler = [&handlerData](const uint8_t tag, const uint8_t length,
+                                  const uint8_t* value) -> int {
+        handlerData.tags.push_back(tag);
+        handlerData.lengths.push_back(length);
+        handlerData.values.emplace_back(value, value + length);
+        return 0;
+    };
+
+    int result = ocp::accelerator_management::decodeAggregateResponse(
+        buf, cc, reasonCode, std::move(handler));
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+
+    // Verify 3 items were processed
+    EXPECT_EQ(handlerData.tags.size(), 3U);
+
+    // Verify item 0: tag=0x01, length=4
+    EXPECT_EQ(handlerData.tags[0], 0x01);
+    EXPECT_EQ(handlerData.lengths[0], 4);
+    EXPECT_EQ(handlerData.values[0].size(), 4U);
+    EXPECT_EQ(handlerData.values[0][0], 0x11);
+    EXPECT_EQ(handlerData.values[0][1], 0x22);
+    EXPECT_EQ(handlerData.values[0][2], 0x33);
+    EXPECT_EQ(handlerData.values[0][3], 0x44);
+
+    // Verify item 1: tag=0x02, length=8
+    EXPECT_EQ(handlerData.tags[1], 0x02);
+    EXPECT_EQ(handlerData.lengths[1], 8);
+    EXPECT_EQ(handlerData.values[1].size(), 8U);
+    EXPECT_EQ(handlerData.values[1][0], 0xAA);
+    EXPECT_EQ(handlerData.values[1][7], 0x11);
+
+    // Verify item 2: tag=0x03, length=1
+    EXPECT_EQ(handlerData.tags[2], 0x03);
+    EXPECT_EQ(handlerData.lengths[2], 1);
+    EXPECT_EQ(handlerData.values[2].size(), 1U);
+    EXPECT_EQ(handlerData.values[2][0], 0x55);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeAggregateResponseByteLengthEncodingValid)
+{
+    // Test with byte length encoding and valid bit set
+    std::vector<uint8_t> buf = {
+        0x10, 0xde, 0x00, 0x89, 0x01, 0x0f, // Message header
+        0x00,                               // completion_code (SUCCESS)
+        0x02, 0x00, // telemetryCount = 2 (little-endian)
+        // Item 0: tag=0x10, tagInfo=0x85 (byte-length, valueLength=2, valid=1)
+        // bit 7=1 (byte-length), bits 3-1=010 (valueLength=2), bit 0=1 (valid)
+        // length = 2 bytes
+        0x10, 0x85, 0xAA, 0xBB,
+        // Item 1: tag=0x11, tagInfo=0x8B (byte-length, valueLength=5, valid=1)
+        // bit 7=1 (byte-length), bits 3-1=101 (valueLength=5), bit 0=1 (valid)
+        // length = 5 bytes
+        0x11, 0x8B, 0x01, 0x02, 0x03, 0x04, 0x05};
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+
+    struct HandlerData
+    {
+        std::vector<uint8_t> tags;
+        std::vector<uint8_t> lengths;
+        std::vector<std::vector<uint8_t>> values;
+    } handlerData;
+
+    auto handler = [&handlerData](const uint8_t tag, const uint8_t length,
+                                  const uint8_t* value) -> int {
+        handlerData.tags.push_back(tag);
+        handlerData.lengths.push_back(length);
+        handlerData.values.emplace_back(value, value + length);
+        return 0;
+    };
+
+    int result = ocp::accelerator_management::decodeAggregateResponse(
+        buf, cc, reasonCode, std::move(handler));
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+
+    // Verify 2 items were processed
+    EXPECT_EQ(handlerData.tags.size(), 2U);
+
+    // Verify item 0: tag=0x10, length=2
+    EXPECT_EQ(handlerData.tags[0], 0x10);
+    EXPECT_EQ(handlerData.lengths[0], 2);
+    EXPECT_EQ(handlerData.values[0].size(), 2U);
+    EXPECT_EQ(handlerData.values[0][0], 0xAA);
+    EXPECT_EQ(handlerData.values[0][1], 0xBB);
+
+    // Verify item 1: tag=0x11, length=5
+    EXPECT_EQ(handlerData.tags[1], 0x11);
+    EXPECT_EQ(handlerData.lengths[1], 5);
+    EXPECT_EQ(handlerData.values[1].size(), 5U);
+    EXPECT_EQ(handlerData.values[1][0], 0x01);
+    EXPECT_EQ(handlerData.values[1][4], 0x05);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeAggregateResponseInvalidBitNotSet)
+{
+    // Test with valid bit NOT set - items should be skipped
+    std::vector<uint8_t> buf = {
+        0x10, 0xde, 0x00, 0x89, 0x01, 0x0f, // Message header
+        0x00,                               // completion_code (SUCCESS)
+        0x03, 0x00,                         // telemetryCount = 3
+        // Item 0: tag=0x01, tagInfo=0x05 (valid bit set)
+        0x01, 0x05, 0x11, 0x22, 0x33, 0x44,
+        // Item 1: tag=0x02, tagInfo=0x06 (valid bit NOT set - bit 0 = 0)
+        // This should be skipped
+        0x02, 0x06, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF, 0x00, 0x11,
+        // Item 2: tag=0x03, tagInfo=0x01 (valid bit set)
+        0x03, 0x01, 0x55};
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+
+    struct HandlerData
+    {
+        std::vector<uint8_t> tags;
+        std::vector<uint8_t> lengths;
+    } handlerData;
+
+    auto handler = [&handlerData](const uint8_t tag, const uint8_t length,
+                                  const uint8_t*) -> int {
+        handlerData.tags.push_back(tag);
+        handlerData.lengths.push_back(length);
+        return 0;
+    };
+
+    int result = ocp::accelerator_management::decodeAggregateResponse(
+        buf, cc, reasonCode, std::move(handler));
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+
+    // Only 2 items should be processed (item 1 skipped because valid bit not
+    // set)
+    EXPECT_EQ(handlerData.tags.size(), 2U);
+    EXPECT_EQ(handlerData.tags[0], 0x01);
+    EXPECT_EQ(handlerData.tags[1], 0x03);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeAggregateResponseMixedEncodingAndValidity)
+{
+    // Test with mixed length encoding types and validity
+    std::vector<uint8_t> buf = {
+        0x10, 0xde, 0x00, 0x89, 0x01, 0x0f, // Message header
+        0x00,                               // completion_code (SUCCESS)
+        0x04, 0x00,                         // telemetryCount = 4
+        // Item 0: power-of-2, valid
+        0x01, 0x05, 0x11, 0x22, 0x33, 0x44,
+        // Item 1: byte-length, valid
+        0x02, 0x83, 0xAA,
+        // Item 2: power-of-2, invalid
+        0x03, 0x04, 0xCC, 0xDD, 0xEE, 0xFF,
+        // Item 3: byte-length, valid
+        0x04, 0x89, 0x55, 0x66, 0x77, 0x88};
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+
+    struct HandlerData
+    {
+        std::vector<uint8_t> tags;
+        std::vector<uint8_t> lengths;
+    } handlerData;
+
+    auto handler = [&handlerData](const uint8_t tag, const uint8_t length,
+                                  const uint8_t*) -> int {
+        handlerData.tags.push_back(tag);
+        handlerData.lengths.push_back(length);
+        return 0;
+    };
+
+    int result = ocp::accelerator_management::decodeAggregateResponse(
+        buf, cc, reasonCode, std::move(handler));
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+
+    // 3 items should be processed (item 2 skipped)
+    EXPECT_EQ(handlerData.tags.size(), 3U);
+    EXPECT_EQ(handlerData.tags[0], 0x01);
+    EXPECT_EQ(handlerData.lengths[0], 4); // power-of-2: 1 << 2 = 4
+    EXPECT_EQ(handlerData.tags[1], 0x02);
+    EXPECT_EQ(handlerData.lengths[1], 1); // byte-length: 1
+    EXPECT_EQ(handlerData.tags[2], 0x04);
+    EXPECT_EQ(handlerData.lengths[2], 4); // byte-length: 4
+}
+
+TEST_F(GpuMctpVdmTests, DecodeAggregateResponseErrorResponse)
+{
+    // Test with error completion code
+    std::vector<uint8_t> buf(
+        sizeof(ocp::accelerator_management::CommonNonSuccessResponse));
+
+    ocp::accelerator_management::CommonNonSuccessResponse errorResponse{};
+    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
+    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    headerInfo.instance_id = 10;
+    headerInfo.msg_type =
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
+
+    gpu::packHeader(headerInfo, errorResponse.msgHdr.hdr);
+
+    errorResponse.command = 0x42;
+    errorResponse.completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
+    errorResponse.reason_code = htole16(0x1234);
+
+    std::memcpy(buf.data(), &errorResponse, sizeof(errorResponse));
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+
+    int handlerCallCount = 0;
+    auto handler = [&handlerCallCount](const uint8_t, const uint8_t,
+                                       const uint8_t*) -> int {
+        handlerCallCount++;
+        return 0;
+    };
+
+    int result = ocp::accelerator_management::decodeAggregateResponse(
+        buf, cc, reasonCode, std::move(handler));
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
+    EXPECT_EQ(reasonCode, 0x1234);
+    EXPECT_EQ(handlerCallCount, 0); // Handler should not be called on error
+}
+
+TEST_F(GpuMctpVdmTests, DecodeAggregateResponseInvalidBufferSize)
+{
+    // Test with buffer too small
+    std::vector<uint8_t> buf = {
+        0x10, 0xde, 0x00, 0x89, 0x01, 0x0f, // Message header
+        0x00,                               // completion_code
+        0x01 // Truncated - missing second byte of telemetryCount
+    };
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+
+    auto handler = [](const uint8_t, const uint8_t, const uint8_t*) -> int {
+        return 0;
+    };
+
+    int result = ocp::accelerator_management::decodeAggregateResponse(
+        buf, cc, reasonCode, std::move(handler));
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeAggregateResponseEmptyItems)
+{
+    // Test with zero items
+    std::vector<uint8_t> buf = {
+        0x10, 0xde, 0x00, 0x89, 0x01, 0x0f, // Message header
+        0x00,                               // completion_code (SUCCESS)
+        0x00, 0x00                          // telemetryCount = 0
+    };
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+
+    int handlerCallCount = 0;
+    auto handler = [&handlerCallCount](const uint8_t, const uint8_t,
+                                       const uint8_t*) -> int {
+        handlerCallCount++;
+        return 0;
+    };
+
+    int result = ocp::accelerator_management::decodeAggregateResponse(
+        buf, cc, reasonCode, std::move(handler));
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+    EXPECT_EQ(handlerCallCount, 0); // No items to process
+}
+
+// Tests for GpuMctpVdm::encodeGetPortNetworkAddressesRequest function
+TEST_F(GpuMctpVdmTests, EncodeGetPortNetworkAddressesRequestSuccess)
+{
+    const uint8_t instanceId = 12;
+    const uint16_t portNumber = 5;
+    std::array<uint8_t, sizeof(gpu::GetPortNetworkAddressesRequest)> buf{};
+
+    int result =
+        gpu::encodeGetPortNetworkAddressesRequest(instanceId, portNumber, buf);
+
+    EXPECT_EQ(result, 0);
+
+    gpu::GetPortNetworkAddressesRequest request{};
+    std::memcpy(&request, buf.data(), sizeof(request));
+
+    EXPECT_EQ(request.hdr.msgHdr.hdr.pci_vendor_id,
+              htobe16(gpu::nvidiaPciVendorId));
+    EXPECT_EQ(request.hdr.msgHdr.hdr.instance_id &
+                  ocp::accelerator_management::instanceIdBitMask,
+              instanceId & ocp::accelerator_management::instanceIdBitMask);
+    EXPECT_NE(request.hdr.msgHdr.hdr.instance_id &
+                  ocp::accelerator_management::requestBitMask,
+              0);
+    EXPECT_EQ(request.hdr.msgHdr.hdr.ocp_accelerator_management_msg_type,
+              static_cast<uint8_t>(gpu::MessageType::NETWORK_PORT));
+
+    EXPECT_EQ(request.hdr.command,
+              static_cast<uint8_t>(
+                  gpu::NetworkPortCommands::GetPortNetworkAddresses));
+    EXPECT_EQ(request.hdr.data_size, 2);
+    EXPECT_EQ(request.portNumber, htole16(portNumber));
+}
+
+TEST_F(GpuMctpVdmTests, EncodeGetPortNetworkAddressesRequestInvalidBufferSize)
+{
+    const uint8_t instanceId = 12;
+    const uint16_t portNumber = 5;
+    std::array<uint8_t, sizeof(gpu::GetPortNetworkAddressesRequest) - 1> buf{};
+
+    int result =
+        gpu::encodeGetPortNetworkAddressesRequest(instanceId, portNumber, buf);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+// Tests for GpuMctpVdm::decodeGetPortNetworkAddressesResponse function
+TEST_F(GpuMctpVdmTests, DecodeGetPortNetworkAddressesResponseSuccess)
+{
+    // Test with linkType and two MAC addresses
+    std::vector<uint8_t> buf = {
+        0x10, 0xde, 0x00, 0x89, 0x01, 0x0f, // Message header
+        0x00,                               // completion_code (SUCCESS)
+        0x03, 0x00,                         // telemetryCount = 3
+        // Item 0: tag=0x00, tagInfo=0x00 (power-of-2, valueLength=3, valid=1)
+        // length = 1 << 0 = 1 bytes
+        0x00, 0x00, 0x00, // linkType = ETHERNET (0)
+        // Item 1: tag=0x01, tagInfo=0x07 (power-of-2, valueLength=3, valid=1)
+        // length = 1 << 3 = 8 bytes (uint64_t MAC address)
+        0x01, 0x07, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
+        // Item 2: tag=0x02, tagInfo=0x07 (power-of-2, valueLength=3, valid=1)
+        // length = 8 bytes (uint64_t MAC address)
+        0x02, 0x07, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10, 0x11};
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    gpu::NetworkPortLinkType linkType{};
+    std::vector<std::pair<uint8_t, uint64_t>> addresses{};
+
+    int result = gpu::decodeGetPortNetworkAddressesResponse(
+        buf, cc, reasonCode, linkType, addresses);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+    EXPECT_EQ(linkType, gpu::NetworkPortLinkType::ETHERNET);
+    EXPECT_EQ(addresses.size(), 2U);
+
+    // Verify first address (tag=0x01)
+    EXPECT_EQ(addresses[0].first, 0x01);
+    EXPECT_EQ(addresses[0].second, 0x0807060504030201ULL);
+
+    // Verify second address (tag=0x02)
+    EXPECT_EQ(addresses[1].first, 0x02);
+    EXPECT_EQ(addresses[1].second, 0x11100F0E0D0C0B0AULL);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetPortNetworkAddressesResponseError)
+{
+    std::array<uint8_t,
+               sizeof(ocp::accelerator_management::CommonNonSuccessResponse)>
+        buf{};
+
+    ocp::accelerator_management::CommonNonSuccessResponse errorResponse{};
+    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
+    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    headerInfo.instance_id = 12;
+    headerInfo.msg_type = static_cast<uint8_t>(gpu::MessageType::NETWORK_PORT);
+
+    gpu::packHeader(headerInfo, errorResponse.msgHdr.hdr);
+
+    errorResponse.command =
+        static_cast<uint8_t>(gpu::NetworkPortCommands::GetPortNetworkAddresses);
+    errorResponse.completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
+    errorResponse.reason_code = htole16(0xABCD);
+
+    std::memcpy(buf.data(), &errorResponse, sizeof(errorResponse));
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    gpu::NetworkPortLinkType linkType{};
+    std::vector<std::pair<uint8_t, uint64_t>> addresses{};
+
+    int result = gpu::decodeGetPortNetworkAddressesResponse(
+        buf, cc, reasonCode, linkType, addresses);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
+    EXPECT_EQ(reasonCode, 0xABCD);
+    EXPECT_EQ(addresses.size(), 0U); // Should be empty on error
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetPortNetworkAddressesResponseInvalidBufferSize)
+{
+    // Buffer too small - missing telemetryCount
+    std::vector<uint8_t> buf = {
+        0x10, 0xde, 0x00, 0x89, 0x01, 0x0f, // Message header
+        0x00,                               // completion_code
+        0x01 // Truncated - missing second byte of telemetryCount
+    };
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    gpu::NetworkPortLinkType linkType{};
+    std::vector<std::pair<uint8_t, uint64_t>> addresses{};
+
+    int result = gpu::decodeGetPortNetworkAddressesResponse(
+        buf, cc, reasonCode, linkType, addresses);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+// Tests for GpuMctpVdm::encodeGetEthernetPortTelemetryCountersRequest function
+TEST_F(GpuMctpVdmTests, EncodeGetEthernetPortTelemetryCountersRequestSuccess)
+{
+    const uint8_t instanceId = 13;
+    const uint16_t portNumber = 7;
+    std::array<uint8_t, sizeof(gpu::GetEthernetPortTelemetryCountersRequest)>
+        buf{};
+
+    int result = gpu::encodeGetEthernetPortTelemetryCountersRequest(
+        instanceId, portNumber, buf);
+
+    EXPECT_EQ(result, 0);
+
+    gpu::GetEthernetPortTelemetryCountersRequest request{};
+    std::memcpy(&request, buf.data(), sizeof(request));
+
+    EXPECT_EQ(request.hdr.msgHdr.hdr.pci_vendor_id,
+              htobe16(gpu::nvidiaPciVendorId));
+    EXPECT_EQ(request.hdr.msgHdr.hdr.instance_id &
+                  ocp::accelerator_management::instanceIdBitMask,
+              instanceId & ocp::accelerator_management::instanceIdBitMask);
+    EXPECT_NE(request.hdr.msgHdr.hdr.instance_id &
+                  ocp::accelerator_management::requestBitMask,
+              0);
+    EXPECT_EQ(request.hdr.msgHdr.hdr.ocp_accelerator_management_msg_type,
+              static_cast<uint8_t>(gpu::MessageType::NETWORK_PORT));
+
+    EXPECT_EQ(request.hdr.command,
+              static_cast<uint8_t>(
+                  gpu::NetworkPortCommands::GetEthernetPortTelemetryCounters));
+    EXPECT_EQ(request.hdr.data_size, 2);
+    EXPECT_EQ(request.portNumber, htole16(portNumber));
+}
+
+TEST_F(GpuMctpVdmTests,
+       EncodeGetEthernetPortTelemetryCountersRequestInvalidBufferSize)
+{
+    const uint8_t instanceId = 13;
+    const uint16_t portNumber = 7;
+    std::array<uint8_t,
+               sizeof(gpu::GetEthernetPortTelemetryCountersRequest) - 1>
+        buf{};
+
+    int result = gpu::encodeGetEthernetPortTelemetryCountersRequest(
+        instanceId, portNumber, buf);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+// Tests for GpuMctpVdm::decodeGetEthernetPortTelemetryCountersResponse
+// function
+TEST_F(GpuMctpVdmTests, DecodeGetEthernetPortTelemetryCountersResponseSuccess)
+{
+    // Test with mixed uint32_t and uint64_t telemetry values
+    std::vector<uint8_t> buf = {
+        0x10, 0xde, 0x00, 0x89, 0x01, 0x0f, // Message header
+        0x00,                               // completion_code (SUCCESS)
+        0x03, 0x00,                         // telemetryCount = 3
+        // Item 0: tag=0x01, tagInfo=0x05 (power-of-2, valueLength=2, valid=1)
+        // length = 1 << 2 = 4 bytes (uint32_t)
+        0x01, 0x05, 0x64, 0x00, 0x00, 0x00, // value = 100
+        // Item 1: tag=0x02, tagInfo=0x07 (power-of-2, valueLength=3, valid=1)
+        // length = 1 << 3 = 8 bytes (uint64_t)
+        0x02, 0x07, 0xE8, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, // value = 1000
+        // Item 2: tag=0x03, tagInfo=0x05 (power-of-2, valueLength=2, valid=1)
+        // length = 4 bytes (uint32_t)
+        0x03, 0x05, 0x10, 0x27, 0x00, 0x00 // value = 10000
+    };
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    std::vector<std::pair<uint8_t, uint64_t>> telemetryValues{};
+
+    int result = gpu::decodeGetEthernetPortTelemetryCountersResponse(
+        buf, cc, reasonCode, telemetryValues);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+    EXPECT_EQ(telemetryValues.size(), 3U);
+
+    // Verify first value (tag=0x01, uint32_t)
+    EXPECT_EQ(telemetryValues[0].first, 0x01);
+    EXPECT_EQ(telemetryValues[0].second, 100U);
+
+    // Verify second value (tag=0x02, uint64_t)
+    EXPECT_EQ(telemetryValues[1].first, 0x02);
+    EXPECT_EQ(telemetryValues[1].second, 1000U);
+
+    // Verify third value (tag=0x03, uint32_t)
+    EXPECT_EQ(telemetryValues[2].first, 0x03);
+    EXPECT_EQ(telemetryValues[2].second, 10000U);
+}
+
+TEST_F(GpuMctpVdmTests,
+       DecodeGetEthernetPortTelemetryCountersResponseSkipInvalidLengths)
+{
+    // Test that values with invalid lengths are skipped
+    std::vector<uint8_t> buf = {
+        0x10, 0xde, 0x00, 0x89, 0x01, 0x0f, // Message header
+        0x00,                               // completion_code (SUCCESS)
+        0x03, 0x00,                         // telemetryCount = 3
+        // Item 0: tag=0x01, tagInfo=0x05 (valid, length=4)
+        0x01, 0x05, 0x64, 0x00, 0x00, 0x00,
+        // Item 1: tag=0x02, tagInfo=0x03 (valid, length=2 - invalid, will be
+        // skipped)
+        0x02, 0x03, 0xAA, 0xBB,
+        // Item 2: tag=0x03, tagInfo=0x07 (valid, length=8)
+        0x03, 0x07, 0xE8, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    std::vector<std::pair<uint8_t, uint64_t>> telemetryValues{};
+
+    int result = gpu::decodeGetEthernetPortTelemetryCountersResponse(
+        buf, cc, reasonCode, telemetryValues);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+    // Only 2 items should be present (item 1 skipped due to invalid length)
+    EXPECT_EQ(telemetryValues.size(), 2U);
+
+    EXPECT_EQ(telemetryValues[0].first, 0x01);
+    EXPECT_EQ(telemetryValues[0].second, 100U);
+
+    EXPECT_EQ(telemetryValues[1].first, 0x03);
+    EXPECT_EQ(telemetryValues[1].second, 1000U);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetEthernetPortTelemetryCountersResponseError)
+{
+    std::array<uint8_t,
+               sizeof(ocp::accelerator_management::CommonNonSuccessResponse)>
+        buf{};
+
+    ocp::accelerator_management::CommonNonSuccessResponse errorResponse{};
+    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
+    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    headerInfo.instance_id = 13;
+    headerInfo.msg_type = static_cast<uint8_t>(gpu::MessageType::NETWORK_PORT);
+
+    gpu::packHeader(headerInfo, errorResponse.msgHdr.hdr);
+
+    errorResponse.command = static_cast<uint8_t>(
+        gpu::NetworkPortCommands::GetEthernetPortTelemetryCounters);
+    errorResponse.completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
+    errorResponse.reason_code = htole16(0xDEAD);
+
+    std::memcpy(buf.data(), &errorResponse, sizeof(errorResponse));
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    std::vector<std::pair<uint8_t, uint64_t>> telemetryValues{};
+
+    int result = gpu::decodeGetEthernetPortTelemetryCountersResponse(
+        buf, cc, reasonCode, telemetryValues);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
+    EXPECT_EQ(reasonCode, 0xDEAD);
+    EXPECT_EQ(telemetryValues.size(), 0U); // Should be empty on error
+}
+
+TEST_F(GpuMctpVdmTests,
+       DecodeGetEthernetPortTelemetryCountersResponseInvalidBufferSize)
+{
+    // Buffer too small
+    std::vector<uint8_t> buf = {
+        0x10, 0xde, 0x00, 0x89, 0x01, 0x0f, // Message header
+        0x00,                               // completion_code
+        0x01 // Truncated - missing second byte of telemetryCount
+    };
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    std::vector<std::pair<uint8_t, uint64_t>> telemetryValues{};
+
+    int result = gpu::decodeGetEthernetPortTelemetryCountersResponse(
+        buf, cc, reasonCode, telemetryValues);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
 } // namespace gpu_mctp_tests
