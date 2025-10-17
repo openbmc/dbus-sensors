@@ -487,6 +487,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "24ef8c0e_53dc6fb6",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-17T15:57:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39a5d413_94ae3d2c",
+      "revId": "d9a9f626cca6ff65dca7d43d5e807bd702c58b76",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9be92544_eb57136e",
