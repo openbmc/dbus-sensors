@@ -34,6 +34,24 @@
       "parentUuid": "22bcdd79_3b3b7f68",
       "revId": "076071893eaca17964c60dbcd5c2a8c294c24aa1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c428e34_426f2b3c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-17T00:02:52Z",
+      "side": 1,
+      "message": "done, thanks for keeping me honest.",
+      "parentUuid": "b54ead6c_32432ced",
+      "revId": "076071893eaca17964c60dbcd5c2a8c294c24aa1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
