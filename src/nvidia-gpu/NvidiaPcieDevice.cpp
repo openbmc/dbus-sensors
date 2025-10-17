@@ -7,6 +7,7 @@
 #include "NvidiaPcieDevice.hpp"
 
 #include "NvidiaDeviceDiscovery.hpp"
+#include "NvidiaEthPort.hpp"
 #include "NvidiaGpuMctpVdm.hpp"
 #include "NvidiaPcieInterface.hpp"
 #include "NvidiaPciePort.hpp"
@@ -118,6 +119,17 @@ void PcieDevice::makeSensors()
                     objectServer));
 
             ++downstreamPortIndex;
+        }
+    }
+
+    for (uint64_t k = 0; k < configs.nicNetworkPortCount; ++k)
+    {
+        std::string portName = name + "/Ports/Port_" + std::to_string(k);
+
+        if (configs.nicNetworkPortType == "Ethernet")
+        {
+            ethPortMetrics.emplace_back(std::make_shared<NvidiaEthPortMetrics>(
+                conn, mctpRequester, portName, path, eid, k, objectServer));
         }
     }
 

@@ -10,6 +10,7 @@
 #include "NvidiaDeviceDiscovery.hpp"
 #include "NvidiaPcieInterface.hpp"
 
+#include <NvidiaEthPort.hpp>
 #include <NvidiaPciePort.hpp>
 #include <NvidiaPciePortMetrics.hpp>
 #include <boost/asio/io_context.hpp>
@@ -28,6 +29,9 @@ constexpr const char* pcieDevicePathPrefix =
 
 constexpr const char* fabricPath =
     "/xyz/openbmc_project/inventory/fabrics/PCIeTopology";
+
+constexpr const char* nicPathPrefix =
+    "/xyz/openbmc_project/inventory/NetworkAdapters/";
 
 class PcieDevice
 {
@@ -77,4 +81,5 @@ class PcieDevice
     std::vector<std::shared_ptr<NvidiaPciePortCounters>> pciePortCounters;
     std::vector<std::shared_ptr<NvidiaPciePortL0ToRecoveryCount>>
         pciePortL0ToRecoveryCounts;
+    std::vector<std::shared_ptr<NvidiaEthPortMetrics>> ethPortMetrics;
 };
