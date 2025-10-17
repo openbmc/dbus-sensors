@@ -52,6 +52,24 @@
       "parentUuid": "88b87e20_94d88734",
       "revId": "5608588a25e629472398a90d31ae9313fc24ab86",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ab451bc_38681580",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-17T17:00:13Z",
+      "side": 1,
+      "message": "Because what\u0027s there isn\u0027t correct?  GHX H100 doesn\u0027t use this code, so I don\u0027t understand the response that we\u0027re matching up to those.",
+      "parentUuid": "1862bfe8_e8613a02",
+      "revId": "5608588a25e629472398a90d31ae9313fc24ab86",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
