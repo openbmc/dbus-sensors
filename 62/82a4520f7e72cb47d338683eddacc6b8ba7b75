@@ -1,0 +1,8 @@
+Verified+1: OpenBMC CI <openbmcbump-ci@yahoo.com>
+Code-Review+2: Ed Tanous <ed@tanous.net>
+Submitted-by: Marc Olberding <molberding@nvidia.com>
+Submitted-at: Fri, 17 Oct 2025 16:24:02 +0000
+Reviewed-on: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/84089
+Comments-Total: 4
+Project: openbmc/dbus-sensors
+Branch: refs/heads/master
