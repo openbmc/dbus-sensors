@@ -7,8 +7,10 @@
 
 #include "MctpRequester.hpp"
 #include "NvidiaDeviceDiscovery.hpp"
+#include "NvidiaGpuMctpVdm.hpp"
 #include "NvidiaPcieInterface.hpp"
 
+#include <NvidiaEthPort.hpp>
 #include <NvidiaPciePort.hpp>
 #include <NvidiaPciePortMetrics.hpp>
 #include <boost/asio/io_context.hpp>
@@ -24,6 +26,9 @@
 
 constexpr const char* pcieDevicePathPrefix =
     "/xyz/openbmc_project/inventory/pcie_devices/";
+
+constexpr const char* nicPathPrefix =
+    "/xyz/openbmc_project/inventory/network_adapters/";
 
 struct PcieDeviceInfo
 {
@@ -58,6 +63,12 @@ class PcieDevice : public std::enable_shared_from_this<PcieDevice>
     void processPciePortCountsResponse(const std::error_code& ec,
                                        std::span<const uint8_t> response);
 
+    void getNetworkPortAddresses(uint16_t portNumber);
+
+    void processGetNetworkPortAddressesResponse(
+        uint16_t portNumber, const std::error_code& ec,
+        std::span<const uint8_t> response);
+
     PcieDeviceInfo pcieDeviceInfo;
 
     uint8_t eid{};
@@ -79,10 +90,18 @@ class PcieDevice : public std::enable_shared_from_this<PcieDevice>
     std::string path;
 
     std::array<uint8_t, sizeof(ocp::accelerator_management::CommonRequest)>
-        request{};
+        getPciePortCountsRequest{};
+
+    std::array<uint8_t, sizeof(gpu::GetPortNetworkAddressesRequest)>
+        getPortNetworkAddressesRequest{};
 
     std::shared_ptr<NvidiaPcieInterface> pcieInterface;
 
     std::vector<std::shared_ptr<NvidiaPciePortInfo>> pciePorts;
     std::vector<std::shared_ptr<NvidiaPciePortMetrics>> pciePortMetrics;
+
+    std::shared_ptr<sdbusplus::asio::dbus_interface> networkAdapterInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface>
+        networkAdapterAssociationInterface;
+    std::vector<std::shared_ptr<NvidiaEthPortMetrics>> ethPortMetrics;
 };

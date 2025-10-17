@@ -6,6 +6,7 @@
 #include "NvidiaPcieDevice.hpp"
 
 #include "NvidiaDeviceDiscovery.hpp"
+#include "NvidiaEthPort.hpp"
 #include "NvidiaGpuMctpVdm.hpp"
 #include "NvidiaPcieInterface.hpp"
 #include "NvidiaPciePort.hpp"
@@ -27,6 +28,8 @@
 #include <span>
 #include <string>
 #include <system_error>
+#include <utility>
+#include <vector>
 
 PcieDevice::PcieDevice(const SensorConfigs& configs, const std::string& name,
                        const std::string& path,
@@ -42,12 +45,48 @@ PcieDevice::PcieDevice(const SensorConfigs& configs, const std::string& name,
 
 void PcieDevice::init()
 {
+    sdbusplus::message::object_path networkAdapterPath =
+        sdbusplus::message::object_path(nicPathPrefix) / name;
+
+    networkAdapterInterface = objectServer.add_interface(
+        networkAdapterPath,
+        "xyz.openbmc_project.Inventory.Item.NetworkAdapter");
+
+    std::vector<Association> associations;
+    associations.emplace_back(
+        "contained_by", "containing",
+        sdbusplus::message::object_path(path).parent_path());
+
+    networkAdapterAssociationInterface =
+        objectServer.add_interface(networkAdapterPath, association::interface);
+    networkAdapterAssociationInterface->register_property(
+        "Associations", associations);
+
+    if (!networkAdapterInterface->initialize())
+    {
+        lg2::error(
+            "Failed to initialize network adapter interface for for eid {EID}",
+            "EID", eid);
+    }
+
+    if (!networkAdapterAssociationInterface->initialize())
+    {
+        lg2::error(
+            "Error initializing Association Interface for Network Adapter for eid {EID}",
+            "EID", eid);
+    }
+
     getPciePortCounts();
+
+    for (uint64_t k = 0; k < configs.nicNetworkPortCount; ++k)
+    {
+        getNetworkPortAddresses(static_cast<uint16_t>(k + 1));
+    }
 }
 
 void PcieDevice::getPciePortCounts()
 {
-    auto rc = gpu::encodeListPciePortsRequest(0, request);
+    auto rc = gpu::encodeListPciePortsRequest(0, getPciePortCountsRequest);
 
     if (rc != 0)
     {
@@ -58,7 +97,7 @@ void PcieDevice::getPciePortCounts()
     }
 
     mctpRequester.sendRecvMsg(
-        eid, request,
+        eid, getPciePortCountsRequest,
         [weak{weak_from_this()}](const std::error_code& ec,
                                  std::span<const uint8_t> buffer) {
             std::shared_ptr<PcieDevice> self = weak.lock();
@@ -103,6 +142,81 @@ void PcieDevice::processPciePortCountsResponse(
               "UP", pcieDeviceInfo.numUpstreamPorts);
 
     makeSensors();
+}
+
+void PcieDevice::getNetworkPortAddresses(const uint16_t portNumber)
+{
+    const int rc = gpu::encodeGetPortNetworkAddressesRequest(
+        0, portNumber, getPortNetworkAddressesRequest);
+
+    if (rc != 0)
+    {
+        lg2::error(
+            "Error updating Network Port Addresses: encode failed, rc={RC}, EID={EID}",
+            "RC", rc, "EID", eid);
+        return;
+    }
+
+    mctpRequester.sendRecvMsg(
+        eid, getPortNetworkAddressesRequest,
+        [portNumber, weak{weak_from_this()}](const std::error_code& ec,
+                                             std::span<const uint8_t> buffer) {
+            std::shared_ptr<PcieDevice> self = weak.lock();
+            if (!self)
+            {
+                lg2::error("Invalid reference to PcieDevice, EID={EID}", "EID",
+                           self->eid);
+                return;
+            }
+            self->processGetNetworkPortAddressesResponse(portNumber, ec,
+                                                         buffer);
+        });
+}
+
+void PcieDevice::processGetNetworkPortAddressesResponse(
+    const uint16_t portNumber, const std::error_code& ec,
+    std::span<const uint8_t> response)
+{
+    if (ec)
+    {
+        lg2::error(
+            "Error processing Network Port Addresses response: sending message over MCTP failed, rc={RC}, EID={EID}",
+            "RC", ec.message(), "EID", eid);
+        return;
+    }
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode = 0;
+    gpu::NetworkPortLinkType linkType = gpu::NetworkPortLinkType::UNKNOWN;
+    std::vector<std::pair<uint8_t, uint64_t>> addresses;
+
+    const int rc = gpu::decodeGetPortNetworkAddressesResponse(
+        response, cc, reasonCode, linkType, addresses);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        lg2::error(
+            "Error processing Network Port Addresses response: decode failed, rc={RC}, cc={CC}, reasonCode={RESC}, EID={EID}",
+            "RC", rc, "CC", static_cast<uint8_t>(cc), "RESC", reasonCode, "EID",
+            eid);
+        return;
+    }
+
+    if (linkType == gpu::NetworkPortLinkType::ETHERNET)
+    {
+        lg2::info(
+            "Port {PN} of PCIe Device with eid {EID} is of type Ethernet.",
+            "EID", eid, "PN", portNumber);
+
+        sdbusplus::message::object_path portName =
+            sdbusplus::message::object_path(name) / "Ports" /
+            std::format("Port_{}", portNumber);
+
+        ethPortMetrics.emplace_back(std::make_shared<NvidiaEthPortMetrics>(
+            conn, mctpRequester, portName,
+            sdbusplus::message::object_path(nicPathPrefix) / name, eid,
+            portNumber, objectServer));
+    }
 }
 
 void PcieDevice::makeSensors()
@@ -182,6 +296,11 @@ void PcieDevice::read()
     for (auto& portMetrics : pciePortMetrics)
     {
         portMetrics->update();
+    }
+
+    for (auto& ethPortMetric : ethPortMetrics)
+    {
+        ethPortMetric->update();
     }
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
