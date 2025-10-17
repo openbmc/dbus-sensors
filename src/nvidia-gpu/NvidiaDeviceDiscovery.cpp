@@ -374,6 +374,28 @@ void processSensorConfigs(
                 configs.pollRate = sensorPollRateMs;
             }
 
+            try
+            {
+                configs.nicNetworkPortCount =
+                    loadVariant<uint64_t>(cfg, "NicNetworkPortCount");
+            }
+            catch (const std::invalid_argument&)
+            {
+                // NicNetworkPortCount is an optional config
+                configs.nicNetworkPortCount = 0;
+            }
+
+            try
+            {
+                configs.nicNetworkPortType =
+                    loadVariant<std::string>(cfg, "NicNetworkPortType");
+            }
+            catch (const std::invalid_argument&)
+            {
+                // NicNetworkPortType is an optional config
+                configs.nicNetworkPortType = "Ethernet";
+            }
+
             discoverDevices(io, objectServer, gpuDevices, smaDevices,
                             pcieDevices, dbusConnection, mctpRequester, configs,
                             path);

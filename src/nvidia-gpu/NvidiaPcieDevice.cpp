@@ -7,6 +7,7 @@
 #include "NvidiaPcieDevice.hpp"
 
 #include "NvidiaDeviceDiscovery.hpp"
+#include "NvidiaEthPort.hpp"
 #include "NvidiaGpuMctpVdm.hpp"
 #include "NvidiaPcieInterface.hpp"
 #include "NvidiaPciePort.hpp"
@@ -28,6 +29,7 @@
 #include <span>
 #include <string>
 #include <system_error>
+#include <vector>
 
 std::shared_ptr<sdbusplus::asio::dbus_interface> PcieDevice::fabricInterface;
 
@@ -56,6 +58,37 @@ void PcieDevice::init()
                 "Failed to initialize fabric interface for for eid {EID}",
                 "EID", eid);
         }
+    }
+
+    sdbusplus::message::object_path networkAdapterPath =
+        sdbusplus::message::object_path(nicPathPrefix) / name;
+
+    networkAdapterInterface = objectServer.add_interface(
+        networkAdapterPath,
+        "xyz.openbmc_project.Inventory.Item.NetworkAdapter");
+
+    std::vector<Association> associations;
+    associations.emplace_back(
+        "chassis", "all_networkadapters",
+        sdbusplus::message::object_path(path).parent_path());
+
+    networkAdapterAssociationInterface =
+        objectServer.add_interface(networkAdapterPath, association::interface);
+    networkAdapterAssociationInterface->register_property(
+        "Associations", associations);
+
+    if (!networkAdapterInterface->initialize())
+    {
+        lg2::error(
+            "Failed to initialize network adapter interface for for eid {EID}",
+            "EID", eid);
+    }
+
+    if (!networkAdapterAssociationInterface->initialize())
+    {
+        lg2::error(
+            "Error initializing Association Interface for Network Adapter for eid {EID}",
+            "EID", eid);
     }
 
     getPciePortCounts();
@@ -183,6 +216,21 @@ void PcieDevice::makeSensors()
         }
     }
 
+    for (uint64_t k = 0; k < configs.nicNetworkPortCount; ++k)
+    {
+        sdbusplus::message::object_path portName =
+            sdbusplus::message::object_path(name) / "Ports" /
+            std::format("Port_{}", k);
+
+        if (configs.nicNetworkPortType == "Ethernet")
+        {
+            ethPortMetrics.emplace_back(std::make_shared<NvidiaEthPortMetrics>(
+                conn, mctpRequester, portName,
+                sdbusplus::message::object_path(nicPathPrefix) / name, eid, k,
+                objectServer));
+        }
+    }
+
     lg2::info("Added PCIe {NAME} Sensors with chassis path: {PATH}.", "NAME",
               name, "PATH", path);
 
@@ -211,6 +259,11 @@ void PcieDevice::read()
     for (auto& portL0ToRecoveryCount : pciePortL0ToRecoveryCounts)
     {
         portL0ToRecoveryCount->update();
+    }
+
+    for (auto& ethPortMetric : ethPortMetrics)
+    {
+        ethPortMetric->update();
     }
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
