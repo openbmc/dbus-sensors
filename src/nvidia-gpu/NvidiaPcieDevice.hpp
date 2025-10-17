@@ -9,6 +9,7 @@
 #include "NvidiaDeviceDiscovery.hpp"
 #include "NvidiaPcieInterface.hpp"
 
+#include <NvidiaEthPort.hpp>
 #include <NvidiaPciePort.hpp>
 #include <NvidiaPciePortMetrics.hpp>
 #include <boost/asio/io_context.hpp>
@@ -24,6 +25,9 @@
 
 constexpr const char* pcieDevicePathPrefix =
     "/xyz/openbmc_project/inventory/pcie_devices/";
+
+constexpr const char* nicPathPrefix =
+    "/xyz/openbmc_project/inventory/network_adapters/";
 
 struct PcieDeviceInfo
 {
@@ -88,4 +92,8 @@ class PcieDevice : public std::enable_shared_from_this<PcieDevice>
     std::vector<std::shared_ptr<NvidiaPciePortCounters>> pciePortCounters;
     std::vector<std::shared_ptr<NvidiaPciePortL0ToRecoveryCount>>
         pciePortL0ToRecoveryCounts;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> networkAdapterInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface>
+        networkAdapterAssociationInterface;
+    std::vector<std::shared_ptr<NvidiaEthPortMetrics>> ethPortMetrics;
 };
