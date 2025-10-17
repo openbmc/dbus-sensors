@@ -85,6 +85,30 @@
       },
       "revId": "72a837480e83e2ebaf32d2fcef477eb52e0d25fb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1846ae1b_a24f9b25",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-17T20:31:46Z",
+      "side": 1,
+      "message": "To be clear, we might pick a name, but this shouldn\u0027t be in configuration.",
+      "parentUuid": "cdd29a02_a699ef28",
+      "range": {
+        "startLine": 364,
+        "startChar": 51,
+        "endLine": 364,
+        "endChar": 61
+      },
+      "revId": "72a837480e83e2ebaf32d2fcef477eb52e0d25fb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
