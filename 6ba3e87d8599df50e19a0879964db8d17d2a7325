@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed673df6_52bcf23d",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-17T02:08:59Z",
+      "side": 1,
+      "message": "Why do these need to come from the EM config?  Don\u0027t we know that based on querying the device?",
+      "range": {
+        "startLine": 385,
+        "startChar": 48,
+        "endLine": 385,
+        "endChar": 72
+      },
+      "revId": "6ba3e87d8599df50e19a0879964db8d17d2a7325",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b17d0bd_2bf87b26",
+        "filename": "src/nvidia-gpu/NvidiaPcieDevice.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-17T02:08:59Z",
+      "side": 1,
+      "message": "\u003d 0;",
+      "range": {
+        "startLine": 69,
+        "startChar": 13,
+        "endLine": 69,
+        "endChar": 32
+      },
+      "revId": "6ba3e87d8599df50e19a0879964db8d17d2a7325",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94e3efdf_0148e04d",
+        "filename": "src/nvidia-gpu/NvidiaPcieDevice.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-17T02:08:59Z",
+      "side": 1,
+      "message": "Pretty sure this is a dbus path, we need to be using object_path for these constructions to ensure safety.",
+      "revId": "6ba3e87d8599df50e19a0879964db8d17d2a7325",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4d13912_758b8451",
+        "filename": "src/nvidia-gpu/NvidiaPciePort.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-17T02:08:59Z",
+      "side": 1,
+      "message": "Please deduplicate these branches.  the \"regsiter_property\" call is nearly identical.",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 5
+      },
+      "revId": "6ba3e87d8599df50e19a0879964db8d17d2a7325",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "afca0bd2_529582e7",
+        "filename": "src/nvidia-gpu/NvidiaPciePort.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-17T02:08:59Z",
+      "side": 1,
+      "message": "Please don\u0027t use auto like this.  it doesn\u0027t make it clear what the type is.",
+      "range": {
+        "startLine": 131,
+        "startChar": 4,
+        "endLine": 131,
+        "endChar": 8
+      },
+      "revId": "6ba3e87d8599df50e19a0879964db8d17d2a7325",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
