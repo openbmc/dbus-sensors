@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8fa58784_c8c9bac5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-17T19:17:24Z",
+      "side": 1,
+      "message": "\"fabrics\" is not a valid path.",
+      "range": {
+        "startLine": 50,
+        "startChar": 98,
+        "endLine": 50,
+        "endChar": 105
+      },
+      "revId": "72a837480e83e2ebaf32d2fcef477eb52e0d25fb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "682f3a6c_48b1a587",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-17T19:17:24Z",
+      "side": 1,
+      "message": "Dbus path modeling looks wrong here.\n\n@deepak.kodihalli.83@gmail.com PTAL.",
+      "revId": "72a837480e83e2ebaf32d2fcef477eb52e0d25fb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdd29a02_a699ef28",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-17T19:17:24Z",
+      "side": 1,
+      "message": "This doesn\u0027t make sense as a property.  A device doesn\u0027t have a \"Fabric name\".",
+      "range": {
+        "startLine": 364,
+        "startChar": 51,
+        "endLine": 364,
+        "endChar": 61
+      },
+      "revId": "72a837480e83e2ebaf32d2fcef477eb52e0d25fb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
