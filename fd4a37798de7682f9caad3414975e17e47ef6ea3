@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc159981_d27645fb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-10-17T07:30:33Z",
+      "side": 1,
+      "message": "Need to resolve open comments - there is one open from Harshit.",
+      "revId": "fd4a37798de7682f9caad3414975e17e47ef6ea3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
