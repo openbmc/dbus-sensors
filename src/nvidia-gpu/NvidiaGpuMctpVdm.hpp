@@ -10,8 +10,10 @@
 #include <array>
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <span>
 #include <string>
+#include <utility>
 #include <variant>
 #include <vector>
 
@@ -26,6 +28,7 @@ constexpr uint16_t nvidiaPciVendorId = 0x10de;
 enum class MessageType : uint8_t
 {
     DEVICE_CAPABILITY_DISCOVERY = 0,
+    NETWORK_PORT = 1,
     PCIE_LINK = 2,
     PLATFORM_ENVIRONMENTAL = 3
 };
@@ -44,6 +47,11 @@ enum class PlatformEnvironmentalCommands : uint8_t
     GET_CURRENT_ENERGY_COUNTER = 0x06,
     GET_INVENTORY_INFORMATION = 0x0C,
     GET_VOLTAGE = 0x0F,
+};
+
+enum class NetworkPortCommands : uint8_t
+{
+    GetEthernetPortTelemetryCounters = 0x0F,
 };
 
 enum class PcieLinkCommands : uint8_t
@@ -147,6 +155,12 @@ struct QueryScalarGroupTelemetryV2Request
     uint8_t groupId;
 } __attribute__((packed));
 
+struct GetEthernetPortTelemetryCountersRequest
+{
+    ocp::accelerator_management::CommonRequest hdr;
+    uint16_t portNumber;
+} __attribute__((packed));
+
 struct GetTemperatureReadingResponse
 {
     ocp::accelerator_management::CommonResponse hdr;
@@ -191,6 +205,13 @@ struct GetInventoryInformationResponse
 
 int packHeader(const ocp::accelerator_management::BindingPciVidInfo& hdr,
                ocp::accelerator_management::BindingPciVid& msg);
+
+int decodeAggregateResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    std::move_only_function<int(const uint8_t tag, const uint8_t length,
+                                const uint8_t* value)>
+        handler);
 
 int encodeQueryDeviceIdentificationRequest(uint8_t instanceId,
                                            std::span<uint8_t> buf);
@@ -263,4 +284,11 @@ int decodeListPciePortsResponse(
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     uint16_t& numUpstreamPorts, std::vector<uint8_t>& numDownstreamPorts);
 
+int encodeGetEthernetPortTelemetryCounters(
+    uint8_t instanceId, uint16_t portNumber, std::span<uint8_t> buf);
+
+int decodeGetEthernetPortTelemetryCounters(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    std::vector<std::pair<uint8_t, uint64_t>>& telemetryValues);
 } // namespace gpu
