@@ -6,6 +6,7 @@
 #pragma once
 
 #include <cstdint>
+#include <functional>
 #include <span>
 
 namespace ocp
@@ -88,6 +89,14 @@ struct CommonResponse
     uint16_t data_size;
 } __attribute__((packed));
 
+struct CommonAggregateResponse
+{
+    Message msgHdr;
+    uint8_t command;
+    uint8_t completion_code;
+    uint16_t telemetryCount;
+} __attribute__((packed));
+
 struct CommonNonSuccessResponse
 {
     Message msgHdr;
@@ -101,6 +110,13 @@ int packHeader(uint16_t pciVendorId, const BindingPciVidInfo& hdr,
 
 int decodeReasonCodeAndCC(std::span<const uint8_t> buf, CompletionCode& cc,
                           uint16_t& reasonCode);
+
+int decodeAggregateResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    std::move_only_function<int(const uint8_t tag, const uint8_t length,
+                                const uint8_t* value)>
+        handler);
 
 } // namespace accelerator_management
 } // namespace ocp
