@@ -28,6 +28,8 @@ struct SensorConfigs
     std::string fabricName;
     uint64_t nicPcieUpstreamPortCount{};
     uint64_t nicPcieDownstreamPortCountPerUpstreamPort{};
+    uint64_t nicNetworkPortCount{};
+    std::string nicNetworkPortType;
 };
 
 class GpuDevice;

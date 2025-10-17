@@ -13,7 +13,9 @@
 #include <cerrno>
 #include <cstddef>
 #include <cstdint>
+#include <limits>
 #include <span>
+#include <utility>
 #include <vector>
 
 namespace gpu
@@ -571,6 +573,139 @@ int decodeQueryScalarGroupTelemetryV2Response(
     for (size_t i = 0; i < numTelemetryValues; i++)
     {
         telemetryValues[i] = le32toh(telemetryDataPtr[i]);
+    }
+
+    return 0;
+}
+
+int encodeGetEthernetPortTelemetryCounters(
+    uint8_t instanceId, uint8_t portNumber, std::span<uint8_t> buf)
+{
+    if (buf.size() < sizeof(GetEthernetPortTelemetryCountersRequest))
+    {
+        return EINVAL;
+    }
+
+    auto* msg =
+        reinterpret_cast<GetEthernetPortTelemetryCountersRequest*>(buf.data());
+
+    ocp::accelerator_management::BindingPciVidInfo header{};
+    header.ocp_accelerator_management_msg_type =
+        static_cast<uint8_t>(ocp::accelerator_management::MessageType::REQUEST);
+    header.instance_id = instanceId &
+                         ocp::accelerator_management::instanceIdBitMask;
+    header.msg_type = static_cast<uint8_t>(MessageType::NETWORK_PORT);
+
+    auto rc = packHeader(header, msg->hdr.msgHdr.hdr);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    msg->hdr.command = static_cast<uint8_t>(
+        NetworkPortCommands::GetEthernetPortTelemetryCounters);
+    msg->hdr.data_size = 1;
+    msg->portNumber = portNumber;
+
+    return 0;
+}
+
+int decodeGetEthernetPortTelemetryCounters(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    std::vector<std::pair<uint8_t, uint64_t>>& telemetryValues)
+{
+    auto rc =
+        ocp::accelerator_management::decodeReasonCodeAndCC(buf, cc, reasonCode);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    if (buf.size() <
+        sizeof(ocp::accelerator_management::CommonAggregateResponse))
+    {
+        return EINVAL;
+    }
+
+    const auto* response = reinterpret_cast<
+        const ocp::accelerator_management::CommonAggregateResponse*>(
+        buf.data());
+
+    telemetryValues.clear();
+    telemetryValues.reserve(std::numeric_limits<uint8_t>::max());
+
+    size_t index{};
+
+    for (uint16_t telemetryCount{};
+         telemetryCount < le16toh(response->telemetryCount); ++telemetryCount)
+    {
+        if (buf.size() <
+            sizeof(ocp::accelerator_management::CommonAggregateResponse) +
+                index + 2)
+        {
+            return EINVAL;
+        }
+
+        const uint8_t tag =
+            buf[sizeof(ocp::accelerator_management::CommonAggregateResponse) +
+                index];
+        const uint8_t tagInfo =
+            buf[sizeof(ocp::accelerator_management::CommonAggregateResponse) +
+                index + 1];
+        const bool isValid = (0x01 & tagInfo) != 0;
+        const bool isByteLengthEncoding = (0x80 & tagInfo) != 0;
+        const uint8_t valueLength = tagInfo & 0x0E;
+
+        size_t length{};
+        if (isByteLengthEncoding)
+        {
+            length = valueLength;
+        }
+        else
+        {
+            length = 1 << valueLength;
+        }
+
+        if (isValid)
+        {
+            if (buf.size() <
+                sizeof(ocp::accelerator_management::CommonAggregateResponse) +
+                    index + 2 + length)
+            {
+                return EINVAL;
+            }
+
+            uint64_t telemetryData{};
+
+            if (length == 4)
+            {
+                const auto* telemetryDataPtr = reinterpret_cast<
+                    const uint32_t*>(
+                    buf.data() +
+                    sizeof(
+                        ocp::accelerator_management::CommonAggregateResponse) +
+                    index + 2);
+
+                telemetryData = le32toh(*telemetryDataPtr);
+            }
+            else if (length == 8)
+            {
+                const auto* telemetryDataPtr = reinterpret_cast<
+                    const uint64_t*>(
+                    buf.data() +
+                    sizeof(
+                        ocp::accelerator_management::CommonAggregateResponse) +
+                    index + 2);
+                telemetryData = le64toh(*telemetryDataPtr);
+            }
+
+            telemetryValues.emplace_back(tag, telemetryData);
+        }
+
+        index += 2 + length;
     }
 
     return 0;

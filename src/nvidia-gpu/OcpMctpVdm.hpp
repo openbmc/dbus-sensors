@@ -89,6 +89,14 @@ struct CommonResponse
     uint16_t data_size;
 } __attribute__((packed));
 
+struct CommonAggregateResponse
+{
+    Message msgHdr;
+    uint8_t command;
+    uint8_t completion_code;
+    uint16_t telemetryCount;
+} __attribute__((packed));
+
 struct CommonNonSuccessResponse
 {
     Message msgHdr;
