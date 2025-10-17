@@ -70,6 +70,24 @@
       "parentUuid": "1862bfe8_e8613a02",
       "revId": "5608588a25e629472398a90d31ae9313fc24ab86",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17917d13_893d469c",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-17T18:22:12Z",
+      "side": 1,
+      "message": "honestly, I think the original code is wrong (and maybe whatever we\u0027re using elsewhere on HGX platforms). but, this is just as wrong as the previous implementation with the bonus of not coredumping everywhere. I think this deserves a followup and unfortunately the spec doesn\u0027t really spell out how this command is supposed to be used, just gives the byte format and repeats the name of the command instead of what its supposed to do with respect to sensor readings. Thoughts on following up with a logical fix to this?",
+      "parentUuid": "2ab451bc_38681580",
+      "revId": "5608588a25e629472398a90d31ae9313fc24ab86",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
