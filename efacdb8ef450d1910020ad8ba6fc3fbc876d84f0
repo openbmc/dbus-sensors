@@ -22,6 +22,30 @@
       },
       "revId": "efacdb8ef450d1910020ad8ba6fc3fbc876d84f0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e74eb47f_b91be69e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002051
+      },
+      "writtenOn": "2025-10-17T06:27:57Z",
+      "side": 1,
+      "message": "Hi Patrick,\nplease refer https://lore.kernel.org/openbmc/20251012071633.503539-1-chou.cosmo@gmail.com/T/#t",
+      "parentUuid": "ae29456e_1b620b02",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 77
+      },
+      "revId": "efacdb8ef450d1910020ad8ba6fc3fbc876d84f0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
