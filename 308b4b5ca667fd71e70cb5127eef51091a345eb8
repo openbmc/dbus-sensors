@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4341ee2c_53380b25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-10-19T22:44:31Z",
+      "side": 1,
+      "message": "Can you unpack this statement a bit? What does it mean?",
+      "revId": "308b4b5ca667fd71e70cb5127eef51091a345eb8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
