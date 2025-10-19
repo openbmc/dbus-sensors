@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c658839_a9260714",
+        "filename": "src/nvidia-gpu/NvidiaEthPort.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-19T18:52:47Z",
+      "side": 1,
+      "message": "Should the tagging/naming of what these individual fields mean go into the decode as well? Do expect everyone who calls that function to know/re-encode what tag 0 is, for example?",
+      "revId": "ec6a4abca389a1d14e560ccb87d4035abae28fe3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "664688a2_13d3f250",
+        "filename": "src/nvidia-gpu/NvidiaEthPort.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-19T18:52:47Z",
+      "side": 1,
+      "message": "why default init here but not elsewhere?",
+      "revId": "ec6a4abca389a1d14e560ccb87d4035abae28fe3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d9d0606_8e9adcbd",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-19T18:52:47Z",
+      "side": 1,
+      "message": "std::bit_cast is good for this, and it\u0027ll help you avoid side-eye in reviews, as well as the file-wide nolint.",
+      "revId": "ec6a4abca389a1d14e560ccb87d4035abae28fe3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82e93305_636c991c",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 642,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-19T18:52:47Z",
+      "side": 1,
+      "message": "nit, use \u003d 0 for primitives.",
+      "revId": "ec6a4abca389a1d14e560ccb87d4035abae28fe3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1dfb03d3_7f788d51",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-19T18:52:47Z",
+      "side": 1,
+      "message": "nit, we have a lot of +2\u0027s swimming around in this code path. If you make the struct suggested below, we can just use the size of that, or just make a pointer/index for it every loop.",
+      "revId": "ec6a4abca389a1d14e560ccb87d4035abae28fe3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2293bc15_0be73ae6",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 658,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-19T18:52:47Z",
+      "side": 1,
+      "message": "bit fields for this? isn\u0027t that standard c++ these days?",
+      "revId": "ec6a4abca389a1d14e560ccb87d4035abae28fe3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5beb9ee4_3a4b6c31",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-19T18:52:47Z",
+      "side": 1,
+      "message": "this is relatively confusing when taken in concert with 663 through 670. whats a valueLength vs a length?\n\nmaybe:\n```\nconst size_t length \u003d isByteLengthEncoding ? tagInfo \u0026 0xE : 1 \u003c\u003c (tagInfo \u0026 0xE);\n```\n\nor if you prefer:\n```\nconst size_t length \u003d [isByteLengthEncoding](uint8_t bytes) {\n    return isByteLengthEncoding ? bytes : 1 \u003c\u003c bytes;\n}(tagInfo \u0026 0xE); \n```\n\nor,\n```\nstruct TagLength\n{\n   uint8_t tag;\n   uint8_t isbyteLengthEncoded : 1;\n   uint8_t reserved : 3;\n   uint8_t length : 3;\n   uint8_t isValid : 1;\n}; // pack incantation here and if you\u0027re paranoid a static assert on its size\n\nTagLength tl;\nstd::memcpy(\u0026tl, \u0026buf[/* offset stuff */], sizeof(tl));\nconst size_t length \u003d tl.isByteLengthEncoded ? tl.length : 1 \u003c\u003c tl.length;\n```\n\nor,\n```\n// struct stuff from above\nsize_t length \u003d tl.length;\nif (!tl.isByteLengthEncoded)\n{\n    length \u003d 1 \u003c\u003c length;\n}\n```\n\nalso should this function really be hosting this logic? don\u0027t we have a bunch of instances of this tlv data structure throughout the spec?",
+      "revId": "ec6a4abca389a1d14e560ccb87d4035abae28fe3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61df4a17_21e97616",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 694,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-19T18:52:47Z",
+      "side": 1,
+      "message": "so if its neither 4 nor 8 bytes in length we just put a 0 in and move on with life? Is that the correct behavior?",
+      "revId": "ec6a4abca389a1d14e560ccb87d4035abae28fe3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
