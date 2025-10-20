@@ -16,6 +16,24 @@
       "message": "Can you unpack this statement a bit? What does it mean?",
       "revId": "308b4b5ca667fd71e70cb5127eef51091a345eb8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9efd75f7_8372ef02",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-20T06:24:54Z",
+      "side": 1,
+      "message": "yeah, this is a bit terse.\n\nWe don\u0027t have MCTPoUSB support in MctpReactor today (needed generally for interacting with this at least on a large number of platforms), nor do we have support for determining device identity of bridged endpoints. i.e. if I have, say, a bridge with 8 endpoints behind it, there\u0027s no way to today to map out eid X is device Y and route through inventory when they\u0027re behind a bridge. This is made more complicated yet because the existing EntityManager schemes also lack a way to talk about hubs and USB topologies, so tracing device identity through multiple instantiations of a given entity manager config is not feasible today.\n\nThis at least gives us some (crude) way to support multiple GPU\u0027s and have a way to talk about which endpoint is which. Previously, multiple GPU\u0027s and SMA\u0027s would cause an exception because of the existing code in NvidiaGpuDeviceDiscovery.cpp starting effectively at the top of the query to MCTPd to find endpoints. That is patchable (i.e. skip eids that already exist), but without a concrete way to talk about device identity it makes the inventory non deterministic, i.e. GPU sensor names may not match between BMC reboots, dependent on device probe order and kernel implementation details such as network interface name assignment.\n\nThat said, I also have a patch set coming up that I prefer to this, mostly because this is a bit of hackery without the aforementioned MCTPReactor support, where we get callbacks through dbus when a new device is registered with mctpd, and we\u0027ll send device queries to devices that support PCI IANA commands, similar to how PLDMd works today. Once that goes up, I\u0027ll likely abandon this patch. This was mostly needed to do initial nvl32-obmc bringup and do bug crushing in this daemon (see other recent patches in this area).\n\n\n\nLet me know if any more clarification is required, thanks.",
+      "parentUuid": "4341ee2c_53380b25",
+      "revId": "308b4b5ca667fd71e70cb5127eef51091a345eb8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
