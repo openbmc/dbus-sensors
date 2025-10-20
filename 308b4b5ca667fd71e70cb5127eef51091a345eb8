@@ -34,6 +34,24 @@
       "parentUuid": "4341ee2c_53380b25",
       "revId": "308b4b5ca667fd71e70cb5127eef51091a345eb8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3bf3399_d529f4bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-10-20T23:13:47Z",
+      "side": 1,
+      "message": "\u003e This is made more complicated yet because the existing EntityManager schemes also lack a way to talk about hubs and USB topologies, so tracing device identity through multiple instantiations of a given entity manager config is not feasible today.\n\nI expect the right thing to do is progress this:\n\nhttps://gerrit.openbmc.org/c/openbmc/entity-manager/+/77381\n\nLet\u0027s fix it properly?\n\nThough it sounds like fixing it properly might be on the radar?\n\nConsider marking this as WIP if there\u0027s no plan to get it merged.",
+      "parentUuid": "9efd75f7_8372ef02",
+      "revId": "308b4b5ca667fd71e70cb5127eef51091a345eb8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
