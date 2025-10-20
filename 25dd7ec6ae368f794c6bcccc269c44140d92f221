@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "388e64af_030a419c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000020
+      },
+      "writtenOn": "2025-10-20T16:40:04Z",
+      "side": 1,
+      "message": "https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/84508 is the same commit. I\u0027ll let you 2 decide which commit you want to use",
+      "revId": "25dd7ec6ae368f794c6bcccc269c44140d92f221",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
