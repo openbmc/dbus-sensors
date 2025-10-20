@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ab02a482_f6b6bff1",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-20T15:50:54Z",
+      "side": 1,
+      "message": "can\u0027t we discover this through MCTP, i.e. type 1 command 0x41",
+      "revId": "ec6a4abca389a1d14e560ccb87d4035abae28fe3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6c658839_a9260714",
         "filename": "src/nvidia-gpu/NvidiaEthPort.cpp",
         "patchSetId": 2
