@@ -1,10 +1,6 @@
 #pragma once
 
 #include <boost/asio/generic/datagram_protocol.hpp>
-#include <phosphor-logging/lg2.hpp>
-
-#include <optional>
-#include <utility>
 
 // Becuase of issues with glibc not matching linux, we need to make sure these
 // are included AFTER the system headers, which are implictly included by boost.
@@ -20,11 +16,16 @@
 #include <sys/socket.h>
 // clang-format on
 
+#include <optional>
+
 // Wrapper around boost::asio::generic::datagram_protocol::endpoint to provide
 // MCTP specific APIs that are available to the kernel
 struct MctpAsioEndpoint
 {
-    MctpAsioEndpoint() = default;
+    MctpAsioEndpoint();
+
+    MctpAsioEndpoint(uint8_t eid, uint8_t msgType);
+
     MctpAsioEndpoint(const MctpAsioEndpoint&) = delete;
     MctpAsioEndpoint(MctpAsioEndpoint&&) = delete;
     MctpAsioEndpoint& operator=(const MctpAsioEndpoint&) = delete;
@@ -32,35 +33,10 @@ struct MctpAsioEndpoint
 
     boost::asio::generic::datagram_protocol::endpoint endpoint;
 
-    std::optional<uint8_t> eid() const
-    {
-        const struct sockaddr_mctp* sock = getSockAddr();
-        if (sock == nullptr)
-        {
-            return std::nullopt;
-        }
-        return sock->smctp_addr.s_addr;
-    }
+    std::optional<uint8_t> eid() const;
 
-    std::optional<uint8_t> type() const
-    {
-        const struct sockaddr_mctp* sock = getSockAddr();
-        if (sock == nullptr)
-        {
-            return std::nullopt;
-        }
-        return sock->smctp_type;
-    }
+    std::optional<uint8_t> type() const;
 
   private:
-    const struct sockaddr_mctp* getSockAddr() const
-    {
-        if (endpoint.size() < sizeof(struct sockaddr_mctp))
-        {
-            lg2::error("MctpRequester: Received endpoint is too small?");
-            return nullptr;
-        }
-
-        return std::bit_cast<struct sockaddr_mctp*>(endpoint.data());
-    }
+    const struct sockaddr_mctp* getSockAddr() const;
 };

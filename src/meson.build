@@ -87,6 +87,18 @@ entitymanagerinterface_dep = declare_dependency(
     dependencies: default_deps,
 )
 
+mctpasio_a = static_library(
+    'mctpasio_a',
+    'MctpAsioEndpoint.cpp',
+    dependencies: [boost, phosphor_logging_dep, uring],
+)
+
+mctpasio_dep = declare_dependency(
+    include_directories: ['.'],
+    link_with: [mctpasio_a],
+    dependencies: default_deps,
+)
+
 notifywatch_a = static_library(
     'notifywatch_a',
     'NotifyWatch.cpp',
