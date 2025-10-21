@@ -54,8 +54,6 @@ class MctpRequester
     using cb_t = std::move_only_function<void(const std::error_code&,
                                               std::span<const uint8_t>)>;
 
-    static constexpr uint8_t msgType = ocp::accelerator_management::messageType;
-
     struct RequestContext
     {
         std::vector<uint8_t> reqMsg;
