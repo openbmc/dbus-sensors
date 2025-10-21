@@ -213,6 +213,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "630968f6_d5e27a37",
+        "filename": "src/Reactor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-21T17:53:23Z",
+      "side": 1,
+      "message": "Agree with Marc here, a class this specific should not be the owner of all IO for an application.\n\nI would prefer to just keep it owned in the top of main, to make it clear that there can\u0027t be lifetime issues.",
+      "parentUuid": "7a88e330_56a80d45",
+      "revId": "7bf26267f77ee6a0fa1af2f3a72592c72f442e80",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b0d5314b_fbca2f9c",
         "filename": "src/mcu/MCUTempSensor.cpp",
         "patchSetId": 2

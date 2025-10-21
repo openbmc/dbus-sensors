@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b670ff93_d5d0cc38",
+        "filename": "src/adc/ADCSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-21T17:53:23Z",
+      "side": 0,
+      "message": "io_context is always global to an application.  It should not be owned by a single reactor class.",
+      "range": {
+        "startLine": 318,
+        "startChar": 0,
+        "endLine": 318,
+        "endChar": 31
+      },
+      "revId": "3a3ebd1c6a7a3824444e40c3e6c3f074edf29002",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

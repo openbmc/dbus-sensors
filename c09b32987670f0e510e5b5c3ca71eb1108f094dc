@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb08b400_8bc33fa9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-21T17:53:23Z",
+      "side": 1,
+      "message": "net in support of this, would just like to see the reactor abstraction limited to only reactors.",
+      "revId": "c09b32987670f0e510e5b5c3ca71eb1108f094dc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "965bf07b_513465a6",
+        "filename": "src/Reactor.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-21T17:53:23Z",
+      "side": 1,
+      "message": "Same as below, lets not re-invent an API that already exists in a sensor-specific context.",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 6
+      },
+      "revId": "c09b32987670f0e510e5b5c3ca71eb1108f094dc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5d5688a_67221d2b",
+        "filename": "src/Reactor.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-21T17:53:23Z",
+      "side": 1,
+      "message": "We shouldn\u0027t reinvent asio::post in a different namespace.",
+      "revId": "c09b32987670f0e510e5b5c3ca71eb1108f094dc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "876fa8bb_edbe2f8c",
+        "filename": "src/Reactor.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-21T17:53:23Z",
+      "side": 1,
+      "message": "Why protected here?",
+      "revId": "c09b32987670f0e510e5b5c3ca71eb1108f094dc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de0bbc4c_13cfa36e",
+        "filename": "src/Reactor.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-21T17:53:23Z",
+      "side": 1,
+      "message": "Probably don\u0027t need to store this as a bool in the constructor.  Just make the \"setupManufacturingModeMatch\" method available on the class.",
+      "range": {
+        "startLine": 52,
+        "startChar": 15,
+        "endLine": 52,
+        "endChar": 40
+      },
+      "revId": "c09b32987670f0e510e5b5c3ca71eb1108f094dc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a4afce5_31b72494",
+        "filename": "src/Reactor.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-21T17:53:23Z",
+      "side": 1,
+      "message": "nit, line wrapping",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 53
+      },
+      "revId": "c09b32987670f0e510e5b5c3ca71eb1108f094dc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5bcc7fc_a238b274",
+        "filename": "src/Reactor.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-21T17:53:23Z",
+      "side": 1,
+      "message": "in terms of an API, this really isn\u0027t something we should expose out of a \"general\" class.  It leaks the implementation that we\u0027re using dbus, sdbusplus, and gives raw access to the message.",
+      "range": {
+        "startLine": 72,
+        "startChar": 9,
+        "endLine": 72,
+        "endChar": 17
+      },
+      "revId": "c09b32987670f0e510e5b5c3ca71eb1108f094dc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
