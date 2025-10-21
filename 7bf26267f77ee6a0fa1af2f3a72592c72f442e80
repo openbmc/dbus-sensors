@@ -231,6 +231,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "16b49bb8_4c93d238",
+        "filename": "src/Reactor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-10-21T18:30:24Z",
+      "side": 1,
+      "message": "\u003e I would prefer to just keep it owned in the top of main, to make it clear that there can\u0027t be lifetime issues.\n\nThis is what `class Reactor` does. Construct it at top of main function and we get the initialization and lifetime done for all sensor reactors and not have this concern in each and every one of them.\n\n\u003e This won\u0027t extend to more complicated use cases like those in nvidia-gpu\n\nI am still wondering on this question, please help me understand. IMO these sensor codes are similar (by construction).\n\nIf we do not extract those similarities then there will be code drift.\nI already noticed this code drift happening, nvidia sensor is now try-catching \nthe `io.run()` statement to print an error. This error handling was only done in nvidia sensor even though it applies to all sensors.\n\nPlease let\u0027s just avoid this code drift and make a common code to fix issues like that for all sensors.",
+      "parentUuid": "630968f6_d5e27a37",
+      "revId": "7bf26267f77ee6a0fa1af2f3a72592c72f442e80",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b0d5314b_fbca2f9c",
         "filename": "src/mcu/MCUTempSensor.cpp",
         "patchSetId": 2
