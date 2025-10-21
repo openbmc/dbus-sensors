@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "74efc7ca_a5949149",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-10-21T14:58:27Z",
+      "side": 1,
+      "message": "This is the hard part about introducing a common code into any repo with a hardware dependency.\n\nA common code can be tested by any sensor using it but\nto introduce the common code one theoretically has to test all the sensors.\n\nI will simplify my change to avoid these issues by only making simpler changes to stuff i cannot test.",
+      "parentUuid": "9d03dfc5_cc3736f6",
+      "revId": "7bf26267f77ee6a0fa1af2f3a72592c72f442e80",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "99f2bcf6_f9d63aec",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-10-15T19:08:05Z",
       "side": 1,
       "message": "we subtly changed object lifetime stuff in this class, can we either back out the changes to it or give it a real test?",
+      "revId": "7bf26267f77ee6a0fa1af2f3a72592c72f442e80",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "573aadc0_c8949eea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-10-21T14:58:27Z",
+      "side": 1,
+      "message": "Removed the `SensorReactor` in the latest revision so the change is now much simpler and should be possible to reason about without runtime testing.",
+      "parentUuid": "99f2bcf6_f9d63aec",
       "revId": "7bf26267f77ee6a0fa1af2f3a72592c72f442e80",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -54,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "98403a2e_2f7ec253",
+        "filename": "src/Reactor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-10-21T14:58:27Z",
+      "side": 1,
+      "message": "Can you explain further?\n\nMeaning composition over inheritance with SensorReactor?",
+      "parentUuid": "ca57775d_5917241b",
+      "revId": "7bf26267f77ee6a0fa1af2f3a72592c72f442e80",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1f0c51a3_3b8d079d",
         "filename": "src/Reactor.hpp",
         "patchSetId": 2
@@ -65,6 +119,24 @@
       "writtenOn": "2025-10-15T19:08:05Z",
       "side": 1,
       "message": "whats the purpose of having this return anything?",
+      "revId": "7bf26267f77ee6a0fa1af2f3a72592c72f442e80",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33aef379_1bb172dd",
+        "filename": "src/Reactor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-10-21T14:58:27Z",
+      "side": 1,
+      "message": "I introduced a pattern like\n\n```\nreturn reactor.run();\n```\n\nfor the main function. We reed to return something from main function and \ninstead of every reactor writing \n\n```\nio.run();\nreturn 0;\n```\n\nwe can now write it as one line.",
+      "parentUuid": "1f0c51a3_3b8d079d",
       "revId": "7bf26267f77ee6a0fa1af2f3a72592c72f442e80",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -82,6 +154,24 @@
       "writtenOn": "2025-10-15T19:08:05Z",
       "side": 1,
       "message": "why is this protected? This class has no other invariants and its not clear what we\u0027re solving by restricting access to this one member.",
+      "revId": "7bf26267f77ee6a0fa1af2f3a72592c72f442e80",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c622ee1e_d6b051a4",
+        "filename": "src/Reactor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-10-21T14:58:27Z",
+      "side": 1,
+      "message": "why should it be public? Is there any code which needs access to it?\n\nI would prefer to make things public as-needed.",
+      "parentUuid": "e10dda59_77727381",
       "revId": "7bf26267f77ee6a0fa1af2f3a72592c72f442e80",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -105,6 +195,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7a88e330_56a80d45",
+        "filename": "src/Reactor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-10-21T14:58:27Z",
+      "side": 1,
+      "message": "object member ordering is a regular C++ feature.\n\nEven if it\u0027s nuanced, this is a common code so at least the initialization order will be common across sensor reactors.\n\n\u003e This won\u0027t extend to more complicated use cases like those in nvidia-gpu\n\nWhich use-case, can you please explain further?\n\nThis is which i found in nvidia code\n\n```\nint main()\n{\n    boost::asio::io_context io;\n    auto systemBus \u003d std::make_shared\u003csdbusplus::asio::connection\u003e(io);\n    sdbusplus::asio::object_server objectServer(systemBus, true);\n    objectServer.add_manager(\"/xyz/openbmc_project/sensors\");\n    objectServer.add_manager(\"/xyz/openbmc_project/inventory\");\n    systemBus-\u003erequest_name(\"xyz.openbmc_project.GpuSensor\");\n    mctp::MctpRequester mctpRequester(io);\n```\n\nso if we store the `io_context` in a class instance, where is the difference?\n\nYou can still form areference to it and such, just as before.",
+      "parentUuid": "04878fbf_543cbc0c",
+      "revId": "7bf26267f77ee6a0fa1af2f3a72592c72f442e80",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b0d5314b_fbca2f9c",
         "filename": "src/mcu/MCUTempSensor.cpp",
         "patchSetId": 2
@@ -116,6 +224,24 @@
       "writtenOn": "2025-10-15T19:08:05Z",
       "side": 1,
       "message": "another instance of this pattern. Move to std::make_shared?",
+      "revId": "7bf26267f77ee6a0fa1af2f3a72592c72f442e80",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2866b7d7_5e7bdb7e",
+        "filename": "src/mcu/MCUTempSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-10-21T14:58:27Z",
+      "side": 1,
+      "message": "removed the `SensorReactor` stuff from this change.",
+      "parentUuid": "b0d5314b_fbca2f9c",
       "revId": "7bf26267f77ee6a0fa1af2f3a72592c72f442e80",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -133,6 +259,24 @@
       "writtenOn": "2025-10-15T19:08:05Z",
       "side": 1,
       "message": "this seems at least kind of wonky to assign a unique_ptr to a shared_ptr. i\u0027m a little surprised this works.",
+      "revId": "7bf26267f77ee6a0fa1af2f3a72592c72f442e80",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f03c219c_29822b97",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-10-21T14:58:27Z",
+      "side": 1,
+      "message": "removed the `SensorReactor` stuff from my change.",
+      "parentUuid": "3a34e44e_49840ee5",
       "revId": "7bf26267f77ee6a0fa1af2f3a72592c72f442e80",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
