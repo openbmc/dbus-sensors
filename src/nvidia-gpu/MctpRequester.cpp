@@ -6,8 +6,7 @@
 
 #include "MctpRequester.hpp"
 
-#include <linux/mctp.h>
-#include <sys/socket.h>
+#include "MctpAsioEndpoint.hpp"
 
 #include <OcpMctpVdm.hpp>
 #include <boost/asio/buffer.hpp>
@@ -98,7 +97,7 @@ void MctpRequester::processRecvMsg(const boost::system::error_code& ec,
         return;
     }
 
-    if (*receivedMsgType != msgType)
+    if (*receivedMsgType != ocp::accelerator_management::messageType)
     {
         // we received a message that this handler doesn't support
         // drop it on the floor and rebind receive_from
@@ -345,16 +344,11 @@ void MctpRequester::processQueue(uint8_t eid)
         return;
     }
 
-    struct sockaddr_mctp addr{};
-    addr.smctp_family = AF_MCTP;
-    addr.smctp_addr.s_addr = eid;
-    addr.smctp_type = msgType;
-    addr.smctp_tag = MCTP_TAG_OWNER;
-    using endpoint = boost::asio::generic::datagram_protocol::endpoint;
-    endpoint sendEndPoint{&addr, sizeof(addr)};
-
+    MctpAsioEndpoint sendEndPoint(eid,
+                                  ocp::accelerator_management::messageType);
+    boost::asio::const_buffer buf(req.data(), req.size());
     mctpSocket.async_send_to(
-        boost::asio::const_buffer(req.data(), req.size()), sendEndPoint,
+        buf, sendEndPoint.endpoint,
         std::bind_front(&MctpRequester::handleSendMsgCompletion, this, eid));
 }
 
