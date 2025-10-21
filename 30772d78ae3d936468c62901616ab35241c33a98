@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6245f815_3e4f420f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-21T17:45:00Z",
+      "side": 1,
+      "message": "Seeing a lot of things that aren\u0027t clear to me why they were put where they were.  For the things that apply to a single daemon (pwmSensor, etc) lets get those put into a review to move to the appropriate folder that\u0027s separate so that can merge quickly.  For the things that don\u0027t have asio dependencies, lets make sure they\u0027re not in a folder called asio.",
+      "revId": "30772d78ae3d936468c62901616ab35241c33a98",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86629afd_16d434b3",
+        "filename": "src/asio/DeviceMgmt.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-21T17:45:00Z",
+      "side": 1,
+      "message": "Why is this in asio?  This doesn\u0027t appear to pull in any asio headers.",
+      "revId": "30772d78ae3d936468c62901616ab35241c33a98",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9244a824_132cd9c0",
+        "filename": "src/asio/DeviceMgmt.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-21T17:45:00Z",
+      "side": 1,
+      "message": "This file really needs broken out.  Every utility except for this one has nothing to do with asio, so overall this really shouldn\u0027t go into a common asio folder.",
+      "revId": "30772d78ae3d936468c62901616ab35241c33a98",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30cd35ee_e4407e35",
+        "filename": "src/asio/PwmSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-21T17:45:00Z",
+      "side": 1,
+      "message": "This is a specific daemon implementation, this should not be put into a common folder.",
+      "revId": "30772d78ae3d936468c62901616ab35241c33a98",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe9f0385_8e16a035",
+        "filename": "src/async_task/EntityManagerInterface.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-21T17:45:00Z",
+      "side": 1,
+      "message": "Should we call the folder sdbusplus_context ?  \"async_task\" could arguably apply to asio as well.",
+      "revId": "30772d78ae3d936468c62901616ab35241c33a98",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16e1f62b_6709dcbe",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerPeakReading.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-21T17:45:00Z",
+      "side": 1,
+      "message": "This kind of thing is why I don\u0027t find this organization better.  \"utils\" is repeated, and doesn\u0027t add additional value.  We can argue the Utils.hpp shouldn\u0027t exist, but that\u0027s not what we have today.",
+      "range": {
+        "startLine": 10,
+        "startChar": 10,
+        "endLine": 10,
+        "endChar": 25
+      },
+      "revId": "30772d78ae3d936468c62901616ab35241c33a98",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

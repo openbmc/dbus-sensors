@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "536a5cf5_777a7618",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-21T17:45:00Z",
+      "side": 1,
+      "message": "?  what does \"cleaned up\" mean here?  The former looks easier to read than the later.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 18
+      },
+      "revId": "6ba3656a47f3cebcf217a2b622e13f946f64ca06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca842f8b_a1030e46",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-21T17:45:00Z",
+      "side": 1,
+      "message": "Can you explain this so I understand what it means?",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 32
+      },
+      "revId": "6ba3656a47f3cebcf217a2b622e13f946f64ca06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "67bc863d_62f5a62b",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -86,6 +132,24 @@
       "side": 1,
       "message": "closing since there was no further feedback",
       "parentUuid": "04da0944_f34a6c3b",
+      "revId": "6ba3656a47f3cebcf217a2b622e13f946f64ca06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b470e16_bb268704",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-21T17:45:00Z",
+      "side": 1,
+      "message": "\u003e closing since there was no further feedback\n\nThat\u0027s not how this works.  Change has not been made.",
+      "parentUuid": "c85a1474_79b6a661",
       "revId": "6ba3656a47f3cebcf217a2b622e13f946f64ca06",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
