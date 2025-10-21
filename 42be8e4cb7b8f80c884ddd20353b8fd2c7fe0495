@@ -55,6 +55,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2505e978_17e3a9b8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-21T17:57:55Z",
+      "side": 1,
+      "message": "Some net comments here:\nThe intent of specifying the type in the EM config is so that we can make decisions like this based on the actual behavior of the device.  I don\u0027t see that handled, and presumably you didn\u0027t check all 100+ devices datasheets to verify that they can\u0027t handle sensor polling at the same time as update, so I would expect some amount of lookup table there.\n\nThe other intent of reactors was that one application would handle communication to the device, to make things like this easy to manage.  As written, there\u0027s still races around if a sensor read is in progress when an update starts, and I don\u0027t know how to handle that without a complex IPC, or one application managing the device.\n\n@paligill@gmail.com I think i mentioned this use case on your design.  Was this covered there?",
+      "revId": "42be8e4cb7b8f80c884ddd20353b8fd2c7fe0495",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f4ecfe6e_790e8bad",
         "filename": "src/psu/PSUSensorMain.cpp",
         "patchSetId": 5
@@ -100,6 +117,29 @@
       "writtenOn": "2025-10-21T17:11:50Z",
       "side": 1,
       "message": "Can you please add a comment about why are you creating this name for lookup and which object state are you trying to update?",
+      "revId": "42be8e4cb7b8f80c884ddd20353b8fd2c7fe0495",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "183ab59a_253186d3",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-21T17:57:55Z",
+      "side": 1,
+      "message": "These paths aren\u0027t connected at all.  There\u0027s no gaurantee that these names are the same device in the em config.",
+      "range": {
+        "startLine": 360,
+        "startChar": 0,
+        "endLine": 362,
+        "endChar": 49
+      },
       "revId": "42be8e4cb7b8f80c884ddd20353b8fd2c7fe0495",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
