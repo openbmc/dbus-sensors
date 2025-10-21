@@ -72,6 +72,16 @@ Inventory::Inventory(
         acceleratorInterface->register_property("Type", std::string("GPU"));
         acceleratorInterface->initialize();
     }
+    auto rc = encodeGetInventoryInformationRequest(
+        static_cast<uint8_t>(gpu::InventoryPropertyId::BOARD_PART_NUMBER),
+        requestBuffer);
+    if (rc != 0)
+    {
+        lg2::error(
+            "Failed to encode board part number request for {NAME}: rc={RC}",
+            "NAME", name, "RC", rc);
+        return;
+    }
 }
 
 void Inventory::init()
@@ -135,23 +145,15 @@ std::optional<gpu::InventoryPropertyId> Inventory::getNextPendingProperty()
 void Inventory::sendInventoryPropertyRequest(
     gpu::InventoryPropertyId propertyId)
 {
-    int rc = gpu::encodeGetInventoryInformationRequest(
-        0, static_cast<uint8_t>(propertyId), requestBuffer);
-    if (rc != 0)
-    {
-        lg2::error(
-            "Failed to encode property ID {PROP_ID} request for {NAME}: rc={RC}",
-            "PROP_ID", static_cast<uint8_t>(propertyId), "NAME", name, "RC",
-            rc);
-        return;
-    }
+    requestBuffer.property_id = static_cast<uint8_t>(propertyId);
 
     lg2::info(
         "Sending inventory request for property ID {PROP_ID} to EID {EID} for {NAME}",
         "PROP_ID", static_cast<uint8_t>(propertyId), "EID", eid, "NAME", name);
-
+    std::span<uint8_t> buf(reinterpret_cast<uint8_t*>(&requestBuffer),
+                           sizeof(requestBuffer));
     mctpRequester.sendRecvMsg(
-        eid, requestBuffer,
+        eid, buf,
         [weak{weak_from_this()}, propertyId](const std::error_code& ec,
                                              std::span<const uint8_t> buffer) {
             std::shared_ptr<Inventory> self = weak.lock();
