@@ -16,6 +16,24 @@
       "message": "Can we scope this with \u0027nvidia-gpu:\u0027?",
       "revId": "87b9477a365867c6a3e05a34efb63a9d5479bbe1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "870873b7_28596309",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-21T17:19:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbf94a91_91ab9256",
+      "revId": "87b9477a365867c6a3e05a34efb63a9d5479bbe1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
