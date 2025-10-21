@@ -27,7 +27,7 @@ executable(
     gpusensor_sources + files('NvidiaGpuSensorMain.cpp'),
     implicit_include_directories: false,
     include_directories: [gpusensor_include_dir, sensor_include_dir],
-    dependencies: [thresholds_dep, utils_dep],
+    dependencies: [thresholds_dep, utils_dep, mctpasio_dep],
     install: true,
     install_dir: '/usr/libexec/dbus-sensors',
 )
