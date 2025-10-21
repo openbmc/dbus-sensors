@@ -412,34 +412,25 @@ int decodeGetVoltageResponse(std::span<const uint8_t> buf,
     return 0;
 }
 
-int encodeGetInventoryInformationRequest(uint8_t instanceId, uint8_t propertyId,
-                                         std::span<uint8_t> buf)
+int encodeGetInventoryInformationRequest(uint8_t propertyId,
+                                         GetInventoryInformationRequest& msg)
 {
-    if (buf.size() < sizeof(GetInventoryInformationRequest))
-    {
-        return EINVAL;
-    }
+    ocp::accelerator_management::BindingPciVidInfo header{
+        .ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+            ocp::accelerator_management::MessageType::REQUEST),
+        .instance_id = 0,
+        .msg_type = static_cast<uint8_t>(MessageType::PLATFORM_ENVIRONMENTAL)};
 
-    auto* msg = reinterpret_cast<GetInventoryInformationRequest*>(buf.data());
-
-    ocp::accelerator_management::BindingPciVidInfo header{};
-    header.ocp_accelerator_management_msg_type =
-        static_cast<uint8_t>(ocp::accelerator_management::MessageType::REQUEST);
-    header.instance_id = instanceId &
-                         ocp::accelerator_management::instanceIdBitMask;
-    header.msg_type = static_cast<uint8_t>(MessageType::PLATFORM_ENVIRONMENTAL);
-
-    auto rc = packHeader(header, msg->hdr.msgHdr.hdr);
-
+    auto rc = packHeader(header, msg.hdr.msgHdr.hdr);
     if (rc != 0)
     {
         return rc;
     }
 
-    msg->hdr.command = static_cast<uint8_t>(
+    msg.hdr.command = static_cast<uint8_t>(
         PlatformEnvironmentalCommands::GET_INVENTORY_INFORMATION);
-    msg->hdr.data_size = sizeof(propertyId);
-    msg->property_id = propertyId;
+    msg.hdr.data_size = sizeof(propertyId);
+    msg.property_id = propertyId;
 
     return 0;
 }

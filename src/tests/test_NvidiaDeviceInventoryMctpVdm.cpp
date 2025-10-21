@@ -16,20 +16,18 @@ using namespace gpu;
 // NOLINTBEGIN(cppcoreguidelines-pro-type-reinterpret-cast)
 TEST(NvidiaGpuMctpVdmTest, EncodeGetInventoryInformationRequest)
 {
-    std::array<uint8_t, 256> buf{};
-    uint8_t instanceId = 1;
+    GetInventoryInformationRequest msg{};
     uint8_t propertyId =
         static_cast<uint8_t>(InventoryPropertyId::BOARD_PART_NUMBER);
 
-    auto rc = encodeGetInventoryInformationRequest(instanceId, propertyId, buf);
+    auto rc = encodeGetInventoryInformationRequest(propertyId, msg);
     EXPECT_EQ(rc, 0);
 
-    auto* msg = reinterpret_cast<GetInventoryInformationRequest*>(buf.data());
-    EXPECT_EQ(msg->hdr.command,
+    EXPECT_EQ(msg.hdr.command,
               static_cast<uint8_t>(
                   PlatformEnvironmentalCommands::GET_INVENTORY_INFORMATION));
-    EXPECT_EQ(msg->hdr.data_size, sizeof(propertyId));
-    EXPECT_EQ(msg->property_id, propertyId);
+    EXPECT_EQ(msg.hdr.data_size, sizeof(propertyId));
+    EXPECT_EQ(msg.property_id, propertyId);
 }
 
 TEST(NvidiaGpuMctpVdmTest, DecodeInventoryString)

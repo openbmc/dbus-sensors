@@ -218,8 +218,8 @@ int decodeGetVoltageResponse(std::span<const uint8_t> buf,
                              ocp::accelerator_management::CompletionCode& cc,
                              uint16_t& reasonCode, uint32_t& voltage);
 
-int encodeGetInventoryInformationRequest(uint8_t instanceId, uint8_t propertyId,
-                                         std::span<uint8_t> buf);
+int encodeGetInventoryInformationRequest(uint8_t propertyId,
+                                         GetInventoryInformationRequest& msg);
 
 int decodeGetInventoryInformationResponse(
     std::span<const uint8_t> buf,

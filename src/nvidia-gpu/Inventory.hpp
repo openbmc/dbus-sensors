@@ -65,8 +65,7 @@ class Inventory : public std::enable_shared_from_this<Inventory>
     uint8_t eid;
     boost::asio::steady_timer retryTimer;
     std::unordered_map<gpu::InventoryPropertyId, PropertyInfo> properties;
-    std::array<uint8_t, sizeof(gpu::GetInventoryInformationRequest)>
-        requestBuffer{};
+    gpu::GetInventoryInformationRequest requestBuffer{};
     static constexpr std::chrono::seconds retryDelay{5};
     static constexpr int maxRetryAttempts = 3;
 };
