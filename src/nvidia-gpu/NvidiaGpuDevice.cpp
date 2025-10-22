@@ -17,6 +17,7 @@
 #include <NvidiaGpuPowerSensor.hpp>
 #include <NvidiaGpuSensor.hpp>
 #include <NvidiaGpuVoltageSensor.hpp>
+#include <NvidiaXidReporting.hpp>
 #include <OcpMctpVdm.hpp>
 #include <boost/asio/io_context.hpp>
 #include <phosphor-logging/lg2.hpp>
@@ -63,6 +64,7 @@ void GpuDevice::init()
 {
     makeSensors();
     inventory->init();
+    eventReporting->init();
 }
 
 void GpuDevice::makeSensors()
@@ -92,6 +94,8 @@ void GpuDevice::makeSensors()
     voltageSensor = std::make_shared<NvidiaGpuVoltageSensor>(
         conn, mctpRequester, name + "_Voltage_0", path, eid, gpuVoltageSensorId,
         objectServer, std::vector<thresholds::Threshold>{});
+    eventReporting =
+        std::make_shared<NvidiaEventReportingConfig>(eid, mctpRequester);
 
     getTLimitThresholds();
 

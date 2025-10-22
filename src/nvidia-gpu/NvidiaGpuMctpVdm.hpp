@@ -32,6 +32,8 @@ enum class MessageType : uint8_t
 
 enum class DeviceCapabilityDiscoveryCommands : uint8_t
 {
+    SET_CURRENT_EVENT_SOURCES = 0x5,
+    SET_EVENT_SUBSCRIPTION = 0x6,
     QUERY_DEVICE_IDENTIFICATION = 0x09,
 };
 
@@ -188,11 +190,73 @@ struct GetInventoryInformationResponse
     std::array<uint8_t, maxInventoryDataSize> data;
 } __attribute__((packed));
 
+struct SetEventSubscriptionRequest
+{
+    ocp::accelerator_management::CommonRequest hdr;
+    uint8_t generation_setting;
+    uint8_t receiver_setting;
+} __attribute__((packed));
+
+struct SetEventSubscriptionResponse
+{
+    ocp::accelerator_management::CommonResponse hdr;
+} __attribute__((packed));
+
+struct SetEventSourcesRequest
+{
+    ocp::accelerator_management::CommonRequest hdr;
+    uint8_t messageType;
+    uint64_t sources;
+} __attribute__((packed));
+
+struct SetEventSourcesResponse
+{
+    ocp::accelerator_management::CommonResponse hdr;
+} __attribute__((packed));
+
+struct Event
+{
+    ocp::accelerator_management::BindingPciVid hdr;
+    uint8_t rsvd:3;
+    uint8_t ack_req:1;
+    uint8_t version:4;
+    uint8_t eventId;
+    uint8_t eventClass;
+    uint16_t eventState;
+    uint8_t size;
+} __attribute__((packed));
+
+struct XidEvent
+{
+    uint8_t flags;
+    uint16_t reserved0;
+    uint8_t reserved1;
+    uint32_t reason;
+    uint32_t sequence_number;
+    uint64_t timestamp;
+} __attribute__((packed));
+
 int packHeader(const ocp::accelerator_management::BindingPciVidInfo& hdr,
                ocp::accelerator_management::BindingPciVid& msg);
 
+int decodeXidEvent(std::span<const uint8_t> buff, XidEvent& event,
+                   std::string_view& message);
+
 int encodeQueryDeviceIdentificationRequest(uint8_t instanceId,
                                            std::span<uint8_t> buf);
+
+int encodeSetEventSubscriptionRequest(uint8_t eid, std::span<uint8_t> buf);
+
+int decodeSetEventSubscriptionResponse(std::span<const uint8_t> buf,
+                                       uint8_t& cc);
+
+int encodeSetEventSourcesRequest(uint64_t sources, uint8_t messageType,
+                                 std::span<uint8_t> buf);
+
+int decodeSetEventSourcesResponse(std::span<const uint8_t> buf, uint8_t& cc);
+
+int decodeEvent(std::span<const uint8_t> buff, Event& event,
+                std::span<const uint8_t>& eventData);
 
 int decodeQueryDeviceIdentificationResponse(
     std::span<const uint8_t> buf,
@@ -255,4 +319,5 @@ int decodeQueryScalarGroupTelemetryV2Response(
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     size_t& numTelemetryValues, std::vector<uint32_t>& telemetryValues);
 
+bool isNvidiaMessage(std::span<const uint8_t> buffer);
 } // namespace gpu
