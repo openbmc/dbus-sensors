@@ -52,6 +52,24 @@
       "parentUuid": "9efd75f7_8372ef02",
       "revId": "308b4b5ca667fd71e70cb5127eef51091a345eb8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2637f150_d74e88c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-22T15:33:44Z",
+      "side": 1,
+      "message": "yeah, I\u0027ll mark it as a WIP. Fixing it properly is on the radar.",
+      "parentUuid": "c3bf3399_d529f4bc",
+      "revId": "308b4b5ca667fd71e70cb5127eef51091a345eb8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
