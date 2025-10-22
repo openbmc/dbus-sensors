@@ -105,6 +105,18 @@ struct CommonNonSuccessResponse
     uint16_t reason_code;
 } __attribute__((packed));
 
+struct Event
+{
+    ocp::accelerator_management::BindingPciVid hdr;
+    uint8_t rsvd:3;
+    uint8_t ack_req:1;
+    uint8_t version:4;
+    uint8_t eventId;
+    uint8_t eventClass;
+    uint16_t eventState;
+    uint8_t size;
+} __attribute__((packed));
+
 int packHeader(uint16_t pciVendorId, const BindingPciVidInfo& hdr,
                BindingPciVid& msg);
 

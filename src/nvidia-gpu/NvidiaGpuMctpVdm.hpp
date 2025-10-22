@@ -8,6 +8,7 @@
 #include <OcpMctpVdm.hpp>
 
 #include <array>
+#include <bitset>
 #include <cstddef>
 #include <cstdint>
 #include <span>
@@ -35,6 +36,10 @@ enum class MessageType : uint8_t
 
 enum class DeviceCapabilityDiscoveryCommands : uint8_t
 {
+    GET_CURRENT_EVENT_SOURCES = 0x4,
+    SET_CURRENT_EVENT_SOURCES = 0x5,
+    SET_EVENT_SUBSCRIPTION = 0x6,
+    GET_EVENT_SUBSCRIPTION = 0x7,
     QUERY_DEVICE_IDENTIFICATION = 0x09,
 };
 
@@ -244,11 +249,89 @@ struct GetInventoryInformationResponse
     std::array<uint8_t, maxInventoryDataSize> data;
 } __attribute__((packed));
 
+struct SetEventSubscriptionRequest
+{
+    ocp::accelerator_management::CommonRequest hdr;
+    uint8_t generation_setting;
+    uint8_t receiver_setting;
+} __attribute__((packed));
+
+struct SetEventSubscriptionResponse
+{
+    ocp::accelerator_management::CommonResponse hdr;
+} __attribute__((packed));
+
+struct SetEventSourcesRequest
+{
+    ocp::accelerator_management::CommonRequest hdr;
+    uint8_t messageType;
+    uint64_t sources;
+} __attribute__((packed));
+
+struct SetEventSourcesResponse
+{
+    ocp::accelerator_management::CommonResponse hdr;
+} __attribute__((packed));
+
+struct GetEventSubscriptionRequest
+{
+    ocp::accelerator_management::CommonRequest hdr;
+} __attribute__((packed));
+
+struct GetEventSubscriptionResponse
+{
+    ocp::accelerator_management::CommonResponse hdr;
+    uint8_t receiver_eid;
+} __attribute__((packed));
+
+struct GetCurrentEventSourcesRequest
+{
+    ocp::accelerator_management::CommonRequest hdr;
+    uint8_t messageType;
+} __attribute__((packed));
+
+static constexpr size_t eventCount = 64;
+static constexpr size_t eventCountInBytes = eventCount / sizeof(uint8_t);
+
+struct GetCurrentEventSourcesResponse
+{
+    ocp::accelerator_management::CommonResponse hdr;
+    // effectively a 64 bit wide bitset
+    std::array<uint8_t, eventCountInBytes> events;
+} __attribute__((packed));
+
+struct XidEvent
+{
+    uint8_t flags;
+    uint16_t reserved0;
+    uint8_t reserved1;
+    uint32_t reason;
+    uint32_t sequence_number;
+    uint64_t timestamp;
+} __attribute__((packed));
+
 int packHeader(const ocp::accelerator_management::BindingPciVidInfo& hdr,
                ocp::accelerator_management::BindingPciVid& msg);
 
+int decodeXidEvent(std::span<const uint8_t> buff, XidEvent& event,
+                   std::string_view& message);
+
 int encodeQueryDeviceIdentificationRequest(uint8_t instanceId,
                                            std::span<uint8_t> buf);
+
+int encodeSetEventSubscriptionRequest(uint8_t eid, std::span<uint8_t> buf);
+
+int decodeSetEventSubscriptionResponse(std::span<const uint8_t> buf,
+                                       uint8_t& cc);
+
+int encodeSetEventSourcesRequest(uint64_t sources, uint8_t messageType,
+                                 std::span<uint8_t> buf);
+
+int decodeSetEventSourcesResponse(std::span<const uint8_t> buf, uint8_t& cc);
+
+int decodeEvent(std::span<const uint8_t> buff,
+                ocp::accelerator_management::Event& event,
+                std::span<const uint8_t>& eventData);
 
 int decodeQueryDeviceIdentificationResponse(
     std::span<const uint8_t> buf,
@@ -342,4 +425,22 @@ int decodeGetEthernetPortTelemetryCountersResponse(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     std::vector<std::pair<uint8_t, uint64_t>>& telemetryValues);
+
+bool isNvidiaMessage(std::span<const uint8_t> buffer);
+
+int encodeGetEventSubscriptionRequest(std::span<uint8_t> buff);
+
+int decodeGetEventSubscriptionResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint8_t& eid);
+
+int encodeGetCurrentEventSources(std::span<uint8_t> buff,
+                                 enum MessageType messageType);
+
+int decodeGetCurrentEventSources(
+    std::span<const uint8_t> buff,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    std::bitset<eventCount>& events);
+
 } // namespace gpu
