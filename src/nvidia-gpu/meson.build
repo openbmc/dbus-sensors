@@ -10,6 +10,7 @@ gpusensor_sources = files(
     'NvidiaGpuSensor.cpp',
     'NvidiaGpuVoltageSensor.cpp',
     'NvidiaSmaDevice.cpp',
+    'NvidiaXidReporting.cpp',
     'OcpMctpVdm.cpp',
 )
 

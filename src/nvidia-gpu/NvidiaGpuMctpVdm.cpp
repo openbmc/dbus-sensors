@@ -9,9 +9,12 @@
 
 #include <endian.h>
 
+#include <bit>
 #include <cerrno>
 #include <cstdint>
+#include <cstring>
 #include <span>
+#include <string_view>
 #include <vector>
 
 namespace gpu
@@ -24,6 +27,100 @@ int packHeader(const ocp::accelerator_management::BindingPciVidInfo& hdr,
                ocp::accelerator_management::BindingPciVid& msg)
 {
     return ocp::accelerator_management::packHeader(nvidiaPciVendorId, hdr, msg);
+}
+
+int encodeSetEventSubscriptionRequest(uint8_t eid, std::span<uint8_t> buff)
+{
+    static constexpr uint8_t enablePush = 2;
+    if (buff.size() < sizeof(SetEventSubscriptionRequest))
+    {
+        return EINVAL;
+    }
+
+    auto* msg = std::bit_cast<SetEventSubscriptionRequest*>(buff.data());
+    msg->receiver_setting = eid;
+    msg->generation_setting = enablePush;
+
+    ocp::accelerator_management::BindingPciVidInfo header{};
+
+    header.ocp_accelerator_management_msg_type =
+        static_cast<uint8_t>(ocp::accelerator_management::MessageType::REQUEST);
+    header.msg_type =
+        static_cast<uint8_t>(MessageType::DEVICE_CAPABILITY_DISCOVERY);
+
+    int rc = packHeader(header, msg->hdr.msgHdr.hdr);
+    if (rc != 0)
+    {
+        return rc;
+    }
+    msg->hdr.command = static_cast<uint8_t>(
+        DeviceCapabilityDiscoveryCommands::SET_EVENT_SUBSCRIPTION);
+    msg->hdr.data_size = 2;
+
+    return 0;
+}
+
+int decodeSetEventSubscriptionResponse(std::span<const uint8_t> buffer,
+                                       uint8_t& cc)
+{
+    uint16_t reasonCode = {};
+    ocp::accelerator_management::CompletionCode completion = {};
+    int rc = ocp::accelerator_management::decodeReasonCodeAndCC(
+        buffer, completion, reasonCode);
+    cc = static_cast<uint8_t>(completion);
+    if (rc != 0 ||
+        completion != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    return 0;
+}
+
+int encodeSetEventSourcesRequest(uint64_t sources, uint8_t messageType,
+                                 std::span<uint8_t> buff)
+{
+    if (buff.size() < sizeof(SetEventSourcesRequest))
+    {
+        return EINVAL;
+    }
+
+    auto* msg = std::bit_cast<SetEventSourcesRequest*>(buff.data());
+    msg->messageType = messageType;
+    msg->sources = sources;
+    ocp::accelerator_management::BindingPciVidInfo header{};
+
+    header.ocp_accelerator_management_msg_type =
+        static_cast<uint8_t>(ocp::accelerator_management::MessageType::REQUEST);
+    header.msg_type =
+        static_cast<uint8_t>(MessageType::DEVICE_CAPABILITY_DISCOVERY);
+
+    int rc = packHeader(header, msg->hdr.msgHdr.hdr);
+    if (rc != 0)
+    {
+        return rc;
+    }
+    msg->hdr.command = static_cast<uint8_t>(
+        DeviceCapabilityDiscoveryCommands::SET_CURRENT_EVENT_SOURCES);
+    msg->hdr.data_size = 2;
+
+    return 0;
+}
+
+int decodeSetEventSourcesResponse(std::span<const uint8_t> buff, uint8_t& cc)
+{
+    uint16_t reasonCode = {};
+    ocp::accelerator_management::CompletionCode completion = {};
+    int rc = ocp::accelerator_management::decodeReasonCodeAndCC(
+        buff, completion, reasonCode);
+    cc = static_cast<uint8_t>(completion);
+    if (rc != 0 ||
+        completion != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    return 0;
 }
 
 int encodeQueryDeviceIdentificationRequest(uint8_t instanceId,
@@ -489,5 +586,43 @@ int decodeGetInventoryInformationResponse(
     return 0;
 }
 
+int decodeEvent(std::span<const uint8_t> buff, Event& event,
+                std::span<const uint8_t>& eventData)
+{
+    if (buff.size() < sizeof(event))
+    {
+        return EINVAL;
+    }
+
+    std::memcpy(&event, buff.data(), sizeof(event));
+
+    const size_t remainingLength = buff.size() - sizeof(event);
+
+    if (remainingLength < event.size)
+    {
+        return EINVAL;
+    }
+
+    eventData = {buff.data() + sizeof(event), event.size};
+
+    return 0;
+}
+
+int decodeXidEvent(std::span<const uint8_t> buff, XidEvent& event,
+                   std::string_view& message)
+{
+    if (buff.size() < sizeof(event))
+    {
+        return EINVAL;
+    }
+
+    std::memcpy(&event, buff.data(), sizeof(event));
+
+    size_t remainingSize = buff.size() - sizeof(event);
+    message = {reinterpret_cast<const char*>(buff.data() + sizeof(event)),
+               remainingSize};
+
+    return 0;
+}
 // NOLINTEND(cppcoreguidelines-pro-type-reinterpret-cast)
 } // namespace gpu

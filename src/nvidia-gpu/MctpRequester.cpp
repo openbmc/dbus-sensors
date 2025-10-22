@@ -9,6 +9,7 @@
 
 #include <sys/socket.h>
 
+#include <NvidiaXidReporting.hpp>
 #include <OcpMctpVdm.hpp>
 #include <boost/asio/buffer.hpp>
 #include <boost/asio/error.hpp>
@@ -74,6 +75,15 @@ MctpRequester::MctpRequester(boost::asio::io_context& ctx) :
     io{ctx},
     mctpSocket(ctx, boost::asio::generic::datagram_protocol{AF_MCTP, 0})
 {
+    MctpAsioEndpoint receiveEp{ocp::accelerator_management::messageType};
+    boost::system::error_code ec;
+    mctpSocket.bind(receiveEp.endpoint, ec);
+    if (ec)
+    {
+        // this isn't fatal, we'll just fail to receive events. Move on with
+        // life
+        lg2::error("MctpRequester: failed to bind endpoint");
+    }
     startReceive();
 }
 
@@ -137,9 +147,7 @@ void MctpRequester::processRecvMsg(const boost::system::error_code& ec,
 
     if (isRq.value())
     {
-        // we received a request from a downstream device.
-        // We don't currently support this, drop the packet
-        // on the floor and rebind receive, keep the timer running
+        NvidiaEventHandler::handleEvent(eid, buffer);
         return;
     }
 

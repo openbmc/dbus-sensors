@@ -27,6 +27,8 @@
 #include <unordered_map>
 #include <utility>
 
+class NvidiaEventHandler;
+
 namespace mctp
 {
 class MctpRequester
