@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "da9503b6_962bfa8a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-10-22T12:27:26Z",
+      "side": 1,
+      "message": "refer to https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Rs-incform\n\nwhich has some note on angle brackets an quotes in include statements.\n\nAlso if we have some common code it would be good to have a way to tell if we are including common code or some header that\u0027s local to a single reactor.",
+      "parentUuid": "536a5cf5_777a7618",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 18
+      },
+      "revId": "6ba3656a47f3cebcf217a2b622e13f946f64ca06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ca842f8b_a1030e46",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -37,6 +61,30 @@
       "writtenOn": "2025-10-21T17:45:00Z",
       "side": 1,
       "message": "Can you explain this so I understand what it means?",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 32
+      },
+      "revId": "6ba3656a47f3cebcf217a2b622e13f946f64ca06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0347735d_7ff61d44",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-10-22T12:27:26Z",
+      "side": 1,
+      "message": "`Inventory` sounds like that\u0027s some common header which is to be used by various reactors.\n\nIf we have no way to tell via the `#include` statement if it\u0027s a common header or local to a specific reactor then it can be confusing to the reader.\n\nAnother way to solve this would be to rename it to `NvidiaInventory.hpp`.",
+      "parentUuid": "ca842f8b_a1030e46",
       "range": {
         "startLine": 20,
         "startChar": 0,
@@ -150,6 +198,24 @@
       "side": 1,
       "message": "\u003e closing since there was no further feedback\n\nThat\u0027s not how this works.  Change has not been made.",
       "parentUuid": "c85a1474_79b6a661",
+      "revId": "6ba3656a47f3cebcf217a2b622e13f946f64ca06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e87b9b41_44d38115",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-10-22T12:27:26Z",
+      "side": 1,
+      "message": "\u003e rather than just having one common folder for everything\n\nWe already cleared this one by having separate folders instead of one common folder.\nWe already created `asio` folder as requested.\n\nIf you want `reactor` folder, i did not create that due to build reasons, i explained above.\n\n\u003e Change has not been made.\n\nCan you kindly let me know which part of my reasoning above you disagree with and which specific changes i should do to resolve this comment.",
+      "parentUuid": "9b470e16_bb268704",
       "revId": "6ba3656a47f3cebcf217a2b622e13f946f64ca06",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
