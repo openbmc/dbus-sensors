@@ -6,47 +6,45 @@
 namespace sensor_paths
 {
 
-// This is an allowlist of the units a sensor can measure. Should be in sync
-// with
-// phosphor-dbus-interfaces/blob/master/yaml/xyz/openbmc_project/Sensor/Value.interface.yaml#L38
+// This is an allowlist of the units a sensor can measure.
 
 std::string getPathForUnits(const std::string& units)
 {
     if (units == "DegreesC" || units == unitDegreesC)
     {
-        return "temperature";
+        return SensorValue::namespace_path::temperature;
     }
     if (units == "RPMS" || units == unitRPMs)
     {
-        return "fan_tach";
+        return SensorValue::namespace_path::fan_tach;
     }
     if (units == "Volts" || units == unitVolts)
     {
-        return "voltage";
+        return SensorValue::namespace_path::voltage;
     }
     if (units == "Meters" || units == unitMeters)
     {
-        return "altitude";
+        return SensorValue::namespace_path::altitude;
     }
     if (units == "Amperes" || units == unitAmperes)
     {
-        return "current";
+        return SensorValue::namespace_path::current;
     }
     if (units == "Watts" || units == unitWatts)
     {
-        return "power";
+        return SensorValue::namespace_path::power;
     }
     if (units == "Joules" || units == unitJoules)
     {
-        return "energy";
+        return SensorValue::namespace_path::energy;
     }
     if (units == "Percent" || units == unitPercent)
     {
-        return "utilization";
+        return SensorValue::namespace_path::utilization;
     }
     if (units == "Pascals" || units == unitPascals)
     {
-        return "pressure";
+        return SensorValue::namespace_path::pressure;
     }
     return "";
 }

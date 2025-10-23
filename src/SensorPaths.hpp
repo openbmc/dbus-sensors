@@ -1,32 +1,40 @@
 #pragma once
 
+#include <xyz/openbmc_project/Sensor/Value/common.hpp>
+
 #include <string>
 
 namespace sensor_paths
 {
 
-// This is an allowlist of the units a sensor can measure. Should be in sync
-// with
-// phosphor-dbus-interfaces/blob/master/yaml/xyz/openbmc_project/Sensor/Value.interface.yaml#L38
+// This is an allowlist of the units a sensor can measure.
 
-constexpr const char* unitDegreesC =
-    "xyz.openbmc_project.Sensor.Value.Unit.DegreesC";
-constexpr const char* unitRPMs = "xyz.openbmc_project.Sensor.Value.Unit.RPMS";
-constexpr const char* unitVolts = "xyz.openbmc_project.Sensor.Value.Unit.Volts";
-constexpr const char* unitMeters =
-    "xyz.openbmc_project.Sensor.Value.Unit.Meters";
-constexpr const char* unitAmperes =
-    "xyz.openbmc_project.Sensor.Value.Unit.Amperes";
-constexpr const char* unitWatts = "xyz.openbmc_project.Sensor.Value.Unit.Watts";
-constexpr const char* unitJoules =
-    "xyz.openbmc_project.Sensor.Value.Unit.Joules";
-constexpr const char* unitPercent =
-    "xyz.openbmc_project.Sensor.Value.Unit.Percent";
-constexpr const char* unitCFM = "xyz.openbmc_project.Sensor.Value.Unit.CFM";
-constexpr const char* unitPascals =
-    "xyz.openbmc_project.Sensor.Value.Unit.Pascals";
-constexpr const char* unitPercentRH =
-    "xyz.openbmc_project.Sensor.Value.Unit.PercentRH";
+using SensorValue = sdbusplus::common::xyz::openbmc_project::sensor::Value;
+using SensorValueUnit =
+    sdbusplus::common::xyz::openbmc_project::sensor::Value::Unit;
+
+const std::string unitDegreesC =
+    SensorValue::convertUnitToString(SensorValueUnit::DegreesC);
+const std::string unitRPMs =
+    SensorValue::convertUnitToString(SensorValueUnit::RPMS);
+const std::string unitVolts =
+    SensorValue::convertUnitToString(SensorValueUnit::Volts);
+const std::string unitMeters =
+    SensorValue::convertUnitToString(SensorValueUnit::Meters);
+const std::string unitAmperes =
+    SensorValue::convertUnitToString(SensorValueUnit::Amperes);
+const std::string unitWatts =
+    SensorValue::convertUnitToString(SensorValueUnit::Watts);
+const std::string unitJoules =
+    SensorValue::convertUnitToString(SensorValueUnit::Joules);
+const std::string unitPercent =
+    SensorValue::convertUnitToString(SensorValueUnit::Percent);
+const std::string unitCFM =
+    SensorValue::convertUnitToString(SensorValueUnit::CFM);
+const std::string unitPascals =
+    SensorValue::convertUnitToString(SensorValueUnit::Pascals);
+const std::string unitPercentRH =
+    SensorValue::convertUnitToString(SensorValueUnit::PercentRH);
 
 std::string getPathForUnits(const std::string& units);
 
