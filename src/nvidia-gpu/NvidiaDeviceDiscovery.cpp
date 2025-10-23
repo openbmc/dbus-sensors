@@ -333,10 +333,9 @@ void discoverDevices(
                            pcieDevices, conn, mctpRequester, configs, path, ec,
                            ret);
         },
-        "xyz.openbmc_project.ObjectMapper",
-        "/xyz/openbmc_project/object_mapper",
-        "xyz.openbmc_project.ObjectMapper", "GetSubTree", searchPath, 0,
-        ifaceList);
+        ObjectMapper::default_service, ObjectMapper::instance_path,
+        ObjectMapper::interface, ObjectMapper::method_names::get_sub_tree,
+        searchPath, 0, ifaceList);
 }
 
 void processSensorConfigs(

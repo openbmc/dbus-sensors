@@ -701,7 +701,8 @@ void createInventoryAssoc(
                 weakRef, parent,
                 findContainingChassis(parent, subtree).value_or(parent));
         },
-        mapper::busName, mapper::path, mapper::interface, "GetSubTree",
+        ObjectMapper::default_service, ObjectMapper::instance_path,
+        ObjectMapper::interface, ObjectMapper::method_names::get_sub_tree,
         "/xyz/openbmc_project/inventory/system", 2, allInterfaces);
 }
 

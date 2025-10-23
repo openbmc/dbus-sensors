@@ -158,7 +158,8 @@ static void setMaxPWM(const std::shared_ptr<sdbusplus::asio::connection>& conn,
                     pidConfigurationType, "Class");
             }
         },
-        mapper::busName, mapper::path, mapper::interface, mapper::subtree, "/",
+        ObjectMapper::default_service, ObjectMapper::instance_path,
+        ObjectMapper::interface, ObjectMapper::method_names::get_sub_tree, "/",
         0, std::array<std::string, 1>{pidConfigurationType});
 }
 
@@ -628,7 +629,8 @@ void ExitAirTempSensor::setupMatches()
                 }
             }
         },
-        mapper::busName, mapper::path, mapper::interface, mapper::subtree,
+        ObjectMapper::default_service, ObjectMapper::instance_path,
+        ObjectMapper::interface, ObjectMapper::method_names::get_sub_tree,
         "/xyz/openbmc_project/sensors/power", 0,
         std::array<const char*, 1>{sensorValueInterface});
 }
