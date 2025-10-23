@@ -111,10 +111,6 @@ static void setupSensorMatch(
 static void setMaxPWM(const std::shared_ptr<sdbusplus::asio::connection>& conn,
                       double value)
 {
-    using GetSubTreeType = std::vector<std::pair<
-        std::string,
-        std::vector<std::pair<std::string, std::vector<std::string>>>>>;
-
     conn->async_method_call(
         [conn,
          value](const boost::system::error_code ec, const GetSubTreeType& ret) {
