@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "356f1969_023d4c8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-23T12:54:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "920dd3e7_f35fc206",
+      "range": {
+        "startLine": 19,
+        "startChar": 48,
+        "endLine": 20,
+        "endChar": 30
+      },
+      "revId": "72a837480e83e2ebaf32d2fcef477eb52e0d25fb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8fa58784_c8c9bac5",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-10-17T19:17:24Z",
       "side": 1,
       "message": "\"fabrics\" is not a valid path.",
+      "range": {
+        "startLine": 50,
+        "startChar": 98,
+        "endLine": 50,
+        "endChar": 105
+      },
+      "revId": "72a837480e83e2ebaf32d2fcef477eb52e0d25fb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16c1ecc1_334b40a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-23T12:54:07Z",
+      "side": 1,
+      "message": "PDI used in this patch is Item.Fabric, and that would make this Object Path valid. Based on the what PDI gets approved to indicate a Fabric resource, name here will be updated, right now it is assumed that accepted PDI would be Item.Fabric.",
+      "parentUuid": "8fa58784_c8c9bac5",
       "range": {
         "startLine": 50,
         "startChar": 98,
@@ -101,6 +149,30 @@
       "side": 1,
       "message": "To be clear, we might pick a name, but this shouldn\u0027t be in configuration.",
       "parentUuid": "cdd29a02_a699ef28",
+      "range": {
+        "startLine": 364,
+        "startChar": 51,
+        "endLine": 364,
+        "endChar": 61
+      },
+      "revId": "72a837480e83e2ebaf32d2fcef477eb52e0d25fb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96772a7a_a4bbb9af",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-23T12:54:07Z",
+      "side": 1,
+      "message": "Removed from configuration.",
+      "parentUuid": "1846ae1b_a24f9b25",
       "range": {
         "startLine": 364,
         "startChar": 51,

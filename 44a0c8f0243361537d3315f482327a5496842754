@@ -39,6 +39,30 @@
       },
       "revId": "44a0c8f0243361537d3315f482327a5496842754",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae941b17_d06e44aa",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-23T12:54:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c649bbf3_2b5c46c1",
+      "range": {
+        "startLine": 129,
+        "startChar": 12,
+        "endLine": 129,
+        "endChar": 16
+      },
+      "revId": "44a0c8f0243361537d3315f482327a5496842754",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
