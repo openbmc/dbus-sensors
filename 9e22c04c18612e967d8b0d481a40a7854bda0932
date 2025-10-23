@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8270ef3f_4a318b6f",
+        "filename": "src/MctpAsioEndpoint.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-10-23T23:01:14Z",
+      "side": 1,
+      "message": "set the network",
+      "revId": "9e22c04c18612e967d8b0d481a40a7854bda0932",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
