@@ -1001,7 +1001,8 @@ static void getPresentCpus(
     try
     {
         auto getItems = dbusConnection->new_method_call(
-            mapper::busName, mapper::path, mapper::interface, mapper::subtree);
+            ObjectMapper::default_service, ObjectMapper::instance_path,
+            ObjectMapper::interface, ObjectMapper::method_names::get_sub_tree);
         getItems.append(cpuInventoryPath, static_cast<int32_t>(depth),
                         std::array<const char*, numKeys>{
                             "xyz.openbmc_project.Inventory.Item"});

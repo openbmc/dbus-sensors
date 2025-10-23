@@ -11,6 +11,9 @@
 #include <sdbusplus/bus/match.hpp>
 #include <sdbusplus/message.hpp>
 #include <sdbusplus/message/native_types.hpp>
+#include <xyz/openbmc_project/ObjectMapper/common.hpp>
+
+using ObjectMapper = sdbusplus::common::xyz::openbmc_project::ObjectMapper;
 
 #include <algorithm>
 #include <charconv>
@@ -109,14 +112,6 @@ inline std::string configInterfaceName(const std::string& type)
 {
     return std::string(configInterfacePrefix) + type;
 }
-
-namespace mapper
-{
-constexpr const char* busName = "xyz.openbmc_project.ObjectMapper";
-constexpr const char* path = "/xyz/openbmc_project/object_mapper";
-constexpr const char* interface = "xyz.openbmc_project.ObjectMapper";
-constexpr const char* subtree = "GetSubTree";
-} // namespace mapper
 
 namespace properties
 {
@@ -374,7 +369,8 @@ struct GetSensorConfiguration :
                     }
                 }
             },
-            mapper::busName, mapper::path, mapper::interface, mapper::subtree,
+            ObjectMapper::default_service, ObjectMapper::instance_path,
+            ObjectMapper::interface, ObjectMapper::method_names::get_sub_tree,
             "/", 0, interfaces);
     }
 
