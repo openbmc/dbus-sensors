@@ -2,6 +2,7 @@ if not get_option('leakdetector').allowed()
     subdir_done()
 endif
 phosphor_dbus_interfaces_dep = dependency('phosphor-dbus-interfaces')
+src_inc = include_directories('..')
 
 executable(
     'leakdetector',
@@ -12,7 +13,6 @@ executable(
     dependencies: [
         default_deps,
         utils_dep,
-        phosphor_dbus_interfaces_dep,
         gpiodcxx,
         gpiointerface_dep,
         entitymanagerinterface_dep,

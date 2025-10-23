@@ -71,7 +71,7 @@ IntelCPUSensor::IntelCPUSensor(
             if (type == "power")
             {
                 interfacePath = "/xyz/openbmc_project/sensors/power/" + name;
-                units = sensor_paths::unitWatts;
+                units = sensor_paths::unitWatts.c_str();
                 minValue = 0;
                 maxValue = 511;
             }
@@ -79,7 +79,7 @@ IntelCPUSensor::IntelCPUSensor(
             {
                 interfacePath = "/xyz/openbmc_project/sensors/temperature/" +
                                 name;
-                units = sensor_paths::unitDegreesC;
+                units = sensor_paths::unitDegreesC.c_str();
                 minValue = -128;
                 maxValue = 127;
             }
