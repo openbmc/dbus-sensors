@@ -1,4 +1,5 @@
 phosphor_dbus_interfaces_dep = dependency('phosphor-dbus-interfaces')
+src_inc = include_directories('..')
 
 executable(
     'cablemonitor',
@@ -8,7 +9,6 @@ executable(
     dependencies: [
         default_deps,
         utils_dep,
-        phosphor_dbus_interfaces_dep,
         notifywatch_dep,
         entitymanagerinterface_dep,
     ],
