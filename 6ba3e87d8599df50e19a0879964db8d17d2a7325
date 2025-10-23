@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa168f29_d53ad7b7",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-23T12:59:46Z",
+      "side": 1,
+      "message": "Yes, we can query the device for it. But failure in getting response from the device for that command could bring down all PCIe Port Telemetries. This would be fixed for a platform anyway and hence the use of EM config. I can also make it dynamic by querying the device for this info if you prefer that.",
+      "parentUuid": "ed673df6_52bcf23d",
+      "range": {
+        "startLine": 385,
+        "startChar": 48,
+        "endLine": 385,
+        "endChar": 72
+      },
+      "revId": "6ba3e87d8599df50e19a0879964db8d17d2a7325",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b17d0bd_2bf87b26",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-10-17T02:08:59Z",
       "side": 1,
       "message": "\u003d 0;",
+      "range": {
+        "startLine": 69,
+        "startChar": 13,
+        "endLine": 69,
+        "endChar": 32
+      },
+      "revId": "6ba3e87d8599df50e19a0879964db8d17d2a7325",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aaf8da0c_9476af14",
+        "filename": "src/nvidia-gpu/NvidiaPcieDevice.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-23T12:59:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b17d0bd_2bf87b26",
       "range": {
         "startLine": 69,
         "startChar": 13,
@@ -64,6 +112,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce3dd5a6_cfd181a6",
+        "filename": "src/nvidia-gpu/NvidiaPcieDevice.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-23T12:59:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94e3efdf_0148e04d",
+      "revId": "6ba3e87d8599df50e19a0879964db8d17d2a7325",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e4d13912_758b8451",
@@ -87,6 +153,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac1eb79e_17d2ec2b",
+        "filename": "src/nvidia-gpu/NvidiaPciePort.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-23T12:59:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4d13912_758b8451",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 5
+      },
+      "revId": "6ba3e87d8599df50e19a0879964db8d17d2a7325",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "afca0bd2_529582e7",
@@ -100,6 +190,30 @@
       "writtenOn": "2025-10-17T02:08:59Z",
       "side": 1,
       "message": "Please don\u0027t use auto like this.  it doesn\u0027t make it clear what the type is.",
+      "range": {
+        "startLine": 131,
+        "startChar": 4,
+        "endLine": 131,
+        "endChar": 8
+      },
+      "revId": "6ba3e87d8599df50e19a0879964db8d17d2a7325",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b611af3_962b104f",
+        "filename": "src/nvidia-gpu/NvidiaPciePort.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-23T12:59:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "afca0bd2_529582e7",
       "range": {
         "startLine": 131,
         "startChar": 4,
