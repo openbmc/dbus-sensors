@@ -322,6 +322,7 @@ void IntelCPUSensor::handleResponse(const boost::system::error_code& err)
                     }
                     else
                     {
+                        privTcontrol = std::numeric_limits<double>::quiet_NaN();
                         lg2::error("Failure to update thresholds for '{NAME}'",
                                    "NAME", name);
                     }
