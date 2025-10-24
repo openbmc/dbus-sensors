@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8eda85f7_ca175112",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-10-24T10:43:26Z",
+      "side": 1,
+      "message": "nit: we should say PCIe device",
+      "range": {
+        "startLine": 126,
+        "startChar": 27,
+        "endLine": 126,
+        "endChar": 29
+      },
+      "revId": "e7f65f500b3a5a72cfd8e884099d92888030abe6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e2036b3_d6450997",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-10-24T10:43:26Z",
+      "side": 1,
+      "message": "For now let\u0027s pick a name here as we don\u0027t have a way to add this in the ALon8 switchboard config (we don\u0027t know which EID is which CX).",
+      "range": {
+        "startLine": 131,
+        "startChar": 37,
+        "endLine": 131,
+        "endChar": 49
+      },
+      "revId": "e7f65f500b3a5a72cfd8e884099d92888030abe6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6f466b6_ede6ea0e",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-10-24T10:43:26Z",
+      "side": 1,
+      "message": "Can we reduce the loc here as there is a repeated pattern? I think it is possible.",
+      "revId": "e7f65f500b3a5a72cfd8e884099d92888030abe6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d45f8d7b_87a7947a",
+        "filename": "src/nvidia-gpu/NvidiaPcieDevice.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-10-24T10:43:26Z",
+      "side": 1,
+      "message": "I agree with Ed on this not being \"inventory\" as n/w fabric is a logical grouping. Let\u0027s not introduce this PDI at all. In bmcweb we could determine a fabric ID based on, for eg, a property from the PCIeSwitch PDI (I will push such a property). For now I think bmcweb can even makeup a default fabric name and we can solve multi-fabric case when there\u0027s a need (in other words the fabric route handler can look for switches and group them under a made up fabric name as the default behavior).",
+      "revId": "e7f65f500b3a5a72cfd8e884099d92888030abe6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5b609cd_f985879f",
+        "filename": "src/nvidia-gpu/NvidiaPcieInterface.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-10-24T10:43:26Z",
+      "side": 1,
+      "message": "Let\u0027s use existing PCIeSwitch interface. I will push missing properties if we need any.",
+      "range": {
+        "startLine": 43,
+        "startChar": 54,
+        "endLine": 43,
+        "endChar": 60
+      },
+      "revId": "e7f65f500b3a5a72cfd8e884099d92888030abe6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b3aec76_c684c132",
+        "filename": "src/nvidia-gpu/NvidiaPcieInterface.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-10-24T10:43:26Z",
+      "side": 1,
+      "message": "Shouldn\u0027t need all of this based on a previous comment from me.",
+      "range": {
+        "startLine": 45,
+        "startChar": 4,
+        "endLine": 51,
+        "endChar": 80
+      },
+      "revId": "e7f65f500b3a5a72cfd8e884099d92888030abe6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
