@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6dfe0ed_daf8300a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-10-24T11:40:40Z",
+      "side": 1,
+      "message": "Add WIP until these are pushed to Gerrit (I will push them).",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 14
+      },
+      "revId": "713dfdd9a2ca23f12627bb4d8b14f62134249f4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf7b1378_f2982e95",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-10-24T11:40:40Z",
+      "side": 1,
+      "message": "Let\u0027s get this from the device.",
+      "range": {
+        "startLine": 377,
+        "startChar": 0,
+        "endLine": 393,
+        "endChar": 13
+      },
+      "revId": "713dfdd9a2ca23f12627bb4d8b14f62134249f4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e69d951_2791d2cf",
+        "filename": "src/nvidia-gpu/NvidiaPciePort.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-10-24T11:40:40Z",
+      "side": 1,
+      "message": "Why do we beed ActiveWidth here and LanesInUse in the PCIeDevice?",
+      "range": {
+        "startLine": 67,
+        "startChar": 42,
+        "endLine": 67,
+        "endChar": 53
+      },
+      "revId": "713dfdd9a2ca23f12627bb4d8b14f62134249f4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc5f3c9d_49b8342d",
+        "filename": "src/nvidia-gpu/NvidiaPciePort.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-10-24T11:40:40Z",
+      "side": 1,
+      "message": "List properties that don\u0027t exist in the PDI in the commit message.",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 77
+      },
+      "revId": "713dfdd9a2ca23f12627bb4d8b14f62134249f4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b74d91cb_ac6ffc43",
+        "filename": "src/nvidia-gpu/NvidiaPciePort.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-10-24T11:40:40Z",
+      "side": 1,
+      "message": "this association should be between Port and PCIeSwitch.",
+      "range": {
+        "startLine": 79,
+        "startChar": 53,
+        "endLine": 79,
+        "endChar": 67
+      },
+      "revId": "713dfdd9a2ca23f12627bb4d8b14f62134249f4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0fb8e90d_360b9ba5",
+        "filename": "src/nvidia-gpu/NvidiaPciePort.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-10-24T11:40:40Z",
+      "side": 1,
+      "message": "Why do we need such checks? Don\u0027t we always get all the fields?",
+      "revId": "713dfdd9a2ca23f12627bb4d8b14f62134249f4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
