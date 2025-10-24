@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2d9ec0df_0ba720c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-10-24T11:06:15Z",
+      "side": 1,
+      "message": "nit: I think the inventory pathnames are generally all smallcase, fix all such instances in this and child commits",
+      "range": {
+        "startLine": 29,
+        "startChar": 98,
+        "endLine": 29,
+        "endChar": 109
+      },
+      "revId": "e7f65f500b3a5a72cfd8e884099d92888030abe6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8eda85f7_ca175112",
         "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
         "patchSetId": 17
