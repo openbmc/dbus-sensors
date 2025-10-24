@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "635c1f86_70a47a43",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-10-24T10:33:53Z",
+      "side": 1,
+      "message": "\u003e Your commit message should mention why.\n\nI mentioned \n\n\u003e Use those constants instead of re-defining them here.\n\nCode duplication reason.\n\nFor the general discussion on tradeoffs of using / not using PDI, IMO\nthat\u0027s a discussion outside the scope of a commit message.",
+      "parentUuid": "17564fe2_b673a545",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 0
+      },
+      "revId": "d3237af16422f70b4823d06e6978dedcb973d26a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "4ebcafb3_07ea5505",

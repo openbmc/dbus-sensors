@@ -22,6 +22,30 @@
       },
       "revId": "3a3ebd1c6a7a3824444e40c3e6c3f074edf29002",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47a9e11d_575fe597",
+        "filename": "src/SensorPaths.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-10-24T10:33:53Z",
+      "side": 0,
+      "message": "All valid points i guess 👍\n\nI often use github code search to look for DBus interfaces in boost asio based repositories.\n\nFor grepping, does it help if i avoid the `using` declaration and instead use the fully qualified names?\nThen we still have the issue of needing to grep in 2 different ways, but that\u0027s a migration issue that should go away with time when more code starts using PDI.\n\nFor representing the actual string, that\u0027s a mapping developers may then need to do in their head when searching code. Since the namespaces are always generated in the same way, it\u0027s straightforward to go from\n\n`xyz.openbmc_project.Sensor.Value` -\u003e `sdbusplus::common::xyz::sensor::Value`\n\n\nThe mentioned concerns represent developer workflows but there are other developer workflows which become easier when PDI is used.\n\nThings like\n- what breaks / fails to build if i remove this property?\n- changing a namespace path for migration\n- changing a default bus name\n- changing a property name\n- what breaks / fails to build on my platform if i remove a given DBus interface?\n- always initializing all properties of a DBus interface via an easy-to-use constructor\n\nSadly a lot of these benefits only fully appear once PDI has gained wide adoption within the codebase.\n\nSo if you have time to iterate on this then we can further go into detail about how to resolve the mentioned issues.\n\nMaybe we need some special tool for searching code, do you think it would solve the issue? Or is it too heavy of a workflow for general use.\n\nWe could have something like `dbus-grep` which helps in searching DBus interfaces by constructing regexes which match on both the PDI symbol names and string literals, and  make an option for it to print the regex it used to search.\n\nThere are also developer workflows which become harder due to hardcoding and duplication of string literals.\n\n- grepping for a property name can give results of their usage in multiple interfaces. So it may be harder to find the usages of a property on a specific interface only. PDI solves this with the fully qualified symbol name.\n\n- some DBus interface names are constructed at runtime in dbus-sensors, making them hard to grep\n\n- reviewing code can be harder as things like default namespace path, default service name and property names always need to be checked and the reviewer may need to look in PDI if the property exists and if the right type has been used.",
+      "parentUuid": "59fffe3c_5cddfda6",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 54
+      },
+      "revId": "3a3ebd1c6a7a3824444e40c3e6c3f074edf29002",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
