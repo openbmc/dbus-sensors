@@ -106,6 +106,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a00d6dc8_2c038d3d",
+        "filename": "src/nvidia-gpu/NvidiaPcieDevice.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-10-25T07:30:11Z",
+      "side": 1,
+      "message": "Let\u0027s do ahead with the bmcweb doing this option (we can revisit if @ed@tanous.net has concerns).",
+      "parentUuid": "d45f8d7b_87a7947a",
+      "revId": "e7f65f500b3a5a72cfd8e884099d92888030abe6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b5b609cd_f985879f",
         "filename": "src/nvidia-gpu/NvidiaPcieInterface.cpp",
         "patchSetId": 17
@@ -117,6 +135,30 @@
       "writtenOn": "2025-10-24T10:43:26Z",
       "side": 1,
       "message": "Let\u0027s use existing PCIeSwitch interface. I will push missing properties if we need any.",
+      "range": {
+        "startLine": 43,
+        "startChar": 54,
+        "endLine": 43,
+        "endChar": 60
+      },
+      "revId": "e7f65f500b3a5a72cfd8e884099d92888030abe6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f07acf2_05d6792e",
+        "filename": "src/nvidia-gpu/NvidiaPcieInterface.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-10-25T07:30:11Z",
+      "side": 1,
+      "message": "Don\u0027t need anything in PDI for this patch at least.",
+      "parentUuid": "b5b609cd_f985879f",
       "range": {
         "startLine": 43,
         "startChar": 54,
