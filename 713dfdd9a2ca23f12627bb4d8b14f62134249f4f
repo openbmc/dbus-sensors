@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e861134_0009e6ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-27T12:28:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f26c917_c2e2f0ff",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 14
+      },
+      "revId": "713dfdd9a2ca23f12627bb4d8b14f62134249f4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bf7b1378_f2982e95",
@@ -71,6 +95,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c84b8742_06ddd599",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-27T12:28:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf7b1378_f2982e95",
+      "range": {
+        "startLine": 377,
+        "startChar": 0,
+        "endLine": 393,
+        "endChar": 13
+      },
+      "revId": "713dfdd9a2ca23f12627bb4d8b14f62134249f4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9e69d951_2791d2cf",
@@ -84,6 +132,30 @@
       "writtenOn": "2025-10-24T11:40:40Z",
       "side": 1,
       "message": "Why do we beed ActiveWidth here and LanesInUse in the PCIeDevice?",
+      "range": {
+        "startLine": 67,
+        "startChar": 42,
+        "endLine": 67,
+        "endChar": 53
+      },
+      "revId": "713dfdd9a2ca23f12627bb4d8b14f62134249f4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90b4b13a_721aa0ba",
+        "filename": "src/nvidia-gpu/NvidiaPciePort.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-27T12:28:32Z",
+      "side": 1,
+      "message": "The ActiveWidth here are for each port (upstream as well as downstream). LaneInUse in PCIeDevice are for the port that gets connected to the Host. Value of LanesInUse in the PCIeDevice will be identical to ActiveWidth of UP_0 port for ConnectX devices.",
+      "parentUuid": "9e69d951_2791d2cf",
       "range": {
         "startLine": 67,
         "startChar": 42,
@@ -141,6 +213,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cacbb281_c69961ad",
+        "filename": "src/nvidia-gpu/NvidiaPciePort.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-27T12:28:32Z",
+      "side": 1,
+      "message": "The property names are updated.",
+      "parentUuid": "99e874cd_8f7c8df8",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 77
+      },
+      "revId": "713dfdd9a2ca23f12627bb4d8b14f62134249f4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b74d91cb_ac6ffc43",
@@ -164,6 +260,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "708e57f0_1dacd94a",
+        "filename": "src/nvidia-gpu/NvidiaPciePort.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-27T12:28:32Z",
+      "side": 1,
+      "message": "This is the object path that will have interface `xyz.openbmc_project.Inventory.Item.PCIeSwitch`.",
+      "parentUuid": "b74d91cb_ac6ffc43",
+      "range": {
+        "startLine": 79,
+        "startChar": 53,
+        "endLine": 79,
+        "endChar": 67
+      },
+      "revId": "713dfdd9a2ca23f12627bb4d8b14f62134249f4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0fb8e90d_360b9ba5",
@@ -177,6 +297,24 @@
       "writtenOn": "2025-10-24T11:40:40Z",
       "side": 1,
       "message": "Why do we need such checks? Don\u0027t we always get all the fields?",
+      "revId": "713dfdd9a2ca23f12627bb4d8b14f62134249f4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95c479b3_be7a4685",
+        "filename": "src/nvidia-gpu/NvidiaPciePort.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-27T12:28:32Z",
+      "side": 1,
+      "message": "Replaced it with only one check for the size.",
+      "parentUuid": "0fb8e90d_360b9ba5",
       "revId": "713dfdd9a2ca23f12627bb4d8b14f62134249f4f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
