@@ -22,6 +22,52 @@
       },
       "revId": "5b2187d012c2f98e38c37a80ffc17ed4a15a7dda",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c2667c0_b145b279",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-27T17:33:25Z",
+      "side": 1,
+      "message": "Battery voltage isn\u0027t in PSUSensor, that would be in ADCSensor, so I\u0027m a little confused why this use case matters?  Is this just a problem of us putting a device in the wrong sensor and would be solved by moving the device to the correct daemon?\n\nWhy do they \"require\" different monitoring frequencies?  This sensor daemon is for PMBus based sensors, which are cached in the kernel, so it\u0027s not clear why this changes abn individual polling rate would change the actual processing to the device.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 50
+      },
+      "revId": "5b2187d012c2f98e38c37a80ffc17ed4a15a7dda",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c75ab0c1_3e188fb9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-27T17:33:25Z",
+      "side": 1,
+      "message": "Same as above, this is per-device, not global",
+      "range": {
+        "startLine": 20,
+        "startChar": 18,
+        "endLine": 20,
+        "endChar": 24
+      },
+      "revId": "5b2187d012c2f98e38c37a80ffc17ed4a15a7dda",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
