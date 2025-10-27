@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2f26c917_c2e2f0ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-10-27T08:24:16Z",
+      "side": 1,
+      "message": "@haghera@nvidia.com please see https://gerrit.openbmc.org/c/openbmc/phosphor-dbus-interfaces/+/84652",
+      "parentUuid": "e6dfe0ed_daf8300a",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 14
+      },
+      "revId": "713dfdd9a2ca23f12627bb4d8b14f62134249f4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bf7b1378_f2982e95",
         "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
         "patchSetId": 15
