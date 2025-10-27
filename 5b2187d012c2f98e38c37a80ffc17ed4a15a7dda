@@ -73,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "92d915ec_a3bcc505",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-10-27T20:07:52Z",
+      "side": 1,
+      "message": "\u003e Battery voltage isn\u0027t in PSUSensor, that would be in ADCSensor, so I\u0027m a little confused why this use case matters?\n\nI don\u0027t think that is 100% true.  One implementation _is_ to use the ADC, but another is to use a remote sensor device that is covered by PSUSensor.  For example an INA233, which is a current monitor, can be coupled with a known resistor size to determine a voltage.\n\nFrom the commit message, it does appear as those we ended up with some multi-channel ADC devices (attached via i2c) being surfaced by the PSUSensor daemon.  Maybe the originator can document the specific chips they\u0027re attempting to use this feature on.\n\n\u003e Why do they \"require\" different monitoring frequencies? \n\nA battery you want to read at a far slower frequency than most sensors.  In order to read a battery, most implementation require some \"jumper\" enabled via a GPIO that hooks the battery up to a drain.  If you leave that set all the time, or sense too often, you end up draining the battery.  I think typically we only read battery sensors approximately once per day.\n\n\u003e This sensor daemon is for PMBus based sensors, which are cached in the kernel, so it\u0027s not clear why this changes abn individual polling rate would change the actual processing to the device.\n\nThe kernel driver for a device _may_ cache a reading, but the kernel never reads _on its own_.  It is always driven by an access to the pmbus sysfs entries.  If a sensor daemon is the only thing reading a sensor, and the sensor daemon only reads once a day, the kernel will only read the device once a day.",
+      "parentUuid": "05232d4f_974c4294",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 50
+      },
+      "revId": "5b2187d012c2f98e38c37a80ffc17ed4a15a7dda",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c75ab0c1_3e188fb9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
