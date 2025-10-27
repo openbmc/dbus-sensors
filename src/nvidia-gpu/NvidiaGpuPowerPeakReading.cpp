@@ -37,12 +37,23 @@ NvidiaGpuPowerPeakReading::NvidiaGpuPowerPeakReading(
     telemetryReportInterface = objectServer.add_interface(
         dbusPath, "xyz.openbmc_project.Telemetry.Report");
 
+    telemetryReportInterface->register_property("Persistency", false);
+    std::vector<std::tuple<
+        std::vector<std::tuple<sdbusplus::message::object_path, std::string>>,
+        std::string, std::string, uint64_t>>
+        readingParams{
+            {{{dbusPath, ""}},
+             "xyz.openbmc_project.Telemetry.Report.OperationType.Maximum",
+             "",
+             0}};
+    telemetryReportInterface->register_property("ReadingParameters",
+                                                readingParams);
     std::get<0>(readings) = 0;
     // Reading from the device is in milliwatts and unit set on the dbus
     // is watts.
     std::get<1>(readings).emplace_back("PeakReading", "", 0.0, 0);
-
     telemetryReportInterface->register_property("Readings", readings);
+    telemetryReportInterface->register_property("Enabled", true);
 
     telemetryReportInterface->initialize();
 }
