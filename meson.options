@@ -1,81 +1,20 @@
-option(
-    'adc',
-    type: 'feature',
-    value: 'enabled',
-    description: 'Enable ADC sensor.',
-)
-option(
-    'intel-cpu',
-    type: 'feature',
-    value: 'enabled',
-    description: 'Enable CPU sensor.',
-)
-option(
-    'exit-air',
-    type: 'feature',
-    value: 'enabled',
-    description: 'Enable exit air sensor.',
-)
-option(
-    'fan',
-    type: 'feature',
-    value: 'enabled',
-    description: 'Enable fan sensor.',
-)
+option('adc', type: 'feature', description: 'Enable ADC sensor.')
+option('intel-cpu', type: 'feature', description: 'Enable CPU sensor.')
+option('exit-air', type: 'feature', description: 'Enable exit air sensor.')
+option('fan', type: 'feature', description: 'Enable fan sensor.')
 option(
     'hwmon-temp',
     type: 'feature',
-    value: 'enabled',
     description: 'Enable HWMON temperature sensor.',
 )
-option(
-    'intrusion',
-    type: 'feature',
-    value: 'enabled',
-    description: 'Enable intrusion sensor.',
-)
-option(
-    'ipmb',
-    type: 'feature',
-    value: 'enabled',
-    description: 'Enable IPMB sensor.',
-)
-option(
-    'mctp',
-    type: 'feature',
-    value: 'enabled',
-    description: 'Enable MCTP endpoint management',
-)
-option(
-    'mcu',
-    type: 'feature',
-    value: 'enabled',
-    description: 'Enable MCU sensor.',
-)
-option(
-    'nvme',
-    type: 'feature',
-    value: 'enabled',
-    description: 'Enable NVMe sensor.',
-)
-option(
-    'psu',
-    type: 'feature',
-    value: 'enabled',
-    description: 'Enable PSU sensor.',
-)
-option(
-    'nvidia-gpu',
-    type: 'feature',
-    value: 'enabled',
-    description: 'Enable GPU sensor.',
-)
-option(
-    'external',
-    type: 'feature',
-    value: 'enabled',
-    description: 'Enable External sensor.',
-)
+option('intrusion', type: 'feature', description: 'Enable intrusion sensor.')
+option('ipmb', type: 'feature', description: 'Enable IPMB sensor.')
+option('mctp', type: 'feature', description: 'Enable MCTP endpoint management')
+option('mcu', type: 'feature', description: 'Enable MCU sensor.')
+option('nvme', type: 'feature', description: 'Enable NVMe sensor.')
+option('psu', type: 'feature', description: 'Enable PSU sensor.')
+option('nvidia-gpu', type: 'feature', description: 'Enable GPU sensor.')
+option('external', type: 'feature', description: 'Enable External sensor.')
 option('tests', type: 'feature', value: 'enabled', description: 'Build tests.')
 option(
     'validate-unsecure-feature',
@@ -92,18 +31,7 @@ option(
 option(
     'leakdetector',
     type: 'feature',
-    value: 'enabled',
     description: 'Enable Liquid Leak Detector.',
 )
-option(
-    'smbpbi',
-    type: 'feature',
-    value: 'enabled',
-    description: 'Enable SMBPBI sensor.',
-)
-option(
-    'cable-monitor',
-    type: 'feature',
-    value: 'enabled',
-    description: 'Enable Cable monitor.',
-)
+option('smbpbi', type: 'feature', description: 'Enable SMBPBI sensor.')
+option('cable-monitor', type: 'feature', description: 'Enable Cable monitor.')
