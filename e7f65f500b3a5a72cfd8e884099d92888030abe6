@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d53f105_06f7de36",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-27T12:23:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d9ec0df_0ba720c2",
+      "range": {
+        "startLine": 29,
+        "startChar": 98,
+        "endLine": 29,
+        "endChar": 109
+      },
+      "revId": "e7f65f500b3a5a72cfd8e884099d92888030abe6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8eda85f7_ca175112",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-10-24T10:43:26Z",
       "side": 1,
       "message": "nit: we should say PCIe device",
+      "range": {
+        "startLine": 126,
+        "startChar": 27,
+        "endLine": 126,
+        "endChar": 29
+      },
+      "revId": "e7f65f500b3a5a72cfd8e884099d92888030abe6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c33ff060_c2b9457a",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-27T12:23:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8eda85f7_ca175112",
       "range": {
         "startLine": 126,
         "startChar": 27,
@@ -70,6 +118,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "209e8bc1_d3dc6bf8",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-27T12:23:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e2036b3_d6450997",
+      "range": {
+        "startLine": 131,
+        "startChar": 37,
+        "endLine": 131,
+        "endChar": 49
+      },
+      "revId": "e7f65f500b3a5a72cfd8e884099d92888030abe6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a6f466b6_ede6ea0e",
@@ -83,6 +155,24 @@
       "writtenOn": "2025-10-24T10:43:26Z",
       "side": 1,
       "message": "Can we reduce the loc here as there is a repeated pattern? I think it is possible.",
+      "revId": "e7f65f500b3a5a72cfd8e884099d92888030abe6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "256ff657_880ab8f3",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-27T12:23:39Z",
+      "side": 1,
+      "message": "To do that we need polymorphism that unifies all device classes with inheritance. But the pattern that exists for GpuDevice and SmaDevice, we have explicitly avoided doing that.",
+      "parentUuid": "a6f466b6_ede6ea0e",
       "revId": "e7f65f500b3a5a72cfd8e884099d92888030abe6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -124,6 +214,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1bec98c2_4a64e2bd",
+        "filename": "src/nvidia-gpu/NvidiaPcieDevice.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-27T12:23:39Z",
+      "side": 1,
+      "message": "@ed@tanous.net, are you ok with this approach for this patch as well as for bmcweb?",
+      "parentUuid": "a00d6dc8_2c038d3d",
+      "revId": "e7f65f500b3a5a72cfd8e884099d92888030abe6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b5b609cd_f985879f",
         "filename": "src/nvidia-gpu/NvidiaPcieInterface.cpp",
         "patchSetId": 17
@@ -159,6 +267,30 @@
       "side": 1,
       "message": "Don\u0027t need anything in PDI for this patch at least.",
       "parentUuid": "b5b609cd_f985879f",
+      "range": {
+        "startLine": 43,
+        "startChar": 54,
+        "endLine": 43,
+        "endChar": 60
+      },
+      "revId": "e7f65f500b3a5a72cfd8e884099d92888030abe6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69b357ea_aa614164",
+        "filename": "src/nvidia-gpu/NvidiaPcieInterface.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-27T12:23:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f07acf2_05d6792e",
       "range": {
         "startLine": 43,
         "startChar": 54,
