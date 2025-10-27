@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad512dbf_2c351d70",
+        "filename": "src/nvidia-gpu/NvidiaPciePort.hpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000020
+      },
+      "writtenOn": "2025-10-27T13:59:51Z",
+      "side": 1,
+      "message": "Can you move to https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/84508 ?",
+      "revId": "74b04b693eb7abf6ec40b01dd7e48af84c99dc5c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
