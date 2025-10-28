@@ -262,3 +262,82 @@ TEST(MCTPReactor, replaceConfiguration)
     EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(replacement.get()));
     EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(endpoint.get()));
 }
+
+TEST(MCTPReactor, concurrentEndpointSetupReactorTeardown)
+{
+    std::weak_ptr<MockMCTPEndpoint> wep;
+    std::weak_ptr<MockMCTPDevice> wdev;
+    std::function<void(const std::error_code& ec,
+                       const std::shared_ptr<MCTPEndpoint>& ep)>
+        setupHandler;
+    {
+        MockAssociationServer assoc{};
+        auto reactor = std::make_shared<MCTPReactor>(assoc);
+        auto device = std::make_shared<MockMCTPDevice>();
+        auto endpoint = std::make_shared<MockMCTPEndpoint>();
+        EXPECT_CALL(*endpoint, device())
+            .WillRepeatedly(testing::Return(device));
+        EXPECT_CALL(*endpoint, describe())
+            .WillRepeatedly(testing::Return("mock endpoint"));
+        EXPECT_CALL(*endpoint, eid()).WillRepeatedly(testing::Return(9));
+        EXPECT_CALL(*endpoint, network()).WillRepeatedly(testing::Return(1));
+
+        EXPECT_CALL(*device, describe())
+            .WillRepeatedly(testing::Return("mock device"));
+        EXPECT_CALL(*device, setup(testing::_))
+            .WillOnce(testing::SaveArg<0>(&setupHandler));
+
+        reactor->manageMCTPDevice("/test", device);
+    }
+    setupHandler(std::make_error_code(std::errc::permission_denied), nullptr);
+}
+
+TEST(MCTPReactor, manageMockDeviceDelayedSetup)
+{
+    std::weak_ptr<MockMCTPEndpoint> wep;
+    std::weak_ptr<MockMCTPDevice> wdev;
+    MockAssociationServer assoc{};
+    auto reactor = std::make_shared<MCTPReactor>(assoc);
+    {
+        std::function<void(const std::error_code& ec,
+                           const std::shared_ptr<MCTPEndpoint>& ep)>
+            setupHandler;
+        {
+            auto device = std::make_shared<MockMCTPDevice>();
+            auto endpoint = std::make_shared<MockMCTPEndpoint>();
+            EXPECT_CALL(*endpoint, device())
+                .WillRepeatedly(testing::Return(device));
+            EXPECT_CALL(*endpoint, describe())
+                .WillRepeatedly(testing::Return("mock endpoint"));
+            EXPECT_CALL(*endpoint, eid()).WillRepeatedly(testing::Return(9));
+            EXPECT_CALL(*endpoint, network())
+                .WillRepeatedly(testing::Return(1));
+
+            EXPECT_CALL(*endpoint, remove());
+
+            EXPECT_CALL(*device, describe())
+                .WillRepeatedly(testing::Return("mock device"));
+            EXPECT_CALL(*device, remove())
+                .WillOnce(testing::Invoke([ep{endpoint}]() { ep->remove(); }));
+            EXPECT_CALL(*device, setup(testing::_))
+                .WillOnce(testing::InvokeArgument<0>(
+                    std::make_error_code(std::errc::permission_denied),
+                    endpoint))
+                .WillOnce(testing::SaveArg<0>(&setupHandler));
+
+            reactor->manageMCTPDevice("/test", device);
+
+            reactor->tick();
+            reactor->unmanageMCTPDevice("/test");
+            testing::Mock::VerifyAndClearExpectations(device.get());
+            wdev = device;
+            testing::Mock::VerifyAndClearExpectations(endpoint.get());
+            wep = endpoint;
+        }
+        setupHandler(std::make_error_code(std::errc::permission_denied),
+                     nullptr);
+    }
+    EXPECT_EQ(wdev.use_count(), 0);
+    EXPECT_EQ(wep.use_count(), 0);
+    reactor->tick();
+}
