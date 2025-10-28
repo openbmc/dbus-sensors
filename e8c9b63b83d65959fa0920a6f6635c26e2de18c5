@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "78ad8545_f54184dc",
         "filename": "/COMMIT_MSG",
@@ -20,10 +21,10 @@
         "endChar": 0
       },
       "revId": "e8c9b63b83d65959fa0920a6f6635c26e2de18c5",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "e311ad96_d013e5dd",
         "filename": "/COMMIT_MSG",
@@ -44,10 +45,10 @@
         "endChar": 0
       },
       "revId": "e8c9b63b83d65959fa0920a6f6635c26e2de18c5",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "84a9b1bd_5f693861",
         "filename": "/COMMIT_MSG",
@@ -68,10 +69,10 @@
         "endChar": 0
       },
       "revId": "e8c9b63b83d65959fa0920a6f6635c26e2de18c5",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "6a2a8964_0cfb7836",
         "filename": "/COMMIT_MSG",
@@ -92,10 +93,10 @@
         "endChar": 0
       },
       "revId": "e8c9b63b83d65959fa0920a6f6635c26e2de18c5",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "139103c2_ead2bf82",
         "filename": "src/PSUSensorMain.cpp",
@@ -115,10 +116,10 @@
         "endChar": 0
       },
       "revId": "e8c9b63b83d65959fa0920a6f6635c26e2de18c5",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "27de9f76_8f4be499",
         "filename": "src/PSUSensorMain.cpp",
@@ -139,8 +140,8 @@
         "endChar": 0
       },
       "revId": "e8c9b63b83d65959fa0920a6f6635c26e2de18c5",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
-  ]
+  ],
+  "submitRequirementResults": []
 }
