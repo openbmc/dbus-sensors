@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "45a012a1_9fba94a4",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-28T13:23:48Z",
+      "side": 1,
+      "message": "That command is not supported on ConnectX.",
+      "parentUuid": "ab02a482_f6b6bff1",
+      "revId": "ec6a4abca389a1d14e560ccb87d4035abae28fe3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c658839_a9260714",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-10-19T18:52:47Z",
       "side": 1,
       "message": "Should the tagging/naming of what these individual fields mean go into the decode as well? Do expect everyone who calls that function to know/re-encode what tag 0 is, for example?",
+      "revId": "ec6a4abca389a1d14e560ccb87d4035abae28fe3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28adb89e_928199fa",
+        "filename": "src/nvidia-gpu/NvidiaEthPort.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-28T13:23:48Z",
+      "side": 1,
+      "message": "decodeGetEthernetPortTelemetryCounters function only decodes the response for that one particular command so the caller of that function is expected to know which tag value corresponds to which metric.",
+      "parentUuid": "6c658839_a9260714",
       "revId": "ec6a4abca389a1d14e560ccb87d4035abae28fe3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -52,6 +88,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9fe0912_5699de29",
+        "filename": "src/nvidia-gpu/NvidiaEthPort.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-28T13:23:48Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "664688a2_13d3f250",
+      "revId": "ec6a4abca389a1d14e560ccb87d4035abae28fe3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1d9d0606_8e9adcbd",
@@ -65,6 +119,24 @@
       "writtenOn": "2025-10-19T18:52:47Z",
       "side": 1,
       "message": "std::bit_cast is good for this, and it\u0027ll help you avoid side-eye in reviews, as well as the file-wide nolint.",
+      "revId": "ec6a4abca389a1d14e560ccb87d4035abae28fe3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e4df144_e0c15b22",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-28T13:23:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d9d0606_8e9adcbd",
       "revId": "ec6a4abca389a1d14e560ccb87d4035abae28fe3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -86,6 +158,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e616cedb_57fb7bea",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 642,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-28T13:23:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82e93305_636c991c",
+      "revId": "ec6a4abca389a1d14e560ccb87d4035abae28fe3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1dfb03d3_7f788d51",
@@ -99,6 +189,24 @@
       "writtenOn": "2025-10-19T18:52:47Z",
       "side": 1,
       "message": "nit, we have a lot of +2\u0027s swimming around in this code path. If you make the struct suggested below, we can just use the size of that, or just make a pointer/index for it every loop.",
+      "revId": "ec6a4abca389a1d14e560ccb87d4035abae28fe3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "851b13a1_a582210e",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-28T13:23:48Z",
+      "side": 1,
+      "message": "Now removed.",
+      "parentUuid": "1dfb03d3_7f788d51",
       "revId": "ec6a4abca389a1d14e560ccb87d4035abae28fe3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -120,6 +228,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b158181_0d19ed8b",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 658,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-28T13:23:48Z",
+      "side": 1,
+      "message": "There were feedback from multiple maintainers on the few initial set of patches for this app, suggesting to explicitly avoid bitfields.",
+      "parentUuid": "2293bc15_0be73ae6",
+      "revId": "ec6a4abca389a1d14e560ccb87d4035abae28fe3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5beb9ee4_3a4b6c31",
@@ -137,6 +263,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6278c3d_704e402b",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-28T13:23:48Z",
+      "side": 1,
+      "message": "Renamed valueLength to encodedLength. Now it is simplified and logic is moved out in the separate function. There were feedback from multiple maintainers on the few initial set of patches for this app, suggesting to explicitly avoid bitfields.",
+      "parentUuid": "5beb9ee4_3a4b6c31",
+      "revId": "ec6a4abca389a1d14e560ccb87d4035abae28fe3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "61df4a17_21e97616",
@@ -150,6 +294,24 @@
       "writtenOn": "2025-10-19T18:52:47Z",
       "side": 1,
       "message": "so if its neither 4 nor 8 bytes in length we just put a 0 in and move on with life? Is that the correct behavior?",
+      "revId": "ec6a4abca389a1d14e560ccb87d4035abae28fe3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfe539fe_e25e9cdd",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 694,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-28T13:23:48Z",
+      "side": 1,
+      "message": "Fixed. We now do not add value if length is zero.",
+      "parentUuid": "61df4a17_21e97616",
       "revId": "ec6a4abca389a1d14e560ccb87d4035abae28fe3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
