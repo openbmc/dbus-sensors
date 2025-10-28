@@ -92,14 +92,22 @@ void MCTPReactor::setupEndpoint(const std::shared_ptr<MCTPDevice>& dev)
     debug(
         "Attempting to setup up MCTP endpoint for device at [ {MCTP_DEVICE} ]",
         "MCTP_DEVICE", dev->describe());
-    dev->setup([weak{weak_from_this()},
-                dev](const std::error_code& ec,
-                     const std::shared_ptr<MCTPEndpoint>& ep) mutable {
+    dev->setup([weak{weak_from_this()}, wdev = std::weak_ptr<MCTPDevice>(dev)](
+                   const std::error_code& ec,
+                   const std::shared_ptr<MCTPEndpoint>& ep) mutable {
         auto self = weak.lock();
         if (!self)
         {
             info(
                 "The reactor object was destroyed concurrent to the completion of the endpoint setup");
+            return;
+        }
+
+        auto dev = wdev.lock();
+        if (!dev)
+        {
+            info(
+                "The device was destroyed concurrent to the completion of endpoint setup");
             return;
         }
 
