@@ -99,8 +99,7 @@ void MCTPReactor::setupEndpoint(const std::shared_ptr<MCTPDevice>& dev)
         if (!self)
         {
             info(
-                "The reactor object was destroyed concurrent to the completion of the endpoint setup for '{MCTP_ENDPOINT}'",
-                "MCTP_ENDPOINT", ep->describe());
+                "The reactor object was destroyed concurrent to the completion of the endpoint setup");
             return;
         }
 
