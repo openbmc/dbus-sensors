@@ -16,6 +16,24 @@
       "message": "Can you use copyright like https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/84508  ?",
       "revId": "4a4c8fa0cc0d90c7efdae4842e2e48c6913b2481",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "958193d0_9dd3fd4f",
+        "filename": "src/nvidia-gpu/NvidiaEthPort.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-10-29T10:39:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10f72639_4c44a9bd",
+      "revId": "4a4c8fa0cc0d90c7efdae4842e2e48c6913b2481",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
