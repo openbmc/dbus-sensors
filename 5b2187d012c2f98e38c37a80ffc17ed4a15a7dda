@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ffb7cb5f_abb7067d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001906
+      },
+      "writtenOn": "2025-10-29T08:14:28Z",
+      "side": 1,
+      "message": "please refer to here: https://gerrit.openbmc.org/c/openbmc/entity-manager/+/84735",
+      "parentUuid": "745d9711_127dc822",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 54
+      },
+      "revId": "5b2187d012c2f98e38c37a80ffc17ed4a15a7dda",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9c2667c0_b145b279",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
