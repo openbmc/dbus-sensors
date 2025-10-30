@@ -393,10 +393,19 @@ bool checkThresholds(Sensor* sensor)
 {
     bool status = true;
     std::vector<ChangeParam> changes = checkThresholds(sensor, sensor->value);
+
+    // Sensor can be reconstructed when sensor configuration changes
+    // like a new threshold value. Threshold deassert can be missed
+    // if the new threshold value fixes the alarm because
+    // default state for new threshold interface is de-asserted.
+    // force sending assert/de-assert message when a not NaN value is updated
+    // for the first time even when threshold property did not change.
+    bool forceAssert = !sensor->hadValidValue;
     for (const auto& change : changes)
     {
         assertThresholds(sensor, change.assertValue, change.threshold.level,
-                         change.threshold.direction, change.asserted);
+                         change.threshold.direction, change.asserted,
+                         forceAssert);
         if (change.threshold.level == thresholds::Level::CRITICAL &&
             change.asserted)
         {
@@ -418,6 +427,7 @@ void checkThresholdsPowerDelay(const std::weak_ptr<Sensor>& weakSensor,
 
     Sensor* sensor = sensorPtr.get();
     std::vector<ChangeParam> changes = checkThresholds(sensor, sensor->value);
+    bool forceAssert = !sensor->hadValidValue;
     for (const auto& change : changes)
     {
         // When CPU is powered off, some volatges are expected to
@@ -442,13 +452,14 @@ void checkThresholdsPowerDelay(const std::weak_ptr<Sensor>& weakSensor,
             }
         }
         assertThresholds(sensor, change.assertValue, change.threshold.level,
-                         change.threshold.direction, change.asserted);
+                         change.threshold.direction, change.asserted,
+                         forceAssert);
     }
 }
 
 void assertThresholds(Sensor* sensor, double assertValue,
                       thresholds::Level level, thresholds::Direction direction,
-                      bool assert)
+                      bool assert, bool force)
 {
     std::shared_ptr<sdbusplus::asio::dbus_interface> interface =
         sensor->getThresholdInterface(level);
@@ -465,7 +476,9 @@ void assertThresholds(Sensor* sensor, double assertValue,
         lg2::info("Alarm property is empty");
         return;
     }
-    if (interface->set_property<bool, true>(property, assert))
+    bool propertyChanged =
+        interface->set_property<bool, true>(property, assert);
+    if (force || propertyChanged)
     {
         try
         {
