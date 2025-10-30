@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2a50213_f417a410",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-30T18:29:35Z",
+      "side": 1,
+      "message": "Write a commit message that\u0027s a little more extensive.",
+      "revId": "9a54915a86bf0c10b5651bd6ab9a8996cc16ea55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e911a4c6_e8f86e25",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-30T18:29:35Z",
+      "side": 1,
+      "message": "partial review.",
+      "revId": "9a54915a86bf0c10b5651bd6ab9a8996cc16ea55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2faf686_665175fb",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-30T18:29:35Z",
+      "side": 1,
+      "message": "nit, probably want to print ec.message()",
+      "revId": "9a54915a86bf0c10b5651bd6ab9a8996cc16ea55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5f8bdc9_9d0ed5e0",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-30T18:29:35Z",
+      "side": 1,
+      "message": "At this level we should verify that it\u0027s an nvidia event, right?",
+      "revId": "9a54915a86bf0c10b5651bd6ab9a8996cc16ea55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2eb919e8_8a350551",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-30T18:29:35Z",
+      "side": 1,
+      "message": "Please don\u0027t forward declare classes.  Structure your code so there\u0027s no loops.",
+      "range": {
+        "startLine": 30,
+        "startChar": 6,
+        "endLine": 30,
+        "endChar": 24
+      },
+      "revId": "9a54915a86bf0c10b5651bd6ab9a8996cc16ea55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "025a0d66_08024fef",
+        "filename": "src/nvidia-gpu/NvidiaXidReporting.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-30T18:29:35Z",
+      "side": 1,
+      "message": "We need something that calls and reconciles this setting over time.  GPus don\u0027t store this persistently, and GPUs will very likely not be available at reboot time.",
+      "revId": "9a54915a86bf0c10b5651bd6ab9a8996cc16ea55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
