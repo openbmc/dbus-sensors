@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "097dcb41_7dbee233",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002051
+      },
+      "writtenOn": "2025-10-30T08:47:10Z",
+      "side": 1,
+      "message": "Hi @ed@tanous.net,\n\nIt uses the existing driver from the 6.12 kernel and has no other PR dependencies.\nCould you please help review this commit?\nThanks.",
+      "revId": "825195bb504b6010dc8c286e6343b9ca1df6dee5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
