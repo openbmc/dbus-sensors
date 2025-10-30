@@ -52,6 +52,24 @@
       "parentUuid": "00fc7928_cf664364",
       "revId": "9e22c04c18612e967d8b0d481a40a7854bda0932",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a9ffc0b_a358fb31",
+        "filename": "src/MctpAsioEndpoint.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-10-30T18:26:07Z",
+      "side": 1,
+      "message": "@molberding@nvidia.com you good here?\n\n@deepak.kodihalli.83@gmail.com ?",
+      "parentUuid": "46ccf60b_23ed50ef",
+      "revId": "9e22c04c18612e967d8b0d481a40a7854bda0932",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
