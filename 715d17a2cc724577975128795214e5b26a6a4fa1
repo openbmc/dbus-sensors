@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "51a90da3_136ed287",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-10-31T12:36:55Z",
+      "side": 1,
+      "message": "Thanks",
+      "parentUuid": "55a251ad_a5176e5f",
+      "revId": "715d17a2cc724577975128795214e5b26a6a4fa1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a203c511_dbbe975b",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "Yes. Maximum \u003d\u003e Reading from D-Bus has to go to Redfish PeakReading",
       "parentUuid": "1e9273b1_f10d8c8f",
+      "revId": "715d17a2cc724577975128795214e5b26a6a4fa1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77c02b86_dac8dae3",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerPeakReading.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-10-31T12:36:55Z",
+      "side": 1,
+      "message": "Resolving",
+      "parentUuid": "f1b6667f_ca083bda",
       "revId": "715d17a2cc724577975128795214e5b26a6a4fa1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -136,6 +172,42 @@
       "side": 1,
       "message": "I don\u0027t think that\u0027s necessary as we map Maximum to PeakReading, and you are looking at a single D-Bus object,",
       "parentUuid": "a48eba85_ebfbdcfd",
+      "revId": "715d17a2cc724577975128795214e5b26a6a4fa1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d2df33a_04a2ed0d",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerPeakReading.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-10-31T12:36:55Z",
+      "side": 1,
+      "message": "Resolving",
+      "parentUuid": "2ab72199_c5b12434",
+      "revId": "715d17a2cc724577975128795214e5b26a6a4fa1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e904bec_8ab267de",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerPeakReading.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-10-31T12:36:55Z",
+      "side": 1,
+      "message": "Resolving",
+      "parentUuid": "63814043_02e43ec9",
       "revId": "715d17a2cc724577975128795214e5b26a6a4fa1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
