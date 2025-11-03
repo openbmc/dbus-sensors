@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a070c0e6_792cf67c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-11-03T09:16:55Z",
+      "side": 1,
+      "message": "mark as WIP due to unresolved concern https://gerrit.openbmc.org/c/openbmc/obmc-console/+/84781/comment/6b3cc889_ece9d7e4/",
+      "revId": "9a1ebd644d78a6312183d31be2a5fc8331ebdbc5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
