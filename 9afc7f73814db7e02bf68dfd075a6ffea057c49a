@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "844ad4c1_0dcd266a",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-11-06T16:22:46Z",
+      "side": 1,
+      "message": "do emplace, then you don\u0027t need make_pair.",
+      "range": {
+        "startLine": 134,
+        "startChar": 21,
+        "endLine": 134,
+        "endChar": 42
+      },
+      "revId": "9afc7f73814db7e02bf68dfd075a6ffea057c49a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0002306c_971c58f5",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-11-06T16:22:46Z",
+      "side": 1,
+      "message": "nit, consistently use -\u003e",
+      "range": {
+        "startLine": 139,
+        "startChar": 12,
+        "endLine": 139,
+        "endChar": 26
+      },
+      "revId": "9afc7f73814db7e02bf68dfd075a6ffea057c49a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e90489d6_d41abac7",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-11-06T16:22:46Z",
+      "side": 1,
+      "message": "Please fix separately.  We should not have file-level NOLINT.  This is a correct warning to the coding standard.",
+      "revId": "9afc7f73814db7e02bf68dfd075a6ffea057c49a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
