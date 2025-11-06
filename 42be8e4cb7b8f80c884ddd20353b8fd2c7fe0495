@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "27dfd1b0_e177fe73",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001127
+      },
+      "writtenOn": "2025-11-06T08:48:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a05ff73_8740162e",
+      "revId": "42be8e4cb7b8f80c884ddd20353b8fd2c7fe0495",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "38f1f32e_8a9c0c36",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 5
@@ -88,6 +106,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bfe1898_318cde7a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001127
+      },
+      "writtenOn": "2025-11-06T08:48:00Z",
+      "side": 1,
+      "message": "Yes, Software.I2CVR needs to wait a while after changing Activation and before starting the upgrade.\n\nNot all VR devices require monitoring to be paused during firmware updates.\nhttps://gerrit.openbmc.org/c/openbmc/entity-manager/+/83964\nuses `FirmwareName` as an opt-in mechanism. Add it to the EM config only for VR devices that experience PMBus conflicts during updates. Devices without this property continue monitoring uninterrupted.",
+      "parentUuid": "07a2ac37_b82dbf73",
+      "revId": "42be8e4cb7b8f80c884ddd20353b8fd2c7fe0495",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f4ecfe6e_790e8bad",
@@ -101,6 +137,24 @@
       "writtenOn": "2025-10-21T17:11:50Z",
       "side": 1,
       "message": "Lets name firmwareAssociations to something better as it gets confused with Dbus association, but looks like this a local object to store the state.",
+      "revId": "42be8e4cb7b8f80c884ddd20353b8fd2c7fe0495",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a0a6165_915e45f4",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1001127
+      },
+      "writtenOn": "2025-11-06T08:48:00Z",
+      "side": 1,
+      "message": "OK. changed to firmwareUpdateStates.",
+      "parentUuid": "f4ecfe6e_790e8bad",
       "revId": "42be8e4cb7b8f80c884ddd20353b8fd2c7fe0495",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -122,6 +176,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7131916_0da1aab6",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1001127
+      },
+      "writtenOn": "2025-11-06T08:48:00Z",
+      "side": 1,
+      "message": "Done. Thanks for the suggestion.",
+      "parentUuid": "a65c3d63_adc67dea",
+      "revId": "42be8e4cb7b8f80c884ddd20353b8fd2c7fe0495",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8c4f9d69_427e0fae",
@@ -135,6 +207,24 @@
       "writtenOn": "2025-10-21T17:11:50Z",
       "side": 1,
       "message": "Can you please add a comment about why are you creating this name for lookup and which object state are you trying to update?",
+      "revId": "42be8e4cb7b8f80c884ddd20353b8fd2c7fe0495",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "095124e6_ac2f801c",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1001127
+      },
+      "writtenOn": "2025-11-06T08:48:00Z",
+      "side": 1,
+      "message": "combineEvents is the existing map of PSUEvent instances. PSUEvent instances poll sysfs attributes such as xxx_crit_alarm and xxx_lcrit_alarm.",
+      "parentUuid": "8c4f9d69_427e0fae",
       "revId": "42be8e4cb7b8f80c884ddd20353b8fd2c7fe0495",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -162,6 +252,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c1ab7c6_e86d7242",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1001127
+      },
+      "writtenOn": "2025-11-06T08:48:00Z",
+      "side": 1,
+      "message": "separated to `setupFirmwareUpdateMatch()` setting up the match for Activation signal; `checkInitialFwUpdateState` checking initial firmware component Activation state.",
+      "parentUuid": "07873a4f_cb2c429e",
+      "range": {
+        "startLine": 353,
+        "startChar": 0,
+        "endLine": 353,
+        "endChar": 30
+      },
+      "revId": "42be8e4cb7b8f80c884ddd20353b8fd2c7fe0495",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "183ab59a_253186d3",
@@ -175,6 +289,30 @@
       "writtenOn": "2025-10-21T17:57:55Z",
       "side": 1,
       "message": "These paths aren\u0027t connected at all.  There\u0027s no gaurantee that these names are the same device in the em config.",
+      "range": {
+        "startLine": 360,
+        "startChar": 0,
+        "endLine": 362,
+        "endChar": 49
+      },
+      "revId": "42be8e4cb7b8f80c884ddd20353b8fd2c7fe0495",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67cf9d1c_c2a6a456",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1001127
+      },
+      "writtenOn": "2025-11-06T08:48:00Z",
+      "side": 1,
+      "message": "The `FirmwareName` must match the firmware object\u0027s base name from its object path. Each firmware object has an individual name. For example, both objects below have the same type but different names:\n{\n    \"Name\": \"Yosemite5_MB_VR_SOC\",\n    \"Type\": \"MP2X6XXFirmware\",\n    ...\n},\n{\n    \"Name\": \"Yosemite5_MB_VR_CPU0\",\n    \"Type\": \"MP2X6XXFirmware\",\n    ...\n}",
+      "parentUuid": "183ab59a_253186d3",
       "range": {
         "startLine": 360,
         "startChar": 0,
