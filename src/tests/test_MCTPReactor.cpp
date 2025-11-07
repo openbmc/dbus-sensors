@@ -2,6 +2,7 @@
 #include "MCTPReactor.hpp"
 #include "Utils.hpp"
 
+#include <cstddef>
 #include <cstdint>
 #include <functional>
 #include <memory>
@@ -24,6 +25,7 @@ class MockMCTPDevice : public MCTPDevice
                 (override));
     MOCK_METHOD(void, remove, (), (override));
     MOCK_METHOD(std::string, describe, (), (const, override));
+    MOCK_METHOD(std::size_t, id, (), (const, override));
 };
 
 class MockMCTPEndpoint : public MCTPEndpoint
