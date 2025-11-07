@@ -34,7 +34,7 @@ MctpdEndpointEventType == [ dev: Devices, state: MctpdEndpointStateType ]
 MctpdEndpointAddEvent(dev) == [ dev |-> dev, state |-> "managed" ]
 MctpdEndpointRemoveEvent(dev) == [ dev |-> dev, state |-> "unmanaged" ]
 
-ReactorEndpointStateType == { "unmanaged", "assigning", "unassigned", "assigned", "quarantine", "lost", "recovering", "recovered", "removing" }
+ReactorEndpointStateType == { "unmanaged", "assigning", "unassigned", "assigned", "quarantine", "lost", "recovering", "recovered", "removing", "pending" }
 ReactorEndpointEntryType == [ Devices -> ReactorEndpointStateType ]
 ReactorEndpointInit == [ dev \in Devices |-> "unmanaged" ]
 
@@ -59,9 +59,28 @@ TypeInvariant ==
 
 Invariants == TypeInvariant
 
-Liveness == [](\A dev \in Devices: dev \in devs ~> (reactor_eps[dev] = "assigned" \/ dev \notin devs))
+Safety ==
+    /\ [][~(\A dev \in Devices: reactor_eps[dev] = "recovered" /\ reactor_eps[dev]' = "removing")]_reactor_eps
+    /\ [][~(\E dev \in DOMAIN reactor_eps:
+              /\ reactor_eps[dev] \in { "unmanaged", "assigning", "unassigned", "quarantine", "lost", "recovering" }
+              /\ mctpd_q = <<>>
+              /\ mctpd_q' # <<>>
+              /\ mctpd_q[1]' = MctpdRemoveRequest(dev))
+         ]_<<reactor_eps, mctpd_q>>
 
-Properties == Liveness
+Liveness ==
+    /\ [](\A dev \in Devices: dev \in devs ~> (reactor_eps[dev] = "assigned" \/ dev \notin devs))
+    /\ [](\A dev \in Devices:
+            /\ reactor_eps[dev] = "assigning" ~> reactor_eps[dev] \notin (ReactorEndpointStateType \ {"unassigned", "assigned", "quarantine"})
+            /\ reactor_eps[dev] = "unassigned" ~> reactor_eps[dev] \notin (ReactorEndpointStateType \ {"unmanaged", "assigning"})
+            /\ reactor_eps[dev] = "quarantine" ~> reactor_eps[dev] \notin (ReactorEndpointStateType \ {"unmanaged", "recovering", "recovered"})
+            /\ reactor_eps[dev] = "lost" ~> reactor_eps[dev] \notin (ReactorEndpointStateType \ {"unmanaged", "recovering"})
+            /\ reactor_eps[dev] = "recovering" ~> reactor_eps[dev] \notin (ReactorEndpointStateType \ {"quarantine", "lost", "recovered"})
+            /\ reactor_eps[dev] = "removing" ~> reactor_eps[dev] \notin (ReactorEndpointStateType \ {"unmanaged", "assigning", "pending"})
+            /\ reactor_eps[dev] = "pending" ~> reactor_eps[dev] \notin (ReactorEndpointStateType \ {"unassigned", "removing"})
+         )
+
+Properties == Safety /\ Liveness
 
 Init ==
     /\ devs = {}
@@ -192,12 +211,14 @@ ReactorEndpointQEvent ==
        IN \/ /\ ev.state = "managed"
              /\ reactor_eps' = CASE reactor_eps[ev.dev] = "assigning" -> [ reactor_eps EXCEPT ![ev.dev] = "assigned" ]
                                  [] reactor_eps[ev.dev] = "recovering" -> [ reactor_eps EXCEPT ![ev.dev] = "recovered" ]
+                                 [] reactor_eps[ev.dev] = "quarantine" -> [ reactor_eps EXCEPT ![ev.dev] = "recovered" ]
                                  [] OTHER -> reactor_eps
           \/ /\ ev.state = "unmanaged"
              /\ reactor_eps' = CASE reactor_eps[ev.dev] = "assigned" -> [ reactor_eps EXCEPT ![ev.dev] = "lost" ]
                                  [] reactor_eps[ev.dev] = "quarantine" -> [ reactor_eps EXCEPT ![ev.dev] = "unmanaged" ]
                                  [] reactor_eps[ev.dev] = "recovered" -> [ reactor_eps EXCEPT ![ev.dev] = "lost" ]
                                  [] reactor_eps[ev.dev] = "removing" -> [ reactor_eps EXCEPT ![ev.dev] = "unmanaged" ]
+                                 [] reactor_eps[ev.dev] = "pending" -> [ reactor_eps EXCEPT ![ev.dev] = "unassigned" ]
                                  [] OTHER -> reactor_eps
     /\ reactor_ep_q' = Tail(reactor_ep_q)
     /\ UNCHANGED <<devs, usb_config_q, inventory_q, mctp_iface_q, ifaces, reactor_dev_q, mctpd_q, mctpd_offers, assigned, dev_accepts, mctpd_assigned>>
@@ -206,21 +227,35 @@ ReactorDeviceQEvent ==
     /\ Len(reactor_dev_q) # 0
     /\ LET ev == Head(reactor_dev_q)
        IN \/ /\ ev.state = "present"
-             /\ MctpdAssignEndpoint(ev.dev)
-             /\ reactor_eps' = CASE reactor_eps[ev.dev] = "unmanaged" -> [ reactor_eps EXCEPT ![ev.dev] = "assigning" ]
-                                 [] reactor_eps[ev.dev] = "quarantine" -> [ reactor_eps EXCEPT ![ev.dev] = "assigning" ] \* FIXME: questionable
-                                 [] reactor_eps[ev.dev] = "lost" -> [ reactor_eps EXCEPT ![ev.dev] = "assigning" ]
-                                 [] reactor_eps[ev.dev] = "recovered" -> [ reactor_eps EXCEPT ![ev.dev] = "assigned" ]
-                                 [] reactor_eps[ev.dev] = "removing" -> [ reactor_eps EXCEPT ![ev.dev] = "assigning" ]
-                                 [] OTHER -> reactor_eps
+             /\ \/ /\ reactor_eps[ev.dev] \in { "unmanaged" }
+                   /\ MctpdAssignEndpoint(ev.dev)
+                   /\ reactor_eps' = [ reactor_eps EXCEPT ![ev.dev] = "assigning" ]
+                \/ /\ reactor_eps[ev.dev] \in { "quarantine" }
+                   /\ reactor_eps' = [ reactor_eps EXCEPT ![ev.dev] = "recovering" ]
+                   /\ UNCHANGED <<mctpd_q>>
+                \/ /\ reactor_eps[ev.dev] \in { "removing" }
+                   /\ reactor_eps' = [ reactor_eps EXCEPT ![ev.dev] = "pending" ]
+                   /\ UNCHANGED <<mctpd_q>>
+                \/ /\ reactor_eps[ev.dev] \in { "unassigned", "assigning", "assigned", "lost", "recovering", "pending" }
+                   /\ UNCHANGED <<mctpd_q, reactor_eps>>
+                \/ /\ reactor_eps[ev.dev] \in { "recovered" }
+                   /\ reactor_eps' = [ reactor_eps EXCEPT ![ev.dev] = "assigned" ]
+                   /\ UNCHANGED <<mctpd_q>>
           \/ /\ ev.state = "absent"
-             /\ MctpdRemoveEndpoint(ev.dev)
-             /\ reactor_eps' = CASE reactor_eps[ev.dev] = "assigning" -> [ reactor_eps EXCEPT ![ev.dev] = "quarantine" ]
-                                 [] reactor_eps[ev.dev] = "unassigned" -> [ reactor_eps EXCEPT ![ev.dev] = "unmanaged" ]
-                                 [] reactor_eps[ev.dev] = "assigned" -> [ reactor_eps EXCEPT ![ev.dev] = "removing" ]
-                                 [] reactor_eps[ev.dev] = "lost" -> [ reactor_eps EXCEPT ![ev.dev] = "unmanaged" ]
-                                 [] reactor_eps[ev.dev] = "recovered" -> [ reactor_eps EXCEPT ![ev.dev] = "removing" ]
-                                 [] OTHER -> reactor_eps
+             /\ \/ /\ reactor_eps[ev.dev] \in { "unmanaged", "recovered", "quarantine", "removing" }
+                   /\ UNCHANGED <<mctpd_q, reactor_eps>>
+                \/ /\ reactor_eps[ev.dev] \in { "assigning", "recovering" }
+                   /\ reactor_eps' = [ reactor_eps EXCEPT ![ev.dev] = "quarantine" ]
+                   /\ UNCHANGED <<mctpd_q>>
+                \/ /\ reactor_eps[ev.dev] \in { "unassigned", "lost" }
+                   /\ reactor_eps' = [ reactor_eps EXCEPT ![ev.dev] = "unmanaged" ]
+                   /\ UNCHANGED <<mctpd_q>>
+                \/ /\ reactor_eps[ev.dev] \in { "pending" }
+                   /\ reactor_eps' = [ reactor_eps EXCEPT ![ev.dev] = "removing" ]
+                   /\ UNCHANGED <<mctpd_q>>
+                \/ /\ reactor_eps[ev.dev] \in { "assigned" }
+                   /\ MctpdRemoveEndpoint(ev.dev)
+                   /\ reactor_eps' = [ reactor_eps EXCEPT ![ev.dev] = "removing" ]
     /\ reactor_dev_q' = Tail(reactor_dev_q)
     /\ UNCHANGED <<devs, usb_config_q, inventory_q, mctp_iface_q, ifaces, mctpd_offers, assigned, dev_accepts, mctpd_assigned, reactor_ep_q>>
 
