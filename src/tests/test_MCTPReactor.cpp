@@ -96,7 +96,6 @@ TEST_F(MCTPReactorFixture, manageNullDevice)
 
 TEST_F(MCTPReactorFixture, manageMockDeviceSetupFailure)
 {
-    EXPECT_CALL(*device, remove());
     EXPECT_CALL(*device, setup(testing::_))
         .WillOnce(testing::InvokeArgument<0>(
             std::make_error_code(std::errc::permission_denied), endpoint));
@@ -166,7 +165,69 @@ TEST_F(MCTPReactorFixture, manageMockDeviceDeferredSetup)
     reactor->unmanageMCTPDevice("/test");
 }
 
-TEST_F(MCTPReactorFixture, manageMockDeviceRemoved)
+TEST_F(MCTPReactorFixture, unmanageLostDevice)
+{
+    std::function<void(const std::shared_ptr<MCTPEndpoint>& ep)> removeHandler;
+
+    std::vector<Association> requiredAssociation{
+        {"configured_by", "configures", "/test"}};
+    EXPECT_CALL(assoc,
+                associate("/au/com/codeconstruct/mctp1/networks/1/endpoints/9",
+                          requiredAssociation));
+    EXPECT_CALL(
+        assoc,
+        disassociate("/au/com/codeconstruct/mctp1/networks/1/endpoints/9"));
+
+    EXPECT_CALL(*endpoint, subscribe(testing::_, testing::_, testing::_))
+        .WillOnce(testing::SaveArg<2>(&removeHandler));
+    EXPECT_CALL(*device, setup(testing::_))
+        .WillOnce(testing::InvokeArgument<0>(std::error_code(), endpoint));
+    EXPECT_CALL(*device, remove).Times(0);
+
+    // Enter Assigned
+    reactor->manageMCTPDevice("/test", device);
+    // Enter Lost
+    removeHandler(endpoint);
+    // Terminate device
+    reactor->unmanageMCTPDevice("/test");
+}
+
+TEST_F(MCTPReactorFixture, manageMockDeviceRemoveRecovered)
+{
+    std::function<void(const std::shared_ptr<MCTPEndpoint>& ep)> removeHandler;
+
+    std::vector<Association> requiredAssociation{
+        {"configured_by", "configures", "/test"}};
+    EXPECT_CALL(assoc,
+                associate("/au/com/codeconstruct/mctp1/networks/1/endpoints/9",
+                          requiredAssociation))
+        .Times(2);
+    EXPECT_CALL(
+        assoc,
+        disassociate("/au/com/codeconstruct/mctp1/networks/1/endpoints/9"))
+        .Times(1);
+
+    EXPECT_CALL(*endpoint, subscribe(testing::_, testing::_, testing::_))
+        .Times(2)
+        .WillRepeatedly(testing::SaveArg<2>(&removeHandler));
+
+    EXPECT_CALL(*device, setup(testing::_))
+        .Times(2)
+        .WillRepeatedly(
+            testing::InvokeArgument<0>(std::error_code(), endpoint));
+    EXPECT_CALL(*device, remove).Times(0);
+
+    // Enter Assigned
+    reactor->manageMCTPDevice("/test", device);
+    // Enter Lost
+    removeHandler(endpoint);
+    // Enter Assigned
+    reactor->tick();
+    // Terminate device
+    reactor->unmanageMCTPDevice("/test");
+}
+
+TEST_F(MCTPReactorFixture, gracefulRemoveOfRecovered)
 {
     std::function<void(const std::shared_ptr<MCTPEndpoint>& ep)> removeHandler;
 
@@ -181,25 +242,219 @@ TEST_F(MCTPReactorFixture, manageMockDeviceRemoved)
         disassociate("/au/com/codeconstruct/mctp1/networks/1/endpoints/9"))
         .Times(2);
 
-    EXPECT_CALL(*endpoint, remove()).WillOnce(testing::Invoke([&]() {
-        removeHandler(endpoint);
-    }));
     EXPECT_CALL(*endpoint, subscribe(testing::_, testing::_, testing::_))
         .Times(2)
         .WillRepeatedly(testing::SaveArg<2>(&removeHandler));
 
-    EXPECT_CALL(*device, remove()).WillOnce(testing::Invoke([&]() {
+    EXPECT_CALL(*endpoint, remove).WillOnce(testing::Invoke([&]() {
+        removeHandler(endpoint);
+    }));
+
+    EXPECT_CALL(*device, remove).WillOnce(testing::Invoke([&]() {
         endpoint->remove();
     }));
+
     EXPECT_CALL(*device, setup(testing::_))
         .Times(2)
         .WillRepeatedly(
             testing::InvokeArgument<0>(std::error_code(), endpoint));
 
+    // Enter Assigned
     reactor->manageMCTPDevice("/test", device);
+    // Enter Lost
     removeHandler(endpoint);
+    // Enter Recovered
     reactor->tick();
+    // Enable transition to Assigned
     reactor->unmanageMCTPDevice("/test");
+    // Re-enter Assigned
+    reactor->manageMCTPDevice("/test", device);
+    // Terminate device
+    reactor->unmanageMCTPDevice("/test");
+}
+
+TEST_F(MCTPReactorFixture, recoverFromQuarantine)
+{
+    std::function<void(const std::shared_ptr<MCTPEndpoint>& ep)> removeHandler;
+    std::function<void(const std::error_code&,
+                       const std::shared_ptr<MCTPEndpoint>&)>
+        setupHandler;
+    std::vector<Association> requiredAssociation{
+        {"configured_by", "configures", "/test"}};
+    EXPECT_CALL(assoc,
+                associate("/au/com/codeconstruct/mctp1/networks/1/endpoints/9",
+                          requiredAssociation))
+        .Times(2);
+    EXPECT_CALL(
+        assoc,
+        disassociate("/au/com/codeconstruct/mctp1/networks/1/endpoints/9"))
+        .Times(1);
+
+    EXPECT_CALL(*endpoint, subscribe(testing::_, testing::_, testing::_))
+        .Times(2)
+        .WillRepeatedly(testing::SaveArg<2>(&removeHandler));
+
+    EXPECT_CALL(*device, setup(testing::_))
+        .WillOnce(testing::InvokeArgument<0>(std::error_code(), endpoint))
+        .WillOnce(testing::SaveArg<0>(&setupHandler));
+
+    // Enter Assigned
+    reactor->manageMCTPDevice("/test", device);
+    // Enter Lost
+    removeHandler(endpoint);
+    // Enter Recovering
+    reactor->tick();
+    // Enter Quarantined
+    reactor->unmanageMCTPDevice("/test");
+    // Enter Recovered
+    setupHandler(std::error_code(), endpoint);
+}
+
+TEST_F(MCTPReactorFixture, assigningFromQuarantine)
+{
+    std::vector<Association> requiredAssociation{
+        {"configured_by", "configures", "/test"}};
+    EXPECT_CALL(assoc,
+                associate("/au/com/codeconstruct/mctp1/networks/1/endpoints/9",
+                          requiredAssociation))
+        .Times(1);
+    std::function<void(const std::error_code& ec,
+                       const std::shared_ptr<MCTPEndpoint>& ep)>
+        setupHandler;
+    EXPECT_CALL(*device, setup(testing::_))
+        .WillOnce(testing::SaveArg<0>(&setupHandler));
+    // Enter Assigning
+    reactor->manageMCTPDevice("/test", device);
+    // Enter Quarantine
+    reactor->unmanageMCTPDevice("/test");
+    // Re-enter Assigning
+    reactor->manageMCTPDevice("/test", device);
+    // Enter Assigned
+    setupHandler(std::error_code(), endpoint);
+}
+
+TEST_F(MCTPReactorFixture, lostFromRecovering)
+{
+    std::function<void(const std::shared_ptr<MCTPEndpoint>& ep)> removeHandler;
+    std::vector<Association> requiredAssociation{
+        {"configured_by", "configures", "/test"}};
+    EXPECT_CALL(assoc,
+                associate("/au/com/codeconstruct/mctp1/networks/1/endpoints/9",
+                          requiredAssociation))
+        .Times(1);
+    EXPECT_CALL(
+        assoc,
+        disassociate("/au/com/codeconstruct/mctp1/networks/1/endpoints/9"))
+        .Times(1);
+    EXPECT_CALL(*endpoint, subscribe(testing::_, testing::_, testing::_))
+        .Times(1)
+        .WillRepeatedly(testing::SaveArg<2>(&removeHandler));
+    EXPECT_CALL(*device, setup(testing::_))
+        .WillOnce(testing::InvokeArgument<0>(std::error_code(), endpoint))
+        .WillOnce(testing::InvokeArgument<0>(
+            std::make_error_code(std::errc::permission_denied), nullptr));
+    // Enter Assigned
+    reactor->manageMCTPDevice("/test", device);
+    // Enter Lost
+    removeHandler(endpoint);
+    // Re-enter Lost via Recovering
+    reactor->tick();
+}
+
+TEST_F(MCTPReactorFixture, lostFromRecovered)
+{
+    std::function<void(const std::shared_ptr<MCTPEndpoint>& ep)> removeHandler;
+    std::vector<Association> requiredAssociation{
+        {"configured_by", "configures", "/test"}};
+    EXPECT_CALL(assoc,
+                associate("/au/com/codeconstruct/mctp1/networks/1/endpoints/9",
+                          requiredAssociation))
+        .Times(2);
+    EXPECT_CALL(
+        assoc,
+        disassociate("/au/com/codeconstruct/mctp1/networks/1/endpoints/9"))
+        .Times(2);
+
+    EXPECT_CALL(*endpoint, subscribe(testing::_, testing::_, testing::_))
+        .Times(2)
+        .WillRepeatedly(testing::SaveArg<2>(&removeHandler));
+    EXPECT_CALL(*device, setup(testing::_))
+        .Times(2)
+        .WillRepeatedly(
+            testing::InvokeArgument<0>(std::error_code(), endpoint));
+
+    // Enter Assigned
+    reactor->manageMCTPDevice("/test", device);
+    // Enter Lost
+    removeHandler(endpoint);
+    // Enter Recovered via Recovering
+    reactor->tick();
+    // Enter Lost from Recovered
+    removeHandler(endpoint);
+}
+
+TEST_F(MCTPReactorFixture, unassignedFromPending)
+{
+    std::function<void(const std::shared_ptr<MCTPEndpoint>& ep)> removeHandler;
+    std::vector<Association> requiredAssociation{
+        {"configured_by", "configures", "/test"}};
+    EXPECT_CALL(assoc,
+                associate("/au/com/codeconstruct/mctp1/networks/1/endpoints/9",
+                          requiredAssociation))
+        .Times(1);
+    EXPECT_CALL(
+        assoc,
+        disassociate("/au/com/codeconstruct/mctp1/networks/1/endpoints/9"))
+        .Times(1);
+    EXPECT_CALL(*endpoint, subscribe(testing::_, testing::_, testing::_))
+        .Times(1)
+        .WillRepeatedly(testing::SaveArg<2>(&removeHandler));
+    EXPECT_CALL(*device, setup(testing::_))
+        .Times(1)
+        .WillRepeatedly(
+            testing::InvokeArgument<0>(std::error_code(), endpoint));
+    // Enter Assigned
+    reactor->manageMCTPDevice("/test", device);
+    // Enter Removing by preventing invocation of remove callback
+    reactor->unmanageMCTPDevice("/test");
+    // Enter Pending
+    reactor->manageMCTPDevice("/test", device);
+    // Enter Unassigned
+    removeHandler(endpoint);
+}
+
+TEST_F(MCTPReactorFixture, removingFromPending)
+{
+    std::function<void(const std::shared_ptr<MCTPEndpoint>& ep)> removeHandler;
+    std::vector<Association> requiredAssociation{
+        {"configured_by", "configures", "/test"}};
+    EXPECT_CALL(assoc,
+                associate("/au/com/codeconstruct/mctp1/networks/1/endpoints/9",
+                          requiredAssociation))
+        .Times(1);
+    EXPECT_CALL(
+        assoc,
+        disassociate("/au/com/codeconstruct/mctp1/networks/1/endpoints/9"))
+        .Times(1);
+    EXPECT_CALL(*endpoint, remove).Times(1);
+    EXPECT_CALL(*endpoint, subscribe(testing::_, testing::_, testing::_))
+        .Times(1)
+        .WillRepeatedly(testing::SaveArg<2>(&removeHandler));
+    EXPECT_CALL(*device, setup(testing::_))
+        .WillOnce(testing::InvokeArgument<0>(std::error_code(), endpoint));
+    EXPECT_CALL(*device, remove).Times(1).WillOnce(testing::Invoke([&]() {
+        endpoint->remove();
+    }));
+    // Enter Assigned
+    reactor->manageMCTPDevice("/test", device);
+    // Enter Removing
+    reactor->unmanageMCTPDevice("/test");
+    // Enter Pending
+    reactor->manageMCTPDevice("/test", device);
+    // Re-enter Removing
+    reactor->unmanageMCTPDevice("/test");
+    // Terminate
+    removeHandler(endpoint);
 }
 
 TEST(MCTPReactor, replaceConfiguration)
@@ -328,13 +583,9 @@ TEST(MCTPReactor, manageMockDeviceDelayedSetup)
             EXPECT_CALL(*endpoint, network())
                 .WillRepeatedly(testing::Return(1));
 
-            EXPECT_CALL(*endpoint, remove());
-
             EXPECT_CALL(*device, describe())
                 .WillRepeatedly(testing::Return("mock device"));
             EXPECT_CALL(*device, id()).WillRepeatedly(testing::Return(0UL));
-            EXPECT_CALL(*device, remove())
-                .WillOnce(testing::Invoke([ep{endpoint}]() { ep->remove(); }));
             EXPECT_CALL(*device, setup(testing::_))
                 .WillOnce(testing::InvokeArgument<0>(
                     std::make_error_code(std::errc::permission_denied),
