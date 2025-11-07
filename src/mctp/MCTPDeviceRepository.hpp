@@ -82,4 +82,14 @@ class MCTPDeviceRepository
         }
         return entry->second;
     }
+
+    auto begin()
+    {
+        return devices.begin();
+    }
+
+    auto end()
+    {
+        return devices.end();
+    }
 };
