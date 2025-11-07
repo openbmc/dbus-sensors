@@ -16,6 +16,7 @@
 
 #include <cassert>
 #include <charconv>
+#include <cstddef>
 #include <cstdint>
 #include <exception>
 #include <filesystem>
@@ -158,6 +159,64 @@ std::string MCTPDDevice::describe() const
         description.append(std::format("{:02x} ]", *it));
     }
     return description;
+}
+
+// https://en.cppreference.com/w/cpp/utility/hash/operator().html
+//
+// https://en.wikipedia.org/w/index.php?title=Fowler%E2%80%93Noll%E2%80%93Vo_hash_function&oldid=1312413750#FNV_hash_parameters
+template <typename T, typename V, T p>
+static std::size_t fnv1a(T h, V e);
+
+template <std::size_t S>
+static std::size_t fnv1a(const std::vector<std::uint8_t>& d);
+
+template <typename V>
+static std::size_t fnv1a(std::uint32_t h, V v)
+{
+    constexpr std::uint32_t p = 0x01000193;
+    return (h ^ v) * p;
+}
+
+template <>
+[[maybe_unused]] std::size_t fnv1a<4UL>(const std::vector<std::uint8_t>& d)
+{
+    std::uint32_t h = 0x811c9dc5;
+    for (const auto& v : d)
+    {
+        h = fnv1a(h, v);
+    }
+    return h;
+}
+
+template <typename V>
+static std::size_t fnv1a(std::uint64_t h, V v)
+{
+    constexpr std::uint64_t p = 0x00000100000001b3;
+    return (h ^ v) * p;
+}
+
+template <>
+[[maybe_unused]] std::size_t fnv1a<8UL>(const std::vector<std::uint8_t>& d)
+{
+    std::uint64_t h = 0xcbf29ce484222325;
+    for (const auto& v : d)
+    {
+        h = fnv1a(h, v);
+    }
+    return h;
+}
+
+static std::size_t fnv1aHash(const std::vector<std::uint8_t>& d)
+{
+    return fnv1a<sizeof(std::size_t)>(d);
+}
+
+std::size_t MCTPDDevice::id() const
+{
+    std::size_t h1 = std::hash<std::string>{}(interface);
+    std::size_t h2 = fnv1aHash(physaddr);
+
+    return h1 ^ (h2 << 1);
 }
 
 std::string MCTPDEndpoint::path(const std::shared_ptr<MCTPEndpoint>& ep)
