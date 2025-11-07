@@ -178,6 +178,11 @@ class MCTPDevice
      *         address properties.
      */
     virtual std::string describe() const = 0;
+
+    /**
+     * @return An opaque, internally-stable identifier representing the device
+     */
+    virtual std::size_t id() const = 0;
 };
 
 class MCTPDDevice;
@@ -276,6 +281,7 @@ class MCTPDDevice :
                    added) override;
     void remove() override;
     std::string describe() const override;
+    std::size_t id() const override;
 
   private:
     static void onEndpointInterfacesRemoved(
