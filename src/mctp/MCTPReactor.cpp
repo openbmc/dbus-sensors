@@ -6,6 +6,7 @@
 
 #include <boost/system/detail/error_code.hpp>
 #include <phosphor-logging/lg2.hpp>
+#include <phosphor-logging/lg2/flags.hpp>
 
 #include <memory>
 #include <optional>
@@ -15,14 +16,6 @@
 #include <vector>
 
 PHOSPHOR_LOG2_USING;
-
-void MCTPReactor::deferSetup(const std::shared_ptr<MCTPDevice>& dev)
-{
-    debug("Deferring setup for MCTP device at [ {MCTP_DEVICE} ]", "MCTP_DEVICE",
-          dev->describe());
-
-    states[dev->id()] = MCTPDeviceState::Unassigned;
-}
 
 void MCTPReactor::untrackEndpoint(const std::shared_ptr<MCTPEndpoint>& ep)
 {
@@ -34,7 +27,6 @@ void MCTPReactor::trackEndpoint(const std::shared_ptr<MCTPEndpoint>& ep)
     info("Added MCTP endpoint to device: [ {MCTP_ENDPOINT} ]", "MCTP_ENDPOINT",
          ep->describe());
 
-    states[ep->device()->id()] = MCTPDeviceState::Assigned;
     ep->subscribe(
         // Degraded
         [](const std::shared_ptr<MCTPEndpoint>& ep) {
@@ -53,14 +45,35 @@ void MCTPReactor::trackEndpoint(const std::shared_ptr<MCTPEndpoint>& ep)
             if (auto self = weak.lock())
             {
                 self->untrackEndpoint(ep);
-                // Only defer the setup if we know inventory is still present
-                if (self->devices.contains(ep->device()))
+                switch (self->states[ep->device()->id()])
                 {
-                    self->deferSetup(ep->device());
-                }
-                else
-                {
-                    self->states.erase(ep->device()->id());
+                    case MCTPDeviceState::Unmanaged:
+                    case MCTPDeviceState::Assigning:
+                    case MCTPDeviceState::Unassigned:
+                        break;
+                    case MCTPDeviceState::Assigned:
+                        self->next(ep->device(), MCTPDeviceState::Lost);
+                        break;
+                    case MCTPDeviceState::Quarantine:
+                        self->terminate(ep->device());
+                        break;
+                    case MCTPDeviceState::Lost:
+                    case MCTPDeviceState::Recovering:
+                        break;
+                    case MCTPDeviceState::Recovered:
+                        self->next(ep->device(), MCTPDeviceState::Lost);
+                        break;
+                    case MCTPDeviceState::Removing:
+                        // If the configuration has been replaced then we've
+                        // already terminated the state tracking
+                        if (self->devices.contains(ep->device()))
+                        {
+                            self->terminate(ep->device());
+                        }
+                        break;
+                    case MCTPDeviceState::Pending:
+                        self->next(ep->device(), MCTPDeviceState::Unassigned);
+                        break;
                 }
             }
             else
@@ -70,6 +83,29 @@ void MCTPReactor::trackEndpoint(const std::shared_ptr<MCTPEndpoint>& ep)
                     "MCTP_ENDPOINT", ep->describe());
             }
         });
+
+    switch (states[ep->device()->id()])
+    {
+        case MCTPDeviceState::Unmanaged:
+            return;
+        case MCTPDeviceState::Assigning:
+            next(ep->device(), MCTPDeviceState::Assigned);
+            break;
+        case MCTPDeviceState::Unassigned:
+        case MCTPDeviceState::Assigned:
+        case MCTPDeviceState::Quarantine:
+            next(ep->device(), MCTPDeviceState::Recovered);
+            break;
+        case MCTPDeviceState::Lost:
+            return;
+        case MCTPDeviceState::Recovering:
+            next(ep->device(), MCTPDeviceState::Recovered);
+            break;
+        case MCTPDeviceState::Recovered:
+        case MCTPDeviceState::Removing:
+        case MCTPDeviceState::Pending:
+            return;
+    }
 
     // Proxy-host the association back to the inventory at the same path as the
     // endpoint in mctpd.
@@ -119,10 +155,32 @@ void MCTPReactor::setupEndpoint(const std::shared_ptr<MCTPDevice>& dev)
         if (ec)
         {
             debug(
-                "Setup failed for MCTP device at [ {MCTP_DEVICE} ]: {ERROR_MESSAGE}",
+                "Setup failed for MCTP device at [ {MCTP_DEVICE} ], deferring: {ERROR_MESSAGE}",
                 "MCTP_DEVICE", dev->describe(), "ERROR_MESSAGE", ec.message());
 
-            self->deferSetup(dev);
+            switch (self->states[dev->id()])
+            {
+                case MCTPDeviceState::Unmanaged:
+                    break;
+                case MCTPDeviceState::Assigning:
+                    self->next(dev, MCTPDeviceState::Unassigned);
+                    break;
+                case MCTPDeviceState::Unassigned:
+                case MCTPDeviceState::Assigned:
+                    break;
+                case MCTPDeviceState::Quarantine:
+                    self->terminate(dev);
+                    break;
+                case MCTPDeviceState::Lost:
+                    break;
+                case MCTPDeviceState::Recovering:
+                    self->next(dev, MCTPDeviceState::Lost);
+                    break;
+                case MCTPDeviceState::Recovered:
+                case MCTPDeviceState::Removing:
+                case MCTPDeviceState::Pending:
+                    break;
+            }
             return;
         }
 
@@ -134,7 +192,7 @@ void MCTPReactor::setupEndpoint(const std::shared_ptr<MCTPDevice>& dev)
         {
             error("Failed to track endpoint '{MCTP_ENDPOINT}': {EXCEPTION}",
                   "MCTP_ENDPOINT", ep->describe(), "EXCEPTION", e);
-            self->deferSetup(dev);
+            self->next(dev, MCTPDeviceState::Quarantine);
         }
     });
 }
@@ -143,9 +201,27 @@ void MCTPReactor::tick()
 {
     for (const auto& entry : devices)
     {
-        if (states[entry.second->id()] == MCTPDeviceState::Unassigned)
+        switch (states[entry.second->id()])
         {
-            setupEndpoint(entry.second);
+            case MCTPDeviceState::Unmanaged:
+            case MCTPDeviceState::Assigning:
+                break;
+            case MCTPDeviceState::Unassigned:
+                next(entry.second, MCTPDeviceState::Assigning);
+                setupEndpoint(entry.second);
+                break;
+            case MCTPDeviceState::Assigned:
+            case MCTPDeviceState::Quarantine:
+                break;
+            case MCTPDeviceState::Lost:
+                next(entry.second, MCTPDeviceState::Recovering);
+                setupEndpoint(entry.second);
+                break;
+            case MCTPDeviceState::Recovering:
+            case MCTPDeviceState::Recovered:
+            case MCTPDeviceState::Removing:
+            case MCTPDeviceState::Pending:
+                break;
         }
     }
 }
@@ -158,42 +234,63 @@ void MCTPReactor::manageMCTPDevice(const std::string& path,
         return;
     }
 
-    try
+    debug("MCTP device inventory added at '{INVENTORY_PATH}'", "INVENTORY_PATH",
+          path);
+
+    if (!states.contains(device->id()))
     {
+        debug(
+            "Initialising state for device {DEVICE_ID} ([ {DEVICE_DESCRIPTION} ])) as {INITIAL_STATE}",
+            "DEVICE_ID", lg2::hex, device->id(), "DEVICE_DESCRIPTION",
+            device->describe(), "INITIAL_STATE", MCTPDeviceState::Unmanaged);
         states[device->id()] = MCTPDeviceState::Unmanaged;
-        devices.add(path, device);
-        debug("MCTP device inventory added at '{INVENTORY_PATH}'",
-              "INVENTORY_PATH", path);
-        setupEndpoint(device);
     }
-    catch (const std::system_error& e)
+
+    switch (states[device->id()])
     {
-        if (e.code() != std::errc::device_or_resource_busy)
+        case MCTPDeviceState::Unmanaged:
+            devices.add(path, device);
+            next(device, MCTPDeviceState::Assigning);
+            setupEndpoint(device);
+            break;
+        case MCTPDeviceState::Assigning:
+        case MCTPDeviceState::Unassigned:
+            break;
+        case MCTPDeviceState::Assigned:
         {
-            throw e;
+            // EM may publish property changes without removal. Replace the
+            // device so its state reflects EM's configuration.
+            auto current = devices.deviceFor(path);
+            if (!current)
+            {
+                warning(
+                    "Invalid state: Failed to manage device for inventory at '{INVENTORY_PATH}', but the inventory item is unrecognised",
+                    "INVENTORY_PATH", path);
+                return;
+            }
+
+            // Unsynchronised termination so we can configure the new device.
+            // Paired with presence test when handling MCTPDeviceState::Removing
+            // in the subscribed endpoint removed handler
+            terminate(current);
+            current->remove();
+            manageMCTPDevice(path, device);
+            break;
         }
-
-        auto current = devices.deviceFor(path);
-        if (!current)
-        {
-            warning(
-                "Invalid state: Failed to manage device for inventory at '{INVENTORY_PATH}', but the inventory item is unrecognised",
-                "INVENTORY_PATH", path);
-            return;
-        }
-
-        // TODO: Ensure remove completion happens-before add. For now this
-        // happens unsynchronised. Make some noise about it.
-        warning(
-            "Unsynchronised endpoint reinitialsation due to configuration change at '{INVENTORY_PATH}': Removing '{MCTP_DEVICE}'",
-            "INVENTORY_PATH", path, "MCTP_DEVICE", current->describe());
-
-        unmanageMCTPDevice(path);
-
-        devices.add(path, device);
-
-        // Pray (this is the unsynchronised bit)
-        deferSetup(device);
+        case MCTPDeviceState::Quarantine:
+            next(device, MCTPDeviceState::Assigning);
+            break;
+        case MCTPDeviceState::Lost:
+        case MCTPDeviceState::Recovering:
+            break;
+        case MCTPDeviceState::Recovered:
+            next(device, MCTPDeviceState::Assigned);
+            break;
+        case MCTPDeviceState::Removing:
+            next(device, MCTPDeviceState::Pending);
+            break;
+        case MCTPDeviceState::Pending:
+            break;
     }
 }
 
@@ -210,12 +307,55 @@ void MCTPReactor::unmanageMCTPDevice(const std::string& path)
     debug("MCTP device inventory removed at '{INVENTORY_PATH}'",
           "INVENTORY_PATH", path);
 
-    // Remove the device from the repository before notifying the device itself
-    // of removal so we don't defer its setup
-    devices.remove(device);
+    switch (states[device->id()])
+    {
+        case MCTPDeviceState::Unmanaged:
+            break;
+        case MCTPDeviceState::Assigning:
+            next(device, MCTPDeviceState::Quarantine);
+            break;
+        case MCTPDeviceState::Unassigned:
+            terminate(device);
+            break;
+        case MCTPDeviceState::Assigned:
+            debug("Stopping management of MCTP device at [ {MCTP_DEVICE} ]",
+                  "MCTP_DEVICE", device->describe());
+            next(device, MCTPDeviceState::Removing);
+            device->remove();
+            break;
+        case MCTPDeviceState::Quarantine:
+            break;
+        case MCTPDeviceState::Lost:
+            terminate(device);
+            break;
+        case MCTPDeviceState::Recovering:
+            next(device, MCTPDeviceState::Quarantine);
+            break;
+        case MCTPDeviceState::Recovered:
+        case MCTPDeviceState::Removing:
+            break;
+        case MCTPDeviceState::Pending:
+            next(device, MCTPDeviceState::Removing);
+            break;
+    }
+}
 
-    debug("Stopping management of MCTP device at [ {MCTP_DEVICE} ]",
-          "MCTP_DEVICE", device->describe());
+void MCTPReactor::next(const std::shared_ptr<MCTPDevice>& dev,
+                       const MCTPDeviceState next)
+{
+    debug(
+        "Device {DEVICE_ID} ([ {DEVICE_DESCRIPTION} ]) transitioning from {CURRENT_STATE} to {NEXT_STATE}",
+        "DEVICE_ID", lg2::hex, dev->id(), "DEVICE_DESCRIPTION", dev->describe(),
+        "CURRENT_STATE", states[dev->id()], "NEXT_STATE", next);
+    states[dev->id()] = next;
+}
 
-    device->remove();
+void MCTPReactor::terminate(const std::shared_ptr<MCTPDevice>& dev)
+{
+    debug(
+        "Device {DEVICE_ID} ([ {DEVICE_DESCRIPTION} ]) terminated from {CURRENT_STATE}",
+        "DEVICE_ID", lg2::hex, dev->id(), "DEVICE_DESCRIPTION", dev->describe(),
+        "CURRENT_STATE", states[dev->id()]);
+    devices.remove(dev);
+    states.erase(dev->id());
 }
