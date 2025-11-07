@@ -16,6 +16,24 @@
       "message": "What is non-always?",
       "revId": "0e648f369de822c8dafcd38e33cc10233a134f58",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f6a0fc4_77413d1c",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1002528
+      },
+      "writtenOn": "2025-11-07T01:41:49Z",
+      "side": 1,
+      "message": "Thanks for your reply.\n\u0027Non-always\u0027 refers to any power state other than \u0027Always\u0027 (such as \u0027On\u0027, \u0027ChassisOn\u0027, or \u0027BiosPost\u0027), [1][2].\n\n[1]\nhttps://github.com/openbmc/dbus-sensors/blob/b5e823f73897a8d47087d91f3f936dc07506a6e1/src/Utils.hpp#L66\n\n[2]\nhttps://github.com/openbmc/entity-manager/blob/c10d4b8ce8ab25866e843fe1dda7671fc8294cad/schemas/legacy.json#L1278",
+      "parentUuid": "743267e9_2f815264",
+      "revId": "0e648f369de822c8dafcd38e33cc10233a134f58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
