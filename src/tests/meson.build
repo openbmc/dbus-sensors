@@ -75,16 +75,18 @@ test(
     ),
 )
 
-test(
-    'NvidiaGPU',
-    executable(
-        'test_NvidiaGPU',
-        'test_NvidiaGpuSensorTest.cpp',
-        'test_NvidiaDeviceInventoryMctpVdm.cpp',
-        gpusensor_sources,
-        dependencies: [gmock_dep, ut_deps_list, utils_dep],
-        link_with: [thresholds_a],
-        implicit_include_directories: false,
-        include_directories: '../nvidia-gpu',
-    ),
-)
+if get_option('nvidia-gpu').allowed()
+    test(
+        'NvidiaGPU',
+        executable(
+            'test_NvidiaGPU',
+            'test_NvidiaGpuSensorTest.cpp',
+            'test_NvidiaDeviceInventoryMctpVdm.cpp',
+            gpusensor_sources,
+            dependencies: [gmock_dep, ut_deps_list, utils_dep],
+            link_with: [thresholds_a],
+            implicit_include_directories: false,
+            include_directories: '../nvidia-gpu',
+        ),
+    )
+endif
