@@ -8,7 +8,6 @@
 #include <functional>
 #include <memory>
 #include <optional>
-#include <set>
 #include <string>
 #include <vector>
 
@@ -19,6 +18,13 @@ struct AssociationServer
     virtual void associate(const std::string& path,
                            const std::vector<Association>& associations) = 0;
     virtual void disassociate(const std::string& path) = 0;
+};
+
+enum class MCTPDeviceState
+{
+    Unmanaged,
+    Assigned,
+    Unassigned,
 };
 
 class MCTPReactor : public std::enable_shared_from_this<MCTPReactor>
@@ -47,9 +53,7 @@ class MCTPReactor : public std::enable_shared_from_this<MCTPReactor>
 
     AssociationServer& server;
     MCTPDeviceRepository devices;
-
-    // Tracks MCTP devices that have failed their setup
-    std::set<std::shared_ptr<MCTPDevice>> deferred;
+    std::map<std::size_t, MCTPDeviceState> states;
 
     void deferSetup(const std::shared_ptr<MCTPDevice>& dev);
     void setupEndpoint(const std::shared_ptr<MCTPDevice>& dev);

@@ -64,6 +64,7 @@ class MCTPReactorFixture : public testing::Test
         device = std::make_shared<MockMCTPDevice>();
         EXPECT_CALL(*device, describe())
             .WillRepeatedly(testing::Return("mock device"));
+        EXPECT_CALL(*device, id()).WillRepeatedly(testing::Return(0UL));
 
         endpoint = std::make_shared<MockMCTPEndpoint>();
         EXPECT_CALL(*endpoint, device())
@@ -233,6 +234,7 @@ TEST(MCTPReactor, replaceConfiguration)
     auto idev = std::make_shared<MockMCTPDevice>();
     EXPECT_CALL(*idev, describe())
         .WillRepeatedly(testing::Return("mock device: initial"));
+    EXPECT_CALL(*idev, id()).WillRepeatedly(testing::Return(0UL));
     EXPECT_CALL(*idev, setup(testing::_))
         .WillOnce(testing::InvokeArgument<0>(std::error_code(), iep));
     EXPECT_CALL(*idev, remove()).WillOnce(testing::Invoke([&]() {
@@ -255,6 +257,7 @@ TEST(MCTPReactor, replaceConfiguration)
     auto rdev = std::make_shared<MockMCTPDevice>();
     EXPECT_CALL(*rdev, describe())
         .WillRepeatedly(testing::Return("mock device: replacement"));
+    EXPECT_CALL(*rdev, id()).WillRepeatedly(testing::Return(0UL));
     EXPECT_CALL(*rdev, setup(testing::_))
         .WillOnce(testing::InvokeArgument<0>(std::error_code(), rep));
     EXPECT_CALL(*rdev, remove()).WillOnce(testing::Invoke([&]() {
@@ -295,6 +298,7 @@ TEST(MCTPReactor, concurrentEndpointSetupReactorTeardown)
 
         EXPECT_CALL(*device, describe())
             .WillRepeatedly(testing::Return("mock device"));
+        EXPECT_CALL(*device, id()).WillRepeatedly(testing::Return(0UL));
         EXPECT_CALL(*device, setup(testing::_))
             .WillOnce(testing::SaveArg<0>(&setupHandler));
 
@@ -328,6 +332,7 @@ TEST(MCTPReactor, manageMockDeviceDelayedSetup)
 
             EXPECT_CALL(*device, describe())
                 .WillRepeatedly(testing::Return("mock device"));
+            EXPECT_CALL(*device, id()).WillRepeatedly(testing::Return(0UL));
             EXPECT_CALL(*device, remove())
                 .WillOnce(testing::Invoke([ep{endpoint}]() { ep->remove(); }));
             EXPECT_CALL(*device, setup(testing::_))
