@@ -4,7 +4,6 @@
 
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/async.hpp>
-#include <sdbusplus/async/stdexec/__detail/__then.hpp>
 #include <sdbusplus/message/native_types.hpp>
 #include <sdbusplus/server/manager.hpp>
 
@@ -70,8 +69,10 @@ auto Monitor::configUpdateHandler(std::string configFileName)
         co_return;
     }
     co_await entityManager.handleInventoryGet();
-    ctx.spawn(sdbusplus::async::sleep_for(ctx, std::chrono::seconds(5)) |
-              stdexec::then([&]() { reconcileCableData(); }));
+    ctx.spawn([this]() -> sdbusplus::async::task<> {
+        co_await sdbusplus::async::sleep_for(ctx, std::chrono::seconds(5));
+        reconcileCableData();
+    }());
 }
 
 auto Monitor::start() -> sdbusplus::async::task<>
