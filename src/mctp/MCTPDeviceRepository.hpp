@@ -52,7 +52,7 @@ class MCTPDeviceRepository
             throw std::system_error(
                 std::make_error_code(std::errc::no_such_device),
                 std::format("Trying to remove unknown device: {}",
-                            entry->second->describe()));
+                            device->describe()));
         }
         devices.erase(entry);
     }
