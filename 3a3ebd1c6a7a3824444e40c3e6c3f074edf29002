@@ -70,6 +70,30 @@
       },
       "revId": "3a3ebd1c6a7a3824444e40c3e6c3f074edf29002",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a601fa95_7fcd2ae9",
+        "filename": "src/adc/ADCSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-11-10T18:36:49Z",
+      "side": 0,
+      "message": "\u003e\u003e By having a common code we can avoid subtle bugs arising due to different order of initialization and code drift.\n\n\u003e Lets be concrete when we talk about bugs. Can you point to a bug or two of that nature that we\u0027ve had on master and needed to fix?\n\nI can\u0027t say much about such bugs in dbus-sensors, this one is more based on my own experience.\n\nBelow is the most recent example of a bug based on code drift / lack of common code i have seen:\n\nhttps://gerrit.openbmc.org/c/openbmc/phosphor-bmc-code-mgmt/+/84841/comment/c35e497b_da3d20ce/\n\nThat one mostly incidental, and technically not even code drift (because they were probably created independently). Basically two fw update daemons are reading images which are encoded in a plain text format.\n\nDue to lack of a common abstraction (line-based text file reader respecting both CR-LF and plain LF) there is now a fix which fixes an issue with carriage-return-line-feed sequence found on files created on M$ windows devices.\n\nAs opposed to plain `\\n` found in files created on linux.\n\nHaving a common code would avoid the code drift (since the fix is currently only available to one of these updaters).\n\nThe image parser in question probably does not need to know what specific line ending sequence is used, and that can be broken out.\n\n\u003e io_context being outside of main isn\u0027t conceptual. It has caused crashes on shutdown in the past (check the dbus-sensors code history for some of the fixes).\n\nok, i guess your past experience has more weight in this matter, i brought back the io context to be stored separately in `main` function as before.",
+      "parentUuid": "beddc528_994fadbe",
+      "range": {
+        "startLine": 318,
+        "startChar": 0,
+        "endLine": 318,
+        "endChar": 31
+      },
+      "revId": "3a3ebd1c6a7a3824444e40c3e6c3f074edf29002",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

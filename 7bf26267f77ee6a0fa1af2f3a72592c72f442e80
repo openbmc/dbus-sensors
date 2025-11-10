@@ -106,6 +106,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1079f51_d05b0583",
+        "filename": "src/Reactor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-11-10T18:36:49Z",
+      "side": 1,
+      "message": "I\u0027m still not clear on this one, please re-open if you find time to explain what kind of composition you are looking for 👍",
+      "parentUuid": "98403a2e_2f7ec253",
+      "revId": "7bf26267f77ee6a0fa1af2f3a72592c72f442e80",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1f0c51a3_3b8d079d",
@@ -261,6 +279,24 @@
       "side": 1,
       "message": "\u003e This is what class Reactor does.\n\nAnd you have a couple of people arguing that that\u0027s not a good idea.",
       "parentUuid": "16b49bb8_4c93d238",
+      "revId": "7bf26267f77ee6a0fa1af2f3a72592c72f442e80",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a00c255_5edc2dce",
+        "filename": "src/Reactor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-11-10T18:36:49Z",
+      "side": 1,
+      "message": "ok, based on this feedback and your past experiences i made the io context to be stored in `main` as before. Reactor class now takes a reference to it.",
+      "parentUuid": "6799fc10_de3fb628",
       "revId": "7bf26267f77ee6a0fa1af2f3a72592c72f442e80",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
