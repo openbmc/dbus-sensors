@@ -86,16 +86,26 @@ void processQueryDeviceIdResponse(
                 "EID", eid, "DEVTYPE", responseDeviceType, "IID",
                 responseInstanceId);
 
-            auto gpuName = configs.name + '_' +
-                           std::to_string(responseInstanceId);
+            const std::string gpuName =
+                std::format("{}_{}", configs.name, responseInstanceId);
 
-            auto gpu = gpuDevices
-                           .insert(std::make_pair(
-                               gpuName, std::make_shared<GpuDevice>(
-                                            configs, gpuName, path, conn, eid,
-                                            io, mctpRequester, objectServer)))
-                           .first;
-            gpu->second->init();
+            std::shared_ptr<GpuDevice>& gpu = gpuDevices[gpuName];
+
+            if (gpu == nullptr)
+            {
+                gpu = std::make_shared<GpuDevice>(configs, gpuName, path, conn,
+                                                  eid, io, mctpRequester,
+                                                  objectServer);
+
+                gpu->init();
+            }
+            else
+            {
+                lg2::info(
+                    "GPU Device with name {NAME} already exists. Skipping creating a new device.",
+                    "NAME", gpuName);
+            }
+
             break;
         }
 
@@ -106,16 +116,26 @@ void processQueryDeviceIdResponse(
                 "EID", eid, "DEVTYPE", responseDeviceType, "IID",
                 responseInstanceId);
 
-            auto smaName = configs.name + "_SMA_" +
-                           std::to_string(responseInstanceId);
+            const std::string smaName =
+                std::format("{}_SMA_{}", configs.name, responseInstanceId);
 
-            auto sma = smaDevices
-                           .insert(std::make_pair(
-                               smaName, std::make_shared<SmaDevice>(
-                                            configs, smaName, path, conn, eid,
-                                            io, mctpRequester, objectServer)))
-                           .first;
-            sma->second->init();
+            std::shared_ptr<SmaDevice>& sma = smaDevices[smaName];
+
+            if (sma == nullptr)
+            {
+                sma = std::make_shared<SmaDevice>(configs, smaName, path, conn,
+                                                  eid, io, mctpRequester,
+                                                  objectServer);
+
+                sma->init();
+            }
+            else
+            {
+                lg2::info(
+                    "SMA Device with name {NAME} already exists. Skipping creating a new device.",
+                    "NAME", smaName);
+            }
+
             break;
         }
 
@@ -126,17 +146,26 @@ void processQueryDeviceIdResponse(
                 "EID", eid, "DEVTYPE", responseDeviceType, "IID",
                 responseInstanceId);
 
-            std::string pcieName =
+            const std::string pcieName =
                 std::format("Nvidia_ConnectX_{}", responseInstanceId);
 
-            auto pcieDevice =
-                pcieDevices
-                    .insert(std::make_pair(
-                        pcieName, std::make_shared<PcieDevice>(
-                                      configs, pcieName, path, conn, eid, io,
-                                      mctpRequester, objectServer)))
-                    .first;
-            pcieDevice->second->init();
+            std::shared_ptr<PcieDevice>& pcie = pcieDevices[pcieName];
+
+            if (pcie == nullptr)
+            {
+                pcie = std::make_shared<PcieDevice>(
+                    configs, pcieName, path, conn, eid, io, mctpRequester,
+                    objectServer);
+
+                pcie->init();
+            }
+            else
+            {
+                lg2::info(
+                    "PCIe Device with name {NAME} already exists. Skipping creating a new device.",
+                    "NAME", pcieName);
+            }
+
             break;
         }
     }
