@@ -217,50 +217,59 @@ TEST(MCTPReactor, replaceConfiguration)
         disassociate("/au/com/codeconstruct/mctp1/networks/1/endpoints/9"))
         .Times(2);
 
-    auto endpoint = std::make_shared<MockMCTPEndpoint>();
-    EXPECT_CALL(*endpoint, describe())
-        .WillRepeatedly(testing::Return("mock endpoint"));
-    EXPECT_CALL(*endpoint, eid()).WillRepeatedly(testing::Return(9));
-    EXPECT_CALL(*endpoint, network()).WillRepeatedly(testing::Return(1));
-    EXPECT_CALL(*endpoint, remove())
-        .Times(2)
-        .WillRepeatedly(testing::Invoke([&]() { removeHandler(endpoint); }));
-    EXPECT_CALL(*endpoint, subscribe(testing::_, testing::_, testing::_))
-        .Times(2)
-        .WillRepeatedly(testing::SaveArg<2>(&removeHandler));
+    auto iep = std::make_shared<MockMCTPEndpoint>();
+    EXPECT_CALL(*iep, describe())
+        .WillRepeatedly(testing::Return("mock endpoint: initial"));
+    EXPECT_CALL(*iep, eid()).WillRepeatedly(testing::Return(9));
+    EXPECT_CALL(*iep, network()).WillRepeatedly(testing::Return(1));
+    EXPECT_CALL(*iep, remove()).WillOnce(testing::Invoke([&]() {
+        removeHandler(iep);
+    }));
+    EXPECT_CALL(*iep, subscribe(testing::_, testing::_, testing::_))
+        .WillOnce(testing::SaveArg<2>(&removeHandler));
 
-    auto initial = std::make_shared<MockMCTPDevice>();
-    EXPECT_CALL(*initial, describe())
+    auto idev = std::make_shared<MockMCTPDevice>();
+    EXPECT_CALL(*idev, describe())
         .WillRepeatedly(testing::Return("mock device: initial"));
-    EXPECT_CALL(*initial, setup(testing::_))
-        .WillOnce(testing::InvokeArgument<0>(std::error_code(), endpoint));
-    EXPECT_CALL(*initial, remove()).WillOnce(testing::Invoke([&]() {
-        endpoint->remove();
+    EXPECT_CALL(*idev, setup(testing::_))
+        .WillOnce(testing::InvokeArgument<0>(std::error_code(), iep));
+    EXPECT_CALL(*idev, remove()).WillOnce(testing::Invoke([&]() {
+        iep->remove();
     }));
 
-    auto replacement = std::make_shared<MockMCTPDevice>();
-    EXPECT_CALL(*replacement, describe())
+    EXPECT_CALL(*iep, device()).WillRepeatedly(testing::Return(idev));
+
+    auto rep = std::make_shared<MockMCTPEndpoint>();
+    EXPECT_CALL(*rep, describe())
+        .WillRepeatedly(testing::Return("mock endpoint: replacement"));
+    EXPECT_CALL(*rep, eid()).WillRepeatedly(testing::Return(9));
+    EXPECT_CALL(*rep, network()).WillRepeatedly(testing::Return(1));
+    EXPECT_CALL(*rep, remove()).WillOnce(testing::Invoke([&]() {
+        removeHandler(rep);
+    }));
+    EXPECT_CALL(*rep, subscribe(testing::_, testing::_, testing::_))
+        .WillOnce(testing::SaveArg<2>(&removeHandler));
+
+    auto rdev = std::make_shared<MockMCTPDevice>();
+    EXPECT_CALL(*rdev, describe())
         .WillRepeatedly(testing::Return("mock device: replacement"));
-    EXPECT_CALL(*replacement, setup(testing::_))
-        .WillOnce(testing::InvokeArgument<0>(std::error_code(), endpoint));
-    EXPECT_CALL(*replacement, remove()).WillOnce(testing::Invoke([&]() {
-        endpoint->remove();
+    EXPECT_CALL(*rdev, setup(testing::_))
+        .WillOnce(testing::InvokeArgument<0>(std::error_code(), rep));
+    EXPECT_CALL(*rdev, remove()).WillOnce(testing::Invoke([&]() {
+        rep->remove();
     }));
 
-    EXPECT_CALL(*endpoint, device())
-        .WillOnce(testing::Return(initial))
-        .WillOnce(testing::Return(initial))
-        .WillOnce(testing::Return(replacement))
-        .WillOnce(testing::Return(replacement));
+    EXPECT_CALL(*rep, device()).WillRepeatedly(testing::Return(rdev));
 
-    reactor->manageMCTPDevice("/test", initial);
-    reactor->manageMCTPDevice("/test", replacement);
+    reactor->manageMCTPDevice("/test", idev);
+    reactor->manageMCTPDevice("/test", rdev);
     reactor->tick();
     reactor->unmanageMCTPDevice("/test");
 
-    EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(initial.get()));
-    EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(replacement.get()));
-    EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(endpoint.get()));
+    EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(idev.get()));
+    EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(iep.get()));
+    EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(rdev.get()));
+    EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(rep.get()));
 }
 
 TEST(MCTPReactor, concurrentEndpointSetupReactorTeardown)
