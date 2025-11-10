@@ -432,7 +432,7 @@ TEST_F(GpuMctpVdmTests, DecodeGetTemperatureReadingResponseError)
         ocp::accelerator_management::MessageType::RESPONSE);
     headerInfo.instance_id = 3;
     headerInfo.msg_type =
-        static_cast<uint8_t>(gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY);
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
 
     gpu::packHeader(headerInfo, errorResponse.msgHdr.hdr);
 
