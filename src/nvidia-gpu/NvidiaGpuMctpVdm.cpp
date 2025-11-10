@@ -5,6 +5,7 @@
 
 #include "NvidiaGpuMctpVdm.hpp"
 
+#include "MessagePackUnpackUtils.hpp"
 #include "OcpMctpVdm.hpp"
 
 #include <endian.h>
@@ -36,34 +37,23 @@ int packHeader(const ocp::accelerator_management::BindingPciVidInfo& hdr,
 int encodeQueryDeviceIdentificationRequest(uint8_t instanceId,
                                            const std::span<uint8_t> buf)
 {
-    if (buf.size() < sizeof(QueryDeviceIdentificationRequest))
-    {
-        return EINVAL;
-    }
+    PackBuffer buffer(buf);
 
-    auto* msg = reinterpret_cast<QueryDeviceIdentificationRequest*>(buf.data());
-
-    ocp::accelerator_management::BindingPciVidInfo header{};
-
-    header.ocp_accelerator_management_msg_type =
-        static_cast<uint8_t>(ocp::accelerator_management::MessageType::REQUEST);
-    header.instance_id = instanceId &
-                         ocp::accelerator_management::instanceIdBitMask;
-    header.msg_type =
-        static_cast<uint8_t>(MessageType::DEVICE_CAPABILITY_DISCOVERY);
-
-    auto rc = packHeader(header, msg->hdr.msgHdr.hdr);
+    int rc = encodeRequestCommonHeader(
+        buffer, MessageType::DEVICE_CAPABILITY_DISCOVERY,
+        static_cast<uint8_t>(
+            DeviceCapabilityDiscoveryCommands::QUERY_DEVICE_IDENTIFICATION),
+        instanceId);
 
     if (rc != 0)
     {
         return rc;
     }
 
-    msg->hdr.command = static_cast<uint8_t>(
-        DeviceCapabilityDiscoveryCommands::QUERY_DEVICE_IDENTIFICATION);
-    msg->hdr.data_size = 0;
+    const uint8_t dataSize = 0;
+    buffer.pack(dataSize);
 
-    return 0;
+    return buffer.getError();
 }
 
 int decodeQueryDeviceIdentificationResponse(
@@ -71,58 +61,59 @@ int decodeQueryDeviceIdentificationResponse(
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     uint8_t& deviceIdentification, uint8_t& deviceInstance)
 {
-    auto rc =
-        ocp::accelerator_management::decodeReasonCodeAndCC(buf, cc, reasonCode);
+    UnpackBuffer buffer(buf);
+
+    int rc = decodeResponseCommonHeader(
+        buffer, MessageType::DEVICE_CAPABILITY_DISCOVERY,
+        static_cast<uint8_t>(
+            DeviceCapabilityDiscoveryCommands::QUERY_DEVICE_IDENTIFICATION),
+        cc, reasonCode);
 
     if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
     {
         return rc;
     }
 
-    if (buf.size() < sizeof(QueryDeviceIdentificationResponse))
-    {
-        return EINVAL;
-    }
-
-    const auto* response =
-        reinterpret_cast<const QueryDeviceIdentificationResponse*>(buf.data());
-
-    deviceIdentification = response->device_identification;
-    deviceInstance = response->instance_id;
-
-    return 0;
-}
-
-int encodeGetTemperatureReadingRequest(uint8_t instanceId, uint8_t sensorId,
-                                       std::span<uint8_t> buf)
-{
-    if (buf.size() < sizeof(GetTemperatureReadingRequest))
-    {
-        return EINVAL;
-    }
-
-    auto* msg = reinterpret_cast<GetTemperatureReadingRequest*>(buf.data());
-
-    ocp::accelerator_management::BindingPciVidInfo header{};
-    header.ocp_accelerator_management_msg_type =
-        static_cast<uint8_t>(ocp::accelerator_management::MessageType::REQUEST);
-    header.instance_id = instanceId &
-                         ocp::accelerator_management::instanceIdBitMask;
-    header.msg_type = static_cast<uint8_t>(MessageType::PLATFORM_ENVIRONMENTAL);
-
-    auto rc = packHeader(header, msg->hdr.msgHdr.hdr);
+    uint16_t dataSize = 0;
+    rc = buffer.unpack(dataSize);
 
     if (rc != 0)
     {
         return rc;
     }
 
-    msg->hdr.command = static_cast<uint8_t>(
-        PlatformEnvironmentalCommands::GET_TEMPERATURE_READING);
-    msg->hdr.data_size = sizeof(sensorId);
-    msg->sensor_id = sensorId;
+    if (dataSize != sizeof(uint8_t) * 2)
+    {
+        return EINVAL;
+    }
 
-    return 0;
+    buffer.unpack(deviceIdentification);
+    buffer.unpack(deviceInstance);
+
+    return buffer.getError();
+}
+
+int encodeGetTemperatureReadingRequest(uint8_t instanceId, uint8_t sensorId,
+                                       std::span<uint8_t> buf)
+{
+    PackBuffer buffer(buf);
+
+    const int rc = encodeRequestCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(
+            PlatformEnvironmentalCommands::GET_TEMPERATURE_READING),
+        instanceId);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    const uint8_t dataSize = 1;
+    buffer.pack(dataSize);
+    buffer.pack(sensorId);
+
+    return buffer.getError();
 }
 
 int decodeGetTemperatureReadingResponse(
@@ -130,30 +121,40 @@ int decodeGetTemperatureReadingResponse(
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     double& temperatureReading)
 {
-    auto rc =
-        ocp::accelerator_management::decodeReasonCodeAndCC(buf, cc, reasonCode);
+    UnpackBuffer buffer(buf);
+
+    int rc = decodeResponseCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(
+            PlatformEnvironmentalCommands::GET_TEMPERATURE_READING),
+        cc, reasonCode);
 
     if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
     {
         return rc;
     }
 
-    if (buf.size() < sizeof(GetTemperatureReadingResponse))
+    uint16_t dataSize = 0;
+    rc = buffer.unpack(dataSize);
+
+    if (rc != 0)
     {
-        return EINVAL;
+        return rc;
     }
-
-    const auto* response =
-        reinterpret_cast<const GetTemperatureReadingResponse*>(buf.data());
-
-    uint16_t dataSize = le16toh(response->hdr.data_size);
 
     if (dataSize != sizeof(int32_t))
     {
         return EINVAL;
     }
 
-    int32_t reading = le32toh(response->reading);
+    int32_t reading = 0;
+    rc = buffer.unpack(reading);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
     temperatureReading = reading / static_cast<double>(1 << 8);
 
     return 0;

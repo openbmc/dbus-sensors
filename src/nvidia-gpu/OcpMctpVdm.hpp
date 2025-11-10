@@ -9,6 +9,9 @@
 #include <functional>
 #include <span>
 
+class PackBuffer;
+class UnpackBuffer;
+
 namespace ocp
 {
 namespace accelerator_management
@@ -108,7 +111,18 @@ struct CommonNonSuccessResponse
 int packHeader(uint16_t pciVendorId, const BindingPciVidInfo& hdr,
                BindingPciVid& msg);
 
+int packHeader(PackBuffer& buffer, uint16_t pciVendorId,
+               MessageType ocpAcceleratorManagementMsgType, uint8_t instanceId,
+               uint8_t msgType);
+
+int unpackHeader(UnpackBuffer& buffer, uint16_t pciVendorId,
+                 MessageType& ocpAcceleratorManagementMsgType,
+                 uint8_t& instanceId, uint8_t& msgType);
+
 int decodeReasonCodeAndCC(std::span<const uint8_t> buf, CompletionCode& cc,
+                          uint16_t& reasonCode);
+
+int unpackReasonCodeAndCC(UnpackBuffer& buffer, CompletionCode& cc,
                           uint16_t& reasonCode);
 
 int decodeAggregateResponse(
