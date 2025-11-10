@@ -249,6 +249,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6799fc10_de3fb628",
+        "filename": "src/Reactor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-11-10T15:37:05Z",
+      "side": 1,
+      "message": "\u003e This is what class Reactor does.\n\nAnd you have a couple of people arguing that that\u0027s not a good idea.",
+      "parentUuid": "16b49bb8_4c93d238",
+      "revId": "7bf26267f77ee6a0fa1af2f3a72592c72f442e80",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b0d5314b_fbca2f9c",
         "filename": "src/mcu/MCUTempSensor.cpp",
         "patchSetId": 2

@@ -84,6 +84,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6c1b331a_af54c1ee",
+        "filename": "src/Reactor.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-11-10T15:37:05Z",
+      "side": 1,
+      "message": "\u003e I feel like you are missing the point of my efforts on common code.\n\nThis is probably true.\n\n\u003e \n\u003e If we make requesting the sensor part of common code, at some point we could abstract that so an individual sensor implementation does not have to call this at all.\n\nRequesting the name isn\u0027t unique to a sensor though. If we\u0027re going for abstraction and reuse, it should go in the common dbus class (where it already is).  It\u0027s quite possible I\u0027m not seeing the advantage here from code.  Is there another refactor you\u0027re considering that would make this more clear?\n\n\u003e \n\u003e I have not seen any sensor reactor in this repo which does not request a bus name so i do not see the point of duplicating this call to each sensor reactor.\n\nThe reason to \"duplicate\" is requesting the name is actually an indication that init is complete, and all of dbus is populated.  Different applications find that at different times in their lifecycle, so it\u0027s kept separate.",
+      "parentUuid": "6d222f39_5a6eb7e8",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 6
+      },
+      "revId": "c09b32987670f0e510e5b5c3ca71eb1108f094dc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f5d5688a_67221d2b",
         "filename": "src/Reactor.hpp",
         "patchSetId": 4
@@ -119,6 +143,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "67cf895b_363e7d0d",
+        "filename": "src/Reactor.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-11-10T15:37:05Z",
+      "side": 1,
+      "message": "Lets leave this open until we decide if we even need a common io object owned somewhere. (in the other thread).",
+      "parentUuid": "f7ec0743_3750f1b3",
+      "revId": "c09b32987670f0e510e5b5c3ca71eb1108f094dc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "876fa8bb_edbe2f8c",
         "filename": "src/Reactor.hpp",
         "patchSetId": 4
@@ -148,6 +190,24 @@
       "side": 1,
       "message": "Testing. I make things protected so a class can inherit from it and still access the members.\n\nIf i were to make it private then it would not be easily possible.",
       "parentUuid": "876fa8bb_edbe2f8c",
+      "revId": "c09b32987670f0e510e5b5c3ca71eb1108f094dc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6bf50bd_6876e239",
+        "filename": "src/Reactor.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-11-10T15:37:05Z",
+      "side": 1,
+      "message": "Would just making a getter be easier?",
+      "parentUuid": "de52f06c_ee1c9735",
       "revId": "c09b32987670f0e510e5b5c3ca71eb1108f094dc",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -259,6 +319,30 @@
       "side": 1,
       "message": "I\u0027m aware the abstraction is suboptimal. But i would rather have a common abstraction which is suboptimal (and then refactor that)\n\nrather than each sensor application (and whoever maintains it) coming up with some \u0027clever\u0027 solution on their own, and then we get 5 flavors of the same problem.\n\n\nIf you bring the requirement to have a \u0027good\u0027 api to any common code, then we might as well abandon any attempt at creating such in the first place.\n\n\nIMO, basically you are saying that we cannot de-duplicate the code because it\u0027s a bad code.\n\nIf we want to de-duplicate this then we would have to fix it 5 times and then de-duplicate the result? That sounds like we are just making more work for ourselves.",
       "parentUuid": "b5bcc7fc_a238b274",
+      "range": {
+        "startLine": 72,
+        "startChar": 9,
+        "endLine": 72,
+        "endChar": 17
+      },
+      "revId": "c09b32987670f0e510e5b5c3ca71eb1108f094dc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9814f8d_098536c4",
+        "filename": "src/Reactor.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-11-10T15:37:05Z",
+      "side": 1,
+      "message": "\u003e I\u0027m aware the abstraction is suboptimal. But i would rather have a common abstraction which is suboptimal (and then refactor that)\n\nI don\u0027t agree.  If you\u0027re going to expose the raw API, just expose the raw api, don\u0027t wrap it in something else.\n\n\u003e \n\u003e rather than each sensor application (and whoever maintains it) coming up with some \u0027clever\u0027 solution on their own, and then we get 5 flavors of the same problem.\n\u003e \n\u003e \n\u003e If you bring the requirement to have a \u0027good\u0027 api to any common code, then we might as well abandon any attempt at creating such in the first place.\n\nWe disagree here, and that\u0027s fine.  My position is that if we\u0027re going to have common code, it MUST be a good api, because it needs to survive refactoring/reworking without being able to test.  If code is duplicated, we can rely more on testing for it to be correct (because presumably you will have tested the changes you made).\n\n\u003e \n\u003e \n\u003e IMO, basically you are saying that we cannot de-duplicate the code because it\u0027s a bad code.\n\nKinda, yeah.  Said another way, I would rather bad code be isolated in each application so breakages are per sensor.\n\n\u003e \n\u003e If we want to de-duplicate this then we would have to fix it 5 times and then de-duplicate the result? That sounds like we are just making more work for ourselves.",
+      "parentUuid": "2e6ab27c_e9f49288",
       "range": {
         "startLine": 72,
         "startChar": 9,
