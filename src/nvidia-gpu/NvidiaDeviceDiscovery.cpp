@@ -26,6 +26,7 @@
 #include <algorithm>
 #include <array>
 #include <cstdint>
+#include <exception>
 #include <format>
 #include <memory>
 #include <span>
@@ -77,68 +78,109 @@ void processQueryDeviceIdResponse(
         return;
     }
 
-    switch (static_cast<gpu::DeviceIdentification>(responseDeviceType))
+    try
     {
-        case gpu::DeviceIdentification::DEVICE_GPU:
+        switch (static_cast<gpu::DeviceIdentification>(responseDeviceType))
         {
-            lg2::info(
-                "Found the GPU with EID {EID}, DeviceType {DEVTYPE}, InstanceId {IID}.",
-                "EID", eid, "DEVTYPE", responseDeviceType, "IID",
-                responseInstanceId);
+            case gpu::DeviceIdentification::DEVICE_GPU:
+            {
+                lg2::info(
+                    "Found the GPU with EID {EID}, DeviceType {DEVTYPE}, InstanceId {IID}.",
+                    "EID", eid, "DEVTYPE", responseDeviceType, "IID",
+                    responseInstanceId);
 
-            auto gpuName = configs.name + '_' +
-                           std::to_string(responseInstanceId);
+                auto gpuName = configs.name + '_' +
+                               std::to_string(responseInstanceId);
 
-            auto gpu = gpuDevices
-                           .insert(std::make_pair(
-                               gpuName, std::make_shared<GpuDevice>(
-                                            configs, gpuName, path, conn, eid,
-                                            io, mctpRequester, objectServer)))
-                           .first;
-            gpu->second->init();
-            break;
+                if (gpuDevices.contains(gpuName))
+                {
+                    lg2::info(
+                        "GPU Device with name {NAME} already exists. Skipping creating a new device.",
+                        "NAME", gpuName);
+                    break;
+                }
+
+                auto gpu =
+                    gpuDevices
+                        .insert(std::make_pair(
+                            gpuName, std::make_shared<GpuDevice>(
+                                         configs, gpuName, path, conn, eid, io,
+                                         mctpRequester, objectServer)))
+                        .first;
+
+                gpu->second->init();
+
+                break;
+            }
+
+            case gpu::DeviceIdentification::DEVICE_SMA:
+            {
+                lg2::info(
+                    "Found the SMA Device with EID {EID}, DeviceType {DEVTYPE}, InstanceId {IID}.",
+                    "EID", eid, "DEVTYPE", responseDeviceType, "IID",
+                    responseInstanceId);
+
+                auto smaName = configs.name + "_SMA_" +
+                               std::to_string(responseInstanceId);
+
+                if (smaDevices.contains(smaName))
+                {
+                    lg2::info(
+                        "SMA Device with name {NAME} already exists. Skipping creating a new device.",
+                        "NAME", smaName);
+                    break;
+                }
+
+                auto sma =
+                    smaDevices
+                        .insert(std::make_pair(
+                            smaName, std::make_shared<SmaDevice>(
+                                         configs, smaName, path, conn, eid, io,
+                                         mctpRequester, objectServer)))
+                        .first;
+
+                sma->second->init();
+
+                break;
+            }
+
+            case gpu::DeviceIdentification::DEVICE_PCIE:
+            {
+                lg2::info(
+                    "Found the PCIe Device with EID {EID}, DeviceType {DEVTYPE}, InstanceId {IID}.",
+                    "EID", eid, "DEVTYPE", responseDeviceType, "IID",
+                    responseInstanceId);
+
+                std::string pcieName =
+                    std::format("Nvidia_ConnectX_{}", responseInstanceId);
+
+                if (pcieDevices.contains(pcieName))
+                {
+                    lg2::info(
+                        "PCIe Device with name {NAME} already exists. Skipping creating a new device.",
+                        "NAME", pcieName);
+                    break;
+                }
+
+                auto pcieDevice =
+                    pcieDevices
+                        .insert(std::make_pair(
+                            pcieName, std::make_shared<PcieDevice>(
+                                          configs, pcieName, path, conn, eid,
+                                          io, mctpRequester, objectServer)))
+                        .first;
+                pcieDevice->second->init();
+                break;
+            }
         }
-
-        case gpu::DeviceIdentification::DEVICE_SMA:
-        {
-            lg2::info(
-                "Found the SMA Device with EID {EID}, DeviceType {DEVTYPE}, InstanceId {IID}.",
-                "EID", eid, "DEVTYPE", responseDeviceType, "IID",
-                responseInstanceId);
-
-            auto smaName = configs.name + "_SMA_" +
-                           std::to_string(responseInstanceId);
-
-            auto sma = smaDevices
-                           .insert(std::make_pair(
-                               smaName, std::make_shared<SmaDevice>(
-                                            configs, smaName, path, conn, eid,
-                                            io, mctpRequester, objectServer)))
-                           .first;
-            sma->second->init();
-            break;
-        }
-
-        case gpu::DeviceIdentification::DEVICE_PCIE:
-        {
-            lg2::info(
-                "Found the PCIe Device with EID {EID}, DeviceType {DEVTYPE}, InstanceId {IID}.",
-                "EID", eid, "DEVTYPE", responseDeviceType, "IID",
-                responseInstanceId);
-
-            std::string pcieName =
-                std::format("Nvidia_ConnectX_{}", responseInstanceId);
-
-            auto pcieDevice =
-                pcieDevices
-                    .insert(std::make_pair(
-                        pcieName, std::make_shared<PcieDevice>(
-                                      configs, pcieName, path, conn, eid, io,
-                                      mctpRequester, objectServer)))
-                    .first;
-            pcieDevice->second->init();
-            break;
-        }
+    }
+    catch (const std::exception& e)
+    {
+        lg2::error(
+            "Exception processing MCTP endpoint with eid {EID}, DeviceType {DEVTYPE}, "
+            "and InstanceId {IID} : {ERROR}",
+            "EID", eid, "DEVTYPE", responseDeviceType, "IID",
+            responseInstanceId, "ERROR", e.what());
     }
 }
 
