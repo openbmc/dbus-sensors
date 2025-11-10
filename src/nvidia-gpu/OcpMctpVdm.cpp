@@ -5,6 +5,8 @@
 
 #include "OcpMctpVdm.hpp"
 
+#include "MessagePackUnpackUtils.hpp"
+
 #include <endian.h>
 
 #include <bit>
@@ -52,6 +54,125 @@ int packHeader(uint16_t pciVendorId, const BindingPciVidInfo& hdr,
     msg.ocp_version = ocpVersion & ocpVersionBitMask;
     msg.ocp_version |= (ocpType << ocpTypeBitOffset) & ocpTypeBitMask;
     msg.ocp_accelerator_management_msg_type = hdr.msg_type;
+
+    return 0;
+}
+
+int packHeader(PackBuffer& buffer, uint16_t pciVendorId,
+               MessageType ocpAcceleratorManagementMsgType, uint8_t instanceId,
+               uint8_t msgType)
+{
+    if (ocpAcceleratorManagementMsgType != MessageType::RESPONSE &&
+        ocpAcceleratorManagementMsgType != MessageType::REQUEST)
+    {
+        return EINVAL;
+    }
+
+    if (instanceId > instanceMax)
+    {
+        return EINVAL;
+    }
+
+    uint8_t messageInstanceId = instanceId & instanceIdBitMask;
+
+    if (ocpAcceleratorManagementMsgType == MessageType::REQUEST)
+    {
+        messageInstanceId |= requestBitMask;
+    }
+    else
+    {
+        messageInstanceId &= ~requestBitMask;
+    }
+
+    messageInstanceId &= ~instanceIdReservedBitMask;
+
+    uint8_t ocpVersionAndType = ocpVersion & ocpVersionBitMask;
+    ocpVersionAndType |= (ocpType << ocpTypeBitOffset) & ocpTypeBitMask;
+
+    buffer.pack(htobe16(pciVendorId));
+    buffer.pack(messageInstanceId);
+    buffer.pack(ocpVersionAndType);
+    buffer.pack(msgType);
+
+    return 0;
+}
+
+int unpackHeader(UnpackBuffer& buffer, uint16_t pciVendorId,
+                 MessageType& ocpAcceleratorManagementMsgType,
+                 uint8_t& instanceId, uint8_t& msgType)
+{
+    uint16_t receivedPciVendorId = 0;
+    uint8_t messageInstanceId = 0;
+    uint8_t ocpVersionAndType = 0;
+
+    buffer.unpack(receivedPciVendorId);
+    buffer.unpack(messageInstanceId);
+    buffer.unpack(ocpVersionAndType);
+    buffer.unpack(msgType);
+
+    if (buffer.getError() != 0)
+    {
+        return buffer.getError();
+    }
+
+    if (receivedPciVendorId != htobe16(pciVendorId))
+    {
+        return EINVAL;
+    }
+
+    instanceId = messageInstanceId & instanceIdBitMask;
+
+    if ((messageInstanceId & requestBitMask) != 0)
+    {
+        ocpAcceleratorManagementMsgType = MessageType::REQUEST;
+    }
+    else
+    {
+        ocpAcceleratorManagementMsgType = MessageType::RESPONSE;
+    }
+
+    if ((messageInstanceId & instanceIdReservedBitMask) != 0)
+    {
+        return EINVAL;
+    }
+
+    if ((ocpVersionAndType & ocpVersionBitMask) != ocpVersion)
+    {
+        return EINVAL;
+    }
+
+    if ((ocpVersionAndType & ocpTypeBitMask) != (ocpType << ocpTypeBitOffset))
+    {
+        return EINVAL;
+    }
+
+    return 0;
+}
+
+int unpackReasonCodeAndCC(UnpackBuffer& buffer, CompletionCode& cc,
+                          uint16_t& reasonCode)
+{
+    uint8_t completionCode = 0;
+    uint16_t receivedReasonCode = 0;
+
+    buffer.unpack(completionCode);
+    buffer.unpack(receivedReasonCode);
+
+    if (buffer.getError() != 0)
+    {
+        return buffer.getError();
+    }
+
+    cc = static_cast<CompletionCode>(completionCode);
+
+    if (cc == CompletionCode::SUCCESS)
+    {
+        reasonCode = 0;
+    }
+    else
+    {
+        reasonCode = receivedReasonCode;
+    }
 
     return 0;
 }
