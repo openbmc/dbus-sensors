@@ -25,6 +25,8 @@
 #include <algorithm>
 #include <array>
 #include <cstdint>
+#include <exception>
+#include <format>
 #include <memory>
 #include <span>
 #include <stdexcept>
@@ -73,47 +75,92 @@ void processQueryDeviceIdResponse(
         return;
     }
 
-    switch (static_cast<gpu::DeviceIdentification>(responseDeviceType))
+    try
     {
-        case gpu::DeviceIdentification::DEVICE_GPU:
+        switch (static_cast<gpu::DeviceIdentification>(responseDeviceType))
         {
-            lg2::info(
-                "Found the GPU with EID {EID}, DeviceType {DEVTYPE}, InstanceId {IID}.",
-                "EID", eid, "DEVTYPE", responseDeviceType, "IID",
-                responseInstanceId);
+            case gpu::DeviceIdentification::DEVICE_GPU:
+            {
+                lg2::info(
+                    "Found the GPU with EID {EID}, DeviceType {DEVTYPE}, InstanceId {IID}.",
+                    "EID", eid, "DEVTYPE", responseDeviceType, "IID",
+                    responseInstanceId);
 
-            auto gpuName = configs.name + '_' +
-                           std::to_string(responseInstanceId);
+                auto gpuName =
+                    std::format("{}_GPU_{}", configs.name, responseInstanceId);
 
-            auto gpu = gpuDevices
-                           .insert(std::make_pair(
-                               gpuName, std::make_shared<GpuDevice>(
-                                            configs, gpuName, path, conn, eid,
-                                            io, mctpRequester, objectServer)))
-                           .first;
-            (*gpu).second->init();
-            break;
+                static int gpuInstanceCounter = 0;
+
+                while (gpuDevices.contains(gpuName))
+                {
+                    if (gpuInstanceCounter > 255)
+                    {
+                        lg2::error(
+                            "Error processing MCTP endpoint with eid {EID} : exceeded maximum GPU instance count",
+                            "EID", eid);
+                        break;
+                    }
+
+                    gpuName = std::format("{}_GPU_{}", configs.name,
+                                          gpuInstanceCounter++);
+                }
+
+                auto gpu =
+                    gpuDevices
+                        .insert(std::make_pair(
+                            gpuName, std::make_shared<GpuDevice>(
+                                         configs, gpuName, path, conn, eid, io,
+                                         mctpRequester, objectServer)))
+                        .first;
+                (*gpu).second->init();
+                break;
+            }
+
+            case gpu::DeviceIdentification::DEVICE_SMA:
+            {
+                lg2::info(
+                    "Found the SMA Device with EID {EID}, DeviceType {DEVTYPE}, InstanceId {IID}.",
+                    "EID", eid, "DEVTYPE", responseDeviceType, "IID",
+                    responseInstanceId);
+
+                auto smaName =
+                    std::format("{}_SMA_{}", configs.name, responseInstanceId);
+
+                static int smaInstanceCounter = 0;
+
+                while (smaDevices.contains(smaName))
+                {
+                    if (smaInstanceCounter > 255)
+                    {
+                        lg2::error(
+                            "Error processing MCTP endpoint with eid {EID} : exceeded maximum SMA instance count",
+                            "EID", eid);
+                        break;
+                    }
+
+                    smaName = std::format("{}_SMA_{}", configs.name,
+                                          smaInstanceCounter++);
+                }
+
+                auto sma =
+                    smaDevices
+                        .insert(std::make_pair(
+                            smaName, std::make_shared<SmaDevice>(
+                                         configs, smaName, path, conn, eid, io,
+                                         mctpRequester, objectServer)))
+                        .first;
+                (*sma).second->init();
+                break;
+            }
         }
-
-        case gpu::DeviceIdentification::DEVICE_SMA:
-        {
-            lg2::info(
-                "Found the SMA Device with EID {EID}, DeviceType {DEVTYPE}, InstanceId {IID}.",
-                "EID", eid, "DEVTYPE", responseDeviceType, "IID",
-                responseInstanceId);
-
-            auto smaName = configs.name + "_SMA_" +
-                           std::to_string(responseInstanceId);
-
-            auto sma = smaDevices
-                           .insert(std::make_pair(
-                               smaName, std::make_shared<SmaDevice>(
-                                            configs, smaName, path, conn, eid,
-                                            io, mctpRequester, objectServer)))
-                           .first;
-            (*sma).second->init();
-            break;
-        }
+    }
+    catch (const std::exception& e)
+    {
+        lg2::error(
+            "Exception processing MCTP endpoint with eid {EID}, DeviceType {DEVTYPE}, "
+            "and InstanceId {IID} : {ERROR}",
+            "EID", eid, "DEVTYPE", responseDeviceType, "IID",
+            responseInstanceId, "ERROR", e.what());
     }
 }
 
