@@ -52,6 +52,24 @@
       "parentUuid": "65c62851_8c98020f",
       "revId": "5502a2a7400f485baadddec73b66941661f3a4b5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cae62294_35bb1b62",
+        "filename": "src/nvidia-gpu/NvidiaPciePortMetrics.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-11-10T14:50:04Z",
+      "side": 1,
+      "message": "Done. PDI - https://gerrit.openbmc.org/c/openbmc/phosphor-dbus-interfaces/+/84839",
+      "parentUuid": "a780eaa8_afd666e1",
+      "revId": "5502a2a7400f485baadddec73b66941661f3a4b5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
