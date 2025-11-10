@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd91bc57_43f16630",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-11-10T14:48:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "500370fe_66a44e5b",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 47
+      },
+      "revId": "9afc7f73814db7e02bf68dfd075a6ffea057c49a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "844ad4c1_0dcd266a",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-11-06T16:22:46Z",
       "side": 1,
       "message": "do emplace, then you don\u0027t need make_pair.",
+      "range": {
+        "startLine": 134,
+        "startChar": 21,
+        "endLine": 134,
+        "endChar": 42
+      },
+      "revId": "9afc7f73814db7e02bf68dfd075a6ffea057c49a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ce69f91_cb5595db",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-11-10T14:48:10Z",
+      "side": 1,
+      "message": "boost flat_map doesn\u0027t have emplace method.",
+      "parentUuid": "844ad4c1_0dcd266a",
       "range": {
         "startLine": 134,
         "startChar": 21,
@@ -70,6 +118,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb7a7462_7163b775",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-11-10T14:48:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0002306c_971c58f5",
+      "range": {
+        "startLine": 139,
+        "startChar": 12,
+        "endLine": 139,
+        "endChar": 26
+      },
+      "revId": "9afc7f73814db7e02bf68dfd075a6ffea057c49a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e90489d6_d41abac7",
@@ -83,6 +155,24 @@
       "writtenOn": "2025-11-06T16:22:46Z",
       "side": 1,
       "message": "Please fix separately.  We should not have file-level NOLINT.  This is a correct warning to the coding standard.",
+      "revId": "9afc7f73814db7e02bf68dfd075a6ffea057c49a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb16fd4d_302c3df2",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-11-10T14:48:10Z",
+      "side": 1,
+      "message": "Fixed here - https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/85087",
+      "parentUuid": "e90489d6_d41abac7",
       "revId": "9afc7f73814db7e02bf68dfd075a6ffea057c49a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
