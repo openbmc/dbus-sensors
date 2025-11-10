@@ -7,6 +7,7 @@
 
 #include <endian.h>
 
+#include <bit>
 #include <cerrno>
 #include <cstdint>
 #include <span>
@@ -62,11 +63,7 @@ int decodeReasonCodeAndCC(const std::span<const uint8_t> buf,
         return EINVAL;
     }
 
-    // These expression decodes data communicated over the network
-    // The use of reinterpret_cast enables direct memory access to raw byte
-    // buffers without doing unnecessary data copying
-    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
-    const auto* response = reinterpret_cast<
+    const auto* response = std::bit_cast<
         const ocp::accelerator_management::CommonNonSuccessResponse*>(
         buf.data());
 

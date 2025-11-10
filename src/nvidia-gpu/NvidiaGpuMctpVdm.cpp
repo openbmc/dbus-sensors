@@ -9,6 +9,7 @@
 
 #include <endian.h>
 
+#include <bit>
 #include <cerrno>
 #include <cstddef>
 #include <cstdint>
@@ -18,10 +19,6 @@
 
 namespace gpu
 {
-// These functions encode/decode data communicated over the network
-// The use of reinterpret_cast enables direct memory access to raw byte buffers
-// without doing unnecessary data copying
-// NOLINTBEGIN(cppcoreguidelines-pro-type-reinterpret-cast)
 int packHeader(const ocp::accelerator_management::BindingPciVidInfo& hdr,
                ocp::accelerator_management::BindingPciVid& msg)
 {
@@ -36,7 +33,7 @@ int encodeQueryDeviceIdentificationRequest(uint8_t instanceId,
         return EINVAL;
     }
 
-    auto* msg = reinterpret_cast<QueryDeviceIdentificationRequest*>(buf.data());
+    auto* msg = std::bit_cast<QueryDeviceIdentificationRequest*>(buf.data());
 
     ocp::accelerator_management::BindingPciVidInfo header{};
 
@@ -80,7 +77,7 @@ int decodeQueryDeviceIdentificationResponse(
     }
 
     const auto* response =
-        reinterpret_cast<const QueryDeviceIdentificationResponse*>(buf.data());
+        std::bit_cast<const QueryDeviceIdentificationResponse*>(buf.data());
 
     deviceIdentification = response->device_identification;
     deviceInstance = response->instance_id;
@@ -96,7 +93,7 @@ int encodeGetTemperatureReadingRequest(uint8_t instanceId, uint8_t sensorId,
         return EINVAL;
     }
 
-    auto* msg = reinterpret_cast<GetTemperatureReadingRequest*>(buf.data());
+    auto* msg = std::bit_cast<GetTemperatureReadingRequest*>(buf.data());
 
     ocp::accelerator_management::BindingPciVidInfo header{};
     header.ocp_accelerator_management_msg_type =
@@ -139,7 +136,7 @@ int decodeGetTemperatureReadingResponse(
     }
 
     const auto* response =
-        reinterpret_cast<const GetTemperatureReadingResponse*>(buf.data());
+        std::bit_cast<const GetTemperatureReadingResponse*>(buf.data());
 
     uint16_t dataSize = le16toh(response->hdr.data_size);
 
@@ -162,7 +159,7 @@ int encodeReadThermalParametersRequest(uint8_t instanceId, uint8_t sensorId,
         return EINVAL;
     }
 
-    auto* msg = reinterpret_cast<ReadThermalParametersRequest*>(buf.data());
+    auto* msg = std::bit_cast<ReadThermalParametersRequest*>(buf.data());
 
     ocp::accelerator_management::BindingPciVidInfo header{};
     header.ocp_accelerator_management_msg_type =
@@ -205,7 +202,7 @@ int decodeReadThermalParametersResponse(
     }
 
     const auto* response =
-        reinterpret_cast<const ReadThermalParametersResponse*>(buf.data());
+        std::bit_cast<const ReadThermalParametersResponse*>(buf.data());
 
     uint16_t dataSize = le16toh(response->hdr.data_size);
 
@@ -228,7 +225,7 @@ int encodeGetPowerDrawRequest(PlatformEnvironmentalCommands commandCode,
         return EINVAL;
     }
 
-    auto* msg = reinterpret_cast<GetPowerDrawRequest*>(buf.data());
+    auto* msg = std::bit_cast<GetPowerDrawRequest*>(buf.data());
 
     ocp::accelerator_management::BindingPciVidInfo header{};
     header.ocp_accelerator_management_msg_type =
@@ -270,7 +267,7 @@ int decodeGetPowerDrawResponse(std::span<const uint8_t> buf,
     }
 
     const auto* response =
-        reinterpret_cast<const GetPowerDrawResponse*>(buf.data());
+        std::bit_cast<const GetPowerDrawResponse*>(buf.data());
 
     const uint16_t dataSize = le16toh(response->hdr.data_size);
 
@@ -292,7 +289,7 @@ int encodeGetCurrentEnergyCounterRequest(uint8_t instanceId, uint8_t sensorId,
         return EINVAL;
     }
 
-    auto* msg = reinterpret_cast<GetCurrentEnergyCounterRequest*>(buf.data());
+    auto* msg = std::bit_cast<GetCurrentEnergyCounterRequest*>(buf.data());
 
     ocp::accelerator_management::BindingPciVidInfo header{};
     header.ocp_accelerator_management_msg_type =
@@ -335,7 +332,7 @@ int decodeGetCurrentEnergyCounterResponse(
     }
 
     const auto* response =
-        reinterpret_cast<const GetCurrentEnergyCounterResponse*>(buf.data());
+        std::bit_cast<const GetCurrentEnergyCounterResponse*>(buf.data());
 
     const uint16_t dataSize = le16toh(response->hdr.data_size);
 
@@ -357,7 +354,7 @@ int encodeGetVoltageRequest(uint8_t instanceId, uint8_t sensorId,
         return EINVAL;
     }
 
-    auto* msg = reinterpret_cast<GetVoltageRequest*>(buf.data());
+    auto* msg = std::bit_cast<GetVoltageRequest*>(buf.data());
 
     ocp::accelerator_management::BindingPciVidInfo header{};
     header.ocp_accelerator_management_msg_type =
@@ -398,8 +395,7 @@ int decodeGetVoltageResponse(std::span<const uint8_t> buf,
         return EINVAL;
     }
 
-    const auto* response =
-        reinterpret_cast<const GetVoltageResponse*>(buf.data());
+    const auto* response = std::bit_cast<const GetVoltageResponse*>(buf.data());
 
     const uint16_t dataSize = le16toh(response->hdr.data_size);
 
@@ -421,7 +417,7 @@ int encodeGetInventoryInformationRequest(uint8_t instanceId, uint8_t propertyId,
         return EINVAL;
     }
 
-    auto* msg = reinterpret_cast<GetInventoryInformationRequest*>(buf.data());
+    auto* msg = std::bit_cast<GetInventoryInformationRequest*>(buf.data());
 
     ocp::accelerator_management::BindingPciVidInfo header{};
     header.ocp_accelerator_management_msg_type =
@@ -463,7 +459,7 @@ int decodeGetInventoryInformationResponse(
     }
 
     const auto* response =
-        reinterpret_cast<const GetInventoryInformationResponse*>(buf.data());
+        std::bit_cast<const GetInventoryInformationResponse*>(buf.data());
     uint16_t dataSize = le16toh(response->hdr.data_size);
 
     if (dataSize == 0 || dataSize > maxInventoryDataSize)
@@ -479,8 +475,7 @@ int decodeGetInventoryInformationResponse(
         case InventoryPropertyId::SERIAL_NUMBER:
         case InventoryPropertyId::MARKETING_NAME:
         case InventoryPropertyId::DEVICE_PART_NUMBER:
-            value =
-                std::string(reinterpret_cast<const char*>(dataPtr), dataSize);
+            value = std::string(std::bit_cast<const char*>(dataPtr), dataSize);
             break;
         case InventoryPropertyId::DEVICE_GUID:
             value = std::vector<uint8_t>(dataPtr, dataPtr + dataSize);
@@ -500,8 +495,7 @@ int encodeQueryScalarGroupTelemetryV2Request(
         return EINVAL;
     }
 
-    auto* msg =
-        reinterpret_cast<QueryScalarGroupTelemetryV2Request*>(buf.data());
+    auto* msg = std::bit_cast<QueryScalarGroupTelemetryV2Request*>(buf.data());
 
     ocp::accelerator_management::BindingPciVidInfo header{};
     header.ocp_accelerator_management_msg_type =
@@ -547,7 +541,7 @@ int decodeQueryScalarGroupTelemetryV2Response(
     }
 
     const auto* response =
-        reinterpret_cast<const ocp::accelerator_management::CommonResponse*>(
+        std::bit_cast<const ocp::accelerator_management::CommonResponse*>(
             buf.data());
 
     const uint16_t dataSize = le16toh(response->data_size);
@@ -668,5 +662,4 @@ int decodeListPciePortsResponse(
 
     return 0;
 }
-// NOLINTEND(cppcoreguidelines-pro-type-reinterpret-cast)
 } // namespace gpu

@@ -4,6 +4,7 @@
 #include <endian.h>
 
 #include <array>
+#include <bit>
 #include <cstdint>
 #include <cstring>
 #include <string>
@@ -13,7 +14,6 @@
 #include <gtest/gtest.h>
 
 using namespace gpu;
-// NOLINTBEGIN(cppcoreguidelines-pro-type-reinterpret-cast)
 TEST(NvidiaGpuMctpVdmTest, EncodeGetInventoryInformationRequest)
 {
     std::array<uint8_t, 256> buf{};
@@ -24,7 +24,7 @@ TEST(NvidiaGpuMctpVdmTest, EncodeGetInventoryInformationRequest)
     auto rc = encodeGetInventoryInformationRequest(instanceId, propertyId, buf);
     EXPECT_EQ(rc, 0);
 
-    auto* msg = reinterpret_cast<GetInventoryInformationRequest*>(buf.data());
+    auto* msg = std::bit_cast<GetInventoryInformationRequest*>(buf.data());
     EXPECT_EQ(msg->hdr.command,
               static_cast<uint8_t>(
                   PlatformEnvironmentalCommands::GET_INVENTORY_INFORMATION));
@@ -36,8 +36,7 @@ TEST(NvidiaGpuMctpVdmTest, DecodeInventoryString)
 {
     std::array<uint8_t, 256> buf{};
     auto* response =
-        reinterpret_cast<ocp::accelerator_management::CommonResponse*>(
-            buf.data());
+        std::bit_cast<ocp::accelerator_management::CommonResponse*>(buf.data());
 
     // Fill header
     response->msgHdr.hdr.pci_vendor_id = htobe16(0x10DE); // NVIDIA vendor ID
@@ -76,8 +75,7 @@ TEST(NvidiaGpuMctpVdmTest, DecodeInventoryDeviceGuid)
 {
     std::array<uint8_t, 256> buf{};
     auto* response =
-        reinterpret_cast<ocp::accelerator_management::CommonResponse*>(
-            buf.data());
+        std::bit_cast<ocp::accelerator_management::CommonResponse*>(buf.data());
 
     // Fill header
     response->msgHdr.hdr.pci_vendor_id = htobe16(0x10DE); // NVIDIA vendor ID
@@ -112,4 +110,3 @@ TEST(NvidiaGpuMctpVdmTest, DecodeInventoryDeviceGuid)
     EXPECT_TRUE(std::holds_alternative<std::vector<uint8_t>>(info));
     EXPECT_EQ(std::get<std::vector<uint8_t>>(info), dummyGuid);
 }
-// NOLINTEND(cppcoreguidelines-pro-type-reinterpret-cast)
