@@ -153,6 +153,23 @@
       "message": "The code duplication in cpp and hpp here is concerning. The same MCTP VDM command used with minor variations. Why can\u0027t this be one class type instead of 3?",
       "revId": "6d22e8b7c1adfcec0ff8f1c28ebe5875a1fc6c4f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3bbbbd9_29049d68",
+        "filename": "src/nvidia-gpu/NvidiaPciePortMetrics.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-11-12T08:42:13Z",
+      "side": 1,
+      "message": "Aren\u0027t you supposed to make D-Bus associations and add Inventory.Item on the object implementing Connector.Port?",
+      "revId": "6d22e8b7c1adfcec0ff8f1c28ebe5875a1fc6c4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
