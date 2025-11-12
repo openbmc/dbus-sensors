@@ -1,0 +1,158 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77483fcb_fad30454",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-11-12T08:40:53Z",
+      "side": 1,
+      "message": "This will have to change to something else as this patch is abandoned.",
+      "revId": "6d22e8b7c1adfcec0ff8f1c28ebe5875a1fc6c4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02cbfc14_0c2bb439",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-11-12T08:40:53Z",
+      "side": 1,
+      "message": "Why do you need this patch? The port info is coming from the device.",
+      "revId": "6d22e8b7c1adfcec0ff8f1c28ebe5875a1fc6c4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "962f226e_6ecdea60",
+        "filename": "src/nvidia-gpu/NvidiaPciePortMetrics.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-11-12T08:40:53Z",
+      "side": 1,
+      "message": "Is it an error to get partial telemetry back from the device?",
+      "revId": "6d22e8b7c1adfcec0ff8f1c28ebe5875a1fc6c4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f147ad7a_70f592d6",
+        "filename": "src/nvidia-gpu/NvidiaPciePortMetrics.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-11-12T08:40:53Z",
+      "side": 1,
+      "message": "can we avoid this magic number?",
+      "range": {
+        "startLine": 137,
+        "startChar": 53,
+        "endLine": 137,
+        "endChar": 54
+      },
+      "revId": "6d22e8b7c1adfcec0ff8f1c28ebe5875a1fc6c4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0d3ec92_cd62cccd",
+        "filename": "src/nvidia-gpu/NvidiaPciePortMetrics.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-11-12T08:40:53Z",
+      "side": 1,
+      "message": "Aren\u0027t we utlilizing the entire response?",
+      "range": {
+        "startLine": 252,
+        "startChar": 0,
+        "endLine": 262,
+        "endChar": 80
+      },
+      "revId": "6d22e8b7c1adfcec0ff8f1c28ebe5875a1fc6c4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccb0222f_5c1a4e59",
+        "filename": "src/nvidia-gpu/NvidiaPciePortMetrics.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-11-12T08:40:53Z",
+      "side": 1,
+      "message": "can we avoid this magic number?",
+      "revId": "6d22e8b7c1adfcec0ff8f1c28ebe5875a1fc6c4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "177abcb1_313f4292",
+        "filename": "src/nvidia-gpu/NvidiaPciePortMetrics.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-11-12T08:40:53Z",
+      "side": 1,
+      "message": "can we avoid this magic number?",
+      "range": {
+        "startLine": 359,
+        "startChar": 53,
+        "endLine": 359,
+        "endChar": 54
+      },
+      "revId": "6d22e8b7c1adfcec0ff8f1c28ebe5875a1fc6c4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16f399ec_99f31be8",
+        "filename": "src/nvidia-gpu/NvidiaPciePortMetrics.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-11-12T08:40:53Z",
+      "side": 1,
+      "message": "The code duplication in cpp and hpp here is concerning. The same MCTP VDM command used with minor variations. Why can\u0027t this be one class type instead of 3?",
+      "revId": "6d22e8b7c1adfcec0ff8f1c28ebe5875a1fc6c4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
