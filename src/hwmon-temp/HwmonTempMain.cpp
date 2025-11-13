@@ -69,6 +69,7 @@ static const I2CDeviceTypeMap sensorTypes{
     {"EMC1412", I2CDeviceType{"emc1412", true}},
     {"EMC1413", I2CDeviceType{"emc1413", true}},
     {"EMC1414", I2CDeviceType{"emc1414", true}},
+    {"G751", I2CDeviceType{"g751", true}},
     {"HDC1080", I2CDeviceType{"hdc1080", false}},
     {"JC42", I2CDeviceType{"jc42", true}},
     {"LM75A", I2CDeviceType{"lm75a", true}},
