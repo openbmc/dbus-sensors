@@ -115,6 +115,8 @@ static const I2CDeviceTypeMap sensorTypes{
     {"MP2856", I2CDeviceType{"mp2856", true}},
     {"MP2857", I2CDeviceType{"mp2857", true}},
     {"MP2869", I2CDeviceType{"mp2869", true}},
+    {"MP2925", I2CDeviceType{"mp2925", true}},
+    {"MP2929", I2CDeviceType{"mp2929", true}},
     {"MP2971", I2CDeviceType{"mp2971", true}},
     {"MP2973", I2CDeviceType{"mp2973", true}},
     {"MP2975", I2CDeviceType{"mp2975", true}},
