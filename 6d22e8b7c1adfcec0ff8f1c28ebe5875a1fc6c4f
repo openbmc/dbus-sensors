@@ -35,6 +35,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "033cd35b_f0536aa0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-11-13T14:35:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02cbfc14_0c2bb439",
+      "revId": "6d22e8b7c1adfcec0ff8f1c28ebe5875a1fc6c4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "962f226e_6ecdea60",
@@ -52,6 +70,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db9fc283_38b1cd7c",
+        "filename": "src/nvidia-gpu/NvidiaPciePortMetrics.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-11-13T14:35:50Z",
+      "side": 1,
+      "message": "Removed this check.",
+      "parentUuid": "962f226e_6ecdea60",
+      "revId": "6d22e8b7c1adfcec0ff8f1c28ebe5875a1fc6c4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f147ad7a_70f592d6",
@@ -65,6 +101,30 @@
       "writtenOn": "2025-11-12T08:40:53Z",
       "side": 1,
       "message": "can we avoid this magic number?",
+      "range": {
+        "startLine": 137,
+        "startChar": 53,
+        "endLine": 137,
+        "endChar": 54
+      },
+      "revId": "6d22e8b7c1adfcec0ff8f1c28ebe5875a1fc6c4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4bebd3b_abaced8f",
+        "filename": "src/nvidia-gpu/NvidiaPciePortMetrics.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-11-13T14:35:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f147ad7a_70f592d6",
       "range": {
         "startLine": 137,
         "startChar": 53,
@@ -98,6 +158,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "07ba6e12_3267edfe",
+        "filename": "src/nvidia-gpu/NvidiaPciePortMetrics.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-11-13T14:35:50Z",
+      "side": 1,
+      "message": "No, not all metrics in the response are exposed to redfish.",
+      "parentUuid": "e0d3ec92_cd62cccd",
+      "range": {
+        "startLine": 252,
+        "startChar": 0,
+        "endLine": 262,
+        "endChar": 80
+      },
+      "revId": "6d22e8b7c1adfcec0ff8f1c28ebe5875a1fc6c4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ccb0222f_5c1a4e59",
@@ -115,6 +199,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9281e7f_2880d319",
+        "filename": "src/nvidia-gpu/NvidiaPciePortMetrics.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-11-13T14:35:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ccb0222f_5c1a4e59",
+      "revId": "6d22e8b7c1adfcec0ff8f1c28ebe5875a1fc6c4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "177abcb1_313f4292",
@@ -128,6 +230,30 @@
       "writtenOn": "2025-11-12T08:40:53Z",
       "side": 1,
       "message": "can we avoid this magic number?",
+      "range": {
+        "startLine": 359,
+        "startChar": 53,
+        "endLine": 359,
+        "endChar": 54
+      },
+      "revId": "6d22e8b7c1adfcec0ff8f1c28ebe5875a1fc6c4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41dcb272_d46bedd5",
+        "filename": "src/nvidia-gpu/NvidiaPciePortMetrics.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-11-13T14:35:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "177abcb1_313f4292",
       "range": {
         "startLine": 359,
         "startChar": 53,
@@ -168,6 +294,42 @@
       "writtenOn": "2025-11-12T08:42:13Z",
       "side": 1,
       "message": "Aren\u0027t you supposed to make D-Bus associations and add Inventory.Item on the object implementing Connector.Port?",
+      "revId": "6d22e8b7c1adfcec0ff8f1c28ebe5875a1fc6c4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c57e56f_169a31ae",
+        "filename": "src/nvidia-gpu/NvidiaPciePortMetrics.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-11-13T14:35:50Z",
+      "side": 1,
+      "message": "We now have only 1 class.",
+      "parentUuid": "16f399ec_99f31be8",
+      "revId": "6d22e8b7c1adfcec0ff8f1c28ebe5875a1fc6c4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e462938e_371a8c99",
+        "filename": "src/nvidia-gpu/NvidiaPciePortMetrics.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-11-13T14:35:50Z",
+      "side": 1,
+      "message": "No we don\u0027t have association between Port and PortMetrics dbus object paths. bmcweb appends Metric name to Port object path to get the PortMetric object path.",
+      "parentUuid": "e3bbbbd9_29049d68",
       "revId": "6d22e8b7c1adfcec0ff8f1c28ebe5875a1fc6c4f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
