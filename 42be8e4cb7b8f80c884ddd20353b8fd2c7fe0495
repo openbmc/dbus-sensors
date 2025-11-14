@@ -142,6 +142,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "702a4566_81c606e7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001127
+      },
+      "writtenOn": "2025-11-14T07:10:12Z",
+      "side": 1,
+      "message": "Changed to use a lookup table of specific firmware types. psusensor scans EM config for these firmware types and builds a mapping by bus/address. Only sensors whose bus/address matches these firmware configs get paused during updates. It reuses existing I2CVR firmware configurations without requiring new EM properties.\n\nhttps://gerrit.openbmc.org/c/openbmc/phosphor-bmc-code-mgmt/+/85233\nadds a delay after changing Activation and before starting the upgrade, giving psusensor time to detect the signal and pause polling before firmware commands begin.",
+      "parentUuid": "c8414526_64a5d080",
+      "revId": "42be8e4cb7b8f80c884ddd20353b8fd2c7fe0495",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f4ecfe6e_790e8bad",
