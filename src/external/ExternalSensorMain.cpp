@@ -348,12 +348,6 @@ int main()
     std::function<void(sdbusplus::message_t&)> eventHandler =
         [&objectServer, &sensors, &systemBus, &sensorsChanged, &filterTimer,
          &reaperTimer](sdbusplus::message_t& message) mutable {
-            if (message.is_method_error())
-            {
-                lg2::error("callback method error");
-                return;
-            }
-
             const auto* messagePath = message.get_path();
             sensorsChanged->insert(messagePath);
             lg2::debug("ExternalSensor change event received: '{PATH}'", "PATH",

@@ -236,12 +236,6 @@ void createSensors(boost::asio::io_context& io,
 
 static void interfaceRemoved(sdbusplus::message_t& message, NVMEMap& contexts)
 {
-    if (message.is_method_error())
-    {
-        lg2::error("interfacesRemoved callback method error");
-        return;
-    }
-
     sdbusplus::message::object_path path;
     std::vector<std::string> interfaces;
 

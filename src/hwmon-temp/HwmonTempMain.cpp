@@ -551,12 +551,6 @@ void interfaceRemoved(
     boost::container::flat_map<std::string, std::shared_ptr<HwmonTempSensor>>&
         sensors)
 {
-    if (message.is_method_error())
-    {
-        lg2::error("interfacesRemoved callback method error");
-        return;
-    }
-
     sdbusplus::message::object_path path;
     std::vector<std::string> interfaces;
 
@@ -629,11 +623,6 @@ int main()
     boost::asio::steady_timer filterTimer(io);
     std::function<void(sdbusplus::message_t&)> eventHandler =
         [&](sdbusplus::message_t& message) {
-            if (message.is_method_error())
-            {
-                lg2::error("callback method error");
-                return;
-            }
             sensorsChanged->insert(message.get_path());
             // this implicitly cancels the timer
             filterTimer.expires_after(std::chrono::seconds(1));
