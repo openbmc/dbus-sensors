@@ -52,6 +52,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae518b7b_733491a4",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-11-17T21:55:03Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "f2faf686_665175fb",
+      "revId": "9a54915a86bf0c10b5651bd6ab9a8996cc16ea55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d5f8bdc9_9d0ed5e0",
@@ -65,6 +83,24 @@
       "writtenOn": "2025-10-30T18:29:35Z",
       "side": 1,
       "message": "At this level we should verify that it\u0027s an nvidia event, right?",
+      "revId": "9a54915a86bf0c10b5651bd6ab9a8996cc16ea55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbf4d662_a77d27a7",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-11-17T21:55:03Z",
+      "side": 1,
+      "message": "yeah we should.",
+      "parentUuid": "d5f8bdc9_9d0ed5e0",
       "revId": "9a54915a86bf0c10b5651bd6ab9a8996cc16ea55",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -94,6 +130,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5c4b0495_27f12482",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-11-17T21:55:03Z",
+      "side": 1,
+      "message": "ack, this actually just isn\u0027t necessary.",
+      "parentUuid": "2eb919e8_8a350551",
+      "range": {
+        "startLine": 30,
+        "startChar": 6,
+        "endLine": 30,
+        "endChar": 24
+      },
+      "revId": "9a54915a86bf0c10b5651bd6ab9a8996cc16ea55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "025a0d66_08024fef",
         "filename": "src/nvidia-gpu/NvidiaXidReporting.cpp",
         "patchSetId": 1
@@ -105,6 +165,24 @@
       "writtenOn": "2025-10-30T18:29:35Z",
       "side": 1,
       "message": "We need something that calls and reconciles this setting over time.  GPus don\u0027t store this persistently, and GPUs will very likely not be available at reboot time.",
+      "revId": "9a54915a86bf0c10b5651bd6ab9a8996cc16ea55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd440460_d7725cbb",
+        "filename": "src/nvidia-gpu/NvidiaXidReporting.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-11-17T21:55:03Z",
+      "side": 1,
+      "message": "ack, today this whole flow is kinda broken, as discussed. holding a socket across an endpoint going down and coming backup, the socket won\u0027t be functional without re-enumeration and recreating the socket.",
+      "parentUuid": "025a0d66_08024fef",
       "revId": "9a54915a86bf0c10b5651bd6ab9a8996cc16ea55",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
