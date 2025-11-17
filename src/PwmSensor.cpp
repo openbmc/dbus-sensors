@@ -32,7 +32,7 @@
 #include <string>
 
 static constexpr double sysPwmMax = 255.0;
-static constexpr double psuPwmMax = 100.0;
+static constexpr double psuPwmMax = 100000.0;
 static constexpr double defaultPwm = 30.0;
 static constexpr double targetIfaceMax = sysPwmMax;
 
