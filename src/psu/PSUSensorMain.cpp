@@ -276,14 +276,10 @@ static void checkPWMSensor(
     }
     std::string labelHeadIndex = labelHead.substr(3);
 
-    const std::string& sensorPathStr = sensorPath.string();
-    const std::string& pwmPathStr =
-        boost::replace_all_copy(sensorPathStr, "input", "target");
+    const std::string pwmPathStr =
+        std::filesystem::canonical(sensorPath).parent_path().string() + "/" +
+        boost::replace_all_copy(labelHead, "fan", "pwm");
     std::ifstream pwmFile(pwmPathStr);
-    if (!pwmFile.good())
-    {
-        return;
-    }
 
     auto findPWMSensor = pwmSensors.find(psuName + labelHead);
     if (findPWMSensor != pwmSensors.end())
@@ -300,8 +296,23 @@ static void checkPWMSensor(
     objPath += "_Fan_";
     objPath += labelHeadIndex;
 
-    pwmSensors[psuName + labelHead] = std::make_unique<PwmSensor>(
-        name, pwmPathStr, dbusConnection, objectServer, objPath, "PSU");
+    if (pwmFile.good())
+    {
+        pwmSensors[psuName + labelHead] = std::make_unique<PwmSensor>(
+            name, pwmPathStr, dbusConnection, objectServer, objPath, "PSU");
+        return;
+    }
+
+    const std::string& sensorPathStr = sensorPath.string();
+    const std::string& rpmPathStr =
+        boost::replace_all_copy(sensorPathStr, "input", "target");
+    std::ifstream rpmFile(rpmPathStr);
+    if (rpmFile.good())
+    {
+        pwmSensors[psuName + labelHead] = std::make_unique<PwmSensor>(
+            name, rpmPathStr, dbusConnection, objectServer, objPath, "PSU");
+        return;
+    }
 }
 
 static void createSensorsCallback(
