@@ -1174,11 +1174,6 @@ int main()
     boost::asio::steady_timer filterTimer(io);
     std::function<void(sdbusplus::message_t&)> eventHandler =
         [&](sdbusplus::message_t& message) {
-            if (message.is_method_error())
-            {
-                lg2::error("callback method error");
-                return;
-            }
             sensorsChanged->insert(message.get_path());
             filterTimer.expires_after(std::chrono::seconds(3));
             filterTimer.async_wait([&](const boost::system::error_code& ec) {

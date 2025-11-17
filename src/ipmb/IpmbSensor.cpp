@@ -682,12 +682,6 @@ void interfaceRemoved(
     boost::container::flat_map<std::string, std::shared_ptr<IpmbSensor>>&
         sensors)
 {
-    if (message.is_method_error())
-    {
-        lg2::error("interfacesRemoved callback method error");
-        return;
-    }
-
     sdbusplus::message::object_path removedPath;
     std::vector<std::string> interfaces;
 
