@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26acd229_b9b7ade0",
+        "filename": "src/tests/meson.build",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-11-18T11:24:32Z",
+      "side": 1,
+      "message": "Can we apply the same approach to all the other test files as well?",
+      "revId": "91dbf72d5798bd9819763e7a61e2a5a0da9a6014",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
