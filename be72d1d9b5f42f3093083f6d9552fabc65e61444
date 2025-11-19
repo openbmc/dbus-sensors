@@ -16,6 +16,24 @@
       "message": "Do we need to check for any errors related to dbus signals?",
       "revId": "be72d1d9b5f42f3093083f6d9552fabc65e61444",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af82ec99_dcc89080",
+        "filename": "src/adc/ADCSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2025-11-19T01:09:27Z",
+      "side": 0,
+      "message": "For D-Bus signals, we do not need to check `is_method_error()` or any other method-error related status.",
+      "parentUuid": "0531b1a4_8a279bb3",
+      "revId": "be72d1d9b5f42f3093083f6d9552fabc65e61444",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
