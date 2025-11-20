@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "805cf8a9_9d1ae359",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-11-20T22:33:35Z",
+      "side": 1,
+      "message": "What\u0027s the thinking behind this change?",
+      "revId": "91dbf72d5798bd9819763e7a61e2a5a0da9a6014",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "26acd229_b9b7ade0",
         "filename": "src/tests/meson.build",
         "patchSetId": 1
