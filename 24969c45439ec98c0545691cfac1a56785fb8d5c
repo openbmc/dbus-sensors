@@ -51,6 +51,24 @@
       "message": "Is it possible to add the network ID as a parameter? In case other bindings use the same EID in the future, it might help avoid such conflicts.",
       "revId": "24969c45439ec98c0545691cfac1a56785fb8d5c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14c748bd_3537a4b7",
+        "filename": "src/MctpAsioEndpoint.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-11-21T19:10:53Z",
+      "side": 1,
+      "message": "I\u0027d like to treat that in a separate patch (that I\u0027m happy to write).  This is intending to keep the behavior consistent.",
+      "parentUuid": "53e5ef88_f6fcef59",
+      "revId": "24969c45439ec98c0545691cfac1a56785fb8d5c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
