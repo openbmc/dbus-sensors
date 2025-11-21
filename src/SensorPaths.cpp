@@ -1,5 +1,6 @@
 #include "SensorPaths.hpp"
 
+#include <map>
 #include <regex>
 #include <string>
 
@@ -54,6 +55,29 @@ std::string getPathForUnits(const std::string& units)
 std::string escapePathForDbus(const std::string& name)
 {
     return std::regex_replace(name, std::regex("[^a-zA-Z0-9_/]+"), "_");
+}
+
+std::string convertToFullUnits(const std::string& units)
+{
+    static const std::map<std::string_view, std::string_view> unitsMap = {
+        {"DegreesC", sensor_paths::unitDegreesC},
+        {"RPMS", sensor_paths::unitRPMs},
+        {"Volts", sensor_paths::unitVolts},
+        {"Meters", sensor_paths::unitMeters},
+        {"Amperes", sensor_paths::unitAmperes},
+        {"Joules", sensor_paths::unitJoules},
+        {"Percent", sensor_paths::unitPercent},
+        {"CFM", sensor_paths::unitCFM},
+        {"Pascals", sensor_paths::unitPascals},
+        {"PercentRH", sensor_paths::unitPercentRH},
+    };
+
+    auto it = unitsMap.find(units);
+    if (it != unitsMap.end())
+    {
+        return std::string(it->second);
+    }
+    return "";
 }
 
 } // namespace sensor_paths
