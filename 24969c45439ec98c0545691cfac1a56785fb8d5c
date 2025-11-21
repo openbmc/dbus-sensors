@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8fc60c7f_1617f807",
+        "filename": "src/MctpAsioEndpoint.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-11-21T19:10:00Z",
+      "side": 1,
+      "message": "This is to do with the kernel headers not matching glibc.  I don\u0027t believe we\u0027ve pulled in a glibc yet that would fix this.",
+      "parentUuid": "35b86f27_5adac620",
+      "revId": "24969c45439ec98c0545691cfac1a56785fb8d5c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "53e5ef88_f6fcef59",
         "filename": "src/MctpAsioEndpoint.cpp",
         "patchSetId": 4
