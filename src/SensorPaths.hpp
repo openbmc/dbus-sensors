@@ -32,4 +32,6 @@ std::string getPathForUnits(const std::string& units);
 
 std::string escapePathForDbus(const std::string& name);
 
+std::string convertToFullUnits(const std::string& units);
+
 } // namespace sensor_paths
