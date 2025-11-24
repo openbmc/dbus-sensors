@@ -12,41 +12,12 @@ namespace sensor_paths
 
 std::string getPathForUnits(const std::string& units)
 {
-    if (units == "DegreesC" || units == unitDegreesC)
+    for (const auto& unit : UNITS_MAP)
     {
-        return "temperature";
-    }
-    if (units == "RPMS" || units == unitRPMs)
-    {
-        return "fan_tach";
-    }
-    if (units == "Volts" || units == unitVolts)
-    {
-        return "voltage";
-    }
-    if (units == "Meters" || units == unitMeters)
-    {
-        return "altitude";
-    }
-    if (units == "Amperes" || units == unitAmperes)
-    {
-        return "current";
-    }
-    if (units == "Watts" || units == unitWatts)
-    {
-        return "power";
-    }
-    if (units == "Joules" || units == unitJoules)
-    {
-        return "energy";
-    }
-    if (units == "Percent" || units == unitPercent)
-    {
-        return "utilization";
-    }
-    if (units == "Pascals" || units == unitPascals)
-    {
-        return "pressure";
+        if (unit.dbusUnitName == units || unit.dbusPathName == units)
+        {
+            return std::string(unit.emUnitName);
+        }
     }
     return "";
 }
@@ -54,6 +25,18 @@ std::string getPathForUnits(const std::string& units)
 std::string escapePathForDbus(const std::string& name)
 {
     return std::regex_replace(name, std::regex("[^a-zA-Z0-9_/]+"), "_");
+}
+
+std::string convertToFullUnits(const std::string& units)
+{
+    for (const auto& unit : UNITS_MAP)
+    {
+        if (unit.dbusUnitName == units)
+        {
+            return std::string(unit.dbusPathName);
+        }
+    }
+    return "";
 }
 
 } // namespace sensor_paths
