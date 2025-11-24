@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "1f38148b_02a9e318",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-11-24T00:12:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36252570_c6906556",
+      "revId": "aa95cc27927d3147e25a2d61612daeb96e570748",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "e3435fc6_9fad930f",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -48,6 +66,24 @@
       "writtenOn": "2025-11-21T17:20:19Z",
       "side": 1,
       "message": "meson?",
+      "revId": "aa95cc27927d3147e25a2d61612daeb96e570748",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46fc459b_17988e10",
+        "filename": "docs/mctp/Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-11-24T00:12:56Z",
+      "side": 1,
+      "message": "No, I don\u0027t intend to convert this to meson. The `Makefile` does two things\n\n1. Download the TLA+ toolbox, which contains the model-checker, TLC\n2. Run TLC against the spec\n\nThis isn\u0027t building anything, and could equally be a shell-script. `make` provides the UI for describing dependencies between actions, and we need a copy of TLC before we can run TLC against the spec. That\u0027s all this achieves.",
+      "parentUuid": "d1577343_c218d1ef",
       "revId": "aa95cc27927d3147e25a2d61612daeb96e570748",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
