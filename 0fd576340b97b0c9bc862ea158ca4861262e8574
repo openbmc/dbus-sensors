@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea0f3026_ea137a26",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-11-24T19:21:04Z",
+      "side": 1,
+      "message": "I\u0027m in support of this patch, but I\u0027m not following what the ud is.  dev is a shared_ptr, so what\u0027s existing just adds to the refcount, and should be defined, keeping the device alive until it calls back?",
+      "range": {
+        "startLine": 9,
+        "startChar": 57,
+        "endLine": 10,
+        "endChar": 43
+      },
+      "revId": "0fd576340b97b0c9bc862ea158ca4861262e8574",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94719670_ac36d30d",
+        "filename": "src/mctp/MCTPReactor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-11-24T19:21:04Z",
+      "side": 1,
+      "message": "Nit, you could consider passing by weak_ptr here, to denote to the caller that this API doesn\u0027t take ownership.  Its\u0027 somewhat of a nit, so up to you if you want to implement.",
+      "range": {
+        "startLine": 90,
+        "startChar": 43,
+        "endLine": 90,
+        "endChar": 53
+      },
+      "revId": "0fd576340b97b0c9bc862ea158ca4861262e8574",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
