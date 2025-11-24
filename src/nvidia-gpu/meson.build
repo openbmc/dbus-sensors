@@ -15,6 +15,10 @@ gpusensor_sources = files(
     'OcpMctpVdm.cpp',
 )
 
+if not get_option('nvidia-gpu').allowed()
+    subdir_done()
+endif
+
 gpusensor_include_dir = include_directories('.', is_system: true)
 sensor_include_dir = include_directories('../..')
 
@@ -27,4 +31,3 @@ executable(
     install: true,
     install_dir: '/usr/libexec/dbus-sensors',
 )
-
