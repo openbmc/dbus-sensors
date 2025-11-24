@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "779b9178_79589c90",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-11-24T18:20:05Z",
+      "side": 1,
+      "message": "bit_cast although safer isn\u0027t really a replacement in this case.  We should look at something that doesn\u0027t require a cast at all.  Something like pldm uses.  This patch itself is fine, but can you look into doing something that doesn\u0027t require a cast at all?",
+      "revId": "b566900d94127f0ca77412584e359c5c90916fe4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
