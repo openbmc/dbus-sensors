@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b291dd2d_ed9e8f84",
+        "filename": "src/SensorPaths.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1002581
+      },
+      "writtenOn": "2025-11-24T12:27:01Z",
+      "side": 1,
+      "message": "Got it. Fixed",
+      "parentUuid": "6bfeffda_de41d9fa",
+      "range": {
+        "startLine": 63,
+        "startChar": 11,
+        "endLine": 63,
+        "endChar": 25
+      },
+      "revId": "6c7ca43740f5601c530f77d1b2cd6056989b3cc1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e09efbda_840d966e",
@@ -41,6 +65,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "495bff8c_028d6de7",
+        "filename": "src/SensorPaths.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1002581
+      },
+      "writtenOn": "2025-11-24T12:27:01Z",
+      "side": 1,
+      "message": "Agreed. Created `UNITS_MAP` structure with all unit information:\n\n```cpp\nstruct UnitMap {\n    std::string_view dbusPathName;    // full D-Bus path\n    std::string_view dbusUnitName;    // short format from config\n    std::string_view emUnitName;      // path component\n};\n```\n\nNow both `getPathForUnits()` and `convertToFullUnits()` query from `UNITS_MAP`.",
+      "parentUuid": "e09efbda_840d966e",
+      "revId": "6c7ca43740f5601c530f77d1b2cd6056989b3cc1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6f03deae_6e412863",
@@ -54,6 +96,24 @@
       "writtenOn": "2025-11-21T22:58:09Z",
       "side": 1,
       "message": "This is not the fault of this patch, but we should fix it.  This exception is not caught anywhere, so any bad config will result in a crash.  Please catch this exception in the level above.",
+      "revId": "6c7ca43740f5601c530f77d1b2cd6056989b3cc1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb68e93f_2f052c56",
+        "filename": "src/external/ExternalSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1002581
+      },
+      "writtenOn": "2025-11-24T12:27:01Z",
+      "side": 1,
+      "message": "Fixed. Added validation and exception throwing in ExternalSensor.cpp:\n\n```cpp\nstd::string fullUnits \u003d sensor_paths::convertToFullUnits(sensorUnits);\nif (fullUnits.empty())\n{\n    lg2::error(\"Invalid units for sensor: {UNITS}\", \"UNITS\", sensorUnits);\n    throw std::invalid_argument(\"Invalid units for sensor\");\n}\nsetInitialProperties(fullUnits);\n```\n\nAnd added exception handling in ExternalSensorMain.cpp\u0027s `createSensors()` function:\n\n```cpp\ntry\n{\n    sensorEntry \u003d std::make_shared\u003cExternalSensor\u003e(\n        sensorType, objectServer, dbusConnection, sensorName,\n        sensorUnits, std::move(sensorThresholds), interfacePath,\n        maxValue, minValue, timeoutSecs, readState);\n    sensorEntry-\u003einitWriteHook(\n        [\u0026sensors, \u0026reaperTimer](\n            const std::chrono::steady_clock::time_point\u0026 now) {\n            updateReaper(sensors, reaperTimer, now);\n        });\n\n    lg2::debug(\"ExternalSensor \u0027{NAME}\u0027 created\", \"NAME\", sensorName);\n}\ncatch (const std::exception\u0026 e)\n{\n    lg2::error(\"Failed to create ExternalSensor \u0027{NAME}\u0027: {ERROR}\",\n               \"NAME\", sensorName, \"ERROR\", e.what());\n    continue;\n}\n```\n\nInvalid configurations are now logged with detailed error messages, but the service continues to run. Other correctly configured sensors will start normally.\n\n**Verified on device**: Service continues running even with invalid units:\n```\nNov 24 02:34:28 bmc externalsensor[1141]: Invalid units for sensor: xyz.openbmc_project.Sensor.Value.Unit.DegreesC\nNov 24 02:34:28 bmc externalsensor[1141]: Failed to create ExternalSensor \u0027SWB_PCIe_Switch_Die_Temp_C\u0027: Invalid units for sensor\n```\n\nThe service does not crash.",
+      "parentUuid": "6f03deae_6e412863",
       "revId": "6c7ca43740f5601c530f77d1b2cd6056989b3cc1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
