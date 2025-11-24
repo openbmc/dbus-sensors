@@ -155,9 +155,7 @@ if get_option('psu').allowed()
     subdir('psu')
 endif
 
-if get_option('nvidia-gpu').allowed()
-    subdir('nvidia-gpu')
-endif
+subdir('nvidia-gpu')
 
 if get_option('external').allowed()
     subdir('external')
