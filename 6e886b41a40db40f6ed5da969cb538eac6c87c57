@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae1a8721_53280464",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-11-24T22:50:10Z",
+      "side": 1,
+      "message": "\u003e not recursiving into\nthe subdirectory prevents compilation if both unit tests are enabled and\nthe feature is disabled.\n\nI don\u0027t think so, recursing into a subdirectory is not required for meson to use the files therein.\n\n```\ntest(\n    \u0027MCTPEndpoint\u0027,\n    executable(\n        \u0027test_MCTPEndpoint\u0027,\n        \u0027test_MCTPEndpoint.cpp\u0027,\n        \u0027../mctp/MCTPEndpoint.cpp\u0027,\n        dependencies: [gmock_dep, ut_deps_list, utils_dep],\n        implicit_include_directories: false,\n        include_directories: \u0027../mctp\u0027,\n    ),  \n)\n```\n\nmctp test is defined like above, and even with\n```\n\n  User defined options\n    mctp                    : disabled\n    nvidia-gpu              : enabled\n    nvme                    : disabled\n```\n\nthe mctp tests can build\n\n```\nmeson test\nninja: Entering directory `/home/alexander/upstreaming/dbus-sensors/build\u0027\nninja: no work to do.\n1/5 test_utils          OK              0.04s\n2/5 test_ipmb           OK              0.03s\n3/5 MCTPReactor         OK              0.02s\n4/5 MCTPEndpoint        OK              0.02s\n5/5 NvidiaGPU           OK              0.01s\n\nOk:                5   \nFail:              0   \n```",
+      "range": {
+        "startLine": 9,
+        "startChar": 49,
+        "endLine": 11,
+        "endChar": 24
+      },
+      "revId": "6e886b41a40db40f6ed5da969cb538eac6c87c57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b26f9bb2_dcc7c4e9",
+        "filename": "src/tests/meson.build",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-11-24T22:50:10Z",
+      "side": 1,
+      "message": "We can use `subdir_done()` to avoid all the extra indentation.\n\nhttps://mesonbuild.com/Reference-manual_functions.html#subdir_done\n\nsomething like\n\n```\nif not get_option(\u0027tests\u0027).allowed()\n  subdir_done()\nendif\n```\n\nIf it works for you we could apply throughout the patch.",
+      "revId": "6e886b41a40db40f6ed5da969cb538eac6c87c57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
