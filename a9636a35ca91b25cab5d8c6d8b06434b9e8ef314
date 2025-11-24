@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d97b00f9_34241c77",
+        "filename": "src/nvidia-gpu/meson.build",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-11-24T22:30:10Z",
+      "side": 1,
+      "message": "Can we fix it differently.\n\nInstead of compiling `gpusensor_sources` here, and compiling it again in the test,\nlet\u0027s create a static library for it to avoid the overhead of compiling it twice.",
+      "revId": "a9636a35ca91b25cab5d8c6d8b06434b9e8ef314",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
