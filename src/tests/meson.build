@@ -1,3 +1,7 @@
+if not get_option('tests').allowed()
+    subdir_done()
+endif
+
 gtest_dep = dependency('gtest', main: true, disabler: true, required: false)
 gmock_dep = dependency('gmock', disabler: true, required: false)
 if not gtest_dep.found() or not gmock_dep.found()

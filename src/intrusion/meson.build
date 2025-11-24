@@ -1,3 +1,6 @@
+if not get_option('intrusion').allowed()
+    subdir_done()
+endif
 
 executable(
     'intrusionsensor',
