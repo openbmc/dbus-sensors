@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4ddad50a_c090d3c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-11-24T23:06:47Z",
+      "side": 1,
+      "message": "Correct, it\u0027s not required to use the files, but it is required to use any dependencies or variables within, which could be reused.",
+      "parentUuid": "ae1a8721_53280464",
+      "range": {
+        "startLine": 9,
+        "startChar": 49,
+        "endLine": 11,
+        "endChar": 24
+      },
+      "revId": "6e886b41a40db40f6ed5da969cb538eac6c87c57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b26f9bb2_dcc7c4e9",
         "filename": "src/tests/meson.build",
         "patchSetId": 3
@@ -37,6 +61,24 @@
       "writtenOn": "2025-11-24T22:50:10Z",
       "side": 1,
       "message": "We can use `subdir_done()` to avoid all the extra indentation.\n\nhttps://mesonbuild.com/Reference-manual_functions.html#subdir_done\n\nsomething like\n\n```\nif not get_option(\u0027tests\u0027).allowed()\n  subdir_done()\nendif\n```\n\nIf it works for you we could apply throughout the patch.",
+      "revId": "6e886b41a40db40f6ed5da969cb538eac6c87c57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60cde392_ae7daa3c",
+        "filename": "src/tests/meson.build",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-11-24T23:06:47Z",
+      "side": 1,
+      "message": "I wasn\u0027t aware of that method.  Seems reasonable, I\u0027m not sure i\u0027ll have time to make that patch soon, but I can try.  Can you try 1 quick example from this patch and see if subdir_done() solves this in a way that\u0027s acceptable to you?",
+      "parentUuid": "b26f9bb2_dcc7c4e9",
       "revId": "6e886b41a40db40f6ed5da969cb538eac6c87c57",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
