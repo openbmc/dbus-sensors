@@ -1,10 +1,12 @@
 if get_option('intel-cpu').allowed()
 
-    intel_cpu_inc = src_inc
-
+    peci_incdirs = []
     if not meson.get_compiler('cpp').has_header('linux/peci-ioctl.h')
-        intel_cpu_inc = [src_inc, '../../include']
+        peci_incdirs = ['../../include']
     endif
+
+    peci_dep = dependency('libpeci', required: true)
+    intel_cpu_inc = src_inc
 
     executable(
         'intelcpusensor',
