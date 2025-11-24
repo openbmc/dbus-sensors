@@ -1,3 +1,6 @@
+if not get_option('cable-monitor').allowed()
+    subdir_done()
+endif
 phosphor_dbus_interfaces_dep = dependency('phosphor-dbus-interfaces')
 
 executable(
@@ -16,3 +19,4 @@ executable(
     install: true,
     install_dir: get_option('libexecdir') / 'dbus-sensors',
 )
+

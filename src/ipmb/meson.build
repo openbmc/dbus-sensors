@@ -1,3 +1,6 @@
+if not get_option('ipmb').allowed()
+    subdir_done()
+endif
 
 executable(
     'ipmbsensor',
@@ -9,3 +12,4 @@ executable(
     install: true,
     install_dir: '/usr/libexec/dbus-sensors',
 )
+

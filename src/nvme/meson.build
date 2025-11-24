@@ -1,3 +1,7 @@
+if not get_option('nvme').allowed()
+    subdir_done()
+endif
+
 nvme_srcs = files('NVMeSensor.cpp', 'NVMeSensorMain.cpp')
 nvme_srcs += files('NVMeBasicContext.cpp')
 
@@ -11,3 +15,4 @@ executable(
     install: true,
     install_dir: '/usr/libexec/dbus-sensors',
 )
+
