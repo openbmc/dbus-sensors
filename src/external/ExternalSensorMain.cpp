@@ -20,6 +20,7 @@
 #include <array>
 #include <chrono>
 #include <cmath>
+#include <exception>
 #include <functional>
 #include <memory>
 #include <string>
@@ -303,19 +304,28 @@ void createSensors(
 
                 auto& sensorEntry = sensors[sensorName];
                 sensorEntry = nullptr;
+                try
+                {
+                    sensorEntry = std::make_shared<ExternalSensor>(
+                        sensorType, objectServer, dbusConnection, sensorName,
+                        sensorUnits, std::move(sensorThresholds), interfacePath,
+                        maxValue, minValue, timeoutSecs, readState);
+                    sensorEntry->initWriteHook(
+                        [&sensors, &reaperTimer](
+                            const std::chrono::steady_clock::time_point& now) {
+                            updateReaper(sensors, reaperTimer, now);
+                        });
 
-                sensorEntry = std::make_shared<ExternalSensor>(
-                    sensorType, objectServer, dbusConnection, sensorName,
-                    sensorUnits, std::move(sensorThresholds), interfacePath,
-                    maxValue, minValue, timeoutSecs, readState);
-                sensorEntry->initWriteHook(
-                    [&sensors, &reaperTimer](
-                        const std::chrono::steady_clock::time_point& now) {
-                        updateReaper(sensors, reaperTimer, now);
-                    });
-
-                lg2::debug("ExternalSensor '{NAME}' created", "NAME",
-                           sensorName);
+                    lg2::debug("ExternalSensor '{NAME}' created", "NAME",
+                               sensorName);
+                }
+                catch (const std::exception& e)
+                {
+                    lg2::error(
+                        "Failed to create ExternalSensor '{NAME}': {ERROR}",
+                        "NAME", sensorName, "ERROR", e.what());
+                    continue;
+                }
             }
         });
 
