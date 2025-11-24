@@ -16,6 +16,24 @@
       "message": "Can we fix it differently.\n\nInstead of compiling `gpusensor_sources` here, and compiling it again in the test,\nlet\u0027s create a static library for it to avoid the overhead of compiling it twice.",
       "revId": "a9636a35ca91b25cab5d8c6d8b06434b9e8ef314",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a597b527_20a89196",
+        "filename": "src/nvidia-gpu/meson.build",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-11-24T23:02:45Z",
+      "side": 1,
+      "message": "My issue in general with the static library approach is now we take a link hit every time one of those files gets modified, and it means we can no longer do test-specific settings that are compile time (like ASAN things).  I will follow up with some quantization of timing numbers here, but I think what I have now is my preference at the moment, but I will back that up with data.\n\nExample of test-specific ifdefs in other repos:\nhttps://github.com/openbmc/libcper/blob/5a8a94f401a5535b35a2d2899f93f8dc41d0ebca/cper-utils.c#L453",
+      "parentUuid": "d97b00f9_34241c77",
+      "revId": "a9636a35ca91b25cab5d8c6d8b06434b9e8ef314",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
