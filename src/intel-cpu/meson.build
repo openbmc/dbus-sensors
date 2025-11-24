@@ -2,11 +2,13 @@ if not get_option('intel-cpu').allowed()
     subdir_done()
 endif
 
-intel_cpu_inc = src_inc
-
-if not meson.get_compiler('cpp').has_header('linux/peci-ioctl.h')
-    intel_cpu_inc = [src_inc, '../../include']
+intel_cpu_inc = [src_inc]
+cxx = meson.get_compiler('cpp')
+if not cxx.has_header('linux/peci-ioctl.h')
+    intel_cpu_inc += include_directories('../../include')
 endif
+
+peci_dep = dependency('libpeci', required: true)
 
 executable(
     'intelcpusensor',
@@ -17,4 +19,3 @@ executable(
     install: true,
     install_dir: '/usr/libexec/dbus-sensors',
 )
-
