@@ -101,15 +101,6 @@ notifywatch_dep = declare_dependency(
 
 src_inc = include_directories('.')
 
-peci_incdirs = []
-if not meson.get_compiler('cpp').has_header('linux/peci-ioctl.h')
-    peci_incdirs = ['../include']
-endif
-
-if get_option('intel-cpu').allowed()
-    peci_dep = dependency('libpeci', required: true)
-endif
-
 subdir('adc')
 subdir('cable-monitor')
 subdir('exit-air')
