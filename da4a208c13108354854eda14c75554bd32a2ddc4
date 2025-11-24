@@ -16,6 +16,23 @@
       "message": "Speed here shows as a double, but in the review is an int.  https://gerrit.openbmc.org/c/openbmc/phosphor-dbus-interfaces/+/84653\n\nHow can we make sure that this gets tested in the future?",
       "revId": "da4a208c13108354854eda14c75554bd32a2ddc4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c613484_f40958ad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-11-24T19:02:47Z",
+      "side": 1,
+      "message": "Need any unit tests here?",
+      "revId": "da4a208c13108354854eda14c75554bd32a2ddc4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
