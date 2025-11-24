@@ -1,3 +1,6 @@
+if not get_option('mcu').allowed()
+    subdir_done()
+endif
 
 executable(
     'mcutempsensor',
