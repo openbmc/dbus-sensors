@@ -16,6 +16,24 @@
       "message": "bit_cast although safer isn\u0027t really a replacement in this case.  We should look at something that doesn\u0027t require a cast at all.  Something like pldm uses.  This patch itself is fine, but can you look into doing something that doesn\u0027t require a cast at all?",
       "revId": "b566900d94127f0ca77412584e359c5c90916fe4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98978664_ac6f6cd9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-11-25T06:25:08Z",
+      "side": 1,
+      "message": "One way to avoid a cast is to use memcpy, but I remember we have discussed it and decided to not use it since it has performance overhead. To my knowledge, there are no more options other than that.",
+      "parentUuid": "779b9178_79589c90",
+      "revId": "b566900d94127f0ca77412584e359c5c90916fe4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
