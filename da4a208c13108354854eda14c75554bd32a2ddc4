@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e28edf9c_04d18937",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-11-25T07:25:55Z",
+      "side": 1,
+      "message": "I think it should be double as corresponding redfish property `CurrentSpeedGbps` is also double. I have left a comment for it on the pdi patch.\n\n\u003e How can we make sure that this gets tested in the future?\n\nWhile testing we can manually check and ensure the alignment with the PDI. Since both dbus-sensors and bmcweb reviews refer to the pdi patch for data type of each property, any mismatch can get caught during reviews at either places.",
+      "parentUuid": "0120f690_28c63d78",
+      "revId": "da4a208c13108354854eda14c75554bd32a2ddc4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "3c613484_f40958ad",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 22
