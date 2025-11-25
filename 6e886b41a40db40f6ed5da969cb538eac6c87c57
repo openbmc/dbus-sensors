@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fbd35f0e_51cfe00c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-11-25T00:09:22Z",
+      "side": 1,
+      "message": "Why not only build the tests for the allowed daemons?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 47
+      },
+      "revId": "6e886b41a40db40f6ed5da969cb538eac6c87c57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ae1a8721_53280464",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
