@@ -34,6 +34,24 @@
       "parentUuid": "d97b00f9_34241c77",
       "revId": "a9636a35ca91b25cab5d8c6d8b06434b9e8ef314",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33fa28f2_252974c7",
+        "filename": "src/nvidia-gpu/meson.build",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-11-25T22:13:50Z",
+      "side": 1,
+      "message": "\u003e My issue in general with the static library approach is now we take a link hit every time one of those files gets modified\n\nYes but when compiling it twice we will not only link it twice but it also has to go through lexer, parser, typechecker, ... twice.\n\n\u003e and it means we can no longer do test-specific settings that are compile time (like ASAN things)\n\nlibpldm uses the `run-ci.sh` scripts to build and test different configurations of the project. That would work as well with static libraries, so it is not necessarily preventing us.\n\nWe may need some build matrix anyways, which could prevent some issues like what\u0027s being fixed in this patch.\n\n\u003e  I will follow up with some quantization of timing numbers here, but I think what I have now is my preference at the moment, but I will back that up with data.\n\nOk, i guess that works for me. I\u0027m resolving this since coming to a conclusion on the static library thing might be a more long term task and depends on several variables like compiler and linker flags, which machine we are building on, ...\n\nIt will be good to get some consistency there long-term at least in this repo since we already have some static libraries defined in `src/meson.build` which have similar usage pattern (maybe 1 - 3 usages) so whichever conclusion you reach will apply to those ones too i guess.\n\n```\npwmsensor_a \u003d static_library(\n    \u0027pwmsensor_a\u0027,\n    \u0027PwmSensor.cpp\u0027,\n    dependencies: [default_deps, thresholds_dep],\n)\ngpiointerface_a \u003d static_library(\n    \u0027gpiointerface_a\u0027,\n    \u0027GPIOInterface.cpp\u0027,\n    dependencies: [default_deps, gpiodcxx],\n)\nentitymanagerinterface_a \u003d static_library(\n    \u0027entitymanagerinterface_a\u0027,\n    \u0027EntityManagerInterface.cpp\u0027,\n    dependencies: default_deps,\n)\nnotifywatch_a \u003d static_library(\n    \u0027notifywatch_a\u0027,\n    \u0027NotifyWatch.cpp\u0027,\n    dependencies: default_deps,\n)\n\n```",
+      "parentUuid": "a597b527_20a89196",
+      "revId": "a9636a35ca91b25cab5d8c6d8b06434b9e8ef314",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
