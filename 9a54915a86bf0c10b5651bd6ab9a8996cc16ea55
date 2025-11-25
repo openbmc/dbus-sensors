@@ -122,6 +122,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "277b4a35_916fff3a",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-11-25T16:31:22Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "d791eebf_932e0c91",
+      "revId": "9a54915a86bf0c10b5651bd6ab9a8996cc16ea55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2eb919e8_8a350551",
@@ -220,6 +238,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "67c4c209_da7e6788",
+        "filename": "src/nvidia-gpu/NvidiaXidReporting.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-11-25T16:31:22Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "3bb0f2b5_93c689ae",
+      "revId": "9a54915a86bf0c10b5651bd6ab9a8996cc16ea55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9b575202_e0900642",
@@ -233,6 +269,24 @@
       "writtenOn": "2025-11-25T14:17:47Z",
       "side": 1,
       "message": "This is already defined in `NvidiaGpuMctpVdm.hpp`.",
+      "revId": "9a54915a86bf0c10b5651bd6ab9a8996cc16ea55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4fd32f0_15ad5d4e",
+        "filename": "src/nvidia-gpu/NvidiaXidReporting.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-11-25T16:31:22Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "9b575202_e0900642",
       "revId": "9a54915a86bf0c10b5651bd6ab9a8996cc16ea55",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -285,6 +339,24 @@
       "writtenOn": "2025-11-25T14:17:47Z",
       "side": 1,
       "message": "We should take this as a constructor argument so this class can be used for multiple device type and not just GPU. Better to implement event subscription and event handling in separate classes as later is device specific and former is not.",
+      "revId": "9a54915a86bf0c10b5651bd6ab9a8996cc16ea55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9946b260_63bbeaff",
+        "filename": "src/nvidia-gpu/NvidiaXidReporting.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-11-25T16:31:22Z",
+      "side": 1,
+      "message": "sure. They are separate classes today, but I can move this to the ctor.",
+      "parentUuid": "49f4a12b_144e2571",
       "revId": "9a54915a86bf0c10b5651bd6ab9a8996cc16ea55",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
