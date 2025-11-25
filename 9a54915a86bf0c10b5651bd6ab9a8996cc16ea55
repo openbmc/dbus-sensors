@@ -107,6 +107,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d791eebf_932e0c91",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-11-25T14:17:47Z",
+      "side": 1,
+      "message": "We should also check for datagram bit before considering it an event.",
+      "revId": "9a54915a86bf0c10b5651bd6ab9a8996cc16ea55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2eb919e8_8a350551",
         "filename": "src/nvidia-gpu/MctpRequester.hpp",
         "patchSetId": 1
@@ -154,6 +171,74 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0156049e_bce995db",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-11-25T14:17:47Z",
+      "side": 1,
+      "message": "This should go in `OcpMctpVdm.hpp`.",
+      "revId": "9a54915a86bf0c10b5651bd6ab9a8996cc16ea55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "122f7eb3_9450a9d1",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-11-25T14:17:47Z",
+      "side": 1,
+      "message": "We should add unit test cases for all new functions in this file.",
+      "revId": "9a54915a86bf0c10b5651bd6ab9a8996cc16ea55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3bb0f2b5_93c689ae",
+        "filename": "src/nvidia-gpu/NvidiaXidReporting.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-11-25T14:17:47Z",
+      "side": 1,
+      "message": "This should be defined in `NvidiaGpuMctpVdm.hpp` similar to command code definitions.",
+      "revId": "9a54915a86bf0c10b5651bd6ab9a8996cc16ea55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b575202_e0900642",
+        "filename": "src/nvidia-gpu/NvidiaXidReporting.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-11-25T14:17:47Z",
+      "side": 1,
+      "message": "This is already defined in `NvidiaGpuMctpVdm.hpp`.",
+      "revId": "9a54915a86bf0c10b5651bd6ab9a8996cc16ea55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "025a0d66_08024fef",
         "filename": "src/nvidia-gpu/NvidiaXidReporting.cpp",
         "patchSetId": 1
@@ -183,6 +268,57 @@
       "side": 1,
       "message": "ack, today this whole flow is kinda broken, as discussed. holding a socket across an endpoint going down and coming backup, the socket won\u0027t be functional without re-enumeration and recreating the socket.",
       "parentUuid": "025a0d66_08024fef",
+      "revId": "9a54915a86bf0c10b5651bd6ab9a8996cc16ea55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49f4a12b_144e2571",
+        "filename": "src/nvidia-gpu/NvidiaXidReporting.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-11-25T14:17:47Z",
+      "side": 1,
+      "message": "We should take this as a constructor argument so this class can be used for multiple device type and not just GPU. Better to implement event subscription and event handling in separate classes as later is device specific and former is not.",
+      "revId": "9a54915a86bf0c10b5651bd6ab9a8996cc16ea55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71565edb_b6c3a8b3",
+        "filename": "src/nvidia-gpu/NvidiaXidReporting.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-11-25T14:17:47Z",
+      "side": 1,
+      "message": "All device type (GPU, PCIe) supports event and hence this can be made device type agnostic (we should not make event subscription GPU specific). We can put this class in a common file related to events (not file specific to xid events).",
+      "revId": "9a54915a86bf0c10b5651bd6ab9a8996cc16ea55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8b3d88b_7751347d",
+        "filename": "src/nvidia-gpu/NvidiaXidReporting.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-11-25T14:17:47Z",
+      "side": 1,
+      "message": "This is not fixed for all platform, I think.",
       "revId": "9a54915a86bf0c10b5651bd6ab9a8996cc16ea55",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
