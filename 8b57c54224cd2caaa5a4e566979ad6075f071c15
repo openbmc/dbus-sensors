@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0f475e8_39d441ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-11-26T17:11:33Z",
+      "side": 1,
+      "message": "This seems like something we\u0027d want in https://github.com/openbmc/openbmc-tools probably given it\u0027s a debug script?  Other than that, looks fine.",
+      "revId": "8b57c54224cd2caaa5a4e566979ad6075f071c15",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
