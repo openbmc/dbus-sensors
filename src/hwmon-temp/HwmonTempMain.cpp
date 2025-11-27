@@ -298,6 +298,10 @@ void createSensors(
             findFiles(std::filesystem::path("/sys/class/hwmon"),
                       R"(temp\d+_input)", paths);
 
+            // Entries consumed by sensors created in this rescan. Erased after
+            // the loop so the result does not depend on the order of paths.
+            boost::container::flat_set<std::string> consumedPaths;
+
             // iterate through all found temp and pressure sensors,
             // and try to match them with configuration
             for (auto& path : paths)
@@ -401,24 +405,34 @@ void createSensors(
                     std::get<std::string>(findSensorName->second);
                 // on rescans, only update sensors we were signaled by
                 auto findSensor = sensors.find(sensorName);
-                if (!firstScan && findSensor != sensors.end())
+                if (!firstScan)
                 {
-                    bool found = false;
-                    auto it = sensorsChanged->begin();
-                    while (it != sensorsChanged->end())
+                    if (findSensor != sensors.end())
                     {
-                        if (it->ends_with(findSensor->second->name))
+                        bool found = false;
+                        auto it = sensorsChanged->begin();
+                        while (it != sensorsChanged->end())
                         {
-                            it = sensorsChanged->erase(it);
-                            findSensor->second = nullptr;
-                            found = true;
-                            break;
+                            if (it->ends_with(findSensor->second->name))
+                            {
+                                it = sensorsChanged->erase(it);
+                                findSensor->second = nullptr;
+                                found = true;
+                                break;
+                            }
+                            ++it;
                         }
-                        ++it;
+                        if (!found)
+                        {
+                            continue;
+                        }
                     }
-                    if (!found)
+                    else
                     {
-                        continue;
+                        // A new sensor is created regardless of sensorsChanged.
+                        // Consume its entry, otherwise it would recreate the
+                        // sensor on a later rescan.
+                        consumedPaths.insert(interfacePath);
                     }
                 }
 
@@ -535,6 +549,14 @@ void createSensors(
                 if (hwmonName.empty())
                 {
                     configMap.erase(findSensorCfg);
+                }
+            }
+
+            if (!firstScan)
+            {
+                for (const std::string& consumedPath : consumedPaths)
+                {
+                    sensorsChanged->erase(consumedPath);
                 }
             }
         });
