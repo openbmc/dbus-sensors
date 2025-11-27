@@ -402,24 +402,35 @@ void createSensors(
                     std::get<std::string>(findSensorName->second);
                 // on rescans, only update sensors we were signaled by
                 auto findSensor = sensors.find(sensorName);
-                if (!firstScan && findSensor != sensors.end())
+                if (!firstScan)
                 {
-                    bool found = false;
-                    auto it = sensorsChanged->begin();
-                    while (it != sensorsChanged->end())
+                    if (findSensor != sensors.end())
                     {
-                        if (it->ends_with(findSensor->second->name))
+                        bool found = false;
+                        auto it = sensorsChanged->begin();
+                        while (it != sensorsChanged->end())
                         {
-                            it = sensorsChanged->erase(it);
-                            findSensor->second = nullptr;
-                            found = true;
-                            break;
+                            if (it->ends_with(findSensor->second->name))
+                            {
+                                it = sensorsChanged->erase(it);
+                                findSensor->second = nullptr;
+                                found = true;
+                                break;
+                            }
+                            ++it;
                         }
-                        ++it;
+                        if (!found)
+                        {
+                            continue;
+                        }
                     }
-                    if (!found)
+                    else
                     {
-                        continue;
+                        // The sensor does not exist yet and is created below
+                        // regardless of sensorsChanged. Consume its entry now,
+                        // otherwise it would match on a later rescan and
+                        // recreate the sensor needlessly.
+                        sensorsChanged->erase(interfacePath);
                     }
                 }
 
