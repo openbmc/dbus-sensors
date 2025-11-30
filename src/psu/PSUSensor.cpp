@@ -186,7 +186,6 @@ void PSUSensor::restartRead()
     waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
         {
-            lg2::error("Failed to reschedule");
             return;
         }
         std::shared_ptr<PSUSensor> self = weakRef.lock();
@@ -234,7 +233,6 @@ void PSUSensor::handleResponse(const boost::system::error_code& err,
     }
     catch (const std::invalid_argument&)
     {
-        lg2::error("Could not parse input from '{PATH}'", "PATH", path);
         incrementError();
     }
 

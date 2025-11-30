@@ -864,7 +864,7 @@ static void createSensorsCallback(
                            "INDEX", nameIndex);
             }
 
-            if (devType == DevTypes::HWMON)
+            if (sensorType == "pmbus")
             {
                 checkEventLimits(sensorPathStr, limitEventMatch, eventPathList);
             }
