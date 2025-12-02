@@ -14,6 +14,7 @@
 #include <cstdint>
 #include <cstring>
 #include <span>
+#include <string>
 #include <vector>
 
 namespace gpu
@@ -409,6 +410,74 @@ int decodeGetVoltageResponse(std::span<const uint8_t> buf,
     }
 
     voltage = le32toh(response->voltage);
+
+    return 0;
+}
+
+int encodeGetDriverInformationRequest(uint8_t instanceId,
+                                      std::span<uint8_t> buf)
+{
+    if (buf.size() < sizeof(ocp::accelerator_management::CommonRequest))
+    {
+        return EINVAL;
+    }
+
+    auto* msg = reinterpret_cast<ocp::accelerator_management::CommonRequest*>(
+        buf.data());
+
+    ocp::accelerator_management::BindingPciVidInfo header{};
+    header.ocp_accelerator_management_msg_type =
+        static_cast<uint8_t>(ocp::accelerator_management::MessageType::REQUEST);
+    header.instance_id = instanceId &
+                         ocp::accelerator_management::instanceIdBitMask;
+    header.msg_type = static_cast<uint8_t>(MessageType::PLATFORM_ENVIRONMENTAL);
+
+    auto rc = packHeader(header, msg->msgHdr.hdr);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    msg->command = static_cast<uint8_t>(
+        PlatformEnvironmentalCommands::GET_DRIVER_INFORMATION);
+    msg->data_size = 0;
+
+    return 0;
+}
+
+int decodeGetDriverInformationResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    DriverState& driverState, std::string& driverVersion)
+{
+    auto rc =
+        ocp::accelerator_management::decodeReasonCodeAndCC(buf, cc, reasonCode);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    if (buf.size() < sizeof(GetDriverInformationResponse))
+    {
+        return EINVAL;
+    }
+
+    const auto* response =
+        reinterpret_cast<const GetDriverInformationResponse*>(buf.data());
+
+    const uint16_t dataSize = le16toh(response->hdr.data_size);
+
+    if (dataSize < sizeof(DriverState) + sizeof(char))
+    {
+        return EINVAL;
+    }
+
+    driverState = response->driverState;
+    const size_t versionSize =
+        buf.size() - sizeof(GetDriverInformationResponse);
+    driverVersion = std::string(&response->driverVersion, versionSize);
 
     return 0;
 }
