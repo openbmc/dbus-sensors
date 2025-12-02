@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "41138bf2_3e8109ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-12-02T17:59:41Z",
+      "side": 1,
+      "message": "if there\u0027s a better option here, I\u0027m open to it, I just don\u0027t see what it is.",
+      "parentUuid": "08a47a66_f40663da",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 47
+      },
+      "revId": "6e886b41a40db40f6ed5da969cb538eac6c87c57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ae1a8721_53280464",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
