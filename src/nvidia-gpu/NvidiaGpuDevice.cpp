@@ -11,6 +11,7 @@
 #include <Inventory.hpp>
 #include <MctpRequester.hpp>
 #include <NvidiaDeviceDiscovery.hpp>
+#include <NvidiaDriverInformation.hpp>
 #include <NvidiaGpuEnergySensor.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
 #include <NvidiaGpuPowerPeakReading.hpp>
@@ -92,6 +93,9 @@ void GpuDevice::makeSensors()
     voltageSensor = std::make_shared<NvidiaGpuVoltageSensor>(
         conn, mctpRequester, name + "_Voltage_0", path, eid, gpuVoltageSensorId,
         objectServer, std::vector<thresholds::Threshold>{});
+
+    driverInfo = std::make_shared<NvidiaDriverInformation>(
+        conn, mctpRequester, name, eid, objectServer);
 
     getTLimitThresholds();
 
@@ -210,6 +214,7 @@ void GpuDevice::read()
     peakPower->update();
     energySensor->update();
     voltageSensor->update();
+    driverInfo->update();
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait(

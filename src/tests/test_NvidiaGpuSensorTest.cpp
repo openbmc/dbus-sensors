@@ -12,6 +12,7 @@
 #include <cerrno>
 #include <cstdint>
 #include <cstring>
+#include <string>
 #include <vector>
 
 #include <gtest/gtest.h>
@@ -940,6 +941,266 @@ TEST_F(GpuMctpVdmTests, DecodeGetCurrentEnergyCounterResponseInvalidSize)
 
     int result =
         gpu::decodeGetCurrentEnergyCounterResponse(buf, cc, reasonCode, energy);
+
+    EXPECT_EQ(result, EINVAL); // Should indicate error for invalid data size
+}
+
+// Tests for GpuMctpVdm::encodeGetDriverInformationRequest function
+TEST_F(GpuMctpVdmTests, EncodeGetDriverInformationRequestSuccess)
+{
+    const uint8_t instanceId = 9;
+    std::array<uint8_t, sizeof(ocp::accelerator_management::CommonRequest)>
+        buf{};
+
+    int result = gpu::encodeGetDriverInformationRequest(instanceId, buf);
+
+    EXPECT_EQ(result, 0);
+
+    ocp::accelerator_management::CommonRequest request{};
+    std::memcpy(&request, buf.data(), sizeof(request));
+
+    EXPECT_EQ(request.msgHdr.hdr.pci_vendor_id,
+              htobe16(gpu::nvidiaPciVendorId));
+    EXPECT_EQ(request.msgHdr.hdr.instance_id &
+                  ocp::accelerator_management::instanceIdBitMask,
+              instanceId & ocp::accelerator_management::instanceIdBitMask);
+    EXPECT_NE(request.msgHdr.hdr.instance_id &
+                  ocp::accelerator_management::requestBitMask,
+              0);
+    EXPECT_EQ(request.msgHdr.hdr.ocp_accelerator_management_msg_type,
+              static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+
+    // Verify request data
+    EXPECT_EQ(request.command,
+              static_cast<uint8_t>(
+                  gpu::PlatformEnvironmentalCommands::GET_DRIVER_INFORMATION));
+    EXPECT_EQ(request.data_size, 0);
+}
+
+TEST_F(GpuMctpVdmTests, EncodeGetDriverInformationRequestBufferTooSmall)
+{
+    const uint8_t instanceId = 9;
+    std::array<uint8_t, 1> buf{}; // Too small buffer
+
+    int result = gpu::encodeGetDriverInformationRequest(instanceId, buf);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+// Tests for GpuMctpVdm::decodeGetDriverInformationResponse function
+TEST_F(GpuMctpVdmTests, DecodeGetDriverInformationResponseSuccess)
+{
+    // Create a buffer large enough for the response with driver version string
+    const std::string expectedVersion = "535.104.05";
+    const size_t dataSize =
+        sizeof(gpu::DriverState) + expectedVersion.size() + 1;
+    std::vector<uint8_t> buf(
+        sizeof(gpu::GetDriverInformationResponse) + expectedVersion.size());
+
+    // Set up the common response header
+    ocp::accelerator_management::CommonResponse hdr{};
+    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
+    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    headerInfo.instance_id = 9;
+    headerInfo.msg_type =
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
+
+    gpu::packHeader(headerInfo, hdr.msgHdr.hdr);
+
+    hdr.command = static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_DRIVER_INFORMATION);
+    hdr.completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS);
+    hdr.reserved = 0;
+    hdr.data_size = htole16(static_cast<uint16_t>(dataSize));
+
+    // Copy header to buffer
+    std::memcpy(buf.data(), &hdr, sizeof(hdr));
+
+    // Set driver state (DRIVER_STATE_LOADED)
+    buf[sizeof(hdr)] =
+        static_cast<uint8_t>(gpu::DriverState::DRIVER_STATE_LOADED);
+
+    // Copy driver version string after driver state
+    std::memcpy(buf.data() + sizeof(hdr) + sizeof(gpu::DriverState),
+                expectedVersion.data(), expectedVersion.size() + 1);
+
+    // Test decoding
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    gpu::DriverState driverState{};
+    std::string driverVersion{};
+
+    int result = gpu::decodeGetDriverInformationResponse(
+        buf, cc, reasonCode, driverState, driverVersion);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+    EXPECT_EQ(driverState, gpu::DriverState::DRIVER_STATE_LOADED);
+    EXPECT_EQ(driverVersion, expectedVersion);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetDriverInformationResponseDriverNotLoaded)
+{
+    // Create a buffer for driver not loaded state
+    const size_t dataSize =
+        sizeof(gpu::DriverState) + 1; // Minimum version size
+    std::vector<uint8_t> buf(sizeof(gpu::GetDriverInformationResponse) + 1);
+
+    // Set up the common response header
+    ocp::accelerator_management::CommonResponse hdr{};
+    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
+    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    headerInfo.instance_id = 9;
+    headerInfo.msg_type =
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
+
+    gpu::packHeader(headerInfo, hdr.msgHdr.hdr);
+
+    hdr.command = static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_DRIVER_INFORMATION);
+    hdr.completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS);
+    hdr.reserved = 0;
+    hdr.data_size = htole16(static_cast<uint16_t>(dataSize));
+
+    // Copy header to buffer
+    std::memcpy(buf.data(), &hdr, sizeof(hdr));
+
+    // Set driver state (DRIVER_STATE_NOT_LOADED)
+    buf[sizeof(hdr)] =
+        static_cast<uint8_t>(gpu::DriverState::DRIVER_STATE_NOT_LOADED);
+
+    // Set a null terminator for version
+    buf[sizeof(hdr) + sizeof(gpu::DriverState)] = '\0';
+
+    // Test decoding
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    gpu::DriverState driverState{};
+    std::string driverVersion{};
+
+    int result = gpu::decodeGetDriverInformationResponse(
+        buf, cc, reasonCode, driverState, driverVersion);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+    EXPECT_EQ(driverState, gpu::DriverState::DRIVER_STATE_NOT_LOADED);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetDriverInformationResponseError)
+{
+    std::array<uint8_t,
+               sizeof(ocp::accelerator_management::CommonNonSuccessResponse)>
+        buf{};
+
+    // Populate error response data
+    ocp::accelerator_management::CommonNonSuccessResponse errorResponse{};
+    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
+    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    headerInfo.instance_id = 9;
+    headerInfo.msg_type =
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
+
+    gpu::packHeader(headerInfo, errorResponse.msgHdr.hdr);
+
+    errorResponse.command = static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_DRIVER_INFORMATION);
+    errorResponse.completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
+    errorResponse.reason_code = htole16(0xABCD);
+
+    std::memcpy(buf.data(), &errorResponse, sizeof(errorResponse));
+
+    // Test decoding
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    gpu::DriverState driverState{};
+    std::string driverVersion{};
+
+    int result = gpu::decodeGetDriverInformationResponse(
+        buf, cc, reasonCode, driverState, driverVersion);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
+    EXPECT_EQ(reasonCode, 0xABCD);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetDriverInformationResponseInvalidSize)
+{
+    // Create a buffer that's too small
+    std::array<uint8_t, sizeof(ocp::accelerator_management::CommonResponse)>
+        buf{};
+
+    ocp::accelerator_management::CommonResponse hdr{};
+    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
+    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    headerInfo.instance_id = 9;
+    headerInfo.msg_type =
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
+
+    gpu::packHeader(headerInfo, hdr.msgHdr.hdr);
+
+    hdr.command = static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_DRIVER_INFORMATION);
+    hdr.completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS);
+    hdr.reserved = 0;
+    hdr.data_size = htole16(2); // Valid data size but buffer too small
+
+    std::memcpy(buf.data(), &hdr, sizeof(hdr));
+
+    // Test decoding
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    gpu::DriverState driverState{};
+    std::string driverVersion{};
+
+    int result = gpu::decodeGetDriverInformationResponse(
+        buf, cc, reasonCode, driverState, driverVersion);
+
+    EXPECT_EQ(result, EINVAL); // Should indicate error for invalid size
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetDriverInformationResponseInvalidDataSize)
+{
+    // Create a response with data_size too small
+    std::vector<uint8_t> buf(sizeof(gpu::GetDriverInformationResponse) + 10);
+
+    ocp::accelerator_management::CommonResponse hdr{};
+    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
+    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    headerInfo.instance_id = 9;
+    headerInfo.msg_type =
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
+
+    gpu::packHeader(headerInfo, hdr.msgHdr.hdr);
+
+    hdr.command = static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_DRIVER_INFORMATION);
+    hdr.completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS);
+    hdr.reserved = 0;
+    // data_size = 1 is invalid (needs at least sizeof(DriverState) + 1 = 2)
+    hdr.data_size = htole16(1);
+
+    std::memcpy(buf.data(), &hdr, sizeof(hdr));
+
+    // Test decoding
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    gpu::DriverState driverState{};
+    std::string driverVersion{};
+
+    int result = gpu::decodeGetDriverInformationResponse(
+        buf, cc, reasonCode, driverState, driverVersion);
 
     EXPECT_EQ(result, EINVAL); // Should indicate error for invalid data size
 }
