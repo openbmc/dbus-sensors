@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e0a0736_4b289c4f",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-12-02T03:32:35Z",
+      "side": 1,
+      "message": "I don\u0027t think this is always appropriate.  There are cases where a sensor explicitly goes NaN because ... it is unavailable.  For instance, a sensor that is on a hardware power domain where it is unavailable when that hardware powers off.  This case should _not_ report an InvalidSensorReading.\n\nWe only want to report an InvalidSensorReading error for something which is triggered by an actual hardware failure (such as an i2c bus error in reading the sensor).",
+      "range": {
+        "startLine": 585,
+        "startChar": 0,
+        "endLine": 589,
+        "endChar": 5
+      },
+      "revId": "5ba71c8991e7476fe0b05b67029a6066ee3c3620",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
