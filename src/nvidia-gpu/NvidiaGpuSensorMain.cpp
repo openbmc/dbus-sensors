@@ -55,6 +55,7 @@ int main()
     sdbusplus::asio::object_server objectServer(systemBus, true);
     objectServer.add_manager("/xyz/openbmc_project/sensors");
     objectServer.add_manager("/xyz/openbmc_project/inventory");
+    objectServer.add_manager("/xyz/openbmc_project/software");
     systemBus->request_name("xyz.openbmc_project.GpuSensor");
 
     mctp::MctpRequester mctpRequester(io);
