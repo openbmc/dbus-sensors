@@ -495,8 +495,8 @@ ExitAirTempSensor::ExitAirTempSensor(
     sdbusplus::asio::object_server& objectServer,
     std::vector<thresholds::Threshold>&& thresholdData) :
     Sensor(escapeName(sensorName), std::move(thresholdData),
-           sensorConfiguration, "ExitAirTemp", false, false, exitAirMaxReading,
-           exitAirMinReading, conn, PowerState::on),
+           sensorConfiguration, exitAirType, false, false,
+           exitAirMaxReading, exitAirMinReading, conn, PowerState::on),
     objServer(objectServer)
 {
     sensorInterface = objectServer.add_interface(
