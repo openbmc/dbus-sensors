@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2f89087f_236f61a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-12-03T21:37:08Z",
+      "side": 1,
+      "message": "\u003e \u003e Not all features/daemons are enabled by default\n\u003e \n\u003e Why not though? What\u0027s the concern?\n\nI should clarify, they\u0027re not all enabled at a yocto level, so this is mostly moot in this context.\n\n\u003e \n\u003e I think having the set of tests built be consistent with the set of daemons enabled is a fairly reasonable philosophy and shouldn\u0027t be difficult to implement.\n\nThat\u0027s something we could discuss, but that\u0027s not what\u0027s implemented today.  I\u0027m not sure I agree with you at this stage (given the unit tests are pretty fast to both build and run) but I could certainly see a case where we need that some day if the unit tests get too lengthy to build.  If it\u0027s ok, I\u0027d like to see that as a separate initiative (ideally done by someone that wants to see that happen, maybe that\u0027s you?).  I\u0027m not sure I could properly defend it today.\n\nhttps://github.com/openbmc/dbus-sensors/blob/master/src/tests/meson.build\n\nEverything in the test repo is currently enabled unconditionally.",
+      "parentUuid": "628398e4_de42021a",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 47
+      },
+      "revId": "6e886b41a40db40f6ed5da969cb538eac6c87c57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ae1a8721_53280464",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
