@@ -52,6 +52,24 @@
       "parentUuid": "a597b527_20a89196",
       "revId": "a9636a35ca91b25cab5d8c6d8b06434b9e8ef314",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8f77488_6920c148",
+        "filename": "src/nvidia-gpu/meson.build",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-12-03T21:41:30Z",
+      "side": 1,
+      "message": "\u003e Yes but when compiling it twice we will not only link it twice but it also has to go through lexer, parser, typechecker, ... twice.\n\nRight, this gives us the ability to do modifications at each of those levels, and test things differently.  For example, we can disable certain safeties, and verify things crash appropriately and clean up.  If we put everything in a static library, that limits what unit tests can test.\n\n\u003e libpldm uses the run-ci.sh scripts to build and test different configurations of the project.\n\nI\u0027m not really all that interested in doing these kinds of things in bash.  Meson should be able to handle all the optionality we need.",
+      "parentUuid": "33fa28f2_252974c7",
+      "revId": "a9636a35ca91b25cab5d8c6d8b06434b9e8ef314",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
