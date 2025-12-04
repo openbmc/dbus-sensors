@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09489c8a_807e0b74",
+        "filename": "src/nvidia-gpu/NvidiaPciePortMetrics.cpp",
+        "patchSetId": 27
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-12-04T21:39:35Z",
+      "side": 1,
+      "message": "nit, followup is fine, This only ever needs to be encoded once.",
+      "revId": "e6ac5bced40d403f9cb73f0a48bb2822af711635",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
