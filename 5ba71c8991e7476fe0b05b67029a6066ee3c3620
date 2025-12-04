@@ -46,6 +46,30 @@
       },
       "revId": "5ba71c8991e7476fe0b05b67029a6066ee3c3620",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e202927f_6098b571",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1000212
+      },
+      "writtenOn": "2025-12-04T22:19:55Z",
+      "side": 1,
+      "message": "removed it in favor of an lg2::error.",
+      "parentUuid": "96f26fdb_f8f8247c",
+      "range": {
+        "startLine": 585,
+        "startChar": 0,
+        "endLine": 589,
+        "endChar": 5
+      },
+      "revId": "5ba71c8991e7476fe0b05b67029a6066ee3c3620",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
