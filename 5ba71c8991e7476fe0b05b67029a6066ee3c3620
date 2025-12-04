@@ -22,6 +22,30 @@
       },
       "revId": "5ba71c8991e7476fe0b05b67029a6066ee3c3620",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96f26fdb_f8f8247c",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 33
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1000212
+      },
+      "writtenOn": "2025-12-04T19:36:39Z",
+      "side": 1,
+      "message": "Actually, this is a key-not-found error for {level, direction} in the thresholdLogMap which is pretty exhaustive. So, practically, this catch should never execute. But probably, a better case is to do a lg2::error() instead since its not technically a \"invalid-reading\" but a \"invalid-configuration\"",
+      "parentUuid": "4e0a0736_4b289c4f",
+      "range": {
+        "startLine": 585,
+        "startChar": 0,
+        "endLine": 589,
+        "endChar": 5
+      },
+      "revId": "5ba71c8991e7476fe0b05b67029a6066ee3c3620",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
