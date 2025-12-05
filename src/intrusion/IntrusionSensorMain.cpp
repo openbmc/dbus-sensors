@@ -126,8 +126,25 @@ static void createSensorsFromConfig(
                     bool gpioInverted =
                         (std::get<std::string>(findGpioPolarity->second) ==
                          "Low");
+
+                    std::string gpioPinName;
+                    auto findGpioPinName =
+                        baseConfiguration->second.find("GpioPinName");
+
+                    if (findGpioPinName == baseConfiguration->second.end())
+                    {
+                        lg2::warning(
+                            "no gpio pin name found, default to CHASSIS_INTRUSION");
+                        gpioPinName = "CHASSIS_INTRUSION";
+                    }
+                    else
+                    {
+                        gpioPinName =
+                            std::get<std::string>(findGpioPinName->second);
+                    }
+
                     pSensor = std::make_shared<ChassisIntrusionGpioSensor>(
-                        autoRearm, io, objServer, gpioInverted);
+                        autoRearm, io, objServer, gpioInverted, gpioPinName);
                     pSensor->start();
                     lg2::debug(
                         "find chassis intrusion sensor polarity inverted flag is '{GPIO_INVERTED}'",

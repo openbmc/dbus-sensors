@@ -395,9 +395,10 @@ ChassisIntrusionPchSensor::ChassisIntrusionPchSensor(
 
 ChassisIntrusionGpioSensor::ChassisIntrusionGpioSensor(
     bool autoRearm, boost::asio::io_context& io,
-    sdbusplus::asio::object_server& objServer, bool gpioInverted) :
+    sdbusplus::asio::object_server& objServer, bool gpioInverted,
+    std::string gpioPinName) :
     ChassisIntrusionSensor(autoRearm, objServer), mGpioInverted(gpioInverted),
-    mGpioFd(io)
+    mPinName(gpioPinName), mGpioFd(io)
 {
     mGpioLine = gpiod::find_line(mPinName);
     if (!mGpioLine)
