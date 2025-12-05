@@ -64,13 +64,13 @@ class ChassisIntrusionGpioSensor :
   public:
     ChassisIntrusionGpioSensor(bool autoRearm, boost::asio::io_context& io,
                                sdbusplus::asio::object_server& objServer,
-                               bool gpioInverted);
+                               bool gpioInverted, std::string gpioPinName);
 
     ~ChassisIntrusionGpioSensor() override;
 
   private:
     bool mGpioInverted{false};
-    std::string mPinName = "CHASSIS_INTRUSION";
+    std::string mPinName;
     gpiod::line mGpioLine;
     boost::asio::posix::stream_descriptor mGpioFd;
     int readSensor() override;
