@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83bde021_b343a4de",
+        "filename": "src/nvme/NVMeBasicContext.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-12-08T23:55:05Z",
+      "side": 1,
+      "message": "I\u0027m really confused here, we are casting a bool to a uint8_t?\n\nI see below that you set I2C_PEC, we shouldn\u0027t need to also attempt to calculate it in userspace?",
+      "revId": "f70dd1256b2d91f3a90e057eebbe1e2a5d0f5a7f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8bea046a_45219da9",
+        "filename": "src/nvme/NVMeBasicContext.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-12-08T23:55:05Z",
+      "side": 1,
+      "message": "This comment is no longer correct after your change.",
+      "range": {
+        "startLine": 160,
+        "startChar": 11,
+        "endLine": 160,
+        "endChar": 34
+      },
+      "revId": "f70dd1256b2d91f3a90e057eebbe1e2a5d0f5a7f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4bc935f2_d766d357",
+        "filename": "src/nvme/NVMeSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-12-08T23:55:05Z",
+      "side": 1,
+      "message": "We generally would model this as an enum, not a bool.\n\nPEC: Supported\nPEC: NotSupported\n\nMaybe?  That should also save you from having to make the new variant visitor type, which probably would\u0027ve been a warning that we were going off a little",
+      "range": {
+        "startLine": 111,
+        "startChar": 22,
+        "endLine": 111,
+        "endChar": 42
+      },
+      "revId": "f70dd1256b2d91f3a90e057eebbe1e2a5d0f5a7f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
