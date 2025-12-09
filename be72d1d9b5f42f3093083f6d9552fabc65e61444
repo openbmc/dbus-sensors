@@ -16,6 +16,23 @@
       "message": "Duplication doesn\u0027t exist as when the array element is assigned again, earlier object at that index will get destroyed. But, if earlier it was creating a new interface at same object path why it was not throwing an exception for duplication of dbus interface at the same object path.",
       "revId": "be72d1d9b5f42f3093083f6d9552fabc65e61444",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4ba5fcb_1d674761",
+        "filename": "src/fan/TachSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-12-09T21:08:56Z",
+      "side": 1,
+      "message": "Won\u0027t this just result in the new config not being applied?\n\nI\u0027m really not clear on how this can happen given that this is the TachSensor constructor, thresholdInterfaces hasn\u0027t been touched at this point.  Wheren you tested this were, you able to see this log?",
+      "revId": "be72d1d9b5f42f3093083f6d9552fabc65e61444",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
