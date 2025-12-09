@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7c89a8c_e7fafece",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-12-09T21:10:48Z",
+      "side": 1,
+      "message": "I think this is a leftover from the libdbus -\u003e sdbusplus port.  libdbus required checking these, sd-bus does not.",
+      "revId": "10097d13d4249c1fd49d069a8d217c06f74a0021",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
