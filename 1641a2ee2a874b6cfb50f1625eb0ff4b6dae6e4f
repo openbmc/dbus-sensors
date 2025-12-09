@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "90babd57_8b1aab01",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-12-09T21:07:47Z",
+      "side": 1,
+      "message": "SO the problem is ultimately that we don\u0027t have RAII on the interfaces, which is an understood problem.\n\nWe should be unregistering the threshold if it exists, not just aborting.",
+      "parentUuid": "edd541bb_70d10794",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 55
+      },
+      "revId": "1641a2ee2a874b6cfb50f1625eb0ff4b6dae6e4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "9ba008ed_64f47728",
@@ -113,6 +137,24 @@
       "side": 1,
       "message": "During BMC stress testing, sensor thresholds are frequently modified.\nEach modification causes dbus-sensors to reload the sensor and create a new D-Bus path.\nThis issue leads to a memory leak after repeated operations.\nTo avoid breaking the existing logic, we should first check whether the object already exists before calling the `add_interface` method on D-Bus.",
       "parentUuid": "32fb40e1_3ebbf3c7",
+      "revId": "1641a2ee2a874b6cfb50f1625eb0ff4b6dae6e4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1af4dad0_1d6c76bb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-12-09T21:07:47Z",
+      "side": 1,
+      "message": "\u003e During BMC stress testing, sensor thresholds are frequently modified.\n\n\nCan you be more specific than \"bmc stress testing\"?  What commands are being sent.\n\n\u003e This issue leads to a memory leak after repeated operations.\n\nIn the patchset above, I don\u0027t see where the leak is fixed.  Can you comment on the specific object that\u0027s leaking?\n\n\u003e To avoid breaking the existing logic, we should first check whether the object already exists before calling the add_interface method on D-Bus.\n\nGenerally we shouldn\u0027t, because there should be no path to create a duplicate object.",
+      "parentUuid": "7caabd13_23e3c89d",
       "revId": "1641a2ee2a874b6cfb50f1625eb0ff4b6dae6e4f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
