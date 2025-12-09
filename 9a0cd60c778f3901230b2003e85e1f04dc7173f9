@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ea82cd9d_d79c7d0c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002321
+      },
+      "writtenOn": "2025-12-09T13:16:56Z",
+      "side": 1,
+      "message": "Thanks for your review @ed@tanous.net!\n\nI was unsure if the GPIO Pin Name should be defined via a meson option or via entity-manager as there are other entities like the leak detector that also use the GPIO Pin Name from the device tree (which comes from entity-manager) [1][2].\n\nSo far, it seems that no other sensor defines something similar via meson options, wouldn\u0027t this add inconsistency across the sensor apps?\n\n[1] https://github.com/openbmc/entity-manager/blob/0c324888374388f6c268293eb65fcbe017183de8/schemas/leak_detector.json#L21\n[2] https://github.com/openbmc/dbus-sensors/blob/master/src/leakdetector/LeakDetectionManager.cpp#L136",
+      "parentUuid": "b1a4e266_b6c2bbd3",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 30
+      },
+      "revId": "9a0cd60c778f3901230b2003e85e1f04dc7173f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1b162f03_913d643e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
