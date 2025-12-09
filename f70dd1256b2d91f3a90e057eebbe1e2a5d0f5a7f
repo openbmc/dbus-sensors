@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b53a755b_de72a84b",
+        "filename": "src/nvme/NVMeBasicContext.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-12-09T03:33:58Z",
+      "side": 1,
+      "message": "Also, shouldn\u0027t this be a branch, where we only fill in pec if it\u0027s supported?  This looks like its just putting the bool at the end.",
+      "parentUuid": "83bde021_b343a4de",
+      "revId": "f70dd1256b2d91f3a90e057eebbe1e2a5d0f5a7f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8bea046a_45219da9",
         "filename": "src/nvme/NVMeBasicContext.cpp",
         "patchSetId": 6
