@@ -84,6 +84,7 @@ static constexpr auto sensorTypes = std::to_array<
     {"cffps3", I2CDeviceType{"cffps", true}},
     {"CRPS185", I2CDeviceType{"crps185", true}},
     {"DPS800", I2CDeviceType{"dps800", true}},
+    {"E50SN12051", I2CDeviceType{"e50sn12051", true}},
     {"INA219", I2CDeviceType{"ina219", true}},
     {"INA226", I2CDeviceType{"ina226", true}},
     {"INA230", I2CDeviceType{"ina230", true}},
