@@ -34,6 +34,24 @@
       "parentUuid": "0531b1a4_8a279bb3",
       "revId": "be72d1d9b5f42f3093083f6d9552fabc65e61444",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4074c8c5_ba6f1b7c",
+        "filename": "src/adc/ADCSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-12-10T10:51:14Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "af82ec99_dcc89080",
+      "revId": "be72d1d9b5f42f3093083f6d9552fabc65e61444",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
