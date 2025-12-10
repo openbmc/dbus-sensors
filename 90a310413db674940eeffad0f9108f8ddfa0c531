@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b38c0d47_008a7e70",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2025-12-10T13:32:03Z",
+      "side": 1,
+      "message": "HI @ed@tanous.net, I marked the comments resolved to follow the new review flow leveraged by Patrick. Please reopen as your will.",
+      "revId": "90a310413db674940eeffad0f9108f8ddfa0c531",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

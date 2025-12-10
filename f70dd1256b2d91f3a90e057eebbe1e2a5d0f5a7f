@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f03d541e_a199c0b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2025-12-10T13:32:03Z",
+      "side": 1,
+      "message": "Added.",
+      "parentUuid": "715e577e_2ba4f604",
+      "revId": "f70dd1256b2d91f3a90e057eebbe1e2a5d0f5a7f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "83bde021_b343a4de",
@@ -53,6 +71,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "597e4687_7518a834",
+        "filename": "src/nvme/NVMeBasicContext.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2025-12-10T13:32:03Z",
+      "side": 1,
+      "message": "\u003e I\u0027m really confused here, we are casting a bool to a uint8_t?\n\nThat is to bypass the CI failure [readability-implicit-bool-conversion,-warnings-as-errors]\n\n\u003e I see below that you set I2C_PEC, we shouldn\u0027t need to also attempt to calculate it in userspace?\n\nI\u0027m not following this, I don\u0027t think I\u0027m calculating PEC in userspace. This bool instructs execBasicQuery whether to set I2C_PEC.\n\n\u003e Also, shouldn\u0027t this be a branch, where we only fill in pec if it\u0027s supported? This looks like its just putting the bool at the end.\n\nOnly `encodeBasicQuery knows if PEC is supported for this sensor,`decodeBasicQuery` does not have the sensor info so they have to cooperate with an agreement that there\u0027s one smbusPEC byte in the data array of 7 bytes.",
+      "parentUuid": "b53a755b_de72a84b",
+      "revId": "f70dd1256b2d91f3a90e057eebbe1e2a5d0f5a7f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8bea046a_45219da9",
@@ -76,6 +112,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f49632c9_5eab221c",
+        "filename": "src/nvme/NVMeBasicContext.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2025-12-10T13:32:03Z",
+      "side": 1,
+      "message": "Updated.",
+      "parentUuid": "8bea046a_45219da9",
+      "range": {
+        "startLine": 160,
+        "startChar": 11,
+        "endLine": 160,
+        "endChar": 34
+      },
+      "revId": "f70dd1256b2d91f3a90e057eebbe1e2a5d0f5a7f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4bc935f2_d766d357",
@@ -89,6 +149,30 @@
       "writtenOn": "2025-12-08T23:55:05Z",
       "side": 1,
       "message": "We generally would model this as an enum, not a bool.\n\nPEC: Supported\nPEC: NotSupported\n\nMaybe?  That should also save you from having to make the new variant visitor type, which probably would\u0027ve been a warning that we were going off a little",
+      "range": {
+        "startLine": 111,
+        "startChar": 22,
+        "endLine": 111,
+        "endChar": 42
+      },
+      "revId": "f70dd1256b2d91f3a90e057eebbe1e2a5d0f5a7f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c35b905_a85d14db",
+        "filename": "src/nvme/NVMeSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2025-12-10T13:32:03Z",
+      "side": 1,
+      "message": "Pushed a change to update the existing schema https://gerrit.openbmc.org/c/openbmc/entity-manager/+/85901",
+      "parentUuid": "4bc935f2_d766d357",
       "range": {
         "startLine": 111,
         "startChar": 22,
