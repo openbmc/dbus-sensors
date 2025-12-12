@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5b3c7c26_9bd13074",
+        "filename": "src/adc/ADCSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-12-12T20:10:48Z",
+      "side": 1,
+      "message": "This looks like in itself a bug.  operator[] in c++ will create the entry if it doesn\u0027t exist, but will create with nullptr, so you probably want something like\n\n```\nstd::shared_ptr\u003c...\u003e threshold \u003d thresholdInterfaces[index];\nif (threshold !\u003d nullptr){\n   lg2::error(...);\n   continue;\n}\nthreshold \u003d objectServer.add_interface(...);\n```",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 39
+      },
+      "revId": "be72d1d9b5f42f3093083f6d9552fabc65e61444",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d4ba5fcb_1d674761",
         "filename": "src/fan/TachSensor.cpp",
         "patchSetId": 8
