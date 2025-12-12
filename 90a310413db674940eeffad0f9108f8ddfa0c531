@@ -56,6 +56,23 @@
       },
       "revId": "90a310413db674940eeffad0f9108f8ddfa0c531",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f4b9e31_b5bb9d07",
+        "filename": "src/nvme/NVMeBasicContext.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-12-12T19:03:12Z",
+      "side": 1,
+      "message": "Should an error here just return?  Failing to set PEC should be critical I would think, and if the drive requires it, this will just fail later?",
+      "revId": "90a310413db674940eeffad0f9108f8ddfa0c531",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
