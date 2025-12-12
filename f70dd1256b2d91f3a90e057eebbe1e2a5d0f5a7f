@@ -91,6 +91,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1b84f8e8_9144840a",
+        "filename": "src/nvme/NVMeBasicContext.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-12-12T18:58:44Z",
+      "side": 1,
+      "message": "\u003e That is to bypass the CI failure [readability-implicit-bool-conversion,-warnings-as-errors]\n\nRight, but the warning is correct, and unless I\u0027m missing something, it exposed a bug in the code.\n\n\u003e I\u0027m not following this, I don\u0027t think I\u0027m calculating PEC in userspace. \n\nYou are appending a byte to the command buffer that is sent.\n\n\u003e decodeBasicQuery` does not have the sensor info so they have to cooperate with an agreement that there\u0027s one smbusPEC byte in the data array of 7 bytes.\n\nThis is the problem.  The \"agreement\" needs to be in a struct somewhere, not just a magic byte at the end of the array.\n\nstruct {\n   std::array\u003cunit8_t, ...\u003e buf;\n   boolean pecRequred;\n};\n\nWould be my initial thought.",
+      "parentUuid": "597e4687_7518a834",
+      "revId": "f70dd1256b2d91f3a90e057eebbe1e2a5d0f5a7f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8bea046a_45219da9",
         "filename": "src/nvme/NVMeBasicContext.cpp",
         "patchSetId": 6
