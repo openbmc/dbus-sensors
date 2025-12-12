@@ -16,6 +16,46 @@
       "message": "HI @ed@tanous.net, I marked the comments resolved to follow the new review flow leveraged by Patrick. Please reopen as your will.",
       "revId": "90a310413db674940eeffad0f9108f8ddfa0c531",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b63c2bd5_b0ef62ab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-12-12T19:01:51Z",
+      "side": 1,
+      "message": "This looks pretty close to my eye.  Just needs the struct cleaned up then looks good to me.\n\nIdeally there\u0027d be some unit tests here for the pack/unpack routes, so please take that under advisement.",
+      "revId": "90a310413db674940eeffad0f9108f8ddfa0c531",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b11279d_7b97f630",
+        "filename": "src/nvme/NVMeBasicContext.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-12-12T19:01:51Z",
+      "side": 1,
+      "message": "See the other comment, this should be the new struct with the pec required boolean in it.  The warning that was bypassed on line 66 was pointing this out.",
+      "range": {
+        "startLine": 51,
+        "startChar": 23,
+        "endLine": 51,
+        "endChar": 45
+      },
+      "revId": "90a310413db674940eeffad0f9108f8ddfa0c531",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
