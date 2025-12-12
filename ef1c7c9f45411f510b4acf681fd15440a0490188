@@ -105,6 +105,23 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "72a90010_6ddb2bc3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002134
+      },
+      "writtenOn": "2025-12-12T09:54:59Z",
+      "side": 1,
+      "message": "Hi @patrick@stwcx.xyz, since this commit has been pending for quite a while, do you have any additional feedback or changes you’d like me to make?\nThank you very much.",
+      "revId": "ef1c7c9f45411f510b4acf681fd15440a0490188",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "361aa98d_7d8b66ba",
@@ -351,6 +368,24 @@
       "side": 1,
       "message": "\u003e If you mean a fan whose Target was set to 150, and the PWM is changed to 255 via the driver or an I2C command, then Value will show 100% (the new hardware PWM 255) while Target will still show 150.\n\nYes that\u0027s what I meant.\n\n\u003e In other words, only the Value follows the hardware value reported by the driver; the Target only changes when the user sets it via D-Bus.\n\nAs expected. Thanks.",
       "parentUuid": "766b7992_34ae076c",
+      "revId": "ef1c7c9f45411f510b4acf681fd15440a0490188",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f1625b2_d2b46aa6",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1002134
+      },
+      "writtenOn": "2025-12-12T09:54:59Z",
+      "side": 1,
+      "message": "Thank you for your feedback.",
+      "parentUuid": "e5b9cd0d_aa2ceb61",
       "revId": "ef1c7c9f45411f510b4acf681fd15440a0490188",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
