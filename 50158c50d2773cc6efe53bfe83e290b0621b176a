@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62dc54d6_bcc65f4b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-12-13T01:40:01Z",
+      "side": 1,
+      "message": "?  These paths don\u0027t look correct for several reasons.\n\n1. These are metrics, not inventory\n2. \"network_adapters\" is not a known namespace in inventory, it\u0027s a type.\n3. \"Ports\" is also not a namespace.\n4. \"network\" is also not a namespace.\n\nAs written this is splitting these across N dbus paths, which will be VERY inefficient to query.",
+      "range": {
+        "startLine": 93,
+        "startChar": 0,
+        "endLine": 93,
+        "endChar": 133
+      },
+      "revId": "50158c50d2773cc6efe53bfe83e290b0621b176a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
