@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f9510f6_8ea8ec01",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-12-15T19:53:54Z",
+      "side": 1,
+      "message": "\u003e The lambda in the implementation captures a reference to that stack object\n\nThe previous code was\n\n```\n    dev-\u003esetup([weak{weak_from_this()},\n                dev](const std::error_code\u0026 ec,\n                     const std::shared_ptr\u003cMCTPEndpoint\u003e\u0026 ep) mutable {\n```\n\nboth weak and dev are captured by value, not reference, so I don\u0027t understand the response.  You can make a copy of a shared/weak pointer by const reference.\n\nAnywho, this patch is fine, I just suspect there\u0027s some other lifetime issue somewhere.",
+      "parentUuid": "68851913_634ef49c",
+      "range": {
+        "startLine": 9,
+        "startChar": 57,
+        "endLine": 10,
+        "endChar": 43
+      },
+      "revId": "0fd576340b97b0c9bc862ea158ca4861262e8574",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "94719670_ac36d30d",
