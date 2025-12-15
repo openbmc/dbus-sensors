@@ -61,7 +61,7 @@
 #include <variant>
 #include <vector>
 
-static std::regex i2cDevRegex(R"((\/i2c\-\d+\/\d+-[a-fA-F0-9]{4,4})(\/|$))");
+static std::regex devRegex(R"((\/i[23]c\-\d+\/\d+-[a-fA-F0-9]{4,4})(\/|$))");
 
 static const I2CDeviceTypeMap sensorTypes{
     {"ADC128D818", I2CDeviceType{"adc128d818", true}},
@@ -376,7 +376,7 @@ static void createSensorsCallback(
                 std::filesystem::canonical(directory / "device");
             std::smatch match;
             // Find /i2c-<bus>/<bus>-<address> match in device path
-            std::regex_search(devicePath, match, i2cDevRegex);
+            std::regex_search(devicePath, match, devRegex);
             if (match.empty())
             {
                 lg2::error("Found bad device path: '{PATH}'", "PATH",
