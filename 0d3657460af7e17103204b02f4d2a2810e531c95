@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ea22b39_ac04f29f",
+        "filename": "src/adc/ADCSensorMain.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-12-15T17:52:24Z",
+      "side": 1,
+      "message": "There was in one variation of this patch, but yes, this isn\u0027t needed now that getConfiguration has been ported to take string_view.\n\nFixed",
+      "parentUuid": "178ebd88_cf35e747",
+      "revId": "0d3657460af7e17103204b02f4d2a2810e531c95",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de3fa37c_33ec2caa",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-12-14T22:38:37Z",
       "side": 1,
       "message": "same here. If a vector is required here, can we update it to take a range or iterators or span?",
+      "revId": "0d3657460af7e17103204b02f4d2a2810e531c95",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0dc7db43_03e42531",
+        "filename": "src/external/ExternalSensorMain.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-12-15T17:52:24Z",
+      "side": 1,
+      "message": "This is different, but I\u0027ve moved this to be constexpr std::array.  getConfiguration (as of the patch a few days ago) now supports span of string_view.\n\nFixed",
+      "parentUuid": "de3fa37c_33ec2caa",
       "revId": "0d3657460af7e17103204b02f4d2a2810e531c95",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -52,6 +88,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "318f1f78_1a131a5b",
+        "filename": "src/external/ExternalSensorMain.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-12-15T17:52:24Z",
+      "side": 1,
+      "message": "Yes.... this is a bug.  Fixed.",
+      "parentUuid": "a4ddca6a_bb8ff75c",
+      "revId": "0d3657460af7e17103204b02f4d2a2810e531c95",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b5a4de94_b8aae38f",
@@ -65,6 +119,24 @@
       "writtenOn": "2025-12-14T22:38:37Z",
       "side": 1,
       "message": "same here, why can\u0027t we do this at constexpr?",
+      "revId": "0d3657460af7e17103204b02f4d2a2810e531c95",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8d7ce03_536947ba",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-12-15T17:52:24Z",
+      "side": 1,
+      "message": "Two answers to \"why not\"\n1. We don\u0027t on master today, so I made the most surgical change here I could.\n2. I don\u0027t know of a way to convert a std::array\u003cstd::pair\u003c...\u003e\u003e into an array of string view at compile time (although it might be possible now that we have constexpr vector in c++23)\n\nIf you do, please give me a code snippet, and I can do that.",
+      "parentUuid": "b5a4de94_b8aae38f",
       "revId": "0d3657460af7e17103204b02f4d2a2810e531c95",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
