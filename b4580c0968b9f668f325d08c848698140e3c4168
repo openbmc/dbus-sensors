@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03b8a70e_254b7e32",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 27
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-12-15T17:29:18Z",
+      "side": 1,
+      "message": "this and the following index math is difficult to grok. looks to me like this could be simplified somewhat by defining a couple of structs.\n\n```\nstruct port_header\n{\n    ocp::accelerator_management::CommonResponse;\n    uint16_t whatever_this_is;\n} __attribute__((packed));\n\nstruct port_data\n{\n    uint8_t isInternal;\n    uint8_t downstreamPorts;\n} __attribute__((packed))\n\n// ....\n\nsize_t offset \u003d sizeof(port_header) + i * sizeof(port_data);\nif (offset + sizeof(port_data)) \u003e buf.size())\n{\n    return EINVAL;\n}\n\nstruct port_data data;\nstd::memcpy(\u0026data, \u0026buf[offset], sizeof(data));\n\nif (data.isInternal \u003d\u003d 0)\n{\n    ++numUpstreamPorts;\n    numDownStreamPorts.push_back(downstreamPorts);\n}\n```\n\nyou could also just keep an iterator and use std::distance to buf.end() instead",
+      "revId": "b4580c0968b9f668f325d08c848698140e3c4168",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e7479a2_f8a716b8",
+        "filename": "src/nvidia-gpu/NvidiaPcieDevice.cpp",
+        "patchSetId": 27
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-12-15T17:29:18Z",
+      "side": 1,
+      "message": "nit, follow-on is fine. same as a previous review. This can encoded at construction or even compile time.",
+      "revId": "b4580c0968b9f668f325d08c848698140e3c4168",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0b46f22_3fb78831",
+        "filename": "src/nvidia-gpu/NvidiaPcieDevice.cpp",
+        "patchSetId": 27
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-12-15T17:29:18Z",
+      "side": 1,
+      "message": "you can\u0027t dereference self here, you\u0027ve just explicitly proven that its not valid. You can capture eid by value. This is a blocking problem.",
+      "revId": "b4580c0968b9f668f325d08c848698140e3c4168",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "087f6dac_396a9960",
+        "filename": "src/nvidia-gpu/NvidiaPciePort.cpp",
+        "patchSetId": 27
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-12-15T17:29:18Z",
+      "side": 1,
+      "message": "same feedback here, you can\u0027t deref self, you\u0027ve just explicitly proven its been released. This is a blocking problem.",
+      "revId": "b4580c0968b9f668f325d08c848698140e3c4168",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
