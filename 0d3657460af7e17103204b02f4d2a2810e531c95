@@ -195,6 +195,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "15b7e0b4_09b2c781",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-12-15T18:53:56Z",
+      "side": 1,
+      "message": "\u003e this is relatively advanced template-fu\n\nExactly.  For code that\u0027s a single malloc of a small data structure done only at configure time, and not in the hot loop, I have a strong preference for what\u0027s here given it\u0027s simpler to read and reason about.  I do suspect that you could do this in a consteval method and keep it both simple and constexpr, but that\u0027s a follow on.\n\nIf this were in a hot loop and we should show that mallocs were causing performance issues, I\u0027d be all for template-fu.",
+      "parentUuid": "8a8e76c0_f6f74075",
+      "revId": "0d3657460af7e17103204b02f4d2a2810e531c95",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "519d2937_3264250d",
