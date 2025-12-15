@@ -143,6 +143,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0820e2d9_4d459a9e",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-12-15T18:10:56Z",
+      "side": 1,
+      "message": "https://godbolt.org/z/aEP3TaYb5\n\nthis seems to roughly do it with index_sequences.",
+      "parentUuid": "c8d7ce03_536947ba",
+      "revId": "0d3657460af7e17103204b02f4d2a2810e531c95",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "519d2937_3264250d",
         "filename": "src/intrusion/IntrusionSensorMain.cpp",
         "patchSetId": 10
