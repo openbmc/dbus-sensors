@@ -63,6 +63,57 @@
       "message": "This needs rework to match updated PDIs (please review the PDIs).",
       "revId": "50158c50d2773cc6efe53bfe83e290b0621b176a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3edca90_0797e888",
+        "filename": "src/nvidia-gpu/NvidiaEthPort.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-12-15T17:34:00Z",
+      "side": 1,
+      "message": "you can\u0027t dereference self here, you\u0027ve just proven its invalid. If you want this logging, capture the variables by value. This is blocking.",
+      "revId": "50158c50d2773cc6efe53bfe83e290b0621b176a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7cbbf192_c1e9526e",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 718,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-12-15T17:34:00Z",
+      "side": 1,
+      "message": "we can\u0027t use sizeof(portNumber) here?",
+      "revId": "50158c50d2773cc6efe53bfe83e290b0621b176a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cee7750f_f2d14a1f",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 783,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-12-15T17:34:00Z",
+      "side": 1,
+      "message": "same feedback here, sizeof(portNumber)",
+      "revId": "50158c50d2773cc6efe53bfe83e290b0621b176a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
