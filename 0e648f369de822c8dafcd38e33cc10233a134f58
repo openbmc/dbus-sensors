@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db79a2dc_91e58a8e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002253
+      },
+      "writtenOn": "2025-12-15T09:54:35Z",
+      "side": 1,
+      "message": "Has this been tested with a BMC reboot? After applying this patch, I observed a large number of redundant log messages following a BMC reboot. When powerStateChanged is triggered, it calls deactivate(), which invokes markAvailable(false). This sets the `Available` property to false, and its set callback updates the sensor value to `NaN`, which in turn triggers this event. I believe this event should only be triggered when a sensor reports an invalid reading, not when the sensor is intentionally deactivated due to a power state change.",
+      "revId": "0e648f369de822c8dafcd38e33cc10233a134f58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "743267e9_2f815264",
