@@ -179,6 +179,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8a8e76c0_f6f74075",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2025-12-15T18:13:50Z",
+      "side": 1,
+      "message": "This also requires the compiler to generate N template instantiations of extractFirstImpl afaict, maybe we don\u0027t care about that, since its in a cpp file, but its the sort of thing that leads to compile time bloat.",
+      "parentUuid": "2e74f777_306d88a3",
+      "revId": "0d3657460af7e17103204b02f4d2a2810e531c95",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "519d2937_3264250d",
         "filename": "src/intrusion/IntrusionSensorMain.cpp",
         "patchSetId": 10
