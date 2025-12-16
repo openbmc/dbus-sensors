@@ -82,6 +82,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "20ba34a3_a62e17af",
+        "filename": "src/nvidia-gpu/NvidiaEthPort.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-12-16T13:05:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3edca90_0797e888",
+      "revId": "50158c50d2773cc6efe53bfe83e290b0621b176a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7cbbf192_c1e9526e",
@@ -99,6 +117,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7312abcf_5c457675",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 718,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-12-16T13:05:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cbbf192_c1e9526e",
+      "revId": "50158c50d2773cc6efe53bfe83e290b0621b176a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cee7750f_f2d14a1f",
@@ -112,6 +148,24 @@
       "writtenOn": "2025-12-15T17:34:00Z",
       "side": 1,
       "message": "same feedback here, sizeof(portNumber)",
+      "revId": "50158c50d2773cc6efe53bfe83e290b0621b176a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0794db78_f9db1f48",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 783,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-12-16T13:05:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cee7750f_f2d14a1f",
       "revId": "50158c50d2773cc6efe53bfe83e290b0621b176a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
