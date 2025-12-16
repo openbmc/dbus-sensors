@@ -72,6 +72,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "8104a0ad_87a76b68",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2025-12-16T07:50:19Z",
+      "side": 1,
+      "message": "The stress test uses a simple script that repeatedly modifies threshold values in entity-manager, which causes dbus-sensors to repeatedly destroy and recreate threshold interfaces.\n\nAfter many create/destroy iterations, VmRSS occasionally increases. This correlates with duplicate interface creation for the same severity, where only one instance is tracked and cleaned up.\n\nThe fix prevents duplicate add_interface() calls and avoids this repeated reconstruction issue.",
+      "parentUuid": "90babd57_8b1aab01",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 55
+      },
+      "revId": "1641a2ee2a874b6cfb50f1625eb0ff4b6dae6e4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "9ba008ed_64f47728",
