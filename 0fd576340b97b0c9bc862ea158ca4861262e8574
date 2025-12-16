@@ -98,6 +98,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "122db0f7_ab0b5719",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-12-16T00:05:10Z",
+      "side": 1,
+      "message": "\u003e both weak and dev are captured by value, not reference, so I don\u0027t understand the response.\n\nAh, so I think my understanding was a bit too C-brained with treating references like a pointer rather than an alias for the object. Under the latter perspective passing by-value copies the underlying object rather than the \"reference\", which matches what you\u0027re describing.\n\nI was trying to eliminate memory corruption as the source of an observation that ended with errors from the sd_bus APIs, but it turned out to be something else entirely. As such I\u0027m not aware of further lifetime issues, but given their elusiveness I won\u0027t go so far as to say that there aren\u0027t any 😊\n\nI\u0027ll tweak the commit message to remove this bit of the discussion.",
+      "parentUuid": "dee92b93_4edaae86",
+      "range": {
+        "startLine": 9,
+        "startChar": 57,
+        "endLine": 10,
+        "endChar": 43
+      },
+      "revId": "0fd576340b97b0c9bc862ea158ca4861262e8574",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "94719670_ac36d30d",
         "filename": "src/mctp/MCTPReactor.cpp",
         "patchSetId": 2
