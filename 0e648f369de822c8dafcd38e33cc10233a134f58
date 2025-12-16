@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9a10b48e_666bfa43",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002528
+      },
+      "writtenOn": "2025-12-16T06:53:36Z",
+      "side": 1,
+      "message": "Hi, Kevin\nSorry for the late reply.\n\nIn patch set 6, I have added a check to check the power state from the entity-manager to report events. I believe this can accurately reflect the sensor event reporting.\n\nSince dbus-sensors deploys multiple types of sensor daemons, each with slightly different handling methods, it is necessary to individually inspect any unexpected event reporting issues.\n\nFrom the feedback from our testing team and yours, there are currently three types of sensors that report events during AC or reboot:\n\n1. Virtual sensor:\nThe event reporting has been removed.\nhttps://gerrit.openbmc.org/c/openbmc/phosphor-virtual-sensor/+/84151\n\n2. SmbpbiSensor:\nAfter analyzing the logs, the sensor events are triggered after the host is powered on, which matches the expected \"PowerState\" setting to \"on\". I think there may be issues with sensor readings after the power state changes to \"on\", and I am continuing to track this issue.\n\n3. HwmonSensor:\nI believe this issue is similar to the one you mentioned with the PSU sensor. The problem with this sensor event reporting occurs because after creating the hwmon through eventHandler, the sensor created was not removed from sensorsChanged, causing the next time the eventHandler calls createSensors, the sensor gets deactivated, and a new sensor is created for updating, which is an unnecessary behavior.\n\nTherefore, with this type of sensor, we only see the InvalidSensorReading event in the logs, without the SensorRestored event.\nI have committed a patch to fix this issue: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/85641\n\nAlso, I’d like to understand what actions trigger the PSU sensor event that you mentioned?\n\nIf you have any comments or better suggestions, feel free to share them for further discussion. Thank you.",
+      "parentUuid": "9f1dbf3a_531b78fb",
+      "revId": "0e648f369de822c8dafcd38e33cc10233a134f58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "743267e9_2f815264",
         "filename": "src/sensor.hpp",
         "patchSetId": 6
