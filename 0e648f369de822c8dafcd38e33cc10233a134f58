@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5a0af91b_dbdd55d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002253
+      },
+      "writtenOn": "2025-12-16T08:04:33Z",
+      "side": 1,
+      "message": "@kimi.zy.chen@fii-foxconn.com I think the issue we observed with PSUSensor is the same as the one you encountered with HwmonSensor. Simply rebooting the BMC is sufficient to trigger the PSUSensor event on my side.",
+      "parentUuid": "9a10b48e_666bfa43",
+      "revId": "0e648f369de822c8dafcd38e33cc10233a134f58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "743267e9_2f815264",
         "filename": "src/sensor.hpp",
         "patchSetId": 6
