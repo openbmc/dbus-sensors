@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9f1dbf3a_531b78fb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002253
+      },
+      "writtenOn": "2025-12-16T02:47:40Z",
+      "side": 1,
+      "message": "Furthermore, I observed that shortly after BMC boot, the PSUSensor `eventHandler` [1] is triggered even after the sensors have already been created. When this occurs, the `eventHandler` calls `createSensors()` with `sensorsChanged`, which first destroys the existing sensors via `~PSUSensor()`.\n\nDuring destruction, `~PSUSensor()` invokes `PSUSensor::deactivate()`, setting the Available property to `false`. If the sensor was previously `Available \u003d\u003d true`, the Available property setter updates the sensor value to `NaN`. This update then triggers the “Sensor Invalid Reading” logging mechanism for `non-always sensors` (as described in this patch), resulting in redundant log messages after BMC boot.\n\n[1] https://github.com/openbmc/dbus-sensors/blob/6ef897399d8c2fb9f005b0c0d0ba3f9bd115965f/src/psu/PSUSensorMain.cpp#L1175",
+      "parentUuid": "db79a2dc_91e58a8e",
+      "revId": "0e648f369de822c8dafcd38e33cc10233a134f58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "743267e9_2f815264",
         "filename": "src/sensor.hpp",
         "patchSetId": 6
