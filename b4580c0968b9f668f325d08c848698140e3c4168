@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "737bda1b_ea59c996",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 27
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-12-16T13:04:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03b8a70e_254b7e32",
+      "revId": "b4580c0968b9f668f325d08c848698140e3c4168",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8e7479a2_f8a716b8",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-12-15T17:29:18Z",
       "side": 1,
       "message": "nit, follow-on is fine. same as a previous review. This can encoded at construction or even compile time.",
+      "revId": "b4580c0968b9f668f325d08c848698140e3c4168",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b8296ed_eb531893",
+        "filename": "src/nvidia-gpu/NvidiaPcieDevice.cpp",
+        "patchSetId": 27
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-12-16T13:04:04Z",
+      "side": 1,
+      "message": "I will fix this in a follow up.",
+      "parentUuid": "8e7479a2_f8a716b8",
       "revId": "b4580c0968b9f668f325d08c848698140e3c4168",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -52,6 +88,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f54d22d4_21664b7b",
+        "filename": "src/nvidia-gpu/NvidiaPcieDevice.cpp",
+        "patchSetId": 27
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-12-16T13:04:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0b46f22_3fb78831",
+      "revId": "b4580c0968b9f668f325d08c848698140e3c4168",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "087f6dac_396a9960",
@@ -65,6 +119,24 @@
       "writtenOn": "2025-12-15T17:29:18Z",
       "side": 1,
       "message": "same feedback here, you can\u0027t deref self, you\u0027ve just explicitly proven its been released. This is a blocking problem.",
+      "revId": "b4580c0968b9f668f325d08c848698140e3c4168",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "499d3aea_e59dffd1",
+        "filename": "src/nvidia-gpu/NvidiaPciePort.cpp",
+        "patchSetId": 27
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2025-12-16T13:04:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "087f6dac_396a9960",
       "revId": "b4580c0968b9f668f325d08c848698140e3c4168",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
