@@ -241,6 +241,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bb83110d_e1260266",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-12-17T18:08:17Z",
+      "side": 1,
+      "message": "Is your suggestion that we move ADC128D818 to ... HWMonTemp instead?\n\n```\n$ rg ADC128            \nsrc/psu/PSUSensorMain.cpp\n67:    {\"ADC128D818\", I2CDeviceType{\"adc128d818\", true}},\n```\n\n\nThis would require changes back in entity-manager to migrate that chip specifically from PSUSensor to hwmon.",
+      "parentUuid": "ef0c519a_9a02ebc2",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 50
+      },
+      "revId": "5b2187d012c2f98e38c37a80ffc17ed4a15a7dda",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c75ab0c1_3e188fb9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
