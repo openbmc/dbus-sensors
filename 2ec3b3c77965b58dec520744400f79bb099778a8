@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2ff3e0c_36a457b4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 29
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-12-17T16:00:01Z",
+      "side": 1,
+      "message": "Verified that inventory paths are looking as @ed@tanous.net expected; we could have probably had the string \"port\" in the last segement in addition to down_0/up_0, but that\u0027s just a nit.",
+      "revId": "2ec3b3c77965b58dec520744400f79bb099778a8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
