@@ -127,6 +127,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c62b26cf_72540f76",
+        "filename": "src/nvme/NVMeBasicContext.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-12-17T18:30:34Z",
+      "side": 1,
+      "message": "The confusion is that PEC itself is added at the end of the buffer on the wire.  yes, I didn\u0027t realize this was being sent through a socket to a thread, but we really should have some indication somewhere of what the struct is even if just a comment on the definition of the std::array to denote that there\u0027s multiple data structures within the one buffer.\n\nBut yes, I do think a struct would be better.  Doesn\u0027t need to be packed, right?  We\u0027re sending from within the process, any packing would be identical?",
+      "parentUuid": "543c523b_1eba0dc7",
+      "revId": "f70dd1256b2d91f3a90e057eebbe1e2a5d0f5a7f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8bea046a_45219da9",
         "filename": "src/nvme/NVMeBasicContext.cpp",
         "patchSetId": 6
