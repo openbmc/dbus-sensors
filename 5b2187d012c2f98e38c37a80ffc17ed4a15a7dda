@@ -265,6 +265,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "acf0f2c5_c8dbaf24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-12-17T18:24:43Z",
+      "side": 1,
+      "message": "Yes, I understand this path would require two patchsets not one.  I just want to understand if the thought of PSUSensor \u003d pmbus, hwmon \u003d hwmon was considered when this change was made, and if that weighs into adding features that only need to exist because that categorization wasn\u0027t groked here.\n\nWhen I review devices, I have to mostly assume folks added them to the right application because I don\u0027t have time to look up every datasheet.  I did in this case and this doesn\u0027t look like a pmbus device.\n\nYes, the compatibility of configs is a concern, but in theory removing the type from psusensor and adding to hwmon should be accomplishable.  Whether it\u0027s worth it idk, I just want to understand the thought process;  We should probably get the distinction documented somewhere so that we don\u0027t end up in this situation again.",
+      "parentUuid": "bb83110d_e1260266",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 50
+      },
+      "revId": "5b2187d012c2f98e38c37a80ffc17ed4a15a7dda",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c75ab0c1_3e188fb9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
