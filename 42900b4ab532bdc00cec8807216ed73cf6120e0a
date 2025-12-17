@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c884245_8d19ee3d",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-12-17T13:08:58Z",
+      "side": 1,
+      "message": "Do we actually need 2 different regexes?  Can\u0027t we just use `i[23]c`?",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 77
+      },
+      "revId": "42900b4ab532bdc00cec8807216ed73cf6120e0a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
