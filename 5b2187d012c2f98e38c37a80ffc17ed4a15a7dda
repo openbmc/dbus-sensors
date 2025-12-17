@@ -167,6 +167,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bc87251_619aa544",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-12-17T13:00:15Z",
+      "side": 1,
+      "message": "I believe this is resolved.  @ed@tanous.net, if you want some specific changes to the commit message, please let the author know.",
+      "parentUuid": "65664964_11dc4c27",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 50
+      },
+      "revId": "5b2187d012c2f98e38c37a80ffc17ed4a15a7dda",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c75ab0c1_3e188fb9",
@@ -180,6 +204,30 @@
       "writtenOn": "2025-10-27T17:33:25Z",
       "side": 1,
       "message": "Same as above, this is per-device, not global",
+      "range": {
+        "startLine": 20,
+        "startChar": 18,
+        "endLine": 20,
+        "endChar": 24
+      },
+      "revId": "5b2187d012c2f98e38c37a80ffc17ed4a15a7dda",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f50f43b_64d3020d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-12-17T13:00:15Z",
+      "side": 1,
+      "message": "@peter.yin@quantatw.com - It looks like Ed is asking for a minor change to the commit message here.  Whenever you\u0027ve said \"global\", the code seems to actually support a PollRate property from the EM config to support per-device intervals already.  So it isn\u0027t a global rate.",
+      "parentUuid": "c75ab0c1_3e188fb9",
       "range": {
         "startLine": 20,
         "startChar": 18,
