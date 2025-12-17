@@ -217,6 +217,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ef0c519a_9a02ebc2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-12-17T17:29:21Z",
+      "side": 1,
+      "message": "Actually, read through again, the question about PSUSensor vs HWMonTempSensor doesn\u0027t seem to be answered.  ADC128D818 looks like this device was added to the PSUSensor backend (application meant for PMBus) instead of being added to HWmonTemp sensor.  PMBus devices are expected to have one poll rate due to being paged, that\u0027s why only one is allowed.  Hwmon devices are intended to be polled independently, which is why it includes multiple poll rates.\n\nThose two applications are used interchangeably because the kernel abstracts all the readings away from userspace, but I suspect that\u0027s the root of the issue here.",
+      "parentUuid": "53ffc5c1_e14df54a",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 50
+      },
+      "revId": "5b2187d012c2f98e38c37a80ffc17ed4a15a7dda",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c75ab0c1_3e188fb9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
