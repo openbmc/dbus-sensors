@@ -93,6 +93,30 @@
       },
       "revId": "2c60558a826c02a4953690e9104c613d6746435d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7c1e832_6e7b76a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-12-17T18:26:49Z",
+      "side": 1,
+      "message": "commit message still doesn\u0027t call out why adding pollrates for properties that exist on the same pmbus page make sense.  Discussion below seems to have uncovered that these aren\u0027t pmbus devices at all, so probably shouldn\u0027t have been put in psusensor to begin with.  Ideally that would\u0027ve been resolved in this comment instead of just marking it done, but oh well, lets make progress.",
+      "parentUuid": "cb9fee49_003d07b5",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 41
+      },
+      "revId": "2c60558a826c02a4953690e9104c613d6746435d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
