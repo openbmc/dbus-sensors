@@ -145,6 +145,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0fd315a1_b4795e6a",
+        "filename": "src/nvme/NVMeBasicContext.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-12-18T05:31:16Z",
+      "side": 1,
+      "message": "Okay, I had to go chase it up, but padding merely has _unspecified_ behaviour if accessed as opposed to _undefined_ behaviour. So yes, it\u0027s not critical that the struct is packed, we could memcpy() or write() the object data as necessary.\n\nWe could equally define a static object for an SPSC queue and pass pointers via uintptr_t. Plenty of ways to solve the problem, though I was simply deferring to the pipe to handle the buffer and ordering.",
+      "parentUuid": "c62b26cf_72540f76",
+      "revId": "f70dd1256b2d91f3a90e057eebbe1e2a5d0f5a7f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8bea046a_45219da9",
         "filename": "src/nvme/NVMeBasicContext.cpp",
         "patchSetId": 6
