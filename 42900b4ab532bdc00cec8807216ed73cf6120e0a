@@ -22,6 +22,30 @@
       },
       "revId": "42900b4ab532bdc00cec8807216ed73cf6120e0a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34f12cbf_2328964d",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1002734
+      },
+      "writtenOn": "2025-12-18T03:37:15Z",
+      "side": 1,
+      "message": "Code updated to use i[23]c.",
+      "parentUuid": "3c884245_8d19ee3d",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 77
+      },
+      "revId": "42900b4ab532bdc00cec8807216ed73cf6120e0a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
