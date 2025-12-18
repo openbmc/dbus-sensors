@@ -283,7 +283,9 @@ struct Sensor
             // Manager config), these sensors are expected to become invalid,
             // and we will ignore their sensor event reporting. This helps avoid
             // seeing redundant sensor events during power operations.
-            if (!readingStateGood())
+            if (!readingStateGood() ||
+                configInterface ==
+                    "xyz.openbmc_project.Configuration.SmbpbiVirtualEeprom")
             {
                 return 1;
             }
