@@ -6,6 +6,8 @@ from hwmon, d-bus, or direct driver access to provide readings. Some advance
 non-sensor features such as fan presence, pwm control, and automatic cpu
 detection (x86) are also supported.
 
+testing the hook for change-id!
+
 ## key features
 
 - runtime re-configurable from d-bus (entity-manager or the like)
