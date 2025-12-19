@@ -351,8 +351,25 @@ void SmbpbiSensor::waitReadCallback(const boost::system::error_code& ec)
 
     if (ret >= 0)
     {
-        lg2::debug("Value update to {TEMP}", "TEMP", temp);
-        updateValue(temp);
+        // Update value when either:
+        // 1) the sensor name is NOT one of the HGX GPU energy sensors (always update),
+        // OR
+        // 2) the sensor IS one of the HGX GPU energy sensors AND the read value (temp) is non-zero.
+        //
+        // Rationale: some HGX GPU energy sensors may return 0 as an invalid/unreliable reading;
+        // we skip updates for those zero readings but allow updates for non-GPU sensors even if zero.
+        if ((name != "HGX_GPU0_ENERGY_J" &&
+             name != "HGX_GPU1_ENERGY_J" &&
+             name != "HGX_GPU2_ENERGY_J" &&
+             name != "HGX_GPU3_ENERGY_J") ||
+           ( name == "HGX_GPU0_ENERGY_J" && temp != 0) ||
+           ( name == "HGX_GPU1_ENERGY_J" && temp != 0) ||
+           ( name == "HGX_GPU2_ENERGY_J" && temp != 0) ||
+           ( name == "HGX_GPU3_ENERGY_J" && temp != 0))
+        {
+            lg2::debug("Value update to {TEMP}", "TEMP", temp);
+            updateValue(temp);
+        }
     }
     else
     {
