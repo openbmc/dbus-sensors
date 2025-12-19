@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "902c4d68_9602eb62",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002520
+      },
+      "writtenOn": "2025-12-19T02:30:15Z",
+      "side": 1,
+      "message": "I retested this patch on the latest codebase, and it works as expected.",
+      "revId": "19dddae37d3a334784083de92b649dd56302d64b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
