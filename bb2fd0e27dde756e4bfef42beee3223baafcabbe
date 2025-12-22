@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3122097_954383e3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002520
+      },
+      "writtenOn": "2025-12-22T12:50:13Z",
+      "side": 1,
+      "message": "Tested again on the Ventura platform, and it works fine.",
+      "revId": "bb2fd0e27dde756e4bfef42beee3223baafcabbe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "74dbb933_f199db3f",
