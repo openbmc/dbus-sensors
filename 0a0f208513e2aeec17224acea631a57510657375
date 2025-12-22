@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc650879_e15100a6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002520
+      },
+      "writtenOn": "2025-12-22T12:56:15Z",
+      "side": 1,
+      "message": "Tested change 83809 on top of change 82574. Works as expected.",
+      "revId": "0a0f208513e2aeec17224acea631a57510657375",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
