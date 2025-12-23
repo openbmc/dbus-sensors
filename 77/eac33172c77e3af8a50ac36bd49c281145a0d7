@@ -1,0 +1,9 @@
+Code-Review+1: Amithash Prasad <amithash@meta.com>
+Code-Review+1: Eldin Lee <eldin.lee@quantatw.com>
+Verified+1: OpenBMC CI <openbmcbump-ci@yahoo.com>
+Code-Review+2: Jagpal S Gill <paligill@gmail.com>
+Submitted-by: Jagpal S Gill <paligill@gmail.com>
+Submitted-at: Tue, 23 Dec 2025 05:34:55 +0000
+Reviewed-on: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/83804
+Project: openbmc/dbus-sensors
+Branch: refs/heads/master
