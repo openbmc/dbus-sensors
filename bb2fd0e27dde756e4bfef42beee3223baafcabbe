@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f5bd803_eaafc3d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-12-23T17:15:47Z",
+      "side": 1,
+      "message": "I don\u0027t see the inventory item in your below testing?",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 31
+      },
+      "revId": "bb2fd0e27dde756e4bfef42beee3223baafcabbe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "f3122097_954383e3",
@@ -20,6 +43,114 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3cc0e73b_6a32035e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-12-23T17:15:47Z",
+      "side": 1,
+      "message": "Overall in support of this feature, I do wonder why we\u0027re making a new application, given that going GPIO -\u003e Dbus interface is essentially the same thing Leak detectors do, just with a few different interfaces.  was that considered?",
+      "revId": "bb2fd0e27dde756e4bfef42beee3223baafcabbe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8228b60_d2330439",
+        "filename": "src/GPIOInterface.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-12-23T17:15:47Z",
+      "side": 1,
+      "message": "I suspect it would be better to split these into two objects, OutputInterface and InputInterface.  Having a single object and tracking a bool to determine what mode its in seems like more trouble than it\u0027s worth in terms of interfaces (evidence by now needing to add if(!inputMode) below.)",
+      "revId": "bb2fd0e27dde756e4bfef42beee3223baafcabbe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e810797_d6b37262",
+        "filename": "src/GPIOInterface.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-12-23T17:15:47Z",
+      "side": 1,
+      "message": "As written, don\u0027t all of these need inputMode checks?  See comment above about splitting up things.",
+      "revId": "bb2fd0e27dde756e4bfef42beee3223baafcabbe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a35e90ac_b235a56c",
+        "filename": "src/valve-monitor/GPIOValve.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-12-23T17:15:47Z",
+      "side": 1,
+      "message": "You have two interfaces that inherit from associations?",
+      "range": {
+        "startLine": 37,
+        "startChar": 5,
+        "endLine": 37,
+        "endChar": 70
+      },
+      "revId": "bb2fd0e27dde756e4bfef42beee3223baafcabbe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2188fa6_0f5e7d75",
+        "filename": "src/valve-monitor/GPIOValve.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-12-23T17:15:47Z",
+      "side": 1,
+      "message": "Why are these two separate with multiple inheritance?  SHouldn\u0027t they both be in the same object?",
+      "revId": "bb2fd0e27dde756e4bfef42beee3223baafcabbe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "964d4fe5_08068768",
+        "filename": "src/valve-monitor/GPIOValve.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-12-23T17:15:47Z",
+      "side": 1,
+      "message": "?",
+      "revId": "bb2fd0e27dde756e4bfef42beee3223baafcabbe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "74dbb933_f199db3f",
         "filename": "src/valve-monitor/GPIOValve.hpp",
         "patchSetId": 11
@@ -31,6 +162,69 @@
       "writtenOn": "2025-12-20T03:13:34Z",
       "side": 1,
       "message": "this seems like we should specify the type of state, why aren\u0027t we?",
+      "revId": "bb2fd0e27dde756e4bfef42beee3223baafcabbe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0c65bb8_f565642c",
+        "filename": "src/valve-monitor/Readme.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-12-23T17:15:47Z",
+      "side": 1,
+      "message": "1. We generally don\u0027t use bools\n2. We probably want to define this as \"asserted\" in some fashion.  Maybe the same way we do inverted GPIOs elsewhere?  As written this isn\u0027t very clear what it does.",
+      "revId": "bb2fd0e27dde756e4bfef42beee3223baafcabbe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "591ddd9b_0d65ca04",
+        "filename": "src/valve-monitor/Readme.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-12-23T17:15:47Z",
+      "side": 1,
+      "message": "Is there a more specific type we can use here?  The valves I know of are Assert open, deassert close.  Obviously this one is more complicated, so lets give it a name.  I\u0027m not sure what that would be though.  If you have an example datasheet for one of these values, I can help suggest more things.",
+      "range": {
+        "startLine": 19,
+        "startChar": 11,
+        "endLine": 19,
+        "endChar": 20
+      },
+      "revId": "bb2fd0e27dde756e4bfef42beee3223baafcabbe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8dbb3d76_d616cd95",
+        "filename": "src/valve-monitor/Readme.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2025-12-23T17:15:47Z",
+      "side": 1,
+      "message": "sensors/valve_open isn\u0027t a namespace, and this isn\u0027t a sensor under the normal definitions.  What that path discussed somewhere?",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 55
+      },
       "revId": "bb2fd0e27dde756e4bfef42beee3223baafcabbe",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
