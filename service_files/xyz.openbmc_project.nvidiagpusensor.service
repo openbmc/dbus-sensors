@@ -3,6 +3,8 @@ Description=Nvidia GPU Sensor
 StopWhenUnneeded=false
 Requires=xyz.openbmc_project.EntityManager.service
 After=xyz.openbmc_project.EntityManager.service
+Requires=mctpd.service
+After=mctpd.service
 
 [Service]
 Type=dbus
