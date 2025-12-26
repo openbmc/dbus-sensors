@@ -35,19 +35,6 @@ boost::container::flat_map<std::string, std::shared_ptr<SmaDevice>> smaDevices;
 boost::container::flat_map<std::string, std::shared_ptr<PcieDevice>>
     pcieDevices;
 
-void configTimerExpiryCallback(
-    boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
-    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
-    mctp::MctpRequester& mctpRequester, const boost::system::error_code& ec)
-{
-    if (ec == boost::asio::error::operation_aborted)
-    {
-        return; // we're being canceled
-    }
-    createSensors(io, objectServer, gpuDevices, smaDevices, pcieDevices,
-                  dbusConnection, mctpRequester);
-}
-
 int main()
 {
     boost::asio::io_context io;
@@ -63,32 +50,6 @@ int main()
         createSensors(io, objectServer, gpuDevices, smaDevices, pcieDevices,
                       systemBus, mctpRequester);
     });
-
-    boost::asio::steady_timer configTimer(io);
-
-    std::function<void(sdbusplus::message_t&)> eventHandler =
-        [&configTimer, &io, &objectServer, &systemBus,
-         &mctpRequester](sdbusplus::message_t&) {
-            configTimer.expires_after(std::chrono::seconds(1));
-            // create a timer because normally multiple properties change
-            configTimer.async_wait(std::bind_front(
-                configTimerExpiryCallback, std::ref(io), std::ref(objectServer),
-                std::ref(systemBus), std::ref(mctpRequester)));
-        };
-
-    std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
-        setupPropertiesChangedMatches(
-            *systemBus, std::to_array<const char*>({deviceType}), eventHandler);
-
-    // Watch for entity-manager to remove configuration interfaces
-    // so the corresponding sensors can be removed.
-    auto ifaceRemovedMatch = std::make_shared<sdbusplus::bus::match_t>(
-        static_cast<sdbusplus::bus_t&>(*systemBus),
-        sdbusplus::bus::match::rules::interfacesRemovedAtPath(
-            std::string(inventoryPath)),
-        [](sdbusplus::message_t& msg) {
-            interfaceRemoved(msg, gpuDevices, smaDevices, pcieDevices);
-        });
 
     try
     {

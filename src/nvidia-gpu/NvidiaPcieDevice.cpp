@@ -20,16 +20,15 @@
 #include <memory>
 #include <string>
 
-PcieDevice::PcieDevice(const SensorConfigs& configs, const std::string& name,
-                       const std::string& path,
-                       const std::shared_ptr<sdbusplus::asio::connection>& conn,
-                       uint8_t eid, boost::asio::io_context& io,
-                       mctp::MctpRequester& mctpRequester,
-                       sdbusplus::asio::object_server& objectServer) :
-    eid(eid), sensorPollMs(std::chrono::milliseconds{configs.pollRate}),
+PcieDevice::PcieDevice(
+    uint64_t pollRate, const std::string& name, const std::string& path,
+    const std::shared_ptr<sdbusplus::asio::connection>& conn, uint8_t eid,
+    boost::asio::io_context& io, mctp::MctpRequester& mctpRequester,
+    sdbusplus::asio::object_server& objectServer) :
+    eid(eid), sensorPollMs(std::chrono::milliseconds{pollRate}),
     waitTimer(io, std::chrono::steady_clock::duration(0)),
     mctpRequester(mctpRequester), conn(conn), objectServer(objectServer),
-    configs(configs), name(escapeName(name)), path(path)
+    name(escapeName(name)), sensorConfiguration(path)
 {}
 
 void PcieDevice::init()
@@ -40,10 +39,9 @@ void PcieDevice::init()
 void PcieDevice::makeSensors()
 {
     pcieInterface = std::make_shared<NvidiaPcieInterface>(
-        conn, mctpRequester, name, path, eid, objectServer);
+        conn, mctpRequester, name, sensorConfiguration, eid, objectServer);
 
-    lg2::info("Added PCIe {NAME} Sensors with chassis path: {PATH}.", "NAME",
-              name, "PATH", path);
+    lg2::info("Added PCIe {NAME} Sensors.", "NAME", name);
 
     read();
 }
