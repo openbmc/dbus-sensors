@@ -29,17 +29,12 @@
 class GpuDevice : public std::enable_shared_from_this<GpuDevice>
 {
   public:
-    GpuDevice(const SensorConfigs& configs, const std::string& name,
+    GpuDevice(uint64_t pollRate, const std::string& name,
               const std::string& path,
               const std::shared_ptr<sdbusplus::asio::connection>& conn,
               uint8_t eid, boost::asio::io_context& io,
               mctp::MctpRequester& mctpRequester,
               sdbusplus::asio::object_server& objectServer);
-
-    const std::string& getPath() const
-    {
-        return path;
-    }
 
     void init();
 
@@ -82,11 +77,8 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
     std::array<int32_t, 3> thresholds{};
     size_t current_threshold_index{};
 
-    SensorConfigs configs;
-
     std::string name;
-
-    std::string path;
+    std::string sensorConfiguration;
 
     std::shared_ptr<Inventory> inventory;
 };

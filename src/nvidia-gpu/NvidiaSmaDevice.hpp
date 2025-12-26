@@ -22,17 +22,12 @@
 class SmaDevice : public std::enable_shared_from_this<SmaDevice>
 {
   public:
-    SmaDevice(const SensorConfigs& configs, const std::string& name,
+    SmaDevice(uint64_t pollRate, const std::string& name,
               const std::string& path,
               const std::shared_ptr<sdbusplus::asio::connection>& conn,
               uint8_t eid, boost::asio::io_context& io,
               mctp::MctpRequester& mctpRequester,
               sdbusplus::asio::object_server& objectServer);
-
-    const std::string& getPath() const
-    {
-        return path;
-    }
 
     void init();
 
@@ -55,9 +50,6 @@ class SmaDevice : public std::enable_shared_from_this<SmaDevice>
 
     std::shared_ptr<NvidiaGpuTempSensor> tempSensor;
 
-    SensorConfigs configs;
-
     std::string name;
-
-    std::string path;
+    std::string sensorConfiguration;
 };

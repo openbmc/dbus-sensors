@@ -21,8 +21,7 @@
 #include <string>
 #include <vector>
 
-constexpr const char* pcieDevicePathPrefix =
-    "/xyz/openbmc_project/inventory/pcie_devices/";
+constexpr const char* pcieDevicePathPrefix = "/xyz/openbmc_project/inventory/";
 
 struct PcieDeviceInfo
 {
@@ -33,17 +32,12 @@ struct PcieDeviceInfo
 class PcieDevice : public std::enable_shared_from_this<PcieDevice>
 {
   public:
-    PcieDevice(const SensorConfigs& configs, const std::string& name,
+    PcieDevice(uint64_t pollRate, const std::string& name,
                const std::string& path,
                const std::shared_ptr<sdbusplus::asio::connection>& conn,
                uint8_t eid, boost::asio::io_context& io,
                mctp::MctpRequester& mctpRequester,
                sdbusplus::asio::object_server& objectServer);
-
-    const std::string& getPath() const
-    {
-        return path;
-    }
 
     void init();
 
@@ -71,11 +65,8 @@ class PcieDevice : public std::enable_shared_from_this<PcieDevice>
 
     sdbusplus::asio::object_server& objectServer;
 
-    SensorConfigs configs;
-
     std::string name;
-
-    std::string path;
+    std::string sensorConfiguration;
 
     std::array<uint8_t, sizeof(ocp::accelerator_management::CommonRequest)>
         getPciePortCountsRequest{};

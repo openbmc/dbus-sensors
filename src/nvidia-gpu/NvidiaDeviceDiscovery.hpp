@@ -18,13 +18,6 @@
 #include <string>
 
 constexpr const char* sensorPathPrefix = "/xyz/openbmc_project/sensors/";
-constexpr const char* deviceType = "NvidiaMctpVdm";
-
-struct SensorConfigs
-{
-    std::string name;
-    uint64_t pollRate{};
-};
 
 class GpuDevice;
 class SmaDevice;
@@ -40,12 +33,3 @@ void createSensors(
         pcieDevices,
     const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     mctp::MctpRequester& mctpRequester);
-
-void interfaceRemoved(
-    sdbusplus::message_t& message,
-    boost::container::flat_map<std::string, std::shared_ptr<GpuDevice>>&
-        gpuDevices,
-    boost::container::flat_map<std::string, std::shared_ptr<SmaDevice>>&
-        smaDevices,
-    boost::container::flat_map<std::string, std::shared_ptr<PcieDevice>>&
-        pcieDevices);
