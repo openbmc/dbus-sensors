@@ -43,16 +43,15 @@ static constexpr std::array<uint8_t, 3> thresholdIds{
     gpuTLimitWarningThresholdId, gpuTLimitCriticalThresholdId,
     gpuTLimitHardshutDownThresholdId};
 
-GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
-                     const std::string& path,
-                     const std::shared_ptr<sdbusplus::asio::connection>& conn,
-                     uint8_t eid, boost::asio::io_context& io,
-                     mctp::MctpRequester& mctpRequester,
-                     sdbusplus::asio::object_server& objectServer) :
-    eid(eid), sensorPollMs(std::chrono::milliseconds{configs.pollRate}),
+GpuDevice::GpuDevice(
+    uint64_t pollRate, const std::string& name, const std::string& path,
+    const std::shared_ptr<sdbusplus::asio::connection>& conn, uint8_t eid,
+    boost::asio::io_context& io, mctp::MctpRequester& mctpRequester,
+    sdbusplus::asio::object_server& objectServer) :
+    eid(eid), sensorPollMs(std::chrono::milliseconds{pollRate}),
     waitTimer(io, std::chrono::steady_clock::duration(0)),
     mctpRequester(mctpRequester), conn(conn), objectServer(objectServer),
-    configs(configs), name(escapeName(name)), path(path)
+    name(escapeName(name)), sensorConfiguration(path)
 {
     inventory = std::make_shared<Inventory>(
         conn, objectServer, name, mctpRequester,
@@ -68,35 +67,34 @@ void GpuDevice::init()
 void GpuDevice::makeSensors()
 {
     tempSensor = std::make_shared<NvidiaGpuTempSensor>(
-        conn, mctpRequester, name + "_TEMP_0", path, eid, gpuTempSensorId,
-        objectServer, std::vector<thresholds::Threshold>{});
+        conn, mctpRequester, name + "_TEMP_0", sensorConfiguration, eid,
+        gpuTempSensorId, objectServer, std::vector<thresholds::Threshold>{});
 
     dramTempSensor = std::make_shared<NvidiaGpuTempSensor>(
-        conn, mctpRequester, name + "_DRAM_0_TEMP_0", path, eid,
+        conn, mctpRequester, name + "_DRAM_0_TEMP_0", sensorConfiguration, eid,
         gpuDramTempSensorId, objectServer,
         std::vector<thresholds::Threshold>{thresholds::Threshold{
             thresholds::Level::CRITICAL, thresholds::Direction::HIGH, 95.0}});
 
     powerSensor = std::make_shared<NvidiaGpuPowerSensor>(
-        conn, mctpRequester, name + "_Power_0", path, eid, gpuPowerSensorId,
-        objectServer, std::vector<thresholds::Threshold>{});
+        conn, mctpRequester, name + "_Power_0", sensorConfiguration, eid,
+        gpuPowerSensorId, objectServer, std::vector<thresholds::Threshold>{});
 
     peakPower = std::make_shared<NvidiaGpuPowerPeakReading>(
         mctpRequester, name + "_Power_0", eid, gpuPeakPowerSensorId,
         objectServer);
 
     energySensor = std::make_shared<NvidiaGpuEnergySensor>(
-        conn, mctpRequester, name + "_Energy_0", path, eid, gpuEnergySensorId,
-        objectServer, std::vector<thresholds::Threshold>{});
+        conn, mctpRequester, name + "_Energy_0", sensorConfiguration, eid,
+        gpuEnergySensorId, objectServer, std::vector<thresholds::Threshold>{});
 
     voltageSensor = std::make_shared<NvidiaGpuVoltageSensor>(
-        conn, mctpRequester, name + "_Voltage_0", path, eid, gpuVoltageSensorId,
-        objectServer, std::vector<thresholds::Threshold>{});
+        conn, mctpRequester, name + "_Voltage_0", sensorConfiguration, eid,
+        gpuVoltageSensorId, objectServer, std::vector<thresholds::Threshold>{});
 
     getTLimitThresholds();
 
-    lg2::info("Added GPU {NAME} Sensors with chassis path: {PATH}.", "NAME",
-              name, "PATH", path);
+    lg2::info("Added GPU {NAME} Sensors.", "NAME", name);
     read();
 }
 
@@ -194,8 +192,8 @@ void GpuDevice::processTLimitThresholds(const std::error_code& ec)
     }
 
     tLimitSensor = std::make_shared<NvidiaGpuTempSensor>(
-        conn, mctpRequester, name + "_TEMP_1", path, eid, gpuTLimitSensorId,
-        objectServer, std::move(tLimitThresholds));
+        conn, mctpRequester, name + "_TEMP_1", sensorConfiguration, eid,
+        gpuTLimitSensorId, objectServer, std::move(tLimitThresholds));
 }
 
 void GpuDevice::read()
