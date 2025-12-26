@@ -353,3 +353,65 @@ void createSensors(
     discoverDevices(io, objectServer, gpuDevices, smaDevices, pcieDevices,
                     dbusConnection, mctpRequester);
 }
+
+static void getEndpointProperties(
+    boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
+    boost::container::flat_map<std::string, std::shared_ptr<GpuDevice>>&
+        gpuDevices,
+    boost::container::flat_map<std::string, std::shared_ptr<SmaDevice>>&
+        smaDevices,
+    boost::container::flat_map<std::string, std::shared_ptr<PcieDevice>>&
+        pcieDevices,
+    const std::shared_ptr<sdbusplus::asio::connection>& conn,
+    mctp::MctpRequester& mctpRequester, const std::string& objectPath,
+    const std::string& service)
+{
+    conn->async_method_call(
+        [&io, &objectServer, &gpuDevices, &smaDevices, &pcieDevices, conn,
+         &mctpRequester](const boost::system::error_code& ec,
+                         const SensorBaseConfigMap& endpoint) {
+            processEndpoint(io, objectServer, gpuDevices, smaDevices,
+                            pcieDevices, conn, mctpRequester, ec, endpoint);
+        },
+        service, objectPath, "org.freedesktop.DBus.Properties", "GetAll",
+        "xyz.openbmc_project.MCTP.Endpoint");
+}
+
+void handleMctpEndpointAdded(
+    boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
+    boost::container::flat_map<std::string, std::shared_ptr<GpuDevice>>&
+        gpuDevices,
+    boost::container::flat_map<std::string, std::shared_ptr<SmaDevice>>&
+        smaDevices,
+    boost::container::flat_map<std::string, std::shared_ptr<PcieDevice>>&
+        pcieDevices,
+    const std::shared_ptr<sdbusplus::asio::connection>& conn,
+    mctp::MctpRequester& mctpRequester, const std::string& objectPath)
+{
+    lg2::info("New MCTP Endpoint detected at {PATH}", "PATH", objectPath);
+
+    // Get the service name for this object path
+    conn->async_method_call(
+        [&io, &objectServer, &gpuDevices, &smaDevices, &pcieDevices, conn,
+         &mctpRequester, objectPath](
+            const boost::system::error_code& ec,
+            const std::vector<std::pair<std::string, std::vector<std::string>>>&
+                ret) {
+            if (ec || ret.empty())
+            {
+                lg2::error(
+                    "Error getting service for MCTP endpoint {PATH}: {ERROR}",
+                    "PATH", objectPath, "ERROR", ec.message());
+                return;
+            }
+
+            const std::string& service = ret[0].first;
+            getEndpointProperties(io, objectServer, gpuDevices, smaDevices,
+                                  pcieDevices, conn, mctpRequester, objectPath,
+                                  service);
+        },
+        "xyz.openbmc_project.ObjectMapper",
+        "/xyz/openbmc_project/object_mapper",
+        "xyz.openbmc_project.ObjectMapper", "GetObject", objectPath,
+        std::vector<std::string>{"xyz.openbmc_project.MCTP.Endpoint"});
+}
