@@ -18,13 +18,6 @@
 #include <string>
 
 constexpr const char* sensorPathPrefix = "/xyz/openbmc_project/sensors/";
-constexpr const char* deviceType = "NvidiaMctpVdm";
-
-struct SensorConfigs
-{
-    std::string name;
-    uint64_t pollRate{};
-};
 
 class GpuDevice;
 class SmaDevice;

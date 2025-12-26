@@ -24,16 +24,15 @@
 #include <string>
 #include <vector>
 
-SmaDevice::SmaDevice(const SensorConfigs& configs, const std::string& name,
-                     const std::string& path,
+SmaDevice::SmaDevice(uint64_t pollRate, const std::string& name,
                      const std::shared_ptr<sdbusplus::asio::connection>& conn,
                      uint8_t eid, boost::asio::io_context& io,
                      mctp::MctpRequester& mctpRequester,
                      sdbusplus::asio::object_server& objectServer) :
-    eid(eid), sensorPollMs(std::chrono::milliseconds{configs.pollRate}),
+    eid(eid), sensorPollMs(std::chrono::milliseconds{pollRate}),
     waitTimer(io, std::chrono::steady_clock::duration(0)),
     mctpRequester(mctpRequester), conn(conn), objectServer(objectServer),
-    configs(configs), name(escapeName(name)), path(path)
+    name(escapeName(name))
 {}
 
 void SmaDevice::init()
@@ -44,11 +43,10 @@ void SmaDevice::init()
 void SmaDevice::makeSensors()
 {
     tempSensor = std::make_shared<NvidiaGpuTempSensor>(
-        conn, mctpRequester, name + "_TEMP_0", path, eid, smaTempSensorId,
+        conn, mctpRequester, name + "_TEMP_0", "", eid, smaTempSensorId,
         objectServer, std::vector<thresholds::Threshold>{});
 
-    lg2::info("Added MCA {NAME} Sensors with chassis path: {PATH}.", "NAME",
-              name, "PATH", path);
+    lg2::info("Added MCA {NAME} Sensors.", "NAME", name);
 
     read();
 }
