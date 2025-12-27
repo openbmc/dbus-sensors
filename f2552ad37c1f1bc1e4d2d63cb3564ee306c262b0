@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7a6ddf7_f6be482f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2025-12-27T17:45:36Z",
+      "side": 1,
+      "message": "There are unrelated as well as minor related to the patch CI fails (this and the child). Will fixup the latter soon. Not yet sure what the former is due to.",
+      "revId": "f2552ad37c1f1bc1e4d2d63cb3564ee306c262b0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
