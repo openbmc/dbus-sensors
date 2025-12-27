@@ -33,3 +33,14 @@ void createSensors(
         pcieDevices,
     const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     mctp::MctpRequester& mctpRequester);
+
+void handleMctpEndpointAdded(
+    boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
+    boost::container::flat_map<std::string, std::shared_ptr<GpuDevice>>&
+        gpuDevices,
+    boost::container::flat_map<std::string, std::shared_ptr<SmaDevice>>&
+        smaDevices,
+    boost::container::flat_map<std::string, std::shared_ptr<PcieDevice>>&
+        pcieDevices,
+    const std::shared_ptr<sdbusplus::asio::connection>& conn,
+    mctp::MctpRequester& mctpRequester, const std::string& objectPath);
