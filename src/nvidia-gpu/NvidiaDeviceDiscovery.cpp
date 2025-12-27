@@ -20,10 +20,15 @@
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/bus/match.hpp>
+#include <sdbusplus/message.hpp>
+#include <sdbusplus/message/native_types.hpp>
 
 #include <algorithm>
 #include <array>
 #include <cstdint>
+#include <format>
+#include <map>
 #include <memory>
 #include <span>
 #include <string>
@@ -33,6 +38,8 @@
 #include <vector>
 
 static constexpr auto sensorPollRateMs = 1000;
+
+static std::vector<std::shared_ptr<sdbusplus::bus::match_t>> associationMatches;
 
 void processQueryDeviceIdResponse(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
@@ -486,6 +493,139 @@ static void getAssociationEndpoints(
         "Get", "xyz.openbmc_project.Association", "endpoints");
 }
 
+static void processAssociationAdded(
+    boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
+    boost::container::flat_map<std::string, std::shared_ptr<GpuDevice>>&
+        gpuDevices,
+    boost::container::flat_map<std::string, std::shared_ptr<SmaDevice>>&
+        smaDevices,
+    boost::container::flat_map<std::string, std::shared_ptr<PcieDevice>>&
+        pcieDevices,
+    const std::shared_ptr<sdbusplus::asio::connection>& conn,
+    mctp::MctpRequester& mctpRequester, uint8_t eid,
+    const std::string& associationPath, const boost::system::error_code& ec,
+    const std::vector<std::pair<std::string, std::vector<std::string>>>& ret)
+{
+    if (ec || ret.empty())
+    {
+        lg2::error("EID {EID}: Failed to get service for association {PATH}",
+                   "EID", eid, "PATH", associationPath);
+        return;
+    }
+
+    const std::string& associationService = ret[0].first;
+    getAssociationEndpoints(io, objectServer, gpuDevices, smaDevices,
+                            pcieDevices, conn, mctpRequester, eid,
+                            associationPath, associationService);
+}
+
+static void handleAssociationSignal(
+    boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
+    boost::container::flat_map<std::string, std::shared_ptr<GpuDevice>>&
+        gpuDevices,
+    boost::container::flat_map<std::string, std::shared_ptr<SmaDevice>>&
+        smaDevices,
+    boost::container::flat_map<std::string, std::shared_ptr<PcieDevice>>&
+        pcieDevices,
+    const std::shared_ptr<sdbusplus::asio::connection>& conn,
+    mctp::MctpRequester& mctpRequester, uint8_t eid,
+    const std::string& associationPath, sdbusplus::message_t& msg)
+{
+    sdbusplus::message::object_path objPath;
+    std::map<std::string, std::map<std::string, std::variant<std::string>>>
+        interfaces;
+
+    msg.read(objPath, interfaces);
+
+    if (interfaces.contains("xyz.openbmc_project.Association"))
+    {
+        lg2::info("EID {EID}: Association added at {PATH}, processing...",
+                  "EID", eid, "PATH", associationPath);
+
+        conn->async_method_call(
+            [&io, &objectServer, &gpuDevices, &smaDevices, &pcieDevices, conn,
+             &mctpRequester, eid, associationPath](
+                const boost::system::error_code& ec,
+                const std::vector<
+                    std::pair<std::string, std::vector<std::string>>>& ret) {
+                processAssociationAdded(
+                    io, objectServer, gpuDevices, smaDevices, pcieDevices, conn,
+                    mctpRequester, eid, associationPath, ec, ret);
+            },
+            "xyz.openbmc_project.ObjectMapper",
+            "/xyz/openbmc_project/object_mapper",
+            "xyz.openbmc_project.ObjectMapper", "GetObject", associationPath,
+            std::vector<std::string>{"xyz.openbmc_project.Association"});
+    }
+}
+
+static void waitForAssociationSignal(
+    boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
+    boost::container::flat_map<std::string, std::shared_ptr<GpuDevice>>&
+        gpuDevices,
+    boost::container::flat_map<std::string, std::shared_ptr<SmaDevice>>&
+        smaDevices,
+    boost::container::flat_map<std::string, std::shared_ptr<PcieDevice>>&
+        pcieDevices,
+    const std::shared_ptr<sdbusplus::asio::connection>& conn,
+    mctp::MctpRequester& mctpRequester, uint8_t eid,
+    const std::string& associationPath)
+{
+    auto match = std::make_shared<sdbusplus::bus::match_t>(
+        static_cast<sdbusplus::bus_t&>(*conn),
+        sdbusplus::bus::match::rules::interfacesAdded() +
+            sdbusplus::bus::match::rules::argNpath(0, associationPath),
+        [&io, &objectServer, &gpuDevices, &smaDevices, &pcieDevices, conn,
+         &mctpRequester, eid, associationPath](sdbusplus::message_t& msg) {
+            handleAssociationSignal(io, objectServer, gpuDevices, smaDevices,
+                                    pcieDevices, conn, mctpRequester, eid,
+                                    associationPath, msg);
+        });
+
+    // Store the match to keep it alive for the duration of the program
+    associationMatches.push_back(match);
+}
+
+static void processAssociationLookupResult(
+    boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
+    boost::container::flat_map<std::string, std::shared_ptr<GpuDevice>>&
+        gpuDevices,
+    boost::container::flat_map<std::string, std::shared_ptr<SmaDevice>>&
+        smaDevices,
+    boost::container::flat_map<std::string, std::shared_ptr<PcieDevice>>&
+        pcieDevices,
+    const std::shared_ptr<sdbusplus::asio::connection>& conn,
+    mctp::MctpRequester& mctpRequester, uint8_t eid,
+    const std::string& associationPath, bool useSignalWait,
+    const boost::system::error_code& ec,
+    const std::vector<std::pair<std::string, std::vector<std::string>>>& ret)
+{
+    if (ec || ret.empty())
+    {
+        if (useSignalWait)
+        {
+            lg2::info(
+                "EID {EID}: Association not found at {PATH}, waiting for signal...",
+                "EID", eid, "PATH", associationPath);
+            waitForAssociationSignal(io, objectServer, gpuDevices, smaDevices,
+                                     pcieDevices, conn, mctpRequester, eid,
+                                     associationPath);
+        }
+        else
+        {
+            lg2::error(
+                "EID {EID}: No association found at {PATH}, skipping endpoint",
+                "EID", eid, "PATH", associationPath);
+        }
+        return;
+    }
+
+    const std::string& associationService = ret[0].first;
+    getAssociationEndpoints(io, objectServer, gpuDevices, smaDevices,
+                            pcieDevices, conn, mctpRequester, eid,
+                            associationPath, associationService);
+}
+
 static void checkAssociationAndQueryDevice(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
     boost::container::flat_map<std::string, std::shared_ptr<GpuDevice>>&
@@ -496,28 +636,19 @@ static void checkAssociationAndQueryDevice(
         pcieDevices,
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, uint8_t eid,
-    const std::string& objectPath)
+    const std::string& objectPath, bool useSignalWait = false)
 {
     std::string associationPath = objectPath + "/configured_by";
 
     conn->async_method_call(
         [&io, &objectServer, &gpuDevices, &smaDevices, &pcieDevices, conn,
-         &mctpRequester, eid, associationPath](
+         &mctpRequester, eid, associationPath, useSignalWait](
             const boost::system::error_code& ec,
             const std::vector<std::pair<std::string, std::vector<std::string>>>&
                 ret) {
-            if (ec || ret.empty())
-            {
-                lg2::error(
-                    "EID {EID}: No association found at {PATH}, skipping endpoint",
-                    "EID", eid, "PATH", associationPath);
-                return;
-            }
-
-            const std::string& associationService = ret[0].first;
-            getAssociationEndpoints(io, objectServer, gpuDevices, smaDevices,
-                                    pcieDevices, conn, mctpRequester, eid,
-                                    associationPath, associationService);
+            processAssociationLookupResult(
+                io, objectServer, gpuDevices, smaDevices, pcieDevices, conn,
+                mctpRequester, eid, associationPath, useSignalWait, ec, ret);
         },
         "xyz.openbmc_project.ObjectMapper",
         "/xyz/openbmc_project/object_mapper",
@@ -535,7 +666,8 @@ void processEndpoint(
         pcieDevices,
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, const std::string& objectPath,
-    const boost::system::error_code& ec, const SensorBaseConfigMap& endpoint)
+    const boost::system::error_code& ec, const SensorBaseConfigMap& endpoint,
+    bool useSignalWait = false)
 {
     if (ec)
     {
@@ -603,7 +735,7 @@ void processEndpoint(
 
         checkAssociationAndQueryDevice(io, objectServer, gpuDevices, smaDevices,
                                        pcieDevices, conn, mctpRequester, eid,
-                                       objectPath);
+                                       objectPath, useSignalWait);
     }
 }
 
@@ -703,4 +835,64 @@ void createSensors(
 
     discoverDevices(io, objectServer, gpuDevices, smaDevices, pcieDevices,
                     dbusConnection, mctpRequester);
+}
+
+static void getEndpointProperties(
+    boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
+    boost::container::flat_map<std::string, std::shared_ptr<GpuDevice>>&
+        gpuDevices,
+    boost::container::flat_map<std::string, std::shared_ptr<SmaDevice>>&
+        smaDevices,
+    boost::container::flat_map<std::string, std::shared_ptr<PcieDevice>>&
+        pcieDevices,
+    const std::shared_ptr<sdbusplus::asio::connection>& conn,
+    mctp::MctpRequester& mctpRequester, const std::string& objectPath,
+    const std::string& service)
+{
+    conn->async_method_call(
+        [&io, &objectServer, &gpuDevices, &smaDevices, &pcieDevices, conn,
+         &mctpRequester, objectPath](const boost::system::error_code& ec,
+                                     const SensorBaseConfigMap& endpoint) {
+            processEndpoint(io, objectServer, gpuDevices, smaDevices,
+                            pcieDevices, conn, mctpRequester, objectPath, ec,
+                            endpoint, true);
+        },
+        service, objectPath, "org.freedesktop.DBus.Properties", "GetAll",
+        "xyz.openbmc_project.MCTP.Endpoint");
+}
+
+void handleMctpEndpointAdded(
+    boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
+    boost::container::flat_map<std::string, std::shared_ptr<GpuDevice>>&
+        gpuDevices,
+    boost::container::flat_map<std::string, std::shared_ptr<SmaDevice>>&
+        smaDevices,
+    boost::container::flat_map<std::string, std::shared_ptr<PcieDevice>>&
+        pcieDevices,
+    const std::shared_ptr<sdbusplus::asio::connection>& conn,
+    mctp::MctpRequester& mctpRequester, const std::string& objectPath)
+{
+    conn->async_method_call(
+        [&io, &objectServer, &gpuDevices, &smaDevices, &pcieDevices, conn,
+         &mctpRequester, objectPath](
+            const boost::system::error_code& ec,
+            const std::vector<std::pair<std::string, std::vector<std::string>>>&
+                services) {
+            if (ec || services.empty())
+            {
+                lg2::error(
+                    "Failed to get service for new MCTP endpoint {PATH}: {ERROR}",
+                    "PATH", objectPath, "ERROR", ec.message());
+                return;
+            }
+
+            const std::string& service = services[0].first;
+            getEndpointProperties(io, objectServer, gpuDevices, smaDevices,
+                                  pcieDevices, conn, mctpRequester, objectPath,
+                                  service);
+        },
+        "xyz.openbmc_project.ObjectMapper",
+        "/xyz/openbmc_project/object_mapper",
+        "xyz.openbmc_project.ObjectMapper", "GetObject", objectPath,
+        std::vector<std::string>{"xyz.openbmc_project.MCTP.Endpoint"});
 }
