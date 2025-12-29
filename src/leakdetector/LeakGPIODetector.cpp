@@ -57,7 +57,7 @@ GPIODetector::GPIODetector(sdbusplus::async::context& ctx, Events& leakEvents,
     Detector::emit_added();
 
     createAssociations();
-
+    // NOLINTNEXTLINE(clang-analyzer-core.StackAddressEscape)
     ctx.spawn(gpioInterface.start());
 
     debug("Created leak detector {NAME}", "NAME", config.name);
