@@ -36,7 +36,7 @@ class IntelCPUSensor :
                    double dtsOffset);
     ~IntelCPUSensor() override;
     static constexpr unsigned int sensorScaleFactor = 1000;
-    static constexpr unsigned int sensorPollMs = 1000;
+    static constexpr unsigned int sensorPollMs = 2000;
     static constexpr size_t warnAfterErrorCount = 10;
     static constexpr const char* labelTcontrol = "Tcontrol";
     void setupRead();

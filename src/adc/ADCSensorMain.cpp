@@ -50,7 +50,7 @@
 #include <variant>
 #include <vector>
 
-static constexpr float pollRateDefault = 0.5;
+static constexpr float pollRateDefault = 1.0;
 static constexpr float gpioBridgeSetupTimeDefault = 0.02;
 
 static constexpr auto sensorTypes{std::to_array<const char*>({"ADC"})};

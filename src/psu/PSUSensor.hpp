@@ -64,7 +64,7 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
     static constexpr size_t warnAfterErrorCount = 10;
 
   public:
-    static constexpr double defaultSensorPoll = 1.0;
+    static constexpr double defaultSensorPoll = 2.0;
     static constexpr unsigned int defaultSensorPollMs =
         static_cast<unsigned int>(defaultSensorPoll * 1000);
 };

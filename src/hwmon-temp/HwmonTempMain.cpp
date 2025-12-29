@@ -51,7 +51,7 @@
 #include <variant>
 #include <vector>
 
-static constexpr float pollRateDefault = 0.5;
+static constexpr float pollRateDefault = 1.0;
 
 static constexpr double maxValuePressure = 120000;      // Pascals
 static constexpr double minValuePressure = 30000;       // Pascals
