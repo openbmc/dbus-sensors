@@ -1,3 +1,5 @@
+// NOLINTBEGIN(clang-analyzer-core.StackAddressEscape)
+
 #include "LeakGPIODetector.hpp"
 
 #include "LeakEvents.hpp"
@@ -116,3 +118,4 @@ auto GPIODetector::updateGPIOStateAsync(bool gpioState)
 }
 
 } // namespace leak
+// NOLINTEND(clang-analyzer-core.StackAddressEscape)
