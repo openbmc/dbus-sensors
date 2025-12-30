@@ -63,8 +63,6 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
 
     mctp::MctpRequester& mctpRequester;
 
-    boost::asio::io_context& io;
-
     std::shared_ptr<sdbusplus::asio::connection> conn;
 
     sdbusplus::asio::object_server& objectServer;
