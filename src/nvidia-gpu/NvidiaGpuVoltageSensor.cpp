@@ -5,6 +5,7 @@
 
 #include "NvidiaGpuVoltageSensor.hpp"
 
+#include "NvidiaSensorUtils.hpp"
 #include "SensorPaths.hpp"
 #include "Thresholds.hpp"
 #include "Utils.hpp"
@@ -42,7 +43,8 @@ NvidiaGpuVoltageSensor::NvidiaGpuVoltageSensor(
     mctp::MctpRequester& mctpRequester, const std::string& name,
     const std::string& sensorConfiguration, const uint8_t eid, uint8_t sensorId,
     sdbusplus::asio::object_server& objectServer,
-    std::vector<thresholds::Threshold>&& thresholdData) :
+    std::vector<thresholds::Threshold>&& thresholdData,
+    gpu::DeviceIdentification deviceType) :
     Sensor(escapeName(name), std::move(thresholdData), sensorConfiguration,
            "energy", false, true, gpuVoltageSensorMaxReading,
            gpuVoltageSensorMinReading, conn),
@@ -64,6 +66,25 @@ NvidiaGpuVoltageSensor::NvidiaGpuVoltageSensor(
     association = objectServer.add_interface(dbusPath, association::interface);
 
     setInitialProperties(sensor_paths::unitVolts);
+
+    auto physicalContext =
+        nvidia_sensor_utils::deviceTypeToPhysicalContext(deviceType);
+
+    if (physicalContext)
+    {
+        commonPhysicalContextInterface = objectServer.add_interface(
+            dbusPath, "xyz.openbmc_project.Common.PhysicalContext");
+
+        commonPhysicalContextInterface->register_property("Type",
+                                                          *physicalContext);
+
+        if (!commonPhysicalContextInterface->initialize())
+        {
+            lg2::error(
+                "Error initializing PhysicalContext Interface for Voltage Sensor for eid {EID} and sensor id {SID}",
+                "EID", eid, "SID", sensorId);
+        }
+    }
 }
 
 NvidiaGpuVoltageSensor::~NvidiaGpuVoltageSensor()
@@ -74,6 +95,10 @@ NvidiaGpuVoltageSensor::~NvidiaGpuVoltageSensor()
     }
     objectServer.remove_interface(sensorInterface);
     objectServer.remove_interface(association);
+    if (commonPhysicalContextInterface)
+    {
+        objectServer.remove_interface(commonPhysicalContextInterface);
+    }
 }
 
 void NvidiaGpuVoltageSensor::checkThresholds()
