@@ -62,7 +62,10 @@ NvidiaGpuTempSensor::NvidiaGpuTempSensor(
 
     association = objectServer.add_interface(dbusPath, association::interface);
 
-    setInitialProperties(sensor_paths::unitDegreesC);
+    setInitialProperties(sensor_paths::unitDegreesC,
+                         std::string(),
+                         0,
+                         sensor_paths::physicalContextGPU);
 
     if (sensorId == gpuTLimitSensorId)
     {
