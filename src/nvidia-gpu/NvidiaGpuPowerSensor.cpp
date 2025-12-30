@@ -65,7 +65,10 @@ NvidiaGpuPowerSensor::NvidiaGpuPowerSensor(
 
     association = objectServer.add_interface(dbusPath, association::interface);
 
-    setInitialProperties(sensor_paths::unitWatts);
+    setInitialProperties(sensor_paths::unitWatts,
+                         std::string(),
+                         0,
+                         sensor_paths::physicalContextGPU);
 }
 
 NvidiaGpuPowerSensor::~NvidiaGpuPowerSensor()

@@ -63,7 +63,10 @@ NvidiaGpuEnergySensor::NvidiaGpuEnergySensor(
 
     association = objectServer.add_interface(dbusPath, association::interface);
 
-    setInitialProperties(sensor_paths::unitJoules);
+    setInitialProperties(sensor_paths::unitJoules,
+                         std::string(),
+                         0,
+                         sensor_paths::physicalContextGPU);
 }
 
 NvidiaGpuEnergySensor::~NvidiaGpuEnergySensor()
