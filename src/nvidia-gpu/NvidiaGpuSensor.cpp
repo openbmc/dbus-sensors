@@ -5,6 +5,7 @@
 
 #include "NvidiaGpuSensor.hpp"
 
+#include "NvidiaSensorUtils.hpp"
 #include "SensorPaths.hpp"
 #include "Thresholds.hpp"
 #include "Utils.hpp"
@@ -24,6 +25,7 @@
 #include <cstdint>
 #include <functional>
 #include <memory>
+#include <optional>
 #include <span>
 #include <string>
 #include <system_error>
@@ -40,7 +42,8 @@ NvidiaGpuTempSensor::NvidiaGpuTempSensor(
     mctp::MctpRequester& mctpRequester, const std::string& name,
     const std::string& sensorConfiguration, const uint8_t eid, uint8_t sensorId,
     sdbusplus::asio::object_server& objectServer,
-    std::vector<thresholds::Threshold>&& thresholdData) :
+    std::vector<thresholds::Threshold>&& thresholdData,
+    const gpu::DeviceIdentification deviceType) :
     Sensor(escapeName(name), std::move(thresholdData), sensorConfiguration,
            "temperature", false, true, gpuTempSensorMaxReading,
            gpuTempSensorMinReading, conn),
@@ -83,6 +86,25 @@ NvidiaGpuTempSensor::NvidiaGpuTempSensor(
                 "EID", eid, "SID", sensorId);
         }
     }
+
+    const std::optional<std::string> physicalContext =
+        nvidia_sensor_utils::deviceTypeToPhysicalContext(deviceType);
+
+    if (physicalContext)
+    {
+        commonPhysicalContextInterface = objectServer.add_interface(
+            dbusPath, "xyz.openbmc_project.Common.PhysicalContext");
+
+        commonPhysicalContextInterface->register_property("Type",
+                                                          *physicalContext);
+
+        if (!commonPhysicalContextInterface->initialize())
+        {
+            lg2::error(
+                "Error initializing PhysicalContext Interface for Temperature Sensor for eid {EID} and sensor id {SID}",
+                "EID", eid, "SID", sensorId);
+        }
+    }
 }
 
 NvidiaGpuTempSensor::~NvidiaGpuTempSensor()
@@ -96,6 +118,10 @@ NvidiaGpuTempSensor::~NvidiaGpuTempSensor()
     if (sensorTypeInterface)
     {
         objectServer.remove_interface(sensorTypeInterface);
+    }
+    if (commonPhysicalContextInterface)
+    {
+        objectServer.remove_interface(commonPhysicalContextInterface);
     }
 }
 

@@ -34,7 +34,8 @@ struct NvidiaGpuTempSensor :
         mctp::MctpRequester& mctpRequester, const std::string& name,
         const std::string& sensorConfiguration, uint8_t eid, uint8_t sensorId,
         sdbusplus::asio::object_server& objectServer,
-        std::vector<thresholds::Threshold>&& thresholdData);
+        std::vector<thresholds::Threshold>&& thresholdData,
+        gpu::DeviceIdentification deviceType);
 
     ~NvidiaGpuTempSensor() override;
 
@@ -60,4 +61,7 @@ struct NvidiaGpuTempSensor :
         getTemperatureReadingRequest{};
 
     std::shared_ptr<sdbusplus::asio::dbus_interface> sensorTypeInterface;
+
+    std::shared_ptr<sdbusplus::asio::dbus_interface>
+        commonPhysicalContextInterface;
 };
