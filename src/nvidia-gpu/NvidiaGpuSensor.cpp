@@ -83,6 +83,20 @@ NvidiaGpuTempSensor::NvidiaGpuTempSensor(
                 "EID", eid, "SID", sensorId);
         }
     }
+
+    commonPhysicalContextInterface = objectServer.add_interface(
+        dbusPath, "xyz.openbmc_project.Common.PhysicalContext");
+
+    commonPhysicalContextInterface->register_property(
+        "Type",
+        "xyz.openbmc_project.Common.PhysicalContext.PhysicalContextType.GPU"s);
+
+    if (!commonPhysicalContextInterface->initialize())
+    {
+        lg2::error(
+            "Error initializing PhysicalContext Interface for Temperature Sensor for eid {EID} and sensor id {SID}",
+            "EID", eid, "SID", sensorId);
+    }
 }
 
 NvidiaGpuTempSensor::~NvidiaGpuTempSensor()
@@ -96,6 +110,10 @@ NvidiaGpuTempSensor::~NvidiaGpuTempSensor()
     if (sensorTypeInterface)
     {
         objectServer.remove_interface(sensorTypeInterface);
+    }
+    if (commonPhysicalContextInterface)
+    {
+        objectServer.remove_interface(commonPhysicalContextInterface);
     }
 }
 

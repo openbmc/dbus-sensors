@@ -66,6 +66,20 @@ NvidiaGpuPowerSensor::NvidiaGpuPowerSensor(
     association = objectServer.add_interface(dbusPath, association::interface);
 
     setInitialProperties(sensor_paths::unitWatts);
+
+    commonPhysicalContextInterface = objectServer.add_interface(
+        dbusPath, "xyz.openbmc_project.Common.PhysicalContext");
+
+    commonPhysicalContextInterface->register_property(
+        "Type",
+        "xyz.openbmc_project.Common.PhysicalContext.PhysicalContextType.GPU"s);
+
+    if (!commonPhysicalContextInterface->initialize())
+    {
+        lg2::error(
+            "Error initializing PhysicalContext Interface for Power Sensor for eid {EID} and sensor id {SID}",
+            "EID", eid, "SID", sensorId);
+    }
 }
 
 NvidiaGpuPowerSensor::~NvidiaGpuPowerSensor()
