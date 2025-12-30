@@ -64,6 +64,19 @@ NvidiaGpuVoltageSensor::NvidiaGpuVoltageSensor(
     association = objectServer.add_interface(dbusPath, association::interface);
 
     setInitialProperties(sensor_paths::unitVolts);
+
+    commonPhysicalContextInterface = objectServer.add_interface(
+        dbusPath, "xyz.openbmc_project.Common.PhysicalContext");
+
+    commonPhysicalContextInterface->register_property(
+        "Type", "xyz.openbmc_project.Common.PhysicalContext.Type.GPU"s);
+
+    if (!commonPhysicalContextInterface->initialize())
+    {
+        lg2::error(
+            "Error initializing PhysicalContext Interface for Voltage Sensor for eid {EID} and sensor id {SID}",
+            "EID", eid, "SID", sensorId);
+    }
 }
 
 NvidiaGpuVoltageSensor::~NvidiaGpuVoltageSensor()

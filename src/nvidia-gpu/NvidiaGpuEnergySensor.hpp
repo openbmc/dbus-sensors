@@ -54,4 +54,7 @@ struct NvidiaGpuEnergySensor :
     sdbusplus::asio::object_server& objectServer;
 
     std::array<uint8_t, sizeof(gpu::GetCurrentEnergyCounterRequest)> request{};
+
+    std::shared_ptr<sdbusplus::asio::dbus_interface>
+        commonPhysicalContextInterface;
 };
