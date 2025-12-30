@@ -69,17 +69,20 @@ void GpuDevice::makeSensors()
 {
     tempSensor = std::make_shared<NvidiaGpuTempSensor>(
         conn, mctpRequester, name + "_TEMP_0", path, eid, gpuTempSensorId,
-        objectServer, std::vector<thresholds::Threshold>{});
+        objectServer, std::vector<thresholds::Threshold>{},
+        "xyz.openbmc_project.Common.PhysicalContext.PhysicalContextType.GPU");
 
     dramTempSensor = std::make_shared<NvidiaGpuTempSensor>(
         conn, mctpRequester, name + "_DRAM_0_TEMP_0", path, eid,
         gpuDramTempSensorId, objectServer,
         std::vector<thresholds::Threshold>{thresholds::Threshold{
-            thresholds::Level::CRITICAL, thresholds::Direction::HIGH, 95.0}});
+            thresholds::Level::CRITICAL, thresholds::Direction::HIGH, 95.0}},
+        "xyz.openbmc_project.Common.PhysicalContext.PhysicalContextType.GPU");
 
     powerSensor = std::make_shared<NvidiaGpuPowerSensor>(
         conn, mctpRequester, name + "_Power_0", path, eid, gpuPowerSensorId,
-        objectServer, std::vector<thresholds::Threshold>{});
+        objectServer, std::vector<thresholds::Threshold>{},
+        "xyz.openbmc_project.Common.PhysicalContext.PhysicalContextType.GPU");
 
     peakPower = std::make_shared<NvidiaGpuPowerPeakReading>(
         mctpRequester, name + "_Power_0", eid, gpuPeakPowerSensorId,
@@ -87,11 +90,13 @@ void GpuDevice::makeSensors()
 
     energySensor = std::make_shared<NvidiaGpuEnergySensor>(
         conn, mctpRequester, name + "_Energy_0", path, eid, gpuEnergySensorId,
-        objectServer, std::vector<thresholds::Threshold>{});
+        objectServer, std::vector<thresholds::Threshold>{},
+        "xyz.openbmc_project.Common.PhysicalContext.PhysicalContextType.GPU");
 
     voltageSensor = std::make_shared<NvidiaGpuVoltageSensor>(
         conn, mctpRequester, name + "_Voltage_0", path, eid, gpuVoltageSensorId,
-        objectServer, std::vector<thresholds::Threshold>{});
+        objectServer, std::vector<thresholds::Threshold>{},
+        "xyz.openbmc_project.Common.PhysicalContext.PhysicalContextType.GPU");
 
     getTLimitThresholds();
 
