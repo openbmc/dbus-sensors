@@ -33,7 +33,8 @@ struct NvidiaGpuVoltageSensor :
         mctp::MctpRequester& mctpRequester, const std::string& name,
         const std::string& sensorConfiguration, uint8_t eid, uint8_t sensorId,
         sdbusplus::asio::object_server& objectServer,
-        std::vector<thresholds::Threshold>&& thresholdData);
+        std::vector<thresholds::Threshold>&& thresholdData,
+        gpu::DeviceIdentification deviceType);
 
     ~NvidiaGpuVoltageSensor() override;
 
@@ -56,4 +57,7 @@ struct NvidiaGpuVoltageSensor :
     sdbusplus::asio::object_server& objectServer;
 
     std::array<uint8_t, sizeof(gpu::GetVoltageRequest)> request{};
+
+    std::shared_ptr<sdbusplus::asio::dbus_interface>
+        commonPhysicalContextInterface;
 };

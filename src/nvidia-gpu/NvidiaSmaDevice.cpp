@@ -13,6 +13,7 @@
 #include <bits/basic_string.h>
 
 #include <MctpRequester.hpp>
+#include <NvidiaGpuMctpVdm.hpp>
 #include <boost/asio/io_context.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
@@ -45,7 +46,8 @@ void SmaDevice::makeSensors()
 {
     tempSensor = std::make_shared<NvidiaGpuTempSensor>(
         conn, mctpRequester, name + "_TEMP_0", path, eid, smaTempSensorId,
-        objectServer, std::vector<thresholds::Threshold>{});
+        objectServer, std::vector<thresholds::Threshold>{},
+        gpu::DeviceIdentification::DEVICE_SMA);
 
     lg2::info("Added MCA {NAME} Sensors with chassis path: {PATH}.", "NAME",
               name, "PATH", path);
