@@ -70,17 +70,20 @@ void GpuDevice::makeSensors()
 {
     tempSensor = std::make_shared<NvidiaGpuTempSensor>(
         conn, mctpRequester, name + "_TEMP_0", path, eid, gpuTempSensorId,
-        objectServer, std::vector<thresholds::Threshold>{});
+        objectServer, std::vector<thresholds::Threshold>{},
+        gpu::DeviceIdentification::DEVICE_GPU);
 
     dramTempSensor = std::make_shared<NvidiaGpuTempSensor>(
         conn, mctpRequester, name + "_DRAM_0_TEMP_0", path, eid,
         gpuDramTempSensorId, objectServer,
         std::vector<thresholds::Threshold>{thresholds::Threshold{
-            thresholds::Level::CRITICAL, thresholds::Direction::HIGH, 95.0}});
+            thresholds::Level::CRITICAL, thresholds::Direction::HIGH, 95.0}},
+        gpu::DeviceIdentification::DEVICE_GPU);
 
     powerSensor = std::make_shared<NvidiaGpuPowerSensor>(
         conn, mctpRequester, name + "_Power_0", path, eid, gpuPowerSensorId,
-        objectServer, std::vector<thresholds::Threshold>{});
+        objectServer, std::vector<thresholds::Threshold>{},
+        gpu::DeviceIdentification::DEVICE_GPU);
 
     peakPower = std::make_shared<NvidiaGpuPowerPeakReading>(
         mctpRequester, name + "_Power_0", eid, gpuPeakPowerSensorId,
@@ -88,11 +91,13 @@ void GpuDevice::makeSensors()
 
     energySensor = std::make_shared<NvidiaGpuEnergySensor>(
         conn, mctpRequester, name + "_Energy_0", path, eid, gpuEnergySensorId,
-        objectServer, std::vector<thresholds::Threshold>{});
+        objectServer, std::vector<thresholds::Threshold>{},
+        gpu::DeviceIdentification::DEVICE_GPU);
 
     voltageSensor = std::make_shared<NvidiaGpuVoltageSensor>(
         conn, mctpRequester, name + "_Voltage_0", path, eid, gpuVoltageSensorId,
-        objectServer, std::vector<thresholds::Threshold>{});
+        objectServer, std::vector<thresholds::Threshold>{},
+        gpu::DeviceIdentification::DEVICE_GPU);
 
     driverInfo = std::make_shared<NvidiaDriverInformation>(
         conn, mctpRequester, name, path, eid, objectServer);
@@ -199,7 +204,8 @@ void GpuDevice::processTLimitThresholds(const std::error_code& ec)
 
     tLimitSensor = std::make_shared<NvidiaGpuTempSensor>(
         conn, mctpRequester, name + "_TEMP_1", path, eid, gpuTLimitSensorId,
-        objectServer, std::move(tLimitThresholds));
+        objectServer, std::move(tLimitThresholds),
+        gpu::DeviceIdentification::DEVICE_GPU);
 }
 
 void GpuDevice::read()
