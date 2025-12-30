@@ -63,7 +63,10 @@ NvidiaGpuVoltageSensor::NvidiaGpuVoltageSensor(
 
     association = objectServer.add_interface(dbusPath, association::interface);
 
-    setInitialProperties(sensor_paths::unitVolts);
+    setInitialProperties(sensor_paths::unitVolts,
+                         std::string(),
+                         0,
+                         sensor_paths::physicalContextGPU);
 }
 
 NvidiaGpuVoltageSensor::~NvidiaGpuVoltageSensor()
