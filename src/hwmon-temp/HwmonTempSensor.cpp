@@ -117,6 +117,7 @@ void HwmonTempSensor::deactivate()
     waitTimer.cancel();
     i2cDevice = nullptr;
     path = "";
+
 }
 
 HwmonTempSensor::~HwmonTempSensor()
