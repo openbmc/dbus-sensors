@@ -26,6 +26,7 @@ enum class Level
     PERFORMANCELOSS,
     SOFTSHUTDOWN,
     HARDSHUTDOWN,
+    NONRECOVERABLE,
     ERROR
 };
 enum class Direction
@@ -140,12 +141,13 @@ struct ThresholdDefinition
     const char* levelName;
 };
 
-constexpr static std::array<thresholds::ThresholdDefinition, 5> thresProp = {
+constexpr static std::array<thresholds::ThresholdDefinition, 6> thresProp = {
     {{Level::WARNING, 0, "Warning"},
      {Level::CRITICAL, 1, "Critical"},
      {Level::PERFORMANCELOSS, 2, "PerformanceLoss"},
      {Level::SOFTSHUTDOWN, 3, "SoftShutdown"},
-     {Level::HARDSHUTDOWN, 4, "HardShutdown"}}};
+     {Level::HARDSHUTDOWN, 4, "HardShutdown"},
+     {Level::NONRECOVERABLE, 5, "NonRecoverable"}}};
 
 std::string getInterface(Level level);
 
