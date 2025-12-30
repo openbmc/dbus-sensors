@@ -60,4 +60,7 @@ struct NvidiaGpuTempSensor :
         getTemperatureReadingRequest{};
 
     std::shared_ptr<sdbusplus::asio::dbus_interface> sensorTypeInterface;
+
+    std::shared_ptr<sdbusplus::asio::dbus_interface>
+        commonPhysicalContextInterface;
 };
