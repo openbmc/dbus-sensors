@@ -268,7 +268,8 @@ struct Sensor
 
     void setInitialProperties(const std::string& unit,
                               const std::string& label = std::string(),
-                              size_t thresholdSize = 0)
+                              size_t thresholdSize = 0,
+                              const std::string& physicalContext = std::string())
     {
         if (readState == PowerState::on || readState == PowerState::biosPost ||
             readState == PowerState::chassisOn)
@@ -281,6 +282,7 @@ struct Sensor
         sensorInterface->register_property("Unit", unit);
         sensorInterface->register_property("MaxValue", maxValue);
         sensorInterface->register_property("MinValue", minValue);
+        sensorInterface->register_property("PhysicalContext", physicalContext);
         sensorInterface->register_property(
             "Value", value, [this](const double& newValue, double& oldValue) {
                 return setSensorValue(newValue, oldValue);
