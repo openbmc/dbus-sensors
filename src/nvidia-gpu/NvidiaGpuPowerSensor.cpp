@@ -6,6 +6,7 @@
 #include "NvidiaGpuPowerSensor.hpp"
 
 #include "MctpRequester.hpp"
+#include "NvidiaSensorUtils.hpp"
 #include "SensorPaths.hpp"
 #include "Thresholds.hpp"
 #include "Utils.hpp"
@@ -42,7 +43,8 @@ NvidiaGpuPowerSensor::NvidiaGpuPowerSensor(
     mctp::MctpRequester& mctpRequester, const std::string& name,
     const std::string& sensorConfiguration, uint8_t eid, uint8_t sensorId,
     sdbusplus::asio::object_server& objectServer,
-    std::vector<thresholds::Threshold>&& thresholdData) :
+    std::vector<thresholds::Threshold>&& thresholdData,
+    gpu::DeviceIdentification deviceType) :
     Sensor(escapeName(name), std::move(thresholdData), sensorConfiguration,
            "power", false, true, gpuPowerSensorMaxReading,
            gpuPowerSensorMinReading, conn),
@@ -66,6 +68,25 @@ NvidiaGpuPowerSensor::NvidiaGpuPowerSensor(
     association = objectServer.add_interface(dbusPath, association::interface);
 
     setInitialProperties(sensor_paths::unitWatts);
+
+    auto physicalContext =
+        nvidia_sensor_utils::deviceTypeToPhysicalContext(deviceType);
+
+    if (physicalContext)
+    {
+        commonPhysicalContextInterface = objectServer.add_interface(
+            dbusPath, "xyz.openbmc_project.Common.PhysicalContext");
+
+        commonPhysicalContextInterface->register_property("Type",
+                                                          *physicalContext);
+
+        if (!commonPhysicalContextInterface->initialize())
+        {
+            lg2::error(
+                "Error initializing PhysicalContext Interface for Power Sensor for eid {EID} and sensor id {SID}",
+                "EID", eid, "SID", sensorId);
+        }
+    }
 }
 
 NvidiaGpuPowerSensor::~NvidiaGpuPowerSensor()
@@ -76,6 +97,10 @@ NvidiaGpuPowerSensor::~NvidiaGpuPowerSensor()
     }
     objectServer.remove_interface(association);
     objectServer.remove_interface(sensorInterface);
+    if (commonPhysicalContextInterface)
+    {
+        objectServer.remove_interface(commonPhysicalContextInterface);
+    }
 }
 
 void NvidiaGpuPowerSensor::checkThresholds()
