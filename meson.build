@@ -28,6 +28,7 @@ add_project_arguments(
     '-DBOOST_ALLOW_DEPRECATED_HEADERS',
     '-DBOOST_ASIO_HAS_IO_URING',
     '-DBOOST_ASIO_DISABLE_EPOLL',
+    '-DJSON_NOEXCEPTION',
     language: 'cpp',
 )
 

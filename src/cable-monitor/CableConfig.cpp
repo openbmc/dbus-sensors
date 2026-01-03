@@ -25,17 +25,14 @@ static auto parseConfigFile(std::string configFile) -> json
         return {};
     }
 
-    try
+    auto jsData = json::parse(jsonFile, nullptr, false);
+    if (jsData.is_discarded())
     {
-        return json::parse(jsonFile, nullptr, true);
-    }
-    catch (const json::parse_error& e)
-    {
-        error("Failed to parse config file {PATH}: {ERROR}", "PATH", configFile,
-              "ERROR", e);
+        error("Failed to parse config file {PATH}", "PATH", configFile);
+        return {};
     }
 
-    return {};
+    return jsData;
 }
 
 auto Config::processConfig(std::string configFile)
