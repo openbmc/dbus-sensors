@@ -18,7 +18,7 @@
 namespace gpu
 {
 
-using InventoryValue = std::variant<std::string, std::vector<uint8_t>>;
+using InventoryValue = std::variant<std::string, std::vector<uint8_t>, uint32_t>;
 constexpr size_t maxInventoryDataSize = 256;
 
 constexpr uint16_t nvidiaPciVendorId = 0x10de;
