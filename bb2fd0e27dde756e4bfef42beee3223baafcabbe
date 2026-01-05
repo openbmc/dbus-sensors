@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "d4644d17_74c10536",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2026-01-05T19:05:52Z",
+      "side": 1,
+      "message": "This is related PR section. For inventory item, refer to related PR [1],i.e. https://gerrit.openbmc.org/c/openbmc/entity-manager/+/77415.",
+      "parentUuid": "5f5bd803_eaafc3d7",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 31
+      },
+      "revId": "bb2fd0e27dde756e4bfef42beee3223baafcabbe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "f3122097_954383e3",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 11
@@ -58,6 +82,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5093fc0f_e4606583",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2026-01-05T19:05:52Z",
+      "side": 1,
+      "message": "The GPIO common code is already part of common code/class in https://github.com/openbmc/dbus-sensors/blob/master/src/GPIOInterface.cpp. This common code gets used both in leak detection and valve-monitor. This service mainly holds the app/daemon specific logic. Moreover, the leak detection and valve monitor are two different features, hence they have been added as two different services.\n\nMarking this as resolved with above reasoning. Let me know if you still have any questions here.",
+      "parentUuid": "3cc0e73b_6a32035e",
+      "revId": "bb2fd0e27dde756e4bfef42beee3223baafcabbe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e8228b60_d2330439",
@@ -75,6 +117,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2e40cdb_90d8fe5e",
+        "filename": "src/GPIOInterface.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2026-01-05T19:05:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8228b60_d2330439",
+      "revId": "bb2fd0e27dde756e4bfef42beee3223baafcabbe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9e810797_d6b37262",
@@ -88,6 +148,24 @@
       "writtenOn": "2025-12-23T17:15:47Z",
       "side": 1,
       "message": "As written, don\u0027t all of these need inputMode checks?  See comment above about splitting up things.",
+      "revId": "bb2fd0e27dde756e4bfef42beee3223baafcabbe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0932a8f9_b6b6695c",
+        "filename": "src/GPIOInterface.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2026-01-05T19:05:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e810797_d6b37262",
       "revId": "bb2fd0e27dde756e4bfef42beee3223baafcabbe",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -115,6 +193,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca982d60_8fe35e81",
+        "filename": "src/valve-monitor/GPIOValve.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2026-01-05T19:05:52Z",
+      "side": 1,
+      "message": "One is a association for control interface and other is for value interface. Refer to my reply here https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/82574/comment/e2188fa6_0f5e7d75/.",
+      "parentUuid": "a35e90ac_b235a56c",
+      "range": {
+        "startLine": 37,
+        "startChar": 5,
+        "endLine": 37,
+        "endChar": 70
+      },
+      "revId": "bb2fd0e27dde756e4bfef42beee3223baafcabbe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e2188fa6_0f5e7d75",
@@ -128,6 +230,24 @@
       "writtenOn": "2025-12-23T17:15:47Z",
       "side": 1,
       "message": "Why are these two separate with multiple inheritance?  SHouldn\u0027t they both be in the same object?",
+      "revId": "bb2fd0e27dde756e4bfef42beee3223baafcabbe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22140b11_19accf77",
+        "filename": "src/valve-monitor/GPIOValve.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2026-01-05T19:05:52Z",
+      "side": 1,
+      "message": "Because one is a control interface and other is a value interface and each of these interface reside on a different objectPath (value path vs control path), hence so.  \n\nThis is similar to whats being already done for other implementations in dbus-sensors https://grok.openbmc.org/search?full\u003d%22%2Fxyz%2Fopenbmc_project%2Fcontrol%2F%22\u0026defs\u003d\u0026refs\u003d\u0026path\u003d%2Fopenbmc%2Fdbus-sensors%2Fsrc\u0026hist\u003d\u0026type\u003d\u0026xrd\u003d\u0026nn\u003d1\u0026si\u003dfull\u0026searchall\u003dtrue\u0026si\u003dfull.",
+      "parentUuid": "e2188fa6_0f5e7d75",
       "revId": "bb2fd0e27dde756e4bfef42beee3223baafcabbe",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -149,6 +269,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d379948_fe77498b",
+        "filename": "src/valve-monitor/GPIOValve.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2026-01-05T19:05:52Z",
+      "side": 1,
+      "message": "This clang warning is related to the style for auto generated PDI definitions which are being overridden here. NOLINTNEXTLINE here is to skip that warning.",
+      "parentUuid": "964d4fe5_08068768",
+      "revId": "bb2fd0e27dde756e4bfef42beee3223baafcabbe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "74dbb933_f199db3f",
@@ -166,6 +304,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ea55208_673f6332",
+        "filename": "src/valve-monitor/GPIOValve.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2026-01-05T19:05:52Z",
+      "side": 1,
+      "message": "This is overriding the PDI generated definitions, which has the similar signature. Refer to https://github.com/openbmc/sdbusplus/blob/master/example/calculator-aserver.cpp#L50 for example.",
+      "parentUuid": "74dbb933_f199db3f",
+      "revId": "bb2fd0e27dde756e4bfef42beee3223baafcabbe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a0c65bb8_f565642c",
@@ -179,6 +335,24 @@
       "writtenOn": "2025-12-23T17:15:47Z",
       "side": 1,
       "message": "1. We generally don\u0027t use bools\n2. We probably want to define this as \"asserted\" in some fashion.  Maybe the same way we do inverted GPIOs elsewhere?  As written this isn\u0027t very clear what it does.",
+      "revId": "bb2fd0e27dde756e4bfef42beee3223baafcabbe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86c45748_003aa735",
+        "filename": "src/valve-monitor/Readme.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2026-01-05T19:05:52Z",
+      "side": 1,
+      "message": "\u003e 1. We generally don\u0027t use bools\n\u003e 2. We probably want to define this as \"asserted\" in some fashion.  Maybe the same way we do inverted GPIOs elsewhere?  As written this isn\u0027t very clear what it does.\n\nI suppose you are referring to OpenControlValue. I had explicitly named it so it reflects whats the value required to open the valve. Similar concept of value gets used in https://github.com/openbmc/entity-manager/blob/master/schemas/gpio_presence.json#L24. \n\nFYI: This has been already been approved and merged in EntityManager https://gerrit.openbmc.org/c/openbmc/entity-manager/+/82310.",
+      "parentUuid": "a0c65bb8_f565642c",
       "revId": "bb2fd0e27dde756e4bfef42beee3223baafcabbe",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -208,6 +382,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "388a2f33_7793b5b7",
+        "filename": "src/valve-monitor/Readme.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2026-01-05T19:05:52Z",
+      "side": 1,
+      "message": "\u003e Is there a more specific type we can use here? The valves I know of are Assert open, deassert close.  Obviously this one is more complicated, so lets give it a name.  I\u0027m not sure what that would be though.  If you have an example datasheet for one of these values, I can help suggest more things.\n\nWhat more specific type are you looking for? I have named it similar to other GPIO based EM schemas, for example, GPIOLeakDetector, GPIODeviceDetect.\nFYI: This has been already been approved and merged in EntityManager https://gerrit.openbmc.org/c/openbmc/entity-manager/+/82310.",
+      "parentUuid": "591ddd9b_0d65ca04",
+      "range": {
+        "startLine": 19,
+        "startChar": 11,
+        "endLine": 19,
+        "endChar": 20
+      },
+      "revId": "bb2fd0e27dde756e4bfef42beee3223baafcabbe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8dbb3d76_d616cd95",
         "filename": "src/valve-monitor/Readme.md",
         "patchSetId": 11
@@ -219,6 +417,30 @@
       "writtenOn": "2025-12-23T17:15:47Z",
       "side": 1,
       "message": "sensors/valve_open isn\u0027t a namespace, and this isn\u0027t a sensor under the normal definitions.  What that path discussed somewhere?",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 55
+      },
+      "revId": "bb2fd0e27dde756e4bfef42beee3223baafcabbe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "acc7596a_83db9b81",
+        "filename": "src/valve-monitor/Readme.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2026-01-05T19:05:52Z",
+      "side": 1,
+      "message": "Redfish has defined valve as a sensor https://github.com/openbmc/bmcweb/blob/master/redfish-core/schema/dmtf/json-schema/Sensor.v1_11_1.json#L164.\n\nThis has already been added to the sensors namespace in PDI. Please refer to https://gerrit.openbmc.org/c/openbmc/phosphor-dbus-interfaces/+/82304.\n\nI am marking this as resolved. Please let me know if you still got any questions.",
+      "parentUuid": "8dbb3d76_d616cd95",
       "range": {
         "startLine": 27,
         "startChar": 0,
