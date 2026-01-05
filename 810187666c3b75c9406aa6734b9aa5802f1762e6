@@ -54,6 +54,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f5258a85_b7025ef5",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-01-05T06:30:19Z",
+      "side": 1,
+      "message": "I understand that Sensor is a base class used by many sensors. My initial thought was to use a default parameter std::string() to ensure that other sensors remain unaffected if they don\u0027t provide a value.\n\nHowever, I see your point about keeping the base class clean. I will follow your suggestion to restore the Sensor class and register PhysicalContext individually within each sensor class in nvidia-gpu. I will upload a new patch set soon. \n\nThanks!",
+      "parentUuid": "2d806b03_dafbd871",
+      "revId": "810187666c3b75c9406aa6734b9aa5802f1762e6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4e089e3b_fcd9f19d",
         "filename": "src/sensor.hpp",
         "patchSetId": 1
