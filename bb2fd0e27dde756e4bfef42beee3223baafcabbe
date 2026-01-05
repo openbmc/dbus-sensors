@@ -102,6 +102,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f0439bfc_f0de9d52",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-01-05T21:49:11Z",
+      "side": 1,
+      "message": "\u003e This service mainly holds the app/daemon specific logic\n\nright, but this application specific logic seems trivially different.  Why do we need a whole new application for this?  Yes, I understand the GPIO code itself is common.",
+      "parentUuid": "5093fc0f_e4606583",
+      "revId": "bb2fd0e27dde756e4bfef42beee3223baafcabbe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e8228b60_d2330439",
         "filename": "src/GPIOInterface.cpp",
         "patchSetId": 11
