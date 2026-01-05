@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "82267e74_b6e9dda1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-01-05T05:46:45Z",
+      "side": 1,
+      "message": "Please put application name in the commit message subject line. See https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/85461 for example.",
+      "revId": "8fef50dd9c6370e22d98cb8d07f3db50d68a1615",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "f7756638_c01f7126",
