@@ -16,6 +16,40 @@
       "message": "Hi maintainers, this is my first contribution to OpenBMC. Could someone please help to trigger the CI for me? Thanks!",
       "revId": "810187666c3b75c9406aa6734b9aa5802f1762e6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d806b03_dafbd871",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-01-05T05:38:38Z",
+      "side": 1,
+      "message": "This might not work, since the same class is also used for SMA Temperature Sensor.",
+      "revId": "810187666c3b75c9406aa6734b9aa5802f1762e6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e089e3b_fcd9f19d",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-01-05T05:38:38Z",
+      "side": 1,
+      "message": "Is it possible to avoid modifying this class and register PhysicalContext withing each sensor class inside nvidia-gpu?",
+      "revId": "810187666c3b75c9406aa6734b9aa5802f1762e6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
