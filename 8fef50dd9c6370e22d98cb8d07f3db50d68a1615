@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b82c909_9cc0cad1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002762
+      },
+      "writtenOn": "2026-01-05T08:19:59Z",
+      "side": 1,
+      "message": "@haghera@nvidia.com\n\nDone. Added application name in the commit subject.",
+      "parentUuid": "82267e74_b6e9dda1",
+      "revId": "8fef50dd9c6370e22d98cb8d07f3db50d68a1615",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "f7756638_c01f7126",
