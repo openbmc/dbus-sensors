@@ -484,6 +484,13 @@ int decodeGetInventoryInformationResponse(
         case InventoryPropertyId::DEVICE_GUID:
             value = std::vector<uint8_t>(dataPtr, dataPtr + dataSize);
             break;
+        case InventoryPropertyId::DEFAULT_BOOST_CLOCKS:
+            if (dataSize != sizeof(uint32_t))
+            {
+                return EINVAL;
+            }
+            value = le32toh(*std::bit_cast<const uint32_t*>(dataPtr));
+            break;
         default:
             return EINVAL;
     }
