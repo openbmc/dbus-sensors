@@ -18,6 +18,23 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eca55670_957b4bfc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2026-01-06T06:24:46Z",
+      "side": 1,
+      "message": "overall, looks good. It needs a bit of love stylistically but my preference would be to \n\n1. fix up the tidy errors\n2. pick off the low hanging fruit\n3. test the crap out of it\n4. land this feature\n5. followup with stylistic/preference fixes (I agree with much of what Harshit has said here, i.e. making this a class and adding more granularity on config fixes).",
+      "revId": "f2552ad37c1f1bc1e4d2d63cb3564ee306c262b0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "94868241_13bf71ca",
@@ -133,6 +150,23 @@
       "writtenOn": "2026-01-06T05:52:05Z",
       "side": 1,
       "message": "Do we also want to handle plug-in (discovery) of Entities after initial MCTP discovery?",
+      "revId": "f2552ad37c1f1bc1e4d2d63cb3564ee306c262b0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d4f2b06_0a02961f",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2026-01-06T06:24:46Z",
+      "side": 1,
+      "message": "nit, follow up is fine. This lambda is borderline too long IMO.",
       "revId": "f2552ad37c1f1bc1e4d2d63cb3564ee306c262b0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
