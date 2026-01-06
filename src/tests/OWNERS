@@ -34,8 +34,12 @@
 inherited: true
 owners:
 - andrew@codeconstruct.com.au
+- haghera@nvidia.com
 
 openbmc:
 - name: Andrew Jeffery
   email: andrew@codeconstruct.com.au
   discord: arj
+- name: Harshit Aghera
+  email: haghera@nvidia.com
+  discord: harshit.aghera
