@@ -16,6 +16,142 @@
       "message": "There are unrelated as well as minor related to the patch CI fails (this and the child). Will fixup the latter soon. Not yet sure what the former is due to.",
       "revId": "f2552ad37c1f1bc1e4d2d63cb3564ee306c262b0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94868241_13bf71ca",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-01-06T05:52:05Z",
+      "side": 1,
+      "message": "I think we should add support for multiple NvidiaMctpVdm configuration (one for each device) in Entity Configuration. For example separate configuration for SMAs and CXs. We can add a `DeviceName` property in the Platform config and then match the value of that property in the Entity config to pick the relevant config. We can also introduce separate config type for each device type, NvidiaMctpVdmGpu, NvidiaMctpVdmSMA, etc. This will help when we have certain configuration properties that are only applicable for a particular device type, number of network ports on CXs for example.",
+      "revId": "f2552ad37c1f1bc1e4d2d63cb3564ee306c262b0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97d9b275_6b418a7e",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-01-06T05:52:05Z",
+      "side": 1,
+      "message": "nit: having all this function as free function (as oppose to class member functions) is unnecessarily increasing lines of code in my opinion as we have to pass same set of function parameters to each function. Once we add support for MCTP rediscovery we anyway have to introduce class based design as we have to maintain state.",
+      "revId": "f2552ad37c1f1bc1e4d2d63cb3564ee306c262b0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34f792a3_20c9206f",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-01-06T05:52:05Z",
+      "side": 1,
+      "message": "Is this object unused?",
+      "revId": "f2552ad37c1f1bc1e4d2d63cb3564ee306c262b0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2c6b407_21b985bf",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-01-06T05:52:05Z",
+      "side": 1,
+      "message": "In this case should we call queryDeviceIdentification and return from this function like we did in function processConfigPropertiesResult?",
+      "revId": "f2552ad37c1f1bc1e4d2d63cb3564ee306c262b0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0aa3da29_c2959e33",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-01-06T05:52:05Z",
+      "side": 1,
+      "message": "In this case should we call queryDeviceIdentification and return from \nthis function like we did in function processConfigPropertiesResult?",
+      "revId": "f2552ad37c1f1bc1e4d2d63cb3564ee306c262b0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac0019f9_e57c1a77",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-01-06T05:52:05Z",
+      "side": 1,
+      "message": "Should we use the value of object inventoryPath instead of `/xyz/openbmc_project/inventory`?",
+      "revId": "f2552ad37c1f1bc1e4d2d63cb3564ee306c262b0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8011b5d0_c0272222",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-01-06T05:52:05Z",
+      "side": 1,
+      "message": "Do we also want to handle plug-in (discovery) of Entities after initial MCTP discovery?",
+      "revId": "f2552ad37c1f1bc1e4d2d63cb3564ee306c262b0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92c7b0c8_4cf9a8e8",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-01-06T05:52:05Z",
+      "side": 1,
+      "message": "Can we use GetAssociatedSubTree method to get associated EM Config Object Path and Service Name in a single Dbus method call?",
+      "revId": "f2552ad37c1f1bc1e4d2d63cb3564ee306c262b0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
