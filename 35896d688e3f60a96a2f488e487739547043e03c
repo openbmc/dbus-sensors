@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "5eed5f80_6e9c923b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2026-01-06T19:51:25Z",
+      "side": 1,
+      "message": "on which chip? on which platform?",
+      "revId": "35896d688e3f60a96a2f488e487739547043e03c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "97e4b9f0_83ac9d22",
@@ -14,6 +31,23 @@
       "writtenOn": "2026-01-02T06:01:47Z",
       "side": 1,
       "message": "CI failure seems unrelated to the patch...",
+      "revId": "35896d688e3f60a96a2f488e487739547043e03c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e283d7e_bc1bcc96",
+        "filename": "src/psu/PSUSensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2026-01-06T19:51:25Z",
+      "side": 1,
+      "message": "shouldn\u0027t we just be adjusting entity manager configs for this and others? Why are we changing the defaults? This may work thermally for your platforms, but this will be a silent (and possibly breaking) change for others that aren\u0027t configuring the poll rates on these sensors.",
       "revId": "35896d688e3f60a96a2f488e487739547043e03c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
