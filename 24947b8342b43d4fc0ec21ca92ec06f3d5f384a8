@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65858a3e_afef9808",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-01-06T06:57:24Z",
+      "side": 1,
+      "message": "use nvidia-gpu: prefix instead for commit message subject line.",
+      "revId": "24947b8342b43d4fc0ec21ca92ec06f3d5f384a8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
