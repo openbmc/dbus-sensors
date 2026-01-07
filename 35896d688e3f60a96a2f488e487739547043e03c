@@ -68,6 +68,24 @@
       "message": "shouldn\u0027t we just be adjusting entity manager configs for this and others? Why are we changing the defaults? This may work thermally for your platforms, but this will be a silent (and possibly breaking) change for others that aren\u0027t configuring the poll rates on these sensors.",
       "revId": "35896d688e3f60a96a2f488e487739547043e03c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04417731_82ce8a98",
+        "filename": "src/psu/PSUSensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1002762
+      },
+      "writtenOn": "2026-01-07T10:34:50Z",
+      "side": 1,
+      "message": "Thank you for the clarification. I understand the concern about changing global default poll intervals and the potential impact on other platforms.\n\nThe issue was observed and validated on the AST2600 EVB, where sensors are currently using default poll rates, leading to unnecessary CPU utilization.\n\nI agree that poll interval tuning should ideally be handled via Entity Manager configuration on a per-platform basis to avoid unintended side effects. I will update this change accordingly by moving the poll interval adjustments to the AST2600 EVB Entity Manager configuration and keep the framework defaults unchanged.",
+      "parentUuid": "4e283d7e_bc1bcc96",
+      "revId": "35896d688e3f60a96a2f488e487739547043e03c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
