@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f47e88c9_60710648",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002762
+      },
+      "writtenOn": "2026-01-07T10:25:37Z",
+      "side": 1,
+      "message": "This was validated on the AST2600 EVB platform. High CPU utilization due to frequent sensor polling was observed on this platform, which motivated the change.",
+      "parentUuid": "5eed5f80_6e9c923b",
+      "revId": "35896d688e3f60a96a2f488e487739547043e03c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "97e4b9f0_83ac9d22",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
