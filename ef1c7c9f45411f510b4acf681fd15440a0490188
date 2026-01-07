@@ -140,6 +140,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d39e291a_1033699b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002134
+      },
+      "writtenOn": "2026-01-07T14:28:13Z",
+      "side": 1,
+      "message": "Okay, I have marked the other unresolved comments as resolved.\nThank you.",
+      "parentUuid": "4344c4cb_33b26600",
+      "revId": "ef1c7c9f45411f510b4acf681fd15440a0490188",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "361aa98d_7d8b66ba",
@@ -171,6 +189,24 @@
       "side": 1,
       "message": "Would it make sense to try the following approach:\nKeep `Target` and `Value` interchangeable as before, and add a new read/write D-Bus property that explicitly stores `user intent`.\n\nThis property would serve as the canonical reference for write decisions (i.e., when a PWM write is requested via any property, the incoming value is compared against the last recorded `user intent` to decide whether to write to hardware).\n\nThis way, any of the three properties could trigger a PWM write, but the write-decision logic would always compare the incoming value against the last recorded `user intent`, rather than against the current `Value` or `Target`.\n\nSeparately, I noticed [Gerrit 82199] takes a more direct approach to fix this issue, but it introduces additional reads of the hardware PWM file and does not rely on the D-Bus property to decide whether to write to hardware.\n\nI’d appreciate additional feedback from reviewers on which direction is preferred.\n\n[Gerrit 82199]: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/82199",
       "parentUuid": "361aa98d_7d8b66ba",
+      "revId": "ef1c7c9f45411f510b4acf681fd15440a0490188",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e16981a_e422c7fa",
+        "filename": "src/PwmSensor.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1002134
+      },
+      "writtenOn": "2026-01-07T14:28:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f12d1370_28d562fb",
       "revId": "ef1c7c9f45411f510b4acf681fd15440a0490188",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },

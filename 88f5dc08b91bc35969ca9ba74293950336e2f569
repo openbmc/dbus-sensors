@@ -143,6 +143,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccf241c5_8b5f50d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1002134
+      },
+      "writtenOn": "2026-01-07T14:28:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a10d2d8a_fdb86eb5",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 59
+      },
+      "revId": "88f5dc08b91bc35969ca9ba74293950336e2f569",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c8df5304_7821269c",
@@ -228,6 +252,30 @@
       "side": 1,
       "message": "ACK, that makes sense.",
       "parentUuid": "93436665_3d20b737",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 49
+      },
+      "revId": "88f5dc08b91bc35969ca9ba74293950336e2f569",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6766d6ad_9c9dca7b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1002134
+      },
+      "writtenOn": "2026-01-07T14:28:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0fa38850_a8e968a8",
       "range": {
         "startLine": 46,
         "startChar": 0,
