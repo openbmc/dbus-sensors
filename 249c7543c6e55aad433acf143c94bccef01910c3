@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b039d806_64942a98",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-01-08T05:22:04Z",
+      "side": 1,
+      "message": "This dbus method call and one in the function `checkAssociationAndQueryDevice` look very similar, is there opportunity for de-duplication?",
+      "revId": "249c7543c6e55aad433acf143c94bccef01910c3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59d4a0b0_e7d15cc3",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 833,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-01-08T05:22:04Z",
+      "side": 1,
+      "message": "Can we call this function from function `queryEndpoints` instead of duplicating dbus method call at both the places?",
+      "revId": "249c7543c6e55aad433acf143c94bccef01910c3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ec2adbf_eef2addf",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-01-08T05:22:04Z",
+      "side": 1,
+      "message": "Do we also need matches for InterfaceRemoved and PropertiesChanged for Connectivity property? @santosh.puranik.ibm@gmail.com, is PropertiesChanged for Connectivity property is supported? I see that pldmd has enabled support for it.",
+      "revId": "249c7543c6e55aad433acf143c94bccef01910c3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
