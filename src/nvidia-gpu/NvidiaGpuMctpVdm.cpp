@@ -485,6 +485,25 @@ int decodeGetInventoryInformationResponse(
         case InventoryPropertyId::DEVICE_GUID:
             value = std::vector<uint8_t>(dataPtr, dataPtr + dataSize);
             break;
+        case InventoryPropertyId::DEFAULT_BOOST_CLOCKS:
+            // Support both uint32 and uint64 for backward compatibility
+            if (dataSize == sizeof(uint32_t))
+            {
+                // Hardware returns 32-bit value
+                uint32_t val32 =
+                    le32toh(*std::bit_cast<const uint32_t*>(dataPtr));
+                value = static_cast<uint64_t>(val32);
+            }
+            else if (dataSize == sizeof(uint64_t))
+            {
+                // Hardware returns 64-bit value
+                value = le64toh(*std::bit_cast<const uint64_t*>(dataPtr));
+            }
+            else
+            {
+                return EINVAL;
+            }
+            break;
         default:
             return EINVAL;
     }
