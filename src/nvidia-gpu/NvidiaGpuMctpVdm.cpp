@@ -485,6 +485,17 @@ int decodeGetInventoryInformationResponse(
         case InventoryPropertyId::DEVICE_GUID:
             value = std::vector<uint8_t>(dataPtr, dataPtr + dataSize);
             break;
+        case InventoryPropertyId::DEFAULT_BOOST_CLOCKS:
+        {
+            if (dataSize != sizeof(uint32_t))
+            {
+                return EINVAL;
+            }
+            uint32_t clockMhz =
+                le32toh(*std::bit_cast<const uint32_t*>(dataPtr));
+            value = clockMhz;
+            break;
+        }
         default:
             return EINVAL;
     }
