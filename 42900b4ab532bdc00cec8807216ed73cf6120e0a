@@ -46,6 +46,30 @@
       },
       "revId": "42900b4ab532bdc00cec8807216ed73cf6120e0a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3065b5dd_cdc72939",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1002734
+      },
+      "writtenOn": "2026-01-08T01:34:15Z",
+      "side": 1,
+      "message": "Hi Patrick,\nIs there still any concern about this change?",
+      "parentUuid": "34f12cbf_2328964d",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 77
+      },
+      "revId": "42900b4ab532bdc00cec8807216ed73cf6120e0a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
