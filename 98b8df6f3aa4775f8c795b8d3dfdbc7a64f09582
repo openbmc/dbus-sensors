@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8201e97e_5b9dcdbb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2026-01-08T07:27:22Z",
+      "side": 1,
+      "message": "I suggest we not do this. Software.Version already documents the path as xyz/openbmc_project/software for both FW and SW. The needs to distinguisg via different URI segments is really a Redfish problem - do we really want to do this? I suggest we just put this under /redfish/v1/UpdateService/FirmwareInventory with a suitable name indicating driver version.",
+      "range": {
+        "startLine": 13,
+        "startChar": 5,
+        "endLine": 13,
+        "endChar": 45
+      },
+      "revId": "98b8df6f3aa4775f8c795b8d3dfdbc7a64f09582",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22582855_acc1d844",
+        "filename": "src/nvidia-gpu/NvidiaDriverInformation.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2026-01-08T07:27:22Z",
+      "side": 1,
+      "message": "Don\u0027t we need to do an inventory to software association?",
+      "revId": "98b8df6f3aa4775f8c795b8d3dfdbc7a64f09582",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9314714d_71220ffa",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2026-01-08T07:27:22Z",
+      "side": 1,
+      "message": "Do we really need to update this periodically or can it go to ivnentory.cpp?",
+      "revId": "98b8df6f3aa4775f8c795b8d3dfdbc7a64f09582",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
