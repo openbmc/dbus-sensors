@@ -14,6 +14,7 @@
 
 #include <algorithm>
 #include <cstdint>
+#include <limits>
 #include <memory>
 #include <optional>
 #include <span>
@@ -70,7 +71,17 @@ Inventory::Inventory(
         acceleratorInterface =
             objectServer.add_interface(path, acceleratorIfaceName);
         acceleratorInterface->register_property("Type", std::string("GPU"));
+
+        // Register BoostClockFrequency property
+        acceleratorInterface->register_property(
+            "BoostClockFrequency", std::numeric_limits<uint64_t>::max());
+
         acceleratorInterface->initialize();
+
+        // Add to query queue (manually since registerProperty is for strings
+        // only)
+        properties[gpu::InventoryPropertyId::DEFAULT_BOOST_CLOCKS] = {
+            acceleratorInterface, "BoostClockFrequency", 0, true};
     }
 }
 
@@ -246,6 +257,26 @@ void Inventory::handleInventoryPropertyResponse(
                             "PROP_ID", static_cast<uint8_t>(propertyId), "NAME",
                             name);
                         break;
+                    }
+                    break;
+
+                case gpu::InventoryPropertyId::DEFAULT_BOOST_CLOCKS:
+                    if (std::holds_alternative<uint32_t>(info))
+                    {
+                        uint32_t clockSpeed = std::get<uint32_t>(info);
+                        // Convert to uint64_t for D-Bus interface requirement
+                        uint64_t clockSpeed64 =
+                            static_cast<uint64_t>(clockSpeed);
+                        it->second.interface->set_property(
+                            it->second.propertyName, clockSpeed64);
+                        success = true;
+                    }
+                    else
+                    {
+                        lg2::error(
+                            "Property ID {PROP_ID} for {NAME} expected uint64_t but got different type",
+                            "PROP_ID", static_cast<uint8_t>(propertyId), "NAME",
+                            name);
                     }
                     break;
 
