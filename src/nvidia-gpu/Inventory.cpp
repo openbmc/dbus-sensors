@@ -70,7 +70,17 @@ Inventory::Inventory(
         acceleratorInterface =
             objectServer.add_interface(path, acceleratorIfaceName);
         acceleratorInterface->register_property("Type", std::string("GPU"));
+
+        // Register DefaultBoostClockSpeedMHz property
+        acceleratorInterface->register_property("DefaultBoostClockSpeedMHz",
+                                                static_cast<uint32_t>(0));
+
         acceleratorInterface->initialize();
+
+        // Add to query queue (manually since registerProperty is for strings
+        // only)
+        properties[gpu::InventoryPropertyId::DEFAULT_BOOST_CLOCKS] = {
+            acceleratorInterface, "DefaultBoostClockSpeedMHz", 0, true};
     }
 }
 
@@ -246,6 +256,23 @@ void Inventory::handleInventoryPropertyResponse(
                             "PROP_ID", static_cast<uint8_t>(propertyId), "NAME",
                             name);
                         break;
+                    }
+                    break;
+
+                case gpu::InventoryPropertyId::DEFAULT_BOOST_CLOCKS:
+                    if (std::holds_alternative<uint32_t>(info))
+                    {
+                        uint32_t clockSpeed = std::get<uint32_t>(info);
+                        it->second.interface->set_property(
+                            it->second.propertyName, clockSpeed);
+                        success = true;
+                    }
+                    else
+                    {
+                        lg2::error(
+                            "Property ID {PROP_ID} for {NAME} expected uint32_t but got different type",
+                            "PROP_ID", static_cast<uint8_t>(propertyId), "NAME",
+                            name);
                     }
                     break;
 
