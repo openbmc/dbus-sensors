@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "482eff4c_3afab414",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-01-09T05:52:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c944204_89a6d924",
+      "revId": "ce2e171c66726105ce5ee8672512c00c23dab6ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3aef38ea_28fbd1b3",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-01-06T06:56:06Z",
       "side": 1,
       "message": "This log is not needed as we don\u0027t have it for other properties as well.",
+      "revId": "ce2e171c66726105ce5ee8672512c00c23dab6ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed527fd0_6b3bc3be",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-01-09T05:52:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3aef38ea_28fbd1b3",
       "revId": "ce2e171c66726105ce5ee8672512c00c23dab6ee",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
