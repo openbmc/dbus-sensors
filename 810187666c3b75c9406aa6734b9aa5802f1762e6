@@ -88,6 +88,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "83d58d78_bb3aebab",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-01-09T06:08:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5258a85_b7025ef5",
+      "revId": "810187666c3b75c9406aa6734b9aa5802f1762e6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4e089e3b_fcd9f19d",
@@ -101,6 +119,24 @@
       "writtenOn": "2026-01-05T05:38:38Z",
       "side": 1,
       "message": "Is it possible to avoid modifying this class and register PhysicalContext withing each sensor class inside nvidia-gpu?",
+      "revId": "810187666c3b75c9406aa6734b9aa5802f1762e6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fcec683_5a026f62",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-01-09T06:08:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e089e3b_fcd9f19d",
       "revId": "810187666c3b75c9406aa6734b9aa5802f1762e6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
