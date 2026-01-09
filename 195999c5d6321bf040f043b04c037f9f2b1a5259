@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b90f0b2_946a4ca9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-01-09T13:03:15Z",
+      "side": 1,
+      "message": "We have to use network_adapters suffix for the inventory since just using \n`/xyz/openbmc_project/inventory/Nvidia_ConnectX_0` would have PCIeDevice\n and NetworkAdapter interfaces at the same object path and that would \ncause PCIe ports to appear in NetworkAdapater Redfish collection URI \nalong with Network ports and vice versa due to association between ports\n and inventory path.",
+      "revId": "195999c5d6321bf040f043b04c037f9f2b1a5259",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

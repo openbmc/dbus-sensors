@@ -16,6 +16,24 @@
       "message": "This needs to match /xyz/openbmc_project/metric/port_PORTID per the PDI",
       "revId": "4fc8f8b071de28faa91ac0dc8dbc04b4a951d493",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0ff06a6_6ba39e6b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-01-09T13:03:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4917b6e_0ed75764",
+      "revId": "4fc8f8b071de28faa91ac0dc8dbc04b4a951d493",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
