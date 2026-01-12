@@ -16,6 +16,41 @@
       "message": "We have to use network_adapters suffix for the inventory since just using \n`/xyz/openbmc_project/inventory/Nvidia_ConnectX_0` would have PCIeDevice\n and NetworkAdapter interfaces at the same object path and that would \ncause PCIe ports to appear in NetworkAdapater Redfish collection URI \nalong with Network ports and vice versa due to association between ports\n and inventory path.",
       "revId": "195999c5d6321bf040f043b04c037f9f2b1a5259",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc2d6a0f_0669ae08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2026-01-12T04:00:02Z",
+      "side": 1,
+      "message": "@haghera@nvidia.com as we discussed with @ed@tanous.net, pcie_devices and network_adapters are not namespaces he prefers in the inventory path - so please dont use them here or the previous commit. You can create different paths for the Nvidia CX NIC vs PCIe as you know the device type. For eg nvidia_cx_nic0 and nvidia_cx_pcie0",
+      "parentUuid": "2b90f0b2_946a4ca9",
+      "revId": "195999c5d6321bf040f043b04c037f9f2b1a5259",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "682a2707_43afa9d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 25
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2026-01-12T04:00:02Z",
+      "side": 1,
+      "message": "Metric paths LGTM, but the inventory path still needs a fix.",
+      "revId": "195999c5d6321bf040f043b04c037f9f2b1a5259",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
