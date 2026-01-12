@@ -121,7 +121,8 @@ struct ThresholdTimer
 bool parseThresholdsFromConfig(
     const SensorData& sensorData,
     std::vector<thresholds::Threshold>& thresholdVector,
-    const std::string* matchLabel = nullptr, const int* sensorIndex = nullptr);
+    const std::string* matchLabel = nullptr, const int* sensorIndex = nullptr,
+    const std::string* sensorPathStr = nullptr);
 
 // Sensors touched by parseThresholdFromAttr() are forcibly updated with given
 // parameters, so callers are encouraged to specify a sane hysteresis value for
