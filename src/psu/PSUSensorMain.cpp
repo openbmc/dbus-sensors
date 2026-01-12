@@ -901,7 +901,7 @@ static void createSensorsCallback(
 
             std::vector<thresholds::Threshold> sensorThresholds;
             if (!parseThresholdsFromConfig(*sensorData, sensorThresholds,
-                                           &labelHead))
+                                           &labelHead, nullptr, &sensorPathStr))
             {
                 lg2::error("error populating thresholds for '{NAME}'", "NAME",
                            sensorNameSubStr);
