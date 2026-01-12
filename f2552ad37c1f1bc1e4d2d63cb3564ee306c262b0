@@ -265,6 +265,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a2677a81_33b34d7e",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-01-12T15:37:51Z",
+      "side": 1,
+      "message": "If I am correct, the value of object `inventoryPath` would be EM Inventory Object Path, and we always expect EM Configuration to be present at a child path of that Inventory Object Path?. So we can directly specify `inventoryPath` here to limit the search space and we might also not need the check at line number 196?",
+      "parentUuid": "8dd75601_251b4bf9",
+      "revId": "f2552ad37c1f1bc1e4d2d63cb3564ee306c262b0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8011b5d0_c0272222",
         "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
         "patchSetId": 2
