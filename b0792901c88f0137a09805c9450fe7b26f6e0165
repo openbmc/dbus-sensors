@@ -34,6 +34,24 @@
       "parentUuid": "d792dcd5_f7740097",
       "revId": "b0792901c88f0137a09805c9450fe7b26f6e0165",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c1306ad_40d36742",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2026-01-12T04:28:48Z",
+      "side": 0,
+      "message": "Agree, although I will do the refactor in a separate commit.",
+      "parentUuid": "f90ff6f2_bba31554",
+      "revId": "b0792901c88f0137a09805c9450fe7b26f6e0165",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
