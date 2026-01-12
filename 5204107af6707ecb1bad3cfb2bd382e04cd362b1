@@ -16,6 +16,24 @@
       "message": "PDI used LGTM. Needs rebase.",
       "revId": "5204107af6707ecb1bad3cfb2bd382e04cd362b1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b96cce7d_adc08735",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-01-12T05:07:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f71ec27_09b4c0ac",
+      "revId": "5204107af6707ecb1bad3cfb2bd382e04cd362b1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
