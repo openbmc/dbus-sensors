@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "63972e66_b789e93f",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2026-01-12T04:51:27Z",
+      "side": 1,
+      "message": "Will check.",
+      "parentUuid": "b039d806_64942a98",
+      "revId": "249c7543c6e55aad433acf143c94bccef01910c3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "59d4a0b0_e7d15cc3",
         "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
         "patchSetId": 1
@@ -37,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "29d4078d_8f2e38eb",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 833,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2026-01-12T04:51:27Z",
+      "side": 1,
+      "message": "Will check.",
+      "parentUuid": "59d4a0b0_e7d15cc3",
+      "revId": "249c7543c6e55aad433acf143c94bccef01910c3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2ec2adbf_eef2addf",
         "filename": "src/nvidia-gpu/NvidiaGpuSensorMain.cpp",
         "patchSetId": 1
@@ -48,6 +84,24 @@
       "writtenOn": "2026-01-08T05:22:04Z",
       "side": 1,
       "message": "Do we also need matches for InterfaceRemoved and PropertiesChanged for Connectivity property? @santosh.puranik.ibm@gmail.com, is PropertiesChanged for Connectivity property is supported? I see that pldmd has enabled support for it.",
+      "revId": "249c7543c6e55aad433acf143c94bccef01910c3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ce9977e_033e43a3",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2026-01-12T04:51:27Z",
+      "side": 1,
+      "message": "Need to think about this and get a follow up patch (need to decide if we want to react to InterfacesRemoved). I will do this in a follow up.",
+      "parentUuid": "2ec2adbf_eef2addf",
       "revId": "249c7543c6e55aad433acf143c94bccef01910c3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
