@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c3390c6_0e17418a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2026-01-12T04:18:07Z",
+      "side": 1,
+      "message": "CI fail needs to be resolved.",
+      "revId": "1abae27c1e67932ac871805311b96de04e40b0d8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b074476f_2a9688b1",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2026-01-12T04:18:07Z",
+      "side": 1,
+      "message": "Do we need this? This is the first time we are supporting it.",
+      "revId": "1abae27c1e67932ac871805311b96de04e40b0d8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
