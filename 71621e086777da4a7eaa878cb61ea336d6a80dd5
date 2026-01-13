@@ -22,6 +22,30 @@
       },
       "revId": "71621e086777da4a7eaa878cb61ea336d6a80dd5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82cd0dc8_61ac90bb",
+        "filename": "src/nvme/NVMeBasicContext.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2026-01-13T04:20:30Z",
+      "side": 1,
+      "message": "Right. Updated.",
+      "parentUuid": "4978b03f_3c61ba0a",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 1
+      },
+      "revId": "71621e086777da4a7eaa878cb61ea336d6a80dd5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
