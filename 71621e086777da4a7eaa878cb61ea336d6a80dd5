@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4978b03f_3c61ba0a",
+        "filename": "src/nvme/NVMeBasicContext.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-01-13T01:04:24Z",
+      "side": 1,
+      "message": "I\u0027d rather we remove these if we\u0027re just writing/reading the struct data over the pipe.",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 1
+      },
+      "revId": "71621e086777da4a7eaa878cb61ea336d6a80dd5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
