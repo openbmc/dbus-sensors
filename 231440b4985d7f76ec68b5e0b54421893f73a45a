@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df4a81c4_d8a69790",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-01-15T06:55:08Z",
+      "side": 1,
+      "message": "This line in note needed in my opinion.",
+      "range": {
+        "startLine": 11,
+        "startChar": 14,
+        "endLine": 12,
+        "endChar": 67
+      },
+      "revId": "231440b4985d7f76ec68b5e0b54421893f73a45a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a458e55_ead9f432",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-01-15T06:55:08Z",
+      "side": 1,
+      "message": "Use MCTP VDM here instead of NSM.",
+      "range": {
+        "startLine": 15,
+        "startChar": 52,
+        "endLine": 15,
+        "endChar": 55
+      },
+      "revId": "231440b4985d7f76ec68b5e0b54421893f73a45a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "751d44bd_997a83b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-01-15T06:55:08Z",
+      "side": 1,
+      "message": "Need more information on the platform that is used for the testing. For \nnvl32-obmc, please add information on how the BMC image was built, \nsimilar to https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/85080/6.",
+      "revId": "231440b4985d7f76ec68b5e0b54421893f73a45a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b695850_daa85ac5",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-01-15T06:55:08Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be uint64_t?",
+      "range": {
+        "startLine": 274,
+        "startChar": 71,
+        "endLine": 274,
+        "endChar": 80
+      },
+      "revId": "231440b4985d7f76ec68b5e0b54421893f73a45a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80945f28_18ef80e3",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-01-15T06:55:08Z",
+      "side": 1,
+      "message": "Do we get value in uint32_t from device? If yes, I suggest we return the value from this function in same type that we got from device and change it to type appropraite for dbus in the `Inventory.cpp` file.",
+      "revId": "231440b4985d7f76ec68b5e0b54421893f73a45a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
