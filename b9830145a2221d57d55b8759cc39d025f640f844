@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "999d1423_088cae73",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-01-15T06:39:51Z",
+      "side": 1,
+      "message": "Need more information on the platform that is used for the testing. For nvl32-obmc, please add information on how the BMC image was built, similar to https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/85080/6.",
+      "revId": "b9830145a2221d57d55b8759cc39d025f640f844",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fb034e55_bfa19bd3",
         "filename": "src/nvidia-gpu/NvidiaGpuSensor.cpp",
         "patchSetId": 9
