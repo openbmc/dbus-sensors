@@ -108,6 +108,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f35b70c0_ae1ceed3",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-01-15T06:20:45Z",
+      "side": 1,
+      "message": "This class is used for Temperature Sensor by for both GPU and SMA device. We need to set Physical Context to correct value based on the device type instead of unconditionally setting it to GPU. I suggest we do this for other sensor type as well.",
+      "parentUuid": "83d58d78_bb3aebab",
+      "revId": "810187666c3b75c9406aa6734b9aa5802f1762e6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4e089e3b_fcd9f19d",
         "filename": "src/sensor.hpp",
         "patchSetId": 1
