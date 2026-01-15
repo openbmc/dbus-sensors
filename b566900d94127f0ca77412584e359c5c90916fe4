@@ -34,6 +34,24 @@
       "parentUuid": "779b9178_79589c90",
       "revId": "b566900d94127f0ca77412584e359c5c90916fe4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "367a333b_5eb08285",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-01-15T07:24:34Z",
+      "side": 1,
+      "message": "@ed@tanous.net, I have checked that libpldm uses its own msgbuf api which uses memcpy under the hood. So for this application, which approach do you suggest to replace the use of reinterpret_cast, using std::bit_cast or memcpy?",
+      "parentUuid": "98978664_ac6f6cd9",
+      "revId": "b566900d94127f0ca77412584e359c5c90916fe4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
