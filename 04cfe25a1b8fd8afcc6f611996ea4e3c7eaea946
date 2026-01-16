@@ -18,6 +18,23 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "737becb6_34044306",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001354
+      },
+      "writtenOn": "2026-01-16T19:24:43Z",
+      "side": 1,
+      "message": "A quick summary of this change to maybe give it a bump:\n\nThis change prevents unnecessary scanning of empty CPU sockets by tracking CPU presence information in the CPUConfig structure.\n\nProblem solved: \n\nEmpty CPU sockets were being repeatedly scanned every second, causing peci_SetDevName() to log events that filled the journal with messages like:\n\u003eintelcpusensor[456]: PECI set dev name to /dev/peci-0\n\nHow it solves:\n\nBy checking the present flag (typically read from a GPIO pin defined in Entity Manager CPU stanza), the code now skips scanning of known-empty sockets. The present flag was being read previously, but nothing was being done with that result (if I\u0027m remembering correctly).",
+      "revId": "04cfe25a1b8fd8afcc6f611996ea4e3c7eaea946",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "891059a6_40011158",
