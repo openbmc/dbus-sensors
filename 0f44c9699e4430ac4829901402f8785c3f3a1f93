@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68254cfe_41f0a957",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-01-16T08:58:38Z",
+      "side": 1,
+      "message": "I strongly suggest to not do this. The GPU Device class shouldn\u0027t be made aware of fully qualified name for GPU PhysicalContext or even of PhysicalContext. I suggest we only pass device type to each Sensor class constructor (using enum already defined in OcpMctpVdm.hpp) and create a helper function to map device type to PhysicalContext and have all Sensor class implementation call that helper function.",
+      "revId": "0f44c9699e4430ac4829901402f8785c3f3a1f93",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
