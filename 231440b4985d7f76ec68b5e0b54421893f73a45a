@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "097a4e8c_9305fe70",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-01-16T09:50:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df4a81c4_d8a69790",
+      "range": {
+        "startLine": 11,
+        "startChar": 14,
+        "endLine": 12,
+        "endChar": 67
+      },
+      "revId": "231440b4985d7f76ec68b5e0b54421893f73a45a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a458e55_ead9f432",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-01-15T06:55:08Z",
       "side": 1,
       "message": "Use MCTP VDM here instead of NSM.",
+      "range": {
+        "startLine": 15,
+        "startChar": 52,
+        "endLine": 15,
+        "endChar": 55
+      },
+      "revId": "231440b4985d7f76ec68b5e0b54421893f73a45a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2850f407_06e30310",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-01-16T09:50:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a458e55_ead9f432",
       "range": {
         "startLine": 15,
         "startChar": 52,
@@ -64,6 +112,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "91686e5e_1058cc1d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-01-16T09:50:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "751d44bd_997a83b7",
+      "revId": "231440b4985d7f76ec68b5e0b54421893f73a45a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5b695850_daa85ac5",
@@ -87,6 +153,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e64ace42_1f3ea349",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-01-16T09:50:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b695850_daa85ac5",
+      "range": {
+        "startLine": 274,
+        "startChar": 71,
+        "endLine": 274,
+        "endChar": 80
+      },
+      "revId": "231440b4985d7f76ec68b5e0b54421893f73a45a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "80945f28_18ef80e3",
@@ -100,6 +190,24 @@
       "writtenOn": "2026-01-15T06:55:08Z",
       "side": 1,
       "message": "Do we get value in uint32_t from device? If yes, I suggest we return the value from this function in same type that we got from device and change it to type appropraite for dbus in the `Inventory.cpp` file.",
+      "revId": "231440b4985d7f76ec68b5e0b54421893f73a45a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b26e206_7d482360",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-01-16T09:50:27Z",
+      "side": 1,
+      "message": "Yes, from device is uint32_t.Modified done.",
+      "parentUuid": "80945f28_18ef80e3",
       "revId": "231440b4985d7f76ec68b5e0b54421893f73a45a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
