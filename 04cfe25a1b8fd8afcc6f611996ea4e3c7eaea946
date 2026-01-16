@@ -52,6 +52,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "439b10d0_7fe22633",
+        "filename": "src/intel-cpu/IntelCPUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1002560
+      },
+      "writtenOn": "2026-01-16T19:48:51Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "891059a6_40011158",
+      "revId": "04cfe25a1b8fd8afcc6f611996ea4e3c7eaea946",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6beb551e_a5ad154c",
@@ -65,6 +83,24 @@
       "writtenOn": "2025-08-29T21:57:19Z",
       "side": 1,
       "message": "adding a config.present check here allows us to skip further scanning of a slot (which triggers PECI sys log messages) for a slot flagged as not-present (generally via a GPIO pin check defined in the Entity Manager CPU stanza)",
+      "revId": "04cfe25a1b8fd8afcc6f611996ea4e3c7eaea946",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a43259ea_3da49084",
+        "filename": "src/intel-cpu/IntelCPUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 1002560
+      },
+      "writtenOn": "2026-01-16T19:48:51Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "6beb551e_a5ad154c",
       "revId": "04cfe25a1b8fd8afcc6f611996ea4e3c7eaea946",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -86,6 +122,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "51f48deb_10604745",
+        "filename": "src/intel-cpu/IntelCPUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 751,
+      "author": {
+        "id": 1002560
+      },
+      "writtenOn": "2026-01-16T19:48:51Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "373ecfda_fae524fb",
+      "revId": "04cfe25a1b8fd8afcc6f611996ea4e3c7eaea946",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e23bbd9c_b122da00",
@@ -99,6 +153,24 @@
       "writtenOn": "2025-08-29T21:57:19Z",
       "side": 1,
       "message": "tracking CPU \u0027presence\u0027 (based on GPIO pin reads) in cpuConfigs allows us to tell if a given CPU slot (as called out in an Entity-Manager stanza) is expected to be empty.\n\nThis can help us avoid doing things like repeatedly trying to check an empty slot to see if it\u0027s been populated and flooding syslog with PECI status messages.",
+      "revId": "04cfe25a1b8fd8afcc6f611996ea4e3c7eaea946",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84cdd7f3_ad506619",
+        "filename": "src/intel-cpu/IntelCPUSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 796,
+      "author": {
+        "id": 1002560
+      },
+      "writtenOn": "2026-01-16T19:48:51Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "e23bbd9c_b122da00",
       "revId": "04cfe25a1b8fd8afcc6f611996ea4e3c7eaea946",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
