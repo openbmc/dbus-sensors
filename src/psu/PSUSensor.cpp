@@ -219,6 +219,12 @@ void PSUSensor::handleResponse(const boost::system::error_code& err,
         {
             lg2::error("'{NAME}' read failed", "NAME", name);
         }
+        incrementError();
+
+        if (inError())
+        {
+            markAvailable(false);
+        }
         restartRead();
         return;
     }
