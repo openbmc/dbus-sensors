@@ -52,6 +52,24 @@
       "parentUuid": "98978664_ac6f6cd9",
       "revId": "b566900d94127f0ca77412584e359c5c90916fe4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9794e2a7_36867732",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-01-16T04:13:12Z",
+      "side": 1,
+      "message": "\u003e One way to avoid a cast is to use memcpy, but I remember we have discussed it and decided to not use it since it has performance overhead\n\nCan you be more specific about the `memcpy()` overhead concern? And do you have a performance target to measure against?\n\nHand-waving performance in the face of the sharp edges such as alignment, undefined behaviour, and resulting API ergonomics, not to mention that you\u0027re copying data for the purpose of endian-conversions anyway, means that there are some genuine trade-offs to consider here.\n\nOne particular sharp edge is you can\u0027t take a pointer to an object that isn\u0027t guaranteed to be aligned for its type (for instance when using `__attribute__((packed))`), which can make for a poor user experience. Specifying types to be amenable to casting over byte buffers (`__attribute__((packed))` again) can give the impression that one doesn\u0027t also need to handle endianness (that merely casting the buffer to the type and accessing the data is fine), not to mention that you\u0027re pushing that endian-handling responsibility onto all users of the type.\n\nFurther, it\u0027s often possible to come up with much nicer in-memory representations of data than the wire format, and explicit unpacking/packing between the two allows you to handle that ergonomically.\n\nReturning to the `memcpy()` peformance concerns though, this is something that libpldm\u0027s msgbuf API design does account for (along with the points above). Taking, for example, the [`decode_pldm_platform_file_descriptor_pdr()` implementation](https://github.com/openbmc/libpldm/blob/main/src/dsp/platform.c#L3476-L3540) - while the msgbuf APIs appear to be quite verbose in their implementation (e.g. [pldm__msgbuf_extract_uint16()](https://github.com/openbmc/libpldm/blob/main/src/msgbuf/core.h#L528-L565)), inspecting e.g. the release-mode ARM disassembly shows [this all optimises to straight-line load/store pairs](https://gist.github.com/amboar/c1f06616e2a3c12846158f425d0168f2), with some conditional accesses towards the end to account for message-driven conditional data and variable-length portions of the message. This is also all protected against invalid buffer accesses without explicit length tests on the part of the `decode_pldm_platform_file_descriptor_pdr()` implementation - the msgbuf API injects those for us, and the optimiser automatically cleans up what it can prove is unnecessary. Further, building for big-endian will automatically provide the necessary byte manipulations with no work required by the codec implementation or the user of the struct.\n\nI guess I\u0027m trying to argue the merits of libpldm\u0027s approach (but I\u0027m also going to be a bit biased there).",
+      "parentUuid": "367a333b_5eb08285",
+      "revId": "b566900d94127f0ca77412584e359c5c90916fe4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
