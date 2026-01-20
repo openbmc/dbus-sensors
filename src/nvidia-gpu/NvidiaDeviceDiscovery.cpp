@@ -30,6 +30,7 @@
 #include <cstdint>
 #include <map>
 #include <memory>
+#include <optional>
 #include <span>
 #include <string>
 #include <system_error>
@@ -40,6 +41,33 @@
 static constexpr auto sensorPollRateMs = 1000;
 
 static std::vector<std::shared_ptr<sdbusplus::bus::match_t>> associationMatches;
+
+// Helper function to extract bridge pool information from properties
+static std::optional<std::pair<uint8_t, uint8_t>> extractBridgePool(
+    const SensorBaseConfigMap& properties, const std::string& objectPath)
+{
+    auto poolStartIt = properties.find("PoolStart");
+    auto poolEndIt = properties.find("PoolEnd");
+
+    const auto* poolStartPtr = (poolStartIt != properties.end())
+                                   ? std::get_if<uint8_t>(&poolStartIt->second)
+                                   : nullptr;
+    const auto* poolEndPtr = (poolEndIt != properties.end())
+                                 ? std::get_if<uint8_t>(&poolEndIt->second)
+                                 : nullptr;
+
+    if ((poolStartPtr != nullptr) && (poolEndPtr != nullptr))
+    {
+        auto bridgePool = std::make_pair(*poolStartPtr, *poolEndPtr);
+        lg2::info(
+            "EID Bridge found at {PATH}: PoolStart={START}, PoolEnd={END}",
+            "PATH", objectPath, "START", bridgePool.first, "END",
+            bridgePool.second);
+        return bridgePool;
+    }
+
+    return std::nullopt;
+}
 
 void processQueryDeviceIdResponse(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
@@ -187,8 +215,10 @@ static void processNvidiaMctpVdmConfigSearch(
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, uint8_t eid,
     const std::string& deviceName, const std::string& inventoryPath,
-    const std::string& configPath, const boost::system::error_code& ec,
-    const GetSubTreeType& ret)
+    const std::string& configPath,
+    std::optional<std::pair<uint8_t, uint8_t>> bridgePool,
+    const std::optional<std::vector<std::string>>& bridgedEndpoints,
+    const boost::system::error_code& ec, const GetSubTreeType& ret)
 {
     std::string finalConfigPath = configPath;
 
@@ -207,9 +237,32 @@ static void processNvidiaMctpVdmConfigSearch(
             "EID", eid, "PATH", configPath);
     }
 
+    // Query the bridge device itself first
     queryDeviceIdentification(io, objectServer, gpuDevices, smaDevices,
                               pcieDevices, conn, mctpRequester, eid, deviceName,
                               finalConfigPath);
+
+    // Handle bridged endpoints if this is a bridge
+    if (bridgePool && bridgedEndpoints)
+    {
+        lg2::info("EID {EID} is a bridge, querying bridged endpoints", "EID",
+                  eid);
+
+        // Query each bridged endpoint
+        uint8_t index = 0;
+        for (const auto& bridgedDeviceName : *bridgedEndpoints)
+        {
+            uint8_t bridgedEid = bridgePool->first + index;
+
+            lg2::info("Querying bridged endpoint: EID {EID}, Name {NAME}",
+                      "EID", bridgedEid, "NAME", bridgedDeviceName);
+
+            queryDeviceIdentification(
+                io, objectServer, gpuDevices, smaDevices, pcieDevices, conn,
+                mctpRequester, bridgedEid, bridgedDeviceName, finalConfigPath);
+            ++index;
+        }
+    }
 }
 
 static void processBoardInventoryResult(
@@ -223,8 +276,10 @@ static void processBoardInventoryResult(
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, uint8_t eid,
     const std::string& deviceName, const std::string& boardName,
-    const std::string& configPath, const boost::system::error_code& ec,
-    const GetSubTreeType& ret)
+    const std::string& configPath,
+    std::optional<std::pair<uint8_t, uint8_t>> bridgePool,
+    const std::optional<std::vector<std::string>>& bridgedEndpoints,
+    const boost::system::error_code& ec, const GetSubTreeType& ret)
 {
     std::string inventoryPath = configPath;
 
@@ -258,13 +313,13 @@ static void processBoardInventoryResult(
         // Now search for NvidiaMctpVdm config under the board inventory path
         conn->async_method_call(
             [&io, &objectServer, &gpuDevices, &smaDevices, &pcieDevices, conn,
-             &mctpRequester, eid, deviceName, inventoryPath,
-             configPath](const boost::system::error_code& ec2,
-                         const GetSubTreeType& ret2) {
+             &mctpRequester, eid, deviceName, inventoryPath, configPath,
+             bridgePool, bridgedEndpoints](const boost::system::error_code& ec2,
+                                           const GetSubTreeType& ret2) {
                 processNvidiaMctpVdmConfigSearch(
                     io, objectServer, gpuDevices, smaDevices, pcieDevices, conn,
                     mctpRequester, eid, deviceName, inventoryPath, configPath,
-                    ec2, ret2);
+                    bridgePool, bridgedEndpoints, ec2, ret2);
             },
             "xyz.openbmc_project.ObjectMapper",
             "/xyz/openbmc_project/object_mapper",
@@ -285,7 +340,9 @@ static void findBoardInventoryPath(
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, uint8_t eid,
     const std::string& deviceName, const std::string& boardName,
-    const std::string& configPath)
+    const std::string& configPath,
+    std::optional<std::pair<uint8_t, uint8_t>> bridgePool,
+    const std::optional<std::vector<std::string>>& bridgedEndpoints)
 {
     std::string searchPath{"/xyz/openbmc_project/inventory"};
     std::vector<std::string> ifaceList{
@@ -294,11 +351,13 @@ static void findBoardInventoryPath(
 
     conn->async_method_call(
         [&io, &objectServer, &gpuDevices, &smaDevices, &pcieDevices, conn,
-         &mctpRequester, eid, deviceName, boardName, configPath](
-            const boost::system::error_code& ec, const GetSubTreeType& ret) {
+         &mctpRequester, eid, deviceName, boardName, configPath, bridgePool,
+         bridgedEndpoints](const boost::system::error_code& ec,
+                           const GetSubTreeType& ret) {
             processBoardInventoryResult(
                 io, objectServer, gpuDevices, smaDevices, pcieDevices, conn,
-                mctpRequester, eid, deviceName, boardName, configPath, ec, ret);
+                mctpRequester, eid, deviceName, boardName, configPath,
+                bridgePool, bridgedEndpoints, ec, ret);
         },
         "xyz.openbmc_project.ObjectMapper",
         "/xyz/openbmc_project/object_mapper",
@@ -316,8 +375,9 @@ static void processConfigPropertiesResult(
         pcieDevices,
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, uint8_t eid,
-    const std::string& configPath, const boost::system::error_code& ec,
-    const SensorBaseConfigMap& configProps)
+    const std::string& configPath,
+    std::optional<std::pair<uint8_t, uint8_t>> bridgePool,
+    const boost::system::error_code& ec, const SensorBaseConfigMap& configProps)
 {
     if (ec)
     {
@@ -355,16 +415,51 @@ static void processConfigPropertiesResult(
         const auto* boardPtr = std::get_if<std::string>(&boardIt->second);
         if ((boardPtr != nullptr) && !boardPtr->empty())
         {
-            // Board property exists, search for inventory path
+            // Board property exists, handle bridged endpoints if present
+            std::optional<std::vector<std::string>> bridgedEndpoints;
+
+            if (bridgePool && bridgePool->first != 0 && bridgePool->second != 0)
+            {
+                auto bridgedIt = configProps.find("BridgedEndpoints");
+                if (bridgedIt != configProps.end())
+                {
+                    const auto* bridgedEndpointsPtr =
+                        std::get_if<std::vector<std::string>>(
+                            &bridgedIt->second);
+                    if (bridgedEndpointsPtr != nullptr)
+                    {
+                        // Validate array size
+                        uint8_t expectedCount =
+                            bridgePool->second - bridgePool->first + 1;
+                        if (bridgedEndpointsPtr->size() == expectedCount)
+                        {
+                            bridgedEndpoints = *bridgedEndpointsPtr;
+                            lg2::info(
+                                "EID {EID} is a bridge with pool range {START}-{END}",
+                                "EID", eid, "START", bridgePool->first, "END",
+                                bridgePool->second);
+                        }
+                        else
+                        {
+                            lg2::error(
+                                "EID {EID}: BridgedEndpoints array size mismatch. Expected {EXPECTED}, got {ACTUAL}",
+                                "EID", eid, "EXPECTED", expectedCount, "ACTUAL",
+                                bridgedEndpointsPtr->size());
+                        }
+                    }
+                }
+            }
+
+            // Search for board inventory path, passing bridged endpoint info
             findBoardInventoryPath(io, objectServer, gpuDevices, smaDevices,
                                    pcieDevices, conn, mctpRequester, eid,
                                    deviceName, escapeName(*boardPtr),
-                                   configPath);
+                                   configPath, bridgePool, bridgedEndpoints);
             return;
         }
     }
 
-    // No Board property or empty, use configPath as inventory path
+    // No Board property or empty - just query the device
     lg2::info("EID {EID}: No Board property found, using config path {PATH}",
               "EID", eid, "PATH", configPath);
     queryDeviceIdentification(io, objectServer, gpuDevices, smaDevices,
@@ -382,16 +477,17 @@ static void getConfigProperties(
         pcieDevices,
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, uint8_t eid,
-    const std::string& configPath, const std::string& configService)
+    const std::string& configPath, const std::string& configService,
+    std::optional<std::pair<uint8_t, uint8_t>> bridgePool)
 {
     conn->async_method_call(
         [&io, &objectServer, &gpuDevices, &smaDevices, &pcieDevices, conn,
-         &mctpRequester, eid,
-         configPath](const boost::system::error_code& ec,
+         &mctpRequester, eid, configPath,
+         bridgePool](const boost::system::error_code& ec,
                      const SensorBaseConfigMap& configProps) {
             processConfigPropertiesResult(
                 io, objectServer, gpuDevices, smaDevices, pcieDevices, conn,
-                mctpRequester, eid, configPath, ec, configProps);
+                mctpRequester, eid, configPath, bridgePool, ec, configProps);
         },
         configService, configPath, "org.freedesktop.DBus.Properties", "GetAll",
         "");
@@ -407,11 +503,12 @@ static void getConfigService(
         pcieDevices,
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, uint8_t eid,
-    const std::string& configPath)
+    const std::string& configPath,
+    std::optional<std::pair<uint8_t, uint8_t>> bridgePool)
 {
     conn->async_method_call(
         [&io, &objectServer, &gpuDevices, &smaDevices, &pcieDevices, conn,
-         &mctpRequester, eid, configPath](
+         &mctpRequester, eid, configPath, bridgePool](
             const boost::system::error_code& ec,
             const std::vector<std::pair<std::string, std::vector<std::string>>>&
                 ret) {
@@ -426,7 +523,7 @@ static void getConfigService(
             const std::string& configService = ret[0].first;
             getConfigProperties(io, objectServer, gpuDevices, smaDevices,
                                 pcieDevices, conn, mctpRequester, eid,
-                                configPath, configService);
+                                configPath, configService, bridgePool);
         },
         "xyz.openbmc_project.ObjectMapper",
         "/xyz/openbmc_project/object_mapper",
@@ -445,7 +542,8 @@ static void processAssociationEndpointsResult(
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, uint8_t eid,
     const boost::system::error_code& ec,
-    const std::variant<std::vector<std::string>>& value)
+    const std::variant<std::vector<std::string>>& value,
+    std::optional<std::pair<uint8_t, uint8_t>> bridgePool)
 {
     if (ec)
     {
@@ -465,7 +563,7 @@ static void processAssociationEndpointsResult(
 
     const std::string& configPath = (*endpointsPtr)[0];
     getConfigService(io, objectServer, gpuDevices, smaDevices, pcieDevices,
-                     conn, mctpRequester, eid, configPath);
+                     conn, mctpRequester, eid, configPath, bridgePool);
 }
 
 static void getAssociationEndpoints(
@@ -478,16 +576,17 @@ static void getAssociationEndpoints(
         pcieDevices,
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, uint8_t eid,
-    const std::string& associationPath, const std::string& associationService)
+    const std::string& associationPath, const std::string& associationService,
+    std::optional<std::pair<uint8_t, uint8_t>> bridgePool)
 {
     conn->async_method_call(
         [&io, &objectServer, &gpuDevices, &smaDevices, &pcieDevices, conn,
-         &mctpRequester,
-         eid](const boost::system::error_code& ec,
-              const std::variant<std::vector<std::string>>& value) {
-            processAssociationEndpointsResult(io, objectServer, gpuDevices,
-                                              smaDevices, pcieDevices, conn,
-                                              mctpRequester, eid, ec, value);
+         &mctpRequester, eid,
+         bridgePool](const boost::system::error_code& ec,
+                     const std::variant<std::vector<std::string>>& value) {
+            processAssociationEndpointsResult(
+                io, objectServer, gpuDevices, smaDevices, pcieDevices, conn,
+                mctpRequester, eid, ec, value, bridgePool);
         },
         associationService, associationPath, "org.freedesktop.DBus.Properties",
         "Get", "xyz.openbmc_project.Association", "endpoints");
@@ -503,7 +602,9 @@ static void processAssociationAdded(
         pcieDevices,
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, uint8_t eid,
-    const std::string& associationPath, const boost::system::error_code& ec,
+    const std::string& associationPath,
+    std::optional<std::pair<uint8_t, uint8_t>> bridgePool,
+    const boost::system::error_code& ec,
     const std::vector<std::pair<std::string, std::vector<std::string>>>& ret)
 {
     if (ec || ret.empty())
@@ -516,7 +617,7 @@ static void processAssociationAdded(
     const std::string& associationService = ret[0].first;
     getAssociationEndpoints(io, objectServer, gpuDevices, smaDevices,
                             pcieDevices, conn, mctpRequester, eid,
-                            associationPath, associationService);
+                            associationPath, associationService, bridgePool);
 }
 
 static void handleAssociationSignal(
@@ -529,7 +630,9 @@ static void handleAssociationSignal(
         pcieDevices,
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, uint8_t eid,
-    const std::string& associationPath, sdbusplus::message_t& msg)
+    const std::string& associationPath,
+    std::optional<std::pair<uint8_t, uint8_t>> bridgePool,
+    sdbusplus::message_t& msg)
 {
     sdbusplus::message::object_path objPath;
     std::map<std::string, std::map<std::string, std::variant<std::string>>>
@@ -544,13 +647,13 @@ static void handleAssociationSignal(
 
         conn->async_method_call(
             [&io, &objectServer, &gpuDevices, &smaDevices, &pcieDevices, conn,
-             &mctpRequester, eid, associationPath](
+             &mctpRequester, eid, associationPath, bridgePool](
                 const boost::system::error_code& ec,
                 const std::vector<
                     std::pair<std::string, std::vector<std::string>>>& ret) {
                 processAssociationAdded(
                     io, objectServer, gpuDevices, smaDevices, pcieDevices, conn,
-                    mctpRequester, eid, associationPath, ec, ret);
+                    mctpRequester, eid, associationPath, bridgePool, ec, ret);
             },
             "xyz.openbmc_project.ObjectMapper",
             "/xyz/openbmc_project/object_mapper",
@@ -569,17 +672,19 @@ static void waitForAssociationSignal(
         pcieDevices,
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, uint8_t eid,
-    const std::string& associationPath)
+    const std::string& associationPath,
+    std::optional<std::pair<uint8_t, uint8_t>> bridgePool)
 {
     auto match = std::make_shared<sdbusplus::bus::match_t>(
         static_cast<sdbusplus::bus_t&>(*conn),
         sdbusplus::bus::match::rules::interfacesAdded() +
             sdbusplus::bus::match::rules::argNpath(0, associationPath),
         [&io, &objectServer, &gpuDevices, &smaDevices, &pcieDevices, conn,
-         &mctpRequester, eid, associationPath](sdbusplus::message_t& msg) {
+         &mctpRequester, eid, associationPath,
+         bridgePool](sdbusplus::message_t& msg) {
             handleAssociationSignal(io, objectServer, gpuDevices, smaDevices,
                                     pcieDevices, conn, mctpRequester, eid,
-                                    associationPath, msg);
+                                    associationPath, bridgePool, msg);
         });
 
     // Store the match to keep it alive for the duration of the program
@@ -596,7 +701,8 @@ static void processAssociationLookupResult(
         pcieDevices,
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, uint8_t eid,
-    const std::string& associationPath, bool useSignalWait,
+    const std::string& associationPath,
+    std::optional<std::pair<uint8_t, uint8_t>> bridgePool, bool useSignalWait,
     const boost::system::error_code& ec,
     const std::vector<std::pair<std::string, std::vector<std::string>>>& ret)
 {
@@ -605,11 +711,8 @@ static void processAssociationLookupResult(
         if (useSignalWait)
         {
             lg2::info(
-                "EID {EID}: Association not found at {PATH}, waiting for signal...",
+                "EID {EID}: Association not found at {PATH}, already subscribed to signal",
                 "EID", eid, "PATH", associationPath);
-            waitForAssociationSignal(io, objectServer, gpuDevices, smaDevices,
-                                     pcieDevices, conn, mctpRequester, eid,
-                                     associationPath);
         }
         else
         {
@@ -623,7 +726,7 @@ static void processAssociationLookupResult(
     const std::string& associationService = ret[0].first;
     getAssociationEndpoints(io, objectServer, gpuDevices, smaDevices,
                             pcieDevices, conn, mctpRequester, eid,
-                            associationPath, associationService);
+                            associationPath, associationService, bridgePool);
 }
 
 static void checkAssociationAndQueryDevice(
@@ -636,19 +739,30 @@ static void checkAssociationAndQueryDevice(
         pcieDevices,
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, uint8_t eid,
-    const std::string& objectPath, bool useSignalWait = false)
+    const std::string& objectPath,
+    std::optional<std::pair<uint8_t, uint8_t>> bridgePool = std::nullopt,
+    bool useSignalWait = false)
 {
     std::string associationPath = objectPath + "/configured_by";
 
+    if (useSignalWait)
+    {
+        waitForAssociationSignal(io, objectServer, gpuDevices, smaDevices,
+                                 pcieDevices, conn, mctpRequester, eid,
+                                 associationPath, bridgePool);
+    }
+
+    // Now check if association already exists
     conn->async_method_call(
         [&io, &objectServer, &gpuDevices, &smaDevices, &pcieDevices, conn,
-         &mctpRequester, eid, associationPath, useSignalWait](
+         &mctpRequester, eid, associationPath, bridgePool, useSignalWait](
             const boost::system::error_code& ec,
             const std::vector<std::pair<std::string, std::vector<std::string>>>&
                 ret) {
             processAssociationLookupResult(
                 io, objectServer, gpuDevices, smaDevices, pcieDevices, conn,
-                mctpRequester, eid, associationPath, useSignalWait, ec, ret);
+                mctpRequester, eid, associationPath, bridgePool, useSignalWait,
+                ec, ret);
         },
         "xyz.openbmc_project.ObjectMapper",
         "/xyz/openbmc_project/object_mapper",
@@ -667,6 +781,7 @@ void processEndpoint(
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, const std::string& objectPath,
     const boost::system::error_code& ec, const SensorBaseConfigMap& endpoint,
+    std::optional<std::pair<uint8_t, uint8_t>> bridgePool = std::nullopt,
     bool useSignalWait = false)
 {
     if (ec)
@@ -735,7 +850,7 @@ void processEndpoint(
 
         checkAssociationAndQueryDevice(io, objectServer, gpuDevices, smaDevices,
                                        pcieDevices, conn, mctpRequester, eid,
-                                       objectPath, useSignalWait);
+                                       objectPath, bridgePool, useSignalWait);
     }
 }
 
@@ -771,18 +886,35 @@ void queryEndpoints(
             {
                 if (iface == "xyz.openbmc_project.MCTP.Endpoint")
                 {
+                    // Check if this endpoint also implements Bridge interface
+                    bool hasBridge =
+                        std::find(ifaces.begin(), ifaces.end(),
+                                  "au.com.codeconstruct.MCTP.Bridge1") !=
+                        ifaces.end();
+
+                    // Get all properties from all interfaces in one call
                     conn->async_method_call(
                         [&io, &objectServer, &gpuDevices, &smaDevices,
-                         &pcieDevices, conn, &mctpRequester,
-                         objPath](const boost::system::error_code& ec,
-                                  const SensorBaseConfigMap& endpoint) {
+                         &pcieDevices, conn, &mctpRequester, objPath,
+                         hasBridge](const boost::system::error_code& ec,
+                                    const SensorBaseConfigMap& allProps) {
+                            std::optional<std::pair<uint8_t, uint8_t>>
+                                bridgePool;
+
+                            if (hasBridge && !ec)
+                            {
+                                bridgePool =
+                                    extractBridgePool(allProps, objPath);
+                            }
+
+                            // Process endpoint with all properties
                             processEndpoint(io, objectServer, gpuDevices,
                                             smaDevices, pcieDevices, conn,
                                             mctpRequester, objPath, ec,
-                                            endpoint);
+                                            allProps, bridgePool);
                         },
                         service, objPath, "org.freedesktop.DBus.Properties",
-                        "GetAll", iface);
+                        "GetAll", "");
                 }
             }
         }
@@ -849,16 +981,24 @@ static void getEndpointProperties(
     mctp::MctpRequester& mctpRequester, const std::string& objectPath,
     const std::string& service)
 {
+    // Get all properties from all interfaces (including Bridge if present)
     conn->async_method_call(
         [&io, &objectServer, &gpuDevices, &smaDevices, &pcieDevices, conn,
          &mctpRequester, objectPath](const boost::system::error_code& ec,
-                                     const SensorBaseConfigMap& endpoint) {
+                                     const SensorBaseConfigMap& allProps) {
+            std::optional<std::pair<uint8_t, uint8_t>> bridgePool;
+
+            if (!ec)
+            {
+                // Check if this is a bridge by looking for PoolStart/PoolEnd
+                bridgePool = extractBridgePool(allProps, objectPath);
+            }
+
             processEndpoint(io, objectServer, gpuDevices, smaDevices,
                             pcieDevices, conn, mctpRequester, objectPath, ec,
-                            endpoint, true);
+                            allProps, bridgePool, true);
         },
-        service, objectPath, "org.freedesktop.DBus.Properties", "GetAll",
-        "xyz.openbmc_project.MCTP.Endpoint");
+        service, objectPath, "org.freedesktop.DBus.Properties", "GetAll", "");
 }
 
 void handleMctpEndpointAdded(
