@@ -351,7 +351,7 @@ static void createSensorsCallback(
         if (!sensorTypes.contains(pmbusName))
         {
             // To avoid this error message, add your driver name to
-            // the pmbusNames vector at the top of this file.
+            // the sensorTypes flat map at the top of this file.
             lg2::error("'{NAME}' not found in sensor whitelist", "NAME",
                        pmbusName);
             continue;
