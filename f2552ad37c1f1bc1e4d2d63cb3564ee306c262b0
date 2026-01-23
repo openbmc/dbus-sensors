@@ -193,6 +193,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad4bca3e_9f82c437",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2026-01-23T15:48:29Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "8b15d038_e284ee87",
+      "revId": "f2552ad37c1f1bc1e4d2d63cb3564ee306c262b0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0aa3da29_c2959e33",
@@ -224,6 +242,24 @@
       "side": 1,
       "message": "Will check.",
       "parentUuid": "0aa3da29_c2959e33",
+      "revId": "f2552ad37c1f1bc1e4d2d63cb3564ee306c262b0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78d88e19_0e1e70da",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2026-01-23T15:48:29Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "3201edff_69581872",
       "revId": "f2552ad37c1f1bc1e4d2d63cb3564ee306c262b0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -277,6 +313,24 @@
       "side": 1,
       "message": "If I am correct, the value of object `inventoryPath` would be EM Inventory Object Path, and we always expect EM Configuration to be present at a child path of that Inventory Object Path?. So we can directly specify `inventoryPath` here to limit the search space and we might also not need the check at line number 196?",
       "parentUuid": "8dd75601_251b4bf9",
+      "revId": "f2552ad37c1f1bc1e4d2d63cb3564ee306c262b0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7305ab74_160de97a",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2026-01-23T15:48:29Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "a2677a81_33b34d7e",
       "revId": "f2552ad37c1f1bc1e4d2d63cb3564ee306c262b0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -382,6 +436,24 @@
       "side": 1,
       "message": "Will check.",
       "parentUuid": "92c7b0c8_4cf9a8e8",
+      "revId": "f2552ad37c1f1bc1e4d2d63cb3564ee306c262b0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56b6fa9e_f42e56f1",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2026-01-23T15:48:29Z",
+      "side": 1,
+      "message": "This is a good suggesiton but atm not possible because mapper doesn\u0027t accept an empty interface list (which is what we would want to do to not assume any specific MCTP over X interfaces). I can follow up with fixes to mapper and then here in a separate commit.",
+      "parentUuid": "3ed684b8_0314728c",
       "revId": "f2552ad37c1f1bc1e4d2d63cb3564ee306c262b0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
