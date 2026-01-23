@@ -35,6 +35,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fb82e85_d636e97d",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-01-23T06:17:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "757dd7bd_1ef1e947",
+      "revId": "73ddbf2220f803bcee1ba7b7ce7a51f09aa6f778",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "656d3197_63fbbc81",
@@ -48,6 +66,24 @@
       "writtenOn": "2026-01-21T09:20:55Z",
       "side": 1,
       "message": "nit: this can be const.",
+      "revId": "73ddbf2220f803bcee1ba7b7ce7a51f09aa6f778",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09f8c01b_2e47366d",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-01-23T06:17:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "656d3197_63fbbc81",
       "revId": "73ddbf2220f803bcee1ba7b7ce7a51f09aa6f778",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
