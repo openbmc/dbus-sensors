@@ -36,6 +36,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe3ecd63_c382b32c",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2026-01-23T15:50:12Z",
+      "side": 1,
+      "message": "The callback is different, and I also don\u0027t think it\u0027s a lot of code dup happening here.",
+      "parentUuid": "63972e66_b789e93f",
+      "revId": "249c7543c6e55aad433acf143c94bccef01910c3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "59d4a0b0_e7d15cc3",
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "Will check.",
       "parentUuid": "59d4a0b0_e7d15cc3",
+      "revId": "249c7543c6e55aad433acf143c94bccef01910c3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2acc6297_e1b28b32",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 833,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2026-01-23T15:50:12Z",
+      "side": 1,
+      "message": "To do this we will have to percolate the useSignalWait arg through many functions in the call stack, and I am not sure this additional code is better than the limited duplication that exists.",
+      "parentUuid": "29d4078d_8f2e38eb",
       "revId": "249c7543c6e55aad433acf143c94bccef01910c3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
