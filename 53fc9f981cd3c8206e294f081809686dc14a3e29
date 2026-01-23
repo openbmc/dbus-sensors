@@ -22,6 +22,29 @@
       },
       "revId": "53fc9f981cd3c8206e294f081809686dc14a3e29",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2436ed0_7bf155b4",
+        "filename": "src/exit-air/ExitAirTempSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-01-23T16:17:47Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we be using the `exitAirType` variable here?",
+      "range": {
+        "startLine": 498,
+        "startChar": 32,
+        "endLine": 498,
+        "endChar": 51
+      },
+      "revId": "53fc9f981cd3c8206e294f081809686dc14a3e29",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
