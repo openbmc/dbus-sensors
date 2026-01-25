@@ -157,7 +157,7 @@ void persistThreshold(const std::string& path, const std::string& baseInterface,
 void updateThresholds(Sensor* sensor);
 // returns false if a critical threshold has been crossed, true otherwise
 bool checkThresholds(Sensor* sensor);
-void checkThresholdsPowerDelay(const std::weak_ptr<Sensor>& weakSensor,
+bool checkThresholdsPowerDelay(const std::weak_ptr<Sensor>& weakSensor,
                                ThresholdTimer& thresholdTimer);
 
 } // namespace thresholds

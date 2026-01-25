@@ -407,13 +407,14 @@ bool checkThresholds(Sensor* sensor)
     return status;
 }
 
-void checkThresholdsPowerDelay(const std::weak_ptr<Sensor>& weakSensor,
+bool checkThresholdsPowerDelay(const std::weak_ptr<Sensor>& weakSensor,
                                ThresholdTimer& thresholdTimer)
 {
+    bool immediateCriticalAsserted = false;
     auto sensorPtr = weakSensor.lock();
     if (!sensorPtr)
     {
-        return; // sensor is destructed, should never be here
+        return true; // sensor is destructed, should never be here
     }
 
     Sensor* sensor = sensorPtr.get();
@@ -441,9 +442,14 @@ void checkThresholdsPowerDelay(const std::weak_ptr<Sensor>& weakSensor,
                 continue;
             }
         }
+        if (change.threshold.level == thresholds::Level::CRITICAL && change.asserted)
+        {
+            immediateCriticalAsserted = true;
+        }
         assertThresholds(sensor, change.assertValue, change.threshold.level,
                          change.threshold.direction, change.asserted);
     }
+    return !immediateCriticalAsserted;
 }
 
 void assertThresholds(Sensor* sensor, double assertValue,

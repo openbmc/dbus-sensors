@@ -248,5 +248,19 @@ void PSUSensor::checkThresholds()
         return;
     }
 
-    thresholds::checkThresholdsPowerDelay(weak_from_this(), thresholdTimer);
+
+    bool noCritical = thresholds::checkThresholdsPowerDelay(weak_from_this(), thresholdTimer);
+    bool criticalNow = !noCritical;
+
+    if (criticalNow && !criticalTempAsserted)
+    {
+        markFunctional(false);
+    }
+    else if (!criticalNow && criticalTempAsserted)
+    {
+        markFunctional(true);
+    }
+
+    criticalTempAsserted = criticalNow;
+
 }
