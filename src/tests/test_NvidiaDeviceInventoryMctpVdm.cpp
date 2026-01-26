@@ -112,4 +112,5 @@ TEST(NvidiaGpuMctpVdmTest, DecodeInventoryDeviceGuid)
     EXPECT_TRUE(std::holds_alternative<std::vector<uint8_t>>(info));
     EXPECT_EQ(std::get<std::vector<uint8_t>>(info), dummyGuid);
 }
+
 // NOLINTEND(cppcoreguidelines-pro-type-reinterpret-cast)
