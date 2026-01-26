@@ -48,6 +48,7 @@ enum class PlatformEnvironmentalCommands : uint8_t
     GET_INVENTORY_INFORMATION = 0x0C,
     GET_DRIVER_INFORMATION = 0x0E,
     GET_VOLTAGE = 0x0F,
+    GET_ECC_ERROR_COUNTS = 0x7D,
 };
 
 enum class NetworkPortCommands : uint8_t
@@ -244,6 +245,22 @@ struct GetInventoryInformationResponse
     std::array<uint8_t, maxInventoryDataSize> data;
 } __attribute__((packed));
 
+struct GetEccErrorCountsRequest
+{
+    ocp::accelerator_management::CommonRequest hdr;
+} __attribute__((packed));
+
+struct GetEccErrorCountsResponse
+{
+    ocp::accelerator_management::CommonResponse hdr;
+    uint16_t flags;
+    uint32_t sram_corrected;
+    uint32_t sram_uncorrected_secded;
+    uint32_t sram_uncorrected_parity;
+    uint32_t dram_corrected;
+    uint32_t dram_uncorrected;
+} __attribute__((packed));
+
 int packHeader(const ocp::accelerator_management::BindingPciVidInfo& hdr,
                ocp::accelerator_management::BindingPciVid& msg);
 
@@ -342,4 +359,12 @@ int decodeGetEthernetPortTelemetryCountersResponse(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     std::vector<std::pair<uint8_t, uint64_t>>& telemetryValues);
+
+int encodeGetEccErrorCountsRequest(uint8_t instanceId, std::span<uint8_t> buf);
+
+int decodeGetEccErrorCountsResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    GetEccErrorCountsResponse& response);
+
 } // namespace gpu
