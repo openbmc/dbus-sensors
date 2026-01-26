@@ -12,6 +12,7 @@
 #include <MctpRequester.hpp>
 #include <NvidiaDeviceDiscovery.hpp>
 #include <NvidiaDriverInformation.hpp>
+#include <NvidiaGpuEccSensor.hpp>
 #include <NvidiaGpuEnergySensor.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
 #include <NvidiaGpuPowerPeakReading.hpp>
@@ -96,6 +97,10 @@ void GpuDevice::makeSensors()
 
     driverInfo = std::make_shared<NvidiaDriverInformation>(
         conn, mctpRequester, name, path, eid, objectServer);
+
+    // Create ECC sensor for GPU memory error monitoring
+    eccSensor = std::make_shared<NvidiaGpuEccSensor>(conn, mctpRequester, name,
+                                                     eid, objectServer);
 
     getTLimitThresholds();
 
@@ -215,6 +220,7 @@ void GpuDevice::read()
     energySensor->update();
     voltageSensor->update();
     driverInfo->update();
+    eccSensor->update();
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait(
