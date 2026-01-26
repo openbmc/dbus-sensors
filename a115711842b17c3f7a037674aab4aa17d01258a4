@@ -52,6 +52,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5178d2b3_5ed1c891",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensor.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-01-26T02:43:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae2d0499_8c812a2f",
+      "revId": "a115711842b17c3f7a037674aab4aa17d01258a4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6daa62be_6a095c90",
@@ -65,6 +83,24 @@
       "writtenOn": "2026-01-21T09:14:30Z",
       "side": 1,
       "message": "nit: this can be const.\nnit: avoid auto to make code more readable.\nSame applies to other Sensor classes.",
+      "revId": "a115711842b17c3f7a037674aab4aa17d01258a4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0123f97d_01515106",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensor.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-01-26T02:43:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6daa62be_6a095c90",
       "revId": "a115711842b17c3f7a037674aab4aa17d01258a4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
