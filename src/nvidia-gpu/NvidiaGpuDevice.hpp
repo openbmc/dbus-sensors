@@ -9,6 +9,7 @@
 #include "MctpRequester.hpp"
 #include "NvidiaDeviceDiscovery.hpp"
 #include "NvidiaGpuControl.hpp"
+#include "NvidiaGpuMemoryDevice.hpp"
 #include "NvidiaGpuPowerSensor.hpp"
 #include "NvidiaGpuSensor.hpp"
 
@@ -88,6 +89,7 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
 
     std::shared_ptr<NvidiaPcieInterface> pcieInterface;
     std::shared_ptr<NvidiaPciePortInfo> pciePort;
+    std::shared_ptr<NvidiaGpuMemoryDevice> memoryDevice;
 
     std::array<uint8_t, sizeof(gpu::ReadThermalParametersRequest)>
         thermalParamReqMsg{};
