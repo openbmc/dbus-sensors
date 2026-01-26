@@ -1045,4 +1045,70 @@ int decodeGetEthernetPortTelemetryCountersResponse(
     return rc;
 }
 // NOLINTEND(cppcoreguidelines-pro-type-reinterpret-cast)
+
+int encodeGetEccErrorCountsRequest(uint8_t instanceId, std::span<uint8_t> buf)
+{
+    PackBuffer buffer(buf);
+
+    const int rc = encodeRequestCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(
+            PlatformEnvironmentalCommands::GET_ECC_ERROR_COUNTS),
+        instanceId);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    const uint8_t dataSize = 0;
+    buffer.pack(dataSize);
+
+    return buffer.getError();
+}
+
+int decodeGetEccErrorCountsResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint16_t& flags, uint32_t& sramCorrected, uint32_t& sramUncorrectedSecded,
+    uint32_t& sramUncorrectedParity, uint32_t& dramCorrected,
+    uint32_t& dramUncorrected)
+{
+    UnpackBuffer buffer(buf);
+
+    int rc = decodeResponseCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(
+            PlatformEnvironmentalCommands::GET_ECC_ERROR_COUNTS),
+        cc, reasonCode);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    uint16_t dataSize = 0;
+    rc = buffer.unpack(dataSize);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    constexpr uint16_t expectedSize = sizeof(uint16_t) + sizeof(uint32_t) * 5;
+    if (dataSize != expectedSize)
+    {
+        return EINVAL;
+    }
+
+    buffer.unpack(flags);
+    buffer.unpack(sramCorrected);
+    buffer.unpack(sramUncorrectedSecded);
+    buffer.unpack(sramUncorrectedParity);
+    buffer.unpack(dramCorrected);
+    buffer.unpack(dramUncorrected);
+
+    return buffer.getError();
+}
+
 } // namespace gpu
