@@ -16,6 +16,7 @@
 #include <NvidiaGpuControl.hpp>
 #include <NvidiaGpuEnergySensor.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
+#include <NvidiaGpuMemoryDevice.hpp>
 #include <NvidiaGpuPowerPeakReading.hpp>
 #include <NvidiaGpuPowerSensor.hpp>
 #include <NvidiaGpuSensor.hpp>
@@ -191,6 +192,9 @@ void GpuDevice::makeSensors()
         gpu::PciePortType::UPSTREAM, 0, 0, objectServer,
         gpu::DeviceIdentification::DEVICE_GPU));
 
+    memoryDevice = std::make_shared<NvidiaGpuMemoryDevice>(
+        conn, mctpRequester, name, eid, objectServer);
+
     getTLimitThresholds();
 
     lg2::info("Added GPU {NAME} Sensors with chassis path: {PATH}.", "NAME",
@@ -318,6 +322,7 @@ void GpuDevice::read()
     {
         metrics->update();
     }
+    memoryDevice->update();
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait(
