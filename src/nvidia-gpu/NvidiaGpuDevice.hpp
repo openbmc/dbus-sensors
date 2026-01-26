@@ -8,10 +8,10 @@
 #include "Inventory.hpp"
 #include "MctpRequester.hpp"
 #include "NvidiaDeviceDiscovery.hpp"
+#include "NvidiaGpuEccSensor.hpp"
 #include "NvidiaGpuPowerSensor.hpp"
 #include "NvidiaGpuSensor.hpp"
 
-#include <NvidiaDriverInformation.hpp>
 #include <NvidiaGpuEnergySensor.hpp>
 #include <NvidiaGpuPowerPeakReading.hpp>
 #include <NvidiaGpuVoltageSensor.hpp>
@@ -75,7 +75,7 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
     std::shared_ptr<NvidiaGpuPowerPeakReading> peakPower;
     std::shared_ptr<NvidiaGpuEnergySensor> energySensor;
     std::shared_ptr<NvidiaGpuVoltageSensor> voltageSensor;
-    std::shared_ptr<NvidiaDriverInformation> driverInfo;
+    std::shared_ptr<NvidiaGpuEccSensor> eccSensor;
 
     std::array<uint8_t, sizeof(gpu::ReadThermalParametersRequest)>
         thermalParamReqMsg{};
