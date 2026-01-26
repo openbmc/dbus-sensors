@@ -3302,6 +3302,51 @@ TEST_F(GpuMctpVdmTests, DecodeLongRunningResponseEventBufferTooSmall)
     EXPECT_EQ(result, EINVAL);
 }
 
+TEST_F(GpuMctpVdmTests, EncodeGetEccErrorCountsRequestSuccess)
+{
+    const uint8_t instanceId = 1;
+    std::array<uint8_t, gpu::getEccErrorCountsRequestSize> buf{};
+
+    int result = gpu::encodeGetEccErrorCountsRequest(instanceId, buf);
+
+    EXPECT_EQ(result, 0);
+
+    UnpackBuffer ubuf{std::span<const uint8_t>(buf)};
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t recvInstanceId = 0;
+    uint8_t recvMsgType = 0;
+    EXPECT_EQ(ocp::accelerator_management::unpackHeader(
+                  ubuf, gpu::nvidiaPciVendorId, msgType, recvInstanceId,
+                  recvMsgType),
+              0);
+    EXPECT_EQ(msgType, ocp::accelerator_management::MessageType::REQUEST);
+    EXPECT_EQ(recvInstanceId & ocp::accelerator_management::instanceIdBitMask,
+              instanceId & ocp::accelerator_management::instanceIdBitMask);
+    EXPECT_EQ(recvMsgType,
+              static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+
+    uint8_t command = 0;
+    ubuf.unpack(command);
+    EXPECT_EQ(command,
+              static_cast<uint8_t>(
+                  gpu::PlatformEnvironmentalCommands::GET_ECC_ERROR_COUNTS));
+
+    uint8_t dataSize = 0;
+    ubuf.unpack(dataSize);
+    EXPECT_EQ(dataSize, 0);
+    EXPECT_EQ(ubuf.getError(), 0);
+}
+
+TEST_F(GpuMctpVdmTests, EncodeGetEccErrorCountsRequestBufferTooSmall)
+{
+    const uint8_t instanceId = 1;
+    std::array<uint8_t, 1> buf{};
+
+    int result = gpu::encodeGetEccErrorCountsRequest(instanceId, buf);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
 // Helper: pack a CommonResponse header using PackBuffer
 // Layout: BindingPciVid(5) + command(1) + cc(1) + reason_code(2)
 void packCommonResponseHeader(PackBuffer& packer, uint8_t msgType,
@@ -3496,6 +3541,124 @@ TEST_F(GpuMctpVdmTests, DecodeGetCurrentUtilizationModeResponseBufferTooSmall)
 
     int result = gpu::decodeGetCurrentUtilizationModeResponse(
         buf, cc, reasonCode, gpuUtilization, memoryUtilization);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetEccErrorCountsResponseSuccess)
+{
+    constexpr uint16_t eccDataSize = sizeof(uint16_t) + sizeof(uint32_t) * 5;
+    std::vector<uint8_t> buf(
+        sizeof(ocp::accelerator_management::CommonResponse) + eccDataSize);
+
+    PackBuffer pbuf{std::span<uint8_t>(buf)};
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 1,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_ECC_ERROR_COUNTS));
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));
+    pbuf.pack(uint16_t{0});
+    pbuf.pack(eccDataSize);
+    pbuf.pack(uint16_t{0x0001});
+    pbuf.pack(uint32_t{100});
+    pbuf.pack(uint32_t{10});
+    pbuf.pack(uint32_t{5});
+    pbuf.pack(uint32_t{50});
+    pbuf.pack(uint32_t{2});
+    EXPECT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint16_t flags{};
+    uint32_t sramCorrected{};
+    uint32_t sramUncorrectedSecded{};
+    uint32_t sramUncorrectedParity{};
+    uint32_t dramCorrected{};
+    uint32_t dramUncorrected{};
+
+    int result = gpu::decodeGetEccErrorCountsResponse(
+        buf, cc, reasonCode, flags, sramCorrected, sramUncorrectedSecded,
+        sramUncorrectedParity, dramCorrected, dramUncorrected);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+    EXPECT_EQ(flags, 0x0001);
+    EXPECT_EQ(sramCorrected, 100U);
+    EXPECT_EQ(sramUncorrectedSecded, 10U);
+    EXPECT_EQ(sramUncorrectedParity, 5U);
+    EXPECT_EQ(dramCorrected, 50U);
+    EXPECT_EQ(dramUncorrected, 2U);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetEccErrorCountsResponseError)
+{
+    std::array<uint8_t, sizeof(ocp::accelerator_management::CommonResponse)>
+        buf{};
+
+    PackBuffer pbuf{std::span<uint8_t>(buf)};
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 1,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_ECC_ERROR_COUNTS));
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERR_NOT_READY));
+    pbuf.pack(htole16(uint16_t{0x1234}));
+    EXPECT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint16_t flags{};
+    uint32_t sramCorrected{};
+    uint32_t sramUncorrectedSecded{};
+    uint32_t sramUncorrectedParity{};
+    uint32_t dramCorrected{};
+    uint32_t dramUncorrected{};
+
+    int result = gpu::decodeGetEccErrorCountsResponse(
+        buf, cc, reasonCode, flags, sramCorrected, sramUncorrectedSecded,
+        sramUncorrectedParity, dramCorrected, dramUncorrected);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
+    EXPECT_EQ(reasonCode, 0x1234);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetEccErrorCountsResponseBufferTooSmall)
+{
+    std::array<uint8_t, sizeof(ocp::accelerator_management::CommonResponse)>
+        buf{};
+
+    PackBuffer pbuf{std::span<uint8_t>(buf)};
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 1,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_ECC_ERROR_COUNTS));
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));
+    pbuf.pack(uint16_t{0});
+    pbuf.pack(uint16_t{2});
+    EXPECT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint16_t flags{};
+    uint32_t sramCorrected{};
+    uint32_t sramUncorrectedSecded{};
+    uint32_t sramUncorrectedParity{};
+    uint32_t dramCorrected{};
+    uint32_t dramUncorrected{};
+
+    int result = gpu::decodeGetEccErrorCountsResponse(
+        buf, cc, reasonCode, flags, sramCorrected, sramUncorrectedSecded,
+        sramUncorrectedParity, dramCorrected, dramUncorrected);
 
     EXPECT_EQ(result, EINVAL);
 }
