@@ -16,6 +16,8 @@
 #include <string>
 #include <unordered_map>
 
+constexpr const char* inventoryPrefix = "/xyz/openbmc_project/inventory/";
+
 class Inventory : public std::enable_shared_from_this<Inventory>
 {
   public:
@@ -27,6 +29,10 @@ class Inventory : public std::enable_shared_from_this<Inventory>
               boost::asio::io_context& io);
 
     void init();
+    void registerExternalUint32Property(
+        gpu::InventoryPropertyId propertyId,
+        const std::shared_ptr<sdbusplus::asio::dbus_interface>& interface,
+        const std::string& propertyName);
 
   private:
     struct PropertyInfo

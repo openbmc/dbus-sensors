@@ -24,7 +24,6 @@
 #include <variant>
 #include <vector>
 
-constexpr const char* inventoryPrefix = "/xyz/openbmc_project/inventory/";
 constexpr const char* acceleratorIfaceName =
     "xyz.openbmc_project.Inventory.Item.Accelerator";
 static constexpr const char* assetIfaceName =
@@ -98,6 +97,19 @@ void Inventory::registerProperty(
     if (interface)
     {
         interface->register_property(propertyName, std::string{});
+        properties[propertyId] = {interface, propertyName, 0, true};
+    }
+}
+
+void Inventory::registerExternalUint32Property(
+    gpu::InventoryPropertyId propertyId,
+    const std::shared_ptr<sdbusplus::asio::dbus_interface>& interface,
+    const std::string& propertyName)
+{
+    if (interface)
+    {
+        // Property is already registered on the external interface;
+        // just add it to the query queue so Inventory will fetch and update it.
         properties[propertyId] = {interface, propertyName, 0, true};
     }
 }
@@ -269,6 +281,30 @@ void Inventory::handleInventoryPropertyResponse(
                             static_cast<uint64_t>(clockSpeed);
                         it->second.interface->set_property(
                             it->second.propertyName, clockSpeed64);
+                        success = true;
+                    }
+                    else
+                    {
+                        lg2::error(
+                            "Property ID {PROP_ID} for {NAME} expected uint32_t but got different type",
+                            "PROP_ID", static_cast<uint8_t>(propertyId), "NAME",
+                            name);
+                    }
+                    break;
+
+                case gpu::InventoryPropertyId::MIN_DEVICE_POWER_LIMIT:
+                case gpu::InventoryPropertyId::MAX_DEVICE_POWER_LIMIT:
+                case gpu::InventoryPropertyId::RATED_DEVICE_POWER_LIMIT:
+                    if (std::holds_alternative<uint32_t>(info))
+                    {
+                        // Device reports milliwatts; expose watts on D-Bus
+                        uint32_t powerLimit = std::get<uint32_t>(info) / 1000;
+                        it->second.interface->set_property(
+                            it->second.propertyName, powerLimit);
+                        lg2::info(
+                            "Successfully received property ID {PROP_ID} for {NAME} with value: {VALUE}",
+                            "PROP_ID", static_cast<uint8_t>(propertyId), "NAME",
+                            name, "VALUE", powerLimit);
                         success = true;
                     }
                     else

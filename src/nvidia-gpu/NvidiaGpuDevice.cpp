@@ -12,6 +12,7 @@
 #include <MctpRequester.hpp>
 #include <NvidiaDeviceDiscovery.hpp>
 #include <NvidiaDriverInformation.hpp>
+#include <NvidiaGpuControl.hpp>
 #include <NvidiaGpuEnergySensor.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
 #include <NvidiaGpuPowerPeakReading.hpp>
@@ -58,11 +59,27 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
     inventory = std::make_shared<Inventory>(
         conn, objectServer, name, mctpRequester,
         gpu::DeviceIdentification::DEVICE_GPU, eid, io);
+
+    const std::string inventoryPath = inventoryPrefix + this->name;
+    gpuControl = std::make_shared<NvidiaGpuControl>(
+        objectServer, name, inventoryPath, mctpRequester, eid);
 }
 
 void GpuDevice::init()
 {
     makeSensors();
+
+    auto powerCapIface = gpuControl->getPowerCapInterface();
+    inventory->registerExternalUint32Property(
+        gpu::InventoryPropertyId::MIN_DEVICE_POWER_LIMIT, powerCapIface,
+        "MinPowerCapValue");
+    inventory->registerExternalUint32Property(
+        gpu::InventoryPropertyId::MAX_DEVICE_POWER_LIMIT, powerCapIface,
+        "MaxPowerCapValue");
+    inventory->registerExternalUint32Property(
+        gpu::InventoryPropertyId::RATED_DEVICE_POWER_LIMIT, powerCapIface,
+        "DefaultPowerCap");
+
     inventory->init();
 }
 
@@ -221,6 +238,7 @@ void GpuDevice::read()
     energySensor->update();
     voltageSensor->update();
     driverInfo->update();
+    gpuControl->update();
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait(
