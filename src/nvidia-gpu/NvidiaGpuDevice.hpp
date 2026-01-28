@@ -8,6 +8,7 @@
 #include "Inventory.hpp"
 #include "MctpRequester.hpp"
 #include "NvidiaDeviceDiscovery.hpp"
+#include "NvidiaGpuControl.hpp"
 #include "NvidiaGpuPowerSensor.hpp"
 #include "NvidiaGpuSensor.hpp"
 
@@ -35,6 +36,8 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
               uint8_t eid, boost::asio::io_context& io,
               mctp::MctpRequester& mctpRequester,
               sdbusplus::asio::object_server& objectServer);
+
+    ~GpuDevice();
 
     const std::string& getPath() const
     {
@@ -76,6 +79,8 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
     std::shared_ptr<NvidiaGpuEnergySensor> energySensor;
     std::shared_ptr<NvidiaGpuVoltageSensor> voltageSensor;
     std::shared_ptr<NvidiaDriverInformation> driverInfo;
+    std::shared_ptr<NvidiaGpuControl> gpuControl;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> powerCapInterface;
 
     std::array<uint8_t, sizeof(gpu::ReadThermalParametersRequest)>
         thermalParamReqMsg{};
