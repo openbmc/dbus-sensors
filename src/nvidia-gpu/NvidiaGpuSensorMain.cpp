@@ -54,6 +54,7 @@ int main()
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
     sdbusplus::asio::object_server objectServer(systemBus, true);
     objectServer.add_manager("/xyz/openbmc_project/sensors");
+    objectServer.add_manager("/xyz/openbmc_project/control");
     objectServer.add_manager("/xyz/openbmc_project/inventory");
     objectServer.add_manager("/xyz/openbmc_project/software");
     objectServer.add_manager("/xyz/openbmc_project/metric");

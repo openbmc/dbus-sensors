@@ -23,7 +23,6 @@
 #include <variant>
 #include <vector>
 
-constexpr const char* inventoryPrefix = "/xyz/openbmc_project/inventory/";
 constexpr const char* acceleratorIfaceName =
     "xyz.openbmc_project.Inventory.Item.Accelerator";
 static constexpr const char* assetIfaceName =
