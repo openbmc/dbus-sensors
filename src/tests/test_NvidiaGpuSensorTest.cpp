@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+#include "MessagePackUnpackUtils.hpp"
 #include "NvidiaGpuMctpVdm.hpp"
 #include "OcpMctpVdm.hpp"
 
@@ -13,6 +14,7 @@
 #include <cerrno>
 #include <cstdint>
 #include <cstring>
+#include <span>
 #include <string>
 #include <utility>
 #include <vector>
@@ -1352,6 +1354,175 @@ TEST_F(GpuMctpVdmTests, DecodeGetVoltageResponseInvalidSize)
     int result = gpu::decodeGetVoltageResponse(buf, cc, reasonCode, voltage);
 
     EXPECT_EQ(result, EINVAL); // Should indicate error for invalid data size
+}
+
+// Tests for GpuMctpVdm::encodeGetPowerLimitsRequest function
+TEST_F(GpuMctpVdmTests, EncodeGetPowerLimitsRequestSuccess)
+{
+    const uint8_t instanceId = 1;
+    const uint32_t powerLimitId = 0;
+    std::array<uint8_t, sizeof(gpu::GetPowerLimitsRequest)> buf{};
+
+    int result =
+        gpu::encodeGetPowerLimitsRequest(instanceId, powerLimitId, buf);
+
+    EXPECT_EQ(result, 0);
+
+    UnpackBuffer ubuf(std::span<const uint8_t>(buf.data(), buf.size()));
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t unpackedInstanceId = 0;
+    uint8_t unpackedMsgType = 0;
+    EXPECT_EQ(ocp::accelerator_management::unpackHeader(
+                  ubuf, gpu::nvidiaPciVendorId, msgType, unpackedInstanceId,
+                  unpackedMsgType),
+              0);
+    EXPECT_EQ(msgType, ocp::accelerator_management::MessageType::REQUEST);
+    EXPECT_EQ(unpackedInstanceId,
+              instanceId & ocp::accelerator_management::instanceIdBitMask);
+    EXPECT_EQ(unpackedMsgType,
+              static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    uint8_t command = 0;
+    ubuf.unpack(command);
+    EXPECT_EQ(command,
+              static_cast<uint8_t>(
+                  gpu::PlatformEnvironmentalCommands::GET_POWER_LIMITS));
+    uint8_t dataSize = 0;
+    ubuf.unpack(dataSize);
+    EXPECT_EQ(dataSize, sizeof(powerLimitId));
+    uint32_t unpackedPowerLimitId = 0;
+    ubuf.unpack(unpackedPowerLimitId);
+    EXPECT_EQ(unpackedPowerLimitId, powerLimitId);
+    EXPECT_EQ(ubuf.getError(), 0);
+}
+
+TEST_F(GpuMctpVdmTests, EncodeGetPowerLimitsRequestBufferTooSmall)
+{
+    const uint8_t instanceId = 1;
+    const uint32_t powerLimitId = 0;
+    std::array<uint8_t, 1> buf{};
+
+    int result =
+        gpu::encodeGetPowerLimitsRequest(instanceId, powerLimitId, buf);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+// Tests for GpuMctpVdm::decodeGetPowerLimitsResponse function
+TEST_F(GpuMctpVdmTests, DecodeGetPowerLimitsResponseSuccess)
+{
+    const uint32_t expectedPersistent = 300;
+    const uint32_t expectedOneshot = 400;
+    const uint32_t expectedEnforced = 250;
+
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 1,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_POWER_LIMITS)); // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS)); // CC
+    pbuf.pack(static_cast<uint16_t>(0));                        // reserved
+    pbuf.pack(static_cast<uint16_t>(sizeof(uint32_t) * 3));     // data_size
+    pbuf.pack(expectedPersistent);
+    pbuf.pack(expectedOneshot);
+    pbuf.pack(expectedEnforced);
+    ASSERT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint32_t persistentPowerLimit{};
+    uint32_t oneshotPowerLimit{};
+    uint32_t powerLimitEnforced{};
+
+    int result = gpu::decodeGetPowerLimitsResponse(
+        buf, cc, reasonCode, persistentPowerLimit, oneshotPowerLimit,
+        powerLimitEnforced);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+    EXPECT_EQ(persistentPowerLimit, expectedPersistent);
+    EXPECT_EQ(oneshotPowerLimit, expectedOneshot);
+    EXPECT_EQ(powerLimitEnforced, expectedEnforced);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetPowerLimitsResponseError)
+{
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 1,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_POWER_LIMITS));       // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERR_NOT_READY)); // CC
+    pbuf.pack(static_cast<uint16_t>(0x5678)); // reason_code
+    ASSERT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint32_t persistentPowerLimit{};
+    uint32_t oneshotPowerLimit{};
+    uint32_t powerLimitEnforced{};
+
+    int result = gpu::decodeGetPowerLimitsResponse(
+        buf, cc, reasonCode, persistentPowerLimit, oneshotPowerLimit,
+        powerLimitEnforced);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
+    EXPECT_EQ(reasonCode, 0x5678);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetPowerLimitsResponseBufferTooSmall)
+{
+    std::array<uint8_t, 4> buf{};
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint32_t persistentPowerLimit{};
+    uint32_t oneshotPowerLimit{};
+    uint32_t powerLimitEnforced{};
+
+    int result = gpu::decodeGetPowerLimitsResponse(
+        buf, cc, reasonCode, persistentPowerLimit, oneshotPowerLimit,
+        powerLimitEnforced);
+
+    EXPECT_NE(result, 0);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetPowerLimitsResponseInvalidDataSize)
+{
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 1,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_POWER_LIMITS)); // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS)); // CC
+    pbuf.pack(static_cast<uint16_t>(0));                        // reserved
+    pbuf.pack(static_cast<uint16_t>(4)); // data_size (wrong)
+    ASSERT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint32_t persistentPowerLimit{};
+    uint32_t oneshotPowerLimit{};
+    uint32_t powerLimitEnforced{};
+
+    int result = gpu::decodeGetPowerLimitsResponse(
+        buf, cc, reasonCode, persistentPowerLimit, oneshotPowerLimit,
+        powerLimitEnforced);
+
+    EXPECT_EQ(result, EINVAL);
 }
 
 TEST_F(GpuMctpVdmTests, EncodeQueryScalarGroupTelemetryV2RequestSuccess)

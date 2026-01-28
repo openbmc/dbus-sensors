@@ -12,6 +12,7 @@
 #include <MctpRequester.hpp>
 #include <NvidiaDeviceDiscovery.hpp>
 #include <NvidiaDriverInformation.hpp>
+#include <NvidiaGpuControl.hpp>
 #include <NvidiaGpuEnergySensor.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
 #include <NvidiaGpuPowerPeakReading.hpp>
@@ -28,6 +29,7 @@
 #include <chrono>
 #include <cstdint>
 #include <functional>
+#include <limits>
 #include <memory>
 #include <span>
 #include <string>
@@ -44,6 +46,9 @@ static constexpr std::array<uint8_t, 3> thresholdIds{
     gpuTLimitWarningThresholdId, gpuTLimitCriticalThresholdId,
     gpuTLimitHardshutDownThresholdId};
 
+static constexpr const char* controlPowerPrefix =
+    "/xyz/openbmc_project/control/power/";
+
 GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
                      const std::string& path,
                      const std::shared_ptr<sdbusplus::asio::connection>& conn,
@@ -55,13 +60,36 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
     mctpRequester(mctpRequester), io(io), conn(conn),
     objectServer(objectServer), configs(configs), name(escapeName(name)),
     path(path)
-{}
+{
+    const std::string powerControlPath = controlPowerPrefix + this->name;
+
+    powerCapInterface = objectServer.add_interface(
+        powerControlPath, "xyz.openbmc_project.Control.Power.Cap");
+
+    powerCapInterface->register_property("PowerCap",
+                                         std::numeric_limits<uint32_t>::max());
+    powerCapInterface->register_property("PowerCapEnable", false);
+    powerCapInterface->register_property("MinPowerCapValue", uint32_t{0});
+    powerCapInterface->register_property("MaxPowerCapValue",
+                                         std::numeric_limits<uint32_t>::max());
+    powerCapInterface->register_property(
+        "DefaultPowerCap", std::numeric_limits<uint32_t>::max(),
+        sdbusplus::asio::PropertyPermission::readOnly);
+
+    powerCapInterface->initialize();
+}
+
+GpuDevice::~GpuDevice()
+{
+    objectServer.remove_interface(powerCapInterface);
+}
 
 void GpuDevice::init()
 {
     inventory = std::make_shared<Inventory>(
         conn, objectServer, name, mctpRequester,
-        gpu::DeviceIdentification::DEVICE_GPU, eid, io);
+        gpu::DeviceIdentification::DEVICE_GPU, eid, io, powerCapInterface);
+
     inventory->init();
 
     makeSensors();
@@ -102,6 +130,10 @@ void GpuDevice::makeSensors()
 
     driverInfo = std::make_shared<NvidiaDriverInformation>(
         conn, mctpRequester, name, path, eid, objectServer);
+
+    gpuControl = std::make_shared<NvidiaGpuControl>(
+        objectServer, name, inventoryPrefix + name, mctpRequester, eid,
+        powerCapInterface);
 
     getTLimitThresholds();
 
@@ -222,6 +254,7 @@ void GpuDevice::read()
     energySensor->update();
     voltageSensor->update();
     driverInfo->update();
+    gpuControl->update();
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait(
