@@ -12,6 +12,7 @@
 #include <MctpRequester.hpp>
 #include <NvidiaDeviceDiscovery.hpp>
 #include <NvidiaDriverInformation.hpp>
+#include <NvidiaGpuControl.hpp>
 #include <NvidiaGpuEnergySensor.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
 #include <NvidiaGpuPowerPeakReading.hpp>
@@ -58,12 +59,17 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
     inventory = std::make_shared<Inventory>(
         conn, objectServer, name, mctpRequester,
         gpu::DeviceIdentification::DEVICE_GPU, eid, io);
+
+    std::string inventoryPath = inventoryPrefix + this->name;
+    gpuControl = std::make_shared<NvidiaGpuControl>(
+        objectServer, name, inventoryPath, mctpRequester, eid);
 }
 
 void GpuDevice::init()
 {
     makeSensors();
     inventory->init();
+    gpuControl->init();
 }
 
 void GpuDevice::makeSensors()
@@ -215,6 +221,7 @@ void GpuDevice::read()
     energySensor->update();
     voltageSensor->update();
     driverInfo->update();
+    gpuControl->update();
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait(
