@@ -8,6 +8,7 @@
 #include "Inventory.hpp"
 #include "MctpRequester.hpp"
 #include "NvidiaDeviceDiscovery.hpp"
+#include "NvidiaGpuControl.hpp"
 #include "NvidiaGpuPowerSensor.hpp"
 #include "NvidiaGpuSensor.hpp"
 
@@ -76,6 +77,7 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
     std::shared_ptr<NvidiaGpuEnergySensor> energySensor;
     std::shared_ptr<NvidiaGpuVoltageSensor> voltageSensor;
     std::shared_ptr<NvidiaDriverInformation> driverInfo;
+    std::shared_ptr<NvidiaGpuControl> gpuControl;
 
     std::array<uint8_t, sizeof(gpu::ReadThermalParametersRequest)>
         thermalParamReqMsg{};

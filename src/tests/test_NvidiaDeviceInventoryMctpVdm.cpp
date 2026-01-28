@@ -4,6 +4,7 @@
 #include <endian.h>
 
 #include <array>
+#include <cerrno>
 #include <cstdint>
 #include <cstring>
 #include <string>
@@ -111,5 +112,128 @@ TEST(NvidiaGpuMctpVdmTest, DecodeInventoryDeviceGuid)
     EXPECT_EQ(reasonCode, 0);
     EXPECT_TRUE(std::holds_alternative<std::vector<uint8_t>>(info));
     EXPECT_EQ(std::get<std::vector<uint8_t>>(info), dummyGuid);
+}
+
+TEST(NvidiaGpuMctpVdmTest, EncodeGetPowerLimitsRequest)
+{
+    std::array<uint8_t, 256> buf{};
+    uint8_t instanceId = 1;
+    uint32_t powerLimitId = 0;
+
+    int rc = encodeGetPowerLimitsRequest(instanceId, powerLimitId, buf);
+    EXPECT_EQ(rc, 0);
+
+    auto* msg = reinterpret_cast<GetPowerLimitsRequest*>(buf.data());
+    EXPECT_EQ(
+        msg->hdr.command,
+        static_cast<uint8_t>(PlatformEnvironmentalCommands::GET_POWER_LIMITS));
+    EXPECT_EQ(msg->hdr.data_size, htole16(sizeof(powerLimitId)));
+    EXPECT_EQ(msg->power_limit_id, htole32(powerLimitId));
+}
+
+TEST(NvidiaGpuMctpVdmTest, EncodeGetPowerLimitsRequestBufferTooSmall)
+{
+    std::array<uint8_t, 1> buf{};
+    uint8_t instanceId = 1;
+    uint32_t powerLimitId = 0;
+
+    int rc = encodeGetPowerLimitsRequest(instanceId, powerLimitId, buf);
+    EXPECT_EQ(rc, EINVAL);
+}
+
+TEST(NvidiaGpuMctpVdmTest, DecodeGetPowerLimitsResponse)
+{
+    std::array<uint8_t, 256> buf{};
+    auto* response = reinterpret_cast<GetPowerLimitsResponse*>(buf.data());
+
+    // Fill header
+    response->hdr.msgHdr.hdr.pci_vendor_id =
+        htobe16(0x10DE); // NVIDIA vendor ID
+    response->hdr.msgHdr.hdr.instance_id = 0x01;
+    response->hdr.msgHdr.hdr.ocp_version = 0x89;
+    response->hdr.msgHdr.hdr.ocp_accelerator_management_msg_type =
+        static_cast<uint8_t>(
+            ocp::accelerator_management::MessageType::RESPONSE);
+
+    response->hdr.command =
+        static_cast<uint8_t>(PlatformEnvironmentalCommands::GET_POWER_LIMITS);
+    response->hdr.completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS);
+    response->hdr.reserved = 0;
+    response->hdr.data_size = htole16(sizeof(uint32_t) * 3);
+
+    const uint32_t expectedPersistent = 300;
+    const uint32_t expectedOneshot = 400;
+    const uint32_t expectedEnforced = 250;
+    response->persistent_power_limit_requested = htole32(expectedPersistent);
+    response->oneshot_power_limit_requested = htole32(expectedOneshot);
+    response->power_limit_enforced = htole32(expectedEnforced);
+
+    ocp::accelerator_management::CompletionCode cc =
+        ocp::accelerator_management::CompletionCode::ERROR;
+    uint16_t reasonCode = 0;
+    uint32_t persistentPowerLimit = 0;
+    uint32_t oneshotPowerLimit = 0;
+    uint32_t powerLimitEnforced = 0;
+
+    int rc =
+        decodeGetPowerLimitsResponse(buf, cc, reasonCode, persistentPowerLimit,
+                                     oneshotPowerLimit, powerLimitEnforced);
+    EXPECT_EQ(rc, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+    EXPECT_EQ(persistentPowerLimit, expectedPersistent);
+    EXPECT_EQ(oneshotPowerLimit, expectedOneshot);
+    EXPECT_EQ(powerLimitEnforced, expectedEnforced);
+}
+
+TEST(NvidiaGpuMctpVdmTest, DecodeGetPowerLimitsResponseBufferTooSmall)
+{
+    std::array<uint8_t, 4> buf{};
+
+    ocp::accelerator_management::CompletionCode cc =
+        ocp::accelerator_management::CompletionCode::ERROR;
+    uint16_t reasonCode = 0;
+    uint32_t persistentPowerLimit = 0;
+    uint32_t oneshotPowerLimit = 0;
+    uint32_t powerLimitEnforced = 0;
+
+    int rc =
+        decodeGetPowerLimitsResponse(buf, cc, reasonCode, persistentPowerLimit,
+                                     oneshotPowerLimit, powerLimitEnforced);
+    EXPECT_NE(rc, 0);
+}
+
+TEST(NvidiaGpuMctpVdmTest, DecodeGetPowerLimitsResponseInvalidDataSize)
+{
+    std::array<uint8_t, 256> buf{};
+    auto* response = reinterpret_cast<GetPowerLimitsResponse*>(buf.data());
+
+    // Fill header with valid response but wrong data_size
+    response->hdr.msgHdr.hdr.pci_vendor_id = htobe16(0x10DE);
+    response->hdr.msgHdr.hdr.instance_id = 0x01;
+    response->hdr.msgHdr.hdr.ocp_version = 0x89;
+    response->hdr.msgHdr.hdr.ocp_accelerator_management_msg_type =
+        static_cast<uint8_t>(
+            ocp::accelerator_management::MessageType::RESPONSE);
+
+    response->hdr.command =
+        static_cast<uint8_t>(PlatformEnvironmentalCommands::GET_POWER_LIMITS);
+    response->hdr.completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS);
+    response->hdr.reserved = 0;
+    response->hdr.data_size = htole16(4); // Wrong: should be 12 (3 * uint32_t)
+
+    ocp::accelerator_management::CompletionCode cc =
+        ocp::accelerator_management::CompletionCode::ERROR;
+    uint16_t reasonCode = 0;
+    uint32_t persistentPowerLimit = 0;
+    uint32_t oneshotPowerLimit = 0;
+    uint32_t powerLimitEnforced = 0;
+
+    int rc =
+        decodeGetPowerLimitsResponse(buf, cc, reasonCode, persistentPowerLimit,
+                                     oneshotPowerLimit, powerLimitEnforced);
+    EXPECT_EQ(rc, EINVAL);
 }
 // NOLINTEND(cppcoreguidelines-pro-type-reinterpret-cast)
