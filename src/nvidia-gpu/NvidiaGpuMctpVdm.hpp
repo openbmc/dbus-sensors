@@ -45,6 +45,7 @@ enum class PlatformEnvironmentalCommands : uint8_t
     GET_CURRENT_POWER_DRAW = 0x03,
     GET_MAX_OBSERVED_POWER = 0x04,
     GET_CURRENT_ENERGY_COUNTER = 0x06,
+    GET_POWER_LIMITS = 0x07,
     GET_INVENTORY_INFORMATION = 0x0C,
     GET_DRIVER_INFORMATION = 0x0E,
     GET_VOLTAGE = 0x0F,
@@ -213,6 +214,9 @@ struct GetVoltageResponse
     uint32_t voltage;
 } __attribute__((packed));
 
+constexpr size_t getPowerLimitsRequestSize =
+    ocp::accelerator_management::commonRequestSize + sizeof(uint32_t);
+
 struct ListPCIePortsResponse
 {
     ocp::accelerator_management::CommonResponse hdr;
@@ -301,6 +305,15 @@ int decodeGetDriverInformationResponse(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     DriverState& driverState, std::string& driverVersion);
+
+int encodeGetPowerLimitsRequest(uint8_t instanceId, uint32_t powerLimitId,
+                                std::span<uint8_t> buf);
+
+int decodeGetPowerLimitsResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint32_t& persistentPowerLimitRequested,
+    uint32_t& oneshotPowerLimitRequested, uint32_t& powerLimitEnforced);
 
 int encodeGetInventoryInformationRequest(uint8_t instanceId, uint8_t propertyId,
                                          std::span<uint8_t> buf);

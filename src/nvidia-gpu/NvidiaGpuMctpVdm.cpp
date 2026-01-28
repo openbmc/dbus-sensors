@@ -481,6 +481,66 @@ int decodeGetVoltageResponse(std::span<const uint8_t> buf,
     return 0;
 }
 
+int encodeGetPowerLimitsRequest(uint8_t instanceId, uint32_t powerLimitId,
+                                std::span<uint8_t> buf)
+{
+    PackBuffer buffer(buf);
+
+    int rc = encodeRequestCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(PlatformEnvironmentalCommands::GET_POWER_LIMITS),
+        instanceId);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    const uint8_t dataSize = sizeof(powerLimitId);
+    buffer.pack(dataSize);
+    buffer.pack(powerLimitId);
+
+    return buffer.getError();
+}
+
+int decodeGetPowerLimitsResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint32_t& persistentPowerLimitRequested,
+    uint32_t& oneshotPowerLimitRequested, uint32_t& powerLimitEnforced)
+{
+    UnpackBuffer buffer(buf);
+
+    int rc = decodeResponseCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(PlatformEnvironmentalCommands::GET_POWER_LIMITS),
+        cc, reasonCode);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    uint16_t dataSize = 0;
+    rc = buffer.unpack(dataSize);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    if (dataSize != sizeof(uint32_t) * 3)
+    {
+        return EINVAL;
+    }
+
+    buffer.unpack(persistentPowerLimitRequested);
+    buffer.unpack(oneshotPowerLimitRequested);
+    buffer.unpack(powerLimitEnforced);
+
+    return buffer.getError();
+}
+
 int encodeGetDriverInformationRequest(uint8_t instanceId,
                                       std::span<uint8_t> buf)
 {
@@ -622,14 +682,17 @@ int decodeGetInventoryInformationResponse(
             value = std::vector<uint8_t>(dataPtr, dataPtr + dataSize);
             break;
         case InventoryPropertyId::DEFAULT_BOOST_CLOCKS:
+        case InventoryPropertyId::RATED_DEVICE_POWER_LIMIT:
+        case InventoryPropertyId::MIN_DEVICE_POWER_LIMIT:
+        case InventoryPropertyId::MAX_DEVICE_POWER_LIMIT:
         {
             if (dataSize != sizeof(uint32_t))
             {
                 return EINVAL;
             }
-            uint32_t clockMhz =
-                le32toh(*std::bit_cast<const uint32_t*>(dataPtr));
-            value = clockMhz;
+            uint32_t rawValue = 0;
+            std::memcpy(&rawValue, dataPtr, sizeof(uint32_t));
+            value = le32toh(rawValue);
             break;
         }
         default:
