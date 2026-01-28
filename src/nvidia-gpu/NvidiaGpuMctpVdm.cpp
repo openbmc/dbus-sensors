@@ -413,6 +413,76 @@ int decodeGetVoltageResponse(std::span<const uint8_t> buf,
     return 0;
 }
 
+int encodeGetPowerLimitsRequest(uint8_t instanceId, uint32_t powerLimitId,
+                                std::span<uint8_t> buf)
+{
+    if (buf.size() < sizeof(GetPowerLimitsRequest))
+    {
+        return EINVAL;
+    }
+
+    auto* msg = reinterpret_cast<GetPowerLimitsRequest*>(buf.data());
+
+    ocp::accelerator_management::BindingPciVidInfo header{};
+    header.ocp_accelerator_management_msg_type =
+        static_cast<uint8_t>(ocp::accelerator_management::MessageType::REQUEST);
+    header.instance_id = instanceId &
+                         ocp::accelerator_management::instanceIdBitMask;
+    header.msg_type = static_cast<uint8_t>(MessageType::PLATFORM_ENVIRONMENTAL);
+
+    auto rc = packHeader(header, msg->hdr.msgHdr.hdr);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    msg->hdr.command =
+        static_cast<uint8_t>(PlatformEnvironmentalCommands::GET_POWER_LIMITS);
+    msg->hdr.data_size = htole16(sizeof(powerLimitId));
+    msg->power_limit_id = htole32(powerLimitId);
+
+    return 0;
+}
+
+int decodeGetPowerLimitsResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint32_t& persistentPowerLimitRequested,
+    uint32_t& oneshotPowerLimitRequested, uint32_t& powerLimitEnforced)
+{
+    auto rc =
+        ocp::accelerator_management::decodeReasonCodeAndCC(buf, cc, reasonCode);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    if (buf.size() < sizeof(GetPowerLimitsResponse))
+    {
+        return EINVAL;
+    }
+
+    const auto* response =
+        reinterpret_cast<const GetPowerLimitsResponse*>(buf.data());
+
+    const uint16_t dataSize = le16toh(response->hdr.data_size);
+
+    if (dataSize != (sizeof(uint32_t) * 3))
+    {
+        return EINVAL;
+    }
+
+    persistentPowerLimitRequested =
+        le32toh(response->persistent_power_limit_requested);
+    oneshotPowerLimitRequested =
+        le32toh(response->oneshot_power_limit_requested);
+    powerLimitEnforced = le32toh(response->power_limit_enforced);
+
+    return 0;
+}
+
 int encodeGetInventoryInformationRequest(uint8_t instanceId, uint8_t propertyId,
                                          std::span<uint8_t> buf)
 {
@@ -484,6 +554,20 @@ int decodeGetInventoryInformationResponse(
             break;
         case InventoryPropertyId::DEVICE_GUID:
             value = std::vector<uint8_t>(dataPtr, dataPtr + dataSize);
+            break;
+        case InventoryPropertyId::RATED_DEVICE_POWER_LIMIT:
+        case InventoryPropertyId::MIN_DEVICE_POWER_LIMIT:
+        case InventoryPropertyId::MAX_DEVICE_POWER_LIMIT:
+            if (dataSize == sizeof(uint32_t))
+            {
+                uint32_t powerValue = 0;
+                std::memcpy(&powerValue, dataPtr, sizeof(uint32_t));
+                value = le32toh(powerValue);
+            }
+            else
+            {
+                return EINVAL;
+            }
             break;
         default:
             return EINVAL;
