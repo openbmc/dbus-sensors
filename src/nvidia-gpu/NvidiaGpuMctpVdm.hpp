@@ -18,7 +18,8 @@
 namespace gpu
 {
 
-using InventoryValue = std::variant<std::string, std::vector<uint8_t>>;
+using InventoryValue =
+    std::variant<std::string, std::vector<uint8_t>, uint32_t>;
 constexpr size_t maxInventoryDataSize = 256;
 
 constexpr uint16_t nvidiaPciVendorId = 0x10de;
@@ -42,6 +43,7 @@ enum class PlatformEnvironmentalCommands : uint8_t
     GET_CURRENT_POWER_DRAW = 0x03,
     GET_MAX_OBSERVED_POWER = 0x04,
     GET_CURRENT_ENERGY_COUNTER = 0x06,
+    GET_POWER_LIMITS = 0x07,
     GET_INVENTORY_INFORMATION = 0x0C,
     GET_DRIVER_INFORMATION = 0x0E,
     GET_VOLTAGE = 0x0F,
@@ -185,6 +187,20 @@ struct GetVoltageResponse
     uint32_t voltage;
 } __attribute__((packed));
 
+struct GetPowerLimitsRequest
+{
+    ocp::accelerator_management::CommonRequest hdr;
+    uint32_t power_limit_id;
+} __attribute__((packed));
+
+struct GetPowerLimitsResponse
+{
+    ocp::accelerator_management::CommonResponse hdr;
+    uint32_t persistent_power_limit_requested;
+    uint32_t oneshot_power_limit_requested;
+    uint32_t power_limit_enforced;
+} __attribute__((packed));
+
 struct ListPCIePortsResponse
 {
     ocp::accelerator_management::CommonResponse hdr;
@@ -273,6 +289,15 @@ int decodeGetDriverInformationResponse(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     DriverState& driverState, std::string& driverVersion);
+
+int encodeGetPowerLimitsRequest(uint8_t instanceId, uint32_t powerLimitId,
+                                std::span<uint8_t> buf);
+
+int decodeGetPowerLimitsResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint32_t& persistentPowerLimitRequested,
+    uint32_t& oneshotPowerLimitRequested, uint32_t& powerLimitEnforced);
 
 int encodeGetInventoryInformationRequest(uint8_t instanceId, uint8_t propertyId,
                                          std::span<uint8_t> buf);

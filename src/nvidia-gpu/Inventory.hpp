@@ -16,6 +16,8 @@
 #include <string>
 #include <unordered_map>
 
+constexpr const char* inventoryPrefix = "/xyz/openbmc_project/inventory/";
+
 class Inventory : public std::enable_shared_from_this<Inventory>
 {
   public:
