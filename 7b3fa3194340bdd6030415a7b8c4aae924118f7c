@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19527a98_13ff6041",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2026-01-29T04:48:16Z",
+      "side": 1,
+      "message": "don\u0027t we need to watch for changes on the association to remove devices if the SMA is put it into reset and falls off the bus? if I\u0027m missing how this is handled, feel free to point me at the code 😊. Other than that looks fine if we\u0027re going with the current model, though this looks like its full of sharp corners.",
+      "revId": "7b3fa3194340bdd6030415a7b8c4aae924118f7c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
