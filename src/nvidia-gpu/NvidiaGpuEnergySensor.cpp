@@ -15,6 +15,7 @@
 #include <MctpRequester.hpp>
 #include <NvidiaDeviceDiscovery.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
+#include <NvidiaMetricReport.hpp>
 #include <OcpMctpVdm.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
@@ -42,7 +43,8 @@ NvidiaGpuEnergySensor::NvidiaGpuEnergySensor(
     mctp::MctpRequester& mctpRequester, const std::string& name,
     const std::string& sensorConfiguration, const uint8_t eid, uint8_t sensorId,
     sdbusplus::asio::object_server& objectServer,
-    std::vector<thresholds::Threshold>&& thresholdData) :
+    std::vector<thresholds::Threshold>&& thresholdData,
+    SensorMetricReport& sensorMetricReport) :
     Sensor(escapeName(name), std::move(thresholdData), sensorConfiguration,
            "energy", false, true, gpuEnergySensorMaxReading,
            gpuEnergySensorMinReading, conn),
@@ -64,6 +66,12 @@ NvidiaGpuEnergySensor::NvidiaGpuEnergySensor(
     association = objectServer.add_interface(dbusPath, association::interface);
 
     setInitialProperties(sensor_paths::unitJoules);
+
+    sensorMetricReport.addSensor(
+        escapeName(name), "energy",
+        sdbusplus::message::object_path{sensorConfiguration}
+            .parent_path()
+            .filename());
 }
 
 NvidiaGpuEnergySensor::~NvidiaGpuEnergySensor()

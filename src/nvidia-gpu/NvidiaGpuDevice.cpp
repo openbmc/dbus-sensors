@@ -18,6 +18,7 @@
 #include <NvidiaGpuPowerSensor.hpp>
 #include <NvidiaGpuSensor.hpp>
 #include <NvidiaGpuVoltageSensor.hpp>
+#include <NvidiaMetricReport.hpp>
 #include <OcpMctpVdm.hpp>
 #include <boost/asio/io_context.hpp>
 #include <phosphor-logging/lg2.hpp>
@@ -49,11 +50,13 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
                      const std::shared_ptr<sdbusplus::asio::connection>& conn,
                      uint8_t eid, boost::asio::io_context& io,
                      mctp::MctpRequester& mctpRequester,
-                     sdbusplus::asio::object_server& objectServer) :
+                     sdbusplus::asio::object_server& objectServer,
+                     SensorMetricReport& sensorMetricReport) :
     eid(eid), sensorPollMs(std::chrono::milliseconds{configs.pollRate}),
     waitTimer(io, std::chrono::steady_clock::duration(0)),
     mctpRequester(mctpRequester), conn(conn), objectServer(objectServer),
-    configs(configs), name(escapeName(name)), path(path)
+    configs(configs), name(escapeName(name)), path(path),
+    sensorMetricReport(sensorMetricReport)
 {
     inventory = std::make_shared<Inventory>(
         conn, objectServer, name, mctpRequester,
@@ -70,17 +73,18 @@ void GpuDevice::makeSensors()
 {
     tempSensor = std::make_shared<NvidiaGpuTempSensor>(
         conn, mctpRequester, name + "_TEMP_0", path, eid, gpuTempSensorId,
-        objectServer, std::vector<thresholds::Threshold>{});
+        objectServer, std::vector<thresholds::Threshold>{}, sensorMetricReport);
 
     dramTempSensor = std::make_shared<NvidiaGpuTempSensor>(
         conn, mctpRequester, name + "_DRAM_0_TEMP_0", path, eid,
         gpuDramTempSensorId, objectServer,
         std::vector<thresholds::Threshold>{thresholds::Threshold{
-            thresholds::Level::CRITICAL, thresholds::Direction::HIGH, 95.0}});
+            thresholds::Level::CRITICAL, thresholds::Direction::HIGH, 95.0}},
+        sensorMetricReport);
 
     powerSensor = std::make_shared<NvidiaGpuPowerSensor>(
         conn, mctpRequester, name + "_Power_0", path, eid, gpuPowerSensorId,
-        objectServer, std::vector<thresholds::Threshold>{});
+        objectServer, std::vector<thresholds::Threshold>{}, sensorMetricReport);
 
     peakPower = std::make_shared<NvidiaGpuPowerPeakReading>(
         mctpRequester, name + "_Power_0", eid, gpuPeakPowerSensorId,
@@ -88,7 +92,7 @@ void GpuDevice::makeSensors()
 
     energySensor = std::make_shared<NvidiaGpuEnergySensor>(
         conn, mctpRequester, name + "_Energy_0", path, eid, gpuEnergySensorId,
-        objectServer, std::vector<thresholds::Threshold>{});
+        objectServer, std::vector<thresholds::Threshold>{}, sensorMetricReport);
 
     voltageSensor = std::make_shared<NvidiaGpuVoltageSensor>(
         conn, mctpRequester, name + "_Voltage_0", path, eid, gpuVoltageSensorId,
@@ -199,7 +203,7 @@ void GpuDevice::processTLimitThresholds(const std::error_code& ec)
 
     tLimitSensor = std::make_shared<NvidiaGpuTempSensor>(
         conn, mctpRequester, name + "_TEMP_1", path, eid, gpuTLimitSensorId,
-        objectServer, std::move(tLimitThresholds));
+        objectServer, std::move(tLimitThresholds), sensorMetricReport);
 }
 
 void GpuDevice::read()

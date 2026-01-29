@@ -23,6 +23,8 @@
 
 constexpr uint8_t gpuPowerSensorId{0};
 
+class SensorMetricReport;
+
 struct NvidiaGpuPowerSensor :
     public Sensor,
     public std::enable_shared_from_this<NvidiaGpuPowerSensor>
@@ -33,7 +35,8 @@ struct NvidiaGpuPowerSensor :
         mctp::MctpRequester& mctpRequester, const std::string& name,
         const std::string& sensorConfiguration, uint8_t eid, uint8_t sensorId,
         sdbusplus::asio::object_server& objectServer,
-        std::vector<thresholds::Threshold>&& thresholdData);
+        std::vector<thresholds::Threshold>&& thresholdData,
+        SensorMetricReport& sensorMetricReport);
 
     ~NvidiaGpuPowerSensor() override;
 

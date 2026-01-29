@@ -29,6 +29,7 @@ struct SensorConfigs
 class GpuDevice;
 class SmaDevice;
 class PcieDevice;
+class SensorMetricReport;
 
 void createSensors(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
@@ -39,7 +40,7 @@ void createSensors(
     boost::container::flat_map<std::string, std::shared_ptr<PcieDevice>>&
         pcieDevices,
     const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
-    mctp::MctpRequester& mctpRequester);
+    mctp::MctpRequester& mctpRequester, SensorMetricReport& sensorMetricReport);
 
 void interfaceRemoved(
     sdbusplus::message_t& message,
