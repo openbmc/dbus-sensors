@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "564dacdc_0eb4424e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2026-01-29T04:37:44Z",
+      "side": 1,
+      "message": "I don\u0027t see where we handle the device removed path for the bridge and its associated endpoints? am I missing something. Other than my (nonblocking) nits, looks fine, assuming we don\u0027t want to handle this in mctpreactor.",
+      "revId": "aa36a1b50f3671ab5f2e6bdee6e18b8bbb3d129a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f2fb4c1_2c30d844",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2026-01-29T04:37:44Z",
+      "side": 1,
+      "message": "nit, non blocking. We probably want to invert the if on 421 and 424, this is a bit difficult to read.",
+      "revId": "aa36a1b50f3671ab5f2e6bdee6e18b8bbb3d129a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35e9bfd3_cb63d179",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2026-01-29T04:37:44Z",
+      "side": 1,
+      "message": "nit: not sure how much we care but techically this is susceptible to underflow. We would have a 1/255 chance of succeeding the check on line 434 when we shouldn\u0027t.",
+      "revId": "aa36a1b50f3671ab5f2e6bdee6e18b8bbb3d129a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
