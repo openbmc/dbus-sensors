@@ -7,6 +7,7 @@
 #include "Utils.hpp"
 
 #include <NvidiaDeviceDiscovery.hpp>
+#include <NvidiaMetricReport.hpp>
 #include <NvidiaPcieDevice.hpp>
 #include <NvidiaSmaDevice.hpp>
 #include <boost/asio/error.hpp>
@@ -38,14 +39,15 @@ boost::container::flat_map<std::string, std::shared_ptr<PcieDevice>>
 void configTimerExpiryCallback(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
-    mctp::MctpRequester& mctpRequester, const boost::system::error_code& ec)
+    mctp::MctpRequester& mctpRequester, SensorMetricReport& sensorMetricReport,
+    const boost::system::error_code& ec)
 {
     if (ec == boost::asio::error::operation_aborted)
     {
         return; // we're being canceled
     }
     createSensors(io, objectServer, gpuDevices, smaDevices, pcieDevices,
-                  dbusConnection, mctpRequester);
+                  dbusConnection, mctpRequester, sensorMetricReport);
 }
 
 int main()
@@ -61,21 +63,25 @@ int main()
 
     mctp::MctpRequester mctpRequester(io);
 
+    SensorMetricReport sensorMetricReport("PlatformEnvironmentMetrics",
+                                          systemBus);
+
     boost::asio::post(io, [&]() {
         createSensors(io, objectServer, gpuDevices, smaDevices, pcieDevices,
-                      systemBus, mctpRequester);
+                      systemBus, mctpRequester, sensorMetricReport);
     });
 
     boost::asio::steady_timer configTimer(io);
 
     std::function<void(sdbusplus::message_t&)> eventHandler =
-        [&configTimer, &io, &objectServer, &systemBus,
-         &mctpRequester](sdbusplus::message_t&) {
+        [&configTimer, &io, &objectServer, &systemBus, &mctpRequester,
+         &sensorMetricReport](sdbusplus::message_t&) {
             configTimer.expires_after(std::chrono::seconds(1));
             // create a timer because normally multiple properties change
             configTimer.async_wait(std::bind_front(
                 configTimerExpiryCallback, std::ref(io), std::ref(objectServer),
-                std::ref(systemBus), std::ref(mctpRequester)));
+                std::ref(systemBus), std::ref(mctpRequester),
+                std::ref(sensorMetricReport)));
         };
 
     std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =

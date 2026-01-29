@@ -14,6 +14,7 @@
 
 #include <MctpRequester.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
+#include <NvidiaMetricReport.hpp>
 #include <boost/asio/io_context.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
@@ -30,11 +31,13 @@ SmaDevice::SmaDevice(const SensorConfigs& configs, const std::string& name,
                      const std::shared_ptr<sdbusplus::asio::connection>& conn,
                      uint8_t eid, boost::asio::io_context& io,
                      mctp::MctpRequester& mctpRequester,
-                     sdbusplus::asio::object_server& objectServer) :
+                     sdbusplus::asio::object_server& objectServer,
+                     SensorMetricReport& sensorMetricReport) :
     eid(eid), sensorPollMs(std::chrono::milliseconds{configs.pollRate}),
     waitTimer(io, std::chrono::steady_clock::duration(0)),
     mctpRequester(mctpRequester), conn(conn), objectServer(objectServer),
-    configs(configs), name(escapeName(name)), path(path)
+    configs(configs), name(escapeName(name)), path(path),
+    sensorMetricReport(sensorMetricReport)
 {}
 
 void SmaDevice::init()
@@ -47,7 +50,7 @@ void SmaDevice::makeSensors()
     tempSensor = std::make_shared<NvidiaGpuTempSensor>(
         conn, mctpRequester, name + "_TEMP_0", path, eid, smaTempSensorId,
         objectServer, std::vector<thresholds::Threshold>{},
-        gpu::DeviceIdentification::DEVICE_SMA);
+        gpu::DeviceIdentification::DEVICE_SMA, sensorMetricReport);
 
     lg2::info("Added MCA {NAME} Sensors with chassis path: {PATH}.", "NAME",
               name, "PATH", path);

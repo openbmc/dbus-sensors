@@ -24,6 +24,8 @@ constexpr uint8_t gpuTLimitSensorId{2};
 constexpr uint8_t gpuDramTempSensorId{1};
 constexpr uint8_t smaTempSensorId{5};
 
+class SensorMetricReport;
+
 struct NvidiaGpuTempSensor :
     public Sensor,
     public std::enable_shared_from_this<NvidiaGpuTempSensor>
@@ -35,7 +37,8 @@ struct NvidiaGpuTempSensor :
         const std::string& sensorConfiguration, uint8_t eid, uint8_t sensorId,
         sdbusplus::asio::object_server& objectServer,
         std::vector<thresholds::Threshold>&& thresholdData,
-        gpu::DeviceIdentification deviceType);
+        gpu::DeviceIdentification deviceType,
+        SensorMetricReport& sensorMetricReport);
 
     ~NvidiaGpuTempSensor() override;
 
