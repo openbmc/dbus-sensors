@@ -6,6 +6,7 @@
 #pragma once
 
 #include "MctpRequester.hpp"
+#include "NvidiaMetricReport.hpp"
 
 #include <boost/asio/io_context.hpp>
 #include <boost/container/flat_map.hpp>
@@ -40,7 +41,7 @@ void createSensors(
     boost::container::flat_map<std::string, std::shared_ptr<PcieDevice>>&
         pcieDevices,
     const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
-    mctp::MctpRequester& mctpRequester);
+    mctp::MctpRequester& mctpRequester, SensorMetricReport& sensorMetricReport);
 
 void interfaceRemoved(
     sdbusplus::message_t& message,

@@ -9,6 +9,7 @@
 #include "NvidiaDeviceDiscovery.hpp"
 #include "NvidiaGpuSensor.hpp"
 
+#include <NvidiaMetricReport.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <sdbusplus/asio/connection.hpp>
@@ -27,7 +28,8 @@ class SmaDevice : public std::enable_shared_from_this<SmaDevice>
               const std::shared_ptr<sdbusplus::asio::connection>& conn,
               uint8_t eid, boost::asio::io_context& io,
               mctp::MctpRequester& mctpRequester,
-              sdbusplus::asio::object_server& objectServer);
+              sdbusplus::asio::object_server& objectServer,
+              SensorMetricReport& sensorMetricReport);
 
     const std::string& getPath() const
     {
@@ -60,4 +62,6 @@ class SmaDevice : public std::enable_shared_from_this<SmaDevice>
     std::string name;
 
     std::string path;
+
+    SensorMetricReport& sensorMetricReport;
 };

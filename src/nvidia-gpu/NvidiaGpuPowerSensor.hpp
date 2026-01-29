@@ -6,6 +6,7 @@
 #pragma once
 
 #include "MctpRequester.hpp"
+#include "NvidiaMetricReport.hpp"
 #include "Thresholds.hpp"
 #include "sensor.hpp"
 
@@ -34,7 +35,8 @@ struct NvidiaGpuPowerSensor :
         const std::string& sensorConfiguration, uint8_t eid, uint8_t sensorId,
         sdbusplus::asio::object_server& objectServer,
         std::vector<thresholds::Threshold>&& thresholdData,
-        gpu::DeviceIdentification deviceType);
+        gpu::DeviceIdentification deviceType,
+        SensorMetricReport& sensorMetricReport);
 
     ~NvidiaGpuPowerSensor() override;
 
