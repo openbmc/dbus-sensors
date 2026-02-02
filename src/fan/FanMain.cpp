@@ -143,9 +143,9 @@ bool findPwmfanPath(unsigned int configPwmfanIndex,
     /* Search PWM since pwm-fan had separated
      * PWM from tach directory and 1 channel only*/
     std::vector<std::filesystem::path> pwmfanPaths;
-    std::string pwnfanDevName("pwm-fan");
+    std::string pwmfanDevName("pwm-fan");
 
-    pwnfanDevName += std::to_string(configPwmfanIndex);
+    pwmfanDevName += std::to_string(configPwmfanIndex);
 
     if (!findFiles(std::filesystem::path("/sys/class/hwmon"), R"(pwm\d+)",
                    pwmfanPaths))
@@ -166,7 +166,7 @@ bool findPwmfanPath(unsigned int configPwmfanIndex,
             continue;
         }
 
-        if (link.filename().string() == pwnfanDevName)
+        if (link.filename().string() == pwmfanDevName)
         {
             pwmPath = path;
             return true;
