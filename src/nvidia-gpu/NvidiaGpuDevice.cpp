@@ -11,7 +11,7 @@
 #include <Inventory.hpp>
 #include <MctpRequester.hpp>
 #include <NvidiaDeviceDiscovery.hpp>
-#include <NvidiaDriverInformation.hpp>
+#include <NvidiaGpuDramEccSensor.hpp>
 #include <NvidiaGpuEnergySensor.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
 #include <NvidiaGpuPowerPeakReading.hpp>
@@ -52,18 +52,19 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
                      sdbusplus::asio::object_server& objectServer) :
     eid(eid), sensorPollMs(std::chrono::milliseconds{configs.pollRate}),
     waitTimer(io, std::chrono::steady_clock::duration(0)),
-    mctpRequester(mctpRequester), conn(conn), objectServer(objectServer),
-    configs(configs), name(escapeName(name)), path(path)
+    mctpRequester(mctpRequester), io(io), conn(conn),
+    objectServer(objectServer), configs(configs), name(escapeName(name)),
+    path(path)
+{}
+
+void GpuDevice::init()
 {
     inventory = std::make_shared<Inventory>(
         conn, objectServer, name, mctpRequester,
         gpu::DeviceIdentification::DEVICE_GPU, eid, io);
-}
-
-void GpuDevice::init()
-{
-    makeSensors();
     inventory->init();
+
+    makeSensors();
 }
 
 void GpuDevice::makeSensors()
@@ -94,8 +95,11 @@ void GpuDevice::makeSensors()
         conn, mctpRequester, name + "_Voltage_0", path, eid, gpuVoltageSensorId,
         objectServer, std::vector<thresholds::Threshold>{});
 
-    driverInfo = std::make_shared<NvidiaDriverInformation>(
-        conn, mctpRequester, name, path, eid, objectServer);
+    // Create DRAM ECC sensor for GPU DRAM memory error monitoring
+    // This creates a Memory D-Bus object with MemoryECC interface for Redfish
+    // MemoryMetrics
+    dramEccSensor = std::make_shared<NvidiaGpuDramEccSensor>(
+        conn, mctpRequester, name, eid, objectServer);
 
     getTLimitThresholds();
 
@@ -214,7 +218,12 @@ void GpuDevice::read()
     peakPower->update();
     energySensor->update();
     voltageSensor->update();
-    driverInfo->update();
+
+    // Update DRAM ECC sensor for GPU DRAM memory error monitoring
+    if (dramEccSensor)
+    {
+        dramEccSensor->update();
+    }
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait(
