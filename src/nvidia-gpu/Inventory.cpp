@@ -31,6 +31,8 @@ static constexpr const char* assetIfaceName =
 static constexpr const char* uuidIfaceName = "xyz.openbmc_project.Common.UUID";
 static constexpr const char* revisionIfaceName =
     "xyz.openbmc_project.Inventory.Decorator.Revision";
+static constexpr const char* itemDimmIfaceName =
+    "xyz.openbmc_project.Inventory.Item.Dimm";
 
 Inventory::Inventory(
     const std::shared_ptr<sdbusplus::asio::connection>& /*conn*/,
@@ -71,6 +73,12 @@ Inventory::Inventory(
             objectServer.add_interface(path, acceleratorIfaceName);
         acceleratorInterface->register_property("Type", std::string("GPU"));
         acceleratorInterface->initialize();
+
+        // Create DRAM inventory object for GPU DRAM memory
+        std::string dramPath = path + "_DRAM_0";
+        dramItemInterface =
+            objectServer.add_interface(dramPath, itemDimmIfaceName);
+        dramItemInterface->initialize();
     }
 }
 
