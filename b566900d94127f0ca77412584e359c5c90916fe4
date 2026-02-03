@@ -70,6 +70,24 @@
       "parentUuid": "367a333b_5eb08285",
       "revId": "b566900d94127f0ca77412584e359c5c90916fe4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b1d7daa_53b68ee4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-03T02:43:35Z",
+      "side": 1,
+      "message": "The packed struct are not used for parameters of encode/decode functions. The packed struct are strictly used inside encode/decode functions to avoid copying the the data. The encode/decode functions strictly has individual message fields as their parameters uint32_t, uint8_t, std::vector\u003cuint32_t\u003e etc (either by value or by reference). So the caller of the functions will always receive the data that is endianess correct and safe to use. The packed structs are used to avoid copying the data and build in place. These are comment on an initial patch for this app - \nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/79826/comment/9c30db0d_4103e05a/\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/79826/comment/764de301_e4e805fb/\n\nI will further investigate libpldm approach and if its approach seems feasible for this app, I will create a follow up patch that follows libpldm approach for encode/decode.",
+      "parentUuid": "9794e2a7_36867732",
+      "revId": "b566900d94127f0ca77412584e359c5c90916fe4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
