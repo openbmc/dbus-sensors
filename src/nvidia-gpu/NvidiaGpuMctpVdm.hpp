@@ -48,6 +48,7 @@ enum class PlatformEnvironmentalCommands : uint8_t
     GET_INVENTORY_INFORMATION = 0x0C,
     GET_DRIVER_INFORMATION = 0x0E,
     GET_VOLTAGE = 0x0F,
+    GET_ECC_ERROR_COUNTS = 0x7D,
 };
 
 enum class NetworkPortCommands : uint8_t
@@ -342,4 +343,36 @@ int decodeGetEthernetPortTelemetryCountersResponse(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     std::vector<std::pair<uint8_t, uint64_t>>& telemetryValues);
+// ============================================================================
+// ECC Error Counts Support
+// ============================================================================
+
+struct NsmEccErrorCounts
+{
+    uint16_t flags;                   // bit0 = isThresholdExceeded
+    uint32_t sram_corrected;          // SRAM Correctable errors
+    uint32_t sram_uncorrected_secded; // SRAM Uncorrectable (SECDED)
+    uint32_t sram_uncorrected_parity; // SRAM Uncorrectable (Parity)
+    uint32_t dram_corrected;          // DRAM Correctable errors
+    uint32_t dram_uncorrected;        // DRAM Uncorrectable errors
+} __attribute__((packed));
+
+struct GetEccErrorCountsRequest
+{
+    ocp::accelerator_management::CommonRequest hdr;
+} __attribute__((packed));
+
+struct GetEccErrorCountsResponse
+{
+    ocp::accelerator_management::CommonResponse hdr;
+    NsmEccErrorCounts errorCounts;
+} __attribute__((packed));
+
+int encodeGetEccErrorCountsRequest(uint8_t instanceId, std::span<uint8_t> buf);
+
+int decodeGetEccErrorCountsResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    NsmEccErrorCounts& errorCounts);
+
 } // namespace gpu
