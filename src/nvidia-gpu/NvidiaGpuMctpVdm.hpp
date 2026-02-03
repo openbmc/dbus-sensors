@@ -44,6 +44,7 @@ enum class PlatformEnvironmentalCommands : uint8_t
     GET_CURRENT_POWER_DRAW = 0x03,
     GET_MAX_OBSERVED_POWER = 0x04,
     GET_CURRENT_ENERGY_COUNTER = 0x06,
+    GET_ECC_ERROR_COUNTS = 0x7D,
     GET_INVENTORY_INFORMATION = 0x0C,
     GET_DRIVER_INFORMATION = 0x0E,
     GET_VOLTAGE = 0x0F,
@@ -341,4 +342,33 @@ int decodeGetEthernetPortTelemetryCountersResponse(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     std::vector<std::pair<uint8_t, uint64_t>>& telemetryValues);
+
+// ECC Error Counts structures and functions
+struct GetEccErrorCountsRequest
+{
+    ocp::accelerator_management::CommonRequest hdr;
+} __attribute__((packed));
+
+struct NsmEccErrorCounts
+{
+    uint16_t flags;                   // bit0 = isThresholdExceeded
+    uint32_t sram_corrected;          // SRAM Correctable errors
+    uint32_t sram_uncorrected_secded; // SRAM Uncorrectable (SECDED)
+    uint32_t sram_uncorrected_parity; // SRAM Uncorrectable (Parity)
+    uint32_t dram_corrected;          // DRAM Correctable errors
+    uint32_t dram_uncorrected;        // DRAM Uncorrectable errors
+} __attribute__((packed));
+
+struct GetEccErrorCountsResponse
+{
+    ocp::accelerator_management::CommonResponse hdr;
+    NsmEccErrorCounts counts;
+} __attribute__((packed));
+
+int encodeGetEccErrorCountsRequest(uint8_t instanceId, std::span<uint8_t> buf);
+
+int decodeGetEccErrorCountsResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    NsmEccErrorCounts& errorCounts);
 } // namespace gpu
