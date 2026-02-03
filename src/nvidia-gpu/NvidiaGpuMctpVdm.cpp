@@ -872,4 +872,68 @@ int decodeGetEthernetPortTelemetryCountersResponse(
 
     return rc;
 }
+// NOLINTEND(cppcoreguidelines-pro-type-reinterpret-cast)
+int encodeGetEccErrorCountsRequest(uint8_t instanceId, std::span<uint8_t> buf)
+{
+    if (buf.size() < sizeof(GetEccErrorCountsRequest))
+    {
+        return EINVAL;
+    }
+
+    auto* msg = std::bit_cast<GetEccErrorCountsRequest*>(buf.data());
+
+    ocp::accelerator_management::BindingPciVidInfo header{};
+    header.ocp_accelerator_management_msg_type =
+        static_cast<uint8_t>(ocp::accelerator_management::MessageType::REQUEST);
+    header.instance_id = instanceId &
+                         ocp::accelerator_management::instanceIdBitMask;
+    header.msg_type = static_cast<uint8_t>(MessageType::PLATFORM_ENVIRONMENTAL);
+
+    auto rc = packHeader(header, msg->hdr.msgHdr.hdr);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    msg->hdr.command = static_cast<uint8_t>(
+        PlatformEnvironmentalCommands::GET_ECC_ERROR_COUNTS);
+    msg->hdr.data_size = 0;
+
+    return 0;
+}
+
+int decodeGetEccErrorCountsResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    NsmEccErrorCounts& errorCounts)
+{
+    auto rc =
+        ocp::accelerator_management::decodeReasonCodeAndCC(buf, cc, reasonCode);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    if (buf.size() < sizeof(GetEccErrorCountsResponse))
+    {
+        return EINVAL;
+    }
+
+    const auto* response =
+        std::bit_cast<const GetEccErrorCountsResponse*>(buf.data());
+
+    errorCounts.flags = le16toh(response->counts.flags);
+    errorCounts.sram_corrected = le32toh(response->counts.sram_corrected);
+    errorCounts.sram_uncorrected_secded =
+        le32toh(response->counts.sram_uncorrected_secded);
+    errorCounts.sram_uncorrected_parity =
+        le32toh(response->counts.sram_uncorrected_parity);
+    errorCounts.dram_corrected = le32toh(response->counts.dram_corrected);
+    errorCounts.dram_uncorrected = le32toh(response->counts.dram_uncorrected);
+
+    return 0;
+}
+
 } // namespace gpu
