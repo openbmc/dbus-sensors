@@ -2305,4 +2305,163 @@ TEST_F(GpuMctpVdmTests,
     EXPECT_EQ(result, EINVAL);
 }
 
+TEST_F(GpuMctpVdmTests, EncodeGetEccErrorCountsRequestSuccess)
+{
+    const uint8_t instanceId = 14;
+    std::array<uint8_t, sizeof(gpu::GetEccErrorCountsRequest)> buf{};
+
+    int result = gpu::encodeGetEccErrorCountsRequest(instanceId, buf);
+
+    EXPECT_EQ(result, 0);
+
+    gpu::GetEccErrorCountsRequest request{};
+    std::memcpy(&request, buf.data(), sizeof(request));
+
+    EXPECT_EQ(request.hdr.msgHdr.hdr.pci_vendor_id,
+              htobe16(gpu::nvidiaPciVendorId));
+    EXPECT_EQ(request.hdr.msgHdr.hdr.instance_id &
+                  ocp::accelerator_management::instanceIdBitMask,
+              instanceId & ocp::accelerator_management::instanceIdBitMask);
+    EXPECT_NE(request.hdr.msgHdr.hdr.instance_id &
+                  ocp::accelerator_management::requestBitMask,
+              0);
+    EXPECT_EQ(request.hdr.msgHdr.hdr.ocp_accelerator_management_msg_type,
+              static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+
+    EXPECT_EQ(request.hdr.command,
+              static_cast<uint8_t>(
+                  gpu::PlatformEnvironmentalCommands::GET_ECC_ERROR_COUNTS));
+    EXPECT_EQ(request.hdr.data_size, 0);
+}
+
+TEST_F(GpuMctpVdmTests, EncodeGetEccErrorCountsRequestBufferTooSmall)
+{
+    const uint8_t instanceId = 14;
+    std::array<uint8_t, 1> buf{};
+
+    int result = gpu::encodeGetEccErrorCountsRequest(instanceId, buf);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetEccErrorCountsResponseSuccess)
+{
+    std::array<uint8_t, sizeof(gpu::GetEccErrorCountsResponse)> buf{};
+
+    gpu::GetEccErrorCountsResponse response{};
+    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
+    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    headerInfo.instance_id = 14;
+    headerInfo.msg_type =
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
+
+    gpu::packHeader(headerInfo, response.hdr.msgHdr.hdr);
+
+    response.hdr.command = static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_ECC_ERROR_COUNTS);
+    response.hdr.completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS);
+    response.hdr.reserved = 0;
+    response.hdr.data_size =
+        htole16(sizeof(gpu::GetEccErrorCountsResponse) -
+                sizeof(ocp::accelerator_management::CommonResponse));
+
+    response.flags = htole16(1);
+    response.sram_corrected = htole32(10);
+    response.sram_uncorrected_secded = htole32(20);
+    response.sram_uncorrected_parity = htole32(30);
+    response.dram_corrected = htole32(40);
+    response.dram_uncorrected = htole32(50);
+
+    std::memcpy(buf.data(), &response, sizeof(response));
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    gpu::GetEccErrorCountsResponse decoded{};
+
+    int result =
+        gpu::decodeGetEccErrorCountsResponse(buf, cc, reasonCode, decoded);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+    EXPECT_EQ(decoded.flags, 1);
+    EXPECT_EQ(decoded.sram_corrected, 10U);
+    EXPECT_EQ(decoded.sram_uncorrected_secded, 20U);
+    EXPECT_EQ(decoded.sram_uncorrected_parity, 30U);
+    EXPECT_EQ(decoded.dram_corrected, 40U);
+    EXPECT_EQ(decoded.dram_uncorrected, 50U);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetEccErrorCountsResponseError)
+{
+    std::array<uint8_t,
+               sizeof(ocp::accelerator_management::CommonNonSuccessResponse)>
+        buf{};
+
+    ocp::accelerator_management::CommonNonSuccessResponse errorResponse{};
+    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
+    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    headerInfo.instance_id = 14;
+    headerInfo.msg_type =
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
+
+    gpu::packHeader(headerInfo, errorResponse.msgHdr.hdr);
+
+    errorResponse.command = static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_ECC_ERROR_COUNTS);
+    errorResponse.completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
+    errorResponse.reason_code = htole16(0xBEEF);
+
+    std::memcpy(buf.data(), &errorResponse, sizeof(errorResponse));
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    gpu::GetEccErrorCountsResponse decoded{};
+
+    int result =
+        gpu::decodeGetEccErrorCountsResponse(buf, cc, reasonCode, decoded);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
+    EXPECT_EQ(reasonCode, 0xBEEF);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetEccErrorCountsResponseInvalidSize)
+{
+    std::array<uint8_t, sizeof(ocp::accelerator_management::CommonResponse)>
+        buf{};
+
+    ocp::accelerator_management::CommonResponse hdr{};
+    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
+    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    headerInfo.instance_id = 14;
+    headerInfo.msg_type =
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
+
+    gpu::packHeader(headerInfo, hdr.msgHdr.hdr);
+
+    hdr.command = static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_ECC_ERROR_COUNTS);
+    hdr.completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS);
+    hdr.reserved = 0;
+    hdr.data_size = htole16(4);
+
+    std::memcpy(buf.data(), &hdr, sizeof(hdr));
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    gpu::GetEccErrorCountsResponse decoded{};
+
+    int result =
+        gpu::decodeGetEccErrorCountsResponse(buf, cc, reasonCode, decoded);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
 } // namespace gpu_mctp_tests
