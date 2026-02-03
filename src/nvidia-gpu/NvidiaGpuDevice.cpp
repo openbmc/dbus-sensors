@@ -14,6 +14,7 @@
 #include <NvidiaDriverInformation.hpp>
 #include <NvidiaGpuEnergySensor.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
+#include <NvidiaGpuMemoryDevice.hpp>
 #include <NvidiaGpuPowerPeakReading.hpp>
 #include <NvidiaGpuPowerSensor.hpp>
 #include <NvidiaGpuSensor.hpp>
@@ -101,6 +102,13 @@ void GpuDevice::makeSensors()
 
     driverInfo = std::make_shared<NvidiaDriverInformation>(
         conn, mctpRequester, name, path, eid, objectServer);
+
+    // Create Memory Device for GPU memory (SRAM and DRAM) ECC monitoring
+    // This creates:
+    // - SRAM ECC interface on GPU inventory object
+    // - DRAM Memory object with Item.Dimm and MemoryECC interfaces
+    memoryDevice = std::make_shared<NvidiaGpuMemoryDevice>(
+        conn, mctpRequester, name, eid, objectServer);
 
     getTLimitThresholds();
 
@@ -221,6 +229,12 @@ void GpuDevice::read()
     energySensor->update();
     voltageSensor->update();
     driverInfo->update();
+
+    // Update Memory Device for SRAM and DRAM ECC monitoring
+    if (memoryDevice)
+    {
+        memoryDevice->update();
+    }
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait(
