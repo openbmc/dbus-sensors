@@ -20,6 +20,7 @@
 #include <span>
 #include <string>
 #include <system_error>
+#include <tuple>
 #include <unordered_map>
 #include <variant>
 #include <vector>
@@ -33,6 +34,8 @@ static constexpr const char* assetIfaceName =
 static constexpr const char* uuidIfaceName = "xyz.openbmc_project.Common.UUID";
 static constexpr const char* revisionIfaceName =
     "xyz.openbmc_project.Inventory.Decorator.Revision";
+
+static constexpr uint64_t mhzToHzFactor = 1'000'000;
 
 Inventory::Inventory(
     const std::shared_ptr<sdbusplus::asio::connection>& /*conn*/,
@@ -75,17 +78,33 @@ Inventory::Inventory(
         acceleratorInterface =
             objectServer.add_interface(path, acceleratorIfaceName);
         acceleratorInterface->register_property("Type", acceleratorTypeGpu);
+    }
 
-        // Register BoostClockFrequency property
+    // Accelerator properties queried from device via MCTP VDM
+    if (acceleratorInterface)
+    {
         acceleratorInterface->register_property(
             "BoostClockFrequency", std::numeric_limits<uint64_t>::max());
+        acceleratorInterface->register_property(
+            "BaseSpeedInHz", std::numeric_limits<uint64_t>::max(),
+            sdbusplus::asio::PropertyPermission::readOnly);
+        acceleratorInterface->register_property(
+            "MaxSpeedInHz", std::numeric_limits<uint64_t>::max(),
+            sdbusplus::asio::PropertyPermission::readOnly);
+        acceleratorInterface->register_property(
+            "MinSpeedInHz", std::numeric_limits<uint64_t>::max(),
+            sdbusplus::asio::PropertyPermission::readOnly);
 
         acceleratorInterface->initialize();
 
-        // Add to query queue (manually since registerProperty is for strings
-        // only)
         properties[gpu::InventoryPropertyId::DEFAULT_BOOST_CLOCKS] = {
             acceleratorInterface, "BoostClockFrequency", 0, true};
+        properties[gpu::InventoryPropertyId::DEFAULT_BASE_CLOCKS] = {
+            acceleratorInterface, "BaseSpeedInHz", 0, true};
+        properties[gpu::InventoryPropertyId::MAX_GRAPHICS_CLOCK] = {
+            acceleratorInterface, "MaxSpeedInHz", 0, true};
+        properties[gpu::InventoryPropertyId::MIN_GRAPHICS_CLOCK] = {
+            acceleratorInterface, "MinSpeedInHz", 0, true};
     }
 
     if (powerCapInterface)
@@ -275,14 +294,21 @@ void Inventory::handleInventoryPropertyResponse(
                     break;
 
                 case gpu::InventoryPropertyId::DEFAULT_BOOST_CLOCKS:
+                case gpu::InventoryPropertyId::DEFAULT_BASE_CLOCKS:
+                case gpu::InventoryPropertyId::MIN_GRAPHICS_CLOCK:
+                case gpu::InventoryPropertyId::MAX_GRAPHICS_CLOCK:
                     if (std::holds_alternative<uint32_t>(info))
                     {
-                        const uint32_t clockSpeed = std::get<uint32_t>(info);
-                        // Convert to uint64_t for D-Bus interface requirement
-                        const uint64_t clockSpeed64 =
-                            static_cast<uint64_t>(clockSpeed);
+                        // NSM returns MHz; PDI expects Hz (uint64)
+                        const uint32_t mhz = std::get<uint32_t>(info);
+                        const uint64_t hz =
+                            static_cast<uint64_t>(mhz) * mhzToHzFactor;
                         it->second.interface->set_property(
-                            it->second.propertyName, clockSpeed64);
+                            it->second.propertyName, hz);
+                        lg2::info(
+                            "Successfully received property ID {PROP_ID} for {NAME} with value: {VALUE}",
+                            "PROP_ID", static_cast<uint8_t>(propertyId), "NAME",
+                            name, "VALUE", hz);
                         success = true;
                     }
                     else
