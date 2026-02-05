@@ -9,7 +9,9 @@
 #include "MctpRequester.hpp"
 #include "NvidiaDeviceDiscovery.hpp"
 #include "NvidiaEventReporting.hpp"
-#include "NvidiaGpuControl.hpp"
+#include "NvidiaGpuClockFrequencyMetric.hpp"
+#include "NvidiaGpuClockSpeedControl.hpp"
+#include "NvidiaGpuPowerControl.hpp"
 #include "NvidiaGpuPowerSensor.hpp"
 #include "NvidiaGpuSensor.hpp"
 
@@ -88,8 +90,7 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
     std::shared_ptr<NvidiaGpuEnergySensor> energySensor;
     std::shared_ptr<NvidiaGpuVoltageSensor> voltageSensor;
     std::shared_ptr<NvidiaDriverInformation> driverInfo;
-
-    std::shared_ptr<NvidiaGpuControl> gpuControl;
+    std::shared_ptr<NvidiaGpuPowerControl> gpuPowerControl;
     std::shared_ptr<sdbusplus::asio::dbus_interface> powerCapInterface;
 
     std::shared_ptr<NvidiaPcieInterface> pcieInterface;
@@ -113,4 +114,8 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
     std::string path;
 
     std::shared_ptr<Inventory> inventory;
+
+    std::shared_ptr<sdbusplus::asio::dbus_interface> controlClockSpeedInterface;
+    std::shared_ptr<NvidiaGpuClockFrequencyMetric> clockFrequencyMetric;
+    std::shared_ptr<NvidiaGpuClockSpeedControl> gpuClockSpeedControl;
 };
