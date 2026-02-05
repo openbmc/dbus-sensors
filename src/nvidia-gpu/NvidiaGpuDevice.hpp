@@ -8,8 +8,10 @@
 #include "Inventory.hpp"
 #include "MctpRequester.hpp"
 #include "NvidiaDeviceDiscovery.hpp"
+#include "NvidiaGpuClockFrequencyMetric.hpp"
 #include "NvidiaGpuControl.hpp"
 #include "NvidiaGpuPowerSensor.hpp"
+#include "NvidiaGpuProcessorControl.hpp"
 #include "NvidiaGpuSensor.hpp"
 
 #include <NvidiaDriverInformation.hpp>
@@ -96,4 +98,8 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
     std::string path;
 
     std::shared_ptr<Inventory> inventory;
+
+    std::shared_ptr<sdbusplus::asio::dbus_interface> controlProcessorInterface;
+    std::shared_ptr<NvidiaGpuClockFrequencyMetric> clockFrequencyMetric;
+    std::shared_ptr<NvidiaGpuProcessorControl> processorControl;
 };

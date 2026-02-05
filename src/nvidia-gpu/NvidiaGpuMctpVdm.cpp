@@ -682,6 +682,9 @@ int decodeGetInventoryInformationResponse(
             value = std::vector<uint8_t>(dataPtr, dataPtr + dataSize);
             break;
         case InventoryPropertyId::DEFAULT_BOOST_CLOCKS:
+        case InventoryPropertyId::DEFAULT_BASE_CLOCKS:
+        case InventoryPropertyId::MIN_GRAPHICS_CLOCK:
+        case InventoryPropertyId::MAX_GRAPHICS_CLOCK:
         case InventoryPropertyId::RATED_DEVICE_POWER_LIMIT:
         case InventoryPropertyId::MIN_DEVICE_POWER_LIMIT:
         case InventoryPropertyId::MAX_DEVICE_POWER_LIMIT:
@@ -699,6 +702,126 @@ int decodeGetInventoryInformationResponse(
             return EINVAL;
     }
     return 0;
+}
+
+int encodeGetCurrentClockFrequencyRequest(
+    uint8_t instanceId, ClockType clockType, std::span<uint8_t> buf)
+{
+    PackBuffer buffer(buf);
+
+    int rc = encodeRequestCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(
+            PlatformEnvironmentalCommands::GET_CURRENT_CLOCK_FREQUENCY),
+        instanceId);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    const uint8_t dataSize = sizeof(uint8_t);
+    buffer.pack(dataSize);
+    buffer.pack(static_cast<uint8_t>(clockType));
+
+    return buffer.getError();
+}
+
+int decodeGetCurrentClockFrequencyResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint32_t& clockFrequency)
+{
+    UnpackBuffer buffer(buf);
+
+    int rc = decodeResponseCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(
+            PlatformEnvironmentalCommands::GET_CURRENT_CLOCK_FREQUENCY),
+        cc, reasonCode);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    uint16_t dataSize = 0;
+    rc = buffer.unpack(dataSize);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    if (dataSize != sizeof(uint32_t))
+    {
+        return EINVAL;
+    }
+
+    rc = buffer.unpack(clockFrequency);
+
+    return rc;
+}
+
+int encodeGetClockLimitRequest(uint8_t instanceId, ClockType clockType,
+                               std::span<uint8_t> buf)
+{
+    PackBuffer buffer(buf);
+
+    int rc = encodeRequestCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(PlatformEnvironmentalCommands::GET_CLOCK_LIMIT),
+        instanceId);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    const uint8_t dataSize = sizeof(uint8_t);
+    buffer.pack(dataSize);
+    buffer.pack(static_cast<uint8_t>(clockType));
+
+    return buffer.getError();
+}
+
+int decodeGetClockLimitResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint32_t& requestedLimitMin, uint32_t& requestedLimitMax,
+    uint32_t& presentLimitMin, uint32_t& presentLimitMax)
+{
+    UnpackBuffer buffer(buf);
+
+    int rc = decodeResponseCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(PlatformEnvironmentalCommands::GET_CLOCK_LIMIT),
+        cc, reasonCode);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    uint16_t dataSize = 0;
+    rc = buffer.unpack(dataSize);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    if (dataSize != 4 * sizeof(uint32_t))
+    {
+        return EINVAL;
+    }
+
+    buffer.unpack(requestedLimitMin);
+    buffer.unpack(requestedLimitMax);
+    buffer.unpack(presentLimitMin);
+    buffer.unpack(presentLimitMax);
+
+    return buffer.getError();
 }
 
 int encodeQueryScalarGroupTelemetryV2Request(
