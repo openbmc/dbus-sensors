@@ -12,11 +12,13 @@
 #include <MctpRequester.hpp>
 #include <NvidiaDeviceDiscovery.hpp>
 #include <NvidiaDriverInformation.hpp>
+#include <NvidiaGpuClockFrequencyMetric.hpp>
 #include <NvidiaGpuControl.hpp>
 #include <NvidiaGpuEnergySensor.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
 #include <NvidiaGpuPowerPeakReading.hpp>
 #include <NvidiaGpuPowerSensor.hpp>
+#include <NvidiaGpuProcessorControl.hpp>
 #include <NvidiaGpuSensor.hpp>
 #include <NvidiaGpuVoltageSensor.hpp>
 #include <OcpMctpVdm.hpp>
@@ -37,6 +39,13 @@
 #include <utility>
 #include <vector>
 
+static constexpr const char* controlProcessorIfaceName =
+    "xyz.openbmc_project.Control.Processor";
+static constexpr const char* controlProcessorPrefix =
+    "/xyz/openbmc_project/control/processor/";
+static constexpr const char* controlPowerPrefix =
+    "/xyz/openbmc_project/control/power/";
+
 static constexpr uint8_t gpuTLimitCriticalThresholdId{1};
 static constexpr uint8_t gpuTLimitWarningThresholdId{2};
 static constexpr uint8_t gpuTLimitHardshutDownThresholdId{4};
@@ -45,9 +54,6 @@ static constexpr uint8_t gpuTLimitHardshutDownThresholdId{4};
 static constexpr std::array<uint8_t, 3> thresholdIds{
     gpuTLimitWarningThresholdId, gpuTLimitCriticalThresholdId,
     gpuTLimitHardshutDownThresholdId};
-
-static constexpr const char* controlPowerPrefix =
-    "/xyz/openbmc_project/control/power/";
 
 GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
                      const std::string& path,
@@ -77,11 +83,21 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
         sdbusplus::asio::PropertyPermission::readOnly);
 
     powerCapInterface->initialize();
+
+    const std::string processorControlPath =
+        controlProcessorPrefix + this->name;
+    controlProcessorInterface = objectServer.add_interface(
+        processorControlPath, controlProcessorIfaceName);
+    controlProcessorInterface->register_property(
+        "SpeedLimitHz", std::numeric_limits<uint64_t>::max());
+    controlProcessorInterface->register_property("SpeedLimitLocked", false);
+    controlProcessorInterface->initialize();
 }
 
 GpuDevice::~GpuDevice()
 {
     objectServer.remove_interface(powerCapInterface);
+    objectServer.remove_interface(controlProcessorInterface);
 }
 
 void GpuDevice::init()
@@ -134,6 +150,13 @@ void GpuDevice::makeSensors()
     gpuControl = std::make_shared<NvidiaGpuControl>(
         objectServer, name, inventoryPrefix + name, mctpRequester, eid,
         powerCapInterface);
+
+    clockFrequencyMetric = std::make_shared<NvidiaGpuClockFrequencyMetric>(
+        mctpRequester, name, eid, objectServer, inventoryPrefix + name);
+
+    processorControl = std::make_shared<NvidiaGpuProcessorControl>(
+        objectServer, name, inventoryPrefix + name, mctpRequester, eid,
+        controlProcessorInterface);
 
     getTLimitThresholds();
 
@@ -255,6 +278,8 @@ void GpuDevice::read()
     voltageSensor->update();
     driverInfo->update();
     gpuControl->update();
+    clockFrequencyMetric->update();
+    processorControl->update();
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait(
