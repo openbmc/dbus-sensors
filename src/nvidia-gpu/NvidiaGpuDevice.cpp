@@ -12,6 +12,8 @@
 #include <MctpRequester.hpp>
 #include <NvidiaDeviceDiscovery.hpp>
 #include <NvidiaDriverInformation.hpp>
+#include <NvidiaGpuClockFrequency.hpp>
+#include <NvidiaGpuClockLimit.hpp>
 #include <NvidiaGpuEnergySensor.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
 #include <NvidiaGpuPowerPeakReading.hpp>
@@ -35,6 +37,10 @@
 #include <utility>
 #include <vector>
 
+static constexpr const char* operatingConfigIfaceName =
+    "xyz.openbmc_project.Inventory.Item.Cpu.OperatingConfig";
+constexpr const char* inventoryPrefix = "/xyz/openbmc_project/inventory/";
+
 static constexpr uint8_t gpuTLimitCriticalThresholdId{1};
 static constexpr uint8_t gpuTLimitWarningThresholdId{2};
 static constexpr uint8_t gpuTLimitHardshutDownThresholdId{4};
@@ -55,9 +61,39 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
     mctpRequester(mctpRequester), conn(conn), objectServer(objectServer),
     configs(configs), name(escapeName(name)), path(path)
 {
+    const std::string inventoryPath = inventoryPrefix + this->name;
+
+    operatingConfigInterface =
+        objectServer.add_interface(inventoryPath, operatingConfigIfaceName);
+    operatingConfigInterface->register_property("BaseSpeed", uint32_t{0});
+    operatingConfigInterface->register_property("MaxSpeed", uint32_t{0});
+    operatingConfigInterface->register_property("MinSpeed", uint32_t{0});
+    operatingConfigInterface->register_property(
+        "OperatingSpeed", uint32_t{0},
+        sdbusplus::asio::PropertyPermission::readOnly);
+    operatingConfigInterface->register_property("SpeedLimit", uint32_t{0});
+    operatingConfigInterface->register_property("SpeedLocked", false);
+    operatingConfigInterface->register_property("RequestedSpeedLimitMin",
+                                                uint32_t{0});
+    operatingConfigInterface->register_property("RequestedSpeedLimitMax",
+                                                uint32_t{0});
+    operatingConfigInterface->initialize();
+
     inventory = std::make_shared<Inventory>(
         conn, objectServer, name, mctpRequester,
-        gpu::DeviceIdentification::DEVICE_GPU, eid, io);
+        gpu::DeviceIdentification::DEVICE_GPU, eid, io,
+        operatingConfigInterface);
+
+    clockFrequency = std::make_shared<NvidiaGpuClockFrequency>(
+        mctpRequester, this->name, eid, operatingConfigInterface);
+
+    clockLimit = std::make_shared<NvidiaGpuClockLimit>(
+        mctpRequester, this->name, eid, operatingConfigInterface);
+}
+
+GpuDevice::~GpuDevice()
+{
+    objectServer.remove_interface(operatingConfigInterface);
 }
 
 void GpuDevice::init()
@@ -221,6 +257,8 @@ void GpuDevice::read()
     energySensor->update();
     voltageSensor->update();
     driverInfo->update();
+    clockFrequency->update();
+    clockLimit->update();
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait(

@@ -20,6 +20,7 @@
 #include <span>
 #include <string>
 #include <system_error>
+#include <tuple>
 #include <unordered_map>
 #include <variant>
 #include <vector>
@@ -38,7 +39,9 @@ Inventory::Inventory(
     sdbusplus::asio::object_server& objectServer,
     const std::string& inventoryName, mctp::MctpRequester& mctpRequester,
     const gpu::DeviceIdentification deviceTypeIn, const uint8_t eid,
-    boost::asio::io_context& io) :
+    boost::asio::io_context& io,
+    const std::shared_ptr<sdbusplus::asio::dbus_interface>&
+        operatingConfigInterface) :
     name(escapeName(inventoryName)), mctpRequester(mctpRequester),
     deviceType(deviceTypeIn), eid(eid), retryTimer(io)
 {
@@ -64,6 +67,16 @@ Inventory::Inventory(
     registerProperty(gpu::InventoryPropertyId::DEVICE_PART_NUMBER,
                      revisionIface, "Version");
     revisionIface->initialize();
+
+    if (operatingConfigInterface)
+    {
+        properties[gpu::InventoryPropertyId::DEFAULT_BASE_CLOCKS] = {
+            operatingConfigInterface, "BaseSpeed", 0, true};
+        properties[gpu::InventoryPropertyId::MAX_GRAPHICS_CLOCK] = {
+            operatingConfigInterface, "MaxSpeed", 0, true};
+        properties[gpu::InventoryPropertyId::MIN_GRAPHICS_CLOCK] = {
+            operatingConfigInterface, "MinSpeed", 0, true};
+    }
 
     // Static properties
     if (deviceType == gpu::DeviceIdentification::DEVICE_GPU)
@@ -98,6 +111,18 @@ void Inventory::registerProperty(
     if (interface)
     {
         interface->register_property(propertyName, std::string{});
+        properties[propertyId] = {interface, propertyName, 0, true};
+    }
+}
+
+void Inventory::registerUint32Property(
+    gpu::InventoryPropertyId propertyId,
+    const std::shared_ptr<sdbusplus::asio::dbus_interface>& interface,
+    const std::string& propertyName)
+{
+    if (interface)
+    {
+        interface->register_property(propertyName, uint32_t{0});
         properties[propertyId] = {interface, propertyName, 0, true};
     }
 }
@@ -269,6 +294,29 @@ void Inventory::handleInventoryPropertyResponse(
                             static_cast<uint64_t>(clockSpeed);
                         it->second.interface->set_property(
                             it->second.propertyName, clockSpeed64);
+                        success = true;
+                    }
+                    else
+                    {
+                        lg2::error(
+                            "Property ID {PROP_ID} for {NAME} expected uint32_t but got different type",
+                            "PROP_ID", static_cast<uint8_t>(propertyId), "NAME",
+                            name);
+                    }
+                    break;
+
+                case gpu::InventoryPropertyId::DEFAULT_BASE_CLOCKS:
+                case gpu::InventoryPropertyId::MIN_GRAPHICS_CLOCK:
+                case gpu::InventoryPropertyId::MAX_GRAPHICS_CLOCK:
+                    if (std::holds_alternative<uint32_t>(info))
+                    {
+                        uint32_t clockValue = std::get<uint32_t>(info);
+                        it->second.interface->set_property(
+                            it->second.propertyName, clockValue);
+                        lg2::info(
+                            "Successfully received property ID {PROP_ID} for {NAME} with value: {VALUE}",
+                            "PROP_ID", static_cast<uint8_t>(propertyId), "NAME",
+                            name, "VALUE", clockValue);
                         success = true;
                     }
                     else

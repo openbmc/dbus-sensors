@@ -2305,4 +2305,384 @@ TEST_F(GpuMctpVdmTests,
     EXPECT_EQ(result, EINVAL);
 }
 
+// Tests for encodeGetCurrentClockFrequencyRequest
+TEST_F(GpuMctpVdmTests, EncodeGetCurrentClockFrequencyRequestSuccess)
+{
+    const uint8_t instanceId = 14;
+    std::array<uint8_t, sizeof(gpu::GetCurrentClockFrequencyRequest)> buf{};
+
+    int result = gpu::encodeGetCurrentClockFrequencyRequest(
+        instanceId, gpu::ClockType::GRAPHICS_CLOCK, buf);
+
+    EXPECT_EQ(result, 0);
+
+    gpu::GetCurrentClockFrequencyRequest request{};
+    std::memcpy(&request, buf.data(), sizeof(request));
+
+    EXPECT_EQ(request.hdr.msgHdr.hdr.pci_vendor_id,
+              htobe16(gpu::nvidiaPciVendorId));
+    EXPECT_EQ(request.hdr.msgHdr.hdr.instance_id &
+                  ocp::accelerator_management::instanceIdBitMask,
+              instanceId & ocp::accelerator_management::instanceIdBitMask);
+    EXPECT_NE(request.hdr.msgHdr.hdr.instance_id &
+                  ocp::accelerator_management::requestBitMask,
+              0);
+    EXPECT_EQ(request.hdr.msgHdr.hdr.ocp_accelerator_management_msg_type,
+              static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+
+    EXPECT_EQ(
+        request.hdr.command,
+        static_cast<uint8_t>(
+            gpu::PlatformEnvironmentalCommands::GET_CURRENT_CLOCK_FREQUENCY));
+    EXPECT_EQ(request.hdr.data_size, sizeof(uint8_t));
+    EXPECT_EQ(request.clockType,
+              static_cast<uint8_t>(gpu::ClockType::GRAPHICS_CLOCK));
+}
+
+TEST_F(GpuMctpVdmTests, EncodeGetCurrentClockFrequencyRequestBufferTooSmall)
+{
+    const uint8_t instanceId = 14;
+    std::array<uint8_t, 1> buf{};
+
+    int result = gpu::encodeGetCurrentClockFrequencyRequest(
+        instanceId, gpu::ClockType::GRAPHICS_CLOCK, buf);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+// Tests for decodeGetCurrentClockFrequencyResponse
+TEST_F(GpuMctpVdmTests, DecodeGetCurrentClockFrequencyResponseSuccess)
+{
+    std::array<uint8_t, sizeof(gpu::GetCurrentClockFrequencyResponse)> buf{};
+
+    gpu::GetCurrentClockFrequencyResponse response{};
+    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
+    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    headerInfo.instance_id = 14;
+    headerInfo.msg_type =
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
+
+    gpu::packHeader(headerInfo, response.hdr.msgHdr.hdr);
+
+    response.hdr.command = static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_CURRENT_CLOCK_FREQUENCY);
+    response.hdr.completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS);
+    response.hdr.reserved = 0;
+    response.hdr.data_size = htole16(sizeof(uint32_t));
+    response.clockFrequency = htole32(1500);
+
+    std::memcpy(buf.data(), &response, sizeof(response));
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint32_t clockFrequency{};
+
+    int result = gpu::decodeGetCurrentClockFrequencyResponse(
+        buf, cc, reasonCode, clockFrequency);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+    EXPECT_EQ(clockFrequency, 1500U);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetCurrentClockFrequencyResponseError)
+{
+    std::array<uint8_t,
+               sizeof(ocp::accelerator_management::CommonNonSuccessResponse)>
+        buf{};
+
+    ocp::accelerator_management::CommonNonSuccessResponse errorResponse{};
+    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
+    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    headerInfo.instance_id = 14;
+    headerInfo.msg_type =
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
+
+    gpu::packHeader(headerInfo, errorResponse.msgHdr.hdr);
+
+    errorResponse.command = static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_CURRENT_CLOCK_FREQUENCY);
+    errorResponse.completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
+    errorResponse.reason_code = htole16(0xAAAA);
+
+    std::memcpy(buf.data(), &errorResponse, sizeof(errorResponse));
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint32_t clockFrequency{};
+
+    int result = gpu::decodeGetCurrentClockFrequencyResponse(
+        buf, cc, reasonCode, clockFrequency);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
+    EXPECT_EQ(reasonCode, 0xAAAA);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetCurrentClockFrequencyResponseBufferTooSmall)
+{
+    std::array<uint8_t, sizeof(ocp::accelerator_management::Message) + 2> buf{};
+
+    ocp::accelerator_management::Message msg{};
+    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
+    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    headerInfo.instance_id = 14;
+    headerInfo.msg_type =
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
+
+    gpu::packHeader(headerInfo, msg.hdr);
+    std::memcpy(buf.data(), &msg, sizeof(msg));
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint32_t clockFrequency{};
+
+    int result = gpu::decodeGetCurrentClockFrequencyResponse(
+        buf, cc, reasonCode, clockFrequency);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetCurrentClockFrequencyResponseInvalidDataSize)
+{
+    std::array<uint8_t, sizeof(gpu::GetCurrentClockFrequencyResponse)> buf{};
+
+    gpu::GetCurrentClockFrequencyResponse response{};
+    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
+    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    headerInfo.instance_id = 14;
+    headerInfo.msg_type =
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
+
+    gpu::packHeader(headerInfo, response.hdr.msgHdr.hdr);
+
+    response.hdr.command = static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_CURRENT_CLOCK_FREQUENCY);
+    response.hdr.completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS);
+    response.hdr.reserved = 0;
+    response.hdr.data_size = htole16(2);
+    response.clockFrequency = htole32(1500);
+
+    std::memcpy(buf.data(), &response, sizeof(response));
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint32_t clockFrequency{};
+
+    int result = gpu::decodeGetCurrentClockFrequencyResponse(
+        buf, cc, reasonCode, clockFrequency);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+// Tests for encodeGetClockLimitRequest
+TEST_F(GpuMctpVdmTests, EncodeGetClockLimitRequestSuccess)
+{
+    const uint8_t instanceId = 15;
+    std::array<uint8_t, sizeof(gpu::GetClockLimitRequest)> buf{};
+
+    int result = gpu::encodeGetClockLimitRequest(
+        instanceId, gpu::ClockType::GRAPHICS_CLOCK, buf);
+
+    EXPECT_EQ(result, 0);
+
+    gpu::GetClockLimitRequest request{};
+    std::memcpy(&request, buf.data(), sizeof(request));
+
+    EXPECT_EQ(request.hdr.msgHdr.hdr.pci_vendor_id,
+              htobe16(gpu::nvidiaPciVendorId));
+    EXPECT_EQ(request.hdr.msgHdr.hdr.instance_id &
+                  ocp::accelerator_management::instanceIdBitMask,
+              instanceId & ocp::accelerator_management::instanceIdBitMask);
+    EXPECT_NE(request.hdr.msgHdr.hdr.instance_id &
+                  ocp::accelerator_management::requestBitMask,
+              0);
+    EXPECT_EQ(request.hdr.msgHdr.hdr.ocp_accelerator_management_msg_type,
+              static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+
+    EXPECT_EQ(request.hdr.command,
+              static_cast<uint8_t>(
+                  gpu::PlatformEnvironmentalCommands::GET_CLOCK_LIMIT));
+    EXPECT_EQ(request.hdr.data_size, sizeof(uint8_t));
+    EXPECT_EQ(request.clockType,
+              static_cast<uint8_t>(gpu::ClockType::GRAPHICS_CLOCK));
+}
+
+TEST_F(GpuMctpVdmTests, EncodeGetClockLimitRequestBufferTooSmall)
+{
+    const uint8_t instanceId = 15;
+    std::array<uint8_t, 1> buf{};
+
+    int result = gpu::encodeGetClockLimitRequest(
+        instanceId, gpu::ClockType::GRAPHICS_CLOCK, buf);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+// Tests for decodeGetClockLimitResponse
+TEST_F(GpuMctpVdmTests, DecodeGetClockLimitResponseSuccess)
+{
+    std::array<uint8_t, sizeof(gpu::GetClockLimitResponse)> buf{};
+
+    gpu::GetClockLimitResponse response{};
+    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
+    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    headerInfo.instance_id = 15;
+    headerInfo.msg_type =
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
+
+    gpu::packHeader(headerInfo, response.hdr.msgHdr.hdr);
+
+    response.hdr.command = static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_CLOCK_LIMIT);
+    response.hdr.completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS);
+    response.hdr.reserved = 0;
+    response.hdr.data_size = htole16(4 * sizeof(uint32_t));
+    response.requestedLimitMin = htole32(300);
+    response.requestedLimitMax = htole32(2100);
+    response.presentLimitMin = htole32(500);
+    response.presentLimitMax = htole32(1800);
+
+    std::memcpy(buf.data(), &response, sizeof(response));
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint32_t requestedLimitMin{};
+    uint32_t requestedLimitMax{};
+    uint32_t presentLimitMin{};
+    uint32_t presentLimitMax{};
+
+    int result = gpu::decodeGetClockLimitResponse(
+        buf, cc, reasonCode, requestedLimitMin, requestedLimitMax,
+        presentLimitMin, presentLimitMax);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+    EXPECT_EQ(requestedLimitMin, 300U);
+    EXPECT_EQ(requestedLimitMax, 2100U);
+    EXPECT_EQ(presentLimitMin, 500U);
+    EXPECT_EQ(presentLimitMax, 1800U);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetClockLimitResponseError)
+{
+    std::array<uint8_t,
+               sizeof(ocp::accelerator_management::CommonNonSuccessResponse)>
+        buf{};
+
+    ocp::accelerator_management::CommonNonSuccessResponse errorResponse{};
+    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
+    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    headerInfo.instance_id = 15;
+    headerInfo.msg_type =
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
+
+    gpu::packHeader(headerInfo, errorResponse.msgHdr.hdr);
+
+    errorResponse.command = static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_CLOCK_LIMIT);
+    errorResponse.completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
+    errorResponse.reason_code = htole16(0xBBBB);
+
+    std::memcpy(buf.data(), &errorResponse, sizeof(errorResponse));
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint32_t requestedLimitMin{};
+    uint32_t requestedLimitMax{};
+    uint32_t presentLimitMin{};
+    uint32_t presentLimitMax{};
+
+    int result = gpu::decodeGetClockLimitResponse(
+        buf, cc, reasonCode, requestedLimitMin, requestedLimitMax,
+        presentLimitMin, presentLimitMax);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
+    EXPECT_EQ(reasonCode, 0xBBBB);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetClockLimitResponseBufferTooSmall)
+{
+    std::array<uint8_t, sizeof(ocp::accelerator_management::Message) + 2> buf{};
+
+    ocp::accelerator_management::Message msg{};
+    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
+    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    headerInfo.instance_id = 15;
+    headerInfo.msg_type =
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
+
+    gpu::packHeader(headerInfo, msg.hdr);
+    std::memcpy(buf.data(), &msg, sizeof(msg));
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint32_t requestedLimitMin{};
+    uint32_t requestedLimitMax{};
+    uint32_t presentLimitMin{};
+    uint32_t presentLimitMax{};
+
+    int result = gpu::decodeGetClockLimitResponse(
+        buf, cc, reasonCode, requestedLimitMin, requestedLimitMax,
+        presentLimitMin, presentLimitMax);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetClockLimitResponseInvalidDataSize)
+{
+    std::array<uint8_t, sizeof(gpu::GetClockLimitResponse)> buf{};
+
+    gpu::GetClockLimitResponse response{};
+    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
+    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    headerInfo.instance_id = 15;
+    headerInfo.msg_type =
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
+
+    gpu::packHeader(headerInfo, response.hdr.msgHdr.hdr);
+
+    response.hdr.command = static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_CLOCK_LIMIT);
+    response.hdr.completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS);
+    response.hdr.reserved = 0;
+    response.hdr.data_size = htole16(4);
+    response.requestedLimitMin = htole32(300);
+    response.requestedLimitMax = htole32(2100);
+    response.presentLimitMin = htole32(500);
+    response.presentLimitMax = htole32(1800);
+
+    std::memcpy(buf.data(), &response, sizeof(response));
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint32_t requestedLimitMin{};
+    uint32_t requestedLimitMax{};
+    uint32_t presentLimitMin{};
+    uint32_t presentLimitMax{};
+
+    int result = gpu::decodeGetClockLimitResponse(
+        buf, cc, reasonCode, requestedLimitMin, requestedLimitMax,
+        presentLimitMin, presentLimitMax);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
 } // namespace gpu_mctp_tests
