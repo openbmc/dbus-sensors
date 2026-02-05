@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-#include "NvidiaGpuControl.hpp"
+#include "NvidiaGpuPowerControl.hpp"
 
 #include "Utils.hpp"
 
@@ -27,7 +27,7 @@ constexpr const char* controlPowerPrefix =
 constexpr uint32_t milliwattsPerWatt = 1000;
 constexpr uint32_t powerLimitUnlimited = std::numeric_limits<uint32_t>::max();
 
-NvidiaGpuControl::NvidiaGpuControl(
+NvidiaGpuPowerControl::NvidiaGpuPowerControl(
     sdbusplus::asio::object_server& objectServer, const std::string& deviceName,
     const std::string& inventoryPath, mctp::MctpRequester& mctpRequester,
     uint8_t eid,
@@ -47,17 +47,17 @@ NvidiaGpuControl::NvidiaGpuControl(
     associationInterface->initialize();
 }
 
-NvidiaGpuControl::~NvidiaGpuControl()
+NvidiaGpuPowerControl::~NvidiaGpuPowerControl()
 {
     objectServer.remove_interface(associationInterface);
 }
 
-void NvidiaGpuControl::update()
+void NvidiaGpuPowerControl::update()
 {
     sendGetPowerLimitsRequest();
 }
 
-void NvidiaGpuControl::sendGetPowerLimitsRequest()
+void NvidiaGpuPowerControl::sendGetPowerLimitsRequest()
 {
     constexpr uint32_t devicePowerLimitId = 0;
 
@@ -76,17 +76,17 @@ void NvidiaGpuControl::sendGetPowerLimitsRequest()
         eid, getPowerLimitsRequestBuffer,
         [weak{weak_from_this()}](const std::error_code& ec,
                                  std::span<const uint8_t> buffer) {
-            std::shared_ptr<NvidiaGpuControl> self = weak.lock();
+            std::shared_ptr<NvidiaGpuPowerControl> self = weak.lock();
             if (!self)
             {
-                lg2::error("Invalid NvidiaGpuControl reference");
+                lg2::error("Invalid NvidiaGpuPowerControl reference");
                 return;
             }
             self->handleGetPowerLimitsResponse(ec, buffer);
         });
 }
 
-void NvidiaGpuControl::handleGetPowerLimitsResponse(
+void NvidiaGpuPowerControl::handleGetPowerLimitsResponse(
     const std::error_code& ec, std::span<const uint8_t> buffer)
 {
     if (ec)
