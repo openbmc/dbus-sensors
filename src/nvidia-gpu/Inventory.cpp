@@ -20,6 +20,7 @@
 #include <span>
 #include <string>
 #include <system_error>
+#include <tuple>
 #include <unordered_map>
 #include <variant>
 #include <vector>
@@ -32,6 +33,8 @@ static constexpr const char* assetIfaceName =
 static constexpr const char* uuidIfaceName = "xyz.openbmc_project.Common.UUID";
 static constexpr const char* revisionIfaceName =
     "xyz.openbmc_project.Inventory.Decorator.Revision";
+static constexpr const char* operatingConfigIfaceName =
+    "xyz.openbmc_project.Inventory.Item.Cpu.OperatingConfig";
 
 Inventory::Inventory(
     const std::shared_ptr<sdbusplus::asio::connection>& /*conn*/,
@@ -64,6 +67,26 @@ Inventory::Inventory(
     registerProperty(gpu::InventoryPropertyId::DEVICE_PART_NUMBER,
                      revisionIface, "Version");
     revisionIface->initialize();
+
+    operatingConfigInterface =
+        objectServer.add_interface(path, operatingConfigIfaceName);
+    registerUint32Property(gpu::InventoryPropertyId::DEFAULT_BASE_CLOCKS,
+                           operatingConfigInterface, "BaseSpeed");
+    registerUint32Property(gpu::InventoryPropertyId::MAX_GRAPHICS_CLOCK,
+                           operatingConfigInterface, "MaxSpeed");
+    registerUint32Property(gpu::InventoryPropertyId::MIN_GRAPHICS_CLOCK,
+                           operatingConfigInterface, "MinSpeed");
+    // Polling properties - updated via update()
+    operatingConfigInterface->register_property(
+        "OperatingSpeed", operatingSpeed,
+        sdbusplus::asio::PropertyPermission::readOnly);
+    operatingConfigInterface->register_property("SpeedLimit", speedLimit);
+    operatingConfigInterface->register_property("SpeedLocked", speedLocked);
+    operatingConfigInterface->register_property("RequestedSpeedLimitMin",
+                                                requestedSpeedLimitMin);
+    operatingConfigInterface->register_property("RequestedSpeedLimitMax",
+                                                requestedSpeedLimitMax);
+    operatingConfigInterface->initialize();
 
     // Static properties
     if (deviceType == gpu::DeviceIdentification::DEVICE_GPU)
@@ -98,6 +121,18 @@ void Inventory::registerProperty(
     if (interface)
     {
         interface->register_property(propertyName, std::string{});
+        properties[propertyId] = {interface, propertyName, 0, true};
+    }
+}
+
+void Inventory::registerUint32Property(
+    gpu::InventoryPropertyId propertyId,
+    const std::shared_ptr<sdbusplus::asio::dbus_interface>& interface,
+    const std::string& propertyName)
+{
+    if (interface)
+    {
+        interface->register_property(propertyName, uint32_t{0});
         properties[propertyId] = {interface, propertyName, 0, true};
     }
 }
@@ -280,6 +315,29 @@ void Inventory::handleInventoryPropertyResponse(
                     }
                     break;
 
+                case gpu::InventoryPropertyId::DEFAULT_BASE_CLOCKS:
+                case gpu::InventoryPropertyId::MIN_GRAPHICS_CLOCK:
+                case gpu::InventoryPropertyId::MAX_GRAPHICS_CLOCK:
+                    if (std::holds_alternative<uint32_t>(info))
+                    {
+                        uint32_t clockValue = std::get<uint32_t>(info);
+                        it->second.interface->set_property(
+                            it->second.propertyName, clockValue);
+                        lg2::info(
+                            "Successfully received property ID {PROP_ID} for {NAME} with value: {VALUE}",
+                            "PROP_ID", static_cast<uint8_t>(propertyId), "NAME",
+                            name, "VALUE", clockValue);
+                        success = true;
+                    }
+                    else
+                    {
+                        lg2::error(
+                            "Property ID {PROP_ID} for {NAME} expected uint32_t but got different type",
+                            "PROP_ID", static_cast<uint8_t>(propertyId), "NAME",
+                            name);
+                    }
+                    break;
+
                 default:
                     lg2::error("Unsupported property ID {PROP_ID} for {NAME}",
                                "PROP_ID", static_cast<uint8_t>(propertyId),
@@ -354,4 +412,133 @@ void Inventory::processNextProperty()
         lg2::info("No pending properties found to process for {NAME}", "NAME",
                   name);
     }
+}
+
+void Inventory::update()
+{
+    sendClockFrequencyRequest();
+    sendClockLimitRequest();
+}
+
+void Inventory::sendClockFrequencyRequest()
+{
+    int rc = gpu::encodeGetCurrentClockFrequencyRequest(
+        0, gpu::ClockType::GRAPHICS_CLOCK, clockFrequencyRequestBuffer);
+    if (rc != 0)
+    {
+        lg2::error(
+            "Failed to encode clock frequency request for {NAME}: rc={RC}",
+            "NAME", name, "RC", rc);
+        return;
+    }
+
+    mctpRequester.sendRecvMsg(
+        eid, clockFrequencyRequestBuffer,
+        [weak{weak_from_this()}](const std::error_code& ec,
+                                 std::span<const uint8_t> buffer) {
+            std::shared_ptr<Inventory> self = weak.lock();
+            if (!self)
+            {
+                lg2::error("Invalid Inventory reference");
+                return;
+            }
+            self->handleClockFrequencyResponse(ec, buffer);
+        });
+}
+
+void Inventory::handleClockFrequencyResponse(const std::error_code& ec,
+                                             std::span<const uint8_t> buffer)
+{
+    if (ec)
+    {
+        lg2::error(
+            "Error reading clock frequency for {NAME}: MCTP failed, rc={RC}",
+            "NAME", name, "RC", ec.message());
+        return;
+    }
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode = 0;
+
+    int rc = gpu::decodeGetCurrentClockFrequencyResponse(buffer, cc, reasonCode,
+                                                         operatingSpeed);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        lg2::error(
+            "Error decoding clock frequency for {NAME}: rc={RC}, cc={CC}, reasonCode={REASON}",
+            "NAME", name, "RC", rc, "CC", static_cast<uint8_t>(cc), "REASON",
+            reasonCode);
+        return;
+    }
+
+    operatingConfigInterface->set_property("OperatingSpeed", operatingSpeed);
+}
+
+void Inventory::sendClockLimitRequest()
+{
+    int rc = gpu::encodeGetClockLimitRequest(0, gpu::ClockType::GRAPHICS_CLOCK,
+                                             clockLimitRequestBuffer);
+    if (rc != 0)
+    {
+        lg2::error("Failed to encode clock limit request for {NAME}: rc={RC}",
+                   "NAME", name, "RC", rc);
+        return;
+    }
+
+    mctpRequester.sendRecvMsg(
+        eid, clockLimitRequestBuffer,
+        [weak{weak_from_this()}](const std::error_code& ec,
+                                 std::span<const uint8_t> buffer) {
+            std::shared_ptr<Inventory> self = weak.lock();
+            if (!self)
+            {
+                lg2::error("Invalid Inventory reference");
+                return;
+            }
+            self->handleClockLimitResponse(ec, buffer);
+        });
+}
+
+void Inventory::handleClockLimitResponse(const std::error_code& ec,
+                                         std::span<const uint8_t> buffer)
+{
+    if (ec)
+    {
+        lg2::error("Error reading clock limit for {NAME}: MCTP failed, rc={RC}",
+                   "NAME", name, "RC", ec.message());
+        return;
+    }
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode = 0;
+    uint32_t requestedLimitMin = 0;
+    uint32_t requestedLimitMax = 0;
+    uint32_t presentLimitMin = 0;
+    uint32_t presentLimitMax = 0;
+
+    int rc = gpu::decodeGetClockLimitResponse(
+        buffer, cc, reasonCode, requestedLimitMin, requestedLimitMax,
+        presentLimitMin, presentLimitMax);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        lg2::error(
+            "Error decoding clock limit for {NAME}: rc={RC}, cc={CC}, reasonCode={REASON}",
+            "NAME", name, "RC", rc, "CC", static_cast<uint8_t>(cc), "REASON",
+            reasonCode);
+        return;
+    }
+
+    speedLimit = presentLimitMax;
+    speedLocked = (presentLimitMax == presentLimitMin);
+    requestedSpeedLimitMin = requestedLimitMin;
+    requestedSpeedLimitMax = requestedLimitMax;
+
+    operatingConfigInterface->set_property("SpeedLimit", speedLimit);
+    operatingConfigInterface->set_property("SpeedLocked", speedLocked);
+    operatingConfigInterface->set_property("RequestedSpeedLimitMin",
+                                           requestedSpeedLimitMin);
+    operatingConfigInterface->set_property("RequestedSpeedLimitMax",
+                                           requestedSpeedLimitMax);
 }

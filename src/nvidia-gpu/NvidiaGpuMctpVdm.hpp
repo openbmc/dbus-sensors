@@ -45,9 +45,11 @@ enum class PlatformEnvironmentalCommands : uint8_t
     GET_CURRENT_POWER_DRAW = 0x03,
     GET_MAX_OBSERVED_POWER = 0x04,
     GET_CURRENT_ENERGY_COUNTER = 0x06,
+    GET_CURRENT_CLOCK_FREQUENCY = 0x0B,
     GET_INVENTORY_INFORMATION = 0x0C,
     GET_DRIVER_INFORMATION = 0x0E,
     GET_VOLTAGE = 0x0F,
+    GET_CLOCK_LIMIT = 0x10,
 };
 
 enum class NetworkPortCommands : uint8_t
@@ -128,6 +130,12 @@ enum class NetworkPortLinkType : uint8_t
     ETHERNET = 0,
     INFINIBAND = 1,
     UNKNOWN = 0xFF,
+};
+
+enum class ClockType : uint8_t
+{
+    GRAPHICS_CLOCK = 0,
+    MEMORY_CLOCK = 1,
 };
 
 struct QueryDeviceIdentificationRequest
@@ -244,6 +252,33 @@ struct GetInventoryInformationResponse
     std::array<uint8_t, maxInventoryDataSize> data;
 } __attribute__((packed));
 
+struct GetCurrentClockFrequencyRequest
+{
+    ocp::accelerator_management::CommonRequest hdr;
+    uint8_t clockType;
+} __attribute__((packed));
+
+struct GetCurrentClockFrequencyResponse
+{
+    ocp::accelerator_management::CommonResponse hdr;
+    uint32_t clockFrequency;
+} __attribute__((packed));
+
+struct GetClockLimitRequest
+{
+    ocp::accelerator_management::CommonRequest hdr;
+    uint8_t clockType;
+} __attribute__((packed));
+
+struct GetClockLimitResponse
+{
+    ocp::accelerator_management::CommonResponse hdr;
+    uint32_t requestedLimitMin;
+    uint32_t requestedLimitMax;
+    uint32_t presentLimitMin;
+    uint32_t presentLimitMax;
+} __attribute__((packed));
+
 int packHeader(const ocp::accelerator_management::BindingPciVidInfo& hdr,
                ocp::accelerator_management::BindingPciVid& msg);
 
@@ -309,6 +344,23 @@ int decodeGetInventoryInformationResponse(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     InventoryPropertyId propertyId, InventoryValue& value);
+
+int encodeGetCurrentClockFrequencyRequest(
+    uint8_t instanceId, ClockType clockType, std::span<uint8_t> buf);
+
+int decodeGetCurrentClockFrequencyResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint32_t& clockFrequency);
+
+int encodeGetClockLimitRequest(uint8_t instanceId, ClockType clockType,
+                               std::span<uint8_t> buf);
+
+int decodeGetClockLimitResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint32_t& requestedLimitMin, uint32_t& requestedLimitMax,
+    uint32_t& presentLimitMin, uint32_t& presentLimitMax);
 
 int encodeQueryScalarGroupTelemetryV2Request(
     uint8_t instanceId, PciePortType portType, uint8_t upstreamPortNumber,
