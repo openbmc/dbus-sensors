@@ -55,6 +55,7 @@ enum class PlatformEnvironmentalCommands : uint8_t
     GET_INVENTORY_INFORMATION = 0x0C,
     GET_DRIVER_INFORMATION = 0x0E,
     GET_VOLTAGE = 0x0F,
+    GET_CLOCK_LIMIT = 0x11,
     GET_CURRENT_UTILIZATION = 0x47,
     GET_ECC_ERROR_COUNTS = 0x7D,
 };
@@ -160,6 +161,12 @@ enum class NetworkPortLinkType : uint8_t
     UNKNOWN = 0xFF,
 };
 
+enum class ClockType : uint8_t
+{
+    GRAPHICS_CLOCK = 0,
+    MEMORY_CLOCK = 1,
+};
+
 constexpr size_t maxInventoryDataSize = 256;
 
 constexpr size_t queryDeviceIdentificationRequestSize =
@@ -203,12 +210,6 @@ constexpr size_t getInventoryInformationRequestSize =
 constexpr size_t getDriverInformationResponseMinSize =
     ocp::accelerator_management::commonResponseSize + 2;
 
-enum class ClockType : uint8_t
-{
-    GRAPHICS_CLOCK = 0,
-    MEMORY_CLOCK = 1,
-};
-
 constexpr size_t getCurrentClockFrequencyRequestSize =
     ocp::accelerator_management::commonRequestSize + sizeof(uint8_t);
 
@@ -224,6 +225,9 @@ constexpr size_t setEventSourcesRequestSize =
 constexpr size_t longRunningResponseEventSize = 4;
 
 constexpr size_t xidEventMinDataSize = 20;
+
+constexpr size_t getClockLimitRequestSize =
+    ocp::accelerator_management::commonRequestSize + sizeof(uint8_t);
 
 int encodeRequestCommonHeader(PackBuffer& buffer, gpu::MessageType msgType,
                               uint8_t command, uint8_t instanceId);
@@ -321,6 +325,15 @@ int decodeGetInventoryInformationResponse(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     InventoryPropertyId propertyId, InventoryValue& value);
+
+int encodeGetClockLimitRequest(uint8_t instanceId, ClockType clockType,
+                               std::span<uint8_t> buf);
+
+int decodeGetClockLimitResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint32_t& requestedLimitMin, uint32_t& requestedLimitMax,
+    uint32_t& presentLimitMin, uint32_t& presentLimitMax);
 
 int encodeQueryScalarGroupTelemetryV1Request(
     uint8_t instanceId, uint8_t deviceIndex, PcieScalarGroupId groupId,
