@@ -14,6 +14,7 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <tuple>
 #include <unordered_map>
 
 class Inventory : public std::enable_shared_from_this<Inventory>
@@ -27,6 +28,7 @@ class Inventory : public std::enable_shared_from_this<Inventory>
               boost::asio::io_context& io);
 
     void init();
+    void update();
 
   private:
     struct PropertyInfo
@@ -46,6 +48,10 @@ class Inventory : public std::enable_shared_from_this<Inventory>
         gpu::InventoryPropertyId propertyId,
         const std::shared_ptr<sdbusplus::asio::dbus_interface>& interface,
         const std::string& propertyName);
+    void registerUint32Property(
+        gpu::InventoryPropertyId propertyId,
+        const std::shared_ptr<sdbusplus::asio::dbus_interface>& interface,
+        const std::string& propertyName);
     std::optional<gpu::InventoryPropertyId> getNextPendingProperty() const;
     static void markPropertyPending(
         std::unordered_map<gpu::InventoryPropertyId, PropertyInfo>::iterator
@@ -54,10 +60,18 @@ class Inventory : public std::enable_shared_from_this<Inventory>
         std::unordered_map<gpu::InventoryPropertyId, PropertyInfo>::iterator
             it);
 
+    void sendClockFrequencyRequest();
+    void handleClockFrequencyResponse(const std::error_code& ec,
+                                      std::span<const uint8_t> buffer);
+    void sendClockLimitRequest();
+    void handleClockLimitResponse(const std::error_code& ec,
+                                  std::span<const uint8_t> buffer);
+
     std::shared_ptr<sdbusplus::asio::dbus_interface> assetIface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> acceleratorInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> uuidInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> revisionIface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> operatingConfigInterface;
 
     std::string name;
     mctp::MctpRequester& mctpRequester;
@@ -67,6 +81,17 @@ class Inventory : public std::enable_shared_from_this<Inventory>
     std::unordered_map<gpu::InventoryPropertyId, PropertyInfo> properties;
     std::array<uint8_t, sizeof(gpu::GetInventoryInformationRequest)>
         requestBuffer{};
+    std::array<uint8_t, sizeof(gpu::GetCurrentClockFrequencyRequest)>
+        clockFrequencyRequestBuffer{};
+    std::array<uint8_t, sizeof(gpu::GetClockLimitRequest)>
+        clockLimitRequestBuffer{};
+
+    // Polling properties for OperatingConfig interface
+    uint32_t operatingSpeed{0};
+    uint32_t speedLimit{0};
+    bool speedLocked{false};
+    std::tuple<uint32_t, uint32_t> requestedSpeedLimits{0, 0};
+
     static constexpr std::chrono::seconds retryDelay{5};
     static constexpr int maxRetryAttempts = 3;
 };

@@ -558,9 +558,134 @@ int decodeGetInventoryInformationResponse(
         case InventoryPropertyId::DEVICE_GUID:
             value = std::vector<uint8_t>(dataPtr, dataPtr + dataSize);
             break;
+        case InventoryPropertyId::DEFAULT_BASE_CLOCKS:
+        case InventoryPropertyId::MIN_GRAPHICS_CLOCK:
+        case InventoryPropertyId::MAX_GRAPHICS_CLOCK:
+            if (dataSize < sizeof(uint32_t))
+            {
+                return EINVAL;
+            }
+            value = le32toh(*reinterpret_cast<const uint32_t*>(dataPtr));
+            break;
         default:
             return EINVAL;
     }
+    return 0;
+}
+
+int encodeGetCurrentClockFrequencyRequest(
+    uint8_t instanceId, ClockType clockType, std::span<uint8_t> buf)
+{
+    if (buf.size() < sizeof(GetCurrentClockFrequencyRequest))
+    {
+        return EINVAL;
+    }
+
+    auto* msg = reinterpret_cast<GetCurrentClockFrequencyRequest*>(buf.data());
+
+    ocp::accelerator_management::BindingPciVidInfo header{};
+    header.ocp_accelerator_management_msg_type =
+        static_cast<uint8_t>(ocp::accelerator_management::MessageType::REQUEST);
+    header.instance_id = instanceId &
+                         ocp::accelerator_management::instanceIdBitMask;
+    header.msg_type = static_cast<uint8_t>(MessageType::PLATFORM_ENVIRONMENTAL);
+
+    auto rc = packHeader(header, msg->hdr.msgHdr.hdr);
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    msg->hdr.command = static_cast<uint8_t>(
+        PlatformEnvironmentalCommands::GET_CURRENT_CLOCK_FREQUENCY);
+    msg->hdr.data_size = sizeof(msg->clockType);
+    msg->clockType = static_cast<uint8_t>(clockType);
+
+    return 0;
+}
+
+int decodeGetCurrentClockFrequencyResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint32_t& clockFrequency)
+{
+    auto rc =
+        ocp::accelerator_management::decodeReasonCodeAndCC(buf, cc, reasonCode);
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    if (buf.size() < sizeof(GetCurrentClockFrequencyResponse))
+    {
+        return EINVAL;
+    }
+
+    const auto* response =
+        reinterpret_cast<const GetCurrentClockFrequencyResponse*>(buf.data());
+
+    clockFrequency = le32toh(response->clockFrequency);
+
+    return 0;
+}
+
+int encodeGetClockLimitRequest(uint8_t instanceId, ClockType clockType,
+                               std::span<uint8_t> buf)
+{
+    if (buf.size() < sizeof(GetClockLimitRequest))
+    {
+        return EINVAL;
+    }
+
+    auto* msg = reinterpret_cast<GetClockLimitRequest*>(buf.data());
+
+    ocp::accelerator_management::BindingPciVidInfo header{};
+    header.ocp_accelerator_management_msg_type =
+        static_cast<uint8_t>(ocp::accelerator_management::MessageType::REQUEST);
+    header.instance_id = instanceId &
+                         ocp::accelerator_management::instanceIdBitMask;
+    header.msg_type = static_cast<uint8_t>(MessageType::PLATFORM_ENVIRONMENTAL);
+
+    auto rc = packHeader(header, msg->hdr.msgHdr.hdr);
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    msg->hdr.command =
+        static_cast<uint8_t>(PlatformEnvironmentalCommands::GET_CLOCK_LIMIT);
+    msg->hdr.data_size = sizeof(msg->clockType);
+    msg->clockType = static_cast<uint8_t>(clockType);
+
+    return 0;
+}
+
+int decodeGetClockLimitResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint32_t& requestedLimitMin, uint32_t& requestedLimitMax,
+    uint32_t& presentLimitMin, uint32_t& presentLimitMax)
+{
+    auto rc =
+        ocp::accelerator_management::decodeReasonCodeAndCC(buf, cc, reasonCode);
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    if (buf.size() < sizeof(GetClockLimitResponse))
+    {
+        return EINVAL;
+    }
+
+    const auto* response =
+        reinterpret_cast<const GetClockLimitResponse*>(buf.data());
+
+    requestedLimitMin = le32toh(response->requestedLimitMin);
+    requestedLimitMax = le32toh(response->requestedLimitMax);
+    presentLimitMin = le32toh(response->presentLimitMin);
+    presentLimitMax = le32toh(response->presentLimitMax);
+
     return 0;
 }
 
