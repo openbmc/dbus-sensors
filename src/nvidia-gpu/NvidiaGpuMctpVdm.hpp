@@ -51,9 +51,11 @@ enum class PlatformEnvironmentalCommands : uint8_t
     GET_MAX_OBSERVED_POWER = 0x04,
     GET_CURRENT_ENERGY_COUNTER = 0x06,
     GET_POWER_LIMITS = 0x07,
+    GET_CURRENT_CLOCK_FREQUENCY = 0x0B,
     GET_INVENTORY_INFORMATION = 0x0C,
     GET_DRIVER_INFORMATION = 0x0E,
     GET_VOLTAGE = 0x0F,
+    GET_CLOCK_LIMIT = 0x11,
     GET_CURRENT_UTILIZATION = 0x47,
     GET_ECC_ERROR_COUNTS = 0x7D,
 };
@@ -154,6 +156,12 @@ enum class NetworkPortLinkType : uint8_t
     UNKNOWN = 0xFF,
 };
 
+enum class ClockType : uint8_t
+{
+    GRAPHICS_CLOCK = 0,
+    MEMORY_CLOCK = 1,
+};
+
 constexpr size_t maxInventoryDataSize = 256;
 
 constexpr size_t queryDeviceIdentificationRequestSize =
@@ -207,6 +215,12 @@ constexpr size_t setEventSourcesRequestSize =
     ocp::accelerator_management::commonRequestSize + 9;
 
 constexpr size_t longRunningResponseEventSize = 4;
+
+constexpr size_t getClockFrequencyRequestSize =
+    ocp::accelerator_management::commonRequestSize + sizeof(uint8_t);
+
+constexpr size_t getClockLimitRequestSize =
+    ocp::accelerator_management::commonRequestSize + sizeof(uint8_t);
 
 int encodeRequestCommonHeader(PackBuffer& buffer, gpu::MessageType msgType,
                               uint8_t command, uint8_t instanceId);
@@ -300,6 +314,23 @@ int decodeGetInventoryInformationResponse(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     InventoryPropertyId propertyId, InventoryValue& value);
+
+int encodeGetCurrentClockFrequencyRequest(
+    uint8_t instanceId, ClockType clockType, std::span<uint8_t> buf);
+
+int decodeGetCurrentClockFrequencyResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint32_t& clockFrequency);
+
+int encodeGetClockLimitRequest(uint8_t instanceId, ClockType clockType,
+                               std::span<uint8_t> buf);
+
+int decodeGetClockLimitResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint32_t& requestedLimitMin, uint32_t& requestedLimitMax,
+    uint32_t& presentLimitMin, uint32_t& presentLimitMax);
 
 int encodeQueryScalarGroupTelemetryV1Request(
     uint8_t instanceId, uint8_t deviceIndex, PcieScalarGroupId groupId,

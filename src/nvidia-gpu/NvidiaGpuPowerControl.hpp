@@ -17,16 +17,17 @@
 #include <string>
 #include <system_error>
 
-class NvidiaGpuControl : public std::enable_shared_from_this<NvidiaGpuControl>
+class NvidiaGpuPowerControl :
+    public std::enable_shared_from_this<NvidiaGpuPowerControl>
 {
   public:
-    NvidiaGpuControl(
+    NvidiaGpuPowerControl(
         sdbusplus::asio::object_server& objectServer,
         const std::string& deviceName, const std::string& inventoryPath,
         mctp::MctpRequester& mctpRequester, uint8_t eid,
         const std::shared_ptr<sdbusplus::asio::dbus_interface>& powerCapIface);
 
-    ~NvidiaGpuControl();
+    ~NvidiaGpuPowerControl();
 
     void update();
 
