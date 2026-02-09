@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6d9daf5_55995eda",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-09T17:02:59Z",
+      "side": 1,
+      "message": "The associated PDI patch https://gerrit.openbmc.org/c/openbmc/phosphor-dbus-interfaces/+/86506 has +1 and looks merge ready and has no additional review comment since Feb 2. The content in this patch will get refactored if there are any changes in the PDI patch before its merge.",
+      "revId": "2773279702f5eca2cbea2721dc480c49a61f1b76",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
