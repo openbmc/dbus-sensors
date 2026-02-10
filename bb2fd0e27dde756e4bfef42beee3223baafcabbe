@@ -120,6 +120,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0065743f_0d3d43aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000212
+      },
+      "writtenOn": "2026-02-10T19:36:04Z",
+      "side": 1,
+      "message": "I believe only one design would use GPIO for valve control, this would be a binary open/close. But we potentially could see other designs where the valve control could be continuous using a DAC/ADC (Where valve could be at various sates of open from 0% to 100%), thus potentially having this as a distinct service with GPIO being just one backend.",
+      "parentUuid": "f0439bfc_f0de9d52",
+      "revId": "bb2fd0e27dde756e4bfef42beee3223baafcabbe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e8228b60_d2330439",
         "filename": "src/GPIOInterface.cpp",
         "patchSetId": 11
