@@ -183,6 +183,13 @@ void TachSensor::handleResponse(const boost::system::error_code& err,
             }
             else
             {
+                // If we were previously in error state, this successful reading
+                // should reset the error state to allow recovery
+                if (inError())
+                {
+                    markFunctional(true);
+                    markAvailable(true);
+                }
                 updateValue(nvalue);
             }
         }
