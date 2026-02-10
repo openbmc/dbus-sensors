@@ -88,13 +88,13 @@ auto GPIODetector::updateGPIOStateAsync(bool gpioState)
     debug("Updating detector {DETECTOR} state to {STATE}", "DETECTOR",
           config.name, "STATE", newState);
 
-    if (newState != state_)
+    if (newState != state())
     {
         state(newState);
 
         co_await leakEvents.generateLeakEvent(getObjectPath(config.name),
-                                              state_, config.level);
-        std::string action = (state_ == DetectorIntf::DetectorState::Normal)
+                                              state(), config.level);
+        std::string action = (state() == DetectorIntf::DetectorState::Normal)
                                  ? "deassert"
                                  : "assert";
 
