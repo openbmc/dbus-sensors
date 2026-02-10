@@ -1,0 +1,203 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0cbe0ab7_fd3202af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-10T15:01:51Z",
+      "side": 1,
+      "message": "We haven\u0027t enabled patch support yet, so technically this is not applicable.",
+      "range": {
+        "startLine": 18,
+        "startChar": 37,
+        "endLine": 18,
+        "endChar": 64
+      },
+      "revId": "d503e45bc3c98e3ba4b42a33753c1967aa55877f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e32a1629_7ffe8988",
+        "filename": "src/nvidia-gpu/NvidiaGpuControl.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-10T15:01:51Z",
+      "side": 1,
+      "message": "nit: make this const.",
+      "revId": "d503e45bc3c98e3ba4b42a33753c1967aa55877f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70cfdbe8_8c55957e",
+        "filename": "src/nvidia-gpu/NvidiaGpuControl.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-10T15:01:51Z",
+      "side": 1,
+      "message": "Move all the functions that uses GetInventoryInformation command to Inventory.cpp file and remove it from here.",
+      "revId": "d503e45bc3c98e3ba4b42a33753c1967aa55877f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75f4a6e4_9722d801",
+        "filename": "src/nvidia-gpu/NvidiaGpuControl.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-10T15:01:51Z",
+      "side": 1,
+      "message": "Capture a weak pointer here and check it in the callback like it was done elsewhere. Same for the function below.",
+      "revId": "d503e45bc3c98e3ba4b42a33753c1967aa55877f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "408b31ef_686f1963",
+        "filename": "src/nvidia-gpu/NvidiaGpuControl.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-10T15:01:51Z",
+      "side": 1,
+      "message": "can we call this function directly inside the init function and not here?",
+      "revId": "d503e45bc3c98e3ba4b42a33753c1967aa55877f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "324382a1_232c9138",
+        "filename": "src/nvidia-gpu/NvidiaGpuControl.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-10T15:01:51Z",
+      "side": 1,
+      "message": "can we call this function directly inside the init function and not here?",
+      "revId": "d503e45bc3c98e3ba4b42a33753c1967aa55877f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42ca00d9_7d996c5b",
+        "filename": "src/nvidia-gpu/NvidiaGpuControl.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-10T15:01:51Z",
+      "side": 1,
+      "message": "This function call is not needed here. All the sendRequest functions should be called either from init or update functions.",
+      "revId": "d503e45bc3c98e3ba4b42a33753c1967aa55877f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6c6fdba_f95ef721",
+        "filename": "src/nvidia-gpu/NvidiaGpuControl.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-10T15:01:51Z",
+      "side": 1,
+      "message": "this variable can be named in better way.",
+      "revId": "d503e45bc3c98e3ba4b42a33753c1967aa55877f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94d693f0_4860cdd5",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-10T15:01:51Z",
+      "side": 1,
+      "message": "nit: make this const.",
+      "revId": "d503e45bc3c98e3ba4b42a33753c1967aa55877f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40876aec_780e145e",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-10T15:01:51Z",
+      "side": 1,
+      "message": "nit: use int here to make code more readable.",
+      "range": {
+        "startLine": 438,
+        "startChar": 4,
+        "endLine": 438,
+        "endChar": 8
+      },
+      "revId": "d503e45bc3c98e3ba4b42a33753c1967aa55877f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99ebe890_9f7cf881",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-10T15:01:51Z",
+      "side": 1,
+      "message": "Add unit test cases for both these functions.",
+      "revId": "d503e45bc3c98e3ba4b42a33753c1967aa55877f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
