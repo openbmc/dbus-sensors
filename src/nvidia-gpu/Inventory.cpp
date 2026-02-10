@@ -39,7 +39,8 @@ static constexpr const char* operatingConfigIfaceName =
 Inventory::Inventory(
     const std::shared_ptr<sdbusplus::asio::connection>& /*conn*/,
     sdbusplus::asio::object_server& objectServer,
-    const std::string& inventoryName, mctp::MctpRequester& mctpRequester,
+    const std::string& inventoryName, const std::string& chassisPath,
+    mctp::MctpRequester& mctpRequester,
     const gpu::DeviceIdentification deviceTypeIn, const uint8_t eid,
     boost::asio::io_context& io) :
     name(escapeName(inventoryName)), mctpRequester(mctpRequester),
@@ -87,6 +88,17 @@ Inventory::Inventory(
     operatingConfigInterface->register_property("RequestedSpeedLimitMax",
                                                 requestedSpeedLimitMax);
     operatingConfigInterface->initialize();
+
+    if (!chassisPath.empty())
+    {
+        std::vector<Association> associations;
+        associations.emplace_back("parent_chassis", "all_processors",
+                                  chassisPath);
+        associationInterface =
+            objectServer.add_interface(path, association::interface);
+        associationInterface->register_property("Associations", associations);
+        associationInterface->initialize();
+    }
 
     // Static properties
     if (deviceType == gpu::DeviceIdentification::DEVICE_GPU)
