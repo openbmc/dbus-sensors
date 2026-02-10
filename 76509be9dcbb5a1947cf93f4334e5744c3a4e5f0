@@ -1,0 +1,197 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "456660e4_2a83d282",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-10T15:10:19Z",
+      "side": 1,
+      "message": "let\u0027s not do this in commit and add it in future commits.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 1
+      },
+      "revId": "76509be9dcbb5a1947cf93f4334e5744c3a4e5f0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e2ce02a_a7953c8c",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-10T15:10:19Z",
+      "side": 1,
+      "message": "Why is this needed? Are we adding properties related to gpu or gpu dram?",
+      "revId": "76509be9dcbb5a1947cf93f4334e5744c3a4e5f0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8dacfaaa_b827f5e3",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 884,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-10T15:10:19Z",
+      "side": 1,
+      "message": "remove this comment lines.",
+      "revId": "76509be9dcbb5a1947cf93f4334e5744c3a4e5f0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ea3f11f_ed8edeac",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-10T15:10:19Z",
+      "side": 1,
+      "message": "nit: remove this comment lines.",
+      "revId": "76509be9dcbb5a1947cf93f4334e5744c3a4e5f0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b060af09_da7e5d70",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-10T15:10:19Z",
+      "side": 1,
+      "message": "move this struct to the place in this file where other structs are defined.",
+      "revId": "76509be9dcbb5a1947cf93f4334e5744c3a4e5f0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f70e396_8a353361",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-10T15:10:19Z",
+      "side": 1,
+      "message": "add unit test cases for both these functions.",
+      "revId": "76509be9dcbb5a1947cf93f4334e5744c3a4e5f0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8a6641a_fc8df660",
+        "filename": "src/nvidia-gpu/NvidiaGpuMemoryDevice.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-10T15:10:19Z",
+      "side": 1,
+      "message": "remove this comment.",
+      "revId": "76509be9dcbb5a1947cf93f4334e5744c3a4e5f0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fe4c3eb_3b1ed3bc",
+        "filename": "src/nvidia-gpu/NvidiaGpuMemoryDevice.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-10T15:10:19Z",
+      "side": 1,
+      "message": "capture a weak point here like it is done elsewhere.",
+      "revId": "76509be9dcbb5a1947cf93f4334e5744c3a4e5f0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae194756_84cda192",
+        "filename": "src/nvidia-gpu/NvidiaGpuMemoryDevice.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-10T15:10:19Z",
+      "side": 1,
+      "message": "remove this redundant comment.",
+      "revId": "76509be9dcbb5a1947cf93f4334e5744c3a4e5f0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2a43bc9_3c719bd4",
+        "filename": "src/nvidia-gpu/NvidiaGpuMemoryDevice.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-10T15:10:19Z",
+      "side": 1,
+      "message": "remove this log.",
+      "revId": "76509be9dcbb5a1947cf93f4334e5744c3a4e5f0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e31784ec_129c97c5",
+        "filename": "src/nvidia-gpu/NvidiaGpuMemoryDevice.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-10T15:10:19Z",
+      "side": 1,
+      "message": "These are not adding anything new that you cannot infer from function parameter names, so these should be removed. Same for all the other comments in this file.",
+      "revId": "76509be9dcbb5a1947cf93f4334e5744c3a4e5f0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
