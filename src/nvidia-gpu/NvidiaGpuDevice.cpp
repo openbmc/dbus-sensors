@@ -25,6 +25,7 @@
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/message/native_types.hpp>
 
 #include <array>
 #include <chrono>
@@ -79,8 +80,10 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
                                                 uint32_t{0});
     operatingConfigInterface->initialize();
 
+    const std::string chassisPath =
+        sdbusplus::message::object_path(path).parent_path();
     inventory = std::make_shared<Inventory>(
-        conn, objectServer, name, mctpRequester,
+        conn, objectServer, name, chassisPath, mctpRequester,
         gpu::DeviceIdentification::DEVICE_GPU, eid, io,
         operatingConfigInterface);
 

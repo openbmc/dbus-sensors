@@ -21,7 +21,7 @@ class Inventory : public std::enable_shared_from_this<Inventory>
   public:
     Inventory(const std::shared_ptr<sdbusplus::asio::connection>& conn,
               sdbusplus::asio::object_server& objectServer,
-              const std::string& inventoryName,
+              const std::string& inventoryName, const std::string& chassisPath,
               mctp::MctpRequester& mctpRequester,
               gpu::DeviceIdentification deviceType, uint8_t eid,
               boost::asio::io_context& io,
@@ -64,6 +64,7 @@ class Inventory : public std::enable_shared_from_this<Inventory>
     std::shared_ptr<sdbusplus::asio::dbus_interface> acceleratorInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> uuidInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> revisionIface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> associationInterface;
 
     std::string name;
     mctp::MctpRequester& mctpRequester;

@@ -37,7 +37,8 @@ static constexpr const char* revisionIfaceName =
 Inventory::Inventory(
     const std::shared_ptr<sdbusplus::asio::connection>& /*conn*/,
     sdbusplus::asio::object_server& objectServer,
-    const std::string& inventoryName, mctp::MctpRequester& mctpRequester,
+    const std::string& inventoryName, const std::string& chassisPath,
+    mctp::MctpRequester& mctpRequester,
     const gpu::DeviceIdentification deviceTypeIn, const uint8_t eid,
     boost::asio::io_context& io,
     const std::shared_ptr<sdbusplus::asio::dbus_interface>&
@@ -76,6 +77,21 @@ Inventory::Inventory(
             operatingConfigInterface, "MaxSpeed", 0, true};
         properties[gpu::InventoryPropertyId::MIN_GRAPHICS_CLOCK] = {
             operatingConfigInterface, "MinSpeed", 0, true};
+    }
+
+    if (!chassisPath.empty())
+    {
+        std::vector<Association> associations;
+        associations.emplace_back("parent_chassis", "all_processors",
+                                  chassisPath);
+        associationInterface =
+            objectServer.add_interface(path, association::interface);
+        associationInterface->register_property("Associations", associations);
+        if (!associationInterface->initialize())
+        {
+            lg2::error("Failed to initialize association interface for {NAME}",
+                       "NAME", name);
+        }
     }
 
     // Static properties
