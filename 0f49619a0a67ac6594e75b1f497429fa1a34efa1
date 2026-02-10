@@ -16,6 +16,23 @@
       "message": "Can you please review my changes @deepak.kodihalli.83@gmail.com @ed@tanous.net",
       "revId": "0f49619a0a67ac6594e75b1f497429fa1a34efa1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1c8c5ef_b0d39914",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000020
+      },
+      "writtenOn": "2026-02-10T21:53:44Z",
+      "side": 1,
+      "message": "Please have your company add you to their Corporate Contributor License Agreement (CCLA) and their Gerrit Approved list (so CI will start automatically). \n\nAdditionally, always best if you Gerrit Name matches your Signed-off / CLA name. \n\nThanks for the commit!",
+      "revId": "0f49619a0a67ac6594e75b1f497429fa1a34efa1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
