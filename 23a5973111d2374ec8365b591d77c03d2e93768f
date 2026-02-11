@@ -138,6 +138,24 @@
       "parentUuid": "5f9345c3_a80c702d",
       "revId": "23a5973111d2374ec8365b591d77c03d2e93768f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c562353c_744d170f",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-02-11T16:54:31Z",
+      "side": 1,
+      "message": "\u003e If I am to handle it, what would be the action to take?\n\nThat\u0027s your decision as code designing, but you could probably just log the error, and return an error to the caller, and have the callers de-init the sensor they\u0027re trying to make.\n\nCertainly crashing the whole application by throwing to main isn\u0027t the right approach here.",
+      "parentUuid": "1dfbd441_7ea485c0",
+      "revId": "23a5973111d2374ec8365b591d77c03d2e93768f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
