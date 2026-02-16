@@ -106,6 +106,24 @@
       "parentUuid": "7b1d7daa_53b68ee4",
       "revId": "b566900d94127f0ca77412584e359c5c90916fe4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6356620_3555fd0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-16T04:47:56Z",
+      "side": 1,
+      "message": "I have Replaced the use of reinterpret_cast with memcpy for copying\ndata to and from the buffer. Only the encode/decode functions for two\nMCTP VDM commands are updated. The remaining MCTP VDM commands’ encode/decode functions will be updated in a follow-up commit after this one is merged.",
+      "parentUuid": "e8d4fa2c_dd1617fa",
+      "revId": "b566900d94127f0ca77412584e359c5c90916fe4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
