@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8076dda1_722fb63c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002631
+      },
+      "writtenOn": "2026-02-19T06:06:26Z",
+      "side": 1,
+      "message": "Yes — the string name is important because it is used to construct the DBus configuration interface name.\n\nPreviously, the sensor constructor passed \"ExitAirTemp\" as the objectType. Based on this value, persistThreshold() builds threshold interface names like:\n\nxyz.openbmc_project.Configuration.ExitAirTemp.ThresholdsX\n\n\nAfter the configuration was renamed to \"ExitAirTempSensor\", Entity Manager now exposes:\n\nxyz.openbmc_project.Configuration.ExitAirTempSensor.ThresholdsX\n\n\nIf the sensor code still uses the old base name (ExitAirTemp), it attempts to access DBus interfaces that no longer exist. As a result, the async GetAll call fails with \"Unknown interface\", and threshold properties cannot be retrieved or synchronized.\n\nSo the failure is specifically a DBus interface lookup failure caused by the configuration name mismatch.",
+      "parentUuid": "0b71b036_cad8a3e3",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 40
+      },
+      "revId": "53fc9f981cd3c8206e294f081809686dc14a3e29",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e2436ed0_7bf155b4",
         "filename": "src/exit-air/ExitAirTempSensor.cpp",
         "patchSetId": 6
