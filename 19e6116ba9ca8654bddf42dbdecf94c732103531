@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3165863_1e11fd6c",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-19T09:46:31Z",
+      "side": 1,
+      "message": "Why do we need a separate struct? Why can\u0027t all these properties be directly part of struct `GetEccErrorCountsResponse`?",
+      "revId": "19e6116ba9ca8654bddf42dbdecf94c732103531",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe545373_aa76f9c2",
+        "filename": "src/nvidia-gpu/NvidiaGpuMemoryDevice.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-19T09:46:31Z",
+      "side": 1,
+      "message": "Add a log if this condition fails like it is done else where. Please try to follow existing code pattern as is.",
+      "revId": "19e6116ba9ca8654bddf42dbdecf94c732103531",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84e642de_824a398b",
+        "filename": "src/tests/test_NvidiaDeviceInventoryMctpVdm.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-19T09:46:31Z",
+      "side": 1,
+      "message": "Let\u0027s move these tests to the other test file for nvidia-gpu. In that file we have fix type of tests for each encode and decode function, please follow that.",
+      "revId": "19e6116ba9ca8654bddf42dbdecf94c732103531",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
