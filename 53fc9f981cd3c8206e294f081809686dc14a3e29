@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4b76c5b3_109e3915",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002631
+      },
+      "writtenOn": "2026-02-19T17:59:44Z",
+      "side": 1,
+      "message": "Updated, Kindly check",
+      "parentUuid": "4874144c_22c6914e",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 40
+      },
+      "revId": "53fc9f981cd3c8206e294f081809686dc14a3e29",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e2436ed0_7bf155b4",
         "filename": "src/exit-air/ExitAirTempSensor.cpp",
         "patchSetId": 6
@@ -85,6 +109,30 @@
       "writtenOn": "2026-01-23T16:17:47Z",
       "side": 1,
       "message": "Shouldn\u0027t we be using the `exitAirType` variable here?",
+      "range": {
+        "startLine": 498,
+        "startChar": 32,
+        "endLine": 498,
+        "endChar": 51
+      },
+      "revId": "53fc9f981cd3c8206e294f081809686dc14a3e29",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15ab7c44_b112f44b",
+        "filename": "src/exit-air/ExitAirTempSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1002631
+      },
+      "writtenOn": "2026-02-19T17:59:44Z",
+      "side": 1,
+      "message": "Yes, we should use the exitAirType variable here to avoid hardcoding the sensor type string. \nI have updated the constructor to use exitAirType instead of a hardcoded string.",
+      "parentUuid": "e2436ed0_7bf155b4",
       "range": {
         "startLine": 498,
         "startChar": 32,
