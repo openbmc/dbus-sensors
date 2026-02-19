@@ -1,0 +1,231 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e70302e6_f3b66efe",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-19T09:28:28Z",
+      "side": 1,
+      "message": "Let\u0027s add this interface in class `NvidiaGpuMemoryDevice` and leave this class unchanged.",
+      "revId": "8b4cb55db32681d4f34e5be212bc26943b1a10a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c213635_a6dd5244",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-19T09:28:28Z",
+      "side": 1,
+      "message": "Let\u0027s move this comment to declaration of class `NvidiaGpuMemoryDevice`.",
+      "range": {
+        "startLine": 106,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 67
+      },
+      "revId": "8b4cb55db32681d4f34e5be212bc26943b1a10a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7008316_a196ffed",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-19T09:28:28Z",
+      "side": 1,
+      "message": "Redundant comment.",
+      "revId": "8b4cb55db32681d4f34e5be212bc26943b1a10a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6c4e251_d5652c6f",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-19T09:28:28Z",
+      "side": 1,
+      "message": "Is this check necessary?",
+      "revId": "8b4cb55db32681d4f34e5be212bc26943b1a10a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "766d4483_6d5adf84",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-19T09:28:28Z",
+      "side": 1,
+      "message": "Let\u0027s not add these changes in this patch.",
+      "revId": "8b4cb55db32681d4f34e5be212bc26943b1a10a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe666153_85976d64",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 888,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-19T09:28:28Z",
+      "side": 1,
+      "message": "remove redundant comment.",
+      "revId": "8b4cb55db32681d4f34e5be212bc26943b1a10a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db649f89_7c4fefaf",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 935,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-19T09:28:28Z",
+      "side": 1,
+      "message": "remove redundant comment.",
+      "revId": "8b4cb55db32681d4f34e5be212bc26943b1a10a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1e2c7a6_6834c4f3",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 942,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-19T09:28:28Z",
+      "side": 1,
+      "message": "remove redundant comment.",
+      "revId": "8b4cb55db32681d4f34e5be212bc26943b1a10a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8df6b47d_40914d4e",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 946,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-19T09:28:28Z",
+      "side": 1,
+      "message": "remove redundant comment.",
+      "revId": "8b4cb55db32681d4f34e5be212bc26943b1a10a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8782f69_20680958",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-19T09:28:28Z",
+      "side": 1,
+      "message": "Let\u0027s move these 3 struct next to other struct defined in this class. Please also remove redundant comments in this struct that do not convey anything more that what can already be inferred from variable names.",
+      "revId": "8b4cb55db32681d4f34e5be212bc26943b1a10a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "374367b8_4d2845c9",
+        "filename": "src/nvidia-gpu/NvidiaGpuMemoryDevice.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-19T09:28:28Z",
+      "side": 1,
+      "message": "Remove this log. same applies to other similar logs.",
+      "revId": "8b4cb55db32681d4f34e5be212bc26943b1a10a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9c7dd99_152e357b",
+        "filename": "src/nvidia-gpu/NvidiaGpuMemoryDevice.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-19T09:28:28Z",
+      "side": 1,
+      "message": "The reverse association is not needed. Test without this and code should function normally with only one association.",
+      "revId": "8b4cb55db32681d4f34e5be212bc26943b1a10a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7423eb0_d0aef275",
+        "filename": "src/nvidia-gpu/NvidiaGpuMemoryDevice.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-19T09:28:28Z",
+      "side": 1,
+      "message": "This is not adding any meaningful information. Same for other comments in this file. Only keep comments that are adding anything meaningful information that cannot be inferred from names of variable and functions.",
+      "revId": "8b4cb55db32681d4f34e5be212bc26943b1a10a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
