@@ -179,6 +179,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "36636542_37cf8ab9",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-19T09:36:32Z",
+      "side": 1,
+      "message": "Add unit test cases for these functions.",
+      "revId": "8b4cb55db32681d4f34e5be212bc26943b1a10a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "374367b8_4d2845c9",
         "filename": "src/nvidia-gpu/NvidiaGpuMemoryDevice.cpp",
         "patchSetId": 14
