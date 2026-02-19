@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7446567_fd5badcd",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-19T09:54:19Z",
+      "side": 1,
+      "message": "This will not be needed after taking powerCap dbus interface as constructor parameter.",
+      "revId": "211cbdf7420b4491ec817e6790750e4a619e117e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d64b8be_e0cd1593",
+        "filename": "src/nvidia-gpu/NvidiaGpuControl.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-19T09:54:19Z",
+      "side": 1,
+      "message": "Doesn\u0027t PDI specify that the value must be in watts? If so please reword this comment.",
+      "revId": "211cbdf7420b4491ec817e6790750e4a619e117e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b777345_a01a52b5",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-19T09:54:19Z",
+      "side": 1,
+      "message": "Instead, let\u0027s create a powerCap dbus interface in `GpuDevice` class and pass it a constructor argument to Inventory and PowerCap classes.",
+      "revId": "211cbdf7420b4491ec817e6790750e4a619e117e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "704b3ada_bccf58ef",
+        "filename": "src/tests/test_NvidiaDeviceInventoryMctpVdm.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-19T09:54:19Z",
+      "side": 1,
+      "message": "Let\u0027s move these tests to the other test file for nvidia-gpu. In that \nfile we have fix type of tests for each encode and decode function, \nplease follow that.",
+      "revId": "211cbdf7420b4491ec817e6790750e4a619e117e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
