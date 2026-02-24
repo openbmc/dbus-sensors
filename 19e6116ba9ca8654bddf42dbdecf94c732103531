@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d07432a9_3e99b7ff",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-02-24T03:21:24Z",
+      "side": 1,
+      "message": "Done. Removed NsmEccErrorCounts and flattened all fields directly into GetEccErrorCountsResponse. Updated decodeGetEccErrorCountsResponse signature accordingly.\n\nSee PS21:\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/86946/21/src/nvidia-gpu/NvidiaGpuMctpVdm.hpp#253\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/86946/21/src/nvidia-gpu/NvidiaGpuMctpVdm.cpp#926",
+      "parentUuid": "d3165863_1e11fd6c",
+      "revId": "19e6116ba9ca8654bddf42dbdecf94c732103531",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe545373_aa76f9c2",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca0d6322_08bb371e",
+        "filename": "src/nvidia-gpu/NvidiaGpuMemoryDevice.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-02-24T03:21:24Z",
+      "side": 1,
+      "message": "Done. Changed to [weak{weak_from_this()}] capture with explicit type and added lg2::error on lock failure, matching the pattern in GpuDevice, Inventory, NvidiaGpuSensor, etc.\n\nSee PS21:\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/86946/21/src/nvidia-gpu/NvidiaGpuMemoryDevice.cpp#68",
+      "parentUuid": "fe545373_aa76f9c2",
+      "revId": "19e6116ba9ca8654bddf42dbdecf94c732103531",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "84e642de_824a398b",
@@ -48,6 +84,24 @@
       "writtenOn": "2026-02-19T09:46:31Z",
       "side": 1,
       "message": "Let\u0027s move these tests to the other test file for nvidia-gpu. In that file we have fix type of tests for each encode and decode function, please follow that.",
+      "revId": "19e6116ba9ca8654bddf42dbdecf94c732103531",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ee9f1d8_7889633e",
+        "filename": "src/tests/test_NvidiaDeviceInventoryMctpVdm.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-02-24T03:21:24Z",
+      "side": 1,
+      "message": "Done. Moved all ECC encode/decode tests to test_NvidiaGpuSensorTest.cpp using TEST_F(GpuMctpVdmTests, ...) fixture. Added 5 test cases following the existing pattern.\n\nSee PS21:\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/86946/21/src/tests/test_NvidiaGpuSensorTest.cpp#2310\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/86946/21/src/tests/test_NvidiaDeviceInventoryMctpVdm.cpp",
+      "parentUuid": "84e642de_824a398b",
       "revId": "19e6116ba9ca8654bddf42dbdecf94c732103531",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
