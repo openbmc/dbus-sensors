@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40c893a3_149935ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-02-24T03:47:50Z",
+      "side": 1,
+      "message": "Overall I think this is a huge improvement.  If you want to merge as-is, this is fine as is, but I think a couple minor improvements could simplify further.",
+      "revId": "8782c64a67432801552904e049b3e8fc0d6479c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80366624_5ae1fa09",
+        "filename": "src/nvidia-gpu/MessagePackUnpackUtils.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-02-24T03:47:50Z",
+      "side": 1,
+      "message": "Rather than maintaining a separate offset, you could do buffer.remove_prefix(sizeof(T))\n\nAnd just maintain the buffer itself.  That would also change getCurrentBufferPointer() to just return data()\n\nAnd remove a bunch of extra math.",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 24
+      },
+      "revId": "8782c64a67432801552904e049b3e8fc0d6479c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "557f98ff_b634b5c3",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-02-24T03:47:50Z",
+      "side": 1,
+      "message": "?  Isn\u0027t this going to return 1?\n\nTaking sizeof(uint8_t) seems weird",
+      "range": {
+        "startLine": 107,
+        "startChar": 16,
+        "endLine": 107,
+        "endChar": 36
+      },
+      "revId": "8782c64a67432801552904e049b3e8fc0d6479c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
