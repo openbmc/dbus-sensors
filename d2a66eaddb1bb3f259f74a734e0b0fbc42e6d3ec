@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2d528d4_a14a51b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-02-24T03:55:09Z",
+      "side": 1,
+      "message": "This says dram, but the code says DIMM.  Those are two different things.  DIMM isn\u0027t appropriate here.  DIMM is a connector that fits into a slot.\n\nWe\u0027d need to come up with a dram inventory item",
+      "range": {
+        "startLine": 7,
+        "startChar": 19,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "d2a66eaddb1bb3f259f74a734e0b0fbc42e6d3ec",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
