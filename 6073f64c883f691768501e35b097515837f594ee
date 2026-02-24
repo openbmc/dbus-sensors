@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35e96d24_99cacf09",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-02-24T03:51:20Z",
+      "side": 1,
+      "message": "what exception is being thrown here?  I suspect we want this to be more targetted at the things that have errors.",
+      "revId": "6073f64c883f691768501e35b097515837f594ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2dc3f0ec_1e4de12d",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-02-24T03:51:20Z",
+      "side": 1,
+      "message": "nit, std::format would be cleaner here. (not in this commit)",
+      "revId": "6073f64c883f691768501e35b097515837f594ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5eb14dc_ed6bb18f",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-02-24T03:51:20Z",
+      "side": 1,
+      "message": "Generally you would do this operation like\n\n```\nstd::shared_ptr\u003cGpuDevice\u003e gpu \u003d gpuDevices[gpuName];\nif (gpu \u003d\u003d nullptr){\n   gpu \u003d std::make_shared\u003c.,..\u003e();\n}\n```",
+      "revId": "6073f64c883f691768501e35b097515837f594ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
