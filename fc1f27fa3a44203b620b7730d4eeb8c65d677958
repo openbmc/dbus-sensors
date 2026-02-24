@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63f29382_c8de0bf8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002547
+      },
+      "writtenOn": "2026-02-24T03:45:32Z",
+      "side": 1,
+      "message": "I switched from `markAvailable(false)` (patch 2) to relying purely on `incrementError()` (patch 4) for two reasons: \n1. `markAvailable()` internally resets `errCount \u003d 0`. This causes an infinite loop of toggling states and D-Bus log flooding. \n2. Functional: false (from `incrementError`) accurately describes a read failure event while keeping `errCount` capped, which aligns with how `ADCSensor` and `HwmonTempSensor` handle it.\n\nPlease let me know if there are any concerns.",
+      "revId": "fc1f27fa3a44203b620b7730d4eeb8c65d677958",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
