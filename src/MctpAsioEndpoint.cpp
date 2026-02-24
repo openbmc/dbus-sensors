@@ -7,8 +7,9 @@
 #include <cstdint>
 #include <optional>
 
-// Becuase of issues with glibc not matching linux, we need to make sure these
-// are included AFTER the system headers, which are implictly included by boost.
+// Because of issues with glibc not matching linux, we need to make sure these
+// are included AFTER the system headers, which are implicitly included by
+// boost.
 // These show up as errors like
 // /usr/include/net/if.h:44:14: error: ‘IFF_UP’ conflicts with a previous
 // declaration

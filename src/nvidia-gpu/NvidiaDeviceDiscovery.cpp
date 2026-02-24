@@ -443,7 +443,7 @@ void interfaceRemoved(
 
     message.read(removedPath, interfaces);
 
-    // If the xyz.openbmc_project.Confguration.X interface was removed
+    // If the xyz.openbmc_project.Configuration.X interface was removed
     // for one or more sensors, delete those sensor objects.
     auto sensorIt = gpuDevices.begin();
     while (sensorIt != gpuDevices.end())

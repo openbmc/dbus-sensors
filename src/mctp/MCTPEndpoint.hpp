@@ -260,7 +260,7 @@ class MCTPDEndpoint :
  *
  * The construction or destruction of an MctpdDevice is not required to be
  * correlated with signals from @c mctpd. For instance, EntityManager may expose
- * the existance of an MCTP-capable device through its usual configuration
+ * the existence of an MCTP-capable device through its usual configuration
  * mechanisms.
  */
 class MCTPDDevice :
