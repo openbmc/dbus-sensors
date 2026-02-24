@@ -3,6 +3,57 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "88256c82_0e587f02",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-02-24T22:27:19Z",
+      "side": 1,
+      "message": "If we\u0027re going to change here, we need to get more specific.  \"Name1/Name2\" was something done when TMP421 was the most complicated thing supported.\n\nIF we\u0027re going more specific, they would be direct names of the inputs\n\n```\n{\n   Type: NCT7802,\n   Voltage1Name: \"My volts\",\n   Voltage2Name: \"My second volts\",\n   Temp1Name: \"My temp sensor\",\n}\n```\n\nThat way we\u0027re not assigning arbitrary indexes, and when someone looks at a schematic, they can write this file successfully.  Put another way, there\u0027s no way to know that \"ExtraNames\" index 0 is a fan.\n\nFWIW, i think some of the issue here is that NCT7802 shouldn\u0027t have been put in hwmontempsensor, as it includes more than just temp sensors.  I\u0027m happy to see things extended, but lets do them in a way that we don\u0027t have ambiguity in the config format.\n\nAlternatively, we we move this chip to be in PSUSensor instead of Hwmontempsensor, I suspect we can use the format as-is.",
+      "revId": "44c1b6a4171e38d2efd7262813256ff17f2c733f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62876329_e3dd9594",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-02-24T22:27:19Z",
+      "side": 1,
+      "message": "I was part of that discussion, and don\u0027t really understand why this is needed.  Regardless, commit messages should be able to justify support in isolation, links should be used for more details.",
+      "revId": "44c1b6a4171e38d2efd7262813256ff17f2c733f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c71b0fc_91e75f60",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-02-24T22:27:19Z",
+      "side": 1,
+      "message": "std::get_if is a shorter replacement for holds_alternative then get",
+      "revId": "44c1b6a4171e38d2efd7262813256ff17f2c733f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "84db13d4_f9effe57",
         "filename": "src/hwmon-temp/HwmonTempMain.cpp",
         "patchSetId": 3
