@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "08bae2cb_1453f071",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-02-24T05:55:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4246d743_7e2a86e7",
+      "range": {
+        "startLine": 11,
+        "startChar": 56,
+        "endLine": 12,
+        "endChar": 42
+      },
+      "revId": "ef84d0b94ad8c8fce47aacf152cc683200148ac3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bf617c33_ed8c9662",
@@ -41,6 +65,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "54360430_1618f79d",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-02-24T05:55:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf617c33_ed8c9662",
+      "revId": "ef84d0b94ad8c8fce47aacf152cc683200148ac3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cc7eaf40_63a1d86c",
@@ -54,6 +96,24 @@
       "writtenOn": "2026-02-19T09:36:05Z",
       "side": 1,
       "message": "Let\u0027s add unit test cases for all these four functions.",
+      "revId": "ef84d0b94ad8c8fce47aacf152cc683200148ac3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39f689cf_efe0027f",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-02-24T05:55:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc7eaf40_63a1d86c",
       "revId": "ef84d0b94ad8c8fce47aacf152cc683200148ac3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
