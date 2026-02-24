@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa823cea_6516746b",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-02-24T07:53:30Z",
+      "side": 1,
+      "message": "Done. Moved DRAM Item.Dimm interface creation from Inventory to NvidiaGpuMemoryDevice constructor. Inventory class is now unchanged.\n\nSee PS15:\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/87166/15/src/nvidia-gpu/NvidiaGpuMemoryDevice.cpp#51",
+      "parentUuid": "e70302e6_f3b66efe",
+      "revId": "8b4cb55db32681d4f34e5be212bc26943b1a10a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7c213635_a6dd5244",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-02-19T09:28:28Z",
       "side": 1,
       "message": "Let\u0027s move this comment to declaration of class `NvidiaGpuMemoryDevice`.",
+      "range": {
+        "startLine": 106,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 67
+      },
+      "revId": "8b4cb55db32681d4f34e5be212bc26943b1a10a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "447047eb_2cf4420e",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-02-24T07:53:30Z",
+      "side": 1,
+      "message": "Done. Moved the description to a brief comment above the class declaration in NvidiaGpuMemoryDevice.hpp.\n\nSee PS15:\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/87166/15/src/nvidia-gpu/NvidiaGpuMemoryDevice.hpp#19",
+      "parentUuid": "7c213635_a6dd5244",
       "range": {
         "startLine": 106,
         "startChar": 0,
@@ -58,6 +100,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1c83a2f_45f9e985",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-02-24T07:53:30Z",
+      "side": 1,
+      "message": "Done. Removed the redundant comment.\n\nSee PS15:\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/87166/15/src/nvidia-gpu/NvidiaGpuDevice.cpp#229",
+      "parentUuid": "a7008316_a196ffed",
+      "revId": "8b4cb55db32681d4f34e5be212bc26943b1a10a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d6c4e251_d5652c6f",
@@ -71,6 +131,24 @@
       "writtenOn": "2026-02-19T09:28:28Z",
       "side": 1,
       "message": "Is this check necessary?",
+      "revId": "8b4cb55db32681d4f34e5be212bc26943b1a10a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75f3190a_a8416f45",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-02-24T07:53:30Z",
+      "side": 1,
+      "message": "Done. Removed the if-check. memoryDevice is always created in makeSensors(), so calling update() directly.\n\nSee PS15:\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/87166/15/src/nvidia-gpu/NvidiaGpuDevice.cpp#229",
+      "parentUuid": "d6c4e251_d5652c6f",
       "revId": "8b4cb55db32681d4f34e5be212bc26943b1a10a0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -92,6 +170,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1332a147_4bb2c2a9",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-02-24T07:53:30Z",
+      "side": 1,
+      "message": "Done. Reverted all reinterpret_cast to std::bit_cast changes in existing functions. Only the new ECC encode/decode functions are added.\n\nSee PS15:\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/87166/15/src/nvidia-gpu/NvidiaGpuMctpVdm.cpp#885",
+      "parentUuid": "766d4483_6d5adf84",
+      "revId": "8b4cb55db32681d4f34e5be212bc26943b1a10a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe666153_85976d64",
@@ -105,6 +201,24 @@
       "writtenOn": "2026-02-19T09:28:28Z",
       "side": 1,
       "message": "remove redundant comment.",
+      "revId": "8b4cb55db32681d4f34e5be212bc26943b1a10a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f19a1b86_4f0e69a8",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 888,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-02-24T07:53:30Z",
+      "side": 1,
+      "message": "Done. Removed all redundant comments and decorative section dividers from the ECC implementation.\n\nSee PS15:\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/87166/15/src/nvidia-gpu/NvidiaGpuMctpVdm.cpp#885",
+      "parentUuid": "fe666153_85976d64",
       "revId": "8b4cb55db32681d4f34e5be212bc26943b1a10a0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -126,6 +240,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "297c8267_3343a48f",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 935,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-02-24T07:53:30Z",
+      "side": 1,
+      "message": "Done. Removed along with all other redundant comments in the ECC section.\n\nSee PS15:\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/87166/15/src/nvidia-gpu/NvidiaGpuMctpVdm.cpp#916",
+      "parentUuid": "db649f89_7c4fefaf",
+      "revId": "8b4cb55db32681d4f34e5be212bc26943b1a10a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b1e2c7a6_6834c4f3",
@@ -139,6 +271,24 @@
       "writtenOn": "2026-02-19T09:28:28Z",
       "side": 1,
       "message": "remove redundant comment.",
+      "revId": "8b4cb55db32681d4f34e5be212bc26943b1a10a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f96b1be6_a89523ba",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 942,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-02-24T07:53:30Z",
+      "side": 1,
+      "message": "Done. Removed the redundant comment from decodeGetEccErrorCountsResponse, along with all other redundant comments in the ECC section.\n\nSee PS15:\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/87166/15/src/nvidia-gpu/NvidiaGpuMctpVdm.cpp#916",
+      "parentUuid": "b1e2c7a6_6834c4f3",
       "revId": "8b4cb55db32681d4f34e5be212bc26943b1a10a0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -160,6 +310,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cecaae92_73c2336a",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 946,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-02-24T07:53:30Z",
+      "side": 1,
+      "message": "Done. Removed the redundant comment about endian conversion. All redundant comments in the ECC encode/decode functions have been cleaned up.\n\nSee PS15:\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/87166/15/src/nvidia-gpu/NvidiaGpuMctpVdm.cpp#916",
+      "parentUuid": "8df6b47d_40914d4e",
+      "revId": "8b4cb55db32681d4f34e5be212bc26943b1a10a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c8782f69_20680958",
@@ -173,6 +341,24 @@
       "writtenOn": "2026-02-19T09:28:28Z",
       "side": 1,
       "message": "Let\u0027s move these 3 struct next to other struct defined in this class. Please also remove redundant comments in this struct that do not convey anything more that what can already be inferred from variable names.",
+      "revId": "8b4cb55db32681d4f34e5be212bc26943b1a10a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52ba1f97_c59934c0",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-02-24T07:53:30Z",
+      "side": 1,
+      "message": "Done. Moved structs next to GetInventoryInformationResponse. Removed NsmEccErrorCounts and flattened all fields directly into GetEccErrorCountsResponse. Removed all redundant inline comments and section dividers.\n\nSee PS15:\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/87166/15/src/nvidia-gpu/NvidiaGpuMctpVdm.hpp#248",
+      "parentUuid": "c8782f69_20680958",
       "revId": "8b4cb55db32681d4f34e5be212bc26943b1a10a0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -194,6 +380,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "62a3a944_7351c916",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-02-24T07:53:30Z",
+      "side": 1,
+      "message": "Done. Added 5 test cases in test_NvidiaGpuSensorTest.cpp using TEST_F(GpuMctpVdmTests, ...) fixture: EncodeRequest Success/BufferTooSmall, DecodeResponse Success/Error/InvalidSize.\n\nSee PS15:\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/87166/15/src/tests/test_NvidiaGpuSensorTest.cpp#2308",
+      "parentUuid": "36636542_37cf8ab9",
+      "revId": "8b4cb55db32681d4f34e5be212bc26943b1a10a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "374367b8_4d2845c9",
@@ -207,6 +411,24 @@
       "writtenOn": "2026-02-19T09:28:28Z",
       "side": 1,
       "message": "Remove this log. same applies to other similar logs.",
+      "revId": "8b4cb55db32681d4f34e5be212bc26943b1a10a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb870273_cceb848e",
+        "filename": "src/nvidia-gpu/NvidiaGpuMemoryDevice.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-02-24T07:53:30Z",
+      "side": 1,
+      "message": "Done. Removed all info-level success logs from the constructor.\n\nSee PS15:\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/87166/15/src/nvidia-gpu/NvidiaGpuMemoryDevice.cpp#30",
+      "parentUuid": "374367b8_4d2845c9",
       "revId": "8b4cb55db32681d4f34e5be212bc26943b1a10a0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -228,6 +450,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3117f10e_c45251f3",
+        "filename": "src/nvidia-gpu/NvidiaGpuMemoryDevice.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-02-24T07:53:30Z",
+      "side": 1,
+      "message": "Done. Removed the DRAM-to-GPU reverse association. Only the GPU-to-DRAM (all_memory) association is kept. Verified on nvl32-obmc that the association works correctly with only the forward direction.\n\nSee PS15:\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/87166/15/src/nvidia-gpu/NvidiaGpuMemoryDevice.cpp#64",
+      "parentUuid": "e9c7dd99_152e357b",
+      "revId": "8b4cb55db32681d4f34e5be212bc26943b1a10a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b7423eb0_d0aef275",
@@ -241,6 +481,24 @@
       "writtenOn": "2026-02-19T09:28:28Z",
       "side": 1,
       "message": "This is not adding any meaningful information. Same for other comments in this file. Only keep comments that are adding anything meaningful information that cannot be inferred from names of variable and functions.",
+      "revId": "8b4cb55db32681d4f34e5be212bc26943b1a10a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18b80cb0_6153d09b",
+        "filename": "src/nvidia-gpu/NvidiaGpuMemoryDevice.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-02-24T07:53:30Z",
+      "side": 1,
+      "message": "Done. Removed all redundant @param Doxygen blocks and inline comments. Only kept a brief class-level comment describing the SRAM/DRAM ECC monitoring scope.\n\nSee PS15:\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/87166/15/src/nvidia-gpu/NvidiaGpuMemoryDevice.hpp#19",
+      "parentUuid": "b7423eb0_d0aef275",
       "revId": "8b4cb55db32681d4f34e5be212bc26943b1a10a0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
