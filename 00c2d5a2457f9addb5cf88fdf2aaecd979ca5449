@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fcb9b49_fb98bd22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-02-24T03:38:15Z",
+      "side": 1,
+      "message": "Why is an individual sensor producer doing this?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 44
+      },
+      "revId": "00c2d5a2457f9addb5cf88fdf2aaecd979ca5449",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "804f84cb_9519bc9a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-02-24T03:38:15Z",
+      "side": 1,
+      "message": "Overall it\u0027s not clear it\u0027s a single sensors job to create a collection of sensors in telemetry service?",
+      "revId": "00c2d5a2457f9addb5cf88fdf2aaecd979ca5449",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8a181cb_ec2f6ba1",
+        "filename": "src/nvidia-gpu/NvidiaGpuEnergySensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-02-24T03:38:15Z",
+      "side": 1,
+      "message": "Don\u0027t forward declare classes.",
+      "revId": "00c2d5a2457f9addb5cf88fdf2aaecd979ca5449",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
