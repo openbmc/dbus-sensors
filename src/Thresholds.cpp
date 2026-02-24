@@ -420,7 +420,7 @@ void checkThresholdsPowerDelay(const std::weak_ptr<Sensor>& weakSensor,
     std::vector<ChangeParam> changes = checkThresholds(sensor, sensor->value);
     for (const auto& change : changes)
     {
-        // When CPU is powered off, some volatges are expected to
+        // When CPU is powered off, some voltages are expected to
         // go below low thresholds. Filter these events with thresholdTimer.
         // 1. always delay the assertion of low events to see if they are
         //   caused by power off event.

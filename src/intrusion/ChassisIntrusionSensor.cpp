@@ -105,7 +105,7 @@ void ChassisIntrusionSensor::updateValue(const size_t& value)
         }
     }
 
-    // Flush the rearm flag everytime it allows an update to Dbus
+    // Flush the rearm flag every time it allows an update to Dbus
     mRearmFlag = false;
 
     // indicate that it is internal set call
@@ -142,7 +142,7 @@ void ChassisIntrusionPchSensor::pollSensorStatus()
 {
     std::weak_ptr<ChassisIntrusionPchSensor> weakRef = weak_from_this();
 
-    // setting a new experation implicitly cancels any pending async wait
+    // setting a new expiration implicitly cancels any pending async wait
     mPollTimer.expires_after(std::chrono::seconds(intrusionSensorPollSec));
 
     mPollTimer.async_wait([weakRef](const boost::system::error_code& ec) {
@@ -251,7 +251,7 @@ void ChassisIntrusionHwmonSensor::pollSensorStatus()
 {
     std::weak_ptr<ChassisIntrusionHwmonSensor> weakRef = weak_from_this();
 
-    // setting a new experation implicitly cancels any pending async wait
+    // setting a new expiration implicitly cancels any pending async wait
     mPollTimer.expires_after(std::chrono::seconds(intrusionSensorPollSec));
 
     mPollTimer.async_wait([weakRef](const boost::system::error_code& ec) {

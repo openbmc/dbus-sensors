@@ -256,7 +256,7 @@ void MctpRequester::handleResult(uint8_t eid, const std::error_code& ec,
         // and since this daemon services all nvidia iana commands
         // for a given system, we should only restart the service if its
         // unrecoverable, i.e. if we get error codes that the client
-        // can't reasonably deal with. If thats the cause, restart
+        // can't reasonably deal with. If that's the cause, restart
         // and hope that we can deal with it then.
         // since we're fully async, the only reasonable way to bubble
         // this issue up is to chuck an exception and let main deal with it.
