@@ -27,6 +27,8 @@
 constexpr const char* inventoryPrefix = "/xyz/openbmc_project/inventory/";
 constexpr const char* acceleratorIfaceName =
     "xyz.openbmc_project.Inventory.Item.Accelerator";
+constexpr const char* acceleratorTypeGpu =
+    "xyz.openbmc_project.Inventory.Item.Accelerator.AcceleratorType.GPU";
 static constexpr const char* assetIfaceName =
     "xyz.openbmc_project.Inventory.Decorator.Asset";
 static constexpr const char* uuidIfaceName = "xyz.openbmc_project.Common.UUID";
@@ -70,7 +72,7 @@ Inventory::Inventory(
     {
         acceleratorInterface =
             objectServer.add_interface(path, acceleratorIfaceName);
-        acceleratorInterface->register_property("Type", std::string("GPU"));
+        acceleratorInterface->register_property("Type", acceleratorTypeGpu);
 
         // Register BoostClockFrequency property
         acceleratorInterface->register_property(
