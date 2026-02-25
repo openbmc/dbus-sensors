@@ -14,6 +14,7 @@
 #include <NvidiaDriverInformation.hpp>
 #include <NvidiaGpuEnergySensor.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
+#include <NvidiaGpuOperatingSpeed.hpp>
 #include <NvidiaGpuPowerPeakReading.hpp>
 #include <NvidiaGpuPowerSensor.hpp>
 #include <NvidiaGpuSensor.hpp>
@@ -101,6 +102,9 @@ void GpuDevice::makeSensors()
 
     driverInfo = std::make_shared<NvidiaDriverInformation>(
         conn, mctpRequester, name, path, eid, objectServer);
+
+    operatingSpeed = std::make_shared<NvidiaGpuOperatingSpeed>(
+        conn, mctpRequester, name, eid, objectServer);
 
     getTLimitThresholds();
 
@@ -221,6 +225,8 @@ void GpuDevice::read()
     energySensor->update();
     voltageSensor->update();
     driverInfo->update();
+
+    operatingSpeed->update();
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait(
