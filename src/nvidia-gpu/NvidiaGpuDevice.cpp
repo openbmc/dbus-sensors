@@ -102,6 +102,9 @@ void GpuDevice::makeSensors()
     driverInfo = std::make_shared<NvidiaDriverInformation>(
         conn, mctpRequester, name, path, eid, objectServer);
 
+    operatingSpeed = std::make_shared<NvidiaGpuOperatingSpeed>(
+        conn, mctpRequester, name, eid, objectServer);
+
     getTLimitThresholds();
 
     lg2::info("Added GPU {NAME} Sensors with chassis path: {PATH}.", "NAME",
@@ -221,6 +224,8 @@ void GpuDevice::read()
     energySensor->update();
     voltageSensor->update();
     driverInfo->update();
+
+    operatingSpeed->update();
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait(
