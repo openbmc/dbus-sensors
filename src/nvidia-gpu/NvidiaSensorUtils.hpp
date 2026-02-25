@@ -20,7 +20,7 @@ inline std::optional<std::string> deviceTypeToPhysicalContext(
     {
         case gpu::DeviceIdentification::DEVICE_GPU:
             return "xyz.openbmc_project.Common.PhysicalContext."
-                   "PhysicalContextType.GPU";
+                   "PhysicalContextType.Accelerator";
 
         case gpu::DeviceIdentification::DEVICE_SMA:
         case gpu::DeviceIdentification::DEVICE_PCIE:
