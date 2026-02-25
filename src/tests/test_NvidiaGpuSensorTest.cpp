@@ -2305,4 +2305,145 @@ TEST_F(GpuMctpVdmTests,
     EXPECT_EQ(result, EINVAL);
 }
 
+TEST_F(GpuMctpVdmTests, EncodeGetCurrentClockFrequencyRequestSuccess)
+{
+    const uint8_t instanceId = 1;
+    const uint8_t clockId = 0x00;
+    std::vector<uint8_t> buf(sizeof(gpu::GetCurrentClockFrequencyRequest));
+
+    int result =
+        gpu::encodeGetCurrentClockFrequencyRequest(instanceId, clockId, buf);
+
+    EXPECT_EQ(result, 0);
+
+    gpu::GetCurrentClockFrequencyRequest request{};
+    std::memcpy(&request, buf.data(), sizeof(request));
+
+    EXPECT_EQ(request.hdr.msgHdr.hdr.pci_vendor_id,
+              htobe16(gpu::nvidiaPciVendorId));
+    EXPECT_EQ(request.hdr.msgHdr.hdr.instance_id &
+                  ocp::accelerator_management::instanceIdBitMask,
+              instanceId & ocp::accelerator_management::instanceIdBitMask);
+    EXPECT_EQ(
+        request.hdr.command,
+        static_cast<uint8_t>(
+            gpu::PlatformEnvironmentalCommands::GET_CURRENT_CLOCK_FREQUENCY));
+    EXPECT_EQ(request.hdr.data_size, sizeof(clockId));
+    EXPECT_EQ(request.clock_id, clockId);
+}
+
+TEST_F(GpuMctpVdmTests, EncodeGetCurrentClockFrequencyRequestBufferTooSmall)
+{
+    std::vector<uint8_t> buf(1);
+    int result = gpu::encodeGetCurrentClockFrequencyRequest(0, 0, buf);
+    EXPECT_EQ(result, EINVAL);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetCurrentClockFrequencyResponseSuccess)
+{
+    std::vector<uint8_t> buf(sizeof(gpu::GetCurrentClockFrequencyResponse));
+
+    gpu::GetCurrentClockFrequencyResponse response{};
+    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
+    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    headerInfo.instance_id = 1;
+    headerInfo.msg_type =
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
+
+    gpu::packHeader(headerInfo, response.hdr.msgHdr.hdr);
+
+    response.hdr.command = static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_CURRENT_CLOCK_FREQUENCY);
+    response.hdr.completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS);
+    response.hdr.reserved = 0;
+    response.hdr.data_size = htole16(sizeof(uint32_t));
+    response.clockFreq = htole32(1500U);
+
+    std::memcpy(buf.data(), &response, sizeof(response));
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode = 0;
+    uint32_t clockFreqMHz = 0;
+
+    int result = gpu::decodeGetCurrentClockFrequencyResponse(
+        buf, cc, reasonCode, clockFreqMHz);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+    EXPECT_EQ(clockFreqMHz, 1500U);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetCurrentClockFrequencyResponseError)
+{
+    std::vector<uint8_t> buf(
+        sizeof(ocp::accelerator_management::CommonNonSuccessResponse));
+
+    ocp::accelerator_management::CommonNonSuccessResponse response{};
+    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
+    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    headerInfo.instance_id = 1;
+    headerInfo.msg_type =
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
+
+    gpu::packHeader(headerInfo, response.msgHdr.hdr);
+
+    response.command = static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_CURRENT_CLOCK_FREQUENCY);
+    response.completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERROR);
+    response.reason_code = htole16(0x1234);
+
+    std::memcpy(buf.data(), &response, sizeof(response));
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode = 0;
+    uint32_t clockFreqMHz = 0;
+
+    int result = gpu::decodeGetCurrentClockFrequencyResponse(
+        buf, cc, reasonCode, clockFreqMHz);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERROR);
+    EXPECT_EQ(reasonCode, 0x1234);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetCurrentClockFrequencyResponseBufferTooSmall)
+{
+    std::vector<uint8_t> buf(
+        sizeof(ocp::accelerator_management::CommonResponse));
+
+    gpu::GetCurrentClockFrequencyResponse response{};
+    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
+    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
+        ocp::accelerator_management::MessageType::RESPONSE);
+    headerInfo.instance_id = 1;
+    headerInfo.msg_type =
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
+
+    gpu::packHeader(headerInfo, response.hdr.msgHdr.hdr);
+
+    response.hdr.command = static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_CURRENT_CLOCK_FREQUENCY);
+    response.hdr.completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS);
+    response.hdr.reserved = 0;
+    response.hdr.data_size = htole16(sizeof(uint32_t));
+
+    std::memcpy(buf.data(), &response.hdr,
+                sizeof(ocp::accelerator_management::CommonResponse));
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode = 0;
+    uint32_t clockFreqMHz = 0;
+
+    int result = gpu::decodeGetCurrentClockFrequencyResponse(
+        buf, cc, reasonCode, clockFreqMHz);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
 } // namespace gpu_mctp_tests
