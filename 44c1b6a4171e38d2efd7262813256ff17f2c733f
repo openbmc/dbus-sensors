@@ -36,6 +36,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d42b0504_0c99809c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2026-02-25T03:18:20Z",
+      "side": 1,
+      "message": "\u003e Alternatively, we we move this chip to be in PSUSensor instead of Hwmontempsensor\n\nI\u0027m not super excited about moving anything to PSUSensor schema. It\u0027s a legacy schema and has lots of antipatterns.\n\n```\n{\n   Type: NCT7802,\n   Voltage1Name: \"My volts\",\n   Voltage2Name: \"My second volts\",\n   Temp1Name: \"My temp sensor\",\n}\n```\n\nYour example would result in roughly one schema per type of chip to be supported.\n\nThat\u0027s the reverse of what\u0027s historically been done in EM, where multiple chips are supported by one schema. I\u0027m not really against it but that\u0027s a schema discussion which is probably best done in EM.\n\nLet\u0027s keep schema discussion contained to the EM repo.",
+      "parentUuid": "ed930152_ddd9d789",
+      "revId": "44c1b6a4171e38d2efd7262813256ff17f2c733f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "62876329_e3dd9594",
@@ -53,6 +71,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3ecb343_bc3eb6ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2026-02-25T03:18:20Z",
+      "side": 1,
+      "message": "Added a short explanation here. For the full story, reviewers need to look at all linked patches anyways.",
+      "parentUuid": "62876329_e3dd9594",
+      "revId": "44c1b6a4171e38d2efd7262813256ff17f2c733f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3c71b0fc_91e75f60",
@@ -66,6 +102,24 @@
       "writtenOn": "2026-02-24T22:27:19Z",
       "side": 1,
       "message": "std::get_if is a shorter replacement for holds_alternative then get",
+      "revId": "44c1b6a4171e38d2efd7262813256ff17f2c733f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31c8578c_e65421bc",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2026-02-25T03:18:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c71b0fc_91e75f60",
       "revId": "44c1b6a4171e38d2efd7262813256ff17f2c733f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -93,6 +147,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb38835c_ab7724b5",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2026-02-25T03:18:20Z",
+      "side": 1,
+      "message": "ended up re-writing this section with `std::get_if`",
+      "parentUuid": "84db13d4_f9effe57",
+      "range": {
+        "startLine": 244,
+        "startChar": 26,
+        "endLine": 244,
+        "endChar": 30
+      },
+      "revId": "44c1b6a4171e38d2efd7262813256ff17f2c733f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5cdd53b7_07fa92fa",
@@ -106,6 +184,30 @@
       "writtenOn": "2026-02-24T12:04:42Z",
       "side": 1,
       "message": "nit: auto\u0026",
+      "range": {
+        "startLine": 500,
+        "startChar": 30,
+        "endLine": 500,
+        "endChar": 34
+      },
+      "revId": "44c1b6a4171e38d2efd7262813256ff17f2c733f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d83c55c_f573527d",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2026-02-25T03:18:20Z",
+      "side": 1,
+      "message": "Thanks, done 👍",
+      "parentUuid": "5cdd53b7_07fa92fa",
       "range": {
         "startLine": 500,
         "startChar": 30,
