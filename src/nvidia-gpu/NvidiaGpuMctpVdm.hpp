@@ -45,6 +45,7 @@ enum class PlatformEnvironmentalCommands : uint8_t
     GET_CURRENT_POWER_DRAW = 0x03,
     GET_MAX_OBSERVED_POWER = 0x04,
     GET_CURRENT_ENERGY_COUNTER = 0x06,
+    GET_CURRENT_CLOCK_FREQUENCY = 0x0B,
     GET_INVENTORY_INFORMATION = 0x0C,
     GET_DRIVER_INFORMATION = 0x0E,
     GET_VOLTAGE = 0x0F,
@@ -232,6 +233,18 @@ struct GetDriverInformationResponse
     char driverVersion;
 } __attribute__((packed));
 
+struct GetCurrentClockFrequencyRequest
+{
+    ocp::accelerator_management::CommonRequest hdr;
+    uint8_t clock_id;
+} __attribute__((packed));
+
+struct GetCurrentClockFrequencyResponse
+{
+    ocp::accelerator_management::CommonResponse hdr;
+    uint32_t clockFreq;
+} __attribute__((packed));
+
 struct GetInventoryInformationRequest
 {
     ocp::accelerator_management::CommonRequest hdr;
@@ -301,6 +314,14 @@ int decodeGetDriverInformationResponse(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     DriverState& driverState, std::string& driverVersion);
+
+int encodeGetCurrentClockFrequencyRequest(uint8_t instanceId, uint8_t clockId,
+                                          std::span<uint8_t> buf);
+
+int decodeGetCurrentClockFrequencyResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint32_t& clockFreqMHz);
 
 int encodeGetInventoryInformationRequest(uint8_t instanceId, uint8_t propertyId,
                                          std::span<uint8_t> buf);

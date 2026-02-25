@@ -1,0 +1,80 @@
+diff --git a/src/nvidia-gpu/Inventory.cpp b/src/nvidia-gpu/Inventory.cpp
+index e41802a..a8d04ae 100644
+--- a/src/nvidia-gpu/Inventory.cpp
++++ b/src/nvidia-gpu/Inventory.cpp
+@@ -70,7 +70,16 @@ Inventory::Inventory(
+         acceleratorInterface =
+             objectServer.add_interface(path, acceleratorIfaceName);
+         acceleratorInterface->register_property("Type", std::string("GPU"));
++        
++        // Register DefaultBoostClockSpeedMHz property
++        acceleratorInterface->register_property("DefaultBoostClockSpeedMHz",
++                                                static_cast<uint32_t>(0));
++        
+         acceleratorInterface->initialize();
++        
++        // Add to query queue (manually since registerProperty is for strings only)
++        properties[gpu::InventoryPropertyId::DEFAULT_BOOST_CLOCKS] = {
++            acceleratorInterface, "DefaultBoostClockSpeedMHz", 0, true};
+     }
+ }
+ 
+@@ -249,6 +258,27 @@ void Inventory::handleInventoryPropertyResponse(
+                     }
+                     break;
+ 
++                case gpu::InventoryPropertyId::DEFAULT_BOOST_CLOCKS:
++                    if (std::holds_alternative<uint32_t>(info))
++                    {
++                        uint32_t clockSpeed = std::get<uint32_t>(info);
++                        it->second.interface->set_property(it->second.propertyName,
++                                                          clockSpeed);
++                        lg2::info(
++                            "Successfully received property ID {PROP_ID} for {NAME} with value: {VALUE}",
++                            "PROP_ID", static_cast<uint8_t>(propertyId), "NAME", name,
++                            "VALUE", clockSpeed);
++                        success = true;
++                    }
++                    else
++                    {
++                        lg2::error(
++                            "Property ID {PROP_ID} for {NAME} expected uint32_t but got different type",
++                            "PROP_ID", static_cast<uint8_t>(propertyId), "NAME",
++                            name);
++                    }
++                    break;
++
+                 default:
+                     lg2::error("Unsupported property ID {PROP_ID} for {NAME}",
+                                "PROP_ID", static_cast<uint8_t>(propertyId),
+diff --git a/src/nvidia-gpu/NvidiaGpuMctpVdm.cpp b/src/nvidia-gpu/NvidiaGpuMctpVdm.cpp
+index 3f9cf25..1a6e982 100644
+--- a/src/nvidia-gpu/NvidiaGpuMctpVdm.cpp
++++ b/src/nvidia-gpu/NvidiaGpuMctpVdm.cpp
+@@ -479,6 +479,13 @@ int decodeGetInventoryInformationResponse(
+         case InventoryPropertyId::DEVICE_GUID:
+             value = std::vector<uint8_t>(dataPtr, dataPtr + dataSize);
+             break;
++        case InventoryPropertyId::DEFAULT_BOOST_CLOCKS:
++            if (dataSize != sizeof(uint32_t))
++            {
++                return EINVAL;
++            }
++            value = le32toh(*std::bit_cast<const uint32_t*>(dataPtr));
++            break;
+         default:
+             return EINVAL;
+     }
+diff --git a/src/nvidia-gpu/NvidiaGpuMctpVdm.hpp b/src/nvidia-gpu/NvidiaGpuMctpVdm.hpp
+index 5c298a7..5815ea4 100644
+--- a/src/nvidia-gpu/NvidiaGpuMctpVdm.hpp
++++ b/src/nvidia-gpu/NvidiaGpuMctpVdm.hpp
+@@ -18,7 +18,7 @@
+ namespace gpu
+ {
+ 
+-using InventoryValue = std::variant<std::string, std::vector<uint8_t>>;
++using InventoryValue = std::variant<std::string, std::vector<uint8_t>, uint32_t>;
+ constexpr size_t maxInventoryDataSize = 256;
+ 
+ constexpr uint16_t nvidiaPciVendorId = 0x10de;
