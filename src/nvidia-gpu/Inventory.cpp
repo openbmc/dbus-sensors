@@ -70,7 +70,10 @@ Inventory::Inventory(
     {
         acceleratorInterface =
             objectServer.add_interface(path, acceleratorIfaceName);
-        acceleratorInterface->register_property("Type", std::string("GPU"));
+        acceleratorInterface->register_property(
+            "Type",
+            std::string(
+                "xyz.openbmc_project.Inventory.Item.Accelerator.AcceleratorType.GPU"));
 
         // Register BoostClockFrequency property
         acceleratorInterface->register_property(
