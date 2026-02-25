@@ -55,16 +55,16 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
     mctpRequester(mctpRequester), io(io), conn(conn),
     objectServer(objectServer), configs(configs), name(escapeName(name)),
     path(path)
-{}
-
-void GpuDevice::init()
 {
     inventory = std::make_shared<Inventory>(
         conn, objectServer, name, mctpRequester,
         gpu::DeviceIdentification::DEVICE_GPU, eid, io);
-    inventory->init();
+}
 
+void GpuDevice::init()
+{
     makeSensors();
+    inventory->init();
 }
 
 void GpuDevice::makeSensors()
@@ -209,6 +209,8 @@ void GpuDevice::processTLimitThresholds(const std::error_code& ec)
         gpu::DeviceIdentification::DEVICE_GPU);
 }
 
+constexpr uint8_t graphicsClockId = 0x00;
+
 void GpuDevice::read()
 {
     tempSensor->update();
@@ -222,6 +224,38 @@ void GpuDevice::read()
     energySensor->update();
     voltageSensor->update();
     driverInfo->update();
+
+    int rc = gpu::encodeGetCurrentClockFrequencyRequest(
+        0, graphicsClockId,
+        std::span<uint8_t>(clockFreqReqMsg.data(), clockFreqReqMsg.size()));
+    if (rc == 0)
+    {
+        mctpRequester.sendRecvMsg(
+            eid, clockFreqReqMsg,
+            [weak{weak_from_this()}](const std::error_code& ec,
+                                     std::span<const uint8_t> buffer) {
+                std::shared_ptr<GpuDevice> self = weak.lock();
+                if (!self)
+                {
+                    lg2::error("Invalid reference to GpuDevice");
+                    return;
+                }
+                if (ec)
+                {
+                    return;
+                }
+                ocp::accelerator_management::CompletionCode cc{};
+                uint16_t reasonCode = 0;
+                uint32_t clockFreqMHz = 0;
+                int decodeRc = gpu::decodeGetCurrentClockFrequencyResponse(
+                    buffer, cc, reasonCode, clockFreqMHz);
+                if (decodeRc == 0 &&
+                    cc == ocp::accelerator_management::CompletionCode::SUCCESS)
+                {
+                    self->inventory->setOperatingSpeed(clockFreqMHz);
+                }
+            });
+    }
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait(

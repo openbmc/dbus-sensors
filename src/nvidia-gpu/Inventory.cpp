@@ -78,6 +78,13 @@ Inventory::Inventory(
 
         acceleratorInterface->initialize();
 
+        operatingConfigInterface = objectServer.add_interface(
+            path,
+            "xyz.openbmc_project.Inventory.Item.Accelerator.OperatingConfig");
+        operatingConfigInterface->register_property("OperatingSpeed",
+                                                    operatingSpeed);
+        operatingConfigInterface->initialize();
+
         // Add to query queue (manually since registerProperty is for strings
         // only)
         properties[gpu::InventoryPropertyId::DEFAULT_BOOST_CLOCKS] = {
@@ -88,6 +95,15 @@ Inventory::Inventory(
 void Inventory::init()
 {
     processNextProperty();
+}
+
+void Inventory::setOperatingSpeed(uint32_t value)
+{
+    if (operatingConfigInterface && operatingSpeed != value)
+    {
+        operatingSpeed = value;
+        operatingConfigInterface->set_property("OperatingSpeed", value);
+    }
 }
 
 void Inventory::registerProperty(
