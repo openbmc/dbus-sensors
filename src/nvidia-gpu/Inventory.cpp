@@ -68,9 +68,11 @@ Inventory::Inventory(
     // Static properties
     if (deviceType == gpu::DeviceIdentification::DEVICE_GPU)
     {
+        constexpr const char* acceleratorTypeGpu =
+            "xyz.openbmc_project.Inventory.Item.Accelerator.AcceleratorType.GPU";
         acceleratorInterface =
             objectServer.add_interface(path, acceleratorIfaceName);
-        acceleratorInterface->register_property("Type", std::string("GPU"));
+        acceleratorInterface->register_property("Type", acceleratorTypeGpu);
 
         // Register BoostClockFrequency property
         acceleratorInterface->register_property(
