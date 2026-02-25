@@ -28,6 +28,8 @@ class Inventory : public std::enable_shared_from_this<Inventory>
 
     void init();
 
+    void setOperatingSpeed(uint32_t value);
+
   private:
     struct PropertyInfo
     {
@@ -56,6 +58,8 @@ class Inventory : public std::enable_shared_from_this<Inventory>
 
     std::shared_ptr<sdbusplus::asio::dbus_interface> assetIface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> acceleratorInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> operatingConfigInterface;
+    uint32_t operatingSpeed{0};
     std::shared_ptr<sdbusplus::asio::dbus_interface> uuidInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> revisionIface;
 
