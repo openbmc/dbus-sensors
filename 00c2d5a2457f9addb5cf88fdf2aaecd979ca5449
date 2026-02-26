@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f02798e5_836ca5ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-26T15:54:46Z",
+      "side": 1,
+      "message": "We want PlatformEnvironmentMetrics metric report that contains all the thermal, power, and energy sensors from this app to be always present on redfish.",
+      "parentUuid": "7fcb9b49_fb98bd22",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 44
+      },
+      "revId": "00c2d5a2457f9addb5cf88fdf2aaecd979ca5449",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "804f84cb_9519bc9a",
@@ -41,6 +65,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cca038af_215090ab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-26T15:54:46Z",
+      "side": 1,
+      "message": "Each individual sensor call into `SensorMetricReport` class\u0027s api to register itself for the metric report and then `SensorMetricReport` class will call into Telemetry Sevices DBus APIs to add all the registered sensors to metric report.",
+      "parentUuid": "804f84cb_9519bc9a",
+      "revId": "00c2d5a2457f9addb5cf88fdf2aaecd979ca5449",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b8a181cb_ec2f6ba1",
@@ -54,6 +96,24 @@
       "writtenOn": "2026-02-24T03:38:15Z",
       "side": 1,
       "message": "Don\u0027t forward declare classes.",
+      "revId": "00c2d5a2457f9addb5cf88fdf2aaecd979ca5449",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a0b4af3_dc34cd59",
+        "filename": "src/nvidia-gpu/NvidiaGpuEnergySensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-26T15:54:46Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "b8a181cb_ec2f6ba1",
       "revId": "00c2d5a2457f9addb5cf88fdf2aaecd979ca5449",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
