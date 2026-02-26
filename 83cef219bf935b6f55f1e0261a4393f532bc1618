@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2c771774_d8e940c4",
+        "filename": "src/nvidia-gpu/MessagePackUnpackUtils.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-02-26T23:04:56Z",
+      "side": 1,
+      "message": "FWIW, libpldm\u0027s msgbuf APIs do both. I recommend that. For some operations, particularly extractions, it\u0027s important to know whether the operation succeeded immediately. For instance, extracting the count member for a subsequent array, where you then need to use that count value to correctly extract the array. If extracting the count fails then there\u0027s no point proceeding.\n\nMore abstractly, what\u0027s important is testing result for extraction of any value that you subsequently need to use for a correct parse of a message.\n\nHowever, the ergonomics of deferred error testing are nice, so I recommend doing that where it doesn\u0027t impact correctness of the implementation.",
+      "parentUuid": "d3454566_0ea309ae",
+      "revId": "83cef219bf935b6f55f1e0261a4393f532bc1618",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ef6b6672_fe9c90d1",
         "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
         "patchSetId": 10
