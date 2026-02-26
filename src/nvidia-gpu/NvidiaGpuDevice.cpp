@@ -18,11 +18,14 @@
 #include <NvidiaGpuPowerSensor.hpp>
 #include <NvidiaGpuSensor.hpp>
 #include <NvidiaGpuVoltageSensor.hpp>
+#include <NvidiaPcieDevice.hpp>
+#include <NvidiaPcieInterface.hpp>
 #include <OcpMctpVdm.hpp>
 #include <boost/asio/io_context.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/message/native_types.hpp>
 
 #include <array>
 #include <chrono>
@@ -102,6 +105,15 @@ void GpuDevice::makeSensors()
 
     driverInfo = std::make_shared<NvidiaDriverInformation>(
         conn, mctpRequester, name, path, eid, objectServer);
+
+    // GPU inventory objects are at pcieDevicePathPrefix + name
+    std::string processorPath = std::string(pcieDevicePathPrefix) + name;
+    sdbusplus::message::object_path emPath(path);
+    std::string chassisPath = emPath.parent_path();
+
+    pcieInterface = std::make_shared<NvidiaPcieInterface>(
+        conn, mctpRequester, name, path, eid, objectServer,
+        gpu::DeviceIdentification::DEVICE_GPU, processorPath, chassisPath);
 
     getTLimitThresholds();
 
@@ -222,6 +234,7 @@ void GpuDevice::read()
     energySensor->update();
     voltageSensor->update();
     driverInfo->update();
+    pcieInterface->update();
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait(

@@ -565,6 +565,78 @@ int decodeGetInventoryInformationResponse(
     return 0;
 }
 
+int encodeQueryScalarGroupTelemetryV1Request(
+    uint8_t instanceId, uint8_t deviceId, uint8_t groupIndex,
+    std::span<uint8_t> buf)
+{
+    if (buf.size() < sizeof(QueryScalarGroupTelemetryV1Request))
+    {
+        return EINVAL;
+    }
+
+    auto* msg =
+        reinterpret_cast<QueryScalarGroupTelemetryV1Request*>(buf.data());
+
+    ocp::accelerator_management::BindingPciVidInfo header{};
+    header.ocp_accelerator_management_msg_type =
+        static_cast<uint8_t>(ocp::accelerator_management::MessageType::REQUEST);
+    header.instance_id = instanceId &
+                         ocp::accelerator_management::instanceIdBitMask;
+    header.msg_type = static_cast<uint8_t>(MessageType::PCIE_LINK);
+
+    auto rc = packHeader(header, msg->hdr.msgHdr.hdr);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    msg->hdr.command =
+        static_cast<uint8_t>(PcieLinkCommands::QueryScalarGroupTelemetryV1);
+    msg->hdr.data_size = 2;
+    msg->deviceId = deviceId;
+    msg->groupIndex = groupIndex;
+
+    return 0;
+}
+
+int decodeQueryScalarGroupTelemetryV1Group1Response(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    QueryScalarGroupTelemetryGroup1& data)
+{
+    auto rc =
+        ocp::accelerator_management::decodeReasonCodeAndCC(buf, cc, reasonCode);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    constexpr size_t responseSize =
+        sizeof(ocp::accelerator_management::CommonResponse) +
+        sizeof(QueryScalarGroupTelemetryGroup1);
+
+    if (buf.size() < responseSize)
+    {
+        return EINVAL;
+    }
+
+    const auto* dataPtr =
+        buf.data() + sizeof(ocp::accelerator_management::CommonResponse);
+
+    QueryScalarGroupTelemetryGroup1 rawData{};
+    std::memcpy(&rawData, dataPtr, sizeof(rawData));
+
+    data.negotiatedLinkSpeed = le32toh(rawData.negotiatedLinkSpeed);
+    data.negotiatedLinkWidth = le32toh(rawData.negotiatedLinkWidth);
+    data.targetLinkSpeed = le32toh(rawData.targetLinkSpeed);
+    data.maxLinkSpeed = le32toh(rawData.maxLinkSpeed);
+    data.maxLinkWidth = le32toh(rawData.maxLinkWidth);
+
+    return 0;
+}
+
 int encodeQueryScalarGroupTelemetryV2Request(
     uint8_t instanceId, PciePortType portType, uint8_t upstreamPortNumber,
     uint8_t portNumber, uint8_t groupId, std::span<uint8_t> buf)

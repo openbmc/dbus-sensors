@@ -58,6 +58,7 @@ enum class NetworkPortCommands : uint8_t
 
 enum class PcieLinkCommands : uint8_t
 {
+    QueryScalarGroupTelemetryV1 = 0x04,
     ListPCIePorts = 0x07,
     QueryScalarGroupTelemetryV2 = 0x24,
 };
@@ -162,6 +163,22 @@ struct GetPowerDrawRequest
 using GetCurrentEnergyCounterRequest = GetNumericSensorReadingRequest;
 
 using GetVoltageRequest = GetNumericSensorReadingRequest;
+
+struct QueryScalarGroupTelemetryV1Request
+{
+    ocp::accelerator_management::CommonRequest hdr;
+    uint8_t deviceId;
+    uint8_t groupIndex;
+} __attribute__((packed));
+
+struct QueryScalarGroupTelemetryGroup1
+{
+    uint32_t negotiatedLinkSpeed;
+    uint32_t negotiatedLinkWidth;
+    uint32_t targetLinkSpeed;
+    uint32_t maxLinkSpeed;
+    uint32_t maxLinkWidth;
+} __attribute__((packed));
 
 struct QueryScalarGroupTelemetryV2Request
 {
@@ -309,6 +326,15 @@ int decodeGetInventoryInformationResponse(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     InventoryPropertyId propertyId, InventoryValue& value);
+
+int encodeQueryScalarGroupTelemetryV1Request(
+    uint8_t instanceId, uint8_t deviceId, uint8_t groupIndex,
+    std::span<uint8_t> buf);
+
+int decodeQueryScalarGroupTelemetryV1Group1Response(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    QueryScalarGroupTelemetryGroup1& data);
 
 int encodeQueryScalarGroupTelemetryV2Request(
     uint8_t instanceId, PciePortType portType, uint8_t upstreamPortNumber,
