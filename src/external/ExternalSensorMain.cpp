@@ -180,7 +180,7 @@ void createSensors(
                 const SensorBaseConfigMap& baseConfigMap =
                     baseConfiguration.second;
 
-                // MinValue and MinValue are mandatory numeric parameters
+                // MinValue and MaxValue are mandatory numeric parameters
                 auto minFound = baseConfigMap.find("MinValue");
                 if (minFound == baseConfigMap.end())
                 {

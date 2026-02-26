@@ -191,7 +191,7 @@ bool findPwmPath(const std::filesystem::path& directory, unsigned int pwm,
             lg2::error("exists() failed: '{ERROR_MESSAGE}'", "ERROR_MESSAGE",
                        ec.message());
         }
-        /* try search form pwm-fanX directory */
+        /* try search from pwm-fanX directory */
         return findPwmfanPath(pwm, pwmPath);
     }
 
