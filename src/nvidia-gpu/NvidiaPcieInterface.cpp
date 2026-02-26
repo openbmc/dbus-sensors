@@ -39,6 +39,53 @@ NvidiaPcieInterface::NvidiaPcieInterface(
     sdbusplus::asio::object_server& objectServer) :
     eid(eid), path(path), conn(conn), mctpRequester(mctpRequester)
 {
+    initInterfaces(name, objectServer);
+}
+
+NvidiaPcieInterface::NvidiaPcieInterface(
+    std::shared_ptr<sdbusplus::asio::connection>& conn,
+    mctp::MctpRequester& mctpRequester, const std::string& name,
+    const std::string& path, uint8_t eid,
+    sdbusplus::asio::object_server& objectServer,
+    gpu::DeviceIdentification devType, const std::string& processorPath,
+    const std::string& chassisPath) :
+    eid(eid), deviceType(devType), path(path), conn(conn),
+    mctpRequester(mctpRequester)
+{
+    initInterfaces(name, objectServer);
+
+    const std::string dbusPath = pcieDevicePathPrefix + escapeName(name);
+
+    std::vector<Association> associations;
+
+    if (!processorPath.empty())
+    {
+        associations.emplace_back("connected_to", "connecting", processorPath);
+    }
+
+    if (!chassisPath.empty())
+    {
+        associations.emplace_back("contained_by", "containing", chassisPath);
+    }
+
+    if (!associations.empty())
+    {
+        associationInterface =
+            objectServer.add_interface(dbusPath, association::interface);
+        associationInterface->register_property("Associations", associations);
+
+        if (!associationInterface->initialize())
+        {
+            lg2::error(
+                "Error initializing Association Interface for PCIe Device EID={EID}",
+                "EID", eid);
+        }
+    }
+}
+
+void NvidiaPcieInterface::initInterfaces(
+    const std::string& name, sdbusplus::asio::object_server& objectServer)
+{
     const std::string dbusPath = pcieDevicePathPrefix + escapeName(name);
 
     pcieDeviceInterface = objectServer.add_interface(
@@ -101,8 +148,46 @@ size_t NvidiaPcieInterface::decodeLinkWidth(uint32_t value)
     return (value > 0) ? pow(2, value - 1) : 0;
 }
 
-void NvidiaPcieInterface::processResponse(const std::error_code& ec,
-                                          std::span<const uint8_t> response)
+void NvidiaPcieInterface::processV1Response(const std::error_code& ec,
+                                            std::span<const uint8_t> response)
+{
+    if (ec)
+    {
+        lg2::error(
+            "Error updating PCIe Interface (V1): sending message over MCTP failed, "
+            "rc={RC}, EID={EID}",
+            "RC", ec.value(), "EID", eid);
+        return;
+    }
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode = 0;
+    gpu::QueryScalarGroupTelemetryGroup1 data{};
+
+    auto rc = gpu::decodeQueryScalarGroupTelemetryV1Group1Response(
+        response, cc, reasonCode, data);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        lg2::error("Error updating PCIe Interface (V1): decode failed, "
+                   "rc={RC}, cc={CC}, reasonCode={RESC}, EID={EID}",
+                   "RC", rc, "CC", static_cast<uint8_t>(cc), "RESC", reasonCode,
+                   "EID", eid);
+        return;
+    }
+
+    pcieDeviceInterface->set_property(
+        "GenerationInUse", mapPcieGeneration(data.negotiatedLinkSpeed));
+    pcieDeviceInterface->set_property(
+        "LanesInUse", decodeLinkWidth(data.negotiatedLinkWidth));
+    pcieDeviceInterface->set_property("GenerationSupported",
+                                      mapPcieGeneration(data.maxLinkSpeed));
+    pcieDeviceInterface->set_property("MaxLanes",
+                                      decodeLinkWidth(data.maxLinkWidth));
+}
+
+void NvidiaPcieInterface::processV2Response(const std::error_code& ec,
+                                            std::span<const uint8_t> response)
 {
     if (ec)
     {
@@ -158,28 +243,56 @@ void NvidiaPcieInterface::processResponse(const std::error_code& ec,
 
 void NvidiaPcieInterface::update()
 {
-    auto rc =
-        gpu::encodeQueryScalarGroupTelemetryV2Request(0, {}, 0, 0, 1, request);
-
-    if (rc != 0)
+    if (deviceType == gpu::DeviceIdentification::DEVICE_GPU)
     {
-        lg2::error("Error updating PCIe Interface: failed, rc={RC}, EID={EID}",
-                   "RC", rc, "EID", eid);
-        return;
-    }
+        auto rc = gpu::encodeQueryScalarGroupTelemetryV1Request(
+            0, 0, group1Index, requestV1);
 
-    mctpRequester.sendRecvMsg(
-        eid, request,
-        [weak{weak_from_this()}](const std::error_code& ec,
-                                 std::span<const uint8_t> buffer) {
-            std::shared_ptr<NvidiaPcieInterface> self = weak.lock();
-            if (!self)
-            {
-                lg2::error(
-                    "Invalid reference to NvidiaPcieInterface for EID {EID}",
-                    "EID", self->eid);
-                return;
-            }
-            self->processResponse(ec, buffer);
-        });
+        if (rc != 0)
+        {
+            lg2::error(
+                "Error updating PCIe Interface (V1): encode failed, rc={RC}, EID={EID}",
+                "RC", rc, "EID", eid);
+            return;
+        }
+
+        mctpRequester.sendRecvMsg(
+            eid, requestV1,
+            [weak{weak_from_this()}](const std::error_code& ec,
+                                     std::span<const uint8_t> buffer) {
+                std::shared_ptr<NvidiaPcieInterface> self = weak.lock();
+                if (!self)
+                {
+                    lg2::error("Invalid reference to NvidiaPcieInterface");
+                    return;
+                }
+                self->processV1Response(ec, buffer);
+            });
+    }
+    else
+    {
+        auto rc = gpu::encodeQueryScalarGroupTelemetryV2Request(
+            0, {}, 0, 0, 1, requestV2);
+
+        if (rc != 0)
+        {
+            lg2::error(
+                "Error updating PCIe Interface: encode failed, rc={RC}, EID={EID}",
+                "RC", rc, "EID", eid);
+            return;
+        }
+
+        mctpRequester.sendRecvMsg(
+            eid, requestV2,
+            [weak{weak_from_this()}](const std::error_code& ec,
+                                     std::span<const uint8_t> buffer) {
+                std::shared_ptr<NvidiaPcieInterface> self = weak.lock();
+                if (!self)
+                {
+                    lg2::error("Invalid reference to NvidiaPcieInterface");
+                    return;
+                }
+                self->processV2Response(ec, buffer);
+            });
+    }
 }
