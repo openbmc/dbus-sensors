@@ -39,6 +39,51 @@ NvidiaPcieInterface::NvidiaPcieInterface(
     sdbusplus::asio::object_server& objectServer) :
     eid(eid), path(path), conn(conn), mctpRequester(mctpRequester)
 {
+    initInterfaces(name, objectServer);
+}
+
+NvidiaPcieInterface::NvidiaPcieInterface(
+    std::shared_ptr<sdbusplus::asio::connection>& conn,
+    mctp::MctpRequester& mctpRequester, const std::string& name,
+    const std::string& path, uint8_t eid,
+    sdbusplus::asio::object_server& objectServer,
+    const std::string& processorPath, const std::string& chassisPath) :
+    eid(eid), path(path), conn(conn), mctpRequester(mctpRequester)
+{
+    initInterfaces(name, objectServer);
+
+    const std::string dbusPath = pcieDevicePathPrefix + escapeName(name);
+
+    std::vector<Association> associations;
+
+    if (!processorPath.empty())
+    {
+        associations.emplace_back("connected_to", "connecting", processorPath);
+    }
+
+    if (!chassisPath.empty())
+    {
+        associations.emplace_back("contained_by", "containing", chassisPath);
+    }
+
+    if (!associations.empty())
+    {
+        associationInterface =
+            objectServer.add_interface(dbusPath, association::interface);
+        associationInterface->register_property("Associations", associations);
+
+        if (!associationInterface->initialize())
+        {
+            lg2::error(
+                "Error initializing Association Interface for PCIe Device EID={EID}",
+                "EID", eid);
+        }
+    }
+}
+
+void NvidiaPcieInterface::initInterfaces(
+    const std::string& name, sdbusplus::asio::object_server& objectServer)
+{
     const std::string dbusPath = pcieDevicePathPrefix + escapeName(name);
 
     pcieDeviceInterface = objectServer.add_interface(

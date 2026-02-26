@@ -28,11 +28,21 @@ struct NvidiaPcieInterface :
                         uint8_t eid,
                         sdbusplus::asio::object_server& objectServer);
 
+    NvidiaPcieInterface(
+        std::shared_ptr<sdbusplus::asio::connection>& conn,
+        mctp::MctpRequester& mctpRequester, const std::string& name,
+        const std::string& path, uint8_t eid,
+        sdbusplus::asio::object_server& objectServer,
+        const std::string& processorPath, const std::string& chassisPath);
+
     void update();
 
     static size_t decodeLinkWidth(uint32_t value);
 
   private:
+    void initInterfaces(const std::string& name,
+                        sdbusplus::asio::object_server& objectServer);
+
     static constexpr size_t maxTelemetryValues = 64;
 
     void processResponse(const std::error_code& ec,
@@ -53,6 +63,7 @@ struct NvidiaPcieInterface :
 
     std::shared_ptr<sdbusplus::asio::dbus_interface> pcieDeviceInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> switchInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> associationInterface;
 
     std::vector<uint32_t> telemetryValues{maxTelemetryValues};
 };
