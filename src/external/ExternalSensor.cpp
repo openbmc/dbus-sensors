@@ -152,16 +152,30 @@ void ExternalSensor::writeBegin(
     writeAlive = true;
 }
 
-void ExternalSensor::writeInvalidate()
+void ExternalSensor::writeInvalidate(bool timeout)
 {
+    if (!writeAlive)
+    {
+        return;
+    }
+
     writeAlive = false;
 
-    lg2::error("ExternalSensor '{NAME}' offline, timed out", "NAME", name);
+    if (timeout)
+    {
+        lg2::error("ExternalSensor '{NAME}' offline, timed out", "NAME", name);
+    }
+    else
+    {
+        lg2::debug(
+            "ExternalSensor '{NAME}' offline, power state requirements not met",
+            "NAME", name);
+    }
 
     // Take back control of this sensor from the external override,
-    // as the external source has timed out.
-    // This allows sensor::updateValue() to work normally,
-    // as it would do for internal sensors with values from hardware.
+    // as the external source has timed out or power state requirements
+    // are no longer met.
+    // This allows sensor::updateValue() to work normally.
     overriddenState = false;
 
     // Invalidate the existing Value, similar to what internal sensors do,
@@ -185,6 +199,17 @@ std::chrono::steady_clock::duration ExternalSensor::ageRemaining(
 
 void ExternalSensor::externalSetTrigger()
 {
+    // If the power state requirements are not met, reject the external write.
+    // Since 'value' was already updated by the external D-Bus write before
+    // this hook, we must manually kick the value back to NaN to ensure the
+    // sensor stays in an invalidated state until power requirements are met.
+    if (!readingStateGood())
+    {
+        overriddenState = false;
+        updateValue(std::numeric_limits<double>::quiet_NaN());
+        return;
+    }
+
     lg2::debug("ExternalSensor '{NAME}' received '{VALUE}'", "NAME", name,
                "VALUE", value);
 

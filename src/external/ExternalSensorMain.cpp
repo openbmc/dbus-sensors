@@ -144,6 +144,23 @@ void updateReaper(
                    .count());
 }
 
+static void powerStateChanged(
+    PowerState type, bool newState,
+    boost::container::flat_map<std::string, std::shared_ptr<ExternalSensor>>&
+        sensors)
+{
+    if (!newState)
+    {
+        for (auto& [name, sensor] : sensors)
+        {
+            if (sensor != nullptr && sensor->readState == type)
+            {
+                sensor->writeInvalidate(false);
+            }
+        }
+    }
+}
+
 void createSensors(
     sdbusplus::asio::object_server& objectServer,
     boost::container::flat_map<std::string, std::shared_ptr<ExternalSensor>>&
@@ -348,6 +365,11 @@ int main()
     auto sensorsChanged =
         std::make_shared<boost::container::flat_set<std::string>>();
     boost::asio::steady_timer reaperTimer(io);
+
+    auto powerCallBack = [&sensors](PowerState type, bool state) {
+        powerStateChanged(type, state, sensors);
+    };
+    setupPowerMatchCallback(systemBus, powerCallBack);
 
     boost::asio::post(io, [&objectServer, &sensors, &systemBus,
                            &reaperTimer]() {

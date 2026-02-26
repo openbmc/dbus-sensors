@@ -43,8 +43,9 @@ class ExternalSensor :
     // Marks the time when Value successfully received from external source
     void writeBegin(const std::chrono::steady_clock::time_point& now);
 
-    // Marks sensor as timed out, replacing Value with floating-point "NaN"
-    void writeInvalidate();
+    // Marks sensor as timed out or having unmet power state requirements,
+    // replacing Value with floating-point "NaN"
+    void writeInvalidate(bool timeout = true);
 
     // Returns amount of time elapsed since last writeBegin() happened
     std::chrono::steady_clock::duration ageElapsed(
