@@ -54,6 +54,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f211f12_5ad4455e",
+        "filename": "src/nvidia-gpu/MessagePackUnpackUtils.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-27T04:43:38Z",
+      "side": 1,
+      "message": "Using both the approaches now.",
+      "parentUuid": "b9381b88_1387e0a3",
+      "revId": "83cef219bf935b6f55f1e0261a4393f532bc1618",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ef6b6672_fe9c90d1",
@@ -67,6 +85,24 @@
       "writtenOn": "2026-02-26T19:43:58Z",
       "side": 1,
       "message": "You shouldn\u0027t be acting on the dataSize if the unpack failed.  I suspect unpack() also needs to return an error of some kind?  Or you need to unpack everything first, then check for errors, then do this operation.",
+      "revId": "83cef219bf935b6f55f1e0261a4393f532bc1618",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e48f78b5_5dba26a0",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-02-27T04:43:38Z",
+      "side": 1,
+      "message": "Done. Now checking for unpack error.",
+      "parentUuid": "ef6b6672_fe9c90d1",
       "revId": "83cef219bf935b6f55f1e0261a4393f532bc1618",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
