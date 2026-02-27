@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b9381b88_1387e0a3",
+        "filename": "src/nvidia-gpu/MessagePackUnpackUtils.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-02-27T00:00:55Z",
+      "side": 1,
+      "message": "Agreed, both makes a ton of sense.",
+      "parentUuid": "2c771774_d8e940c4",
+      "revId": "83cef219bf935b6f55f1e0261a4393f532bc1618",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ef6b6672_fe9c90d1",
         "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
         "patchSetId": 10
