@@ -140,6 +140,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a36844f6_0dccd551",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2026-02-27T00:38:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dbf4d662_a77d27a7",
+      "revId": "9a54915a86bf0c10b5651bd6ab9a8996cc16ea55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2eb919e8_8a350551",
@@ -187,6 +205,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e50bdafd_cd16c016",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2026-02-27T00:38:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c4b0495_27f12482",
+      "range": {
+        "startLine": 30,
+        "startChar": 6,
+        "endLine": 30,
+        "endChar": 24
+      },
+      "revId": "9a54915a86bf0c10b5651bd6ab9a8996cc16ea55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0156049e_bce995db",
@@ -200,6 +242,24 @@
       "writtenOn": "2025-11-25T14:17:47Z",
       "side": 1,
       "message": "This should go in `OcpMctpVdm.hpp`.",
+      "revId": "9a54915a86bf0c10b5651bd6ab9a8996cc16ea55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff2731c2_cfd2e30d",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2026-02-27T00:38:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0156049e_bce995db",
       "revId": "9a54915a86bf0c10b5651bd6ab9a8996cc16ea55",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -361,6 +421,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b305892_51e553f6",
+        "filename": "src/nvidia-gpu/NvidiaXidReporting.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2026-02-27T00:38:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9946b260_63bbeaff",
+      "revId": "9a54915a86bf0c10b5651bd6ab9a8996cc16ea55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71565edb_b6c3a8b3",
@@ -374,6 +452,24 @@
       "writtenOn": "2025-11-25T14:17:47Z",
       "side": 1,
       "message": "All device type (GPU, PCIe) supports event and hence this can be made device type agnostic (we should not make event subscription GPU specific). We can put this class in a common file related to events (not file specific to xid events).",
+      "revId": "9a54915a86bf0c10b5651bd6ab9a8996cc16ea55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b257673f_c339331d",
+        "filename": "src/nvidia-gpu/NvidiaXidReporting.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2026-02-27T00:38:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71565edb_b6c3a8b3",
       "revId": "9a54915a86bf0c10b5651bd6ab9a8996cc16ea55",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
