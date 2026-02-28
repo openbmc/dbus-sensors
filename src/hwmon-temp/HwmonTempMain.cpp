@@ -236,12 +236,11 @@ static SensorConfigMap buildSensorConfigMap(
             for (const auto& [confKey, confValue] : cfg)
             {
                 // Collect all "Name" and "Name<...>" variants (e.g. Name,
-                // Name1, Name2, NameHumidity). C++20's starts_with() is
-                // preferred, but rfind() is used here for broader standard
-                // compatibility.
-                if (confKey.rfind("Name", 0) == 0)
+                // Name1, Name2, NameHumidity). 
+                if (confKey.starts_with("Name") == 0)
                 {
-                    if (const auto* strVal = std::get_if<std::string>(&confValue))
+                    if (const auto* strVal =
+                            std::get_if<std::string>(&confValue))
                     {
                         hwmonNames.push_back(*strVal);
                     }
@@ -250,7 +249,8 @@ static SensorConfigMap buildSensorConfigMap(
 
             SensorConfigKey key = {std::get<uint64_t>(busCfg->second),
                                    std::get<uint64_t>(addrCfg->second)};
-            SensorConfig val = {path.str, cfgData, intf, cfg, std::move(hwmonNames)};
+            SensorConfig val = {path.str, cfgData, intf, cfg,
+                                std::move(hwmonNames)};
             auto [it, inserted] = configMap.emplace(key, std::move(val));
             if (!inserted)
             {
