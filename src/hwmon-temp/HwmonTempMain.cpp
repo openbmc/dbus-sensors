@@ -210,6 +210,7 @@ struct SensorConfig
 using SensorConfigMap =
     boost::container::flat_map<SensorConfigKey, SensorConfig>;
 
+
 static SensorConfigMap buildSensorConfigMap(
     const ManagedObjectType& sensorConfigs)
 {
@@ -224,7 +225,6 @@ static SensorConfigMap buildSensorConfigMap(
             {
                 continue;
             }
-
             if ((std::get_if<uint64_t>(&busCfg->second) == nullptr) ||
                 (std::get_if<uint64_t>(&addrCfg->second) == nullptr))
             {
@@ -233,28 +233,24 @@ static SensorConfigMap buildSensorConfigMap(
             }
 
             std::vector<std::string> hwmonNames;
-            auto nameCfg = cfg.find("Name");
-            if (nameCfg != cfg.end())
+            for (const auto& [confKey, confValue] : cfg)
             {
-                hwmonNames.push_back(std::get<std::string>(nameCfg->second));
-                size_t i = 1;
-                while (true)
+                // Collect all "Name" and "Name<...>" variants (e.g. Name,
+                // Name1, Name2, NameHumidity). C++20's starts_with() is
+                // preferred, but rfind() is used here for broader standard
+                // compatibility.
+                if (confKey.rfind("Name", 0) == 0)
                 {
-                    auto sensorNameCfg = cfg.find("Name" + std::to_string(i));
-                    if (sensorNameCfg == cfg.end())
+                    if (const auto* strVal = std::get_if<std::string>(&confValue))
                     {
-                        break;
+                        hwmonNames.push_back(*strVal);
                     }
-                    hwmonNames.push_back(
-                        std::get<std::string>(sensorNameCfg->second));
-                    i++;
                 }
             }
 
             SensorConfigKey key = {std::get<uint64_t>(busCfg->second),
                                    std::get<uint64_t>(addrCfg->second)};
-            SensorConfig val = {path.str, cfgData, intf, cfg, hwmonNames};
-
+            SensorConfig val = {path.str, cfgData, intf, cfg, std::move(hwmonNames)};
             auto [it, inserted] = configMap.emplace(key, std::move(val));
             if (!inserted)
             {
