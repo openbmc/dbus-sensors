@@ -224,7 +224,6 @@ static SensorConfigMap buildSensorConfigMap(
             {
                 continue;
             }
-
             if ((std::get_if<uint64_t>(&busCfg->second) == nullptr) ||
                 (std::get_if<uint64_t>(&addrCfg->second) == nullptr))
             {
@@ -233,28 +232,20 @@ static SensorConfigMap buildSensorConfigMap(
             }
 
             std::vector<std::string> hwmonNames;
-            auto nameCfg = cfg.find("Name");
-            if (nameCfg != cfg.end())
+            for (const auto& [confKey, confValue] : cfg)
             {
-                hwmonNames.push_back(std::get<std::string>(nameCfg->second));
-                size_t i = 1;
-                while (true)
+                // Collect all "Name" and "Name<...>" variants (e.g. Name,
+                // Name1, Name2, NameHumidity).
+                if (confKey.starts_with("Name"))
                 {
-                    auto sensorNameCfg = cfg.find("Name" + std::to_string(i));
-                    if (sensorNameCfg == cfg.end())
-                    {
-                        break;
-                    }
-                    hwmonNames.push_back(
-                        std::get<std::string>(sensorNameCfg->second));
-                    i++;
+                    hwmonNames.push_back(std::get<std::string>(confValue));
                 }
             }
 
             SensorConfigKey key = {std::get<uint64_t>(busCfg->second),
                                    std::get<uint64_t>(addrCfg->second)};
-            SensorConfig val = {path.str, cfgData, intf, cfg, hwmonNames};
-
+            SensorConfig val = {path.str, cfgData, intf, cfg,
+                                std::move(hwmonNames)};
             auto [it, inserted] = configMap.emplace(key, std::move(val));
             if (!inserted)
             {
