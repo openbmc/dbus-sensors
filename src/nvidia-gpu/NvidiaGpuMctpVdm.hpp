@@ -25,6 +25,11 @@ constexpr size_t maxInventoryDataSize = 256;
 
 constexpr uint16_t nvidiaPciVendorId = 0x10de;
 
+constexpr size_t setEventSubscriptionRequestSize =
+    ocp::accelerator_management::commonRequestSize + 2;
+constexpr size_t setEventSourcesRequestSize =
+    ocp::accelerator_management::commonRequestSize + 9;
+
 enum class MessageType : uint8_t
 {
     DEVICE_CAPABILITY_DISCOVERY = 0,
@@ -35,6 +40,8 @@ enum class MessageType : uint8_t
 
 enum class DeviceCapabilityDiscoveryCommands : uint8_t
 {
+    SET_CURRENT_EVENT_SOURCES = 0x5,
+    SET_EVENT_SUBSCRIPTION = 0x6,
     QUERY_DEVICE_IDENTIFICATION = 0x09,
 };
 
@@ -272,6 +279,20 @@ int packHeader(const ocp::accelerator_management::BindingPciVidInfo& hdr,
 
 int encodeQueryDeviceIdentificationRequest(uint8_t instanceId,
                                            std::span<uint8_t> buf);
+
+int encodeSetEventSubscriptionRequest(uint8_t generationSetting, uint8_t eid,
+                                      std::span<uint8_t> buf);
+
+int decodeSetEventSubscriptionResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode);
+
+int encodeSetEventSourcesRequest(uint64_t sources, uint8_t messageType,
+                                 std::span<uint8_t> buf);
+
+int decodeSetEventSourcesResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode);
 
 int decodeQueryDeviceIdentificationResponse(
     std::span<const uint8_t> buf,

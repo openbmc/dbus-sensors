@@ -12,6 +12,7 @@
 #include <MctpRequester.hpp>
 #include <NvidiaDeviceDiscovery.hpp>
 #include <NvidiaDriverInformation.hpp>
+#include <NvidiaEventReporting.hpp>
 #include <NvidiaGpuControl.hpp>
 #include <NvidiaGpuEnergySensor.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
@@ -32,6 +33,7 @@
 #include <chrono>
 #include <cstdint>
 #include <functional>
+#include <initializer_list>
 #include <limits>
 #include <memory>
 #include <span>
@@ -96,6 +98,8 @@ void GpuDevice::init()
     inventory->init();
 
     makeSensors();
+
+    eventReporting->init();
 }
 
 void GpuDevice::makeSensors()
@@ -130,6 +134,9 @@ void GpuDevice::makeSensors()
         conn, mctpRequester, name + "_Voltage_0", path, eid, gpuVoltageSensorId,
         objectServer, std::vector<thresholds::Threshold>{},
         gpu::DeviceIdentification::DEVICE_GPU);
+
+    eventReporting = std::make_shared<NvidiaEventReportingConfig>(
+        eid, mctpRequester, std::initializer_list<EventDescriptor>{});
 
     driverInfo = std::make_shared<NvidiaDriverInformation>(
         conn, mctpRequester, name, path, eid, objectServer);
