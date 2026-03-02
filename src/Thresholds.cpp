@@ -455,7 +455,7 @@ void assertThresholds(Sensor* sensor, double assertValue,
 
     if (!interface)
     {
-        lg2::info("trying to set uninitialized interface");
+        lg2::info("ttrying to set uninitialized interface");
         return;
     }
 
