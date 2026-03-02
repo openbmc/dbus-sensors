@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+#include "MessagePackUnpackUtils.hpp"
 #include "NvidiaGpuMctpVdm.hpp"
 #include "OcpMctpVdm.hpp"
 
@@ -13,6 +14,7 @@
 #include <cerrno>
 #include <cstdint>
 #include <cstring>
+#include <span>
 #include <string>
 #include <utility>
 #include <vector>
@@ -156,6 +158,239 @@ TEST_F(OcpMctpVdmTests, DecodeReasonCodeAndCCErrorCase)
     EXPECT_EQ(result, 0);
     EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERROR);
     EXPECT_EQ(reasonCode, 0x5678);
+}
+
+// Helper: pack a BindingPciVid header into a PackBuffer for response messages
+void packResponseHeader(PackBuffer& buffer, uint8_t msgType)
+{
+    // pci_vendor_id (2 bytes, big-endian)
+    buffer.pack(static_cast<uint16_t>(htobe16(0x10de)));
+    // instance_id: response bit clear, instance=0
+    buffer.pack(static_cast<uint8_t>(0x00));
+    // ocp_version: type=8 (upper nibble), version=9 (lower nibble)
+    buffer.pack(static_cast<uint8_t>(0x89));
+    // ocp_accelerator_management_msg_type
+    buffer.pack(msgType);
+}
+
+// Tests for ocp::accelerator_management::decodeEvent
+
+TEST_F(OcpMctpVdmTests, DecodeEventSuccess)
+{
+    // Event struct: BindingPciVid(5) + version(1) + eventId(1) +
+    //              eventClass(1) + eventState(2) + size(1) = 11 bytes
+    std::vector<uint8_t> buf(11);
+    PackBuffer packer(buf);
+
+    // Pack BindingPciVid header
+    packResponseHeader(packer, 0x03);
+
+    // version: ack not required (bit 4 = 0), version = 1
+    packer.pack(static_cast<uint8_t>(0x01));
+    // eventId
+    packer.pack(static_cast<uint8_t>(0x42));
+    // eventClass
+    packer.pack(static_cast<uint8_t>(0x03));
+    // eventState (little-endian)
+    packer.pack(static_cast<uint16_t>(0xBEEF));
+    // size
+    packer.pack(static_cast<uint8_t>(0));
+
+    ASSERT_EQ(packer.getError(), 0);
+
+    uint8_t messageType{};
+    bool ackRequired{};
+    uint8_t version{};
+    uint8_t eventId{};
+    uint8_t eventClass{};
+    uint16_t eventState{};
+    uint8_t size{};
+    std::span<const uint8_t> eventData;
+
+    int result = ocp::accelerator_management::decodeEvent(
+        buf, messageType, ackRequired, version, eventId, eventClass, eventState,
+        size, eventData);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(messageType, 0x03);
+    EXPECT_FALSE(ackRequired);
+    EXPECT_EQ(version, 1);
+    EXPECT_EQ(eventId, 0x42);
+    EXPECT_EQ(eventClass, 0x03);
+    EXPECT_EQ(eventState, 0xBEEF);
+    EXPECT_EQ(size, 0);
+    EXPECT_TRUE(eventData.empty());
+}
+
+TEST_F(OcpMctpVdmTests, DecodeEventWithEventData)
+{
+    // 11 bytes header + 4 bytes event data
+    std::vector<uint8_t> buf(15);
+    PackBuffer packer(buf);
+
+    packResponseHeader(packer, 0x03);
+
+    packer.pack(static_cast<uint8_t>(0x02));    // version=2, no ack
+    packer.pack(static_cast<uint8_t>(0x10));    // eventId
+    packer.pack(static_cast<uint8_t>(0x05));    // eventClass
+    packer.pack(static_cast<uint16_t>(0x1234)); // eventState
+    packer.pack(static_cast<uint8_t>(4));       // size = 4 bytes of event data
+
+    ASSERT_EQ(packer.getError(), 0);
+
+    // Fill event data bytes
+    buf[11] = 0xAA;
+    buf[12] = 0xBB;
+    buf[13] = 0xCC;
+    buf[14] = 0xDD;
+
+    uint8_t messageType{};
+    bool ackRequired{};
+    uint8_t version{};
+    uint8_t eventId{};
+    uint8_t eventClass{};
+    uint16_t eventState{};
+    uint8_t size{};
+    std::span<const uint8_t> eventData;
+
+    int result = ocp::accelerator_management::decodeEvent(
+        buf, messageType, ackRequired, version, eventId, eventClass, eventState,
+        size, eventData);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(messageType, 0x03);
+    EXPECT_FALSE(ackRequired);
+    EXPECT_EQ(version, 2);
+    EXPECT_EQ(eventId, 0x10);
+    EXPECT_EQ(eventClass, 0x05);
+    EXPECT_EQ(eventState, 0x1234);
+    EXPECT_EQ(size, 4);
+    ASSERT_EQ(eventData.size(), 4);
+    EXPECT_EQ(eventData[0], 0xAA);
+    EXPECT_EQ(eventData[1], 0xBB);
+    EXPECT_EQ(eventData[2], 0xCC);
+    EXPECT_EQ(eventData[3], 0xDD);
+}
+
+TEST_F(OcpMctpVdmTests, DecodeEventAckRequired)
+{
+    std::vector<uint8_t> buf(11);
+    PackBuffer packer(buf);
+
+    packResponseHeader(packer, 0x03);
+
+    // version byte: bit 4 set (ack required) + version=1 => 0x11
+    packer.pack(static_cast<uint8_t>(0x11));
+    packer.pack(static_cast<uint8_t>(0x01));    // eventId
+    packer.pack(static_cast<uint8_t>(0x02));    // eventClass
+    packer.pack(static_cast<uint16_t>(0x0001)); // eventState
+    packer.pack(static_cast<uint8_t>(0));       // size
+
+    ASSERT_EQ(packer.getError(), 0);
+
+    uint8_t messageType{};
+    bool ackRequired{};
+    uint8_t version{};
+    uint8_t eventId{};
+    uint8_t eventClass{};
+    uint16_t eventState{};
+    uint8_t size{};
+    std::span<const uint8_t> eventData;
+
+    int result = ocp::accelerator_management::decodeEvent(
+        buf, messageType, ackRequired, version, eventId, eventClass, eventState,
+        size, eventData);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_TRUE(ackRequired);
+    EXPECT_EQ(version, 1);
+}
+
+TEST_F(OcpMctpVdmTests, DecodeEventAckNotRequired)
+{
+    std::vector<uint8_t> buf(11);
+    PackBuffer packer(buf);
+
+    packResponseHeader(packer, 0x03);
+
+    // version byte: bit 4 clear, version=3 => 0x03
+    packer.pack(static_cast<uint8_t>(0x03));
+    packer.pack(static_cast<uint8_t>(0x01));    // eventId
+    packer.pack(static_cast<uint8_t>(0x02));    // eventClass
+    packer.pack(static_cast<uint16_t>(0x0001)); // eventState
+    packer.pack(static_cast<uint8_t>(0));       // size
+
+    ASSERT_EQ(packer.getError(), 0);
+
+    uint8_t messageType{};
+    bool ackRequired{};
+    uint8_t version{};
+    uint8_t eventId{};
+    uint8_t eventClass{};
+    uint16_t eventState{};
+    uint8_t size{};
+    std::span<const uint8_t> eventData;
+
+    int result = ocp::accelerator_management::decodeEvent(
+        buf, messageType, ackRequired, version, eventId, eventClass, eventState,
+        size, eventData);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_FALSE(ackRequired);
+    EXPECT_EQ(version, 3);
+}
+
+TEST_F(OcpMctpVdmTests, DecodeEventBufferTooSmallForHeader)
+{
+    // Event header is 11 bytes; provide only 6
+    std::vector<uint8_t> buf(6, 0);
+
+    uint8_t messageType{};
+    bool ackRequired{};
+    uint8_t version{};
+    uint8_t eventId{};
+    uint8_t eventClass{};
+    uint16_t eventState{};
+    uint8_t size{};
+    std::span<const uint8_t> eventData;
+
+    int result = ocp::accelerator_management::decodeEvent(
+        buf, messageType, ackRequired, version, eventId, eventClass, eventState,
+        size, eventData);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+TEST_F(OcpMctpVdmTests, DecodeEventBufferTooSmallForEventData)
+{
+    // 11 byte header, size says 5 bytes of data, but no trailing data
+    std::vector<uint8_t> buf(11);
+    PackBuffer packer(buf);
+
+    packResponseHeader(packer, 0x03);
+
+    packer.pack(static_cast<uint8_t>(0x01));    // version
+    packer.pack(static_cast<uint8_t>(0x01));    // eventId
+    packer.pack(static_cast<uint8_t>(0x02));    // eventClass
+    packer.pack(static_cast<uint16_t>(0x0001)); // eventState
+    packer.pack(static_cast<uint8_t>(5));       // size = 5, but no data follows
+
+    ASSERT_EQ(packer.getError(), 0);
+
+    uint8_t messageType{};
+    bool ackRequired{};
+    uint8_t version{};
+    uint8_t eventId{};
+    uint8_t eventClass{};
+    uint16_t eventState{};
+    uint8_t size{};
+    std::span<const uint8_t> eventData;
+
+    int result = ocp::accelerator_management::decodeEvent(
+        buf, messageType, ackRequired, version, eventId, eventClass, eventState,
+        size, eventData);
+
+    EXPECT_EQ(result, EINVAL);
 }
 
 } // namespace ocp_mctp_tests
@@ -2301,6 +2536,277 @@ TEST_F(GpuMctpVdmTests,
 
     int result = gpu::decodeGetEthernetPortTelemetryCountersResponse(
         buf, cc, reasonCode, telemetryValues);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+// Helper: pack a CommonNonSuccessResponse using PackBuffer
+// Layout: BindingPciVid(5) + command(1) + completion_code(1) + reason_code(2)
+void packNonSuccessResponse(PackBuffer& packer, uint8_t command,
+                            uint8_t completionCode, uint16_t reasonCode)
+{
+    // BindingPciVid header for response
+    // pci_vendor_id (big-endian)
+    packer.pack(static_cast<uint16_t>(htobe16(gpu::nvidiaPciVendorId)));
+    // instance_id: response (bit 7 clear), instance=0
+    packer.pack(static_cast<uint8_t>(0x00));
+    // ocp_version: type=8 (upper nibble), version=9 (lower nibble)
+    packer.pack(static_cast<uint8_t>(0x89));
+    // ocp_accelerator_management_msg_type = DEVICE_CAPABILITY_DISCOVERY = 0
+    packer.pack(
+        static_cast<uint8_t>(gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY));
+
+    packer.pack(command);
+    packer.pack(completionCode);
+    packer.pack(reasonCode); // little-endian by PackBuffer
+}
+
+// Tests for gpu::encodeSetEventSubscriptionRequest
+
+TEST_F(GpuMctpVdmTests, EncodeSetEventSubscriptionRequestSuccess)
+{
+    // SetEventSubscriptionRequest: CommonRequest(7) +
+    //   generation_setting(1) + receiver_setting(1) = 9 bytes
+    std::vector<uint8_t> buf(256);
+
+    const uint8_t eid = 0x42;
+    int result = gpu::encodeSetEventSubscriptionRequest(2, eid, buf);
+    EXPECT_EQ(result, 0);
+
+    UnpackBuffer unpacker(std::span<const uint8_t>(buf.data(), 9));
+
+    // BindingPciVid header
+    uint16_t pciVendorId{};
+    uint8_t instanceId{};
+    uint8_t ocpVersion{};
+    uint8_t msgType{};
+    unpacker.unpack(pciVendorId);
+    unpacker.unpack(instanceId);
+    unpacker.unpack(ocpVersion);
+    unpacker.unpack(msgType);
+
+    EXPECT_EQ(pciVendorId, htobe16(gpu::nvidiaPciVendorId));
+    EXPECT_NE(instanceId & ocp::accelerator_management::requestBitMask, 0);
+    EXPECT_EQ(ocpVersion & ocp::accelerator_management::ocpVersionBitMask,
+              ocp::accelerator_management::ocpVersion);
+    EXPECT_EQ((ocpVersion & ocp::accelerator_management::ocpTypeBitMask) >>
+                  ocp::accelerator_management::ocpTypeBitOffset,
+              ocp::accelerator_management::ocpType);
+    EXPECT_EQ(msgType, static_cast<uint8_t>(
+                           gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY));
+
+    // CommonRequest fields
+    uint8_t command{};
+    uint8_t dataSize{};
+    unpacker.unpack(command);
+    unpacker.unpack(dataSize);
+
+    EXPECT_EQ(
+        command,
+        static_cast<uint8_t>(
+            gpu::DeviceCapabilityDiscoveryCommands::SET_EVENT_SUBSCRIPTION));
+    EXPECT_EQ(dataSize, 2);
+
+    // Payload: generation_setting + receiver_setting
+    uint8_t generationSetting{};
+    uint8_t receiverSetting{};
+    unpacker.unpack(generationSetting);
+    unpacker.unpack(receiverSetting);
+
+    EXPECT_EQ(unpacker.getError(), 0);
+    EXPECT_EQ(generationSetting, 2);
+    EXPECT_EQ(receiverSetting, eid);
+}
+
+TEST_F(GpuMctpVdmTests, EncodeSetEventSubscriptionRequestBufferTooSmall)
+{
+    std::vector<uint8_t> buf(5); // Too small for 9-byte request
+    int result = gpu::encodeSetEventSubscriptionRequest(2, 0x42, buf);
+    EXPECT_EQ(result, EINVAL);
+}
+
+// Tests for gpu::decodeSetEventSubscriptionResponse
+
+TEST_F(GpuMctpVdmTests, DecodeSetEventSubscriptionResponseSuccess)
+{
+    // CommonNonSuccessResponse: BindingPciVid(5) + command(1) + cc(1) +
+    //   reason_code(2) = 9 bytes
+    std::vector<uint8_t> buf(9);
+    PackBuffer packer(buf);
+
+    packNonSuccessResponse(
+        packer,
+        static_cast<uint8_t>(
+            gpu::DeviceCapabilityDiscoveryCommands::SET_EVENT_SUBSCRIPTION),
+        static_cast<uint8_t>(
+            ocp::accelerator_management::CompletionCode::SUCCESS),
+        0);
+    ASSERT_EQ(packer.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+
+    int result = gpu::decodeSetEventSubscriptionResponse(buf, cc, reasonCode);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeSetEventSubscriptionResponseError)
+{
+    std::vector<uint8_t> buf(9);
+    PackBuffer packer(buf);
+
+    packNonSuccessResponse(
+        packer,
+        static_cast<uint8_t>(
+            gpu::DeviceCapabilityDiscoveryCommands::SET_EVENT_SUBSCRIPTION),
+        static_cast<uint8_t>(
+            ocp::accelerator_management::CompletionCode::ERROR),
+        0x1234);
+    ASSERT_EQ(packer.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+
+    int result = gpu::decodeSetEventSubscriptionResponse(buf, cc, reasonCode);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERROR);
+    EXPECT_EQ(reasonCode, 0x1234);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeSetEventSubscriptionResponseInvalidSize)
+{
+    std::vector<uint8_t> buf(4); // Too small for 9-byte response
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+
+    int result = gpu::decodeSetEventSubscriptionResponse(buf, cc, reasonCode);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+// Tests for gpu::encodeSetEventSourcesRequest
+
+TEST_F(GpuMctpVdmTests, EncodeSetEventSourcesRequestSuccess)
+{
+    // SetEventSourcesRequest: CommonRequest(7) +
+    //   messageType(1) + sources(8) = 16 bytes
+    std::vector<uint8_t> buf(256);
+
+    const uint64_t sources = 0xDEADBEEFCAFE0123;
+    const uint8_t messageType = 3; // PLATFORM_ENVIRONMENTAL
+    int result = gpu::encodeSetEventSourcesRequest(sources, messageType, buf);
+    EXPECT_EQ(result, 0);
+
+    UnpackBuffer unpacker(std::span<const uint8_t>(buf.data(), 16));
+
+    // BindingPciVid header
+    uint16_t pciVendorId{};
+    uint8_t instanceId{};
+    uint8_t ocpVersion{};
+    uint8_t msgType{};
+    unpacker.unpack(pciVendorId);
+    unpacker.unpack(instanceId);
+    unpacker.unpack(ocpVersion);
+    unpacker.unpack(msgType);
+
+    EXPECT_EQ(pciVendorId, htobe16(gpu::nvidiaPciVendorId));
+    EXPECT_NE(instanceId & ocp::accelerator_management::requestBitMask, 0);
+    EXPECT_EQ(msgType, static_cast<uint8_t>(
+                           gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY));
+
+    // CommonRequest fields
+    uint8_t command{};
+    uint8_t dataSize{};
+    unpacker.unpack(command);
+    unpacker.unpack(dataSize);
+
+    EXPECT_EQ(
+        command,
+        static_cast<uint8_t>(
+            gpu::DeviceCapabilityDiscoveryCommands::SET_CURRENT_EVENT_SOURCES));
+    EXPECT_EQ(dataSize, 9);
+
+    // Payload: messageType + sources
+    uint8_t decodedMessageType{};
+    uint64_t decodedSources{};
+    unpacker.unpack(decodedMessageType);
+    unpacker.unpack(decodedSources);
+
+    EXPECT_EQ(unpacker.getError(), 0);
+    EXPECT_EQ(decodedMessageType, messageType);
+    EXPECT_EQ(decodedSources, sources);
+}
+
+TEST_F(GpuMctpVdmTests, EncodeSetEventSourcesRequestBufferTooSmall)
+{
+    std::vector<uint8_t> buf(5); // Too small for 16-byte request
+    int result = gpu::encodeSetEventSourcesRequest(0x1, 3, buf);
+    EXPECT_EQ(result, EINVAL);
+}
+
+// Tests for gpu::decodeSetEventSourcesResponse
+
+TEST_F(GpuMctpVdmTests, DecodeSetEventSourcesResponseSuccess)
+{
+    std::vector<uint8_t> buf(9);
+    PackBuffer packer(buf);
+
+    packNonSuccessResponse(
+        packer,
+        static_cast<uint8_t>(
+            gpu::DeviceCapabilityDiscoveryCommands::SET_CURRENT_EVENT_SOURCES),
+        static_cast<uint8_t>(
+            ocp::accelerator_management::CompletionCode::SUCCESS),
+        0);
+    ASSERT_EQ(packer.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+
+    int result = gpu::decodeSetEventSourcesResponse(buf, cc, reasonCode);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeSetEventSourcesResponseError)
+{
+    std::vector<uint8_t> buf(9);
+    PackBuffer packer(buf);
+
+    packNonSuccessResponse(
+        packer,
+        static_cast<uint8_t>(
+            gpu::DeviceCapabilityDiscoveryCommands::SET_CURRENT_EVENT_SOURCES),
+        static_cast<uint8_t>(
+            ocp::accelerator_management::CompletionCode::ERROR),
+        0x1234);
+    ASSERT_EQ(packer.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+
+    int result = gpu::decodeSetEventSourcesResponse(buf, cc, reasonCode);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERROR);
+    EXPECT_EQ(reasonCode, 0x1234);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeSetEventSourcesResponseInvalidSize)
+{
+    std::vector<uint8_t> buf(4); // Too small for 9-byte response
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+
+    int result = gpu::decodeSetEventSourcesResponse(buf, cc, reasonCode);
 
     EXPECT_EQ(result, EINVAL);
 }

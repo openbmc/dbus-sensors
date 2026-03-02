@@ -96,6 +96,94 @@ int decodeResponseCommonHeader(
     return rc;
 }
 
+int encodeSetEventSubscriptionRequest(uint8_t generationSetting, uint8_t eid,
+                                      std::span<uint8_t> buf)
+{
+    PackBuffer buffer(buf);
+
+    int rc = encodeRequestCommonHeader(
+        buffer, MessageType::DEVICE_CAPABILITY_DISCOVERY,
+        static_cast<uint8_t>(
+            DeviceCapabilityDiscoveryCommands::SET_EVENT_SUBSCRIPTION),
+        0);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    const uint8_t dataSize = 2;
+    buffer.pack(dataSize);
+    buffer.pack(generationSetting);
+    buffer.pack(eid);
+
+    return buffer.getError();
+}
+
+int decodeSetEventSubscriptionResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode)
+{
+    UnpackBuffer buffer(buf);
+
+    int rc = decodeResponseCommonHeader(
+        buffer, MessageType::DEVICE_CAPABILITY_DISCOVERY,
+        static_cast<uint8_t>(
+            DeviceCapabilityDiscoveryCommands::SET_EVENT_SUBSCRIPTION),
+        cc, reasonCode);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    return 0;
+}
+
+int encodeSetEventSourcesRequest(uint64_t sources, uint8_t messageType,
+                                 std::span<uint8_t> buf)
+{
+    PackBuffer buffer(buf);
+
+    int rc = encodeRequestCommonHeader(
+        buffer, MessageType::DEVICE_CAPABILITY_DISCOVERY,
+        static_cast<uint8_t>(
+            DeviceCapabilityDiscoveryCommands::SET_CURRENT_EVENT_SOURCES),
+        0);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    const uint8_t dataSize = 9;
+    buffer.pack(dataSize);
+    buffer.pack(messageType);
+    buffer.pack(sources);
+
+    return buffer.getError();
+}
+
+int decodeSetEventSourcesResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode)
+{
+    UnpackBuffer buffer(buf);
+
+    int rc = decodeResponseCommonHeader(
+        buffer, MessageType::DEVICE_CAPABILITY_DISCOVERY,
+        static_cast<uint8_t>(
+            DeviceCapabilityDiscoveryCommands::SET_CURRENT_EVENT_SOURCES),
+        cc, reasonCode);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    return 0;
+}
+
 int encodeQueryDeviceIdentificationRequest(uint8_t instanceId,
                                            const std::span<uint8_t> buf)
 {

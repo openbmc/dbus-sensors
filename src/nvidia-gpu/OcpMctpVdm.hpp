@@ -27,9 +27,15 @@ constexpr uint8_t instanceIdBitMask = 0b00011111;
 constexpr uint8_t instanceIdReservedBitMask = 0b00100000;
 constexpr uint8_t datagramBitMask = 0b01000000;
 constexpr uint8_t requestBitMask = 0b10000000;
+constexpr uint8_t eventAckRequiredBitMask = 0b00010000;
+constexpr uint8_t eventVersionBitMask = 0b00001111;
 
 constexpr uint8_t instanceMin = 0;
 constexpr uint8_t instanceMax = 31;
+
+constexpr size_t bindingPciVidSize = 5;
+constexpr size_t commonRequestSize = bindingPciVidSize + 2;
+constexpr size_t eventHeaderSize = bindingPciVidSize + 6;
 
 enum class CompletionCode : uint8_t
 {
@@ -123,6 +129,11 @@ int decodeReasonCodeAndCC(std::span<const uint8_t> buf, CompletionCode& cc,
 
 int unpackReasonCodeAndCC(UnpackBuffer& buffer, CompletionCode& cc,
                           uint16_t& reasonCode);
+
+int decodeEvent(std::span<const uint8_t> buf, uint8_t& messageType,
+                bool& ackRequired, uint8_t& version, uint8_t& eventId,
+                uint8_t& eventClass, uint16_t& eventState, uint8_t& size,
+                std::span<const uint8_t>& eventData);
 
 int decodeAggregateResponse(
     std::span<const uint8_t> buf,

@@ -276,5 +276,50 @@ int decodeAggregateResponse(
     return 0;
 }
 
+int decodeEvent(std::span<const uint8_t> buf, uint8_t& messageType,
+                bool& ackRequired, uint8_t& version, uint8_t& eventId,
+                uint8_t& eventClass, uint16_t& eventState, uint8_t& size,
+                std::span<const uint8_t>& eventData)
+{
+    UnpackBuffer buffer(buf);
+
+    uint16_t pciVendorId = 0;
+    uint8_t instanceId = 0;
+    uint8_t ocpVersion = 0;
+    buffer.unpack(pciVendorId);
+    buffer.unpack(instanceId);
+    buffer.unpack(ocpVersion);
+    buffer.unpack(messageType);
+
+    if (buffer.getError() != 0)
+    {
+        return buffer.getError();
+    }
+
+    uint8_t versionByte = 0;
+    buffer.unpack(versionByte);
+    buffer.unpack(eventId);
+    buffer.unpack(eventClass);
+    buffer.unpack(eventState);
+    buffer.unpack(size);
+
+    if (buffer.getError() != 0)
+    {
+        return buffer.getError();
+    }
+
+    ackRequired = ((versionByte & eventAckRequiredBitMask) != 0);
+    version = versionByte & eventVersionBitMask;
+
+    if (buf.size() < eventHeaderSize + size)
+    {
+        return EINVAL;
+    }
+
+    eventData = buf.subspan(eventHeaderSize);
+
+    return 0;
+}
+
 } // namespace accelerator_management
 } // namespace ocp
