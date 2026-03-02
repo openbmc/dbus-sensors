@@ -12,6 +12,7 @@
 #include "NvidiaGpuControl.hpp"
 #include "NvidiaGpuPowerSensor.hpp"
 #include "NvidiaGpuSensor.hpp"
+#include "NvidiaGpuXid.hpp"
 
 #include <NvidiaDriverInformation.hpp>
 #include <NvidiaGpuEnergySensor.hpp>
@@ -92,6 +93,7 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
     std::shared_ptr<NvidiaPciePortInfo> pciePort;
 
     std::shared_ptr<NvidiaEventReportingConfig> eventReporting;
+    std::shared_ptr<NvidiaXidEventHandler> xidEventHandler;
 
     std::array<uint8_t, sizeof(gpu::ReadThermalParametersRequest)>
         thermalParamReqMsg{};

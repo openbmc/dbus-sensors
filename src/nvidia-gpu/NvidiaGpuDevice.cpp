@@ -20,6 +20,7 @@
 #include <NvidiaGpuPowerSensor.hpp>
 #include <NvidiaGpuSensor.hpp>
 #include <NvidiaGpuVoltageSensor.hpp>
+#include <NvidiaGpuXid.hpp>
 #include <NvidiaPcieInterface.hpp>
 #include <NvidiaPciePort.hpp>
 #include <OcpMctpVdm.hpp>
@@ -134,8 +135,15 @@ void GpuDevice::makeSensors()
         objectServer, std::vector<thresholds::Threshold>{},
         gpu::DeviceIdentification::DEVICE_GPU);
 
+    xidEventHandler = std::make_shared<NvidiaXidEventHandler>(name, conn);
+
     eventReporting = std::make_shared<NvidiaEventReportingConfig>(
-        eid, mctpRequester, std::initializer_list<EventDescriptor>{});
+        eid, mctpRequester,
+        std::initializer_list<EventDescriptor>{
+            {gpu::MessageType::PLATFORM_ENVIRONMENTAL,
+             static_cast<uint8_t>(gpu::PlatformEnvironmentalEvent::XID),
+             std::bind_front(&NvidiaXidEventHandler::handleXidEvent,
+                             xidEventHandler)}});
 
     driverInfo = std::make_shared<NvidiaDriverInformation>(
         conn, mctpRequester, name, path, eid, objectServer);
