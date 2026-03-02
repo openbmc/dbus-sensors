@@ -40,6 +40,13 @@ class UnpackBuffer
     int unpack(T& data)
         requires std::integral<T>;
 
+    int skip(size_t length);
+
+    std::span<const uint8_t> getRemaining() const
+    {
+        return buffer;
+    }
+
     int getError() const
     {
         return error;
@@ -100,6 +107,24 @@ int UnpackBuffer::unpack(T& data)
     }
 
     buffer = buffer.subspan<sizeof(T)>();
+
+    return 0;
+}
+
+inline int UnpackBuffer::skip(const size_t length)
+{
+    if (error != 0)
+    {
+        return error;
+    }
+
+    if (buffer.size() < length)
+    {
+        error = EINVAL;
+        return error;
+    }
+
+    buffer = buffer.subspan(length);
 
     return 0;
 }

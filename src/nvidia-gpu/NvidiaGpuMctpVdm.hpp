@@ -60,6 +60,11 @@ enum class PlatformEnvironmentalCommands : uint8_t
     GET_VOLTAGE = 0x0F,
 };
 
+enum class PlatformEnvironmentalEvent : uint8_t
+{
+    XID = 0x01,
+};
+
 enum class NetworkPortCommands : uint8_t
 {
     GetEthernetPortTelemetryCounters = 0x0F,
@@ -273,6 +278,10 @@ int encodeSetEventSourcesRequest(uint64_t sources, uint8_t messageType,
 int decodeSetEventSourcesResponse(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode);
+
+int decodeXidEvent(std::span<const uint8_t> buf, uint8_t& flags,
+                   uint32_t& eventMessageReason, uint32_t& sequenceNumber,
+                   uint64_t& timestamp, std::string_view& messageTextString);
 
 int decodeQueryDeviceIdentificationResponse(
     std::span<const uint8_t> buf,

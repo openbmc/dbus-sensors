@@ -16,6 +16,7 @@
 #include <cstring>
 #include <span>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
@@ -2809,6 +2810,172 @@ TEST_F(GpuMctpVdmTests, DecodeSetEventSourcesResponseInvalidSize)
     int result = gpu::decodeSetEventSourcesResponse(buf, cc, reasonCode);
 
     EXPECT_EQ(result, EINVAL);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeXidEventSuccess)
+{
+    // Buffer: 20-byte header + message text
+    const std::string message = "XID error occurred";
+    constexpr size_t headerSize = 20; // 1+3+4+4+8
+    std::vector<uint8_t> buf(headerSize + message.size());
+
+    PackBuffer packer(buf);
+    packer.pack(static_cast<uint8_t>(0x01));           // flags
+    packer.pack(static_cast<uint8_t>(0x00));           // reserved[0]
+    packer.pack(static_cast<uint8_t>(0x00));           // reserved[1]
+    packer.pack(static_cast<uint8_t>(0x00));           // reserved[2]
+    packer.pack(static_cast<uint32_t>(42));            // eventMessageReason
+    packer.pack(static_cast<uint32_t>(100));           // sequenceNumber
+    packer.pack(static_cast<uint64_t>(1000000000ULL)); // timestamp
+    ASSERT_EQ(packer.getError(), 0);
+
+    std::memcpy(buf.data() + headerSize, message.data(), message.size());
+
+    uint8_t flags{};
+    uint32_t eventMessageReason{};
+    uint32_t sequenceNumber{};
+    uint64_t timestamp{};
+    std::string_view messageTextString{};
+
+    int result =
+        gpu::decodeXidEvent(buf, flags, eventMessageReason, sequenceNumber,
+                            timestamp, messageTextString);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(flags, 0x01);
+    EXPECT_EQ(eventMessageReason, 42U);
+    EXPECT_EQ(sequenceNumber, 100U);
+    EXPECT_EQ(timestamp, 1000000000ULL);
+    EXPECT_EQ(messageTextString, message);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeXidEventMinimumBufferEmptyMessage)
+{
+    // Exactly 20 bytes, no message text — messageTextString must be empty
+    constexpr size_t headerSize = 20;
+    std::vector<uint8_t> buf(headerSize);
+
+    PackBuffer packer(buf);
+    packer.pack(static_cast<uint8_t>(0xFF));         // flags
+    packer.pack(static_cast<uint8_t>(0x00));         // reserved[0]
+    packer.pack(static_cast<uint8_t>(0x00));         // reserved[1]
+    packer.pack(static_cast<uint8_t>(0x00));         // reserved[2]
+    packer.pack(static_cast<uint32_t>(0xDEADBEEFU)); // eventMessageReason
+    packer.pack(static_cast<uint32_t>(0xCAFEBABEU)); // sequenceNumber
+    packer.pack(static_cast<uint64_t>(0x123456789ABCDEF0ULL)); // timestamp
+    ASSERT_EQ(packer.getError(), 0);
+
+    uint8_t flags{};
+    uint32_t eventMessageReason{};
+    uint32_t sequenceNumber{};
+    uint64_t timestamp{};
+    std::string_view messageTextString{};
+
+    int result =
+        gpu::decodeXidEvent(buf, flags, eventMessageReason, sequenceNumber,
+                            timestamp, messageTextString);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(flags, 0xFF);
+    EXPECT_EQ(eventMessageReason, 0xDEADBEEFU);
+    EXPECT_EQ(sequenceNumber, 0xCAFEBABEU);
+    EXPECT_EQ(timestamp, 0x123456789ABCDEF0ULL);
+    EXPECT_TRUE(messageTextString.empty());
+}
+
+TEST_F(GpuMctpVdmTests, DecodeXidEventZeroValues)
+{
+    // All-zero 20-byte buffer — every decoded field must be zero
+    std::vector<uint8_t> buf(20, 0);
+
+    uint8_t flags{};
+    uint32_t eventMessageReason{};
+    uint32_t sequenceNumber{};
+    uint64_t timestamp{};
+    std::string_view messageTextString{};
+
+    int result =
+        gpu::decodeXidEvent(buf, flags, eventMessageReason, sequenceNumber,
+                            timestamp, messageTextString);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(flags, 0);
+    EXPECT_EQ(eventMessageReason, 0U);
+    EXPECT_EQ(sequenceNumber, 0U);
+    EXPECT_EQ(timestamp, 0ULL);
+    EXPECT_TRUE(messageTextString.empty());
+}
+
+TEST_F(GpuMctpVdmTests, DecodeXidEventBufferTooSmall)
+{
+    // 19 bytes — one byte short of the 20-byte minimum; must return EINVAL
+    std::vector<uint8_t> buf(19, 0);
+
+    uint8_t flags{};
+    uint32_t eventMessageReason{};
+    uint32_t sequenceNumber{};
+    uint64_t timestamp{};
+    std::string_view messageTextString{};
+
+    int result =
+        gpu::decodeXidEvent(buf, flags, eventMessageReason, sequenceNumber,
+                            timestamp, messageTextString);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeXidEventEmptyBuffer)
+{
+    // Zero-length buffer — must return EINVAL immediately
+    std::vector<uint8_t> buf;
+
+    uint8_t flags{};
+    uint32_t eventMessageReason{};
+    uint32_t sequenceNumber{};
+    uint64_t timestamp{};
+    std::string_view messageTextString{};
+
+    int result =
+        gpu::decodeXidEvent(buf, flags, eventMessageReason, sequenceNumber,
+                            timestamp, messageTextString);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeXidEventMessageTextPointsIntoBuffer)
+{
+    // Verify that string_view returned by decodeXidEvent points directly into
+    // the original buffer (zero-copy) rather than a copy.
+    const std::string message = "GPU fault";
+    constexpr size_t headerSize = 20;
+    std::vector<uint8_t> buf(headerSize + message.size());
+
+    PackBuffer packer(buf);
+    packer.pack(static_cast<uint8_t>(0x00));   // flags
+    packer.pack(static_cast<uint8_t>(0x00));   // reserved[0]
+    packer.pack(static_cast<uint8_t>(0x00));   // reserved[1]
+    packer.pack(static_cast<uint8_t>(0x00));   // reserved[2]
+    packer.pack(static_cast<uint32_t>(7U));    // eventMessageReason
+    packer.pack(static_cast<uint32_t>(3U));    // sequenceNumber
+    packer.pack(static_cast<uint64_t>(42ULL)); // timestamp
+    ASSERT_EQ(packer.getError(), 0);
+
+    std::memcpy(buf.data() + headerSize, message.data(), message.size());
+
+    uint8_t flags{};
+    uint32_t eventMessageReason{};
+    uint32_t sequenceNumber{};
+    uint64_t timestamp{};
+    std::string_view messageTextString{};
+
+    int result =
+        gpu::decodeXidEvent(buf, flags, eventMessageReason, sequenceNumber,
+                            timestamp, messageTextString);
+
+    ASSERT_EQ(result, 0);
+    EXPECT_EQ(messageTextString.data(),
+              std::bit_cast<const char*>(buf.data() + headerSize));
+    EXPECT_EQ(messageTextString.size(), message.size());
 }
 
 } // namespace gpu_mctp_tests

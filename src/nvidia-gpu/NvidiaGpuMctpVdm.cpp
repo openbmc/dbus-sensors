@@ -19,6 +19,7 @@
 #include <limits>
 #include <span>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
@@ -1041,5 +1042,30 @@ int decodeGetEthernetPortTelemetryCountersResponse(
 
     return rc;
 }
+
+int decodeXidEvent(std::span<const uint8_t> buf, uint8_t& flags,
+                   uint32_t& eventMessageReason, uint32_t& sequenceNumber,
+                   uint64_t& timestamp, std::string_view& messageTextString)
+{
+    UnpackBuffer buffer(buf);
+
+    buffer.unpack(flags);
+    buffer.skip(3);
+    buffer.unpack(eventMessageReason);
+    buffer.unpack(sequenceNumber);
+    buffer.unpack(timestamp);
+
+    if (buffer.getError() != 0)
+    {
+        return buffer.getError();
+    }
+
+    std::span<const uint8_t> remainingData = buffer.getRemaining();
+    messageTextString = std::string_view{
+        std::bit_cast<const char*>(remainingData.data()), remainingData.size()};
+
+    return 0;
+}
+
 // NOLINTEND(cppcoreguidelines-pro-type-reinterpret-cast)
 } // namespace gpu
