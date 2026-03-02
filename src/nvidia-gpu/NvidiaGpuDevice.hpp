@@ -13,6 +13,7 @@
 #include "NvidiaGpuMemoryDevice.hpp"
 #include "NvidiaGpuPowerSensor.hpp"
 #include "NvidiaGpuSensor.hpp"
+#include "NvidiaGpuXid.hpp"
 
 #include <NvidiaDriverInformation.hpp>
 #include <NvidiaGpuCurrentUtilization.hpp>
@@ -109,6 +110,8 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
     std::shared_ptr<SerialQueue> longRunningQueue;
     std::shared_ptr<NvidiaLongRunningResponseHandler> longRunningHandler;
     std::shared_ptr<NvidiaGpuCurrentUtilization> currentUtilization;
+
+    std::shared_ptr<NvidiaXidEventHandler> xidEventHandler;
 
     std::array<uint8_t, gpu::readThermalParametersRequestSize>
         thermalParamReqMsg{};

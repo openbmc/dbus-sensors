@@ -22,6 +22,7 @@
 #include <NvidiaGpuPowerSensor.hpp>
 #include <NvidiaGpuSensor.hpp>
 #include <NvidiaGpuVoltageSensor.hpp>
+#include <NvidiaGpuXid.hpp>
 #include <NvidiaLongRunningHandler.hpp>
 #include <NvidiaPcieFunction.hpp>
 #include <NvidiaPcieInterface.hpp>
@@ -166,6 +167,8 @@ void GpuDevice::makeSensors()
 
     longRunningHandler = std::make_shared<NvidiaLongRunningResponseHandler>(io);
 
+    xidEventHandler = std::make_shared<NvidiaXidEventHandler>(name, conn);
+
     eventReporting = std::make_shared<NvidiaEventReportingConfig>(
         eid, mctpRequester,
         std::initializer_list<EventDescriptor>{
@@ -173,7 +176,11 @@ void GpuDevice::makeSensors()
              static_cast<uint8_t>(
                  gpu::DeviceCapabilityDiscoveryEvents::LONG_RUNNING_RESPONSE),
              std::bind_front(&NvidiaLongRunningResponseHandler::handler,
-                             longRunningHandler)}});
+                             longRunningHandler)},
+            {gpu::MessageType::PLATFORM_ENVIRONMENTAL,
+             static_cast<uint8_t>(gpu::PlatformEnvironmentalEvent::XID),
+             std::bind_front(&NvidiaXidEventHandler::handleXidEvent,
+                             xidEventHandler)}});
 
     currentUtilization = std::make_shared<NvidiaGpuCurrentUtilization>(
         conn, mctpRequester, objectServer, name, eid, longRunningQueue,
