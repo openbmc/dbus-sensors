@@ -9,6 +9,7 @@
 
 #include <sys/socket.h>
 
+#include <NvidiaEventReporting.hpp>
 #include <OcpMctpVdm.hpp>
 #include <boost/asio/buffer.hpp>
 #include <boost/asio/error.hpp>
@@ -70,10 +71,31 @@ static std::optional<bool> getRequestBit(std::span<const uint8_t> buffer)
     return header->instance_id & ocp::accelerator_management::requestBitMask;
 }
 
+// get datagram bit
+static std::optional<bool> getDatagramBit(std::span<const uint8_t> buffer)
+{
+    const ocp::accelerator_management::BindingPciVid* header =
+        getHeaderFromBuffer(buffer);
+    if (header == nullptr)
+    {
+        return std::nullopt;
+    }
+    return header->instance_id & ocp::accelerator_management::datagramBitMask;
+}
+
 MctpRequester::MctpRequester(boost::asio::io_context& ctx) :
     io{ctx},
     mctpSocket(ctx, boost::asio::generic::datagram_protocol{AF_MCTP, 0})
 {
+    MctpAsioEndpoint receiveEp{ocp::accelerator_management::messageType};
+    boost::system::error_code ec;
+    mctpSocket.bind(receiveEp.endpoint, ec);
+    if (ec)
+    {
+        // this isn't fatal, we'll just fail to receive events. Move on with
+        // life
+        lg2::error("MctpRequester: failed to bind endpoint");
+    }
     startReceive();
 }
 
@@ -124,7 +146,8 @@ void MctpRequester::processRecvMsg(const boost::system::error_code& ec,
 
     std::optional<uint8_t> optionalIid = getIid(responseBuffer);
     std::optional<bool> isRq = getRequestBit(responseBuffer);
-    if (!optionalIid || !isRq)
+    std::optional<bool> isDatagram = getDatagramBit(responseBuffer);
+    if (!optionalIid || !isRq || !isDatagram)
     {
         // we received something from the device,
         // but we aren't able to parse iid byte
@@ -137,9 +160,22 @@ void MctpRequester::processRecvMsg(const boost::system::error_code& ec,
 
     if (isRq.value())
     {
-        // we received a request from a downstream device.
-        // We don't currently support this, drop the packet
-        // on the floor and rebind receive, keep the timer running
+        if (!isDatagram.value())
+        {
+            // we received a request from a downstream device.
+            // We don't currently support this, drop the packet
+            // on the floor and rebind receive, keep the timer running
+            return;
+        }
+
+        NvidiaEventHandler::handleEvent(eid, responseBuffer);
+        startReceive();
+        return;
+    }
+
+    if (isDatagram.value())
+    {
+        // we received an Event acknowledgment
         return;
     }
 
