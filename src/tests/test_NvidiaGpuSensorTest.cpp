@@ -1360,7 +1360,8 @@ TEST_F(GpuMctpVdmTests, EncodeQueryScalarGroupTelemetryV2RequestSuccess)
     const gpu::PciePortType portType = gpu::PciePortType::DOWNSTREAM;
     const uint8_t upstreamPortNumber = 3;
     const uint8_t portNumber = 5;
-    const uint8_t groupId = 2;
+    const gpu::PcieScalarGroupId groupId =
+        gpu::PcieScalarGroupId::AerErrorCounters;
     std::array<uint8_t, sizeof(gpu::QueryScalarGroupTelemetryV2Request)> buf{};
 
     int result = gpu::encodeQueryScalarGroupTelemetryV2Request(
@@ -1390,7 +1391,50 @@ TEST_F(GpuMctpVdmTests, EncodeQueryScalarGroupTelemetryV2RequestSuccess)
               (static_cast<uint8_t>(portType) << 7) |
                   (upstreamPortNumber & 0x7F));
     EXPECT_EQ(request.portNumber, portNumber);
-    EXPECT_EQ(request.groupId, groupId);
+    EXPECT_EQ(request.groupId, static_cast<uint8_t>(groupId));
+}
+
+TEST_F(GpuMctpVdmTests, EncodeQueryScalarGroupTelemetryV1RequestSuccess)
+{
+    const uint8_t instanceId = 10;
+    const uint8_t deviceIndex = 0;
+    const gpu::PcieScalarGroupId groupId =
+        gpu::PcieScalarGroupId::LinkSpeedWidth;
+    std::array<uint8_t, sizeof(gpu::QueryScalarGroupTelemetryV1Request)> buf{};
+
+    int result = gpu::encodeQueryScalarGroupTelemetryV1Request(
+        instanceId, deviceIndex, groupId, buf);
+
+    EXPECT_EQ(result, 0);
+
+    gpu::QueryScalarGroupTelemetryV1Request request{};
+    std::memcpy(&request, buf.data(), sizeof(request));
+
+    EXPECT_EQ(request.hdr.msgHdr.hdr.pci_vendor_id,
+              htobe16(gpu::nvidiaPciVendorId));
+    EXPECT_EQ(request.hdr.msgHdr.hdr.instance_id &
+                  ocp::accelerator_management::instanceIdBitMask,
+              instanceId & ocp::accelerator_management::instanceIdBitMask);
+    EXPECT_NE(request.hdr.msgHdr.hdr.instance_id &
+                  ocp::accelerator_management::requestBitMask,
+              0);
+    EXPECT_EQ(request.hdr.msgHdr.hdr.ocp_accelerator_management_msg_type,
+              static_cast<uint8_t>(gpu::MessageType::PCIE_LINK));
+    EXPECT_EQ(request.hdr.command,
+              static_cast<uint8_t>(
+                  gpu::PcieLinkCommands::QueryScalarGroupTelemetryV1));
+    EXPECT_EQ(request.deviceIndex, deviceIndex);
+    EXPECT_EQ(request.groupId, static_cast<uint8_t>(groupId));
+}
+
+TEST_F(GpuMctpVdmTests, EncodeQueryScalarGroupTelemetryV1RequestInvalidSize)
+{
+    std::array<uint8_t, 1> buf{};
+
+    int result = gpu::encodeQueryScalarGroupTelemetryV1Request(
+        0, 0, gpu::PcieScalarGroupId::LinkSpeedWidth, buf);
+
+    EXPECT_EQ(result, EINVAL);
 }
 
 TEST_F(GpuMctpVdmTests, DecodeQueryScalarGroupTelemetryV2ResponseSuccess)
@@ -1432,7 +1476,7 @@ TEST_F(GpuMctpVdmTests, DecodeQueryScalarGroupTelemetryV2ResponseSuccess)
     size_t numTelemetryValues{};
     std::vector<uint32_t> telemetryValues{};
 
-    int result = gpu::decodeQueryScalarGroupTelemetryV2Response(
+    int result = gpu::decodeQueryScalarGroupTelemetryResponse(
         buf, cc, reasonCode, numTelemetryValues, telemetryValues);
 
     EXPECT_EQ(result, 0);
@@ -1474,7 +1518,7 @@ TEST_F(GpuMctpVdmTests, DecodeQueryScalarGroupTelemetryV2ResponseError)
     size_t numTelemetryValues{};
     std::vector<uint32_t> telemetryValues{};
 
-    int result = gpu::decodeQueryScalarGroupTelemetryV2Response(
+    int result = gpu::decodeQueryScalarGroupTelemetryResponse(
         buf, cc, reasonCode, numTelemetryValues, telemetryValues);
 
     EXPECT_EQ(result, 0);
@@ -1501,7 +1545,7 @@ TEST_F(GpuMctpVdmTests, DecodeQueryScalarGroupTelemetryV2ResponseInvalidSize)
     size_t numTelemetryValues{};
     std::vector<uint32_t> telemetryValues{};
 
-    int result = gpu::decodeQueryScalarGroupTelemetryV2Response(
+    int result = gpu::decodeQueryScalarGroupTelemetryResponse(
         buf, cc, reasonCode, numTelemetryValues, telemetryValues);
 
     EXPECT_EQ(result, EINVAL);
