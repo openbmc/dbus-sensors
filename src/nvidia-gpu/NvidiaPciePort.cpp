@@ -168,6 +168,33 @@ void NvidiaPciePortInfo::processResponse(
         "Width", NvidiaPcieInterface::decodeLinkWidth(telemetryValues[1]));
 }
 
+void NvidiaPciePortInfo::updateV1()
+{
+    auto rc = gpu::encodeQueryScalarGroupTelemetryV1Request(0, 0, 1, requestV1);
+
+    if (rc != 0)
+    {
+        lg2::error(
+            "Error updating PCIe Port Info: encode failed, rc={RC}, EID={EID}, PortType={PT}, PortNumber={PN}",
+            "RC", rc, "EID", eid, "PT", static_cast<uint8_t>(portType), "PN",
+            portNumber);
+        return;
+    }
+
+    mctpRequester.sendRecvMsg(
+        eid, requestV1,
+        [weak{weak_from_this()}](const std::error_code& ec,
+                                 std::span<const uint8_t> buffer) {
+            std::shared_ptr<NvidiaPciePortInfo> self = weak.lock();
+            if (!self)
+            {
+                lg2::error("Invalid reference to NvidiaPciePortInfo");
+                return;
+            }
+            self->processResponse(ec, buffer);
+        });
+}
+
 void NvidiaPciePortInfo::update()
 {
     auto rc = gpu::encodeQueryScalarGroupTelemetryV2Request(

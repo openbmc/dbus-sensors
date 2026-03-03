@@ -156,6 +156,33 @@ void NvidiaPcieInterface::processResponse(const std::error_code& ec,
     }
 }
 
+void NvidiaPcieInterface::updateV1()
+{
+    auto rc = gpu::encodeQueryScalarGroupTelemetryV1Request(0, 0, 1, requestV1);
+
+    if (rc != 0)
+    {
+        lg2::error("Error updating PCIe Interface: failed, rc={RC}, EID={EID}",
+                   "RC", rc, "EID", eid);
+        return;
+    }
+
+    mctpRequester.sendRecvMsg(
+        eid, requestV1,
+        [weak{weak_from_this()}](const std::error_code& ec,
+                                 std::span<const uint8_t> buffer) {
+            std::shared_ptr<NvidiaPcieInterface> self = weak.lock();
+            if (!self)
+            {
+                lg2::error(
+                    "Invalid reference to NvidiaPcieInterface for EID {EID}",
+                    "EID", self->eid);
+                return;
+            }
+            self->processResponse(ec, buffer);
+        });
+}
+
 void NvidiaPcieInterface::update()
 {
     auto rc =

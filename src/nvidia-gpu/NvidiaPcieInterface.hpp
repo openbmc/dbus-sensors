@@ -29,6 +29,7 @@ struct NvidiaPcieInterface :
                         sdbusplus::asio::object_server& objectServer);
 
     void update();
+    void updateV1();
 
     static size_t decodeLinkWidth(uint32_t value);
 
@@ -50,6 +51,9 @@ struct NvidiaPcieInterface :
 
     std::array<uint8_t, sizeof(gpu::QueryScalarGroupTelemetryV2Request)>
         request{};
+
+    std::array<uint8_t, sizeof(gpu::QueryScalarGroupTelemetryV1Request)>
+        requestV1{};
 
     std::shared_ptr<sdbusplus::asio::dbus_interface> pcieDeviceInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> switchInterface;
