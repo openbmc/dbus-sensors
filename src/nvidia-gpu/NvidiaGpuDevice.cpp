@@ -14,6 +14,7 @@
 #include <NvidiaDriverInformation.hpp>
 #include <NvidiaGpuEnergySensor.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
+#include <NvidiaGpuMemoryDevice.hpp>
 #include <NvidiaGpuPowerPeakReading.hpp>
 #include <NvidiaGpuPowerSensor.hpp>
 #include <NvidiaGpuSensor.hpp>
@@ -102,6 +103,10 @@ void GpuDevice::makeSensors()
 
     driverInfo = std::make_shared<NvidiaDriverInformation>(
         conn, mctpRequester, name, path, eid, objectServer);
+
+    memoryDevice = std::make_shared<NvidiaGpuMemoryDevice>(
+        mctpRequester, name, eid, objectServer);
+    memoryDevice->init();
 
     getTLimitThresholds();
 
