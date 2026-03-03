@@ -31,6 +31,9 @@ constexpr uint8_t requestBitMask = 0b10000000;
 constexpr uint8_t instanceMin = 0;
 constexpr uint8_t instanceMax = 31;
 
+constexpr size_t bindingPciVidSize = 5;
+constexpr size_t commonRequestSize = bindingPciVidSize + 2;
+
 enum class CompletionCode : uint8_t
 {
     SUCCESS = 0x00,

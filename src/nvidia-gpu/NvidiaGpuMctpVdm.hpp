@@ -58,8 +58,24 @@ enum class NetworkPortCommands : uint8_t
 
 enum class PcieLinkCommands : uint8_t
 {
+    QueryScalarGroupTelemetryV1 = 0x04,
     ListPCIePorts = 0x07,
     QueryScalarGroupTelemetryV2 = 0x24,
+};
+
+enum class PcieScalarGroupId : uint8_t
+{
+    PciIdentity = 0,
+    LinkSpeedWidth = 1,
+    AerErrorCounters = 2,
+    RecoveryCounter = 3,
+    DetailedErrorCounters = 4,
+    ThroughputCounters = 5,
+    LtssmState = 6,
+    BarInformation = 7,
+    PerLaneErrorCounts = 8,
+    AerStatus = 9,
+    OutboundTlpCounters = 10,
 };
 
 enum class DeviceIdentification : uint8_t
@@ -163,13 +179,11 @@ using GetCurrentEnergyCounterRequest = GetNumericSensorReadingRequest;
 
 using GetVoltageRequest = GetNumericSensorReadingRequest;
 
-struct QueryScalarGroupTelemetryV2Request
-{
-    ocp::accelerator_management::CommonRequest hdr;
-    uint8_t upstreamPortNumber;
-    uint8_t portNumber;
-    uint8_t groupId;
-} __attribute__((packed));
+constexpr size_t queryScalarGroupTelemetryV1RequestSize =
+    ocp::accelerator_management::commonRequestSize + 2;
+
+constexpr size_t queryScalarGroupTelemetryV2RequestSize =
+    ocp::accelerator_management::commonRequestSize + 3;
 
 struct GetPortNetworkAddressesRequest
 {
@@ -310,9 +324,18 @@ int decodeGetInventoryInformationResponse(
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     InventoryPropertyId propertyId, InventoryValue& value);
 
+int encodeQueryScalarGroupTelemetryV1Request(
+    uint8_t instanceId, uint8_t deviceIndex, PcieScalarGroupId groupId,
+    std::span<uint8_t> buf);
+
 int encodeQueryScalarGroupTelemetryV2Request(
     uint8_t instanceId, PciePortType portType, uint8_t upstreamPortNumber,
-    uint8_t portNumber, uint8_t groupId, std::span<uint8_t> buf);
+    uint8_t portNumber, PcieScalarGroupId groupId, std::span<uint8_t> buf);
+
+int decodeQueryScalarGroupTelemetryV1Response(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    size_t& numTelemetryValues, std::vector<uint32_t>& telemetryValues);
 
 int decodeQueryScalarGroupTelemetryV2Response(
     std::span<const uint8_t> buf,
