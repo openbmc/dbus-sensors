@@ -1393,6 +1393,38 @@ TEST_F(GpuMctpVdmTests, EncodeQueryScalarGroupTelemetryV2RequestSuccess)
     EXPECT_EQ(request.groupId, groupId);
 }
 
+TEST_F(GpuMctpVdmTests, EncodeQueryScalarGroupTelemetryV1RequestSuccess)
+{
+    const uint8_t instanceId = 10;
+    const uint8_t deviceIndex = 0;
+    const uint8_t groupId = 1;
+    std::array<uint8_t, sizeof(gpu::QueryScalarGroupTelemetryV1Request)> buf{};
+
+    int result = gpu::encodeQueryScalarGroupTelemetryV1Request(
+        instanceId, deviceIndex, groupId, buf);
+
+    EXPECT_EQ(result, 0);
+
+    gpu::QueryScalarGroupTelemetryV1Request request{};
+    std::memcpy(&request, buf.data(), sizeof(request));
+
+    EXPECT_EQ(request.hdr.msgHdr.hdr.pci_vendor_id,
+              htobe16(gpu::nvidiaPciVendorId));
+    EXPECT_EQ(request.hdr.msgHdr.hdr.instance_id &
+                  ocp::accelerator_management::instanceIdBitMask,
+              instanceId & ocp::accelerator_management::instanceIdBitMask);
+    EXPECT_NE(request.hdr.msgHdr.hdr.instance_id &
+                  ocp::accelerator_management::requestBitMask,
+              0);
+    EXPECT_EQ(request.hdr.msgHdr.hdr.ocp_accelerator_management_msg_type,
+              static_cast<uint8_t>(gpu::MessageType::PCIE_LINK));
+    EXPECT_EQ(request.hdr.command,
+              static_cast<uint8_t>(
+                  gpu::PcieLinkCommands::QueryScalarGroupTelemetryV1));
+    EXPECT_EQ(request.deviceIndex, deviceIndex);
+    EXPECT_EQ(request.groupId, groupId);
+}
+
 TEST_F(GpuMctpVdmTests, DecodeQueryScalarGroupTelemetryV2ResponseSuccess)
 {
     const size_t numValues = 4;
@@ -1432,7 +1464,7 @@ TEST_F(GpuMctpVdmTests, DecodeQueryScalarGroupTelemetryV2ResponseSuccess)
     size_t numTelemetryValues{};
     std::vector<uint32_t> telemetryValues{};
 
-    int result = gpu::decodeQueryScalarGroupTelemetryV2Response(
+    int result = gpu::decodeQueryScalarGroupTelemetryResponse(
         buf, cc, reasonCode, numTelemetryValues, telemetryValues);
 
     EXPECT_EQ(result, 0);
@@ -1474,7 +1506,7 @@ TEST_F(GpuMctpVdmTests, DecodeQueryScalarGroupTelemetryV2ResponseError)
     size_t numTelemetryValues{};
     std::vector<uint32_t> telemetryValues{};
 
-    int result = gpu::decodeQueryScalarGroupTelemetryV2Response(
+    int result = gpu::decodeQueryScalarGroupTelemetryResponse(
         buf, cc, reasonCode, numTelemetryValues, telemetryValues);
 
     EXPECT_EQ(result, 0);
@@ -1501,7 +1533,7 @@ TEST_F(GpuMctpVdmTests, DecodeQueryScalarGroupTelemetryV2ResponseInvalidSize)
     size_t numTelemetryValues{};
     std::vector<uint32_t> telemetryValues{};
 
-    int result = gpu::decodeQueryScalarGroupTelemetryV2Response(
+    int result = gpu::decodeQueryScalarGroupTelemetryResponse(
         buf, cc, reasonCode, numTelemetryValues, telemetryValues);
 
     EXPECT_EQ(result, EINVAL);

@@ -111,7 +111,7 @@ void NvidiaPciePortMetrics::processResponse(
     uint16_t reasonCode = 0;
     size_t numTelemetryValue = 0;
 
-    int rc = gpu::decodeQueryScalarGroupTelemetryV2Response(
+    int rc = gpu::decodeQueryScalarGroupTelemetryResponse(
         response, cc, reasonCode, numTelemetryValue, telemetryValues);
 
     if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
