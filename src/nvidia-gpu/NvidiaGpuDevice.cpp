@@ -14,12 +14,14 @@
 #include <NvidiaDriverInformation.hpp>
 #include <NvidiaEventReporting.hpp>
 #include <NvidiaGpuControl.hpp>
+#include <NvidiaGpuCurrentUtilization.hpp>
 #include <NvidiaGpuEnergySensor.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
 #include <NvidiaGpuPowerPeakReading.hpp>
 #include <NvidiaGpuPowerSensor.hpp>
 #include <NvidiaGpuSensor.hpp>
 #include <NvidiaGpuVoltageSensor.hpp>
+#include <NvidiaLongRunningHandler.hpp>
 #include <NvidiaPcieFunction.hpp>
 #include <NvidiaPcieInterface.hpp>
 #include <NvidiaPciePort.hpp>
@@ -136,8 +138,19 @@ void GpuDevice::makeSensors()
         objectServer, std::vector<thresholds::Threshold>{},
         gpu::DeviceIdentification::DEVICE_GPU);
 
+    longRunningHandler = std::make_shared<NvidiaLongRunningResponseHandler>();
+
     eventReporting = std::make_shared<NvidiaEventReportingConfig>(
-        eid, mctpRequester, std::initializer_list<EventDescriptor>{});
+        eid, mctpRequester,
+        std::initializer_list<EventDescriptor>{
+            {gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY,
+             static_cast<uint8_t>(
+                 gpu::DeviceCapabilityDiscoveryEvents::LONG_RUNNING_RESPONSE),
+             std::bind_front(&NvidiaLongRunningResponseHandler::handler,
+                             longRunningHandler)}});
+
+    currentUtilization = std::make_shared<NvidiaGpuCurrentUtilization>(
+        conn, mctpRequester, objectServer, name, eid, longRunningHandler);
 
     driverInfo = std::make_shared<NvidiaDriverInformation>(
         conn, mctpRequester, name, path, eid, objectServer);
@@ -294,6 +307,7 @@ void GpuDevice::read()
     voltageSensor->update();
     driverInfo->update();
     gpuControl->update();
+    currentUtilization->update();
     pcieInterface->update();
     pciePort->update();
     pcieFunction->update();

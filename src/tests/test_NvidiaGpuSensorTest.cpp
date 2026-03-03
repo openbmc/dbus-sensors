@@ -3140,4 +3140,364 @@ TEST_F(GpuMctpVdmTests, DecodeSetEventSourcesResponseInvalidSize)
     EXPECT_EQ(result, EINVAL);
 }
 
+// Tests for gpu::encodeGetCurrentUtilizationModeRequest
+
+TEST_F(GpuMctpVdmTests, EncodeGetCurrentUtilizationModeRequestSuccess)
+{
+    const uint8_t instanceId = 5;
+    std::vector<uint8_t> buf(256);
+
+    int result = gpu::encodeGetCurrentUtilizationModeRequest(instanceId, buf);
+    EXPECT_EQ(result, 0);
+
+    // CommonRequest: BindingPciVid(5) + command(1) + data_size(1) = 7 bytes
+    UnpackBuffer unpacker(std::span<const uint8_t>(buf.data(), 7));
+
+    // BindingPciVid header
+    uint16_t pciVendorId{};
+    uint8_t instId{};
+    uint8_t ocpVersion{};
+    uint8_t msgType{};
+    unpacker.unpack(pciVendorId);
+    unpacker.unpack(instId);
+    unpacker.unpack(ocpVersion);
+    unpacker.unpack(msgType);
+
+    EXPECT_EQ(pciVendorId, htobe16(gpu::nvidiaPciVendorId));
+    EXPECT_EQ(instId & ocp::accelerator_management::instanceIdBitMask,
+              instanceId);
+    EXPECT_NE(instId & ocp::accelerator_management::requestBitMask, 0);
+    EXPECT_EQ(ocpVersion & ocp::accelerator_management::ocpVersionBitMask,
+              ocp::accelerator_management::ocpVersion);
+    EXPECT_EQ((ocpVersion & ocp::accelerator_management::ocpTypeBitMask) >>
+                  ocp::accelerator_management::ocpTypeBitOffset,
+              ocp::accelerator_management::ocpType);
+    EXPECT_EQ(msgType,
+              static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+
+    // CommonRequest fields
+    uint8_t command{};
+    uint8_t dataSize{};
+    unpacker.unpack(command);
+    unpacker.unpack(dataSize);
+
+    EXPECT_EQ(unpacker.getError(), 0);
+    EXPECT_EQ(command,
+              static_cast<uint8_t>(
+                  gpu::PlatformEnvironmentalCommands::GET_CURRENT_UTILIZATION));
+    EXPECT_EQ(dataSize, 0);
+}
+
+TEST_F(GpuMctpVdmTests, EncodeGetCurrentUtilizationModeRequestBufferTooSmall)
+{
+    std::vector<uint8_t> buf(3); // Too small for 7-byte request
+    int result = gpu::encodeGetCurrentUtilizationModeRequest(0, buf);
+    EXPECT_EQ(result, EINVAL);
+}
+
+// Tests for gpu::decodeLongRunningResponseEvent
+
+TEST_F(GpuMctpVdmTests, DecodeLongRunningResponseEventSuccess)
+{
+    // LongRunningResponseEvent: instanceId(1) + completionCode(1) +
+    //   reasonCode(2) = 4 bytes
+    std::vector<uint8_t> buf(4);
+    PackBuffer packer(buf);
+
+    packer.pack(static_cast<uint8_t>(7));                       // instanceId
+    packer.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS)); // cc
+    packer.pack(static_cast<uint16_t>(0));                      // reasonCode
+
+    ASSERT_EQ(packer.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint8_t instanceId{};
+    std::span<const uint8_t> responseData;
+
+    int result = gpu::decodeLongRunningResponseEvent(buf, cc, reasonCode,
+                                                     instanceId, responseData);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(instanceId, 7);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+    EXPECT_TRUE(responseData.empty());
+}
+
+TEST_F(GpuMctpVdmTests, DecodeLongRunningResponseEventWithResponseData)
+{
+    // 4-byte header + 3 bytes response data
+    std::vector<uint8_t> buf(7);
+    PackBuffer packer(buf);
+
+    packer.pack(static_cast<uint8_t>(2));                       // instanceId
+    packer.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS)); // cc
+    packer.pack(static_cast<uint16_t>(0));                      // reasonCode
+
+    ASSERT_EQ(packer.getError(), 0);
+
+    // Fill response data
+    buf[4] = 0xAA;
+    buf[5] = 0xBB;
+    buf[6] = 0xCC;
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint8_t instanceId{};
+    std::span<const uint8_t> responseData;
+
+    int result = gpu::decodeLongRunningResponseEvent(buf, cc, reasonCode,
+                                                     instanceId, responseData);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(instanceId, 2);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    ASSERT_EQ(responseData.size(), 3);
+    EXPECT_EQ(responseData[0], 0xAA);
+    EXPECT_EQ(responseData[1], 0xBB);
+    EXPECT_EQ(responseData[2], 0xCC);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeLongRunningResponseEventError)
+{
+    std::vector<uint8_t> buf(4);
+    PackBuffer packer(buf);
+
+    packer.pack(static_cast<uint8_t>(3));                     // instanceId
+    packer.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERROR)); // cc
+    packer.pack(static_cast<uint16_t>(0x5678));               // reasonCode
+
+    ASSERT_EQ(packer.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint8_t instanceId{};
+    std::span<const uint8_t> responseData;
+
+    int result = gpu::decodeLongRunningResponseEvent(buf, cc, reasonCode,
+                                                     instanceId, responseData);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(instanceId, 3);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERROR);
+    EXPECT_EQ(reasonCode, 0x5678);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeLongRunningResponseEventBufferTooSmall)
+{
+    std::vector<uint8_t> buf(2); // Too small for 4-byte event
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint8_t instanceId{};
+    std::span<const uint8_t> responseData;
+
+    int result = gpu::decodeLongRunningResponseEvent(buf, cc, reasonCode,
+                                                     instanceId, responseData);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+// Helper: pack a CommonResponse header using PackBuffer
+// Layout: BindingPciVid(5) + command(1) + cc(1) + reason_code(2)
+void packCommonResponseHeader(PackBuffer& packer, uint8_t msgType,
+                              uint8_t command, uint8_t completionCode,
+                              uint16_t reasonCode)
+{
+    // BindingPciVid header for response
+    // pci_vendor_id (big-endian)
+    packer.pack(static_cast<uint16_t>(htobe16(gpu::nvidiaPciVendorId)));
+    // instance_id: response (bit 7 clear), instance=0
+    packer.pack(static_cast<uint8_t>(0x00));
+    // ocp_version: type=8 (upper nibble), version=9 (lower nibble)
+    packer.pack(static_cast<uint8_t>(0x89));
+    // ocp_accelerator_management_msg_type
+    packer.pack(msgType);
+
+    packer.pack(command);
+    packer.pack(completionCode);
+    packer.pack(reasonCode);
+}
+
+// Tests for gpu::decodeGetCurrentUtilizationModeResponse
+
+TEST_F(GpuMctpVdmTests, DecodeGetCurrentUtilizationModeResponseSuccess)
+{
+    // CommonResponse header(9) + data_size(2) + gpuUtil(4) + memUtil(4) = 19
+    std::vector<uint8_t> buf(19);
+    PackBuffer packer(buf);
+
+    packCommonResponseHeader(
+        packer, static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL),
+        static_cast<uint8_t>(
+            gpu::PlatformEnvironmentalCommands::GET_CURRENT_UTILIZATION),
+        static_cast<uint8_t>(
+            ocp::accelerator_management::CompletionCode::SUCCESS),
+        0);
+    // data_size = 8 (2 x uint32_t)
+    packer.pack(static_cast<uint16_t>(8));
+    // gpuUtilization
+    packer.pack(static_cast<uint32_t>(75));
+    // memoryUtilization
+    packer.pack(static_cast<uint32_t>(42));
+
+    ASSERT_EQ(packer.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint32_t gpuUtilization{};
+    uint32_t memoryUtilization{};
+
+    int result = gpu::decodeGetCurrentUtilizationModeResponse(
+        buf, cc, reasonCode, gpuUtilization, memoryUtilization);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+    EXPECT_EQ(gpuUtilization, 75U);
+    EXPECT_EQ(memoryUtilization, 42U);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetCurrentUtilizationModeResponseZeroValues)
+{
+    std::vector<uint8_t> buf(19);
+    PackBuffer packer(buf);
+
+    packCommonResponseHeader(
+        packer, static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL),
+        static_cast<uint8_t>(
+            gpu::PlatformEnvironmentalCommands::GET_CURRENT_UTILIZATION),
+        static_cast<uint8_t>(
+            ocp::accelerator_management::CompletionCode::SUCCESS),
+        0);
+    packer.pack(static_cast<uint16_t>(8));
+    packer.pack(static_cast<uint32_t>(0));
+    packer.pack(static_cast<uint32_t>(0));
+
+    ASSERT_EQ(packer.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint32_t gpuUtilization{};
+    uint32_t memoryUtilization{};
+
+    int result = gpu::decodeGetCurrentUtilizationModeResponse(
+        buf, cc, reasonCode, gpuUtilization, memoryUtilization);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(gpuUtilization, 0U);
+    EXPECT_EQ(memoryUtilization, 0U);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetCurrentUtilizationModeResponseMaxValues)
+{
+    std::vector<uint8_t> buf(19);
+    PackBuffer packer(buf);
+
+    packCommonResponseHeader(
+        packer, static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL),
+        static_cast<uint8_t>(
+            gpu::PlatformEnvironmentalCommands::GET_CURRENT_UTILIZATION),
+        static_cast<uint8_t>(
+            ocp::accelerator_management::CompletionCode::SUCCESS),
+        0);
+    packer.pack(static_cast<uint16_t>(8));
+    packer.pack(static_cast<uint32_t>(0xFFFFFFFF));
+    packer.pack(static_cast<uint32_t>(0xFFFFFFFF));
+
+    ASSERT_EQ(packer.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint32_t gpuUtilization{};
+    uint32_t memoryUtilization{};
+
+    int result = gpu::decodeGetCurrentUtilizationModeResponse(
+        buf, cc, reasonCode, gpuUtilization, memoryUtilization);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(gpuUtilization, 0xFFFFFFFFU);
+    EXPECT_EQ(memoryUtilization, 0xFFFFFFFFU);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetCurrentUtilizationModeResponseError)
+{
+    // Non-success response: header(9) only, no data payload
+    std::vector<uint8_t> buf(9);
+    PackBuffer packer(buf);
+
+    packCommonResponseHeader(
+        packer, static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL),
+        static_cast<uint8_t>(
+            gpu::PlatformEnvironmentalCommands::GET_CURRENT_UTILIZATION),
+        static_cast<uint8_t>(
+            ocp::accelerator_management::CompletionCode::ERROR),
+        0x1234);
+
+    ASSERT_EQ(packer.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint32_t gpuUtilization{};
+    uint32_t memoryUtilization{};
+
+    int result = gpu::decodeGetCurrentUtilizationModeResponse(
+        buf, cc, reasonCode, gpuUtilization, memoryUtilization);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERROR);
+    EXPECT_EQ(reasonCode, 0x1234);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetCurrentUtilizationModeResponseInvalidDataSize)
+{
+    // Valid header but wrong data_size (4 instead of 8)
+    std::vector<uint8_t> buf(15);
+    PackBuffer packer(buf);
+
+    packCommonResponseHeader(
+        packer, static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL),
+        static_cast<uint8_t>(
+            gpu::PlatformEnvironmentalCommands::GET_CURRENT_UTILIZATION),
+        static_cast<uint8_t>(
+            ocp::accelerator_management::CompletionCode::SUCCESS),
+        0);
+    // Wrong data_size: 4 instead of expected 8
+    packer.pack(static_cast<uint16_t>(4));
+    packer.pack(static_cast<uint32_t>(100));
+
+    ASSERT_EQ(packer.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint32_t gpuUtilization{};
+    uint32_t memoryUtilization{};
+
+    int result = gpu::decodeGetCurrentUtilizationModeResponse(
+        buf, cc, reasonCode, gpuUtilization, memoryUtilization);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetCurrentUtilizationModeResponseBufferTooSmall)
+{
+    std::vector<uint8_t> buf(4); // Too small for response header
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint32_t gpuUtilization{};
+    uint32_t memoryUtilization{};
+
+    int result = gpu::decodeGetCurrentUtilizationModeResponse(
+        buf, cc, reasonCode, gpuUtilization, memoryUtilization);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
 } // namespace gpu_mctp_tests
