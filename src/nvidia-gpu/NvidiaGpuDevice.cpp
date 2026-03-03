@@ -106,6 +106,7 @@ void GpuDevice::makeSensors()
     // Create Memory Device for GPU SRAM ECC monitoring
     memoryDevice = std::make_shared<NvidiaGpuMemoryDevice>(
         conn, mctpRequester, name, eid, objectServer);
+    memoryDevice->init();
 
     getTLimitThresholds();
 

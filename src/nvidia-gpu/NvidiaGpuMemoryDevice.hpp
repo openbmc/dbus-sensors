@@ -14,7 +14,9 @@
 #include <array>
 #include <cstdint>
 #include <memory>
+#include <span>
 #include <string>
+#include <system_error>
 
 struct NvidiaGpuMemoryDevice :
     public std::enable_shared_from_this<NvidiaGpuMemoryDevice>
@@ -25,6 +27,8 @@ struct NvidiaGpuMemoryDevice :
                           const std::string& gpuName, uint8_t eid,
                           sdbusplus::asio::object_server& objectServer);
 
+    void init();
+
     ~NvidiaGpuMemoryDevice();
 
     void update();
@@ -32,6 +36,9 @@ struct NvidiaGpuMemoryDevice :
   private:
     void processResponse(const std::error_code& ec,
                          std::span<const uint8_t> buffer);
+    void fetchMemoryCapacity();
+    void processInventoryResponse(const std::error_code& ec,
+                                  std::span<const uint8_t> buffer);
 
     uint8_t eid;
     std::string gpuName;
@@ -45,4 +52,12 @@ struct NvidiaGpuMemoryDevice :
 
     int64_t sramCeCount{0};
     int64_t sramUeCount{0};
+
+    std::string dramName;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> dramItemInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> dramLocationInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> gpuAssociationInterface;
+
+    std::array<uint8_t, sizeof(gpu::GetInventoryInformationRequest)>
+        inventoryRequestBuffer{};
 };

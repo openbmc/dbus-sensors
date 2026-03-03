@@ -4,6 +4,7 @@
 #include <endian.h>
 
 #include <array>
+#include <cerrno>
 #include <cstdint>
 #include <cstring>
 #include <string>
@@ -112,5 +113,106 @@ TEST(NvidiaGpuMctpVdmTest, DecodeInventoryDeviceGuid)
     EXPECT_TRUE(std::holds_alternative<std::vector<uint8_t>>(info));
     EXPECT_EQ(std::get<std::vector<uint8_t>>(info), dummyGuid);
 }
+TEST(NvidiaGpuMctpVdmTest, DecodeInventoryMaxMemoryCapacitySuccess)
+{
+    std::array<uint8_t, 256> buf{};
+    auto* response =
+        reinterpret_cast<ocp::accelerator_management::CommonResponse*>(
+            buf.data());
 
+    response->msgHdr.hdr.pci_vendor_id = htobe16(0x10DE);
+    response->msgHdr.hdr.instance_id = 0x01;
+    response->msgHdr.hdr.ocp_version = 0x89;
+    response->msgHdr.hdr.ocp_accelerator_management_msg_type =
+        static_cast<uint8_t>(
+            ocp::accelerator_management::MessageType::RESPONSE);
+
+    response->command = static_cast<uint8_t>(
+        PlatformEnvironmentalCommands::GET_INVENTORY_INFORMATION);
+    response->completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS);
+    response->reserved = 0;
+    response->data_size = htole16(sizeof(uint32_t));
+
+    // 96 GiB in MiB
+    uint32_t capacityMib = htole32(98304);
+    memcpy(buf.data() + sizeof(ocp::accelerator_management::CommonResponse),
+           &capacityMib, sizeof(capacityMib));
+
+    ocp::accelerator_management::CompletionCode cc =
+        ocp::accelerator_management::CompletionCode::ERROR;
+    uint16_t reasonCode = 0;
+    InventoryValue info;
+
+    auto rc = decodeGetInventoryInformationResponse(
+        buf, cc, reasonCode, InventoryPropertyId::MAX_MEMORY_CAPACITY, info);
+    EXPECT_EQ(rc, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+    EXPECT_TRUE(std::holds_alternative<uint32_t>(info));
+    EXPECT_EQ(std::get<uint32_t>(info), 98304U);
+}
+
+TEST(NvidiaGpuMctpVdmTest, DecodeInventoryMaxMemoryCapacityError)
+{
+    std::array<uint8_t, 256> buf{};
+    auto* response = reinterpret_cast<
+        ocp::accelerator_management::CommonNonSuccessResponse*>(buf.data());
+
+    response->msgHdr.hdr.pci_vendor_id = htobe16(0x10DE);
+    response->msgHdr.hdr.instance_id = 0x01;
+    response->msgHdr.hdr.ocp_version = 0x89;
+    response->msgHdr.hdr.ocp_accelerator_management_msg_type =
+        static_cast<uint8_t>(
+            ocp::accelerator_management::MessageType::RESPONSE);
+
+    response->command = static_cast<uint8_t>(
+        PlatformEnvironmentalCommands::GET_INVENTORY_INFORMATION);
+    response->completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
+    response->reason_code = htole16(0x1234);
+
+    ocp::accelerator_management::CompletionCode cc =
+        ocp::accelerator_management::CompletionCode::SUCCESS;
+    uint16_t reasonCode = 0;
+    InventoryValue info;
+
+    auto rc = decodeGetInventoryInformationResponse(
+        buf, cc, reasonCode, InventoryPropertyId::MAX_MEMORY_CAPACITY, info);
+    EXPECT_EQ(rc, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
+    EXPECT_EQ(reasonCode, 0x1234);
+}
+
+TEST(NvidiaGpuMctpVdmTest, DecodeInventoryMaxMemoryCapacityInvalidSize)
+{
+    std::array<uint8_t, 256> buf{};
+    auto* response =
+        reinterpret_cast<ocp::accelerator_management::CommonResponse*>(
+            buf.data());
+
+    response->msgHdr.hdr.pci_vendor_id = htobe16(0x10DE);
+    response->msgHdr.hdr.instance_id = 0x01;
+    response->msgHdr.hdr.ocp_version = 0x89;
+    response->msgHdr.hdr.ocp_accelerator_management_msg_type =
+        static_cast<uint8_t>(
+            ocp::accelerator_management::MessageType::RESPONSE);
+
+    response->command = static_cast<uint8_t>(
+        PlatformEnvironmentalCommands::GET_INVENTORY_INFORMATION);
+    response->completion_code = static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS);
+    response->reserved = 0;
+    // 3 bytes instead of the required 4 (sizeof uint32_t)
+    response->data_size = htole16(3);
+
+    ocp::accelerator_management::CompletionCode cc =
+        ocp::accelerator_management::CompletionCode::ERROR;
+    uint16_t reasonCode = 0;
+    InventoryValue info;
+
+    auto rc = decodeGetInventoryInformationResponse(
+        buf, cc, reasonCode, InventoryPropertyId::MAX_MEMORY_CAPACITY, info);
+    EXPECT_EQ(rc, EINVAL);
+}
 // NOLINTEND(cppcoreguidelines-pro-type-reinterpret-cast)
