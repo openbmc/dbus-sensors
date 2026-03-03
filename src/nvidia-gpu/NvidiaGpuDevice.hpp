@@ -14,9 +14,11 @@
 #include "NvidiaGpuSensor.hpp"
 
 #include <NvidiaDriverInformation.hpp>
+#include <NvidiaGpuCurrentUtilization.hpp>
 #include <NvidiaGpuEnergySensor.hpp>
 #include <NvidiaGpuPowerPeakReading.hpp>
 #include <NvidiaGpuVoltageSensor.hpp>
+#include <NvidiaLongRunningHandler.hpp>
 #include <NvidiaPcieInterface.hpp>
 #include <NvidiaPciePort.hpp>
 #include <NvidiaPciePortMetrics.hpp>
@@ -94,11 +96,15 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
     std::vector<std::shared_ptr<NvidiaPciePortMetrics>> pciePortMetrics;
 
     std::shared_ptr<NvidiaEventReportingConfig> eventReporting;
+    std::shared_ptr<NvidiaLongRunningResponseHandler> longRunningHandler;
+    std::shared_ptr<NvidiaGpuCurrentUtilization> currentUtilization;
 
     std::array<uint8_t, sizeof(gpu::ReadThermalParametersRequest)>
         thermalParamReqMsg{};
     std::array<int32_t, 3> thresholds{};
     size_t current_threshold_index{};
+
+    std::shared_ptr<sdbusplus::asio::dbus_interface> operatingConfigInterface;
 
     SensorConfigs configs;
 
