@@ -184,6 +184,32 @@ int decodeSetEventSourcesResponse(
     return 0;
 }
 
+int decodeLongRunningResponseEvent(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint8_t& instanceId, std::span<const uint8_t>& responseData)
+{
+    UnpackBuffer buffer(buf);
+
+    uint8_t completionCode = 0;
+
+    buffer.unpack(instanceId);
+    buffer.unpack(completionCode);
+    buffer.unpack(reasonCode);
+
+    if (buffer.getError() != 0)
+    {
+        return buffer.getError();
+    }
+
+    cc = static_cast<ocp::accelerator_management::CompletionCode>(
+        completionCode);
+
+    responseData = buf.subspan(longRunningResponseEventSize);
+
+    return 0;
+}
+
 int encodeQueryDeviceIdentificationRequest(uint8_t instanceId,
                                            const std::span<uint8_t> buf)
 {
@@ -787,6 +813,65 @@ int decodeGetInventoryInformationResponse(
             return EINVAL;
     }
     return 0;
+}
+
+int encodeGetCurrentUtilizationModeRequest(uint8_t instanceId,
+                                           std::span<uint8_t> buf)
+{
+    PackBuffer buffer(buf);
+
+    int rc = encodeRequestCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(
+            PlatformEnvironmentalCommands::GET_CURRENT_UTILIZATION),
+        instanceId);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    const uint8_t dataSize = 0;
+    buffer.pack(dataSize);
+
+    return buffer.getError();
+}
+
+int decodeGetCurrentUtilizationModeResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint32_t& gpuUtilization, uint32_t& memoryUtilization)
+{
+    UnpackBuffer buffer(buf);
+
+    int rc = decodeResponseCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(
+            PlatformEnvironmentalCommands::GET_CURRENT_UTILIZATION),
+        cc, reasonCode);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    uint16_t dataSize = 0;
+    rc = buffer.unpack(dataSize);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    if (dataSize != sizeof(uint32_t) * 2)
+    {
+        return EINVAL;
+    }
+
+    buffer.unpack(gpuUtilization);
+    buffer.unpack(memoryUtilization);
+
+    return buffer.getError();
 }
 
 int encodeQueryScalarGroupTelemetryV1Request(
