@@ -46,6 +46,7 @@ enum class CompletionCode : uint8_t
     ERR_NOT_READY = 0x04,
     ERR_UNSUPPORTED_COMMAND_CODE = 0x05,
     ERR_UNSUPPORTED_MSG_TYPE = 0x06,
+    ACCEPTED = 0x7D,
     ERR_BUS_ACCESS = 0x7f,
     ERR_NULL = 0x80,
 };

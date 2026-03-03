@@ -33,6 +33,8 @@ constexpr size_t setEventSubscriptionRequestSize =
 constexpr size_t setEventSourcesRequestSize =
     ocp::accelerator_management::commonRequestSize + 9;
 
+constexpr size_t longRunningResponseEventSize = 4;
+
 enum class MessageType : uint8_t
 {
     DEVICE_CAPABILITY_DISCOVERY = 0,
@@ -48,6 +50,11 @@ enum class DeviceCapabilityDiscoveryCommands : uint8_t
     QUERY_DEVICE_IDENTIFICATION = 0x09,
 };
 
+enum class DeviceCapabilityDiscoveryEvents : uint8_t
+{
+    LONG_RUNNING_RESPONSE = 0x02,
+};
+
 enum class PlatformEnvironmentalCommands : uint8_t
 {
     GET_TEMPERATURE_READING = 0x00,
@@ -58,6 +65,7 @@ enum class PlatformEnvironmentalCommands : uint8_t
     GET_INVENTORY_INFORMATION = 0x0C,
     GET_DRIVER_INFORMATION = 0x0E,
     GET_VOLTAGE = 0x0F,
+    GET_CURRENT_UTILIZATION = 0x47,
 };
 
 enum class NetworkPortCommands : uint8_t
@@ -333,6 +341,14 @@ int decodeGetInventoryInformationResponse(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     InventoryPropertyId propertyId, InventoryValue& value);
+
+int encodeGetCurrentUtilizationModeRequest(uint8_t instanceId,
+                                           std::span<uint8_t> buf);
+
+int decodeLongRunningResponseEvent(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint8_t& instanceId, std::span<const uint8_t>& responseData);
 
 int encodeQueryScalarGroupTelemetryV2Request(
     uint8_t instanceId, PciePortType portType, uint8_t upstreamPortNumber,
