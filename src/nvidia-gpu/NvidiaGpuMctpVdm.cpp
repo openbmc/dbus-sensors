@@ -638,71 +638,78 @@ int decodeGetInventoryInformationResponse(
     return 0;
 }
 
-int encodeQueryScalarGroupTelemetryV2Request(
-    uint8_t instanceId, PciePortType portType, uint8_t upstreamPortNumber,
-    uint8_t portNumber, uint8_t groupId, std::span<uint8_t> buf)
+int encodeQueryScalarGroupTelemetryV1Request(
+    uint8_t instanceId, uint8_t deviceIndex, PcieScalarGroupId groupId,
+    std::span<uint8_t> buf)
 {
-    if (buf.size() < sizeof(QueryScalarGroupTelemetryV2Request))
-    {
-        return EINVAL;
-    }
+    PackBuffer buffer(buf);
 
-    auto* msg =
-        reinterpret_cast<QueryScalarGroupTelemetryV2Request*>(buf.data());
-
-    ocp::accelerator_management::BindingPciVidInfo header{};
-    header.ocp_accelerator_management_msg_type =
-        static_cast<uint8_t>(ocp::accelerator_management::MessageType::REQUEST);
-    header.instance_id = instanceId &
-                         ocp::accelerator_management::instanceIdBitMask;
-    header.msg_type = static_cast<uint8_t>(MessageType::PCIE_LINK);
-
-    auto rc = packHeader(header, msg->hdr.msgHdr.hdr);
+    int rc = encodeRequestCommonHeader(
+        buffer, MessageType::PCIE_LINK,
+        static_cast<uint8_t>(PcieLinkCommands::QueryScalarGroupTelemetryV1),
+        instanceId);
 
     if (rc != 0)
     {
         return rc;
     }
 
-    msg->hdr.command =
-        static_cast<uint8_t>(PcieLinkCommands::QueryScalarGroupTelemetryV2);
-    msg->hdr.data_size = 3;
-    msg->upstreamPortNumber =
-        (static_cast<uint8_t>(portType) << 7) | (upstreamPortNumber & 0x7F);
-    msg->portNumber = portNumber;
-    msg->groupId = groupId;
+    const uint8_t dataSize = 2;
+    buffer.pack(dataSize);
+    buffer.pack(deviceIndex);
+    buffer.pack(static_cast<uint8_t>(groupId));
 
-    return 0;
+    return buffer.getError();
 }
 
-int decodeQueryScalarGroupTelemetryV2Response(
-    std::span<const uint8_t> buf,
+int encodeQueryScalarGroupTelemetryV2Request(
+    uint8_t instanceId, PciePortType portType, uint8_t upstreamPortNumber,
+    uint8_t portNumber, PcieScalarGroupId groupId, std::span<uint8_t> buf)
+{
+    PackBuffer buffer(buf);
+
+    int rc = encodeRequestCommonHeader(
+        buffer, MessageType::PCIE_LINK,
+        static_cast<uint8_t>(PcieLinkCommands::QueryScalarGroupTelemetryV2),
+        instanceId);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    const uint8_t dataSize = 3;
+    buffer.pack(dataSize);
+    const uint8_t encodedUpstreamPortNumber =
+        (static_cast<uint8_t>(portType) << 7) | (upstreamPortNumber & 0x7F);
+    buffer.pack(encodedUpstreamPortNumber);
+    buffer.pack(portNumber);
+    buffer.pack(static_cast<uint8_t>(groupId));
+
+    return buffer.getError();
+}
+
+static int decodeQueryScalarGroupTelemetryResponseImpl(
+    std::span<const uint8_t> buf, uint8_t expectedCommand,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     size_t& numTelemetryValues, std::vector<uint32_t>& telemetryValues)
 {
-    auto rc =
-        ocp::accelerator_management::decodeReasonCodeAndCC(buf, cc, reasonCode);
+    UnpackBuffer buffer(buf);
+
+    int rc = decodeResponseCommonHeader(buffer, MessageType::PCIE_LINK,
+                                        expectedCommand, cc, reasonCode);
 
     if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
     {
         return rc;
     }
 
-    if (buf.size() < sizeof(ocp::accelerator_management::CommonResponse))
+    uint16_t dataSize = 0;
+    rc = buffer.unpack(dataSize);
+
+    if (rc != 0)
     {
-        return EINVAL;
-    }
-
-    const auto* response =
-        reinterpret_cast<const ocp::accelerator_management::CommonResponse*>(
-            buf.data());
-
-    const uint16_t dataSize = le16toh(response->data_size);
-
-    if (buf.size() <
-        dataSize + sizeof(ocp::accelerator_management::CommonResponse))
-    {
-        return EINVAL;
+        return rc;
     }
 
     numTelemetryValues = dataSize / sizeof(uint32_t);
@@ -712,18 +719,39 @@ int decodeQueryScalarGroupTelemetryV2Response(
         telemetryValues.resize(numTelemetryValues);
     }
 
-    const auto* telemetryDataPtr =
-        buf.data() + sizeof(ocp::accelerator_management::CommonResponse);
-
     for (size_t i = 0; i < numTelemetryValues; i++)
     {
-        std::memcpy(&telemetryValues[i],
-                    telemetryDataPtr + i * sizeof(uint32_t), sizeof(uint32_t));
+        rc = buffer.unpack(telemetryValues[i]);
 
-        telemetryValues[i] = le32toh(telemetryValues[i]);
+        if (rc != 0)
+        {
+            return rc;
+        }
     }
 
     return 0;
+}
+
+int decodeQueryScalarGroupTelemetryV1Response(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    size_t& numTelemetryValues, std::vector<uint32_t>& telemetryValues)
+{
+    return decodeQueryScalarGroupTelemetryResponseImpl(
+        buf,
+        static_cast<uint8_t>(PcieLinkCommands::QueryScalarGroupTelemetryV1), cc,
+        reasonCode, numTelemetryValues, telemetryValues);
+}
+
+int decodeQueryScalarGroupTelemetryV2Response(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    size_t& numTelemetryValues, std::vector<uint32_t>& telemetryValues)
+{
+    return decodeQueryScalarGroupTelemetryResponseImpl(
+        buf,
+        static_cast<uint8_t>(PcieLinkCommands::QueryScalarGroupTelemetryV2), cc,
+        reasonCode, numTelemetryValues, telemetryValues);
 }
 
 int encodeListPciePortsRequest(uint8_t instanceId, std::span<uint8_t> buf)

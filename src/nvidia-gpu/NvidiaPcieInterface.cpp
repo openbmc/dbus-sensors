@@ -36,16 +36,21 @@ NvidiaPcieInterface::NvidiaPcieInterface(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, const std::string& name,
     const std::string& path, uint8_t eid,
-    sdbusplus::asio::object_server& objectServer) :
-    eid(eid), path(path), conn(conn), mctpRequester(mctpRequester)
+    sdbusplus::asio::object_server& objectServer,
+    gpu::DeviceIdentification deviceType) :
+    eid(eid), path(path), conn(conn), mctpRequester(mctpRequester),
+    deviceType(deviceType)
 {
     const std::string dbusPath = pcieDevicePathPrefix + escapeName(name);
 
     pcieDeviceInterface = objectServer.add_interface(
         dbusPath, "xyz.openbmc_project.Inventory.Item.PCIeDevice");
 
-    switchInterface = objectServer.add_interface(
-        dbusPath, "xyz.openbmc_project.Inventory.Item.PCIeSwitch");
+    if (deviceType == gpu::DeviceIdentification::DEVICE_PCIE)
+    {
+        switchInterface = objectServer.add_interface(
+            dbusPath, "xyz.openbmc_project.Inventory.Item.PCIeSwitch");
+    }
 
     pcieDeviceInterface->register_property(
         "GenerationInUse",
@@ -68,7 +73,7 @@ NvidiaPcieInterface::NvidiaPcieInterface(
                    "EID", eid);
     }
 
-    if (!switchInterface->initialize())
+    if (switchInterface && !switchInterface->initialize())
     {
         lg2::error("Error initializing Switch Interface for EID={EID}", "EID",
                    eid);
@@ -117,8 +122,20 @@ void NvidiaPcieInterface::processResponse(const std::error_code& ec,
     uint16_t reasonCode = 0;
     size_t numTelemetryValue = 0;
 
-    auto rc = gpu::decodeQueryScalarGroupTelemetryV2Response(
-        response, cc, reasonCode, numTelemetryValue, telemetryValues);
+    int rc = 0;
+    switch (deviceType)
+    {
+        case gpu::DeviceIdentification::DEVICE_GPU:
+            rc = gpu::decodeQueryScalarGroupTelemetryV1Response(
+                response, cc, reasonCode, numTelemetryValue, telemetryValues);
+            break;
+        case gpu::DeviceIdentification::DEVICE_PCIE:
+            rc = gpu::decodeQueryScalarGroupTelemetryV2Response(
+                response, cc, reasonCode, numTelemetryValue, telemetryValues);
+            break;
+        default:
+            return;
+    }
 
     if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
     {
@@ -158,8 +175,24 @@ void NvidiaPcieInterface::processResponse(const std::error_code& ec,
 
 void NvidiaPcieInterface::update()
 {
-    auto rc =
-        gpu::encodeQueryScalarGroupTelemetryV2Request(0, {}, 0, 0, 1, request);
+    int rc = 0;
+    std::span<uint8_t> buf;
+
+    switch (deviceType)
+    {
+        case gpu::DeviceIdentification::DEVICE_GPU:
+            rc = gpu::encodeQueryScalarGroupTelemetryV1Request(
+                0, 0, gpu::PcieScalarGroupId::LinkSpeedWidth, requestV1);
+            buf = requestV1;
+            break;
+        case gpu::DeviceIdentification::DEVICE_PCIE:
+            rc = gpu::encodeQueryScalarGroupTelemetryV2Request(
+                0, {}, 0, 0, gpu::PcieScalarGroupId::LinkSpeedWidth, request);
+            buf = request;
+            break;
+        default:
+            return;
+    }
 
     if (rc != 0)
     {
@@ -169,7 +202,7 @@ void NvidiaPcieInterface::update()
     }
 
     mctpRequester.sendRecvMsg(
-        eid, request,
+        eid, buf,
         [weak{weak_from_this()}](const std::error_code& ec,
                                  std::span<const uint8_t> buffer) {
             std::shared_ptr<NvidiaPcieInterface> self = weak.lock();

@@ -38,9 +38,11 @@ NvidiaPciePortInfo::NvidiaPciePortInfo(
     mctp::MctpRequester& mctpRequester, const std::string& name,
     const std::string& pcieDeviceName, const std::string& path, uint8_t eid,
     gpu::PciePortType portType, uint8_t upstreamPortNumber, uint8_t portNumber,
-    sdbusplus::asio::object_server& objectServer) :
+    sdbusplus::asio::object_server& objectServer,
+    gpu::DeviceIdentification deviceType) :
     eid(eid), portType(portType), upstreamPortNumber(upstreamPortNumber),
-    portNumber(portNumber), path(path), conn(conn), mctpRequester(mctpRequester)
+    portNumber(portNumber), path(path), conn(conn),
+    mctpRequester(mctpRequester), deviceType(deviceType)
 {
     const sdbusplus::message::object_path dbusPath =
         sdbusplus::message::object_path(pcieDevicePathPrefix) / pcieDeviceName /
@@ -53,11 +55,11 @@ NvidiaPciePortInfo::NvidiaPciePortInfo(
 
     if (portType == gpu::PciePortType::UPSTREAM)
     {
-        portTypeStr = "UpstreamPort";
+        portTypeStr = "Upstream";
     }
     else
     {
-        portTypeStr = "DownstreamPort";
+        portTypeStr = "Downstream";
     }
 
     pciePortInterface->register_property(
@@ -138,8 +140,20 @@ void NvidiaPciePortInfo::processResponse(
     uint16_t reasonCode = 0;
     size_t numTelemetryValue = 0;
 
-    const int rc = gpu::decodeQueryScalarGroupTelemetryV2Response(
-        response, cc, reasonCode, numTelemetryValue, telemetryValues);
+    int rc = 0;
+    switch (deviceType)
+    {
+        case gpu::DeviceIdentification::DEVICE_GPU:
+            rc = gpu::decodeQueryScalarGroupTelemetryV1Response(
+                response, cc, reasonCode, numTelemetryValue, telemetryValues);
+            break;
+        case gpu::DeviceIdentification::DEVICE_PCIE:
+            rc = gpu::decodeQueryScalarGroupTelemetryV2Response(
+                response, cc, reasonCode, numTelemetryValue, telemetryValues);
+            break;
+        default:
+            return;
+    }
 
     if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
     {
@@ -170,8 +184,25 @@ void NvidiaPciePortInfo::processResponse(
 
 void NvidiaPciePortInfo::update()
 {
-    auto rc = gpu::encodeQueryScalarGroupTelemetryV2Request(
-        0, portType, upstreamPortNumber, portNumber, 1, request);
+    int rc = 0;
+    std::span<uint8_t> buf;
+
+    switch (deviceType)
+    {
+        case gpu::DeviceIdentification::DEVICE_GPU:
+            rc = gpu::encodeQueryScalarGroupTelemetryV1Request(
+                0, 0, gpu::PcieScalarGroupId::LinkSpeedWidth, requestV1);
+            buf = requestV1;
+            break;
+        case gpu::DeviceIdentification::DEVICE_PCIE:
+            rc = gpu::encodeQueryScalarGroupTelemetryV2Request(
+                0, portType, upstreamPortNumber, portNumber,
+                gpu::PcieScalarGroupId::LinkSpeedWidth, request);
+            buf = request;
+            break;
+        default:
+            return;
+    }
 
     if (rc != 0)
     {
@@ -183,7 +214,7 @@ void NvidiaPciePortInfo::update()
     }
 
     mctpRequester.sendRecvMsg(
-        eid, request,
+        eid, buf,
         [weak{weak_from_this()}](const std::error_code& ec,
                                  std::span<const uint8_t> buffer) {
             std::shared_ptr<NvidiaPciePortInfo> self = weak.lock();
