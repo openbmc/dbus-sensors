@@ -35,7 +35,7 @@ struct NvidiaPciePortMetrics :
         const std::string& pcieDeviceName, const std::string& path, uint8_t eid,
         gpu::PciePortType portType, uint8_t upstreamPortNumber,
         uint8_t portNumber, sdbusplus::asio::object_server& objectServer,
-        uint8_t scalarGroupId,
+        gpu::PcieLinkGroupId scalarGroupId,
         const std::vector<NvidiaMetricInfo>& metricsInfo);
 
     void update();
@@ -56,7 +56,7 @@ struct NvidiaPciePortMetrics :
 
     uint8_t portNumber;
 
-    uint8_t scalarGroupId;
+    gpu::PcieLinkGroupId scalarGroupId;
 
     std::string path;
 
