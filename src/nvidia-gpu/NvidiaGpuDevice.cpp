@@ -18,6 +18,8 @@
 #include <NvidiaGpuPowerSensor.hpp>
 #include <NvidiaGpuSensor.hpp>
 #include <NvidiaGpuVoltageSensor.hpp>
+#include <NvidiaPcieInterface.hpp>
+#include <NvidiaPciePort.hpp>
 #include <OcpMctpVdm.hpp>
 #include <boost/asio/io_context.hpp>
 #include <phosphor-logging/lg2.hpp>
@@ -102,6 +104,15 @@ void GpuDevice::makeSensors()
 
     driverInfo = std::make_shared<NvidiaDriverInformation>(
         conn, mctpRequester, name, path, eid, objectServer);
+
+    pcieInterface = std::make_shared<NvidiaPcieInterface>(
+        conn, mctpRequester, name, path, eid, objectServer,
+        gpu::DeviceIdentification::DEVICE_GPU);
+
+    pciePort = std::make_shared<NvidiaPciePortInfo>(
+        conn, mctpRequester, "UP_0", name, path, eid,
+        gpu::PciePortType::UPSTREAM, 0, 0, objectServer,
+        gpu::DeviceIdentification::DEVICE_GPU);
 
     getTLimitThresholds();
 
@@ -222,6 +233,8 @@ void GpuDevice::read()
     energySensor->update();
     voltageSensor->update();
     driverInfo->update();
+    pcieInterface->update();
+    pciePort->update();
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait(
