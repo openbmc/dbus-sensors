@@ -1525,6 +1525,58 @@ TEST_F(GpuMctpVdmTests, DecodeGetPowerLimitsResponseInvalidDataSize)
     EXPECT_EQ(result, EINVAL);
 }
 
+TEST_F(GpuMctpVdmTests, EncodeQueryScalarGroupTelemetryV1RequestSuccess)
+{
+    const uint8_t instanceId = 10;
+    const uint8_t deviceIndex = 0;
+    const gpu::PcieScalarGroupId groupId =
+        gpu::PcieScalarGroupId::LinkSpeedWidth;
+    std::array<uint8_t, gpu::queryScalarGroupTelemetryV1RequestSize> buf{};
+
+    int result = gpu::encodeQueryScalarGroupTelemetryV1Request(
+        instanceId, deviceIndex, groupId, buf);
+
+    EXPECT_EQ(result, 0);
+
+    UnpackBuffer ubuf(std::span<const uint8_t>(buf.data(), buf.size()));
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t unpackedInstanceId = 0;
+    uint8_t unpackedMsgType = 0;
+    EXPECT_EQ(ocp::accelerator_management::unpackHeader(
+                  ubuf, gpu::nvidiaPciVendorId, msgType, unpackedInstanceId,
+                  unpackedMsgType),
+              0);
+    EXPECT_EQ(msgType, ocp::accelerator_management::MessageType::REQUEST);
+    EXPECT_EQ(unpackedInstanceId,
+              instanceId & ocp::accelerator_management::instanceIdBitMask);
+    EXPECT_EQ(unpackedMsgType,
+              static_cast<uint8_t>(gpu::MessageType::PCIE_LINK));
+    uint8_t command = 0;
+    ubuf.unpack(command);
+    EXPECT_EQ(command, static_cast<uint8_t>(
+                           gpu::PcieLinkCommands::QueryScalarGroupTelemetryV1));
+    uint8_t dataSize = 0;
+    ubuf.unpack(dataSize);
+    EXPECT_EQ(dataSize, 2);
+    uint8_t unpackedDeviceIndex = 0;
+    ubuf.unpack(unpackedDeviceIndex);
+    EXPECT_EQ(unpackedDeviceIndex, deviceIndex);
+    uint8_t unpackedGroupId = 0;
+    ubuf.unpack(unpackedGroupId);
+    EXPECT_EQ(unpackedGroupId, static_cast<uint8_t>(groupId));
+    EXPECT_EQ(ubuf.getError(), 0);
+}
+
+TEST_F(GpuMctpVdmTests, EncodeQueryScalarGroupTelemetryV1RequestInvalidSize)
+{
+    std::array<uint8_t, 1> buf{};
+
+    int result = gpu::encodeQueryScalarGroupTelemetryV1Request(
+        0, 0, gpu::PcieScalarGroupId::LinkSpeedWidth, buf);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
 TEST_F(GpuMctpVdmTests, EncodeQueryScalarGroupTelemetryV2RequestSuccess)
 {
     const uint8_t instanceId = 10;
@@ -1562,6 +1614,95 @@ TEST_F(GpuMctpVdmTests, EncodeQueryScalarGroupTelemetryV2RequestSuccess)
                   (upstreamPortNumber & 0x7F));
     EXPECT_EQ(request.portNumber, portNumber);
     EXPECT_EQ(request.groupId, groupId);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeQueryScalarGroupTelemetryV1ResponseSuccess)
+{
+    const size_t numValues = 4;
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 10,
+        static_cast<uint8_t>(gpu::MessageType::PCIE_LINK));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::PcieLinkCommands::QueryScalarGroupTelemetryV1));       // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));     // CC
+    pbuf.pack(static_cast<uint16_t>(0));                            // reserved
+    pbuf.pack(static_cast<uint16_t>(numValues * sizeof(uint32_t))); // data_size
+    for (size_t i = 0; i < numValues; ++i)
+    {
+        pbuf.pack(static_cast<uint32_t>((i + 1) * 100));
+    }
+    ASSERT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    size_t numTelemetryValues{};
+    std::vector<uint32_t> telemetryValues{};
+
+    int result = gpu::decodeQueryScalarGroupTelemetryV1Response(
+        buf, cc, reasonCode, numTelemetryValues, telemetryValues);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+    EXPECT_EQ(numTelemetryValues, numValues);
+    ASSERT_EQ(telemetryValues.size(), numValues);
+    EXPECT_EQ(telemetryValues[0], 100U);
+    EXPECT_EQ(telemetryValues[1], 200U);
+    EXPECT_EQ(telemetryValues[2], 300U);
+    EXPECT_EQ(telemetryValues[3], 400U);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeQueryScalarGroupTelemetryV1ResponseError)
+{
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 10,
+        static_cast<uint8_t>(gpu::MessageType::PCIE_LINK));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::PcieLinkCommands::QueryScalarGroupTelemetryV1));         // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERR_NOT_READY)); // CC
+    pbuf.pack(static_cast<uint16_t>(0x5678)); // reason_code
+    ASSERT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    size_t numTelemetryValues{};
+    std::vector<uint32_t> telemetryValues{};
+
+    int result = gpu::decodeQueryScalarGroupTelemetryV1Response(
+        buf, cc, reasonCode, numTelemetryValues, telemetryValues);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
+    EXPECT_EQ(reasonCode, 0x5678);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeQueryScalarGroupTelemetryV1ResponseInvalidSize)
+{
+    std::vector<uint8_t> buf(7);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 10,
+        static_cast<uint8_t>(gpu::MessageType::PCIE_LINK));
+    ASSERT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    size_t numTelemetryValues{};
+    std::vector<uint32_t> telemetryValues{};
+
+    int result = gpu::decodeQueryScalarGroupTelemetryV1Response(
+        buf, cc, reasonCode, numTelemetryValues, telemetryValues);
+
+    EXPECT_EQ(result, EINVAL);
 }
 
 TEST_F(GpuMctpVdmTests, DecodeQueryScalarGroupTelemetryV2ResponseSuccess)

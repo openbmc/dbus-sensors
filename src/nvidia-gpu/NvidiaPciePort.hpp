@@ -27,7 +27,8 @@ struct NvidiaPciePortInfo :
         mctp::MctpRequester& mctpRequester, const std::string& name,
         const std::string& pcieDeviceName, const std::string& path, uint8_t eid,
         gpu::PciePortType portType, uint8_t upstreamPortNumber,
-        uint8_t portNumber, sdbusplus::asio::object_server& objectServer);
+        uint8_t portNumber, sdbusplus::asio::object_server& objectServer,
+        gpu::DeviceIdentification deviceType);
 
     void update();
 
@@ -53,8 +54,13 @@ struct NvidiaPciePortInfo :
 
     mctp::MctpRequester& mctpRequester;
 
+    std::array<uint8_t, gpu::queryScalarGroupTelemetryV1RequestSize>
+        requestV1{};
+
     std::array<uint8_t, sizeof(gpu::QueryScalarGroupTelemetryV2Request)>
-        request{};
+        requestV2{};
+
+    gpu::DeviceIdentification deviceType;
 
     std::shared_ptr<sdbusplus::asio::dbus_interface> pciePortInterface;
 
