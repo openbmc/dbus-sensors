@@ -30,6 +30,7 @@ struct NvidiaPciePortInfo :
         uint8_t portNumber, sdbusplus::asio::object_server& objectServer);
 
     void update();
+    void updateV1();
 
   private:
     static constexpr size_t maxTelemetryValues = 64;
@@ -55,6 +56,9 @@ struct NvidiaPciePortInfo :
 
     std::array<uint8_t, sizeof(gpu::QueryScalarGroupTelemetryV2Request)>
         request{};
+
+    std::array<uint8_t, sizeof(gpu::QueryScalarGroupTelemetryV1Request)>
+        requestV1{};
 
     std::shared_ptr<sdbusplus::asio::dbus_interface> pciePortInterface;
 

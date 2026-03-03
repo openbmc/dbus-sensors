@@ -575,6 +575,41 @@ int decodeGetInventoryInformationResponse(
     return 0;
 }
 
+int encodeQueryScalarGroupTelemetryV1Request(
+    uint8_t instanceId, uint8_t deviceIndex, uint8_t groupId,
+    std::span<uint8_t> buf)
+{
+    if (buf.size() < sizeof(QueryScalarGroupTelemetryV1Request))
+    {
+        return EINVAL;
+    }
+
+    auto* msg =
+        reinterpret_cast<QueryScalarGroupTelemetryV1Request*>(buf.data());
+
+    ocp::accelerator_management::BindingPciVidInfo header{};
+    header.ocp_accelerator_management_msg_type =
+        static_cast<uint8_t>(ocp::accelerator_management::MessageType::REQUEST);
+    header.instance_id = instanceId &
+                         ocp::accelerator_management::instanceIdBitMask;
+    header.msg_type = static_cast<uint8_t>(MessageType::PCIE_LINK);
+
+    auto rc = packHeader(header, msg->hdr.msgHdr.hdr);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    msg->hdr.command =
+        static_cast<uint8_t>(PcieLinkCommands::QueryScalarGroupTelemetryV1);
+    msg->hdr.data_size = 2;
+    msg->deviceIndex = deviceIndex;
+    msg->groupId = groupId;
+
+    return 0;
+}
+
 int encodeQueryScalarGroupTelemetryV2Request(
     uint8_t instanceId, PciePortType portType, uint8_t upstreamPortNumber,
     uint8_t portNumber, uint8_t groupId, std::span<uint8_t> buf)
@@ -608,6 +643,57 @@ int encodeQueryScalarGroupTelemetryV2Request(
         (static_cast<uint8_t>(portType) << 7) | (upstreamPortNumber & 0x7F);
     msg->portNumber = portNumber;
     msg->groupId = groupId;
+
+    return 0;
+}
+
+int decodeQueryScalarGroupTelemetryV1Response(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    size_t& numTelemetryValues, std::vector<uint32_t>& telemetryValues)
+{
+    auto rc =
+        ocp::accelerator_management::decodeReasonCodeAndCC(buf, cc, reasonCode);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    if (buf.size() < sizeof(ocp::accelerator_management::CommonResponse))
+    {
+        return EINVAL;
+    }
+
+    const auto* response =
+        reinterpret_cast<const ocp::accelerator_management::CommonResponse*>(
+            buf.data());
+
+    const uint16_t dataSize = le16toh(response->data_size);
+
+    if (buf.size() <
+        dataSize + sizeof(ocp::accelerator_management::CommonResponse))
+    {
+        return EINVAL;
+    }
+
+    numTelemetryValues = dataSize / sizeof(uint32_t);
+
+    if (telemetryValues.size() < numTelemetryValues)
+    {
+        telemetryValues.resize(numTelemetryValues);
+    }
+
+    const auto* telemetryDataPtr =
+        buf.data() + sizeof(ocp::accelerator_management::CommonResponse);
+
+    for (size_t i = 0; i < numTelemetryValues; i++)
+    {
+        std::memcpy(&telemetryValues[i],
+                    telemetryDataPtr + i * sizeof(uint32_t), sizeof(uint32_t));
+
+        telemetryValues[i] = le32toh(telemetryValues[i]);
+    }
 
     return 0;
 }
