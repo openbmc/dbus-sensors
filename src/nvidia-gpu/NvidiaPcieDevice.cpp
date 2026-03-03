@@ -222,7 +222,8 @@ void PcieDevice::makeSensors()
     const std::string pcieDeviceName = name + "_PCIe";
 
     pcieInterface = std::make_shared<NvidiaPcieInterface>(
-        conn, mctpRequester, pcieDeviceName, path, eid, objectServer);
+        conn, mctpRequester, pcieDeviceName, path, eid, objectServer,
+        gpu::DeviceIdentification::DEVICE_PCIE);
 
     uint64_t downstreamPortIndex = 0;
 
@@ -232,7 +233,8 @@ void PcieDevice::makeSensors()
 
         pciePorts.emplace_back(std::make_shared<NvidiaPciePortInfo>(
             conn, mctpRequester, portName, pcieDeviceName, path, eid,
-            gpu::PciePortType::UPSTREAM, i, i, objectServer));
+            gpu::PciePortType::UPSTREAM, i, i, objectServer,
+            gpu::DeviceIdentification::DEVICE_PCIE));
 
         pciePortMetrics.emplace_back(makeNvidiaPciePortErrors(
             conn, mctpRequester, portName, pcieDeviceName, path, eid,
@@ -254,7 +256,7 @@ void PcieDevice::makeSensors()
             pciePorts.emplace_back(std::make_shared<NvidiaPciePortInfo>(
                 conn, mctpRequester, portName, pcieDeviceName, path, eid,
                 gpu::PciePortType::DOWNSTREAM, i, downstreamPortIndex,
-                objectServer));
+                objectServer, gpu::DeviceIdentification::DEVICE_PCIE));
 
             pciePortMetrics.emplace_back(makeNvidiaPciePortErrors(
                 conn, mctpRequester, portName, pcieDeviceName, path, eid,
