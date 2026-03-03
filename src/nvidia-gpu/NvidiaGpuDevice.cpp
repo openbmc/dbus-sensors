@@ -14,12 +14,14 @@
 #include <NvidiaDriverInformation.hpp>
 #include <NvidiaEventReporting.hpp>
 #include <NvidiaGpuControl.hpp>
+#include <NvidiaGpuCurrentUtilization.hpp>
 #include <NvidiaGpuEnergySensor.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
 #include <NvidiaGpuPowerPeakReading.hpp>
 #include <NvidiaGpuPowerSensor.hpp>
 #include <NvidiaGpuSensor.hpp>
 #include <NvidiaGpuVoltageSensor.hpp>
+#include <NvidiaLongRunningHandler.hpp>
 #include <NvidiaPcieInterface.hpp>
 #include <NvidiaPciePort.hpp>
 #include <OcpMctpVdm.hpp>
@@ -27,6 +29,7 @@
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/message/native_types.hpp>
 
 #include <array>
 #include <chrono>
@@ -90,6 +93,18 @@ GpuDevice::~GpuDevice()
 
 void GpuDevice::init()
 {
+    const std::string inventoryPath =
+        sdbusplus::message::object_path("/xyz/openbmc_project/inventory") /
+        name;
+
+    operatingConfigInterface = objectServer.add_interface(
+        inventoryPath,
+        "xyz.openbmc_project.Inventory.Item.Cpu.OperatingConfig");
+
+    operatingConfigInterface->register_property("Utilization", 0.0);
+
+    operatingConfigInterface->initialize();
+
     inventory = std::make_shared<Inventory>(
         conn, objectServer, name, mctpRequester,
         gpu::DeviceIdentification::DEVICE_GPU, eid, io, powerCapInterface);
@@ -134,8 +149,20 @@ void GpuDevice::makeSensors()
         objectServer, std::vector<thresholds::Threshold>{},
         gpu::DeviceIdentification::DEVICE_GPU);
 
+    longRunningHandler = std::make_shared<NvidiaLongRunningResponseHandler>();
+
     eventReporting = std::make_shared<NvidiaEventReportingConfig>(
-        eid, mctpRequester, std::initializer_list<EventDescriptor>{});
+        eid, mctpRequester,
+        std::initializer_list<EventDescriptor>{
+            {gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY,
+             static_cast<uint8_t>(
+                 gpu::DeviceCapabilityDiscoveryEvents::LONG_RUNNING_RESPONSE),
+             std::bind_front(&NvidiaLongRunningResponseHandler::handler,
+                             longRunningHandler)}});
+
+    currentUtilization = std::make_shared<NvidiaGpuCurrentUtilization>(
+        conn, mctpRequester, name, eid, longRunningHandler,
+        operatingConfigInterface);
 
     driverInfo = std::make_shared<NvidiaDriverInformation>(
         conn, mctpRequester, name, path, eid, objectServer);
@@ -275,6 +302,7 @@ void GpuDevice::read()
     gpuControl->update();
     pcieInterface->update();
     pciePort->update();
+    currentUtilization->update();
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait(
