@@ -804,6 +804,7 @@ static void createSensorsCallback(
             std::string keyMax = labelHead + "_Max";
             std::string keyOffset = labelHead + "_Offset";
             std::string keyPowerState = labelHead + "_PowerState";
+            std::string keyUnits = labelHead + "_Units";
 
             bool customizedName = false;
             auto findCustomName = baseConfig->find(keyName);
@@ -1008,6 +1009,39 @@ static void createSensorsCallback(
                 continue;
             }
 
+            std::string sensorUnits(findSensorUnit->units);
+            auto findCustomUnits = baseConfig->find(keyUnits);
+            if (findCustomUnits != baseConfig->end())
+            {
+                try
+                {
+                    std::string customUnits = std::visit(
+                        VariantToStringVisitor(), findCustomUnits->second);
+                    std::string fullUnits =
+                        sensor_paths::convertToFullUnits(customUnits);
+                    if (!fullUnits.empty())
+                    {
+                        lg2::info(
+                            "Overriding unit for '{NAME}': '{LABEL}' from {DEFAULT} to {OVERRIDE}",
+                            "NAME", psuProperty.labelTypeName, "LABEL",
+                            labelHead, "DEFAULT", sensorUnits, "OVERRIDE",
+                            fullUnits);
+                        sensorUnits = fullUnits;
+                    }
+                    else
+                    {
+                        lg2::error(
+                            "Invalid unit '{UNIT}' for '{NAME}': '{LABEL}', using default",
+                            "UNIT", customUnits, "NAME",
+                            psuProperty.labelTypeName, "LABEL", labelHead);
+                    }
+                }
+                catch (const std::invalid_argument&)
+                {
+                    lg2::error("Unable to parse '{UNITS}'", "UNITS", keyUnits);
+                }
+            }
+
             lg2::debug("Sensor properties - Name: {NAME}, Scale: {SCALE}, "
                        "Min: {MIN}, Max: {MAX}, Offset: {OFFSET}",
                        "NAME", psuProperty.labelTypeName, "SCALE",
@@ -1061,7 +1095,7 @@ static void createSensorsCallback(
                 sensors[sensorName] = std::make_shared<PSUSensor>(
                     sensorPathStr, sensorType, objectServer, dbusConnection, io,
                     sensorName, std::move(sensorThresholds), *interfacePath,
-                    readState, findSensorUnit->units, factor, maxReading,
+                    readState, sensorUnits, factor, maxReading,
                     minReading, sensorOffset, labelHead, thresholdConfSize,
                     pollRate, i2cDev);
                 sensors[sensorName]->setupRead();
