@@ -804,6 +804,7 @@ static void createSensorsCallback(
             std::string keyMax = labelHead + "_Max";
             std::string keyOffset = labelHead + "_Offset";
             std::string keyPowerState = labelHead + "_PowerState";
+            std::string keyShuntResistor = labelHead + "_ShuntResistorInOhms";
 
             bool customizedName = false;
             auto findCustomName = baseConfig->find(keyName);
@@ -1008,6 +1009,43 @@ static void createSensorsCallback(
                 continue;
             }
 
+            std::string sensorUnits(findSensorUnit->units);
+            auto findShuntResistor = baseConfig->find(keyShuntResistor);
+            if (findShuntResistor != baseConfig->end())
+            {
+                try
+                {
+                    double shuntResistorOhms = std::visit(
+                        VariantToDoubleVisitor(), findShuntResistor->second);
+                    if (shuntResistorOhms <= 0.0)
+                    {
+                        lg2::error("Invalid ShuntResistorInOhms for '{LABEL}'",
+                                   "LABEL", labelHead);
+                        continue;
+                    }
+                    factor = static_cast<unsigned int>(
+                        std::round(factor * shuntResistorOhms));
+                    if (factor == 0)
+                    {
+                        lg2::error(
+                            "ShuntResistorInOhms too small for '{LABEL}'",
+                            "LABEL", labelHead);
+                        continue;
+                    }
+                    sensorUnits = sensor_paths::unitAmperes;
+                    lg2::info("Shunt resistor for '{LABEL}': R={RESISTANCE}, "
+                              "factor={FACTOR}",
+                              "LABEL", labelHead, "RESISTANCE",
+                              shuntResistorOhms, "FACTOR", factor);
+                }
+                catch (const std::invalid_argument&)
+                {
+                    lg2::error(
+                        "Unable to parse ShuntResistorInOhms for '{LABEL}'",
+                        "LABEL", labelHead);
+                }
+            }
+
             lg2::debug("Sensor properties - Name: {NAME}, Scale: {SCALE}, "
                        "Min: {MIN}, Max: {MAX}, Offset: {OFFSET}",
                        "NAME", psuProperty.labelTypeName, "SCALE",
@@ -1061,9 +1099,9 @@ static void createSensorsCallback(
                 sensors[sensorName] = std::make_shared<PSUSensor>(
                     sensorPathStr, sensorType, objectServer, dbusConnection, io,
                     sensorName, std::move(sensorThresholds), *interfacePath,
-                    readState, findSensorUnit->units, factor, maxReading,
-                    minReading, sensorOffset, labelHead, thresholdConfSize,
-                    pollRate, i2cDev);
+                    readState, sensorUnits, factor, maxReading, minReading,
+                    sensorOffset, labelHead, thresholdConfSize, pollRate,
+                    i2cDev);
                 sensors[sensorName]->setupRead();
                 ++numCreated;
                 lg2::debug("Created '{NUM}' sensors so far", "NUM", numCreated);
