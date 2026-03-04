@@ -33,6 +33,24 @@
       "message": "Please have your company add you to their Corporate Contributor License Agreement (CCLA) and their Gerrit Approved list (so CI will start automatically). \n\nAdditionally, always best if you Gerrit Name matches your Signed-off / CLA name. \n\nThanks for the commit!",
       "revId": "0f49619a0a67ac6594e75b1f497429fa1a34efa1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f792c4b_ab5a6545",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002830
+      },
+      "writtenOn": "2026-03-04T06:10:58Z",
+      "side": 1,
+      "message": "I have been added to CLA list by HPE. Please let me know if there is anything i missed.",
+      "parentUuid": "e1c8c5ef_b0d39914",
+      "revId": "0f49619a0a67ac6594e75b1f497429fa1a34efa1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
