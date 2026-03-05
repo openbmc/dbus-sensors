@@ -95,6 +95,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "411d7f65_26234ebb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-03-05T05:01:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31ec1de2_64b54411",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 52
+      },
+      "revId": "ff8ce42eb301d7e2f31491644c00c932bbb13877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6296499b_5934b876",
@@ -173,6 +197,24 @@
       "side": 1,
       "message": "This patch implements ceCount and ueCount. The remaining MemoryECC properties will be added in follow-up patches. The busctl output shown is from a real nvl32-obmc machine.",
       "parentUuid": "53d6153f_6b016df4",
+      "revId": "ff8ce42eb301d7e2f31491644c00c932bbb13877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c21fe57_f962f915",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-03-05T05:01:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad031dca_024dde33",
       "revId": "ff8ce42eb301d7e2f31491644c00c932bbb13877",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
