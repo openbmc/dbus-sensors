@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ecd3126_763c1c1b",
+        "filename": "src/nvidia-gpu/NvidiaPcieInterface.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-03-05T05:25:03Z",
+      "side": 1,
+      "message": "This is not needed. Let\u0027s not target Redfish Chassis URI for PCIeDevice and instead use Systems URI /redfish/v1/Systems/\u003cstr\u003e/PCIeDevices that is already supported by redfish. Refer this similar patch - https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/83202",
+      "revId": "4eb90a17d524faff3e68769244de9e00f6e0b034",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
