@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8de51b0e_44a2b53e",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-03-05T07:04:34Z",
+      "side": 0,
+      "message": "How is property value handled in bmcweb? Does bmcweb expects only `GPU` or the full name?",
+      "revId": "53185f4c452f38b313b2413c31bab7aeafba19cb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
