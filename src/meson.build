@@ -90,7 +90,7 @@ entitymanagerinterface_dep = declare_dependency(
 mctpasio_a = static_library(
     'mctpasio_a',
     'MctpAsioEndpoint.cpp',
-    dependencies: [boost, phosphor_logging_dep],
+    dependencies: [boost, phosphor_logging_dep, uring],
 )
 
 mctpasio_dep = declare_dependency(

@@ -117,15 +117,13 @@ TEST_F(MCTPReactorFixture, manageMockDevice)
         assoc,
         disassociate("/au/com/codeconstruct/mctp1/networks/1/endpoints/9"));
 
-    EXPECT_CALL(*endpoint, remove()).WillOnce(testing::Invoke([&]() {
+    EXPECT_CALL(*endpoint, remove()).WillOnce([&]() {
         removeHandler(endpoint);
-    }));
+    });
     EXPECT_CALL(*endpoint, subscribe(testing::_, testing::_, testing::_))
         .WillOnce(testing::SaveArg<2>(&removeHandler));
 
-    EXPECT_CALL(*device, remove()).WillOnce(testing::Invoke([&]() {
-        endpoint->remove();
-    }));
+    EXPECT_CALL(*device, remove()).WillOnce([&]() { endpoint->remove(); });
     EXPECT_CALL(*device, setup(testing::_))
         .WillOnce(testing::InvokeArgument<0>(std::error_code(), endpoint));
 
@@ -146,15 +144,13 @@ TEST_F(MCTPReactorFixture, manageMockDeviceDeferredSetup)
         assoc,
         disassociate("/au/com/codeconstruct/mctp1/networks/1/endpoints/9"));
 
-    EXPECT_CALL(*endpoint, remove()).WillOnce(testing::Invoke([&]() {
+    EXPECT_CALL(*endpoint, remove()).WillOnce([&]() {
         removeHandler(endpoint);
-    }));
+    });
     EXPECT_CALL(*endpoint, subscribe(testing::_, testing::_, testing::_))
         .WillOnce(testing::SaveArg<2>(&removeHandler));
 
-    EXPECT_CALL(*device, remove()).WillOnce(testing::Invoke([&]() {
-        endpoint->remove();
-    }));
+    EXPECT_CALL(*device, remove()).WillOnce([&]() { endpoint->remove(); });
     EXPECT_CALL(*device, setup(testing::_))
         .WillOnce(testing::InvokeArgument<0>(
             std::make_error_code(std::errc::permission_denied), endpoint))
@@ -246,13 +242,9 @@ TEST_F(MCTPReactorFixture, gracefulRemoveOfRecovered)
         .Times(2)
         .WillRepeatedly(testing::SaveArg<2>(&removeHandler));
 
-    EXPECT_CALL(*endpoint, remove).WillOnce(testing::Invoke([&]() {
-        removeHandler(endpoint);
-    }));
+    EXPECT_CALL(*endpoint, remove).WillOnce([&]() { removeHandler(endpoint); });
 
-    EXPECT_CALL(*device, remove).WillOnce(testing::Invoke([&]() {
-        endpoint->remove();
-    }));
+    EXPECT_CALL(*device, remove).WillOnce([&]() { endpoint->remove(); });
 
     EXPECT_CALL(*device, setup(testing::_))
         .Times(2)
@@ -442,9 +434,9 @@ TEST_F(MCTPReactorFixture, removingFromPending)
         .WillRepeatedly(testing::SaveArg<2>(&removeHandler));
     EXPECT_CALL(*device, setup(testing::_))
         .WillOnce(testing::InvokeArgument<0>(std::error_code(), endpoint));
-    EXPECT_CALL(*device, remove).Times(1).WillOnce(testing::Invoke([&]() {
+    EXPECT_CALL(*device, remove).Times(1).WillOnce([&]() {
         endpoint->remove();
-    }));
+    });
     // Enter Assigned
     reactor->manageMCTPDevice("/test", device);
     // Enter Removing
@@ -480,9 +472,7 @@ TEST(MCTPReactor, replaceConfiguration)
         .WillRepeatedly(testing::Return("mock endpoint: initial"));
     EXPECT_CALL(*iep, eid()).WillRepeatedly(testing::Return(9));
     EXPECT_CALL(*iep, network()).WillRepeatedly(testing::Return(1));
-    EXPECT_CALL(*iep, remove()).WillOnce(testing::Invoke([&]() {
-        removeHandler(iep);
-    }));
+    EXPECT_CALL(*iep, remove()).WillOnce([&]() { removeHandler(iep); });
     EXPECT_CALL(*iep, subscribe(testing::_, testing::_, testing::_))
         .WillOnce(testing::SaveArg<2>(&removeHandler));
 
@@ -492,9 +482,7 @@ TEST(MCTPReactor, replaceConfiguration)
     EXPECT_CALL(*idev, id()).WillRepeatedly(testing::Return(0UL));
     EXPECT_CALL(*idev, setup(testing::_))
         .WillOnce(testing::InvokeArgument<0>(std::error_code(), iep));
-    EXPECT_CALL(*idev, remove()).WillOnce(testing::Invoke([&]() {
-        iep->remove();
-    }));
+    EXPECT_CALL(*idev, remove()).WillOnce([&]() { iep->remove(); });
 
     EXPECT_CALL(*iep, device()).WillRepeatedly(testing::Return(idev));
 
@@ -503,9 +491,7 @@ TEST(MCTPReactor, replaceConfiguration)
         .WillRepeatedly(testing::Return("mock endpoint: replacement"));
     EXPECT_CALL(*rep, eid()).WillRepeatedly(testing::Return(9));
     EXPECT_CALL(*rep, network()).WillRepeatedly(testing::Return(1));
-    EXPECT_CALL(*rep, remove()).WillOnce(testing::Invoke([&]() {
-        removeHandler(rep);
-    }));
+    EXPECT_CALL(*rep, remove()).WillOnce([&]() { removeHandler(rep); });
     EXPECT_CALL(*rep, subscribe(testing::_, testing::_, testing::_))
         .WillOnce(testing::SaveArg<2>(&removeHandler));
 
@@ -515,9 +501,7 @@ TEST(MCTPReactor, replaceConfiguration)
     EXPECT_CALL(*rdev, id()).WillRepeatedly(testing::Return(0UL));
     EXPECT_CALL(*rdev, setup(testing::_))
         .WillOnce(testing::InvokeArgument<0>(std::error_code(), rep));
-    EXPECT_CALL(*rdev, remove()).WillOnce(testing::Invoke([&]() {
-        rep->remove();
-    }));
+    EXPECT_CALL(*rdev, remove()).WillOnce([&]() { rep->remove(); });
 
     EXPECT_CALL(*rep, device()).WillRepeatedly(testing::Return(rdev));
 
