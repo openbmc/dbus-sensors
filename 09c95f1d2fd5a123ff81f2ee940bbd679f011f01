@@ -39,6 +39,30 @@
       },
       "revId": "09c95f1d2fd5a123ff81f2ee940bbd679f011f01",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cbcd390_019724f5",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-03-05T20:49:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe9818bf_0bcf57d7",
+      "range": {
+        "startLine": 239,
+        "startChar": 48,
+        "endLine": 241,
+        "endChar": 33
+      },
+      "revId": "09c95f1d2fd5a123ff81f2ee940bbd679f011f01",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
