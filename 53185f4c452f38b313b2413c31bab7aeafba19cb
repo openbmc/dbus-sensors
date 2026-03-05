@@ -16,6 +16,24 @@
       "message": "How is property value handled in bmcweb? Does bmcweb expects only `GPU` or the full name?",
       "revId": "53185f4c452f38b313b2413c31bab7aeafba19cb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db5d34bb_01217d24",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-03-05T08:11:21Z",
+      "side": 0,
+      "message": "Regarding how property values are handled, bmcweb expects the full D-Bus enumeration name rather than just a short string like \u0027GPU\u0027.\n\nSpecifically, the PhysicalContext in the Control resource is derived from the AcceleratorType property of the xyz.openbmc_project.Inventory.Item.Accelerator interface.\n\nAs shown in the implementation of acceleratorTypeToPhysicalContext, the logic performs an explicit string comparison against the full D-Bus path:\n\nif (dbusAcceleratorType \u003d\u003d \"xyz.openbmc_project.Inventory.Item.Accelerator.AcceleratorType.GPU\")\n{\n    return physical_context::PhysicalContext::GPU;\n}\n// ... other types like FPGA, ASIC, Unknown\n\nTherefore, the inventory object must provide the full path (e.g., ...AcceleratorType.GPU) for bmcweb to correctly map it to the Redfish PhysicalContext value.",
+      "parentUuid": "8de51b0e_44a2b53e",
+      "revId": "53185f4c452f38b313b2413c31bab7aeafba19cb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
