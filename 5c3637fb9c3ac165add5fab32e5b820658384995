@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a687d0a_d99e5f54",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-03-05T10:14:54Z",
+      "side": 1,
+      "message": "This function was a leftover from a previous patchset and is no longer being used. I have removed it in the latest patchset. Thanks for catching that!",
+      "parentUuid": "9d3012a5_0fc94d47",
+      "revId": "5c3637fb9c3ac165add5fab32e5b820658384995",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c484b31c_4e3e9f80",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-03-05T07:00:18Z",
       "side": 1,
       "message": "Let\u0027s create it inside makeSensors function similar to other sensors instead of inside cons",
+      "revId": "5c3637fb9c3ac165add5fab32e5b820658384995",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8a1c4d1_6936a65f",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-03-05T10:14:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c484b31c_4e3e9f80",
       "revId": "5c3637fb9c3ac165add5fab32e5b820658384995",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
