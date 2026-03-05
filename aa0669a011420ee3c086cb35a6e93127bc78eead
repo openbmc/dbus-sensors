@@ -34,6 +34,24 @@
       "parentUuid": "65c30aa5_ceee229a",
       "revId": "aa0669a011420ee3c086cb35a6e93127bc78eead",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2d263f1_18bb3ca6",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-03-05T08:56:57Z",
+      "side": 1,
+      "message": "Done. Moved gpuControl creation from the constructor into makeSensors(), consistent with how other sensors are created.",
+      "parentUuid": "7199ae87_00f8253c",
+      "revId": "aa0669a011420ee3c086cb35a6e93127bc78eead",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
