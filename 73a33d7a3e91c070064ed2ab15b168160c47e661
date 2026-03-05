@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b7737af_9cd81890",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-03-05T14:04:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1fd92478_ebb89c1d",
+      "revId": "73a33d7a3e91c070064ed2ab15b168160c47e661",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "499439a3_f141a2e9",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-03-05T07:16:11Z",
       "side": 1,
       "message": "Isn\u0027t the implementation same as v2? If yes we should have single common function for decoding response v1 and v2 responses.",
+      "revId": "73a33d7a3e91c070064ed2ab15b168160c47e661",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a591e3ff_99ceecea",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-03-05T14:04:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "499439a3_f141a2e9",
       "revId": "73a33d7a3e91c070064ed2ab15b168160c47e661",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -52,6 +88,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a00bd9a1_08456fd4",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-03-05T14:04:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "300ba8c4_8ea56d31",
+      "revId": "73a33d7a3e91c070064ed2ab15b168160c47e661",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c19a985_fbb297e8",
@@ -69,6 +123,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "29500c07_abc9d3cc",
+        "filename": "src/nvidia-gpu/NvidiaPcieInterface.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-03-05T14:04:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c19a985_fbb297e8",
+      "revId": "73a33d7a3e91c070064ed2ab15b168160c47e661",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "affad620_698d7869",
@@ -82,6 +154,24 @@
       "writtenOn": "2026-03-05T07:16:11Z",
       "side": 1,
       "message": "Instead of having separate function for v1, we should check for device type in existing `update` function itself and encode the request message accordingly.",
+      "revId": "73a33d7a3e91c070064ed2ab15b168160c47e661",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ec271f1_12ed3d26",
+        "filename": "src/nvidia-gpu/NvidiaPciePort.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-03-05T14:04:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "affad620_698d7869",
       "revId": "73a33d7a3e91c070064ed2ab15b168160c47e661",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
