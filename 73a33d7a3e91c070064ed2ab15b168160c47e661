@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1fd92478_ebb89c1d",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-03-05T07:16:11Z",
+      "side": 1,
+      "message": "This might not be needed. We should make PCIe device name of GPU same as GPU name.",
+      "revId": "73a33d7a3e91c070064ed2ab15b168160c47e661",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "499439a3_f141a2e9",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-03-05T07:16:11Z",
+      "side": 1,
+      "message": "Isn\u0027t the implementation same as v2? If yes we should have single common function for decoding response v1 and v2 responses.",
+      "revId": "73a33d7a3e91c070064ed2ab15b168160c47e661",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "300ba8c4_8ea56d31",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-03-05T07:16:11Z",
+      "side": 1,
+      "message": "Add unit test cases for this functions.",
+      "revId": "73a33d7a3e91c070064ed2ab15b168160c47e661",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c19a985_fbb297e8",
+        "filename": "src/nvidia-gpu/NvidiaPcieInterface.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-03-05T07:16:11Z",
+      "side": 1,
+      "message": "Instead of having separate function for v1, we should check for device type in existing `update` function itself and encode the request message accordingly.",
+      "revId": "73a33d7a3e91c070064ed2ab15b168160c47e661",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "affad620_698d7869",
+        "filename": "src/nvidia-gpu/NvidiaPciePort.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-03-05T07:16:11Z",
+      "side": 1,
+      "message": "Instead of having separate function for v1, we should check for device type in existing `update` function itself and encode the request message accordingly.",
+      "revId": "73a33d7a3e91c070064ed2ab15b168160c47e661",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
