@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39f72bf9_13dbbfb6",
+        "filename": "src/nvidia-gpu/Inventory.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-03-05T05:20:35Z",
+      "side": 1,
+      "message": "Let\u0027s create this interface in the class where it is supposed to be updated similar to other MCTP VDM Command.",
+      "revId": "53005f596d8bf9b9fbf38b2fe1f33be4cb635721",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1da0610_b787eb07",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-03-05T05:20:35Z",
+      "side": 1,
+      "message": "We should put this in a separate Class similar to other MCTP VDM Commands.",
+      "revId": "53005f596d8bf9b9fbf38b2fe1f33be4cb635721",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
