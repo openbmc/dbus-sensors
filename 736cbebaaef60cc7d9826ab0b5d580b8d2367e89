@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "08666274_68a791ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-03-05T22:12:02Z",
+      "side": 1,
+      "message": "Probably should also add for history/clarity.\n\n```\nFixes: 838bd71374cf (\"hwmontempsensor: Add support for BME280\")\n```",
+      "revId": "736cbebaaef60cc7d9826ab0b5d580b8d2367e89",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6e2c4895_45f80ff7",
         "filename": "src/hwmon-temp/HwmonTempMain.cpp",
         "patchSetId": 9
@@ -31,6 +48,24 @@
       "writtenOn": "2026-03-05T21:37:55Z",
       "side": 1,
       "message": "We\u0027ve changed some intent here.  Old intent was to walk through\nName1\nName2\nName3\n\nIn order, and stop on the last available.\n\nThis code (which claims to just be a refactor) would now allow skipping indexes, so we could potentially accept Name1, Name3.... with Name2 missing.  That wasn\u0027t the intent originally.  Maybe that was on purpose but just not documented in the commit message?\n\nIt also now allows \"NameFoo\" as a valid input, whereas the previous code would not, which messes up the hwmonNames being an indexable list of entries.",
+      "revId": "736cbebaaef60cc7d9826ab0b5d580b8d2367e89",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f17157b_c1cf2478",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-03-05T22:12:02Z",
+      "side": 1,
+      "message": "I asked @rickyaz@meta.com to also add a \"Fixes\" reference.  Ultimately this was all broke with `838bd71374cf (\"hwmontempsensor: Add support for BME280\")`.  The Name properties are no longer a \"indexable list of entries\" anyhow.  I don\u0027t know how we would know what to skip and what not to skip; ultimately I think that is a sensor-specific piece of information.\n\nThe BME280 sensor being added in the breaking commit has a different set of hardware than the HDC1080, which is what we\u0027re observing being broken.  HDC1080 had { \"temperature\", \"humidity\" } only and the original code had \"humidity\" as \"index 2\".  The BME280 change moved humidity to \"index 3\", whatever that means, probably because the BME280 has { \"temperature\", \"pressure\", \"humidity\" } but this seems to have broken the existing humidity sensors (which only had 2 \u0027metrics).\n\nAre there actually cases now where the index is still important?",
+      "parentUuid": "6e2c4895_45f80ff7",
       "revId": "736cbebaaef60cc7d9826ab0b5d580b8d2367e89",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
