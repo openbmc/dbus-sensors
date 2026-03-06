@@ -100,6 +100,8 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
 
     std::shared_ptr<NvidiaEventReportingConfig> eventReporting;
 
+    std::shared_ptr<sdbusplus::asio::dbus_interface> dramItemInterface;
+
     std::array<uint8_t, sizeof(gpu::ReadThermalParametersRequest)>
         thermalParamReqMsg{};
     std::array<int32_t, 3> thresholds{};
