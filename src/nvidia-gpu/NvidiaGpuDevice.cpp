@@ -51,6 +51,7 @@ static constexpr std::array<uint8_t, 3> thresholdIds{
 
 static constexpr const char* controlPowerPrefix =
     "/xyz/openbmc_project/control/power/";
+static constexpr auto dramIfaceName = "xyz.openbmc_project.Inventory.Item.Dram";
 
 GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
                      const std::string& path,
@@ -80,11 +81,30 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
         sdbusplus::asio::PropertyPermission::readOnly);
 
     powerCapInterface->initialize();
+
+    std::string dramPath =
+        std::string(inventoryPrefix) + escapeName(name) + "_DRAM_0";
+
+    dramItemInterface = objectServer.add_interface(dramPath, dramIfaceName);
+
+    dramItemInterface->register_property(
+        "MemoryType",
+        std::string("xyz.openbmc_project.Inventory.Item.Dram.DeviceType.HBM"));
+    dramItemInterface->register_property(
+        "ECC", std::string(
+                   "xyz.openbmc_project.Inventory.Item.Dram.Ecc.SingleBitECC"));
+
+    if (!dramItemInterface->initialize())
+    {
+        lg2::error("Failed to initialize Dram interface for {NAME}", "NAME",
+                   escapeName(name));
+    }
 }
 
 GpuDevice::~GpuDevice()
 {
     objectServer.remove_interface(powerCapInterface);
+    objectServer.remove_interface(dramItemInterface);
 }
 
 void GpuDevice::init()
@@ -148,7 +168,7 @@ void GpuDevice::makeSensors()
         gpu::DeviceIdentification::DEVICE_GPU);
 
     memoryDevice = std::make_shared<NvidiaGpuMemoryDevice>(
-        conn, mctpRequester, name, eid, objectServer);
+        conn, mctpRequester, name, eid, objectServer, dramItemInterface);
 
     getTLimitThresholds();
 
