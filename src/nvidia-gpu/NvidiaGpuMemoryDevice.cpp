@@ -13,6 +13,7 @@
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
+#include <cstddef>
 #include <cstdint>
 #include <functional>
 #include <memory>
@@ -20,6 +21,8 @@
 #include <string>
 #include <system_error>
 
+static constexpr auto locationIfaceName =
+    "xyz.openbmc_project.Inventory.Decorator.Location";
 static constexpr auto inventoryPrefix = "/xyz/openbmc_project/inventory/";
 
 NvidiaGpuMemoryDevice::NvidiaGpuMemoryDevice(
@@ -50,9 +53,30 @@ NvidiaGpuMemoryDevice::NvidiaGpuMemoryDevice(
     dramItemInterface = objectServer.add_interface(
         dramPath, "xyz.openbmc_project.Inventory.Item.Dram");
 
+    dramItemInterface->register_property(
+        "MemoryType",
+        std::string("xyz.openbmc_project.Inventory.Item.Dram.DeviceType.HBM"));
+    dramItemInterface->register_property(
+        "ECC", std::string(
+                   "xyz.openbmc_project.Inventory.Item.Dram.Ecc.SingleBitECC"));
+    dramItemInterface->register_property("MemorySizeInKB", size_t{0});
+
     if (!dramItemInterface->initialize())
     {
         lg2::error("Failed to initialize Dram interface for {NAME}", "NAME",
+                   dramName);
+    }
+
+    dramLocationInterface =
+        objectServer.add_interface(dramPath, locationIfaceName);
+    dramLocationInterface->register_property(
+        "LocationType",
+        std::string("xyz.openbmc_project.Inventory.Decorator.Location"
+                    ".LocationTypes.Embedded"));
+
+    if (!dramLocationInterface->initialize())
+    {
+        lg2::error("Failed to initialize Location interface for {NAME}", "NAME",
                    dramName);
     }
 
@@ -74,6 +98,7 @@ NvidiaGpuMemoryDevice::~NvidiaGpuMemoryDevice()
     objectServer.remove_interface(sramEccInterface);
     objectServer.remove_interface(dramItemInterface);
     objectServer.remove_interface(dramEccInterface);
+    objectServer.remove_interface(dramLocationInterface);
 }
 
 void NvidiaGpuMemoryDevice::update()

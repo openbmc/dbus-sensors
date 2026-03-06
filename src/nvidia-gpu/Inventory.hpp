@@ -27,6 +27,8 @@ class Inventory : public std::enable_shared_from_this<Inventory>
               boost::asio::io_context& io);
 
     void init();
+    void registerDramInventory(
+        const std::shared_ptr<sdbusplus::asio::dbus_interface>& dramItemIface);
 
   private:
     struct PropertyInfo
