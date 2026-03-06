@@ -7,6 +7,7 @@
 
 #include "NvidiaGpuMctpVdm.hpp"
 #include "OcpMctpVdm.hpp"
+#include "Utils.hpp"
 
 #include <MctpRequester.hpp>
 #include <phosphor-logging/lg2.hpp>
@@ -19,6 +20,7 @@
 #include <span>
 #include <string>
 #include <system_error>
+#include <vector>
 
 static constexpr auto locationIfaceName =
     "xyz.openbmc_project.Inventory.Decorator.Location";
@@ -75,6 +77,19 @@ NvidiaGpuMemoryDevice::NvidiaGpuMemoryDevice(
         lg2::error("Failed to initialize DRAM ECC interface for {NAME}", "NAME",
                    dramName);
     }
+
+    std::vector<Association> associations;
+    associations.emplace_back("all_memory", "parent_processor", dramPath);
+
+    gpuAssociationInterface =
+        objectServer.add_interface(gpuPath, association::interface);
+    gpuAssociationInterface->register_property("Associations", associations);
+
+    if (!gpuAssociationInterface->initialize())
+    {
+        lg2::error("Failed to initialize Association interface for {NAME}",
+                   "NAME", gpuName);
+    }
 }
 
 NvidiaGpuMemoryDevice::~NvidiaGpuMemoryDevice()
@@ -82,6 +97,7 @@ NvidiaGpuMemoryDevice::~NvidiaGpuMemoryDevice()
     objectServer.remove_interface(sramEccInterface);
     objectServer.remove_interface(dramEccInterface);
     objectServer.remove_interface(dramLocationInterface);
+    objectServer.remove_interface(gpuAssociationInterface);
 }
 
 void NvidiaGpuMemoryDevice::update()
