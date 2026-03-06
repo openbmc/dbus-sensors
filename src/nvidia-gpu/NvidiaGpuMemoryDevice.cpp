@@ -13,6 +13,7 @@
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
+#include <cstddef>
 #include <cstdint>
 #include <functional>
 #include <memory>
@@ -20,6 +21,8 @@
 #include <string>
 #include <system_error>
 
+static constexpr auto embeddedIfaceName =
+    "xyz.openbmc_project.Inventory.Connector.Embedded";
 static constexpr auto inventoryPrefix = "/xyz/openbmc_project/inventory/";
 static constexpr auto dramIfaceName = "xyz.openbmc_project.Inventory.Item.Dimm";
 
@@ -57,10 +60,20 @@ NvidiaGpuMemoryDevice::NvidiaGpuMemoryDevice(
     dramItemInterface->register_property(
         "ECC", std::string(
                    "xyz.openbmc_project.Inventory.Item.Dimm.Ecc.SingleBitECC"));
+    dramItemInterface->register_property("MemorySizeInKB", size_t{0});
 
     if (!dramItemInterface->initialize())
     {
         lg2::error("Failed to initialize Dram interface for {NAME}", "NAME",
+                   dramName);
+    }
+
+    dramEmbeddedInterface =
+        objectServer.add_interface(dramPath, embeddedIfaceName);
+
+    if (!dramEmbeddedInterface->initialize())
+    {
+        lg2::error("Failed to initialize Embedded interface for {NAME}", "NAME",
                    dramName);
     }
 
@@ -81,6 +94,7 @@ NvidiaGpuMemoryDevice::~NvidiaGpuMemoryDevice()
 {
     objectServer.remove_interface(sramEccInterface);
     objectServer.remove_interface(dramItemInterface);
+    objectServer.remove_interface(dramEmbeddedInterface);
     objectServer.remove_interface(dramEccInterface);
 }
 

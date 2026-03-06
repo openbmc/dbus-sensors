@@ -884,6 +884,7 @@ int decodeGetInventoryInformationResponse(
         case InventoryPropertyId::RATED_DEVICE_POWER_LIMIT:
         case InventoryPropertyId::MIN_DEVICE_POWER_LIMIT:
         case InventoryPropertyId::MAX_DEVICE_POWER_LIMIT:
+        case InventoryPropertyId::MAX_MEMORY_CAPACITY:
         {
             uint32_t intValue = 0;
             rc = buffer.unpack(intValue);
