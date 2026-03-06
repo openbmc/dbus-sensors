@@ -13,6 +13,7 @@
 #include <sdbusplus/asio/object_server.hpp>
 
 #include <algorithm>
+#include <cstddef>
 #include <cstdint>
 #include <limits>
 #include <memory>
@@ -40,7 +41,8 @@ Inventory::Inventory(
     const std::string& inventoryName, mctp::MctpRequester& mctpRequester,
     const gpu::DeviceIdentification deviceTypeIn, const uint8_t eid,
     boost::asio::io_context& io,
-    const std::shared_ptr<sdbusplus::asio::dbus_interface>& powerCapInterface) :
+    const std::shared_ptr<sdbusplus::asio::dbus_interface>& powerCapInterface,
+    const std::shared_ptr<sdbusplus::asio::dbus_interface>& dramItemIface) :
     name(escapeName(inventoryName)), mctpRequester(mctpRequester),
     deviceType(deviceTypeIn), eid(eid), retryTimer(io)
 {
@@ -76,14 +78,11 @@ Inventory::Inventory(
             objectServer.add_interface(path, acceleratorIfaceName);
         acceleratorInterface->register_property("Type", acceleratorTypeGpu);
 
-        // Register BoostClockFrequency property
         acceleratorInterface->register_property(
             "BoostClockFrequency", std::numeric_limits<uint64_t>::max());
 
         acceleratorInterface->initialize();
 
-        // Add to query queue (manually since registerProperty is for strings
-        // only)
         properties[gpu::InventoryPropertyId::DEFAULT_BOOST_CLOCKS] = {
             acceleratorInterface, "BoostClockFrequency", 0, true};
     }
@@ -96,6 +95,12 @@ Inventory::Inventory(
             powerCapInterface, "MaxPowerCapValue", 0, true};
         properties[gpu::InventoryPropertyId::RATED_DEVICE_POWER_LIMIT] = {
             powerCapInterface, "DefaultPowerCap", 0, true};
+    }
+
+    if (dramItemIface)
+    {
+        properties[gpu::InventoryPropertyId::MAX_MEMORY_CAPACITY] = {
+            dramItemIface, "MemorySizeInKB", 0, true};
     }
 }
 
@@ -222,7 +227,6 @@ void Inventory::handleInventoryPropertyResponse(
         {
             std::string value;
 
-            // Handle different property types based on property ID
             switch (propertyId)
             {
                 case gpu::InventoryPropertyId::BOARD_PART_NUMBER:
@@ -278,7 +282,6 @@ void Inventory::handleInventoryPropertyResponse(
                     if (std::holds_alternative<uint32_t>(info))
                     {
                         const uint32_t clockSpeed = std::get<uint32_t>(info);
-                        // Convert to uint64_t for D-Bus interface requirement
                         const uint64_t clockSpeed64 =
                             static_cast<uint64_t>(clockSpeed);
                         it->second.interface->set_property(
@@ -308,6 +311,25 @@ void Inventory::handleInventoryPropertyResponse(
                             "Successfully received property ID {PROP_ID} for {NAME} with value: {VALUE}",
                             "PROP_ID", static_cast<uint8_t>(propertyId), "NAME",
                             name, "VALUE", powerLimit);
+                        success = true;
+                    }
+                    else
+                    {
+                        lg2::error(
+                            "Property ID {PROP_ID} for {NAME} expected uint32_t but got different type",
+                            "PROP_ID", static_cast<uint8_t>(propertyId), "NAME",
+                            name);
+                    }
+                    break;
+
+                case gpu::InventoryPropertyId::MAX_MEMORY_CAPACITY:
+                    if (std::holds_alternative<uint32_t>(info))
+                    {
+                        const size_t memorySizeInKB =
+                            static_cast<size_t>(std::get<uint32_t>(info)) *
+                            1024;
+                        it->second.interface->set_property(
+                            it->second.propertyName, memorySizeInKB);
                         success = true;
                     }
                     else
