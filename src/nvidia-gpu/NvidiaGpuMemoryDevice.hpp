@@ -14,7 +14,9 @@
 #include <array>
 #include <cstdint>
 #include <memory>
+#include <span>
 #include <string>
+#include <system_error>
 
 struct NvidiaGpuMemoryDevice :
     public std::enable_shared_from_this<NvidiaGpuMemoryDevice>
@@ -42,4 +44,8 @@ struct NvidiaGpuMemoryDevice :
     std::shared_ptr<sdbusplus::asio::dbus_interface> sramEccInterface;
 
     std::array<uint8_t, sizeof(gpu::GetEccErrorCountsRequest)> requestBuffer{};
+
+    std::string dramName;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> dramItemInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> dramEccInterface;
 };
