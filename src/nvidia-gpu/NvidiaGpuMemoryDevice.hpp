@@ -42,4 +42,7 @@ struct NvidiaGpuMemoryDevice :
     std::shared_ptr<sdbusplus::asio::dbus_interface> sramEccInterface;
 
     std::array<uint8_t, gpu::getEccErrorCountsRequestSize> requestBuffer{};
+
+    std::string dramName;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> dramEccInterface;
 };
