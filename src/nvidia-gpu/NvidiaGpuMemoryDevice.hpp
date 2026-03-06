@@ -36,6 +36,11 @@ struct NvidiaGpuMemoryDevice :
         return dramName;
     }
 
+    std::shared_ptr<sdbusplus::asio::dbus_interface> getDramItemInterface()
+    {
+        return dramItemInterface;
+    }
+
   private:
     void processResponse(const std::error_code& ec,
                          std::span<const uint8_t> buffer);
@@ -56,6 +61,7 @@ struct NvidiaGpuMemoryDevice :
     std::string dramName;
     std::shared_ptr<sdbusplus::asio::dbus_interface> dramItemInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> dramEccInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> dramLocationInterface;
 
     int64_t dramCeCount{0};
     int64_t dramUeCount{0};
