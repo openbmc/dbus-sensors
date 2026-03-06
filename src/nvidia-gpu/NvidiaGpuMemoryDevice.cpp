@@ -21,6 +21,7 @@
 #include <system_error>
 
 static constexpr auto inventoryPrefix = "/xyz/openbmc_project/inventory/";
+static constexpr auto dramIfaceName = "xyz.openbmc_project.Inventory.Item.Dimm";
 
 NvidiaGpuMemoryDevice::NvidiaGpuMemoryDevice(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
@@ -30,6 +31,8 @@ NvidiaGpuMemoryDevice::NvidiaGpuMemoryDevice(
     objectServer(objectServer)
 {
     std::string gpuPath = std::string(inventoryPrefix) + gpuName;
+    const std::string dramName = gpuName + "_DRAM_0";
+    const std::string dramPath = std::string(inventoryPrefix) + dramName;
 
     sramEccInterface = objectServer.add_interface(
         gpuPath, "xyz.openbmc_project.Memory.MemoryECC");
@@ -45,11 +48,40 @@ NvidiaGpuMemoryDevice::NvidiaGpuMemoryDevice(
 
     lg2::info("Created SRAM ECC interface for {NAME} at {PATH}", "NAME",
               gpuName, "PATH", gpuPath);
+
+    dramItemInterface = objectServer.add_interface(dramPath, dramIfaceName);
+
+    dramItemInterface->register_property(
+        "MemoryType",
+        std::string("xyz.openbmc_project.Inventory.Item.Dimm.DeviceType.HBM"));
+    dramItemInterface->register_property(
+        "ECC", std::string(
+                   "xyz.openbmc_project.Inventory.Item.Dimm.Ecc.SingleBitECC"));
+
+    if (!dramItemInterface->initialize())
+    {
+        lg2::error("Failed to initialize Dram interface for {NAME}", "NAME",
+                   dramName);
+    }
+
+    dramEccInterface = objectServer.add_interface(
+        dramPath, "xyz.openbmc_project.Memory.MemoryECC");
+
+    dramEccInterface->register_property("ceCount", int64_t{0});
+    dramEccInterface->register_property("ueCount", int64_t{0});
+
+    if (!dramEccInterface->initialize())
+    {
+        lg2::error("Failed to initialize DRAM ECC interface for {NAME}", "NAME",
+                   dramName);
+    }
 }
 
 NvidiaGpuMemoryDevice::~NvidiaGpuMemoryDevice()
 {
     objectServer.remove_interface(sramEccInterface);
+    objectServer.remove_interface(dramItemInterface);
+    objectServer.remove_interface(dramEccInterface);
 }
 
 void NvidiaGpuMemoryDevice::update()
@@ -109,10 +141,16 @@ void NvidiaGpuMemoryDevice::processResponse(const std::error_code& ec,
         return;
     }
 
-    int64_t ceCount = sramCorrected;
-    int64_t ueCount = static_cast<int64_t>(sramUncorrectedSecded) +
-                      static_cast<int64_t>(sramUncorrectedParity);
+    int64_t sramCeCount = sramCorrected;
+    int64_t sramUeCount = static_cast<int64_t>(sramUncorrectedSecded) +
+                          static_cast<int64_t>(sramUncorrectedParity);
 
-    sramEccInterface->set_property("ceCount", ceCount);
-    sramEccInterface->set_property("ueCount", ueCount);
+    sramEccInterface->set_property("ceCount", sramCeCount);
+    sramEccInterface->set_property("ueCount", sramUeCount);
+
+    int64_t dramCeCount = dramCorrected;
+    int64_t dramUeCount = dramUncorrected;
+
+    dramEccInterface->set_property("ceCount", dramCeCount);
+    dramEccInterface->set_property("ueCount", dramUeCount);
 }
