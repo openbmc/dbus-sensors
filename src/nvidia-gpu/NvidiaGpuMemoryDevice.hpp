@@ -14,7 +14,9 @@
 #include <array>
 #include <cstdint>
 #include <memory>
+#include <span>
 #include <string>
+#include <system_error>
 
 struct NvidiaGpuMemoryDevice :
     public std::enable_shared_from_this<NvidiaGpuMemoryDevice>
@@ -28,6 +30,11 @@ struct NvidiaGpuMemoryDevice :
     ~NvidiaGpuMemoryDevice();
 
     void update();
+
+    const std::string& getDramName() const
+    {
+        return dramName;
+    }
 
   private:
     void processResponse(const std::error_code& ec,
@@ -45,4 +52,11 @@ struct NvidiaGpuMemoryDevice :
 
     int64_t sramCeCount{0};
     int64_t sramUeCount{0};
+
+    std::string dramName;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> dramItemInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> dramEccInterface;
+
+    int64_t dramCeCount{0};
+    int64_t dramUeCount{0};
 };
