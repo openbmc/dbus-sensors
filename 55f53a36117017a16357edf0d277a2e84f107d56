@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d79320c_df27cae5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-03-06T21:59:15Z",
+      "side": 1,
+      "message": "Have a couple of questions here.\n\n1. A sensor going out of range does not mean the power supply is no longer operational.\n2. How are you getting this on IPMI?  Generally this is a discrete sensor, which as far as I know there is no support for.\n\n\nOverall, I\u0027m not sure we want this.  If a power supply wants to use the sensor itself to mark itself non-operational, that\u0027s fine.  But if the power supply has determined that is it still operational, by setting the bit in pmbus, why would we override it in the BMC?",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 59
+      },
+      "revId": "55f53a36117017a16357edf0d277a2e84f107d56",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
