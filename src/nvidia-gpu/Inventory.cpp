@@ -13,6 +13,7 @@
 #include <sdbusplus/asio/object_server.hpp>
 
 #include <algorithm>
+#include <cstddef>
 #include <cstdint>
 #include <limits>
 #include <memory>
@@ -88,6 +89,13 @@ Inventory::Inventory(
 void Inventory::init()
 {
     processNextProperty();
+}
+
+void Inventory::registerDramInventory(
+    const std::shared_ptr<sdbusplus::asio::dbus_interface>& dramItemIface)
+{
+    properties[gpu::InventoryPropertyId::MAX_MEMORY_CAPACITY] = {
+        dramItemIface, "MemorySizeInKB", 0, true};
 }
 
 void Inventory::registerProperty(
@@ -269,6 +277,25 @@ void Inventory::handleInventoryPropertyResponse(
                             static_cast<uint64_t>(clockSpeed);
                         it->second.interface->set_property(
                             it->second.propertyName, clockSpeed64);
+                        success = true;
+                    }
+                    else
+                    {
+                        lg2::error(
+                            "Property ID {PROP_ID} for {NAME} expected uint32_t but got different type",
+                            "PROP_ID", static_cast<uint8_t>(propertyId), "NAME",
+                            name);
+                    }
+                    break;
+
+                case gpu::InventoryPropertyId::MAX_MEMORY_CAPACITY:
+                    if (std::holds_alternative<uint32_t>(info))
+                    {
+                        const size_t memorySizeInKB =
+                            static_cast<size_t>(std::get<uint32_t>(info)) *
+                            1024;
+                        it->second.interface->set_property(
+                            it->second.propertyName, memorySizeInKB);
                         success = true;
                     }
                     else
