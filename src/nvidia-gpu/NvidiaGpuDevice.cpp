@@ -37,6 +37,7 @@
 
 #include <array>
 #include <chrono>
+#include <cstddef>
 #include <cstdint>
 #include <functional>
 #include <initializer_list>
@@ -63,6 +64,8 @@ static constexpr std::array<uint8_t, 3> thresholdIds{
 
 static constexpr const char* controlPowerPrefix =
     "/xyz/openbmc_project/control/power/";
+
+static constexpr auto dramIfaceName = "xyz.openbmc_project.Inventory.Item.Dimm";
 
 GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
                      const std::string& path,
@@ -109,19 +112,36 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
         lg2::error("Failed to initialize DRAM association interface for {NAME}",
                    "NAME", this->name);
     }
+
+    dramItemInterface = objectServer.add_interface(dramPath, dramIfaceName);
+    dramItemInterface->register_property(
+        "MemoryType",
+        std::string("xyz.openbmc_project.Inventory.Item.Dimm.DeviceType.HBM"));
+    dramItemInterface->register_property(
+        "ECC", std::string(
+                   "xyz.openbmc_project.Inventory.Item.Dimm.Ecc.SingleBitECC"));
+    dramItemInterface->register_property("MemorySizeInKB", size_t{0});
+
+    if (!dramItemInterface->initialize())
+    {
+        lg2::error("Failed to initialize DRAM Item.Dimm interface for {NAME}",
+                   "NAME", this->name);
+    }
 }
 
 GpuDevice::~GpuDevice()
 {
     objectServer.remove_interface(powerCapInterface);
     objectServer.remove_interface(dramAssociationInterface);
+    objectServer.remove_interface(dramItemInterface);
 }
 
 void GpuDevice::init()
 {
     inventory = std::make_shared<Inventory>(
         conn, objectServer, name, mctpRequester,
-        gpu::DeviceIdentification::DEVICE_GPU, eid, io, powerCapInterface);
+        gpu::DeviceIdentification::DEVICE_GPU, eid, io, powerCapInterface,
+        dramItemInterface);
 
     inventory->init();
 
