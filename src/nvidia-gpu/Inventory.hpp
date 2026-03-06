@@ -19,12 +19,13 @@
 class Inventory : public std::enable_shared_from_this<Inventory>
 {
   public:
-    Inventory(const std::shared_ptr<sdbusplus::asio::connection>& conn,
-              sdbusplus::asio::object_server& objectServer,
-              const std::string& inventoryName,
-              mctp::MctpRequester& mctpRequester,
-              gpu::DeviceIdentification deviceType, uint8_t eid,
-              boost::asio::io_context& io);
+    Inventory(
+        const std::shared_ptr<sdbusplus::asio::connection>& conn,
+        sdbusplus::asio::object_server& objectServer,
+        const std::string& inventoryName, mctp::MctpRequester& mctpRequester,
+        gpu::DeviceIdentification deviceType, uint8_t eid,
+        boost::asio::io_context& io,
+        const std::shared_ptr<sdbusplus::asio::dbus_interface>& dramItemIface);
 
     void init();
 

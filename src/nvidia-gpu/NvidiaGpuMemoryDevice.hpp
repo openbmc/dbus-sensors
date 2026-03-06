@@ -22,10 +22,11 @@ struct NvidiaGpuMemoryDevice :
     public std::enable_shared_from_this<NvidiaGpuMemoryDevice>
 {
   public:
-    NvidiaGpuMemoryDevice(std::shared_ptr<sdbusplus::asio::connection>& conn,
-                          mctp::MctpRequester& mctpRequester,
-                          const std::string& gpuName, uint8_t eid,
-                          sdbusplus::asio::object_server& objectServer);
+    NvidiaGpuMemoryDevice(
+        std::shared_ptr<sdbusplus::asio::connection>& conn,
+        mctp::MctpRequester& mctpRequester, const std::string& gpuName,
+        uint8_t eid, sdbusplus::asio::object_server& objectServer,
+        const std::shared_ptr<sdbusplus::asio::dbus_interface>& dramItemIface);
 
     ~NvidiaGpuMemoryDevice();
 
@@ -48,4 +49,5 @@ struct NvidiaGpuMemoryDevice :
     std::string dramName;
     std::shared_ptr<sdbusplus::asio::dbus_interface> dramItemInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> dramEccInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> dramLocationInterface;
 };
