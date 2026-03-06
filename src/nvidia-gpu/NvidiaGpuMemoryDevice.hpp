@@ -62,6 +62,7 @@ struct NvidiaGpuMemoryDevice :
     std::shared_ptr<sdbusplus::asio::dbus_interface> dramItemInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> dramEccInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> dramLocationInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> gpuAssociationInterface;
 
     int64_t dramCeCount{0};
     int64_t dramUeCount{0};
