@@ -37,6 +37,8 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
               mctp::MctpRequester& mctpRequester,
               sdbusplus::asio::object_server& objectServer);
 
+    ~GpuDevice();
+
     const std::string& getPath() const
     {
         return path;
@@ -80,6 +82,8 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
     std::shared_ptr<NvidiaGpuVoltageSensor> voltageSensor;
     std::shared_ptr<NvidiaDriverInformation> driverInfo;
     std::shared_ptr<NvidiaGpuMemoryDevice> memoryDevice;
+
+    std::shared_ptr<sdbusplus::asio::dbus_interface> dramItemInterface;
 
     std::array<uint8_t, sizeof(gpu::ReadThermalParametersRequest)>
         thermalParamReqMsg{};

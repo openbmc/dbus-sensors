@@ -632,6 +632,18 @@ int decodeGetInventoryInformationResponse(
             value = clockMhz;
             break;
         }
+        case InventoryPropertyId::MAX_MEMORY_CAPACITY:
+        {
+            if (dataSize != sizeof(uint32_t))
+            {
+                return EINVAL;
+            }
+            uint32_t capacityMib = 0;
+            std::memcpy(&capacityMib, dataPtr, sizeof(capacityMib));
+            capacityMib = le32toh(capacityMib);
+            value = capacityMib;
+            break;
+        }
         default:
             return EINVAL;
     }
