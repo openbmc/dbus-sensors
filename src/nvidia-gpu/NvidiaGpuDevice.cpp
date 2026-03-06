@@ -30,6 +30,7 @@
 
 #include <array>
 #include <chrono>
+#include <cstddef>
 #include <cstdint>
 #include <functional>
 #include <limits>
@@ -51,7 +52,8 @@ static constexpr std::array<uint8_t, 3> thresholdIds{
 
 static constexpr const char* controlPowerPrefix =
     "/xyz/openbmc_project/control/power/";
-static constexpr auto dramIfaceName = "xyz.openbmc_project.Inventory.Item.Dram";
+static constexpr auto dramIfaceName =
+    "xyz.openbmc_project.Inventory.Item.Dram";
 
 GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
                      const std::string& path,
@@ -89,10 +91,13 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
 
     dramItemInterface->register_property(
         "MemoryType",
-        std::string("xyz.openbmc_project.Inventory.Item.Dram.DeviceType.HBM"));
+        std::string(
+            "xyz.openbmc_project.Inventory.Item.Dram.DeviceType.HBM"));
     dramItemInterface->register_property(
-        "ECC", std::string(
+        "ECC",
+        std::string(
                    "xyz.openbmc_project.Inventory.Item.Dram.Ecc.SingleBitECC"));
+    dramItemInterface->register_property("MemorySizeInKB", size_t{0});
 
     if (!dramItemInterface->initialize())
     {
@@ -111,7 +116,8 @@ void GpuDevice::init()
 {
     inventory = std::make_shared<Inventory>(
         conn, objectServer, name, mctpRequester,
-        gpu::DeviceIdentification::DEVICE_GPU, eid, io, powerCapInterface);
+        gpu::DeviceIdentification::DEVICE_GPU, eid, io, powerCapInterface,
+        dramItemInterface);
 
     inventory->init();
 
