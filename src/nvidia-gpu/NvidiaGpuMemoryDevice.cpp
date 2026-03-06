@@ -20,6 +20,8 @@
 #include <string>
 #include <system_error>
 
+static constexpr auto embeddedIfaceName =
+    "xyz.openbmc_project.Inventory.Connector.Embedded";
 static constexpr auto inventoryPrefix = "/xyz/openbmc_project/inventory/";
 
 NvidiaGpuMemoryDevice::NvidiaGpuMemoryDevice(
@@ -47,6 +49,15 @@ NvidiaGpuMemoryDevice::NvidiaGpuMemoryDevice(
     lg2::info("Created SRAM ECC interface for {NAME} at {PATH}", "NAME",
               gpuName, "PATH", gpuPath);
 
+    dramEmbeddedInterface =
+        objectServer.add_interface(dramPath, embeddedIfaceName);
+
+    if (!dramEmbeddedInterface->initialize())
+    {
+        lg2::error("Failed to initialize Embedded interface for {NAME}", "NAME",
+                   dramName);
+    }
+
     dramEccInterface = objectServer.add_interface(
         dramPath, "xyz.openbmc_project.Memory.MemoryECC");
 
@@ -64,6 +75,7 @@ NvidiaGpuMemoryDevice::~NvidiaGpuMemoryDevice()
 {
     objectServer.remove_interface(sramEccInterface);
     objectServer.remove_interface(dramEccInterface);
+    objectServer.remove_interface(dramEmbeddedInterface);
 }
 
 void NvidiaGpuMemoryDevice::update()
