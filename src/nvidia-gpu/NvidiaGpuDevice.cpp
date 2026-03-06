@@ -27,6 +27,7 @@
 
 #include <array>
 #include <chrono>
+#include <cstddef>
 #include <cstdint>
 #include <functional>
 #include <memory>
@@ -45,6 +46,9 @@ static constexpr std::array<uint8_t, 3> thresholdIds{
     gpuTLimitWarningThresholdId, gpuTLimitCriticalThresholdId,
     gpuTLimitHardshutDownThresholdId};
 
+static constexpr auto dramIfaceName = "xyz.openbmc_project.Inventory.Item.Dram";
+static constexpr auto inventoryPrefix = "/xyz/openbmc_project/inventory/";
+
 GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
                      const std::string& path,
                      const std::shared_ptr<sdbusplus::asio::connection>& conn,
@@ -56,16 +60,39 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
     mctpRequester(mctpRequester), io(io), conn(conn),
     objectServer(objectServer), configs(configs), name(escapeName(name)),
     path(path)
-{}
+{
+    std::string dramPath =
+        std::string(inventoryPrefix) + escapeName(name) + "_DRAM_0";
+
+    dramItemInterface = objectServer.add_interface(dramPath, dramIfaceName);
+
+    dramItemInterface->register_property(
+        "MemoryType",
+        std::string("xyz.openbmc_project.Inventory.Item.Dram.DeviceType.HBM"));
+    dramItemInterface->register_property(
+        "ECC", std::string(
+                   "xyz.openbmc_project.Inventory.Item.Dram.Ecc.SingleBitECC"));
+    dramItemInterface->register_property("MemorySizeInKB", size_t{0});
+
+    if (!dramItemInterface->initialize())
+    {
+        lg2::error("Failed to initialize Dram interface for {NAME}", "NAME",
+                   escapeName(name));
+    }
+}
+
+GpuDevice::~GpuDevice()
+{
+    objectServer.remove_interface(dramItemInterface);
+}
 
 void GpuDevice::init()
 {
     inventory = std::make_shared<Inventory>(
         conn, objectServer, name, mctpRequester,
-        gpu::DeviceIdentification::DEVICE_GPU, eid, io);
-    inventory->init();
-
+        gpu::DeviceIdentification::DEVICE_GPU, eid, io, dramItemInterface);
     makeSensors();
+    inventory->init();
 }
 
 void GpuDevice::makeSensors()
@@ -104,9 +131,8 @@ void GpuDevice::makeSensors()
     driverInfo = std::make_shared<NvidiaDriverInformation>(
         conn, mctpRequester, name, path, eid, objectServer);
 
-    // Create Memory Device for GPU SRAM ECC monitoring
     memoryDevice = std::make_shared<NvidiaGpuMemoryDevice>(
-        conn, mctpRequester, name, eid, objectServer);
+        conn, mctpRequester, name, eid, objectServer, dramItemInterface);
 
     getTLimitThresholds();
 
