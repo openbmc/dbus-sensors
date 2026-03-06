@@ -64,6 +64,7 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
 void GpuDevice::init()
 {
     makeSensors();
+    inventory->registerDramInventory(memoryDevice->getDramItemInterface());
     inventory->init();
 }
 
