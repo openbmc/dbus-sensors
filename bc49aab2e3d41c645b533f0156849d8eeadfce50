@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "27cd0fa3_d8c7128e",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1002637
+      },
+      "writtenOn": "2026-03-06T14:39:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31604855_90729229",
+      "revId": "bc49aab2e3d41c645b533f0156849d8eeadfce50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "abb8f462_73641153",
