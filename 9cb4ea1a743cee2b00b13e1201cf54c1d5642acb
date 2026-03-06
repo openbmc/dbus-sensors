@@ -34,6 +34,23 @@
       "parentUuid": "ced18ad2_99ce901a",
       "revId": "9cb4ea1a743cee2b00b13e1201cf54c1d5642acb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e68ae9a_1868e870",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-03-06T22:02:24Z",
+      "side": 1,
+      "message": "Zhikui, what do you want to see happen here?  You can\u0027t be contributing if you\u0027re not on a CLA, and I haven\u0027t seen you reviewing as of late.  This patch also doesn\u0027t fix your actual email in the owners list.  If you want to discuss on NV internal and get on the NV cla, this patch will need to be updated.",
+      "revId": "9cb4ea1a743cee2b00b13e1201cf54c1d5642acb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
