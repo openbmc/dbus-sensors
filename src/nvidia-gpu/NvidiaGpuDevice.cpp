@@ -93,6 +93,7 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
     dramItemInterface->register_property(
         "ECC", std::string(
                    "xyz.openbmc_project.Inventory.Item.Dram.Ecc.SingleBitECC"));
+    dramItemInterface->register_property("MemorySizeInKB", size_t{0});
 
     if (!dramItemInterface->initialize())
     {
@@ -111,7 +112,8 @@ void GpuDevice::init()
 {
     inventory = std::make_shared<Inventory>(
         conn, objectServer, name, mctpRequester,
-        gpu::DeviceIdentification::DEVICE_GPU, eid, io, powerCapInterface);
+        gpu::DeviceIdentification::DEVICE_GPU, eid, io, powerCapInterface,
+        dramItemInterface);
 
     inventory->init();
 
