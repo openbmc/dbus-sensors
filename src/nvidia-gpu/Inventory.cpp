@@ -13,6 +13,7 @@
 #include <sdbusplus/asio/object_server.hpp>
 
 #include <algorithm>
+#include <cstddef>
 #include <cstdint>
 #include <limits>
 #include <memory>
@@ -40,7 +41,8 @@ Inventory::Inventory(
     const std::string& inventoryName, mctp::MctpRequester& mctpRequester,
     const gpu::DeviceIdentification deviceTypeIn, const uint8_t eid,
     boost::asio::io_context& io,
-    const std::shared_ptr<sdbusplus::asio::dbus_interface>& powerCapInterface) :
+    const std::shared_ptr<sdbusplus::asio::dbus_interface>& powerCapInterface,
+    const std::shared_ptr<sdbusplus::asio::dbus_interface>& dramItemIface) :
     name(escapeName(inventoryName)), mctpRequester(mctpRequester),
     deviceType(deviceTypeIn), eid(eid), retryTimer(io)
 {
@@ -96,6 +98,12 @@ Inventory::Inventory(
             powerCapInterface, "MaxPowerCapValue", 0, true};
         properties[gpu::InventoryPropertyId::RATED_DEVICE_POWER_LIMIT] = {
             powerCapInterface, "DefaultPowerCap", 0, true};
+    }
+
+    if (dramItemIface)
+    {
+        properties[gpu::InventoryPropertyId::MAX_MEMORY_CAPACITY] = {
+            dramItemIface, "MemorySizeInKB", 0, true};
     }
 }
 
@@ -308,6 +316,25 @@ void Inventory::handleInventoryPropertyResponse(
                             "Successfully received property ID {PROP_ID} for {NAME} with value: {VALUE}",
                             "PROP_ID", static_cast<uint8_t>(propertyId), "NAME",
                             name, "VALUE", powerLimit);
+                        success = true;
+                    }
+                    else
+                    {
+                        lg2::error(
+                            "Property ID {PROP_ID} for {NAME} expected uint32_t but got different type",
+                            "PROP_ID", static_cast<uint8_t>(propertyId), "NAME",
+                            name);
+                    }
+                    break;
+
+                case gpu::InventoryPropertyId::MAX_MEMORY_CAPACITY:
+                    if (std::holds_alternative<uint32_t>(info))
+                    {
+                        const size_t memorySizeInKB =
+                            static_cast<size_t>(std::get<uint32_t>(info)) *
+                            1024;
+                        it->second.interface->set_property(
+                            it->second.propertyName, memorySizeInKB);
                         success = true;
                     }
                     else
