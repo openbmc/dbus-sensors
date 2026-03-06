@@ -91,7 +91,8 @@ void GpuDevice::init()
 {
     inventory = std::make_shared<Inventory>(
         conn, objectServer, name, mctpRequester,
-        gpu::DeviceIdentification::DEVICE_GPU, eid, io, powerCapInterface);
+        gpu::DeviceIdentification::DEVICE_GPU, eid, io, powerCapInterface,
+        dramItemInterface);
 
     inventory->init();
 
@@ -148,7 +149,7 @@ void GpuDevice::makeSensors()
         gpu::DeviceIdentification::DEVICE_GPU);
 
     memoryDevice = std::make_shared<NvidiaGpuMemoryDevice>(
-        conn, mctpRequester, name, eid, objectServer);
+        conn, mctpRequester, name, eid, objectServer, dramItemInterface);
 
     getTLimitThresholds();
 
