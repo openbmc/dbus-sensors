@@ -16,6 +16,24 @@
       "message": "nit, put this on its own line with its own variable.\n\n```\nstd::string type \u003d \"xyz.openbmc_project.Inventory.Item.Accelerator.AcceleratorType.GPU\";\n        acceleratorInterface-\u003eregister_property(\"Type\", type);\n\n```",
       "revId": "de0e94036565b18ad427328661b75ce547d5410a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bb087e3_811453bf",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-03-06T03:20:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d71135e2_d12712aa",
+      "revId": "de0e94036565b18ad427328661b75ce547d5410a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
