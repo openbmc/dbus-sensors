@@ -45,4 +45,5 @@ struct NvidiaGpuMemoryDevice :
 
     std::string dramName;
     std::shared_ptr<sdbusplus::asio::dbus_interface> dramEccInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> dramEmbeddedInterface;
 };
