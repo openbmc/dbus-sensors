@@ -20,14 +20,18 @@
 #include <string>
 #include <system_error>
 
+static constexpr auto locationIfaceName =
+    "xyz.openbmc_project.Inventory.Decorator.Location";
 static constexpr auto inventoryPrefix = "/xyz/openbmc_project/inventory/";
 
 NvidiaGpuMemoryDevice::NvidiaGpuMemoryDevice(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, const std::string& gpuName, uint8_t eid,
-    sdbusplus::asio::object_server& objectServer) :
+    sdbusplus::asio::object_server& objectServer,
+    const std::shared_ptr<sdbusplus::asio::dbus_interface>& dramItemIface) :
     eid(eid), gpuName(gpuName), conn(conn), mctpRequester(mctpRequester),
-    objectServer(objectServer), dramName(gpuName + "_DRAM_0")
+    objectServer(objectServer), dramName(gpuName + "_DRAM_0"),
+    dramItemInterface(dramItemIface)
 {
     std::string gpuPath = std::string(inventoryPrefix) + gpuName;
     std::string dramPath = std::string(inventoryPrefix) + dramName;
@@ -47,12 +51,16 @@ NvidiaGpuMemoryDevice::NvidiaGpuMemoryDevice(
     lg2::info("Created SRAM ECC interface for {NAME} at {PATH}", "NAME",
               gpuName, "PATH", gpuPath);
 
-    dramItemInterface = objectServer.add_interface(
-        dramPath, "xyz.openbmc_project.Inventory.Item.Dram");
+    dramLocationInterface =
+        objectServer.add_interface(dramPath, locationIfaceName);
+    dramLocationInterface->register_property(
+        "LocationType",
+        std::string("xyz.openbmc_project.Inventory.Decorator.Location"
+                    ".LocationTypes.Embedded"));
 
-    if (!dramItemInterface->initialize())
+    if (!dramLocationInterface->initialize())
     {
-        lg2::error("Failed to initialize Dram interface for {NAME}", "NAME",
+        lg2::error("Failed to initialize Location interface for {NAME}", "NAME",
                    dramName);
     }
 
@@ -72,8 +80,8 @@ NvidiaGpuMemoryDevice::NvidiaGpuMemoryDevice(
 NvidiaGpuMemoryDevice::~NvidiaGpuMemoryDevice()
 {
     objectServer.remove_interface(sramEccInterface);
-    objectServer.remove_interface(dramItemInterface);
     objectServer.remove_interface(dramEccInterface);
+    objectServer.remove_interface(dramLocationInterface);
 }
 
 void NvidiaGpuMemoryDevice::update()
