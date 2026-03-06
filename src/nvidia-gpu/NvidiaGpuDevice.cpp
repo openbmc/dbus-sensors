@@ -63,9 +63,9 @@ void GpuDevice::init()
     inventory = std::make_shared<Inventory>(
         conn, objectServer, name, mctpRequester,
         gpu::DeviceIdentification::DEVICE_GPU, eid, io);
-    inventory->init();
-
     makeSensors();
+    inventory->registerDramInventory(memoryDevice->getDramItemInterface());
+    inventory->init();
 }
 
 void GpuDevice::makeSensors()
