@@ -15,6 +15,7 @@
 #include <NvidiaGpuEnergySensor.hpp>
 #include <NvidiaGpuPowerPeakReading.hpp>
 #include <NvidiaGpuVoltageSensor.hpp>
+#include <NvidiaPcieFunction.hpp>
 #include <NvidiaPcieInterface.hpp>
 #include <NvidiaPciePort.hpp>
 #include <boost/asio/io_context.hpp>
@@ -81,6 +82,7 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
 
     std::shared_ptr<NvidiaPcieInterface> pcieInterface;
     std::shared_ptr<NvidiaPciePortInfo> pciePort;
+    std::shared_ptr<NvidiaPcieFunction> pcieFunction;
 
     std::array<uint8_t, sizeof(gpu::ReadThermalParametersRequest)>
         thermalParamReqMsg{};
