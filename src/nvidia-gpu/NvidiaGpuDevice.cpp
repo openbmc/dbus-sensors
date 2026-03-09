@@ -19,6 +19,7 @@
 #include <NvidiaGpuPowerSensor.hpp>
 #include <NvidiaGpuSensor.hpp>
 #include <NvidiaGpuVoltageSensor.hpp>
+#include <NvidiaPcieFunction.hpp>
 #include <NvidiaPcieInterface.hpp>
 #include <NvidiaPciePort.hpp>
 #include <NvidiaPciePortMetrics.hpp>
@@ -145,6 +146,10 @@ void GpuDevice::makeSensors()
     pciePort = std::make_shared<NvidiaPciePortInfo>(
         conn, mctpRequester, "UP_0", name, path, eid,
         gpu::PciePortType::UPSTREAM, 0, 0, objectServer,
+        gpu::DeviceIdentification::DEVICE_GPU);
+
+    pcieFunction = std::make_shared<NvidiaPcieFunction>(
+        conn, mctpRequester, name, path, eid, 0, objectServer,
         gpu::DeviceIdentification::DEVICE_GPU);
 
     pciePortMetrics.emplace_back(makeNvidiaPciePortErrors(
@@ -284,6 +289,7 @@ void GpuDevice::read()
     gpuControl->update();
     pcieInterface->update();
     pciePort->update();
+    pcieFunction->update();
     for (auto& metrics : pciePortMetrics)
     {
         metrics->update();
