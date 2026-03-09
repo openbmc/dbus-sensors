@@ -148,7 +148,7 @@ bool findPwmfanPath(unsigned int configPwmfanIndex,
 
     pwmfanDevName += std::to_string(configPwmfanIndex);
 
-    if (!findFiles(std::filesystem::path("/sys/class/hwmon"), R"(pwm\d+)",
+    if (!findFiles(std::filesystem::path("/sys/class/hwmon"), R"(pwm\d+$)",
                    pwmfanPaths))
     {
         lg2::error("No PWMs are found!");
