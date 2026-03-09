@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a1bd786_12f71b7c",
+        "filename": "src/nvidia-gpu/Inventory.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-03-09T05:59:51Z",
+      "side": 1,
+      "message": "Done. Moved OperatingConfig interface and OperatingSpeed property out of Inventory class into a new dedicated NvidiaGpuOperatingSpeed class, following the same pattern as NvidiaGpuMemoryDevice.\n\nSee PS10: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/87801/10/src/nvidia-gpu/NvidiaGpuOperatingSpeed.hpp https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/87801/10/src/nvidia-gpu/NvidiaGpuOperatingSpeed.cpp",
+      "parentUuid": "39f72bf9_13dbbfb6",
+      "revId": "53005f596d8bf9b9fbf38b2fe1f33be4cb635721",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a1da0610_b787eb07",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-03-05T05:20:35Z",
       "side": 1,
       "message": "We should put this in a separate Class similar to other MCTP VDM Commands.",
+      "revId": "53005f596d8bf9b9fbf38b2fe1f33be4cb635721",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "646f7bc5_90a9d3c6",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-03-09T05:59:51Z",
+      "side": 1,
+      "message": "Done. Moved the entire GetCurrentClockFrequency MCTP VDM pipeline (encode, send, decode, D-Bus update) into NvidiaGpuOperatingSpeed::update() and processResponse(). GpuDevice now only holds a shared_ptr and calls update() in read().\n\nSee PS10: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/87801/10/src/nvidia-gpu/NvidiaGpuOperatingSpeed.cpp https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/87801/10/src/nvidia-gpu/NvidiaGpuDevice.cpp",
+      "parentUuid": "a1da0610_b787eb07",
       "revId": "53005f596d8bf9b9fbf38b2fe1f33be4cb635721",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
