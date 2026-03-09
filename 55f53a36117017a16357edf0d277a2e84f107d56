@@ -22,6 +22,30 @@
       },
       "revId": "55f53a36117017a16357edf0d277a2e84f107d56",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d54ebb28_4739e2d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002830
+      },
+      "writtenOn": "2026-03-09T04:27:21Z",
+      "side": 1,
+      "message": "You are probably right on all counts.\n\nI made an architectural mistake assuming 1 on 1 mapping between threshold crossing and CRITICAL assertion, I think hardware bits in pmbus are authorative source of PSU being operational\n\nIPMI claim in this commit is wrong. I acknowledge this after going through the code. I assumed the semantic fix would be used by existing Redfish workflow.\n\nI can withdraw this patch or rework it based on your preference. This is wht i plan:\nSeparate \u0027phosphor-host-ipmid\u0027 patch to add discrete sensor support and corresponding \u0027dbus-sensors\u0027 patch. \nDoes the above direction sound well as per the intended feature request?\nThank you for your review.",
+      "parentUuid": "7d79320c_df27cae5",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 59
+      },
+      "revId": "55f53a36117017a16357edf0d277a2e84f107d56",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
