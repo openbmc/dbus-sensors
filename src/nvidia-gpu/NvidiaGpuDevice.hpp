@@ -17,6 +17,7 @@
 #include <NvidiaGpuEnergySensor.hpp>
 #include <NvidiaGpuPowerPeakReading.hpp>
 #include <NvidiaGpuVoltageSensor.hpp>
+#include <NvidiaPcieFunction.hpp>
 #include <NvidiaPcieInterface.hpp>
 #include <NvidiaPciePort.hpp>
 #include <NvidiaPciePortMetrics.hpp>
@@ -91,6 +92,7 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
 
     std::shared_ptr<NvidiaPcieInterface> pcieInterface;
     std::shared_ptr<NvidiaPciePortInfo> pciePort;
+    std::shared_ptr<NvidiaPcieFunction> pcieFunction;
     std::vector<std::shared_ptr<NvidiaPciePortMetrics>> pciePortMetrics;
 
     std::shared_ptr<NvidiaEventReportingConfig> eventReporting;
