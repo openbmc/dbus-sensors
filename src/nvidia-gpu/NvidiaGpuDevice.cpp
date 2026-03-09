@@ -18,6 +18,7 @@
 #include <NvidiaGpuPowerSensor.hpp>
 #include <NvidiaGpuSensor.hpp>
 #include <NvidiaGpuVoltageSensor.hpp>
+#include <NvidiaPcieFunction.hpp>
 #include <NvidiaPcieInterface.hpp>
 #include <NvidiaPciePort.hpp>
 #include <OcpMctpVdm.hpp>
@@ -113,6 +114,9 @@ void GpuDevice::makeSensors()
         conn, mctpRequester, "UP_0", name, path, eid,
         gpu::PciePortType::UPSTREAM, 0, 0, objectServer,
         gpu::DeviceIdentification::DEVICE_GPU);
+
+    pcieFunction = std::make_shared<NvidiaPcieFunction>(
+        conn, mctpRequester, name, path, eid, 0, objectServer);
 
     getTLimitThresholds();
 
@@ -235,6 +239,7 @@ void GpuDevice::read()
     driverInfo->update();
     pcieInterface->update();
     pciePort->update();
+    pcieFunction->update();
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait(
