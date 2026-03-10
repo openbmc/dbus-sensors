@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a5826c8_8a3a2818",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 1027,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-03-10T13:23:41Z",
+      "side": 1,
+      "message": "Is this an attempt to round?  We probably shouldn\u0027t use casting for rounding?  Can we just compare with 0.5?",
+      "range": {
+        "startLine": 1027,
+        "startChar": 43,
+        "endLine": 1027,
+        "endChar": 49
+      },
+      "revId": "d393b81a64d9ca3feb1f932b4219a7bd863e6766",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
