@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd14264d_9cb053ed",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-03-10T00:10:11Z",
+      "side": 1,
+      "message": "Being able to change ANY sensor to ANY other units isn\u0027t really the flexibility we want.  Your use case seems well defined \"I have a voltage sensor that I know the shut resistor value on, and want to turn it into a current sensor\", lets model that in the config, not just allow any arbitrary unit.  For example, turning this into a humidity value wouldn\u0027t work as designed, yet this code makes it possible.",
+      "range": {
+        "startLine": 930,
+        "startChar": 0,
+        "endLine": 930,
+        "endChar": 70
+      },
+      "revId": "62d27982d73eda3ee4d37cf21c1a473398dadb2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
