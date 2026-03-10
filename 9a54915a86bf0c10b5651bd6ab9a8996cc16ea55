@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "31052a93_951a9a17",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-03-10T09:09:15Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "f2a50213_f417a410",
+      "revId": "9a54915a86bf0c10b5651bd6ab9a8996cc16ea55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "e911a4c6_e8f86e25",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -281,6 +299,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2940363_528f6d90",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-03-10T09:09:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "122f7eb3_9450a9d1",
+      "revId": "9a54915a86bf0c10b5651bd6ab9a8996cc16ea55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3bb0f2b5_93c689ae",
@@ -382,6 +418,24 @@
       "side": 1,
       "message": "ack, today this whole flow is kinda broken, as discussed. holding a socket across an endpoint going down and coming backup, the socket won\u0027t be functional without re-enumeration and recreating the socket.",
       "parentUuid": "025a0d66_08024fef",
+      "revId": "9a54915a86bf0c10b5651bd6ab9a8996cc16ea55",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cd80c63_c0ac1db8",
+        "filename": "src/nvidia-gpu/NvidiaXidReporting.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-03-10T09:09:15Z",
+      "side": 1,
+      "message": "Resolving this.",
+      "parentUuid": "dd440460_d7725cbb",
       "revId": "9a54915a86bf0c10b5651bd6ab9a8996cc16ea55",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
