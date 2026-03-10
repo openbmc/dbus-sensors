@@ -96,6 +96,11 @@ void Inventory::registerDramInventory(
 {
     properties[gpu::InventoryPropertyId::MAX_MEMORY_CAPACITY] = {
         dramItemIface, "MemorySizeInKB", 0, true};
+    dramItemInterface = dramItemIface;
+    properties[gpu::InventoryPropertyId::MIN_MEMORY_CLOCK] = {
+        dramItemIface, "AllowedSpeedsMT", 0, true};
+    properties[gpu::InventoryPropertyId::MAX_MEMORY_CLOCK] = {
+        dramItemIface, "AllowedSpeedsMT", 0, true};
 }
 
 void Inventory::registerProperty(
@@ -296,6 +301,31 @@ void Inventory::handleInventoryPropertyResponse(
                             1024;
                         it->second.interface->set_property(
                             it->second.propertyName, memorySizeInKB);
+                        success = true;
+                    }
+                    else
+                    {
+                        lg2::error(
+                            "Property ID {PROP_ID} for {NAME} expected uint32_t but got different type",
+                            "PROP_ID", static_cast<uint8_t>(propertyId), "NAME",
+                            name);
+                    }
+                    break;
+
+                case gpu::InventoryPropertyId::MIN_MEMORY_CLOCK:
+                case gpu::InventoryPropertyId::MAX_MEMORY_CLOCK:
+                    if (std::holds_alternative<uint32_t>(info) &&
+                        dramItemInterface)
+                    {
+                        const size_t idx =
+                            (propertyId ==
+                             gpu::InventoryPropertyId::MIN_MEMORY_CLOCK)
+                                ? 0
+                                : 1;
+                        allowedSpeedsMT[idx] =
+                            static_cast<uint16_t>(std::get<uint32_t>(info));
+                        dramItemInterface->set_property("AllowedSpeedsMT",
+                                                        allowedSpeedsMT);
                         success = true;
                     }
                     else
