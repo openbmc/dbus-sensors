@@ -62,6 +62,10 @@ NvidiaGpuMemoryDevice::NvidiaGpuMemoryDevice(
         "ECC", std::string(
                    "xyz.openbmc_project.Inventory.Item.Dram.Ecc.SingleBitECC"));
     dramItemInterface->register_property("MemorySizeInKB", size_t{0});
+    dramItemInterface->register_property("MemoryConfiguredSpeedInMhz",
+                                         uint16_t{0});
+    dramItemInterface->register_property("AllowedSpeedsMT",
+                                         std::vector<uint16_t>(2, 0));
 
     if (!dramItemInterface->initialize())
     {
@@ -119,7 +123,7 @@ NvidiaGpuMemoryDevice::~NvidiaGpuMemoryDevice()
 
 void NvidiaGpuMemoryDevice::update()
 {
-    auto rc = gpu::encodeGetEccErrorCountsRequest(0, requestBuffer);
+    auto rc = gpu::encodeGetEccErrorCountsRequest(0, eccRequestBuffer);
 
     if (rc != 0)
     {
@@ -129,7 +133,7 @@ void NvidiaGpuMemoryDevice::update()
     }
 
     mctpRequester.sendRecvMsg(
-        eid, requestBuffer,
+        eid, eccRequestBuffer,
         [weak{weak_from_this()}](const std::error_code& ec,
                                  std::span<const uint8_t> buffer) {
             std::shared_ptr<NvidiaGpuMemoryDevice> self = weak.lock();
@@ -138,12 +142,38 @@ void NvidiaGpuMemoryDevice::update()
                 lg2::error("Invalid reference to NvidiaGpuMemoryDevice");
                 return;
             }
-            self->processResponse(ec, buffer);
+            self->processEccResponse(ec, buffer);
+        });
+
+    auto rc2 = gpu::encodeGetCurrentClockFrequencyRequest(
+        0, gpu::ClockType::MEMORY_CLOCK,
+        std::span<uint8_t>(clockFreqRequestBuffer.data(),
+                           clockFreqRequestBuffer.size()));
+
+    if (rc2 != 0)
+    {
+        lg2::error(
+            "Error encoding memory clock request for {NAME}, eid={EID}, rc={RC}",
+            "NAME", gpuName, "EID", eid, "RC", rc2);
+        return;
+    }
+
+    mctpRequester.sendRecvMsg(
+        eid, clockFreqRequestBuffer,
+        [weak{weak_from_this()}](const std::error_code& ec,
+                                 std::span<const uint8_t> buffer) {
+            std::shared_ptr<NvidiaGpuMemoryDevice> self = weak.lock();
+            if (!self)
+            {
+                lg2::error("Invalid reference to NvidiaGpuMemoryDevice");
+                return;
+            }
+            self->processClockFreqResponse(ec, buffer);
         });
 }
 
-void NvidiaGpuMemoryDevice::processResponse(const std::error_code& ec,
-                                            std::span<const uint8_t> buffer)
+void NvidiaGpuMemoryDevice::processEccResponse(const std::error_code& ec,
+                                               std::span<const uint8_t> buffer)
 {
     if (ec)
     {
@@ -180,4 +210,38 @@ void NvidiaGpuMemoryDevice::processResponse(const std::error_code& ec,
 
     dramEccInterface->set_property("ceCount", dramCeCount);
     dramEccInterface->set_property("ueCount", dramUeCount);
+}
+
+void NvidiaGpuMemoryDevice::processClockFreqResponse(
+    const std::error_code& ec, std::span<const uint8_t> buffer)
+{
+    if (ec)
+    {
+        lg2::error("MCTP error for {NAME} memory clock: {EC}", "NAME", gpuName,
+                   "EC", ec.message());
+        return;
+    }
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode = 0;
+    uint32_t clockFreq = 0;
+
+    auto rc = gpu::decodeGetCurrentClockFrequencyResponse(
+        buffer, cc, reasonCode, clockFreq);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        lg2::error(
+            "Error decoding memory clock response for {NAME}: rc={RC}, cc={CC}, reason={REASON}",
+            "NAME", gpuName, "RC", rc, "CC", static_cast<int>(cc), "REASON",
+            reasonCode);
+        return;
+    }
+
+    if (memoryClockMHz != clockFreq)
+    {
+        memoryClockMHz = clockFreq;
+        dramItemInterface->set_property("MemoryConfiguredSpeedInMhz",
+                                        static_cast<uint16_t>(clockFreq));
+    }
 }
