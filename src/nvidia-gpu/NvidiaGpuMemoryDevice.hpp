@@ -42,8 +42,10 @@ struct NvidiaGpuMemoryDevice :
     }
 
   private:
-    void processResponse(const std::error_code& ec,
-                         std::span<const uint8_t> buffer);
+    void processEccResponse(const std::error_code& ec,
+                            std::span<const uint8_t> buffer);
+    void processClockFreqResponse(const std::error_code& ec,
+                                  std::span<const uint8_t> buffer);
 
     uint8_t eid;
     std::string gpuName;
@@ -53,7 +55,10 @@ struct NvidiaGpuMemoryDevice :
 
     std::shared_ptr<sdbusplus::asio::dbus_interface> sramEccInterface;
 
-    std::array<uint8_t, sizeof(gpu::GetEccErrorCountsRequest)> requestBuffer{};
+    std::array<uint8_t, sizeof(gpu::GetEccErrorCountsRequest)>
+        eccRequestBuffer{};
+    std::array<uint8_t, sizeof(gpu::GetCurrentClockFrequencyRequest)>
+        clockFreqRequestBuffer{};
 
     int64_t sramCeCount{0};
     int64_t sramUeCount{0};
@@ -66,4 +71,5 @@ struct NvidiaGpuMemoryDevice :
 
     int64_t dramCeCount{0};
     int64_t dramUeCount{0};
+    uint32_t memoryClockMHz{0};
 };
