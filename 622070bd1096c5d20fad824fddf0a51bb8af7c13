@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c6e2b3d_ee890d64",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1002762
+      },
+      "writtenOn": "2026-03-10T06:18:35Z",
+      "side": 1,
+      "message": "Just to confirm, if both pwmx and fanx_target are present in the hwmon path, the sensor will always prefer pwmx for fan control, correct?",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 19
+      },
+      "revId": "622070bd1096c5d20fad824fddf0a51bb8af7c13",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
