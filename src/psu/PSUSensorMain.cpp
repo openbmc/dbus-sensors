@@ -402,7 +402,7 @@ static void createSensorsCallback(
 
         if (std::ranges::find_if(sensorTypes.begin(), sensorTypes.end(),
                                  [pmbusName](const auto& a) {
-                                     return a.first == pmbusName;
+                                     return a.second.name == pmbusName;
                                  }) == sensorTypes.end())
         {
             // To avoid this error message, add your driver name to
