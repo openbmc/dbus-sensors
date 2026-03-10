@@ -96,6 +96,10 @@ void Inventory::registerDramInventory(
 {
     properties[gpu::InventoryPropertyId::MAX_MEMORY_CAPACITY] = {
         dramItemIface, "MemorySizeInKB", 0, true};
+    properties[gpu::InventoryPropertyId::MIN_MEMORY_CLOCK] = {
+        dramItemIface, "AllowedSpeedsMHz_Min", 0, true};
+    properties[gpu::InventoryPropertyId::MAX_MEMORY_CLOCK] = {
+        dramItemIface, "AllowedSpeedsMHz_Max", 0, true};
 }
 
 void Inventory::registerProperty(
@@ -296,6 +300,23 @@ void Inventory::handleInventoryPropertyResponse(
                             1024;
                         it->second.interface->set_property(
                             it->second.propertyName, memorySizeInKB);
+                        success = true;
+                    }
+                    else
+                    {
+                        lg2::error(
+                            "Property ID {PROP_ID} for {NAME} expected uint32_t but got different type",
+                            "PROP_ID", static_cast<uint8_t>(propertyId), "NAME",
+                            name);
+                    }
+                    break;
+
+                case gpu::InventoryPropertyId::MIN_MEMORY_CLOCK:
+                case gpu::InventoryPropertyId::MAX_MEMORY_CLOCK:
+                    if (std::holds_alternative<uint32_t>(info))
+                    {
+                        it->second.interface->set_property(
+                            it->second.propertyName, std::get<uint32_t>(info));
                         success = true;
                     }
                     else
