@@ -194,7 +194,7 @@ static constexpr const std::array<SensorUnit, 6> sensorTable{{
     {"voltage", sensor_paths::unitVolts},
 }};
 
-static constexpr std::array<PSUProperty, 20> labelMatch{{
+constexpr static auto labelMatch = std::to_array<PSUProperty>({
     {"curr", "Output Current", 255, 0, 3, 0},
     {"fan", "Fan Speed ", 30000, 0, 0, 0},
     {"iin", "Input Current", 20, 0, 3, 0},
@@ -213,7 +213,7 @@ static constexpr std::array<PSUProperty, 20> labelMatch{{
     {"vmon", "Auxiliary Input Voltage", 255, 0, 3, 0},
     {"voltage", "Output Voltage", 255, 0, 3, 0},
     {"vout", "Output Voltage", 255, 0, 3, 0},
-}};
+});
 
 const static EventPathList eventMatch{{"PredictiveFailure", {"power1_alarm"}},
                                       {"Failure", {"in2_alarm"}},

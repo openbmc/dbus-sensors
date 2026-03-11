@@ -250,8 +250,8 @@ void createSensors(boost::asio::io_context& io,
             handleSensorConfigurations(io, objectServer, dbusConnection,
                                        sensorConfigurations);
         });
-    static constexpr std::array<std::string_view, 1> sensorTypes{
-        {NVMeSensor::sensorType}};
+    static constexpr auto sensorTypes =
+        std::to_array<std::string_view>({NVMeSensor::sensorType});
     getter->getConfiguration(sensorTypes);
 }
 
@@ -316,8 +316,8 @@ int main()
             });
         };
 
-    static constexpr std::array<std::string_view, 1> sensorTypes{
-        {NVMeSensor::sensorType}};
+    static constexpr auto sensorTypes =
+        std::to_array<std::string_view>({NVMeSensor::sensorType});
 
     std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
         setupPropertiesChangedMatches(*systemBus, sensorTypes, eventHandler);

@@ -35,11 +35,10 @@ namespace config
 {
 
 /** @brief Detector type to enum map */
-static constexpr std::array<
-    std::pair<std::string_view, DetectorIntf::DetectorType>, 2>
-    validDetectorTypes = {
+static constexpr auto validDetectorTypes =
+    std::to_array<std::pair<std::string_view, DetectorIntf::DetectorType>>(
         {{"LeakSensingCable", DetectorIntf::DetectorType::LeakSensingCable},
-         {"Unknown", DetectorIntf::DetectorType::Unknown}}};
+         {"Unknown", DetectorIntf::DetectorType::Unknown}});
 
 /** @brief GPIO polarity */
 enum class PinPolarity
@@ -50,9 +49,9 @@ enum class PinPolarity
 };
 
 /** @brief Polarity name to enum map */
-static constexpr std::array<std::pair<std::string_view, PinPolarity>, 2>
-    validPinPolarity = {
-        {{"Low", PinPolarity::activeLow}, {"High", PinPolarity::activeHigh}}};
+static constexpr auto validPinPolarity =
+    std::to_array<std::pair<std::string_view, PinPolarity>>(
+        {{"Low", PinPolarity::activeLow}, {"High", PinPolarity::activeHigh}});
 
 /** @brief Detector level */
 enum class DetectorLevel
@@ -63,9 +62,10 @@ enum class DetectorLevel
 };
 
 /** @brief Leak detector level name to enum map */
-static constexpr std::array<std::pair<std::string_view, DetectorLevel>, 2>
-    validDetectorLevel = {{{"Warning", DetectorLevel::warning},
-                           {"Critical", DetectorLevel::critical}}};
+static constexpr auto validDetectorLevel =
+    std::to_array<std::pair<std::string_view, DetectorLevel>>(
+        {{"Warning", DetectorLevel::warning},
+         {"Critical", DetectorLevel::critical}});
 
 /** @brief Leak detector configuration */
 struct DetectorConfig

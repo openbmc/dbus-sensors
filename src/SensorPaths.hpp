@@ -13,7 +13,7 @@ struct UnitMap
     std::string_view emUnitName;
 };
 
-constexpr std::array<UnitMap, 11> unitsMap = {{
+constexpr auto unitsMap = std::to_array<UnitMap>({
     {"xyz.openbmc_project.Sensor.Value.Unit.DegreesC", "DegreesC",
      "temperature"},
     {"xyz.openbmc_project.Sensor.Value.Unit.RPMS", "RPMS", "fan_tach"},
@@ -27,7 +27,7 @@ constexpr std::array<UnitMap, 11> unitsMap = {{
     {"xyz.openbmc_project.Sensor.Value.Unit.Pascals", "Pascals", "pressure"},
     {"xyz.openbmc_project.Sensor.Value.Unit.PercentRH", "PercentRH",
      "humidity"},
-}};
+});
 // This is an allowlist of the units a sensor can measure. Should be in sync
 // with
 // phosphor-dbus-interfaces/blob/master/yaml/xyz/openbmc_project/Sensor/Value.interface.yaml#L38

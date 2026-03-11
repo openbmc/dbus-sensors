@@ -21,7 +21,7 @@
 #include <string>
 #include <vector>
 
-constexpr std::array<size_t, 3> i2CReadLenValues = {4, 8, 8};
+constexpr auto i2CReadLenValues = std::to_array<size_t>({4, 8, 8});
 
 enum class I2C_READ_LEN_INDEX
 {

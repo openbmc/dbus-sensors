@@ -55,8 +55,8 @@
 #include <vector>
 
 // The following two structures need to be consistent
-static constexpr std::array<std::string_view, 4> sensorTypes{
-    {"AspeedFan", "I2CFan", "NuvotonFan", "HPEFan"}};
+static constexpr auto sensorTypes = std::to_array<std::string_view>(
+    {"AspeedFan", "I2CFan", "NuvotonFan", "HPEFan"});
 
 enum FanTypes
 {

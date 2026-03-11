@@ -62,8 +62,8 @@ NvidiaEthPortMetrics::NvidiaEthPortMetrics(
 
     associationInterface->register_property("Associations", associations);
 
-    constexpr std::array<std::pair<uint8_t, const char*>, 21> telemetryMetrics =
-        {{
+    static constexpr auto telemetryMetrics =
+        std::to_array<std::pair<uint8_t, const char*>>({
             {0, "/nic/rx_bytes"},
             {1, "/nic/tx_bytes"},
             {2, "/nic/rx_unicast_frames"},
@@ -85,7 +85,7 @@ NvidiaEthPortMetrics::NvidiaEthPortMetrics(
             {18, "/nic/tx_multiple_collisions"},
             {19, "/nic/tx_late_collisions"},
             {20, "/nic/tx_excessive_collisions"},
-        }};
+        });
 
     for (const auto& [tag, metricName] : telemetryMetrics)
     {
