@@ -69,9 +69,9 @@ static constexpr uint8_t gpuTLimitWarningThresholdId{2};
 static constexpr uint8_t gpuTLimitHardshutDownThresholdId{4};
 
 // nota bene: the order has to match the order in processTLimitThresholds
-static constexpr std::array<uint8_t, 3> thresholdIds{
-    gpuTLimitWarningThresholdId, gpuTLimitCriticalThresholdId,
-    gpuTLimitHardshutDownThresholdId};
+static constexpr auto thresholdIds = std::to_array<uint8_t>(
+    {gpuTLimitWarningThresholdId, gpuTLimitCriticalThresholdId,
+     gpuTLimitHardshutDownThresholdId});
 
 static constexpr auto dramIfaceName = "xyz.openbmc_project.Inventory.Item.Dimm";
 

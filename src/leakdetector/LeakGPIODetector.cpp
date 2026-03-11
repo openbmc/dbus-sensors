@@ -22,17 +22,16 @@ namespace config
 {
 
 /** @brief Leak level to systemd target service map */
-static constexpr std::array<
-    std::tuple<config::DetectorLevel, std::string_view, std::string_view>, 4>
-    leakActionTargets = {
-        {{config::DetectorLevel::warning, "assert",
-          "xyz.openbmc_project.leakdetector.warning.assert@"},
-         {config::DetectorLevel::warning, "deassert",
-          "xyz.openbmc_project.leakdetector.warning.deassert@"},
-         {config::DetectorLevel::critical, "assert",
-          "xyz.openbmc_project.leakdetector.critical.assert@"},
-         {config::DetectorLevel::critical, "deassert",
-          "xyz.openbmc_project.leakdetector.critical.deassert@"}}};
+static constexpr auto leakActionTargets = std::to_array<
+    std::tuple<config::DetectorLevel, std::string_view, std::string_view>>(
+    {{config::DetectorLevel::warning, "assert",
+      "xyz.openbmc_project.leakdetector.warning.assert@"},
+     {config::DetectorLevel::warning, "deassert",
+      "xyz.openbmc_project.leakdetector.warning.deassert@"},
+     {config::DetectorLevel::critical, "assert",
+      "xyz.openbmc_project.leakdetector.critical.assert@"},
+     {config::DetectorLevel::critical, "deassert",
+      "xyz.openbmc_project.leakdetector.critical.deassert@"}});
 } // namespace config
 
 static auto getObjectPath(const std::string& detectorName)
