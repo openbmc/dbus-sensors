@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b93c5f90_06d79c75",
+        "filename": "src/nvidia-gpu/NvidiaGpuMemoryDevice.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-03-12T08:08:12Z",
+      "side": 1,
+      "message": "Let\u0027s not do this. Let\u0027s have one Class per one MCTP VDM command. Please create another class for this MCTP VDM command. This patch is better suited as a child of either of these patches -\n\n\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/87801\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/87272",
+      "revId": "7c40300e3e4af84aab4dcaaaaa2b4bc575640da6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5eea9c6_f4934775",
+        "filename": "src/nvidia-gpu/NvidiaGpuMemoryDevice.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-03-12T08:08:12Z",
+      "side": 1,
+      "message": "Why is this check needed? We do not have that for other telemetries.",
+      "revId": "7c40300e3e4af84aab4dcaaaaa2b4bc575640da6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
