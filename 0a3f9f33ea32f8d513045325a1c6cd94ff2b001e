@@ -35,6 +35,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "838ffc69_6c3da3dc",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-03-12T10:56:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59dd120a_66729ef8",
+      "revId": "0a3f9f33ea32f8d513045325a1c6cd94ff2b001e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b60e30ac_810e6ba7",
@@ -52,6 +70,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "051c892b_4d85b33c",
+        "filename": "src/nvidia-gpu/NvidiaPciePort.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-03-12T10:56:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b60e30ac_810e6ba7",
+      "revId": "0a3f9f33ea32f8d513045325a1c6cd94ff2b001e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e4194373_1e5001fd",
@@ -65,6 +101,24 @@
       "writtenOn": "2026-03-12T06:48:08Z",
       "side": 1,
       "message": "Add a test case of non-success result as well.",
+      "revId": "0a3f9f33ea32f8d513045325a1c6cd94ff2b001e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e941d5ad_f3558aba",
+        "filename": "src/tests/test_NvidiaGpuSensorTest.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 1396,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-03-12T10:56:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4194373_1e5001fd",
       "revId": "0a3f9f33ea32f8d513045325a1c6cd94ff2b001e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
