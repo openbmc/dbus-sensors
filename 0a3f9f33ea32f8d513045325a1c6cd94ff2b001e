@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd046f8a_47b095f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-03-12T06:48:08Z",
+      "side": 1,
+      "message": "Looking much better now.",
+      "revId": "0a3f9f33ea32f8d513045325a1c6cd94ff2b001e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59dd120a_66729ef8",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-03-12T06:48:08Z",
+      "side": 1,
+      "message": "`PcieScalarGroupId` would be more appropriate.",
+      "revId": "0a3f9f33ea32f8d513045325a1c6cd94ff2b001e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b60e30ac_810e6ba7",
+        "filename": "src/nvidia-gpu/NvidiaPciePort.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-03-12T06:48:08Z",
+      "side": 1,
+      "message": "We should put this inside case statement for Pcie Device and leave default case empty.",
+      "revId": "0a3f9f33ea32f8d513045325a1c6cd94ff2b001e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4194373_1e5001fd",
+        "filename": "src/tests/test_NvidiaGpuSensorTest.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 1396,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-03-12T06:48:08Z",
+      "side": 1,
+      "message": "Add a test case of non-success result as well.",
+      "revId": "0a3f9f33ea32f8d513045325a1c6cd94ff2b001e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
