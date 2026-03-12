@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4dfa62ae_f944d628",
+        "filename": "src/nvidia-gpu/NvidiaGpuMemoryDevice.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-03-12T07:53:52Z",
+      "side": 1,
+      "message": "This is not needed.",
+      "revId": "4d4c3376a66d719ee218a2de7f8d19cc0b259ec7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
