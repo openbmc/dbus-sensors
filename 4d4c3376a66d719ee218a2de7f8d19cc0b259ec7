@@ -16,6 +16,24 @@
       "message": "This is not needed.",
       "revId": "4d4c3376a66d719ee218a2de7f8d19cc0b259ec7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83f53e4e_9ad48cd5",
+        "filename": "src/nvidia-gpu/NvidiaGpuMemoryDevice.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-03-13T09:41:49Z",
+      "side": 1,
+      "message": "Done, thanks.\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/87975/6..10/src/nvidia-gpu/NvidiaGpuMemoryDevice.hpp#b39",
+      "parentUuid": "4dfa62ae_f944d628",
+      "revId": "4d4c3376a66d719ee218a2de7f8d19cc0b259ec7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

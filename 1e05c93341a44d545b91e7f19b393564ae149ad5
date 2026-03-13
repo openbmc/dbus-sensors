@@ -52,6 +52,24 @@
       "parentUuid": "a19fdddb_6cd39d77",
       "revId": "1e05c93341a44d545b91e7f19b393564ae149ad5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32bd9fe0_be5d181d",
+        "filename": "src/nvidia-gpu/NvidiaGpuMemoryDevice.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-03-13T09:41:49Z",
+      "side": 1,
+      "message": "Sorry for missing. Moved dramItemInterface creation from NvidiaGpuMemoryDevice to GpuDevice constructor, and pass it as constructor parameter to both Inventory and NvidiaGpuMemoryDevice. Removed registerDramInventory() method and getDramItemInterface() getter.\n\nSee PS10:\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/87975/10/src/nvidia-gpu/NvidiaGpuDevice.cpp#67\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/87975/10/src/nvidia-gpu/Inventory.cpp#43\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/87975/10/src/nvidia-gpu/NvidiaGpuMemoryDevice.cpp#31",
+      "parentUuid": "9dbdf7ed_ef6727ce",
+      "revId": "1e05c93341a44d545b91e7f19b393564ae149ad5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
