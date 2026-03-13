@@ -885,6 +885,8 @@ int decodeGetInventoryInformationResponse(
         case InventoryPropertyId::MIN_DEVICE_POWER_LIMIT:
         case InventoryPropertyId::MAX_DEVICE_POWER_LIMIT:
         case InventoryPropertyId::MAX_MEMORY_CAPACITY:
+        case InventoryPropertyId::MIN_MEMORY_CLOCK:
+        case InventoryPropertyId::MAX_MEMORY_CLOCK:
         {
             uint32_t intValue = 0;
             rc = buffer.unpack(intValue);
@@ -1300,6 +1302,65 @@ int decodeGetEthernetPortTelemetryCountersResponse(
 
             return 0;
         });
+
+    return rc;
+}
+
+int encodeGetCurrentClockFrequencyRequest(uint8_t instanceId, ClockType clockId,
+                                          std::span<uint8_t> buf)
+{
+    PackBuffer buffer(buf);
+
+    const int rc = encodeRequestCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(
+            PlatformEnvironmentalCommands::GET_CURRENT_CLOCK_FREQUENCY),
+        instanceId);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    const uint8_t dataSize = sizeof(uint8_t);
+    buffer.pack(dataSize);
+    buffer.pack(static_cast<uint8_t>(clockId));
+
+    return buffer.getError();
+}
+
+int decodeGetCurrentClockFrequencyResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint32_t& clockFreqMHz)
+{
+    UnpackBuffer buffer(buf);
+
+    int rc = decodeResponseCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(
+            PlatformEnvironmentalCommands::GET_CURRENT_CLOCK_FREQUENCY),
+        cc, reasonCode);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    uint16_t dataSize = 0;
+    rc = buffer.unpack(dataSize);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    if (dataSize != sizeof(uint32_t))
+    {
+        return EINVAL;
+    }
+
+    rc = buffer.unpack(clockFreqMHz);
 
     return rc;
 }
