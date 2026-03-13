@@ -1,0 +1,60 @@
+mock_mctp_sources = files(
+    'utils/MockDbusHelper.cpp',
+    'utils/MockMctpRequester.cpp',
+)
+
+gpusensor_sources = files(
+    '../../nvidia-gpu/Inventory.cpp',
+    '../../nvidia-gpu/NvidiaDeviceDiscovery.cpp',
+    '../../nvidia-gpu/NvidiaDriverInformation.cpp',
+    '../../nvidia-gpu/NvidiaEthPort.cpp',
+    '../../nvidia-gpu/NvidiaGpuControl.cpp',
+    '../../nvidia-gpu/NvidiaGpuDevice.cpp',
+    '../../nvidia-gpu/NvidiaGpuEnergySensor.cpp',
+    '../../nvidia-gpu/NvidiaGpuMctpVdm.cpp',
+    '../../nvidia-gpu/NvidiaGpuPowerPeakReading.cpp',
+    '../../nvidia-gpu/NvidiaGpuPowerSensor.cpp',
+    '../../nvidia-gpu/NvidiaGpuSensor.cpp',
+    '../../nvidia-gpu/NvidiaGpuVoltageSensor.cpp',
+    '../../nvidia-gpu/NvidiaPcieDevice.cpp',
+    '../../nvidia-gpu/NvidiaPcieInterface.cpp',
+    '../../nvidia-gpu/NvidiaPciePort.cpp',
+    '../../nvidia-gpu/NvidiaPciePortMetrics.cpp',
+    '../../nvidia-gpu/NvidiaSmaDevice.cpp',
+    '../../nvidia-gpu/OcpMctpVdm.cpp',
+)
+
+nvidia_gpu_test_inc = include_directories(
+    'utils',
+    '../../nvidia-gpu',
+)
+
+test(
+    'NvidiaGpuSensors',
+    executable(
+        'test_NvidiaGpuSensors',
+        'test_NvidiaGpuSensorTest.cpp',
+        'test_NvidiaDeviceInventoryMctpVdm.cpp',
+        'test_NvidiaGpuSensor.cpp',
+        'test_NvidiaGpuPowerSensor.cpp',
+        'test_NvidiaGpuEnergySensor.cpp',
+        'test_NvidiaGpuVoltageSensor.cpp',
+        'test_NvidiaGpuPowerPeakReading.cpp',
+        'test_NvidiaDriverInformation.cpp',
+        'test_NvidiaPcieInterface.cpp',
+        'test_NvidiaPciePort.cpp',
+        'test_NvidiaPciePortMetrics.cpp',
+        'test_NvidiaEthPort.cpp',
+        'test_NvidiaPcieDevice.cpp',
+        'test_NvidiaGpuDevice.cpp',
+        'test_NvidiaGpuControl.cpp',
+        'test_Inventory.cpp',
+        'test_NvidiaSmaDevice.cpp',
+        gpusensor_sources,
+        mock_mctp_sources,
+        dependencies: [gmock_dep, ut_deps_list, utils_dep, mctpasio_dep],
+        link_with: [thresholds_a],
+        implicit_include_directories: false,
+        include_directories: nvidia_gpu_test_inc,
+    ),
+)
