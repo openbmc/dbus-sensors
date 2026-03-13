@@ -20,6 +20,7 @@
 #include <span>
 #include <string>
 #include <system_error>
+#include <vector>
 
 static constexpr auto embeddedIfaceName =
     "xyz.openbmc_project.Inventory.Connector.Embedded";
@@ -61,6 +62,10 @@ NvidiaGpuMemoryDevice::NvidiaGpuMemoryDevice(
         "ECC", std::string(
                    "xyz.openbmc_project.Inventory.Item.Dimm.Ecc.SingleBitECC"));
     dramItemInterface->register_property("MemorySizeInKB", size_t{0});
+    dramItemInterface->register_property("MemoryConfiguredSpeedInMhz",
+                                         uint16_t{0});
+    dramItemInterface->register_property("AllowedSpeedsMT",
+                                         std::vector<uint16_t>(2, 0));
 
     if (!dramItemInterface->initialize())
     {
