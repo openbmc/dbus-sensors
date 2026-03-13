@@ -3340,4 +3340,133 @@ TEST_F(GpuMctpVdmTests, DecodeGetEccErrorCountsResponseBufferTooSmall)
     EXPECT_EQ(result, EINVAL);
 }
 
+TEST_F(GpuMctpVdmTests, EncodeGetCurrentClockFrequencyRequestSuccess)
+{
+    const uint8_t instanceId = 5;
+    std::array<uint8_t, gpu::getCurrentClockFrequencyRequestSize> buf{};
+
+    int result = gpu::encodeGetCurrentClockFrequencyRequest(
+        instanceId, gpu::ClockType::MEMORY_CLOCK, buf);
+    EXPECT_EQ(result, 0);
+
+    UnpackBuffer ubuf{std::span<const uint8_t>(buf)};
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t recvInstanceId = 0;
+    uint8_t recvMsgType = 0;
+    EXPECT_EQ(ocp::accelerator_management::unpackHeader(
+                  ubuf, gpu::nvidiaPciVendorId, msgType, recvInstanceId,
+                  recvMsgType),
+              0);
+    uint8_t command = 0;
+    ubuf.unpack(command);
+    EXPECT_EQ(
+        command,
+        static_cast<uint8_t>(
+            gpu::PlatformEnvironmentalCommands::GET_CURRENT_CLOCK_FREQUENCY));
+    uint8_t dataSize = 0;
+    ubuf.unpack(dataSize);
+    uint8_t clockId = 0;
+    ubuf.unpack(clockId);
+    EXPECT_EQ(clockId, static_cast<uint8_t>(gpu::ClockType::MEMORY_CLOCK));
+}
+
+TEST_F(GpuMctpVdmTests, EncodeGetCurrentClockFrequencyRequestBufferTooSmall)
+{
+    const uint8_t instanceId = 5;
+    std::array<uint8_t, 1> buf{};
+
+    int result = gpu::encodeGetCurrentClockFrequencyRequest(
+        instanceId, gpu::ClockType::MEMORY_CLOCK, buf);
+    EXPECT_EQ(result, EINVAL);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetCurrentClockFrequencyResponseSuccess)
+{
+    std::vector<uint8_t> buf(
+        ocp::accelerator_management::commonResponseSize + sizeof(uint32_t));
+
+    PackBuffer pbuf{std::span<uint8_t>(buf)};
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 5,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_CURRENT_CLOCK_FREQUENCY));
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));
+    pbuf.pack(uint16_t{0});
+    pbuf.pack(htole16(static_cast<uint16_t>(sizeof(uint32_t))));
+    pbuf.pack(htole32(uint32_t{405}));
+    EXPECT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint32_t clockFreqMHz{};
+
+    int result = gpu::decodeGetCurrentClockFrequencyResponse(
+        buf, cc, reasonCode, clockFreqMHz);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+    EXPECT_EQ(clockFreqMHz, 405U);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetCurrentClockFrequencyResponseError)
+{
+    // CommonNonSuccessResponse: BindingPciVid(5) + command(1) + cc(1) +
+    //   reason_code(2) = 9 bytes
+    std::vector<uint8_t> buf(9);
+
+    PackBuffer pbuf{std::span<uint8_t>(buf)};
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 5,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_CURRENT_CLOCK_FREQUENCY));
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERR_NOT_READY));
+    pbuf.pack(htole16(uint16_t{0x5678}));
+    EXPECT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint32_t clockFreqMHz{};
+
+    int result = gpu::decodeGetCurrentClockFrequencyResponse(
+        buf, cc, reasonCode, clockFreqMHz);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
+    EXPECT_EQ(reasonCode, 0x5678);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetCurrentClockFrequencyResponseDataSizeMismatch)
+{
+    std::vector<uint8_t> buf(ocp::accelerator_management::commonResponseSize);
+
+    PackBuffer pbuf{std::span<uint8_t>(buf)};
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 5,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_CURRENT_CLOCK_FREQUENCY));
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));
+    pbuf.pack(uint16_t{0});
+    pbuf.pack(htole16(uint16_t{2}));
+    EXPECT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint32_t clockFreqMHz{};
+
+    int result = gpu::decodeGetCurrentClockFrequencyResponse(
+        buf, cc, reasonCode, clockFreqMHz);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
 } // namespace gpu_mctp_tests
