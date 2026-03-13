@@ -15,6 +15,7 @@
 #include <optional>
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 class Inventory : public std::enable_shared_from_this<Inventory>
 {
@@ -59,6 +60,8 @@ class Inventory : public std::enable_shared_from_this<Inventory>
     std::shared_ptr<sdbusplus::asio::dbus_interface> acceleratorInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> uuidInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> revisionIface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> dramItemInterface;
+    std::vector<uint16_t> allowedSpeedsMT{0, 0};
 
     std::string name;
     mctp::MctpRequester& mctpRequester;

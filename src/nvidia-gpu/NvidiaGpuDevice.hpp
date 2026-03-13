@@ -8,6 +8,7 @@
 #include "Inventory.hpp"
 #include "MctpRequester.hpp"
 #include "NvidiaDeviceDiscovery.hpp"
+#include "NvidiaGpuMemoryClockFrequency.hpp"
 #include "NvidiaGpuMemoryDevice.hpp"
 #include "NvidiaGpuPowerSensor.hpp"
 #include "NvidiaGpuSensor.hpp"
@@ -82,6 +83,7 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
     std::shared_ptr<NvidiaGpuVoltageSensor> voltageSensor;
     std::shared_ptr<NvidiaDriverInformation> driverInfo;
     std::shared_ptr<NvidiaGpuMemoryDevice> memoryDevice;
+    std::shared_ptr<NvidiaGpuMemoryClockFrequency> memoryClockFrequency;
 
     std::shared_ptr<sdbusplus::asio::dbus_interface> dramItemInterface;
 

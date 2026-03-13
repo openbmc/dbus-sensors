@@ -14,6 +14,7 @@
 #include <NvidiaDriverInformation.hpp>
 #include <NvidiaGpuEnergySensor.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
+#include <NvidiaGpuMemoryClockFrequency.hpp>
 #include <NvidiaGpuMemoryDevice.hpp>
 #include <NvidiaGpuPowerPeakReading.hpp>
 #include <NvidiaGpuPowerSensor.hpp>
@@ -73,6 +74,10 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
         "ECC", std::string(
                    "xyz.openbmc_project.Inventory.Item.Dram.Ecc.SingleBitECC"));
     dramItemInterface->register_property("MemorySizeInKB", size_t{0});
+    dramItemInterface->register_property("MemoryConfiguredSpeedInMhz",
+                                         uint16_t{0});
+    dramItemInterface->register_property("AllowedSpeedsMT",
+                                         std::vector<uint16_t>(2, 0));
 
     if (!dramItemInterface->initialize())
     {
@@ -133,6 +138,9 @@ void GpuDevice::makeSensors()
 
     memoryDevice = std::make_shared<NvidiaGpuMemoryDevice>(
         conn, mctpRequester, name, eid, objectServer, dramItemInterface);
+
+    memoryClockFrequency = std::make_shared<NvidiaGpuMemoryClockFrequency>(
+        mctpRequester, name, eid, dramItemInterface);
 
     getTLimitThresholds();
 
@@ -254,6 +262,7 @@ void GpuDevice::read()
     voltageSensor->update();
     driverInfo->update();
     memoryDevice->update();
+    memoryClockFrequency->update();
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait(
