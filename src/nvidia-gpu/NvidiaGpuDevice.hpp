@@ -10,6 +10,7 @@
 #include "NvidiaDeviceDiscovery.hpp"
 #include "NvidiaEventReporting.hpp"
 #include "NvidiaGpuControl.hpp"
+#include "NvidiaGpuMemoryClockFrequency.hpp"
 #include "NvidiaGpuMemoryDevice.hpp"
 #include "NvidiaGpuPowerSensor.hpp"
 #include "NvidiaGpuSensor.hpp"
@@ -99,6 +100,7 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
     std::shared_ptr<NvidiaPcieFunction> pcieFunction;
     std::vector<std::shared_ptr<NvidiaPciePortMetrics>> pciePortMetrics;
     std::shared_ptr<NvidiaGpuMemoryDevice> memoryDevice;
+    std::shared_ptr<NvidiaGpuMemoryClockFrequency> memoryClockFrequency;
 
     std::shared_ptr<NvidiaEventReportingConfig> eventReporting;
     std::shared_ptr<NvidiaLongRunningResponseHandler> longRunningHandler;
