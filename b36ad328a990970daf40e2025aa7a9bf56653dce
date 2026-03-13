@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d88b791a_0b717171",
+        "filename": "src/exit-air/ExitAirTempSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1002762
+      },
+      "writtenOn": "2026-03-13T07:09:29Z",
+      "side": 1,
+      "message": "Change looks good. Correcting the sensor type to ExitAirTempSensor resolves the mismatch and ensures threshold values persist after BMC reboot.",
+      "range": {
+        "startLine": 499,
+        "startChar": 0,
+        "endLine": 499,
+        "endChar": 11
+      },
+      "revId": "b36ad328a990970daf40e2025aa7a9bf56653dce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
