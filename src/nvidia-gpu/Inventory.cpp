@@ -102,8 +102,13 @@ Inventory::Inventory(
 
     if (dramItemIface)
     {
+        dramItemInterface = dramItemIface;
         properties[gpu::InventoryPropertyId::MAX_MEMORY_CAPACITY] = {
             dramItemIface, "MemorySizeInKB", 0, true};
+        properties[gpu::InventoryPropertyId::MIN_MEMORY_CLOCK] = {
+            dramItemIface, "AllowedSpeedsMT", 0, true};
+        properties[gpu::InventoryPropertyId::MAX_MEMORY_CLOCK] = {
+            dramItemIface, "AllowedSpeedsMT", 0, true};
     }
 }
 
@@ -335,6 +340,36 @@ void Inventory::handleInventoryPropertyResponse(
                             1024;
                         it->second.interface->set_property(
                             it->second.propertyName, memorySizeInKB);
+                        success = true;
+                    }
+                    else
+                    {
+                        lg2::error(
+                            "Property ID {PROP_ID} for {NAME} expected uint32_t but got different type",
+                            "PROP_ID", static_cast<uint8_t>(propertyId), "NAME",
+                            name);
+                    }
+                    break;
+
+                case gpu::InventoryPropertyId::MIN_MEMORY_CLOCK:
+                case gpu::InventoryPropertyId::MAX_MEMORY_CLOCK:
+                    if (std::holds_alternative<uint32_t>(info) &&
+                        dramItemInterface)
+                    {
+                        const size_t idx =
+                            (propertyId ==
+                             gpu::InventoryPropertyId::MIN_MEMORY_CLOCK)
+                                ? 0
+                                : 1;
+                        // NSM Type 3 property IDs 28/29 report the memory
+                        // clock in MHz; PDI AllowedSpeedsMT expects MT/s.
+                        // HBM uses DDR signaling, so MT/s = MHz * 2.
+                        allowedSpeedsMT[idx] =
+                            static_cast<uint16_t>(std::get<uint32_t>(info) * 2);
+                        dramItemInterface->set_property(
+                            "AllowedSpeedsMT",
+                            std::vector<uint16_t>(allowedSpeedsMT.begin(),
+                                                  allowedSpeedsMT.end()));
                         success = true;
                     }
                     else
