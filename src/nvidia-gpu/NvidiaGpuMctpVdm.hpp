@@ -60,6 +60,7 @@ enum class PlatformEnvironmentalCommands : uint8_t
     GET_MAX_OBSERVED_POWER = 0x04,
     GET_CURRENT_ENERGY_COUNTER = 0x06,
     GET_POWER_LIMITS = 0x07,
+    GET_CURRENT_CLOCK_FREQUENCY = 0x0B,
     GET_INVENTORY_INFORMATION = 0x0C,
     GET_DRIVER_INFORMATION = 0x0E,
     GET_VOLTAGE = 0x0F,
@@ -278,6 +279,15 @@ struct GetInventoryInformationResponse
     std::array<uint8_t, maxInventoryDataSize> data;
 } __attribute__((packed));
 
+enum class ClockType : uint8_t
+{
+    GRAPHICS_CLOCK = 0,
+    MEMORY_CLOCK = 1,
+};
+
+constexpr size_t getCurrentClockFrequencyRequestSize =
+    ocp::accelerator_management::commonRequestSize + sizeof(uint8_t);
+
 constexpr size_t getEccErrorCountsRequestSize =
     ocp::accelerator_management::commonRequestSize;
 
@@ -424,6 +434,14 @@ int decodeGetEthernetPortTelemetryCountersResponse(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     std::vector<std::pair<uint8_t, uint64_t>>& telemetryValues);
+
+int encodeGetCurrentClockFrequencyRequest(uint8_t instanceId, ClockType clockId,
+                                          std::span<uint8_t> buf);
+
+int decodeGetCurrentClockFrequencyResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint32_t& clockFreqMHz);
 
 int encodeGetEccErrorCountsRequest(uint8_t instanceId, std::span<uint8_t> buf);
 
