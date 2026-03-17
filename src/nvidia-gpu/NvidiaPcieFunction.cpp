@@ -146,6 +146,11 @@ void NvidiaPcieFunction::update()
                 0, 0, gpu::PcieScalarGroupId::PciIdentity, requestV1);
             buf = requestV1;
             break;
+        case gpu::DeviceIdentification::DEVICE_PCIE:
+            rc = gpu::encodeQueryScalarGroupTelemetryV2Request(
+                0, {}, 0, 0, gpu::PcieScalarGroupId::PciIdentity, request);
+            buf = request;
+            break;
         default:
             return;
     }
