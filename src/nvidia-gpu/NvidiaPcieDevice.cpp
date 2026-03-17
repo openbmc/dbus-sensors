@@ -8,6 +8,7 @@
 #include "NvidiaDeviceDiscovery.hpp"
 #include "NvidiaEthPort.hpp"
 #include "NvidiaGpuMctpVdm.hpp"
+#include "NvidiaPcieFunction.hpp"
 #include "NvidiaPcieInterface.hpp"
 #include "NvidiaPciePort.hpp"
 #include "NvidiaPciePortMetrics.hpp"
@@ -225,6 +226,13 @@ void PcieDevice::makeSensors()
         conn, mctpRequester, pcieDeviceName, path, eid, objectServer,
         gpu::DeviceIdentification::DEVICE_PCIE);
 
+    if (pcieDeviceInfo.numUpstreamPorts > 0)
+    {
+        pcieFunction = std::make_shared<NvidiaPcieFunction>(
+            conn, mctpRequester, pcieDeviceName, path, eid, 0, objectServer,
+            gpu::DeviceIdentification::DEVICE_PCIE);
+    }
+
     uint64_t downstreamPortIndex = 0;
 
     for (uint64_t i = 0; i < pcieDeviceInfo.numUpstreamPorts; ++i)
@@ -286,6 +294,10 @@ void PcieDevice::makeSensors()
 void PcieDevice::read()
 {
     pcieInterface->update();
+    if (pcieFunction)
+    {
+        pcieFunction->update();
+    }
 
     for (auto& port : pciePorts)
     {
