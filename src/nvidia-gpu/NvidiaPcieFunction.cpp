@@ -111,6 +111,10 @@ void NvidiaPcieFunction::processResponse(const std::error_code& ec,
             rc = gpu::decodeQueryScalarGroupTelemetryV1Response(
                 response, cc, reasonCode, numTelemetryValue, telemetryValues);
             break;
+        case gpu::DeviceIdentification::DEVICE_PCIE:
+            rc = gpu::decodeQueryScalarGroupTelemetryV2Response(
+                response, cc, reasonCode, numTelemetryValue, telemetryValues);
+            break;
         default:
             return;
     }
@@ -154,6 +158,11 @@ void NvidiaPcieFunction::update()
             rc = gpu::encodeQueryScalarGroupTelemetryV1Request(
                 0, 0, gpu::PcieScalarGroupId::PciIdentity, requestV1);
             buf = requestV1;
+            break;
+        case gpu::DeviceIdentification::DEVICE_PCIE:
+            rc = gpu::encodeQueryScalarGroupTelemetryV2Request(
+                0, {}, 0, 0, gpu::PcieScalarGroupId::PciIdentity, requestV2);
+            buf = requestV2;
             break;
         default:
             return;
