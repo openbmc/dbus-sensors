@@ -16,6 +16,24 @@
       "message": "Shouldn\u0027t we return from function for the default case?",
       "revId": "53aa49c574b2aa66fe2ae940b94ef4feb3d88f93",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "699717a6_31359e70",
+        "filename": "src/nvidia-gpu/NvidiaPciePort.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-03-17T03:24:46Z",
+      "side": 1,
+      "message": "Done. Changed default: break to default: return in both NvidiaPciePort.cpp and NvidiaPcieInterface.cpp.",
+      "parentUuid": "1babbad3_c739545e",
+      "revId": "53aa49c574b2aa66fe2ae940b94ef4feb3d88f93",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
