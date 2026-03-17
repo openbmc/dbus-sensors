@@ -8,6 +8,7 @@
 #include "MctpRequester.hpp"
 #include "NvidiaDeviceDiscovery.hpp"
 #include "NvidiaGpuMctpVdm.hpp"
+#include "NvidiaPcieFunction.hpp"
 #include "NvidiaPcieInterface.hpp"
 
 #include <NvidiaEthPort.hpp>
@@ -94,6 +95,7 @@ class PcieDevice : public std::enable_shared_from_this<PcieDevice>
         getPortNetworkAddressesRequest{};
 
     std::shared_ptr<NvidiaPcieInterface> pcieInterface;
+    std::shared_ptr<NvidiaPcieFunction> pcieFunction;
 
     std::vector<std::shared_ptr<NvidiaPciePortInfo>> pciePorts;
     std::vector<std::shared_ptr<NvidiaPciePortMetrics>> pciePortMetrics;
