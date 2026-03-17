@@ -183,13 +183,8 @@ using GetVoltageRequest = GetNumericSensorReadingRequest;
 constexpr size_t queryScalarGroupTelemetryV1RequestSize =
     ocp::accelerator_management::commonRequestSize + 2;
 
-struct QueryScalarGroupTelemetryV2Request
-{
-    ocp::accelerator_management::CommonRequest hdr;
-    uint8_t upstreamPortNumber;
-    uint8_t portNumber;
-    uint8_t groupId;
-} __attribute__((packed));
+constexpr size_t queryScalarGroupTelemetryV2RequestSize =
+    ocp::accelerator_management::commonRequestSize + 3;
 
 struct GetPortNetworkAddressesRequest
 {

@@ -52,7 +52,7 @@ struct NvidiaPcieInterface :
     std::array<uint8_t, gpu::queryScalarGroupTelemetryV1RequestSize>
         requestV1{};
 
-    std::array<uint8_t, sizeof(gpu::QueryScalarGroupTelemetryV2Request)>
+    std::array<uint8_t, gpu::queryScalarGroupTelemetryV2RequestSize>
         requestV2{};
 
     gpu::DeviceIdentification deviceType;
