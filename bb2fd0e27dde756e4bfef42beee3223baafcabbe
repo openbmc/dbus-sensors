@@ -156,6 +156,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6868478b_8e7c2c63",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-03-19T22:35:42Z",
+      "side": 1,
+      "message": "when I looked through the code, 90+% looks like boilerplate for a new application.  How is that \"cleaner\"?",
+      "parentUuid": "f0439bfc_f0de9d52",
+      "revId": "bb2fd0e27dde756e4bfef42beee3223baafcabbe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e8228b60_d2330439",
         "filename": "src/GPIOInterface.cpp",
         "patchSetId": 11
@@ -425,6 +443,24 @@
       "side": 1,
       "message": "Marking this as resolved since there are no further questions.",
       "parentUuid": "86c45748_003aa735",
+      "revId": "bb2fd0e27dde756e4bfef42beee3223baafcabbe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6bd3bb9_3c817568",
+        "filename": "src/valve-monitor/Readme.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-03-19T22:35:42Z",
+      "side": 1,
+      "message": "@spinler@us.ibm.com did you not see these when you merged 82310?\n\nYes, there are counter examples, that we know to be mediocre.  For new things, lets use enumerations please.",
+      "parentUuid": "5d14ae5d_e433a9e0",
       "revId": "bb2fd0e27dde756e4bfef42beee3223baafcabbe",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
