@@ -16,6 +16,24 @@
       "message": "This patch itself seems like it\u0027s doing what\u0027s described.\n\nI do want to understand how a \"valve\" differs in application code from a leak detector.  Aren\u0027t both just sampling a GPIO, and publishing a DBus API?  Yes, the leak dbus api is different, but the majority is identical, so should we do what we\u0027ve done in other places (like hwmon sensor) and combine multiple types into the same application?\n\nIf that question is answered somewhere, I\u0027m good here.",
       "revId": "c2e2e2dca0cf03bbf8b81d078c3ac314d98298ad",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e36fdb9f_84a65720",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2026-03-19T22:17:45Z",
+      "side": 1,
+      "message": "Please refer https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/82574/comments/3cc0e73b_6a32035e for answer on this question.",
+      "parentUuid": "f3c4cd91_3edfa692",
+      "revId": "c2e2e2dca0cf03bbf8b81d078c3ac314d98298ad",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
