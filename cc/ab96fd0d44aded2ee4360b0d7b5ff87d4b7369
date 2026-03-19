@@ -1,0 +1,9 @@
+Code-Review+1: Andrew Geissler <geissonator@yahoo.com>
+Code-Review+1: Matt Fischer <matt.fischer@hpe.com>
+Code-Review+2: Patrick Williams <patrick@stwcx.xyz>
+Code-Review+1: Josh Lehan <krellan@gmail.com>
+Verified+1: OpenBMC CI <openbmcbump-ci@yahoo.com>
+Reviewed-on: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/74641
+Comments-Total: 9
+Project: openbmc/dbus-sensors
+Branch: refs/heads/master
