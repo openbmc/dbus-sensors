@@ -20,9 +20,11 @@
 #include <cmath>
 #include <cstddef>
 #include <cstdint>
+#include <format>
 #include <functional>
 #include <limits>
 #include <memory>
+#include <optional>
 #include <span>
 #include <string>
 #include <system_error>
@@ -37,7 +39,8 @@ NvidiaPcieInterface::NvidiaPcieInterface(
     mctp::MctpRequester& mctpRequester, const std::string& name,
     const std::string& path, uint8_t eid,
     sdbusplus::asio::object_server& objectServer,
-    gpu::DeviceIdentification deviceType) :
+    gpu::DeviceIdentification deviceType,
+    const std::optional<std::string>& networkAdapterName) :
     eid(eid), path(path), conn(conn), mctpRequester(mctpRequester),
     deviceType(deviceType)
 {
@@ -46,15 +49,23 @@ NvidiaPcieInterface::NvidiaPcieInterface(
     pcieDeviceInterface = objectServer.add_interface(
         dbusPath, "xyz.openbmc_project.Inventory.Item.PCIeDevice");
 
+    std::vector<Association> associations;
+    associations.emplace_back("contained_by", "containing",
+                              sdbusplus::object_path(path).parent_path());
+
     if (deviceType == gpu::DeviceIdentification::DEVICE_PCIE)
     {
         switchInterface = objectServer.add_interface(
             dbusPath, "xyz.openbmc_project.Inventory.Item.PCIeSwitch");
     }
 
-    std::vector<Association> associations;
-    associations.emplace_back("contained_by", "containing",
-                              sdbusplus::object_path(path).parent_path());
+    if (networkAdapterName.has_value())
+    {
+        const std::string networkAdapterPath =
+            std::format("{}{}_NIC", nicPathPrefix, *networkAdapterName);
+        associations.emplace_back("connected_to", "connecting",
+                                  networkAdapterPath);
+    }
 
     associationInterface =
         objectServer.add_interface(dbusPath, association::interface);

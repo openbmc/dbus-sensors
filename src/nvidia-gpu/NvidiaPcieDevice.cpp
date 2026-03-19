@@ -222,7 +222,7 @@ void PcieDevice::makeSensors()
 
     pcieInterface = std::make_shared<NvidiaPcieInterface>(
         conn, mctpRequester, pcieDeviceName, path, eid, objectServer,
-        gpu::DeviceIdentification::DEVICE_PCIE);
+        gpu::DeviceIdentification::DEVICE_PCIE, name);
 
     uint64_t downstreamPortIndex = 0;
 
