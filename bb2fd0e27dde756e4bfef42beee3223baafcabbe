@@ -174,6 +174,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4557d419_63afe165",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-03-19T22:38:48Z",
+      "side": 1,
+      "message": "\u003e This service mainly holds the app/daemon specific logic. Moreover, the leak detection and valve monitor are two different features, hence they have been added as two different services.\n\n\nWe generally separate by transport, not by \"feature\". Note that all pmbus devices go through psusensor, all temp sensors go through hwmontempsensor (although they\u0027re both hwmon/sysfs for their interface, so arguably should be combined at some point).\n\nI really don\u0027t like creating applications just for the heck of it.  If there\u0027s a lot of valve-specific logic, I could see this needing to be it\u0027s own application, but at a code level it\u0027s just libgpio -\u003e dbus and could be common, even if main just calls two different paths, right?",
+      "parentUuid": "6868478b_8e7c2c63",
+      "revId": "bb2fd0e27dde756e4bfef42beee3223baafcabbe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e8228b60_d2330439",
         "filename": "src/GPIOInterface.cpp",
         "patchSetId": 11
