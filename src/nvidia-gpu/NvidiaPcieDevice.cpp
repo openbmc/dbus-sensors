@@ -220,9 +220,12 @@ void PcieDevice::processGetNetworkPortAddressesResponse(
 void PcieDevice::makeSensors()
 {
     const std::string pcieDeviceName = name + "_PCIe";
+    const std::string networkAdapterPath =
+        std::string(nicPathPrefix) + name + "_NIC";
 
     pcieInterface = std::make_shared<NvidiaPcieInterface>(
-        conn, mctpRequester, pcieDeviceName, path, eid, objectServer);
+        conn, mctpRequester, pcieDeviceName, path, eid, networkAdapterPath,
+        objectServer);
 
     uint64_t downstreamPortIndex = 0;
 
