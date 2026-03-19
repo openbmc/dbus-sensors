@@ -223,7 +223,7 @@ void PcieDevice::makeSensors()
 
     pcieInterface = std::make_shared<NvidiaPcieInterface>(
         conn, mctpRequester, pcieDeviceName, path, eid, objectServer,
-        gpu::DeviceIdentification::DEVICE_PCIE);
+        gpu::DeviceIdentification::DEVICE_PCIE, name);
 
     pcieFunction = std::make_shared<NvidiaPcieFunction>(
         conn, mctpRequester, pcieDeviceName, path, eid, 0, objectServer,
