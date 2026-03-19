@@ -138,7 +138,7 @@ void GpuDevice::makeSensors()
         powerCapInterface);
 
     pcieInterface = std::make_shared<NvidiaPcieInterface>(
-        conn, mctpRequester, name, path, eid, objectServer,
+        conn, mctpRequester, name, path, eid, std::string(), objectServer,
         gpu::DeviceIdentification::DEVICE_GPU);
 
     pciePort = std::make_shared<NvidiaPciePortInfo>(
