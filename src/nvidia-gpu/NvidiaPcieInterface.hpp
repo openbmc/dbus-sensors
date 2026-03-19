@@ -15,6 +15,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <memory>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -22,12 +23,13 @@ struct NvidiaPcieInterface :
     public std::enable_shared_from_this<NvidiaPcieInterface>
 {
   public:
-    NvidiaPcieInterface(std::shared_ptr<sdbusplus::asio::connection>& conn,
-                        mctp::MctpRequester& mctpRequester,
-                        const std::string& name, const std::string& path,
-                        uint8_t eid,
-                        sdbusplus::asio::object_server& objectServer,
-                        gpu::DeviceIdentification deviceType);
+    NvidiaPcieInterface(
+        std::shared_ptr<sdbusplus::asio::connection>& conn,
+        mctp::MctpRequester& mctpRequester, const std::string& name,
+        const std::string& path, uint8_t eid,
+        sdbusplus::asio::object_server& objectServer,
+        gpu::DeviceIdentification deviceType,
+        const std::optional<std::string>& networkAdapterName = std::nullopt);
 
     void update();
 

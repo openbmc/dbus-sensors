@@ -37,6 +37,7 @@
 #include <initializer_list>
 #include <limits>
 #include <memory>
+#include <optional>
 #include <span>
 #include <string>
 #include <system_error>
