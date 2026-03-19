@@ -21,6 +21,7 @@
 #include <NvidiaGpuVoltageSensor.hpp>
 #include <NvidiaPcieInterface.hpp>
 #include <NvidiaPciePort.hpp>
+#include <NvidiaPciePortMetrics.hpp>
 #include <OcpMctpVdm.hpp>
 #include <boost/asio/io_context.hpp>
 #include <phosphor-logging/lg2.hpp>
@@ -146,6 +147,21 @@ void GpuDevice::makeSensors()
         gpu::PciePortType::UPSTREAM, 0, 0, objectServer,
         gpu::DeviceIdentification::DEVICE_GPU);
 
+    pciePortMetrics.emplace_back(makeNvidiaPciePortErrors(
+        conn, mctpRequester, "UP_0", name, path, eid,
+        gpu::PciePortType::UPSTREAM, 0, 0, objectServer,
+        gpu::DeviceIdentification::DEVICE_GPU));
+
+    pciePortMetrics.emplace_back(makeNvidiaPciePortCounters(
+        conn, mctpRequester, "UP_0", name, path, eid,
+        gpu::PciePortType::UPSTREAM, 0, 0, objectServer,
+        gpu::DeviceIdentification::DEVICE_GPU));
+
+    pciePortMetrics.emplace_back(makeNvidiaPciePortL0ToRecoveryCount(
+        conn, mctpRequester, "UP_0", name, path, eid,
+        gpu::PciePortType::UPSTREAM, 0, 0, objectServer,
+        gpu::DeviceIdentification::DEVICE_GPU));
+
     getTLimitThresholds();
 
     lg2::info("Added GPU {NAME} Sensors with chassis path: {PATH}.", "NAME",
@@ -268,6 +284,10 @@ void GpuDevice::read()
     gpuControl->update();
     pcieInterface->update();
     pciePort->update();
+    for (auto& metrics : pciePortMetrics)
+    {
+        metrics->update();
+    }
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait(

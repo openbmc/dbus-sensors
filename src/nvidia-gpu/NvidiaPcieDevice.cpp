@@ -237,15 +237,18 @@ void PcieDevice::makeSensors()
 
         pciePortMetrics.emplace_back(makeNvidiaPciePortErrors(
             conn, mctpRequester, portName, pcieDeviceName, path, eid,
-            gpu::PciePortType::UPSTREAM, i, i, objectServer));
+            gpu::PciePortType::UPSTREAM, i, i, objectServer,
+            gpu::DeviceIdentification::DEVICE_PCIE));
 
         pciePortMetrics.emplace_back(makeNvidiaPciePortCounters(
             conn, mctpRequester, portName, pcieDeviceName, path, eid,
-            gpu::PciePortType::UPSTREAM, i, i, objectServer));
+            gpu::PciePortType::UPSTREAM, i, i, objectServer,
+            gpu::DeviceIdentification::DEVICE_PCIE));
 
         pciePortMetrics.emplace_back(makeNvidiaPciePortL0ToRecoveryCount(
             conn, mctpRequester, portName, pcieDeviceName, path, eid,
-            gpu::PciePortType::UPSTREAM, i, i, objectServer));
+            gpu::PciePortType::UPSTREAM, i, i, objectServer,
+            gpu::DeviceIdentification::DEVICE_PCIE));
 
         for (uint64_t j = 0; j < pcieDeviceInfo.numDownstreamPorts[i]; ++j)
         {
@@ -260,17 +263,17 @@ void PcieDevice::makeSensors()
             pciePortMetrics.emplace_back(makeNvidiaPciePortErrors(
                 conn, mctpRequester, portName, pcieDeviceName, path, eid,
                 gpu::PciePortType::DOWNSTREAM, i, downstreamPortIndex,
-                objectServer));
+                objectServer, gpu::DeviceIdentification::DEVICE_PCIE));
 
             pciePortMetrics.emplace_back(makeNvidiaPciePortCounters(
                 conn, mctpRequester, portName, pcieDeviceName, path, eid,
                 gpu::PciePortType::DOWNSTREAM, i, downstreamPortIndex,
-                objectServer));
+                objectServer, gpu::DeviceIdentification::DEVICE_PCIE));
 
             pciePortMetrics.emplace_back(makeNvidiaPciePortL0ToRecoveryCount(
                 conn, mctpRequester, portName, pcieDeviceName, path, eid,
                 gpu::PciePortType::DOWNSTREAM, i, downstreamPortIndex,
-                objectServer));
+                objectServer, gpu::DeviceIdentification::DEVICE_PCIE));
 
             ++downstreamPortIndex;
         }
