@@ -47,6 +47,15 @@ NvidiaPcieInterface::NvidiaPcieInterface(
     switchInterface = objectServer.add_interface(
         dbusPath, "xyz.openbmc_project.Inventory.Item.PCIeSwitch");
 
+    std::vector<Association> associations;
+    associations.emplace_back(
+        "contained_by", "containing",
+        sdbusplus::message::object_path(path).parent_path());
+
+    associationInterface =
+        objectServer.add_interface(dbusPath, association::interface);
+    associationInterface->register_property("Associations", associations);
+
     pcieDeviceInterface->register_property(
         "GenerationInUse",
         std::string(
@@ -72,6 +81,13 @@ NvidiaPcieInterface::NvidiaPcieInterface(
     {
         lg2::error("Error initializing Switch Interface for EID={EID}", "EID",
                    eid);
+    }
+
+    if (associationInterface && !associationInterface->initialize())
+    {
+        lg2::error(
+            "Error initializing Association Interface for PCIeSwitch EID={EID}",
+            "EID", eid);
     }
 }
 
