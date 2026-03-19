@@ -25,7 +25,7 @@ struct NvidiaPcieInterface :
     NvidiaPcieInterface(std::shared_ptr<sdbusplus::asio::connection>& conn,
                         mctp::MctpRequester& mctpRequester,
                         const std::string& name, const std::string& path,
-                        uint8_t eid,
+                        uint8_t eid, const std::string& networkAdapterPath,
                         sdbusplus::asio::object_server& objectServer);
 
     void update();

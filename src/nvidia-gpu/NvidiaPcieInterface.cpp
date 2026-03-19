@@ -35,7 +35,7 @@ using namespace std::literals;
 NvidiaPcieInterface::NvidiaPcieInterface(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, const std::string& name,
-    const std::string& path, uint8_t eid,
+    const std::string& path, uint8_t eid, const std::string& networkAdapterPath,
     sdbusplus::asio::object_server& objectServer) :
     eid(eid), path(path), conn(conn), mctpRequester(mctpRequester)
 {
@@ -51,6 +51,8 @@ NvidiaPcieInterface::NvidiaPcieInterface(
     associations.emplace_back(
         "contained_by", "containing",
         sdbusplus::message::object_path(path).parent_path());
+    associations.emplace_back("network_adapter", "pcie_device",
+                              networkAdapterPath);
 
     associationInterface =
         objectServer.add_interface(dbusPath, association::interface);
