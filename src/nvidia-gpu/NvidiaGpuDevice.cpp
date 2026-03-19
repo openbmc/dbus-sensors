@@ -37,6 +37,7 @@
 #include <initializer_list>
 #include <limits>
 #include <memory>
+#include <optional>
 #include <span>
 #include <string>
 #include <system_error>
@@ -147,7 +148,7 @@ void GpuDevice::makeSensors()
         powerCapInterface);
 
     pcieInterface = std::make_shared<NvidiaPcieInterface>(
-        conn, mctpRequester, name, path, eid, objectServer,
+        conn, mctpRequester, name, path, eid, std::nullopt, objectServer,
         gpu::DeviceIdentification::DEVICE_GPU);
 
     pciePort = std::make_shared<NvidiaPciePortInfo>(
