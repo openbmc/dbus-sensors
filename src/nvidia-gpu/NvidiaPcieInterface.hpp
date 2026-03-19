@@ -15,6 +15,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <memory>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -26,6 +27,7 @@ struct NvidiaPcieInterface :
                         mctp::MctpRequester& mctpRequester,
                         const std::string& name, const std::string& path,
                         uint8_t eid,
+                        const std::optional<std::string>& networkAdapterName,
                         sdbusplus::asio::object_server& objectServer,
                         gpu::DeviceIdentification deviceType);
 
