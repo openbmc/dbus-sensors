@@ -36,7 +36,8 @@ struct NvidiaPciePortMetrics :
         gpu::PciePortType portType, uint8_t upstreamPortNumber,
         uint8_t portNumber, sdbusplus::asio::object_server& objectServer,
         gpu::PcieScalarGroupId scalarGroupId,
-        const std::vector<NvidiaMetricInfo>& metricsInfo);
+        const std::vector<NvidiaMetricInfo>& metricsInfo,
+        gpu::DeviceIdentification deviceType);
 
     void update();
 
@@ -64,7 +65,13 @@ struct NvidiaPciePortMetrics :
 
     mctp::MctpRequester& mctpRequester;
 
-    std::array<uint8_t, gpu::queryScalarGroupTelemetryV2RequestSize> request{};
+    gpu::DeviceIdentification deviceType;
+
+    std::array<uint8_t, gpu::queryScalarGroupTelemetryV1RequestSize>
+        requestV1{};
+
+    std::array<uint8_t, gpu::queryScalarGroupTelemetryV2RequestSize>
+        requestV2{};
 
     std::array<uint8_t, sizeof(ocp::accelerator_management::CommonResponse) +
                             sizeof(uint32_t) * maxTelemetryValues>
@@ -86,18 +93,21 @@ std::shared_ptr<NvidiaPciePortMetrics> makeNvidiaPciePortErrors(
     mctp::MctpRequester& mctpRequester, const std::string& name,
     const std::string& pcieDeviceName, const std::string& path, uint8_t eid,
     gpu::PciePortType portType, uint8_t upstreamPortNumber, uint8_t portNumber,
-    sdbusplus::asio::object_server& objectServer);
+    sdbusplus::asio::object_server& objectServer,
+    gpu::DeviceIdentification deviceType);
 
 std::shared_ptr<NvidiaPciePortMetrics> makeNvidiaPciePortCounters(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, const std::string& name,
     const std::string& pcieDeviceName, const std::string& path, uint8_t eid,
     gpu::PciePortType portType, uint8_t upstreamPortNumber, uint8_t portNumber,
-    sdbusplus::asio::object_server& objectServer);
+    sdbusplus::asio::object_server& objectServer,
+    gpu::DeviceIdentification deviceType);
 
 std::shared_ptr<NvidiaPciePortMetrics> makeNvidiaPciePortL0ToRecoveryCount(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, const std::string& name,
     const std::string& pcieDeviceName, const std::string& path, uint8_t eid,
     gpu::PciePortType portType, uint8_t upstreamPortNumber, uint8_t portNumber,
-    sdbusplus::asio::object_server& objectServer);
+    sdbusplus::asio::object_server& objectServer,
+    gpu::DeviceIdentification deviceType);
