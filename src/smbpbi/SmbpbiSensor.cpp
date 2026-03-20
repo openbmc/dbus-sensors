@@ -67,6 +67,16 @@ SmbpbiSensor::SmbpbiSensor(
     sensorType = sensor_paths::getPathForUnits(sensorUnits);
     std::string sensorPath = sensorRootPath + sensorType + "/";
 
+    if (valueType == "FLOAT64")
+    {
+        validDataSize = sizeof(double);
+    }
+    else
+    {
+        validDataSize =
+            (sensorType == "temperature") ? sizeof(uint32_t) : sizeof(uint64_t);
+    }
+
     sensorInterface =
         objectServer.add_interface(sensorPath + name, sensorValueInterface);
 
@@ -276,9 +286,10 @@ int SmbpbiSensor::readRawEEPROMData(double& data)
     {
         return ret;
     }
+
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
     if (checkInvalidReading(reinterpret_cast<uint8_t*>(&reading),
-                            sizeof(reading)))
+                            validDataSize))
     {
         data = std::numeric_limits<double>::quiet_NaN();
         return 0;
