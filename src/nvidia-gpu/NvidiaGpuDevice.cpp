@@ -12,6 +12,7 @@
 #include <MctpRequester.hpp>
 #include <NvidiaDeviceDiscovery.hpp>
 #include <NvidiaDriverInformation.hpp>
+#include <NvidiaGpuChassisAssembly.hpp>
 #include <NvidiaGpuControl.hpp>
 #include <NvidiaGpuEnergySensor.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
@@ -26,6 +27,7 @@
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/message/native_types.hpp>
 
 #include <array>
 #include <chrono>
@@ -92,7 +94,13 @@ void GpuDevice::init()
         conn, objectServer, name, mctpRequester,
         gpu::DeviceIdentification::DEVICE_GPU, eid, io, powerCapInterface);
 
+    const std::string chassisPath =
+        sdbusplus::message::object_path(path).parent_path();
+    chassisAssembly = std::make_shared<ChassisAssembly>(
+        objectServer, mctpRequester, name, chassisPath, eid, io);
+
     inventory->init();
+    chassisAssembly->init();
 
     makeSensors();
 }
