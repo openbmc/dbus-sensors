@@ -72,6 +72,7 @@ struct SmbpbiSensor : public Sensor
     boost::asio::random_access_file inputDev;
     boost::asio::steady_timer waitTimer;
     size_t pollRateSecond;
+    size_t validDataSize;
 };
 
 bool checkInvalidReading(uint8_t* reading, int length)
