@@ -276,9 +276,13 @@ int SmbpbiSensor::readRawEEPROMData(double& data)
     {
         return ret;
     }
+
+    // temperature sensor only contains 4 bytes of valid data.
+    size_t checkSize =
+        (sensorType == "temperature") ? sizeof(uint32_t) : sizeof(reading);
+
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
-    if (checkInvalidReading(reinterpret_cast<uint8_t*>(&reading),
-                            sizeof(reading)))
+    if (checkInvalidReading(reinterpret_cast<uint8_t*>(&reading), checkSize))
     {
         data = std::numeric_limits<double>::quiet_NaN();
         return 0;
