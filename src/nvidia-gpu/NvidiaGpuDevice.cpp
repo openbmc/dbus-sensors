@@ -5,6 +5,7 @@
 
 #include "NvidiaGpuDevice.hpp"
 
+#include "NvidiaGpuAssembly.hpp"
 #include "Thresholds.hpp"
 #include "Utils.hpp"
 
@@ -162,6 +163,20 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
             "Error initializing OperatingClockSpeed interface for {NAME}, eid={EID}",
             "NAME", this->name, "EID", eid);
     }
+
+    const sdbusplus::object_path chassisPath =
+        sdbusplus::object_path(this->path).parent_path();
+    const sdbusplus::object_path devicePath =
+        chassisPath / (this->name + "_Device_Assembly");
+    const sdbusplus::object_path boardPath =
+        chassisPath / (this->name + "_Board_Assembly");
+
+    deviceAssembly = std::make_shared<NvidiaGpuAssembly>(
+        objectServer, devicePath, chassisPath, NvidiaGpuAssembly::Kind::Device,
+        eid);
+    boardAssembly = std::make_shared<NvidiaGpuAssembly>(
+        objectServer, boardPath, chassisPath, NvidiaGpuAssembly::Kind::Board,
+        eid);
 }
 
 GpuDevice::~GpuDevice()
@@ -177,7 +192,8 @@ void GpuDevice::init()
     inventory = std::make_shared<Inventory>(
         conn, objectServer, name, mctpRequester,
         gpu::DeviceIdentification::DEVICE_GPU, eid, io, powerCapInterface,
-        dramItemInterface);
+        dramItemInterface, deviceAssembly->getAssetIface(),
+        boardAssembly->getAssetIface());
 
     inventory->init();
 

@@ -19,6 +19,7 @@
 #include "NvidiaGpuXid.hpp"
 
 #include <NvidiaDriverInformation.hpp>
+#include <NvidiaGpuAssembly.hpp>
 #include <NvidiaGpuEnergySensor.hpp>
 #include <NvidiaGpuPowerPeakReading.hpp>
 #include <NvidiaGpuUtilizationMetrics.hpp>
@@ -103,6 +104,9 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
     std::shared_ptr<sdbusplus::asio::dbus_interface> powerCapInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> dramAssociationInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> dramItemInterface;
+
+    std::shared_ptr<NvidiaGpuAssembly> deviceAssembly;
+    std::shared_ptr<NvidiaGpuAssembly> boardAssembly;
 
     std::shared_ptr<NvidiaPcieInterface> pcieInterface;
     std::shared_ptr<NvidiaPciePortInfo> pciePort;
