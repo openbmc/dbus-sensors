@@ -5,6 +5,7 @@
 
 #include "NvidiaGpuDevice.hpp"
 
+#include "NvidiaGpuAssembly.hpp"
 #include "Thresholds.hpp"
 #include "Utils.hpp"
 
@@ -32,6 +33,7 @@
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/message/native_types.hpp>
 
 #include <array>
 #include <chrono>
@@ -102,19 +104,33 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
         lg2::error("Failed to initialize DRAM association interface for {NAME}",
                    "NAME", this->name);
     }
+
+    const sdbusplus::message::object_path chassisPath =
+        sdbusplus::message::object_path(this->path).parent_path();
+    const sdbusplus::message::object_path devicePath =
+        chassisPath / (this->name + "_Device_Assembly");
+    const sdbusplus::message::object_path boardPath =
+        chassisPath / (this->name + "_Board_Assembly");
+
+    deviceAssembly =
+        createDeviceAssembly(objectServer, devicePath, chassisPath);
+    boardAssembly = createBoardAssembly(objectServer, boardPath, chassisPath);
 }
 
 GpuDevice::~GpuDevice()
 {
     objectServer.remove_interface(powerCapInterface);
     objectServer.remove_interface(dramAssociationInterface);
+    removeAssemblyInterfaces(objectServer, deviceAssembly);
+    removeAssemblyInterfaces(objectServer, boardAssembly);
 }
 
 void GpuDevice::init()
 {
     inventory = std::make_shared<Inventory>(
         conn, objectServer, name, mctpRequester,
-        gpu::DeviceIdentification::DEVICE_GPU, eid, io, powerCapInterface);
+        gpu::DeviceIdentification::DEVICE_GPU, eid, io, powerCapInterface,
+        deviceAssembly.assetIface, boardAssembly.assetIface);
 
     inventory->init();
 

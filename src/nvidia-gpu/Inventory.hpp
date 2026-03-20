@@ -15,6 +15,8 @@
 #include <optional>
 #include <string>
 #include <unordered_map>
+#include <utility>
+#include <vector>
 
 constexpr const char* inventoryPrefix = "/xyz/openbmc_project/inventory/";
 
@@ -28,15 +30,20 @@ class Inventory : public std::enable_shared_from_this<Inventory>
               gpu::DeviceIdentification deviceType, uint8_t eid,
               boost::asio::io_context& io,
               const std::shared_ptr<sdbusplus::asio::dbus_interface>&
-                  powerCapInterface);
+                  powerCapInterface,
+              const std::shared_ptr<sdbusplus::asio::dbus_interface>&
+                  deviceAssemblyAssetIface,
+              const std::shared_ptr<sdbusplus::asio::dbus_interface>&
+                  boardAssemblyAssetIface);
 
     void init();
 
   private:
     struct PropertyInfo
     {
-        std::shared_ptr<sdbusplus::asio::dbus_interface> interface;
-        std::string propertyName;
+        std::vector<std::pair<std::shared_ptr<sdbusplus::asio::dbus_interface>,
+                              std::string>>
+            targets;
         int retryCount{0};
         bool isPending{false};
     };
@@ -47,6 +54,10 @@ class Inventory : public std::enable_shared_from_this<Inventory>
     void processNextProperty();
     void processInventoryProperty(gpu::InventoryPropertyId propertyId);
     void registerProperty(
+        gpu::InventoryPropertyId propertyId,
+        const std::shared_ptr<sdbusplus::asio::dbus_interface>& interface,
+        const std::string& propertyName);
+    void addPropertyTarget(
         gpu::InventoryPropertyId propertyId,
         const std::shared_ptr<sdbusplus::asio::dbus_interface>& interface,
         const std::string& propertyName);
@@ -62,6 +73,8 @@ class Inventory : public std::enable_shared_from_this<Inventory>
     std::shared_ptr<sdbusplus::asio::dbus_interface> acceleratorInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> uuidInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> revisionIface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> deviceAssemblyAssetIface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> boardAssemblyAssetIface;
 
     std::string name;
     mctp::MctpRequester& mctpRequester;
