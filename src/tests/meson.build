@@ -92,3 +92,14 @@ test(
         include_directories: '../nvidia-gpu',
     ),
 )
+
+test(
+    'test_smbpbi',
+    executable(
+        'test_smbpbi',
+        'test_SmbpbiSensor.cpp',
+        dependencies: [gmock_dep, ut_deps_list, utils_dep],
+        implicit_include_directories: false,
+        include_directories: src_inc,
+    ),
+)

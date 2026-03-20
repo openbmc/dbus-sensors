@@ -60,11 +60,13 @@ SmbpbiSensor::SmbpbiSensor(
            sensorConfiguration, objType, false, false, maxVal, minVal, conn,
            powerState),
     busId(busId), addr(addr), offset(offset), sensorUnits(sensorUnits),
+    sensorType(sensor_paths::getPathForUnits(sensorUnits)),
     valueType(valueType), objectServer(objectServer),
     inputDev(io, path, boost::asio::random_access_file::read_only),
-    waitTimer(io), pollRateSecond(pollTime)
+    waitTimer(io), pollRateSecond(pollTime),
+    validDataSize(
+        (sensorType == "temperature") ? sizeof(uint32_t) : sizeof(uint64_t))
 {
-    sensorType = sensor_paths::getPathForUnits(sensorUnits);
     std::string sensorPath = sensorRootPath + sensorType + "/";
 
     sensorInterface =
@@ -276,9 +278,10 @@ int SmbpbiSensor::readRawEEPROMData(double& data)
     {
         return ret;
     }
+
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
     if (checkInvalidReading(reinterpret_cast<uint8_t*>(&reading),
-                            sizeof(reading)))
+                            validDataSize))
     {
         data = std::numeric_limits<double>::quiet_NaN();
         return 0;
