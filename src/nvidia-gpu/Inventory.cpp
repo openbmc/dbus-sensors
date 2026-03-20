@@ -40,7 +40,13 @@ Inventory::Inventory(
     const std::string& inventoryName, mctp::MctpRequester& mctpRequester,
     const gpu::DeviceIdentification deviceTypeIn, const uint8_t eid,
     boost::asio::io_context& io,
-    const std::shared_ptr<sdbusplus::asio::dbus_interface>& powerCapInterface) :
+    const std::shared_ptr<sdbusplus::asio::dbus_interface>& powerCapInterface,
+    const std::shared_ptr<sdbusplus::asio::dbus_interface>&
+        deviceAssemblyAssetIfaceIn,
+    const std::shared_ptr<sdbusplus::asio::dbus_interface>&
+        boardAssemblyAssetIfaceIn) :
+    deviceAssemblyAssetIface(deviceAssemblyAssetIfaceIn),
+    boardAssemblyAssetIface(boardAssemblyAssetIfaceIn),
     name(escapeName(inventoryName)), mctpRequester(mctpRequester),
     deviceType(deviceTypeIn), eid(eid), retryTimer(io)
 {
@@ -86,6 +92,12 @@ Inventory::Inventory(
         // only)
         properties[gpu::InventoryPropertyId::DEFAULT_BOOST_CLOCKS] = {
             acceleratorInterface, "BoostClockFrequency", 0, true};
+    }
+
+    if (deviceAssemblyAssetIface)
+    {
+        properties[gpu::InventoryPropertyId::BUILD_DATE] = {
+            deviceAssemblyAssetIface, "BuildDate", 0, true};
     }
 
     if (powerCapInterface)
@@ -229,6 +241,7 @@ void Inventory::handleInventoryPropertyResponse(
                 case gpu::InventoryPropertyId::SERIAL_NUMBER:
                 case gpu::InventoryPropertyId::MARKETING_NAME:
                 case gpu::InventoryPropertyId::DEVICE_PART_NUMBER:
+                case gpu::InventoryPropertyId::BUILD_DATE:
                     if (std::holds_alternative<std::string>(info))
                     {
                         value = std::get<std::string>(info);
@@ -239,7 +252,37 @@ void Inventory::handleInventoryPropertyResponse(
                             "Property ID {PROP_ID} for {NAME} expected string but got different type",
                             "PROP_ID", static_cast<uint8_t>(propertyId), "NAME",
                             name);
-                        break;
+                    }
+                    if (!value.empty())
+                    {
+                        if (propertyId ==
+                                gpu::InventoryPropertyId::SERIAL_NUMBER &&
+                            deviceAssemblyAssetIface)
+                        {
+                            deviceAssemblyAssetIface->set_property(
+                                "SerialNumber", value);
+                        }
+                        else if (propertyId ==
+                                     gpu::InventoryPropertyId::MARKETING_NAME &&
+                                 deviceAssemblyAssetIface)
+                        {
+                            deviceAssemblyAssetIface->set_property("Model",
+                                                                   value);
+                        }
+                        else if (propertyId == gpu::InventoryPropertyId::
+                                                   DEVICE_PART_NUMBER &&
+                                 deviceAssemblyAssetIface)
+                        {
+                            deviceAssemblyAssetIface->set_property("PartNumber",
+                                                                   value);
+                        }
+                        else if (propertyId == gpu::InventoryPropertyId::
+                                                   BOARD_PART_NUMBER &&
+                                 boardAssemblyAssetIface)
+                        {
+                            boardAssemblyAssetIface->set_property("PartNumber",
+                                                                  value);
+                        }
                     }
                     break;
 
