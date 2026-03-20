@@ -5,6 +5,7 @@
 
 #include "NvidiaGpuDevice.hpp"
 
+#include "NvidiaGpuAssembly.hpp"
 #include "Thresholds.hpp"
 #include "Utils.hpp"
 
@@ -37,6 +38,7 @@
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/message/native_types.hpp>
 
 #include <array>
 #include <chrono>
@@ -154,6 +156,18 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
     controlClockSpeedInterface->register_property(
         "RequestedSpeedLimitMinHz", std::numeric_limits<uint64_t>::max());
     controlClockSpeedInterface->initialize();
+
+    const sdbusplus::object_path chassisPath =
+        sdbusplus::object_path(this->path).parent_path();
+    const sdbusplus::object_path devicePath =
+        chassisPath / (this->name + "_Device_Assembly");
+    const sdbusplus::object_path boardPath =
+        chassisPath / (this->name + "_Board_Assembly");
+
+    deviceAssembly = std::make_shared<NvidiaGpuAssembly>(
+        objectServer, devicePath, chassisPath, NvidiaGpuAssembly::Kind::Device);
+    boardAssembly = std::make_shared<NvidiaGpuAssembly>(
+        objectServer, boardPath, chassisPath, NvidiaGpuAssembly::Kind::Board);
 }
 
 GpuDevice::~GpuDevice()
@@ -169,7 +183,8 @@ void GpuDevice::init()
     inventory = std::make_shared<Inventory>(
         conn, objectServer, name, mctpRequester,
         gpu::DeviceIdentification::DEVICE_GPU, eid, io, powerCapInterface,
-        dramItemInterface);
+        dramItemInterface, deviceAssembly->getAssetIface(),
+        boardAssembly->getAssetIface());
 
     inventory->init();
 
