@@ -79,4 +79,16 @@ test(
     ),
 )
 
+test(
+    'test_smbpbi',
+    executable(
+        'test_smbpbi',
+        'test_SmbpbiSensor.cpp',
+        '../smbpbi/SmbpbiSensor.cpp',
+        dependencies: [gmock_dep, ut_deps_list, thresholds_dep, utils_dep],
+        implicit_include_directories: false,
+        include_directories: src_inc,
+    ),
+)
+
 subdir('nvidia-gpu')
