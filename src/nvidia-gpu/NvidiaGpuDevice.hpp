@@ -14,6 +14,7 @@
 #include "NvidiaGpuSensor.hpp"
 
 #include <NvidiaDriverInformation.hpp>
+#include <NvidiaGpuAssembly.hpp>
 #include <NvidiaGpuEnergySensor.hpp>
 #include <NvidiaGpuPowerPeakReading.hpp>
 #include <NvidiaGpuVoltageSensor.hpp>
@@ -89,6 +90,9 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
 
     std::shared_ptr<NvidiaGpuControl> gpuControl;
     std::shared_ptr<sdbusplus::asio::dbus_interface> powerCapInterface;
+
+    AssemblyInterfaces deviceAssembly;
+    AssemblyInterfaces boardAssembly;
 
     std::shared_ptr<NvidiaPcieInterface> pcieInterface;
     std::shared_ptr<NvidiaPciePortInfo> pciePort;

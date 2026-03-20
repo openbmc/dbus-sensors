@@ -5,6 +5,7 @@ gpusensor_sources = files(
     'NvidiaDriverInformation.cpp',
     'NvidiaEthPort.cpp',
     'NvidiaEventReporting.cpp',
+    'NvidiaGpuAssembly.cpp',
     'NvidiaGpuControl.cpp',
     'NvidiaGpuDevice.cpp',
     'NvidiaGpuEnergySensor.cpp',

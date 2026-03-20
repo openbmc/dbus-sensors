@@ -28,7 +28,11 @@ class Inventory : public std::enable_shared_from_this<Inventory>
               gpu::DeviceIdentification deviceType, uint8_t eid,
               boost::asio::io_context& io,
               const std::shared_ptr<sdbusplus::asio::dbus_interface>&
-                  powerCapInterface);
+                  powerCapInterface,
+              const std::shared_ptr<sdbusplus::asio::dbus_interface>&
+                  deviceAssemblyAssetIface,
+              const std::shared_ptr<sdbusplus::asio::dbus_interface>&
+                  boardAssemblyAssetIface);
 
     void init();
 
@@ -62,6 +66,8 @@ class Inventory : public std::enable_shared_from_this<Inventory>
     std::shared_ptr<sdbusplus::asio::dbus_interface> acceleratorInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> uuidInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> revisionIface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> deviceAssemblyAssetIface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> boardAssemblyAssetIface;
 
     std::string name;
     mctp::MctpRequester& mctpRequester;

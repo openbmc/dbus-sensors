@@ -5,6 +5,7 @@
 
 #include "NvidiaGpuDevice.hpp"
 
+#include "NvidiaGpuAssembly.hpp"
 #include "Thresholds.hpp"
 #include "Utils.hpp"
 
@@ -29,10 +30,12 @@
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/message/native_types.hpp>
 
 #include <array>
 #include <chrono>
 #include <cstdint>
+#include <format>
 #include <functional>
 #include <initializer_list>
 #include <limits>
@@ -83,18 +86,32 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
         sdbusplus::asio::PropertyPermission::readOnly);
 
     powerCapInterface->initialize();
+
+    const std::string chassisPath =
+        sdbusplus::message::object_path(this->path).parent_path();
+    const std::string devicePath =
+        std::format("{}/{}_Device_Assembly", chassisPath, this->name);
+    const std::string boardPath =
+        std::format("{}/{}_Board_Assembly", chassisPath, this->name);
+
+    deviceAssembly =
+        createDeviceAssembly(objectServer, devicePath, chassisPath);
+    boardAssembly = createBoardAssembly(objectServer, boardPath, chassisPath);
 }
 
 GpuDevice::~GpuDevice()
 {
     objectServer.remove_interface(powerCapInterface);
+    removeAssemblyInterfaces(objectServer, deviceAssembly);
+    removeAssemblyInterfaces(objectServer, boardAssembly);
 }
 
 void GpuDevice::init()
 {
     inventory = std::make_shared<Inventory>(
         conn, objectServer, name, mctpRequester,
-        gpu::DeviceIdentification::DEVICE_GPU, eid, io, powerCapInterface);
+        gpu::DeviceIdentification::DEVICE_GPU, eid, io, powerCapInterface,
+        deviceAssembly.assetIface, boardAssembly.assetIface);
 
     inventory->init();
 
