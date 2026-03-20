@@ -82,6 +82,73 @@ TEST(NvidiaGpuMctpVdmTest, DecodeInventoryString)
     EXPECT_EQ(std::get<std::string>(info), "TEST1");
 }
 
+TEST(NvidiaGpuMctpVdmTest, DecodeInventoryBuildDate)
+{
+    std::array<uint8_t, 256> buf{};
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 1,
+        static_cast<uint8_t>(MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(
+        PlatformEnvironmentalCommands::GET_INVENTORY_INFORMATION));
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));
+    pbuf.pack(static_cast<uint16_t>(0));                // reserved
+    const std::string buildDate = "2025-06-14T00:00:00Z";
+    pbuf.pack(static_cast<uint16_t>(buildDate.size())); // data_size
+    for (const char ch : buildDate)
+    {
+        pbuf.pack(static_cast<uint8_t>(ch));
+    }
+    ASSERT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc =
+        ocp::accelerator_management::CompletionCode::ERROR;
+    uint16_t reasonCode = 0;
+    InventoryValue info;
+
+    auto rc = decodeGetInventoryInformationResponse(
+        buf, cc, reasonCode, InventoryPropertyId::BUILD_DATE, info);
+    EXPECT_EQ(rc, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+    EXPECT_TRUE(std::holds_alternative<std::string>(info));
+    EXPECT_EQ(std::get<std::string>(info), buildDate);
+}
+
+TEST(NvidiaGpuMctpVdmTest, DecodeInventoryMemoryClock)
+{
+    std::array<uint8_t, 256> buf{};
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 1,
+        static_cast<uint8_t>(MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(
+        PlatformEnvironmentalCommands::GET_INVENTORY_INFORMATION));
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));
+    pbuf.pack(static_cast<uint16_t>(0));                // reserved
+    pbuf.pack(static_cast<uint16_t>(sizeof(uint32_t))); // data_size = 4
+    const uint32_t memoryClockMhz = 1600;
+    pbuf.pack(memoryClockMhz);
+    ASSERT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc =
+        ocp::accelerator_management::CompletionCode::ERROR;
+    uint16_t reasonCode = 0;
+    InventoryValue info;
+
+    auto rc = decodeGetInventoryInformationResponse(
+        buf, cc, reasonCode, InventoryPropertyId::MAX_MEMORY_CLOCK, info);
+    EXPECT_EQ(rc, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+    EXPECT_TRUE(std::holds_alternative<uint32_t>(info));
+    EXPECT_EQ(std::get<uint32_t>(info), memoryClockMhz);
+}
+
 TEST(NvidiaGpuMctpVdmTest, DecodeInventoryDeviceGuid)
 {
     std::array<uint8_t, 256> buf{};
