@@ -40,7 +40,13 @@ Inventory::Inventory(
     const std::string& inventoryName, mctp::MctpRequester& mctpRequester,
     const gpu::DeviceIdentification deviceTypeIn, const uint8_t eid,
     boost::asio::io_context& io,
-    const std::shared_ptr<sdbusplus::asio::dbus_interface>& powerCapInterface) :
+    const std::shared_ptr<sdbusplus::asio::dbus_interface>& powerCapInterface,
+    const std::shared_ptr<sdbusplus::asio::dbus_interface>&
+        deviceAssemblyAssetIfaceIn,
+    const std::shared_ptr<sdbusplus::asio::dbus_interface>&
+        boardAssemblyAssetIfaceIn) :
+    deviceAssemblyAssetIface(deviceAssemblyAssetIfaceIn),
+    boardAssemblyAssetIface(boardAssemblyAssetIfaceIn),
     name(escapeName(inventoryName)), mctpRequester(mctpRequester),
     deviceType(deviceTypeIn), eid(eid), retryTimer(io)
 {
@@ -67,6 +73,18 @@ Inventory::Inventory(
                      revisionIface, "Version");
     revisionIface->initialize();
 
+    // Route string properties to assembly asset interfaces when present.
+    // Assembly interfaces have their properties registered elsewhere, so we
+    // only append additional set_property targets here.
+    addPropertyTarget(gpu::InventoryPropertyId::SERIAL_NUMBER,
+                      deviceAssemblyAssetIface, "SerialNumber");
+    addPropertyTarget(gpu::InventoryPropertyId::MARKETING_NAME,
+                      deviceAssemblyAssetIface, "Model");
+    addPropertyTarget(gpu::InventoryPropertyId::DEVICE_PART_NUMBER,
+                      deviceAssemblyAssetIface, "PartNumber");
+    addPropertyTarget(gpu::InventoryPropertyId::BOARD_PART_NUMBER,
+                      boardAssemblyAssetIface, "PartNumber");
+
     // Static properties
     if (deviceType == gpu::DeviceIdentification::DEVICE_GPU)
     {
@@ -82,21 +100,22 @@ Inventory::Inventory(
 
         acceleratorInterface->initialize();
 
-        // Add to query queue (manually since registerProperty is for strings
-        // only)
-        properties[gpu::InventoryPropertyId::DEFAULT_BOOST_CLOCKS] = {
-            acceleratorInterface, "BoostClockFrequency", 0, true};
+        // Properties registered above on interfaces with non-string types are
+        // added via addPropertyTarget since registerProperty only handles
+        // strings.
+        addPropertyTarget(gpu::InventoryPropertyId::DEFAULT_BOOST_CLOCKS,
+                          acceleratorInterface, "BoostClockFrequency");
     }
 
-    if (powerCapInterface)
-    {
-        properties[gpu::InventoryPropertyId::MIN_DEVICE_POWER_LIMIT] = {
-            powerCapInterface, "MinPowerCapValue", 0, true};
-        properties[gpu::InventoryPropertyId::MAX_DEVICE_POWER_LIMIT] = {
-            powerCapInterface, "MaxPowerCapValue", 0, true};
-        properties[gpu::InventoryPropertyId::RATED_DEVICE_POWER_LIMIT] = {
-            powerCapInterface, "DefaultPowerCap", 0, true};
-    }
+    addPropertyTarget(gpu::InventoryPropertyId::BUILD_DATE,
+                      deviceAssemblyAssetIface, "BuildDate");
+
+    addPropertyTarget(gpu::InventoryPropertyId::MIN_DEVICE_POWER_LIMIT,
+                      powerCapInterface, "MinPowerCapValue");
+    addPropertyTarget(gpu::InventoryPropertyId::MAX_DEVICE_POWER_LIMIT,
+                      powerCapInterface, "MaxPowerCapValue");
+    addPropertyTarget(gpu::InventoryPropertyId::RATED_DEVICE_POWER_LIMIT,
+                      powerCapInterface, "DefaultPowerCap");
 }
 
 void Inventory::init()
@@ -112,7 +131,19 @@ void Inventory::registerProperty(
     if (interface)
     {
         interface->register_property(propertyName, std::string{});
-        properties[propertyId] = {interface, propertyName, 0, true};
+        addPropertyTarget(propertyId, interface, propertyName);
+    }
+}
+
+void Inventory::addPropertyTarget(
+    gpu::InventoryPropertyId propertyId,
+    const std::shared_ptr<sdbusplus::asio::dbus_interface>& interface,
+    const std::string& propertyName)
+{
+    if (interface)
+    {
+        properties[propertyId].targets.emplace_back(interface, propertyName);
+        properties[propertyId].isPending = true;
     }
 }
 
@@ -229,6 +260,7 @@ void Inventory::handleInventoryPropertyResponse(
                 case gpu::InventoryPropertyId::SERIAL_NUMBER:
                 case gpu::InventoryPropertyId::MARKETING_NAME:
                 case gpu::InventoryPropertyId::DEVICE_PART_NUMBER:
+                case gpu::InventoryPropertyId::BUILD_DATE:
                     if (std::holds_alternative<std::string>(info))
                     {
                         value = std::get<std::string>(info);
@@ -239,7 +271,6 @@ void Inventory::handleInventoryPropertyResponse(
                             "Property ID {PROP_ID} for {NAME} expected string but got different type",
                             "PROP_ID", static_cast<uint8_t>(propertyId), "NAME",
                             name);
-                        break;
                     }
                     break;
 
@@ -281,8 +312,10 @@ void Inventory::handleInventoryPropertyResponse(
                         // Convert to uint64_t for D-Bus interface requirement
                         const uint64_t clockSpeed64 =
                             static_cast<uint64_t>(clockSpeed);
-                        it->second.interface->set_property(
-                            it->second.propertyName, clockSpeed64);
+                        for (const auto& [iface, propName] : it->second.targets)
+                        {
+                            iface->set_property(propName, clockSpeed64);
+                        }
                         success = true;
                     }
                     else
@@ -302,8 +335,10 @@ void Inventory::handleInventoryPropertyResponse(
                         // Device reports milliwatts; expose watts on D-Bus
                         uint32_t powerLimit =
                             std::get<uint32_t>(info) / milliwattsPerWatt;
-                        it->second.interface->set_property(
-                            it->second.propertyName, powerLimit);
+                        for (const auto& [iface, propName] : it->second.targets)
+                        {
+                            iface->set_property(propName, powerLimit);
+                        }
                         lg2::info(
                             "Successfully received property ID {PROP_ID} for {NAME} with value: {VALUE}",
                             "PROP_ID", static_cast<uint8_t>(propertyId), "NAME",
@@ -328,8 +363,10 @@ void Inventory::handleInventoryPropertyResponse(
 
             if (!value.empty())
             {
-                it->second.interface->set_property(it->second.propertyName,
-                                                   value);
+                for (const auto& [iface, propName] : it->second.targets)
+                {
+                    iface->set_property(propName, value);
+                }
                 lg2::info(
                     "Successfully received property ID {PROP_ID} for {NAME} with value: {VALUE}",
                     "PROP_ID", static_cast<uint8_t>(propertyId), "NAME", name,
