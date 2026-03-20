@@ -40,7 +40,13 @@ Inventory::Inventory(
     const std::string& inventoryName, mctp::MctpRequester& mctpRequester,
     const gpu::DeviceIdentification deviceTypeIn, const uint8_t eid,
     boost::asio::io_context& io,
-    const std::shared_ptr<sdbusplus::asio::dbus_interface>& powerCapInterface) :
+    const std::shared_ptr<sdbusplus::asio::dbus_interface>& powerCapInterface,
+    const std::shared_ptr<sdbusplus::asio::dbus_interface>&
+        deviceAssemblyAssetIfaceIn,
+    const std::shared_ptr<sdbusplus::asio::dbus_interface>&
+        boardAssemblyAssetIfaceIn) :
+    deviceAssemblyAssetIface(deviceAssemblyAssetIfaceIn),
+    boardAssemblyAssetIface(boardAssemblyAssetIfaceIn),
     name(escapeName(inventoryName)), mctpRequester(mctpRequester),
     deviceType(deviceTypeIn), eid(eid), retryTimer(io)
 {
@@ -86,6 +92,12 @@ Inventory::Inventory(
         // only)
         properties[gpu::InventoryPropertyId::DEFAULT_BOOST_CLOCKS] = {
             acceleratorInterface, "BoostClockFrequency", 0, true};
+    }
+
+    if (deviceAssemblyAssetIface)
+    {
+        properties[gpu::InventoryPropertyId::BUILD_DATE] = {
+            deviceAssemblyAssetIface, "BuildDate", 0, true};
     }
 
     if (powerCapInterface)
@@ -229,6 +241,7 @@ void Inventory::handleInventoryPropertyResponse(
                 case gpu::InventoryPropertyId::SERIAL_NUMBER:
                 case gpu::InventoryPropertyId::MARKETING_NAME:
                 case gpu::InventoryPropertyId::DEVICE_PART_NUMBER:
+                case gpu::InventoryPropertyId::BUILD_DATE:
                     if (std::holds_alternative<std::string>(info))
                     {
                         value = std::get<std::string>(info);
@@ -330,6 +343,39 @@ void Inventory::handleInventoryPropertyResponse(
             {
                 it->second.interface->set_property(it->second.propertyName,
                                                    value);
+                switch (propertyId)
+                {
+                    case gpu::InventoryPropertyId::SERIAL_NUMBER:
+                        if (deviceAssemblyAssetIface)
+                        {
+                            deviceAssemblyAssetIface->set_property(
+                                "SerialNumber", value);
+                        }
+                        break;
+                    case gpu::InventoryPropertyId::MARKETING_NAME:
+                        if (deviceAssemblyAssetIface)
+                        {
+                            deviceAssemblyAssetIface->set_property("Model",
+                                                                   value);
+                        }
+                        break;
+                    case gpu::InventoryPropertyId::DEVICE_PART_NUMBER:
+                        if (deviceAssemblyAssetIface)
+                        {
+                            deviceAssemblyAssetIface->set_property("PartNumber",
+                                                                   value);
+                        }
+                        break;
+                    case gpu::InventoryPropertyId::BOARD_PART_NUMBER:
+                        if (boardAssemblyAssetIface)
+                        {
+                            boardAssemblyAssetIface->set_property("PartNumber",
+                                                                  value);
+                        }
+                        break;
+                    default:
+                        break;
+                }
                 lg2::info(
                     "Successfully received property ID {PROP_ID} for {NAME} with value: {VALUE}",
                     "PROP_ID", static_cast<uint8_t>(propertyId), "NAME", name,

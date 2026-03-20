@@ -26,6 +26,7 @@
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/message/native_types.hpp>
 
 #include <array>
 #include <chrono>
@@ -79,18 +80,126 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
         sdbusplus::asio::PropertyPermission::readOnly);
 
     powerCapInterface->initialize();
+
+    const std::string chassisPath =
+        sdbusplus::message::object_path(this->path).parent_path();
+    const std::string devicePath =
+        chassisPath + "/" + this->name + "_Device_Assembly";
+    const std::string boardPath =
+        chassisPath + "/" + this->name + "_Board_Assembly";
+
+    // Device Assembly
+    deviceAssembly.panelIface = objectServer.add_interface(
+        devicePath, "xyz.openbmc_project.Inventory.Item.Panel");
+    deviceAssembly.panelIface->initialize();
+
+    deviceAssembly.assetIface = objectServer.add_interface(
+        devicePath, "xyz.openbmc_project.Inventory.Decorator.Asset");
+    deviceAssembly.assetIface->register_property("Manufacturer",
+                                                 std::string("NVIDIA"));
+    deviceAssembly.assetIface->register_property("PartNumber", std::string{});
+    deviceAssembly.assetIface->register_property("SerialNumber", std::string{});
+    deviceAssembly.assetIface->register_property("Model", std::string{});
+    deviceAssembly.assetIface->register_property("BuildDate", std::string{});
+    deviceAssembly.assetIface->initialize();
+
+    deviceAssembly.physicalContextIface = objectServer.add_interface(
+        devicePath, "xyz.openbmc_project.Common.PhysicalContext");
+    deviceAssembly.physicalContextIface->register_property(
+        "Type", std::string("xyz.openbmc_project.Common.PhysicalContext."
+                            "PhysicalContextType.Accelerator"));
+    deviceAssembly.physicalContextIface->initialize();
+
+    deviceAssembly.embeddedIface = objectServer.add_interface(
+        devicePath, "xyz.openbmc_project.Inventory.Connector.Embedded");
+    deviceAssembly.embeddedIface->initialize();
+
+    deviceAssembly.itemIface = objectServer.add_interface(
+        devicePath, "xyz.openbmc_project.Inventory.Item");
+    deviceAssembly.itemIface->register_property("Present", true);
+    deviceAssembly.itemIface->initialize();
+
+    deviceAssembly.operationalStatusIface = objectServer.add_interface(
+        devicePath, "xyz.openbmc_project.State.Decorator.OperationalStatus");
+    deviceAssembly.operationalStatusIface->register_property(
+        "Functional", true);
+    deviceAssembly.operationalStatusIface->initialize();
+
+    std::vector<Association> deviceAssociations;
+    deviceAssociations.emplace_back("contained_by", "containing", chassisPath);
+    deviceAssembly.associationIface =
+        objectServer.add_interface(devicePath, association::interface);
+    deviceAssembly.associationIface->register_property("Associations",
+                                                       deviceAssociations);
+    deviceAssembly.associationIface->initialize();
+
+    // Board Assembly
+    boardAssembly.panelIface = objectServer.add_interface(
+        boardPath, "xyz.openbmc_project.Inventory.Item.Panel");
+    boardAssembly.panelIface->initialize();
+
+    boardAssembly.assetIface = objectServer.add_interface(
+        boardPath, "xyz.openbmc_project.Inventory.Decorator.Asset");
+    boardAssembly.assetIface->register_property("Manufacturer",
+                                                std::string("NVIDIA"));
+    boardAssembly.assetIface->register_property("PartNumber", std::string{});
+    boardAssembly.assetIface->initialize();
+
+    boardAssembly.physicalContextIface = objectServer.add_interface(
+        boardPath, "xyz.openbmc_project.Common.PhysicalContext");
+    boardAssembly.physicalContextIface->register_property(
+        "Type", std::string("xyz.openbmc_project.Common.PhysicalContext."
+                            "PhysicalContextType.Accelerator"));
+    boardAssembly.physicalContextIface->initialize();
+
+    boardAssembly.embeddedIface = objectServer.add_interface(
+        boardPath, "xyz.openbmc_project.Inventory.Connector.Embedded");
+    boardAssembly.embeddedIface->initialize();
+
+    boardAssembly.itemIface = objectServer.add_interface(
+        boardPath, "xyz.openbmc_project.Inventory.Item");
+    boardAssembly.itemIface->register_property("Present", true);
+    boardAssembly.itemIface->initialize();
+
+    boardAssembly.operationalStatusIface = objectServer.add_interface(
+        boardPath, "xyz.openbmc_project.State.Decorator.OperationalStatus");
+    boardAssembly.operationalStatusIface->register_property("Functional", true);
+    boardAssembly.operationalStatusIface->initialize();
+
+    std::vector<Association> boardAssociations;
+    boardAssociations.emplace_back("contained_by", "containing", chassisPath);
+    boardAssembly.associationIface =
+        objectServer.add_interface(boardPath, association::interface);
+    boardAssembly.associationIface->register_property("Associations",
+                                                      boardAssociations);
+    boardAssembly.associationIface->initialize();
 }
 
 GpuDevice::~GpuDevice()
 {
     objectServer.remove_interface(powerCapInterface);
+    objectServer.remove_interface(deviceAssembly.panelIface);
+    objectServer.remove_interface(deviceAssembly.assetIface);
+    objectServer.remove_interface(deviceAssembly.physicalContextIface);
+    objectServer.remove_interface(deviceAssembly.embeddedIface);
+    objectServer.remove_interface(deviceAssembly.itemIface);
+    objectServer.remove_interface(deviceAssembly.operationalStatusIface);
+    objectServer.remove_interface(deviceAssembly.associationIface);
+    objectServer.remove_interface(boardAssembly.panelIface);
+    objectServer.remove_interface(boardAssembly.assetIface);
+    objectServer.remove_interface(boardAssembly.physicalContextIface);
+    objectServer.remove_interface(boardAssembly.embeddedIface);
+    objectServer.remove_interface(boardAssembly.itemIface);
+    objectServer.remove_interface(boardAssembly.operationalStatusIface);
+    objectServer.remove_interface(boardAssembly.associationIface);
 }
 
 void GpuDevice::init()
 {
     inventory = std::make_shared<Inventory>(
         conn, objectServer, name, mctpRequester,
-        gpu::DeviceIdentification::DEVICE_GPU, eid, io, powerCapInterface);
+        gpu::DeviceIdentification::DEVICE_GPU, eid, io, powerCapInterface,
+        deviceAssembly.assetIface, boardAssembly.assetIface);
 
     inventory->init();
 

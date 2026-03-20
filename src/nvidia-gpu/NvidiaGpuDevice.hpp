@@ -86,6 +86,20 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
     std::shared_ptr<NvidiaGpuControl> gpuControl;
     std::shared_ptr<sdbusplus::asio::dbus_interface> powerCapInterface;
 
+    struct AssemblyInterfaces
+    {
+        std::shared_ptr<sdbusplus::asio::dbus_interface> panelIface;
+        std::shared_ptr<sdbusplus::asio::dbus_interface> assetIface;
+        std::shared_ptr<sdbusplus::asio::dbus_interface> physicalContextIface;
+        std::shared_ptr<sdbusplus::asio::dbus_interface> embeddedIface;
+        std::shared_ptr<sdbusplus::asio::dbus_interface> itemIface;
+        std::shared_ptr<sdbusplus::asio::dbus_interface> operationalStatusIface;
+        std::shared_ptr<sdbusplus::asio::dbus_interface> associationIface;
+    };
+
+    AssemblyInterfaces deviceAssembly;
+    AssemblyInterfaces boardAssembly;
+
     std::shared_ptr<NvidiaPcieInterface> pcieInterface;
     std::shared_ptr<NvidiaPciePortInfo> pciePort;
 
