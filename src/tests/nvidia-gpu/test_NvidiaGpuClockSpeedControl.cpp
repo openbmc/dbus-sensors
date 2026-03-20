@@ -229,7 +229,7 @@ class NvidiaGpuClockSpeedControlTest : public MctpMockTestBase
         auto inventory = std::make_shared<Inventory>(
             bus(), objects(), name, requester(),
             gpu::DeviceIdentification::DEVICE_GPU, eid, ioContext(), nullptr,
-            nullptr);
+            nullptr, nullptr, nullptr);
         inventory->init();
         return inventory;
     }
@@ -524,7 +524,7 @@ TEST_F(NvidiaGpuClockSpeedControlTest, SetBeforeInventoryKnownRejected)
     auto inventory = std::make_shared<Inventory>(
         bus(), objects(), name, requester(),
         gpu::DeviceIdentification::DEVICE_GPU, test_utils::defaultEid,
-        ioContext(), nullptr, nullptr);
+        ioContext(), nullptr, nullptr, nullptr, nullptr);
     const auto control = createControl(name, inventory);
 
     const SetResult result = setSpeedLimit(

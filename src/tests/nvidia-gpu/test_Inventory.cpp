@@ -68,7 +68,7 @@ class InventoryTest : public MctpMockTestBase
     {
         return std::make_shared<Inventory>(bus(), objects(), name, requester(),
                                            deviceType, eid, ioContext(),
-                                           nullptr, nullptr);
+                                           nullptr, nullptr, nullptr, nullptr);
     }
 };
 
