@@ -257,23 +257,28 @@ int SmbpbiSensor::i2cReadDataBytes(uint8_t* reading, int length)
     return 0;
 }
 
-int SmbpbiSensor::readRawEEPROMData(double& data)
+size_t SmbpbiSensor::getValidDataSize(const std::string& sensorType,
+                                      const std::string& valueType)
 {
-    uint64_t reading = 0;
-    int ret = i2cReadDataBytesUI64(reading);
-    if (ret < 0)
+    if (valueType == "FLOAT64")
     {
-        return ret;
+        return sizeof(double);
     }
+    return (sensorType == "temperature") ? sizeof(uint32_t) : sizeof(uint64_t);
+}
+
+void SmbpbiSensor::processRawReading(uint64_t reading,
+                                     const std::string& sensorType,
+                                     const std::string& valueType, double& data)
+{
+    const size_t validDataSize = getValidDataSize(sensorType, valueType);
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
     if (checkInvalidReading(reinterpret_cast<uint8_t*>(&reading),
-                            sizeof(reading)))
+                            validDataSize))
     {
         data = std::numeric_limits<double>::quiet_NaN();
-        return 0;
+        return;
     }
-    lg2::debug("offset: {OFFSET} reading: {READING}", "OFFSET", offset,
-               "READING", reading);
     if (sensorType == "temperature")
     {
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
@@ -292,6 +297,20 @@ int SmbpbiSensor::readRawEEPROMData(double& data)
     {
         data = reading; // Voltage
     }
+}
+
+int SmbpbiSensor::readRawEEPROMData(double& data)
+{
+    uint64_t reading = 0;
+    int ret = i2cReadDataBytesUI64(reading);
+    if (ret < 0)
+    {
+        return ret;
+    }
+
+    lg2::debug("offset: {OFFSET} reading: {READING}", "OFFSET", offset,
+               "READING", reading);
+    processRawReading(reading, sensorType, valueType, data);
     return 0;
 }
 

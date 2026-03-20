@@ -51,6 +51,11 @@ struct SmbpbiSensor : public Sensor
     }
     void read();
     void init();
+    static size_t getValidDataSize(const std::string& sensorType,
+                                   const std::string& valueType);
+    static void processRawReading(uint64_t reading,
+                                  const std::string& sensorType,
+                                  const std::string& valueType, double& data);
 
     uint8_t busId;
     uint8_t addr;
