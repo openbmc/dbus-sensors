@@ -46,6 +46,30 @@
       },
       "revId": "d2a66eaddb1bb3f259f74a734e0b0fbc42e6d3ec",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb786d82_50fa6199",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2026-03-21T12:49:01Z",
+      "side": 1,
+      "message": "I know the patch has been abandoned, but I believe in OpenBMC the Item.DIMM interface is used more as Item.Memory. It has properties related to device type, device module type, memory technology (including DRAM), form factor, etc. I would say it\u0027s similar to how Redfish has a Memory schema as opposed to having separate DIMM/DRAM/other schemas.\n\nGiven this, do we still need to define an Item.DRAM interface?\n\nMaybe we need to rename Item.DIMM to Item.Memory?\n\n@ed@tanous.net @haghera@nvidia.com @liuer@nvidia.com @andhsieh@nvidia.com",
+      "parentUuid": "d5d3d12a_11af265c",
+      "range": {
+        "startLine": 7,
+        "startChar": 19,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "d2a66eaddb1bb3f259f74a734e0b0fbc42e6d3ec",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ],
   "submitRequirementResults": []
