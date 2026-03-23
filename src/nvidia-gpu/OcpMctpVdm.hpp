@@ -124,11 +124,10 @@ int decodeReasonCodeAndCC(std::span<const uint8_t> buf, CompletionCode& cc,
 int unpackReasonCodeAndCC(UnpackBuffer& buffer, CompletionCode& cc,
                           uint16_t& reasonCode);
 
-int decodeAggregateResponse(
-    std::span<const uint8_t> buf,
-    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+int unpackAggregateResponse(
+    UnpackBuffer& buffer,
     std::move_only_function<int(const uint8_t tag, const uint8_t length,
-                                const uint8_t* value)>
+                                UnpackBuffer& buffer)>
         handler);
 
 } // namespace accelerator_management
