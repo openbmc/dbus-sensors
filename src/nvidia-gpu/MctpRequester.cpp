@@ -19,7 +19,6 @@
 #include <boost/container/devector.hpp>
 #include <phosphor-logging/lg2.hpp>
 
-#include <bit>
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
@@ -37,50 +36,35 @@ using namespace std::literals;
 namespace mctp
 {
 
-static const ocp::accelerator_management::BindingPciVid* getHeaderFromBuffer(
-    std::span<const uint8_t> buffer)
-{
-    if (buffer.size() < sizeof(ocp::accelerator_management::BindingPciVid))
-    {
-        return nullptr;
-    }
-
-    return std::bit_cast<const ocp::accelerator_management::BindingPciVid*>(
-        buffer.data());
-}
-
 static std::optional<uint8_t> getIid(std::span<const uint8_t> buffer)
 {
-    const ocp::accelerator_management::BindingPciVid* header =
-        getHeaderFromBuffer(buffer);
-    if (header == nullptr)
+    if (buffer.size() < ocp::accelerator_management::messageHeaderSize)
     {
         return std::nullopt;
     }
-    return header->instance_id & ocp::accelerator_management::instanceIdBitMask;
+    return buffer[ocp::accelerator_management::instanceIdOffset] &
+           ocp::accelerator_management::instanceIdBitMask;
 }
 
 static std::optional<bool> getRequestBit(std::span<const uint8_t> buffer)
 {
-    const ocp::accelerator_management::BindingPciVid* header =
-        getHeaderFromBuffer(buffer);
-    if (header == nullptr)
+    if (buffer.size() < ocp::accelerator_management::messageHeaderSize)
     {
         return std::nullopt;
     }
-    return header->instance_id & ocp::accelerator_management::requestBitMask;
+    return buffer[ocp::accelerator_management::instanceIdOffset] &
+           ocp::accelerator_management::requestBitMask;
 }
 
 // get datagram bit
 static std::optional<bool> getDatagramBit(std::span<const uint8_t> buffer)
 {
-    const ocp::accelerator_management::BindingPciVid* header =
-        getHeaderFromBuffer(buffer);
-    if (header == nullptr)
+    if (buffer.size() < ocp::accelerator_management::messageHeaderSize)
     {
         return std::nullopt;
     }
-    return header->instance_id & ocp::accelerator_management::datagramBitMask;
+    return buffer[ocp::accelerator_management::instanceIdOffset] &
+           ocp::accelerator_management::datagramBitMask;
 }
 
 MctpRequester::MctpRequester(boost::asio::io_context& ctx) :
@@ -326,7 +310,7 @@ std::optional<uint8_t> MctpRequester::getNextIid(uint8_t eid)
 static std::expected<void, std::error_code> injectIid(std::span<uint8_t> buffer,
                                                       uint8_t iid)
 {
-    if (buffer.size() < sizeof(ocp::accelerator_management::BindingPciVid))
+    if (buffer.size() < ocp::accelerator_management::messageHeaderSize)
     {
         return std::unexpected(
             std::make_error_code(std::errc::invalid_argument));
@@ -338,11 +322,9 @@ static std::expected<void, std::error_code> injectIid(std::span<uint8_t> buffer,
             std::make_error_code(std::errc::invalid_argument));
     }
 
-    auto* header = std::bit_cast<ocp::accelerator_management::BindingPciVid*>(
-        buffer.data());
-
-    header->instance_id &= ~ocp::accelerator_management::instanceIdBitMask;
-    header->instance_id |= iid;
+    buffer[ocp::accelerator_management::instanceIdOffset] &=
+        ~ocp::accelerator_management::instanceIdBitMask;
+    buffer[ocp::accelerator_management::instanceIdOffset] |= iid;
     return {};
 }
 
