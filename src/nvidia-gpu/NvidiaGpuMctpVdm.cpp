@@ -23,12 +23,6 @@
 
 namespace gpu
 {
-int packHeader(const ocp::accelerator_management::BindingPciVidInfo& hdr,
-               ocp::accelerator_management::BindingPciVid& msg)
-{
-    return ocp::accelerator_management::packHeader(nvidiaPciVendorId, hdr, msg);
-}
-
 int encodeRequestCommonHeader(PackBuffer& buffer, gpu::MessageType msgType,
                               uint8_t command, uint8_t instanceId)
 {
