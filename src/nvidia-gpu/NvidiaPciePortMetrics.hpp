@@ -73,7 +73,7 @@ struct NvidiaPciePortMetrics :
     std::array<uint8_t, gpu::queryScalarGroupTelemetryV2RequestSize>
         requestV2{};
 
-    std::array<uint8_t, sizeof(ocp::accelerator_management::CommonResponse) +
+    std::array<uint8_t, ocp::accelerator_management::commonResponseSize +
                             sizeof(uint32_t) * maxTelemetryValues>
         response{};
 
