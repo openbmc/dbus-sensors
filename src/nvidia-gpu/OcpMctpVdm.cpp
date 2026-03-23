@@ -9,9 +9,7 @@
 
 #include <endian.h>
 
-#include <bit>
 #include <cerrno>
-#include <cstddef>
 #include <cstdint>
 #include <functional>
 #include <span>
@@ -207,45 +205,34 @@ int decodeReasonCodeAndCC(const std::span<const uint8_t> buf,
     return 0;
 }
 
-int decodeAggregateResponse(
-    std::span<const uint8_t> buf,
-    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+int unpackAggregateResponse(
+    UnpackBuffer& buffer,
     std::move_only_function<int(const uint8_t tag, const uint8_t length,
-                                const uint8_t* value)>
+                                UnpackBuffer& buffer)>
         handler)
 {
-    auto rc =
-        ocp::accelerator_management::decodeReasonCodeAndCC(buf, cc, reasonCode);
+    uint16_t totalTelemetryCount = 0;
+    int rc = buffer.unpack(totalTelemetryCount);
 
-    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    if (rc != 0)
     {
         return rc;
     }
 
-    if (buf.size() <
-        sizeof(ocp::accelerator_management::CommonAggregateResponse))
+    for (uint16_t telemetryCount = 0; telemetryCount < totalTelemetryCount;
+         ++telemetryCount)
     {
-        return EINVAL;
-    }
+        uint8_t tag = 0;
+        buffer.unpack(tag);
 
-    const auto* response = std::bit_cast<
-        const ocp::accelerator_management::CommonAggregateResponse*>(
-        buf.data());
+        uint8_t tagInfo = 0;
+        rc = buffer.unpack(tagInfo);
 
-    size_t index = sizeof(ocp::accelerator_management::CommonAggregateResponse);
-
-    for (uint16_t telemetryCount = 0;
-         telemetryCount < le16toh(response->telemetryCount); ++telemetryCount)
-    {
-        const size_t valueOffset = index + 2;
-
-        if (buf.size() < valueOffset)
+        if (rc != 0)
         {
-            break;
+            return rc;
         }
 
-        const uint8_t tag = buf[index];
-        const uint8_t tagInfo = buf[index + 1];
         const bool isValid = (0x01 & tagInfo) != 0;
         const bool isByteLengthEncoding = (0x80 & tagInfo) != 0;
         const uint8_t encodedLength = (tagInfo >> 1) & 0x07;
@@ -260,16 +247,18 @@ int decodeAggregateResponse(
             length = 1 << encodedLength;
         }
 
-        index = valueOffset + length;
-
         if (isValid)
         {
-            if (buf.size() < index)
-            {
-                break;
-            }
+            rc = handler(tag, length, buffer);
 
-            handler(tag, length, buf.data() + valueOffset);
+            if (rc != 0)
+            {
+                return rc;
+            }
+        }
+        else
+        {
+            buffer.skip(length);
         }
     }
 
