@@ -10,7 +10,6 @@
 
 #include <endian.h>
 
-#include <bit>
 #include <cerrno>
 #include <cstddef>
 #include <cstdint>
@@ -24,10 +23,6 @@
 
 namespace gpu
 {
-// These functions encode/decode data communicated over the network
-// The use of reinterpret_cast enables direct memory access to raw byte buffers
-// without doing unnecessary data copying
-// NOLINTBEGIN(cppcoreguidelines-pro-type-reinterpret-cast)
 int packHeader(const ocp::accelerator_management::BindingPciVidInfo& hdr,
                ocp::accelerator_management::BindingPciVid& msg)
 {
@@ -92,6 +87,80 @@ int decodeResponseCommonHeader(
 
     rc = ocp::accelerator_management::unpackReasonCodeAndCC(
         buffer, cc, reasonCode);
+
+    return rc;
+}
+
+int decodeAggregateResponse(
+    UnpackBuffer& buffer, gpu::MessageType msgType, uint8_t command,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    std::move_only_function<int(const uint8_t tag, const uint8_t length,
+                                UnpackBuffer& buffer)>
+        handler)
+{
+    ocp::accelerator_management::MessageType receivedMsgType{};
+    uint8_t instanceId = 0;
+    uint8_t receivedMessageType = 0;
+
+    int rc = ocp::accelerator_management::unpackHeader(
+        buffer, gpu::nvidiaPciVendorId, receivedMsgType, instanceId,
+        receivedMessageType);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    if (receivedMsgType != ocp::accelerator_management::MessageType::RESPONSE)
+    {
+        return EINVAL;
+    }
+
+    if (receivedMessageType != static_cast<uint8_t>(msgType))
+    {
+        return EINVAL;
+    }
+
+    uint8_t receivedCommand = 0;
+    rc = buffer.unpack(receivedCommand);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    if (command != receivedCommand)
+    {
+        return EINVAL;
+    }
+
+    uint8_t completionCode = 0;
+    rc = buffer.unpack(completionCode);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    cc = static_cast<ocp::accelerator_management::CompletionCode>(
+        completionCode);
+
+    if (cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        uint16_t receivedReasonCode = 0;
+        rc = buffer.unpack(receivedReasonCode);
+        if (rc != 0)
+        {
+            return rc;
+        }
+        reasonCode = receivedReasonCode;
+        return 0;
+    }
+
+    reasonCode = 0;
+
+    rc = ocp::accelerator_management::unpackAggregateResponse(
+        buffer, std::move(handler));
 
     return rc;
 }
@@ -225,33 +294,24 @@ int decodeGetTemperatureReadingResponse(
 int encodeReadThermalParametersRequest(uint8_t instanceId, uint8_t sensorId,
                                        std::span<uint8_t> buf)
 {
-    if (buf.size() < sizeof(ReadThermalParametersRequest))
-    {
-        return EINVAL;
-    }
+    PackBuffer buffer(buf);
 
-    auto* msg = reinterpret_cast<ReadThermalParametersRequest*>(buf.data());
-
-    ocp::accelerator_management::BindingPciVidInfo header{};
-    header.ocp_accelerator_management_msg_type =
-        static_cast<uint8_t>(ocp::accelerator_management::MessageType::REQUEST);
-    header.instance_id = instanceId &
-                         ocp::accelerator_management::instanceIdBitMask;
-    header.msg_type = static_cast<uint8_t>(MessageType::PLATFORM_ENVIRONMENTAL);
-
-    auto rc = packHeader(header, msg->hdr.msgHdr.hdr);
+    const int rc = encodeRequestCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(
+            PlatformEnvironmentalCommands::READ_THERMAL_PARAMETERS),
+        instanceId);
 
     if (rc != 0)
     {
         return rc;
     }
 
-    msg->hdr.command = static_cast<uint8_t>(
-        PlatformEnvironmentalCommands::READ_THERMAL_PARAMETERS);
-    msg->hdr.data_size = sizeof(sensorId);
-    msg->sensor_id = sensorId;
+    const uint8_t dataSize = 1;
+    buffer.pack(dataSize);
+    buffer.pack(sensorId);
 
-    return 0;
+    return buffer.getError();
 }
 
 int decodeReadThermalParametersResponse(
@@ -259,129 +319,140 @@ int decodeReadThermalParametersResponse(
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     int32_t& threshold)
 {
-    auto rc =
-        ocp::accelerator_management::decodeReasonCodeAndCC(buf, cc, reasonCode);
+    UnpackBuffer buffer(buf);
+
+    int rc = decodeResponseCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(
+            PlatformEnvironmentalCommands::READ_THERMAL_PARAMETERS),
+        cc, reasonCode);
 
     if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
     {
         return rc;
     }
 
-    if (buf.size() < sizeof(ReadThermalParametersResponse))
+    uint16_t dataSize = 0;
+    rc = buffer.unpack(dataSize);
+
+    if (rc != 0)
     {
-        return EINVAL;
+        return rc;
     }
-
-    const auto* response =
-        reinterpret_cast<const ReadThermalParametersResponse*>(buf.data());
-
-    uint16_t dataSize = le16toh(response->hdr.data_size);
 
     if (dataSize != sizeof(int32_t))
     {
         return EINVAL;
     }
 
-    threshold = le32toh(response->threshold);
+    rc = buffer.unpack(threshold);
 
-    return 0;
+    return rc;
 }
 
 int encodeGetPowerDrawRequest(PlatformEnvironmentalCommands commandCode,
                               uint8_t instanceId, uint8_t sensorId,
                               uint8_t averagingInterval, std::span<uint8_t> buf)
 {
-    if (buf.size() < sizeof(GetPowerDrawRequest))
-    {
-        return EINVAL;
-    }
+    PackBuffer buffer(buf);
 
-    auto* msg = reinterpret_cast<GetPowerDrawRequest*>(buf.data());
-
-    ocp::accelerator_management::BindingPciVidInfo header{};
-    header.ocp_accelerator_management_msg_type =
-        static_cast<uint8_t>(ocp::accelerator_management::MessageType::REQUEST);
-    header.instance_id = instanceId &
-                         ocp::accelerator_management::instanceIdBitMask;
-    header.msg_type = static_cast<uint8_t>(MessageType::PLATFORM_ENVIRONMENTAL);
-
-    auto rc = packHeader(header, msg->hdr.msgHdr.hdr);
+    const int rc = encodeRequestCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(commandCode), instanceId);
 
     if (rc != 0)
     {
         return rc;
     }
 
-    msg->hdr.command = static_cast<uint8_t>(commandCode);
-    msg->hdr.data_size = sizeof(sensorId) + sizeof(averagingInterval);
-    msg->sensorId = sensorId;
-    msg->averagingInterval = averagingInterval;
+    const uint8_t dataSize = sizeof(sensorId) + sizeof(averagingInterval);
+    buffer.pack(dataSize);
+    buffer.pack(sensorId);
+    buffer.pack(averagingInterval);
 
-    return 0;
+    return buffer.getError();
 }
 
 int decodeGetPowerDrawResponse(std::span<const uint8_t> buf,
                                ocp::accelerator_management::CompletionCode& cc,
                                uint16_t& reasonCode, uint32_t& power)
 {
-    auto rc =
-        ocp::accelerator_management::decodeReasonCodeAndCC(buf, cc, reasonCode);
+    UnpackBuffer buffer(buf);
 
-    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
-    {
-        return rc;
-    }
+    ocp::accelerator_management::MessageType receivedMsgType{};
+    uint8_t instanceId = 0;
+    uint8_t receivedMessageType = 0;
 
-    if (buf.size() < sizeof(GetPowerDrawResponse))
-    {
-        return EINVAL;
-    }
-
-    const auto* response =
-        reinterpret_cast<const GetPowerDrawResponse*>(buf.data());
-
-    const uint16_t dataSize = le16toh(response->hdr.data_size);
-
-    if (dataSize != sizeof(uint32_t))
-    {
-        return EINVAL;
-    }
-
-    power = le32toh(response->power);
-
-    return 0;
-}
-
-int encodeGetCurrentEnergyCounterRequest(uint8_t instanceId, uint8_t sensorId,
-                                         std::span<uint8_t> buf)
-{
-    if (buf.size() < sizeof(GetTemperatureReadingRequest))
-    {
-        return EINVAL;
-    }
-
-    auto* msg = reinterpret_cast<GetCurrentEnergyCounterRequest*>(buf.data());
-
-    ocp::accelerator_management::BindingPciVidInfo header{};
-    header.ocp_accelerator_management_msg_type =
-        static_cast<uint8_t>(ocp::accelerator_management::MessageType::REQUEST);
-    header.instance_id = instanceId &
-                         ocp::accelerator_management::instanceIdBitMask;
-    header.msg_type = static_cast<uint8_t>(MessageType::PLATFORM_ENVIRONMENTAL);
-
-    auto rc = packHeader(header, msg->hdr.msgHdr.hdr);
+    int rc = ocp::accelerator_management::unpackHeader(
+        buffer, gpu::nvidiaPciVendorId, receivedMsgType, instanceId,
+        receivedMessageType);
 
     if (rc != 0)
     {
         return rc;
     }
 
-    msg->hdr.command = static_cast<uint8_t>(
-        PlatformEnvironmentalCommands::GET_CURRENT_ENERGY_COUNTER);
-    msg->hdr.data_size = sizeof(sensorId);
-    msg->sensor_id = sensorId;
+    if (receivedMsgType != ocp::accelerator_management::MessageType::RESPONSE)
+    {
+        return EINVAL;
+    }
 
-    return 0;
+    if (receivedMessageType !=
+        static_cast<uint8_t>(MessageType::PLATFORM_ENVIRONMENTAL))
+    {
+        return EINVAL;
+    }
+
+    uint8_t receivedCommand = 0;
+    buffer.unpack(receivedCommand);
+
+    rc = ocp::accelerator_management::unpackReasonCodeAndCC(
+        buffer, cc, reasonCode);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    uint16_t dataSize = 0;
+    rc = buffer.unpack(dataSize);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    if (dataSize != sizeof(uint32_t))
+    {
+        return EINVAL;
+    }
+
+    rc = buffer.unpack(power);
+
+    return rc;
+}
+
+int encodeGetCurrentEnergyCounterRequest(uint8_t instanceId, uint8_t sensorId,
+                                         std::span<uint8_t> buf)
+{
+    PackBuffer buffer(buf);
+
+    const int rc = encodeRequestCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(
+            PlatformEnvironmentalCommands::GET_CURRENT_ENERGY_COUNTER),
+        instanceId);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    const uint8_t dataSize = 1;
+    buffer.pack(dataSize);
+    buffer.pack(sensorId);
+
+    return buffer.getError();
 }
 
 int decodeGetCurrentEnergyCounterResponse(
@@ -389,72 +460,69 @@ int decodeGetCurrentEnergyCounterResponse(
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     uint64_t& energy)
 {
-    auto rc =
-        ocp::accelerator_management::decodeReasonCodeAndCC(buf, cc, reasonCode);
+    UnpackBuffer buffer(buf);
+
+    int rc = decodeResponseCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(
+            PlatformEnvironmentalCommands::GET_CURRENT_ENERGY_COUNTER),
+        cc, reasonCode);
 
     if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
     {
         return rc;
     }
 
-    if (buf.size() < sizeof(GetPowerDrawResponse))
-    {
-        return EINVAL;
-    }
-
-    const auto* response =
-        reinterpret_cast<const GetCurrentEnergyCounterResponse*>(buf.data());
-
-    const uint16_t dataSize = le16toh(response->hdr.data_size);
-
-    if (dataSize != sizeof(uint64_t))
-    {
-        return EINVAL;
-    }
-
-    energy = le32toh(response->energy);
-
-    return 0;
-}
-
-int encodeGetVoltageRequest(uint8_t instanceId, uint8_t sensorId,
-                            std::span<uint8_t> buf)
-{
-    if (buf.size() < sizeof(GetVoltageRequest))
-    {
-        return EINVAL;
-    }
-
-    auto* msg = reinterpret_cast<GetVoltageRequest*>(buf.data());
-
-    ocp::accelerator_management::BindingPciVidInfo header{};
-    header.ocp_accelerator_management_msg_type =
-        static_cast<uint8_t>(ocp::accelerator_management::MessageType::REQUEST);
-    header.instance_id = instanceId &
-                         ocp::accelerator_management::instanceIdBitMask;
-    header.msg_type = static_cast<uint8_t>(MessageType::PLATFORM_ENVIRONMENTAL);
-
-    auto rc = packHeader(header, msg->hdr.msgHdr.hdr);
+    uint16_t dataSize = 0;
+    rc = buffer.unpack(dataSize);
 
     if (rc != 0)
     {
         return rc;
     }
 
-    msg->hdr.command =
-        static_cast<uint8_t>(PlatformEnvironmentalCommands::GET_VOLTAGE);
-    msg->hdr.data_size = sizeof(sensorId);
-    msg->sensor_id = sensorId;
+    if (dataSize != sizeof(uint64_t))
+    {
+        return EINVAL;
+    }
 
-    return 0;
+    rc = buffer.unpack(energy);
+
+    return rc;
+}
+
+int encodeGetVoltageRequest(uint8_t instanceId, uint8_t sensorId,
+                            std::span<uint8_t> buf)
+{
+    PackBuffer buffer(buf);
+
+    const int rc = encodeRequestCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(PlatformEnvironmentalCommands::GET_VOLTAGE),
+        instanceId);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    const uint8_t dataSize = 1;
+    buffer.pack(dataSize);
+    buffer.pack(sensorId);
+
+    return buffer.getError();
 }
 
 int decodeGetVoltageResponse(std::span<const uint8_t> buf,
                              ocp::accelerator_management::CompletionCode& cc,
                              uint16_t& reasonCode, uint32_t& voltage)
 {
-    auto rc =
-        ocp::accelerator_management::decodeReasonCodeAndCC(buf, cc, reasonCode);
+    UnpackBuffer buffer(buf);
+
+    int rc = decodeResponseCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(PlatformEnvironmentalCommands::GET_VOLTAGE), cc,
+        reasonCode);
 
     if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
     {
@@ -566,11 +634,36 @@ int encodeGetDriverInformationRequest(uint8_t instanceId,
         return rc;
     }
 
-    msg->command = static_cast<uint8_t>(
-        PlatformEnvironmentalCommands::GET_DRIVER_INFORMATION);
-    msg->data_size = 0;
+    if (dataSize != sizeof(uint32_t))
+    {
+        return EINVAL;
+    }
 
-    return 0;
+    rc = buffer.unpack(voltage);
+
+    return rc;
+}
+
+int encodeGetDriverInformationRequest(uint8_t instanceId,
+                                      std::span<uint8_t> buf)
+{
+    PackBuffer buffer(buf);
+
+    const int rc = encodeRequestCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(
+            PlatformEnvironmentalCommands::GET_DRIVER_INFORMATION),
+        instanceId);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    const uint8_t dataSize = 0;
+    buffer.pack(dataSize);
+
+    return buffer.getError();
 }
 
 int decodeGetDriverInformationResponse(
@@ -578,33 +671,56 @@ int decodeGetDriverInformationResponse(
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     DriverState& driverState, std::string& driverVersion)
 {
-    auto rc =
-        ocp::accelerator_management::decodeReasonCodeAndCC(buf, cc, reasonCode);
+    UnpackBuffer buffer(buf);
+
+    int rc = decodeResponseCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(
+            PlatformEnvironmentalCommands::GET_DRIVER_INFORMATION),
+        cc, reasonCode);
 
     if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
     {
         return rc;
     }
 
-    if (buf.size() < sizeof(GetDriverInformationResponse))
+    uint16_t dataSize = 0;
+    rc = buffer.unpack(dataSize);
+
+    if (rc != 0)
     {
-        return EINVAL;
+        return rc;
     }
-
-    const auto* response =
-        reinterpret_cast<const GetDriverInformationResponse*>(buf.data());
-
-    const uint16_t dataSize = le16toh(response->hdr.data_size);
 
     if (dataSize < sizeof(DriverState) + sizeof(char))
     {
         return EINVAL;
     }
 
-    driverState = response->driverState;
+    uint8_t driverStateValue = 0;
+    rc = buffer.unpack(driverStateValue);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    driverState = static_cast<DriverState>(driverStateValue);
+
     const size_t versionSize =
         buf.size() - sizeof(GetDriverInformationResponse);
-    driverVersion = std::string(&response->driverVersion, versionSize);
+
+    if (buf.size() < sizeof(GetDriverInformationResponse))
+    {
+        return EINVAL;
+    }
+
+    driverVersion.resize(versionSize);
+    std::memcpy(driverVersion.data(),
+                buf.data() +
+                    sizeof(ocp::accelerator_management::CommonResponse) +
+                    sizeof(uint8_t),
+                versionSize);
 
     return 0;
 }
@@ -612,33 +728,24 @@ int decodeGetDriverInformationResponse(
 int encodeGetInventoryInformationRequest(uint8_t instanceId, uint8_t propertyId,
                                          std::span<uint8_t> buf)
 {
-    if (buf.size() < sizeof(GetInventoryInformationRequest))
-    {
-        return EINVAL;
-    }
+    PackBuffer buffer(buf);
 
-    auto* msg = reinterpret_cast<GetInventoryInformationRequest*>(buf.data());
-
-    ocp::accelerator_management::BindingPciVidInfo header{};
-    header.ocp_accelerator_management_msg_type =
-        static_cast<uint8_t>(ocp::accelerator_management::MessageType::REQUEST);
-    header.instance_id = instanceId &
-                         ocp::accelerator_management::instanceIdBitMask;
-    header.msg_type = static_cast<uint8_t>(MessageType::PLATFORM_ENVIRONMENTAL);
-
-    auto rc = packHeader(header, msg->hdr.msgHdr.hdr);
+    const int rc = encodeRequestCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(
+            PlatformEnvironmentalCommands::GET_INVENTORY_INFORMATION),
+        instanceId);
 
     if (rc != 0)
     {
         return rc;
     }
 
-    msg->hdr.command = static_cast<uint8_t>(
-        PlatformEnvironmentalCommands::GET_INVENTORY_INFORMATION);
-    msg->hdr.data_size = sizeof(propertyId);
-    msg->property_id = propertyId;
+    const uint8_t dataSize = 1;
+    buffer.pack(dataSize);
+    buffer.pack(propertyId);
 
-    return 0;
+    return buffer.getError();
 }
 
 int decodeGetInventoryInformationResponse(
@@ -646,28 +753,59 @@ int decodeGetInventoryInformationResponse(
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     InventoryPropertyId propertyId, InventoryValue& value)
 {
-    auto rc =
-        ocp::accelerator_management::decodeReasonCodeAndCC(buf, cc, reasonCode);
-    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    UnpackBuffer buffer(buf);
+
+    ocp::accelerator_management::MessageType receivedMsgType{};
+    uint8_t instanceId = 0;
+    uint8_t receivedMessageType = 0;
+
+    int rc = ocp::accelerator_management::unpackHeader(
+        buffer, gpu::nvidiaPciVendorId, receivedMsgType, instanceId,
+        receivedMessageType);
+
+    if (rc != 0)
     {
         return rc;
     }
-    // Expect at least one byte of inventory response data after common response
-    if (buf.size() < (sizeof(ocp::accelerator_management::CommonResponse) + 1))
+
+    if (receivedMsgType != ocp::accelerator_management::MessageType::RESPONSE)
     {
         return EINVAL;
     }
 
-    const auto* response =
-        reinterpret_cast<const GetInventoryInformationResponse*>(buf.data());
-    uint16_t dataSize = le16toh(response->hdr.data_size);
+    uint8_t receivedCommand = 0;
+    buffer.unpack(receivedCommand);
+
+    rc = ocp::accelerator_management::unpackReasonCodeAndCC(
+        buffer, cc, reasonCode);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    uint16_t dataSize = 0;
+    rc = buffer.unpack(dataSize);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
 
     if (dataSize == 0 || dataSize > maxInventoryDataSize)
     {
         return EINVAL;
     }
 
-    const uint8_t* dataPtr = response->data.data();
+    const size_t dataOffset =
+        sizeof(ocp::accelerator_management::CommonResponse);
+
+    if (buf.size() < dataOffset + dataSize)
+    {
+        return EINVAL;
+    }
+
+    const uint8_t* dataPtr = buf.data() + dataOffset;
 
     switch (propertyId)
     {
@@ -675,9 +813,12 @@ int decodeGetInventoryInformationResponse(
         case InventoryPropertyId::SERIAL_NUMBER:
         case InventoryPropertyId::MARKETING_NAME:
         case InventoryPropertyId::DEVICE_PART_NUMBER:
-            value =
-                std::string(reinterpret_cast<const char*>(dataPtr), dataSize);
+        {
+            std::string str(dataSize, '\0');
+            std::memcpy(str.data(), dataPtr, dataSize);
+            value = std::move(str);
             break;
+        }
         case InventoryPropertyId::DEVICE_GUID:
             value = std::vector<uint8_t>(dataPtr, dataPtr + dataSize);
             break;
@@ -819,32 +960,21 @@ int decodeQueryScalarGroupTelemetryV2Response(
 
 int encodeListPciePortsRequest(uint8_t instanceId, std::span<uint8_t> buf)
 {
-    if (buf.size() < sizeof(ocp::accelerator_management::CommonRequest))
-    {
-        return EINVAL;
-    }
+    PackBuffer buffer(buf);
 
-    auto* msg = reinterpret_cast<ocp::accelerator_management::CommonRequest*>(
-        buf.data());
-
-    ocp::accelerator_management::BindingPciVidInfo header{};
-    header.ocp_accelerator_management_msg_type =
-        static_cast<uint8_t>(ocp::accelerator_management::MessageType::REQUEST);
-    header.instance_id = instanceId &
-                         ocp::accelerator_management::instanceIdBitMask;
-    header.msg_type = static_cast<uint8_t>(MessageType::PCIE_LINK);
-
-    auto rc = packHeader(header, msg->msgHdr.hdr);
+    const int rc = encodeRequestCommonHeader(
+        buffer, MessageType::PCIE_LINK,
+        static_cast<uint8_t>(PcieLinkCommands::ListPCIePorts), instanceId);
 
     if (rc != 0)
     {
         return rc;
     }
 
-    msg->command = static_cast<uint8_t>(PcieLinkCommands::ListPCIePorts);
-    msg->data_size = 0;
+    const uint8_t dataSize = 0;
+    buffer.pack(dataSize);
 
-    return 0;
+    return buffer.getError();
 }
 
 int decodeListPciePortsResponse(
@@ -852,56 +982,61 @@ int decodeListPciePortsResponse(
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     uint16_t& numUpstreamPorts, std::vector<uint8_t>& numDownstreamPorts)
 {
-    auto rc =
-        ocp::accelerator_management::decodeReasonCodeAndCC(buf, cc, reasonCode);
+    UnpackBuffer buffer(buf);
+
+    int rc = decodeResponseCommonHeader(
+        buffer, MessageType::PCIE_LINK,
+        static_cast<uint8_t>(PcieLinkCommands::ListPCIePorts), cc, reasonCode);
 
     if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
     {
         return rc;
     }
 
-    if (buf.size() < sizeof(ListPCIePortsResponse))
+    uint16_t dataSize = 0;
+    rc = buffer.unpack(dataSize);
+
+    if (rc != 0)
     {
-        return EINVAL;
+        return rc;
     }
-
-    const auto* response =
-        reinterpret_cast<const ListPCIePortsResponse*>(buf.data());
-
-    const uint16_t dataSize = le16toh(response->hdr.data_size);
 
     if (dataSize < sizeof(uint16_t))
     {
         return EINVAL;
     }
 
-    uint16_t upstreamPorts = le16toh(response->numUpstreamPorts);
+    uint16_t upstreamPorts = 0;
+    rc = buffer.unpack(upstreamPorts);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
 
     numUpstreamPorts = 0;
     numDownstreamPorts.clear();
     numDownstreamPorts.reserve(upstreamPorts);
 
-    size_t offset = sizeof(ListPCIePortsResponse);
-
     for (size_t i = 0; i < upstreamPorts; i++)
     {
-        if (offset + sizeof(ListPCIePortsDownstreamPortsData) > buf.size())
+        uint8_t isInternal = 0;
+        uint8_t count = 0;
+
+        buffer.unpack(isInternal);
+        buffer.unpack(count);
+
+        if (buffer.getError() != 0)
         {
             return EINVAL;
         }
 
-        const auto* downstreamPortData =
-            reinterpret_cast<const ListPCIePortsDownstreamPortsData*>(
-                buf.data() + offset);
-
         // Count only external upstream ports
-        if (downstreamPortData->isInternal == 0)
+        if (isInternal == 0)
         {
             ++numUpstreamPorts;
-            numDownstreamPorts.push_back(downstreamPortData->count);
+            numDownstreamPorts.push_back(count);
         }
-
-        offset += sizeof(ListPCIePortsDownstreamPortsData);
     }
 
     return 0;
@@ -910,33 +1045,23 @@ int decodeListPciePortsResponse(
 int encodeGetPortNetworkAddressesRequest(
     uint8_t instanceId, uint16_t portNumber, std::span<uint8_t> buf)
 {
-    if (buf.size() < sizeof(GetPortNetworkAddressesRequest))
-    {
-        return EINVAL;
-    }
+    PackBuffer buffer(buf);
 
-    auto* msg = std::bit_cast<GetPortNetworkAddressesRequest*>(buf.data());
-
-    ocp::accelerator_management::BindingPciVidInfo header{};
-    header.ocp_accelerator_management_msg_type =
-        static_cast<uint8_t>(ocp::accelerator_management::MessageType::REQUEST);
-    header.instance_id = instanceId &
-                         ocp::accelerator_management::instanceIdBitMask;
-    header.msg_type = static_cast<uint8_t>(MessageType::NETWORK_PORT);
-
-    auto rc = packHeader(header, msg->hdr.msgHdr.hdr);
+    const int rc = encodeRequestCommonHeader(
+        buffer, MessageType::NETWORK_PORT,
+        static_cast<uint8_t>(NetworkPortCommands::GetPortNetworkAddresses),
+        instanceId);
 
     if (rc != 0)
     {
         return rc;
     }
 
-    msg->hdr.command =
-        static_cast<uint8_t>(NetworkPortCommands::GetPortNetworkAddresses);
-    msg->hdr.data_size = sizeof(portNumber);
-    msg->portNumber = le16toh(portNumber);
+    const uint8_t dataSize = sizeof(portNumber);
+    buffer.pack(dataSize);
+    buffer.pack(portNumber);
 
-    return 0;
+    return buffer.getError();
 }
 
 int decodeGetPortNetworkAddressesResponse(
@@ -945,26 +1070,42 @@ int decodeGetPortNetworkAddressesResponse(
     NetworkPortLinkType& linkType,
     std::vector<std::pair<uint8_t, uint64_t>>& addresses)
 {
+    UnpackBuffer buffer(buf);
+
     addresses.clear();
     addresses.reserve(std::numeric_limits<uint8_t>::max());
 
-    const int rc = ocp::accelerator_management::decodeAggregateResponse(
-        buf, cc, reasonCode,
+    const int rc = decodeAggregateResponse(
+        buffer, MessageType::NETWORK_PORT,
+        static_cast<uint8_t>(NetworkPortCommands::GetPortNetworkAddresses), cc,
+        reasonCode,
         [&linkType, &addresses](const uint8_t tag, const uint8_t length,
-                                const uint8_t* value) -> int {
+                                UnpackBuffer& buffer) -> int {
             if (tag == 0 && length == 1)
             {
-                linkType = static_cast<NetworkPortLinkType>(*value);
+                uint8_t linkTypeValue = 0;
+                int rc = buffer.unpack(linkTypeValue);
+                if (rc != 0)
+                {
+                    return rc;
+                }
+                linkType = static_cast<NetworkPortLinkType>(linkTypeValue);
                 return 0;
             }
 
             if (length == sizeof(uint64_t))
             {
                 uint64_t telemetryData = 0;
-                std::memcpy(&telemetryData, value, sizeof(uint64_t));
-                addresses.emplace_back(tag, le64toh(telemetryData));
+                int rc = buffer.unpack(telemetryData);
+                if (rc != 0)
+                {
+                    return rc;
+                }
+                addresses.emplace_back(tag, telemetryData);
+                return 0;
             }
 
+            buffer.skip(length);
             return 0;
         });
 
@@ -974,34 +1115,24 @@ int decodeGetPortNetworkAddressesResponse(
 int encodeGetEthernetPortTelemetryCountersRequest(
     uint8_t instanceId, uint16_t portNumber, std::span<uint8_t> buf)
 {
-    if (buf.size() < sizeof(GetEthernetPortTelemetryCountersRequest))
-    {
-        return EINVAL;
-    }
+    PackBuffer buffer(buf);
 
-    auto* msg =
-        std::bit_cast<GetEthernetPortTelemetryCountersRequest*>(buf.data());
-
-    ocp::accelerator_management::BindingPciVidInfo header{};
-    header.ocp_accelerator_management_msg_type =
-        static_cast<uint8_t>(ocp::accelerator_management::MessageType::REQUEST);
-    header.instance_id = instanceId &
-                         ocp::accelerator_management::instanceIdBitMask;
-    header.msg_type = static_cast<uint8_t>(MessageType::NETWORK_PORT);
-
-    auto rc = packHeader(header, msg->hdr.msgHdr.hdr);
+    const int rc = encodeRequestCommonHeader(
+        buffer, MessageType::NETWORK_PORT,
+        static_cast<uint8_t>(
+            NetworkPortCommands::GetEthernetPortTelemetryCounters),
+        instanceId);
 
     if (rc != 0)
     {
         return rc;
     }
 
-    msg->hdr.command = static_cast<uint8_t>(
-        NetworkPortCommands::GetEthernetPortTelemetryCounters);
-    msg->hdr.data_size = sizeof(portNumber);
-    msg->portNumber = le16toh(portNumber);
+    const uint8_t dataSize = sizeof(portNumber);
+    buffer.pack(dataSize);
+    buffer.pack(portNumber);
 
-    return 0;
+    return buffer.getError();
 }
 
 int decodeGetEthernetPortTelemetryCountersResponse(
@@ -1009,32 +1140,42 @@ int decodeGetEthernetPortTelemetryCountersResponse(
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     std::vector<std::pair<uint8_t, uint64_t>>& telemetryValues)
 {
+    UnpackBuffer buffer(buf);
+
     telemetryValues.clear();
     telemetryValues.reserve(std::numeric_limits<uint8_t>::max());
 
-    const int rc = ocp::accelerator_management::decodeAggregateResponse(
-        buf, cc, reasonCode,
+    const int rc = decodeAggregateResponse(
+        buffer, MessageType::NETWORK_PORT,
+        static_cast<uint8_t>(
+            NetworkPortCommands::GetEthernetPortTelemetryCounters),
+        cc, reasonCode,
         [&telemetryValues](const uint8_t tag, const uint8_t length,
-                           const uint8_t* value) -> int {
+                           UnpackBuffer& buffer) -> int {
             uint64_t telemetryData = 0;
 
             if (length == sizeof(uint32_t))
             {
                 uint32_t telemetryValue = 0;
-                std::memcpy(&telemetryValue, value, sizeof(uint32_t));
-
-                telemetryData = le32toh(telemetryValue);
+                int rc = buffer.unpack(telemetryValue);
+                if (rc != 0)
+                {
+                    return rc;
+                }
+                telemetryData = telemetryValue;
             }
             else if (length == sizeof(uint64_t))
             {
-                uint64_t telemetryValue = 0;
-                std::memcpy(&telemetryValue, value, sizeof(uint64_t));
-
-                telemetryData = le64toh(telemetryValue);
+                int rc = buffer.unpack(telemetryData);
+                if (rc != 0)
+                {
+                    return rc;
+                }
             }
             else
             {
-                return EINVAL;
+                buffer.skip(length);
+                return 0;
             }
 
             telemetryValues.emplace_back(tag, telemetryData);
@@ -1044,5 +1185,4 @@ int decodeGetEthernetPortTelemetryCountersResponse(
 
     return rc;
 }
-// NOLINTEND(cppcoreguidelines-pro-type-reinterpret-cast)
 } // namespace gpu

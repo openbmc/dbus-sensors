@@ -1979,8 +1979,6 @@ TEST_F(GpuMctpVdmTests, DecodeAggregateResponsePowerOf2LengthEncodingValid)
 {
     // Test with power-of-2 length encoding and valid bit set
     std::vector<uint8_t> buf = {
-        0x10, 0xde, 0x00, 0x89, 0x01, 0x0f, // Message header
-        0x00,                               // completion_code (SUCCESS)
         0x03, 0x00, // telemetryCount = 3 (little-endian)
         // Item 0: tag=0x01, tagInfo=0x05 (power-of-2, valueLength=2, valid=1)
         // length = 1 << 2 = 4 bytes
@@ -1992,8 +1990,7 @@ TEST_F(GpuMctpVdmTests, DecodeAggregateResponsePowerOf2LengthEncodingValid)
         // length = 1 << 0 = 1 byte
         0x03, 0x01, 0x55};
 
-    ocp::accelerator_management::CompletionCode cc{};
-    uint16_t reasonCode{};
+    UnpackBuffer buffer(buf);
 
     struct HandlerData
     {
@@ -2003,19 +2000,28 @@ TEST_F(GpuMctpVdmTests, DecodeAggregateResponsePowerOf2LengthEncodingValid)
     } handlerData;
 
     auto handler = [&handlerData](const uint8_t tag, const uint8_t length,
-                                  const uint8_t* value) -> int {
+                                  UnpackBuffer& buffer) -> int {
         handlerData.tags.push_back(tag);
         handlerData.lengths.push_back(length);
-        handlerData.values.emplace_back(value, value + length);
+        std::vector<uint8_t> value(length);
+        for (uint8_t i = 0; i < length; ++i)
+        {
+            uint8_t byte = 0;
+            int rc = buffer.unpack(byte);
+            if (rc != 0)
+            {
+                return rc;
+            }
+            value[i] = byte;
+        }
+        handlerData.values.push_back(std::move(value));
         return 0;
     };
 
-    int result = ocp::accelerator_management::decodeAggregateResponse(
-        buf, cc, reasonCode, std::move(handler));
+    int result = ocp::accelerator_management::unpackAggregateResponse(
+        buffer, std::move(handler));
 
     EXPECT_EQ(result, 0);
-    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
-    EXPECT_EQ(reasonCode, 0);
 
     // Verify 3 items were processed
     EXPECT_EQ(handlerData.tags.size(), 3U);
@@ -2047,8 +2053,6 @@ TEST_F(GpuMctpVdmTests, DecodeAggregateResponseByteLengthEncodingValid)
 {
     // Test with byte length encoding and valid bit set
     std::vector<uint8_t> buf = {
-        0x10, 0xde, 0x00, 0x89, 0x01, 0x0f, // Message header
-        0x00,                               // completion_code (SUCCESS)
         0x02, 0x00, // telemetryCount = 2 (little-endian)
         // Item 0: tag=0x10, tagInfo=0x85 (byte-length, valueLength=2, valid=1)
         // bit 7=1 (byte-length), bits 3-1=010 (valueLength=2), bit 0=1 (valid)
@@ -2059,8 +2063,7 @@ TEST_F(GpuMctpVdmTests, DecodeAggregateResponseByteLengthEncodingValid)
         // length = 5 bytes
         0x11, 0x8B, 0x01, 0x02, 0x03, 0x04, 0x05};
 
-    ocp::accelerator_management::CompletionCode cc{};
-    uint16_t reasonCode{};
+    UnpackBuffer buffer(buf);
 
     struct HandlerData
     {
@@ -2070,19 +2073,28 @@ TEST_F(GpuMctpVdmTests, DecodeAggregateResponseByteLengthEncodingValid)
     } handlerData;
 
     auto handler = [&handlerData](const uint8_t tag, const uint8_t length,
-                                  const uint8_t* value) -> int {
+                                  UnpackBuffer& buffer) -> int {
         handlerData.tags.push_back(tag);
         handlerData.lengths.push_back(length);
-        handlerData.values.emplace_back(value, value + length);
+        std::vector<uint8_t> value(length);
+        for (uint8_t i = 0; i < length; ++i)
+        {
+            uint8_t byte = 0;
+            int rc = buffer.unpack(byte);
+            if (rc != 0)
+            {
+                return rc;
+            }
+            value[i] = byte;
+        }
+        handlerData.values.push_back(std::move(value));
         return 0;
     };
 
-    int result = ocp::accelerator_management::decodeAggregateResponse(
-        buf, cc, reasonCode, std::move(handler));
+    int result = ocp::accelerator_management::unpackAggregateResponse(
+        buffer, std::move(handler));
 
     EXPECT_EQ(result, 0);
-    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
-    EXPECT_EQ(reasonCode, 0);
 
     // Verify 2 items were processed
     EXPECT_EQ(handlerData.tags.size(), 2U);
@@ -2106,9 +2118,7 @@ TEST_F(GpuMctpVdmTests, DecodeAggregateResponseInvalidBitNotSet)
 {
     // Test with valid bit NOT set - items should be skipped
     std::vector<uint8_t> buf = {
-        0x10, 0xde, 0x00, 0x89, 0x01, 0x0f, // Message header
-        0x00,                               // completion_code (SUCCESS)
-        0x03, 0x00,                         // telemetryCount = 3
+        0x03, 0x00, // telemetryCount = 3
         // Item 0: tag=0x01, tagInfo=0x05 (valid bit set)
         0x01, 0x05, 0x11, 0x22, 0x33, 0x44,
         // Item 1: tag=0x02, tagInfo=0x06 (valid bit NOT set - bit 0 = 0)
@@ -2117,8 +2127,7 @@ TEST_F(GpuMctpVdmTests, DecodeAggregateResponseInvalidBitNotSet)
         // Item 2: tag=0x03, tagInfo=0x01 (valid bit set)
         0x03, 0x01, 0x55};
 
-    ocp::accelerator_management::CompletionCode cc{};
-    uint16_t reasonCode{};
+    UnpackBuffer buffer(buf);
 
     struct HandlerData
     {
@@ -2127,18 +2136,17 @@ TEST_F(GpuMctpVdmTests, DecodeAggregateResponseInvalidBitNotSet)
     } handlerData;
 
     auto handler = [&handlerData](const uint8_t tag, const uint8_t length,
-                                  const uint8_t*) -> int {
+                                  UnpackBuffer& buffer) -> int {
         handlerData.tags.push_back(tag);
         handlerData.lengths.push_back(length);
+        buffer.skip(length);
         return 0;
     };
 
-    int result = ocp::accelerator_management::decodeAggregateResponse(
-        buf, cc, reasonCode, std::move(handler));
+    int result = ocp::accelerator_management::unpackAggregateResponse(
+        buffer, std::move(handler));
 
     EXPECT_EQ(result, 0);
-    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
-    EXPECT_EQ(reasonCode, 0);
 
     // Only 2 items should be processed (item 1 skipped because valid bit not
     // set)
@@ -2151,9 +2159,7 @@ TEST_F(GpuMctpVdmTests, DecodeAggregateResponseMixedEncodingAndValidity)
 {
     // Test with mixed length encoding types and validity
     std::vector<uint8_t> buf = {
-        0x10, 0xde, 0x00, 0x89, 0x01, 0x0f, // Message header
-        0x00,                               // completion_code (SUCCESS)
-        0x04, 0x00,                         // telemetryCount = 4
+        0x04, 0x00, // telemetryCount = 4
         // Item 0: power-of-2, valid
         0x01, 0x05, 0x11, 0x22, 0x33, 0x44,
         // Item 1: byte-length, valid
@@ -2163,8 +2169,7 @@ TEST_F(GpuMctpVdmTests, DecodeAggregateResponseMixedEncodingAndValidity)
         // Item 3: byte-length, valid
         0x04, 0x89, 0x55, 0x66, 0x77, 0x88};
 
-    ocp::accelerator_management::CompletionCode cc{};
-    uint16_t reasonCode{};
+    UnpackBuffer buffer(buf);
 
     struct HandlerData
     {
@@ -2173,18 +2178,17 @@ TEST_F(GpuMctpVdmTests, DecodeAggregateResponseMixedEncodingAndValidity)
     } handlerData;
 
     auto handler = [&handlerData](const uint8_t tag, const uint8_t length,
-                                  const uint8_t*) -> int {
+                                  UnpackBuffer& buffer) -> int {
         handlerData.tags.push_back(tag);
         handlerData.lengths.push_back(length);
+        buffer.skip(length);
         return 0;
     };
 
-    int result = ocp::accelerator_management::decodeAggregateResponse(
-        buf, cc, reasonCode, std::move(handler));
+    int result = ocp::accelerator_management::unpackAggregateResponse(
+        buffer, std::move(handler));
 
     EXPECT_EQ(result, 0);
-    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
-    EXPECT_EQ(reasonCode, 0);
 
     // 3 items should be processed (item 2 skipped)
     EXPECT_EQ(handlerData.tags.size(), 3U);
@@ -2196,66 +2200,49 @@ TEST_F(GpuMctpVdmTests, DecodeAggregateResponseMixedEncodingAndValidity)
     EXPECT_EQ(handlerData.lengths[2], 4); // byte-length: 4
 }
 
-TEST_F(GpuMctpVdmTests, DecodeAggregateResponseErrorResponse)
+TEST_F(GpuMctpVdmTests, DecodeAggregateResponseHandlerError)
 {
-    // Test with error completion code
-    std::vector<uint8_t> buf(
-        sizeof(ocp::accelerator_management::CommonNonSuccessResponse));
+    // Test that handler returning error stops processing
+    std::vector<uint8_t> buf = {
+        0x02, 0x00, // telemetryCount = 2
+                    // Item 0: tag=0x01, tagInfo=0x01 (power-of-2,
+                    // valueLength=0, valid=1) length = 1 byte
+        0x01, 0x01, 0xAA,
+        // Item 1: tag=0x02, tagInfo=0x01
+        0x02, 0x01, 0xBB};
 
-    ocp::accelerator_management::CommonNonSuccessResponse errorResponse{};
-    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
-    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
-        ocp::accelerator_management::MessageType::RESPONSE);
-    headerInfo.instance_id = 10;
-    headerInfo.msg_type =
-        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
-
-    gpu::packHeader(headerInfo, errorResponse.msgHdr.hdr);
-
-    errorResponse.command = 0x42;
-    errorResponse.completion_code = static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
-    errorResponse.reason_code = htole16(0x1234);
-
-    std::memcpy(buf.data(), &errorResponse, sizeof(errorResponse));
-
-    ocp::accelerator_management::CompletionCode cc{};
-    uint16_t reasonCode{};
+    UnpackBuffer buffer(buf);
 
     int handlerCallCount = 0;
-    auto handler = [&handlerCallCount](const uint8_t, const uint8_t,
-                                       const uint8_t*) -> int {
+    auto handler = [&handlerCallCount](const uint8_t, const uint8_t length,
+                                       UnpackBuffer& buffer) -> int {
         handlerCallCount++;
-        return 0;
+        buffer.skip(length);
+        return ENOTSUP; // Return error on first call
     };
 
-    int result = ocp::accelerator_management::decodeAggregateResponse(
-        buf, cc, reasonCode, std::move(handler));
+    int result = ocp::accelerator_management::unpackAggregateResponse(
+        buffer, std::move(handler));
 
-    EXPECT_EQ(result, 0);
-    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
-    EXPECT_EQ(reasonCode, 0x1234);
-    EXPECT_EQ(handlerCallCount, 0); // Handler should not be called on error
+    EXPECT_EQ(result, ENOTSUP);
+    EXPECT_EQ(handlerCallCount, 1); // Only first item processed before error
 }
 
 TEST_F(GpuMctpVdmTests, DecodeAggregateResponseInvalidBufferSize)
 {
-    // Test with buffer too small
+    // Test with buffer too small - missing second byte of telemetryCount
     std::vector<uint8_t> buf = {
-        0x10, 0xde, 0x00, 0x89, 0x01, 0x0f, // Message header
-        0x00,                               // completion_code
         0x01 // Truncated - missing second byte of telemetryCount
     };
 
-    ocp::accelerator_management::CompletionCode cc{};
-    uint16_t reasonCode{};
+    UnpackBuffer buffer(buf);
 
-    auto handler = [](const uint8_t, const uint8_t, const uint8_t*) -> int {
+    auto handler = [](const uint8_t, const uint8_t, UnpackBuffer&) -> int {
         return 0;
     };
 
-    int result = ocp::accelerator_management::decodeAggregateResponse(
-        buf, cc, reasonCode, std::move(handler));
+    int result = ocp::accelerator_management::unpackAggregateResponse(
+        buffer, std::move(handler));
 
     EXPECT_EQ(result, EINVAL);
 }
@@ -2264,27 +2251,22 @@ TEST_F(GpuMctpVdmTests, DecodeAggregateResponseEmptyItems)
 {
     // Test with zero items
     std::vector<uint8_t> buf = {
-        0x10, 0xde, 0x00, 0x89, 0x01, 0x0f, // Message header
-        0x00,                               // completion_code (SUCCESS)
-        0x00, 0x00                          // telemetryCount = 0
+        0x00, 0x00 // telemetryCount = 0
     };
 
-    ocp::accelerator_management::CompletionCode cc{};
-    uint16_t reasonCode{};
+    UnpackBuffer buffer(buf);
 
     int handlerCallCount = 0;
     auto handler = [&handlerCallCount](const uint8_t, const uint8_t,
-                                       const uint8_t*) -> int {
+                                       UnpackBuffer&) -> int {
         handlerCallCount++;
         return 0;
     };
 
-    int result = ocp::accelerator_management::decodeAggregateResponse(
-        buf, cc, reasonCode, std::move(handler));
+    int result = ocp::accelerator_management::unpackAggregateResponse(
+        buffer, std::move(handler));
 
     EXPECT_EQ(result, 0);
-    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
-    EXPECT_EQ(reasonCode, 0);
     EXPECT_EQ(handlerCallCount, 0); // No items to process
 }
 
@@ -2338,12 +2320,12 @@ TEST_F(GpuMctpVdmTests, DecodeGetPortNetworkAddressesResponseSuccess)
 {
     // Test with linkType and two MAC addresses
     std::vector<uint8_t> buf = {
-        0x10, 0xde, 0x00, 0x89, 0x01, 0x0f, // Message header
+        0x10, 0xde, 0x00, 0x89, 0x01, 0x11, // Message header
         0x00,                               // completion_code (SUCCESS)
         0x03, 0x00,                         // telemetryCount = 3
-        // Item 0: tag=0x00, tagInfo=0x00 (power-of-2, valueLength=3, valid=1)
-        // length = 1 << 0 = 1 bytes
-        0x00, 0x00, 0x00, // linkType = ETHERNET (0)
+        // Item 0: tag=0x00, tagInfo=0x01 (power-of-2, valueLength=0, valid=1)
+        // length = 1 << 0 = 1 byte
+        0x00, 0x01, 0x00, // linkType = ETHERNET (0)
         // Item 1: tag=0x01, tagInfo=0x07 (power-of-2, valueLength=3, valid=1)
         // length = 1 << 3 = 8 bytes (uint64_t MAC address)
         0x01, 0x07, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
