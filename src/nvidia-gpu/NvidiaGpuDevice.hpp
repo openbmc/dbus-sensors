@@ -97,7 +97,7 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
 
     std::shared_ptr<NvidiaEventReportingConfig> eventReporting;
 
-    std::array<uint8_t, sizeof(gpu::ReadThermalParametersRequest)>
+    std::array<uint8_t, gpu::readThermalParametersRequestSize>
         thermalParamReqMsg{};
     std::array<int32_t, 3> thresholds{};
     size_t current_threshold_index{};
