@@ -47,7 +47,7 @@ struct NvidiaEthPortMetrics :
 
     mctp::MctpRequester& mctpRequester;
 
-    std::array<uint8_t, sizeof(gpu::GetEthernetPortTelemetryCountersRequest)>
+    std::array<uint8_t, gpu::getEthernetPortTelemetryCountersRequestSize>
         request{};
 
     std::shared_ptr<sdbusplus::asio::dbus_interface> portInterface;

@@ -23,12 +23,6 @@
 
 namespace gpu
 {
-int packHeader(const ocp::accelerator_management::BindingPciVidInfo& hdr,
-               ocp::accelerator_management::BindingPciVid& msg)
-{
-    return ocp::accelerator_management::packHeader(nvidiaPciVendorId, hdr, msg);
-}
-
 int encodeRequestCommonHeader(PackBuffer& buffer, gpu::MessageType msgType,
                               uint8_t command, uint8_t instanceId)
 {
@@ -707,18 +701,16 @@ int decodeGetDriverInformationResponse(
 
     driverState = static_cast<DriverState>(driverStateValue);
 
-    const size_t versionSize =
-        buf.size() - sizeof(GetDriverInformationResponse);
+    const size_t versionSize = buf.size() - getDriverInformationResponseSize;
 
-    if (buf.size() < sizeof(GetDriverInformationResponse))
+    if (buf.size() < getDriverInformationResponseSize)
     {
         return EINVAL;
     }
 
     driverVersion.resize(versionSize);
     std::memcpy(driverVersion.data(),
-                buf.data() +
-                    sizeof(ocp::accelerator_management::CommonResponse) +
+                buf.data() + ocp::accelerator_management::commonResponseSize +
                     sizeof(uint8_t),
                 versionSize);
 
@@ -797,8 +789,7 @@ int decodeGetInventoryInformationResponse(
         return EINVAL;
     }
 
-    const size_t dataOffset =
-        sizeof(ocp::accelerator_management::CommonResponse);
+    const size_t dataOffset = ocp::accelerator_management::commonResponseSize;
 
     if (buf.size() < dataOffset + dataSize)
     {
