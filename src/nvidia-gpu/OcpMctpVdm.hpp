@@ -136,12 +136,10 @@ int decodeEvent(std::span<const uint8_t> buf, uint16_t pciVendorId,
                 uint8_t& messageType, bool& ackRequired, uint8_t& version,
                 uint8_t& eventId, uint8_t& eventClass, uint16_t& eventState,
                 uint8_t& size, std::span<const uint8_t>& eventData);
-
-int decodeAggregateResponse(
-    std::span<const uint8_t> buf,
-    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+int unpackAggregateResponse(
+    UnpackBuffer& buffer,
     std::move_only_function<int(const uint8_t tag, const uint8_t length,
-                                const uint8_t* value)>
+                                UnpackBuffer& buffer)>
         handler);
 
 } // namespace accelerator_management

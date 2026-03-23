@@ -44,8 +44,7 @@ TEST(NvidiaGpuMctpVdmTest, DecodeInventoryString)
     response->msgHdr.hdr.instance_id = 0x01;              // Instance ID
     response->msgHdr.hdr.ocp_version = 0x89; // OCP version and type
     response->msgHdr.hdr.ocp_accelerator_management_msg_type =
-        static_cast<uint8_t>(
-            ocp::accelerator_management::MessageType::RESPONSE);
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
 
     response->command = static_cast<uint8_t>(
         PlatformEnvironmentalCommands::GET_INVENTORY_INFORMATION);
@@ -84,8 +83,7 @@ TEST(NvidiaGpuMctpVdmTest, DecodeInventoryDeviceGuid)
     response->msgHdr.hdr.instance_id = 0x01;              // Instance ID
     response->msgHdr.hdr.ocp_version = 0x89; // OCP version and type
     response->msgHdr.hdr.ocp_accelerator_management_msg_type =
-        static_cast<uint8_t>(
-            ocp::accelerator_management::MessageType::RESPONSE);
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
 
     response->command = static_cast<uint8_t>(
         PlatformEnvironmentalCommands::GET_INVENTORY_INFORMATION);
