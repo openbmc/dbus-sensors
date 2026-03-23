@@ -53,8 +53,7 @@ struct NvidiaPciePortInfo :
 
     mctp::MctpRequester& mctpRequester;
 
-    std::array<uint8_t, sizeof(gpu::QueryScalarGroupTelemetryV2Request)>
-        request{};
+    std::array<uint8_t, gpu::queryScalarGroupTelemetryV2RequestSize> request{};
 
     std::shared_ptr<sdbusplus::asio::dbus_interface> pciePortInterface;
 

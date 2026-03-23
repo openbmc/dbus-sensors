@@ -7,7 +7,6 @@
 
 #include <OcpMctpVdm.hpp>
 
-#include <array>
 #include <cstddef>
 #include <cstdint>
 #include <span>
@@ -130,122 +129,42 @@ enum class NetworkPortLinkType : uint8_t
     UNKNOWN = 0xFF,
 };
 
-struct QueryDeviceIdentificationRequest
-{
-    ocp::accelerator_management::CommonRequest hdr;
-} __attribute__((packed));
+constexpr size_t queryDeviceIdentificationRequestSize =
+    ocp::accelerator_management::commonRequestSize;
 
-struct QueryDeviceIdentificationResponse
-{
-    ocp::accelerator_management::CommonResponse hdr;
-    uint8_t device_identification;
-    uint8_t instance_id;
-} __attribute__((packed));
+constexpr size_t getNumericSensorReadingRequestSize =
+    ocp::accelerator_management::commonRequestSize + sizeof(uint8_t);
 
-struct GetNumericSensorReadingRequest
-{
-    ocp::accelerator_management::CommonRequest hdr;
-    uint8_t sensor_id;
-} __attribute__((packed));
+constexpr size_t getTemperatureReadingRequestSize =
+    getNumericSensorReadingRequestSize;
 
-using GetTemperatureReadingRequest = GetNumericSensorReadingRequest;
+constexpr size_t readThermalParametersRequestSize =
+    getNumericSensorReadingRequestSize;
 
-using ReadThermalParametersRequest = GetNumericSensorReadingRequest;
+constexpr size_t getPowerDrawRequestSize =
+    ocp::accelerator_management::commonRequestSize + sizeof(uint8_t) +
+    sizeof(uint8_t);
 
-struct GetPowerDrawRequest
-{
-    ocp::accelerator_management::CommonRequest hdr;
-    uint8_t sensorId;
-    uint8_t averagingInterval;
-} __attribute__((packed));
+constexpr size_t getCurrentEnergyCounterRequestSize =
+    getNumericSensorReadingRequestSize;
 
-using GetCurrentEnergyCounterRequest = GetNumericSensorReadingRequest;
+constexpr size_t getVoltageRequestSize = getNumericSensorReadingRequestSize;
 
-using GetVoltageRequest = GetNumericSensorReadingRequest;
+constexpr size_t queryScalarGroupTelemetryV2RequestSize =
+    ocp::accelerator_management::commonRequestSize + 3 * sizeof(uint8_t);
 
-struct QueryScalarGroupTelemetryV2Request
-{
-    ocp::accelerator_management::CommonRequest hdr;
-    uint8_t upstreamPortNumber;
-    uint8_t portNumber;
-    uint8_t groupId;
-} __attribute__((packed));
+constexpr size_t getPortNetworkAddressesRequestSize =
+    ocp::accelerator_management::commonRequestSize + sizeof(uint16_t);
 
-struct GetPortNetworkAddressesRequest
-{
-    ocp::accelerator_management::CommonRequest hdr;
-    uint16_t portNumber;
-} __attribute__((packed));
+constexpr size_t getEthernetPortTelemetryCountersRequestSize =
+    ocp::accelerator_management::commonRequestSize + sizeof(uint16_t);
 
-struct GetEthernetPortTelemetryCountersRequest
-{
-    ocp::accelerator_management::CommonRequest hdr;
-    uint16_t portNumber;
-} __attribute__((packed));
+constexpr size_t getInventoryInformationRequestSize =
+    ocp::accelerator_management::commonRequestSize + sizeof(uint8_t);
 
-struct GetTemperatureReadingResponse
-{
-    ocp::accelerator_management::CommonResponse hdr;
-    int32_t reading;
-} __attribute__((packed));
-
-struct ReadThermalParametersResponse
-{
-    ocp::accelerator_management::CommonResponse hdr;
-    int32_t threshold;
-} __attribute__((packed));
-
-struct GetPowerDrawResponse
-{
-    ocp::accelerator_management::CommonResponse hdr;
-    uint32_t power;
-} __attribute__((packed));
-
-struct GetCurrentEnergyCounterResponse
-{
-    ocp::accelerator_management::CommonResponse hdr;
-    uint64_t energy;
-} __attribute__((packed));
-
-struct GetVoltageResponse
-{
-    ocp::accelerator_management::CommonResponse hdr;
-    uint32_t voltage;
-} __attribute__((packed));
-
-struct ListPCIePortsResponse
-{
-    ocp::accelerator_management::CommonResponse hdr;
-    uint16_t numUpstreamPorts;
-} __attribute__((packed));
-
-struct ListPCIePortsDownstreamPortsData
-{
-    uint8_t isInternal;
-    uint8_t count;
-} __attribute__((packed));
-
-struct GetDriverInformationResponse
-{
-    ocp::accelerator_management::CommonResponse hdr;
-    DriverState driverState;
-    char driverVersion;
-} __attribute__((packed));
-
-struct GetInventoryInformationRequest
-{
-    ocp::accelerator_management::CommonRequest hdr;
-    uint8_t property_id;
-} __attribute__((packed));
-
-struct GetInventoryInformationResponse
-{
-    ocp::accelerator_management::CommonResponse hdr;
-    std::array<uint8_t, maxInventoryDataSize> data;
-} __attribute__((packed));
-
-int packHeader(const ocp::accelerator_management::BindingPciVidInfo& hdr,
-               ocp::accelerator_management::BindingPciVid& msg);
+constexpr size_t getDriverInformationResponseSize =
+    ocp::accelerator_management::commonResponseSize + sizeof(uint8_t) +
+    sizeof(char);
 
 int encodeQueryDeviceIdentificationRequest(uint8_t instanceId,
                                            std::span<uint8_t> buf);

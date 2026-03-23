@@ -184,7 +184,7 @@ void queryDeviceIdentification(
     const std::string& path, uint8_t eid)
 {
     auto queryDeviceIdentificationRequest = std::make_shared<
-        std::array<uint8_t, sizeof(gpu::QueryDeviceIdentificationRequest)>>();
+        std::array<uint8_t, gpu::queryDeviceIdentificationRequestSize>>();
 
     auto rc = gpu::encodeQueryDeviceIdentificationRequest(
         0, *queryDeviceIdentificationRequest);

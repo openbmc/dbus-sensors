@@ -87,10 +87,10 @@ class PcieDevice : public std::enable_shared_from_this<PcieDevice>
 
     std::string path;
 
-    std::array<uint8_t, sizeof(ocp::accelerator_management::CommonRequest)>
+    std::array<uint8_t, ocp::accelerator_management::commonRequestSize>
         getPciePortCountsRequest{};
 
-    std::array<uint8_t, sizeof(gpu::GetPortNetworkAddressesRequest)>
+    std::array<uint8_t, gpu::getPortNetworkAddressesRequestSize>
         getPortNetworkAddressesRequest{};
 
     std::shared_ptr<NvidiaPcieInterface> pcieInterface;
