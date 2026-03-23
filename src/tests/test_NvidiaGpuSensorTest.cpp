@@ -7,13 +7,11 @@
 #include "NvidiaGpuMctpVdm.hpp"
 #include "OcpMctpVdm.hpp"
 
-#include <endian.h>
-
 #include <array>
-#include <bit>
 #include <cerrno>
 #include <cstdint>
 #include <cstring>
+#include <span>
 #include <string>
 #include <utility>
 #include <vector>
@@ -32,127 +30,107 @@ class OcpMctpVdmTests : public ::testing::Test
     }
 };
 
-// Tests for OcpMctpVdm::packHeader function
+// Tests for OcpMctpVdm::packHeader function (PackBuffer-based)
 TEST_F(OcpMctpVdmTests, PackHeaderRequestSuccess)
 {
     const uint16_t pciVendorId = 0x1234;
-    ocp::accelerator_management::BindingPciVidInfo hdr{};
-    ocp::accelerator_management::BindingPciVid msg{};
+    std::array<uint8_t, 16> buf{};
+    PackBuffer pbuf(buf);
 
-    hdr.ocp_accelerator_management_msg_type =
-        static_cast<uint8_t>(ocp::accelerator_management::MessageType::REQUEST);
-    hdr.instance_id = 5;
-    hdr.msg_type = 0x7E;
-
-    int result = ocp::accelerator_management::packHeader(pciVendorId, hdr, msg);
-
+    int result = ocp::accelerator_management::packHeader(
+        pbuf, pciVendorId, ocp::accelerator_management::MessageType::REQUEST, 5,
+        0x7E);
     EXPECT_EQ(result, 0);
-    EXPECT_EQ(msg.pci_vendor_id, htobe16(pciVendorId));
-    EXPECT_EQ(msg.instance_id & ocp::accelerator_management::instanceIdBitMask,
-              5);
-    EXPECT_NE(msg.instance_id & ocp::accelerator_management::requestBitMask, 0);
-    EXPECT_EQ(msg.ocp_version & 0x0F, ocp::accelerator_management::ocpVersion);
-    EXPECT_EQ((msg.ocp_version & 0xF0) >>
-                  ocp::accelerator_management::ocpTypeBitOffset,
-              ocp::accelerator_management::ocpType);
-    EXPECT_EQ(msg.ocp_accelerator_management_msg_type, 0x7E);
+    EXPECT_EQ(pbuf.getError(), 0);
+
+    // Verify with unpackHeader
+    UnpackBuffer ubuf(std::span<const uint8_t>(buf.data(), buf.size()));
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t instanceId = 0;
+    uint8_t msgTypeField = 0;
+    int rc = ocp::accelerator_management::unpackHeader(
+        ubuf, pciVendorId, msgType, instanceId, msgTypeField);
+    EXPECT_EQ(rc, 0);
+    EXPECT_EQ(instanceId, 5);
+    EXPECT_EQ(msgType, ocp::accelerator_management::MessageType::REQUEST);
+    EXPECT_EQ(msgTypeField, 0x7E);
 }
 
 TEST_F(OcpMctpVdmTests, PackHeaderResponseSuccess)
 {
     const uint16_t pciVendorId = 0x1234;
-    ocp::accelerator_management::BindingPciVidInfo hdr{};
-    ocp::accelerator_management::BindingPciVid msg{};
+    std::array<uint8_t, 16> buf{};
+    PackBuffer pbuf(buf);
 
-    hdr.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
-        ocp::accelerator_management::MessageType::RESPONSE);
-    hdr.instance_id = 10;
-    hdr.msg_type = 0x7E;
-
-    int result = ocp::accelerator_management::packHeader(pciVendorId, hdr, msg);
-
+    int result = ocp::accelerator_management::packHeader(
+        pbuf, pciVendorId, ocp::accelerator_management::MessageType::RESPONSE,
+        10, 0x7E);
     EXPECT_EQ(result, 0);
-    EXPECT_EQ(msg.pci_vendor_id, htobe16(pciVendorId));
-    EXPECT_EQ(msg.instance_id & ocp::accelerator_management::instanceIdBitMask,
-              10);
-    EXPECT_EQ(msg.instance_id & ocp::accelerator_management::requestBitMask, 0);
-    EXPECT_EQ(msg.ocp_version & 0x0F, ocp::accelerator_management::ocpVersion);
-    EXPECT_EQ((msg.ocp_version & 0xF0) >>
-                  ocp::accelerator_management::ocpTypeBitOffset,
-              ocp::accelerator_management::ocpType);
-    EXPECT_EQ(msg.ocp_accelerator_management_msg_type, 0x7E);
-}
+    EXPECT_EQ(pbuf.getError(), 0);
 
-TEST_F(OcpMctpVdmTests, PackHeaderInvalidMessageType)
-{
-    const uint16_t pciVendorId = 0x1234;
-    ocp::accelerator_management::BindingPciVidInfo hdr{};
-    ocp::accelerator_management::BindingPciVid msg{};
-
-    hdr.ocp_accelerator_management_msg_type = 3; // Invalid message type
-    hdr.instance_id = 5;
-    hdr.msg_type = 0x7E;
-
-    int result = ocp::accelerator_management::packHeader(pciVendorId, hdr, msg);
-
-    EXPECT_EQ(result, EINVAL);
+    // Verify with unpackHeader
+    UnpackBuffer ubuf(std::span<const uint8_t>(buf.data(), buf.size()));
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t instanceId = 0;
+    uint8_t msgTypeField = 0;
+    int rc = ocp::accelerator_management::unpackHeader(
+        ubuf, pciVendorId, msgType, instanceId, msgTypeField);
+    EXPECT_EQ(rc, 0);
+    EXPECT_EQ(instanceId, 10);
+    EXPECT_EQ(msgType, ocp::accelerator_management::MessageType::RESPONSE);
+    EXPECT_EQ(msgTypeField, 0x7E);
 }
 
 TEST_F(OcpMctpVdmTests, PackHeaderInvalidInstanceId)
 {
     const uint16_t pciVendorId = 0x1234;
-    ocp::accelerator_management::BindingPciVidInfo hdr{};
-    ocp::accelerator_management::BindingPciVid msg{};
+    std::array<uint8_t, 16> buf{};
+    PackBuffer pbuf(buf);
 
-    hdr.ocp_accelerator_management_msg_type =
-        static_cast<uint8_t>(ocp::accelerator_management::MessageType::REQUEST);
-    hdr.instance_id = 32; // Out of range (0-31 valid)
-    hdr.msg_type = 0x7E;
-
-    int result = ocp::accelerator_management::packHeader(pciVendorId, hdr, msg);
+    int result = ocp::accelerator_management::packHeader(
+        pbuf, pciVendorId, ocp::accelerator_management::MessageType::REQUEST,
+        32, 0x7E);
 
     EXPECT_EQ(result, EINVAL);
 }
 
-// Tests for OcpMctpVdm::decodeReasonCodeAndCC function
-TEST_F(OcpMctpVdmTests, DecodeReasonCodeAndCCSuccessCase)
+// Tests for OcpMctpVdm::unpackReasonCodeAndCC function
+TEST_F(OcpMctpVdmTests, UnpackReasonCodeAndCCSuccessCase)
 {
-    ocp::accelerator_management::CommonNonSuccessResponse response{};
-    response.command = 0x42;
-    response.completion_code = static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::SUCCESS);
-    response.reason_code = htole16(0x1234);
+    std::array<uint8_t, 16> buf{};
+    PackBuffer pbuf(buf);
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));
+    pbuf.pack(static_cast<uint16_t>(0x1234));
+    ASSERT_EQ(pbuf.getError(), 0);
 
+    UnpackBuffer ubuf(std::span<const uint8_t>(buf.data(), buf.size()));
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
 
-    std::array<uint8_t, sizeof(response)> buf{};
-    std::memcpy(buf.data(), &response, sizeof(response));
-
-    int result =
-        ocp::accelerator_management::decodeReasonCodeAndCC(buf, cc, reasonCode);
+    int result = ocp::accelerator_management::unpackReasonCodeAndCC(
+        ubuf, cc, reasonCode);
 
     EXPECT_EQ(result, 0);
     EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
     EXPECT_EQ(reasonCode, 0); // Should be 0 for SUCCESS
 }
 
-TEST_F(OcpMctpVdmTests, DecodeReasonCodeAndCCErrorCase)
+TEST_F(OcpMctpVdmTests, UnpackReasonCodeAndCCErrorCase)
 {
-    ocp::accelerator_management::CommonNonSuccessResponse response{};
-    response.command = 0x42;
-    response.completion_code = static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::ERROR);
-    response.reason_code = htole16(0x5678);
+    std::array<uint8_t, 16> buf{};
+    PackBuffer pbuf(buf);
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERROR));
+    pbuf.pack(static_cast<uint16_t>(0x5678));
+    ASSERT_EQ(pbuf.getError(), 0);
 
+    UnpackBuffer ubuf(std::span<const uint8_t>(buf.data(), buf.size()));
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
 
-    std::array<uint8_t, sizeof(response)> buf{};
-    std::memcpy(buf.data(), &response, sizeof(response));
-
-    int result =
-        ocp::accelerator_management::decodeReasonCodeAndCC(buf, cc, reasonCode);
+    int result = ocp::accelerator_management::unpackReasonCodeAndCC(
+        ubuf, cc, reasonCode);
 
     EXPECT_EQ(result, 0);
     EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERROR);
@@ -173,31 +151,6 @@ class GpuMctpVdmTests : public ::testing::Test
     }
 };
 
-// Tests for GpuMctpVdm::packHeader function
-TEST_F(GpuMctpVdmTests, PackHeaderSuccess)
-{
-    ocp::accelerator_management::BindingPciVidInfo hdr{};
-    ocp::accelerator_management::BindingPciVid msg{};
-
-    hdr.ocp_accelerator_management_msg_type =
-        static_cast<uint8_t>(ocp::accelerator_management::MessageType::REQUEST);
-    hdr.instance_id = 5;
-    hdr.msg_type = 0x7E;
-
-    int result = gpu::packHeader(hdr, msg);
-
-    EXPECT_EQ(result, 0);
-    EXPECT_EQ(msg.pci_vendor_id, htobe16(gpu::nvidiaPciVendorId));
-    EXPECT_EQ(msg.instance_id & ocp::accelerator_management::instanceIdBitMask,
-              5);
-    EXPECT_NE(msg.instance_id & ocp::accelerator_management::requestBitMask, 0);
-    EXPECT_EQ(msg.ocp_version & 0x0F, ocp::accelerator_management::ocpVersion);
-    EXPECT_EQ((msg.ocp_version & 0xF0) >>
-                  ocp::accelerator_management::ocpTypeBitOffset,
-              ocp::accelerator_management::ocpType);
-    EXPECT_EQ(msg.ocp_accelerator_management_msg_type, 0x7E);
-}
-
 // Tests for GpuMctpVdm::encodeQueryDeviceIdentificationRequest function
 TEST_F(GpuMctpVdmTests, EncodeQueryDeviceIdentificationRequestSuccess)
 {
@@ -208,55 +161,51 @@ TEST_F(GpuMctpVdmTests, EncodeQueryDeviceIdentificationRequestSuccess)
 
     EXPECT_EQ(result, 0);
 
-    gpu::QueryDeviceIdentificationRequest request{};
-    std::memcpy(&request, buf.data(), sizeof(request));
-
-    EXPECT_EQ(request.hdr.msgHdr.hdr.pci_vendor_id,
-              htobe16(gpu::nvidiaPciVendorId));
-    EXPECT_EQ(request.hdr.msgHdr.hdr.instance_id &
-                  ocp::accelerator_management::instanceIdBitMask,
-              instanceId & ocp::accelerator_management::instanceIdBitMask);
-    EXPECT_NE(request.hdr.msgHdr.hdr.instance_id &
-                  ocp::accelerator_management::requestBitMask,
+    UnpackBuffer ubuf(std::span<const uint8_t>(buf.data(), buf.size()));
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t unpackedInstanceId = 0;
+    uint8_t unpackedMsgType = 0;
+    EXPECT_EQ(ocp::accelerator_management::unpackHeader(
+                  ubuf, gpu::nvidiaPciVendorId, msgType, unpackedInstanceId,
+                  unpackedMsgType),
               0);
-
-    EXPECT_EQ(request.hdr.command,
+    EXPECT_EQ(msgType, ocp::accelerator_management::MessageType::REQUEST);
+    EXPECT_EQ(unpackedInstanceId,
+              instanceId & ocp::accelerator_management::instanceIdBitMask);
+    EXPECT_EQ(
+        unpackedMsgType,
+        static_cast<uint8_t>(gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY));
+    uint8_t command = 0;
+    ubuf.unpack(command);
+    EXPECT_EQ(command,
               static_cast<uint8_t>(gpu::DeviceCapabilityDiscoveryCommands::
                                        QUERY_DEVICE_IDENTIFICATION));
-    EXPECT_EQ(request.hdr.data_size, 0);
+    uint8_t dataSize = 0;
+    ubuf.unpack(dataSize);
+    EXPECT_EQ(dataSize, 0);
+    EXPECT_EQ(ubuf.getError(), 0);
 }
 
 // Tests for GpuMctpVdm::decodeQueryDeviceIdentificationResponse function
 TEST_F(GpuMctpVdmTests, DecodeQueryDeviceIdentificationResponseSuccess)
 {
-    // Create a mock successful response
-    std::vector<uint8_t> buf(sizeof(gpu::QueryDeviceIdentificationResponse));
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 3,
+        static_cast<uint8_t>(gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY));
+    pbuf.pack(static_cast<uint8_t>(gpu::DeviceCapabilityDiscoveryCommands::
+                                       QUERY_DEVICE_IDENTIFICATION)); // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));       // CC
+    pbuf.pack(static_cast<uint16_t>(0));         // reserved
+    pbuf.pack(static_cast<uint16_t>(2));         // data_size
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::DeviceIdentification::DEVICE_GPU)); // device_identification
+    pbuf.pack(static_cast<uint8_t>(7));          // instance_id
+    ASSERT_EQ(pbuf.getError(), 0);
 
-    gpu::QueryDeviceIdentificationResponse response{};
-    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
-    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
-        ocp::accelerator_management::MessageType::RESPONSE);
-    headerInfo.instance_id = 3;
-    headerInfo.msg_type =
-        static_cast<uint8_t>(gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY);
-
-    gpu::packHeader(headerInfo, response.hdr.msgHdr.hdr);
-
-    // Populate response data
-    response.hdr.command = static_cast<uint8_t>(
-        gpu::DeviceCapabilityDiscoveryCommands::QUERY_DEVICE_IDENTIFICATION);
-    response.hdr.completion_code = static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::SUCCESS);
-    response.hdr.reserved = 0;
-    response.hdr.data_size =
-        htole16(2); // Size of device_identification + instance_id
-    response.device_identification =
-        static_cast<uint8_t>(gpu::DeviceIdentification::DEVICE_GPU);
-    response.instance_id = 7;
-
-    std::memcpy(buf.data(), &response, sizeof(response));
-
-    // Test decoding
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
     uint8_t deviceIdentification{};
@@ -275,32 +224,19 @@ TEST_F(GpuMctpVdmTests, DecodeQueryDeviceIdentificationResponseSuccess)
 
 TEST_F(GpuMctpVdmTests, DecodeQueryDeviceIdentificationResponseError)
 {
-    // Create a mock successful response
-    std::vector<uint8_t> buf(
-        sizeof(ocp::accelerator_management::CommonNonSuccessResponse));
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 3,
+        static_cast<uint8_t>(gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY));
+    pbuf.pack(static_cast<uint8_t>(gpu::DeviceCapabilityDiscoveryCommands::
+                                       QUERY_DEVICE_IDENTIFICATION)); // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERROR));         // CC
+    pbuf.pack(static_cast<uint16_t>(0x1234)); // reason_code
+    ASSERT_EQ(pbuf.getError(), 0);
 
-    ocp::accelerator_management::CommonNonSuccessResponse response{};
-    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
-    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
-        ocp::accelerator_management::MessageType::RESPONSE);
-    headerInfo.instance_id = 3;
-    headerInfo.msg_type =
-        static_cast<uint8_t>(gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY);
-
-    gpu::packHeader(headerInfo, response.msgHdr.hdr);
-
-    // Populate response data
-    response.command = static_cast<uint8_t>(
-        gpu::DeviceCapabilityDiscoveryCommands::QUERY_DEVICE_IDENTIFICATION);
-    response.command = static_cast<uint8_t>(
-        gpu::DeviceCapabilityDiscoveryCommands::QUERY_DEVICE_IDENTIFICATION);
-    response.completion_code = static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::ERROR);
-    response.reason_code = htole16(0x1234);
-
-    std::memcpy(buf.data(), &response, sizeof(response));
-
-    // Test decoding
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
     uint8_t deviceIdentification{};
@@ -316,23 +252,14 @@ TEST_F(GpuMctpVdmTests, DecodeQueryDeviceIdentificationResponseError)
 
 TEST_F(GpuMctpVdmTests, DecodeQueryDeviceIdentificationResponseInvalidSize)
 {
-    // Create a too-small buffer
-    std::vector<uint8_t> buf(
-        sizeof(ocp::accelerator_management::Message) + 2); // Too small
+    std::vector<uint8_t> buf(7);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 3,
+        static_cast<uint8_t>(gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY));
+    ASSERT_EQ(pbuf.getError(), 0);
 
-    // Populate Message header only
-    ocp::accelerator_management::Message msg{};
-    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
-    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
-        ocp::accelerator_management::MessageType::RESPONSE);
-    headerInfo.instance_id = 3;
-    headerInfo.msg_type =
-        static_cast<uint8_t>(gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY);
-
-    gpu::packHeader(headerInfo, msg.hdr);
-    std::memcpy(buf.data(), &msg, sizeof(msg));
-
-    // Test decoding with insufficient data
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
     uint8_t deviceIdentification{};
@@ -356,58 +283,53 @@ TEST_F(GpuMctpVdmTests, EncodeGetTemperatureReadingRequestSuccess)
 
     EXPECT_EQ(result, 0);
 
-    gpu::GetTemperatureReadingRequest request{};
-    std::memcpy(&request, buf.data(), sizeof(request));
-
-    EXPECT_EQ(request.hdr.msgHdr.hdr.pci_vendor_id,
-              htobe16(gpu::nvidiaPciVendorId));
-    EXPECT_EQ(request.hdr.msgHdr.hdr.instance_id &
-                  ocp::accelerator_management::instanceIdBitMask,
-              instanceId & ocp::accelerator_management::instanceIdBitMask);
-    EXPECT_NE(request.hdr.msgHdr.hdr.instance_id &
-                  ocp::accelerator_management::requestBitMask,
+    UnpackBuffer ubuf(std::span<const uint8_t>(buf.data(), buf.size()));
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t unpackedInstanceId = 0;
+    uint8_t unpackedMsgType = 0;
+    EXPECT_EQ(ocp::accelerator_management::unpackHeader(
+                  ubuf, gpu::nvidiaPciVendorId, msgType, unpackedInstanceId,
+                  unpackedMsgType),
               0);
-    EXPECT_EQ(request.hdr.msgHdr.hdr.ocp_accelerator_management_msg_type,
+    EXPECT_EQ(msgType, ocp::accelerator_management::MessageType::REQUEST);
+    EXPECT_EQ(unpackedInstanceId,
+              instanceId & ocp::accelerator_management::instanceIdBitMask);
+    EXPECT_EQ(unpackedMsgType,
               static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
 
-    // Verify request data
-    EXPECT_EQ(request.hdr.command,
+    uint8_t command = 0;
+    ubuf.unpack(command);
+    EXPECT_EQ(command,
               static_cast<uint8_t>(
                   gpu::PlatformEnvironmentalCommands::GET_TEMPERATURE_READING));
-    EXPECT_EQ(request.hdr.data_size, sizeof(sensorId));
-    EXPECT_EQ(request.sensor_id, sensorId);
+    uint8_t dataSize = 0;
+    ubuf.unpack(dataSize);
+    EXPECT_EQ(dataSize, sizeof(sensorId));
+    uint8_t unpackedSensorId = 0;
+    ubuf.unpack(unpackedSensorId);
+    EXPECT_EQ(unpackedSensorId, sensorId);
+    EXPECT_EQ(ubuf.getError(), 0);
 }
 
 // Tests for GpuMctpVdm::decodeGetTemperatureReadingResponse function
 TEST_F(GpuMctpVdmTests, DecodeGetTemperatureReadingResponseSuccess)
 {
-    // Create a mock successful response
-    std::vector<uint8_t> buf(sizeof(gpu::GetTemperatureReadingResponse));
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 4,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(gpu::PlatformEnvironmentalCommands::
+                                       GET_TEMPERATURE_READING)); // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));   // CC
+    pbuf.pack(static_cast<uint16_t>(0));                          // reserved
+    pbuf.pack(static_cast<uint16_t>(sizeof(int32_t)));            // data_size
+    // Set a temperature value of 75.5C (75.5 * 256 = 19328)
+    pbuf.pack(static_cast<int32_t>(19328));
+    ASSERT_EQ(pbuf.getError(), 0);
 
-    gpu::GetTemperatureReadingResponse response{};
-    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
-    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
-        ocp::accelerator_management::MessageType::RESPONSE);
-    headerInfo.instance_id = 4;
-    headerInfo.msg_type =
-        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
-
-    gpu::packHeader(headerInfo, response.hdr.msgHdr.hdr);
-
-    // Populate response data
-    response.hdr.command = static_cast<uint8_t>(
-        gpu::PlatformEnvironmentalCommands::GET_TEMPERATURE_READING);
-    response.hdr.completion_code = static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::SUCCESS);
-    response.hdr.reserved = 0;
-    response.hdr.data_size = htole16(sizeof(int32_t));
-
-    // Set a temperature value of 75.5°C (75.5 * 256 = 19328)
-    response.reading = htole32(19328);
-
-    std::memcpy(buf.data(), &response, sizeof(response));
-
-    // Test decoding
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
     double temperatureReading{};
@@ -423,29 +345,19 @@ TEST_F(GpuMctpVdmTests, DecodeGetTemperatureReadingResponseSuccess)
 
 TEST_F(GpuMctpVdmTests, DecodeGetTemperatureReadingResponseError)
 {
-    std::vector<uint8_t> buf(
-        sizeof(ocp::accelerator_management::CommonNonSuccessResponse));
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 3,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(gpu::PlatformEnvironmentalCommands::
+                                       GET_TEMPERATURE_READING));     // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERR_NOT_READY)); // CC
+    pbuf.pack(static_cast<uint16_t>(0x4321)); // reason_code
+    ASSERT_EQ(pbuf.getError(), 0);
 
-    // Populate error response data
-    ocp::accelerator_management::CommonNonSuccessResponse errorResponse{};
-    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
-    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
-        ocp::accelerator_management::MessageType::RESPONSE);
-    headerInfo.instance_id = 3;
-    headerInfo.msg_type =
-        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
-
-    gpu::packHeader(headerInfo, errorResponse.msgHdr.hdr);
-
-    errorResponse.command = static_cast<uint8_t>(
-        gpu::PlatformEnvironmentalCommands::GET_TEMPERATURE_READING);
-    errorResponse.completion_code = static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
-    errorResponse.reason_code = htole16(0x4321);
-
-    std::memcpy(buf.data(), &errorResponse, sizeof(errorResponse));
-
-    // Test decoding
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
     double temperatureReading{};
@@ -460,30 +372,21 @@ TEST_F(GpuMctpVdmTests, DecodeGetTemperatureReadingResponseError)
 
 TEST_F(GpuMctpVdmTests, DecodeGetTemperatureReadingResponseInvalidSize)
 {
-    // Create a mock response with invalid data_size
-    std::vector<uint8_t> buf(sizeof(gpu::GetTemperatureReadingResponse));
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 4,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(gpu::PlatformEnvironmentalCommands::
+                                       GET_TEMPERATURE_READING)); // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));   // CC
+    pbuf.pack(static_cast<uint16_t>(0));                          // reserved
+    pbuf.pack(static_cast<uint16_t>(1)); // Invalid data_size
+    pbuf.pack(static_cast<int32_t>(19328));
+    ASSERT_EQ(pbuf.getError(), 0);
 
-    gpu::GetTemperatureReadingResponse response{};
-    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
-    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
-        ocp::accelerator_management::MessageType::RESPONSE);
-    headerInfo.instance_id = 4;
-    headerInfo.msg_type =
-        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
-
-    gpu::packHeader(headerInfo, response.hdr.msgHdr.hdr);
-
-    response.hdr.command = static_cast<uint8_t>(
-        gpu::PlatformEnvironmentalCommands::GET_TEMPERATURE_READING);
-    response.hdr.completion_code = static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::SUCCESS);
-    response.hdr.reserved = 0;
-    response.hdr.data_size = htole16(1); // Invalid - should be sizeof(int32_t)
-    response.reading = htole32(19328);
-
-    std::memcpy(buf.data(), &response, sizeof(response));
-
-    // Test decoding
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
     double temperatureReading{};
@@ -499,65 +402,60 @@ TEST_F(GpuMctpVdmTests, EncodeReadThermalParametersRequestSuccess)
 {
     const uint8_t instanceId = 5;
     const uint8_t sensorId = 1;
-    std::array<uint8_t, sizeof(gpu::ReadThermalParametersRequest)> buf{};
+    std::array<uint8_t, gpu::readThermalParametersRequestSize> buf{};
 
     int result =
         gpu::encodeReadThermalParametersRequest(instanceId, sensorId, buf);
 
     EXPECT_EQ(result, 0);
 
-    gpu::ReadThermalParametersRequest request{};
-    std::memcpy(&request, buf.data(), sizeof(request));
-
-    EXPECT_EQ(request.hdr.msgHdr.hdr.pci_vendor_id,
-              htobe16(gpu::nvidiaPciVendorId));
-    EXPECT_EQ(request.hdr.msgHdr.hdr.instance_id &
-                  ocp::accelerator_management::instanceIdBitMask,
-              instanceId & ocp::accelerator_management::instanceIdBitMask);
-    EXPECT_NE(request.hdr.msgHdr.hdr.instance_id &
-                  ocp::accelerator_management::requestBitMask,
+    UnpackBuffer ubuf(std::span<const uint8_t>(buf.data(), buf.size()));
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t unpackedInstanceId = 0;
+    uint8_t unpackedMsgType = 0;
+    EXPECT_EQ(ocp::accelerator_management::unpackHeader(
+                  ubuf, gpu::nvidiaPciVendorId, msgType, unpackedInstanceId,
+                  unpackedMsgType),
               0);
-    EXPECT_EQ(request.hdr.msgHdr.hdr.ocp_accelerator_management_msg_type,
+    EXPECT_EQ(msgType, ocp::accelerator_management::MessageType::REQUEST);
+    EXPECT_EQ(unpackedInstanceId,
+              instanceId & ocp::accelerator_management::instanceIdBitMask);
+    EXPECT_EQ(unpackedMsgType,
               static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
 
-    // Verify request data
-    EXPECT_EQ(request.hdr.command,
+    uint8_t command = 0;
+    ubuf.unpack(command);
+    EXPECT_EQ(command,
               static_cast<uint8_t>(
                   gpu::PlatformEnvironmentalCommands::READ_THERMAL_PARAMETERS));
-    EXPECT_EQ(request.hdr.data_size, sizeof(sensorId));
-    EXPECT_EQ(request.sensor_id, sensorId);
+    uint8_t dataSize = 0;
+    ubuf.unpack(dataSize);
+    EXPECT_EQ(dataSize, sizeof(sensorId));
+    uint8_t unpackedSensorId = 0;
+    ubuf.unpack(unpackedSensorId);
+    EXPECT_EQ(unpackedSensorId, sensorId);
+    EXPECT_EQ(ubuf.getError(), 0);
 }
 
 // Tests for GpuMctpVdm::decodeReadThermalParametersResponse function
 TEST_F(GpuMctpVdmTests, DecodeReadThermalParametersResponseSuccess)
 {
-    // Create a mock successful response
-    std::array<uint8_t, sizeof(gpu::ReadThermalParametersResponse)> buf{};
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 5,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(gpu::PlatformEnvironmentalCommands::
+                                       READ_THERMAL_PARAMETERS)); // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));   // CC
+    pbuf.pack(static_cast<uint16_t>(0));                          // reserved
+    pbuf.pack(static_cast<uint16_t>(sizeof(int32_t)));            // data_size
+    // Set a threshold value of 85C (85 * 256 = 21760)
+    pbuf.pack(static_cast<int32_t>(21760));
+    ASSERT_EQ(pbuf.getError(), 0);
 
-    gpu::ReadThermalParametersResponse response{};
-    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
-    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
-        ocp::accelerator_management::MessageType::RESPONSE);
-    headerInfo.instance_id = 5;
-    headerInfo.msg_type =
-        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
-
-    gpu::packHeader(headerInfo, response.hdr.msgHdr.hdr);
-
-    // Populate response data
-    response.hdr.command = static_cast<uint8_t>(
-        gpu::PlatformEnvironmentalCommands::READ_THERMAL_PARAMETERS);
-    response.hdr.completion_code = static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::SUCCESS);
-    response.hdr.reserved = 0;
-    response.hdr.data_size = htole16(sizeof(int32_t));
-
-    // Set a threshold value of 85°C (85 * 256 = 21760)
-    response.threshold = htole32(21760);
-
-    std::memcpy(buf.data(), &response, sizeof(response));
-
-    // Test decoding
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
     int32_t threshold{};
@@ -573,30 +471,19 @@ TEST_F(GpuMctpVdmTests, DecodeReadThermalParametersResponseSuccess)
 
 TEST_F(GpuMctpVdmTests, DecodeReadThermalParametersResponseError)
 {
-    std::array<uint8_t,
-               sizeof(ocp::accelerator_management::CommonNonSuccessResponse)>
-        buf{};
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 5,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(gpu::PlatformEnvironmentalCommands::
+                                       READ_THERMAL_PARAMETERS));     // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERR_NOT_READY)); // CC
+    pbuf.pack(static_cast<uint16_t>(0x5678)); // reason_code
+    ASSERT_EQ(pbuf.getError(), 0);
 
-    // Populate error response data
-    ocp::accelerator_management::CommonNonSuccessResponse errorResponse{};
-    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
-    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
-        ocp::accelerator_management::MessageType::RESPONSE);
-    headerInfo.instance_id = 5;
-    headerInfo.msg_type =
-        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
-
-    gpu::packHeader(headerInfo, errorResponse.msgHdr.hdr);
-
-    errorResponse.command = static_cast<uint8_t>(
-        gpu::PlatformEnvironmentalCommands::READ_THERMAL_PARAMETERS);
-    errorResponse.completion_code = static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
-    errorResponse.reason_code = htole16(0x5678);
-
-    std::memcpy(buf.data(), &errorResponse, sizeof(errorResponse));
-
-    // Test decoding
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
     int32_t threshold{};
@@ -611,30 +498,21 @@ TEST_F(GpuMctpVdmTests, DecodeReadThermalParametersResponseError)
 
 TEST_F(GpuMctpVdmTests, DecodeReadThermalParametersResponseInvalidSize)
 {
-    // Create a mock response with invalid data_size
-    std::array<uint8_t, sizeof(gpu::ReadThermalParametersResponse)> buf{};
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 5,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(gpu::PlatformEnvironmentalCommands::
+                                       READ_THERMAL_PARAMETERS)); // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));   // CC
+    pbuf.pack(static_cast<uint16_t>(0));                          // reserved
+    pbuf.pack(static_cast<uint16_t>(2)); // Invalid data_size
+    pbuf.pack(static_cast<int32_t>(21760));
+    ASSERT_EQ(pbuf.getError(), 0);
 
-    gpu::ReadThermalParametersResponse response{};
-    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
-    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
-        ocp::accelerator_management::MessageType::RESPONSE);
-    headerInfo.instance_id = 5;
-    headerInfo.msg_type =
-        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
-
-    gpu::packHeader(headerInfo, response.hdr.msgHdr.hdr);
-
-    response.hdr.command = static_cast<uint8_t>(
-        gpu::PlatformEnvironmentalCommands::READ_THERMAL_PARAMETERS);
-    response.hdr.completion_code = static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::SUCCESS);
-    response.hdr.reserved = 0;
-    response.hdr.data_size = htole16(2); // Invalid - should be sizeof(int32_t)
-    response.threshold = htole32(21760);
-
-    std::memcpy(buf.data(), &response, sizeof(response));
-
-    // Test decoding
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
     int32_t threshold{};
@@ -653,65 +531,60 @@ TEST_F(GpuMctpVdmTests, EncodeGetCurrentPowerDrawRequestSuccess)
     const uint8_t averagingInterval = 10;
     gpu::PlatformEnvironmentalCommands commandCode =
         gpu::PlatformEnvironmentalCommands::GET_CURRENT_POWER_DRAW;
-    std::array<uint8_t, sizeof(gpu::GetPowerDrawRequest)> buf{};
+    std::array<uint8_t, gpu::getPowerDrawRequestSize> buf{};
 
     int result = gpu::encodeGetPowerDrawRequest(
         commandCode, instanceId, sensorId, averagingInterval, buf);
 
     EXPECT_EQ(result, 0);
 
-    gpu::GetPowerDrawRequest request{};
-    std::memcpy(&request, buf.data(), sizeof(request));
-
-    EXPECT_EQ(request.hdr.msgHdr.hdr.pci_vendor_id,
-              htobe16(gpu::nvidiaPciVendorId));
-    EXPECT_EQ(request.hdr.msgHdr.hdr.instance_id &
-                  ocp::accelerator_management::instanceIdBitMask,
-              instanceId & ocp::accelerator_management::instanceIdBitMask);
-    EXPECT_NE(request.hdr.msgHdr.hdr.instance_id &
-                  ocp::accelerator_management::requestBitMask,
+    UnpackBuffer ubuf(std::span<const uint8_t>(buf.data(), buf.size()));
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t unpackedInstanceId = 0;
+    uint8_t unpackedMsgType = 0;
+    EXPECT_EQ(ocp::accelerator_management::unpackHeader(
+                  ubuf, gpu::nvidiaPciVendorId, msgType, unpackedInstanceId,
+                  unpackedMsgType),
               0);
-    EXPECT_EQ(request.hdr.msgHdr.hdr.ocp_accelerator_management_msg_type,
+    EXPECT_EQ(msgType, ocp::accelerator_management::MessageType::REQUEST);
+    EXPECT_EQ(unpackedInstanceId,
+              instanceId & ocp::accelerator_management::instanceIdBitMask);
+    EXPECT_EQ(unpackedMsgType,
               static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
 
-    // Verify request data
-    EXPECT_EQ(request.hdr.command, static_cast<uint8_t>(commandCode));
-    EXPECT_EQ(request.hdr.data_size,
-              sizeof(sensorId) + sizeof(averagingInterval));
-    EXPECT_EQ(request.sensorId, sensorId);
-    EXPECT_EQ(request.averagingInterval, averagingInterval);
+    uint8_t command = 0;
+    ubuf.unpack(command);
+    EXPECT_EQ(command, static_cast<uint8_t>(commandCode));
+    uint8_t dataSize = 0;
+    ubuf.unpack(dataSize);
+    EXPECT_EQ(dataSize, sizeof(sensorId) + sizeof(averagingInterval));
+    uint8_t unpackedSensorId = 0;
+    ubuf.unpack(unpackedSensorId);
+    EXPECT_EQ(unpackedSensorId, sensorId);
+    uint8_t unpackedAvgInterval = 0;
+    ubuf.unpack(unpackedAvgInterval);
+    EXPECT_EQ(unpackedAvgInterval, averagingInterval);
+    EXPECT_EQ(ubuf.getError(), 0);
 }
 
 // Tests for GpuMctpVdm::decodeGetCurrentPowerDrawResponse function
 TEST_F(GpuMctpVdmTests, DecodeGetCurrentPowerDrawResponseSuccess)
 {
-    // Create a mock successful response
-    std::array<uint8_t, sizeof(gpu::GetPowerDrawResponse)> buf{};
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 6,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_CURRENT_POWER_DRAW)); // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));       // CC
+    pbuf.pack(static_cast<uint16_t>(0));                // reserved
+    pbuf.pack(static_cast<uint16_t>(sizeof(uint32_t))); // data_size
+    pbuf.pack(static_cast<uint32_t>(250));              // power = 250W
+    ASSERT_EQ(pbuf.getError(), 0);
 
-    gpu::GetPowerDrawResponse response{};
-    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
-    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
-        ocp::accelerator_management::MessageType::RESPONSE);
-    headerInfo.instance_id = 6;
-    headerInfo.msg_type =
-        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
-
-    gpu::packHeader(headerInfo, response.hdr.msgHdr.hdr);
-
-    // Populate response data
-    response.hdr.command = static_cast<uint8_t>(
-        gpu::PlatformEnvironmentalCommands::GET_CURRENT_POWER_DRAW);
-    response.hdr.completion_code = static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::SUCCESS);
-    response.hdr.reserved = 0;
-    response.hdr.data_size = htole16(sizeof(uint32_t));
-
-    // Set a power value of 250W
-    response.power = htole32(250);
-
-    std::memcpy(buf.data(), &response, sizeof(response));
-
-    // Test decoding
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
     uint32_t power{};
@@ -726,30 +599,19 @@ TEST_F(GpuMctpVdmTests, DecodeGetCurrentPowerDrawResponseSuccess)
 
 TEST_F(GpuMctpVdmTests, DecodeGetCurrentPowerDrawResponseError)
 {
-    std::array<uint8_t,
-               sizeof(ocp::accelerator_management::CommonNonSuccessResponse)>
-        buf{};
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 6,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_CURRENT_POWER_DRAW)); // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERR_NOT_READY)); // CC
+    pbuf.pack(static_cast<uint16_t>(0x9ABC)); // reason_code
+    ASSERT_EQ(pbuf.getError(), 0);
 
-    // Populate error response data
-    ocp::accelerator_management::CommonNonSuccessResponse errorResponse{};
-    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
-    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
-        ocp::accelerator_management::MessageType::RESPONSE);
-    headerInfo.instance_id = 6;
-    headerInfo.msg_type =
-        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
-
-    gpu::packHeader(headerInfo, errorResponse.msgHdr.hdr);
-
-    errorResponse.command = static_cast<uint8_t>(
-        gpu::PlatformEnvironmentalCommands::GET_CURRENT_POWER_DRAW);
-    errorResponse.completion_code = static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
-    errorResponse.reason_code = htole16(0x9ABC);
-
-    std::memcpy(buf.data(), &errorResponse, sizeof(errorResponse));
-
-    // Test decoding
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
     uint32_t power{};
@@ -763,30 +625,21 @@ TEST_F(GpuMctpVdmTests, DecodeGetCurrentPowerDrawResponseError)
 
 TEST_F(GpuMctpVdmTests, DecodeGetCurrentPowerDrawResponseInvalidSize)
 {
-    // Create a mock response with invalid data_size
-    std::array<uint8_t, sizeof(gpu::GetPowerDrawResponse)> buf{};
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 6,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_CURRENT_POWER_DRAW)); // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));       // CC
+    pbuf.pack(static_cast<uint16_t>(0)); // reserved
+    pbuf.pack(static_cast<uint16_t>(2)); // Invalid data_size
+    pbuf.pack(static_cast<uint32_t>(250));
+    ASSERT_EQ(pbuf.getError(), 0);
 
-    gpu::GetPowerDrawResponse response{};
-    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
-    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
-        ocp::accelerator_management::MessageType::RESPONSE);
-    headerInfo.instance_id = 6;
-    headerInfo.msg_type =
-        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
-
-    gpu::packHeader(headerInfo, response.hdr.msgHdr.hdr);
-
-    response.hdr.command = static_cast<uint8_t>(
-        gpu::PlatformEnvironmentalCommands::GET_CURRENT_POWER_DRAW);
-    response.hdr.completion_code = static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::SUCCESS);
-    response.hdr.reserved = 0;
-    response.hdr.data_size = htole16(2); // Invalid - should be sizeof(uint32_t)
-    response.power = htole32(250);
-
-    std::memcpy(buf.data(), &response, sizeof(response));
-
-    // Test decoding
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
     uint32_t power{};
@@ -801,66 +654,60 @@ TEST_F(GpuMctpVdmTests, EncodeGetCurrentEnergyCounterRequestSuccess)
 {
     const uint8_t instanceId = 7;
     const uint8_t sensorId = 3;
-    std::array<uint8_t, sizeof(gpu::GetCurrentEnergyCounterRequest)> buf{};
+    std::array<uint8_t, gpu::getCurrentEnergyCounterRequestSize> buf{};
 
     int result =
         gpu::encodeGetCurrentEnergyCounterRequest(instanceId, sensorId, buf);
 
     EXPECT_EQ(result, 0);
 
-    gpu::GetCurrentEnergyCounterRequest request{};
-    std::memcpy(&request, buf.data(), sizeof(request));
-
-    EXPECT_EQ(request.hdr.msgHdr.hdr.pci_vendor_id,
-              htobe16(gpu::nvidiaPciVendorId));
-    EXPECT_EQ(request.hdr.msgHdr.hdr.instance_id &
-                  ocp::accelerator_management::instanceIdBitMask,
-              instanceId & ocp::accelerator_management::instanceIdBitMask);
-    EXPECT_NE(request.hdr.msgHdr.hdr.instance_id &
-                  ocp::accelerator_management::requestBitMask,
+    UnpackBuffer ubuf(std::span<const uint8_t>(buf.data(), buf.size()));
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t unpackedInstanceId = 0;
+    uint8_t unpackedMsgType = 0;
+    EXPECT_EQ(ocp::accelerator_management::unpackHeader(
+                  ubuf, gpu::nvidiaPciVendorId, msgType, unpackedInstanceId,
+                  unpackedMsgType),
               0);
-    EXPECT_EQ(request.hdr.msgHdr.hdr.ocp_accelerator_management_msg_type,
+    EXPECT_EQ(msgType, ocp::accelerator_management::MessageType::REQUEST);
+    EXPECT_EQ(unpackedInstanceId,
+              instanceId & ocp::accelerator_management::instanceIdBitMask);
+    EXPECT_EQ(unpackedMsgType,
               static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
 
-    // Verify request data
+    uint8_t command = 0;
+    ubuf.unpack(command);
     EXPECT_EQ(
-        request.hdr.command,
+        command,
         static_cast<uint8_t>(
             gpu::PlatformEnvironmentalCommands::GET_CURRENT_ENERGY_COUNTER));
-    EXPECT_EQ(request.hdr.data_size, sizeof(sensorId));
-    EXPECT_EQ(request.sensor_id, sensorId);
+    uint8_t dataSize = 0;
+    ubuf.unpack(dataSize);
+    EXPECT_EQ(dataSize, sizeof(sensorId));
+    uint8_t unpackedSensorId = 0;
+    ubuf.unpack(unpackedSensorId);
+    EXPECT_EQ(unpackedSensorId, sensorId);
+    EXPECT_EQ(ubuf.getError(), 0);
 }
 
 // Tests for GpuMctpVdm::decodeGetCurrentEnergyCounterResponse function
 TEST_F(GpuMctpVdmTests, DecodeGetCurrentEnergyCounterResponseSuccess)
 {
-    // Create a mock successful response
-    std::array<uint8_t, sizeof(gpu::GetCurrentEnergyCounterResponse)> buf{};
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 7,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(gpu::PlatformEnvironmentalCommands::
+                                       GET_CURRENT_ENERGY_COUNTER)); // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));      // CC
+    pbuf.pack(static_cast<uint16_t>(0));                             // reserved
+    pbuf.pack(static_cast<uint16_t>(sizeof(uint64_t))); // data_size
+    pbuf.pack(static_cast<uint64_t>(3600000));          // energy
+    ASSERT_EQ(pbuf.getError(), 0);
 
-    gpu::GetCurrentEnergyCounterResponse response{};
-    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
-    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
-        ocp::accelerator_management::MessageType::RESPONSE);
-    headerInfo.instance_id = 7;
-    headerInfo.msg_type =
-        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
-
-    gpu::packHeader(headerInfo, response.hdr.msgHdr.hdr);
-
-    // Populate response data
-    response.hdr.command = static_cast<uint8_t>(
-        gpu::PlatformEnvironmentalCommands::GET_CURRENT_ENERGY_COUNTER);
-    response.hdr.completion_code = static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::SUCCESS);
-    response.hdr.reserved = 0;
-    response.hdr.data_size = htole16(sizeof(uint64_t));
-
-    // Set an energy value of 1000 Wh (1000 * 3600 = 3600000 Joules)
-    response.energy = htole64(3600000);
-
-    std::memcpy(buf.data(), &response, sizeof(response));
-
-    // Test decoding
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
     uint64_t energy{};
@@ -876,30 +723,19 @@ TEST_F(GpuMctpVdmTests, DecodeGetCurrentEnergyCounterResponseSuccess)
 
 TEST_F(GpuMctpVdmTests, DecodeGetCurrentEnergyCounterResponseError)
 {
-    std::array<uint8_t,
-               sizeof(ocp::accelerator_management::CommonNonSuccessResponse)>
-        buf{};
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 7,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(gpu::PlatformEnvironmentalCommands::
+                                       GET_CURRENT_ENERGY_COUNTER));  // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERR_NOT_READY)); // CC
+    pbuf.pack(static_cast<uint16_t>(0xDEF0)); // reason_code
+    ASSERT_EQ(pbuf.getError(), 0);
 
-    // Populate error response data
-    ocp::accelerator_management::CommonNonSuccessResponse errorResponse{};
-    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
-    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
-        ocp::accelerator_management::MessageType::RESPONSE);
-    headerInfo.instance_id = 7;
-    headerInfo.msg_type =
-        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
-
-    gpu::packHeader(headerInfo, errorResponse.msgHdr.hdr);
-
-    errorResponse.command = static_cast<uint8_t>(
-        gpu::PlatformEnvironmentalCommands::GET_CURRENT_ENERGY_COUNTER);
-    errorResponse.completion_code = static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
-    errorResponse.reason_code = htole16(0xDEF0);
-
-    std::memcpy(buf.data(), &errorResponse, sizeof(errorResponse));
-
-    // Test decoding
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
     uint64_t energy{};
@@ -914,30 +750,21 @@ TEST_F(GpuMctpVdmTests, DecodeGetCurrentEnergyCounterResponseError)
 
 TEST_F(GpuMctpVdmTests, DecodeGetCurrentEnergyCounterResponseInvalidSize)
 {
-    // Create a mock response with invalid data_size
-    std::array<uint8_t, sizeof(gpu::GetCurrentEnergyCounterResponse)> buf{};
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 7,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(gpu::PlatformEnvironmentalCommands::
+                                       GET_CURRENT_ENERGY_COUNTER)); // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));      // CC
+    pbuf.pack(static_cast<uint16_t>(0));                             // reserved
+    pbuf.pack(static_cast<uint16_t>(4)); // Invalid - should be sizeof(uint64_t)
+    pbuf.pack(static_cast<uint64_t>(3600000));
+    ASSERT_EQ(pbuf.getError(), 0);
 
-    gpu::GetCurrentEnergyCounterResponse response{};
-    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
-    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
-        ocp::accelerator_management::MessageType::RESPONSE);
-    headerInfo.instance_id = 7;
-    headerInfo.msg_type =
-        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
-
-    gpu::packHeader(headerInfo, response.hdr.msgHdr.hdr);
-
-    response.hdr.command = static_cast<uint8_t>(
-        gpu::PlatformEnvironmentalCommands::GET_CURRENT_ENERGY_COUNTER);
-    response.hdr.completion_code = static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::SUCCESS);
-    response.hdr.reserved = 0;
-    response.hdr.data_size = htole16(4); // Invalid - should be sizeof(uint64_t)
-    response.energy = htole64(3600000);
-
-    std::memcpy(buf.data(), &response, sizeof(response));
-
-    // Test decoding
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
     uint64_t energy{};
@@ -952,32 +779,35 @@ TEST_F(GpuMctpVdmTests, DecodeGetCurrentEnergyCounterResponseInvalidSize)
 TEST_F(GpuMctpVdmTests, EncodeGetDriverInformationRequestSuccess)
 {
     const uint8_t instanceId = 9;
-    std::array<uint8_t, sizeof(ocp::accelerator_management::CommonRequest)>
-        buf{};
+    std::array<uint8_t, ocp::accelerator_management::commonRequestSize> buf{};
 
     int result = gpu::encodeGetDriverInformationRequest(instanceId, buf);
 
     EXPECT_EQ(result, 0);
 
-    ocp::accelerator_management::CommonRequest request{};
-    std::memcpy(&request, buf.data(), sizeof(request));
-
-    EXPECT_EQ(request.msgHdr.hdr.pci_vendor_id,
-              htobe16(gpu::nvidiaPciVendorId));
-    EXPECT_EQ(request.msgHdr.hdr.instance_id &
-                  ocp::accelerator_management::instanceIdBitMask,
-              instanceId & ocp::accelerator_management::instanceIdBitMask);
-    EXPECT_NE(request.msgHdr.hdr.instance_id &
-                  ocp::accelerator_management::requestBitMask,
+    UnpackBuffer ubuf(std::span<const uint8_t>(buf.data(), buf.size()));
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t unpackedInstanceId = 0;
+    uint8_t unpackedMsgType = 0;
+    EXPECT_EQ(ocp::accelerator_management::unpackHeader(
+                  ubuf, gpu::nvidiaPciVendorId, msgType, unpackedInstanceId,
+                  unpackedMsgType),
               0);
-    EXPECT_EQ(request.msgHdr.hdr.ocp_accelerator_management_msg_type,
+    EXPECT_EQ(msgType, ocp::accelerator_management::MessageType::REQUEST);
+    EXPECT_EQ(unpackedInstanceId,
+              instanceId & ocp::accelerator_management::instanceIdBitMask);
+    EXPECT_EQ(unpackedMsgType,
               static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
 
-    // Verify request data
-    EXPECT_EQ(request.command,
+    uint8_t command = 0;
+    ubuf.unpack(command);
+    EXPECT_EQ(command,
               static_cast<uint8_t>(
                   gpu::PlatformEnvironmentalCommands::GET_DRIVER_INFORMATION));
-    EXPECT_EQ(request.data_size, 0);
+    uint8_t dataSize = 0;
+    ubuf.unpack(dataSize);
+    EXPECT_EQ(dataSize, 0);
+    EXPECT_EQ(ubuf.getError(), 0);
 }
 
 TEST_F(GpuMctpVdmTests, EncodeGetDriverInformationRequestBufferTooSmall)
@@ -993,43 +823,33 @@ TEST_F(GpuMctpVdmTests, EncodeGetDriverInformationRequestBufferTooSmall)
 // Tests for GpuMctpVdm::decodeGetDriverInformationResponse function
 TEST_F(GpuMctpVdmTests, DecodeGetDriverInformationResponseSuccess)
 {
-    // Create a buffer large enough for the response with driver version string
     const std::string expectedVersion = "535.104.05";
     const size_t dataSize =
         sizeof(gpu::DriverState) + expectedVersion.size() + 1;
-    std::vector<uint8_t> buf(
-        sizeof(gpu::GetDriverInformationResponse) + expectedVersion.size());
+    // Size the buffer exactly to match what decoder expects
+    const size_t bufSize =
+        gpu::getDriverInformationResponseSize + expectedVersion.size();
+    std::vector<uint8_t> buf(bufSize);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 9,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_DRIVER_INFORMATION)); // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));       // CC
+    pbuf.pack(static_cast<uint16_t>(0));         // reserved
+    pbuf.pack(static_cast<uint16_t>(dataSize));  // data_size
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::DriverState::DRIVER_STATE_LOADED)); // driverState
+    // Pack driver version string including null terminator
+    for (size_t i = 0; i <= expectedVersion.size(); i++)
+    {
+        pbuf.pack(static_cast<uint8_t>(expectedVersion.c_str()[i]));
+    }
+    ASSERT_EQ(pbuf.getError(), 0);
 
-    // Set up the common response header
-    ocp::accelerator_management::CommonResponse hdr{};
-    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
-    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
-        ocp::accelerator_management::MessageType::RESPONSE);
-    headerInfo.instance_id = 9;
-    headerInfo.msg_type =
-        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
-
-    gpu::packHeader(headerInfo, hdr.msgHdr.hdr);
-
-    hdr.command = static_cast<uint8_t>(
-        gpu::PlatformEnvironmentalCommands::GET_DRIVER_INFORMATION);
-    hdr.completion_code = static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::SUCCESS);
-    hdr.reserved = 0;
-    hdr.data_size = htole16(static_cast<uint16_t>(dataSize));
-
-    // Copy header to buffer
-    std::memcpy(buf.data(), &hdr, sizeof(hdr));
-
-    // Set driver state (DRIVER_STATE_LOADED)
-    buf[sizeof(hdr)] =
-        static_cast<uint8_t>(gpu::DriverState::DRIVER_STATE_LOADED);
-
-    // Copy driver version string after driver state
-    std::memcpy(buf.data() + sizeof(hdr) + sizeof(gpu::DriverState),
-                expectedVersion.data(), expectedVersion.size() + 1);
-
-    // Test decoding
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
     gpu::DriverState driverState{};
@@ -1047,40 +867,25 @@ TEST_F(GpuMctpVdmTests, DecodeGetDriverInformationResponseSuccess)
 
 TEST_F(GpuMctpVdmTests, DecodeGetDriverInformationResponseDriverNotLoaded)
 {
-    // Create a buffer for driver not loaded state
     const size_t dataSize =
         sizeof(gpu::DriverState) + 1; // Minimum version size
-    std::vector<uint8_t> buf(sizeof(gpu::GetDriverInformationResponse) + 1);
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 9,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_DRIVER_INFORMATION)); // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));       // CC
+    pbuf.pack(static_cast<uint16_t>(0));             // reserved
+    pbuf.pack(static_cast<uint16_t>(dataSize));      // data_size
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::DriverState::DRIVER_STATE_NOT_LOADED)); // driverState
+    pbuf.pack(static_cast<uint8_t>('\0'));           // null terminator
+    ASSERT_EQ(pbuf.getError(), 0);
 
-    // Set up the common response header
-    ocp::accelerator_management::CommonResponse hdr{};
-    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
-    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
-        ocp::accelerator_management::MessageType::RESPONSE);
-    headerInfo.instance_id = 9;
-    headerInfo.msg_type =
-        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
-
-    gpu::packHeader(headerInfo, hdr.msgHdr.hdr);
-
-    hdr.command = static_cast<uint8_t>(
-        gpu::PlatformEnvironmentalCommands::GET_DRIVER_INFORMATION);
-    hdr.completion_code = static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::SUCCESS);
-    hdr.reserved = 0;
-    hdr.data_size = htole16(static_cast<uint16_t>(dataSize));
-
-    // Copy header to buffer
-    std::memcpy(buf.data(), &hdr, sizeof(hdr));
-
-    // Set driver state (DRIVER_STATE_NOT_LOADED)
-    buf[sizeof(hdr)] =
-        static_cast<uint8_t>(gpu::DriverState::DRIVER_STATE_NOT_LOADED);
-
-    // Set a null terminator for version
-    buf[sizeof(hdr) + sizeof(gpu::DriverState)] = '\0';
-
-    // Test decoding
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
     gpu::DriverState driverState{};
@@ -1097,30 +902,19 @@ TEST_F(GpuMctpVdmTests, DecodeGetDriverInformationResponseDriverNotLoaded)
 
 TEST_F(GpuMctpVdmTests, DecodeGetDriverInformationResponseError)
 {
-    std::array<uint8_t,
-               sizeof(ocp::accelerator_management::CommonNonSuccessResponse)>
-        buf{};
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 9,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_DRIVER_INFORMATION)); // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERR_NOT_READY)); // CC
+    pbuf.pack(static_cast<uint16_t>(0xABCD)); // reason_code
+    ASSERT_EQ(pbuf.getError(), 0);
 
-    // Populate error response data
-    ocp::accelerator_management::CommonNonSuccessResponse errorResponse{};
-    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
-    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
-        ocp::accelerator_management::MessageType::RESPONSE);
-    headerInfo.instance_id = 9;
-    headerInfo.msg_type =
-        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
-
-    gpu::packHeader(headerInfo, errorResponse.msgHdr.hdr);
-
-    errorResponse.command = static_cast<uint8_t>(
-        gpu::PlatformEnvironmentalCommands::GET_DRIVER_INFORMATION);
-    errorResponse.completion_code = static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
-    errorResponse.reason_code = htole16(0xABCD);
-
-    std::memcpy(buf.data(), &errorResponse, sizeof(errorResponse));
-
-    // Test decoding
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
     gpu::DriverState driverState{};
@@ -1136,30 +930,21 @@ TEST_F(GpuMctpVdmTests, DecodeGetDriverInformationResponseError)
 
 TEST_F(GpuMctpVdmTests, DecodeGetDriverInformationResponseInvalidSize)
 {
-    // Create a buffer that's too small
-    std::array<uint8_t, sizeof(ocp::accelerator_management::CommonResponse)>
-        buf{};
+    // Create a buffer that's too small - just the header + CC fields
+    std::vector<uint8_t> buf(ocp::accelerator_management::commonResponseSize);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 9,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_DRIVER_INFORMATION)); // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));       // CC
+    pbuf.pack(static_cast<uint16_t>(0)); // reserved
+    pbuf.pack(static_cast<uint16_t>(2)); // Valid data size but buffer too small
+    ASSERT_EQ(pbuf.getError(), 0);
 
-    ocp::accelerator_management::CommonResponse hdr{};
-    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
-    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
-        ocp::accelerator_management::MessageType::RESPONSE);
-    headerInfo.instance_id = 9;
-    headerInfo.msg_type =
-        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
-
-    gpu::packHeader(headerInfo, hdr.msgHdr.hdr);
-
-    hdr.command = static_cast<uint8_t>(
-        gpu::PlatformEnvironmentalCommands::GET_DRIVER_INFORMATION);
-    hdr.completion_code = static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::SUCCESS);
-    hdr.reserved = 0;
-    hdr.data_size = htole16(2); // Valid data size but buffer too small
-
-    std::memcpy(buf.data(), &hdr, sizeof(hdr));
-
-    // Test decoding
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
     gpu::DriverState driverState{};
@@ -1173,30 +958,21 @@ TEST_F(GpuMctpVdmTests, DecodeGetDriverInformationResponseInvalidSize)
 
 TEST_F(GpuMctpVdmTests, DecodeGetDriverInformationResponseInvalidDataSize)
 {
-    // Create a response with data_size too small
-    std::vector<uint8_t> buf(sizeof(gpu::GetDriverInformationResponse) + 10);
-
-    ocp::accelerator_management::CommonResponse hdr{};
-    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
-    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
-        ocp::accelerator_management::MessageType::RESPONSE);
-    headerInfo.instance_id = 9;
-    headerInfo.msg_type =
-        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
-
-    gpu::packHeader(headerInfo, hdr.msgHdr.hdr);
-
-    hdr.command = static_cast<uint8_t>(
-        gpu::PlatformEnvironmentalCommands::GET_DRIVER_INFORMATION);
-    hdr.completion_code = static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::SUCCESS);
-    hdr.reserved = 0;
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 9,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_DRIVER_INFORMATION)); // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));       // CC
+    pbuf.pack(static_cast<uint16_t>(0)); // reserved
     // data_size = 1 is invalid (needs at least sizeof(DriverState) + 1 = 2)
-    hdr.data_size = htole16(1);
+    pbuf.pack(static_cast<uint16_t>(1)); // data_size
+    ASSERT_EQ(pbuf.getError(), 0);
 
-    std::memcpy(buf.data(), &hdr, sizeof(hdr));
-
-    // Test decoding
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
     gpu::DriverState driverState{};
@@ -1213,64 +989,57 @@ TEST_F(GpuMctpVdmTests, EncodeGetVoltageRequestSuccess)
 {
     const uint8_t instanceId = 8;
     const uint8_t sensorId = 4;
-    std::array<uint8_t, sizeof(gpu::GetVoltageRequest)> buf{};
+    std::array<uint8_t, gpu::getVoltageRequestSize> buf{};
 
     int result = gpu::encodeGetVoltageRequest(instanceId, sensorId, buf);
 
     EXPECT_EQ(result, 0);
 
-    gpu::GetVoltageRequest request{};
-    std::memcpy(&request, buf.data(), sizeof(request));
-
-    EXPECT_EQ(request.hdr.msgHdr.hdr.pci_vendor_id,
-              htobe16(gpu::nvidiaPciVendorId));
-    EXPECT_EQ(request.hdr.msgHdr.hdr.instance_id &
-                  ocp::accelerator_management::instanceIdBitMask,
-              instanceId & ocp::accelerator_management::instanceIdBitMask);
-    EXPECT_NE(request.hdr.msgHdr.hdr.instance_id &
-                  ocp::accelerator_management::requestBitMask,
+    UnpackBuffer ubuf(std::span<const uint8_t>(buf.data(), buf.size()));
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t unpackedInstanceId = 0;
+    uint8_t unpackedMsgType = 0;
+    EXPECT_EQ(ocp::accelerator_management::unpackHeader(
+                  ubuf, gpu::nvidiaPciVendorId, msgType, unpackedInstanceId,
+                  unpackedMsgType),
               0);
-    EXPECT_EQ(request.hdr.msgHdr.hdr.ocp_accelerator_management_msg_type,
+    EXPECT_EQ(msgType, ocp::accelerator_management::MessageType::REQUEST);
+    EXPECT_EQ(unpackedInstanceId,
+              instanceId & ocp::accelerator_management::instanceIdBitMask);
+    EXPECT_EQ(unpackedMsgType,
               static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
 
-    // Verify request data
-    EXPECT_EQ(
-        request.hdr.command,
-        static_cast<uint8_t>(gpu::PlatformEnvironmentalCommands::GET_VOLTAGE));
-    EXPECT_EQ(request.hdr.data_size, sizeof(sensorId));
-    EXPECT_EQ(request.sensor_id, sensorId);
+    uint8_t command = 0;
+    ubuf.unpack(command);
+    EXPECT_EQ(command, static_cast<uint8_t>(
+                           gpu::PlatformEnvironmentalCommands::GET_VOLTAGE));
+    uint8_t dataSize = 0;
+    ubuf.unpack(dataSize);
+    EXPECT_EQ(dataSize, sizeof(sensorId));
+    uint8_t unpackedSensorId = 0;
+    ubuf.unpack(unpackedSensorId);
+    EXPECT_EQ(unpackedSensorId, sensorId);
+    EXPECT_EQ(ubuf.getError(), 0);
 }
 
 // Tests for GpuMctpVdm::decodeGetVoltageResponse function
 TEST_F(GpuMctpVdmTests, DecodeGetVoltageResponseSuccess)
 {
-    // Create a mock successful response
-    std::array<uint8_t, sizeof(gpu::GetVoltageResponse)> buf{};
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 8,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_VOLTAGE));      // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS)); // CC
+    pbuf.pack(static_cast<uint16_t>(0));                        // reserved
+    pbuf.pack(static_cast<uint16_t>(sizeof(uint32_t)));         // data_size
+    pbuf.pack(static_cast<uint32_t>(12500)); // voltage = 12.5V
+    ASSERT_EQ(pbuf.getError(), 0);
 
-    gpu::GetVoltageResponse response{};
-    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
-    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
-        ocp::accelerator_management::MessageType::RESPONSE);
-    headerInfo.instance_id = 8;
-    headerInfo.msg_type =
-        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
-
-    gpu::packHeader(headerInfo, response.hdr.msgHdr.hdr);
-
-    // Populate response data
-    response.hdr.command =
-        static_cast<uint8_t>(gpu::PlatformEnvironmentalCommands::GET_VOLTAGE);
-    response.hdr.completion_code = static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::SUCCESS);
-    response.hdr.reserved = 0;
-    response.hdr.data_size = htole16(sizeof(uint32_t));
-
-    // Set a voltage value of 12.5V (12.5 * 1000 = 12500 mV)
-    response.voltage = htole32(12500);
-
-    std::memcpy(buf.data(), &response, sizeof(response));
-
-    // Test decoding
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
     uint32_t voltage{};
@@ -1285,30 +1054,19 @@ TEST_F(GpuMctpVdmTests, DecodeGetVoltageResponseSuccess)
 
 TEST_F(GpuMctpVdmTests, DecodeGetVoltageResponseError)
 {
-    std::array<uint8_t,
-               sizeof(ocp::accelerator_management::CommonNonSuccessResponse)>
-        buf{};
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 8,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_VOLTAGE));            // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERR_NOT_READY)); // CC
+    pbuf.pack(static_cast<uint16_t>(0x1234)); // reason_code
+    ASSERT_EQ(pbuf.getError(), 0);
 
-    // Populate error response data
-    ocp::accelerator_management::CommonNonSuccessResponse errorResponse{};
-    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
-    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
-        ocp::accelerator_management::MessageType::RESPONSE);
-    headerInfo.instance_id = 8;
-    headerInfo.msg_type =
-        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
-
-    gpu::packHeader(headerInfo, errorResponse.msgHdr.hdr);
-
-    errorResponse.command =
-        static_cast<uint8_t>(gpu::PlatformEnvironmentalCommands::GET_VOLTAGE);
-    errorResponse.completion_code = static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
-    errorResponse.reason_code = htole16(0x1234);
-
-    std::memcpy(buf.data(), &errorResponse, sizeof(errorResponse));
-
-    // Test decoding
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
     uint32_t voltage{};
@@ -1322,30 +1080,21 @@ TEST_F(GpuMctpVdmTests, DecodeGetVoltageResponseError)
 
 TEST_F(GpuMctpVdmTests, DecodeGetVoltageResponseInvalidSize)
 {
-    // Create a mock response with invalid data_size
-    std::array<uint8_t, sizeof(gpu::GetVoltageResponse)> buf{};
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 8,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_VOLTAGE));      // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS)); // CC
+    pbuf.pack(static_cast<uint16_t>(0));                        // reserved
+    pbuf.pack(static_cast<uint16_t>(2)); // Invalid data_size
+    pbuf.pack(static_cast<uint32_t>(12500));
+    ASSERT_EQ(pbuf.getError(), 0);
 
-    gpu::GetVoltageResponse response{};
-    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
-    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
-        ocp::accelerator_management::MessageType::RESPONSE);
-    headerInfo.instance_id = 8;
-    headerInfo.msg_type =
-        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
-
-    gpu::packHeader(headerInfo, response.hdr.msgHdr.hdr);
-
-    response.hdr.command =
-        static_cast<uint8_t>(gpu::PlatformEnvironmentalCommands::GET_VOLTAGE);
-    response.hdr.completion_code = static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::SUCCESS);
-    response.hdr.reserved = 0;
-    response.hdr.data_size = htole16(2); // Invalid - should be sizeof(uint32_t)
-    response.voltage = htole32(12500);
-
-    std::memcpy(buf.data(), &response, sizeof(response));
-
-    // Test decoding
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
     uint32_t voltage{};
@@ -1362,71 +1111,69 @@ TEST_F(GpuMctpVdmTests, EncodeQueryScalarGroupTelemetryV2RequestSuccess)
     const uint8_t upstreamPortNumber = 3;
     const uint8_t portNumber = 5;
     const uint8_t groupId = 2;
-    std::array<uint8_t, sizeof(gpu::QueryScalarGroupTelemetryV2Request)> buf{};
+    std::array<uint8_t, gpu::queryScalarGroupTelemetryV2RequestSize> buf{};
 
     int result = gpu::encodeQueryScalarGroupTelemetryV2Request(
         instanceId, portType, upstreamPortNumber, portNumber, groupId, buf);
 
     EXPECT_EQ(result, 0);
 
-    gpu::QueryScalarGroupTelemetryV2Request request{};
-    std::memcpy(&request, buf.data(), sizeof(request));
-
-    EXPECT_EQ(request.hdr.msgHdr.hdr.pci_vendor_id,
-              htobe16(gpu::nvidiaPciVendorId));
-    EXPECT_EQ(request.hdr.msgHdr.hdr.instance_id &
-                  ocp::accelerator_management::instanceIdBitMask,
-              instanceId & ocp::accelerator_management::instanceIdBitMask);
-    EXPECT_NE(request.hdr.msgHdr.hdr.instance_id &
-                  ocp::accelerator_management::requestBitMask,
+    UnpackBuffer ubuf(std::span<const uint8_t>(buf.data(), buf.size()));
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t unpackedInstanceId = 0;
+    uint8_t unpackedMsgType = 0;
+    EXPECT_EQ(ocp::accelerator_management::unpackHeader(
+                  ubuf, gpu::nvidiaPciVendorId, msgType, unpackedInstanceId,
+                  unpackedMsgType),
               0);
-    EXPECT_EQ(request.hdr.msgHdr.hdr.ocp_accelerator_management_msg_type,
+    EXPECT_EQ(msgType, ocp::accelerator_management::MessageType::REQUEST);
+    EXPECT_EQ(unpackedInstanceId,
+              instanceId & ocp::accelerator_management::instanceIdBitMask);
+    EXPECT_EQ(unpackedMsgType,
               static_cast<uint8_t>(gpu::MessageType::PCIE_LINK));
 
-    EXPECT_EQ(request.hdr.command,
-              static_cast<uint8_t>(
-                  gpu::PcieLinkCommands::QueryScalarGroupTelemetryV2));
-    EXPECT_EQ(request.hdr.data_size, 3);
-    EXPECT_EQ(request.upstreamPortNumber,
+    uint8_t command = 0;
+    ubuf.unpack(command);
+    EXPECT_EQ(command, static_cast<uint8_t>(
+                           gpu::PcieLinkCommands::QueryScalarGroupTelemetryV2));
+    uint8_t dataSize = 0;
+    ubuf.unpack(dataSize);
+    EXPECT_EQ(dataSize, 3);
+    uint8_t unpackedUpstreamPortNumber = 0;
+    ubuf.unpack(unpackedUpstreamPortNumber);
+    EXPECT_EQ(unpackedUpstreamPortNumber,
               (static_cast<uint8_t>(portType) << 7) |
                   (upstreamPortNumber & 0x7F));
-    EXPECT_EQ(request.portNumber, portNumber);
-    EXPECT_EQ(request.groupId, groupId);
+    uint8_t unpackedPortNumber = 0;
+    ubuf.unpack(unpackedPortNumber);
+    EXPECT_EQ(unpackedPortNumber, portNumber);
+    uint8_t unpackedGroupId = 0;
+    ubuf.unpack(unpackedGroupId);
+    EXPECT_EQ(unpackedGroupId, groupId);
+    EXPECT_EQ(ubuf.getError(), 0);
 }
 
 TEST_F(GpuMctpVdmTests, DecodeQueryScalarGroupTelemetryV2ResponseSuccess)
 {
     const size_t numValues = 4;
-    std::vector<uint8_t> buf(
-        sizeof(ocp::accelerator_management::CommonResponse) +
-        numValues * sizeof(uint32_t));
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 10,
+        static_cast<uint8_t>(gpu::MessageType::PCIE_LINK));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::PcieLinkCommands::QueryScalarGroupTelemetryV2));       // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));     // CC
+    pbuf.pack(static_cast<uint16_t>(0));                            // reserved
+    pbuf.pack(static_cast<uint16_t>(numValues * sizeof(uint32_t))); // data_size
 
-    ocp::accelerator_management::CommonResponse* response =
-        std::bit_cast<ocp::accelerator_management::CommonResponse*>(buf.data());
-
-    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
-    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
-        ocp::accelerator_management::MessageType::RESPONSE);
-    headerInfo.instance_id = 10;
-    headerInfo.msg_type = static_cast<uint8_t>(gpu::MessageType::PCIE_LINK);
-
-    gpu::packHeader(headerInfo, response->msgHdr.hdr);
-
-    response->command = static_cast<uint8_t>(
-        gpu::PcieLinkCommands::QueryScalarGroupTelemetryV2);
-    response->completion_code = static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::SUCCESS);
-    response->reserved = 0;
-    response->data_size = htole16(numValues * sizeof(uint32_t));
-
-    uint8_t* telemetryData =
-        buf.data() + sizeof(ocp::accelerator_management::CommonResponse);
-
-    for (int i = 0; i < static_cast<int>(numValues); ++i)
+    for (size_t i = 0; i < numValues; ++i)
     {
-        const uint32_t value = htole32((i + 1) * 100);
-        std::memcpy(telemetryData + i * sizeof(value), &value, sizeof(value));
+        pbuf.pack(static_cast<uint32_t>((i + 1) * 100));
     }
+    ASSERT_EQ(pbuf.getError(), 0);
 
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
@@ -1449,26 +1196,18 @@ TEST_F(GpuMctpVdmTests, DecodeQueryScalarGroupTelemetryV2ResponseSuccess)
 
 TEST_F(GpuMctpVdmTests, DecodeQueryScalarGroupTelemetryV2ResponseError)
 {
-    std::array<uint8_t,
-               sizeof(ocp::accelerator_management::CommonNonSuccessResponse)>
-        buf{};
-
-    ocp::accelerator_management::CommonNonSuccessResponse errorResponse{};
-    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
-    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
-        ocp::accelerator_management::MessageType::RESPONSE);
-    headerInfo.instance_id = 10;
-    headerInfo.msg_type = static_cast<uint8_t>(gpu::MessageType::PCIE_LINK);
-
-    gpu::packHeader(headerInfo, errorResponse.msgHdr.hdr);
-
-    errorResponse.command = static_cast<uint8_t>(
-        gpu::PcieLinkCommands::QueryScalarGroupTelemetryV2);
-    errorResponse.completion_code = static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
-    errorResponse.reason_code = htole16(0x5678);
-
-    std::memcpy(buf.data(), &errorResponse, sizeof(errorResponse));
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 10,
+        static_cast<uint8_t>(gpu::MessageType::PCIE_LINK));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::PcieLinkCommands::QueryScalarGroupTelemetryV2));         // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERR_NOT_READY)); // CC
+    pbuf.pack(static_cast<uint16_t>(0x5678)); // reason_code
+    ASSERT_EQ(pbuf.getError(), 0);
 
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
@@ -1485,17 +1224,13 @@ TEST_F(GpuMctpVdmTests, DecodeQueryScalarGroupTelemetryV2ResponseError)
 
 TEST_F(GpuMctpVdmTests, DecodeQueryScalarGroupTelemetryV2ResponseInvalidSize)
 {
-    std::array<uint8_t, sizeof(ocp::accelerator_management::Message)> buf{};
-
-    ocp::accelerator_management::Message msg{};
-    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
-    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
-        ocp::accelerator_management::MessageType::RESPONSE);
-    headerInfo.instance_id = 10;
-    headerInfo.msg_type = static_cast<uint8_t>(gpu::MessageType::PCIE_LINK);
-
-    gpu::packHeader(headerInfo, msg.hdr);
-    std::memcpy(buf.data(), &msg, sizeof(msg));
+    std::vector<uint8_t> buf(7);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 10,
+        static_cast<uint8_t>(gpu::MessageType::PCIE_LINK));
+    ASSERT_EQ(pbuf.getError(), 0);
 
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
@@ -1511,70 +1246,61 @@ TEST_F(GpuMctpVdmTests, DecodeQueryScalarGroupTelemetryV2ResponseInvalidSize)
 TEST_F(GpuMctpVdmTests, EncodeListPciePortsRequestSuccess)
 {
     const uint8_t instanceId = 11;
-    std::array<uint8_t, sizeof(ocp::accelerator_management::CommonRequest)>
-        buf{};
+    std::array<uint8_t, ocp::accelerator_management::commonRequestSize> buf{};
 
     int result = gpu::encodeListPciePortsRequest(instanceId, buf);
 
     EXPECT_EQ(result, 0);
 
-    ocp::accelerator_management::CommonRequest request{};
-    std::memcpy(&request, buf.data(), sizeof(request));
-
-    EXPECT_EQ(request.msgHdr.hdr.pci_vendor_id,
-              htobe16(gpu::nvidiaPciVendorId));
-    EXPECT_EQ(request.msgHdr.hdr.instance_id &
-                  ocp::accelerator_management::instanceIdBitMask,
-              instanceId & ocp::accelerator_management::instanceIdBitMask);
-    EXPECT_NE(request.msgHdr.hdr.instance_id &
-                  ocp::accelerator_management::requestBitMask,
+    UnpackBuffer ubuf(std::span<const uint8_t>(buf.data(), buf.size()));
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t unpackedInstanceId = 0;
+    uint8_t unpackedMsgType = 0;
+    EXPECT_EQ(ocp::accelerator_management::unpackHeader(
+                  ubuf, gpu::nvidiaPciVendorId, msgType, unpackedInstanceId,
+                  unpackedMsgType),
               0);
-    EXPECT_EQ(request.msgHdr.hdr.ocp_accelerator_management_msg_type,
+    EXPECT_EQ(msgType, ocp::accelerator_management::MessageType::REQUEST);
+    EXPECT_EQ(unpackedInstanceId,
+              instanceId & ocp::accelerator_management::instanceIdBitMask);
+    EXPECT_EQ(unpackedMsgType,
               static_cast<uint8_t>(gpu::MessageType::PCIE_LINK));
 
-    EXPECT_EQ(request.command,
+    uint8_t command = 0;
+    ubuf.unpack(command);
+    EXPECT_EQ(command,
               static_cast<uint8_t>(gpu::PcieLinkCommands::ListPCIePorts));
-    EXPECT_EQ(request.data_size, 0);
+    uint8_t dataSize = 0;
+    ubuf.unpack(dataSize);
+    EXPECT_EQ(dataSize, 0);
+    EXPECT_EQ(ubuf.getError(), 0);
 }
 
 TEST_F(GpuMctpVdmTests, DecodeListPciePortsResponseSuccess)
 {
     const size_t totalUpstreamPorts = 2;
-    std::vector<uint8_t> buf(
-        sizeof(ocp::accelerator_management::CommonResponse) + sizeof(uint16_t) +
-        totalUpstreamPorts * 2 * sizeof(uint8_t));
-
-    ocp::accelerator_management::CommonResponse* response =
-        std::bit_cast<ocp::accelerator_management::CommonResponse*>(buf.data());
-
-    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
-    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
-        ocp::accelerator_management::MessageType::RESPONSE);
-    headerInfo.instance_id = 11;
-    headerInfo.msg_type = static_cast<uint8_t>(gpu::MessageType::PCIE_LINK);
-
-    gpu::packHeader(headerInfo, response->msgHdr.hdr);
-
-    response->command =
-        static_cast<uint8_t>(gpu::PcieLinkCommands::ListPCIePorts);
-    response->completion_code = static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::SUCCESS);
-    response->reserved = 0;
-    response->data_size =
-        htole16(sizeof(uint16_t) + totalUpstreamPorts * 2 * sizeof(uint8_t));
-
-    const uint16_t upstreamPorts = htole16(totalUpstreamPorts);
-    std::memcpy(buf.data() +
-                    sizeof(ocp::accelerator_management::CommonResponse),
-                &upstreamPorts, sizeof(uint16_t));
-
-    uint8_t* portData = std::bit_cast<uint8_t*>(
-        buf.data() + sizeof(ocp::accelerator_management::CommonResponse) +
-        sizeof(uint16_t));
-    portData[0] = 0;
-    portData[1] = 4;
-    portData[2] = 1;
-    portData[3] = 2;
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 11,
+        static_cast<uint8_t>(gpu::MessageType::PCIE_LINK));
+    pbuf.pack(
+        static_cast<uint8_t>(gpu::PcieLinkCommands::ListPCIePorts)); // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));      // CC
+    pbuf.pack(static_cast<uint16_t>(0));                             // reserved
+    pbuf.pack(static_cast<uint16_t>(
+        sizeof(uint16_t) +
+        totalUpstreamPorts * 2 * sizeof(uint8_t))); // data_size
+    pbuf.pack(static_cast<uint16_t>(totalUpstreamPorts));
+    // Port 0: external, 4 downstream
+    pbuf.pack(static_cast<uint8_t>(0)); // isInternal
+    pbuf.pack(static_cast<uint8_t>(4)); // count
+    // Port 1: internal, 2 downstream
+    pbuf.pack(static_cast<uint8_t>(1)); // isInternal
+    pbuf.pack(static_cast<uint8_t>(2)); // count
+    ASSERT_EQ(pbuf.getError(), 0);
 
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
@@ -1594,26 +1320,18 @@ TEST_F(GpuMctpVdmTests, DecodeListPciePortsResponseSuccess)
 
 TEST_F(GpuMctpVdmTests, DecodeListPciePortsResponseError)
 {
-    std::array<uint8_t,
-               sizeof(ocp::accelerator_management::CommonNonSuccessResponse)>
-        buf{};
-
-    ocp::accelerator_management::CommonNonSuccessResponse errorResponse{};
-    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
-    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
-        ocp::accelerator_management::MessageType::RESPONSE);
-    headerInfo.instance_id = 11;
-    headerInfo.msg_type = static_cast<uint8_t>(gpu::MessageType::PCIE_LINK);
-
-    gpu::packHeader(headerInfo, errorResponse.msgHdr.hdr);
-
-    errorResponse.command =
-        static_cast<uint8_t>(gpu::PcieLinkCommands::ListPCIePorts);
-    errorResponse.completion_code = static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
-    errorResponse.reason_code = htole16(0xBEEF);
-
-    std::memcpy(buf.data(), &errorResponse, sizeof(errorResponse));
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 11,
+        static_cast<uint8_t>(gpu::MessageType::PCIE_LINK));
+    pbuf.pack(
+        static_cast<uint8_t>(gpu::PcieLinkCommands::ListPCIePorts));  // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERR_NOT_READY)); // CC
+    pbuf.pack(static_cast<uint16_t>(0xBEEF)); // reason_code
+    ASSERT_EQ(pbuf.getError(), 0);
 
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
@@ -1630,26 +1348,19 @@ TEST_F(GpuMctpVdmTests, DecodeListPciePortsResponseError)
 
 TEST_F(GpuMctpVdmTests, DecodeListPciePortsResponseInvalidSize)
 {
-    std::array<uint8_t, sizeof(ocp::accelerator_management::CommonResponse)>
-        buf{};
-
-    ocp::accelerator_management::CommonResponse* response =
-        std::bit_cast<ocp::accelerator_management::CommonResponse*>(buf.data());
-
-    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
-    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
-        ocp::accelerator_management::MessageType::RESPONSE);
-    headerInfo.instance_id = 11;
-    headerInfo.msg_type = static_cast<uint8_t>(gpu::MessageType::PCIE_LINK);
-
-    gpu::packHeader(headerInfo, response->msgHdr.hdr);
-
-    response->command =
-        static_cast<uint8_t>(gpu::PcieLinkCommands::ListPCIePorts);
-    response->completion_code = static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::SUCCESS);
-    response->reserved = 0;
-    response->data_size = htole16(1);
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 11,
+        static_cast<uint8_t>(gpu::MessageType::PCIE_LINK));
+    pbuf.pack(
+        static_cast<uint8_t>(gpu::PcieLinkCommands::ListPCIePorts)); // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));      // CC
+    pbuf.pack(static_cast<uint16_t>(0));                             // reserved
+    pbuf.pack(static_cast<uint16_t>(1)); // Invalid data_size
+    ASSERT_EQ(pbuf.getError(), 0);
 
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
@@ -1963,39 +1674,45 @@ TEST_F(GpuMctpVdmTests, EncodeGetPortNetworkAddressesRequestSuccess)
 {
     const uint8_t instanceId = 12;
     const uint16_t portNumber = 5;
-    std::array<uint8_t, sizeof(gpu::GetPortNetworkAddressesRequest)> buf{};
+    std::array<uint8_t, gpu::getPortNetworkAddressesRequestSize> buf{};
 
     int result =
         gpu::encodeGetPortNetworkAddressesRequest(instanceId, portNumber, buf);
 
     EXPECT_EQ(result, 0);
 
-    gpu::GetPortNetworkAddressesRequest request{};
-    std::memcpy(&request, buf.data(), sizeof(request));
-
-    EXPECT_EQ(request.hdr.msgHdr.hdr.pci_vendor_id,
-              htobe16(gpu::nvidiaPciVendorId));
-    EXPECT_EQ(request.hdr.msgHdr.hdr.instance_id &
-                  ocp::accelerator_management::instanceIdBitMask,
-              instanceId & ocp::accelerator_management::instanceIdBitMask);
-    EXPECT_NE(request.hdr.msgHdr.hdr.instance_id &
-                  ocp::accelerator_management::requestBitMask,
+    UnpackBuffer ubuf(std::span<const uint8_t>(buf.data(), buf.size()));
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t unpackedInstanceId = 0;
+    uint8_t unpackedMsgType = 0;
+    EXPECT_EQ(ocp::accelerator_management::unpackHeader(
+                  ubuf, gpu::nvidiaPciVendorId, msgType, unpackedInstanceId,
+                  unpackedMsgType),
               0);
-    EXPECT_EQ(request.hdr.msgHdr.hdr.ocp_accelerator_management_msg_type,
+    EXPECT_EQ(msgType, ocp::accelerator_management::MessageType::REQUEST);
+    EXPECT_EQ(unpackedInstanceId,
+              instanceId & ocp::accelerator_management::instanceIdBitMask);
+    EXPECT_EQ(unpackedMsgType,
               static_cast<uint8_t>(gpu::MessageType::NETWORK_PORT));
 
-    EXPECT_EQ(request.hdr.command,
-              static_cast<uint8_t>(
-                  gpu::NetworkPortCommands::GetPortNetworkAddresses));
-    EXPECT_EQ(request.hdr.data_size, 2);
-    EXPECT_EQ(request.portNumber, htole16(portNumber));
+    uint8_t command = 0;
+    ubuf.unpack(command);
+    EXPECT_EQ(command, static_cast<uint8_t>(
+                           gpu::NetworkPortCommands::GetPortNetworkAddresses));
+    uint8_t dataSize = 0;
+    ubuf.unpack(dataSize);
+    EXPECT_EQ(dataSize, 2);
+    uint16_t unpackedPortNumber = 0;
+    ubuf.unpack(unpackedPortNumber);
+    EXPECT_EQ(unpackedPortNumber, portNumber);
+    EXPECT_EQ(ubuf.getError(), 0);
 }
 
 TEST_F(GpuMctpVdmTests, EncodeGetPortNetworkAddressesRequestInvalidBufferSize)
 {
     const uint8_t instanceId = 12;
     const uint16_t portNumber = 5;
-    std::array<uint8_t, sizeof(gpu::GetPortNetworkAddressesRequest) - 1> buf{};
+    std::array<uint8_t, gpu::getPortNetworkAddressesRequestSize - 1> buf{};
 
     int result =
         gpu::encodeGetPortNetworkAddressesRequest(instanceId, portNumber, buf);
@@ -2046,26 +1763,18 @@ TEST_F(GpuMctpVdmTests, DecodeGetPortNetworkAddressesResponseSuccess)
 
 TEST_F(GpuMctpVdmTests, DecodeGetPortNetworkAddressesResponseError)
 {
-    std::array<uint8_t,
-               sizeof(ocp::accelerator_management::CommonNonSuccessResponse)>
-        buf{};
-
-    ocp::accelerator_management::CommonNonSuccessResponse errorResponse{};
-    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
-    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
-        ocp::accelerator_management::MessageType::RESPONSE);
-    headerInfo.instance_id = 12;
-    headerInfo.msg_type = static_cast<uint8_t>(gpu::MessageType::NETWORK_PORT);
-
-    gpu::packHeader(headerInfo, errorResponse.msgHdr.hdr);
-
-    errorResponse.command =
-        static_cast<uint8_t>(gpu::NetworkPortCommands::GetPortNetworkAddresses);
-    errorResponse.completion_code = static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
-    errorResponse.reason_code = htole16(0xABCD);
-
-    std::memcpy(buf.data(), &errorResponse, sizeof(errorResponse));
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 12,
+        static_cast<uint8_t>(gpu::MessageType::NETWORK_PORT));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::NetworkPortCommands::GetPortNetworkAddresses));          // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERR_NOT_READY)); // CC
+    pbuf.pack(static_cast<uint16_t>(0xABCD)); // reason_code
+    ASSERT_EQ(pbuf.getError(), 0);
 
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
@@ -2106,33 +1815,39 @@ TEST_F(GpuMctpVdmTests, EncodeGetEthernetPortTelemetryCountersRequestSuccess)
 {
     const uint8_t instanceId = 13;
     const uint16_t portNumber = 7;
-    std::array<uint8_t, sizeof(gpu::GetEthernetPortTelemetryCountersRequest)>
-        buf{};
+    std::array<uint8_t, gpu::getEthernetPortTelemetryCountersRequestSize> buf{};
 
     int result = gpu::encodeGetEthernetPortTelemetryCountersRequest(
         instanceId, portNumber, buf);
 
     EXPECT_EQ(result, 0);
 
-    gpu::GetEthernetPortTelemetryCountersRequest request{};
-    std::memcpy(&request, buf.data(), sizeof(request));
-
-    EXPECT_EQ(request.hdr.msgHdr.hdr.pci_vendor_id,
-              htobe16(gpu::nvidiaPciVendorId));
-    EXPECT_EQ(request.hdr.msgHdr.hdr.instance_id &
-                  ocp::accelerator_management::instanceIdBitMask,
-              instanceId & ocp::accelerator_management::instanceIdBitMask);
-    EXPECT_NE(request.hdr.msgHdr.hdr.instance_id &
-                  ocp::accelerator_management::requestBitMask,
+    UnpackBuffer ubuf(std::span<const uint8_t>(buf.data(), buf.size()));
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t unpackedInstanceId = 0;
+    uint8_t unpackedMsgType = 0;
+    EXPECT_EQ(ocp::accelerator_management::unpackHeader(
+                  ubuf, gpu::nvidiaPciVendorId, msgType, unpackedInstanceId,
+                  unpackedMsgType),
               0);
-    EXPECT_EQ(request.hdr.msgHdr.hdr.ocp_accelerator_management_msg_type,
+    EXPECT_EQ(msgType, ocp::accelerator_management::MessageType::REQUEST);
+    EXPECT_EQ(unpackedInstanceId,
+              instanceId & ocp::accelerator_management::instanceIdBitMask);
+    EXPECT_EQ(unpackedMsgType,
               static_cast<uint8_t>(gpu::MessageType::NETWORK_PORT));
 
-    EXPECT_EQ(request.hdr.command,
+    uint8_t command = 0;
+    ubuf.unpack(command);
+    EXPECT_EQ(command,
               static_cast<uint8_t>(
                   gpu::NetworkPortCommands::GetEthernetPortTelemetryCounters));
-    EXPECT_EQ(request.hdr.data_size, 2);
-    EXPECT_EQ(request.portNumber, htole16(portNumber));
+    uint8_t dataSize = 0;
+    ubuf.unpack(dataSize);
+    EXPECT_EQ(dataSize, 2);
+    uint16_t unpackedPortNumber = 0;
+    ubuf.unpack(unpackedPortNumber);
+    EXPECT_EQ(unpackedPortNumber, portNumber);
+    EXPECT_EQ(ubuf.getError(), 0);
 }
 
 TEST_F(GpuMctpVdmTests,
@@ -2140,8 +1855,7 @@ TEST_F(GpuMctpVdmTests,
 {
     const uint8_t instanceId = 13;
     const uint16_t portNumber = 7;
-    std::array<uint8_t,
-               sizeof(gpu::GetEthernetPortTelemetryCountersRequest) - 1>
+    std::array<uint8_t, gpu::getEthernetPortTelemetryCountersRequestSize - 1>
         buf{};
 
     int result = gpu::encodeGetEthernetPortTelemetryCountersRequest(
@@ -2234,26 +1948,18 @@ TEST_F(GpuMctpVdmTests,
 
 TEST_F(GpuMctpVdmTests, DecodeGetEthernetPortTelemetryCountersResponseError)
 {
-    std::array<uint8_t,
-               sizeof(ocp::accelerator_management::CommonNonSuccessResponse)>
-        buf{};
-
-    ocp::accelerator_management::CommonNonSuccessResponse errorResponse{};
-    ocp::accelerator_management::BindingPciVidInfo headerInfo{};
-    headerInfo.ocp_accelerator_management_msg_type = static_cast<uint8_t>(
-        ocp::accelerator_management::MessageType::RESPONSE);
-    headerInfo.instance_id = 13;
-    headerInfo.msg_type = static_cast<uint8_t>(gpu::MessageType::NETWORK_PORT);
-
-    gpu::packHeader(headerInfo, errorResponse.msgHdr.hdr);
-
-    errorResponse.command = static_cast<uint8_t>(
-        gpu::NetworkPortCommands::GetEthernetPortTelemetryCounters);
-    errorResponse.completion_code = static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
-    errorResponse.reason_code = htole16(0xDEAD);
-
-    std::memcpy(buf.data(), &errorResponse, sizeof(errorResponse));
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 13,
+        static_cast<uint8_t>(gpu::MessageType::NETWORK_PORT));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::NetworkPortCommands::GetEthernetPortTelemetryCounters)); // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERR_NOT_READY)); // CC
+    pbuf.pack(static_cast<uint16_t>(0xDEAD)); // reason_code
+    ASSERT_EQ(pbuf.getError(), 0);
 
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};

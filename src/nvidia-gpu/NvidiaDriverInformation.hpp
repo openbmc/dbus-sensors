@@ -38,7 +38,7 @@ struct NvidiaDriverInformation :
 
     mctp::MctpRequester& mctpRequester;
 
-    std::array<uint8_t, sizeof(ocp::accelerator_management::CommonRequest)>
+    std::array<uint8_t, ocp::accelerator_management::commonRequestSize>
         request{};
 
     std::shared_ptr<sdbusplus::asio::dbus_interface> versionInterface;
