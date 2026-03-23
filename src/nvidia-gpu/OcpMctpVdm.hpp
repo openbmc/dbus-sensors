@@ -7,9 +7,9 @@
 
 #include "MessagePackUnpackUtils.hpp"
 
+#include <cstddef>
 #include <cstdint>
 #include <functional>
-#include <span>
 
 namespace ocp
 {
@@ -32,11 +32,6 @@ constexpr uint8_t eventVersionBitMask = 0b00001111;
 
 constexpr uint8_t instanceMin = 0;
 constexpr uint8_t instanceMax = 31;
-
-constexpr size_t bindingPciVidSize = 5;
-constexpr size_t commonRequestSize = bindingPciVidSize + 2;
-
-constexpr size_t eventHeaderSize = bindingPciVidSize + 6;
 
 enum class CompletionCode : uint8_t
 {
@@ -63,60 +58,15 @@ enum class MessageType : uint8_t
     REQUEST = 2,  //!< OCP MCTP VDM request message
 };
 
-struct BindingPciVid
-{
-    uint16_t pci_vendor_id;                      //!< PCI defined vendor ID
-    uint8_t instance_id;                         //!< Instance ID
-    uint8_t ocp_version;                         //!< OCP version
-    uint8_t ocp_accelerator_management_msg_type; //!< Message Type
-} __attribute__((packed));
+constexpr size_t messageHeaderSize = 5;
 
-struct Message
-{
-    BindingPciVid hdr; //!< OCP MCTP VDM message header
-} __attribute__((packed));
+constexpr size_t instanceIdOffset = 2;
 
-struct BindingPciVidInfo
-{
-    uint8_t ocp_accelerator_management_msg_type;
-    uint8_t instance_id;
-    uint8_t msg_type;
-};
+constexpr size_t commonRequestSize = messageHeaderSize + 2;
 
-struct CommonRequest
-{
-    Message msgHdr;
-    uint8_t command;
-    uint8_t data_size;
-} __attribute__((packed));
+constexpr size_t commonResponseSize = messageHeaderSize + 6;
 
-struct CommonResponse
-{
-    Message msgHdr;
-    uint8_t command;
-    uint8_t completion_code;
-    uint16_t reserved;
-    uint16_t data_size;
-} __attribute__((packed));
-
-struct CommonAggregateResponse
-{
-    Message msgHdr;
-    uint8_t command;
-    uint8_t completion_code;
-    uint16_t telemetryCount;
-} __attribute__((packed));
-
-struct CommonNonSuccessResponse
-{
-    Message msgHdr;
-    uint8_t command;
-    uint8_t completion_code;
-    uint16_t reason_code;
-} __attribute__((packed));
-
-int packHeader(uint16_t pciVendorId, const BindingPciVidInfo& hdr,
-               BindingPciVid& msg);
+constexpr size_t eventHeaderSize = messageHeaderSize + 6;
 
 int packHeader(PackBuffer& buffer, uint16_t pciVendorId,
                MessageType ocpAcceleratorManagementMsgType, uint8_t instanceId,
@@ -126,9 +76,6 @@ int unpackHeader(UnpackBuffer& buffer, uint16_t pciVendorId,
                  MessageType& ocpAcceleratorManagementMsgType,
                  uint8_t& instanceId, uint8_t& msgType);
 
-int decodeReasonCodeAndCC(std::span<const uint8_t> buf, CompletionCode& cc,
-                          uint16_t& reasonCode);
-
 int unpackReasonCodeAndCC(UnpackBuffer& buffer, CompletionCode& cc,
                           uint16_t& reasonCode);
 
@@ -136,6 +83,7 @@ int decodeEvent(std::span<const uint8_t> buf, uint16_t pciVendorId,
                 uint8_t& messageType, bool& ackRequired, uint8_t& version,
                 uint8_t& eventId, uint8_t& eventClass, uint16_t& eventState,
                 uint8_t& size, std::span<const uint8_t>& eventData);
+
 int unpackAggregateResponse(
     UnpackBuffer& buffer,
     std::move_only_function<int(const uint8_t tag, const uint8_t length,

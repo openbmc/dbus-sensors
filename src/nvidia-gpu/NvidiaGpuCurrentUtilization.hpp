@@ -54,6 +54,6 @@ struct NvidiaGpuCurrentUtilization :
     std::shared_ptr<sdbusplus::asio::dbus_interface> metricInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> metricAssociationInterface;
 
-    std::array<uint8_t, sizeof(ocp::accelerator_management::CommonRequest)>
+    std::array<uint8_t, ocp::accelerator_management::commonRequestSize>
         request{};
 };
