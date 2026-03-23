@@ -58,7 +58,7 @@ struct NvidiaGpuPowerSensor :
 
     sdbusplus::asio::object_server& objectServer;
 
-    std::array<uint8_t, sizeof(gpu::GetPowerDrawRequest)> request{};
+    std::array<uint8_t, gpu::getPowerDrawRequestSize> request{};
 
     std::shared_ptr<sdbusplus::asio::dbus_interface>
         commonPhysicalContextInterface;

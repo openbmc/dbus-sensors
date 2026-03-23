@@ -119,8 +119,13 @@ void NvidiaGpuCurrentUtilization::processResponse(
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode = 0;
 
-    int rc = ocp::accelerator_management::decodeReasonCodeAndCC(
-        buffer, cc, reasonCode);
+    UnpackBuffer unpackBuffer(buffer);
+
+    int rc = gpu::decodeResponseCommonHeader(
+        unpackBuffer, gpu::MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(
+            gpu::PlatformEnvironmentalCommands::GET_CURRENT_UTILIZATION),
+        cc, reasonCode);
 
     if (rc != 0)
     {
