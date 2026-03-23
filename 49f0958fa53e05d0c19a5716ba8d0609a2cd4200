@@ -18,6 +18,23 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0acab64a_f211feef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 32
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001076
+      },
+      "writtenOn": "2026-03-23T09:45:09Z",
+      "side": 1,
+      "message": "There are 2 corner case that can cause mctp reactor daemon to exit with warning:\n- no usb device found (possibility that the USB device is powering up or enumeration is delayed).\n- USB hotplug after mctp reactor daemon started.",
+      "revId": "49f0958fa53e05d0c19a5716ba8d0609a2cd4200",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "68ab96f5_85abc328",
@@ -77,6 +94,29 @@
       "writtenOn": "2026-02-26T06:17:24Z",
       "side": 1,
       "message": "Can you add the description on how this port array is derived?",
+      "revId": "49f0958fa53e05d0c19a5716ba8d0609a2cd4200",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fd77657_80bf3516",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 32
+      },
+      "lineNbr": 758,
+      "author": {
+        "id": 1001076
+      },
+      "writtenOn": "2026-03-23T09:45:09Z",
+      "side": 1,
+      "message": "If there is no USB device that is MCTP capable then this will cause the flow to enter catch. better to nullptr in that case with error log rather than causing daemon to stop. \n\nThere could be possibilities that USB device can be hot pluggable, and on daemon start it couldn\u0027t be found causing daemon to exit with a warning.",
+      "range": {
+        "startLine": 757,
+        "startChar": 1,
+        "endLine": 758,
+        "endChar": 71
+      },
       "revId": "49f0958fa53e05d0c19a5716ba8d0609a2cd4200",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
