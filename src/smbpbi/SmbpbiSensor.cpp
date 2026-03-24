@@ -45,7 +45,8 @@ constexpr const char* configInterface =
 constexpr const char* sensorRootPath = "/xyz/openbmc_project/sensors/";
 constexpr const char* objectType = "SmbpbiVirtualEeprom";
 
-boost::container::flat_map<std::string, std::unique_ptr<SmbpbiSensor>> sensors;
+boost::container::flat_map<std::string, std::unique_ptr<SmbpbiSensor>>
+    smbpbiSensors;
 
 SmbpbiSensor::SmbpbiSensor(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
@@ -480,7 +481,21 @@ void createSensors(
         "org.freedesktop.DBus.ObjectManager", "GetManagedObjects");
 }
 
-int main()
+bool checkInvalidReading(uint8_t* reading, int length)
+{
+    // there is no value updated from HMC if reading data is all 0xff
+    uint8_t* ptr = reading;
+    for (int i = 0; i < length; i++, ptr++)
+    {
+        if (*ptr != 0xFF)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+int SmbpbiSensorMain()
 {
     boost::asio::io_context io;
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
@@ -489,7 +504,7 @@ int main()
     systemBus->request_name("xyz.openbmc_project.SMBPBI");
 
     boost::asio::post(io, [&]() {
-        createSensors(io, objectServer, sensors, systemBus);
+        createSensors(io, objectServer, smbpbiSensors, systemBus);
     });
 
     boost::asio::steady_timer configTimer(io);
@@ -509,8 +524,8 @@ int main()
                     lg2::error("timer error");
                     return;
                 }
-                createSensors(io, objectServer, sensors, systemBus);
-                if (sensors.empty())
+                createSensors(io, objectServer, smbpbiSensors, systemBus);
+                if (smbpbiSensors.empty())
                 {
                     lg2::info("Configuration not detected");
                 }

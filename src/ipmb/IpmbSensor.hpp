@@ -154,3 +154,5 @@ void interfaceRemoved(
     sdbusplus::message_t& message,
     boost::container::flat_map<std::string, std::shared_ptr<IpmbSensor>>&
         sensors);
+
+int IpmbSensorMain();

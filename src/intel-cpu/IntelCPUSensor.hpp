@@ -119,3 +119,5 @@ inline bool cpuIsPresent(const SensorBaseConfigMap& gpioConfig)
 
     return resp;
 }
+
+int IntelCPUSensorMain();

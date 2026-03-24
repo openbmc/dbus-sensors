@@ -176,9 +176,7 @@ auto Monitor::reconcileCableData() -> void
     }
 }
 
-} // namespace cable
-
-int main()
+int CableMonitorMain()
 {
     constexpr auto path = "/xyz/openbmc_project/cable_monitor";
     constexpr auto serviceName = "xyz.openbmc_project.cablemonitor";
@@ -192,3 +190,5 @@ int main()
     ctx.run();
     return 0;
 }
+
+} // namespace cable
