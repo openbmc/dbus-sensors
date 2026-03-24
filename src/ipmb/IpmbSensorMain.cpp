@@ -26,7 +26,8 @@
 #include <vector>
 
 std::unique_ptr<boost::asio::steady_timer> initCmdTimer;
-boost::container::flat_map<std::string, std::shared_ptr<IpmbSensor>> sensors;
+boost::container::flat_map<std::string, std::shared_ptr<IpmbSensor>>
+    ipmbSensors;
 boost::container::flat_map<uint8_t, std::shared_ptr<IpmbSDRDevice>> sdrsensor;
 
 void sdrHandler(
@@ -83,7 +84,7 @@ void reinitSensors(sdbusplus::message_t& message)
                     return; // we're being canceled
                 }
 
-                for (const auto& [name, sensor] : sensors)
+                for (const auto& [name, sensor] : ipmbSensors)
                 {
                     if (sensor)
                     {
@@ -95,7 +96,7 @@ void reinitSensors(sdbusplus::message_t& message)
     }
 }
 
-int main()
+int IpmbSensorMain()
 {
     boost::asio::io_context io;
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
@@ -106,7 +107,7 @@ int main()
     initCmdTimer = std::make_unique<boost::asio::steady_timer>(io);
 
     boost::asio::post(io, [&]() {
-        createSensors(io, objectServer, sensors, systemBus);
+        createSensors(io, objectServer, ipmbSensors, systemBus);
     });
 
     boost::asio::steady_timer configTimer(io);
@@ -120,8 +121,8 @@ int main()
                 {
                     return; // we're being canceled
                 }
-                createSensors(io, objectServer, sensors, systemBus);
-                if (sensors.empty())
+                createSensors(io, objectServer, ipmbSensors, systemBus);
+                if (ipmbSensors.empty())
                 {
                     lg2::info("Configuration not detected");
                 }
@@ -155,7 +156,7 @@ int main()
         static_cast<sdbusplus::bus_t&>(*systemBus),
         "type='signal',member='InterfacesRemoved',arg0path='" +
             std::string(inventoryPath) + "/'",
-        [](sdbusplus::message_t& msg) { interfaceRemoved(msg, sensors); });
+        [](sdbusplus::message_t& msg) { interfaceRemoved(msg, ipmbSensors); });
 
     setupManufacturingModeMatch(*systemBus);
     io.run();

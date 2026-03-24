@@ -1200,7 +1200,7 @@ static void powerStateChanged(
     }
 }
 
-int main()
+int PSUSensorMain()
 {
     boost::asio::io_context io;
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
@@ -1314,4 +1314,5 @@ int main()
 
     setupManufacturingModeMatch(*systemBus);
     io.run();
+    return 0;
 }

@@ -35,3 +35,5 @@ struct MCUTempSensor : public Sensor
     sdbusplus::asio::object_server& objectServer;
     boost::asio::steady_timer waitTimer;
 };
+
+int MCUTempSensorMain();

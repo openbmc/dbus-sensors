@@ -95,3 +95,5 @@ class ChassisIntrusionHwmonSensor :
     int readSensor() override;
     void pollSensorStatus() override;
 };
+
+int IntrusionSensorMain();

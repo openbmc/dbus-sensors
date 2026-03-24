@@ -596,7 +596,7 @@ static void powerStateChanged(
     }
 }
 
-int main()
+int HwmonTempSensorMain()
 {
     boost::asio::io_context io;
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
@@ -663,4 +663,5 @@ int main()
     matches.emplace_back(std::move(ifaceRemovedMatch));
 
     io.run();
+    return 0;
 }
