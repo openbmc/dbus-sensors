@@ -45,7 +45,8 @@ NvidiaDriverInformation::NvidiaDriverInformation(
             "EID", eid, "RC", rc);
     }
 
-    const std::string dbusPath = softwareInventoryPath + escapeName(name);
+    const std::string dbusPath =
+        softwareInventoryPath + escapeName(name) + "_Driver";
 
     versionInterface = objectServer.add_interface(
         dbusPath, "xyz.openbmc_project.Software.Version");
