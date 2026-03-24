@@ -16,6 +16,7 @@
 #include <NvidiaGpuControl.hpp>
 #include <NvidiaGpuCurrentUtilization.hpp>
 #include <NvidiaGpuEnergySensor.hpp>
+#include <NvidiaGpuFirmwareInformation.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
 #include <NvidiaGpuMemoryClockFrequency.hpp>
 #include <NvidiaGpuMemoryDevice.hpp>
@@ -214,6 +215,9 @@ void GpuDevice::makeSensors()
     driverInfo = std::make_shared<NvidiaDriverInformation>(
         conn, mctpRequester, name, path, eid, objectServer);
 
+    firmwareInfo = std::make_shared<NvidiaGpuFirmwareInformation>(
+        conn, mctpRequester, name, path, eid, objectServer);
+
     gpuControl = std::make_shared<NvidiaGpuControl>(
         objectServer, name, inventoryPrefix + name, mctpRequester, eid,
         powerCapInterface);
@@ -373,6 +377,7 @@ void GpuDevice::read()
     energySensor->update();
     voltageSensor->update();
     driverInfo->update();
+    firmwareInfo->update();
     gpuControl->update();
     pcieInterface->update();
     pciePort->update();
