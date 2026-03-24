@@ -78,6 +78,9 @@ static constexpr auto thresholdIds = std::to_array<uint8_t>(
 static constexpr const char* dramIfaceName =
     "xyz.openbmc_project.Inventory.Item.Dimm";
 
+static constexpr const char* softwareInventoryPath =
+    "/xyz/openbmc_project/software/";
+
 GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
                      const sdbusplus::object_path& path,
                      const std::shared_ptr<sdbusplus::asio::connection>& conn,
@@ -139,6 +142,37 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
             "Error initializing DRAM Item.Dimm interface for {NAME}, eid={EID}",
             "NAME", this->name, "EID", eid);
     }
+
+    const std::string firmwarePath =
+        std::format("{}{}_Firmware", softwareInventoryPath, this->name);
+
+    firmwareVersionInterface = objectServer.add_interface(
+        firmwarePath, "xyz.openbmc_project.Software.Version");
+    firmwareVersionInterface->register_property<std::string>("Version", "");
+    firmwareVersionInterface->register_property<std::string>(
+        "Purpose", "xyz.openbmc_project.Software.Version.VersionPurpose.Other");
+
+    if (!firmwareVersionInterface->initialize())
+    {
+        lg2::error(
+            "Error initializing firmware Version interface for {NAME}, eid={EID}",
+            "NAME", this->name, "EID", eid);
+    }
+
+    std::vector<Association> firmwareAssociations;
+    firmwareAssociations.emplace_back("running", "ran_on", gpuPath);
+
+    firmwareAssociationInterface =
+        objectServer.add_interface(firmwarePath, association::interface);
+    firmwareAssociationInterface->register_property("Associations",
+                                                    firmwareAssociations);
+
+    if (!firmwareAssociationInterface->initialize())
+    {
+        lg2::error(
+            "Error initializing firmware association interface for {NAME}, eid={EID}",
+            "NAME", this->name, "EID", eid);
+    }
 }
 
 GpuDevice::~GpuDevice()
@@ -146,6 +180,8 @@ GpuDevice::~GpuDevice()
     objectServer.remove_interface(powerCapInterface);
     objectServer.remove_interface(dramAssociationInterface);
     objectServer.remove_interface(dramItemInterface);
+    objectServer.remove_interface(firmwareVersionInterface);
+    objectServer.remove_interface(firmwareAssociationInterface);
 }
 
 void GpuDevice::init()
@@ -153,7 +189,7 @@ void GpuDevice::init()
     inventory = std::make_shared<Inventory>(
         conn, objectServer, name, mctpRequester,
         gpu::DeviceIdentification::DEVICE_GPU, eid, io, powerCapInterface,
-        dramItemInterface);
+        dramItemInterface, firmwareVersionInterface);
 
     inventory->init();
 

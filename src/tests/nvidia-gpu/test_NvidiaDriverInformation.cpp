@@ -80,7 +80,7 @@ class NvidiaDriverInformationTest : public MctpMockTestBase
 
     static std::string driverPath(const std::string& name)
     {
-        return "/xyz/openbmc_project/software/" + name;
+        return "/xyz/openbmc_project/software/" + name + "_Driver";
     }
 };
 
