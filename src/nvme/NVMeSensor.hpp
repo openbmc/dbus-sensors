@@ -41,3 +41,5 @@ class NVMeSensor : public Sensor
 
     void checkThresholds() override;
 };
+
+int NVMeSensorMain();

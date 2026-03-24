@@ -67,3 +67,5 @@ class ExternalSensor :
     void checkThresholds() override;
     void externalSetTrigger();
 };
+
+int ExternalSensorMain();

@@ -49,7 +49,7 @@ void configTimerExpiryCallback(
                   dbusConnection, mctpRequester);
 }
 
-int main()
+int NvidiaGpuSensorMain()
 {
     boost::asio::io_context io;
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);

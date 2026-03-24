@@ -78,3 +78,5 @@ struct PSUProperty
     unsigned int sensorScaleFactor;
     double sensorOffset;
 };
+
+int PSUSensorMain();
