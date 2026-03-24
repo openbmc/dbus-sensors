@@ -855,6 +855,7 @@ int decodeGetInventoryInformationResponse(
         case InventoryPropertyId::SERIAL_NUMBER:
         case InventoryPropertyId::MARKETING_NAME:
         case InventoryPropertyId::DEVICE_PART_NUMBER:
+        case InventoryPropertyId::FIRMWARE_VERSION:
         {
             std::span<const uint8_t> remainingBuffer = buffer.getRemaining();
 
