@@ -141,6 +141,24 @@
       "parentUuid": "e16772b1_fa2a20dc",
       "revId": "27761d14c5593b17b2d7dad71dfa122b22f9de85",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "069ac0b9_3e29495b",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-03-24T18:56:38Z",
+      "side": 1,
+      "message": "Whenever you\u0027d like to do it.  Not sure why this was resolved.",
+      "parentUuid": "a46b9057_d8158124",
+      "revId": "27761d14c5593b17b2d7dad71dfa122b22f9de85",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ],
   "submitRequirementResults": []
