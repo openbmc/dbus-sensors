@@ -20,6 +20,7 @@
 
 #include <NvidiaDriverInformation.hpp>
 #include <NvidiaGpuEnergySensor.hpp>
+#include <NvidiaGpuFirmwareInformation.hpp>
 #include <NvidiaGpuPowerPeakReading.hpp>
 #include <NvidiaGpuUtilizationMetrics.hpp>
 #include <NvidiaGpuViolationDuration.hpp>
@@ -100,6 +101,7 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
     std::shared_ptr<NvidiaGpuVoltageSensor> voltageSensor;
     std::shared_ptr<NvidiaDriverInformation> driverInfo;
     std::shared_ptr<NvidiaGpuPowerControl> gpuPowerControl;
+    std::shared_ptr<NvidiaGpuFirmwareInformation> firmwareInfo;
     std::shared_ptr<sdbusplus::asio::dbus_interface> powerCapInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> dramAssociationInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> dramItemInterface;
