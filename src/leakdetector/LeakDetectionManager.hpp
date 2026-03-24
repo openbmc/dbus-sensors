@@ -54,4 +54,6 @@ class DetectionManager
     detector_map_t detectors;
 };
 
+int leakDetectionManagerMain();
+
 } // namespace leak
