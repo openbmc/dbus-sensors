@@ -33,6 +33,10 @@ static constexpr const char* assetIfaceName =
 static constexpr const char* uuidIfaceName = "xyz.openbmc_project.Common.UUID";
 static constexpr const char* revisionIfaceName =
     "xyz.openbmc_project.Inventory.Decorator.Revision";
+static constexpr const char* softwareVersionIfaceName =
+    "xyz.openbmc_project.Software.Version";
+static constexpr const char* locationCodeIfaceName =
+    "xyz.openbmc_project.Inventory.Decorator.LocationCode";
 
 Inventory::Inventory(
     const std::shared_ptr<sdbusplus::asio::connection>& /*conn*/,
@@ -66,6 +70,24 @@ Inventory::Inventory(
     registerProperty(gpu::InventoryPropertyId::DEVICE_PART_NUMBER,
                      revisionIface, "Version");
     revisionIface->initialize();
+
+    softwareVersionIface =
+        objectServer.add_interface(path, softwareVersionIfaceName);
+    registerProperty(gpu::InventoryPropertyId::FIRMWARE_VERSION,
+                     softwareVersionIface, "Version");
+    if (!softwareVersionIface->initialize())
+    {
+        lg2::error("Error initializing software version interface for {NAME}",
+                   "NAME", name);
+    }
+
+    locationCodeIface = objectServer.add_interface(path, locationCodeIfaceName);
+    locationCodeIface->register_property("LocationCode", name);
+    if (!locationCodeIface->initialize())
+    {
+        lg2::error("Error initializing location code interface for {NAME}",
+                   "NAME", name);
+    }
 
     // Static properties
     if (deviceType == gpu::DeviceIdentification::DEVICE_GPU)
@@ -229,6 +251,7 @@ void Inventory::handleInventoryPropertyResponse(
                 case gpu::InventoryPropertyId::SERIAL_NUMBER:
                 case gpu::InventoryPropertyId::MARKETING_NAME:
                 case gpu::InventoryPropertyId::DEVICE_PART_NUMBER:
+                case gpu::InventoryPropertyId::FIRMWARE_VERSION:
                     if (std::holds_alternative<std::string>(info))
                     {
                         value = std::get<std::string>(info);
