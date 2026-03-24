@@ -202,7 +202,7 @@ class NvidiaGpuPowerControlTest : public MctpMockTestBase
         inventory = std::make_shared<Inventory>(
             bus(), objects(), name, requester(),
             gpu::DeviceIdentification::DEVICE_GPU, test_utils::defaultEid,
-            ioContext(), powerCapInterface, nullptr);
+            ioContext(), powerCapInterface, nullptr, nullptr);
         auto ctrl = std::make_shared<NvidiaGpuPowerControl>(
             objects(), name, requester(), test_utils::defaultEid, ioContext(),
             powerCapInterface, inventory);
