@@ -766,6 +766,13 @@ int decodeGetInventoryInformationResponse(
             value =
                 std::string(reinterpret_cast<const char*>(dataPtr), dataSize);
             break;
+        case InventoryPropertyId::FIRMWARE_VERSION:
+        {
+            std::string str(dataSize, '\0');
+            std::memcpy(str.data(), dataPtr, dataSize);
+            value = std::move(str);
+            break;
+        }
         case InventoryPropertyId::DEVICE_GUID:
             value = std::vector<uint8_t>(dataPtr, dataPtr + dataSize);
             break;
