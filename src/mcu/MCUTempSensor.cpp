@@ -57,7 +57,8 @@ constexpr const char* sensorType = "MCUTempSensor";
 static constexpr double mcuTempMaxReading = 0xFF;
 static constexpr double mcuTempMinReading = 0;
 
-boost::container::flat_map<std::string, std::unique_ptr<MCUTempSensor>> sensors;
+boost::container::flat_map<std::string, std::unique_ptr<MCUTempSensor>>
+    mcuTempSensors;
 
 MCUTempSensor::MCUTempSensor(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
@@ -260,7 +261,7 @@ void createSensors(
         "org.freedesktop.DBus.ObjectManager", "GetManagedObjects");
 }
 
-int main()
+int MCUTempSensorMain()
 {
     boost::asio::io_context io;
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
@@ -270,7 +271,7 @@ int main()
     systemBus->request_name("xyz.openbmc_project.MCUTempSensor");
 
     boost::asio::post(io, [&]() {
-        createSensors(io, objectServer, sensors, systemBus);
+        createSensors(io, objectServer, mcuTempSensors, systemBus);
     });
 
     boost::asio::steady_timer configTimer(io);
@@ -290,8 +291,8 @@ int main()
                     lg2::error("timer error");
                     return;
                 }
-                createSensors(io, objectServer, sensors, systemBus);
-                if (sensors.empty())
+                createSensors(io, objectServer, mcuTempSensors, systemBus);
+                if (mcuTempSensors.empty())
                 {
                     lg2::info("Configuration not detected");
                 }

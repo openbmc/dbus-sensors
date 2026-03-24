@@ -87,3 +87,5 @@ struct ExitAirTempSensor :
     static double getTotalCFM();
     bool calculate(double& val);
 };
+
+int ExitAirTempSensorMain();

@@ -7,12 +7,21 @@ nvme_srcs += files('NVMeBasicContext.cpp')
 
 nvme_deps = [default_deps, i2c, thresholds_dep, utils_dep, threads]
 
-executable(
+nvmesensor_lib = static_library(
     'nvmesensor',
     sources: nvme_srcs,
     dependencies: nvme_deps,
     include_directories: src_inc,
-    install: true,
-    install_dir: '/usr/libexec/dbus-sensors',
 )
+dbus_sensors_deps += declare_dependency(
+    link_with: [nvmesensor_lib],
+    dependencies: nvme_deps,
+    include_directories: src_inc,
+)
+install_symlink(
+    'nvmesensor',
+    install_dir: get_option('libexecdir') / 'dbus-sensors',
+    pointing_to: get_option('prefix') / get_option('bindir') / 'dbussensors',
+)
+dbus_sensors_cpp_args += ['-DNVME']
 

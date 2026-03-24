@@ -70,3 +70,5 @@ class HwmonTempSensor :
     void restartRead();
     void checkThresholds() override;
 };
+
+int HwmonTempSensorMain();

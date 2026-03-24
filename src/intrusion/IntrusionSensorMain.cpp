@@ -455,7 +455,7 @@ static bool initializeLanStatus(
     return true;
 }
 
-int main()
+int IntrusionSensorMain()
 {
     std::shared_ptr<ChassisIntrusionSensor> intrusionSensor;
 

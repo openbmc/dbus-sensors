@@ -113,6 +113,9 @@ notifywatch_dep = declare_dependency(
 
 src_inc = include_directories('.')
 
+dbus_sensors_deps = []
+dbus_sensors_cpp_args = []
+
 subdir('adc')
 subdir('cable-monitor')
 subdir('exit-air')
@@ -130,3 +133,16 @@ subdir('nvme')
 subdir('psu')
 subdir('smbpbi')
 subdir('tests')
+
+executable(
+    'dbussensors',
+    'DbusSensorsMain.cpp',
+    dependencies: [
+        default_deps,
+        thresholds_dep,
+        utils_dep,
+    ] + dbus_sensors_deps,
+    cpp_args: dbus_sensors_cpp_args,
+    install: true,
+    install_dir: get_option('bindir'),
+)
