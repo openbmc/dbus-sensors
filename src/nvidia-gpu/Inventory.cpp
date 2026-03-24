@@ -37,6 +37,8 @@ static constexpr const char* assetIfaceName =
 static constexpr const char* uuidIfaceName = "xyz.openbmc_project.Common.UUID";
 static constexpr const char* revisionIfaceName =
     "xyz.openbmc_project.Inventory.Decorator.Revision";
+static constexpr const char* locationCodeIfaceName =
+    "xyz.openbmc_project.Inventory.Decorator.LocationCode";
 
 static constexpr uint64_t mhzToHzFactor = 1'000'000;
 
@@ -47,7 +49,9 @@ Inventory::Inventory(
     const gpu::DeviceIdentification deviceTypeIn, const uint8_t eid,
     boost::asio::io_context& io,
     const std::shared_ptr<sdbusplus::asio::dbus_interface>& powerCapInterface,
-    const std::shared_ptr<sdbusplus::asio::dbus_interface>& dramItemIface) :
+    const std::shared_ptr<sdbusplus::asio::dbus_interface>& dramItemIface,
+    const std::shared_ptr<sdbusplus::asio::dbus_interface>&
+        firmwareVersionIface) :
     name(escapeName(inventoryName)), mctpRequester(mctpRequester),
     deviceType(deviceTypeIn), eid(eid), retryTimer(io)
 {
@@ -84,6 +88,15 @@ Inventory::Inventory(
     {
         lg2::error(
             "Error initializing Revision interface for {NAME}, eid={EID}",
+            "NAME", name, "EID", eid);
+    }
+
+    locationCodeIface = objectServer.add_interface(path, locationCodeIfaceName);
+    locationCodeIface->register_property("LocationCode", name);
+    if (!locationCodeIface->initialize())
+    {
+        lg2::error(
+            "Error initializing LocationCode interface for {NAME}, eid={EID}",
             "NAME", name, "EID", eid);
     }
 
@@ -137,6 +150,12 @@ Inventory::Inventory(
             powerCapInterface, "MaxPowerCapValue", 0, true};
         properties[gpu::InventoryPropertyId::RATED_DEVICE_POWER_LIMIT] = {
             powerCapInterface, "DefaultPowerCap", 0, true};
+    }
+
+    if (firmwareVersionIface)
+    {
+        properties[gpu::InventoryPropertyId::FIRMWARE_VERSION] = {
+            firmwareVersionIface, "Version", 0, true};
     }
 
     if (dramItemIface)
@@ -281,6 +300,7 @@ void Inventory::handleInventoryPropertyResponse(
                 case gpu::InventoryPropertyId::SERIAL_NUMBER:
                 case gpu::InventoryPropertyId::MARKETING_NAME:
                 case gpu::InventoryPropertyId::DEVICE_PART_NUMBER:
+                case gpu::InventoryPropertyId::FIRMWARE_VERSION:
                     if (std::holds_alternative<std::string>(info))
                     {
                         value = std::get<std::string>(info);
