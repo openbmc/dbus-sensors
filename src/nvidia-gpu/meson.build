@@ -10,6 +10,7 @@ gpusensor_sources = files(
     'NvidiaGpuDevice.cpp',
     'NvidiaGpuEccMode.cpp',
     'NvidiaGpuEnergySensor.cpp',
+    'NvidiaGpuFirmwareInformation.cpp',
     'NvidiaGpuLongRunningCommand.cpp',
     'NvidiaGpuMctpVdm.cpp',
     'NvidiaGpuMemoryCapacityUtilization.cpp',
