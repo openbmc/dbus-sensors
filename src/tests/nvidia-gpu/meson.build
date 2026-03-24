@@ -14,6 +14,7 @@ gpusensor_sources = files(
     gpusensor_dir / 'NvidiaGpuUtilizationMetrics.cpp',
     gpusensor_dir / 'NvidiaGpuDevice.cpp',
     gpusensor_dir / 'NvidiaGpuEnergySensor.cpp',
+    gpusensor_dir / 'NvidiaGpuFirmwareInformation.cpp',
     gpusensor_dir / 'NvidiaGpuLongRunningCommand.cpp',
     gpusensor_dir / 'NvidiaGpuMctpVdm.cpp',
     gpusensor_dir / 'NvidiaGpuMemoryClockFrequency.cpp',

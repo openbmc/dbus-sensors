@@ -37,6 +37,8 @@ static constexpr const char* assetIfaceName =
 static constexpr const char* uuidIfaceName = "xyz.openbmc_project.Common.UUID";
 static constexpr const char* revisionIfaceName =
     "xyz.openbmc_project.Inventory.Decorator.Revision";
+static constexpr const char* locationCodeIfaceName =
+    "xyz.openbmc_project.Inventory.Decorator.LocationCode";
 
 static constexpr uint64_t mhzToHzFactor = 1'000'000;
 
@@ -85,6 +87,14 @@ Inventory::Inventory(
         lg2::error(
             "Error initializing Revision interface for {NAME}, eid={EID}",
             "NAME", name, "EID", eid);
+    }
+
+    locationCodeIface = objectServer.add_interface(path, locationCodeIfaceName);
+    locationCodeIface->register_property("LocationCode", name);
+    if (!locationCodeIface->initialize())
+    {
+        lg2::error("Error initializing location code interface for {NAME}",
+                   "NAME", name);
     }
 
     // Static properties
