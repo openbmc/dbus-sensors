@@ -58,6 +58,9 @@ class Inventory : public std::enable_shared_from_this<Inventory>
     std::shared_ptr<sdbusplus::asio::dbus_interface> acceleratorInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> uuidInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> revisionIface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> softwareVersionIface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> locationCodeIface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> embeddedIface;
 
     std::string name;
     mctp::MctpRequester& mctpRequester;

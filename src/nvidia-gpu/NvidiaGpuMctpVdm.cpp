@@ -615,6 +615,7 @@ int decodeGetInventoryInformationResponse(
         case InventoryPropertyId::SERIAL_NUMBER:
         case InventoryPropertyId::MARKETING_NAME:
         case InventoryPropertyId::DEVICE_PART_NUMBER:
+        case InventoryPropertyId::FIRMWARE_VERSION:
             value =
                 std::string(reinterpret_cast<const char*>(dataPtr), dataSize);
             break;
