@@ -804,6 +804,7 @@ int decodeGetInventoryInformationResponse(
         case InventoryPropertyId::SERIAL_NUMBER:
         case InventoryPropertyId::MARKETING_NAME:
         case InventoryPropertyId::DEVICE_PART_NUMBER:
+        case InventoryPropertyId::FIRMWARE_VERSION:
         {
             std::string str(dataSize, '\0');
             std::memcpy(str.data(), dataPtr, dataSize);
