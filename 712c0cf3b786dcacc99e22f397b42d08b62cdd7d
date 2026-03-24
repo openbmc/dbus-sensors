@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d088b082_9bdd31cb",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-03-24T20:17:28Z",
+      "side": 1,
+      "message": "Any reason this isn\u0027t just a member method?   I\u0027m not seeing why we wouldn\u0027t do the easy thing here?  Alternatively you could just put this logic inline.  We only call this in one spot.",
+      "revId": "712c0cf3b786dcacc99e22f397b42d08b62cdd7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
