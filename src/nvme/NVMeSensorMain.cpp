@@ -282,7 +282,7 @@ static void interfaceRemoved(sdbusplus::message_t& message, NVMEMap& contexts)
     }
 }
 
-int main()
+int NVMeSensorMain()
 {
     boost::asio::io_context io;
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
@@ -334,4 +334,5 @@ int main()
 
     setupManufacturingModeMatch(*systemBus);
     io.run();
+    return 0;
 }

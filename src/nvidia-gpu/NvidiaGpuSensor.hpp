@@ -65,3 +65,5 @@ struct NvidiaGpuTempSensor :
     std::shared_ptr<sdbusplus::asio::dbus_interface>
         commonPhysicalContextInterface;
 };
+
+int NvidiaGpuSensorMain();

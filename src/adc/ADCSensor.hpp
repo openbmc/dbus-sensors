@@ -97,3 +97,5 @@ class ADCSensor : public Sensor, public std::enable_shared_from_this<ADCSensor>
     void checkThresholds() override;
     void restartRead();
 };
+
+int ADCSensorMain();

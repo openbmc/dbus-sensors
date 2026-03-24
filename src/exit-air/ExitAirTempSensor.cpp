@@ -916,7 +916,7 @@ void createSensor(sdbusplus::asio::object_server& objectServer,
     getter->getConfiguration(monitorTypes);
 }
 
-int main()
+int ExitAirTempSensorMain()
 {
     boost::asio::io_context io;
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);

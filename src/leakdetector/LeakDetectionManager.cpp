@@ -144,9 +144,7 @@ auto DetectionManager::getDetectorConfig(
     co_return config;
 }
 
-} // namespace leak
-
-int main()
+int LeakDetectionManagerMain()
 {
     constexpr auto path = leak::DetectorIntf::namespace_path::value;
     constexpr auto serviceName = "xyz.openbmc_project.leakdetector";
@@ -161,3 +159,5 @@ int main()
     ctx.run();
     return 0;
 }
+
+} // namespace leak

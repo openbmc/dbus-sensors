@@ -186,7 +186,7 @@ static void exitReactor(boost::asio::io_context* io, sdbusplus::message_t& msg)
     io->stop();
 }
 
-int main()
+int MCTPReactorMain()
 {
     constexpr std::chrono::seconds period(5);
 

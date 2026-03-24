@@ -63,4 +63,6 @@ class Monitor
     notify_watch::NotifyWatch notifyWatch;
 };
 
+int CableMonitorMain();
+
 } // namespace cable

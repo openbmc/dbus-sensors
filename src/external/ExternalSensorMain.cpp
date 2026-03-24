@@ -333,7 +333,7 @@ void createSensors(
     getter->getConfiguration(sensorTypes);
 }
 
-int main()
+int ExternalSensorMain()
 {
     lg2::debug("ExternalSensor service starting up");
 
@@ -392,4 +392,5 @@ int main()
     lg2::debug("ExternalSensor service entering main loop");
 
     io.run();
+    return 0;
 }
