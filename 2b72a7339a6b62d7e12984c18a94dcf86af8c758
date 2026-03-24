@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6dbcddbb_f1a459c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-03-24T03:20:40Z",
+      "side": 1,
+      "message": "Please wrap this correctly.  Get your editor to do it for you.",
+      "revId": "2b72a7339a6b62d7e12984c18a94dcf86af8c758",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c343e694_d1ce85f1",
         "filename": "src/psu/PSUSensorMain.cpp",
         "patchSetId": 2
@@ -14,6 +31,30 @@
       "writtenOn": "2026-03-20T11:18:53Z",
       "side": 1,
       "message": "Avoiding fan and temperature sensors is clear. However, is \"pmbus\" a standard identifier for all PSU sensors, and will this cover devices using PMBus drivers like BMR (bmr3xx) and LTC (ltc2978)?",
+      "range": {
+        "startLine": 867,
+        "startChar": 0,
+        "endLine": 867,
+        "endChar": 12
+      },
+      "revId": "2b72a7339a6b62d7e12984c18a94dcf86af8c758",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f39d194c_df502166",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 867,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-03-24T03:20:40Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "c343e694_d1ce85f1",
       "range": {
         "startLine": 867,
         "startChar": 0,
