@@ -84,7 +84,7 @@ void ExternalSensor::initWriteHook(
     std::function<void(std::chrono::steady_clock::time_point now)>&&
         writeHookIn)
 {
-    // Connect ExternalSensorMain with ExternalSensor
+    // Connect externalSensorMain with ExternalSensor
     writeHook = std::move(writeHookIn);
 
     // Connect ExternalSensor with Sensor
