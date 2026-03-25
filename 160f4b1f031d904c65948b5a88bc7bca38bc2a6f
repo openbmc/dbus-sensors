@@ -16,6 +16,24 @@
       "message": "Since we have left other v2 test cases unchanged, let\u0027s not add this test case as well.",
       "revId": "160f4b1f031d904c65948b5a88bc7bca38bc2a6f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db95df70_7e2f7551",
+        "filename": "src/tests/test_NvidiaGpuSensorTest.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 1459,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-03-25T13:35:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d48eb448_07ce97aa",
+      "revId": "160f4b1f031d904c65948b5a88bc7bca38bc2a6f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
