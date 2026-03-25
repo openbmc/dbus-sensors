@@ -192,6 +192,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bfcdbcb5_f0d56033",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2026-03-25T01:12:00Z",
+      "side": 1,
+      "message": "\u003e \u003e This service mainly holds the app/daemon specific logic. Moreover, the leak detection and valve monitor are two different features, hence they have been added as two different services.\n\u003e \n\u003e \n\u003e We generally separate by transport, not by \"feature\". Note that all pmbus devices go through psusensor, all temp sensors go through hwmontempsensor (although they\u0027re both hwmon/sysfs for their interface, so arguably should be combined at some point).\n\nI’m referring to the device type. In dbus-sensors, most services are structured this way (e.g., psusensor, fan, adc, hwmon-temp), and i am following the same pattern here.\n\n\u003e \n\u003e I really don\u0027t like creating applications just for the heck of it.  If there\u0027s a lot of valve-specific logic, I could see this needing to be it\u0027s own application, but at a code level it\u0027s just libgpio -\u003e dbus and could be common, even if main just calls two different paths, right?\n\nI’m not creating a new application solely for the reasons above. You may have missed the other key rationale I mentioned earlier, so I’m restating it here: there’s a follow-up use case for an Analog Valve where the valve flow rate is set via a DAC and the feedback is read via an ADC. This AnalogValve will be part of the same service.",
+      "parentUuid": "4557d419_63afe165",
+      "revId": "bb2fd0e27dde756e4bfef42beee3223baafcabbe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e8228b60_d2330439",
         "filename": "src/GPIOInterface.cpp",
         "patchSetId": 11
@@ -479,6 +497,24 @@
       "side": 1,
       "message": "@spinler@us.ibm.com did you not see these when you merged 82310?\n\nYes, there are counter examples, that we know to be mediocre.  For new things, lets use enumerations please.",
       "parentUuid": "5d14ae5d_e433a9e0",
+      "revId": "bb2fd0e27dde756e4bfef42beee3223baafcabbe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd72e3e3_f7c290b6",
+        "filename": "src/valve-monitor/Readme.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2026-03-25T01:12:00Z",
+      "side": 1,
+      "message": "Sure, for future use cases will use enumerations.",
+      "parentUuid": "d6bd3bb9_3c817568",
       "revId": "bb2fd0e27dde756e4bfef42beee3223baafcabbe",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
