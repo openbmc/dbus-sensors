@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46fb04d3_25830e8e",
+        "filename": "src/tests/test_NvidiaGpuSensorTest.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 1364,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-03-25T12:50:41Z",
+      "side": 0,
+      "message": "Since we have left other v2 test cases unchanged, let\u0027s not modify this test case as well.",
+      "revId": "ff59b8384d7678d8b6533f32041530fefc27a01a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
