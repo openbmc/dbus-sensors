@@ -519,6 +519,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce461bcf_1e636327",
+        "filename": "src/valve-monitor/Readme.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-03-25T18:58:26Z",
+      "side": 1,
+      "message": "Not entirely sure what\u0027s being asked?  These comments didn\u0027t exist when the EM commit was merged last August.  If I missed some best practice that wouldn\u0027t surprise me but maybe we should get them in writing. \n\nAs this would be the only user of the schema anyway, it would be easy enough to make changes to it without affecting others.",
+      "parentUuid": "cd72e3e3_f7c290b6",
+      "revId": "bb2fd0e27dde756e4bfef42beee3223baafcabbe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "591ddd9b_0d65ca04",
