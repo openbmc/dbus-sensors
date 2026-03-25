@@ -16,6 +16,24 @@
       "message": "Is this correct?",
       "revId": "66a90a24c0f0f601b78098d9b055cb813599c313",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d466179_8a73a538",
+        "filename": "src/nvidia-gpu/NvidiaPciePort.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-03-25T10:39:44Z",
+      "side": 1,
+      "message": "Yes, FYI\nhttps://github.com/openbmc/phosphor-dbus-interfaces/blob/master/yaml/xyz/openbmc_project/Inventory/Connector/Port.interface.yaml\n\nenumerations:\n    - name: PortProtocol\n      description: \u003e\n          Possible port protocol type.\n      values:\n          - name: PCIe\n            description: \u003e\n                Protocol is PCI Express.\n          - name: Unknown\n            description: \u003e\n                Protocol is unknown.\n    - name: PortType\n      description: \u003e\n          Possible port type.\n      values:\n          - name: Downstream\n            description: \u003e\n                Type is downstream - this port connects to a target device.\n          - name: Upstream\n            description: \u003e\n                Type is upstream - this port connects to a host device.\n          - name: Unknown\n            description: \u003e\n                Type is unknown.",
+      "parentUuid": "df1d68f0_529afbc7",
+      "revId": "66a90a24c0f0f601b78098d9b055cb813599c313",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
