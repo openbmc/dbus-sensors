@@ -16,6 +16,24 @@
       "message": "Is the struct `QueryScalarGroupTelemetryV1Request` removed from header file? Same goes for other structs that are not used anymore.",
       "revId": "fb9f8095b57a802c8ade2cfbcb1933bbc35d5d6e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82593992_ea622941",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-03-25T12:13:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d7f597f_ab9b2efc",
+      "revId": "fb9f8095b57a802c8ade2cfbcb1933bbc35d5d6e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
