@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10e94e68_3ac0016d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-03-26T02:32:07Z",
+      "side": 1,
+      "message": "I expect link-time registration will alleviate a lot of the complexity here. Here\u0027s an outline of the approach:\n\nhttps://fekir.info/post/register-functions-at-link-time/#_gnu-ld-without-linker-script",
+      "revId": "be686540d84ada5b106db6d8959ffb8f4c8a7ce3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
