@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "192845f5_7eb30961",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001076
+      },
+      "writtenOn": "2026-03-27T13:07:21Z",
+      "side": 1,
+      "message": "I think these changes would restrict the ability when used with mctpd v2 interface `au.com.codeconstruct.MCTP1`.",
+      "revId": "de9264e4a9c756922c0421dea7138396d966c429",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "36a6342d_873fc95b",
@@ -54,6 +71,24 @@
       "writtenOn": "2025-07-24T03:55:52Z",
       "side": 1,
       "message": "Why 8?",
+      "revId": "de9264e4a9c756922c0421dea7138396d966c429",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a3a2125_95915ba7",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1001076
+      },
+      "writtenOn": "2026-03-27T13:07:21Z",
+      "side": 1,
+      "message": "I agree with the point here. Additionally for mctpd v2, it would be better to make use of the existing LocalEIDs D‑Bus property exposed by the au.com.codeconstruct.MCTP.Network1 interface under au.com.codeconstruct.MCTP1 at the path /au/com/codeconstruct/mctp1/networks/\u003cnetwork id\u003e. \n\nSimilarly, \u003cnetwork id\u003e can also be fetched from path /au/com/codeconstruct/mctp1/interfaces/\u003cinterface name\u003e.",
+      "parentUuid": "e27091cc_1e7e452b",
       "revId": "de9264e4a9c756922c0421dea7138396d966c429",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
