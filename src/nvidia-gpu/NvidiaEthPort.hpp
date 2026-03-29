@@ -54,6 +54,8 @@ struct NvidiaEthPortMetrics :
 
     std::shared_ptr<sdbusplus::asio::dbus_interface> associationInterface;
 
+    std::shared_ptr<sdbusplus::asio::dbus_interface> linkTypeInterface;
+
     std::array<std::shared_ptr<sdbusplus::asio::dbus_interface>,
                maxTelemetryValues>
         metricValueInterface{};

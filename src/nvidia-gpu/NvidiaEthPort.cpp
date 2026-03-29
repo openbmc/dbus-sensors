@@ -62,6 +62,18 @@ NvidiaEthPortMetrics::NvidiaEthPortMetrics(
 
     associationInterface->register_property("Associations", associations);
 
+    linkTypeInterface = objectServer.add_interface(
+        portDbusPath, "xyz.openbmc_project.Network.LinkType");
+    linkTypeInterface->register_property(
+        "LinkType", std::string("xyz.openbmc_project.Network.LinkType."
+                                "PossibleLinks.Ethernet"));
+    if (!linkTypeInterface->initialize())
+    {
+        lg2::error("Error initializing LinkType Interface for "
+                   "EID={EID}, PortNumber={PN}",
+                   "EID", eid, "PN", portNumber);
+    }
+
     constexpr std::array<std::pair<uint8_t, const char*>, 21> telemetryMetrics =
         {{
             {0, "/nic/rx_bytes"},
