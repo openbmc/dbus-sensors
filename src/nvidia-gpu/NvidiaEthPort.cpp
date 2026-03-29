@@ -21,6 +21,7 @@
 
 #include <array>
 #include <cstdint>
+#include <cstring>
 #include <format>
 #include <functional>
 #include <memory>
@@ -38,7 +39,8 @@ NvidiaEthPortMetrics::NvidiaEthPortMetrics(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, const std::string& name,
     const std::string& deviceName, const std::string& path, uint8_t eid,
-    uint16_t portNumber, sdbusplus::asio::object_server& objectServer) :
+    uint16_t portNumber, sdbusplus::asio::object_server& objectServer,
+    const std::vector<std::pair<uint8_t, uint64_t>>& addresses) :
     eid(eid), portNumber(portNumber), path(path), conn(conn),
     mctpRequester(mctpRequester)
 {
@@ -54,13 +56,68 @@ NvidiaEthPortMetrics::NvidiaEthPortMetrics(
     portInterface = objectServer.add_interface(
         portDbusPath, "xyz.openbmc_project.Inventory.Connector.Port");
 
+    const sdbusplus::message::object_path permanentMacPath =
+        portDbusPath / "Permanent_MAC_Address";
+
     std::vector<Association> associations;
     associations.emplace_back("connected_to", "connecting", deviceDbusPath);
+    associations.emplace_back("associated_ethernet_port_address",
+                              "associated_port", std::string(permanentMacPath));
 
     associationInterface =
         objectServer.add_interface(portDbusPath, association::interface);
 
     associationInterface->register_property("Associations", associations);
+
+    linkTypeInterface = objectServer.add_interface(
+        portDbusPath, "xyz.openbmc_project.Network.LinkType");
+    linkTypeInterface->register_property(
+        "LinkType", std::string("xyz.openbmc_project.Network.LinkType."
+                                "PossibleLinks.Ethernet"));
+    if (!linkTypeInterface->initialize())
+    {
+        lg2::error("Error initializing LinkType Interface for "
+                   "EID={EID}, PortNumber={PN}",
+                   "EID", eid, "PN", portNumber);
+    }
+
+    for (const auto& [tag, value] : addresses)
+    {
+        if (tag == 2)
+        {
+            std::array<uint8_t, 6> mac{};
+            std::memcpy(mac.data(), &value, sizeof(mac));
+            const std::string macStr =
+                std::format("{:02X}:{:02X}:{:02X}:{:02X}:{:02X}:{:02X}", mac[0],
+                            mac[1], mac[2], mac[3], mac[4], mac[5]);
+
+            macAddressInterface = objectServer.add_interface(
+                permanentMacPath, "xyz.openbmc_project.Network.MACAddress");
+            macAddressInterface->register_property("MACAddress", macStr);
+            if (!macAddressInterface->initialize())
+            {
+                lg2::error("Error initializing MACAddress Interface "
+                           "for EID={EID}, PortNumber={PN}",
+                           "EID", eid, "PN", portNumber);
+            }
+
+            std::vector<Association> macAssociations;
+            macAssociations.emplace_back("associated_port",
+                                         "associated_ethernet_port_address",
+                                         std::string(portDbusPath));
+            macAssociationInterface = objectServer.add_interface(
+                permanentMacPath, association::interface);
+            macAssociationInterface->register_property("Associations",
+                                                       macAssociations);
+            if (!macAssociationInterface->initialize())
+            {
+                lg2::error("Error initializing MAC Association "
+                           "for EID={EID}, PortNumber={PN}",
+                           "EID", eid, "PN", portNumber);
+            }
+            break;
+        }
+    }
 
     constexpr std::array<std::pair<uint8_t, const char*>, 21> telemetryMetrics =
         {{
