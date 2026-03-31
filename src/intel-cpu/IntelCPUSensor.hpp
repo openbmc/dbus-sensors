@@ -33,7 +33,7 @@ class IntelCPUSensor :
                    boost::asio::io_context& io, const std::string& sensorName,
                    std::vector<thresholds::Threshold>&& thresholds,
                    const std::string& configuration, int cpuId, bool show,
-                   double dtsOffset);
+                   double dtsOffset, const PowerState& powerState);
     ~IntelCPUSensor() override;
     static constexpr unsigned int sensorScaleFactor = 1000;
     static constexpr unsigned int sensorPollMs = 1000;
