@@ -53,9 +53,9 @@ IntelCPUSensor::IntelCPUSensor(
     boost::asio::io_context& io, const std::string& sensorName,
     std::vector<thresholds::Threshold>&& thresholdsIn,
     const std::string& sensorConfiguration, int cpuId, bool show,
-    double dtsOffset) :
+    double dtsOffset, const PowerState& powerState) :
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
-           objectType, false, false, 0, 0, conn, PowerState::on),
+           objectType, false, false, 0, 0, conn, powerState),
     objServer(objectServer), inputDev(io), waitTimer(io),
     nameTcontrol("Tcontrol CPU" + std::to_string(cpuId)), path(path),
     privTcontrol(std::numeric_limits<double>::quiet_NaN()),
