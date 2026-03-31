@@ -16,6 +16,121 @@
       "message": "nit, maybe I wrote this, this should probably be in the VDM specific stuff right?",
       "revId": "3203b75ee562371731505ba4c4adf0ac6bb59be6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "154298cf_4714d388",
+        "filename": "src/nvidia-gpu/NvidiaEventReporting.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-03-31T10:00:06Z",
+      "side": 1,
+      "message": "Suggestion: Consider calling GetSupportedEventSources (cmd 0x03) for each message type before SetEventSources, to verify the device actually supports the requested event IDs.",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 39
+      },
+      "revId": "3203b75ee562371731505ba4c4adf0ac6bb59be6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18d57dda_34985754",
+        "filename": "src/nvidia-gpu/NvidiaEventReporting.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-03-31T10:00:06Z",
+      "side": 1,
+      "message": "Missing return after the null check",
+      "range": {
+        "startLine": 71,
+        "startChar": 12,
+        "endLine": 74,
+        "endChar": 13
+      },
+      "revId": "3203b75ee562371731505ba4c4adf0ac6bb59be6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4069779d_05c94363",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-03-31T10:00:06Z",
+      "side": 1,
+      "message": "sizeof(uint8_t) is 1, so eventCountInBytes \u003d 64 / 1 \u003d 64, which is the same as eventCount.",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 73
+      },
+      "revId": "3203b75ee562371731505ba4c4adf0ac6bb59be6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b88ebf42_9f4e3ad4",
+        "filename": "src/nvidia-gpu/OcpMctpVdm.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-03-31T10:00:06Z",
+      "side": 1,
+      "message": "pciVendorId is unpacked but never validated. Other decode paths go through unpackHeader() which checks against the expected vendor ID (Line 118).",
+      "range": {
+        "startLine": 289,
+        "startChar": 4,
+        "endLine": 289,
+        "endChar": 31
+      },
+      "revId": "3203b75ee562371731505ba4c4adf0ac6bb59be6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a6028e1_098feed7",
+        "filename": "src/nvidia-gpu/OcpMctpVdm.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-03-31T10:00:06Z",
+      "side": 1,
+      "message": "nit, eventData \u003d buf.subspan(eventHeaderSize, size);",
+      "range": {
+        "startLine": 319,
+        "startChar": 4,
+        "endLine": 319,
+        "endChar": 45
+      },
+      "revId": "3203b75ee562371731505ba4c4adf0ac6bb59be6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
