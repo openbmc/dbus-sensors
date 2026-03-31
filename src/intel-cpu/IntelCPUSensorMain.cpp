@@ -302,6 +302,15 @@ bool createSensors(boost::asio::io_context& io,
         int cpuId =
             std::visit(VariantToUnsignedIntVisitor(), findCpuId->second);
 
+        PowerState powerState = PowerState::on;
+        auto findPowerState = baseConfiguration->second.find("PowerState");
+        if (findPowerState != baseConfiguration->second.end())
+        {
+            setReadState(std::visit(VariantToStringVisitor(),
+                                    findPowerState->second),
+                         powerState);
+        }
+
         auto directory = hwmonNamePath.parent_path();
         std::vector<std::filesystem::path> inputPaths;
         if (!findFiles(directory, R"((temp|power)\d+_(input|average|cap)$)",
@@ -390,7 +399,7 @@ bool createSensors(boost::asio::io_context& io,
             sensorPtr = std::make_shared<IntelCPUSensor>(
                 inputPathStr, sensorType, objectServer, dbusConnection, io,
                 sensorName, std::move(sensorThresholds), *interfacePath, cpuId,
-                show, dtsOffset);
+                show, dtsOffset, powerState);
             sensorPtr->setupRead();
             createdSensors.insert(sensorName);
             lg2::debug("Mapped: '{PATH}' to '{NAME}'", "PATH", inputPath,
