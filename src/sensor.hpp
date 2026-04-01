@@ -72,13 +72,15 @@ struct Sensor
            const std::string& configurationPath, std::string_view objectType,
            bool isSettable, bool isMutable, const double max, const double min,
            std::shared_ptr<sdbusplus::asio::connection>& conn,
-           PowerState readState = PowerState::always) :
+           PowerState readState = PowerState::always,
+           std::shared_ptr<HostPowerState> powerState = nullptr) :
         name(sensor_paths::escapePathForDbus(name)),
         configurationPath(configurationPath),
         configInterface(configInterfaceName(objectType)),
         isSensorSettable(isSettable), isValueMutable(isMutable), maxValue(max),
         minValue(min), thresholds(std::move(thresholdData)),
         dbusConnection(conn), readState(readState),
+        powerState(std::move(powerState)),
         instrumentation(enableInstrumentation
                             ? std::make_unique<SensorInstrumentation>()
                             : nullptr)
@@ -119,6 +121,7 @@ struct Sensor
     double hysteresisPublish = 1.0;
     std::shared_ptr<sdbusplus::asio::connection> dbusConnection;
     PowerState readState;
+    std::shared_ptr<HostPowerState> powerState;
     size_t errCount{0};
     std::unique_ptr<SensorInstrumentation> instrumentation;
 
@@ -270,8 +273,9 @@ struct Sensor
                               const std::string& label = std::string(),
                               size_t thresholdSize = 0)
     {
-        if (readState == PowerState::on || readState == PowerState::biosPost ||
-            readState == PowerState::chassisOn)
+        if (!powerState &&
+            (readState == PowerState::on || readState == PowerState::biosPost ||
+             readState == PowerState::chassisOn))
         {
             setupPowerMatch(dbusConnection);
         }
@@ -441,6 +445,10 @@ struct Sensor
 
     bool readingStateGood() const
     {
+        if (powerState)
+        {
+            return powerState->readingStateGood(readState);
+        }
         return ::readingStateGood(readState);
     }
 

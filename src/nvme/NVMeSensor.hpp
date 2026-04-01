@@ -23,7 +23,8 @@ class NVMeSensor : public Sensor
                const std::string& sensorName,
                std::vector<thresholds::Threshold>&& thresholds,
                const std::string& sensorConfiguration, int busNumber,
-               uint8_t slaveAddr, bool smbusPEC);
+               uint8_t slaveAddr, bool smbusPEC,
+               std::shared_ptr<HostPowerState> hostPowerState);
     ~NVMeSensor() override;
 
     NVMeSensor& operator=(const NVMeSensor& other) = delete;

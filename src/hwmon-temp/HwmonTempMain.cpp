@@ -38,6 +38,7 @@
 #include <algorithm>
 #include <array>
 #include <chrono>
+#include <cstddef>
 #include <cstdint>
 #include <filesystem>
 #include <functional>
@@ -261,6 +262,13 @@ static SensorConfigMap buildSensorConfigMap(
     return configMap;
 }
 
+static void powerStateChanged(
+    bool newState,
+    boost::container::flat_map<std::string, std::shared_ptr<HwmonTempSensor>>&
+        sensors,
+    boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
+    std::shared_ptr<sdbusplus::asio::connection> dbusConnection);
+
 void createSensors(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
     boost::container::flat_map<std::string, std::shared_ptr<HwmonTempSensor>>&
@@ -434,6 +442,14 @@ void createSensors(
 
                 float pollRate = getPollRate(baseConfigMap, pollRateDefault);
                 PowerState readState = getPowerState(baseConfigMap);
+                std::shared_ptr<HostPowerState> hostPowerState =
+                    getOrCreatePowerState(
+                        dbusConnection, getSlotId(baseConfigMap),
+                        [&io, &objectServer, &sensors,
+                         dbusConnection](PowerState, bool state) {
+                            powerStateChanged(state, sensors, io, objectServer,
+                                              dbusConnection);
+                        });
 
                 auto permitSet = getPermitSet(baseConfigMap);
                 auto& sensor = sensors[sensorName];
@@ -459,7 +475,8 @@ void createSensors(
                             *hwmonFile, sensorType, objectServer,
                             dbusConnection, io, sensorName,
                             std::move(sensorThresholds), thisSensorParameters,
-                            pollRate, interfacePath, readState, i2cDev);
+                            pollRate, interfacePath, readState, i2cDev,
+                            hostPowerState);
                         sensor->setupRead();
                     }
                 }
@@ -521,7 +538,8 @@ void createSensors(
                                 *hwmonFile, sensorType, objectServer,
                                 dbusConnection, io, sensorName,
                                 std::move(thresholds), thisSensorParameters,
-                                pollRate, interfacePath, readState, i2cDev);
+                                pollRate, interfacePath, readState, i2cDev,
+                                hostPowerState);
                             sensor->setupRead();
                         }
                     }
@@ -574,11 +592,11 @@ void interfaceRemoved(
 }
 
 static void powerStateChanged(
-    PowerState type, bool newState,
+    bool newState,
     boost::container::flat_map<std::string, std::shared_ptr<HwmonTempSensor>>&
         sensors,
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
-    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
+    std::shared_ptr<sdbusplus::asio::connection> dbusConnection)
 {
     if (newState)
     {
@@ -588,7 +606,7 @@ static void powerStateChanged(
     {
         for (auto& [path, sensor] : sensors)
         {
-            if (sensor != nullptr && sensor->readState == type)
+            if (sensor != nullptr && !sensor->readingStateGood())
             {
                 sensor->deactivate();
             }
@@ -609,10 +627,11 @@ int main()
     auto sensorsChanged =
         std::make_shared<boost::container::flat_set<std::string>>();
 
-    auto powerCallBack = [&sensors, &io, &objectServer,
-                          &systemBus](PowerState type, bool state) {
-        powerStateChanged(type, state, sensors, io, objectServer, systemBus);
-    };
+    auto powerCallBack =
+        [&sensors, &io, &objectServer,
+         &systemBus](PowerState /*type*/, bool state, size_t /*slotId*/) {
+            powerStateChanged(state, sensors, io, objectServer, systemBus);
+        };
     setupPowerMatchCallback(systemBus, powerCallBack);
 
     boost::asio::post(io, [&]() {
