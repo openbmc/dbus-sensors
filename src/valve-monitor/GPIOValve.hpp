@@ -1,18 +1,13 @@
 #pragma once
 
+#include "BaseValve.hpp"
 #include "GPIInterface.hpp"
 #include "GPOInterface.hpp"
 #include "ValveEvents.hpp"
 
 #include <sdbusplus/async.hpp>
-#include <sdbusplus/async/server.hpp>
 #include <sdbusplus/message/native_types.hpp>
-#include <xyz/openbmc_project/Association/Definitions/aserver.hpp>
 #include <xyz/openbmc_project/Configuration/GPIOValve/client.hpp>
-#include <xyz/openbmc_project/Control/Valve/aserver.hpp>
-#include <xyz/openbmc_project/Sensor/Value/aserver.hpp>
-#include <xyz/openbmc_project/State/Decorator/Availability/aserver.hpp>
-#include <xyz/openbmc_project/State/Decorator/OperationalStatus/aserver.hpp>
 
 #include <cstdint>
 #include <optional>
@@ -21,21 +16,8 @@
 namespace valve
 {
 
-using ValveConfigIntf =
+using GPIOConfigIntf =
     sdbusplus::client::xyz::openbmc_project::configuration::GPIOValve<>;
-
-class GPIOValve;
-
-using ValveIntf = sdbusplus::async::server_t<
-    GPIOValve, sdbusplus::aserver::xyz::openbmc_project::sensor::Value,
-    sdbusplus::aserver::xyz::openbmc_project::association::Definitions,
-    sdbusplus::aserver::xyz::openbmc_project::state::decorator::Availability,
-    sdbusplus::aserver::xyz::openbmc_project::state::decorator::
-        OperationalStatus>;
-
-using ValveControlIntf = sdbusplus::async::server_t<
-    GPIOValve, sdbusplus::aserver::xyz::openbmc_project::control::Valve,
-    sdbusplus::aserver::xyz::openbmc_project::association::Definitions>;
 
 namespace config
 {
@@ -47,9 +29,8 @@ enum class PinPolarity
     unknown
 };
 
-struct ValveConfig
+struct GPIOConfig : public BaseConfig
 {
-    std::string name = Defaults::name;
     std::string openPinName = Defaults::pinName;
     PinPolarity openPolarity = PinPolarity::unknown;
     std::string openControlPinName = Defaults::pinName;
@@ -59,7 +40,6 @@ struct ValveConfig
 
     struct Defaults
     {
-        static constexpr auto name = "unknown";
         static constexpr auto pinName = "unknown";
     };
 };
@@ -67,38 +47,26 @@ struct ValveConfig
 /** @brief Get the valve configuration from the Entity Manager */
 auto getConfig(sdbusplus::async::context& ctx,
                sdbusplus::message::object_path objectPath)
-    -> sdbusplus::async::task<std::optional<ValveConfig>>;
+    -> sdbusplus::async::task<std::optional<GPIOConfig>>;
 
 } // namespace config
 
-class GPIOValve : public ValveIntf, public ValveControlIntf
+class GPIOValve : public BaseValve
 {
   public:
     explicit GPIOValve(sdbusplus::async::context& ctx,
                        sdbusplus::message::object_path& objectPath,
-                       Events& events, const config::ValveConfig& config);
+                       Events& events, const LocalConfig& localConfig,
+                       const config::GPIOConfig& config);
 
-    ~GPIOValve();
-
-    auto createAssociations() -> sdbusplus::async::task<>;
-
-    // NOLINTNEXTLINE(readability-identifier-naming)
-    auto get_property(state_t /*unused*/) const -> State;
-
-    // NOLINTNEXTLINE(readability-identifier-naming)
-    auto set_property(state_t /*unused*/, auto state) -> bool;
+  protected:
+    auto getState() const -> State override;
+    auto setState(State state) -> bool override;
 
   private:
     auto updateGPIOStateAsync(bool gpioState) -> sdbusplus::async::task<>;
 
-    auto createSensorAssociations() -> sdbusplus::async::task<>;
-
-    auto createControlAssociations() -> void;
-
-    sdbusplus::async::context& ctx;
-    sdbusplus::message::object_path inventoryPath;
-    Events& events;
-    config::ValveConfig config;
+    config::GPIOConfig gpioConfig;
     gpio::GPIInterface inputInterface;
 };
 

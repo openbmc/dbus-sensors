@@ -31,4 +31,32 @@ auto Events::generateValveEvent(sdbusplus::message::object_path valvePath,
           valvePath, "STATUS", open);
 }
 
+auto Events::handleValveSetPointWarning(
+    sdbusplus::message::object_path valvePath, bool asserted)
+    -> sdbusplus::async::task<>
+{
+    namespace error_intf = sdbusplus::error::xyz::openbmc_project::state::Valve;
+
+    bool currentlyAsserted = pendingEvents.contains(valvePath.str);
+
+    if (asserted && !currentlyAsserted)
+    {
+        // New warning — commit the event and track it
+        auto eventPath = co_await lg2::commit(
+            ctx,
+            error_intf::ValveUnableToReachSetPoint("VALVE_NAME", valvePath));
+
+        pendingEvents[valvePath.str] = eventPath;
+        warning("Valve unable to reach set point for {PATH}", "PATH",
+                valvePath);
+    }
+    else if (!asserted && currentlyAsserted)
+    {
+        // Warning cleared — resolve the pending event
+        co_await lg2::resolve(ctx, pendingEvents[valvePath.str]);
+        pendingEvents.erase(valvePath.str);
+        debug("Valve set point warning resolved for {PATH}", "PATH", valvePath);
+    }
+}
+
 } // namespace valve
