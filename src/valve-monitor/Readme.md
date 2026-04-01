@@ -24,6 +24,30 @@ For the GPIO hardware interface, the valve's open status is indicated as a
 percentage, with 100% representing fully open and 0% representing fully closed,
 based on the GPIO signal state and its polarity.
 
+## Valve Configuration
+
+The valve monitor reads per-valve configuration from a JSON file located at:
+
+`/var/lib/valvemonitor/valve-config.json`
+
+The expected format is as follows:
+
+```json
+{
+  "Valves": [
+    { "Name": "ReturnValve", "FlowRate": 120.0 },
+    { "Name": "SupplyValve", "FlowRate": 200.0 }
+  ]
+}
+```
+
+- **Name**: The valve name matching the EM Configuration.
+- **FlowRate**: The expected flow-rate in LPM (Liters Per Minute). Defaults to
+  150 LPM if not specified.
+
+The valve monitor watches for changes to this file and automatically reloads the
+configuration when updated.
+
 ## D-Bus Interfaces
 
 The following D-Bus interfaces are implemented:
