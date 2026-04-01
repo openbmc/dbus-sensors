@@ -2,27 +2,17 @@
 
 #include "EntityManagerInterface.hpp"
 #include "GPOInterface.hpp"
-#include "ValveEvents.hpp"
 
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/async.hpp>
 #include <sdbusplus/message/native_types.hpp>
-#include <xyz/openbmc_project/Association/Definitions/aserver.hpp>
-#include <xyz/openbmc_project/Control/Valve/aserver.hpp>
-#include <xyz/openbmc_project/ObjectMapper/client.hpp>
-#include <xyz/openbmc_project/Sensor/Value/aserver.hpp>
-#include <xyz/openbmc_project/State/Decorator/Availability/aserver.hpp>
-#include <xyz/openbmc_project/State/Decorator/OperationalStatus/aserver.hpp>
 
-#include <algorithm>
 #include <array>
 #include <exception>
 #include <functional>
 #include <optional>
 #include <string_view>
-#include <tuple>
 #include <utility>
-#include <vector>
 
 namespace valve
 {
@@ -39,15 +29,15 @@ static constexpr std::array<std::pair<std::string_view, PinPolarity>, 2>
 
 auto getConfig(sdbusplus::async::context& ctx,
                sdbusplus::message::object_path objectPath)
-    -> sdbusplus::async::task<std::optional<ValveConfig>>
+    -> sdbusplus::async::task<std::optional<GPIOConfig>>
 {
-    ValveConfig config = {};
-    ValveConfigIntf::properties_t properties = {};
+    GPIOConfig config = {};
+    GPIOConfigIntf::properties_t properties = {};
 
     try
     {
         properties =
-            co_await ValveConfigIntf(ctx)
+            co_await GPIOConfigIntf(ctx)
                 .service(entity_manager::EntityManagerInterface::serviceName)
                 .path(objectPath.str)
                 .properties();
@@ -91,78 +81,27 @@ auto getConfig(sdbusplus::async::context& ctx,
 
 } // namespace config
 
-static auto getObjectPath(std::string valveName)
-{
-    std::replace(valveName.begin(), valveName.end(), ' ', '_');
-
-    return (sdbusplus::message::object_path(ValveIntf::namespace_path::value) /
-            ValveIntf::namespace_path::valve / valveName);
-}
-
-static auto getControlObjectPath(std::string valveName)
-{
-    std::replace(valveName.begin(), valveName.end(), ' ', '_');
-
-    return (sdbusplus::message::object_path(ValveControlIntf::namespace_path) /
-            valveName);
-}
-
-constexpr ValveIntf::Value::properties_t initValues{0, 100, 0,
-                                                    ValveIntf::Unit::Percent};
-constexpr ValveIntf::Definitions::properties_t initAssociations{};
-constexpr ValveIntf::Availability::properties_t initAvailability{true};
-constexpr ValveIntf::OperationalStatus::properties_t initOperationalState{true};
-constexpr ValveControlIntf::Valve::properties_t initControl{
-    ValveControlIntf::State::Close};
-constexpr ValveControlIntf::Definitions::properties_t initControlAssociations{};
-
 GPIOValve::GPIOValve(sdbusplus::async::context& ctx,
                      sdbusplus::message::object_path& objectPath,
-                     Events& events, const config::ValveConfig& config) :
-    ValveIntf(ctx, getObjectPath(config.name).str.c_str(), initValues,
-              initAssociations, initAvailability, initOperationalState),
-    ValveControlIntf(ctx, getControlObjectPath(config.name).str.c_str(),
-                     initControl, initControlAssociations),
-    ctx(ctx),
-    inventoryPath(std::filesystem::path(objectPath.str).parent_path().string()),
-    events(events), config(config),
+                     Events& events, const LocalConfig& localConfig,
+                     const config::GPIOConfig& config) :
+    BaseValve(ctx, objectPath, events, localConfig, config), gpioConfig(config),
     inputInterface(ctx, config.name, config.openPinName,
                    (config.openPolarity == config::PinPolarity::activeLow),
                    std::bind_front(&GPIOValve::updateGPIOStateAsync, this))
 {
     ctx.spawn(inputInterface.start());
-
-    Value::emit_added();
-    OperationalStatus::emit_added();
-    Availability::emit_added();
-    Valve::emit_added();
-
-    info("Created valve {VALVE}", "VALVE", config.name);
 }
 
-GPIOValve::~GPIOValve()
+auto GPIOValve::getState() const -> State
 {
-    available(false);
-}
-
-auto GPIOValve::createAssociations() -> sdbusplus::async::task<>
-{
-    co_await createSensorAssociations();
-
-    createControlAssociations();
-
-    co_return;
-}
-
-auto GPIOValve::get_property(state_t /*unused*/) const -> State
-{
-    debug("Getting {VALVE} state", "VALVE", config.name);
+    debug("Getting {VALVE} state", "VALVE", baseConfig.name);
     return ((value() != 0) ? State::Open : State::Close);
 }
 
-auto GPIOValve::set_property(state_t /*unused*/, auto state) -> bool
+auto GPIOValve::setState(State state) -> bool
 {
-    debug("Setting {VALVE} to {STATE}", "VALVE", config.name, "STATE",
+    debug("Setting {VALVE} to {STATE}", "VALVE", baseConfig.name, "STATE",
           convertStateToString(state));
 
     if ((value() == 0 && state == State::Close) ||
@@ -175,25 +114,27 @@ auto GPIOValve::set_property(state_t /*unused*/, auto state) -> bool
 
     try
     {
-        gpio::GPOInterface controlGPO{config.name, config.openControlPinName};
-        bool controlValue = ((state == State::Open) ? config.openControlValue
-                                                    : !config.openControlValue);
+        gpio::GPOInterface controlGPO{baseConfig.name,
+                                      gpioConfig.openControlPinName};
+        bool controlValue =
+            ((state == State::Open) ? gpioConfig.openControlValue
+                                    : !gpioConfig.openControlValue);
         auto res = controlGPO.setValue(controlValue);
         if (res)
         {
-            info("Successfully set {VALVE} to {STATE}", "VALVE", config.name,
-                 "STATE", convertStateToString(state));
+            info("Successfully set {VALVE} to {STATE}", "VALVE",
+                 baseConfig.name, "STATE", convertStateToString(state));
             return res;
         }
     }
     catch (const std::exception& e)
     {
         error("Failed to set control pin {PIN} to {VALUE}: {ERR}", "PIN",
-              config.openControlPinName, "VALUE", config.openControlValue,
-              "ERR", e);
+              gpioConfig.openControlPinName, "VALUE",
+              gpioConfig.openControlValue, "ERR", e);
     }
 
-    error("Failed to set {VALVE} to {STATE}", "VALVE", config.name, "STATE",
+    error("Failed to set {VALVE} to {STATE}", "VALVE", baseConfig.name, "STATE",
           convertStateToString(state));
 
     return false;
@@ -205,7 +146,7 @@ auto GPIOValve::updateGPIOStateAsync(bool gpioState) -> sdbusplus::async::task<>
 
     if (newValue != value())
     {
-        debug("Updating valve {VALVE} to {VALUE}", "VALVE", config.name,
+        debug("Updating valve {VALVE} to {VALUE}", "VALVE", baseConfig.name,
               "VALUE", newValue);
         value(newValue);
 
@@ -213,87 +154,6 @@ auto GPIOValve::updateGPIOStateAsync(bool gpioState) -> sdbusplus::async::task<>
     }
 
     co_return;
-}
-
-static auto getContainingChassis(sdbusplus::async::context& ctx,
-                                 std::string& objectPath)
-    -> sdbusplus::async::task<std::optional<std::string>>
-{
-    std::vector<std::string> allInterfaces = {
-        "xyz.openbmc_project.Inventory.Item.Board",
-        "xyz.openbmc_project.Inventory.Item.Chassis",
-    };
-
-    auto client = sdbusplus::client::xyz::openbmc_project::ObjectMapper<>(ctx)
-                      .service("xyz.openbmc_project.ObjectMapper")
-                      .path("/xyz/openbmc_project/object_mapper");
-    auto subTree = co_await client.get_sub_tree(
-        "/xyz/openbmc_project/inventory/system", 2, allInterfaces);
-
-    // A parent that is a chassis takes precedence
-    for (auto& [path, services] : subTree)
-    {
-        if (path == objectPath)
-        {
-            co_return path;
-        }
-    }
-
-    // If no parent is a chassis, return the system chassis
-    for (const auto& [path, services] : subTree)
-    {
-        for (const auto& [service, interfaces] : services)
-        {
-            if (std::find(interfaces.begin(), interfaces.end(),
-                          "xyz.openbmc_project.Inventory.Item.System") !=
-                interfaces.end())
-            {
-                co_return path;
-            }
-        }
-    }
-
-    co_return std::nullopt;
-}
-
-using association_t = std::tuple<std::string, std::string, std::string>;
-using association_list_t = std::vector<association_t>;
-
-auto GPIOValve::createSensorAssociations() -> sdbusplus::async::task<>
-{
-    association_list_t associationList;
-    std::string parent = inventoryPath;
-
-    association_t inventoryAssociation = {"inventory", "sensors",
-                                          inventoryPath};
-
-    associationList.emplace_back(inventoryAssociation);
-
-    auto res = co_await getContainingChassis(ctx, parent);
-
-    association_t chassisAssociation = {"chassis", "all_sensors",
-                                        res.value_or(parent)};
-
-    associationList.emplace_back(chassisAssociation);
-
-    ValveIntf::associations(associationList);
-
-    ValveIntf::Definitions::emit_added();
-
-    co_return;
-}
-
-auto GPIOValve::createControlAssociations() -> void
-{
-    association_list_t associationList;
-
-    association_t association = {"controlling", "controlled_by", inventoryPath};
-
-    associationList.emplace_back(association);
-
-    ValveControlIntf::associations(associationList);
-
-    ValveControlIntf::Definitions::emit_added();
 }
 
 } // namespace valve
