@@ -1,6 +1,6 @@
 #include "ValveMonitor.hpp"
 
-#include "GPIOValve.hpp"
+#include "ValveFactory.hpp"
 
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/async.hpp>
@@ -9,7 +9,6 @@
 
 #include <exception>
 #include <functional>
-#include <memory>
 #include <string>
 #include <utility>
 
@@ -19,22 +18,23 @@ namespace valve
 {
 
 ValveMonitor::ValveMonitor(sdbusplus::async::context& ctx) :
-    ctx(ctx), events(ctx),
-    entityManager(ctx, {ValveConfigIntf::interface},
+    ctx(ctx), events(ctx), valveConfig(ctx),
+    entityManager(ctx, ValveFactory::getInterfaces(),
                   std::bind_front(&ValveMonitor::processInventoryAdded, this),
                   std::bind_front(&ValveMonitor::processInventoryRemoved, this))
 {
+    ctx.spawn(valveConfig.start());
     ctx.spawn(entityManager.handleInventoryGet());
 }
 
 auto ValveMonitor::processInventoryAdded(
     const sdbusplus::message::object_path& objectPath,
-    const std::string& /*unused*/) -> void
+    const std::string& interfaceName) -> void
 {
     // Added NO_LINT to bypass clang-tidy warning about STDEXEC_ASSERT as clang
     // seems to be confused about context being uninitialized.
     // NOLINTNEXTLINE(clang-analyzer-core.uninitialized.Branch)
-    ctx.spawn(processConfigAddedAsync(objectPath));
+    ctx.spawn(processConfigAddedAsync(objectPath, interfaceName));
 }
 
 auto ValveMonitor::processInventoryRemoved(
@@ -50,34 +50,31 @@ auto ValveMonitor::processInventoryRemoved(
 }
 
 auto ValveMonitor::processConfigAddedAsync(
-    sdbusplus::message::object_path objectPath) -> sdbusplus::async::task<>
+    sdbusplus::message::object_path objectPath, std::string interfaceName)
+    -> sdbusplus::async::task<>
 {
-    auto res = co_await config::getConfig(ctx, objectPath);
-    if (!res.has_value())
-    {
-        error("Failed to get config for {OBJECT_PATH}", "OBJECT_PATH",
-              objectPath);
-        co_return;
-    }
-    auto config = res.value();
-
     if (valves.contains(objectPath.str))
     {
-        warning("Valve {VALVE} already exist", "VALVE", config.name);
+        warning("Valve at {PATH} already exists", "PATH", objectPath);
         co_return;
     }
 
     try
     {
-        auto valve =
-            std::make_unique<GPIOValve>(ctx, objectPath, events, config);
-        co_await valve->createAssociations();
+        auto valve = co_await ValveFactory::createValve(
+            ctx, objectPath, events, valveConfig, interfaceName);
+        if (!valve)
+        {
+            error("Failed to create valve for {OBJECT_PATH}", "OBJECT_PATH",
+                  objectPath);
+            co_return;
+        }
         valves[objectPath.str] = std::move(valve);
     }
     catch (std::exception& e)
     {
-        error("Failed to create valve {VALVE}: {ERROR}", "VALVE", config.name,
-              "ERROR", e);
+        error("Failed to create valve for {OBJECT_PATH}: {ERROR}",
+              "OBJECT_PATH", objectPath, "ERROR", e);
     }
 
     co_return;
