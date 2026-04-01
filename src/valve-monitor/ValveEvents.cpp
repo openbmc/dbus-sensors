@@ -6,6 +6,8 @@
 #include <sdbusplus/message/native_types.hpp>
 #include <xyz/openbmc_project/State/Valve/event.hpp>
 
+#include <exception>
+
 namespace valve
 {
 
@@ -29,6 +31,44 @@ auto Events::generateValveEvent(sdbusplus::object_path valvePath, bool open)
 
     debug("Valve event generated for {PATH} with open={STATUS}", "PATH",
           valvePath, "STATUS", open);
+}
+
+auto Events::handleValveSetPointWarning(sdbusplus::object_path valvePath,
+                                        bool asserted)
+    -> sdbusplus::async::task<>
+{
+    namespace error_intf = sdbusplus::error::xyz::openbmc_project::state::Valve;
+
+    bool currentlyAsserted = pendingEvents.contains(valvePath.str);
+
+    if (asserted && !currentlyAsserted)
+    {
+        // New warning — commit the event and track it
+        auto eventPath = co_await lg2::commit(
+            ctx,
+            error_intf::ValveUnableToReachSetPoint("VALVE_NAME", valvePath));
+
+        pendingEvents[valvePath.str] = eventPath;
+        warning("Valve unable to reach set point for {PATH}", "PATH",
+                valvePath);
+    }
+    else if (!asserted && currentlyAsserted)
+    {
+        // Warning cleared — resolve the pending event
+        const auto eventPath = pendingEvents.at(valvePath.str);
+        try
+        {
+            co_await lg2::resolve(ctx, eventPath);
+            debug("Valve set point warning resolved for {PATH}", "PATH",
+                  valvePath);
+        }
+        catch (const std::exception& e)
+        {
+            error("Unable to resolve valve event {LOG}: {ERROR}", "LOG",
+                  eventPath, "ERROR", e.what());
+        }
+        pendingEvents.erase(valvePath.str);
+    }
 }
 
 } // namespace valve
