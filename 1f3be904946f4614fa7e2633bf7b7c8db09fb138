@@ -183,6 +183,30 @@
       },
       "revId": "1f3be904946f4614fa7e2633bf7b7c8db09fb138",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8b2dd69_c509b603",
+        "filename": "src/nvidia-gpu/NvidiaLongRunningHandler.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-04-01T12:51:57Z",
+      "side": 1,
+      "message": "The key is (MessageType, CommandCode), which means only one pending long-running request per command type is supported. If the  same command is sent twice (e.g., from polling), the second registerResponseHandler fails with EEXIST. Consider adding instanceId to the key:\nusing ResponseKey \u003d std::tuple\u003cgpu::MessageType, uint8_t /*commandCode*/, uint8_t /*instanceId*/\u003e;\nThe instanceId is available in the long-running event payload (decoded by decodeLongRunningResponseEvent), so the handler can\n  still match it on the event side. This would allow multiple concurrent long-running requests for the same command to coexist.",
+      "parentUuid": "ad9ef1ea_384d70b7",
+      "range": {
+        "startLine": 34,
+        "startChar": 4,
+        "endLine": 34,
+        "endChar": 62
+      },
+      "revId": "1f3be904946f4614fa7e2633bf7b7c8db09fb138",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
