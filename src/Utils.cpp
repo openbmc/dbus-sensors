@@ -56,14 +56,13 @@
 #include <variant>
 #include <vector>
 
-static bool powerStatusOn = false;
-static bool biosHasPost = false;
 static bool manufacturingMode = false;
-static bool chassisStatusOn = false;
 
-static std::unique_ptr<sdbusplus::match> powerMatch = nullptr;
-static std::unique_ptr<sdbusplus::match> postMatch = nullptr;
-static std::unique_ptr<sdbusplus::match> chassisMatch = nullptr;
+// Per-process registry of power-state instances, keyed by host/chassis slotId.
+// The cached state lives inside each HostPowerState object (not loose global
+// variables), so hosts are tracked independently. See Utils.hpp.
+static boost::container::flat_map<size_t, std::shared_ptr<HostPowerState>>
+    powerStateRegistry;
 
 /**
  * return the contents of a file
@@ -304,44 +303,32 @@ bool findFiles(const std::filesystem::path& dirPath,
     return true;
 }
 
-bool isPowerOn()
+bool HostPowerState::isPowerOn() const
 {
-    if (!powerMatch)
-    {
-        throw std::runtime_error("Power Match Not Created");
-    }
     return powerStatusOn;
 }
 
-bool hasBiosPost()
+bool HostPowerState::hasBiosPost() const
 {
-    if (!postMatch)
-    {
-        throw std::runtime_error("Post Match Not Created");
-    }
     return biosHasPost;
 }
 
-bool isChassisOn()
+bool HostPowerState::isChassisOn() const
 {
-    if (!chassisMatch)
-    {
-        throw std::runtime_error("Chassis On Match Not Created");
-    }
     return chassisStatusOn;
 }
 
-bool readingStateGood(const PowerState& powerState)
+bool HostPowerState::readingStateGood(const PowerState& powerState) const
 {
-    if (powerState == PowerState::on && !isPowerOn())
+    if (powerState == PowerState::on && !powerStatusOn)
     {
         return false;
     }
-    if (powerState == PowerState::biosPost && (!hasBiosPost() || !isPowerOn()))
+    if (powerState == PowerState::biosPost && (!biosHasPost || !powerStatusOn))
     {
         return false;
     }
-    if (powerState == PowerState::chassisOn && !isChassisOn())
+    if (powerState == PowerState::chassisOn && !chassisStatusOn)
     {
         return false;
     }
@@ -349,23 +336,76 @@ bool readingStateGood(const PowerState& powerState)
     return true;
 }
 
-static void getPowerStatus(
-    const std::shared_ptr<sdbusplus::asio::connection>& conn,
-    size_t retries = 2)
+bool isPowerOn(size_t slotId)
 {
+    auto it = powerStateRegistry.find(slotId);
+    if (it == powerStateRegistry.end())
+    {
+        throw std::runtime_error("Power Match Not Created");
+    }
+    return it->second->isPowerOn();
+}
+
+bool hasBiosPost(size_t slotId)
+{
+    auto it = powerStateRegistry.find(slotId);
+    if (it == powerStateRegistry.end())
+    {
+        throw std::runtime_error("Post Match Not Created");
+    }
+    return it->second->hasBiosPost();
+}
+
+bool isChassisOn(size_t slotId)
+{
+    auto it = powerStateRegistry.find(slotId);
+    if (it == powerStateRegistry.end())
+    {
+        throw std::runtime_error("Chassis On Match Not Created");
+    }
+    return it->second->isChassisOn();
+}
+
+bool readingStateGood(const PowerState& powerState, size_t slotId)
+{
+    // Sensors that always read need no power domain.
+    if (powerState == PowerState::always)
+    {
+        return true;
+    }
+    auto it = powerStateRegistry.find(slotId);
+    if (it == powerStateRegistry.end())
+    {
+        // No power tracking registered for this host; do not gate the reading.
+        return true;
+    }
+    return it->second->readingStateGood(powerState);
+}
+
+void HostPowerState::getInitialPowerStatus(size_t retries)
+{
+    std::weak_ptr<HostPowerState> weak = weak_from_this();
     conn->async_method_call(
-        [conn, retries](boost::system::error_code ec,
+        [weak, retries](boost::system::error_code ec,
                         const std::variant<std::string>& state) {
+            auto self = weak.lock();
+            if (!self)
+            {
+                return;
+            }
             if (ec)
             {
                 if (retries != 0U)
                 {
                     auto timer = std::make_shared<boost::asio::steady_timer>(
-                        conn->get_io_context());
+                        self->conn->get_io_context());
                     timer->expires_after(std::chrono::seconds(15));
                     timer->async_wait(
-                        [timer, conn, retries](boost::system::error_code) {
-                            getPowerStatus(conn, retries - 1);
+                        [timer, weak, retries](boost::system::error_code) {
+                            if (auto s = weak.lock())
+                            {
+                                s->getInitialPowerStatus(retries - 1);
+                            }
                         });
                     return;
                 }
@@ -376,29 +416,39 @@ static void getPowerStatus(
                            "ERROR_MESSAGE", ec.message());
                 return;
             }
-            powerStatusOn = std::get<std::string>(state).ends_with(".Running");
+            self->powerStatusOn =
+                std::get<std::string>(state).ends_with(".Running");
         },
-        power::busname, power::path, properties::interface, properties::get,
-        power::interface, power::property);
+        std::string(power::busname) + std::to_string(slotId),
+        std::string(power::path) + std::to_string(slotId),
+        properties::interface, properties::get, power::interface,
+        power::property);
 }
 
-static void getPostStatus(
-    const std::shared_ptr<sdbusplus::asio::connection>& conn,
-    size_t retries = 2)
+void HostPowerState::getInitialPostStatus(size_t retries)
 {
+    std::weak_ptr<HostPowerState> weak = weak_from_this();
     conn->async_method_call(
-        [conn, retries](boost::system::error_code ec,
+        [weak, retries](boost::system::error_code ec,
                         const std::variant<std::string>& state) {
+            auto self = weak.lock();
+            if (!self)
+            {
+                return;
+            }
             if (ec)
             {
                 if (retries != 0U)
                 {
                     auto timer = std::make_shared<boost::asio::steady_timer>(
-                        conn->get_io_context());
+                        self->conn->get_io_context());
                     timer->expires_after(std::chrono::seconds(15));
                     timer->async_wait(
-                        [timer, conn, retries](boost::system::error_code) {
-                            getPostStatus(conn, retries - 1);
+                        [timer, weak, retries](boost::system::error_code) {
+                            if (auto s = weak.lock())
+                            {
+                                s->getInitialPostStatus(retries - 1);
+                            }
                         });
                     return;
                 }
@@ -409,31 +459,40 @@ static void getPostStatus(
                 return;
             }
             const auto& value = std::get<std::string>(state);
-            biosHasPost = (value != "Inactive") &&
-                          (value != "xyz.openbmc_project.State.OperatingSystem."
-                                    "Status.OSStatus.Inactive");
+            self->biosHasPost =
+                (value != "Inactive") &&
+                (value != "xyz.openbmc_project.State.OperatingSystem."
+                          "Status.OSStatus.Inactive");
         },
-        post::busname, post::path, properties::interface, properties::get,
-        post::interface, post::property);
+        std::string(post::busname) + std::to_string(slotId),
+        std::string(post::path) + std::to_string(slotId), properties::interface,
+        properties::get, post::interface, post::property);
 }
 
-static void getChassisStatus(
-    const std::shared_ptr<sdbusplus::asio::connection>& conn,
-    size_t retries = 2)
+void HostPowerState::getInitialChassisStatus(size_t retries)
 {
+    std::weak_ptr<HostPowerState> weak = weak_from_this();
     conn->async_method_call(
-        [conn, retries](boost::system::error_code ec,
+        [weak, retries](boost::system::error_code ec,
                         const std::variant<std::string>& state) {
+            auto self = weak.lock();
+            if (!self)
+            {
+                return;
+            }
             if (ec)
             {
                 if (retries != 0U)
                 {
                     auto timer = std::make_shared<boost::asio::steady_timer>(
-                        conn->get_io_context());
+                        self->conn->get_io_context());
                     timer->expires_after(std::chrono::seconds(15));
                     timer->async_wait(
-                        [timer, conn, retries](boost::system::error_code) {
-                            getChassisStatus(conn, retries - 1);
+                        [timer, weak, retries](boost::system::error_code) {
+                            if (auto s = weak.lock())
+                            {
+                                s->getInitialChassisStatus(retries - 1);
+                            }
                         });
                     return;
                 }
@@ -445,16 +504,16 @@ static void getChassisStatus(
                     "ERROR_MESSAGE", ec.message());
                 return;
             }
-            chassisStatusOn =
+            self->chassisStatusOn =
                 std::get<std::string>(state).ends_with(chassis::sOn);
         },
-        chassis::busname, chassis::path, properties::interface, properties::get,
-        chassis::interface, chassis::property);
+        std::string(chassis::busname) + std::to_string(slotId),
+        std::string(chassis::path) + std::to_string(slotId),
+        properties::interface, properties::get, chassis::interface,
+        chassis::property);
 }
 
-static void handlePowerSignal(
-    const std::function<void(PowerState type, bool state)>& hostStatusCallback,
-    boost::asio::steady_timer& timer, sdbusplus::message_t& message)
+void HostPowerState::handlePowerSignal(sdbusplus::message_t& message)
 {
     std::string objectName;
     boost::container::flat_map<std::string, std::variant<std::string>> values;
@@ -466,15 +525,24 @@ static void handlePowerSignal(
             std::get<std::string>(findState->second).ends_with(".Running");
         if (!on)
         {
-            timer.cancel();
+            powerTimer.cancel();
             powerStatusOn = false;
-            hostStatusCallback(PowerState::on, powerStatusOn);
+            if (hostStatusCallback)
+            {
+                hostStatusCallback(PowerState::on, powerStatusOn);
+            }
             return;
         }
         // on comes too quickly
-        timer.expires_after(std::chrono::seconds(10));
-        timer.async_wait([hostStatusCallback](boost::system::error_code ec) {
+        powerTimer.expires_after(std::chrono::seconds(10));
+        powerTimer.async_wait([weak{weak_from_this()}](
+                                  boost::system::error_code ec) {
             if (ec == boost::asio::error::operation_aborted)
+            {
+                return;
+            }
+            auto self = weak.lock();
+            if (!self)
             {
                 return;
             }
@@ -484,15 +552,16 @@ static void handlePowerSignal(
                            ec.message());
                 return;
             }
-            powerStatusOn = true;
-            hostStatusCallback(PowerState::on, powerStatusOn);
+            self->powerStatusOn = true;
+            if (self->hostStatusCallback)
+            {
+                self->hostStatusCallback(PowerState::on, self->powerStatusOn);
+            }
         });
     }
 }
 
-static void handlePostSignal(
-    const std::function<void(PowerState type, bool state)>& hostStatusCallback,
-    sdbusplus::message_t& message)
+void HostPowerState::handlePostSignal(sdbusplus::message_t& message)
 {
     std::string objectName;
     boost::container::flat_map<std::string, std::variant<std::string>> values;
@@ -504,13 +573,14 @@ static void handlePostSignal(
         biosHasPost = (value != "Inactive") &&
                       (value != "xyz.openbmc_project.State.OperatingSystem."
                                 "Status.OSStatus.Inactive");
-        hostStatusCallback(PowerState::biosPost, biosHasPost);
+        if (hostStatusCallback)
+        {
+            hostStatusCallback(PowerState::biosPost, biosHasPost);
+        }
     }
 }
 
-static void handleChassisSignal(
-    const std::function<void(PowerState type, bool state)>& hostStatusCallback,
-    boost::asio::steady_timer& timerChassisOn, sdbusplus::message_t& message)
+void HostPowerState::handleChassisSignal(sdbusplus::message_t& message)
 {
     std::string objectName;
     boost::container::flat_map<std::string, std::variant<std::string>> values;
@@ -522,16 +592,24 @@ static void handleChassisSignal(
             std::get<std::string>(findState->second).ends_with(chassis::sOn);
         if (!on)
         {
-            timerChassisOn.cancel();
+            chassisTimer.cancel();
             chassisStatusOn = false;
-            hostStatusCallback(PowerState::chassisOn, chassisStatusOn);
+            if (hostStatusCallback)
+            {
+                hostStatusCallback(PowerState::chassisOn, chassisStatusOn);
+            }
             return;
         }
         // on comes too quickly
-        timerChassisOn.expires_after(std::chrono::seconds(10));
-        timerChassisOn.async_wait(
-            [hostStatusCallback](boost::system::error_code ec) {
+        chassisTimer.expires_after(std::chrono::seconds(10));
+        chassisTimer.async_wait(
+            [weak{weak_from_this()}](boost::system::error_code ec) {
                 if (ec == boost::asio::error::operation_aborted)
+                {
+                    return;
+                }
+                auto self = weak.lock();
+                if (!self)
                 {
                     return;
                 }
@@ -541,61 +619,104 @@ static void handleChassisSignal(
                                "ERROR_MESSAGE", ec.message());
                     return;
                 }
-                chassisStatusOn = true;
-                hostStatusCallback(PowerState::chassisOn, chassisStatusOn);
+                self->chassisStatusOn = true;
+                if (self->hostStatusCallback)
+                {
+                    self->hostStatusCallback(PowerState::chassisOn,
+                                             self->chassisStatusOn);
+                }
             });
     }
 }
 
-void setupPowerMatchCallback(
-    const std::shared_ptr<sdbusplus::asio::connection>& conn,
-    std::function<void(PowerState type, bool state)>&& hostStatusCallback)
+HostPowerState::HostPowerState(
+    const std::shared_ptr<sdbusplus::asio::connection>& conn, size_t slotId,
+    std::function<void(PowerState, bool)> hostStatusCallback) :
+    conn(conn), slotId(slotId),
+    hostStatusCallback(std::move(hostStatusCallback)),
+    powerTimer(conn->get_io_context()), chassisTimer(conn->get_io_context())
+{}
+
+void HostPowerState::setup()
 {
-    static boost::asio::steady_timer timer(conn->get_io_context());
-    static boost::asio::steady_timer timerChassisOn(conn->get_io_context());
-    // create a match for powergood changes, first time do a method call to
-    // cache the correct value
-    if (powerMatch)
-    {
-        return;
-    }
+    const std::string suffix = std::to_string(slotId);
 
     powerMatch = std::make_unique<sdbusplus::match>(
         static_cast<sdbusplus::bus_t&>(*conn),
         "type='signal',interface='" + std::string(properties::interface) +
-            "',path='" + std::string(power::path) + "',arg0='" +
+            "',path='" + std::string(power::path) + suffix + "',arg0='" +
             std::string(power::interface) + "'",
-        [hostStatusCallback](sdbusplus::message_t& message) {
-            handlePowerSignal(hostStatusCallback, timer, message);
+        [weak{weak_from_this()}](sdbusplus::message_t& message) {
+            if (auto self = weak.lock())
+            {
+                self->handlePowerSignal(message);
+            }
         });
 
     postMatch = std::make_unique<sdbusplus::match>(
         static_cast<sdbusplus::bus_t&>(*conn),
         "type='signal',interface='" + std::string(properties::interface) +
-            "',path='" + std::string(post::path) + "',arg0='" +
+            "',path='" + std::string(post::path) + suffix + "',arg0='" +
             std::string(post::interface) + "'",
-        [hostStatusCallback](sdbusplus::message_t& message) {
-            handlePostSignal(hostStatusCallback, message);
+        [weak{weak_from_this()}](sdbusplus::message_t& message) {
+            if (auto self = weak.lock())
+            {
+                self->handlePostSignal(message);
+            }
         });
 
     chassisMatch = std::make_unique<sdbusplus::match>(
         static_cast<sdbusplus::bus_t&>(*conn),
         "type='signal',interface='" + std::string(properties::interface) +
-            "',path='" + std::string(chassis::path) + "',arg0='" +
+            "',path='" + std::string(chassis::path) + suffix + "',arg0='" +
             std::string(chassis::interface) + "'",
-        [hostStatusCallback = std::move(hostStatusCallback)](
-            sdbusplus::message_t& message) {
-            handleChassisSignal(hostStatusCallback, timerChassisOn, message);
+        [weak{weak_from_this()}](sdbusplus::message_t& message) {
+            if (auto self = weak.lock())
+            {
+                self->handleChassisSignal(message);
+            }
         });
 
-    getPowerStatus(conn);
-    getPostStatus(conn);
-    getChassisStatus(conn);
+    // first time do a method call to cache the correct value
+    getInitialPowerStatus(2);
+    getInitialPostStatus(2);
+    getInitialChassisStatus(2);
+}
+
+std::shared_ptr<HostPowerState> getOrCreatePowerState(
+    const std::shared_ptr<sdbusplus::asio::connection>& conn, size_t slotId,
+    const std::function<void(PowerState, bool)>& hostStatusCallback)
+{
+    auto it = powerStateRegistry.find(slotId);
+    if (it != powerStateRegistry.end())
+    {
+        return it->second;
+    }
+    auto state =
+        std::make_shared<HostPowerState>(conn, slotId, hostStatusCallback);
+    state->setup();
+    powerStateRegistry[slotId] = state;
+    return state;
+}
+
+void setupPowerMatchCallback(
+    const std::shared_ptr<sdbusplus::asio::connection>& conn,
+    const std::function<void(PowerState type, bool state, size_t slotId)>&
+        callback)
+{
+    // Ensure the system-wide default host (slotId 0) is tracked. The per-slotId
+    // callback is adapted to the single-host HostPowerState callback.
+    getOrCreatePowerState(conn, 0, [callback](PowerState type, bool state) {
+        if (callback)
+        {
+            callback(type, state, 0);
+        }
+    });
 }
 
 void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn)
 {
-    setupPowerMatchCallback(conn, [](PowerState, bool) {});
+    getOrCreatePowerState(conn, 0);
 }
 
 // replaces limits if MinReading and MaxReading are found.
