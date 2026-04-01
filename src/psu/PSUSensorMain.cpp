@@ -363,6 +363,11 @@ static void checkPWMSensor(
         name, pwmPathStr, dbusConnection, objectServer, objPath, "PSU");
 }
 
+static void powerStateChanged(
+    bool newState, boost::asio::io_context& io,
+    sdbusplus::asio::object_server& objectServer,
+    std::shared_ptr<sdbusplus::asio::connection> dbusConnection);
+
 static void createSensorsCallback(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
@@ -588,6 +593,11 @@ static void createSensorsCallback(
         checkGroupEvent(directory.string(), groupEventPathList);
 
         PowerState readState = getPowerState(*baseConfig);
+        std::shared_ptr<HostPowerState> hostPowerState = getOrCreatePowerState(
+            dbusConnection, getSlotId(*baseConfig),
+            [&io, &objectServer, dbusConnection](PowerState, bool state) {
+                powerStateChanged(state, io, objectServer, dbusConnection);
+            });
 
         /* Check if there are more sensors in the same interface */
         int i = 1;
@@ -1119,7 +1129,7 @@ static void createSensorsCallback(
                     sensorName, std::move(sensorThresholds), *interfacePath,
                     readState, sensorUnits, factor, maxReading, minReading,
                     sensorOffset, labelHead, thresholdConfSize, pollRate,
-                    i2cDev);
+                    i2cDev, hostPowerState);
                 sensors[sensorName]->setupRead();
                 ++numCreated;
                 lg2::debug("Created '{NUM}' sensors so far", "NUM", numCreated);
@@ -1232,11 +1242,9 @@ void createSensors(
 }
 
 static void powerStateChanged(
-    PowerState type, bool newState,
-    boost::container::flat_map<std::string, std::shared_ptr<PSUSensor>>&
-        sensors,
-    boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
-    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
+    bool newState, boost::asio::io_context& io,
+    sdbusplus::asio::object_server& objectServer,
+    std::shared_ptr<sdbusplus::asio::connection> dbusConnection)
 {
     if (newState)
     {
@@ -1246,7 +1254,7 @@ static void powerStateChanged(
     {
         for (auto& [path, sensor] : sensors)
         {
-            if (sensor != nullptr && sensor->readState == type)
+            if (sensor != nullptr && !sensor->readingStateGood())
             {
                 sensor->deactivate();
             }
@@ -1266,10 +1274,11 @@ int main()
     auto sensorsChanged =
         std::make_shared<boost::container::flat_set<std::string>>();
 
-    auto powerCallBack = [&io, &objectServer,
-                          &systemBus](PowerState type, bool state) {
-        powerStateChanged(type, state, sensors, io, objectServer, systemBus);
-    };
+    auto powerCallBack =
+        [&io, &objectServer,
+         &systemBus](PowerState /*type*/, bool state, size_t /*slotId*/) {
+            powerStateChanged(state, io, objectServer, systemBus);
+        };
 
     setupPowerMatchCallback(systemBus, powerCallBack);
 

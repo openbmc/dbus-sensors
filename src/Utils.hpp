@@ -56,6 +56,7 @@ using ManagedObjectType =
 using GetSubTreeType = std::vector<
     std::pair<std::string,
               std::vector<std::pair<std::string, std::vector<std::string>>>>>;
+using GetSubTreePathsType = std::vector<std::string>;
 using Association = std::tuple<std::string, std::string, std::string>;
 
 inline std::string escapeName(const std::string& sensorName)
@@ -80,12 +81,64 @@ bool findFiles(const std::filesystem::path& dirPath,
                std::string_view matchString,
                std::vector<std::filesystem::path>& foundPaths,
                int symlinkDepth = 1);
-bool isPowerOn();
-bool hasBiosPost();
-bool isChassisOn();
+// Tracks the power, POST and chassis state of a single host/chassis instance.
+// Each instance owns its own D-Bus signal matches and cached state, watching
+// State.Host<slotId> and State.Chassis<slotId>. slotId 0 is the default host.
+class HostPowerState : public std::enable_shared_from_this<HostPowerState>
+{
+  public:
+    HostPowerState(const std::shared_ptr<sdbusplus::asio::connection>& conn,
+                   size_t slotId,
+                   std::function<void(PowerState, bool)> hostStatusCallback);
+    HostPowerState(const HostPowerState&) = delete;
+    HostPowerState(HostPowerState&&) = delete;
+    HostPowerState& operator=(const HostPowerState&) = delete;
+    HostPowerState& operator=(HostPowerState&&) = delete;
+    ~HostPowerState() = default;
+
+    // Creates the D-Bus matches and fetches the initial state. Must be called
+    // once after the object is held by a shared_ptr (uses weak_from_this()).
+    void setup();
+
+    bool readingStateGood(const PowerState& powerState) const;
+    bool isPowerOn() const;
+    bool hasBiosPost() const;
+    bool isChassisOn() const;
+
+  private:
+    void handlePowerSignal(sdbusplus::message_t& message);
+    void handlePostSignal(sdbusplus::message_t& message);
+    void handleChassisSignal(sdbusplus::message_t& message);
+    void getInitialPowerStatus(size_t retries);
+    void getInitialPostStatus(size_t retries);
+    void getInitialChassisStatus(size_t retries);
+
+    std::shared_ptr<sdbusplus::asio::connection> conn;
+    size_t slotId;
+    std::function<void(PowerState, bool)> hostStatusCallback;
+    bool powerStatusOn = false;
+    bool biosHasPost = false;
+    bool chassisStatusOn = false;
+    std::unique_ptr<sdbusplus::match> powerMatch;
+    std::unique_ptr<sdbusplus::match> postMatch;
+    std::unique_ptr<sdbusplus::match> chassisMatch;
+    boost::asio::steady_timer powerTimer;
+    boost::asio::steady_timer chassisTimer;
+};
+
+// Returns the power-state instance for a host slot, creating it on first use.
+// Instances live in a per-process registry for the lifetime of the daemon.
+std::shared_ptr<HostPowerState> getOrCreatePowerState(
+    const std::shared_ptr<sdbusplus::asio::connection>& conn, size_t slotId,
+    const std::function<void(PowerState, bool)>& hostStatusCallback = {});
+
+bool isPowerOn(size_t slotId = 0);
+bool hasBiosPost(size_t slotId = 0);
+bool isChassisOn(size_t slotId = 0);
 void setupPowerMatchCallback(
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
-    std::function<void(PowerState type, bool state)>&& callback);
+    const std::function<void(PowerState type, bool state, size_t slotId)>&
+        callback);
 void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn);
 bool getSensorConfiguration(
     std::string_view type,
@@ -100,10 +153,26 @@ void createAssociation(
 void findLimits(std::pair<double, double>& limits,
                 const SensorBaseConfiguration* data);
 
-bool readingStateGood(const PowerState& powerState);
+bool readingStateGood(const PowerState& powerState, size_t slotId = 0);
 
 constexpr const char* configInterfacePrefix =
     "xyz.openbmc_project.Configuration.";
+
+static constexpr const char* toString(PowerState powerState) noexcept
+{
+    switch (powerState)
+    {
+        case PowerState::on:
+            return "On";
+        case PowerState::biosPost:
+            return "BiosPost";
+        case PowerState::always:
+            return "Always";
+        case PowerState::chassisOn:
+            return "ChassisOn";
+    }
+    return "Unknown";
+}
 
 inline std::string configInterfaceName(std::string_view type)
 {
@@ -116,6 +185,7 @@ constexpr const char* busName = "xyz.openbmc_project.ObjectMapper";
 constexpr const char* path = "/xyz/openbmc_project/object_mapper";
 constexpr const char* interface = "xyz.openbmc_project.ObjectMapper";
 constexpr const char* subtree = "GetSubTree";
+constexpr const char* subtreepaths = "GetSubTreePaths";
 } // namespace mapper
 
 namespace properties
@@ -127,27 +197,30 @@ constexpr const char* set = "Set";
 
 namespace power
 {
-const static constexpr char* busname = "xyz.openbmc_project.State.Host0";
+const static constexpr char* busname = "xyz.openbmc_project.State.Host";
 const static constexpr char* interface = "xyz.openbmc_project.State.Host";
-const static constexpr char* path = "/xyz/openbmc_project/state/host0";
+const static constexpr char* path = "/xyz/openbmc_project/state/host";
 const static constexpr char* property = "CurrentHostState";
 } // namespace power
 
 namespace chassis
 {
-const static constexpr char* busname = "xyz.openbmc_project.State.Chassis0";
+const static constexpr char* busname = "xyz.openbmc_project.State.Chassis";
 const static constexpr char* interface = "xyz.openbmc_project.State.Chassis";
-const static constexpr char* path = "/xyz/openbmc_project/state/chassis0";
+const static constexpr char* path = "/xyz/openbmc_project/state/chassis";
 const static constexpr char* property = "CurrentPowerState";
 const static constexpr char* sOn = ".On";
+const static constexpr char* propRequestedPowerTransition =
+    "RequestedPowerTransition";
+const static constexpr char* rOff = "Transition.Off";
 } // namespace chassis
 
 namespace post
 {
-const static constexpr char* busname = "xyz.openbmc_project.State.Host0";
+const static constexpr char* busname = "xyz.openbmc_project.State.Host";
 const static constexpr char* interface =
     "xyz.openbmc_project.State.OperatingSystem.Status";
-const static constexpr char* path = "/xyz/openbmc_project/state/host0";
+const static constexpr char* path = "/xyz/openbmc_project/state/host";
 const static constexpr char* property = "OperatingSystemState";
 } // namespace post
 
@@ -215,6 +288,22 @@ inline PowerState getPowerState(const SensorBaseConfigMap& cfg)
         setReadState(powerState, state);
     }
     return state;
+}
+
+inline size_t getSlotId(const SensorBaseConfigMap& cfg)
+{
+    size_t slotId = 0; // If there's no slotId defined, default to chassis0
+    auto findSlotId = cfg.find("SlotId");
+    if (findSlotId != cfg.end())
+    {
+        std::string readSlot =
+            std::visit(VariantToStringVisitor(), findSlotId->second);
+        // A malformed SlotId leaves slotId at its chassis0 default rather than
+        // throwing, unlike std::stod.
+        std::from_chars(readSlot.data(), readSlot.data() + readSlot.size(),
+                        slotId);
+    }
+    return slotId;
 }
 
 inline float getPollRate(const SensorBaseConfigMap& cfg, float dflt)

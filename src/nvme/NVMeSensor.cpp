@@ -43,10 +43,11 @@ NVMeSensor::NVMeSensor(
     const std::string& sensorName,
     std::vector<thresholds::Threshold>&& thresholdsIn,
     const std::string& sensorConfiguration, const int busNumber,
-    const uint8_t slaveAddr, bool smbusPEC) :
+    const uint8_t slaveAddr, bool smbusPEC,
+    std::shared_ptr<HostPowerState> hostPowerState) :
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
            NVMeSensor::sensorType, false, false, maxReading, minReading, conn,
-           PowerState::on),
+           PowerState::on, std::move(hostPowerState)),
     bus(busNumber), address(slaveAddr), smbusPEC(smbusPEC),
     objServer(objectServer)
 {
