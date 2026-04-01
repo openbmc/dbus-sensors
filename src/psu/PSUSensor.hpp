@@ -30,7 +30,7 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
               const PowerState& powerState, std::string_view sensorUnits,
               unsigned int factor, double max, double min, double offset,
               const std::string& label, size_t tSize, double pollRate,
-              const std::shared_ptr<I2CDevice>& i2cDevice);
+              const std::shared_ptr<I2CDevice>& i2cDevice, size_t slotId);
     ~PSUSensor() override;
     PSUSensor(const PSUSensor&) = delete;
     PSUSensor(PSUSensor&&) = delete;
