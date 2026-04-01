@@ -1,6 +1,8 @@
+#include "BaseValve.hpp"
 #include "EntityManagerInterface.hpp"
-#include "GPIOValve.hpp"
+#include "LocalConfig.hpp"
 #include "ValveEvents.hpp"
+#include "ValveFactory.hpp"
 
 #include <sdbusplus/async.hpp>
 #include <sdbusplus/message/native_types.hpp>
@@ -25,7 +27,7 @@ class ValveMonitor
 
   private:
     using valve_map_t =
-        std::unordered_map<std::string, std::unique_ptr<GPIOValve>>;
+        std::unordered_map<std::string, std::unique_ptr<BaseValve>>;
 
     /** @brief  Process new interfaces added to inventory */
     auto processInventoryAdded(
@@ -38,11 +40,13 @@ class ValveMonitor
         const std::string& interfaceName) -> void;
 
     /** @brief Process the config add asynchronously */
-    auto processConfigAddedAsync(sdbusplus::message::object_path objectPath)
+    auto processConfigAddedAsync(sdbusplus::message::object_path objectPath,
+                                 std::string interfaceName)
         -> sdbusplus::async::task<>;
 
     sdbusplus::async::context& ctx;
     Events events;
+    LocalConfig valveConfig;
     entity_manager::EntityManagerInterface entityManager;
     valve_map_t valves;
 };
