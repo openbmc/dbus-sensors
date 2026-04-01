@@ -40,7 +40,7 @@ class HwmonTempSensor :
                     const struct SensorParams& thisSensorParameters,
                     float pollRate, const std::string& sensorConfiguration,
                     PowerState powerState,
-                    const std::shared_ptr<I2CDevice>& i2cDevice);
+                    const std::shared_ptr<I2CDevice>& i2cDevice, size_t slotId);
     ~HwmonTempSensor() override;
     void setupRead();
     void activate(const std::string& newPath,
