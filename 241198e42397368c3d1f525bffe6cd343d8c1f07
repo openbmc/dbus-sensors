@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b714ee0_16545914",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2026-04-02T09:13:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eaaf330a_8e4ef9fd",
+      "revId": "241198e42397368c3d1f525bffe6cd343d8c1f07",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f502d555_48131f7a",
@@ -37,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a3aea5d7_cf918e05",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2026-04-02T09:13:47Z",
+      "side": 1,
+      "message": "My understanding is that one sensor config object path maps to exactly one I2C device instance.\nOnce the first sensor match is found and the device is instantiated, it should be fine to break here.",
+      "parentUuid": "f502d555_48131f7a",
+      "revId": "241198e42397368c3d1f525bffe6cd343d8c1f07",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a7267d07_0c33e00b",
         "filename": "src/DeviceMgmt.hpp",
         "patchSetId": 12
@@ -48,6 +84,24 @@
       "writtenOn": "2025-01-13T04:20:09Z",
       "side": 1,
       "message": "Why break?",
+      "revId": "241198e42397368c3d1f525bffe6cd343d8c1f07",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef714ec5_f594deb8",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2026-04-02T09:13:47Z",
+      "side": 1,
+      "message": "Same reason for here, once the device is instantiated, it should be fine to break here.\n\nAlso, if we don\u0027t break here, I guess the I2C device might `delete_device` and `new_device` multiple times due to the code below will clean up the I2C device already instantiated.\n\nLine 134 - 139\n```\n                if (params-\u003edevicePresent())\n                {\n                    lg2::info(\"Clearing out previous instance for \u0027{PATH}\u0027\",\n                              \"PATH\", path.str);\n                    I2CDevice tmp(*params);\n                }\n```",
+      "parentUuid": "a7267d07_0c33e00b",
       "revId": "241198e42397368c3d1f525bffe6cd343d8c1f07",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
