@@ -80,6 +80,14 @@ class NvidiaEventHandler
         eventHandlers[EventKey{eid, messageType, eventCode}] = handler;
     }
 
+    // Drop all registered handlers. Handlers may own resources (e.g. a D-Bus
+    // connection); this lets callers release them deterministically rather
+    // than relying on static-destruction order at process exit.
+    static void reset()
+    {
+        eventHandlers.clear();
+    }
+
   private:
     // Key is a tuple of (eid, messageType, eventCode)
     using EventKey = std::tuple<uint8_t, gpu::MessageType, uint8_t>;

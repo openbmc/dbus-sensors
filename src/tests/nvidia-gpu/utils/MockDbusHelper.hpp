@@ -14,6 +14,7 @@
 #include <unistd.h>
 
 #include <MctpRequester.hpp>
+#include <NvidiaEventReporting.hpp>
 #include <boost/asio/io_context.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
@@ -91,6 +92,12 @@ class DbusMockTestBase : public ::testing::Test
 
         io.stop();
 
+        // Drop globally-registered event handlers first: some own a
+        // shared_ptr to `conn`, and releasing them here (while `io` is still
+        // alive) avoids ~connection() touching a destroyed io_context service
+        // during static destruction at process exit.
+        NvidiaEventHandler::reset();
+
         mctpRequester.reset();
         objectServer.reset();
         conn.reset();
@@ -128,6 +135,15 @@ class DbusMockTestBase : public ::testing::Test
     }
 
     // ---- helpers ----
+
+    // Drain any handlers that are ready to run on the shared io_context, then
+    // reset it so the next test starts from a clean state. Used by tests that
+    // tear down an object whose destructor cancels timers / async ops.
+    static void drainPendingAsync()
+    {
+        io.poll();
+        io.restart();
+    }
 
     template <typename T>
     static T getProperty(const std::string& path, const std::string& iface,
