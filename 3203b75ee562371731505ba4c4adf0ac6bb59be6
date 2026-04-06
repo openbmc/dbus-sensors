@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "8a001121_b0085bcc",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-04-06T10:02:34Z",
+      "side": 1,
+      "message": "Kept it in this file as helper function getIid and getRequestBit are also in this file.",
+      "parentUuid": "5138baac_c487fc91",
+      "revId": "3203b75ee562371731505ba4c4adf0ac6bb59be6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "154298cf_4714d388",
         "filename": "src/nvidia-gpu/NvidiaEventReporting.cpp",
         "patchSetId": 4
@@ -64,6 +82,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c150dc3d_43f8fddb",
+        "filename": "src/nvidia-gpu/NvidiaEventReporting.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-04-06T10:02:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18d57dda_34985754",
+      "range": {
+        "startLine": 71,
+        "startChar": 12,
+        "endLine": 74,
+        "endChar": 13
+      },
+      "revId": "3203b75ee562371731505ba4c4adf0ac6bb59be6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4069779d_05c94363",
@@ -77,6 +119,30 @@
       "writtenOn": "2026-03-31T10:00:06Z",
       "side": 1,
       "message": "sizeof(uint8_t) is 1, so eventCountInBytes \u003d 64 / 1 \u003d 64, which is the same as eventCount.",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 73
+      },
+      "revId": "3203b75ee562371731505ba4c4adf0ac6bb59be6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a62a93b5_56708627",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-04-06T10:02:34Z",
+      "side": 1,
+      "message": "Removed as no longer in use.",
+      "parentUuid": "4069779d_05c94363",
       "range": {
         "startLine": 29,
         "startChar": 0,
@@ -110,6 +176,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "87f8e94b_b79ecae6",
+        "filename": "src/nvidia-gpu/OcpMctpVdm.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-04-06T10:02:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b88ebf42_9f4e3ad4",
+      "range": {
+        "startLine": 289,
+        "startChar": 4,
+        "endLine": 289,
+        "endChar": 31
+      },
+      "revId": "3203b75ee562371731505ba4c4adf0ac6bb59be6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4a6028e1_098feed7",
@@ -123,6 +213,30 @@
       "writtenOn": "2026-03-31T10:00:06Z",
       "side": 1,
       "message": "nit, eventData \u003d buf.subspan(eventHeaderSize, size);",
+      "range": {
+        "startLine": 319,
+        "startChar": 4,
+        "endLine": 319,
+        "endChar": 45
+      },
+      "revId": "3203b75ee562371731505ba4c4adf0ac6bb59be6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86fe6ad2_9564a697",
+        "filename": "src/nvidia-gpu/OcpMctpVdm.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-04-06T10:02:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a6028e1_098feed7",
       "range": {
         "startLine": 319,
         "startChar": 4,
