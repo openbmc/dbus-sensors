@@ -90,6 +90,15 @@ class DbusMockTestBase : public ::testing::Test
 
     // ---- helpers ----
 
+    // Drain any handlers that are ready to run on the shared io_context, then
+    // reset it so the next test starts from a clean state. Used by tests that
+    // tear down an object whose destructor cancels timers / async ops.
+    static void drainPendingAsync()
+    {
+        io.poll();
+        io.restart();
+    }
+
     template <typename T>
     static T getProperty(const std::string& path, const std::string& iface,
                          const std::string& prop)

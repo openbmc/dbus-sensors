@@ -9,13 +9,13 @@
 #include "NvidiaGpuSensor.hpp"
 #include "NvidiaSensorUtils.hpp"
 #include "OcpMctpVdm.hpp"
+#include "TestUtils.hpp"
 #include "Thresholds.hpp"
 
 #include <MessagePackUnpackUtils.hpp>
 #include <sdbusplus/exception.hpp>
 
 #include <cmath>
-#include <cstddef>
 #include <cstdint>
 #include <memory>
 #include <optional>
@@ -30,43 +30,18 @@
 namespace
 {
 
-constexpr uint8_t defaultEid = 10;
-
-constexpr size_t tempResponseSize =
-    ocp::accelerator_management::commonResponseSize + sizeof(int32_t);
-
-// Message header + command(1) + cc(1) + reasonCode(2)
-constexpr size_t errorResponseSize =
-    ocp::accelerator_management::messageHeaderSize + 4;
-
 std::vector<uint8_t> buildTempResponse(double tempCelsius)
 {
-    std::vector<uint8_t> buf(tempResponseSize);
-    PackBuffer pack(buf);
-    ocp::accelerator_management::packHeader(
-        pack, gpu::nvidiaPciVendorId,
-        ocp::accelerator_management::MessageType::RESPONSE, 0,
-        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
-    pack.pack(static_cast<uint8_t>(0x00)); // command: GET_TEMPERATURE_READING
-    pack.pack(static_cast<uint8_t>(0x00)); // cc: SUCCESS
-    pack.pack(static_cast<uint16_t>(0));   // reserved
-    pack.pack(static_cast<uint16_t>(4));   // data_size: sizeof(int32_t)
-    pack.pack(static_cast<int32_t>(tempCelsius * 256));
-    return buf;
+    return test_utils::buildPlatformEnvSuccessResponse(
+        gpu::PlatformEnvironmentalCommands::GET_TEMPERATURE_READING,
+        static_cast<int32_t>(tempCelsius * 256));
 }
 
 std::vector<uint8_t> buildTempErrorResponse(uint8_t cc, uint16_t reasonCode)
 {
-    std::vector<uint8_t> buf(errorResponseSize);
-    PackBuffer pack(buf);
-    ocp::accelerator_management::packHeader(
-        pack, gpu::nvidiaPciVendorId,
-        ocp::accelerator_management::MessageType::RESPONSE, 0,
-        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
-    pack.pack(static_cast<uint8_t>(0x00)); // command: GET_TEMPERATURE_READING
-    pack.pack(cc);
-    pack.pack(reasonCode);
-    return buf;
+    return test_utils::buildPlatformEnvErrorResponse(
+        gpu::PlatformEnvironmentalCommands::GET_TEMPERATURE_READING, cc,
+        reasonCode);
 }
 
 class NvidiaGpuTempSensorTestBase : public DbusMockTestBase
@@ -78,7 +53,7 @@ class NvidiaGpuTempSensorTestBase : public DbusMockTestBase
         std::vector<thresholds::Threshold> thresholds = {},
         gpu::DeviceIdentification deviceType =
             gpu::DeviceIdentification::DEVICE_GPU,
-        uint8_t eid = defaultEid)
+        uint8_t eid = test_utils::defaultEid)
     {
         return std::make_shared<NvidiaGpuTempSensor>(
             conn, *mctpRequester, name, "/test/config", eid, sensorId,
