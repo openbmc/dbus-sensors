@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d6484e1_aa3f7ff9",
+        "filename": "src/nvidia-gpu/NvidiaGpuCurrentUtilization.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-04-06T10:09:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81ba1374_99ffd5b1",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 88,
+        "endChar": 5
+      },
+      "revId": "1f3be904946f4614fa7e2633bf7b7c8db09fb138",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f0d6dedf_8ccc4ef8",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-04-01T10:52:50Z",
       "side": 1,
       "message": "The spec for Get Current Utilization (Type 3 cmd 0x47) defines two fields in the response: GPU Utilization (NvU32) + Memory Utilization (NvU32) \u003d 8 bytes. Should the size check be \u003c 8 to match the spec?",
+      "range": {
+        "startLine": 130,
+        "startChar": 4,
+        "endLine": 130,
+        "endChar": 32
+      },
+      "revId": "1f3be904946f4614fa7e2633bf7b7c8db09fb138",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72c4f590_38594e2c",
+        "filename": "src/nvidia-gpu/NvidiaGpuCurrentUtilization.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-04-06T10:09:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0d6dedf_8ccc4ef8",
       "range": {
         "startLine": 130,
         "startChar": 4,
@@ -70,6 +118,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8323f11_3aa84203",
+        "filename": "src/nvidia-gpu/NvidiaGpuCurrentUtilization.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-04-06T10:09:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "387abf58_90ef4aed",
+      "range": {
+        "startLine": 141,
+        "startChar": 4,
+        "endLine": 141,
+        "endChar": 69
+      },
+      "revId": "1f3be904946f4614fa7e2633bf7b7c8db09fb138",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "513ac9ea_02d120d0",
@@ -83,6 +155,30 @@
       "writtenOn": "2026-04-01T10:56:58Z",
       "side": 1,
       "message": "Utilization is not defined in the upstream PDI for xyz.openbmc_project.Inventory.Item.Cpu.OperatingConfig (OperatingConfig.interface.yaml).\nhttps://github.com/openbmc/phosphor-dbus-interfaces/blob/master/yaml/xyz/openbmc_project/Inventory/Item/Cpu/OperatingConfig.interface.yaml",
+      "range": {
+        "startLine": 75,
+        "startChar": 49,
+        "endLine": 75,
+        "endChar": 60
+      },
+      "revId": "1f3be904946f4614fa7e2633bf7b7c8db09fb138",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec28311f_536df013",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-04-06T10:09:11Z",
+      "side": 1,
+      "message": "Updated the commit message with needed PDI patch.",
+      "parentUuid": "513ac9ea_02d120d0",
       "range": {
         "startLine": 75,
         "startChar": 49,
@@ -116,6 +212,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2084341_1b5f882e",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-04-06T10:09:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4796ee8_20ab4509",
+      "range": {
+        "startLine": 83,
+        "startChar": 8,
+        "endLine": 83,
+        "endChar": 15
+      },
+      "revId": "1f3be904946f4614fa7e2633bf7b7c8db09fb138",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dbf83591_0c67051e",
@@ -139,6 +259,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd8c60e1_6d60b66a",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-04-06T10:09:11Z",
+      "side": 1,
+      "message": "This will be taken care in separate follow up patch, to place all long-running commands in separate round-robin queue.",
+      "parentUuid": "dbf83591_0c67051e",
+      "range": {
+        "startLine": 266,
+        "startChar": 4,
+        "endLine": 266,
+        "endChar": 33
+      },
+      "revId": "1f3be904946f4614fa7e2633bf7b7c8db09fb138",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0df41eb1_d2a3e054",
@@ -152,6 +296,30 @@
       "writtenOn": "2026-04-01T10:52:50Z",
       "side": 1,
       "message": "nit: Same pattern as the decodeEvent subspan issue in the parent patch (84679). \nIf 84679 fixes decodeEvent to use subspan(eventHeaderSize, size), this will be fine.",
+      "range": {
+        "startLine": 208,
+        "startChar": 4,
+        "endLine": 208,
+        "endChar": 61
+      },
+      "revId": "1f3be904946f4614fa7e2633bf7b7c8db09fb138",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b35add77_454df9a8",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-04-06T10:09:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0df41eb1_d2a3e054",
       "range": {
         "startLine": 208,
         "startChar": 4,
@@ -199,6 +367,30 @@
       "side": 1,
       "message": "The key is (MessageType, CommandCode), which means only one pending long-running request per command type is supported. If the  same command is sent twice (e.g., from polling), the second registerResponseHandler fails with EEXIST. Consider adding instanceId to the key:\nusing ResponseKey \u003d std::tuple\u003cgpu::MessageType, uint8_t /*commandCode*/, uint8_t /*instanceId*/\u003e;\nThe instanceId is available in the long-running event payload (decoded by decodeLongRunningResponseEvent), so the handler can\n  still match it on the event side. This would allow multiple concurrent long-running requests for the same command to coexist.",
       "parentUuid": "ad9ef1ea_384d70b7",
+      "range": {
+        "startLine": 34,
+        "startChar": 4,
+        "endLine": 34,
+        "endChar": 62
+      },
+      "revId": "1f3be904946f4614fa7e2633bf7b7c8db09fb138",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3607923b_e9992f41",
+        "filename": "src/nvidia-gpu/NvidiaLongRunningHandler.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-04-06T10:09:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8b2dd69_c509b603",
       "range": {
         "startLine": 34,
         "startChar": 4,
