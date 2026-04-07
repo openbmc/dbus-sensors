@@ -129,7 +129,7 @@ void GpuDevice::makeSensors()
     voltageSensor = std::make_shared<NvidiaGpuVoltageSensor>(
         conn, mctpRequester, name + "_Voltage_0", path, eid, gpuVoltageSensorId,
         objectServer, std::vector<thresholds::Threshold>{},
-        gpu::DeviceIdentification::DEVICE_GPU);
+        gpu::DeviceIdentification::DEVICE_GPU, inventoryPrefix + name);
 
     driverInfo = std::make_shared<NvidiaDriverInformation>(
         conn, mctpRequester, name, path, eid, objectServer);
