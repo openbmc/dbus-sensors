@@ -23,6 +23,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <filesystem>
 #include <functional>
 #include <limits>
 #include <memory>
@@ -45,12 +46,13 @@ NvidiaGpuVoltageSensor::NvidiaGpuVoltageSensor(
     const std::string& sensorConfiguration, const uint8_t eid, uint8_t sensorId,
     sdbusplus::asio::object_server& objectServer,
     std::vector<thresholds::Threshold>&& thresholdData,
-    const gpu::DeviceIdentification deviceType) :
+    const gpu::DeviceIdentification deviceType,
+    const std::string& inventoryPath) :
     Sensor(escapeName(name), std::move(thresholdData), sensorConfiguration,
            "energy", false, true, gpuVoltageSensorMaxReading,
            gpuVoltageSensorMinReading, conn),
     eid(eid), sensorId{sensorId}, mctpRequester(mctpRequester),
-    objectServer(objectServer)
+    objectServer(objectServer), inventoryPath(inventoryPath)
 {
     std::string dbusPath = sensorPathPrefix + "voltage/"s + escapeName(name);
 
@@ -67,6 +69,17 @@ NvidiaGpuVoltageSensor::NvidiaGpuVoltageSensor(
     association = objectServer.add_interface(dbusPath, association::interface);
 
     setInitialProperties(sensor_paths::unitVolts);
+
+    // Re-register associations to include processor link
+    if (association)
+    {
+        std::filesystem::path p(sensorConfiguration);
+        std::vector<Association> associations;
+        associations.emplace_back("chassis", "all_sensors",
+                                  p.parent_path().string());
+        associations.emplace_back("inventory", "sensors", inventoryPath);
+        association->set_property("Associations", associations);
+    }
 
     const std::optional<std::string> physicalContext =
         nvidia_sensor_utils::deviceTypeToPhysicalContext(deviceType);
