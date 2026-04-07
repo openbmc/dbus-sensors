@@ -134,7 +134,7 @@ void GpuDevice::makeSensors()
     voltageSensor = std::make_shared<NvidiaGpuVoltageSensor>(
         conn, mctpRequester, name + "_Voltage_0", path, eid, gpuVoltageSensorId,
         objectServer, std::vector<thresholds::Threshold>{},
-        gpu::DeviceIdentification::DEVICE_GPU);
+        gpu::DeviceIdentification::DEVICE_GPU, inventoryPrefix + name);
 
     eventReporting = std::make_shared<NvidiaEventReportingConfig>(
         eid, mctpRequester, std::initializer_list<EventDescriptor>{});
