@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e98cc2fb_0bea8bff",
+        "filename": "src/nvidia-gpu/NvidiaGpuChassisAssembly.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-04-07T09:57:30Z",
+      "side": 1,
+      "message": "If these are not used at multiple places, better to just put the values inline instead of global constexpr variable.",
+      "revId": "0c4843e98ad0ea504af2651449d0d0032e6af37e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a406078e_0a714ecc",
+        "filename": "src/nvidia-gpu/NvidiaGpuChassisAssembly.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-04-07T09:57:30Z",
+      "side": 1,
+      "message": "Let\u0027s not duplicate logic to fetch these properties since we already have it in the Inventory file. Let\u0027s implement fetch of these properties in that file only and if you want to add GPU specific behaviour create the dbus interfaces and associations conditionally based on device type GPU in the Inventory file.",
+      "revId": "0c4843e98ad0ea504af2651449d0d0032e6af37e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
