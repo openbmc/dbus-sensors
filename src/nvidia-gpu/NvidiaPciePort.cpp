@@ -36,13 +36,14 @@ using namespace std::literals;
 NvidiaPciePortInfo::NvidiaPciePortInfo(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, const std::string& name,
-    const std::string& pcieDeviceName, const std::string& path, uint8_t eid,
-    gpu::PciePortType portType, uint8_t upstreamPortNumber, uint8_t portNumber,
+    const std::string& pcieDeviceName, const std::string& path,
+    mctp::Endpoint endpoint, gpu::PciePortType portType,
+    uint8_t upstreamPortNumber, uint8_t portNumber,
     sdbusplus::asio::object_server& objectServer,
     gpu::DeviceIdentification deviceType) :
-    eid(eid), portType(portType), upstreamPortNumber(upstreamPortNumber),
-    portNumber(portNumber), path(path), conn(conn),
-    mctpRequester(mctpRequester), deviceType(deviceType)
+    endpoint{endpoint}, portType(portType),
+    upstreamPortNumber(upstreamPortNumber), portNumber(portNumber), path(path),
+    conn(conn), mctpRequester(mctpRequester), deviceType(deviceType)
 {
     const sdbusplus::object_path dbusPath =
         sdbusplus::object_path(pcieDevicePathPrefix) / pcieDeviceName / name;
@@ -79,8 +80,9 @@ NvidiaPciePortInfo::NvidiaPciePortInfo(
     if (!pciePortInterface->initialize())
     {
         lg2::error(
-            "Error initializing PCIe Device Interface for EID={EID}, PortType={PT}, PortNumber={PN}",
-            "EID", eid, "PT", static_cast<uint8_t>(portType), "PN", portNumber);
+            "Error initializing PCIe Device Interface for EID={EID}, NET={NET}, PortType={PT}, PortNumber={PN}",
+            "EID", endpoint.eid, "NET", endpoint.network, "PT",
+            static_cast<uint8_t>(portType), "PN", portNumber);
     }
 
     std::vector<Association> associations;
@@ -94,8 +96,9 @@ NvidiaPciePortInfo::NvidiaPciePortInfo(
     if (!associationInterface->initialize())
     {
         lg2::error(
-            "Error initializing Association Interface for PCIe Port Info for EID={EID}, PortType={PT}, PortNumber={PN}",
-            "EID", eid, "PT", static_cast<uint8_t>(portType), "PN", portNumber);
+            "Error initializing Association Interface for PCIe Port Info for EID={EID}, NET={NET}, PortType={PT}, PortNumber={PN}",
+            "EID", endpoint.eid, "NET", endpoint.network, "PT",
+            static_cast<uint8_t>(portType), "PN", portNumber);
     }
 }
 
@@ -129,9 +132,10 @@ void NvidiaPciePortInfo::processResponse(
     {
         lg2::error(
             "Error updating PCIe Port Info: sending message over MCTP failed, "
-            "rc={RC}, EID={EID}, PortType={PT}, PortNumber={PN}",
-            "RC", sendRecvMsgResult.message(), "EID", eid, "PT",
-            static_cast<uint8_t>(portType), "PN", portNumber);
+            "rc={RC}, EID={EID}, NET={NET}, PortType={PT}, PortNumber={PN}",
+            "RC", sendRecvMsgResult.message(), "EID", endpoint.eid, "NET",
+            endpoint.network, "PT", static_cast<uint8_t>(portType), "PN",
+            portNumber);
         return;
     }
 
@@ -158,9 +162,10 @@ void NvidiaPciePortInfo::processResponse(
     {
         lg2::error(
             "Error updating PCIe Port Info: decode failed, "
-            "rc={RC}, cc={CC}, reasonCode={RESC}, EID={EID}, PortType={PT}, PortNumber={PN}",
+            "rc={RC}, cc={CC}, reasonCode={RESC}, EID={EID}, NET={NET}, PortType={PT}, PortNumber={PN}",
             "RC", rc, "CC", static_cast<uint8_t>(cc), "RESC", reasonCode, "EID",
-            eid, "PT", static_cast<uint8_t>(portType), "PN", portNumber);
+            endpoint.eid, "NET", endpoint.network, "PT",
+            static_cast<uint8_t>(portType), "PN", portNumber);
         return;
     }
 
@@ -168,9 +173,10 @@ void NvidiaPciePortInfo::processResponse(
     {
         lg2::error(
             "Error updating PCIe Port Info: insufficient telemetry values, "
-            "NumValues={NUM}, EID={EID}, PortType={PT}, PortNumber={PN}",
-            "NUM", telemetryValues.size(), "EID", eid, "PT",
-            static_cast<uint8_t>(portType), "PN", portNumber);
+            "NumValues={NUM}, EID={EID}, NET={NET}, PortType={PT}, PortNumber={PN}",
+            "NUM", telemetryValues.size(), "EID", endpoint.eid, "NET",
+            endpoint.network, "PT", static_cast<uint8_t>(portType), "PN",
+            portNumber);
         return;
     }
 
@@ -206,14 +212,14 @@ void NvidiaPciePortInfo::update()
     if (rc != 0)
     {
         lg2::error(
-            "Error updating PCIe Port Info: encode failed, rc={RC}, EID={EID}, PortType={PT}, PortNumber={PN}",
-            "RC", rc, "EID", eid, "PT", static_cast<uint8_t>(portType), "PN",
-            portNumber);
+            "Error updating PCIe Port Info: encode failed, rc={RC}, EID={EID}, NET={NET} PortType={PT}, PortNumber={PN}",
+            "RC", rc, "EID", endpoint.eid, "NET", endpoint.network, "PT",
+            static_cast<uint8_t>(portType), "PN", portNumber);
         return;
     }
 
     mctpRequester.sendRecvMsg(
-        eid, buf,
+        endpoint, buf,
         [weak{weak_from_this()}](const std::error_code& ec,
                                  std::span<const uint8_t> buffer) {
             std::shared_ptr<NvidiaPciePortInfo> self = weak.lock();

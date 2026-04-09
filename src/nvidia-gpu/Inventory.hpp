@@ -25,7 +25,7 @@ class Inventory : public std::enable_shared_from_this<Inventory>
               sdbusplus::asio::object_server& objectServer,
               const std::string& inventoryName,
               mctp::MctpRequester& mctpRequester,
-              gpu::DeviceIdentification deviceType, uint8_t eid,
+              gpu::DeviceIdentification deviceType, mctp::Endpoint endpoint,
               boost::asio::io_context& io,
               const std::shared_ptr<sdbusplus::asio::dbus_interface>&
                   powerCapInterface);
@@ -66,7 +66,7 @@ class Inventory : public std::enable_shared_from_this<Inventory>
     std::string name;
     mctp::MctpRequester& mctpRequester;
     gpu::DeviceIdentification deviceType;
-    uint8_t eid;
+    mctp::Endpoint endpoint;
     boost::asio::steady_timer retryTimer;
     std::unordered_map<gpu::InventoryPropertyId, PropertyInfo> properties;
     std::array<uint8_t, sizeof(gpu::GetInventoryInformationRequest)>

@@ -25,7 +25,7 @@ struct NvidiaPcieFunction :
     NvidiaPcieFunction(
         std::shared_ptr<sdbusplus::asio::connection>& conn,
         mctp::MctpRequester& mctpRequester, const std::string& pcieDeviceName,
-        const std::string& path, uint8_t eid, uint8_t functionNumber,
+        const std::string& path, mctp::Endpoint ep, uint8_t functionNumber,
         sdbusplus::asio::object_server& objectServer,
         gpu::DeviceIdentification deviceType);
 
@@ -37,7 +37,7 @@ struct NvidiaPcieFunction :
     void processResponse(const std::error_code& ec,
                          std::span<const uint8_t> response);
 
-    uint8_t eid{};
+    mctp::Endpoint ep;
 
     std::string path;
 
