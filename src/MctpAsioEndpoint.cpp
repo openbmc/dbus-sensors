@@ -22,7 +22,7 @@
 #include <sys/socket.h>
 // clang-format on
 
-MctpAsioEndpoint::MctpAsioEndpoint(uint8_t eid, uint8_t msgType)
+MctpAsioEndpoint::MctpAsioEndpoint(uint8_t eid, uint8_t msgType, uint8_t netId)
 {
     endpoint.resize(sizeof(struct sockaddr_mctp));
     struct sockaddr_mctp* sock =
@@ -31,8 +31,12 @@ MctpAsioEndpoint::MctpAsioEndpoint(uint8_t eid, uint8_t msgType)
     sock->smctp_family = AF_MCTP;
     sock->smctp_type = msgType;
     sock->smctp_tag = MCTP_TAG_OWNER;
-    sock->smctp_network = MCTP_NET_ANY;
-};
+    sock->smctp_network = netId;
+}
+
+MctpAsioEndpoint::MctpAsioEndpoint(uint8_t eid, uint8_t msgType) :
+    MctpAsioEndpoint(eid, msgType, MCTP_NET_ANY)
+{}
 
 MctpAsioEndpoint::MctpAsioEndpoint(uint8_t msgType) :
     MctpAsioEndpoint{MCTP_ADDR_ANY, msgType}
@@ -56,6 +60,16 @@ std::optional<uint8_t> MctpAsioEndpoint::type() const
         return std::nullopt;
     }
     return sock->smctp_type;
+}
+
+std::optional<uint8_t> MctpAsioEndpoint::networkId() const
+{
+    const struct sockaddr_mctp* sock = getSockAddr();
+    if (sock == nullptr)
+    {
+        return std::nullopt;
+    }
+    return sock->smctp_network;
 }
 
 const struct sockaddr_mctp* MctpAsioEndpoint::getSockAddr() const
