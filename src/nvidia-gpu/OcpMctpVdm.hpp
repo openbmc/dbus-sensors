@@ -8,8 +8,11 @@
 #include "MessagePackUnpackUtils.hpp"
 
 #include <cstdint>
+#include <expected>
 #include <functional>
+#include <optional>
 #include <span>
+#include <system_error>
 
 namespace ocp
 {
@@ -114,6 +117,12 @@ struct CommonNonSuccessResponse
     uint8_t completion_code;
     uint16_t reason_code;
 } __attribute__((packed));
+
+std::optional<uint8_t> getIid(std::span<const uint8_t> buffer);
+std::optional<bool> isRequestMessage(std::span<const uint8_t> buffer);
+std::expected<void, std::error_code> injectIid(std::span<uint8_t> buffer,
+                                               uint8_t iid);
+std::optional<bool> getDatagramBit(std::span<const uint8_t> buffer);
 
 int packHeader(uint16_t pciVendorId, const BindingPciVidInfo& hdr,
                BindingPciVid& msg);

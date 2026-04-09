@@ -13,8 +13,11 @@
 #include <cerrno>
 #include <cstddef>
 #include <cstdint>
+#include <expected>
 #include <functional>
+#include <optional>
 #include <span>
+#include <system_error>
 
 namespace ocp
 {
@@ -319,6 +322,74 @@ int decodeEvent(std::span<const uint8_t> buf, uint16_t pciVendorId,
     eventData = buf.subspan(eventHeaderSize, size);
 
     return 0;
+}
+
+static const ocp::accelerator_management::BindingPciVid* getHeaderFromBuffer(
+    std::span<const uint8_t> buffer)
+{
+    if (buffer.size() < sizeof(ocp::accelerator_management::BindingPciVid))
+    {
+        return nullptr;
+    }
+
+    return std::bit_cast<const ocp::accelerator_management::BindingPciVid*>(
+        buffer.data());
+}
+
+std::optional<uint8_t> getIid(std::span<const uint8_t> buffer)
+{
+    const ocp::accelerator_management::BindingPciVid* header =
+        getHeaderFromBuffer(buffer);
+    if (header == nullptr)
+    {
+        return std::nullopt;
+    }
+    return header->instance_id & ocp::accelerator_management::instanceIdBitMask;
+}
+
+std::optional<bool> isRequestMessage(std::span<const uint8_t> buffer)
+{
+    const ocp::accelerator_management::BindingPciVid* header =
+        getHeaderFromBuffer(buffer);
+    if (header == nullptr)
+    {
+        return std::nullopt;
+    }
+    return header->instance_id & ocp::accelerator_management::requestBitMask;
+}
+
+std::expected<void, std::error_code> injectIid(std::span<uint8_t> buffer,
+                                               uint8_t iid)
+{
+    if (buffer.size() < sizeof(ocp::accelerator_management::BindingPciVid))
+    {
+        return std::unexpected(
+            std::make_error_code(std::errc::invalid_argument));
+    }
+
+    if (iid > ocp::accelerator_management::instanceIdBitMask)
+    {
+        return std::unexpected(
+            std::make_error_code(std::errc::invalid_argument));
+    }
+
+    auto* header = std::bit_cast<ocp::accelerator_management::BindingPciVid*>(
+        buffer.data());
+
+    header->instance_id &= ~ocp::accelerator_management::instanceIdBitMask;
+    header->instance_id |= iid;
+    return {};
+}
+
+std::optional<bool> getDatagramBit(std::span<const uint8_t> buffer)
+{
+    const ocp::accelerator_management::BindingPciVid* header =
+        getHeaderFromBuffer(buffer);
+    if (header == nullptr)
+    {
+        return std::nullopt;
+    }
+    return header->instance_id & ocp::accelerator_management::datagramBitMask;
 }
 
 } // namespace accelerator_management

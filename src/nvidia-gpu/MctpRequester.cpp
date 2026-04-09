@@ -19,7 +19,6 @@
 #include <boost/container/devector.hpp>
 #include <phosphor-logging/lg2.hpp>
 
-#include <bit>
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
@@ -37,57 +36,52 @@ using namespace std::literals;
 namespace mctp
 {
 
-static const ocp::accelerator_management::BindingPciVid* getHeaderFromBuffer(
-    std::span<const uint8_t> buffer)
+static std::optional<uint8_t> getIid(std::span<const uint8_t> buffer,
+                                     uint8_t messageType)
 {
-    if (buffer.size() < sizeof(ocp::accelerator_management::BindingPciVid))
+    switch (messageType)
     {
-        return nullptr;
+        case ocp::accelerator_management::messageType:
+            return ocp::accelerator_management::getIid(buffer);
+        default:
+            return std::nullopt;
     }
-
-    return std::bit_cast<const ocp::accelerator_management::BindingPciVid*>(
-        buffer.data());
+    return std::nullopt;
 }
 
-static std::optional<uint8_t> getIid(std::span<const uint8_t> buffer)
+static std::optional<bool> isRequestMessage(std::span<const uint8_t> buffer,
+                                            uint8_t messageType)
 {
-    const ocp::accelerator_management::BindingPciVid* header =
-        getHeaderFromBuffer(buffer);
-    if (header == nullptr)
+    switch (messageType)
     {
-        return std::nullopt;
+        case ocp::accelerator_management::messageType:
+            return ocp::accelerator_management::isRequestMessage(buffer);
+        default:
+            return std::nullopt;
     }
-    return header->instance_id & ocp::accelerator_management::instanceIdBitMask;
-}
-
-static std::optional<bool> getRequestBit(std::span<const uint8_t> buffer)
-{
-    const ocp::accelerator_management::BindingPciVid* header =
-        getHeaderFromBuffer(buffer);
-    if (header == nullptr)
-    {
-        return std::nullopt;
-    }
-    return header->instance_id & ocp::accelerator_management::requestBitMask;
+    return std::nullopt;
 }
 
 // get datagram bit
-static std::optional<bool> getDatagramBit(std::span<const uint8_t> buffer)
+static std::optional<bool> getDatagramBit(std::span<const uint8_t> buffer,
+                                          uint8_t messageType)
 {
-    const ocp::accelerator_management::BindingPciVid* header =
-        getHeaderFromBuffer(buffer);
-    if (header == nullptr)
+    switch (messageType)
     {
-        return std::nullopt;
+        case ocp::accelerator_management::messageType:
+            return ocp::accelerator_management::getDatagramBit(buffer);
+        default:
+            return std::nullopt;
     }
-    return header->instance_id & ocp::accelerator_management::datagramBitMask;
+    return std::nullopt;
 }
 
-MctpRequester::MctpRequester(boost::asio::io_context& ctx) :
-    io{ctx},
+MctpRequester::MctpRequester(boost::asio::io_context& ctx,
+                             uint8_t messageType) :
+    msgType{messageType}, io{ctx},
     mctpSocket(ctx, boost::asio::generic::datagram_protocol{AF_MCTP, 0})
 {
-    MctpAsioEndpoint receiveEp{ocp::accelerator_management::messageType};
+    MctpAsioEndpoint receiveEp{messageType};
     boost::system::error_code ec;
     mctpSocket.bind(receiveEp.endpoint, ec);
     if (ec)
@@ -120,7 +114,7 @@ void MctpRequester::processRecvMsg(const boost::system::error_code& ec,
         return;
     }
 
-    if (*receivedMsgType != ocp::accelerator_management::messageType)
+    if (*receivedMsgType != msgType)
     {
         // we received a message that this handler doesn't support
         // drop it on the floor and rebind receive_from
@@ -144,9 +138,9 @@ void MctpRequester::processRecvMsg(const boost::system::error_code& ec,
     // and gotten an error code in asio
     std::span<const uint8_t> responseBuffer{buffer.data(), length};
 
-    std::optional<uint8_t> optionalIid = getIid(responseBuffer);
-    std::optional<bool> isRq = getRequestBit(responseBuffer);
-    std::optional<bool> isDatagram = getDatagramBit(responseBuffer);
+    std::optional<bool> isDatagram = getDatagramBit(responseBuffer, msgType);
+    std::optional<uint8_t> optionalIid = getIid(responseBuffer, msgType);
+    std::optional<bool> isRq = isRequestMessage(responseBuffer, msgType);
     if (!optionalIid || !isRq || !isDatagram)
     {
         // we received something from the device,
@@ -322,30 +316,18 @@ std::optional<uint8_t> MctpRequester::getNextIid(uint8_t eid)
     iid &= ocp::accelerator_management::instanceIdBitMask;
     return iid;
 }
-
-static std::expected<void, std::error_code> injectIid(std::span<uint8_t> buffer,
-                                                      uint8_t iid)
+static std::expected<void, std::error_code> injectIid(
+    std::span<uint8_t> buffer, uint8_t iid, uint8_t messageType)
 {
-    if (buffer.size() < sizeof(ocp::accelerator_management::BindingPciVid))
+    switch (messageType)
     {
-        return std::unexpected(
-            std::make_error_code(std::errc::invalid_argument));
+        case ocp::accelerator_management::messageType:
+            return ocp::accelerator_management::injectIid(buffer, iid);
+        default:
+            return std::unexpected{
+                std::make_error_code(std::errc::invalid_argument)};
     }
-
-    if (iid > ocp::accelerator_management::instanceIdBitMask)
-    {
-        return std::unexpected(
-            std::make_error_code(std::errc::invalid_argument));
-    }
-
-    auto* header = std::bit_cast<ocp::accelerator_management::BindingPciVid*>(
-        buffer.data());
-
-    header->instance_id &= ~ocp::accelerator_management::instanceIdBitMask;
-    header->instance_id |= iid;
-    return {};
 }
-
 void MctpRequester::processQueue(uint8_t eid)
 {
     auto it = requestContextQueues.find(eid);
@@ -373,7 +355,8 @@ void MctpRequester::processQueue(uint8_t eid)
         return;
     }
 
-    std::expected<void, std::error_code> success = injectIid(req, *iid);
+    std::expected<void, std::error_code> success =
+        injectIid(req, *iid, msgType);
     if (!success)
     {
         lg2::error("MctpRequester: unable to set iid");
