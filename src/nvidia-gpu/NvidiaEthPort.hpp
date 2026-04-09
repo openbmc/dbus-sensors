@@ -21,11 +21,12 @@ struct NvidiaEthPortMetrics :
     public std::enable_shared_from_this<NvidiaEthPortMetrics>
 {
   public:
-    NvidiaEthPortMetrics(
-        std::shared_ptr<sdbusplus::asio::connection>& conn,
-        mctp::MctpRequester& mctpRequester, const std::string& name,
-        const std::string& deviceName, const std::string& path, uint8_t eid,
-        uint16_t portNumber, sdbusplus::asio::object_server& objectServer);
+    NvidiaEthPortMetrics(std::shared_ptr<sdbusplus::asio::connection>& conn,
+                         mctp::MctpRequester& mctpRequester,
+                         const std::string& name, const std::string& deviceName,
+                         const std::string& path, mctp::Endpoint endpoint,
+                         uint16_t portNumber,
+                         sdbusplus::asio::object_server& objectServer);
 
     void update();
 
@@ -37,7 +38,7 @@ struct NvidiaEthPortMetrics :
 
     static double mapPcieGenToLinkSpeedGbps(uint32_t value);
 
-    uint8_t eid;
+    mctp::Endpoint endpoint;
 
     uint16_t portNumber;
 

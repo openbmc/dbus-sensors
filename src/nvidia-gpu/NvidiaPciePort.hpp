@@ -25,9 +25,10 @@ struct NvidiaPciePortInfo :
     NvidiaPciePortInfo(
         std::shared_ptr<sdbusplus::asio::connection>& conn,
         mctp::MctpRequester& mctpRequester, const std::string& name,
-        const std::string& pcieDeviceName, const std::string& path, uint8_t eid,
-        gpu::PciePortType portType, uint8_t upstreamPortNumber,
-        uint8_t portNumber, sdbusplus::asio::object_server& objectServer,
+        const std::string& pcieDeviceName, const std::string& path,
+        mctp::Endpoint endpoint, gpu::PciePortType portType,
+        uint8_t upstreamPortNumber, uint8_t portNumber,
+        sdbusplus::asio::object_server& objectServer,
         gpu::DeviceIdentification deviceType);
 
     void update();
@@ -40,7 +41,7 @@ struct NvidiaPciePortInfo :
 
     static uint64_t mapPcieGenToLinkSpeedBitsPerSecond(uint32_t value);
 
-    uint8_t eid = 0;
+    mctp::Endpoint endpoint;
 
     gpu::PciePortType portType;
 

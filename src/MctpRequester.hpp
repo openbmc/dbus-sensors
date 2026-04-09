@@ -28,6 +28,32 @@
 
 namespace mctp
 {
+
+struct Endpoint
+{
+    uint8_t eid;
+    uint8_t network;
+    bool operator==(const Endpoint& other) const = default;
+};
+
+} // namespace mctp
+
+namespace std
+{
+template <>
+struct hash<mctp::Endpoint>
+{
+    size_t operator()(const mctp::Endpoint& ep) const
+    {
+        uint16_t tmp = (ep.eid << 8) | ep.network;
+        return hash<uint16_t>{}(tmp);
+    }
+};
+} // namespace std
+
+namespace mctp
+{
+
 class MctpRequester
 {
   public:
@@ -41,13 +67,14 @@ class MctpRequester
 
     MctpRequester& operator=(MctpRequester&&) = delete;
 
-    explicit MctpRequester(boost::asio::io_context& ctx, uint8_t messageType);
+    MctpRequester(boost::asio::io_context& ctx, uint8_t messageType);
 
     MctpRequester(
         boost::asio::io_context& ctx, uint8_t messageType,
-        std::move_only_function<void(uint8_t, std::span<const uint8_t>)>
+        std::move_only_function<void(mctp::Endpoint, std::span<const uint8_t>)>
             eventCallback);
-    void sendRecvMsg(uint8_t eid, std::span<const uint8_t> reqMsg,
+
+    void sendRecvMsg(Endpoint endpoint, std::span<const uint8_t> reqMsg,
                      std::move_only_function<void(const std::error_code&,
                                                   std::span<const uint8_t>)>
                          callback);
@@ -88,16 +115,16 @@ class MctpRequester
         ~EidContext() = default;
     };
 
-    std::optional<uint8_t> getNextIid(uint8_t eid);
+    std::optional<uint8_t> getNextIid(Endpoint ep);
     void startReceive();
     void processRecvMsg(const boost::system::error_code& ec, size_t length);
-    void handleSendMsgCompletion(uint8_t eid,
+    void handleSendMsgCompletion(Endpoint endpoint,
                                  const boost::system::error_code& ec,
                                  size_t length);
 
-    void handleResult(uint8_t eid, const std::error_code& ec,
+    void handleResult(Endpoint endpoint, const std::error_code& ec,
                       std::span<const uint8_t> buffer);
-    void processQueue(uint8_t eid);
+    void processQueue(Endpoint ep);
 
     boost::asio::io_context& io;
 
@@ -105,8 +132,8 @@ class MctpRequester
     static constexpr size_t maxMessageSize = 65536 + 256;
     std::array<uint8_t, maxMessageSize> buffer{};
     MctpAsioEndpoint recvEndPoint;
-    std::unordered_map<uint8_t, EidContext> requestContextQueues;
-    std::move_only_function<void(uint8_t, std::span<const uint8_t>)>
+    std::unordered_map<Endpoint, EidContext> requestContextQueues;
+    std::move_only_function<void(mctp::Endpoint, std::span<const uint8_t>)>
         eventCallback;
 };
 

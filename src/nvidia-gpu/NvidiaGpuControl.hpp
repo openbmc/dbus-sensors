@@ -23,7 +23,7 @@ class NvidiaGpuControl : public std::enable_shared_from_this<NvidiaGpuControl>
     NvidiaGpuControl(
         sdbusplus::asio::object_server& objectServer,
         const std::string& deviceName, const std::string& inventoryPath,
-        mctp::MctpRequester& mctpRequester, uint8_t eid,
+        mctp::MctpRequester& mctpRequester, mctp::Endpoint endpoint,
         const std::shared_ptr<sdbusplus::asio::dbus_interface>& powerCapIface);
 
     ~NvidiaGpuControl();
@@ -45,7 +45,7 @@ class NvidiaGpuControl : public std::enable_shared_from_this<NvidiaGpuControl>
     std::string name;
     sdbusplus::asio::object_server& objectServer;
     mctp::MctpRequester& mctpRequester;
-    uint8_t eid;
+    mctp::Endpoint endpoint;
 
     std::array<uint8_t, gpu::getPowerLimitsRequestSize>
         getPowerLimitsRequestBuffer{};

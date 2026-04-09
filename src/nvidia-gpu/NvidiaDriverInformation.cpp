@@ -27,9 +27,9 @@ const std::string softwareInventoryPath = "/xyz/openbmc_project/software/";
 NvidiaDriverInformation::NvidiaDriverInformation(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, const std::string& name,
-    const sdbusplus::object_path& path, const uint8_t eid,
+    const sdbusplus::message::object_path& path, mctp::Endpoint endpoint,
     sdbusplus::asio::object_server& objectServer) :
-    eid(eid), conn(conn), mctpRequester(mctpRequester)
+    endpoint{endpoint}, conn(conn), mctpRequester(mctpRequester)
 {
     const std::string dbusPath = softwareInventoryPath + escapeName(name);
 
@@ -44,8 +44,8 @@ NvidiaDriverInformation::NvidiaDriverInformation(
     if (!versionInterface->initialize())
     {
         lg2::error(
-            "Failed to initialize Version interface for Driver Information for eid {EID}",
-            "EID", eid);
+            "Failed to initialize Version interface for Driver Information for eid {EID} net {NET}",
+            "EID", endpoint.eid, "NET", endpoint.network);
     }
 
     std::vector<Association> associations;
@@ -59,8 +59,8 @@ NvidiaDriverInformation::NvidiaDriverInformation(
     if (!associationInterface->initialize())
     {
         lg2::error(
-            "Failed to initialize Association interface for Driver Information for eid {EID}",
-            "EID", eid);
+            "Failed to initialize Association interface for Driver Information for eid {EID} net {NET}",
+            "EID", endpoint.eid, "NET", endpoint.network);
     }
 }
 
@@ -70,8 +70,8 @@ void NvidiaDriverInformation::processResponse(const std::error_code& ec,
     if (ec)
     {
         lg2::error(
-            "Error updating Driver Information for eid {EID} : sending message over MCTP failed, rc={RC}",
-            "EID", eid, "RC", ec.message());
+            "Error updating Driver Information for eid {EID} net {NET} : sending message over MCTP failed, rc={RC}",
+            "EID", endpoint.eid, "NET", endpoint.network, "RC", ec.message());
         return;
     }
 
@@ -86,9 +86,9 @@ void NvidiaDriverInformation::processResponse(const std::error_code& ec,
     if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
     {
         lg2::error(
-            "Error updating Driver Information for eid {EID} : decode failed, rc={RC}, cc={CC}, reasonCode={REASON}",
-            "EID", eid, "RC", rc, "CC", static_cast<uint8_t>(cc), "REASON",
-            reasonCode);
+            "Error updating Driver Information for eid {EID} net {NET} : decode failed, rc={RC}, cc={CC}, reasonCode={REASON}",
+            "EID", endpoint.eid, "NET", endpoint.network, "RC", rc, "CC",
+            static_cast<uint8_t>(cc), "REASON", reasonCode);
         return;
     }
 
@@ -102,13 +102,13 @@ void NvidiaDriverInformation::update()
     if (rc != 0)
     {
         lg2::error(
-            "Error updating Driver Information for eid {EID} : encode failed, rc={RC}",
-            "EID", eid, "RC", rc);
+            "Error updating Driver Information for eid {EID} net {NET} : encode failed, rc={RC}",
+            "EID", endpoint.eid, "NET", endpoint.network, "RC", rc);
         return;
     }
 
     mctpRequester.sendRecvMsg(
-        eid, request,
+        endpoint, request,
         [weak{weak_from_this()}](const std::error_code& ec,
                                  std::span<const uint8_t> buffer) {
             std::shared_ptr<NvidiaDriverInformation> self = weak.lock();
