@@ -29,9 +29,10 @@
 using namespace std::literals;
 
 NvidiaGpuPowerPeakReading::NvidiaGpuPowerPeakReading(
-    mctp::MctpRequester& mctpRequester, const std::string& name, uint8_t eid,
-    uint8_t sensorId, sdbusplus::asio::object_server& objectServer) :
-    eid(eid), sensorId{sensorId}, mctpRequester(mctpRequester),
+    mctp::MctpRequester& mctpRequester, const std::string& name,
+    mctp::Endpoint endpoint, uint8_t sensorId,
+    sdbusplus::asio::object_server& objectServer) :
+    endpoint{endpoint}, sensorId{sensorId}, mctpRequester(mctpRequester),
     objectServer(objectServer)
 {
     std::string dbusPath = sensorPathPrefix + "power/"s + escapeName(name);
@@ -71,8 +72,9 @@ void NvidiaGpuPowerPeakReading::processResponse(const std::error_code& ec,
     if (ec)
     {
         lg2::error(
-            "Error updating Peak Power Sensor for eid {EID} and sensor id {SID} : sending message over MCTP failed, rc={RC}",
-            "EID", eid, "SID", sensorId, "RC", ec.message());
+            "Error updating Peak Power Sensor for eid {EID} net {NET} and sensor id {SID} : sending message over MCTP failed, rc={RC}",
+            "EID", endpoint.eid, "NET", endpoint.network, "SID", sensorId, "RC",
+            ec.message());
         return;
     }
 
@@ -86,9 +88,9 @@ void NvidiaGpuPowerPeakReading::processResponse(const std::error_code& ec,
     if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
     {
         lg2::error(
-            "Error updating Peak Power Sensor eid {EID} and sensor id {SID} : decode failed, rc={RC}, cc={CC}, reasonCode={RESC}",
-            "EID", eid, "SID", sensorId, "RC", rc, "CC", cc, "RESC",
-            reasonCode);
+            "Error updating Peak Power Sensor eid {EID} net {NET} and sensor id {SID} : decode failed, rc={RC}, cc={CC}, reasonCode={RESC}",
+            "EID", endpoint.eid, "NET", endpoint.network, "SID", sensorId, "RC",
+            rc, "CC", cc, "RESC", reasonCode);
         return;
     }
 
@@ -108,12 +110,13 @@ void NvidiaGpuPowerPeakReading::update()
     if (rc != 0)
     {
         lg2::error(
-            "Error updating Peak Power Sensor for eid {EID} and sensor id {SID} : encode failed, rc={RC}",
-            "EID", eid, "SID", sensorId, "RC", rc);
+            "Error updating Peak Power Sensor for eid {EID} net {NET} and sensor id {SID} : encode failed, rc={RC}",
+            "EID", endpoint.eid, "NET", endpoint.network, "SID", sensorId, "RC",
+            rc);
     }
 
     mctpRequester.sendRecvMsg(
-        eid, request,
+        endpoint, request,
         [this](const std::error_code& ec, std::span<const uint8_t> buffer) {
             processResponse(ec, buffer);
         });

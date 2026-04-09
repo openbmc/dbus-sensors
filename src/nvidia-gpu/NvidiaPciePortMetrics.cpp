@@ -38,15 +38,17 @@ constexpr const char* metricInterface = "xyz.openbmc_project.Metric.Value";
 NvidiaPciePortMetrics::NvidiaPciePortMetrics(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, const std::string& name,
-    const std::string& pcieDeviceName, const std::string& path, uint8_t eid,
-    gpu::PciePortType portType, uint8_t upstreamPortNumber, uint8_t portNumber,
+    const std::string& pcieDeviceName, const std::string& path,
+    mctp::Endpoint endpoint, gpu::PciePortType portType,
+    uint8_t upstreamPortNumber, uint8_t portNumber,
     sdbusplus::asio::object_server& objectServer,
     gpu::PcieScalarGroupId scalarGroupId,
     const std::vector<NvidiaMetricInfo>& metricsInfo,
     gpu::DeviceIdentification deviceType) :
-    eid(eid), portType(portType), upstreamPortNumber(upstreamPortNumber),
-    portNumber(portNumber), scalarGroupId(scalarGroupId), path(path),
-    conn(conn), mctpRequester(mctpRequester), deviceType(deviceType)
+    endpoint{endpoint}, portType(portType),
+    upstreamPortNumber(upstreamPortNumber), portNumber(portNumber),
+    scalarGroupId(scalarGroupId), path(path), conn(conn),
+    mctpRequester(mctpRequester), deviceType{deviceType}
 {
     const std::string metricsDbusPathPrefix =
         metricPath + std::format("port_{}_{}", pcieDeviceName, name);
@@ -75,20 +77,20 @@ NvidiaPciePortMetrics::NvidiaPciePortMetrics(
         if (!metricValueInterfaces[id]->initialize())
         {
             lg2::error(
-                "Error initializing PCIe Port Metric Interface for EID={EID}, "
+                "Error initializing PCIe Port Metric Interface for EID={EID}, NET={NET}, "
                 "PortType={PT}, PortNumber={PN}, ScalarGroup={SG}, Metric={MN}",
-                "EID", eid, "PT", static_cast<uint8_t>(portType), "PN",
-                portNumber, "EID", eid, "PN", portNumber, "SG",
+                "EID", endpoint.eid, "NET", endpoint.network, "PT",
+                static_cast<uint8_t>(portType), "PN", portNumber, "SG",
                 static_cast<uint8_t>(scalarGroupId), "MN", name);
         }
 
         if (!metricAssociationInterfaces[id]->initialize())
         {
             lg2::error(
-                "Error initializing PCIe Port Metric Association Interface for EID={EID}, "
+                "Error initializing PCIe Port Metric Association Interface for EID={EID}, NET={NET}, "
                 "PortType={PT}, PortNumber={PN}, ScalarGroup={SG}, Metric={MN}",
-                "EID", eid, "PT", static_cast<uint8_t>(portType), "PN",
-                portNumber, "EID", eid, "PN", portNumber, "SG",
+                "EID", endpoint.eid, "NET", endpoint.network, "PT",
+                static_cast<uint8_t>(portType), "PN", portNumber, "SG",
                 static_cast<uint8_t>(scalarGroupId), "MN", name);
         }
     }
@@ -101,10 +103,10 @@ void NvidiaPciePortMetrics::processResponse(
     {
         lg2::error(
             "Error updating PCIe Port Metrics: sending message over MCTP failed, "
-            "rc={RC}, EID={EID}, PortType={PT}, PortNumber={PN}, ScalarGroup={SG}",
-            "RC", sendRecvMsgResult.message(), "EID", eid, "PT",
-            static_cast<uint8_t>(portType), "PN", portNumber, "SG",
-            static_cast<uint8_t>(scalarGroupId));
+            "rc={RC}, EID={EID}, NET={NET}, PortType={PT}, PortNumber={PN}, ScalarGroup={SG}",
+            "RC", sendRecvMsgResult.message(), "EID", endpoint.eid, "NET",
+            endpoint.network, "PT", static_cast<uint8_t>(portType), "PN",
+            portNumber, "SG", static_cast<uint8_t>(scalarGroupId));
         return;
     }
 
@@ -131,9 +133,10 @@ void NvidiaPciePortMetrics::processResponse(
     {
         lg2::error(
             "Error updating PCIe Port Errors: decode failed, "
-            "rc={RC}, cc={CC}, reasonCode={RESC}, EID={EID}, PortType={PT}, PortNumber={PN}, ScalarGroup={SG}",
+            "rc={RC}, cc={CC}, reasonCode={RESC}, EID={EID}, NET={NET}, PortType={PT}, PortNumber={PN}, ScalarGroup={SG}",
             "RC", rc, "CC", static_cast<uint8_t>(cc), "RESC", reasonCode, "EID",
-            eid, "PT", static_cast<uint8_t>(portType), "PN", portNumber, "SG",
+            endpoint.eid, "NET", endpoint.network, "PT",
+            static_cast<uint8_t>(portType), "PN", portNumber, "SG",
             static_cast<uint8_t>(scalarGroupId));
         return;
     }
@@ -173,14 +176,15 @@ void NvidiaPciePortMetrics::update()
     if (rc != 0)
     {
         lg2::error(
-            "Error updating PCIe Port Metrics: encode failed, rc={RC}, EID={EID}, PortType={PT}, PortNumber={PN}, ScalarGroup={SG}",
-            "RC", rc, "EID", eid, "PT", static_cast<uint8_t>(portType), "PN",
-            portNumber, "SG", static_cast<uint8_t>(scalarGroupId));
+            "Error updating PCIe Port Errors: encode failed, rc={RC}, EID={EID}, NET={NET}, PortType={PT}, PortNumber={PN}, ScalarGroup={SG}",
+            "RC", rc, "EID", endpoint.eid, "NET", endpoint.network, "PT",
+            static_cast<uint8_t>(portType), "PN", portNumber, "SG",
+            static_cast<uint8_t>(scalarGroupId));
         return;
     }
 
     mctpRequester.sendRecvMsg(
-        eid, buf,
+        endpoint, buf,
         [weak{weak_from_this()}](const std::error_code& ec,
                                  std::span<const uint8_t> buffer) {
             std::shared_ptr<NvidiaPciePortMetrics> self = weak.lock();
@@ -196,13 +200,14 @@ void NvidiaPciePortMetrics::update()
 std::shared_ptr<NvidiaPciePortMetrics> makeNvidiaPciePortErrors(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, const std::string& name,
-    const std::string& pcieDeviceName, const std::string& path, uint8_t eid,
-    gpu::PciePortType portType, uint8_t upstreamPortNumber, uint8_t portNumber,
+    const std::string& pcieDeviceName, const std::string& path,
+    mctp::Endpoint endpoint, gpu::PciePortType portType,
+    uint8_t upstreamPortNumber, uint8_t portNumber,
     sdbusplus::asio::object_server& objectServer,
     gpu::DeviceIdentification deviceType)
 {
     return std::make_shared<NvidiaPciePortMetrics>(
-        conn, mctpRequester, name, pcieDeviceName, path, eid, portType,
+        conn, mctpRequester, name, pcieDeviceName, path, endpoint, portType,
         upstreamPortNumber, portNumber, objectServer,
         gpu::PcieScalarGroupId::AerErrorCounters,
         std::vector<NvidiaMetricInfo>{
@@ -217,13 +222,14 @@ std::shared_ptr<NvidiaPciePortMetrics> makeNvidiaPciePortErrors(
 std::shared_ptr<NvidiaPciePortMetrics> makeNvidiaPciePortCounters(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, const std::string& name,
-    const std::string& pcieDeviceName, const std::string& path, uint8_t eid,
-    gpu::PciePortType portType, uint8_t upstreamPortNumber, uint8_t portNumber,
+    const std::string& pcieDeviceName, const std::string& path,
+    mctp::Endpoint endpoint, gpu::PciePortType portType,
+    uint8_t upstreamPortNumber, uint8_t portNumber,
     sdbusplus::asio::object_server& objectServer,
     gpu::DeviceIdentification deviceType)
 {
     return std::make_shared<NvidiaPciePortMetrics>(
-        conn, mctpRequester, name, pcieDeviceName, path, eid, portType,
+        conn, mctpRequester, name, pcieDeviceName, path, endpoint, portType,
         upstreamPortNumber, portNumber, objectServer,
         gpu::PcieScalarGroupId::DetailedErrorCounters,
         std::vector<NvidiaMetricInfo>{
@@ -238,13 +244,14 @@ std::shared_ptr<NvidiaPciePortMetrics> makeNvidiaPciePortCounters(
 std::shared_ptr<NvidiaPciePortMetrics> makeNvidiaPciePortL0ToRecoveryCount(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, const std::string& name,
-    const std::string& pcieDeviceName, const std::string& path, uint8_t eid,
-    gpu::PciePortType portType, uint8_t upstreamPortNumber, uint8_t portNumber,
+    const std::string& pcieDeviceName, const std::string& path,
+    mctp::Endpoint endpoint, gpu::PciePortType portType,
+    uint8_t upstreamPortNumber, uint8_t portNumber,
     sdbusplus::asio::object_server& objectServer,
     gpu::DeviceIdentification deviceType)
 {
     return std::make_shared<NvidiaPciePortMetrics>(
-        conn, mctpRequester, name, pcieDeviceName, path, eid, portType,
+        conn, mctpRequester, name, pcieDeviceName, path, endpoint, portType,
         upstreamPortNumber, portNumber, objectServer,
         gpu::PcieScalarGroupId::RecoveryCounter,
         std::vector<NvidiaMetricInfo>{

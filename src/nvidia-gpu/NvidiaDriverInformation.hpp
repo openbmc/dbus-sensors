@@ -20,11 +20,11 @@ struct NvidiaDriverInformation :
     public std::enable_shared_from_this<NvidiaDriverInformation>
 {
   public:
-    NvidiaDriverInformation(std::shared_ptr<sdbusplus::asio::connection>& conn,
-                            mctp::MctpRequester& mctpRequester,
-                            const std::string& name,
-                            const sdbusplus::object_path& path, uint8_t eid,
-                            sdbusplus::asio::object_server& objectServer);
+    NvidiaDriverInformation(
+        std::shared_ptr<sdbusplus::asio::connection>& conn,
+        mctp::MctpRequester& mctpRequester, const std::string& name,
+        const sdbusplus::message::object_path& path, mctp::Endpoint endpoint,
+        sdbusplus::asio::object_server& objectServer);
 
     void update();
 
@@ -32,7 +32,7 @@ struct NvidiaDriverInformation :
     void processResponse(const std::error_code& ec,
                          std::span<const uint8_t> buffer);
 
-    uint8_t eid{};
+    mctp::Endpoint endpoint;
 
     std::shared_ptr<sdbusplus::asio::connection> conn;
 

@@ -16,7 +16,6 @@
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <boost/container/devector.hpp>
-#include <nvidia-gpu/NvidiaGpuMctpVdm.hpp>
 #include <phosphor-logging/lg2.hpp>
 
 #include <cstddef>
@@ -86,7 +85,7 @@ MctpRequester::MctpRequester(boost::asio::io_context& ctx,
 
 MctpRequester::MctpRequester(
     boost::asio::io_context& ctx, uint8_t messageType,
-    std::move_only_function<void(uint8_t, std::span<const uint8_t>)>
+    std::move_only_function<void(mctp::Endpoint, std::span<const uint8_t>)>
         eventCallback) :
     msgType{messageType}, io{ctx},
     mctpSocket(ctx, boost::asio::generic::datagram_protocol{AF_MCTP, 0}),
@@ -116,8 +115,8 @@ void MctpRequester::processRecvMsg(const boost::system::error_code& ec,
 {
     std::optional<uint8_t> expectedEid = recvEndPoint.eid();
     std::optional<uint8_t> receivedMsgType = recvEndPoint.type();
-
-    if (!expectedEid || !receivedMsgType)
+    std::optional<uint8_t> expectedNetwork = recvEndPoint.networkId();
+    if (!expectedEid || !receivedMsgType || !expectedNetwork)
     {
         // we were handed an endpoint that can't be treated as an MCTP endpoint
         // This is probably a kernel bug...yell about it and rebind.
@@ -135,13 +134,15 @@ void MctpRequester::processRecvMsg(const boost::system::error_code& ec,
     }
 
     uint8_t eid = *expectedEid;
+    uint8_t network = *expectedNetwork;
+    Endpoint endpoint{eid, network};
 
     if (ec)
     {
         lg2::error(
             "MctpRequester failed to receive data from the MCTP socket - ErrorCode={EC}, Error={ER}.",
             "EC", ec.value(), "ER", ec.message());
-        handleResult(eid, static_cast<std::error_code>(ec), {});
+        handleResult(endpoint, static_cast<std::error_code>(ec), {});
         return;
     }
 
@@ -158,8 +159,9 @@ void MctpRequester::processRecvMsg(const boost::system::error_code& ec,
         // but we aren't able to parse iid byte
         // drop this packet on the floor
         // and rely on the timer to notify the client
-        lg2::error("MctpRequester: Unable to decode message from eid {EID}",
-                   "EID", eid);
+        lg2::error(
+            "MctpRequester: Unable to decode message from eid {EID}, net {NET}",
+            "EID", eid, "NET", network);
         return;
     }
 
@@ -175,13 +177,13 @@ void MctpRequester::processRecvMsg(const boost::system::error_code& ec,
 
         if (eventCallback)
         {
-            eventCallback(eid, responseBuffer);
+            eventCallback({eid, network}, responseBuffer);
         }
         else
         {
             lg2::warning(
-                "Request received but no handler regisered on EID={EID}", "EID",
-                eid);
+                "Request received but no handler regisered on EID={EID}, NET={NET}",
+                "EID", eid, "NET", network);
         }
         startReceive();
         return;
@@ -192,9 +194,10 @@ void MctpRequester::processRecvMsg(const boost::system::error_code& ec,
         // we received an Event acknowledgment
         return;
     }
+
     uint8_t iid = *optionalIid;
 
-    auto it = requestContextQueues.find(eid);
+    auto it = requestContextQueues.find(endpoint);
     if (it == requestContextQueues.end())
     {
         // something very bad has happened here
@@ -214,22 +217,22 @@ void MctpRequester::processRecvMsg(const boost::system::error_code& ec,
         return;
     }
 
-    handleResult(eid, std::error_code{}, responseBuffer);
+    handleResult(endpoint, std::error_code{}, responseBuffer);
 }
 
 void MctpRequester::handleSendMsgCompletion(
-    uint8_t eid, const boost::system::error_code& ec, size_t /* length */)
+    Endpoint endpoint, const boost::system::error_code& ec, size_t /* length */)
 {
     if (ec)
     {
         lg2::error(
             "MctpRequester failed to send data from the MCTP socket - ErrorCode={EC}, Error={ER}.",
             "EC", ec.value(), "ER", ec.message());
-        handleResult(eid, static_cast<std::error_code>(ec), {});
+        handleResult(endpoint, static_cast<std::error_code>(ec), {});
         return;
     }
 
-    auto it = requestContextQueues.find(eid);
+    auto it = requestContextQueues.find(endpoint);
     if (it == requestContextQueues.end())
     {
         // something very bad has happened here,
@@ -243,17 +246,19 @@ void MctpRequester::handleSendMsgCompletion(
     boost::asio::steady_timer& expiryTimer = it->second.timer;
     expiryTimer.expires_after(2s);
 
-    expiryTimer.async_wait([this, eid](const boost::system::error_code& ec) {
+    expiryTimer.async_wait([this,
+                            endpoint](const boost::system::error_code& ec) {
         if (ec != boost::asio::error::operation_aborted)
         {
-            lg2::error("Operation timed out on eid {EID}", "EID", eid);
-            handleResult(eid, std::make_error_code(std::errc::timed_out), {});
+            lg2::error("Operation timed out on eid {EID}", "EID", endpoint.eid);
+            handleResult(endpoint, std::make_error_code(std::errc::timed_out),
+                         {});
         }
     });
 }
 
 void MctpRequester::sendRecvMsg(
-    uint8_t eid, std::span<const uint8_t> reqMsg,
+    Endpoint endpoint, std::span<const uint8_t> reqMsg,
     std::move_only_function<void(const std::error_code&,
                                  std::span<const uint8_t>)>
         callback)
@@ -261,7 +266,7 @@ void MctpRequester::sendRecvMsg(
     RequestContext reqCtx{reqMsg, std::move(callback)};
 
     // try_emplace only affects the result if the key does not already exist
-    auto [it, inserted] = requestContextQueues.try_emplace(eid, io);
+    auto [it, inserted] = requestContextQueues.try_emplace(endpoint, io);
     (void)inserted;
 
     auto& queue = it->second.queue;
@@ -269,7 +274,7 @@ void MctpRequester::sendRecvMsg(
 
     if (queue.size() == 1)
     {
-        processQueue(eid);
+        processQueue(endpoint);
     }
 }
 
@@ -279,10 +284,10 @@ static bool isFatalError(const std::error_code& ec)
            (ec != std::errc::timed_out && ec != std::errc::host_unreachable);
 }
 
-void MctpRequester::handleResult(uint8_t eid, const std::error_code& ec,
+void MctpRequester::handleResult(Endpoint endpoint, const std::error_code& ec,
                                  std::span<const uint8_t> buffer)
 {
-    auto it = requestContextQueues.find(eid);
+    auto it = requestContextQueues.find(endpoint);
     if (it == requestContextQueues.end())
     {
         lg2::error("We tried to a handle a result for an eid we don't have");
@@ -311,20 +316,21 @@ void MctpRequester::handleResult(uint8_t eid, const std::error_code& ec,
         // this issue up is to chuck an exception and let main deal with it.
         // alternatively we could call cancel on the io_context, but there's
         // not a great way to figure *what* happened.
-        throw std::runtime_error(std::format(
-            "eid {} encountered a fatal error: {}", eid, ec.message()));
+        throw std::runtime_error(
+            std::format("eid {} net {} encountered a fatal error: {}",
+                        endpoint.eid, endpoint.network, ec.message()));
     }
 
     startReceive();
 
     queue.pop_front();
 
-    processQueue(eid);
+    processQueue(endpoint);
 }
 
-std::optional<uint8_t> MctpRequester::getNextIid(uint8_t eid)
+std::optional<uint8_t> MctpRequester::getNextIid(Endpoint ep)
 {
-    auto it = requestContextQueues.find(eid);
+    auto it = requestContextQueues.find(ep);
     if (it == requestContextQueues.end())
     {
         return std::nullopt;
@@ -347,9 +353,10 @@ static std::expected<void, std::error_code> injectIid(
                 std::make_error_code(std::errc::invalid_argument)};
     }
 }
-void MctpRequester::processQueue(uint8_t eid)
+
+void MctpRequester::processQueue(Endpoint ep)
 {
-    auto it = requestContextQueues.find(eid);
+    auto it = requestContextQueues.find(ep);
     if (it == requestContextQueues.end())
     {
         lg2::error("We are attempting to process a queue that doesn't exist");
@@ -366,11 +373,11 @@ void MctpRequester::processQueue(uint8_t eid)
 
     std::span<uint8_t> req{reqCtx.reqMsg.data(), reqCtx.reqMsg.size()};
 
-    std::optional<uint8_t> iid = getNextIid(eid);
+    std::optional<uint8_t> iid = getNextIid(ep);
     if (!iid)
     {
         lg2::error("MctpRequester: Unable to get next iid");
-        handleResult(eid, std::make_error_code(std::errc::no_such_device), {});
+        handleResult(ep, std::make_error_code(std::errc::no_such_device), {});
         return;
     }
 
@@ -379,16 +386,16 @@ void MctpRequester::processQueue(uint8_t eid)
     if (!success)
     {
         lg2::error("MctpRequester: unable to set iid");
-        handleResult(eid, success.error(), {});
+        handleResult(ep, success.error(), {});
         return;
     }
 
-    MctpAsioEndpoint sendEndPoint(eid,
-                                  ocp::accelerator_management::messageType);
+    MctpAsioEndpoint sendEndPoint(
+        ep.eid, ocp::accelerator_management::messageType, ep.network);
     boost::asio::const_buffer buf(req.data(), req.size());
     mctpSocket.async_send_to(
         buf, sendEndPoint.endpoint,
-        std::bind_front(&MctpRequester::handleSendMsgCompletion, this, eid));
+        std::bind_front(&MctpRequester::handleSendMsgCompletion, this, ep));
 }
 
 } // namespace mctp

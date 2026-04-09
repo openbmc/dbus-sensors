@@ -40,14 +40,14 @@ static constexpr double gpuTempSensorMinReading = -128;
 NvidiaGpuTempSensor::NvidiaGpuTempSensor(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, const std::string& name,
-    const std::string& sensorConfiguration, const uint8_t eid, uint8_t sensorId,
-    sdbusplus::asio::object_server& objectServer,
+    const std::string& sensorConfiguration, mctp::Endpoint endpoint,
+    uint8_t sensorId, sdbusplus::asio::object_server& objectServer,
     std::vector<thresholds::Threshold>&& thresholdData,
     const gpu::DeviceIdentification deviceType) :
     Sensor(escapeName(name), std::move(thresholdData), sensorConfiguration,
            "temperature", false, true, gpuTempSensorMaxReading,
            gpuTempSensorMinReading, conn),
-    eid(eid), sensorId{sensorId}, mctpRequester(mctpRequester),
+    endpoint{endpoint}, sensorId{sensorId}, mctpRequester(mctpRequester),
     objectServer(objectServer)
 {
     std::string dbusPath =
@@ -82,8 +82,8 @@ NvidiaGpuTempSensor::NvidiaGpuTempSensor(
         if (!sensorTypeInterface->initialize())
         {
             lg2::error(
-                "Error initializing Type Interface for Temperature Sensor for eid {EID} and sensor id {SID}",
-                "EID", eid, "SID", sensorId);
+                "Error initializing Type Interface for Temperature Sensor for eid {EID} Net {NET} and sensor id {SID}",
+                "EID", endpoint.eid, "NET", endpoint.network, "SID", sensorId);
         }
     }
 
@@ -101,8 +101,8 @@ NvidiaGpuTempSensor::NvidiaGpuTempSensor(
         if (!commonPhysicalContextInterface->initialize())
         {
             lg2::error(
-                "Error initializing PhysicalContext Interface for Temperature Sensor for eid {EID} and sensor id {SID}",
-                "EID", eid, "SID", sensorId);
+                "Error initializing PhysicalContext Interface for Temperature Sensor for eid {EID} net {NET} and sensor id {SID}",
+                "EID", endpoint.eid, "NET", endpoint.network, "SID", sensorId);
         }
     }
 }
@@ -136,8 +136,9 @@ void NvidiaGpuTempSensor::processResponse(const std::error_code& ec,
     if (ec)
     {
         lg2::error(
-            "Error updating Temperature Sensor for eid {EID} and sensor id {SID} : sending message over MCTP failed, rc={RC}",
-            "EID", eid, "SID", sensorId, "RC", ec.message());
+            "Error updating Temperature Sensor for eid {EID} net {NET} and sensor id {SID} : sending message over MCTP failed, rc={RC}",
+            "EID", endpoint.eid, "NET", endpoint.network, "SID", sensorId, "RC",
+            ec.message());
         return;
     }
 
@@ -151,10 +152,10 @@ void NvidiaGpuTempSensor::processResponse(const std::error_code& ec,
     if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
     {
         lg2::error(
-            "Error updating Temperature Sensor for eid {EID} and sensor id {SID} : decode failed. "
+            "Error updating Temperature Sensor for eid {EID} net {NET} and sensor id {SID} : decode failed. "
             "rc={RC}, cc={CC}, reasonCode={RESC}",
-            "EID", eid, "SID", sensorId, "RC", rc, "CC", cc, "RESC",
-            reasonCode);
+            "EID", endpoint.eid, "NET", endpoint.network, "SID", sensorId, "RC",
+            rc, "CC", cc, "RESC", reasonCode);
         return;
     }
 
@@ -169,12 +170,13 @@ void NvidiaGpuTempSensor::update()
     if (rc != 0)
     {
         lg2::error(
-            "Error updating Temperature Sensor for eid {EID} and sensor id {SID} : encode failed, rc={RC}",
-            "EID", eid, "SID", sensorId, "RC", rc);
+            "Error updating Temperature Sensor for eid {EID} net {NET} and sensor id {SID} : encode failed, rc={RC}",
+            "EID", endpoint.eid, "NET", endpoint.network, "SID", sensorId, "RC",
+            rc);
     }
 
     mctpRequester.sendRecvMsg(
-        eid, getTemperatureReadingRequest,
+        endpoint, getTemperatureReadingRequest,
         [weak{weak_from_this()}](const std::error_code& ec,
                                  std::span<const uint8_t> buffer) {
             std::shared_ptr<NvidiaGpuTempSensor> self = weak.lock();

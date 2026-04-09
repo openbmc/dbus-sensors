@@ -24,10 +24,10 @@ static constexpr auto inventoryPrefix = "/xyz/openbmc_project/inventory/";
 
 NvidiaGpuMemoryDevice::NvidiaGpuMemoryDevice(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
-    mctp::MctpRequester& mctpRequester, const std::string& gpuName, uint8_t eid,
-    sdbusplus::asio::object_server& objectServer) :
-    eid(eid), gpuName(gpuName), conn(conn), mctpRequester(mctpRequester),
-    objectServer(objectServer)
+    mctp::MctpRequester& mctpRequester, const std::string& gpuName,
+    mctp::Endpoint endpoint, sdbusplus::asio::object_server& objectServer) :
+    endpoint{endpoint}, gpuName(gpuName), conn(conn),
+    mctpRequester(mctpRequester), objectServer(objectServer)
 {
     std::string gpuPath = std::string(inventoryPrefix) + gpuName;
 
@@ -58,13 +58,15 @@ void NvidiaGpuMemoryDevice::update()
 
     if (rc != 0)
     {
-        lg2::error("Error encoding ECC request for {NAME}, eid={EID}, rc={RC}",
-                   "NAME", gpuName, "EID", eid, "RC", rc);
+        lg2::error(
+            "Error encoding ECC request for {NAME}, eid={EID}, net={NET}, rc={RC}",
+            "NAME", gpuName, "EID", endpoint.eid, "NET", endpoint.network, "RC",
+            rc);
         return;
     }
 
     mctpRequester.sendRecvMsg(
-        eid, requestBuffer,
+        endpoint, requestBuffer,
         [weak{weak_from_this()}](const std::error_code& ec,
                                  std::span<const uint8_t> buffer) {
             std::shared_ptr<NvidiaGpuMemoryDevice> self = weak.lock();
