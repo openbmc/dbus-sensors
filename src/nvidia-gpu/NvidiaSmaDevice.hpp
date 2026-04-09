@@ -25,7 +25,7 @@ class SmaDevice : public std::enable_shared_from_this<SmaDevice>
     SmaDevice(const SensorConfigs& configs, const std::string& name,
               const std::string& path,
               const std::shared_ptr<sdbusplus::asio::connection>& conn,
-              uint8_t eid, boost::asio::io_context& io,
+              mctp::Endpoint endpoint, boost::asio::io_context& io,
               mctp::MctpRequester& mctpRequester,
               sdbusplus::asio::object_server& objectServer);
 
@@ -41,7 +41,7 @@ class SmaDevice : public std::enable_shared_from_this<SmaDevice>
 
     void read();
 
-    uint8_t eid{};
+    mctp::Endpoint endpoint;
 
     std::chrono::milliseconds sensorPollMs;
 

@@ -48,15 +48,16 @@ void processQueryDeviceIdResponse(
         pcieDevices,
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, const SensorConfigs& configs,
-    const std::string& path, uint8_t eid,
+    const std::string& path, mctp::Endpoint endpoint,
     const std::error_code& sendRecvMsgResult,
     std::span<const uint8_t> queryDeviceIdentificationResponse)
 {
     if (sendRecvMsgResult)
     {
         lg2::error(
-            "Error processing MCTP endpoint with eid {EID} : sending message over MCTP failed, rc={RC}",
-            "EID", eid, "RC", sendRecvMsgResult.message());
+            "Error processing MCTP endpoint with eid {EID} net {NET} : sending message over MCTP failed, rc={RC}",
+            "EID", endpoint.eid, "NET", endpoint.network, "RC",
+            sendRecvMsgResult.message());
         return;
     }
 
@@ -72,8 +73,9 @@ void processQueryDeviceIdResponse(
     if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
     {
         lg2::error(
-            "Error processing MCTP endpoint with eid {EID} : decode failed, rc={RC}, cc={CC}, reasonCode={RESC}",
-            "EID", eid, "RC", rc, "CC", cc, "RESC", reasonCode);
+            "Error processing MCTP endpoint with eid {EID} net {NET} : decode failed, rc={RC}, cc={CC}, reasonCode={RESC}",
+            "EID", endpoint.eid, "NET", endpoint.network, "RC", rc, "CC", cc,
+            "RESC", reasonCode);
         return;
     }
 
@@ -82,9 +84,9 @@ void processQueryDeviceIdResponse(
         case gpu::DeviceIdentification::DEVICE_GPU:
         {
             lg2::info(
-                "Found the GPU with EID {EID}, DeviceType {DEVTYPE}, InstanceId {IID}.",
-                "EID", eid, "DEVTYPE", responseDeviceType, "IID",
-                responseInstanceId);
+                "Found the GPU with EID {EID}, Net {NET}, DeviceType {DEVTYPE}, InstanceId {IID}.",
+                "EID", endpoint.eid, "NET", endpoint.network, "DEVTYPE",
+                responseDeviceType, "IID", responseInstanceId);
 
             const std::string gpuName =
                 std::format("{}_{}", configs.name, responseInstanceId);
@@ -94,7 +96,7 @@ void processQueryDeviceIdResponse(
             if (gpu == nullptr)
             {
                 gpu = std::make_shared<GpuDevice>(configs, gpuName, path, conn,
-                                                  eid, io, mctpRequester,
+                                                  endpoint, io, mctpRequester,
                                                   objectServer);
 
                 gpu->init();
@@ -112,9 +114,9 @@ void processQueryDeviceIdResponse(
         case gpu::DeviceIdentification::DEVICE_SMA:
         {
             lg2::info(
-                "Found the SMA Device with EID {EID}, DeviceType {DEVTYPE}, InstanceId {IID}.",
-                "EID", eid, "DEVTYPE", responseDeviceType, "IID",
-                responseInstanceId);
+                "Found the SMA Device with EID {EID}, Net {NET}, DeviceType {DEVTYPE}, InstanceId {IID}.",
+                "EID", endpoint.eid, "NET", endpoint.network, "DEVTYPE",
+                responseDeviceType, "IID", responseInstanceId);
 
             const std::string smaName =
                 std::format("{}_SMA_{}", configs.name, responseInstanceId);
@@ -124,7 +126,7 @@ void processQueryDeviceIdResponse(
             if (sma == nullptr)
             {
                 sma = std::make_shared<SmaDevice>(configs, smaName, path, conn,
-                                                  eid, io, mctpRequester,
+                                                  endpoint, io, mctpRequester,
                                                   objectServer);
 
                 sma->init();
@@ -142,9 +144,9 @@ void processQueryDeviceIdResponse(
         case gpu::DeviceIdentification::DEVICE_PCIE:
         {
             lg2::info(
-                "Found the PCIe Device with EID {EID}, DeviceType {DEVTYPE}, InstanceId {IID}.",
-                "EID", eid, "DEVTYPE", responseDeviceType, "IID",
-                responseInstanceId);
+                "Found the PCIe Device with EID {EID}, Net {NET}, DeviceType {DEVTYPE}, InstanceId {IID}.",
+                "EID", endpoint.eid, "NET", endpoint.network, "DEVTYPE",
+                responseDeviceType, "IID", responseInstanceId);
 
             const std::string pcieName =
                 std::format("Nvidia_ConnectX_{}", responseInstanceId);
@@ -154,7 +156,7 @@ void processQueryDeviceIdResponse(
             if (pcie == nullptr)
             {
                 pcie = std::make_shared<PcieDevice>(
-                    configs, pcieName, path, conn, eid, io, mctpRequester,
+                    configs, pcieName, path, conn, endpoint, io, mctpRequester,
                     objectServer);
 
                 pcie->init();
@@ -181,7 +183,7 @@ void queryDeviceIdentification(
         pcieDevices,
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, const SensorConfigs& configs,
-    const std::string& path, uint8_t eid)
+    const std::string& path, mctp::Endpoint endpoint)
 {
     auto queryDeviceIdentificationRequest = std::make_shared<
         std::array<uint8_t, sizeof(gpu::QueryDeviceIdentificationRequest)>>();
@@ -191,19 +193,20 @@ void queryDeviceIdentification(
     if (rc != 0)
     {
         lg2::error(
-            "Error processing MCTP endpoint with eid {EID} : encode failed, rc={RC}",
-            "EID", eid, "RC", rc);
+            "Error processing MCTP endpoint with eid {EID} net {NET}: encode failed, rc={RC}",
+            "EID", endpoint.eid, "NET", endpoint.network, "RC", rc);
         return;
     }
 
     mctpRequester.sendRecvMsg(
-        eid, *queryDeviceIdentificationRequest,
+        endpoint, *queryDeviceIdentificationRequest,
         [&io, &objectServer, &gpuDevices, &smaDevices, &pcieDevices, conn,
-         &mctpRequester, configs, path, eid, queryDeviceIdentificationRequest](
-            const std::error_code& ec, std::span<const uint8_t> response) {
+         &mctpRequester, configs, path, endpoint,
+         queryDeviceIdentificationRequest](const std::error_code& ec,
+                                           std::span<const uint8_t> response) {
             processQueryDeviceIdResponse(
                 io, objectServer, gpuDevices, smaDevices, pcieDevices, conn,
-                mctpRequester, configs, path, eid, ec, response);
+                mctpRequester, configs, path, endpoint, ec, response);
         });
 }
 
@@ -251,6 +254,31 @@ void processEndpoint(
         return;
     }
 
+    auto hasNetworkId = endpoint.find("NetworkId");
+    uint8_t network = 0;
+    if (hasNetworkId != endpoint.end())
+    {
+        const auto* networkPtr = std::get_if<uint32_t>(&hasNetworkId->second);
+        if (networkPtr != nullptr)
+        {
+            network = static_cast<uint8_t>(*networkPtr);
+        }
+        else
+        {
+            lg2::error(
+                "Error processing MCTP endpoint: Property NetworkId does not have a valid type");
+            return;
+        }
+    }
+    else
+    {
+        lg2::error(
+            "Error processing MCTP endpoint: Property NetworkId not found in the configuration");
+        return;
+    }
+
+    mctp::Endpoint mctpEndpoint{eid, network};
+
     auto hasMctpTypes = endpoint.find("SupportedMessageTypes");
     std::vector<uint8_t> mctpTypes{};
 
@@ -265,26 +293,27 @@ void processEndpoint(
         else
         {
             lg2::error(
-                "Error processing MCTP endpoint with eid {EID} : Property SupportedMessageTypes does not have valid type.",
-                "EID", eid);
+                "Error processing MCTP endpoint with eid {EID} net {NET}: Property SupportedMessageTypes does not have valid type.",
+                "EID", mctpEndpoint.eid, "NET", mctpEndpoint.network);
             return;
         }
     }
     else
     {
         lg2::error(
-            "Error processing MCTP endpoint with eid {EID} : Property SupportedMessageTypes not found in the configuration.",
-            "EID", eid);
+            "Error processing MCTP endpoint with eid {EID} net {NET} : Property SupportedMessageTypes not found in the configuration.",
+            "EID", mctpEndpoint.eid, "NET", mctpEndpoint.network);
         return;
     }
 
     if (std::find(mctpTypes.begin(), mctpTypes.end(),
                   ocp::accelerator_management::messageType) != mctpTypes.end())
     {
-        lg2::info("Found OCP MCTP VDM Endpoint with ID {EID}", "EID", eid);
+        lg2::info("Found OCP MCTP VDM Endpoint with ID {EID} Net {NET}", "EID",
+                  mctpEndpoint.eid, "NET", mctpEndpoint.network);
         queryDeviceIdentification(io, objectServer, gpuDevices, smaDevices,
                                   pcieDevices, conn, mctpRequester, configs,
-                                  path, eid);
+                                  path, mctpEndpoint);
     }
 }
 

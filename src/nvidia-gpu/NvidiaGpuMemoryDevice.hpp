@@ -22,7 +22,7 @@ struct NvidiaGpuMemoryDevice :
   public:
     NvidiaGpuMemoryDevice(std::shared_ptr<sdbusplus::asio::connection>& conn,
                           mctp::MctpRequester& mctpRequester,
-                          const std::string& gpuName, uint8_t eid,
+                          const std::string& gpuName, mctp::Endpoint endpoint,
                           sdbusplus::asio::object_server& objectServer);
 
     ~NvidiaGpuMemoryDevice();
@@ -33,7 +33,7 @@ struct NvidiaGpuMemoryDevice :
     void processResponse(const std::error_code& ec,
                          std::span<const uint8_t> buffer);
 
-    uint8_t eid;
+    mctp::Endpoint endpoint;
     std::string gpuName;
     std::shared_ptr<sdbusplus::asio::connection> conn;
     mctp::MctpRequester& mctpRequester;

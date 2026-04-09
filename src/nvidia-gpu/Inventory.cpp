@@ -38,11 +38,11 @@ Inventory::Inventory(
     const std::shared_ptr<sdbusplus::asio::connection>& /*conn*/,
     sdbusplus::asio::object_server& objectServer,
     const std::string& inventoryName, mctp::MctpRequester& mctpRequester,
-    const gpu::DeviceIdentification deviceTypeIn, const uint8_t eid,
+    const gpu::DeviceIdentification deviceTypeIn, mctp::Endpoint endpoint,
     boost::asio::io_context& io,
     const std::shared_ptr<sdbusplus::asio::dbus_interface>& powerCapInterface) :
     name(escapeName(inventoryName)), mctpRequester(mctpRequester),
-    deviceType(deviceTypeIn), eid(eid), retryTimer(io)
+    deviceType(deviceTypeIn), endpoint{endpoint}, retryTimer(io)
 {
     std::string path = inventoryPrefix + name;
 
@@ -172,11 +172,12 @@ void Inventory::sendInventoryPropertyRequest(
     }
 
     lg2::info(
-        "Sending inventory request for property ID {PROP_ID} to EID {EID} for {NAME}",
-        "PROP_ID", static_cast<uint8_t>(propertyId), "EID", eid, "NAME", name);
+        "Sending inventory request for property ID {PROP_ID} to EID {EID} net {NET} for {NAME}",
+        "PROP_ID", static_cast<uint8_t>(propertyId), "EID", endpoint.eid, "NET",
+        endpoint.network, "NAME", name);
 
     mctpRequester.sendRecvMsg(
-        eid, requestBuffer,
+        endpoint, requestBuffer,
         [weak{weak_from_this()}, propertyId](const std::error_code& ec,
                                              std::span<const uint8_t> buffer) {
             std::shared_ptr<Inventory> self = weak.lock();
