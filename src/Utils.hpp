@@ -51,7 +51,7 @@ using SensorBaseConfigMap =
 using SensorBaseConfiguration = std::pair<std::string, SensorBaseConfigMap>;
 using SensorData = boost::container::flat_map<std::string, SensorBaseConfigMap>;
 using ManagedObjectType =
-    boost::container::flat_map<sdbusplus::message::object_path, SensorData>;
+    boost::container::flat_map<sdbusplus::object_path, SensorData>;
 
 using GetSubTreeType = std::vector<
     std::pair<std::string,

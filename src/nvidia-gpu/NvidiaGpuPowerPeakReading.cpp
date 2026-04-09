@@ -40,9 +40,9 @@ NvidiaGpuPowerPeakReading::NvidiaGpuPowerPeakReading(
         dbusPath, "xyz.openbmc_project.Telemetry.Report");
 
     telemetryReportInterface->register_property("Persistency", false);
-    std::vector<std::tuple<
-        std::vector<std::tuple<sdbusplus::message::object_path, std::string>>,
-        std::string, std::string, uint64_t>>
+    std::vector<
+        std::tuple<std::vector<std::tuple<sdbusplus::object_path, std::string>>,
+                   std::string, std::string, uint64_t>>
         readingParams{
             {{{dbusPath, ""}},
              "xyz.openbmc_project.Telemetry.Report.OperationType.Maximum",

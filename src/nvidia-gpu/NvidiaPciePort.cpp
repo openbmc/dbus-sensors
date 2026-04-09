@@ -44,9 +44,8 @@ NvidiaPciePortInfo::NvidiaPciePortInfo(
     portNumber(portNumber), path(path), conn(conn),
     mctpRequester(mctpRequester), deviceType(deviceType)
 {
-    const sdbusplus::message::object_path dbusPath =
-        sdbusplus::message::object_path(pcieDevicePathPrefix) / pcieDeviceName /
-        name;
+    const sdbusplus::object_path dbusPath =
+        sdbusplus::object_path(pcieDevicePathPrefix) / pcieDeviceName / name;
 
     pciePortInterface = objectServer.add_interface(
         dbusPath, "xyz.openbmc_project.Inventory.Connector.Port");

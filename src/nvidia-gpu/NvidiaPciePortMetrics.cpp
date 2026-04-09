@@ -50,9 +50,8 @@ NvidiaPciePortMetrics::NvidiaPciePortMetrics(
     const std::string metricsDbusPathPrefix =
         metricPath + std::format("port_{}_{}", pcieDeviceName, name);
 
-    const sdbusplus::message::object_path portDbusPath =
-        sdbusplus::message::object_path(pcieDevicePathPrefix) / pcieDeviceName /
-        name;
+    const sdbusplus::object_path portDbusPath =
+        sdbusplus::object_path(pcieDevicePathPrefix) / pcieDeviceName / name;
 
     for (const auto& [id, name] : metricsInfo)
     {

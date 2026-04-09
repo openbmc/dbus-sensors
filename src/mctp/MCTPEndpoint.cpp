@@ -52,7 +52,7 @@ void MCTPDDevice::onEndpointInterfacesRemoved(
     const std::weak_ptr<MCTPDDevice>& weak, const std::string& objpath,
     sdbusplus::message_t& msg)
 {
-    auto path = msg.unpack<sdbusplus::message::object_path>();
+    auto path = msg.unpack<sdbusplus::object_path>();
     assert(path.str == objpath);
 
     auto removedIfaces = msg.unpack<std::set<std::string>>();

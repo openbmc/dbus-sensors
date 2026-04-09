@@ -42,11 +42,11 @@ NvidiaEthPortMetrics::NvidiaEthPortMetrics(
     eid(eid), portNumber(portNumber), path(path), conn(conn),
     mctpRequester(mctpRequester)
 {
-    const sdbusplus::message::object_path deviceDbusPath =
-        sdbusplus::message::object_path(nicPathPrefix) / deviceName;
+    const sdbusplus::object_path deviceDbusPath =
+        sdbusplus::object_path(nicPathPrefix) / deviceName;
 
-    const sdbusplus::message::object_path portDbusPath =
-        sdbusplus::message::object_path(nicPathPrefix) / deviceName / name;
+    const sdbusplus::object_path portDbusPath =
+        sdbusplus::object_path(nicPathPrefix) / deviceName / name;
 
     const std::string metricsDbusPathPrefix =
         metricPath + std::format("port_{}_{}", deviceName, name);

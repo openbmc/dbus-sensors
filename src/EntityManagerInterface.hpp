@@ -13,8 +13,8 @@ namespace entity_manager
 class EntityManagerInterface
 {
   public:
-    using Callback_t = std::function<void(
-        const sdbusplus::message::object_path&, const std::string&)>;
+    using Callback_t =
+        std::function<void(const sdbusplus::object_path&, const std::string&)>;
     using interface_list_t = std::vector<std::string>;
     static constexpr auto serviceName = "xyz.openbmc_project.EntityManager";
 

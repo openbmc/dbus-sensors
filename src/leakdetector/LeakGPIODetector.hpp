@@ -75,7 +75,7 @@ struct DetectorConfig
     std::string pinName = Defaults::pinName;
     PinPolarity polarity = PinPolarity::unknown;
     DetectorLevel level = DetectorLevel::unknown;
-    sdbusplus::message::object_path parentInventoryPath;
+    sdbusplus::object_path parentInventoryPath;
 
     struct Defaults
     {

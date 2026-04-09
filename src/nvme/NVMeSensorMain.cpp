@@ -257,7 +257,7 @@ void createSensors(boost::asio::io_context& io,
 
 static void interfaceRemoved(sdbusplus::message_t& message, NVMEMap& contexts)
 {
-    sdbusplus::message::object_path path;
+    sdbusplus::object_path path;
     std::vector<std::string> interfaces;
 
     message.read(path, interfaces);

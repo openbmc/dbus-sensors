@@ -36,11 +36,10 @@ static constexpr std::array<
 } // namespace config
 
 static auto getObjectPath(const std::string& detectorName)
-    -> sdbusplus::message::object_path
+    -> sdbusplus::object_path
 {
-    return (
-        sdbusplus::message::object_path(DetectorIntf::namespace_path::value) /
-        DetectorIntf::namespace_path::detector / detectorName);
+    return (sdbusplus::object_path(DetectorIntf::namespace_path::value) /
+            DetectorIntf::namespace_path::detector / detectorName);
 }
 
 GPIODetector::GPIODetector(sdbusplus::async::context& ctx, Events& leakEvents,

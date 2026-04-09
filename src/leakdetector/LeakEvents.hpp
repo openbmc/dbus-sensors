@@ -26,7 +26,7 @@ class Events
 
     explicit Events(sdbusplus::async::context& ctx) : ctx(ctx) {}
 
-    auto generateLeakEvent(sdbusplus::message::object_path detectorPath,
+    auto generateLeakEvent(sdbusplus::object_path detectorPath,
                            DetectorStateIntf::DetectorState state,
                            config::DetectorLevel level)
         -> sdbusplus::async::task<>;
@@ -34,7 +34,7 @@ class Events
   private:
     /** @brief Map type for event name to log event object path */
     using event_key_t = std::tuple<std::string, config::DetectorLevel>;
-    using event_map_t = std::map<event_key_t, sdbusplus::message::object_path>;
+    using event_map_t = std::map<event_key_t, sdbusplus::object_path>;
 
     sdbusplus::async::context& ctx;
     event_map_t pendingEvents;

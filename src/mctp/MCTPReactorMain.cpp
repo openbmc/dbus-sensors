@@ -106,8 +106,7 @@ static void addInventory(
     const std::shared_ptr<sdbusplus::asio::connection>& connection,
     const std::shared_ptr<MCTPReactor>& reactor, sdbusplus::message_t& msg)
 {
-    auto [path,
-          exposed] = msg.unpack<sdbusplus::message::object_path, SensorData>();
+    auto [path, exposed] = msg.unpack<sdbusplus::object_path, SensorData>();
     try
     {
         reactor->manageMCTPDevice(path, deviceFromConfig(connection, exposed));
@@ -130,7 +129,7 @@ static void removeInventory(const std::shared_ptr<MCTPReactor>& reactor,
                             sdbusplus::message_t& msg)
 {
     auto [path, removed] =
-        msg.unpack<sdbusplus::message::object_path, std::set<std::string>>();
+        msg.unpack<sdbusplus::object_path, std::set<std::string>>();
     try
     {
         if (I2CMCTPDDevice::match(removed) || I3CMCTPDDevice::match(removed))

@@ -1112,7 +1112,7 @@ static void getPresentCpus(
 
     for (const auto& [path, objDict] : cpuSubTree)
     {
-        auto obj = sdbusplus::message::object_path(path).filename();
+        auto obj = sdbusplus::object_path(path).filename();
         boost::to_lower(obj);
 
         if (!obj.starts_with("cpu") || objDict.empty())
@@ -1247,7 +1247,7 @@ int main()
             std::string path = message.get_path();
             boost::to_lower(path);
 
-            sdbusplus::message::object_path cpuPath(path);
+            sdbusplus::object_path cpuPath(path);
             std::string cpuName = cpuPath.filename();
             if (!cpuName.starts_with("cpu"))
             {

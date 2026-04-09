@@ -208,7 +208,7 @@ class MCTPDEndpoint :
     MCTPDEndpoint(
         const std::shared_ptr<MCTPDDevice>& dev,
         const std::shared_ptr<sdbusplus::asio::connection>& connection,
-        sdbusplus::message::object_path objpath, int network, uint8_t eid) :
+        sdbusplus::object_path objpath, int network, uint8_t eid) :
         dev(dev), connection(connection), objpath(std::move(objpath)),
         mctp{network, eid}
     {}
@@ -239,7 +239,7 @@ class MCTPDEndpoint :
   private:
     std::shared_ptr<MCTPDDevice> dev;
     std::shared_ptr<sdbusplus::asio::connection> connection;
-    sdbusplus::message::object_path objpath;
+    sdbusplus::object_path objpath;
     struct
     {
         int network;

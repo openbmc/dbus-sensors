@@ -30,9 +30,9 @@ auto SystemdInterface::startUnit(sdbusplus::async::context& ctx,
                 .path("/org/freedesktop/systemd1")
                 .interface("org.freedesktop.systemd1.Manager");
 
-        sdbusplus::message::object_path jobObjectPath =
-            co_await systemd.call<sdbusplus::message::object_path>(
-                ctx, "StartUnit", sysdUnit, "replace");
+        sdbusplus::object_path jobObjectPath =
+            co_await systemd.call<sdbusplus::object_path>(ctx, "StartUnit",
+                                                          sysdUnit, "replace");
 
         debug("Started {UNIT} with {JOBID}", "UNIT", sysdUnit, "JOBID",
               jobObjectPath.str);

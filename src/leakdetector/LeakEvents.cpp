@@ -15,7 +15,7 @@ PHOSPHOR_LOG2_USING;
 namespace leak
 {
 
-auto Events::generateLeakEvent(sdbusplus::message::object_path detectorPath,
+auto Events::generateLeakEvent(sdbusplus::object_path detectorPath,
                                DetectorStateIntf::DetectorState state,
                                config::DetectorLevel level)
     -> sdbusplus::async::task<>
@@ -42,7 +42,7 @@ auto Events::generateLeakEvent(sdbusplus::message::object_path detectorPath,
 
     namespace error_intf =
         sdbusplus::error::xyz::openbmc_project::state::leak::Detector;
-    sdbusplus::message::object_path eventPath{};
+    sdbusplus::object_path eventPath{};
 
     if (level == config::DetectorLevel::critical)
     {

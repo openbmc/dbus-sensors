@@ -29,17 +29,15 @@ Monitor::Monitor(sdbusplus::async::context& ctx) :
     ctx.spawn(start());
 }
 
-auto Monitor::inventoryAddedHandler(
-    const sdbusplus::message::object_path& objectPath,
-    const std::string& /*unused*/) -> void
+auto Monitor::inventoryAddedHandler(const sdbusplus::object_path& objectPath,
+                                    const std::string& /*unused*/) -> void
 {
     debug("Received cable added for {NAME}", "NAME", objectPath);
     ctx.spawn(processCableAddedAsync(objectPath));
 }
 
-auto Monitor::inventoryRemovedHandler(
-    const sdbusplus::message::object_path& objectPath,
-    const std::string& /*unused*/) -> void
+auto Monitor::inventoryRemovedHandler(const sdbusplus::object_path& objectPath,
+                                      const std::string& /*unused*/) -> void
 {
     debug("Received cable removed for {NAME}", "NAME", objectPath);
     ctx.spawn(processCableRemovedAsync(objectPath));
@@ -93,7 +91,7 @@ auto Monitor::start() -> sdbusplus::async::task<>
     co_return;
 }
 
-auto Monitor::processCableAddedAsync(sdbusplus::message::object_path objectPath)
+auto Monitor::processCableAddedAsync(sdbusplus::object_path objectPath)
     -> sdbusplus::async::task<>
 {
     auto cableName = objectPath.filename();
@@ -127,8 +125,8 @@ auto Monitor::processCableAddedAsync(sdbusplus::message::object_path objectPath)
     co_return;
 }
 
-auto Monitor::processCableRemovedAsync(
-    sdbusplus::message::object_path objectPath) -> sdbusplus::async::task<>
+auto Monitor::processCableRemovedAsync(sdbusplus::object_path objectPath)
+    -> sdbusplus::async::task<>
 {
     auto cableName = objectPath.filename();
 

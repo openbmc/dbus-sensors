@@ -53,9 +53,8 @@ NvidiaPcieInterface::NvidiaPcieInterface(
     }
 
     std::vector<Association> associations;
-    associations.emplace_back(
-        "contained_by", "containing",
-        sdbusplus::message::object_path(path).parent_path());
+    associations.emplace_back("contained_by", "containing",
+                              sdbusplus::object_path(path).parent_path());
 
     associationInterface =
         objectServer.add_interface(dbusPath, association::interface);

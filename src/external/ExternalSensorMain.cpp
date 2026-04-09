@@ -162,8 +162,8 @@ void createSensors(
          &reaperTimer](const ManagedObjectType& sensorConfigurations) {
             bool firstScan = (sensorsChanged == nullptr);
 
-            for (const std::pair<sdbusplus::message::object_path, SensorData>&
-                     sensor : sensorConfigurations)
+            for (const std::pair<sdbusplus::object_path, SensorData>& sensor :
+                 sensorConfigurations)
             {
                 const std::string& interfacePath = sensor.first.str;
                 const SensorData& sensorData = sensor.second;

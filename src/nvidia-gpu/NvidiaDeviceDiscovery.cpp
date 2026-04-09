@@ -467,7 +467,7 @@ void interfaceRemoved(
     boost::container::flat_map<std::string, std::shared_ptr<PcieDevice>>&
         pcieDevices)
 {
-    sdbusplus::message::object_path removedPath;
+    sdbusplus::object_path removedPath;
     std::vector<std::string> interfaces;
 
     message.read(removedPath, interfaces);

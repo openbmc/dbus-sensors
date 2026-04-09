@@ -29,15 +29,15 @@ DetectionManager::DetectionManager(sdbusplus::async::context& ctx) :
 }
 
 auto DetectionManager::processInventoryAdded(
-    const sdbusplus::message::object_path& objectPath,
-    const std::string& /*unused*/) -> void
+    const sdbusplus::object_path& objectPath, const std::string& /*unused*/)
+    -> void
 {
     ctx.spawn(processConfigAddedAsync(objectPath));
 }
 
 auto DetectionManager::processInventoryRemoved(
-    const sdbusplus::message::object_path& objectPath,
-    const std::string& /*unused*/) -> void
+    const sdbusplus::object_path& objectPath, const std::string& /*unused*/)
+    -> void
 {
     if (!detectors.contains(objectPath.str))
     {
@@ -48,7 +48,7 @@ auto DetectionManager::processInventoryRemoved(
 }
 
 auto DetectionManager::processConfigAddedAsync(
-    sdbusplus::message::object_path objectPath) -> sdbusplus::async::task<>
+    sdbusplus::object_path objectPath) -> sdbusplus::async::task<>
 {
     auto res = co_await getDetectorConfig(objectPath);
     if (!res)
@@ -77,8 +77,7 @@ auto DetectionManager::processConfigAddedAsync(
     co_return;
 }
 
-auto DetectionManager::getDetectorConfig(
-    sdbusplus::message::object_path objectPath)
+auto DetectionManager::getDetectorConfig(sdbusplus::object_path objectPath)
     -> sdbusplus::async::task<std::optional<config::DetectorConfig>>
 {
     config::DetectorConfig config = {};

@@ -28,14 +28,12 @@ class Monitor
 
   private:
     /** @brief  Callback handler for new interfaces added to inventory */
-    auto inventoryAddedHandler(
-        const sdbusplus::message::object_path& objectPath,
-        const std::string& interfaceName) -> void;
+    auto inventoryAddedHandler(const sdbusplus::object_path& objectPath,
+                               const std::string& interfaceName) -> void;
 
     /** @brief Callback handler for interfaces removed from inventory */
-    auto inventoryRemovedHandler(
-        const sdbusplus::message::object_path& objectPath,
-        const std::string& interfaceName) -> void;
+    auto inventoryRemovedHandler(const sdbusplus::object_path& objectPath,
+                                 const std::string& interfaceName) -> void;
 
     /** @brief Callback handler for async updates to cable JSON configuration */
     auto configUpdateHandler(std::string configFileName)
@@ -45,11 +43,11 @@ class Monitor
     auto start() -> sdbusplus::async::task<>;
 
     /** @brief Asynchronously process cable inventory added */
-    auto processCableAddedAsync(sdbusplus::message::object_path objectPath)
+    auto processCableAddedAsync(sdbusplus::object_path objectPath)
         -> sdbusplus::async::task<>;
 
     /** @brief Asynchronously process cable inventory removed */
-    auto processCableRemovedAsync(sdbusplus::message::object_path objectPath)
+    auto processCableRemovedAsync(sdbusplus::object_path objectPath)
         -> sdbusplus::async::task<>;
 
     /** @brief Reconcile connected and expected cable data */

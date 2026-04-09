@@ -45,17 +45,16 @@ PcieDevice::PcieDevice(const SensorConfigs& configs, const std::string& name,
 
 void PcieDevice::init()
 {
-    sdbusplus::message::object_path networkAdapterPath =
-        sdbusplus::message::object_path(nicPathPrefix) / (name + "_NIC");
+    sdbusplus::object_path networkAdapterPath =
+        sdbusplus::object_path(nicPathPrefix) / (name + "_NIC");
 
     networkAdapterInterface = objectServer.add_interface(
         networkAdapterPath,
         "xyz.openbmc_project.Inventory.Item.NetworkAdapter");
 
     std::vector<Association> associations;
-    associations.emplace_back(
-        "contained_by", "containing",
-        sdbusplus::message::object_path(path).parent_path());
+    associations.emplace_back("contained_by", "containing",
+                              sdbusplus::object_path(path).parent_path());
 
     networkAdapterAssociationInterface =
         objectServer.add_interface(networkAdapterPath, association::interface);

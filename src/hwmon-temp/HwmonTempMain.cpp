@@ -550,7 +550,7 @@ void interfaceRemoved(
     boost::container::flat_map<std::string, std::shared_ptr<HwmonTempSensor>>&
         sensors)
 {
-    sdbusplus::message::object_path path;
+    sdbusplus::object_path path;
     std::vector<std::string> interfaces;
 
     message.read(path, interfaces);

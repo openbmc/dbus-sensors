@@ -31,21 +31,19 @@ class DetectionManager
         std::unordered_map<std::string, std::unique_ptr<GPIODetector>>;
 
     /** @brief  Process new interfaces added to inventory */
-    auto processInventoryAdded(
-        const sdbusplus::message::object_path& objectPath,
-        const std::string& interfaceName) -> void;
+    auto processInventoryAdded(const sdbusplus::object_path& objectPath,
+                               const std::string& interfaceName) -> void;
 
     /** @brief Process interfaces removed from inventory */
-    auto processInventoryRemoved(
-        const sdbusplus::message::object_path& objectPath,
-        const std::string& interfaceName) -> void;
+    auto processInventoryRemoved(const sdbusplus::object_path& objectPath,
+                                 const std::string& interfaceName) -> void;
 
     /** @brief Process the config add asynchronously */
-    auto processConfigAddedAsync(sdbusplus::message::object_path objectPath)
+    auto processConfigAddedAsync(sdbusplus::object_path objectPath)
         -> sdbusplus::async::task<>;
 
     /** @brief Get the detector configuration from the Entity Manager */
-    auto getDetectorConfig(sdbusplus::message::object_path objectPath)
+    auto getDetectorConfig(sdbusplus::object_path objectPath)
         -> sdbusplus::async::task<std::optional<config::DetectorConfig>>;
 
     sdbusplus::async::context& ctx;

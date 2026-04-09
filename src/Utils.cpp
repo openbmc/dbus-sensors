@@ -778,7 +778,7 @@ void setupManufacturingModeMatch(sdbusplus::asio::connection& conn)
     static std::unique_ptr<sdbusplus::bus::match_t> specialModeIntfMatch =
         std::make_unique<sdbusplus::bus::match_t>(
             conn, filterSpecialModeIntfAdd, [](sdbusplus::message_t& m) {
-                sdbusplus::message::object_path path;
+                sdbusplus::object_path path;
                 using PropertyMap =
                     boost::container::flat_map<std::string,
                                                std::variant<std::string>>;
