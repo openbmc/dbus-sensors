@@ -6,7 +6,6 @@
 #pragma once
 
 #include <MctpAsioEndpoint.hpp>
-#include <OcpMctpVdm.hpp>
 #include <boost/asio/generic/datagram_protocol.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/steady_timer.hpp>
@@ -44,6 +43,10 @@ class MctpRequester
 
     explicit MctpRequester(boost::asio::io_context& ctx, uint8_t messageType);
 
+    MctpRequester(
+        boost::asio::io_context& ctx, uint8_t messageType,
+        std::move_only_function<void(uint8_t, std::span<const uint8_t>)>
+            eventCallback);
     void sendRecvMsg(uint8_t eid, std::span<const uint8_t> reqMsg,
                      std::move_only_function<void(const std::error_code&,
                                                   std::span<const uint8_t>)>
@@ -103,6 +106,8 @@ class MctpRequester
     std::array<uint8_t, maxMessageSize> buffer{};
     MctpAsioEndpoint recvEndPoint;
     std::unordered_map<uint8_t, EidContext> requestContextQueues;
+    std::move_only_function<void(uint8_t, std::span<const uint8_t>)>
+        eventCallback;
 };
 
 } // namespace mctp
