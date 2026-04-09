@@ -7,6 +7,7 @@
 #include "Utils.hpp"
 
 #include <NvidiaDeviceDiscovery.hpp>
+#include <NvidiaEventReporting.hpp>
 #include <NvidiaPcieDevice.hpp>
 #include <NvidiaSmaDevice.hpp>
 #include <OcpMctpVdm.hpp>
@@ -63,7 +64,8 @@ int main()
     systemBus->request_name("xyz.openbmc_project.GpuSensor");
 
     mctp::MctpRequester mctpRequester(io,
-                                      ocp::accelerator_management::messageType);
+                                      ocp::accelerator_management::messageType,
+                                      &NvidiaEventHandler::handleEvent);
 
     boost::asio::post(io, [&]() {
         createSensors(io, objectServer, gpuDevices, smaDevices, pcieDevices,
