@@ -22,6 +22,30 @@
       },
       "revId": "0eca75be96b80f19e1f9e993042bdc3485cc6280",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f125d17_05ed64c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 20
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-04-09T05:44:43Z",
+      "side": 1,
+      "message": "Not yet in current upstream, but the paired bmcweb change https://gerrit.openbmc.org/c/openbmc/bmcweb/+/87974 (same topic: GPU_Memory_Inventory) consumes this interface to identify embedded DRAM memory under GPU processors.",
+      "parentUuid": "14292d8b_5ed7b0a4",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 18
+      },
+      "revId": "0eca75be96b80f19e1f9e993042bdc3485cc6280",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
