@@ -42,14 +42,14 @@ static constexpr double gpuPowerSensorMinReading =
 NvidiaGpuPowerSensor::NvidiaGpuPowerSensor(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, const std::string& name,
-    const std::string& sensorConfiguration, uint8_t eid, uint8_t sensorId,
-    sdbusplus::asio::object_server& objectServer,
+    const std::string& sensorConfiguration, mctp::Endpoint endpoint,
+    uint8_t sensorId, sdbusplus::asio::object_server& objectServer,
     std::vector<thresholds::Threshold>&& thresholdData,
     const gpu::DeviceIdentification deviceType) :
     Sensor(escapeName(name), std::move(thresholdData), sensorConfiguration,
            "power", false, true, gpuPowerSensorMaxReading,
            gpuPowerSensorMinReading, conn),
-    eid(eid), sensorId{sensorId},
+    endpoint(endpoint), sensorId{sensorId},
 
     mctpRequester(mctpRequester), objectServer(objectServer)
 
@@ -84,8 +84,8 @@ NvidiaGpuPowerSensor::NvidiaGpuPowerSensor(
         if (!commonPhysicalContextInterface->initialize())
         {
             lg2::error(
-                "Error initializing PhysicalContext Interface for Power Sensor for eid {EID} and sensor id {SID}",
-                "EID", eid, "SID", sensorId);
+                "Error initializing PhysicalContext Interface for Power Sensor for eid {EID} net {NET} and sensor id {SID}",
+                "EID", endpoint.eid, "NET", endpoint.network, "SID", sensorId);
         }
     }
 }
@@ -115,8 +115,9 @@ void NvidiaGpuPowerSensor::processResponse(const std::error_code& ec,
     if (ec)
     {
         lg2::error(
-            "Error updating Power Sensor for eid {EID} and sensor id {SID} : sending message over MCTP failed, rc={RC}",
-            "EID", eid, "SID", sensorId, "RC", ec.message());
+            "Error updating Power Sensor for eid {EID} net {NET} and sensor id {SID} : sending message over MCTP failed, rc={RC}",
+            "EID", endpoint.eid, "NET", endpoint.network, "SID", sensorId, "RC",
+            ec.message());
         return;
     }
 
@@ -130,9 +131,9 @@ void NvidiaGpuPowerSensor::processResponse(const std::error_code& ec,
     if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
     {
         lg2::error(
-            "Error updating Power Sensor eid {EID} and sensor id {SID} : decode failed, rc={RC}, cc={CC}, reasonCode={RESC}",
-            "EID", eid, "SID", sensorId, "RC", rc, "CC", cc, "RESC",
-            reasonCode);
+            "Error updating Power Sensor eid {EID} net {NET} and sensor id {SID} : decode failed, rc={RC}, cc={CC}, reasonCode={RESC}",
+            "EID", endpoint.eid, "NET", endpoint.network, "SID", sensorId, "RC",
+            rc, "CC", cc, "RESC", reasonCode);
         return;
     }
 
@@ -150,12 +151,13 @@ void NvidiaGpuPowerSensor::update()
     if (rc != 0)
     {
         lg2::error(
-            "Error updating Temperature Sensor for eid {EID} and sensor id {SID} : encode failed, rc={RC}",
-            "EID", eid, "SID", sensorId, "RC", rc);
+            "Error updating Temperature Sensor for eid {EID} net {NET} and sensor id {SID} : encode failed, rc={RC}",
+            "EID", endpoint.eid, "NET", endpoint.network, "SID", sensorId, "RC",
+            rc);
     }
 
     mctpRequester.sendRecvMsg(
-        eid, request,
+        endpoint, request,
         [weak{weak_from_this()}](const std::error_code& ec,
                                  std::span<const uint8_t> buffer) {
             std::shared_ptr<NvidiaGpuPowerSensor> self = weak.lock();

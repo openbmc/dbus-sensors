@@ -35,10 +35,11 @@
 PcieDevice::PcieDevice(const SensorConfigs& configs, const std::string& name,
                        const std::string& path,
                        const std::shared_ptr<sdbusplus::asio::connection>& conn,
-                       uint8_t eid, boost::asio::io_context& io,
+                       mctp::Endpoint endpoint, boost::asio::io_context& io,
                        mctp::MctpRequester& mctpRequester,
                        sdbusplus::asio::object_server& objectServer) :
-    eid(eid), sensorPollMs(std::chrono::milliseconds{configs.pollRate}),
+    endpoint{endpoint},
+    sensorPollMs(std::chrono::milliseconds{configs.pollRate}),
     waitTimer(io, std::chrono::steady_clock::duration(0)),
     mctpRequester(mctpRequester), conn(conn), objectServer(objectServer),
     configs(configs), name(escapeName(name)), path(path)
@@ -65,15 +66,15 @@ void PcieDevice::init()
     if (!networkAdapterInterface->initialize())
     {
         lg2::error(
-            "Failed to initialize network adapter interface for for eid {EID}",
-            "EID", eid);
+            "Failed to initialize network adapter interface for for eid {EID} net {NET}",
+            "EID", endpoint.eid, "NET", endpoint.network);
     }
 
     if (!networkAdapterAssociationInterface->initialize())
     {
         lg2::error(
-            "Error initializing Association Interface for Network Adapter for eid {EID}",
-            "EID", eid);
+            "Error initializing Association Interface for Network Adapter for eid {EID} net {NET}",
+            "EID", endpoint.eid, "NET", endpoint.network);
     }
 
     getPciePortCounts();
@@ -91,13 +92,13 @@ void PcieDevice::getPciePortCounts()
     if (rc != 0)
     {
         lg2::error(
-            "Error updating PCIe Port Counts: encode failed, rc={RC}, EID={EID}",
-            "RC", rc, "EID", eid);
+            "Error updating PCIe Port Counts: encode failed, rc={RC}, EID={EID}, NET={NET}",
+            "RC", rc, "EID", endpoint.eid, "NET", endpoint.network);
         return;
     }
 
     mctpRequester.sendRecvMsg(
-        eid, getPciePortCountsRequest,
+        endpoint, getPciePortCountsRequest,
         [weak{weak_from_this()}](const std::error_code& ec,
                                  std::span<const uint8_t> buffer) {
             std::shared_ptr<PcieDevice> self = weak.lock();
@@ -116,8 +117,8 @@ void PcieDevice::processPciePortCountsResponse(
     if (ec)
     {
         lg2::error(
-            "Error processing PCIe Port Counts response: sending message over MCTP failed, rc={RC}, EID={EID}",
-            "RC", ec.message(), "EID", eid);
+            "Error processing PCIe Port Counts response: sending message over MCTP failed, rc={RC}, EID={EID}, NET={NET}",
+            "RC", ec.message(), "EID", endpoint.eid, "NET", endpoint.network);
         return;
     }
 
@@ -131,14 +132,15 @@ void PcieDevice::processPciePortCountsResponse(
     if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
     {
         lg2::error(
-            "Error processing PCIe Port Counts response: decode failed, rc={RC}, cc={CC}, reasonCode={RESC}, EID={EID}",
+            "Error processing PCIe Port Counts response: decode failed, rc={RC}, cc={CC}, reasonCode={RESC}, EID={EID}, NET={NET}",
             "RC", rc, "CC", static_cast<uint8_t>(cc), "RESC", reasonCode, "EID",
-            eid);
+            endpoint.eid, "NET", endpoint.network);
         return;
     }
 
-    lg2::info("PCIe Device with eid {EID} has {UP} upstream ports.", "EID", eid,
-              "UP", pcieDeviceInfo.numUpstreamPorts);
+    lg2::info("PCIe Device with eid {EID} net {NET} has {UP} upstream ports.",
+              "EID", endpoint.eid, "NET", endpoint.network, "UP",
+              pcieDeviceInfo.numUpstreamPorts);
 
     makeSensors();
 }
@@ -151,20 +153,19 @@ void PcieDevice::getNetworkPortAddresses(const uint16_t portNumber)
     if (rc != 0)
     {
         lg2::error(
-            "Error updating Network Port Addresses: encode failed, rc={RC}, EID={EID}",
-            "RC", rc, "EID", eid);
+            "Error updating Network Port Addresses: encode failed, rc={RC}, EID={EID}, NET={NET}",
+            "RC", rc, "EID", endpoint.eid, "NET", endpoint.network);
         return;
     }
 
     mctpRequester.sendRecvMsg(
-        eid, getPortNetworkAddressesRequest,
+        endpoint, getPortNetworkAddressesRequest,
         [portNumber, weak{weak_from_this()}](const std::error_code& ec,
                                              std::span<const uint8_t> buffer) {
             std::shared_ptr<PcieDevice> self = weak.lock();
             if (!self)
             {
-                lg2::error("Invalid reference to PcieDevice, EID={EID}", "EID",
-                           self->eid);
+                lg2::error("Invalid reference to PcieDevice");
                 return;
             }
             self->processGetNetworkPortAddressesResponse(portNumber, ec,
@@ -179,8 +180,8 @@ void PcieDevice::processGetNetworkPortAddressesResponse(
     if (ec)
     {
         lg2::error(
-            "Error processing Network Port Addresses response: sending message over MCTP failed, rc={RC}, EID={EID}",
-            "RC", ec.message(), "EID", eid);
+            "Error processing Network Port Addresses response: sending message over MCTP failed, rc={RC}, EID={EID} NET={NET}",
+            "RC", ec.message(), "EID", endpoint.eid, "NET", endpoint.network);
         return;
     }
 
@@ -195,25 +196,25 @@ void PcieDevice::processGetNetworkPortAddressesResponse(
     if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
     {
         lg2::error(
-            "Error processing Network Port Addresses response: decode failed, rc={RC}, cc={CC}, reasonCode={RESC}, EID={EID}",
+            "Error processing Network Port Addresses response: decode failed, rc={RC}, cc={CC}, reasonCode={RESC}, EID={EID}, NET={NET}",
             "RC", rc, "CC", static_cast<uint8_t>(cc), "RESC", reasonCode, "EID",
-            eid);
+            endpoint.eid, "NET", endpoint.network);
         return;
     }
 
     if (linkType == gpu::NetworkPortLinkType::ETHERNET)
     {
         lg2::info(
-            "Port {PN} of PCIe Device with eid {EID} is of type Ethernet.",
-            "EID", eid, "PN", portNumber);
+            "Port {PN} of PCIe Device with eid {EID} net {NET} is of type Ethernet.",
+            "EID", endpoint.eid, "NET", endpoint.network, "PN", portNumber);
 
         const std::string nicDeviceName = name + "_NIC";
 
         const std::string portName = std::format("Port_{}", portNumber);
 
         ethPortMetrics.emplace_back(std::make_shared<NvidiaEthPortMetrics>(
-            conn, mctpRequester, portName, nicDeviceName, path, eid, portNumber,
-            objectServer));
+            conn, mctpRequester, portName, nicDeviceName, path, endpoint,
+            portNumber, objectServer));
     }
 }
 
@@ -222,11 +223,11 @@ void PcieDevice::makeSensors()
     const std::string pcieDeviceName = name + "_PCIe";
 
     pcieInterface = std::make_shared<NvidiaPcieInterface>(
-        conn, mctpRequester, pcieDeviceName, path, eid, objectServer,
+        conn, mctpRequester, pcieDeviceName, path, endpoint, objectServer,
         gpu::DeviceIdentification::DEVICE_PCIE);
 
     pcieFunction = std::make_shared<NvidiaPcieFunction>(
-        conn, mctpRequester, pcieDeviceName, path, eid, 0, objectServer,
+        conn, mctpRequester, pcieDeviceName, path, endpoint, 0, objectServer,
         gpu::DeviceIdentification::DEVICE_PCIE);
 
     uint64_t downstreamPortIndex = 0;
@@ -236,22 +237,22 @@ void PcieDevice::makeSensors()
         const std::string portName = std::format("UP_{}", i);
 
         pciePorts.emplace_back(std::make_shared<NvidiaPciePortInfo>(
-            conn, mctpRequester, portName, pcieDeviceName, path, eid,
+            conn, mctpRequester, portName, pcieDeviceName, path, endpoint,
             gpu::PciePortType::UPSTREAM, i, i, objectServer,
             gpu::DeviceIdentification::DEVICE_PCIE));
 
         pciePortMetrics.emplace_back(makeNvidiaPciePortErrors(
-            conn, mctpRequester, portName, pcieDeviceName, path, eid,
+            conn, mctpRequester, portName, pcieDeviceName, path, endpoint,
             gpu::PciePortType::UPSTREAM, i, i, objectServer,
             gpu::DeviceIdentification::DEVICE_PCIE));
 
         pciePortMetrics.emplace_back(makeNvidiaPciePortCounters(
-            conn, mctpRequester, portName, pcieDeviceName, path, eid,
+            conn, mctpRequester, portName, pcieDeviceName, path, endpoint,
             gpu::PciePortType::UPSTREAM, i, i, objectServer,
             gpu::DeviceIdentification::DEVICE_PCIE));
 
         pciePortMetrics.emplace_back(makeNvidiaPciePortL0ToRecoveryCount(
-            conn, mctpRequester, portName, pcieDeviceName, path, eid,
+            conn, mctpRequester, portName, pcieDeviceName, path, endpoint,
             gpu::PciePortType::UPSTREAM, i, i, objectServer,
             gpu::DeviceIdentification::DEVICE_PCIE));
 
@@ -261,22 +262,22 @@ void PcieDevice::makeSensors()
                 std::format("DOWN_{}", downstreamPortIndex);
 
             pciePorts.emplace_back(std::make_shared<NvidiaPciePortInfo>(
-                conn, mctpRequester, portName, pcieDeviceName, path, eid,
+                conn, mctpRequester, portName, pcieDeviceName, path, endpoint,
                 gpu::PciePortType::DOWNSTREAM, i, downstreamPortIndex,
                 objectServer, gpu::DeviceIdentification::DEVICE_PCIE));
 
             pciePortMetrics.emplace_back(makeNvidiaPciePortErrors(
-                conn, mctpRequester, portName, pcieDeviceName, path, eid,
+                conn, mctpRequester, portName, pcieDeviceName, path, endpoint,
                 gpu::PciePortType::DOWNSTREAM, i, downstreamPortIndex,
                 objectServer, gpu::DeviceIdentification::DEVICE_PCIE));
 
             pciePortMetrics.emplace_back(makeNvidiaPciePortCounters(
-                conn, mctpRequester, portName, pcieDeviceName, path, eid,
+                conn, mctpRequester, portName, pcieDeviceName, path, endpoint,
                 gpu::PciePortType::DOWNSTREAM, i, downstreamPortIndex,
                 objectServer, gpu::DeviceIdentification::DEVICE_PCIE));
 
             pciePortMetrics.emplace_back(makeNvidiaPciePortL0ToRecoveryCount(
-                conn, mctpRequester, portName, pcieDeviceName, path, eid,
+                conn, mctpRequester, portName, pcieDeviceName, path, endpoint,
                 gpu::PciePortType::DOWNSTREAM, i, downstreamPortIndex,
                 objectServer, gpu::DeviceIdentification::DEVICE_PCIE));
 

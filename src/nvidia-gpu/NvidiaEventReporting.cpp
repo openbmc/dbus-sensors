@@ -3,7 +3,6 @@
 #include <MctpRequester.hpp>
 #include <NvidiaEventReporting.hpp>
 #include <OcpMctpVdm.hpp>
-#include <boost/container_hash/hash.hpp>
 #include <phosphor-logging/lg2.hpp>
 
 #include <array>
@@ -13,9 +12,7 @@
 #include <system_error>
 #include <unordered_map>
 
-std::unordered_map<NvidiaEventHandler::EventKey, EventHandler,
-                   boost::hash<NvidiaEventHandler::EventKey>>
-    NvidiaEventHandler::eventHandlers;
+std::unordered_map<EventKey, EventHandler> NvidiaEventHandler::eventHandlers;
 
 static std::array<uint64_t, messageTypeCount> buildEventSourceMasks(
     std::initializer_list<EventDescriptor> events)
@@ -41,14 +38,15 @@ static std::array<uint64_t, messageTypeCount> buildEventSourceMasks(
 }
 
 NvidiaEventReportingConfig::NvidiaEventReportingConfig(
-    uint8_t eid, mctp::MctpRequester& req,
+    mctp::Endpoint endpoint, mctp::MctpRequester& req,
     std::initializer_list<EventDescriptor> events) :
-    eid{eid}, requester{req}, eventMasks{buildEventSourceMasks(events)}
+    endpoint{endpoint}, requester{req},
+    eventMasks{buildEventSourceMasks(events)}
 {
     for (const auto& event : events)
     {
         NvidiaEventHandler::registerEventHandler(
-            eid, event.messageType, event.eventCode, event.eventHandler);
+            endpoint, event.messageType, event.eventCode, event.eventHandler);
     }
 }
 
@@ -58,13 +56,14 @@ void NvidiaEventReportingConfig::init()
                                                     bmc_eid, subscriptionReq);
     if (rc != 0)
     {
-        lg2::error("Failed to setup device subscription for eid {EID}", "EID",
-                   eid);
+        lg2::error(
+            "Failed to setup device subscription for eid {EID} net {NET}",
+            "EID", endpoint.eid, "NET", endpoint.network);
         return;
     }
 
     requester.sendRecvMsg(
-        eid, subscriptionReq,
+        endpoint, subscriptionReq,
         [weak{weak_from_this()}](const std::error_code& ec,
                                  std::span<const uint8_t> buffer) {
             auto self = weak.lock();
@@ -82,8 +81,9 @@ void NvidiaEventReportingConfig::handleSetupSubscription(
 {
     if (ec)
     {
-        lg2::error("failed to setup event subscription on eid {EID}: {EC}",
-                   "EID", eid, "EC", ec.message());
+        lg2::error(
+            "failed to setup event subscription on eid {EID} net {NET}: {EC}",
+            "EID", endpoint.eid, "NET", endpoint.network, "EC", ec.message());
         return;
     }
 
@@ -92,9 +92,10 @@ void NvidiaEventReportingConfig::handleSetupSubscription(
     int rc = gpu::decodeSetEventSubscriptionResponse(buffer, cc, reasonCode);
     if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
     {
-        lg2::error("failed to setup event subscription on eid {EID}: "
+        lg2::error("failed to setup event subscription on eid {EID} net {NET}: "
                    "rc={RC}, cc={CC}, reasonCode={RESC}",
-                   "EID", eid, "RC", rc, "CC", cc, "RESC", reasonCode);
+                   "EID", endpoint.eid, "NET", endpoint.network, "RC", rc, "CC",
+                   cc, "RESC", reasonCode);
         return;
     }
 
@@ -123,8 +124,9 @@ void NvidiaEventReportingConfig::sendNextEventSource()
         if (rc != 0)
         {
             lg2::error(
-                "Failed to encode event sources request for EID {EID} messageType {MSG}",
-                "EID", eid, "MSG", messageType);
+                "Failed to encode event sources request for EID {EID} NET {NET} messageType {MSG}",
+                "EID", endpoint.eid, "NET", endpoint.network, "MSG",
+                messageType);
             currentMessageTypeIdx++;
             continue;
         }
@@ -134,14 +136,14 @@ void NvidiaEventReportingConfig::sendNextEventSource()
 
     if (currentMessageTypeIdx >= messageTypeCount)
     {
-        lg2::info("Finished setting up event sources for eid {EID}", "EID",
-                  eid);
+        lg2::info("Finished setting up event sources for eid {EID} net {NET}",
+                  "EID", endpoint.eid, "NET", endpoint.network);
         // All event sources processed
         return;
     }
 
     requester.sendRecvMsg(
-        eid, sourcesReq,
+        endpoint, sourcesReq,
         [weak{weak_from_this()}](const std::error_code& ec,
                                  std::span<const uint8_t> buffer) {
             auto self = weak.lock();
@@ -159,8 +161,9 @@ void NvidiaEventReportingConfig::handleSetupEvents(
 {
     if (ec)
     {
-        lg2::error("failed to set up events for eid {EID}: {MSG}", "EID", eid,
-                   "MSG", ec.message());
+        lg2::error("failed to set up events for eid {EID} net {NET}: {MSG}",
+                   "EID", endpoint.eid, "NET", endpoint.network, "MSG",
+                   ec.message());
         return;
     }
 
@@ -170,9 +173,10 @@ void NvidiaEventReportingConfig::handleSetupEvents(
     const int rc = gpu::decodeSetEventSourcesResponse(buffer, cc, reasonCode);
     if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
     {
-        lg2::error("failed to set event sources on eid {EID}: "
+        lg2::error("failed to set event sources on eid {EID} net {NET}: "
                    "rc={RC}, cc={CC}, reasonCode={RESC}",
-                   "EID", eid, "RC", rc, "CC", cc, "RESC", reasonCode);
+                   "EID", endpoint.eid, "NET", endpoint.network, "RC", rc, "CC",
+                   cc, "RESC", reasonCode);
         return;
     }
 
@@ -181,7 +185,7 @@ void NvidiaEventReportingConfig::handleSetupEvents(
     sendNextEventSource();
 }
 
-void NvidiaEventHandler::handleEvent(uint8_t eid,
+void NvidiaEventHandler::handleEvent(mctp::Endpoint ep,
                                      std::span<const uint8_t> buffer)
 {
     EventInfo eventInfo{};
@@ -201,13 +205,14 @@ void NvidiaEventHandler::handleEvent(uint8_t eid,
         return;
     }
 
-    EventKey key{eid, static_cast<gpu::MessageType>(messageType), eventId};
+    EventKey key{ep, static_cast<gpu::MessageType>(messageType), eventId};
     const auto itr = eventHandlers.find(key);
     if (itr == eventHandlers.end())
     {
         lg2::error(
-            "No handler registered for event code {CODE} message type {MSG} from eid {EID}",
-            "CODE", eventId, "MSG", messageType, "EID", eid);
+            "No handler registered for event code {CODE} message type {MSG} from eid {EID} net {NET}",
+            "CODE", eventId, "MSG", messageType, "EID", ep.eid, "NET",
+            ep.network);
         return;
     }
 
