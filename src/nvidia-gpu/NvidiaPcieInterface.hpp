@@ -25,7 +25,7 @@ struct NvidiaPcieInterface :
     NvidiaPcieInterface(std::shared_ptr<sdbusplus::asio::connection>& conn,
                         mctp::MctpRequester& mctpRequester,
                         const std::string& name, const std::string& path,
-                        uint8_t eid,
+                        mctp::Endpoint endpoint,
                         sdbusplus::asio::object_server& objectServer,
                         gpu::DeviceIdentification deviceType);
 
@@ -41,7 +41,7 @@ struct NvidiaPcieInterface :
 
     static std::string mapPcieGeneration(uint32_t value);
 
-    uint8_t eid{};
+    mctp::Endpoint endpoint;
 
     std::string path;
 

@@ -26,7 +26,7 @@ struct NvidiaGpuCurrentUtilization :
         std::shared_ptr<sdbusplus::asio::connection>& conn,
         mctp::MctpRequester& mctpRequester,
         sdbusplus::asio::object_server& objectServer,
-        const std::string& deviceName, uint8_t eid,
+        const std::string& deviceName, mctp::Endpoint endpoint,
         const std::shared_ptr<NvidiaLongRunningResponseHandler>&
             longRunningResponseHandler);
 
@@ -42,7 +42,7 @@ struct NvidiaGpuCurrentUtilization :
 
     void updateUtilization(uint32_t gpuUtilization);
 
-    uint8_t eid{};
+    mctp::Endpoint endpoint;
 
     std::shared_ptr<sdbusplus::asio::connection> conn;
 

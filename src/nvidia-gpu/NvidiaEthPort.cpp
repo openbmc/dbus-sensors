@@ -37,9 +37,10 @@ using namespace std::literals;
 NvidiaEthPortMetrics::NvidiaEthPortMetrics(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, const std::string& name,
-    const std::string& deviceName, const std::string& path, uint8_t eid,
-    uint16_t portNumber, sdbusplus::asio::object_server& objectServer) :
-    eid(eid), portNumber(portNumber), path(path), conn(conn),
+    const std::string& deviceName, const std::string& path,
+    mctp::Endpoint endpoint, uint16_t portNumber,
+    sdbusplus::asio::object_server& objectServer) :
+    endpoint{endpoint}, portNumber(portNumber), path(path), conn(conn),
     mctpRequester(mctpRequester)
 {
     const sdbusplus::object_path deviceDbusPath =
@@ -107,30 +108,32 @@ NvidiaEthPortMetrics::NvidiaEthPortMetrics(
         if (!metricValueInterface[tag]->initialize())
         {
             lg2::error(
-                "Error initializing Ethernet Port Metric Interface for EID={EID}, PortNumber={PN}, Metric={MN}",
-                "EID", eid, "PN", portNumber, "MN", metricName);
+                "Error initializing Ethernet Port Metric Interface for EID={EID}, NET={NET}, PortNumber={PN}, Metric={MN}",
+                "EID", endpoint.eid, "NET", endpoint.network, "PN", portNumber,
+                "MN", metricName);
         }
 
         if (!metricAssociationInterfaces[tag]->initialize())
         {
             lg2::error(
-                "Error initializing Ethernet Port Metric Association Interface for EID={EID}, PortNumber={PN}, Metric={MN}",
-                "EID", eid, "PN", portNumber, "MN", metricName);
+                "Error initializing Ethernet Port Metric Association Interface for EID={EID}, NET={NET}, PortNumber={PN}, Metric={MN}",
+                "EID", endpoint.eid, "NET", endpoint.network, "PN", portNumber,
+                "MN", metricName);
         }
     }
 
     if (!portInterface->initialize())
     {
         lg2::error(
-            "Error initializing Ethernet Port Interface for EID={EID}, PortNumber={PN}",
-            "EID", eid, "PN", portNumber);
+            "Error initializing Ethernet Port Interface for EID={EID}, NET={NET}, PortNumber={PN}",
+            "EID", endpoint.eid, "NET", endpoint.network, "PN", portNumber);
     }
 
     if (!associationInterface->initialize())
     {
         lg2::error(
-            "Error initializing Association Interface for Ethernet Port for EID={EID}, PortNumber={PN}",
-            "EID", eid, "PN", portNumber);
+            "Error initializing Association Interface for Ethernet Port for EID={EID}, NET={NET}, PortNumber={PN}",
+            "EID", endpoint.eid, "NET", endpoint.network, "PN", portNumber);
     }
 }
 
@@ -141,8 +144,9 @@ void NvidiaEthPortMetrics::processResponse(
     {
         lg2::error(
             "Error updating Ethernet Port Metrics: sending message over MCTP failed, "
-            "rc={RC}, EID={EID}, PortNumber={PN}",
-            "RC", sendRecvMsgResult.message(), "EID", eid, "PN", portNumber);
+            "rc={RC}, EID={EID}, NET={NET}, PortNumber={PN}",
+            "RC", sendRecvMsgResult.message(), "EID", endpoint.eid, "NET",
+            endpoint.network, "PN", portNumber);
         return;
     }
 
@@ -157,9 +161,9 @@ void NvidiaEthPortMetrics::processResponse(
     {
         lg2::error(
             "Error updating Ethernet Port Metrics: decode failed, "
-            "rc={RC}, cc={CC}, reasonCode={RESC}, EID={EID}, PortNumber={PN}",
+            "rc={RC}, cc={CC}, reasonCode={RESC}, EID={EID}, NET={NET}, PortNumber={PN}",
             "RC", rc, "CC", static_cast<uint8_t>(cc), "RESC", reasonCode, "EID",
-            eid, "PN", portNumber);
+            endpoint.eid, "NET", endpoint.network, "PN", portNumber);
         return;
     }
 
@@ -181,13 +185,14 @@ void NvidiaEthPortMetrics::update()
     if (rc != 0)
     {
         lg2::error(
-            "Error updating Ethernet Port Metrics: encode failed, rc={RC}, EID={EID}, PortNumber={PN}",
-            "RC", rc, "EID", eid, "PN", portNumber);
+            "Error updating Ethernet Port Metrics: encode failed, rc={RC}, EID={EID}, NET={NET}, PortNumber={PN}",
+            "RC", rc, "EID", endpoint.eid, "NET", endpoint.network, "PN",
+            portNumber);
         return;
     }
 
     mctpRequester.sendRecvMsg(
-        eid, request,
+        endpoint, request,
         [weak{weak_from_this()}](const std::error_code& ec,
                                  std::span<const uint8_t> buffer) {
             std::shared_ptr<NvidiaEthPortMetrics> self = weak.lock();

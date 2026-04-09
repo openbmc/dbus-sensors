@@ -3,14 +3,12 @@
 
 #include <MctpRequester.hpp>
 #include <boost/asio.hpp>
-#include <boost/container_hash/hash.hpp>
 
 #include <array>
 #include <cstdint>
 #include <initializer_list>
 #include <memory>
 #include <span>
-#include <tuple>
 #include <unordered_map>
 
 struct EventInfo
@@ -39,7 +37,8 @@ class NvidiaEventReportingConfig :
     public std::enable_shared_from_this<NvidiaEventReportingConfig>
 {
   public:
-    NvidiaEventReportingConfig(uint8_t eid, mctp::MctpRequester& req,
+    NvidiaEventReportingConfig(mctp::Endpoint endpoint,
+                               mctp::MctpRequester& req,
                                std::initializer_list<EventDescriptor> events);
     NvidiaEventReportingConfig(NvidiaEventReportingConfig&&) noexcept = delete;
     NvidiaEventReportingConfig& operator=(
@@ -60,7 +59,7 @@ class NvidiaEventReportingConfig :
 
     static constexpr uint8_t generationSettingEnablePush = 2;
     uint8_t bmc_eid{8};
-    uint8_t eid;
+    mctp::Endpoint endpoint;
     mctp::MctpRequester& requester;
     std::array<uint64_t, messageTypeCount> eventMasks{};
     size_t currentMessageTypeIdx{0};
@@ -68,22 +67,47 @@ class NvidiaEventReportingConfig :
     std::array<uint8_t, gpu::setEventSubscriptionRequestSize> subscriptionReq{};
 };
 
+struct EventKey
+{
+    mctp::Endpoint endpoint;
+    gpu::MessageType type;
+    uint8_t eventCode;
+    EventKey(mctp::Endpoint endpoint, gpu::MessageType type,
+             uint8_t eventCode) :
+        endpoint{endpoint}, type{type}, eventCode{eventCode}
+    {}
+    bool operator==(const EventKey& other) const = default;
+};
+
+namespace std
+{
+template <>
+struct hash<EventKey>
+{
+    size_t operator()(const EventKey& key) const
+    {
+        static_assert(sizeof(key) == sizeof(uint32_t),
+                      "You have broken hashing for this type");
+        uint32_t tmp = (key.endpoint.eid << 24) | (key.endpoint.network << 16) |
+                       (static_cast<uint8_t>(key.type) << 8) | key.eventCode;
+        return hash<uint32_t>{}(tmp);
+    }
+};
+} // namespace std
+
 class NvidiaEventHandler
 {
   public:
-    static void handleEvent(uint8_t eid, std::span<const uint8_t> buffer);
+    static void handleEvent(mctp::Endpoint endpoint,
+                            std::span<const uint8_t> buffer);
 
-    static void registerEventHandler(uint8_t eid, gpu::MessageType messageType,
-                                     uint8_t eventCode,
-                                     const EventHandler& handler)
+    static void registerEventHandler(
+        mctp::Endpoint endpoint, gpu::MessageType messageType,
+        uint8_t eventCode, const EventHandler& handler)
     {
-        eventHandlers[EventKey{eid, messageType, eventCode}] = handler;
+        eventHandlers[EventKey{endpoint, messageType, eventCode}] = handler;
     }
 
   private:
-    // Key is a tuple of (eid, messageType, eventCode)
-    using EventKey = std::tuple<uint8_t, gpu::MessageType, uint8_t>;
-
-    static std::unordered_map<EventKey, EventHandler, boost::hash<EventKey>>
-        eventHandlers;
+    static std::unordered_map<EventKey, EventHandler> eventHandlers;
 };

@@ -31,10 +31,10 @@ using Association = std::tuple<std::string, std::string, std::string>;
 NvidiaPcieFunction::NvidiaPcieFunction(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, const std::string& pcieDeviceName,
-    const std::string& path, uint8_t eid, uint8_t functionNumber,
+    const std::string& path, mctp::Endpoint ep, uint8_t functionNumber,
     sdbusplus::asio::object_server& objectServer,
     gpu::DeviceIdentification deviceType) :
-    eid(eid), path(path), conn(conn), mctpRequester(mctpRequester),
+    ep{ep}, path(path), conn(conn), mctpRequester(mctpRequester),
     deviceType(deviceType)
 {
     const sdbusplus::object_path dbusPath =
@@ -67,8 +67,9 @@ NvidiaPcieFunction::NvidiaPcieFunction(
 
     if (!pcieFunctionInterface->initialize())
     {
-        lg2::error("Error initializing PCIe Function Interface for EID={EID}",
-                   "EID", eid);
+        lg2::error(
+            "Error initializing PCIe Function Interface for EID={EID} NET={NET}",
+            "EID", ep.eid, "NET", ep.network);
     }
 
     const std::string pcieDevicePath = pcieDevicePathPrefix + pcieDeviceName;
@@ -83,8 +84,8 @@ NvidiaPcieFunction::NvidiaPcieFunction(
     if (!associationInterface->initialize())
     {
         lg2::error(
-            "Error initializing Association Interface for PCIe Function for EID={EID}",
-            "EID", eid);
+            "Error initializing Association Interface for PCIe Function for EID={EID}, NET={NET}",
+            "EID", ep.eid, "NET", ep.network);
     }
 }
 
@@ -95,8 +96,8 @@ void NvidiaPcieFunction::processResponse(const std::error_code& ec,
     {
         lg2::error(
             "Error updating PCIe Function: sending message over MCTP failed, "
-            "rc={RC}, EID={EID}",
-            "RC", ec.value(), "EID", eid);
+            "rc={RC}, EID={EID}, NET={NET}",
+            "RC", ec.value(), "EID", ep.eid, "NET", ep.network);
         return;
     }
 
@@ -122,9 +123,9 @@ void NvidiaPcieFunction::processResponse(const std::error_code& ec,
     if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
     {
         lg2::error("Error updating PCIe Function: decode failed, "
-                   "rc={RC}, cc={CC}, reasonCode={RESC}, EID={EID}",
+                   "rc={RC}, cc={CC}, reasonCode={RESC}, EID={EID}, NET={NET}",
                    "RC", rc, "CC", static_cast<uint8_t>(cc), "RESC", reasonCode,
-                   "EID", eid);
+                   "EID", ep.eid, "NET", ep.network);
         return;
     }
 
@@ -132,8 +133,8 @@ void NvidiaPcieFunction::processResponse(const std::error_code& ec,
     {
         lg2::error(
             "Error updating PCIe Function: insufficient telemetry values, "
-            "NumValues={NUM}, EID={EID}",
-            "NUM", numTelemetryValue, "EID", eid);
+            "NumValues={NUM}, EID={EID}, NET={NET}",
+            "NUM", numTelemetryValue, "EID", ep.eid, "NET", ep.network);
         return;
     }
 
@@ -171,13 +172,13 @@ void NvidiaPcieFunction::update()
     if (rc != 0)
     {
         lg2::error(
-            "Error updating PCIe Function: encode failed, rc={RC}, EID={EID}",
-            "RC", rc, "EID", eid);
+            "Error updating PCIe Function: encode failed, rc={RC}, EID={EID}, NET={NET}",
+            "RC", rc, "EID", ep.eid, "NET", ep.network);
         return;
     }
 
     mctpRequester.sendRecvMsg(
-        eid, buf,
+        ep, buf,
         [weak{weak_from_this()}](const std::error_code& ec,
                                  std::span<const uint8_t> buffer) {
             std::shared_ptr<NvidiaPcieFunction> self = weak.lock();

@@ -30,10 +30,10 @@ constexpr uint32_t powerLimitUnlimited = std::numeric_limits<uint32_t>::max();
 NvidiaGpuControl::NvidiaGpuControl(
     sdbusplus::asio::object_server& objectServer, const std::string& deviceName,
     const std::string& inventoryPath, mctp::MctpRequester& mctpRequester,
-    uint8_t eid,
+    mctp::Endpoint endpoint,
     const std::shared_ptr<sdbusplus::asio::dbus_interface>& powerCapIface) :
     powerCapInterface(powerCapIface), name(escapeName(deviceName)),
-    objectServer(objectServer), mctpRequester(mctpRequester), eid(eid)
+    objectServer(objectServer), mctpRequester(mctpRequester), endpoint{endpoint}
 {
     const std::string powerControlPath = controlPowerPrefix + name;
 
@@ -67,13 +67,13 @@ void NvidiaGpuControl::sendGetPowerLimitsRequest()
     if (rc != 0)
     {
         lg2::error(
-            "Error encoding GET_POWER_LIMITS request for eid {EID}, rc={RC}",
-            "EID", eid, "RC", rc);
+            "Error encoding GET_POWER_LIMITS request for eid {EID} net {NET}, rc={RC}",
+            "EID", endpoint.eid, "NET", endpoint.network, "RC", rc);
         return;
     }
 
     mctpRequester.sendRecvMsg(
-        eid, getPowerLimitsRequestBuffer,
+        endpoint, getPowerLimitsRequestBuffer,
         [weak{weak_from_this()}](const std::error_code& ec,
                                  std::span<const uint8_t> buffer) {
             std::shared_ptr<NvidiaGpuControl> self = weak.lock();
@@ -91,8 +91,9 @@ void NvidiaGpuControl::handleGetPowerLimitsResponse(
 {
     if (ec)
     {
-        lg2::error("Error getting power limits for eid {EID}: {MSG}", "EID",
-                   eid, "MSG", ec.message());
+        lg2::error("Error getting power limits for eid {EID} net {NET}: {MSG}",
+                   "EID", endpoint.eid, "NET", endpoint.network, "MSG",
+                   ec.message());
         return;
     }
 
@@ -109,9 +110,9 @@ void NvidiaGpuControl::handleGetPowerLimitsResponse(
     if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
     {
         lg2::error(
-            "Error decoding power limits for eid {EID}: rc={RC}, cc={CC}, reasonCode={RESC}",
-            "EID", eid, "RC", rc, "CC", static_cast<uint8_t>(cc), "RESC",
-            reasonCode);
+            "Error decoding power limits for eid {EID} net {NET}: rc={RC}, cc={CC}, reasonCode={RESC}",
+            "EID", endpoint.eid, "NET", endpoint.network, "RC", rc, "CC",
+            static_cast<uint8_t>(cc), "RESC", reasonCode);
         return;
     }
 

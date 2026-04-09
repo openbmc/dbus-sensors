@@ -34,10 +34,10 @@ NvidiaGpuCurrentUtilization::NvidiaGpuCurrentUtilization(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester,
     sdbusplus::asio::object_server& objectServer, const std::string& deviceName,
-    uint8_t eid,
+    mctp::Endpoint endpoint,
     const std::shared_ptr<NvidiaLongRunningResponseHandler>&
         longRunningResponseHandler) :
-    eid(eid), conn(conn), mctpRequester(mctpRequester),
+    endpoint{endpoint}, conn(conn), mctpRequester(mctpRequester),
     longRunningResponseHandler(longRunningResponseHandler)
 {
     const sdbusplus::object_path metricObjectPath =
@@ -85,13 +85,13 @@ void NvidiaGpuCurrentUtilization::update()
     if (rc != 0)
     {
         lg2::error(
-            "Error updating GPU Current Utilization: encode failed, rc={RC}, EID={EID}",
-            "RC", rc, "EID", eid);
+            "Error updating GPU Current Utilization: encode failed, rc={RC}, EID={EID}, NET={NET}",
+            "RC", rc, "EID", endpoint.eid, "NET", endpoint.network);
         return;
     }
 
     mctpRequester.sendRecvMsg(
-        eid, request,
+        endpoint, request,
         [weak{weak_from_this()}](const std::error_code& ec,
                                  std::span<const uint8_t> buffer) {
             std::shared_ptr<NvidiaGpuCurrentUtilization> self = weak.lock();
@@ -111,8 +111,8 @@ void NvidiaGpuCurrentUtilization::processResponse(
     {
         lg2::error(
             "Error updating GPU Current Utilization: sending message over MCTP failed, "
-            "rc={RC}, EID={EID}",
-            "RC", ec.message(), "EID", eid);
+            "rc={RC}, EID={EID}, NET={NET}",
+            "RC", ec.message(), "EID", endpoint.eid, "NET", endpoint.network);
         return;
     }
 
@@ -125,9 +125,9 @@ void NvidiaGpuCurrentUtilization::processResponse(
     if (rc != 0)
     {
         lg2::error("Error updating GPU Current Utilization: decode failed, "
-                   "rc={RC}, cc={CC}, reasonCode={RESC}, EID={EID}",
+                   "rc={RC}, cc={CC}, reasonCode={RESC}, EID={EID}, NET={NET}",
                    "RC", rc, "CC", static_cast<uint8_t>(cc), "RESC", reasonCode,
-                   "EID", eid);
+                   "EID", endpoint.eid, "NET", endpoint.network);
         return;
     }
 
@@ -144,9 +144,9 @@ void NvidiaGpuCurrentUtilization::processResponse(
             {
                 lg2::error(
                     "Error updating GPU Current Utilization: decode failed, "
-                    "rc={RC}, cc={CC}, reasonCode={RESC}, EID={EID}",
+                    "rc={RC}, cc={CC}, reasonCode={RESC}, EID={EID}, NET={NET}",
                     "RC", rc, "CC", static_cast<uint8_t>(cc), "RESC",
-                    reasonCode, "EID", eid);
+                    reasonCode, "EID", endpoint.eid, "NET", endpoint.network);
 
                 return;
             }
@@ -183,8 +183,8 @@ void NvidiaGpuCurrentUtilization::processResponse(
             {
                 lg2::error(
                     "Error updating GPU Current Utilization: failed to register long running response handler, "
-                    "rc={RC}, EID={EID}",
-                    "RC", rc, "EID", eid);
+                    "rc={RC}, EID={EID}, NET={NET}",
+                    "RC", rc, "EID", endpoint.eid, "NET", endpoint.network);
             }
 
             return;
@@ -193,8 +193,9 @@ void NvidiaGpuCurrentUtilization::processResponse(
         default:
             lg2::error(
                 "Error updating GPU Current Utilization: received unexpected completion code, "
-                "cc={CC}, reasonCode={RESC}, EID={EID}",
-                "CC", static_cast<uint8_t>(cc), "RESC", reasonCode, "EID", eid);
+                "cc={CC}, reasonCode={RESC}, EID={EID}, NET={NET}",
+                "CC", static_cast<uint8_t>(cc), "RESC", reasonCode, "EID",
+                endpoint.eid, "NET", endpoint.network);
             return;
     }
 }
@@ -207,8 +208,9 @@ void NvidiaGpuCurrentUtilization::processLongRunningResponse(
     {
         lg2::error(
             "Error updating GPU Current Utilization: long running response indicated failure, "
-            "cc={CC}, reasonCode={RESC}, EID={EID}",
-            "CC", static_cast<uint8_t>(cc), "RESC", reasonCode, "EID", eid);
+            "cc={CC}, reasonCode={RESC}, EID={EID}, NET={NET}",
+            "CC", static_cast<uint8_t>(cc), "RESC", reasonCode, "EID",
+            endpoint.eid, "NET", endpoint.network);
         return;
     }
 
@@ -216,8 +218,9 @@ void NvidiaGpuCurrentUtilization::processLongRunningResponse(
     {
         lg2::error(
             "Error updating GPU Current Utilization: invalid long running response data size, "
-            "size={SIZE}, EID={EID}",
-            "SIZE", responseData.size(), "EID", eid);
+            "size={SIZE}, EID={EID}, NET={NET}",
+            "SIZE", responseData.size(), "EID", endpoint.eid, "NET",
+            endpoint.network);
         return;
     }
 
@@ -231,8 +234,8 @@ void NvidiaGpuCurrentUtilization::processLongRunningResponse(
     {
         lg2::error(
             "Error updating GPU Current Utilization: failed to unpack long running response data, "
-            "rc={RC}, EID={EID}",
-            "RC", rc, "EID", eid);
+            "rc={RC}, EID={EID}, NET={NET}",
+            "RC", rc, "EID", endpoint.eid, "NET", endpoint.network);
         return;
     }
 

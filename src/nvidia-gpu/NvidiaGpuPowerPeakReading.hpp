@@ -26,7 +26,7 @@ struct NvidiaGpuPowerPeakReading
 {
   public:
     NvidiaGpuPowerPeakReading(mctp::MctpRequester& mctpRequester,
-                              const std::string& name, uint8_t eid,
+                              const std::string& name, mctp::Endpoint endpoint,
                               uint8_t sensorId,
                               sdbusplus::asio::object_server& objectServer);
 
@@ -38,7 +38,7 @@ struct NvidiaGpuPowerPeakReading
     void processResponse(const std::error_code& ec,
                          std::span<const uint8_t> buffer);
 
-    uint8_t eid{};
+    mctp::Endpoint endpoint;
 
     uint8_t sensorId;
 
