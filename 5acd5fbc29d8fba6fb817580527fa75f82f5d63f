@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "67b9543f_3866f238",
+        "filename": "src/nvidia-gpu/Inventory.hpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-04-09T05:43:59Z",
+      "side": 1,
+      "message": "Done. Changed to std::array\u003cuint16_t, 2\u003e, also updated register_property in https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/88005/14/src/nvidia-gpu/NvidiaGpuDevice.cpp#101 accordingly.",
+      "parentUuid": "d73aacd0_53dc70e7",
+      "revId": "5acd5fbc29d8fba6fb817580527fa75f82f5d63f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f2e08ab0_d8139137",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-04-07T10:17:06Z",
       "side": 1,
       "message": "We can just put 1 here directly.",
+      "range": {
+        "startLine": 279,
+        "startChar": 53,
+        "endLine": 279,
+        "endChar": 68
+      },
+      "revId": "5acd5fbc29d8fba6fb817580527fa75f82f5d63f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c40a161f_122430eb",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-04-09T05:43:59Z",
+      "side": 1,
+      "message": "Done. Replaced with 1. See https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/88005/14/src/nvidia-gpu/NvidiaGpuMctpVdm.hpp#279",
+      "parentUuid": "f2e08ab0_d8139137",
       "range": {
         "startLine": 279,
         "startChar": 53,
