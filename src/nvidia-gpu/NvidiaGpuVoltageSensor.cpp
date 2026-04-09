@@ -42,14 +42,14 @@ static constexpr double gpuVoltageSensorMinReading =
 NvidiaGpuVoltageSensor::NvidiaGpuVoltageSensor(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, const std::string& name,
-    const std::string& sensorConfiguration, const uint8_t eid, uint8_t sensorId,
-    sdbusplus::asio::object_server& objectServer,
+    const std::string& sensorConfiguration, mctp::Endpoint endpoint,
+    uint8_t sensorId, sdbusplus::asio::object_server& objectServer,
     std::vector<thresholds::Threshold>&& thresholdData,
     const gpu::DeviceIdentification deviceType) :
     Sensor(escapeName(name), std::move(thresholdData), sensorConfiguration,
            "energy", false, true, gpuVoltageSensorMaxReading,
            gpuVoltageSensorMinReading, conn),
-    eid(eid), sensorId{sensorId}, mctpRequester(mctpRequester),
+    endpoint{endpoint}, sensorId{sensorId}, mctpRequester(mctpRequester),
     objectServer(objectServer)
 {
     std::string dbusPath = sensorPathPrefix + "voltage/"s + escapeName(name);
@@ -82,8 +82,8 @@ NvidiaGpuVoltageSensor::NvidiaGpuVoltageSensor(
         if (!commonPhysicalContextInterface->initialize())
         {
             lg2::error(
-                "Error initializing PhysicalContext Interface for Voltage Sensor for eid {EID} and sensor id {SID}",
-                "EID", eid, "SID", sensorId);
+                "Error initializing PhysicalContext Interface for Voltage Sensor for eid {EID} net {NET} and sensor id {SID}",
+                "EID", endpoint.eid, "NET", endpoint.network, "SID", sensorId);
         }
     }
 }
@@ -150,7 +150,7 @@ void NvidiaGpuVoltageSensor::update()
     }
 
     mctpRequester.sendRecvMsg(
-        eid, request,
+        endpoint, request,
         [weak{weak_from_this()}](const std::error_code& ec,
                                  std::span<const uint8_t> buffer) {
             std::shared_ptr<NvidiaGpuVoltageSensor> self = weak.lock();

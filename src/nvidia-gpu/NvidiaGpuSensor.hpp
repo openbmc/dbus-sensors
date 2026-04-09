@@ -32,8 +32,8 @@ struct NvidiaGpuTempSensor :
     NvidiaGpuTempSensor(
         std::shared_ptr<sdbusplus::asio::connection>& conn,
         mctp::MctpRequester& mctpRequester, const std::string& name,
-        const std::string& sensorConfiguration, uint8_t eid, uint8_t sensorId,
-        sdbusplus::asio::object_server& objectServer,
+        const std::string& sensorConfiguration, mctp::Endpoint endpoint,
+        uint8_t sensorId, sdbusplus::asio::object_server& objectServer,
         std::vector<thresholds::Threshold>&& thresholdData,
         gpu::DeviceIdentification deviceType);
 
@@ -47,7 +47,7 @@ struct NvidiaGpuTempSensor :
     void processResponse(const std::error_code& ec,
                          std::span<const uint8_t> buffer);
 
-    uint8_t eid{};
+    mctp::Endpoint endpoint;
 
     uint8_t sensorId;
 

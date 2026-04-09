@@ -35,10 +35,10 @@ using namespace std::literals;
 NvidiaPcieInterface::NvidiaPcieInterface(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, const std::string& name,
-    const std::string& path, uint8_t eid,
+    const std::string& path, mctp::Endpoint endpoint,
     sdbusplus::asio::object_server& objectServer,
     gpu::DeviceIdentification deviceType) :
-    eid(eid), path(path), conn(conn), mctpRequester(mctpRequester),
+    endpoint{endpoint}, path(path), conn(conn), mctpRequester(mctpRequester),
     deviceType(deviceType)
 {
     const std::string dbusPath = pcieDevicePathPrefix + escapeName(name);
@@ -77,21 +77,23 @@ NvidiaPcieInterface::NvidiaPcieInterface(
 
     if (!pcieDeviceInterface->initialize())
     {
-        lg2::error("Error initializing PCIe Device Interface for EID={EID}",
-                   "EID", eid);
+        lg2::error(
+            "Error initializing PCIe Device Interface for EID={EID} NET={NET}",
+            "EID", endpoint.eid, "NET", endpoint.network);
     }
 
     if (switchInterface && !switchInterface->initialize())
     {
-        lg2::error("Error initializing Switch Interface for EID={EID}", "EID",
-                   eid);
+        lg2::error(
+            "Error initializing Switch Interface for EID={EID} NET={NET}",
+            "EID", endpoint.eid, "NET", endpoint.network);
     }
 
     if (associationInterface && !associationInterface->initialize())
     {
         lg2::error(
-            "Error initializing Association Interface for PCIeSwitch EID={EID}",
-            "EID", eid);
+            "Error initializing Association Interface for PCIeSwitch EID={EID} NET={NET}",
+            "EID", endpoint.eid, "NET", endpoint.network);
     }
 }
 
@@ -128,8 +130,8 @@ void NvidiaPcieInterface::processResponse(const std::error_code& ec,
     {
         lg2::error(
             "Error updating PCIe Interface: sending message over MCTP failed, "
-            "rc={RC}, EID={EID}",
-            "RC", ec.value(), "EID", eid);
+            "rc={RC}, EID={EID}, NET={NET}",
+            "RC", ec.value(), "EID", endpoint.eid, "NET", endpoint.network);
         return;
     }
 
@@ -155,9 +157,9 @@ void NvidiaPcieInterface::processResponse(const std::error_code& ec,
     if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
     {
         lg2::error("Error updating PCIe Interface: decode failed, "
-                   "rc={RC}, cc={CC}, reasonCode={RESC}, EID={EID}",
+                   "rc={RC}, cc={CC}, reasonCode={RESC}, EID={EID}, NET={NET}",
                    "RC", rc, "CC", static_cast<uint8_t>(cc), "RESC", reasonCode,
-                   "EID", eid);
+                   "EID", endpoint.eid, "NET", endpoint.network);
         return;
     }
 
@@ -211,21 +213,20 @@ void NvidiaPcieInterface::update()
 
     if (rc != 0)
     {
-        lg2::error("Error updating PCIe Interface: failed, rc={RC}, EID={EID}",
-                   "RC", rc, "EID", eid);
+        lg2::error(
+            "Error updating PCIe Interface: failed, rc={RC}, EID={EID}, NET={NET}",
+            "RC", rc, "EID", endpoint.eid, "NET", endpoint.network);
         return;
     }
 
     mctpRequester.sendRecvMsg(
-        eid, buf,
+        endpoint, buf,
         [weak{weak_from_this()}](const std::error_code& ec,
                                  std::span<const uint8_t> buffer) {
             std::shared_ptr<NvidiaPcieInterface> self = weak.lock();
             if (!self)
             {
-                lg2::error(
-                    "Invalid reference to NvidiaPcieInterface for EID {EID}",
-                    "EID", self->eid);
+                lg2::error("Invalid reference to NvidiaPcieInterface");
                 return;
             }
             self->processResponse(ec, buffer);
