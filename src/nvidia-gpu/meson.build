@@ -1,6 +1,5 @@
 gpusensor_sources = files(
     'Inventory.cpp',
-    'MctpRequester.cpp',
     'NvidiaDeviceDiscovery.cpp',
     'NvidiaDriverInformation.cpp',
     'NvidiaEthPort.cpp',
@@ -22,7 +21,6 @@ gpusensor_sources = files(
     'NvidiaPciePort.cpp',
     'NvidiaPciePortMetrics.cpp',
     'NvidiaSmaDevice.cpp',
-    'OcpMctpVdm.cpp',
 )
 
 if not get_option('nvidia-gpu').allowed()

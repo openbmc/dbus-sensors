@@ -9,7 +9,6 @@
 
 #include <sys/socket.h>
 
-#include <NvidiaEventReporting.hpp>
 #include <OcpMctpVdm.hpp>
 #include <boost/asio/buffer.hpp>
 #include <boost/asio/error.hpp>
@@ -17,6 +16,7 @@
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <boost/container/devector.hpp>
+#include <nvidia-gpu/NvidiaGpuMctpVdm.hpp>
 #include <phosphor-logging/lg2.hpp>
 
 #include <cstddef>
@@ -80,6 +80,17 @@ MctpRequester::MctpRequester(boost::asio::io_context& ctx,
                              uint8_t messageType) :
     msgType{messageType}, io{ctx},
     mctpSocket(ctx, boost::asio::generic::datagram_protocol{AF_MCTP, 0})
+{
+    startReceive();
+}
+
+MctpRequester::MctpRequester(
+    boost::asio::io_context& ctx, uint8_t messageType,
+    std::move_only_function<void(uint8_t, std::span<const uint8_t>)>
+        eventCallback) :
+    msgType{messageType}, io{ctx},
+    mctpSocket(ctx, boost::asio::generic::datagram_protocol{AF_MCTP, 0}),
+    eventCallback{std::move(eventCallback)}
 {
     MctpAsioEndpoint receiveEp{messageType};
     boost::system::error_code ec;
@@ -162,7 +173,16 @@ void MctpRequester::processRecvMsg(const boost::system::error_code& ec,
             return;
         }
 
-        NvidiaEventHandler::handleEvent(eid, responseBuffer);
+        if (eventCallback)
+        {
+            eventCallback(eid, responseBuffer);
+        }
+        else
+        {
+            lg2::warning(
+                "Request received but no handler regisered on EID={EID}", "EID",
+                eid);
+        }
         startReceive();
         return;
     }
@@ -172,7 +192,6 @@ void MctpRequester::processRecvMsg(const boost::system::error_code& ec,
         // we received an Event acknowledgment
         return;
     }
-
     uint8_t iid = *optionalIid;
 
     auto it = requestContextQueues.find(eid);
