@@ -324,6 +324,24 @@ int decodeEvent(std::span<const uint8_t> buf, uint16_t pciVendorId,
     return 0;
 }
 
+bool isOcpAcceleratorMessage(std::span<const uint8_t> buf, uint16_t pciVendorId)
+{
+    if (buf.size() < sizeof(BindingPciVid))
+    {
+        return false;
+    }
+
+    const auto* hdr = std::bit_cast<const BindingPciVid*>(buf.data());
+    if (hdr->pci_vendor_id != htobe16(pciVendorId))
+    {
+        return false;
+    }
+
+    uint8_t version = hdr->ocp_version & ocpVersionBitMask;
+    uint8_t type = (hdr->ocp_version & ocpTypeBitMask) >> ocpTypeBitOffset;
+    return version == ocpVersion && type == ocpType;
+}
+
 static const ocp::accelerator_management::BindingPciVid* getHeaderFromBuffer(
     std::span<const uint8_t> buffer)
 {

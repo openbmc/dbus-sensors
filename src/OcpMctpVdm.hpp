@@ -118,6 +118,9 @@ struct CommonNonSuccessResponse
     uint16_t reason_code;
 } __attribute__((packed));
 
+bool isOcpAcceleratorMessage(std::span<const uint8_t> buf,
+                             uint16_t pciVendorId);
+
 std::optional<uint8_t> getIid(std::span<const uint8_t> buffer);
 std::optional<bool> isRequestMessage(std::span<const uint8_t> buffer);
 std::expected<void, std::error_code> injectIid(std::span<uint8_t> buffer,
