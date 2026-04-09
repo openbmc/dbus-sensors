@@ -16,6 +16,8 @@ struct MctpAsioEndpoint
     // usable for binding to any eid and a given msgType
     MctpAsioEndpoint(uint8_t msgType);
 
+    MctpAsioEndpoint(uint8_t eid, uint8_t msgType, uint8_t netId);
+
     MctpAsioEndpoint() = default;
     MctpAsioEndpoint(const MctpAsioEndpoint&) = delete;
     MctpAsioEndpoint(MctpAsioEndpoint&&) = delete;
@@ -27,6 +29,8 @@ struct MctpAsioEndpoint
     std::optional<uint8_t> eid() const;
 
     std::optional<uint8_t> type() const;
+
+    std::optional<uint8_t> networkId() const;
 
   private:
     const struct sockaddr_mctp* getSockAddr() const;
