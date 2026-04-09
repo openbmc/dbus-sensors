@@ -9,6 +9,7 @@
 #include <NvidiaDeviceDiscovery.hpp>
 #include <NvidiaPcieDevice.hpp>
 #include <NvidiaSmaDevice.hpp>
+#include <OcpMctpVdm.hpp>
 #include <boost/asio/error.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/post.hpp>
@@ -61,7 +62,8 @@ int main()
     objectServer.add_manager("/xyz/openbmc_project/metric");
     systemBus->request_name("xyz.openbmc_project.GpuSensor");
 
-    mctp::MctpRequester mctpRequester(io);
+    mctp::MctpRequester mctpRequester(io,
+                                      ocp::accelerator_management::messageType);
 
     boost::asio::post(io, [&]() {
         createSensors(io, objectServer, gpuDevices, smaDevices, pcieDevices,

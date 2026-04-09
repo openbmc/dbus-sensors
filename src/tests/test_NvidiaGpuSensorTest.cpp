@@ -14,8 +14,10 @@
 #include <cerrno>
 #include <cstdint>
 #include <cstring>
+#include <expected>
 #include <span>
 #include <string>
+#include <system_error>
 #include <utility>
 #include <vector>
 
@@ -391,6 +393,151 @@ TEST_F(OcpMctpVdmTests, DecodeEventBufferTooSmallForEventData)
         eventClass, eventState, size, eventData);
 
     EXPECT_EQ(result, EINVAL);
+}
+
+static std::array<uint8_t, sizeof(ocp::accelerator_management::BindingPciVid)>
+    makeHeaderBuffer(uint8_t instanceIdByte)
+{
+    std::array<uint8_t, sizeof(ocp::accelerator_management::BindingPciVid)>
+        buf{};
+    auto* hdr =
+        std::bit_cast<ocp::accelerator_management::BindingPciVid*>(buf.data());
+    hdr->pci_vendor_id = htobe16(0x10DE);
+    hdr->instance_id = instanceIdByte;
+    hdr->ocp_version = 0x89;
+    hdr->ocp_accelerator_management_msg_type = 0x01;
+    return buf;
+}
+
+TEST_F(OcpMctpVdmTests, GetIidReturnsInstanceId)
+{
+    // instance_id byte = 0x85: request bit set, IID = 5
+    auto buf = makeHeaderBuffer(0x85);
+    auto result = ocp::accelerator_management::getIid(buf);
+    ASSERT_TRUE(result.has_value());
+    // NOLINTNEXTLINE(bugprone-unchecked-optional-access)
+    EXPECT_EQ(*result, 5);
+}
+
+TEST_F(OcpMctpVdmTests, GetIidMasksUpperBits)
+{
+    // instance_id byte = 0xFE: all upper bits set, IID = 0x1E
+    auto buf = makeHeaderBuffer(0xFE);
+    auto result = ocp::accelerator_management::getIid(buf);
+    ASSERT_TRUE(result.has_value());
+    // NOLINTNEXTLINE(bugprone-unchecked-optional-access)
+    EXPECT_EQ(*result, 0x1E);
+}
+
+TEST_F(OcpMctpVdmTests, GetIidBufferTooSmall)
+{
+    std::array<uint8_t, 2> buf{};
+    auto result = ocp::accelerator_management::getIid(buf);
+    EXPECT_FALSE(result.has_value());
+}
+
+TEST_F(OcpMctpVdmTests, GetIidEmptyBuffer)
+{
+    std::span<const uint8_t> buf{};
+    auto result = ocp::accelerator_management::getIid(buf);
+    EXPECT_FALSE(result.has_value());
+}
+
+TEST_F(OcpMctpVdmTests, IsRequestMessageReturnsTrue)
+{
+    // instance_id byte = 0x80: request bit set
+    auto buf = makeHeaderBuffer(0x80);
+    auto result = ocp::accelerator_management::isRequestMessage(buf);
+    ASSERT_TRUE(result.has_value());
+    // NOLINTNEXTLINE(bugprone-unchecked-optional-access)
+    EXPECT_TRUE(*result);
+}
+
+TEST_F(OcpMctpVdmTests, IsRequestMessageReturnsFalse)
+{
+    // instance_id byte = 0x05: request bit clear (response)
+    auto buf = makeHeaderBuffer(0x05);
+    auto result = ocp::accelerator_management::isRequestMessage(buf);
+    ASSERT_TRUE(result.has_value());
+    // NOLINTNEXTLINE(bugprone-unchecked-optional-access)
+    EXPECT_FALSE(*result);
+}
+
+TEST_F(OcpMctpVdmTests, IsRequestMessageBufferTooSmall)
+{
+    std::array<uint8_t, 3> buf{};
+    auto result = ocp::accelerator_management::isRequestMessage(buf);
+    EXPECT_FALSE(result.has_value());
+}
+
+TEST_F(OcpMctpVdmTests, InjectIidSuccess)
+{
+    // Start with IID = 5 (request message)
+    auto buf = makeHeaderBuffer(0x85);
+    auto result = ocp::accelerator_management::injectIid(buf, 10);
+    ASSERT_TRUE(result.has_value());
+
+    // Verify IID changed to 10
+    auto iid = ocp::accelerator_management::getIid(buf);
+    ASSERT_TRUE(iid.has_value());
+    // NOLINTNEXTLINE(bugprone-unchecked-optional-access)
+    EXPECT_EQ(*iid, 10);
+
+    // Verify request bit is preserved
+    auto isReq = ocp::accelerator_management::isRequestMessage(buf);
+    ASSERT_TRUE(isReq.has_value());
+    // NOLINTNEXTLINE(bugprone-unchecked-optional-access)
+    EXPECT_TRUE(*isReq);
+}
+
+TEST_F(OcpMctpVdmTests, InjectIidPreservesUpperBits)
+{
+    // instance_id = 0xE5: request=1, reserved=1, datagram=1, IID=5
+    auto buf = makeHeaderBuffer(0xE5);
+    auto result = ocp::accelerator_management::injectIid(buf, 0);
+    ASSERT_TRUE(result.has_value());
+
+    auto iid = ocp::accelerator_management::getIid(buf);
+    ASSERT_TRUE(iid.has_value());
+    // NOLINTNEXTLINE(bugprone-unchecked-optional-access)
+    EXPECT_EQ(*iid, 0);
+
+    // Upper bits (request, reserved, datagram) should be preserved
+    auto* hdr =
+        std::bit_cast<ocp::accelerator_management::BindingPciVid*>(buf.data());
+    EXPECT_EQ(hdr->instance_id & 0xE0, 0xE0);
+}
+
+TEST_F(OcpMctpVdmTests, InjectIidMaxValidValue)
+{
+    auto buf = makeHeaderBuffer(0x00);
+    auto result = ocp::accelerator_management::injectIid(
+        buf, ocp::accelerator_management::instanceIdBitMask);
+    ASSERT_TRUE(result.has_value());
+
+    auto iid = ocp::accelerator_management::getIid(buf);
+    ASSERT_TRUE(iid.has_value());
+    // NOLINTNEXTLINE(bugprone-unchecked-optional-access)
+    EXPECT_EQ(*iid, ocp::accelerator_management::instanceIdBitMask);
+}
+
+TEST_F(OcpMctpVdmTests, InjectIidTooLarge)
+{
+    auto buf = makeHeaderBuffer(0x00);
+    auto result = ocp::accelerator_management::injectIid(
+        buf, ocp::accelerator_management::instanceIdBitMask + 1);
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error(),
+              std::make_error_code(std::errc::invalid_argument));
+}
+
+TEST_F(OcpMctpVdmTests, InjectIidBufferTooSmall)
+{
+    std::array<uint8_t, 2> buf{};
+    auto result = ocp::accelerator_management::injectIid(buf, 1);
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error(),
+              std::make_error_code(std::errc::invalid_argument));
 }
 
 } // namespace ocp_mctp_tests

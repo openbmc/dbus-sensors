@@ -42,7 +42,7 @@ class MctpRequester
 
     MctpRequester& operator=(MctpRequester&&) = delete;
 
-    explicit MctpRequester(boost::asio::io_context& ctx);
+    explicit MctpRequester(boost::asio::io_context& ctx, uint8_t messageType);
 
     void sendRecvMsg(uint8_t eid, std::span<const uint8_t> reqMsg,
                      std::move_only_function<void(const std::error_code&,
@@ -53,7 +53,7 @@ class MctpRequester
     using cb_t = std::move_only_function<void(const std::error_code&,
                                               std::span<const uint8_t>)>;
 
-    static constexpr uint8_t msgType = ocp::accelerator_management::messageType;
+    uint8_t msgType;
 
     struct RequestContext
     {
