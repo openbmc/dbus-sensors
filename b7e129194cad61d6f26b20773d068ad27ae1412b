@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "06964208_22edc90d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-04-10T08:36:34Z",
+      "side": 1,
+      "message": "Done. Added explicit list of interfaces, properties, and associations that require a PDI patch in the commit message.",
+      "parentUuid": "e37dad74_f4ded6d6",
+      "revId": "b7e129194cad61d6f26b20773d068ad27ae1412b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "72ee0ff7_c05bb951",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fcb7f4c_ae23b29f",
+        "filename": "src/nvidia-gpu/NvidiaEthPort.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-04-10T08:36:34Z",
+      "side": 1,
+      "message": "Done. Added a loop to check if permanentMacAddressTag exists in addresses before adding the associated_ethernet_port_address association. Also replaced magic number 2 with a named constant.\n\nSee PS3..4:\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/88775/3..4/src/nvidia-gpu/NvidiaEthPort.cpp",
+      "parentUuid": "72ee0ff7_c05bb951",
+      "revId": "b7e129194cad61d6f26b20773d068ad27ae1412b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eb1e81fb_e9dc55a1",
@@ -48,6 +84,24 @@
       "writtenOn": "2026-04-07T09:46:36Z",
       "side": 1,
       "message": "Is this for reverse association? If yes, then it is not needed. The association should work even without it.",
+      "revId": "b7e129194cad61d6f26b20773d068ad27ae1412b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "022ca88a_db5c85bb",
+        "filename": "src/nvidia-gpu/NvidiaEthPort.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-04-10T08:36:34Z",
+      "side": 1,
+      "message": "Done. Removed the reverse association on the MAC address object. The forward association on the port object is sufficient — mapper creates the reverse automatically.\n\nSee PS3..4:\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/88775/3..4/src/nvidia-gpu/NvidiaEthPort.cpp",
+      "parentUuid": "eb1e81fb_e9dc55a1",
       "revId": "b7e129194cad61d6f26b20773d068ad27ae1412b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
