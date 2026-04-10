@@ -34,7 +34,7 @@ struct NvidiaGpuPowerSensor :
         const std::string& sensorConfiguration, uint8_t eid, uint8_t sensorId,
         sdbusplus::asio::object_server& objectServer,
         std::vector<thresholds::Threshold>&& thresholdData,
-        gpu::DeviceIdentification deviceType);
+        gpu::DeviceIdentification deviceType, const std::string& inventoryPath);
 
     ~NvidiaGpuPowerSensor() override;
 
@@ -62,4 +62,6 @@ struct NvidiaGpuPowerSensor :
 
     std::shared_ptr<sdbusplus::asio::dbus_interface>
         commonPhysicalContextInterface;
+
+    std::string inventoryPath;
 };

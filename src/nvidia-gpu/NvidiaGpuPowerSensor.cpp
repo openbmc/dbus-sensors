@@ -23,6 +23,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <filesystem>
 #include <functional>
 #include <limits>
 #include <memory>
@@ -45,13 +46,13 @@ NvidiaGpuPowerSensor::NvidiaGpuPowerSensor(
     const std::string& sensorConfiguration, uint8_t eid, uint8_t sensorId,
     sdbusplus::asio::object_server& objectServer,
     std::vector<thresholds::Threshold>&& thresholdData,
-    const gpu::DeviceIdentification deviceType) :
+    const gpu::DeviceIdentification deviceType,
+    const std::string& inventoryPath) :
     Sensor(escapeName(name), std::move(thresholdData), sensorConfiguration,
            "power", false, true, gpuPowerSensorMaxReading,
            gpuPowerSensorMinReading, conn),
-    eid(eid), sensorId{sensorId},
-
-    mctpRequester(mctpRequester), objectServer(objectServer)
+    eid(eid), sensorId{sensorId}, mctpRequester(mctpRequester),
+    objectServer(objectServer), inventoryPath(inventoryPath)
 
 {
     std::string dbusPath = sensorPathPrefix + "power/"s + escapeName(name);
@@ -69,6 +70,17 @@ NvidiaGpuPowerSensor::NvidiaGpuPowerSensor(
     association = objectServer.add_interface(dbusPath, association::interface);
 
     setInitialProperties(sensor_paths::unitWatts);
+
+    // Re-register associations to include inventory link
+    if (association)
+    {
+        std::filesystem::path p(sensorConfiguration);
+        std::vector<Association> associations;
+        associations.emplace_back("chassis", "all_sensors",
+                                  p.parent_path().string());
+        associations.emplace_back("inventory", "sensors", inventoryPath);
+        association->set_property("Associations", associations);
+    }
 
     const std::optional<std::string> physicalContext =
         nvidia_sensor_utils::deviceTypeToPhysicalContext(deviceType);
