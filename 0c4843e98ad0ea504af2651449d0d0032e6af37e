@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfd0b1d6_26225dec",
+        "filename": "src/nvidia-gpu/NvidiaGpuChassisAssembly.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-04-10T05:29:08Z",
+      "side": 1,
+      "message": "Done. Removed global constexpr variables, interface name strings are now inline.\n\nSee PS4:\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/88572/4/src/nvidia-gpu/NvidiaGpuDevice.cpp#84",
+      "parentUuid": "e98cc2fb_0bea8bff",
+      "revId": "0c4843e98ad0ea504af2651449d0d0032e6af37e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a406078e_0a714ecc",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-04-07T09:57:30Z",
       "side": 1,
       "message": "Let\u0027s not duplicate logic to fetch these properties since we already have it in the Inventory file. Let\u0027s implement fetch of these properties in that file only and if you want to add GPU specific behaviour create the dbus interfaces and associations conditionally based on device type GPU in the Inventory file.",
+      "revId": "0c4843e98ad0ea504af2651449d0d0032e6af37e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d68217f_15247ce4",
+        "filename": "src/nvidia-gpu/NvidiaGpuChassisAssembly.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-04-10T05:29:08Z",
+      "side": 1,
+      "message": "Done. Removed ChassisAssembly class and all duplicate fetch logic. Assembly properties are now fetched via the existing Inventory pipeline only.\n\nSee PS3..4:\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/88572/3..4",
+      "parentUuid": "a406078e_0a714ecc",
       "revId": "0c4843e98ad0ea504af2651449d0d0032e6af37e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
