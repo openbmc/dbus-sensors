@@ -997,6 +997,47 @@ int decodeGetClockLimitResponse(
     return buffer.getError();
 }
 
+int encodeSetClockLimitRequest(uint8_t instanceId, uint8_t clockId,
+                               uint8_t flags, uint32_t limitMin,
+                               uint32_t limitMax, std::span<uint8_t> buf)
+{
+    PackBuffer buffer(buf);
+
+    int rc = encodeRequestCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(PlatformEnvironmentalCommands::SET_CLOCK_LIMIT),
+        instanceId);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    const uint8_t dataSize =
+        sizeof(uint8_t) + sizeof(uint8_t) + sizeof(uint32_t) + sizeof(uint32_t);
+    buffer.pack(dataSize);
+    buffer.pack(clockId);
+    buffer.pack(flags);
+    buffer.pack(limitMin);
+    buffer.pack(limitMax);
+
+    return buffer.getError();
+}
+
+int decodeSetClockLimitResponse(std::span<const uint8_t> buf,
+                                ocp::accelerator_management::CompletionCode& cc,
+                                uint16_t& reasonCode)
+{
+    UnpackBuffer buffer(buf);
+
+    int rc = decodeResponseCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(PlatformEnvironmentalCommands::SET_CLOCK_LIMIT),
+        cc, reasonCode);
+
+    return rc;
+}
+
 int encodeQueryScalarGroupTelemetryV1Request(
     uint8_t instanceId, uint8_t deviceIndex, PcieScalarGroupId groupId,
     std::span<uint8_t> buf)
