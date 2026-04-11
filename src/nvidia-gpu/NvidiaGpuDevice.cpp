@@ -101,7 +101,6 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
                                                  uint64_t{0});
     controlProcessorInterface->register_property("RequestedSpeedLimitMinHz",
                                                  uint64_t{0});
-    controlProcessorInterface->initialize();
 }
 
 GpuDevice::~GpuDevice()
