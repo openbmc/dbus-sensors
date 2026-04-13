@@ -162,6 +162,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f8433bf3_234a964b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-04-13T22:50:27Z",
+      "side": 1,
+      "message": "DOesn\u0027t look resolved.  The root here looks like someone bypassed the \"type should represent the hardware\" and split the config into two.  That needs fixed before this can go.",
+      "parentUuid": "702a4566_81c606e7",
+      "revId": "42be8e4cb7b8f80c884ddd20353b8fd2c7fe0495",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f4ecfe6e_790e8bad",
         "filename": "src/psu/PSUSensorMain.cpp",
         "patchSetId": 5

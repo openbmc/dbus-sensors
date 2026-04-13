@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84cfb436_d50dd2e9",
+        "filename": "src/psu/PSUEvent.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-04-13T22:50:27Z",
+      "side": 1,
+      "message": "This means everything is going to spin while the update is happening.  We should jsut stop/start the timer when we get stop/start events.",
+      "revId": "7543d9d20dbc4285796bbe4c0bd777e7fa3aeadf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c890db16_f9644aa3",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-04-13T22:50:27Z",
+      "side": 1,
+      "message": "I\u0027m fairly certain this isn\u0027t an interface we define.",
+      "range": {
+        "startLine": 256,
+        "startChar": 69,
+        "endLine": 256,
+        "endChar": 74
+      },
+      "revId": "7543d9d20dbc4285796bbe4c0bd777e7fa3aeadf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a06f7cad_f767239a",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-04-13T22:50:27Z",
+      "side": 1,
+      "message": "Lets get this code cleaned up a little.  we have \"one\" line of code that\u0027s stretched across 20 lines and includes a ton of lambdas and properties.",
+      "range": {
+        "startLine": 428,
+        "startChar": 0,
+        "endLine": 450,
+        "endChar": 12
+      },
+      "revId": "7543d9d20dbc4285796bbe4c0bd777e7fa3aeadf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

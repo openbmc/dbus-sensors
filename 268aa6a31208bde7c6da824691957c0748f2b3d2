@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "770e3be9_22858e35",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-04-13T22:50:27Z",
+      "side": 1,
+      "message": "Overall this looks like someone modeled a device incorrectly in EM config and is now trying to make up for it in a bunch of code.  Add the device to a top level exposes type, and add whatever properties are needed on the backend to update it.  From there PSUsensor can coordinate with the firmware update however we want it to.",
+      "revId": "268aa6a31208bde7c6da824691957c0748f2b3d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79a56a92_23a77e8a",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-04-13T22:50:27Z",
+      "side": 1,
+      "message": "Please don\u0027t use regex in new code.  std::regex is famously slow.",
+      "revId": "268aa6a31208bde7c6da824691957c0748f2b3d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73a3cf3e_fbd6aa4a",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-04-13T22:50:27Z",
+      "side": 1,
+      "message": "?  What is this even doing?",
+      "range": {
+        "startLine": 396,
+        "startChar": 0,
+        "endLine": 396,
+        "endChar": 68
+      },
+      "revId": "268aa6a31208bde7c6da824691957c0748f2b3d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d101e85_b2ded1bc",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-04-13T22:50:27Z",
+      "side": 1,
+      "message": "Why are we doing another hunt for firmware types and trying to do a matchup?  We know all the details from the exposes record.  If we need to add more details, add them.",
+      "range": {
+        "startLine": 508,
+        "startChar": 0,
+        "endLine": 514,
+        "endChar": 58
+      },
+      "revId": "268aa6a31208bde7c6da824691957c0748f2b3d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
