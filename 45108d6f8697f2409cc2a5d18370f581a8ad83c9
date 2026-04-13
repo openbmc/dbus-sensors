@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fca7999_1203bd58",
+        "filename": "src/nvidia-gpu/NvidiaPcieDevice.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-04-13T11:22:55Z",
+      "side": 1,
+      "message": "Same as the GPU commit — there is no NSM Type 2 command to retrieve the number of PCIe functions.\n\nFrom the host side with lspci, the CX8 PCIe switch ports ([15b3:197c]) are all single-function:\n$ lspci -nn | grep \u0027ConnectX\u0027\n15:00.0 PCI bridge: ... ConnectX ... [15b3:197c]   ← .0 only\n16:00.0 PCI bridge: ... ConnectX ... [15b3:197c]   ← .0 only\n16:01.0 PCI bridge: ... ConnectX ... [15b3:197c]   ← .0 only\n...\n\nSince the CX device in dbus-sensors represents the PCIe switch (DEVICE_PCIE), and there is no NSM command to query function count dynamically, we create a single Function0 for the device identity.",
+      "parentUuid": "113c6f69_e2d478a4",
+      "range": {
+        "startLine": 232,
+        "startChar": 60,
+        "endLine": 232,
+        "endChar": 61
+      },
+      "revId": "45108d6f8697f2409cc2a5d18370f581a8ad83c9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d7f1b7a7_84e95805",
