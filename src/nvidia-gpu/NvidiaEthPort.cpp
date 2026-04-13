@@ -21,6 +21,7 @@
 
 #include <array>
 #include <cstdint>
+#include <cstring>
 #include <format>
 #include <functional>
 #include <memory>
@@ -34,11 +35,14 @@ using std::string;
 
 using namespace std::literals;
 
+static constexpr uint8_t permanentMacAddressTag = 2;
+
 NvidiaEthPortMetrics::NvidiaEthPortMetrics(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, const std::string& name,
     const std::string& deviceName, const std::string& path, uint8_t eid,
-    uint16_t portNumber, sdbusplus::asio::object_server& objectServer) :
+    uint16_t portNumber, sdbusplus::asio::object_server& objectServer,
+    const std::vector<std::pair<uint8_t, uint64_t>>& addresses) :
     eid(eid), portNumber(portNumber), path(path), conn(conn),
     mctpRequester(mctpRequester)
 {
@@ -61,6 +65,56 @@ NvidiaEthPortMetrics::NvidiaEthPortMetrics(
         objectServer.add_interface(portDbusPath, association::interface);
 
     associationInterface->register_property("Associations", associations);
+
+    portInterface->register_property(
+        "PortProtocol",
+        std::string("xyz.openbmc_project.Inventory.Connector.Port."
+                    "PortProtocol.Ethernet"));
+
+    for (const auto& [tag, value] : addresses)
+    {
+        if (tag != permanentMacAddressTag)
+        {
+            continue;
+        }
+
+        std::array<uint8_t, 6> mac{};
+        std::memcpy(mac.data(), &value, sizeof(mac));
+        const std::string macStr =
+            std::format("{:02X}:{:02X}:{:02X}:{:02X}:{:02X}:{:02X}", mac[0],
+                        mac[1], mac[2], mac[3], mac[4], mac[5]);
+
+        const sdbusplus::object_path ndfDbusPath =
+            sdbusplus::object_path(nicPathPrefix) / deviceName /
+            "NetworkDeviceFunctions" / name;
+
+        networkDeviceFunctionInterface = objectServer.add_interface(
+            ndfDbusPath, "xyz.openbmc_project.Inventory.Item.NetworkInterface");
+        networkDeviceFunctionInterface->register_property("MACAddress", macStr);
+        if (!networkDeviceFunctionInterface->initialize())
+        {
+            lg2::error("Error initializing NetworkDeviceFunction Interface for "
+                       "EID={EID}, PortNumber={PN}",
+                       "EID", eid, "PN", portNumber);
+        }
+
+        std::vector<Association> ndfAssociations;
+        ndfAssociations.emplace_back("exposed_by", "exposing", deviceDbusPath);
+        ndfAssociations.emplace_back("assignable_physical_network_ports",
+                                     "assigned_network_device_function",
+                                     portDbusPath);
+        networkDeviceFunctionAssociationInterface =
+            objectServer.add_interface(ndfDbusPath, association::interface);
+        networkDeviceFunctionAssociationInterface->register_property(
+            "Associations", ndfAssociations);
+        if (!networkDeviceFunctionAssociationInterface->initialize())
+        {
+            lg2::error("Error initializing NetworkDeviceFunction Association "
+                       "Interface for EID={EID}, PortNumber={PN}",
+                       "EID", eid, "PN", portNumber);
+        }
+        break;
+    }
 
     constexpr std::array<std::pair<uint8_t, const char*>, 21> telemetryMetrics =
         {{
