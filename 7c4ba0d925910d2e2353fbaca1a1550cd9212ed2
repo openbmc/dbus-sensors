@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d56dad90_7bd96ecf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-04-13T06:32:17Z",
+      "side": 1,
+      "message": "Why do we need two sub-assemblies for each GPU? Does this mean, we will have two redfish sub-assembly resources per GPU?",
+      "revId": "7c4ba0d925910d2e2353fbaca1a1550cd9212ed2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e16345a_f3eef35b",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-04-13T06:32:17Z",
+      "side": 1,
+      "message": "Why is this switch case needed? Why can\u0027t these property be part of the switch case that already exists above?",
+      "revId": "7c4ba0d925910d2e2353fbaca1a1550cd9212ed2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a518cb2_bf10c0ef",
+        "filename": "src/nvidia-gpu/Inventory.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-04-13T06:32:17Z",
+      "side": 1,
+      "message": "nit: remove this whitespace change.",
+      "revId": "7c4ba0d925910d2e2353fbaca1a1550cd9212ed2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf2df6b7_f57cbfcc",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-04-13T06:32:17Z",
+      "side": 1,
+      "message": "use std::format.",
+      "revId": "7c4ba0d925910d2e2353fbaca1a1550cd9212ed2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6f59bd8_fba373c8",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-04-13T06:32:17Z",
+      "side": 1,
+      "message": "Let\u0027s put initialization of these interface in separate function in separate file.",
+      "revId": "7c4ba0d925910d2e2353fbaca1a1550cd9212ed2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d2be2a4_c7229ee6",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-04-13T06:32:17Z",
+      "side": 1,
+      "message": "Move this to the same file that will have the initialization of these interfaces.",
+      "revId": "7c4ba0d925910d2e2353fbaca1a1550cd9212ed2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
