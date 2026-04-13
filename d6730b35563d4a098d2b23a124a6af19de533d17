@@ -65,6 +65,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f7cd952_00a14d9b",
+        "filename": "src/nvidia-gpu/NvidiaPcieFunction.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-04-13T09:43:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0e12ef6_86030c55",
+      "revId": "d6730b35563d4a098d2b23a124a6af19de533d17",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7769485d_526f0389",
@@ -78,6 +96,24 @@
       "writtenOn": "2026-04-13T05:50:06Z",
       "side": 1,
       "message": "This should be part of CX PCIe function commit.",
+      "revId": "d6730b35563d4a098d2b23a124a6af19de533d17",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd92bf3e_f9b79d11",
+        "filename": "src/nvidia-gpu/NvidiaPcieFunction.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-04-13T09:43:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7769485d_526f0389",
       "revId": "d6730b35563d4a098d2b23a124a6af19de533d17",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
