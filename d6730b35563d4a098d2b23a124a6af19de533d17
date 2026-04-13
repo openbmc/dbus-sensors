@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65e5f8ab_2de64a44",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-04-13T08:56:37Z",
+      "side": 1,
+      "message": "I checked the NSM spec — there is no MCTP VDM command that returns the number of PCIe functions. The closest is List PCIe Ports (Type 2, Command 0x07), which returns port counts but not function counts.\nVerified from the host side with lspci — all 8 GPUs expose only function 0:\n$ lspci -nn | grep \u00273D controller\u0027\n1a:00.0 3D controller [0302]: NVIDIA Corporation Device [10de:2bb5] (rev a1)\n1d:00.0 3D controller [0302]: NVIDIA Corporation Device [10de:2bb5] (rev a1)\n40:00.0 3D controller [0302]: NVIDIA Corporation Device [10de:2bb5] (rev a1)\n43:00.0 3D controller [0302]: NVIDIA Corporation Device [10de:2bb5] (rev a1)\n9a:00.0 3D controller [0302]: NVIDIA Corporation Device [10de:2bb5] (rev a1)\n9d:00.0 3D controller [0302]: NVIDIA Corporation Device [10de:2bb5] (rev a1)\nbd:00.0 3D controller [0302]: NVIDIA Corporation Device [10de:2bb5] (rev a1)\nc0:00.0 3D controller [0302]: NVIDIA Corporation Device [10de:2bb5] (rev a1)\n\nNo .1, .2, etc. — each GPU has exactly one PCIe function.\nSince there is no NSM command to retrieve the function count dynamically, and GPU hardware exposes a single function, the current implementation creates one Function0 per GPU device.",
+      "parentUuid": "7690e3b0_dce5b99b",
+      "range": {
+        "startLine": 151,
+        "startChar": 46,
+        "endLine": 151,
+        "endChar": 47
+      },
+      "revId": "d6730b35563d4a098d2b23a124a6af19de533d17",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f0e12ef6_86030c55",
