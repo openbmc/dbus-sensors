@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17da311b_9a1a0a69",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-04-13T10:51:09Z",
+      "side": 1,
+      "message": "Need more info on testing including platform used for the testing. Also there is only commit in relation chain, so what does Tested on prior commit mean?",
+      "revId": "e0981b7487d1cdc14bfe881dab139496b089e488",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
