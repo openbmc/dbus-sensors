@@ -16,6 +16,29 @@
       "message": "Friendly reminder for review, as this change has been waiting for almost a month. Thanks!",
       "revId": "628bf84085356da59ea8c348fc7edce8b68868f8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4959075e_daeea191",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 1034,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-04-13T22:46:29Z",
+      "side": 1,
+      "message": "Do we need a check here that units were Volts prior to this?  Converting a fan tach to an amp sensor with a shunt makes no sense and won\u0027t result in these units?",
+      "range": {
+        "startLine": 1034,
+        "startChar": 34,
+        "endLine": 1034,
+        "endChar": 46
+      },
+      "revId": "628bf84085356da59ea8c348fc7edce8b68868f8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
