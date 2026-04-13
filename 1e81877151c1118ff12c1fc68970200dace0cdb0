@@ -202,6 +202,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8f56ee55_958ad325",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-04-13T22:52:23Z",
+      "side": 1,
+      "message": "\u003e we’re tracking multiple systems, not changing who owns the state\n\nThis is the gist of the problem.  If this is no longer a singleton, then we need to register each host indepdently.",
+      "parentUuid": "6cfca6ad_998803ae",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 0
+      },
+      "revId": "1e81877151c1118ff12c1fc68970200dace0cdb0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0297921c_652fbcb1",
         "filename": "src/Utils.cpp",
         "patchSetId": 26
