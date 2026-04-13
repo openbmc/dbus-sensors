@@ -447,6 +447,30 @@
       },
       "revId": "1f3be904946f4614fa7e2633bf7b7c8db09fb138",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96af3bf3_dd83da91",
+        "filename": "src/nvidia-gpu/NvidiaLongRunningHandler.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-04-13T06:56:30Z",
+      "side": 1,
+      "message": "With the round-robin queue follow-up patch, polling loop will not call update function of the Long-running command classes without waiting for the response of the previous command. So there always will be only one pending long-running request with the device.",
+      "parentUuid": "6b060e3a_3c5fd5e0",
+      "range": {
+        "startLine": 34,
+        "startChar": 4,
+        "endLine": 34,
+        "endChar": 62
+      },
+      "revId": "1f3be904946f4614fa7e2633bf7b7c8db09fb138",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
