@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "55077c14_44d6a015",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-04-13T22:51:18Z",
+      "side": 1,
+      "message": "That doesn\u0027t really answer the question.  An individual drive has no idea what slot it\u0027s in, as it would need to in your example above.",
+      "parentUuid": "ce8ebd64_f4f35114",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 65
+      },
+      "revId": "1e81877151c1118ff12c1fc68970200dace0cdb0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5d331e0e_5f18f1d1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 26
