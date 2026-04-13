@@ -112,8 +112,20 @@ void NvidiaPciePortMetrics::processResponse(
     uint16_t reasonCode = 0;
     size_t numTelemetryValue = 0;
 
-    int rc = gpu::decodeQueryScalarGroupTelemetryV2Response(
-        response, cc, reasonCode, numTelemetryValue, telemetryValues);
+    int rc = 0;
+    switch (deviceType)
+    {
+        case gpu::DeviceIdentification::DEVICE_GPU:
+            rc = gpu::decodeQueryScalarGroupTelemetryV1Response(
+                response, cc, reasonCode, numTelemetryValue, telemetryValues);
+            break;
+        case gpu::DeviceIdentification::DEVICE_PCIE:
+            rc = gpu::decodeQueryScalarGroupTelemetryV2Response(
+                response, cc, reasonCode, numTelemetryValue, telemetryValues);
+            break;
+        default:
+            return;
+    }
 
     if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
     {
