@@ -213,7 +213,7 @@ void PcieDevice::processGetNetworkPortAddressesResponse(
 
         ethPortMetrics.emplace_back(std::make_shared<NvidiaEthPortMetrics>(
             conn, mctpRequester, portName, nicDeviceName, path, eid, portNumber,
-            objectServer));
+            objectServer, addresses));
     }
 }
 
