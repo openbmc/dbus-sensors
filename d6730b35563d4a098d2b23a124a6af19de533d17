@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7690e3b0_dce5b99b",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-04-13T05:50:06Z",
+      "side": 1,
+      "message": "Is there MCTP VDM command to retrieve number of PCIe functions? Please get the value for number of PCIe functions from inband and see if it is more than on.",
+      "range": {
+        "startLine": 151,
+        "startChar": 46,
+        "endLine": 151,
+        "endChar": 47
+      },
+      "revId": "d6730b35563d4a098d2b23a124a6af19de533d17",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0e12ef6_86030c55",
+        "filename": "src/nvidia-gpu/NvidiaPcieFunction.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-04-13T05:50:06Z",
+      "side": 1,
+      "message": "use std::format.",
+      "revId": "d6730b35563d4a098d2b23a124a6af19de533d17",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7769485d_526f0389",
+        "filename": "src/nvidia-gpu/NvidiaPcieFunction.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-04-13T05:50:06Z",
+      "side": 1,
+      "message": "This should be part of CX PCIe function commit.",
+      "revId": "d6730b35563d4a098d2b23a124a6af19de533d17",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
