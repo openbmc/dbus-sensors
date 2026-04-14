@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0eb054af_8db27fa2",
+        "filename": "src/nvidia-gpu/NvidiaPcieDevice.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-04-14T15:04:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9bcc2744_b3b7a595",
+      "revId": "ff2aa93cd41d3466b7e57012eb95ce0cd2c3acbe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3ccd54c5_a8398350",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-04-13T04:54:20Z",
       "side": 1,
       "message": "Make this `std::optional\u003cstd::string\u003e`.",
+      "range": {
+        "startLine": 28,
+        "startChar": 37,
+        "endLine": 28,
+        "endChar": 75
+      },
+      "revId": "ff2aa93cd41d3466b7e57012eb95ce0cd2c3acbe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "116efd5f_656e0f21",
+        "filename": "src/nvidia-gpu/NvidiaPcieInterface.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-04-14T15:04:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ccd54c5_a8398350",
       "range": {
         "startLine": 28,
         "startChar": 37,
