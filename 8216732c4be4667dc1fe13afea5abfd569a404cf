@@ -16,6 +16,24 @@
       "message": "Why are we iterating the `addresses` twice? Can\u0027t we create association in for loop that iterates over `addresses` below.",
       "revId": "8216732c4be4667dc1fe13afea5abfd569a404cf",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d910d543_601d520e",
+        "filename": "src/nvidia-gpu/NvidiaEthPort.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-04-14T08:29:18Z",
+      "side": 1,
+      "message": "Done. From PS4 to PS6, the design was simplified:\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/88775/4..6/src/nvidia-gpu/NvidiaEthPort.cpp\n\n1. Removed the separate Network.LinkType interface — replaced by setting PortProtocol on the existing Connector.Port interface (new PDI: https://gerrit.openbmc.org/c/openbmc/phosphor-dbus-interfaces/+/89248)\n2. Removed the Permanent_MAC_Address sub-object and its association — MACAddress is now set directly on the port object\n3. As a result, the for loop over addresses now only exists once to extract the MAC address. No more duplicate iteration.",
+      "parentUuid": "65190ff7_beb5770f",
+      "revId": "8216732c4be4667dc1fe13afea5abfd569a404cf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
