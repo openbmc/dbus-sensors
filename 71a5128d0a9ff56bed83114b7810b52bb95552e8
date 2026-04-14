@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61b04656_e9a0ef08",
+        "filename": "src/nvidia-gpu/NvidiaPcieDevice.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-04-14T06:55:57Z",
+      "side": 1,
+      "message": "This is check is not needed in my opinion. We can avoid in the check in the update function as well.",
+      "revId": "71a5128d0a9ff56bed83114b7810b52bb95552e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
