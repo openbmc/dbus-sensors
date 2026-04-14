@@ -83,11 +83,28 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
         sdbusplus::asio::PropertyPermission::readOnly);
 
     powerCapInterface->initialize();
+
+    const std::string gpuPath = std::string(inventoryPrefix) + this->name;
+    const std::string dramPath = gpuPath + "_DRAM_0";
+
+    std::vector<Association> associations;
+    associations.emplace_back("contained_by", "containing", gpuPath);
+
+    dramAssociationInterface =
+        objectServer.add_interface(dramPath, association::interface);
+    dramAssociationInterface->register_property("Associations", associations);
+
+    if (!dramAssociationInterface->initialize())
+    {
+        lg2::error("Failed to initialize DRAM association interface for {NAME}",
+                   "NAME", this->name);
+    }
 }
 
 GpuDevice::~GpuDevice()
 {
     objectServer.remove_interface(powerCapInterface);
+    objectServer.remove_interface(dramAssociationInterface);
 }
 
 void GpuDevice::init()
