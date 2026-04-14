@@ -91,6 +91,7 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
 
     std::shared_ptr<NvidiaGpuControl> gpuControl;
     std::shared_ptr<sdbusplus::asio::dbus_interface> powerCapInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> dramAssociationInterface;
 
     std::shared_ptr<NvidiaPcieInterface> pcieInterface;
     std::shared_ptr<NvidiaPciePortInfo> pciePort;
