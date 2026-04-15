@@ -16,6 +16,24 @@
       "message": "With new Item.Dram interface, do we really need this?",
       "revId": "cd4e71a7a65a865cf8a2a4f48dfd47226ac900ff",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6d402ee_c2990ccb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-04-15T04:36:00Z",
+      "side": 1,
+      "message": "Thanks Harshit. The Connector.Embedded interface is consumed by the companion bmcweb patch 87974 (topic GPU_Memory_Inventory). When present on the DRAM object, bmcweb sets Location.PartLocation.LocationType to \"Embedded\" in the Redfish Memory resource.\n\nThat said, if Item.Dram alone is sufficient to determine the location type, I can remove Connector.Embedded once the Item.Dram PDI approach is finalized.",
+      "parentUuid": "c7b43673_59192758",
+      "revId": "cd4e71a7a65a865cf8a2a4f48dfd47226ac900ff",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
