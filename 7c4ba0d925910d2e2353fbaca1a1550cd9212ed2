@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c7d6f42_7dd3afbd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-04-15T08:59:06Z",
+      "side": 1,
+      "message": "Yes, the Umbriel mockup defines two sub-assemblies per GPU chassis — GPU Device Assembly (Assemblies/0) with Model, PartNumber, SerialNumber, Vendor, ProductionDate, and GPU Board Assembly (Assemblies/1) with PartNumber and Vendor only.\n\nSee mockup: mockup/nvidia-hgx-umbriel-baseboard/redfish/v1/Chassis/HGX_GPU_SXM_1/Assembly/index.json",
+      "parentUuid": "d56dad90_7bd96ecf",
+      "revId": "7c4ba0d925910d2e2353fbaca1a1550cd9212ed2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4e16345a_f3eef35b",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-04-13T06:32:17Z",
       "side": 1,
       "message": "Why is this switch case needed? Why can\u0027t these property be part of the switch case that already exists above?",
+      "revId": "7c4ba0d925910d2e2353fbaca1a1550cd9212ed2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0fc2e37_176a3fdd",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-04-15T08:59:06Z",
+      "side": 1,
+      "message": "Done. Removed the separate switch. Assembly property writes are now in the existing string property case.\n\nSee PS4..5:\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/88572/4..5/src/nvidia-gpu/Inventory.cpp",
+      "parentUuid": "4e16345a_f3eef35b",
       "revId": "7c4ba0d925910d2e2353fbaca1a1550cd9212ed2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -52,6 +88,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2185da8e_c0672364",
+        "filename": "src/nvidia-gpu/Inventory.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-04-15T08:59:06Z",
+      "side": 1,
+      "message": "Done. Removed the whitespace change.\n\nSee PS4..5:\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/88572/4..5/src/nvidia-gpu/Inventory.hpp",
+      "parentUuid": "2a518cb2_bf10c0ef",
+      "revId": "7c4ba0d925910d2e2353fbaca1a1550cd9212ed2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cf2df6b7_f57cbfcc",
@@ -65,6 +119,24 @@
       "writtenOn": "2026-04-13T06:32:17Z",
       "side": 1,
       "message": "use std::format.",
+      "revId": "7c4ba0d925910d2e2353fbaca1a1550cd9212ed2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05e92ffe_fc3d58bc",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-04-15T08:59:06Z",
+      "side": 1,
+      "message": "Done. Changed to std::format.\n\nSee PS4..5:\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/88572/4..5/src/nvidia-gpu/NvidiaGpuDevice.cpp",
+      "parentUuid": "cf2df6b7_f57cbfcc",
       "revId": "7c4ba0d925910d2e2353fbaca1a1550cd9212ed2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -86,6 +158,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7312d826_aea1631c",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-04-15T08:59:06Z",
+      "side": 1,
+      "message": "Done. Created NvidiaGpuAssembly.hpp/cpp with createDeviceAssembly, createBoardAssembly, and removeAssemblyInterfaces. GpuDevice constructor calls these functions.\n\nSee PS4..5:\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/88572/4..5/src/nvidia-gpu/NvidiaGpuAssembly.cpp",
+      "parentUuid": "e6f59bd8_fba373c8",
+      "revId": "7c4ba0d925910d2e2353fbaca1a1550cd9212ed2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7d2be2a4_c7229ee6",
@@ -99,6 +189,24 @@
       "writtenOn": "2026-04-13T06:32:17Z",
       "side": 1,
       "message": "Move this to the same file that will have the initialization of these interfaces.",
+      "revId": "7c4ba0d925910d2e2353fbaca1a1550cd9212ed2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b761fd33_9a7509ce",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-04-15T08:59:06Z",
+      "side": 1,
+      "message": "Done. Moved AssemblyInterfaces struct to NvidiaGpuAssembly.hpp.\n\nSee PS4..5:\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/88572/4..5/src/nvidia-gpu/NvidiaGpuAssembly.hpp",
+      "parentUuid": "7d2be2a4_c7229ee6",
       "revId": "7c4ba0d925910d2e2353fbaca1a1550cd9212ed2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }

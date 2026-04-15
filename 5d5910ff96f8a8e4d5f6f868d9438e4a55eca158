@@ -16,6 +16,24 @@
       "message": "nit: remove this whitespace change.",
       "revId": "5d5910ff96f8a8e4d5f6f868d9438e4a55eca158",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87b8a3ee_4f7a00b4",
+        "filename": "src/nvidia-gpu/Inventory.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-04-15T08:59:06Z",
+      "side": 0,
+      "message": "Done. Removed the whitespace change.\n\nSee PS4..5:\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/88572/4..5/src/nvidia-gpu/Inventory.hpp",
+      "parentUuid": "0f95196c_258d89ec",
+      "revId": "5d5910ff96f8a8e4d5f6f868d9438e4a55eca158",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
