@@ -1,0 +1,9 @@
+Code-Review+2: Harshit Aghera <haghera@nvidia.com>
+Code-Review+1: Ender <andhsieh@nvidia.com>
+Verified+1: OpenBMC CI <openbmcbump-ci@yahoo.com>
+Submitted-by: Harshit Aghera <haghera@nvidia.com>
+Submitted-at: Thu, 16 Apr 2026 10:59:52 +0000
+Reviewed-on: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/88160
+Comments-Total: 21
+Project: openbmc/dbus-sensors
+Branch: refs/heads/master
