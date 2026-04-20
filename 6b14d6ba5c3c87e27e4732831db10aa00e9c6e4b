@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ab9653f_df99e58f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-04-20T22:29:33Z",
+      "side": 1,
+      "message": "This patchset is 6 months old and has \"DO NOT MERGE\" in the title.  It\u0027s not appropriate for a test.  Please make sure you have in-progress and correctly submitted patchest used in your test.",
+      "range": {
+        "startLine": 44,
+        "startChar": 40,
+        "endLine": 44,
+        "endChar": 47
+      },
+      "revId": "6b14d6ba5c3c87e27e4732831db10aa00e9c6e4b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
