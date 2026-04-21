@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8648ec2_f8db3a0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-04-21T12:41:46Z",
+      "side": 1,
+      "message": "Let\u0027s merge this and parent patch into a single patch since they are closely related.",
+      "revId": "68eeaf843875f3e7348aac1c3de137cde0dbc2ec",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc42e5c0_89d462a5",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-04-21T12:41:46Z",
+      "side": 1,
+      "message": "Create a single function local object for processor inventory object path and pass it to each sensor class constructor.",
+      "range": {
+        "startLine": 125,
+        "startChar": 47,
+        "endLine": 125,
+        "endChar": 69
+      },
+      "revId": "68eeaf843875f3e7348aac1c3de137cde0dbc2ec",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1d0ad61_4d9e9b74",
+        "filename": "src/nvidia-gpu/NvidiaGpuEnergySensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-04-21T12:41:46Z",
+      "side": 1,
+      "message": "Is this object being used outside the constructor? If not, there is no need for it to be member data of the class.",
+      "range": {
+        "startLine": 55,
+        "startChar": 32,
+        "endLine": 55,
+        "endChar": 45
+      },
+      "revId": "68eeaf843875f3e7348aac1c3de137cde0dbc2ec",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14810d16_1ba9d7d1",
+        "filename": "src/nvidia-gpu/NvidiaGpuEnergySensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-04-21T12:41:46Z",
+      "side": 1,
+      "message": "Let\u0027s update sensor.hpp file and add optional function parameter for container of inventory object paths and create the association within sensor.hpp. Update the commit message specifying that this association is already documented in PDI.",
+      "revId": "68eeaf843875f3e7348aac1c3de137cde0dbc2ec",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
