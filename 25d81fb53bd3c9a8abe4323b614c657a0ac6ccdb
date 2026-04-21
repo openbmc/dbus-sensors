@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae5312b5_39dc2165",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-04-21T14:43:02Z",
+      "side": 1,
+      "message": "Done.\nChanged to the dependency already merged.",
+      "parentUuid": "05ee9e47_0cb590f2",
+      "revId": "25d81fb53bd3c9a8abe4323b614c657a0ac6ccdb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "76a1bb1f_9682381c",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4c1418b_03f5dc0c",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-04-21T14:43:02Z",
+      "side": 1,
+      "message": "Done.\nError handler added for `softwareVersionIface` and `locationCodeIface`.",
+      "parentUuid": "76a1bb1f_9682381c",
+      "revId": "25d81fb53bd3c9a8abe4323b614c657a0ac6ccdb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d1089cdc_371ffd6c",
@@ -48,6 +84,24 @@
       "writtenOn": "2026-04-21T13:11:42Z",
       "side": 1,
       "message": "Why can\u0027t we use same the logic as for `case InventoryPropertyId::DEVICE_PART_NUMBER:`?",
+      "revId": "25d81fb53bd3c9a8abe4323b614c657a0ac6ccdb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c75e5716_74142563",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-04-21T14:43:02Z",
+      "side": 1,
+      "message": "Done.\nRemoved the redundant logic and reuse the same part of code for the new feature.",
+      "parentUuid": "d1089cdc_371ffd6c",
       "revId": "25d81fb53bd3c9a8abe4323b614c657a0ac6ccdb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
