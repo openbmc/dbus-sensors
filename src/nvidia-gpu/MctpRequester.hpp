@@ -9,11 +9,13 @@
 #include <OcpMctpVdm.hpp>
 #include <boost/asio/generic/datagram_protocol.hpp>
 #include <boost/asio/io_context.hpp>
+#include <boost/asio/spawn.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <boost/circular_buffer.hpp>
 #include <boost/container/devector.hpp>
 #include <boost/container/flat_map.hpp>
 #include <boost/container/small_vector.hpp>
+#include <boost/system/error_code.hpp>
 
 #include <cstddef>
 #include <cstdint>
@@ -26,6 +28,7 @@
 #include <system_error>
 #include <unordered_map>
 #include <utility>
+#include <vector>
 
 namespace mctp
 {
@@ -48,6 +51,14 @@ class MctpRequester
                      std::move_only_function<void(const std::error_code&,
                                                   std::span<const uint8_t>)>
                          callback);
+
+    // Yield-based overload: suspends the calling coroutine until the MCTP
+    // response is received, returning the response bytes. This is intended
+    // for D-Bus method handlers that must report success or failure back to
+    // their caller, where a fire-and-forget callback is not sufficient.
+    std::vector<uint8_t> sendRecvMsg(uint8_t eid,
+                                     std::span<const uint8_t> reqMsg,
+                                     boost::asio::yield_context yield);
 
   private:
     using cb_t = std::move_only_function<void(const std::error_code&,
