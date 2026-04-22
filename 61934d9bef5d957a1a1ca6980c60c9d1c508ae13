@@ -1,0 +1,58 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed6d2d5d_0821eaee",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-04-22T04:15:40Z",
+      "side": 1,
+      "message": "Done in PS8. Refactored PropertyInfo to hold a list of (interface, property name) targets so one propertyId can be written to multiple D-Bus interfaces. Added addPropertyTarget helper; the if/else block after the switch is removed; the response handler iterates targets instead of branching on propertyId.\n\nThe constructor registers the assembly asset interfaces as additional targets for SERIAL_NUMBER, MARKETING_NAME, DEVICE_PART_NUMBER, and BOARD_PART_NUMBER.\n\nSince this refactor modifies shared inventory code that predates this patch, verified on nvl32-obmc hardware that UUID, BoostClockFrequency, Power.Cap, SerialNumber, Model, and Version read byte-for-byte identical values before and after the refactor.\n\nPS8 references:\n- PropertyInfo struct: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/88572/8/src/nvidia-gpu/Inventory.hpp#42\n- addPropertyTarget helper: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/88572/8/src/nvidia-gpu/Inventory.cpp#138\n- for-loop replacing if/else: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/88572/8/src/nvidia-gpu/Inventory.cpp#366",
+      "parentUuid": "d97b8bc5_e9349d73",
+      "revId": "61934d9bef5d957a1a1ca6980c60c9d1c508ae13",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca983219_63a2ba26",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-04-22T04:15:40Z",
+      "side": 1,
+      "message": "Done in PS8. Changed the type of chassisPath, devicePath, and boardPath to sdbusplus::message::object_path.\n\nPS8: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/88572/8/src/nvidia-gpu/NvidiaGpuDevice.cpp#91",
+      "parentUuid": "df8aa59a_f271beef",
+      "revId": "61934d9bef5d957a1a1ca6980c60c9d1c508ae13",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc264570_a0362254",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-04-22T04:15:40Z",
+      "side": 1,
+      "message": "Done in PS8. Replaced std::format with object_path\u0027s operator/ for path composition. Also removed the now-unused \u003cformat\u003e include.\n\nPS8: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/88572/8/src/nvidia-gpu/NvidiaGpuDevice.cpp#94",
+      "parentUuid": "cec2e325_cdab24dd",
+      "revId": "61934d9bef5d957a1a1ca6980c60c9d1c508ae13",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
