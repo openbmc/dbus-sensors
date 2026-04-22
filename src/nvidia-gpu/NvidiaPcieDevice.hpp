@@ -10,6 +10,7 @@
 #include "NvidiaGpuMctpVdm.hpp"
 #include "NvidiaPcieFunction.hpp"
 #include "NvidiaPcieInterface.hpp"
+#include "NvidiaSwitchResetControl.hpp"
 
 #include <NvidiaEthPort.hpp>
 #include <NvidiaPciePort.hpp>
@@ -96,6 +97,7 @@ class PcieDevice : public std::enable_shared_from_this<PcieDevice>
 
     std::shared_ptr<NvidiaPcieInterface> pcieInterface;
     std::shared_ptr<NvidiaPcieFunction> pcieFunction;
+    std::shared_ptr<NvidiaSwitchResetControl> switchResetControl;
 
     std::vector<std::shared_ptr<NvidiaPciePortInfo>> pciePorts;
     std::vector<std::shared_ptr<NvidiaPciePortMetrics>> pciePortMetrics;
