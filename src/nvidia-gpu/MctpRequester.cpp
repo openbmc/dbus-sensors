@@ -11,12 +11,15 @@
 
 #include <NvidiaEventReporting.hpp>
 #include <OcpMctpVdm.hpp>
+#include <boost/asio/async_result.hpp>
 #include <boost/asio/buffer.hpp>
 #include <boost/asio/error.hpp>
 #include <boost/asio/generic/datagram_protocol.hpp>
 #include <boost/asio/io_context.hpp>
+#include <boost/asio/spawn.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <boost/container/devector.hpp>
+#include <boost/system/error_code.hpp>
 #include <phosphor-logging/lg2.hpp>
 
 #include <bit>
@@ -31,6 +34,7 @@
 #include <stdexcept>
 #include <system_error>
 #include <utility>
+#include <vector>
 
 using namespace std::literals;
 
@@ -258,6 +262,27 @@ void MctpRequester::sendRecvMsg(
     {
         processQueue(eid);
     }
+}
+
+std::vector<uint8_t> MctpRequester::sendRecvMsg(
+    uint8_t eid, std::span<const uint8_t> reqMsg,
+    boost::asio::yield_context yield)
+{
+    return boost::asio::async_initiate<boost::asio::yield_context,
+                                       void(boost::system::error_code,
+                                            std::vector<uint8_t>)>(
+        [this, eid, reqMsg](auto&& handler) {
+            sendRecvMsg(eid, reqMsg,
+                        [h = std::forward<decltype(handler)>(handler)](
+                            const std::error_code& ec,
+                            std::span<const uint8_t> resp) mutable {
+                            const boost::system::error_code bec(
+                                ec.value(), boost::system::generic_category());
+                            std::move(h)(bec, std::vector<uint8_t>(resp.begin(),
+                                                                   resp.end()));
+                        });
+        },
+        yield);
 }
 
 static bool isFatalError(const std::error_code& ec)
