@@ -37,7 +37,8 @@ enum class MessageType : uint8_t
     DEVICE_CAPABILITY_DISCOVERY = 0,
     NETWORK_PORT = 1,
     PCIE_LINK = 2,
-    PLATFORM_ENVIRONMENTAL = 3
+    PLATFORM_ENVIRONMENTAL = 3,
+    DIAGNOSTICS = 4
 };
 
 enum class DeviceCapabilityDiscoveryCommands : uint8_t
@@ -77,6 +78,19 @@ enum class PcieLinkCommands : uint8_t
     QueryScalarGroupTelemetryV1 = 0x04,
     ListPCIePorts = 0x07,
     QueryScalarGroupTelemetryV2 = 0x24,
+};
+
+enum class DiagnosticsCommands : uint8_t
+{
+    ResetNetworkDevice = 0x53,
+};
+
+enum class ResetNetworkDeviceMode : uint8_t
+{
+    StartAfterResponse = 0,
+    AllHostPerstLow = 1,
+    AllHostPcieLinkDisable = 2,
+    AllowedByAllHost = 3,
 };
 
 enum class PcieScalarGroupId : uint8_t
@@ -200,6 +214,9 @@ constexpr size_t queryScalarGroupTelemetryV1RequestSize =
 
 constexpr size_t queryScalarGroupTelemetryV2RequestSize =
     ocp::accelerator_management::commonRequestSize + 3;
+
+constexpr size_t resetNetworkDeviceRequestSize =
+    ocp::accelerator_management::commonRequestSize + 1;
 
 struct GetPortNetworkAddressesRequest
 {
@@ -420,4 +437,11 @@ int decodeGetEthernetPortTelemetryCountersResponse(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     std::vector<std::pair<uint8_t, uint64_t>>& telemetryValues);
+
+int encodeResetNetworkDeviceRequest(
+    uint8_t instanceId, ResetNetworkDeviceMode mode, std::span<uint8_t> buf);
+
+int decodeResetNetworkDeviceResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode);
 } // namespace gpu
