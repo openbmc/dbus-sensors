@@ -28,6 +28,7 @@
 #include <NvidiaPciePort.hpp>
 #include <NvidiaPciePortMetrics.hpp>
 #include <OcpMctpVdm.hpp>
+#include <SerialQueue.hpp>
 #include <boost/asio/io_context.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
@@ -45,6 +46,10 @@
 #include <system_error>
 #include <utility>
 #include <vector>
+
+// Each long-running command can take up to 2s on timeout; worst-case capacity
+// is ~15 commands/device.
+static constexpr auto longRunningSensorPollRate = std::chrono::seconds{30};
 
 static constexpr uint8_t gpuTLimitCriticalThresholdId{1};
 static constexpr uint8_t gpuTLimitWarningThresholdId{2};
@@ -66,6 +71,7 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
                      sdbusplus::asio::object_server& objectServer) :
     eid(eid), sensorPollMs(std::chrono::milliseconds{configs.pollRate}),
     waitTimer(io, std::chrono::steady_clock::duration(0)),
+    waitTimerLongRunning(io, std::chrono::steady_clock::duration(0)),
     mctpRequester(mctpRequester), io(io), conn(conn),
     objectServer(objectServer), configs(configs), name(escapeName(name)),
     path(path)
@@ -156,7 +162,9 @@ void GpuDevice::makeSensors()
         objectServer, std::vector<thresholds::Threshold>{},
         gpu::DeviceIdentification::DEVICE_GPU);
 
-    longRunningHandler = std::make_shared<NvidiaLongRunningResponseHandler>();
+    longRunningQueue = std::make_shared<SerialQueue>(io);
+
+    longRunningHandler = std::make_shared<NvidiaLongRunningResponseHandler>(io);
 
     eventReporting = std::make_shared<NvidiaEventReportingConfig>(
         eid, mctpRequester,
@@ -168,7 +176,8 @@ void GpuDevice::makeSensors()
                              longRunningHandler)}});
 
     currentUtilization = std::make_shared<NvidiaGpuCurrentUtilization>(
-        conn, mctpRequester, objectServer, name, eid, longRunningHandler);
+        conn, mctpRequester, objectServer, name, eid, longRunningQueue,
+        longRunningHandler);
 
     driverInfo = std::make_shared<NvidiaDriverInformation>(
         conn, mctpRequester, name, path, eid, objectServer);
@@ -213,6 +222,7 @@ void GpuDevice::makeSensors()
     lg2::info("Added GPU {NAME} Sensors with chassis path: {PATH}.", "NAME",
               name, "PATH", path);
     read();
+    readLongRunning();
 }
 
 void GpuDevice::getTLimitThresholds()
@@ -328,7 +338,6 @@ void GpuDevice::read()
     voltageSensor->update();
     driverInfo->update();
     gpuControl->update();
-    currentUtilization->update();
     pcieInterface->update();
     pciePort->update();
     pcieFunction->update();
@@ -352,5 +361,26 @@ void GpuDevice::read()
                 return;
             }
             self->read();
+        });
+}
+
+void GpuDevice::readLongRunning()
+{
+    currentUtilization->update();
+
+    waitTimerLongRunning.expires_after(longRunningSensorPollRate);
+    waitTimerLongRunning.async_wait(
+        [weak{weak_from_this()}](const boost::system::error_code& ec) {
+            std::shared_ptr<GpuDevice> self = weak.lock();
+            if (!self)
+            {
+                lg2::error("Invalid reference to GpuDevice");
+                return;
+            }
+            if (ec)
+            {
+                return;
+            }
+            self->readLongRunning();
         });
 }

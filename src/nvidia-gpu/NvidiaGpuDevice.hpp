@@ -24,6 +24,7 @@
 #include <NvidiaPcieInterface.hpp>
 #include <NvidiaPciePort.hpp>
 #include <NvidiaPciePortMetrics.hpp>
+#include <SerialQueue.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <sdbusplus/asio/connection.hpp>
@@ -59,6 +60,8 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
 
     void read();
 
+    void readLongRunning();
+
     void processTLimitThresholds(const std::error_code& ec);
 
     void getTLimitThresholds();
@@ -72,6 +75,8 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
     std::chrono::milliseconds sensorPollMs;
 
     boost::asio::steady_timer waitTimer;
+
+    boost::asio::steady_timer waitTimerLongRunning;
 
     mctp::MctpRequester& mctpRequester;
 
@@ -101,6 +106,7 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
     std::shared_ptr<NvidiaGpuMemoryDevice> memoryDevice;
 
     std::shared_ptr<NvidiaEventReportingConfig> eventReporting;
+    std::shared_ptr<SerialQueue> longRunningQueue;
     std::shared_ptr<NvidiaLongRunningResponseHandler> longRunningHandler;
     std::shared_ptr<NvidiaGpuCurrentUtilization> currentUtilization;
 
