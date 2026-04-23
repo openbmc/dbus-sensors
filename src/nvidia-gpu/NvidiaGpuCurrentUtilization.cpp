@@ -13,7 +13,9 @@
 #include <NvidiaLongRunningHandler.hpp>
 #include <NvidiaUtils.hpp>
 #include <OcpMctpVdm.hpp>
+#include <SerialQueue.hpp>
 #include <Utils.hpp>
+#include <boost/system/error_code.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
@@ -26,6 +28,7 @@
 #include <span>
 #include <string>
 #include <system_error>
+#include <utility>
 #include <vector>
 
 using namespace std::literals;
@@ -34,11 +37,12 @@ NvidiaGpuCurrentUtilization::NvidiaGpuCurrentUtilization(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester,
     sdbusplus::asio::object_server& objectServer, const std::string& deviceName,
-    uint8_t eid,
-    const std::shared_ptr<NvidiaLongRunningResponseHandler>&
+    uint8_t eid, std::shared_ptr<SerialQueue> longRunningQueue,
+    std::shared_ptr<NvidiaLongRunningResponseHandler>
         longRunningResponseHandler) :
     eid(eid), conn(conn), mctpRequester(mctpRequester),
-    longRunningResponseHandler(longRunningResponseHandler)
+    longRunningQueue(std::move(longRunningQueue)),
+    longRunningResponseHandler(std::move(longRunningResponseHandler))
 {
     const sdbusplus::object_path metricObjectPath =
         sdbusplus::object_path(metricPath) / std::format("gpu_{}", deviceName) /
@@ -80,6 +84,19 @@ NvidiaGpuCurrentUtilization::NvidiaGpuCurrentUtilization(
 
 void NvidiaGpuCurrentUtilization::update()
 {
+    longRunningQueue->submit(
+        [weak{weak_from_this()}](SerialQueue::ReleaseHandle handle) {
+            std::shared_ptr<NvidiaGpuCurrentUtilization> self = weak.lock();
+            if (!self)
+            {
+                return;
+            }
+            self->doUpdate(std::move(handle));
+        });
+}
+
+void NvidiaGpuCurrentUtilization::doUpdate(SerialQueue::ReleaseHandle handle)
+{
     const int rc = gpu::encodeGetCurrentUtilizationModeRequest(0, request);
 
     if (rc != 0)
@@ -92,20 +109,21 @@ void NvidiaGpuCurrentUtilization::update()
 
     mctpRequester.sendRecvMsg(
         eid, request,
-        [weak{weak_from_this()}](const std::error_code& ec,
-                                 std::span<const uint8_t> buffer) {
+        [weak{weak_from_this()},
+         handle = std::move(handle)](const std::error_code& ec,
+                                     std::span<const uint8_t> buffer) mutable {
             std::shared_ptr<NvidiaGpuCurrentUtilization> self = weak.lock();
             if (!self)
             {
-                lg2::error("Invalid reference to NvidiaGpuCurrentUtilization");
                 return;
             }
-            self->processResponse(ec, buffer);
+            self->processResponse(std::move(handle), ec, buffer);
         });
 }
 
 void NvidiaGpuCurrentUtilization::processResponse(
-    const std::error_code& ec, std::span<const uint8_t> buffer)
+    SerialQueue::ReleaseHandle handle, const std::error_code& ec,
+    std::span<const uint8_t> buffer)
 {
     if (ec)
     {
@@ -158,25 +176,38 @@ void NvidiaGpuCurrentUtilization::processResponse(
 
         case ocp::accelerator_management::CompletionCode::ACCEPTED:
         {
+            uint8_t instanceId = 0;
+            rc = ocp::accelerator_management::decodeInstanceId(buffer,
+                                                               instanceId);
+            if (rc != 0)
+            {
+                lg2::error(
+                    "Error updating GPU Current Utilization: failed to decode instance id, "
+                    "rc={RC}, EID={EID}",
+                    "RC", rc, "EID", eid);
+                return;
+            }
+
             rc = longRunningResponseHandler->registerResponseHandler(
                 gpu::MessageType::PLATFORM_ENVIRONMENTAL,
                 static_cast<uint8_t>(gpu::PlatformEnvironmentalCommands::
                                          GET_CURRENT_UTILIZATION),
-                [weak{weak_from_this()}](
-                    ocp::accelerator_management::CompletionCode cc,
-                    uint16_t reasonCode,
-                    std::span<const uint8_t> responseData) {
+                instanceId,
+                [weak{weak_from_this()}, handle = std::move(handle)](
+                    boost::system::error_code longRunningEc,
+                    ocp::accelerator_management::CompletionCode longRunningCc,
+                    uint16_t longRunningReasonCode,
+                    std::span<const uint8_t> responseData) mutable {
                     std::shared_ptr<NvidiaGpuCurrentUtilization> self =
                         weak.lock();
                     if (!self)
                     {
-                        lg2::error(
-                            "Invalid reference to NvidiaGpuCurrentUtilization");
                         return;
                     }
 
-                    self->processLongRunningResponse(cc, reasonCode,
-                                                     responseData);
+                    self->processLongRunningResponse(
+                        longRunningEc, longRunningCc, longRunningReasonCode,
+                        responseData);
                 });
 
             if (rc != 0)
@@ -200,9 +231,19 @@ void NvidiaGpuCurrentUtilization::processResponse(
 }
 
 void NvidiaGpuCurrentUtilization::processLongRunningResponse(
+    boost::system::error_code ec,
     ocp::accelerator_management::CompletionCode cc, uint16_t reasonCode,
     std::span<const uint8_t> responseData)
 {
+    if (ec)
+    {
+        lg2::error(
+            "Error updating GPU Current Utilization: long running response failed, "
+            "rc={RC}, EID={EID}",
+            "RC", ec.message(), "EID", eid);
+        return;
+    }
+
     if (cc != ocp::accelerator_management::CompletionCode::SUCCESS)
     {
         lg2::error(
