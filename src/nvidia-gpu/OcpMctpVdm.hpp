@@ -76,6 +76,11 @@ int unpackHeader(UnpackBuffer& buffer, uint16_t pciVendorId,
                  MessageType& ocpAcceleratorManagementMsgType,
                  uint8_t& instanceId, uint8_t& msgType);
 
+int decodeReasonCodeAndCC(std::span<const uint8_t> buf, CompletionCode& cc,
+                          uint16_t& reasonCode);
+
+int decodeInstanceId(std::span<const uint8_t> buf, uint8_t& instanceId);
+
 int unpackReasonCodeAndCC(UnpackBuffer& buffer, CompletionCode& cc,
                           uint16_t& reasonCode);
 
