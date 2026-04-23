@@ -276,6 +276,17 @@ int decodeAggregateResponse(
     return 0;
 }
 
+int decodeInstanceId(std::span<const uint8_t> buf, uint8_t& instanceId)
+{
+    if (buf.size() < sizeof(BindingPciVid))
+    {
+        return EINVAL;
+    }
+
+    instanceId = buf[offsetof(BindingPciVid, instance_id)] & instanceIdBitMask;
+    return 0;
+}
+
 int decodeEvent(std::span<const uint8_t> buf, uint16_t pciVendorId,
                 uint8_t& messageType, bool& ackRequired, uint8_t& version,
                 uint8_t& eventId, uint8_t& eventClass, uint16_t& eventState,

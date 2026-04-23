@@ -22,6 +22,7 @@ gpusensor_sources = files(
     'NvidiaPciePortMetrics.cpp',
     'NvidiaSmaDevice.cpp',
     'OcpMctpVdm.cpp',
+    'SerialQueue.cpp',
 )
 
 if not get_option('nvidia-gpu').allowed()

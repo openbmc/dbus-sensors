@@ -8,6 +8,8 @@
 #include <MctpRequester.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
 #include <NvidiaLongRunningHandler.hpp>
+#include <SerialQueue.hpp>
+#include <boost/system/error_code.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
@@ -27,16 +29,21 @@ struct NvidiaGpuCurrentUtilization :
         mctp::MctpRequester& mctpRequester,
         sdbusplus::asio::object_server& objectServer,
         const std::string& deviceName, uint8_t eid,
-        const std::shared_ptr<NvidiaLongRunningResponseHandler>&
+        std::shared_ptr<SerialQueue> longRunningQueue,
+        std::shared_ptr<NvidiaLongRunningResponseHandler>
             longRunningResponseHandler);
 
     void update();
 
   private:
-    void processResponse(const std::error_code& ec,
+    void doUpdate(SerialQueue::ReleaseHandle handle);
+
+    void processResponse(SerialQueue::ReleaseHandle handle,
+                         const std::error_code& ec,
                          std::span<const uint8_t> buffer);
 
     void processLongRunningResponse(
+        boost::system::error_code ec,
         ocp::accelerator_management::CompletionCode cc, uint16_t reasonCode,
         std::span<const uint8_t> responseData);
 
@@ -47,6 +54,8 @@ struct NvidiaGpuCurrentUtilization :
     std::shared_ptr<sdbusplus::asio::connection> conn;
 
     mctp::MctpRequester& mctpRequester;
+
+    std::shared_ptr<SerialQueue> longRunningQueue;
 
     std::shared_ptr<NvidiaLongRunningResponseHandler>
         longRunningResponseHandler;
