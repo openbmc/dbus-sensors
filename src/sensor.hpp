@@ -19,6 +19,7 @@
 #include <functional>
 #include <limits>
 #include <memory>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -266,9 +267,10 @@ struct Sensor
         return 1;
     }
 
-    void setInitialProperties(const std::string_view unit,
-                              const std::string& label = std::string(),
-                              size_t thresholdSize = 0)
+    void setInitialProperties(
+        const std::string_view unit, const std::string& label = std::string(),
+        size_t thresholdSize = 0,
+        const std::optional<std::string>& inventoryPath = std::nullopt)
     {
         if (readState == PowerState::on || readState == PowerState::biosPost ||
             readState == PowerState::chassisOn)
@@ -276,7 +278,17 @@ struct Sensor
             setupPowerMatch(dbusConnection);
         }
 
-        createAssociation(association, configurationPath);
+        if (inventoryPath.has_value())
+        {
+            setInventoryAssociation(association, inventoryPath.value(),
+                                    std::filesystem::path(configurationPath)
+                                        .parent_path()
+                                        .string());
+        }
+        else
+        {
+            createAssociation(association, configurationPath);
+        }
 
         sensorInterface->register_property("Unit", std::string(unit));
         sensorInterface->register_property("MaxValue", maxValue);
