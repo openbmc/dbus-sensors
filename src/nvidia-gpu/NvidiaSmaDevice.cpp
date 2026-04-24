@@ -47,7 +47,7 @@ void SmaDevice::makeSensors()
     tempSensor = std::make_shared<NvidiaGpuTempSensor>(
         conn, mctpRequester, name + "_TEMP_0", path, eid, smaTempSensorId,
         objectServer, std::vector<thresholds::Threshold>{},
-        gpu::DeviceIdentification::DEVICE_SMA);
+        gpu::DeviceIdentification::DEVICE_SMA, "");
 
     lg2::info("Added MCA {NAME} Sensors with chassis path: {PATH}.", "NAME",
               name, "PATH", path);

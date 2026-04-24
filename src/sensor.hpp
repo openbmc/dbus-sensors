@@ -268,7 +268,8 @@ struct Sensor
 
     void setInitialProperties(const std::string_view unit,
                               const std::string& label = std::string(),
-                              size_t thresholdSize = 0)
+                              size_t thresholdSize = 0,
+                              const std::string& inventoryPath = std::string())
     {
         if (readState == PowerState::on || readState == PowerState::biosPost ||
             readState == PowerState::chassisOn)
@@ -276,7 +277,17 @@ struct Sensor
             setupPowerMatch(dbusConnection);
         }
 
-        createAssociation(association, configurationPath);
+        if (!inventoryPath.empty())
+        {
+            setInventoryAssociation(association, inventoryPath,
+                                    std::filesystem::path(configurationPath)
+                                        .parent_path()
+                                        .string());
+        }
+        else
+        {
+            createAssociation(association, configurationPath);
+        }
 
         sensorInterface->register_property("Unit", std::string(unit));
         sensorInterface->register_property("MaxValue", maxValue);
