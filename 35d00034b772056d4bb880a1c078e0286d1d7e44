@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1c08a58_647506d8",
+        "filename": "src/nvidia-gpu/OcpMctpVdm.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-04-24T02:35:51Z",
+      "side": 1,
+      "message": "Duplicates messageHeaderSize (Line 64, also \u003d 5).\nI think it can be remove, and update eventHeaderSize \u003d messageHeaderSize + 6;",
+      "range": {
+        "startLine": 36,
+        "startChar": 17,
+        "endLine": 36,
+        "endChar": 34
+      },
+      "revId": "35d00034b772056d4bb880a1c078e0286d1d7e44",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
