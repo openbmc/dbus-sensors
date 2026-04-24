@@ -12,10 +12,12 @@
 #include <NvidiaGpuMctpVdm.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/message/native_types.hpp>
 
 #include <array>
 #include <cstdint>
 #include <memory>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -36,7 +38,9 @@ struct NvidiaGpuTempSensor :
         const std::string& sensorConfiguration, uint8_t eid, uint8_t sensorId,
         sdbusplus::asio::object_server& objectServer,
         std::vector<thresholds::Threshold>&& thresholdData,
-        gpu::DeviceIdentification deviceType);
+        gpu::DeviceIdentification deviceType,
+        const std::optional<sdbusplus::object_path>& inventoryPath =
+            std::nullopt);
 
     ~NvidiaGpuTempSensor() override;
 
