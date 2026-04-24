@@ -45,7 +45,8 @@ NvidiaGpuEnergySensor::NvidiaGpuEnergySensor(
     const std::string& sensorConfiguration, const uint8_t eid, uint8_t sensorId,
     sdbusplus::asio::object_server& objectServer,
     std::vector<thresholds::Threshold>&& thresholdData,
-    const gpu::DeviceIdentification deviceType) :
+    const gpu::DeviceIdentification deviceType,
+    const std::optional<std::string>& inventoryPath) :
     Sensor(escapeName(name), std::move(thresholdData), sensorConfiguration,
            "energy", false, true, gpuEnergySensorMaxReading,
            gpuEnergySensorMinReading, conn),
@@ -66,7 +67,7 @@ NvidiaGpuEnergySensor::NvidiaGpuEnergySensor(
 
     association = objectServer.add_interface(dbusPath, association::interface);
 
-    setInitialProperties(sensor_paths::unitJoules);
+    setInitialProperties(sensor_paths::unitJoules, {}, 0, inventoryPath);
 
     const std::optional<std::string> physicalContext =
         nvidia_sensor_utils::deviceTypeToPhysicalContext(deviceType);
