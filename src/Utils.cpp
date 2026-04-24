@@ -620,7 +620,8 @@ void createAssociation(
 
 void setInventoryAssociation(
     const std::weak_ptr<sdbusplus::asio::dbus_interface>& weakRef,
-    const std::string& inventoryPath, const std::string& chassisPath)
+    const sdbusplus::object_path& inventoryPath,
+    const sdbusplus::object_path& chassisPath)
 {
     auto association = weakRef.lock();
     if (!association)
