@@ -369,12 +369,12 @@ void MCTPDEndpoint::removed()
 std::string MCTPDEndpoint::describe() const
 {
     return std::format("network: {}, EID: {} | {}", mctp.network, mctp.eid,
-                       dev->describe());
+                       dev.lock()->describe());
 }
 
 std::shared_ptr<MCTPDevice> MCTPDEndpoint::device() const
 {
-    return dev;
+    return dev.lock();
 }
 
 std::optional<SensorBaseConfigMap> I2CMCTPDDevice::match(

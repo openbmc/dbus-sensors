@@ -237,7 +237,7 @@ class MCTPDEndpoint :
     void removed();
 
   private:
-    std::shared_ptr<MCTPDDevice> dev;
+    std::weak_ptr<MCTPDDevice> dev;
     std::shared_ptr<sdbusplus::asio::connection> connection;
     sdbusplus::object_path objpath;
     struct
