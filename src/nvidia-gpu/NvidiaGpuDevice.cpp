@@ -50,6 +50,7 @@
 #include <initializer_list>
 #include <limits>
 #include <memory>
+#include <optional>
 #include <span>
 #include <string>
 #include <system_error>
@@ -188,10 +189,12 @@ void GpuDevice::init()
 
 void GpuDevice::makeSensors()
 {
+    const std::optional<std::string> inventoryPath =
+        (inventoryPrefix / name).str;
     tempSensor = std::make_shared<NvidiaGpuTempSensor>(
         conn, mctpRequester, name + "_TEMP_0", path, eid, gpuTempSensorId,
         objectServer, std::vector<thresholds::Threshold>{},
-        gpu::DeviceIdentification::DEVICE_GPU);
+        gpu::DeviceIdentification::DEVICE_GPU, inventoryPath);
 
     dramTempSensor = std::make_shared<NvidiaGpuTempSensor>(
         conn, mctpRequester, name + "_DRAM_0_TEMP_0", path, eid,
@@ -203,7 +206,7 @@ void GpuDevice::makeSensors()
     powerSensor = std::make_shared<NvidiaGpuPowerSensor>(
         conn, mctpRequester, name + "_Power_0", path, eid, gpuPowerSensorId,
         objectServer, std::vector<thresholds::Threshold>{},
-        gpu::DeviceIdentification::DEVICE_GPU);
+        gpu::DeviceIdentification::DEVICE_GPU, inventoryPath);
 
     peakPower = std::make_shared<NvidiaGpuPowerPeakReading>(
         mctpRequester, name + "_Power_0", eid, gpuPeakPowerSensorId,
@@ -212,12 +215,12 @@ void GpuDevice::makeSensors()
     energySensor = std::make_shared<NvidiaGpuEnergySensor>(
         conn, mctpRequester, name + "_Energy_0", path, eid, gpuEnergySensorId,
         objectServer, std::vector<thresholds::Threshold>{},
-        gpu::DeviceIdentification::DEVICE_GPU);
+        gpu::DeviceIdentification::DEVICE_GPU, inventoryPath);
 
     voltageSensor = std::make_shared<NvidiaGpuVoltageSensor>(
         conn, mctpRequester, name + "_Voltage_0", path, eid, gpuVoltageSensorId,
         objectServer, std::vector<thresholds::Threshold>{},
-        gpu::DeviceIdentification::DEVICE_GPU);
+        gpu::DeviceIdentification::DEVICE_GPU, inventoryPath);
 
     longRunningQueue = std::make_shared<SerialQueue>(io);
 
