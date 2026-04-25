@@ -315,6 +315,8 @@ struct GetSensorConfiguration :
             retries = 5;
         }
 
+        std::vector<std::string> typesCopy(types.begin(), types.end());
+
         std::vector<std::string> interfaces;
         interfaces.reserve(types.size());
         for (const auto& type : types)
@@ -324,8 +326,8 @@ struct GetSensorConfiguration :
 
         std::shared_ptr<GetSensorConfiguration> self = shared_from_this();
         dbusConnection->async_method_call(
-            [self, interfaces, retries](const boost::system::error_code ec,
-                                        const GetSubTreeType& ret) {
+            [self, interfaces, typesCopy, retries](
+                const boost::system::error_code ec, const GetSubTreeType& ret) {
                 if (ec)
                 {
                     lg2::error("Error calling mapper: '{ERROR_MESSAGE}'",
@@ -337,7 +339,7 @@ struct GetSensorConfiguration :
                     auto timer = std::make_shared<boost::asio::steady_timer>(
                         self->dbusConnection->get_io_context());
                     timer->expires_after(std::chrono::seconds(10));
-                    timer->async_wait([self, timer, interfaces,
+                    timer->async_wait([self, timer, typesCopy,
                                        retries](boost::system::error_code ec) {
                         if (ec)
                         {
@@ -345,10 +347,10 @@ struct GetSensorConfiguration :
                                        "ERROR_MESSAGE", ec.message());
                             return;
                         }
-                        std::vector<std::string_view> ifaces(interfaces.begin(),
-                                                             interfaces.end());
+                        std::vector<std::string_view> typesView(
+                            typesCopy.begin(), typesCopy.end());
 
-                        self->getConfiguration(ifaces, retries - 1);
+                        self->getConfiguration(typesView, retries - 1);
                     });
 
                     return;
