@@ -101,7 +101,7 @@ NvidiaPciePortInfo::NvidiaPciePortInfo(
 
 uint64_t NvidiaPciePortInfo::mapPcieGenToLinkSpeedBitsPerSecond(uint32_t value)
 {
-    static constexpr int gbpsToBps = 1 << 30;
+    static constexpr uint64_t gbpsToBps = 1000000000;
 
     switch (value)
     {
