@@ -56,5 +56,6 @@ struct NvidiaPcieFunction :
     std::shared_ptr<sdbusplus::asio::dbus_interface> pcieFunctionInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> associationInterface;
 
-    std::vector<uint32_t> telemetryValues{maxTelemetryValues};
+    std::vector<uint32_t> telemetryValues =
+        std::vector<uint32_t>(maxTelemetryValues);
 };
