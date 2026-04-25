@@ -22,7 +22,8 @@ constexpr uint8_t gpuPeakPowerSensorId{0};
 // GPU Power Sensor Averaging Interval in seconds, 0 implies default
 constexpr uint8_t gpuPowerAveragingIntervalInSec{0};
 
-struct NvidiaGpuPowerPeakReading
+struct NvidiaGpuPowerPeakReading :
+    public std::enable_shared_from_this<NvidiaGpuPowerPeakReading>
 {
   public:
     NvidiaGpuPowerPeakReading(mctp::MctpRequester& mctpRequester,
