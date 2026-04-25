@@ -85,7 +85,8 @@ struct NvidiaPciePortMetrics :
                maxTelemetryValues>
         metricAssociationInterfaces;
 
-    std::vector<uint32_t> telemetryValues{maxTelemetryValues};
+    std::vector<uint32_t> telemetryValues =
+        std::vector<uint32_t>(maxTelemetryValues);
 };
 
 std::shared_ptr<NvidiaPciePortMetrics> makeNvidiaPciePortErrors(
