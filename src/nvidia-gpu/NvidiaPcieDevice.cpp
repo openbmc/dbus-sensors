@@ -311,11 +311,17 @@ void PcieDevice::read()
     }
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
-    waitTimer.async_wait([this](const boost::system::error_code& ec) {
-        if (ec)
-        {
-            return;
-        }
-        read();
-    });
+    waitTimer.async_wait(
+        [weak{weak_from_this()}](const boost::system::error_code& ec) {
+            if (ec)
+            {
+                return;
+            }
+            std::shared_ptr<PcieDevice> self = weak.lock();
+            if (!self)
+            {
+                return;
+            }
+            self->read();
+        });
 }
