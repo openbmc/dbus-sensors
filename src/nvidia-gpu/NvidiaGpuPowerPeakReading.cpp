@@ -114,7 +114,16 @@ void NvidiaGpuPowerPeakReading::update()
 
     mctpRequester.sendRecvMsg(
         eid, request,
-        [this](const std::error_code& ec, std::span<const uint8_t> buffer) {
-            processResponse(ec, buffer);
+        [eid{this->eid}, sensorId{this->sensorId}, weak{weak_from_this()}](
+            const std::error_code& ec, std::span<const uint8_t> buffer) {
+            std::shared_ptr<NvidiaGpuPowerPeakReading> self = weak.lock();
+            if (!self)
+            {
+                lg2::error(
+                    "Invalid reference to NvidiaGpuPowerPeakReading for eid {EID} and sensor id {SID}",
+                    "EID", eid, "SID", sensorId);
+                return;
+            }
+            self->processResponse(ec, buffer);
         });
 }
