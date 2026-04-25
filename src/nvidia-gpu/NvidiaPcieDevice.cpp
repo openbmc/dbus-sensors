@@ -158,13 +158,13 @@ void PcieDevice::getNetworkPortAddresses(const uint16_t portNumber)
 
     mctpRequester.sendRecvMsg(
         eid, getPortNetworkAddressesRequest,
-        [portNumber, weak{weak_from_this()}](const std::error_code& ec,
-                                             std::span<const uint8_t> buffer) {
+        [portNumber, eid{this->eid}, weak{weak_from_this()}](
+            const std::error_code& ec, std::span<const uint8_t> buffer) {
             std::shared_ptr<PcieDevice> self = weak.lock();
             if (!self)
             {
                 lg2::error("Invalid reference to PcieDevice, EID={EID}", "EID",
-                           self->eid);
+                           eid);
                 return;
             }
             self->processGetNetworkPortAddressesResponse(portNumber, ec,
