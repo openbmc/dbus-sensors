@@ -163,8 +163,7 @@ void PcieDevice::getNetworkPortAddresses(const uint16_t portNumber)
             std::shared_ptr<PcieDevice> self = weak.lock();
             if (!self)
             {
-                lg2::error("Invalid reference to PcieDevice, EID={EID}", "EID",
-                           self->eid);
+                lg2::error("Invalid reference to PcieDevice");
                 return;
             }
             self->processGetNetworkPortAddressesResponse(portNumber, ec,
