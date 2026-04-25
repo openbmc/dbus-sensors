@@ -117,6 +117,7 @@ void MctpRequester::processRecvMsg(const boost::system::error_code& ec,
         // we were handed an endpoint that can't be treated as an MCTP endpoint
         // This is probably a kernel bug...yell about it and rebind.
         lg2::error("MctpRequester: invalid endpoint");
+        startReceive();
         return;
     }
 
@@ -126,6 +127,7 @@ void MctpRequester::processRecvMsg(const boost::system::error_code& ec,
         // drop it on the floor and rebind receive_from
         lg2::error("MctpRequester: Message type mismatch. We received {MSG}",
                    "MSG", *receivedMsgType);
+        startReceive();
         return;
     }
 
@@ -155,6 +157,7 @@ void MctpRequester::processRecvMsg(const boost::system::error_code& ec,
         // and rely on the timer to notify the client
         lg2::error("MctpRequester: Unable to decode message from eid {EID}",
                    "EID", eid);
+        startReceive();
         return;
     }
 
@@ -165,6 +168,7 @@ void MctpRequester::processRecvMsg(const boost::system::error_code& ec,
             // we received a request from a downstream device.
             // We don't currently support this, drop the packet
             // on the floor and rebind receive, keep the timer running
+            startReceive();
             return;
         }
 
@@ -176,6 +180,7 @@ void MctpRequester::processRecvMsg(const boost::system::error_code& ec,
     if (isDatagram.value())
     {
         // we received an Event acknowledgment
+        startReceive();
         return;
     }
 
@@ -189,6 +194,7 @@ void MctpRequester::processRecvMsg(const boost::system::error_code& ec,
         // from a device we've never talked to
         // do our best and rebind receive and keep the timer running
         lg2::error("Unable to match request to response");
+        startReceive();
         return;
     }
 
@@ -198,6 +204,7 @@ void MctpRequester::processRecvMsg(const boost::system::error_code& ec,
         // rebind async_receive_from and drop this packet on the floor
         lg2::error("Invalid iid {IID} from eid {EID}, expected {E_IID}", "IID",
                    iid, "EID", eid, "E_IID", it->second.iid);
+        startReceive();
         return;
     }
 
