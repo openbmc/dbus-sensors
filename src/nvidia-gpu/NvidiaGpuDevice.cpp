@@ -246,7 +246,8 @@ void GpuDevice::readThermalParameterCallback(const std::error_code& ec,
         lg2::error(
             "Error reading thermal parameter: decode failed, rc={RC}, cc={CC}, reasonCode={RESC}",
             "RC", rc, "CC", cc, "RESC", reasonCode);
-        processTLimitThresholds(ec);
+        processTLimitThresholds(
+            std::make_error_code(std::errc::protocol_error));
         return;
     }
 
