@@ -218,14 +218,14 @@ void NvidiaPcieInterface::update()
 
     mctpRequester.sendRecvMsg(
         eid, buf,
-        [weak{weak_from_this()}](const std::error_code& ec,
-                                 std::span<const uint8_t> buffer) {
+        [weak{weak_from_this()}, eid{this->eid}](
+            const std::error_code& ec, std::span<const uint8_t> buffer) {
             std::shared_ptr<NvidiaPcieInterface> self = weak.lock();
             if (!self)
             {
                 lg2::error(
                     "Invalid reference to NvidiaPcieInterface for EID {EID}",
-                    "EID", self->eid);
+                    "EID", eid);
                 return;
             }
             self->processResponse(ec, buffer);
