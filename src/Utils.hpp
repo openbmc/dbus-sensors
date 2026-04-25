@@ -310,22 +310,33 @@ struct GetSensorConfiguration :
     void getConfiguration(std::span<const std::string_view> types,
                           size_t retries = 0)
     {
-        if (retries > 5)
-        {
-            retries = 5;
-        }
-
         std::vector<std::string> interfaces;
         interfaces.reserve(types.size());
         for (const auto& type : types)
         {
             interfaces.push_back(configInterfaceName(type));
         }
+        getConfigurationImpl(std::move(interfaces), retries);
+    }
+
+    ~GetSensorConfiguration()
+    {
+        callback(respData);
+    }
+
+  private:
+    void getConfigurationImpl(std::vector<std::string> interfaces,
+                              size_t retries)
+    {
+        if (retries > 5)
+        {
+            retries = 5;
+        }
 
         std::shared_ptr<GetSensorConfiguration> self = shared_from_this();
         dbusConnection->async_method_call(
             [self, interfaces, retries](const boost::system::error_code ec,
-                                        const GetSubTreeType& ret) {
+                                        const GetSubTreeType& ret) mutable {
                 if (ec)
                 {
                     lg2::error("Error calling mapper: '{ERROR_MESSAGE}'",
@@ -337,19 +348,18 @@ struct GetSensorConfiguration :
                     auto timer = std::make_shared<boost::asio::steady_timer>(
                         self->dbusConnection->get_io_context());
                     timer->expires_after(std::chrono::seconds(10));
-                    timer->async_wait([self, timer, interfaces,
-                                       retries](boost::system::error_code ec) {
-                        if (ec)
-                        {
-                            lg2::error("Timer error: '{ERROR_MESSAGE}'",
-                                       "ERROR_MESSAGE", ec.message());
-                            return;
-                        }
-                        std::vector<std::string_view> ifaces(interfaces.begin(),
-                                                             interfaces.end());
-
-                        self->getConfiguration(ifaces, retries - 1);
-                    });
+                    timer->async_wait(
+                        [self, timer, interfaces = std::move(interfaces),
+                         retries](boost::system::error_code ec) mutable {
+                            if (ec)
+                            {
+                                lg2::error("Timer error: '{ERROR_MESSAGE}'",
+                                           "ERROR_MESSAGE", ec.message());
+                                return;
+                            }
+                            self->getConfigurationImpl(std::move(interfaces),
+                                                       retries - 1);
+                        });
 
                     return;
                 }
@@ -381,11 +391,7 @@ struct GetSensorConfiguration :
             "/", 0, interfaces);
     }
 
-    ~GetSensorConfiguration()
-    {
-        callback(respData);
-    }
-
+  public:
     std::shared_ptr<sdbusplus::asio::connection> dbusConnection;
     std::function<void(ManagedObjectType& resp)> callback;
     ManagedObjectType respData;
