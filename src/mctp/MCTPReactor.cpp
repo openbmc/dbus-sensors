@@ -45,7 +45,12 @@ void MCTPReactor::trackEndpoint(const std::shared_ptr<MCTPEndpoint>& ep)
             if (auto self = weak.lock())
             {
                 self->untrackEndpoint(ep);
-                switch (self->states[ep->device()->id()])
+                auto it = self->states.find(ep->device()->id());
+                if (it == self->states.end())
+                {
+                    return;
+                }
+                switch (it->second)
                 {
                     case MCTPDeviceState::Unmanaged:
                     case MCTPDeviceState::Assigning:
@@ -84,7 +89,12 @@ void MCTPReactor::trackEndpoint(const std::shared_ptr<MCTPEndpoint>& ep)
             }
         });
 
-    switch (states[ep->device()->id()])
+    auto it = states.find(ep->device()->id());
+    if (it == states.end())
+    {
+        return;
+    }
+    switch (it->second)
     {
         case MCTPDeviceState::Unmanaged:
             return;
@@ -201,7 +211,12 @@ void MCTPReactor::tick()
 {
     for (const auto& entry : devices)
     {
-        switch (states[entry.second->id()])
+        auto it = states.find(entry.second->id());
+        if (it == states.end())
+        {
+            continue;
+        }
+        switch (it->second)
         {
             case MCTPDeviceState::Unmanaged:
             case MCTPDeviceState::Assigning:
@@ -307,7 +322,12 @@ void MCTPReactor::unmanageMCTPDevice(const std::string& path)
     debug("MCTP device inventory removed at '{INVENTORY_PATH}'",
           "INVENTORY_PATH", path);
 
-    switch (states[device->id()])
+    auto it = states.find(device->id());
+    if (it == states.end())
+    {
+        return;
+    }
+    switch (it->second)
     {
         case MCTPDeviceState::Unmanaged:
             break;
