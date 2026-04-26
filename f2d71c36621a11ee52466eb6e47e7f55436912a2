@@ -72,6 +72,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2c6106f1_ee11d923",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 837,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-04-26T13:07:24Z",
+      "side": 1,
+      "message": "The std::string / std::vector constructors here advance the iterator\nby `dataSize` without first verifying `remainingBuffer.size() \u003e\u003d dataSize`.\n`dataSize` comes from the device wire payload, so could produce `dataSize` larger than what\u0027s actually in the buffer —\nand iterator arithmetic past end() on a std::span is undefined\nbehavior.\n\nCould we add an explicit guard?\n\n    if (remainingBuffer.size() \u003c dataSize) { return EINVAL; }\n\nThe old reinterpret_cast version had the same issue, so feel free to\ndefer to a follow-up if it\u0027s out of scope here.",
+      "revId": "f2d71c36621a11ee52466eb6e47e7f55436912a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "459101c8_a3d23704",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 843,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-04-26T13:07:24Z",
+      "side": 1,
+      "message": "Could we add an explicit guard?\n\n    if (remainingBuffer.size() \u003c dataSize) { return EINVAL; }\n\nThe old reinterpret_cast version had the same issue, so feel free to\ndefer to a follow-up if it\u0027s out of scope here.",
+      "revId": "f2d71c36621a11ee52466eb6e47e7f55436912a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1d8b0fbf_0b8b31f3",
         "filename": "src/nvidia-gpu/OcpMctpVdm.cpp",
         "patchSetId": 7
