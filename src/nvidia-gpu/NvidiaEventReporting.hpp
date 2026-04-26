@@ -49,7 +49,9 @@ class NvidiaEventReportingConfig :
         delete;
     ~NvidiaEventReportingConfig() = default;
 
-    void init();
+    using InitCompletionHandler = std::function<void()>;
+
+    void init(InitCompletionHandler onComplete);
 
   private:
     void handleSetupSubscription(const std::error_code& ec,
@@ -57,6 +59,7 @@ class NvidiaEventReportingConfig :
     void handleSetupEvents(const std::error_code& ec,
                            std::span<const uint8_t> buffer);
     void sendNextEventSource();
+    void notifyComplete();
 
     static constexpr uint8_t generationSettingEnablePush = 2;
     uint8_t bmc_eid{8};
@@ -66,6 +69,7 @@ class NvidiaEventReportingConfig :
     size_t currentMessageTypeIdx{0};
     std::array<uint8_t, gpu::setEventSourcesRequestSize> sourcesReq{};
     std::array<uint8_t, gpu::setEventSubscriptionRequestSize> subscriptionReq{};
+    InitCompletionHandler initCompletionHandler;
 };
 
 class NvidiaEventHandler
