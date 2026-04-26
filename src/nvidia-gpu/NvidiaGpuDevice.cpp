@@ -120,7 +120,15 @@ void GpuDevice::init()
 
     makeSensors();
 
-    eventReporting->init();
+    eventReporting->init([weak{weak_from_this()}]() {
+        std::shared_ptr<GpuDevice> self = weak.lock();
+        if (!self)
+        {
+            lg2::error("Invalid reference to GpuDevice");
+            return;
+        }
+        self->read();
+    });
 }
 
 void GpuDevice::makeSensors()
@@ -212,7 +220,6 @@ void GpuDevice::makeSensors()
 
     lg2::info("Added GPU {NAME} Sensors with chassis path: {PATH}.", "NAME",
               name, "PATH", path);
-    read();
 }
 
 void GpuDevice::getTLimitThresholds()

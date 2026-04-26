@@ -12,6 +12,7 @@
 #include <span>
 #include <system_error>
 #include <unordered_map>
+#include <utility>
 
 std::unordered_map<NvidiaEventHandler::EventKey, EventHandler,
                    boost::hash<NvidiaEventHandler::EventKey>>
@@ -52,14 +53,17 @@ NvidiaEventReportingConfig::NvidiaEventReportingConfig(
     }
 }
 
-void NvidiaEventReportingConfig::init()
+void NvidiaEventReportingConfig::init(InitCompletionHandler onComplete)
 {
+    initCompletionHandler = std::move(onComplete);
+
     int rc = gpu::encodeSetEventSubscriptionRequest(generationSettingEnablePush,
                                                     bmc_eid, subscriptionReq);
     if (rc != 0)
     {
         lg2::error("Failed to setup device subscription for eid {EID}", "EID",
                    eid);
+        notifyComplete();
         return;
     }
 
@@ -77,6 +81,14 @@ void NvidiaEventReportingConfig::init()
         });
 }
 
+void NvidiaEventReportingConfig::notifyComplete()
+{
+    if (auto cb = std::move(initCompletionHandler); cb)
+    {
+        cb();
+    }
+}
+
 void NvidiaEventReportingConfig::handleSetupSubscription(
     const std::error_code& ec, std::span<const uint8_t> buffer)
 {
@@ -84,6 +96,7 @@ void NvidiaEventReportingConfig::handleSetupSubscription(
     {
         lg2::error("failed to setup event subscription on eid {EID}: {EC}",
                    "EID", eid, "EC", ec.message());
+        notifyComplete();
         return;
     }
 
@@ -95,6 +108,7 @@ void NvidiaEventReportingConfig::handleSetupSubscription(
         lg2::error("failed to setup event subscription on eid {EID}: "
                    "rc={RC}, cc={CC}, reasonCode={RESC}",
                    "EID", eid, "RC", rc, "CC", cc, "RESC", reasonCode);
+        notifyComplete();
         return;
     }
 
@@ -137,6 +151,7 @@ void NvidiaEventReportingConfig::sendNextEventSource()
         lg2::info("Finished setting up event sources for eid {EID}", "EID",
                   eid);
         // All event sources processed
+        notifyComplete();
         return;
     }
 
@@ -161,6 +176,7 @@ void NvidiaEventReportingConfig::handleSetupEvents(
     {
         lg2::error("failed to set up events for eid {EID}: {MSG}", "EID", eid,
                    "MSG", ec.message());
+        notifyComplete();
         return;
     }
 
@@ -173,6 +189,7 @@ void NvidiaEventReportingConfig::handleSetupEvents(
         lg2::error("failed to set event sources on eid {EID}: "
                    "rc={RC}, cc={CC}, reasonCode={RESC}",
                    "EID", eid, "RC", rc, "CC", cc, "RESC", reasonCode);
+        notifyComplete();
         return;
     }
 
