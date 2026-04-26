@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7964c489_93848a20",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 1144,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-04-26T13:06:41Z",
+      "side": 1,
+      "message": "nit: Could we replace this magic number `3` with a named constant or\nadd a brief comment? It took me a moment to figure out what these\n3 bytes correspond to.\n\nPer the NSM spec, the XID event payload is structured as:\n\n    struct nsm_xid_event_payload {\n        uint8_t  flag;            // 1 byte\n        uint8_t  reserved[3];     // \u003c- this skip(3)\n        uint32_t reason;          // 4 bytes\n        uint32_t sequence_number; // 4 bytes\n        uint64_t timestamp;       // 8 bytes\n    } __attribute__((packed));\n\nSo the `3` here is the `reserved[3]` field (alignment padding before\n`reason`). Something like the following would make this self-documenting:\n\n    constexpr size_t xidEventReservedBytes \u003d 3;\n    buffer.unpack(flags);\n    buffer.skip(xidEventReservedBytes);\n    buffer.unpack(eventMessageReason);\n\nOr alternatively, just a one-line comment:\n\n    buffer.skip(3);  // reserved[3] padding before reason (NSM XID event payload)\n\nEither works for me — whichever you prefer. Thanks!",
+      "range": {
+        "startLine": 1144,
+        "startChar": 0,
+        "endLine": 1144,
+        "endChar": 19
+      },
+      "revId": "2c30b9011227615589b3bbfd6797a682d6010b12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe0de1cc_01ce4578",
+        "filename": "src/nvidia-gpu/NvidiaGpuXid.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-04-26T13:06:41Z",
+      "side": 1,
+      "message": "nit: would you mind making the type explicit here, just to match the\npattern used in the other GPU files (GpuDevice, NvidiaGpuMemoryDevice,\nInventory, etc.)?\n\n    std::shared_ptr\u003cNvidiaXidEventHandler\u003e self \u003d weak.lock();\n\nThanks.",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 36
+      },
+      "revId": "2c30b9011227615589b3bbfd6797a682d6010b12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
