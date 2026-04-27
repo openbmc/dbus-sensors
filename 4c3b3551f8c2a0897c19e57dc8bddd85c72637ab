@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9215499e_b7c5788f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000857
+      },
+      "writtenOn": "2026-04-27T21:43:06Z",
+      "side": 1,
+      "message": "The leak happens on the instance destroy (before the mctpd .Remove event). Such case happens when the E-M config removed. \n\nWe have a unit test to simulate the scenario in nvmed (nvmed and mctp reactor uses the same mctp class implementation). \n\nWhen the MCTP device instance goes out of scope(on https://gbmc-review.googlesource.com/c/dbus-sensors/+/83669/2/tests/test_MctpUtil.cpp#1094), both MCTP device and MCTP endpoint will not get destroyed.",
+      "parentUuid": "c027dde8_747a9484",
+      "revId": "4c3b3551f8c2a0897c19e57dc8bddd85c72637ab",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dddd1dad_b0074ae6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
