@@ -49,6 +49,7 @@ enum class PlatformEnvironmentalCommands : uint8_t
     GET_INVENTORY_INFORMATION = 0x0C,
     GET_DRIVER_INFORMATION = 0x0E,
     GET_VOLTAGE = 0x0F,
+    GET_LEAK_DETECTION_INFO = 0x17,
 };
 
 enum class NetworkPortCommands : uint8_t
@@ -383,4 +384,20 @@ int decodeGetEthernetPortTelemetryCountersResponse(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     std::vector<std::pair<uint8_t, uint64_t>>& telemetryValues);
+
+int encodeGetLeakDetectionInfoRequest(uint8_t instanceId,
+                                      std::span<uint8_t> buf);
+
+struct LeakSensorData
+{
+    uint8_t sensorId;
+    uint8_t leakState;
+    std::vector<uint16_t> thresholds;
+    uint16_t adcReadingMv;
+};
+
+int decodeGetLeakDetectionInfoResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    std::vector<LeakSensorData>& parsedSensors);
 } // namespace gpu

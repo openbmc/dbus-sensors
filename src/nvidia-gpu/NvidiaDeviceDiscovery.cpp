@@ -117,7 +117,7 @@ void processQueryDeviceIdResponse(
                 responseInstanceId);
 
             const std::string smaName =
-                std::format("{}_SMA_{}", configs.name, responseInstanceId);
+                std::format("{}_SMA_{}", configs.name, eid);
 
             std::shared_ptr<SmaDevice>& sma = smaDevices[smaName];
 
