@@ -22,6 +22,7 @@ gpusensor_sources = files(
     'NvidiaPciePort.cpp',
     'NvidiaPciePortMetrics.cpp',
     'NvidiaSmaDevice.cpp',
+    'NvidiaSmaLeakSensor.cpp',
     'OcpMctpVdm.cpp',
 )
 

@@ -65,6 +65,7 @@ enum class PlatformEnvironmentalCommands : uint8_t
     GET_VOLTAGE = 0x0F,
     GET_CURRENT_UTILIZATION = 0x47,
     GET_ECC_ERROR_COUNTS = 0x7D,
+    GET_LEAK_DETECTION_INFO = 0x17,
 };
 
 enum class NetworkPortCommands : uint8_t
@@ -167,6 +168,8 @@ struct QueryDeviceIdentificationRequest
 {
     ocp::accelerator_management::CommonRequest hdr;
 } __attribute__((packed));
+
+using GetLeakDetectionInfoRequest = QueryDeviceIdentificationRequest;
 
 struct QueryDeviceIdentificationResponse
 {
@@ -425,6 +428,7 @@ int decodeGetEthernetPortTelemetryCountersResponse(
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     std::vector<std::pair<uint8_t, uint64_t>>& telemetryValues);
 
+<<<<<<< HEAD
 int encodeGetEccErrorCountsRequest(uint8_t instanceId, std::span<uint8_t> buf);
 
 int decodeGetEccErrorCountsResponse(
@@ -434,4 +438,21 @@ int decodeGetEccErrorCountsResponse(
     uint32_t& sramUncorrectedParity, uint32_t& dramCorrected,
     uint32_t& dramUncorrected);
 
+=======
+int encodeGetLeakDetectionInfoRequest(uint8_t instanceId,
+                                      std::span<uint8_t> buf);
+
+struct LeakSensorData
+{
+    uint8_t sensorId;
+    uint8_t leakState;
+    std::vector<uint16_t> thresholds;
+    uint16_t adcReadingMv;
+};
+
+int decodeGetLeakDetectionInfoResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    std::vector<LeakSensorData>& parsedSensors);
+>>>>>>> 22d21c4 (TODO: nvidia-gpu: add leak sensors)
 } // namespace gpu

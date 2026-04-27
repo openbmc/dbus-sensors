@@ -7,6 +7,7 @@
 
 #include "NvidiaDeviceDiscovery.hpp"
 #include "NvidiaGpuSensor.hpp"
+#include "NvidiaSmaLeakSensor.hpp"
 #include "Thresholds.hpp"
 #include "Utils.hpp"
 
@@ -44,8 +45,8 @@ void SmaDevice::init()
 
 void SmaDevice::makeSensors()
 {
-    tempSensor = std::make_shared<NvidiaGpuTempSensor>(
-        conn, mctpRequester, name + "_TEMP_0", path, eid, smaTempSensorId,
+    leakSensor = std::make_shared<NvidiaSmaLeakSensor>(
+        conn, mctpRequester, name + "_LEAKDETECTOR_0", path, eid, smaLeakSensorId,
         objectServer, std::vector<thresholds::Threshold>{},
         gpu::DeviceIdentification::DEVICE_SMA);
 
@@ -57,7 +58,7 @@ void SmaDevice::makeSensors()
 
 void SmaDevice::read()
 {
-    tempSensor->update();
+    leakSensor->update();
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait(
