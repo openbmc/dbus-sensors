@@ -91,6 +91,23 @@
       },
       "revId": "35d00034b772056d4bb880a1c078e0286d1d7e44",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8093e461_06c209b1",
+        "filename": "src/tests/test_NvidiaGpuSensorTest.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-04-27T03:41:56Z",
+      "side": 1,
+      "message": "It seems that it was not used. Could we drop this include? Thanks",
+      "revId": "35d00034b772056d4bb880a1c078e0286d1d7e44",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
