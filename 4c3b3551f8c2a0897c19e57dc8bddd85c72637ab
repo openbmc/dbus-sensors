@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c027dde8_747a9484",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-04-27T07:21:16Z",
+      "side": 1,
+      "message": "Can you elaborate on the sequence of events that yield a leak? `MCTPDDevice` drops its reference to the endpoint on the endpoint\u0027s `InterfacesRemoved` event from `mctpd` (breaking the cycle). `mctpd` the interface will be removed either because `.Remove` was called, or as a consequence of `.Recover` failing.\n\nHowever, there\u0027s also the possibility that `mctpd` stops or crashes. That looks to lead to a `NameOwnerChanged` event _but not_ an `InterfacesRemoved` event, might cause some trouble. Are you observing that? Or something else?",
+      "revId": "4c3b3551f8c2a0897c19e57dc8bddd85c72637ab",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dddd1dad_b0074ae6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
