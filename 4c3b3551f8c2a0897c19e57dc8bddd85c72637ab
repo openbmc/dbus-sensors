@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "277fea85_6aaa8d22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-04-28T01:40:56Z",
+      "side": 1,
+      "message": "The concern that I have with that test is it fails to uphold the design intent that the endpoint lifecycle should be complete (i.e. the device\u0027s `endpoint` member should be in the reset state) before the device instance is terminated. Possibly we\u0027re missing a `remove()` call from the reactor\u0027s device state machine, but I haven\u0027t yet found that to be the case.\n\nWhat reactor state is the device in when the EM config is removed?\n\nYour commit message says \"This resolves potential memory leaks\". Is the change a consequence of your test case there, or did you observe the leak in practice? If the latter, can you provide logs?",
+      "parentUuid": "9215499e_b7c5788f",
+      "revId": "4c3b3551f8c2a0897c19e57dc8bddd85c72637ab",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dddd1dad_b0074ae6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
