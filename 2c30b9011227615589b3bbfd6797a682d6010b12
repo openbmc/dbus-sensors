@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f6268067_cf904b28",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-04-28T05:42:35Z",
+      "side": 1,
+      "message": "Master already has the LONG_RUNNING_RESPONSE event registration from 88160.\nAfter rebasing, will this patch combine both EventDescriptors into a single initializer_list, like the following?\n```\n  eventReporting \u003d std::make_shared\u003cNvidiaEventReportingConfig\u003e(\n      eid, mctpRequester,\n      std::initializer_list\u003cEventDescriptor\u003e{\n          {gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY,\n           static_cast\u003cuint8_t\u003e(\n               gpu::DeviceCapabilityDiscoveryEvents::LONG_RUNNING_RESPONSE),\n           std::bind_front(\u0026NvidiaLongRunningResponseHandler::handler,\n                           longRunningHandler)},\n          {gpu::MessageType::PLATFORM_ENVIRONMENTAL,\n           static_cast\u003cuint8_t\u003e(gpu::PlatformEnvironmentalEvent::XID),\n           std::bind_front(\u0026NvidiaXidEventHandler::handleXidEvent,\n                           xidEventHandler)}});\n```\nbuildEventSourceMasks already handles multiple descriptors across different message types, so they should coexist.",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 146,
+        "endChar": 49
+      },
+      "revId": "2c30b9011227615589b3bbfd6797a682d6010b12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7964c489_93848a20",
         "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
         "patchSetId": 3
@@ -26,6 +49,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2475fb59_651800d9",
+        "filename": "src/nvidia-gpu/NvidiaGpuXid.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-04-28T05:42:35Z",
+      "side": 1,
+      "message": "NvidiaLongRunningResponseHandler validates eventInfo.eventClass before processing. \nShould XID events do the same?",
+      "range": {
+        "startLine": 40,
+        "startChar": 49,
+        "endLine": 40,
+        "endChar": 58
+      },
+      "revId": "2c30b9011227615589b3bbfd6797a682d6010b12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94777c3d_5d49aa16",
+        "filename": "src/nvidia-gpu/NvidiaGpuXid.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-04-28T05:42:35Z",
+      "side": 1,
+      "message": "nit: messageTextString points into the input buffer.\nConsider std::string instead.",
+      "range": {
+        "startLine": 47,
+        "startChar": 9,
+        "endLine": 47,
+        "endChar": 20
+      },
+      "revId": "2c30b9011227615589b3bbfd6797a682d6010b12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fe0de1cc_01ce4578",
         "filename": "src/nvidia-gpu/NvidiaGpuXid.cpp",
         "patchSetId": 3
@@ -42,6 +111,75 @@
         "startChar": 0,
         "endLine": 74,
         "endChar": 36
+      },
+      "revId": "2c30b9011227615589b3bbfd6797a682d6010b12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c49c1a6_84f6fec5",
+        "filename": "src/nvidia-gpu/NvidiaGpuXid.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-04-28T05:42:35Z",
+      "side": 1,
+      "message": "Should every XID event be logged as Critical (e.g., XID 13, XID 31)?",
+      "range": {
+        "startLine": 84,
+        "startChar": 49,
+        "endLine": 84,
+        "endChar": 57
+      },
+      "revId": "2c30b9011227615589b3bbfd6797a682d6010b12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66766e73_65d35fde",
+        "filename": "src/nvidia-gpu/NvidiaGpuXid.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-04-28T05:42:35Z",
+      "side": 1,
+      "message": "xyz.openbmc_project.Logging.Create is now deprecated:\nhttps://github.com/openbmc/phosphor-logging/blob/master/README.md#deprecated-methods-for-creating-event-logs\n\nThe preferred approach is to define the event in PDI YAML and use lg2::commit(EventClass(...)). This also avoids encoding metadata into the message string, which is discouraged by:\nhttps://github.com/openbmc/docs/blob/master/anti-patterns.md#ill-defined-data-structuring-in-lg2-message-strings\n\nIf we still want to use this API, could the XID number, sequence, etc. be passed via additionalData using REDFISH_MESSAGE_ID / REDFISH_MESSAGE_ARGS so bmcweb can map this to a Redfish event registry entry?",
+      "range": {
+        "startLine": 85,
+        "startChar": 8,
+        "endLine": 85,
+        "endChar": 44
+      },
+      "revId": "2c30b9011227615589b3bbfd6797a682d6010b12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ac75a26_91dca354",
+        "filename": "src/tests/test_NvidiaGpuSensorTest.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 3130,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-04-28T05:42:35Z",
+      "side": 1,
+      "message": "nit: After Eric\u0027s suggestion on the magic 3 in decodeXidEvent is applied, this 20 should be derived from the same named constants in NvidiaGpuMctpVdm (e.g., sum of the field sizes), or share a single xidEventHeaderSize constant.",
+      "range": {
+        "startLine": 3130,
+        "startChar": 4,
+        "endLine": 3130,
+        "endChar": 50
       },
       "revId": "2c30b9011227615589b3bbfd6797a682d6010b12",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
