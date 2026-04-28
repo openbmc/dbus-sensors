@@ -77,6 +77,13 @@ void PcieDevice::init()
             "EID", eid);
     }
 
+    const std::string nicDeviceName = name + "_NIC";
+    const std::string& nicInventoryPath = networkAdapterPath;
+
+    nicResetControl = std::make_shared<NvidiaSwitchResetControl>(
+        objectServer, mctpRequester, nicDeviceName, nicInventoryPath, eid);
+    nicResetControl->init();
+
     getPciePortCounts();
 
     for (uint64_t k = 0; k < configs.nicNetworkPortCount; ++k)
