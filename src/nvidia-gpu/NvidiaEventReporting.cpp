@@ -34,6 +34,14 @@ static std::array<uint64_t, messageTypeCount> buildEventSourceMasks(
             continue;
         }
 
+        if (event.eventCode >= 64)
+        {
+            lg2::error(
+                "Event code {CODE} exceeds 64-bit mask capacity, skipping",
+                "CODE", event.eventCode);
+            continue;
+        }
+
         masks[idx] |= (1ULL << event.eventCode);
     }
 
@@ -161,6 +169,8 @@ void NvidiaEventReportingConfig::handleSetupEvents(
     {
         lg2::error("failed to set up events for eid {EID}: {MSG}", "EID", eid,
                    "MSG", ec.message());
+        currentMessageTypeIdx++;
+        sendNextEventSource();
         return;
     }
 
@@ -173,6 +183,8 @@ void NvidiaEventReportingConfig::handleSetupEvents(
         lg2::error("failed to set event sources on eid {EID}: "
                    "rc={RC}, cc={CC}, reasonCode={RESC}",
                    "EID", eid, "RC", rc, "CC", cc, "RESC", reasonCode);
+        currentMessageTypeIdx++;
+        sendNextEventSource();
         return;
     }
 
