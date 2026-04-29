@@ -365,6 +365,8 @@ void Inventory::handleInventoryPropertyResponse(
                     {
                         lg2::error("Retry timer error for {NAME}: {ERROR}",
                                    "NAME", self->name, "ERROR", ec.message());
+                        // Continue processing to avoid getting stuck
+                        self->processNextProperty();
                         return;
                     }
                     self->processNextProperty();
