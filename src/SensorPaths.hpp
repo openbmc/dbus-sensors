@@ -2,6 +2,7 @@
 
 #include <array>
 #include <string>
+#include <string_view>
 
 namespace sensor_paths
 {

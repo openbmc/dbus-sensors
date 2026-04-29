@@ -5,8 +5,6 @@
 
 #include "NvidiaGpuCurrentUtilization.hpp"
 
-#include <bits/basic_string.h>
-
 #include <MctpRequester.hpp>
 #include <MessagePackUnpackUtils.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
@@ -48,7 +46,7 @@ NvidiaGpuCurrentUtilization::NvidiaGpuCurrentUtilization(
         metricObjectPath, "xyz.openbmc_project.Metric.Value");
 
     metricInterface->register_property(
-        "Unit", "xyz.openbmc_project.Metric.Value.Unit.Percent"s);
+        "Unit", std::string("xyz.openbmc_project.Metric.Value.Unit.Percent"));
     metricInterface->register_property("Value", 0.0);
 
     std::vector<Association> associations;

@@ -8,8 +8,6 @@
 #include "NvidiaUtils.hpp"
 #include "Utils.hpp"
 
-#include <bits/basic_string.h>
-
 #include <MctpRequester.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
 #include <NvidiaPcieDevice.hpp>
@@ -94,7 +92,7 @@ NvidiaEthPortMetrics::NvidiaEthPortMetrics(
                                        "xyz.openbmc_project.Metric.Value");
 
         metricValueInterface[tag]->register_property(
-            "Unit", "xyz.openbmc_project.Metric.Value.Unit.Count"s);
+            "Unit", std::string("xyz.openbmc_project.Metric.Value.Unit.Count"));
         metricValueInterface[tag]->register_property("Value", 0.0);
 
         std::vector<Association> associations;

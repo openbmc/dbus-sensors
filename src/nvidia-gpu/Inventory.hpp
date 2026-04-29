@@ -13,7 +13,9 @@
 #include <cstdint>
 #include <memory>
 #include <optional>
+#include <span>
 #include <string>
+#include <system_error>
 #include <unordered_map>
 
 constexpr const char* inventoryPrefix = "/xyz/openbmc_project/inventory/";

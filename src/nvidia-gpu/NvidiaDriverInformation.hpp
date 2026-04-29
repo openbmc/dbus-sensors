@@ -14,7 +14,9 @@
 #include <array>
 #include <cstdint>
 #include <memory>
+#include <span>
 #include <string>
+#include <system_error>
 
 struct NvidiaDriverInformation :
     public std::enable_shared_from_this<NvidiaDriverInformation>
