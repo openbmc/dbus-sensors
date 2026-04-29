@@ -10,7 +10,6 @@
 
 #include <endian.h>
 
-#include <bit>
 #include <cerrno>
 #include <cstddef>
 #include <cstdint>
@@ -511,7 +510,7 @@ int decodeGetCurrentEnergyCounterResponse(
         return rc;
     }
 
-    if (buf.size() < sizeof(GetPowerDrawResponse))
+    if (buf.size() < sizeof(GetCurrentEnergyCounterResponse))
     {
         return EINVAL;
     }
@@ -526,7 +525,7 @@ int decodeGetCurrentEnergyCounterResponse(
         return EINVAL;
     }
 
-    energy = le32toh(response->energy);
+    energy = le64toh(response->energy);
 
     return 0;
 }
@@ -1088,7 +1087,7 @@ int encodeGetPortNetworkAddressesRequest(
         return EINVAL;
     }
 
-    auto* msg = std::bit_cast<GetPortNetworkAddressesRequest*>(buf.data());
+    auto* msg = reinterpret_cast<GetPortNetworkAddressesRequest*>(buf.data());
 
     ocp::accelerator_management::BindingPciVidInfo header{};
     header.ocp_accelerator_management_msg_type =
@@ -1107,7 +1106,7 @@ int encodeGetPortNetworkAddressesRequest(
     msg->hdr.command =
         static_cast<uint8_t>(NetworkPortCommands::GetPortNetworkAddresses);
     msg->hdr.data_size = sizeof(portNumber);
-    msg->portNumber = le16toh(portNumber);
+    msg->portNumber = htole16(portNumber);
 
     return 0;
 }
@@ -1153,7 +1152,7 @@ int encodeGetEthernetPortTelemetryCountersRequest(
     }
 
     auto* msg =
-        std::bit_cast<GetEthernetPortTelemetryCountersRequest*>(buf.data());
+        reinterpret_cast<GetEthernetPortTelemetryCountersRequest*>(buf.data());
 
     ocp::accelerator_management::BindingPciVidInfo header{};
     header.ocp_accelerator_management_msg_type =
@@ -1172,7 +1171,7 @@ int encodeGetEthernetPortTelemetryCountersRequest(
     msg->hdr.command = static_cast<uint8_t>(
         NetworkPortCommands::GetEthernetPortTelemetryCounters);
     msg->hdr.data_size = sizeof(portNumber);
-    msg->portNumber = le16toh(portNumber);
+    msg->portNumber = htole16(portNumber);
 
     return 0;
 }
