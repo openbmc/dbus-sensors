@@ -84,6 +84,8 @@ NvidiaGpuEnergySensor::NvidiaGpuEnergySensor(
             lg2::error(
                 "Error initializing PhysicalContext Interface for Energy Sensor for eid {EID} and sensor id {SID}",
                 "EID", eid, "SID", sensorId);
+            objectServer.remove_interface(commonPhysicalContextInterface);
+            commonPhysicalContextInterface = nullptr;
         }
     }
 }
