@@ -14,7 +14,7 @@ struct MctpAsioEndpoint
     MctpAsioEndpoint(uint8_t eid, uint8_t msgType);
 
     // usable for binding to any eid and a given msgType
-    MctpAsioEndpoint(uint8_t msgType);
+    explicit MctpAsioEndpoint(uint8_t msgType);
 
     MctpAsioEndpoint() = default;
     MctpAsioEndpoint(const MctpAsioEndpoint&) = delete;

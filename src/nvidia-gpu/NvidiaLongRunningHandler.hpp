@@ -16,13 +16,13 @@
 
 class NvidiaLongRunningResponseHandler
 {
+    static constexpr uint8_t longRunningResponseEventClass = 128;
+
+  public:
     using ResponseHandler = std::function<void(
         ocp::accelerator_management::CompletionCode /*cc*/,
         uint16_t /*reasonCode*/, std::span<const uint8_t> /*buffer*/)>;
 
-    static constexpr uint8_t longRunningResponseEventClass = 128;
-
-  public:
     int registerResponseHandler(gpu::MessageType messageType,
                                 uint8_t commandCode,
                                 const ResponseHandler& handler);

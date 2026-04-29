@@ -15,7 +15,7 @@
 class PackBuffer
 {
   public:
-    PackBuffer(std::span<uint8_t> buffer) : buffer(buffer) {}
+    explicit PackBuffer(std::span<uint8_t> buffer) : buffer(buffer) {}
 
     template <typename T>
     int pack(T data)
@@ -34,7 +34,7 @@ class PackBuffer
 class UnpackBuffer
 {
   public:
-    UnpackBuffer(std::span<const uint8_t> buffer) : buffer(buffer) {}
+    explicit UnpackBuffer(std::span<const uint8_t> buffer) : buffer(buffer) {}
 
     template <typename T>
     int unpack(T& data)
