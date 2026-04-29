@@ -511,7 +511,7 @@ int decodeGetCurrentEnergyCounterResponse(
         return rc;
     }
 
-    if (buf.size() < sizeof(GetPowerDrawResponse))
+    if (buf.size() < sizeof(GetCurrentEnergyCounterResponse))
     {
         return EINVAL;
     }
@@ -526,7 +526,7 @@ int decodeGetCurrentEnergyCounterResponse(
         return EINVAL;
     }
 
-    energy = le32toh(response->energy);
+    energy = le64toh(response->energy);
 
     return 0;
 }
@@ -1107,7 +1107,7 @@ int encodeGetPortNetworkAddressesRequest(
     msg->hdr.command =
         static_cast<uint8_t>(NetworkPortCommands::GetPortNetworkAddresses);
     msg->hdr.data_size = sizeof(portNumber);
-    msg->portNumber = le16toh(portNumber);
+    msg->portNumber = htole16(portNumber);
 
     return 0;
 }
@@ -1172,7 +1172,7 @@ int encodeGetEthernetPortTelemetryCountersRequest(
     msg->hdr.command = static_cast<uint8_t>(
         NetworkPortCommands::GetEthernetPortTelemetryCounters);
     msg->hdr.data_size = sizeof(portNumber);
-    msg->portNumber = le16toh(portNumber);
+    msg->portNumber = htole16(portNumber);
 
     return 0;
 }
