@@ -228,7 +228,9 @@ RedundancySensor::RedundancySensor(size_t count,
         association::interface)),
     objectServer(objectServer)
 {
-    createAssociation(association, sensorConfiguration);
+    createAssociation(
+        association,
+        std::filesystem::path(sensorConfiguration).parent_path().string());
     iface->register_property("Collection", children);
     iface->register_property("Status", std::string("Full"));
     iface->register_property("AllowedFailures", static_cast<uint8_t>(count));

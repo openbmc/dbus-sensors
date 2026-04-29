@@ -266,39 +266,9 @@ struct Sensor
         return 1;
     }
 
-    void setInitialProperties(const std::string_view unit,
-                              const std::string& label = std::string(),
-                              size_t thresholdSize = 0,
-                              const std::string& inventoryPath = std::string())
+    void initializeThresholds(const std::string& label = std::string(),
+                              size_t thresholdSize = 0)
     {
-        if (readState == PowerState::on || readState == PowerState::biosPost ||
-            readState == PowerState::chassisOn)
-        {
-            setupPowerMatch(dbusConnection);
-        }
-
-        if (!inventoryPath.empty())
-        {
-            setInventoryAssociation(association, inventoryPath,
-                                    std::filesystem::path(configurationPath)
-                                        .parent_path()
-                                        .string());
-        }
-        else
-        {
-            createAssociation(association, configurationPath);
-        }
-
-        sensorInterface->register_property("Unit", std::string(unit));
-        sensorInterface->register_property("MaxValue", maxValue);
-        sensorInterface->register_property("MinValue", minValue);
-        sensorInterface->register_property(
-            "Value", value, [this](const double& newValue, double& oldValue) {
-                return setSensorValue(newValue, oldValue);
-            });
-
-        fillMissingThresholds();
-
         for (auto& threshold : thresholds)
         {
             if (std::isnan(threshold.hysteresis))
@@ -362,7 +332,10 @@ struct Sensor
                 }
             }
         }
+    }
 
+    void initializeValueMutabilityInterface()
+    {
         if (isValueMutable)
         {
             valueMutabilityInterface =
@@ -377,7 +350,10 @@ struct Sensor
                 valueMutabilityInterface = nullptr;
             }
         }
+    }
 
+    void initializeAvailableInterface()
+    {
         if (!availableInterface)
         {
             availableInterface =
@@ -399,6 +375,10 @@ struct Sensor
                 });
             availableInterface->initialize();
         }
+    }
+
+    void initializeOperationalInterface()
+    {
         if (!operationalInterface)
         {
             operationalInterface =
@@ -408,6 +388,37 @@ struct Sensor
             operationalInterface->register_property("Functional", true);
             operationalInterface->initialize();
         }
+    }
+
+    void setInitialProperties(const std::string_view unit,
+                              const std::string& label = std::string(),
+                              size_t thresholdSize = 0,
+                              const std::string& inventoryPath = std::string())
+    {
+        if (readState == PowerState::on || readState == PowerState::biosPost ||
+            readState == PowerState::chassisOn)
+        {
+            setupPowerMatch(dbusConnection);
+        }
+
+        createAssociation(
+            association,
+            std::filesystem::path(configurationPath).parent_path().string(),
+            inventoryPath);
+
+        sensorInterface->register_property("Unit", std::string(unit));
+        sensorInterface->register_property("MaxValue", maxValue);
+        sensorInterface->register_property("MinValue", minValue);
+        sensorInterface->register_property(
+            "Value", value, [this](const double& newValue, double& oldValue) {
+                return setSensorValue(newValue, oldValue);
+            });
+
+        fillMissingThresholds();
+        initializeThresholds(label, thresholdSize);
+        initializeValueMutabilityInterface();
+        initializeAvailableInterface();
+        initializeOperationalInterface();
     }
 
     static std::string propertyLevel(const Level lev, const Direction dir)

@@ -93,12 +93,9 @@ bool getSensorConfiguration(
     ManagedObjectType& resp, bool useCache);
 
 void createAssociation(
-    std::shared_ptr<sdbusplus::asio::dbus_interface>& association,
-    const std::string& path);
-
-void setInventoryAssociation(
     const std::weak_ptr<sdbusplus::asio::dbus_interface>& weakRef,
-    const std::string& inventoryPath, const std::string& chassisPath);
+    const std::string& chassisPath,
+    const std::string& inventoryPath = std::string());
 
 // replaces limits if MinReading and MaxReading are found.
 void findLimits(std::pair<double, double>& limits,

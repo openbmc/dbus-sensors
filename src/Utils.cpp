@@ -603,24 +603,8 @@ void findLimits(std::pair<double, double>& limits,
 }
 
 void createAssociation(
-    std::shared_ptr<sdbusplus::asio::dbus_interface>& association,
-    const std::string& path)
-{
-    if (association)
-    {
-        std::filesystem::path p(path);
-
-        std::vector<Association> associations;
-        associations.emplace_back("chassis", "all_sensors",
-                                  p.parent_path().string());
-        association->register_property("Associations", associations);
-        association->initialize();
-    }
-}
-
-void setInventoryAssociation(
     const std::weak_ptr<sdbusplus::asio::dbus_interface>& weakRef,
-    const std::string& inventoryPath, const std::string& chassisPath)
+    const std::string& chassisPath, const std::string& inventoryPath)
 {
     auto association = weakRef.lock();
     if (!association)
@@ -629,9 +613,11 @@ void setInventoryAssociation(
     }
 
     std::vector<Association> associations;
-    associations.emplace_back("inventory", "sensors", inventoryPath);
     associations.emplace_back("chassis", "all_sensors", chassisPath);
-
+    if (!inventoryPath.empty())
+    {
+        associations.emplace_back("inventory", "sensors", inventoryPath);
+    }
     association->register_property("Associations", associations);
     association->initialize();
 }
@@ -694,12 +680,13 @@ void createInventoryAssoc(
             {
                 // In case of error, set the default associations and
                 // initialize the association Interface.
-                setInventoryAssociation(weakRef, parent, parent);
+                createAssociation(weakRef, parent, parent);
                 return;
             }
-            setInventoryAssociation(
-                weakRef, parent,
-                findContainingChassis(parent, subtree).value_or(parent));
+            createAssociation(
+                weakRef,
+                findContainingChassis(parent, subtree).value_or(parent),
+                parent);
         },
         mapper::busName, mapper::path, mapper::interface, "GetSubTree",
         "/xyz/openbmc_project/inventory/system", 2, allInterfaces);
