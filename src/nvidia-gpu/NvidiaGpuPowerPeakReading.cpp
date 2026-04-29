@@ -8,8 +8,6 @@
 #include "MctpRequester.hpp"
 #include "Utils.hpp"
 
-#include <bits/basic_string.h>
-
 #include <NvidiaDeviceDiscovery.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
 #include <OcpMctpVdm.hpp>
@@ -34,7 +32,8 @@ NvidiaGpuPowerPeakReading::NvidiaGpuPowerPeakReading(
     eid(eid), sensorId{sensorId}, mctpRequester(mctpRequester),
     objectServer(objectServer)
 {
-    std::string dbusPath = sensorPathPrefix + "power/"s + escapeName(name);
+    std::string dbusPath =
+        sensorPathPrefix + std::string("power/") + escapeName(name);
 
     telemetryReportInterface = objectServer.add_interface(
         dbusPath, "xyz.openbmc_project.Telemetry.Report");

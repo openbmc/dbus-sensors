@@ -7,8 +7,6 @@
 
 #include "Utils.hpp"
 
-#include <bits/basic_string.h>
-
 #include <MctpRequester.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
 #include <NvidiaPcieDevice.hpp>

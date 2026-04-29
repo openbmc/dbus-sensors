@@ -10,22 +10,18 @@
 #include <boost/asio/generic/datagram_protocol.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/steady_timer.hpp>
-#include <boost/circular_buffer.hpp>
 #include <boost/container/devector.hpp>
-#include <boost/container/flat_map.hpp>
-#include <boost/container/small_vector.hpp>
 
+#include <array>
 #include <cstddef>
 #include <cstdint>
-#include <expected>
 #include <functional>
-#include <iostream>
-#include <memory>
-#include <queue>
+#include <optional>
 #include <span>
 #include <system_error>
 #include <unordered_map>
 #include <utility>
+#include <vector>
 
 namespace mctp
 {

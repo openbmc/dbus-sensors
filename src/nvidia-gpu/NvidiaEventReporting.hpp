@@ -6,12 +6,16 @@
 #include <boost/container_hash/hash.hpp>
 
 #include <array>
+#include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <initializer_list>
 #include <memory>
 #include <span>
+#include <system_error>
 #include <tuple>
 #include <unordered_map>
+#include <vector>
 
 struct EventInfo
 {

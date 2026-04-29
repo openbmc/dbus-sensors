@@ -12,8 +12,6 @@
 #include "Utils.hpp"
 #include "sensor.hpp"
 
-#include <bits/basic_string.h>
-
 #include <NvidiaDeviceDiscovery.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
 #include <OcpMctpVdm.hpp>
@@ -54,7 +52,8 @@ NvidiaGpuPowerSensor::NvidiaGpuPowerSensor(
     mctpRequester(mctpRequester), objectServer(objectServer)
 
 {
-    std::string dbusPath = sensorPathPrefix + "power/"s + escapeName(name);
+    std::string dbusPath =
+        sensorPathPrefix + std::string("power/") + escapeName(name);
 
     sensorInterface = objectServer.add_interface(
         dbusPath, "xyz.openbmc_project.Sensor.Value");
