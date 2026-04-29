@@ -212,7 +212,7 @@ void NvidiaGpuCurrentUtilization::processLongRunningResponse(
         return;
     }
 
-    if (responseData.size() < 8)
+    if (responseData.size() < sizeof(uint32_t))
     {
         lg2::error(
             "Error updating GPU Current Utilization: invalid long running response data size, "

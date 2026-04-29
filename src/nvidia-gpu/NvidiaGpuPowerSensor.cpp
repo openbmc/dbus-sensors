@@ -150,7 +150,7 @@ void NvidiaGpuPowerSensor::update()
     if (rc != 0)
     {
         lg2::error(
-            "Error updating Temperature Sensor for eid {EID} and sensor id {SID} : encode failed, rc={RC}",
+            "Error updating Power Sensor for eid {EID} and sensor id {SID} : encode failed, rc={RC}",
             "EID", eid, "SID", sensorId, "RC", rc);
     }
 

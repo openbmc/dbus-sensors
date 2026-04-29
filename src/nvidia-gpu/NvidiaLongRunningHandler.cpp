@@ -57,7 +57,7 @@ void NvidiaLongRunningResponseHandler::handler(
 
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode = 0;
-    uint8_t instanceId = 0;
+    [[maybe_unused]] uint8_t instanceId = 0;
     std::span<const uint8_t> responseData;
 
     const int rc = gpu::decodeLongRunningResponseEvent(

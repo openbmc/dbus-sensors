@@ -92,7 +92,7 @@ void NvidiaDriverInformation::processResponse(const std::error_code& ec,
         return;
     }
 
-    versionInterface->set_property("Version", driverVersion);
+    (void)versionInterface->set_property("Version", driverVersion);
 }
 
 void NvidiaDriverInformation::update()

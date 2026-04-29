@@ -405,7 +405,7 @@ void processSensorConfigs(
             try
             {
                 configs.nicNetworkPortCount =
-                    loadVariant<uint64_t>(cfg, "NicNetworkPortCount");
+                    loadVariant<uint16_t>(cfg, "NicNetworkPortCount");
             }
             catch (const std::invalid_argument&)
             {

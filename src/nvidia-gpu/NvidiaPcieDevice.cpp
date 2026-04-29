@@ -65,7 +65,7 @@ void PcieDevice::init()
     if (!networkAdapterInterface->initialize())
     {
         lg2::error(
-            "Failed to initialize network adapter interface for for eid {EID}",
+            "Failed to initialize network adapter interface for eid {EID}",
             "EID", eid);
     }
 
@@ -78,7 +78,7 @@ void PcieDevice::init()
 
     getPciePortCounts();
 
-    for (uint64_t k = 0; k < configs.nicNetworkPortCount; ++k)
+    for (uint16_t k = 0; k < configs.nicNetworkPortCount; ++k)
     {
         getNetworkPortAddresses(static_cast<uint16_t>(k + 1));
     }
