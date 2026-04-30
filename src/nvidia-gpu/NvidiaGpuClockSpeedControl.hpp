@@ -8,6 +8,7 @@
 #include "MctpRequester.hpp"
 
 #include <NvidiaGpuMctpVdm.hpp>
+#include <boost/asio/spawn.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
 #include <array>
@@ -34,6 +35,7 @@ class NvidiaGpuClockSpeedControl :
     void handleResponse(const std::error_code& ec,
                         std::span<const uint8_t> buffer);
 
+    void reset(const boost::asio::yield_context& yield);
     std::shared_ptr<sdbusplus::asio::dbus_interface> controlClockSpeedInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> associationInterface;
 

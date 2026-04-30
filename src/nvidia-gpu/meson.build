@@ -34,12 +34,14 @@ endif
 gpusensor_include_dir = include_directories('.', is_system: true)
 sensor_include_dir = include_directories('../..')
 
+boost_context_dep = dependency('boost', modules: ['context'])
+
 executable(
     'nvidiagpusensor',
     gpusensor_sources + files('NvidiaGpuSensorMain.cpp'),
     implicit_include_directories: false,
     include_directories: [gpusensor_include_dir, sensor_include_dir],
-    dependencies: [thresholds_dep, utils_dep, mctpasio_dep],
+    dependencies: [thresholds_dep, utils_dep, mctpasio_dep, boost_context_dep],
     install: true,
     install_dir: '/usr/libexec/dbus-sensors',
 )
