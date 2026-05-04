@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b1ff7d34_21c69155",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-05-04T20:11:54Z",
+      "side": 1,
+      "message": "We will never support boost::coroutines in this repo.  We never should\u0027ve supported them in sdbusplus in the first place.\n\nCertainly we will not be enabling them in nvidia-gpu, as they cause performance and maintenance issues.",
+      "revId": "cf7c959cc3ce1512ab52957fb6aa88ca8810b280",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "19d6fada_8a700735",
         "filename": "src/nvidia-gpu/MctpRequester.cpp",
         "patchSetId": 4
