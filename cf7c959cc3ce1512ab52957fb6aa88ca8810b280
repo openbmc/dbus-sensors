@@ -16,6 +16,40 @@
       "message": "coroutines in our testing reduced performance by up to 50%, a minimum of 30% please do not introduce coroutines here.",
       "revId": "cf7c959cc3ce1512ab52957fb6aa88ca8810b280",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19d6fada_8a700735",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2026-05-04T20:07:28Z",
+      "side": 1,
+      "message": "no, stackfull coroutines are broken. Do not do this. Stackless coroutine support severely pessimizes performance, due to all sorts of inneffecencies in the implementation. This was previously nonblocking without coroutines and without any allocations in the hotpath, please do not add overhead in the hotpath.",
+      "revId": "cf7c959cc3ce1512ab52957fb6aa88ca8810b280",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1a5f8c7_74dff9ed",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2026-05-04T20:07:28Z",
+      "side": 1,
+      "message": "you are forcing an alloc here where there wasn\u0027t before in the hotpath, don\u0027t alloc in the hotpath.",
+      "revId": "cf7c959cc3ce1512ab52957fb6aa88ca8810b280",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
