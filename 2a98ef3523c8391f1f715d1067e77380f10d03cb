@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90ee2281_f75951ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2026-05-04T20:30:49Z",
+      "side": 1,
+      "message": "test your code. device removal flows are checkable, please check that your code works.",
+      "revId": "2a98ef3523c8391f1f715d1067e77380f10d03cb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
