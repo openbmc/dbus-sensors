@@ -1303,6 +1303,109 @@ int decodeGetEthernetPortTelemetryCountersResponse(
     return rc;
 }
 
+int encodeGetLeakDetectionInfoRequest(uint8_t instanceId,
+                                      const std::span<uint8_t> buf)
+{
+    PackBuffer buffer(buf);
+
+    int rc = encodeRequestCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(
+            PlatformEnvironmentalCommands::GET_LEAK_DETECTION_INFO),
+        instanceId);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    const uint8_t dataSize = 0;
+    buffer.pack(dataSize);
+
+    return buffer.getError();
+}
+
+int decodeGetLeakDetectionInfoResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    std::vector<LeakSensorData>& parsedSensors)
+{
+    UnpackBuffer buffer(buf);
+
+    int rc = decodeResponseCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(
+            PlatformEnvironmentalCommands::GET_LEAK_DETECTION_INFO),
+        cc, reasonCode);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    uint16_t dataSize = 0;
+    rc = buffer.unpack(dataSize);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    parsedSensors.clear();
+
+    uint8_t numSensors = 0;
+    rc = buffer.unpack(numSensors);
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    uint8_t numThresholdLevels = 0;
+    rc = buffer.unpack(numThresholdLevels);
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    for (uint8_t i = 0; i < numSensors; ++i)
+    {
+        LeakSensorData sensor;
+
+        rc = buffer.unpack(sensor.sensorId);
+        if (rc != 0)
+            return rc;
+
+        rc = buffer.unpack(sensor.leakState);
+        if (rc != 0)
+            return rc;
+
+        for (uint8_t t = 0; t < numThresholdLevels; ++t)
+        {
+            uint16_t thresholdValue = 0;
+            rc = buffer.unpack(thresholdValue);
+            if (rc != 0)
+                return rc;
+
+            uint16_t thresholdData = le16toh(thresholdValue);
+
+            sensor.thresholds.push_back(thresholdData);
+        }
+
+        uint16_t adcReadingValue = 0;
+
+        rc = buffer.unpack(adcReadingValue);
+        if (rc != 0)
+            return rc;
+
+        sensor.adcReadingMv = le16toh(adcReadingValue);
+
+        parsedSensors.push_back(std::move(sensor));
+    }
+
+    return 0;
+}
+// NOLINTEND(cppcoreguidelines-pro-type-reinterpret-cast)
+
 int encodeGetEccErrorCountsRequest(uint8_t instanceId, std::span<uint8_t> buf)
 {
     PackBuffer buffer(buf);

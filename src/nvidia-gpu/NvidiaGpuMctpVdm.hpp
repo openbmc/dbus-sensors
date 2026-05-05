@@ -56,6 +56,7 @@ enum class PlatformEnvironmentalCommands : uint8_t
     GET_VOLTAGE = 0x0F,
     GET_CURRENT_UTILIZATION = 0x47,
     GET_ECC_ERROR_COUNTS = 0x7D,
+    GET_LEAK_DETECTION_INFO = 0x17,
 };
 
 enum class NetworkPortCommands : uint8_t
@@ -158,6 +159,14 @@ constexpr size_t maxInventoryDataSize = 256;
 
 constexpr size_t queryDeviceIdentificationRequestSize =
     ocp::accelerator_management::commonRequestSize;
+using GetLeakDetectionInfoRequest = QueryDeviceIdentificationRequest;
+
+struct QueryDeviceIdentificationResponse
+{
+    ocp::accelerator_management::CommonResponse hdr;
+    uint8_t device_identification;
+    uint8_t instance_id;
+} __attribute__((packed));
 
 constexpr size_t getNumericSensorReadingRequestSize =
     ocp::accelerator_management::commonRequestSize + 1;
@@ -364,5 +373,21 @@ int decodeGetEccErrorCountsResponse(
     uint16_t& flags, uint32_t& sramCorrected, uint32_t& sramUncorrectedSecded,
     uint32_t& sramUncorrectedParity, uint32_t& dramCorrected,
     uint32_t& dramUncorrected);
+
+int encodeGetLeakDetectionInfoRequest(uint8_t instanceId,
+                                      std::span<uint8_t> buf);
+
+struct LeakSensorData
+{
+    uint8_t sensorId;
+    uint8_t leakState;
+    std::vector<uint16_t> thresholds;
+    uint16_t adcReadingMv;
+};
+
+int decodeGetLeakDetectionInfoResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    std::vector<LeakSensorData>& parsedSensors);
 
 } // namespace gpu
