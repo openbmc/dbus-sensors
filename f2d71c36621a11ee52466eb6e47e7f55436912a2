@@ -203,6 +203,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e5c23ab4_aaa2bbf4",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-05-05T15:59:19Z",
+      "side": 1,
+      "message": "Even with that there is possibility of not reporting error, so better to not add the check.",
+      "parentUuid": "c05aca10_1b4779c9",
+      "range": {
+        "startLine": 494,
+        "startChar": 4,
+        "endLine": 494,
+        "endChar": 35
+      },
+      "revId": "f2d71c36621a11ee52466eb6e47e7f55436912a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2c6106f1_ee11d923",
         "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
         "patchSetId": 7
