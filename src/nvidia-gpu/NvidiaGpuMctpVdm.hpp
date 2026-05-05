@@ -61,6 +61,7 @@ enum class PlatformEnvironmentalCommands : uint8_t
     GET_VOLTAGE = 0x0F,
     SET_CLOCK_LIMIT = 0x10,
     GET_CLOCK_LIMIT = 0x11,
+    GET_LEAK_DETECTION_INFO = 0x17,
     GET_VIOLATION_DURATION = 0x45,
     GET_CURRENT_UTILIZATION = 0x47,
     GET_ECC_MODE = 0x4F,
@@ -208,6 +209,9 @@ constexpr size_t getSupportedMessageTypesRequestSize =
 
 constexpr size_t getSupportedCommandCodesRequestSize =
     ocp::accelerator_management::commonRequestSize + 1;
+
+constexpr size_t getLeakDetectionInfoRequestSize =
+    ocp::accelerator_management::commonRequestSize;
 
 constexpr size_t getNumericSensorReadingRequestSize =
     ocp::accelerator_management::commonRequestSize + 1;
@@ -544,5 +548,21 @@ int decodeGetEccModeResponse(std::span<const uint8_t> buf,
 int decodeGetEccModeResponse(std::span<const uint8_t> buf,
                              bool& currentEccModeEnabled,
                              bool& pendingEccModeEnabled);
+
+int encodeGetLeakDetectionInfoRequest(uint8_t instanceId,
+                                      std::span<uint8_t> buf);
+
+struct LeakSensorData
+{
+    uint8_t sensorId{};
+    uint8_t leakState{};
+    std::vector<uint16_t> thresholds;
+    uint16_t adcReadingMv{};
+};
+
+int decodeGetLeakDetectionInfoResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    std::vector<LeakSensorData>& parsedSensors);
 
 } // namespace gpu
