@@ -179,6 +179,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c05aca10_1b4779c9",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-05T14:27:02Z",
+      "side": 1,
+      "message": "would it make sense to validate receivedCommand is one of the two? Something like:\n```\n      if (receivedCommand !\u003d static_cast\u003cuint8_t\u003e(\n              PlatformEnvironmentalCommands::GET_CURRENT_POWER_DRAW) \u0026\u0026\n          receivedCommand !\u003d static_cast\u003cuint8_t\u003e(\n              PlatformEnvironmentalCommands::GET_MAX_OBSERVED_POWER))\n      {\n          return EINVAL;\n      }\n```",
+      "parentUuid": "93f7dd96_8e3847e2",
+      "range": {
+        "startLine": 494,
+        "startChar": 4,
+        "endLine": 494,
+        "endChar": 35
+      },
+      "revId": "f2d71c36621a11ee52466eb6e47e7f55436912a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2c6106f1_ee11d923",
         "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
         "patchSetId": 7
