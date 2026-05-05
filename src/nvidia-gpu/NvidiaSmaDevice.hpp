@@ -8,6 +8,7 @@
 #include "MctpRequester.hpp"
 #include "NvidiaGpuTempSensor.hpp"
 #include "NvidiaSensorConfig.hpp"
+#include "NvidiaSmaLeakSensor.hpp"
 
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/steady_timer.hpp>
@@ -54,6 +55,8 @@ class SmaDevice : public std::enable_shared_from_this<SmaDevice>
     sdbusplus::asio::object_server& objectServer;
 
     std::shared_ptr<NvidiaGpuTempSensor> tempSensor;
+
+    std::shared_ptr<NvidiaSmaLeakSensorCarrier> leakSensors;
 
     SensorConfigs configs;
 
