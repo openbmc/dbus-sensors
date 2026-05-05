@@ -4258,4 +4258,141 @@ TEST_F(GpuMctpVdmTests,
     EXPECT_NE(result, 0);
 }
 
+TEST_F(GpuMctpVdmTests, EncodeGetLeakDetectionInfoRequestSuccess)
+{
+    const uint8_t instanceId = 8;
+    std::vector<uint8_t> buf(256);
+
+    int result = gpu::encodeGetLeakDetectionInfoRequest(instanceId, buf);
+
+    EXPECT_EQ(result, 0);
+
+    UnpackBuffer ubuf(std::span<const uint8_t>(buf.data(), buf.size()));
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t unpackedInstanceId = 0;
+    uint8_t unpackedMsgType = 0;
+    EXPECT_EQ(ocp::accelerator_management::unpackHeader(
+                  ubuf, gpu::nvidiaPciVendorId, msgType, unpackedInstanceId,
+                  unpackedMsgType),
+              0);
+    EXPECT_EQ(msgType, ocp::accelerator_management::MessageType::REQUEST);
+    EXPECT_EQ(unpackedInstanceId,
+              instanceId & ocp::accelerator_management::instanceIdBitMask);
+    EXPECT_EQ(unpackedMsgType,
+              static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    uint8_t command = 0;
+    ubuf.unpack(command);
+    EXPECT_EQ(command,
+              static_cast<uint8_t>(
+                  gpu::PlatformEnvironmentalCommands::GET_LEAK_DETECTION_INFO));
+    uint8_t dataSize = 0;
+    ubuf.unpack(dataSize);
+    EXPECT_EQ(dataSize, 0);
+    EXPECT_EQ(ubuf.getError(), 0);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetLeakDetectionInfoResponseSuccess)
+{
+    std::vector<uint8_t> buf(128);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 3,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(gpu::PlatformEnvironmentalCommands::
+                                       GET_LEAK_DETECTION_INFO)); // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));   // CC
+    pbuf.pack(static_cast<uint16_t>(0));                          // reserved
+
+    // data_size = num_sensors (1) + num_threshold_levels (1) +
+    //             (sensor_id (1) + leak_state (1) + thresholds (2 * 2) +
+    //             adc_reading (2)) * 1 = 1 + 1 + 8 = 10
+    pbuf.pack(static_cast<uint16_t>(10)); // data_size
+    pbuf.pack(static_cast<uint8_t>(1));   // numSensors
+    pbuf.pack(static_cast<uint8_t>(2));   // numThresholdLevels
+
+    // Sensor 1
+    pbuf.pack(static_cast<uint8_t>(42));    // sensorId
+    pbuf.pack(static_cast<uint8_t>(1));     // leakState
+    pbuf.pack(static_cast<uint16_t>(1000)); // threshold 0
+    pbuf.pack(static_cast<uint16_t>(2000)); // threshold 1
+    pbuf.pack(static_cast<uint16_t>(1500)); // adcReadingMv
+
+    ASSERT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    std::vector<gpu::LeakSensorData> parsedSensors;
+
+    int result = gpu::decodeGetLeakDetectionInfoResponse(buf, cc, reasonCode,
+                                                         parsedSensors);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+    ASSERT_EQ(parsedSensors.size(), 1);
+    EXPECT_EQ(parsedSensors[0].sensorId, 42);
+    EXPECT_EQ(parsedSensors[0].leakState, 1);
+    ASSERT_EQ(parsedSensors[0].thresholds.size(), 2);
+    EXPECT_EQ(parsedSensors[0].thresholds[0], 1000);
+    EXPECT_EQ(parsedSensors[0].thresholds[1], 2000);
+    EXPECT_EQ(parsedSensors[0].adcReadingMv, 1500);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetLeakDetectionInfoResponseError)
+{
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 3,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(gpu::PlatformEnvironmentalCommands::
+                                       GET_LEAK_DETECTION_INFO)); // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERROR));     // CC
+    pbuf.pack(static_cast<uint16_t>(0x1234));                     // reason_code
+    ASSERT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    std::vector<gpu::LeakSensorData> parsedSensors;
+
+    int result = gpu::decodeGetLeakDetectionInfoResponse(buf, cc, reasonCode,
+                                                         parsedSensors);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERROR);
+    EXPECT_EQ(reasonCode, 0x1234);
+    EXPECT_TRUE(parsedSensors.empty());
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetLeakDetectionInfoResponseBufferTooSmall)
+{
+    std::vector<uint8_t> buf(11); // Enough for header, but not payload
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 3,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(gpu::PlatformEnvironmentalCommands::
+                                       GET_LEAK_DETECTION_INFO)); // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));   // CC
+    pbuf.pack(static_cast<uint16_t>(0));                          // reserved
+    pbuf.pack(static_cast<uint16_t>(10));                         // data_size
+
+    ASSERT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    std::vector<gpu::LeakSensorData> parsedSensors;
+
+    int result = gpu::decodeGetLeakDetectionInfoResponse(buf, cc, reasonCode,
+                                                         parsedSensors);
+
+    EXPECT_NE(result, 0); // Expect failure due to missing data
+}
+
 } // namespace gpu_mctp_tests
