@@ -7,6 +7,7 @@
 
 #include "NvidiaDeviceDiscovery.hpp"
 #include "NvidiaGpuSensor.hpp"
+#include "NvidiaSmaLeakSensor.hpp"
 #include "Thresholds.hpp"
 #include "Utils.hpp"
 
@@ -44,20 +45,37 @@ void SmaDevice::init()
 
 void SmaDevice::makeSensors()
 {
-    tempSensor = std::make_shared<NvidiaGpuTempSensor>(
-        conn, mctpRequester, name + "_TEMP_0", path, eid, smaTempSensorId,
-        objectServer, std::vector<thresholds::Threshold>{},
+    std::string mappedName = name; 
+    switch (eid) {
+        case 10: mappedName = "NVIDIA_VR_NVL72_0"; break;
+        case 20: mappedName = "NVIDIA_VR_NVL72_1"; break;
+        case 30: mappedName = "NVIDIA_VR_NVL72_IO_Board_0"; break;
+        case 40: mappedName = "NVIDIA_VR_NVL72_IO_Board_1"; break;
+        case 50: mappedName = "NVIDIA_VR_NVL72_IO_Board_2"; break;
+        case 60: mappedName = "NVIDIA_VR_NVL72_IO_Board_3"; break;
+        case 70: mappedName = "NVIDIA_VR_NVL72_Clover"; break;
+        default: 
+            mappedName = name;
+            break; 
+    }
+    leakSensor = std::make_shared<NvidiaSmaLeakSensor>(
+        conn, mctpRequester, mappedName + "_LEAKDETECTOR_0", path, eid, smaLeakSensorId,
+        objectServer, std::vector<thresholds::Threshold>{
+            thresholds::Threshold(thresholds::Level::CRITICAL, thresholds::Direction::HIGH, 1.815),
+            thresholds::Threshold(thresholds::Level::WARNING, thresholds::Direction::LOW, 1.65),
+            thresholds::Threshold(thresholds::Level::CRITICAL, thresholds::Direction::LOW, 0.165)
+        },
         gpu::DeviceIdentification::DEVICE_SMA);
 
     lg2::info("Added MCA {NAME} Sensors with chassis path: {PATH}.", "NAME",
-              name, "PATH", path);
+            name, "PATH", path);
 
     read();
 }
 
 void SmaDevice::read()
 {
-    tempSensor->update();
+    leakSensor->update();
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait(
