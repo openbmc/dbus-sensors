@@ -86,8 +86,7 @@ void processQueryDeviceIdResponse(
                 "EID", eid, "DEVTYPE", responseDeviceType, "IID",
                 responseInstanceId);
 
-            const std::string gpuName =
-                std::format("{}_{}", configs.name, responseInstanceId);
+            const std::string gpuName = std::format("Nvidia_GPU_{}", eid);
 
             std::shared_ptr<GpuDevice>& gpu = gpuDevices[gpuName];
 
@@ -116,8 +115,7 @@ void processQueryDeviceIdResponse(
                 "EID", eid, "DEVTYPE", responseDeviceType, "IID",
                 responseInstanceId);
 
-            const std::string smaName =
-                std::format("{}_SMA_{}", configs.name, responseInstanceId);
+            const std::string smaName = std::format("Nvidia_SMA_{}", eid);
 
             std::shared_ptr<SmaDevice>& sma = smaDevices[smaName];
 
@@ -146,8 +144,7 @@ void processQueryDeviceIdResponse(
                 "EID", eid, "DEVTYPE", responseDeviceType, "IID",
                 responseInstanceId);
 
-            const std::string pcieName =
-                std::format("Nvidia_ConnectX_{}", responseInstanceId);
+            const std::string pcieName = std::format("Nvidia_ConnectX_{}", eid);
 
             std::shared_ptr<PcieDevice>& pcie = pcieDevices[pcieName];
 
