@@ -1,6 +1,7 @@
 #include "Utils.hpp"
 
 #include <phosphor-logging/lg2.hpp>
+#include <sdbusplus/message/native_types.hpp>
 
 #include <array>
 #include <cstddef>
@@ -244,4 +245,43 @@ TEST(GetDeviceBusAddrTest, AllValid)
     EXPECT_TRUE(ret);
     EXPECT_EQ(bus, 12U);
     EXPECT_EQ(addr, 0xafU);
+}
+
+TEST(BuildAssociationsTest, InventoryPathOmitted)
+{
+    auto associations = buildAssociations(sdbusplus::object_path(
+        "/xyz/openbmc_project/inventory/system/board/b"));
+
+    ASSERT_EQ(associations.size(), 1U);
+    EXPECT_EQ(associations[0],
+              Association("chassis", "all_sensors",
+                          "/xyz/openbmc_project/inventory/system/board/b"));
+}
+
+TEST(BuildAssociationsTest, InventoryPathProvided)
+{
+    auto associations = buildAssociations(
+        sdbusplus::object_path("/xyz/openbmc_project/inventory/system/board/b"),
+        sdbusplus::object_path(
+            "/xyz/openbmc_project/inventory/system/board/b/dev"));
+
+    ASSERT_EQ(associations.size(), 2U);
+    EXPECT_EQ(associations[0],
+              Association("inventory", "sensors",
+                          "/xyz/openbmc_project/inventory/system/board/b/dev"));
+    EXPECT_EQ(associations[1],
+              Association("chassis", "all_sensors",
+                          "/xyz/openbmc_project/inventory/system/board/b"));
+}
+
+TEST(BuildAssociationsTest, InventoryPathEmpty)
+{
+    auto associations = buildAssociations(
+        sdbusplus::object_path("/xyz/openbmc_project/inventory/system/board/b"),
+        sdbusplus::object_path(""));
+
+    ASSERT_EQ(associations.size(), 1U);
+    EXPECT_EQ(associations[0],
+              Association("chassis", "all_sensors",
+                          "/xyz/openbmc_project/inventory/system/board/b"));
 }
