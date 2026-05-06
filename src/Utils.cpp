@@ -602,26 +602,23 @@ void findLimits(std::pair<double, double>& limits,
     }
 }
 
-void createAssociation(
-    std::shared_ptr<sdbusplus::asio::dbus_interface>& association,
-    const std::string& path)
+std::vector<Association> buildAssociations(
+    const sdbusplus::object_path& chassisPath,
+    const std::optional<sdbusplus::object_path>& inventoryPath)
 {
-    if (association)
+    std::vector<Association> associations;
+    if (inventoryPath.has_value() && !inventoryPath->string().empty())
     {
-        std::filesystem::path p(path);
-
-        std::vector<Association> associations;
-        associations.emplace_back("chassis", "all_sensors",
-                                  p.parent_path().string());
-        association->register_property("Associations", associations);
-        association->initialize();
+        associations.emplace_back("inventory", "sensors", *inventoryPath);
     }
+    associations.emplace_back("chassis", "all_sensors", chassisPath);
+    return associations;
 }
 
-void setInventoryAssociation(
+void createAssociation(
     const std::weak_ptr<sdbusplus::asio::dbus_interface>& weakRef,
-    const sdbusplus::object_path& inventoryPath,
-    const sdbusplus::object_path& chassisPath)
+    const sdbusplus::object_path& chassisPath,
+    const std::optional<sdbusplus::object_path>& inventoryPath)
 {
     auto association = weakRef.lock();
     if (!association)
@@ -629,11 +626,8 @@ void setInventoryAssociation(
         return;
     }
 
-    std::vector<Association> associations;
-    associations.emplace_back("inventory", "sensors", inventoryPath);
-    associations.emplace_back("chassis", "all_sensors", chassisPath);
-
-    association->register_property("Associations", associations);
+    association->register_property(
+        "Associations", buildAssociations(chassisPath, inventoryPath));
     association->initialize();
 }
 
@@ -695,12 +689,13 @@ void createInventoryAssoc(
             {
                 // In case of error, set the default associations and
                 // initialize the association Interface.
-                setInventoryAssociation(weakRef, parent, parent);
+                createAssociation(weakRef, parent, std::make_optional(parent));
                 return;
             }
-            setInventoryAssociation(
-                weakRef, parent,
-                findContainingChassis(parent, subtree).value_or(parent));
+            createAssociation(
+                weakRef,
+                findContainingChassis(parent, subtree).value_or(parent),
+                std::make_optional(parent));
         },
         mapper::busName, mapper::path, mapper::interface, "GetSubTree",
         "/xyz/openbmc_project/inventory/system", 2, allInterfaces);
