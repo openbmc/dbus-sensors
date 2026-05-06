@@ -86,8 +86,7 @@ void processQueryDeviceIdResponse(
                 "EID", eid, "DEVTYPE", responseDeviceType, "IID",
                 responseInstanceId);
 
-            const std::string gpuName =
-                std::format("{}_{}", configs.name, responseInstanceId);
+            const std::string gpuName = std::format("GPU_{}", eid);
 
             std::shared_ptr<GpuDevice>& gpu = gpuDevices[gpuName];
 
@@ -116,8 +115,7 @@ void processQueryDeviceIdResponse(
                 "EID", eid, "DEVTYPE", responseDeviceType, "IID",
                 responseInstanceId);
 
-            const std::string smaName =
-                std::format("{}_SMA_{}", configs.name, responseInstanceId);
+            const std::string smaName = std::format("SMA_{}", eid);
 
             std::shared_ptr<SmaDevice>& sma = smaDevices[smaName];
 
