@@ -33,6 +33,24 @@
       "message": "Looks good, waiting for the nvl32-obmc platform patches required for testing.",
       "revId": "10cc7282bb99cdebaad2f9c5715944e95ad11978",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a62cc637_198061a1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-05-06T13:09:57Z",
+      "side": 1,
+      "message": "Thanks for review!\nHave the testing run on the new machine and update the required patches on commit message, too!",
+      "parentUuid": "60b5af00_55bcf5b6",
+      "revId": "10cc7282bb99cdebaad2f9c5715944e95ad11978",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
