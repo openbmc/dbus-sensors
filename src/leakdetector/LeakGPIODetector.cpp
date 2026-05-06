@@ -94,10 +94,10 @@ auto GPIODetector::updateGPIOStateAsync(bool gpioState)
                                  ? "deassert"
                                  : "assert";
 
-        for (const auto& [level, action_str, serviceSuffix] :
+        for (const auto& [level, actionStr, serviceSuffix] :
              config::leakActionTargets)
         {
-            if (config.level == level && action_str == action)
+            if (config.level == level && actionStr == action)
             {
                 auto target = std::string(serviceSuffix) + config.name +
                               ".service";
