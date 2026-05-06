@@ -20,6 +20,7 @@
 #include <cstdint>
 #include <limits>
 #include <memory>
+#include <optional>
 #include <string>
 #include <tuple>
 #include <utility>
@@ -51,6 +52,17 @@ Direction findThresholdDirection(const std::string& direct)
         return Direction::LOW;
     }
     return Direction::ERROR;
+}
+
+static std::optional<std::string> extractLogOnSecondHit(
+    const SensorBaseConfigMap& properties)
+{
+    auto findLogOnSecondHit = properties.find("LogOnSecondHit");
+    if (findLogOnSecondHit == properties.end())
+    {
+        return std::nullopt;
+    }
+    return std::visit(VariantToStringVisitor(), findLogOnSecondHit->second);
 }
 
 bool parseThresholdsFromConfig(
@@ -130,7 +142,15 @@ bool parseThresholdsFromConfig(
         }
         double val = std::visit(VariantToDoubleVisitor(), valueFind->second);
 
-        thresholdVector.emplace_back(level, direction, val, hysteresis);
+        bool logOnSecondHit = false;
+        std::optional<std::string> logOnSecondHitStr =
+            extractLogOnSecondHit(cfg);
+        if (logOnSecondHitStr)
+        {
+            logOnSecondHit = (*logOnSecondHitStr == "Required");
+        }
+        thresholdVector.emplace_back(level, direction, val, hysteresis,
+                                     logOnSecondHit);
     }
     return true;
 }
@@ -269,7 +289,14 @@ static std::vector<ChangeParam> checkThresholds(Sensor* sensor, double value)
         {
             if (value >= threshold.value)
             {
-                thresholdChanges.emplace_back(threshold, true, value);
+                if (!threshold.logOnSecondHit || threshold.assertPending)
+                {
+                    thresholdChanges.emplace_back(threshold, true, value);
+                }
+                else
+                {
+                    threshold.assertPending = true;
+                }
                 if (++cHiTrue < assertLogCount)
                 {
                     lg2::info(
@@ -281,11 +308,13 @@ static std::vector<ChangeParam> checkThresholds(Sensor* sensor, double value)
             }
             else if (value < (threshold.value - threshold.hysteresis))
             {
+                threshold.assertPending = false;
                 thresholdChanges.emplace_back(threshold, false, value);
                 ++cHiFalse;
             }
             else
             {
+                threshold.assertPending = false;
                 ++cHiMidstate;
             }
         }
@@ -293,7 +322,14 @@ static std::vector<ChangeParam> checkThresholds(Sensor* sensor, double value)
         {
             if (value <= threshold.value)
             {
-                thresholdChanges.emplace_back(threshold, true, value);
+                if (!threshold.logOnSecondHit || threshold.assertPending)
+                {
+                    thresholdChanges.emplace_back(threshold, true, value);
+                }
+                else
+                {
+                    threshold.assertPending = true;
+                }
                 if (++cLoTrue < assertLogCount)
                 {
                     lg2::info(
@@ -305,11 +341,13 @@ static std::vector<ChangeParam> checkThresholds(Sensor* sensor, double value)
             }
             else if (value > (threshold.value + threshold.hysteresis))
             {
+                threshold.assertPending = false;
                 thresholdChanges.emplace_back(threshold, false, value);
                 ++cLoFalse;
             }
             else
             {
+                threshold.assertPending = false;
                 ++cLoMidstate;
             }
         }
