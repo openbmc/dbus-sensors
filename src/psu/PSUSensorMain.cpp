@@ -1111,7 +1111,7 @@ static void createSensorsCallback(
                     sensorName, std::move(sensorThresholds), *interfacePath,
                     readState, sensorUnits, factor, maxReading, minReading,
                     sensorOffset, labelHead, thresholdConfSize, pollRate,
-                    i2cDev);
+                    i2cDev, *psuName);
                 sensors[sensorName]->setupRead();
                 ++numCreated;
                 lg2::debug("Created '{NUM}' sensors so far", "NUM", numCreated);
@@ -1246,6 +1246,62 @@ static void powerStateChanged(
     }
 }
 
+void interfaceRemoved(sdbusplus::message_t& message)
+{
+    sdbusplus::object_path path;
+    std::vector<std::string> interfaces;
+
+    message.read(path, interfaces);
+
+    std::string psuName;
+
+    // If the xyz.openbmc_project.Configuration.X interface was removed
+    // for one or more sensors, delete those sensor objects.
+    auto sensorIt = sensors.begin();
+    while (sensorIt != sensors.end())
+    {
+        if (sensorIt->second && (sensorIt->second->configurationPath == path) &&
+            (std::find(interfaces.begin(), interfaces.end(),
+                       sensorIt->second->configInterface) != interfaces.end()))
+        {
+            if (psuName.empty())
+            {
+                psuName = sensorIt->second->psuName;
+            }
+            sensorIt = sensors.erase(sensorIt);
+        }
+        else
+        {
+            sensorIt++;
+        }
+    }
+
+    if (!psuName.empty())
+    {
+        // Remove corresponding combineEvents (OperationalStatus)
+        auto combineIt = combineEvents.find(psuName + "OperationalStatus");
+        if (combineIt != combineEvents.end())
+        {
+            combineEvents.erase(combineIt);
+        }
+
+        // Remove corresponding pwmSensors (Fan PWM)
+        std::string pwmNameLabel = psuName + "fan";
+        auto pwmIt = pwmSensors.begin();
+        while (pwmIt != pwmSensors.end())
+        {
+            if (pwmIt->first.starts_with(pwmNameLabel))
+            {
+                pwmIt = pwmSensors.erase(pwmIt);
+            }
+            else
+            {
+                pwmIt++;
+            }
+        }
+    }
+}
+
 int main()
 {
     boost::asio::io_context io;
@@ -1348,6 +1404,14 @@ int main()
 
     std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
         setupPropertiesChangedMatches(*systemBus, sensorTypes, eventHandler);
+
+    // Watch for entity-manager to remove configuration interfaces
+    // so the corresponding sensors can be removed.
+    matches.emplace_back(std::make_unique<sdbusplus::bus::match_t>(
+        static_cast<sdbusplus::bus_t&>(*systemBus),
+        "type='signal',member='InterfacesRemoved',arg0path='" +
+            std::string(inventoryPath) + "/'",
+        [&](sdbusplus::message_t& msg) { interfaceRemoved(msg); }));
 
     matches.emplace_back(std::make_unique<sdbusplus::bus::match_t>(
         static_cast<sdbusplus::bus_t&>(*systemBus),
