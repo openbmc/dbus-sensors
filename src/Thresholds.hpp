@@ -39,15 +39,17 @@ struct Threshold
     Threshold(
         const Level& lev, const Direction& dir, const double& val,
         const double hysteresis = std::numeric_limits<double>::quiet_NaN(),
-        bool write = true) :
+        unsigned int maxRetryCount = 0, bool write = true) :
         level(lev), direction(dir), value(val), hysteresis(hysteresis),
-        writeable(write)
+        maxRetryCount(maxRetryCount), writeable(write)
     {}
     Level level;
     Direction direction;
     double value;
     double hysteresis;
+    unsigned int maxRetryCount;
     bool writeable;
+    unsigned int retryCount = 0;
 
     bool operator==(const Threshold& rhs) const
     {

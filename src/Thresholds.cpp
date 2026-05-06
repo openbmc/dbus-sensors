@@ -20,6 +20,7 @@
 #include <cstdint>
 #include <limits>
 #include <memory>
+#include <optional>
 #include <string>
 #include <tuple>
 #include <utility>
@@ -51,6 +52,17 @@ Direction findThresholdDirection(const std::string& direct)
         return Direction::LOW;
     }
     return Direction::ERROR;
+}
+
+static std::optional<unsigned int> extractLogRetryCount(
+    const SensorBaseConfigMap& properties)
+{
+    auto findLogRetryCount = properties.find("LogRetryCount");
+    if (findLogRetryCount == properties.end())
+    {
+        return std::nullopt;
+    }
+    return std::visit(VariantToUnsignedIntVisitor(), findLogRetryCount->second);
 }
 
 bool parseThresholdsFromConfig(
@@ -130,7 +142,15 @@ bool parseThresholdsFromConfig(
         }
         double val = std::visit(VariantToDoubleVisitor(), valueFind->second);
 
-        thresholdVector.emplace_back(level, direction, val, hysteresis);
+        unsigned int maxRetryCount = 0;
+        std::optional<unsigned int> maxRetryCountOpt =
+            extractLogRetryCount(cfg);
+        if (maxRetryCountOpt)
+        {
+            maxRetryCount = *maxRetryCountOpt;
+        }
+        thresholdVector.emplace_back(level, direction, val, hysteresis,
+                                     maxRetryCount);
     }
     return true;
 }
@@ -269,7 +289,14 @@ static std::vector<ChangeParam> checkThresholds(Sensor* sensor, double value)
         {
             if (value >= threshold.value)
             {
-                thresholdChanges.emplace_back(threshold, true, value);
+                if (threshold.retryCount < threshold.maxRetryCount)
+                {
+                    ++threshold.retryCount;
+                }
+                else
+                {
+                    thresholdChanges.emplace_back(threshold, true, value);
+                }
                 if (++cHiTrue < assertLogCount)
                 {
                     lg2::info(
@@ -281,11 +308,13 @@ static std::vector<ChangeParam> checkThresholds(Sensor* sensor, double value)
             }
             else if (value < (threshold.value - threshold.hysteresis))
             {
+                threshold.retryCount = 0;
                 thresholdChanges.emplace_back(threshold, false, value);
                 ++cHiFalse;
             }
             else
             {
+                threshold.retryCount = 0;
                 ++cHiMidstate;
             }
         }
@@ -293,7 +322,14 @@ static std::vector<ChangeParam> checkThresholds(Sensor* sensor, double value)
         {
             if (value <= threshold.value)
             {
-                thresholdChanges.emplace_back(threshold, true, value);
+                if (threshold.retryCount < threshold.maxRetryCount)
+                {
+                    ++threshold.retryCount;
+                }
+                else
+                {
+                    thresholdChanges.emplace_back(threshold, true, value);
+                }
                 if (++cLoTrue < assertLogCount)
                 {
                     lg2::info(
@@ -305,11 +341,13 @@ static std::vector<ChangeParam> checkThresholds(Sensor* sensor, double value)
             }
             else if (value > (threshold.value + threshold.hysteresis))
             {
+                threshold.retryCount = 0;
                 thresholdChanges.emplace_back(threshold, false, value);
                 ++cLoFalse;
             }
             else
             {
+                threshold.retryCount = 0;
                 ++cLoMidstate;
             }
         }
