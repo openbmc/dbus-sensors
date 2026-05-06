@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a82b4aeb_a2e70e25",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-05-06T12:06:08Z",
+      "side": 1,
+      "message": "Done. The constructors of `NvidiaGpuSensor`, `NvidiaGpuPowerSensor`, `NvidiaGpuEnergySensor`, and `NvidiaGpuVoltageSensor` now take `const std::optional\u003cstd::string\u003e\u0026 inventoryPath`, defaulting to `std::nullopt` for sensors that should not have the inventory-\u003esensors association.",
+      "parentUuid": "6cf426f9_7b60b70e",
+      "revId": "f0c79a0bf818994d793ef9f6c1408019908d643d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "42d9a60c_a0153da2",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-05-05T08:28:12Z",
       "side": 1,
       "message": "Let\u0027s make this std::vector to accommodate multiple associated paths. Suggest renaming parameter to associatedPaths since they are not limited to only inventories.",
+      "revId": "f0c79a0bf818994d793ef9f6c1408019908d643d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6627b7be_481a254d",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-05-06T12:06:08Z",
+      "side": 1,
+      "message": "Thanks for the suggestion. After re-reading the document in the following link:\n`https://github.com/openbmc/docs/blob/master/architecture/sensor-architecture.md`\n\nI would prefer to keep the parameter as `const std::optional\u003cstd::string\u003e\u0026 inventoryPath` rather than `std::vector\u003cstd::string\u003e\u0026 associatedPaths` for 2 reasons:\n\n1. The function only ever emits the two association pairs documented for sensors - `chassis`/`all_sensors` and `inventory`/`sensors` - and the chassis path is derived internally from `configurationPath`. So the only thing the caller actually supplies is an inventory item path. Renaming to `associationPaths` would suggest the caller can pass non-inventory paths, which the function does not support.\n\n2. For the GPU sensors in this patch, each sensor monitors exactly one hardware item (its parent GPU), so a single `std::optional` cleanly expresses \"this sensor has one inventory parent, or none.\" I would prefer to keep the API matched to the actual usage rather than pre-generalize.\n\nIf a future use case emerges where one sensor genuinely needs to associate with multiple inventory items. I\u0027m happy to change the signature to `std::vector` then. Does that work for you?",
+      "parentUuid": "42d9a60c_a0153da2",
       "revId": "f0c79a0bf818994d793ef9f6c1408019908d643d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
