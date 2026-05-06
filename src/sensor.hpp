@@ -278,17 +278,10 @@ struct Sensor
             setupPowerMatch(dbusConnection);
         }
 
-        if (inventoryPath.has_value())
-        {
-            setInventoryAssociation(association, inventoryPath.value(),
-                                    std::filesystem::path(configurationPath)
-                                        .parent_path()
-                                        .string());
-        }
-        else
-        {
-            createAssociation(association, configurationPath);
-        }
+        createAssociation(
+            association,
+            std::filesystem::path(configurationPath).parent_path().string(),
+            inventoryPath);
 
         sensorInterface->register_property("Unit", std::string(unit));
         sensorInterface->register_property("MaxValue", maxValue);
@@ -299,116 +292,10 @@ struct Sensor
             });
 
         fillMissingThresholds();
-
-        for (auto& threshold : thresholds)
-        {
-            if (std::isnan(threshold.hysteresis))
-            {
-                threshold.hysteresis = hysteresisTrigger;
-            }
-
-            std::shared_ptr<sdbusplus::asio::dbus_interface> iface =
-                getThresholdInterface(threshold.level);
-
-            if (!iface)
-            {
-                lg2::info("trying to set uninitialized interface");
-                continue;
-            }
-
-            std::string level =
-                propertyLevel(threshold.level, threshold.direction);
-            std::string alarm =
-                propertyAlarm(threshold.level, threshold.direction);
-
-            if ((level.empty()) || (alarm.empty()))
-            {
-                continue;
-            }
-            size_t thresSize =
-                label.empty() ? thresholds.size() : thresholdSize;
-            iface->register_property(
-                level, threshold.value,
-                [&, label, thresSize](const double& request, double& oldValue) {
-                    oldValue = request; // todo, just let the config do this?
-                    threshold.value = request;
-                    thresholds::persistThreshold(
-                        configurationPath, configInterface, threshold,
-                        dbusConnection, thresSize, label);
-                    // Invalidate previously remembered value,
-                    // so new thresholds will be checked during next update,
-                    // even if sensor reading remains unchanged.
-                    value = std::numeric_limits<double>::quiet_NaN();
-
-                    // Although tempting, don't call checkThresholds() from here
-                    // directly. Let the regular sensor monitor call the same
-                    // using updateValue(), which can check conditions like
-                    // poweron, etc., before raising any event.
-                    return 1;
-                });
-            iface->register_property(alarm, false);
-        }
-        if (!sensorInterface->initialize())
-        {
-            lg2::error("error initializing value interface");
-        }
-
-        for (auto& thresIface : thresholdInterfaces)
-        {
-            if (thresIface)
-            {
-                if (!thresIface->initialize(true))
-                {
-                    lg2::error("Error initializing threshold interface");
-                }
-            }
-        }
-
-        if (isValueMutable)
-        {
-            valueMutabilityInterface =
-                std::make_shared<sdbusplus::asio::dbus_interface>(
-                    dbusConnection, sensorInterface->get_object_path(),
-                    valueMutabilityInterfaceName);
-            valueMutabilityInterface->register_property("Mutable", true);
-            if (!valueMutabilityInterface->initialize())
-            {
-                lg2::error(
-                    "error initializing sensor value mutability interface");
-                valueMutabilityInterface = nullptr;
-            }
-        }
-
-        if (!availableInterface)
-        {
-            availableInterface =
-                std::make_shared<sdbusplus::asio::dbus_interface>(
-                    dbusConnection, sensorInterface->get_object_path(),
-                    availableInterfaceName);
-            availableInterface->register_property(
-                "Available", true, [this](const bool propIn, bool& old) {
-                    if (propIn == old)
-                    {
-                        return 1;
-                    }
-                    old = propIn;
-                    if (!propIn)
-                    {
-                        updateValue(std::numeric_limits<double>::quiet_NaN());
-                    }
-                    return 1;
-                });
-            availableInterface->initialize();
-        }
-        if (!operationalInterface)
-        {
-            operationalInterface =
-                std::make_shared<sdbusplus::asio::dbus_interface>(
-                    dbusConnection, sensorInterface->get_object_path(),
-                    operationalInterfaceName);
-            operationalInterface->register_property("Functional", true);
-            operationalInterface->initialize();
-        }
+        initializeThresholds(label, thresholdSize);
+        initializeValueMutabilityInterface();
+        initializeAvailableInterface();
+        initializeOperationalInterface();
     }
 
     static std::string propertyLevel(const Level lev, const Direction dir)
@@ -572,6 +459,131 @@ struct Sensor
     }
 
   private:
+    void initializeThresholds(const std::string& label = std::string(),
+                              size_t thresholdSize = 0)
+    {
+        for (auto& threshold : thresholds)
+        {
+            if (std::isnan(threshold.hysteresis))
+            {
+                threshold.hysteresis = hysteresisTrigger;
+            }
+
+            std::shared_ptr<sdbusplus::asio::dbus_interface> iface =
+                getThresholdInterface(threshold.level);
+
+            if (!iface)
+            {
+                lg2::info("trying to set uninitialized interface");
+                continue;
+            }
+
+            std::string level =
+                propertyLevel(threshold.level, threshold.direction);
+            std::string alarm =
+                propertyAlarm(threshold.level, threshold.direction);
+
+            if ((level.empty()) || (alarm.empty()))
+            {
+                continue;
+            }
+            size_t thresSize =
+                label.empty() ? thresholds.size() : thresholdSize;
+            iface->register_property(
+                level, threshold.value,
+                [&, label, thresSize](const double& request, double& oldValue) {
+                    oldValue = request; // todo, just let the config do this?
+                    threshold.value = request;
+                    thresholds::persistThreshold(
+                        configurationPath, configInterface, threshold,
+                        dbusConnection, thresSize, label);
+                    // Invalidate previously remembered value,
+                    // so new thresholds will be checked during next update,
+                    // even if sensor reading remains unchanged.
+                    value = std::numeric_limits<double>::quiet_NaN();
+
+                    // Although tempting, don't call checkThresholds() from here
+                    // directly. Let the regular sensor monitor call the same
+                    // using updateValue(), which can check conditions like
+                    // poweron, etc., before raising any event.
+                    return 1;
+                });
+            iface->register_property(alarm, false);
+        }
+
+        if (!sensorInterface->initialize())
+        {
+            lg2::error("error initializing value interface");
+        }
+
+        for (auto& thresIface : thresholdInterfaces)
+        {
+            if (thresIface)
+            {
+                if (!thresIface->initialize(true))
+                {
+                    lg2::error("Error initializing threshold interface");
+                }
+            }
+        }
+    }
+
+    void initializeValueMutabilityInterface()
+    {
+        if (isValueMutable)
+        {
+            valueMutabilityInterface =
+                std::make_shared<sdbusplus::asio::dbus_interface>(
+                    dbusConnection, sensorInterface->get_object_path(),
+                    valueMutabilityInterfaceName);
+            valueMutabilityInterface->register_property("Mutable", true);
+            if (!valueMutabilityInterface->initialize())
+            {
+                lg2::error(
+                    "error initializing sensor value mutability interface");
+                valueMutabilityInterface = nullptr;
+            }
+        }
+    }
+
+    void initializeAvailableInterface()
+    {
+        if (!availableInterface)
+        {
+            availableInterface =
+                std::make_shared<sdbusplus::asio::dbus_interface>(
+                    dbusConnection, sensorInterface->get_object_path(),
+                    availableInterfaceName);
+            availableInterface->register_property(
+                "Available", true, [this](const bool propIn, bool& old) {
+                    if (propIn == old)
+                    {
+                        return 1;
+                    }
+                    old = propIn;
+                    if (!propIn)
+                    {
+                        updateValue(std::numeric_limits<double>::quiet_NaN());
+                    }
+                    return 1;
+                });
+            availableInterface->initialize();
+        }
+    }
+
+    void initializeOperationalInterface()
+    {
+        if (!operationalInterface)
+        {
+            operationalInterface =
+                std::make_shared<sdbusplus::asio::dbus_interface>(
+                    dbusConnection, sensorInterface->get_object_path(),
+                    operationalInterfaceName);
+            operationalInterface->register_property("Functional", true);
+            operationalInterface->initialize();
+        }
+    }
+
     // If one of the thresholds for a dbus interface is provided
     // we have to set the other one as dbus properties are never
     // optional.

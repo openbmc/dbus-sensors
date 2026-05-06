@@ -26,6 +26,7 @@
 
 #include <cmath>
 #include <cstdint>
+#include <filesystem>
 #include <fstream>
 #include <memory>
 #include <stdexcept>
@@ -182,7 +183,9 @@ PwmSensor::PwmSensor(const std::string& pwmname, const std::string& sysPath,
     }
     else
     {
-        createAssociation(association, sensorConfiguration);
+        createAssociation(
+            association,
+            std::filesystem::path(sensorConfiguration).parent_path().string());
     }
 }
 PwmSensor::~PwmSensor()
