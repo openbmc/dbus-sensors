@@ -20,6 +20,7 @@
 #include <cstdint>
 #include <limits>
 #include <memory>
+#include <optional>
 #include <string>
 #include <tuple>
 #include <utility>
@@ -51,6 +52,18 @@ Direction findThresholdDirection(const std::string& direct)
         return Direction::LOW;
     }
     return Direction::ERROR;
+}
+
+static std::optional<unsigned int> extractToleranceCount(
+    const SensorBaseConfigMap& properties)
+{
+    auto findToleranceCount = properties.find("ToleranceCount");
+    if (findToleranceCount == properties.end())
+    {
+        return std::nullopt;
+    }
+    return std::visit(VariantToUnsignedIntVisitor(),
+                      findToleranceCount->second);
 }
 
 bool parseThresholdsFromConfig(
@@ -130,7 +143,15 @@ bool parseThresholdsFromConfig(
         }
         double val = std::visit(VariantToDoubleVisitor(), valueFind->second);
 
-        thresholdVector.emplace_back(level, direction, val, hysteresis);
+        unsigned int toleranceCount = 0;
+        std::optional<unsigned int> toleranceCountOpt =
+            extractToleranceCount(cfg);
+        if (toleranceCountOpt)
+        {
+            toleranceCount = *toleranceCountOpt;
+        }
+        thresholdVector.emplace_back(level, direction, val, hysteresis,
+                                     toleranceCount);
     }
     return true;
 }
@@ -269,7 +290,14 @@ static std::vector<ChangeParam> checkThresholds(Sensor* sensor, double value)
         {
             if (value >= threshold.value)
             {
-                thresholdChanges.emplace_back(threshold, true, value);
+                if (threshold.hitCount < threshold.toleranceCount)
+                {
+                    ++threshold.hitCount;
+                }
+                else
+                {
+                    thresholdChanges.emplace_back(threshold, true, value);
+                }
                 if (++cHiTrue < assertLogCount)
                 {
                     lg2::info(
@@ -281,11 +309,13 @@ static std::vector<ChangeParam> checkThresholds(Sensor* sensor, double value)
             }
             else if (value < (threshold.value - threshold.hysteresis))
             {
+                threshold.hitCount = 0;
                 thresholdChanges.emplace_back(threshold, false, value);
                 ++cHiFalse;
             }
             else
             {
+                threshold.hitCount = 0;
                 ++cHiMidstate;
             }
         }
@@ -293,7 +323,14 @@ static std::vector<ChangeParam> checkThresholds(Sensor* sensor, double value)
         {
             if (value <= threshold.value)
             {
-                thresholdChanges.emplace_back(threshold, true, value);
+                if (threshold.hitCount < threshold.toleranceCount)
+                {
+                    ++threshold.hitCount;
+                }
+                else
+                {
+                    thresholdChanges.emplace_back(threshold, true, value);
+                }
                 if (++cLoTrue < assertLogCount)
                 {
                     lg2::info(
@@ -305,11 +342,13 @@ static std::vector<ChangeParam> checkThresholds(Sensor* sensor, double value)
             }
             else if (value > (threshold.value + threshold.hysteresis))
             {
+                threshold.hitCount = 0;
                 thresholdChanges.emplace_back(threshold, false, value);
                 ++cLoFalse;
             }
             else
             {
+                threshold.hitCount = 0;
                 ++cLoMidstate;
             }
         }
