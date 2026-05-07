@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63e89183_0abf77f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-05-07T11:27:54Z",
+      "side": 1,
+      "message": "nit: you might want to reference v4 of your patch now?",
+      "revId": "ffe469144a60eabc6b3e8f431a97993721281972",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "479dc2ea_43f744ae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-05-07T11:27:54Z",
+      "side": 1,
+      "message": "Once this gets accepted into the upstream kernel we\u0027ll need a backport request to the openbmc kernel.  Only then should we merge this.",
+      "revId": "ffe469144a60eabc6b3e8f431a97993721281972",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
