@@ -37,6 +37,42 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "53321be9_46f128c3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-07T15:37:58Z",
+      "side": 1,
+      "message": "Hi @ed@tanous.net, @molberding@nvidia.com,\n\nThanks for the clear feedback. We will abandon this patch.\n\nI now understand the perf cost of boost::coroutines and agree it\u0027s the wrong tool here.\n\nFor our Reset use case, the operation typically completes within a few seconds, and we want the caller to receive 200 only after the response is available.\n\nBesides @jvoon@nvidia.com\u0027s proposed sdbusplus deferred-reply API, would the pattern used in certificate_service.hpp\u0027s GenerateCSR also be an option?\n\nThere, the daemon kicks off the work and returns the D-Bus reply immediately, while bmcweb keeps the HTTP request open by holding AsyncResp inside both a D-Bus signal subscription and a timeout. \nWhen the daemon finishes and emits the completion signal, bmcweb\u0027s signal callback fills in the response and sends 200 to the caller; if the timeout fires first, an error is returned instead.",
+      "parentUuid": "b1ff7d34_21c69155",
+      "revId": "cf7c959cc3ce1512ab52957fb6aa88ca8810b280",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d16de907_fa704b35",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-07T15:37:58Z",
+      "side": 1,
+      "message": "Got it. Thanks",
+      "parentUuid": "49a1e2db_4f2c6b25",
+      "revId": "cf7c959cc3ce1512ab52957fb6aa88ca8810b280",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "19d6fada_8a700735",
         "filename": "src/nvidia-gpu/MctpRequester.cpp",
         "patchSetId": 4
@@ -48,6 +84,24 @@
       "writtenOn": "2026-05-04T20:07:28Z",
       "side": 1,
       "message": "no, stackfull coroutines are broken. Do not do this. Stackless coroutine support severely pessimizes performance, due to all sorts of inneffecencies in the implementation. This was previously nonblocking without coroutines and without any allocations in the hotpath, please do not add overhead in the hotpath.",
+      "revId": "cf7c959cc3ce1512ab52957fb6aa88ca8810b280",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ff9cd4b_de80ad5c",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-07T15:37:58Z",
+      "side": 1,
+      "message": "Acknowledged. Thank you for your reply.",
+      "parentUuid": "19d6fada_8a700735",
       "revId": "cf7c959cc3ce1512ab52957fb6aa88ca8810b280",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -65,6 +119,24 @@
       "writtenOn": "2026-05-04T20:07:28Z",
       "side": 1,
       "message": "you are forcing an alloc here where there wasn\u0027t before in the hotpath, don\u0027t alloc in the hotpath.",
+      "revId": "cf7c959cc3ce1512ab52957fb6aa88ca8810b280",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8211def_91f879ad",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-07T15:37:58Z",
+      "side": 1,
+      "message": "Acknowledged. Thank you for your reply.",
+      "parentUuid": "c1a5f8c7_74dff9ed",
       "revId": "cf7c959cc3ce1512ab52957fb6aa88ca8810b280",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
