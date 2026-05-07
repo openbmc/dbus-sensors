@@ -45,9 +45,10 @@ auto EntityManagerInterface::handleInventoryGet() -> sdbusplus::async::task<>
             .path(InventoryIntf::namespace_path)
             .interface("org.freedesktop.DBus.ObjectManager");
 
-    for (const auto& [objectPath, detectorConfig] :
-         co_await entityManager.call<ManagedObjectType>(ctx,
-                                                        "GetManagedObjects"))
+    const auto objs = co_await entityManager.call<ManagedObjectType>(
+        ctx, "GetManagedObjects");
+
+    for (const auto& [objectPath, detectorConfig] : objs)
     {
         for (const auto& interfaceName : interfaceNames)
         {
