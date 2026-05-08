@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b4419de_e7a95b5e",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-05-08T06:58:42Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "f6268067_cf904b28",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 146,
+        "endChar": 49
+      },
+      "revId": "2c30b9011227615589b3bbfd6797a682d6010b12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7964c489_93848a20",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-04-26T13:06:41Z",
       "side": 1,
       "message": "nit: Could we replace this magic number `3` with a named constant or\nadd a brief comment? It took me a moment to figure out what these\n3 bytes correspond to.\n\nPer the NSM spec, the XID event payload is structured as:\n\n    struct nsm_xid_event_payload {\n        uint8_t  flag;            // 1 byte\n        uint8_t  reserved[3];     // \u003c- this skip(3)\n        uint32_t reason;          // 4 bytes\n        uint32_t sequence_number; // 4 bytes\n        uint64_t timestamp;       // 8 bytes\n    } __attribute__((packed));\n\nSo the `3` here is the `reserved[3]` field (alignment padding before\n`reason`). Something like the following would make this self-documenting:\n\n    constexpr size_t xidEventReservedBytes \u003d 3;\n    buffer.unpack(flags);\n    buffer.skip(xidEventReservedBytes);\n    buffer.unpack(eventMessageReason);\n\nOr alternatively, just a one-line comment:\n\n    buffer.skip(3);  // reserved[3] padding before reason (NSM XID event payload)\n\nEither works for me — whichever you prefer. Thanks!",
+      "range": {
+        "startLine": 1144,
+        "startChar": 0,
+        "endLine": 1144,
+        "endChar": 19
+      },
+      "revId": "2c30b9011227615589b3bbfd6797a682d6010b12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bc2497a_23041a40",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 1144,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-05-08T06:58:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7964c489_93848a20",
       "range": {
         "startLine": 1144,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "10e6ed5e_c75b1698",
+        "filename": "src/nvidia-gpu/NvidiaGpuXid.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-05-08T06:58:42Z",
+      "side": 1,
+      "message": "`Event Class` value of XID event is not specified by the spec.",
+      "parentUuid": "2475fb59_651800d9",
+      "range": {
+        "startLine": 40,
+        "startChar": 49,
+        "endLine": 40,
+        "endChar": 58
+      },
+      "revId": "2c30b9011227615589b3bbfd6797a682d6010b12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "94777c3d_5d49aa16",
@@ -83,6 +155,30 @@
       "writtenOn": "2026-04-28T05:42:35Z",
       "side": 1,
       "message": "nit: messageTextString points into the input buffer.\nConsider std::string instead.",
+      "range": {
+        "startLine": 47,
+        "startChar": 9,
+        "endLine": 47,
+        "endChar": 20
+      },
+      "revId": "2c30b9011227615589b3bbfd6797a682d6010b12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07311c6a_2e9b1d47",
+        "filename": "src/nvidia-gpu/NvidiaGpuXid.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-05-08T06:58:42Z",
+      "side": 1,
+      "message": "It\u0027s intended since it is not being used outside this function.",
+      "parentUuid": "94777c3d_5d49aa16",
       "range": {
         "startLine": 47,
         "startChar": 9,
@@ -116,6 +212,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f60be74e_88ea9b98",
+        "filename": "src/nvidia-gpu/NvidiaGpuXid.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-05-08T06:58:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe0de1cc_01ce4578",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 36
+      },
+      "revId": "2c30b9011227615589b3bbfd6797a682d6010b12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0c49c1a6_84f6fec5",
@@ -129,6 +249,30 @@
       "writtenOn": "2026-04-28T05:42:35Z",
       "side": 1,
       "message": "Should every XID event be logged as Critical (e.g., XID 13, XID 31)?",
+      "range": {
+        "startLine": 84,
+        "startChar": 49,
+        "endLine": 84,
+        "endChar": 57
+      },
+      "revId": "2c30b9011227615589b3bbfd6797a682d6010b12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "867f4eee_ea610082",
+        "filename": "src/nvidia-gpu/NvidiaGpuXid.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-05-08T06:58:42Z",
+      "side": 1,
+      "message": "Yes",
+      "parentUuid": "0c49c1a6_84f6fec5",
       "range": {
         "startLine": 84,
         "startChar": 49,
@@ -162,6 +306,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8890f19c_dd3daee6",
+        "filename": "src/nvidia-gpu/NvidiaGpuXid.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-05-08T06:58:42Z",
+      "side": 1,
+      "message": "This app does not use bindings generated from PDIs, so we can\u0027t use lg2::commit. bmcweb does not use REDFISH_MESSAGE_ID / REDFISH_MESSAGE_ARGS to pick the registry.",
+      "parentUuid": "66766e73_65d35fde",
+      "range": {
+        "startLine": 85,
+        "startChar": 8,
+        "endLine": 85,
+        "endChar": 44
+      },
+      "revId": "2c30b9011227615589b3bbfd6797a682d6010b12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4ac75a26_91dca354",
@@ -175,6 +343,30 @@
       "writtenOn": "2026-04-28T05:42:35Z",
       "side": 1,
       "message": "nit: After Eric\u0027s suggestion on the magic 3 in decodeXidEvent is applied, this 20 should be derived from the same named constants in NvidiaGpuMctpVdm (e.g., sum of the field sizes), or share a single xidEventHeaderSize constant.",
+      "range": {
+        "startLine": 3130,
+        "startChar": 4,
+        "endLine": 3130,
+        "endChar": 50
+      },
+      "revId": "2c30b9011227615589b3bbfd6797a682d6010b12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbc721d9_1385f5a4",
+        "filename": "src/tests/test_NvidiaGpuSensorTest.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 3130,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-05-08T06:58:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ac75a26_91dca354",
       "range": {
         "startLine": 3130,
         "startChar": 4,
