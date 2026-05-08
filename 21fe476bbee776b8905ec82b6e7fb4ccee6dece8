@@ -34,6 +34,24 @@
       "parentUuid": "37e6a5c3_08ce73e3",
       "revId": "21fe476bbee776b8905ec82b6e7fb4ccee6dece8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4d5eda6_d2c9703d",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-05-08T10:00:50Z",
+      "side": 1,
+      "message": "I think this patch is over-optimized, so I won\u0027t submit it yet. Thanks for the review and remind.",
+      "parentUuid": "0876970d_2c239414",
+      "revId": "21fe476bbee776b8905ec82b6e7fb4ccee6dece8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
