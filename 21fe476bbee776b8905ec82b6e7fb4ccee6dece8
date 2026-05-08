@@ -16,6 +16,24 @@
       "message": "please look at introducing a clang-tidy check to catch this kind of thing, I thought we had one already.",
       "revId": "21fe476bbee776b8905ec82b6e7fb4ccee6dece8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0876970d_2c239414",
+        "filename": "src/nvidia-gpu/MctpRequester.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-05-08T00:23:22Z",
+      "side": 1,
+      "message": "Thanks for the review. misc-include-cleaner is enabled in .clang-tidy. CodeRabbit on our internal review applies stricter rules — every used symbol must come from a directly included header — which is how this patch was produced. If upstream follows the clang-tidy standard, I\u0027ll abandon this patch. Much appreciated.",
+      "parentUuid": "37e6a5c3_08ce73e3",
+      "revId": "21fe476bbee776b8905ec82b6e7fb4ccee6dece8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
