@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "85077fc9_302791f4",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-05-08T07:20:09Z",
+      "side": 1,
+      "message": "nit: Could we add a quick comment on where 30s comes from? NSM spec doesn\u0027t\ndefine polling rate, so a brief budget note would help future maintainers:\n\n  // 30s long-running poll interval. Per-device SerialQueue serializes all\n  // long-running cmds; each holds the slot for up to 2s (TTIMEOUT_LONG\n  // worst case). Worst-case capacity ~ 30s/2s \u003d 15 cmds per device.\n\nNo strong opinion if you\u0027d prefer a different framing.",
+      "revId": "4b77d1f26ef34da057a77f35f9b74f6846b2697e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "547d7d87_cd6bbe8b",
         "filename": "src/nvidia-gpu/NvidiaLongRunningHandler.hpp",
         "patchSetId": 2
