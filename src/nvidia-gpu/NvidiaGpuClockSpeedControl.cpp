@@ -13,12 +13,15 @@
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/message/native_types.hpp>
+#include <xyz/openbmc_project/Common/Device/error.hpp>
 
+#include <array>
 #include <cstdint>
 #include <memory>
 #include <span>
 #include <string>
 #include <system_error>
+#include <utility>
 #include <vector>
 
 static constexpr uint64_t mhzToHzFactor = 1'000'000;
@@ -42,6 +45,11 @@ NvidiaGpuClockSpeedControl::NvidiaGpuClockSpeedControl(
     associations.emplace_back("controlling", "controlled_by", inventoryPath);
     associationInterface->register_property("Associations", associations);
     associationInterface->initialize();
+    controlClockSpeedInterface->register_deferred_method<>(
+        "Reset", [this](sdbusplus::asio::deferred_reply<> reply) {
+            reset(std::move(reply));
+        });
+    controlClockSpeedInterface->initialize();
 }
 
 NvidiaGpuClockSpeedControl::~NvidiaGpuClockSpeedControl()
@@ -121,4 +129,62 @@ void NvidiaGpuClockSpeedControl::handleResponse(const std::error_code& ec,
                                              reqMaxHz);
     controlClockSpeedInterface->set_property("RequestedSpeedLimitMinHz",
                                              reqMinHz);
+}
+
+void NvidiaGpuClockSpeedControl::reset(sdbusplus::asio::deferred_reply<> reply)
+{
+    std::array<uint8_t, gpu::setClockLimitRequestSize> reqBuf{};
+    int rc = gpu::encodeSetClockLimitRequest(
+        0, static_cast<uint8_t>(gpu::ClockType::GRAPHICS_CLOCK),
+        gpu::clockLimitFlagClear, 0, 0, reqBuf);
+    if (rc != 0)
+    {
+        lg2::error(
+            "Failed to encode SET_CLOCK_LIMIT request for {NAME}: rc={RC}",
+            "NAME", name, "RC", rc);
+        reply.send_error(sdbusplus::error::xyz::openbmc_project::common::
+                             device::WriteFailure());
+        return;
+    }
+
+    mctpRequester.sendRecvMsg(
+        eid, reqBuf,
+        [weak{weak_from_this()},
+         reply = std::move(reply)](const std::error_code& ec,
+                                   std::span<const uint8_t> buffer) mutable {
+            auto self = weak.lock();
+            if (!self)
+            {
+                lg2::error("Invalid NvidiaGpuClockSpeedControl reference");
+                reply.send_error(sdbusplus::error::xyz::openbmc_project::
+                                     common::device::WriteFailure());
+                return;
+            }
+            if (ec)
+            {
+                lg2::error("Error sending SET_CLOCK_LIMIT for {NAME}: rc={RC}",
+                           "NAME", self->name, "RC", ec.message());
+                reply.send_error(sdbusplus::error::xyz::openbmc_project::
+                                     common::device::WriteFailure());
+                return;
+            }
+
+            ocp::accelerator_management::CompletionCode cc{};
+            uint16_t reasonCode = 0;
+            int rc = gpu::decodeSetClockLimitResponse(buffer, cc, reasonCode);
+            if (rc != 0 ||
+                cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+            {
+                lg2::error(
+                    "Error decoding SET_CLOCK_LIMIT for {NAME}: rc={RC}, "
+                    "cc={CC}, reasonCode={REASON}",
+                    "NAME", self->name, "RC", rc, "CC",
+                    static_cast<uint8_t>(cc), "REASON", reasonCode);
+                reply.send_error(sdbusplus::error::xyz::openbmc_project::
+                                     common::device::WriteFailure());
+                return;
+            }
+
+            reply.send();
+        });
 }

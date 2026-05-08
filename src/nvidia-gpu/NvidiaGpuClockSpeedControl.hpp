@@ -34,6 +34,8 @@ class NvidiaGpuClockSpeedControl :
     void handleResponse(const std::error_code& ec,
                         std::span<const uint8_t> buffer);
 
+    void reset(sdbusplus::asio::deferred_reply<> reply);
+
     std::shared_ptr<sdbusplus::asio::dbus_interface> controlClockSpeedInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> associationInterface;
 

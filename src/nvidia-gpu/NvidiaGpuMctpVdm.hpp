@@ -64,6 +64,7 @@ enum class PlatformEnvironmentalCommands : uint8_t
     GET_INVENTORY_INFORMATION = 0x0C,
     GET_DRIVER_INFORMATION = 0x0E,
     GET_VOLTAGE = 0x0F,
+    SET_CLOCK_LIMIT = 0x10,
     GET_CLOCK_LIMIT = 0x11,
     GET_CURRENT_UTILIZATION = 0x47,
     GET_ECC_ERROR_COUNTS = 0x7D,
@@ -295,6 +296,12 @@ constexpr size_t getClockFrequencyRequestSize =
 constexpr size_t getClockLimitRequestSize =
     ocp::accelerator_management::commonRequestSize + sizeof(uint8_t);
 
+constexpr uint8_t clockLimitFlagClear = 3;
+
+constexpr size_t setClockLimitRequestSize =
+    ocp::accelerator_management::commonRequestSize + sizeof(uint8_t) +
+    sizeof(uint8_t) + sizeof(uint32_t) + sizeof(uint32_t);
+
 int packHeader(const ocp::accelerator_management::BindingPciVidInfo& hdr,
                ocp::accelerator_management::BindingPciVid& msg);
 
@@ -400,6 +407,14 @@ int decodeGetClockLimitResponse(
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     uint32_t& requestedLimitMin, uint32_t& requestedLimitMax,
     uint32_t& presentLimitMin, uint32_t& presentLimitMax);
+
+int encodeSetClockLimitRequest(uint8_t instanceId, uint8_t clockId,
+                               uint8_t flags, uint32_t limitMin,
+                               uint32_t limitMax, std::span<uint8_t> buf);
+
+int decodeSetClockLimitResponse(std::span<const uint8_t> buf,
+                                ocp::accelerator_management::CompletionCode& cc,
+                                uint16_t& reasonCode);
 
 int encodeQueryScalarGroupTelemetryV1Request(
     uint8_t instanceId, uint8_t deviceIndex, PcieScalarGroupId groupId,
