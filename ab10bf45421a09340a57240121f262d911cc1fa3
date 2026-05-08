@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5583019b_0b0a47d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1002504
+      },
+      "writtenOn": "2026-05-08T18:21:10Z",
+      "side": 1,
+      "message": "Show me in the spec where this is stated, please.\n\ngodbolt disagrees with you:\nhttps://godbolt.org/z/z4qP8c318",
+      "revId": "ab10bf45421a09340a57240121f262d911cc1fa3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
