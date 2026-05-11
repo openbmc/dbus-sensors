@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67197c0c_670363f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2026-05-11T17:31:43Z",
+      "side": 1,
+      "message": "It would be great to have a unit-test or D-Bus integration test for this feature.",
+      "revId": "3091e1d9f8dac267cc487e227be9ece0517c963d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
