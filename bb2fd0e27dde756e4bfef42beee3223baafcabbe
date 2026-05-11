@@ -208,6 +208,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc83f302_5a97e5aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2026-05-11T21:36:06Z",
+      "side": 1,
+      "message": "Marking this comment as resolved based on the reasoning above, as there are no further comments.",
+      "parentUuid": "bfcdbcb5_f0d56033",
+      "revId": "bb2fd0e27dde756e4bfef42beee3223baafcabbe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e8228b60_d2330439",
