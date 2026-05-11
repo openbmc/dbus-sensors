@@ -16,6 +16,24 @@
       "message": "Show me in the spec where this is stated, please.\n\ngodbolt disagrees with you:\nhttps://godbolt.org/z/z4qP8c318",
       "revId": "ab10bf45421a09340a57240121f262d911cc1fa3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2638f048_c74897ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-05-11T07:08:01Z",
+      "side": 1,
+      "message": "Thanks for the review.\nAfter checking the standard, it was a style preference framed as a spec\nviolation. My mistake.\n\nThe other issues are obsoleted by fbc14da (88588 — nvidia-gpu: replace\nreinterpret_cast with memcpy for all functions), which removes the\ntruncation and direction issues as side effects.\n\nAbandoning this patch. Thanks.",
+      "parentUuid": "5583019b_0b0a47d4",
+      "revId": "ab10bf45421a09340a57240121f262d911cc1fa3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
