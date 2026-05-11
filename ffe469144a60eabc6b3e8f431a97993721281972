@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "067da074_8e1bf76b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002711
+      },
+      "writtenOn": "2026-05-11T06:15:44Z",
+      "side": 1,
+      "message": "Thanks. Patrick.\nCurrently, upstream kernel have applied and we can see it in linux-staging/hwmon-next tree. I have updated the link in commit message.",
+      "parentUuid": "63e89183_0abf77f8",
+      "revId": "ffe469144a60eabc6b3e8f431a97993721281972",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "479dc2ea_43f744ae",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
