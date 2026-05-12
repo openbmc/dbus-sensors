@@ -13,10 +13,14 @@
 #include <NvidiaGpuMctpVdm.hpp>
 #include <NvidiaPcieDevice.hpp>
 #include <OcpMctpVdm.hpp>
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_io.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
+#include <algorithm>
+#include <array>
 #include <cmath>
 #include <cstddef>
 #include <cstdint>
@@ -26,6 +30,7 @@
 #include <span>
 #include <string>
 #include <system_error>
+#include <variant>
 #include <vector>
 
 using std::string;
@@ -50,6 +55,10 @@ NvidiaPcieInterface::NvidiaPcieInterface(
     {
         switchInterface = objectServer.add_interface(
             dbusPath, "xyz.openbmc_project.Inventory.Item.PCIeSwitch");
+
+        uuidInterface = objectServer.add_interface(
+            dbusPath, "xyz.openbmc_project.Common.UUID");
+        uuidInterface->register_property("UUID", std::string{});
     }
 
     std::vector<Association> associations;
@@ -92,6 +101,16 @@ NvidiaPcieInterface::NvidiaPcieInterface(
         lg2::error(
             "Error initializing Association Interface for PCIeSwitch EID={EID}",
             "EID", eid);
+    }
+
+    if (uuidInterface)
+    {
+        if (!uuidInterface->initialize())
+        {
+            lg2::error("Error initializing UUID Interface for EID={EID}", "EID",
+                       eid);
+        }
+        populateUuid();
     }
 }
 
@@ -186,6 +205,77 @@ void NvidiaPcieInterface::processResponse(const std::error_code& ec,
             "MaxLanes",
             decodeLinkWidth(static_cast<size_t>(telemetryValues[4])));
     }
+}
+
+void NvidiaPcieInterface::populateUuid()
+{
+    auto reqBuf = std::make_shared<
+        std::array<uint8_t, gpu::getInventoryInformationRequestSize>>();
+
+    const int rc = gpu::encodeGetInventoryInformationRequest(
+        0, static_cast<uint8_t>(gpu::InventoryPropertyId::DEVICE_GUID),
+        *reqBuf);
+
+    if (rc != 0)
+    {
+        lg2::error(
+            "Error encoding DEVICE_GUID request for UUID: encode failed, rc={RC}, EID={EID}",
+            "RC", rc, "EID", eid);
+        return;
+    }
+
+    mctpRequester.sendRecvMsg(
+        eid, *reqBuf,
+        [weak{weak_from_this()},
+         reqBuf](const std::error_code& ec, std::span<const uint8_t> response) {
+            std::shared_ptr<NvidiaPcieInterface> self = weak.lock();
+            if (!self)
+            {
+                lg2::error("Invalid reference to NvidiaPcieInterface");
+                return;
+            }
+            self->processUuidResponse(ec, response);
+        });
+}
+
+void NvidiaPcieInterface::processUuidResponse(const std::error_code& ec,
+                                              std::span<const uint8_t> response)
+{
+    if (ec)
+    {
+        lg2::error(
+            "Error processing DEVICE_GUID response: sending message over MCTP failed, rc={RC}, EID={EID}",
+            "RC", ec.message(), "EID", eid);
+        return;
+    }
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode = 0;
+    gpu::InventoryValue value;
+
+    const int rc = gpu::decodeGetInventoryInformationResponse(
+        response, cc, reasonCode, gpu::InventoryPropertyId::DEVICE_GUID, value);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        lg2::warning(
+            "DEVICE_GUID response decode failed or non-success: rc={RC}, cc={CC}, reasonCode={RESC}, EID={EID}",
+            "RC", rc, "CC", static_cast<uint8_t>(cc), "RESC", reasonCode, "EID",
+            eid);
+        return;
+    }
+
+    const auto* guidBytes = std::get_if<std::vector<uint8_t>>(&value);
+    if (guidBytes == nullptr || guidBytes->size() < 16)
+    {
+        lg2::error("DEVICE_GUID response missing or short for EID {EID}", "EID",
+                   eid);
+        return;
+    }
+
+    boost::uuids::uuid uuid{};
+    std::copy(guidBytes->begin(), guidBytes->begin() + 16, uuid.begin());
+    uuidInterface->set_property("UUID", boost::uuids::to_string(uuid));
 }
 
 void NvidiaPcieInterface::update()
