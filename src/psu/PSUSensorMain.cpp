@@ -1095,6 +1095,30 @@ static void createSensorsCallback(
             // destruct existing one first if already created
 
             auto& sensor = sensors[sensorName];
+            if (!firstScan && sensor != nullptr)
+            {
+                std::vector<thresholds::Threshold> newThresholds;
+                if (parseThresholdsFromConfig(*sensorData, newThresholds,
+                                              &labelHead))
+                {
+                    auto& oldThresholds = sensor->thresholds;
+                    for (const auto& newTh : newThresholds)
+                    {
+                        for (auto& oldTh : oldThresholds)
+                        {
+                            if (newTh.level == oldTh.level &&
+                                newTh.direction == oldTh.direction)
+                            {
+                                oldTh.value = newTh.value;
+                            }
+                        }
+                    }
+                    thresholds::updateThresholds(sensor.get());
+                    lg2::info("PSUSensor {NAME} in-place update.", "NAME",
+                              sensorName);
+                }
+                continue;
+            }
             if (!activateOnly)
             {
                 sensor = nullptr;

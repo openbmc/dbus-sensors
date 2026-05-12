@@ -417,22 +417,38 @@ void createSensors(
             auto findSensor = tachSensors.find(sensorName);
             if (!firstScan && findSensor != tachSensors.end())
             {
-                bool found = false;
+                std::vector<thresholds::Threshold> newThresholds;
+                if (parseThresholdsFromConfig(*sensorData, newThresholds))
+                {
+                    auto& oldThresholds = findSensor->second->thresholds;
+                    for (const auto& newTh : newThresholds)
+                    {
+                        for (auto& oldTh : oldThresholds)
+                        {
+                            if (newTh.level == oldTh.level &&
+                                newTh.direction == oldTh.direction)
+                            {
+                                oldTh.value = newTh.value;
+                            }
+                        }
+                    }
+                    thresholds::updateThresholds(findSensor->second.get());
+                    lg2::info(
+                        "TachSensor {NAME} thresholds updated in-place to stop log spray",
+                        "NAME", sensorName);
+                }
+
                 for (auto it = sensorsChanged->begin();
                      it != sensorsChanged->end(); it++)
                 {
                     if (it->ends_with(findSensor->second->name))
                     {
                         sensorsChanged->erase(it);
-                        findSensor->second = nullptr;
-                        found = true;
                         break;
                     }
                 }
-                if (!found)
-                {
-                    continue;
-                }
+
+                continue;
             }
             std::vector<thresholds::Threshold> sensorThresholds;
             if (!parseThresholdsFromConfig(*sensorData, sensorThresholds))

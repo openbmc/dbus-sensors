@@ -92,223 +92,239 @@ void createSensors(
         sensorsChanged,
     UpdateType updateType)
 {
-    auto getter = std::make_shared<GetSensorConfiguration>(
-        dbusConnection,
-        [&io, &objectServer, &sensors, &dbusConnection, sensorsChanged,
-         updateType](const ManagedObjectType& sensorConfigurations) {
-            bool firstScan = sensorsChanged == nullptr;
-            std::vector<std::filesystem::path> paths;
-            if (!findFiles(std::filesystem::path("/sys/class/hwmon"),
-                           R"(in\d+_input)", paths))
+    auto getter = std::make_shared<
+        GetSensorConfiguration>(dbusConnection, [&io, &objectServer, &sensors,
+                                                 &dbusConnection,
+                                                 sensorsChanged, updateType](
+                                                    const ManagedObjectType&
+                                                        sensorConfigurations) {
+        bool firstScan = sensorsChanged == nullptr;
+        std::vector<std::filesystem::path> paths;
+        if (!findFiles(std::filesystem::path("/sys/class/hwmon"),
+                       R"(in\d+_input)", paths))
+        {
+            lg2::error("No adc sensors in system");
+            return;
+        }
+
+        // iterate through all found adc sensors, and try to match them with
+        // configuration
+        for (auto& path : paths)
+        {
+            if (!isAdc(path.parent_path()))
             {
-                lg2::error("No adc sensors in system");
-                return;
+                continue;
             }
+            std::smatch match;
+            std::string pathStr = path.string();
 
-            // iterate through all found adc sensors, and try to match them with
-            // configuration
-            for (auto& path : paths)
+            std::regex_search(pathStr, match, inputRegex);
+            std::string indexStr = *(match.begin() + 1);
+
+            // convert to 0 based
+            size_t index = std::stoul(indexStr) - 1;
+
+            const SensorData* sensorData = nullptr;
+            const std::string* interfacePath = nullptr;
+            const std::pair<std::string, SensorBaseConfigMap>*
+                baseConfiguration = nullptr;
+            for (const auto& [path, cfgData] : sensorConfigurations)
             {
-                if (!isAdc(path.parent_path()))
+                // clear it out each loop
+                baseConfiguration = nullptr;
+
+                // find base configuration
+                for (const std::string_view type : sensorTypes)
                 {
-                    continue;
-                }
-                std::smatch match;
-                std::string pathStr = path.string();
-
-                std::regex_search(pathStr, match, inputRegex);
-                std::string indexStr = *(match.begin() + 1);
-
-                // convert to 0 based
-                size_t index = std::stoul(indexStr) - 1;
-
-                const SensorData* sensorData = nullptr;
-                const std::string* interfacePath = nullptr;
-                const std::pair<std::string, SensorBaseConfigMap>*
-                    baseConfiguration = nullptr;
-                for (const auto& [path, cfgData] : sensorConfigurations)
-                {
-                    // clear it out each loop
-                    baseConfiguration = nullptr;
-
-                    // find base configuration
-                    for (const std::string_view type : sensorTypes)
+                    auto sensorBase = cfgData.find(configInterfaceName(type));
+                    if (sensorBase != cfgData.end())
                     {
-                        auto sensorBase =
-                            cfgData.find(configInterfaceName(type));
-                        if (sensorBase != cfgData.end())
-                        {
-                            baseConfiguration = &(*sensorBase);
-                            break;
-                        }
-                    }
-                    if (baseConfiguration == nullptr)
-                    {
-                        continue;
-                    }
-                    auto findIndex = baseConfiguration->second.find("Index");
-                    if (findIndex == baseConfiguration->second.end())
-                    {
-                        lg2::error(
-                            "Base configuration missing Index: '{INTERFACE}'",
-                            "INTERFACE", baseConfiguration->first);
-                        continue;
-                    }
-
-                    unsigned int number = std::visit(
-                        VariantToUnsignedIntVisitor(), findIndex->second);
-
-                    if (number != index)
-                    {
-                        continue;
-                    }
-
-                    sensorData = &cfgData;
-                    interfacePath = &path.str;
-                    break;
-                }
-                if (sensorData == nullptr)
-                {
-                    lg2::debug("failed to find match for '{PATH}'", "PATH",
-                               path.string());
-                    continue;
-                }
-
-                if (baseConfiguration == nullptr)
-                {
-                    lg2::error("error finding base configuration for '{PATH}'",
-                               "PATH", path.string());
-                    continue;
-                }
-
-                auto findSensorName = baseConfiguration->second.find("Name");
-                if (findSensorName == baseConfiguration->second.end())
-                {
-                    lg2::error(
-                        "could not determine configuration name for '{PATH}'",
-                        "PATH", path.string());
-                    continue;
-                }
-                std::string sensorName =
-                    std::get<std::string>(findSensorName->second);
-
-                // on rescans, only update sensors we were signaled by
-                auto findSensor = sensors.find(sensorName);
-                if (!firstScan && findSensor != sensors.end())
-                {
-                    bool found = false;
-                    for (auto it = sensorsChanged->begin();
-                         it != sensorsChanged->end(); it++)
-                    {
-                        if (findSensor->second &&
-                            it->ends_with(findSensor->second->name))
-                        {
-                            sensorsChanged->erase(it);
-                            findSensor->second = nullptr;
-                            found = true;
-                            break;
-                        }
-                    }
-                    if (!found)
-                    {
-                        continue;
-                    }
-                }
-
-                auto findCPU = baseConfiguration->second.find("CPURequired");
-                if (findCPU != baseConfiguration->second.end())
-                {
-                    size_t index =
-                        std::visit(VariantToIntVisitor(), findCPU->second);
-                    auto presenceFind = cpuPresence.find(index);
-                    if (presenceFind == cpuPresence.end())
-                    {
-                        continue; // no such cpu
-                    }
-                    if (!presenceFind->second)
-                    {
-                        continue; // cpu not installed
-                    }
-                }
-                else if (updateType == UpdateType::cpuPresenceChange)
-                {
-                    continue;
-                }
-
-                std::vector<thresholds::Threshold> sensorThresholds;
-                if (!parseThresholdsFromConfig(*sensorData, sensorThresholds))
-                {
-                    lg2::error("error populating thresholds for '{NAME}'",
-                               "NAME", sensorName);
-                }
-
-                auto findScaleFactor =
-                    baseConfiguration->second.find("ScaleFactor");
-                float scaleFactor = 1.0;
-                if (findScaleFactor != baseConfiguration->second.end())
-                {
-                    scaleFactor = std::visit(VariantToFloatVisitor(),
-                                             findScaleFactor->second);
-                    // scaleFactor is used in division
-                    if (scaleFactor == 0.0F)
-                    {
-                        scaleFactor = 1.0;
-                    }
-                }
-
-                float pollRate =
-                    getPollRate(baseConfiguration->second, pollRateDefault);
-                PowerState readState = getPowerState(baseConfiguration->second);
-
-                auto& sensor = sensors[sensorName];
-                sensor = nullptr;
-
-                std::optional<BridgeGpio> bridgeGpio;
-                for (const auto& [key, cfgMap] : *sensorData)
-                {
-                    if (key.find("BridgeGpio") != std::string::npos)
-                    {
-                        auto findName = cfgMap.find("Name");
-                        if (findName != cfgMap.end())
-                        {
-                            std::string gpioName = std::visit(
-                                VariantToStringVisitor(), findName->second);
-
-                            int polarity = gpiod::line::ACTIVE_HIGH;
-                            auto findPolarity = cfgMap.find("Polarity");
-                            if (findPolarity != cfgMap.end())
-                            {
-                                if (std::string("Low") ==
-                                    std::visit(VariantToStringVisitor(),
-                                               findPolarity->second))
-                                {
-                                    polarity = gpiod::line::ACTIVE_LOW;
-                                }
-                            }
-
-                            float setupTime = gpioBridgeSetupTimeDefault;
-                            auto findSetupTime = cfgMap.find("SetupTime");
-                            if (findSetupTime != cfgMap.end())
-                            {
-                                setupTime = std::visit(VariantToFloatVisitor(),
-                                                       findSetupTime->second);
-                            }
-
-                            bridgeGpio =
-                                BridgeGpio(gpioName, polarity, setupTime);
-                        }
-
+                        baseConfiguration = &(*sensorBase);
                         break;
                     }
                 }
+                if (baseConfiguration == nullptr)
+                {
+                    continue;
+                }
+                auto findIndex = baseConfiguration->second.find("Index");
+                if (findIndex == baseConfiguration->second.end())
+                {
+                    lg2::error(
+                        "Base configuration missing Index: '{INTERFACE}'",
+                        "INTERFACE", baseConfiguration->first);
+                    continue;
+                }
 
-                sensor = std::make_shared<ADCSensor>(
-                    path.string(), objectServer, dbusConnection, io, sensorName,
-                    std::move(sensorThresholds), scaleFactor, pollRate,
-                    readState, *interfacePath, std::move(bridgeGpio));
-                sensor->setupRead();
+                unsigned int number = std::visit(VariantToUnsignedIntVisitor(),
+                                                 findIndex->second);
+
+                if (number != index)
+                {
+                    continue;
+                }
+
+                sensorData = &cfgData;
+                interfacePath = &path.str;
+                break;
             }
-        });
+            if (sensorData == nullptr)
+            {
+                lg2::debug("failed to find match for '{PATH}'", "PATH",
+                           path.string());
+                continue;
+            }
+
+            if (baseConfiguration == nullptr)
+            {
+                lg2::error("error finding base configuration for '{PATH}'",
+                           "PATH", path.string());
+                continue;
+            }
+
+            auto findSensorName = baseConfiguration->second.find("Name");
+            if (findSensorName == baseConfiguration->second.end())
+            {
+                lg2::error(
+                    "could not determine configuration name for '{PATH}'",
+                    "PATH", path.string());
+                continue;
+            }
+            std::string sensorName =
+                std::get<std::string>(findSensorName->second);
+
+            // on rescans, only update sensors we were signaled by
+            auto findSensor = sensors.find(sensorName);
+            if (!firstScan && findSensor != sensors.end())
+            {
+                std::vector<thresholds::Threshold> newThresholds;
+                if (parseThresholdsFromConfig(*sensorData, newThresholds))
+                {
+                    auto& oldThresholds = findSensor->second->thresholds;
+
+                    for (const auto& newTh : newThresholds)
+                    {
+                        for (auto& oldTh : oldThresholds)
+                        {
+                            if (newTh.level == oldTh.level &&
+                                newTh.direction == oldTh.direction)
+                            {
+                                oldTh.value = newTh.value;
+                            }
+                        }
+                    }
+
+                    thresholds::updateThresholds(findSensor->second.get());
+                    lg2::info(
+                        "Sensor {NAME} thresholds updated in-place to preserve state",
+                        "NAME", sensorName);
+                }
+
+                for (auto it = sensorsChanged->begin();
+                     it != sensorsChanged->end(); it++)
+                {
+                    if (it->ends_with(findSensor->second->name))
+                    {
+                        sensorsChanged->erase(it);
+                        break;
+                    }
+                }
+                continue;
+            }
+
+            auto findCPU = baseConfiguration->second.find("CPURequired");
+            if (findCPU != baseConfiguration->second.end())
+            {
+                size_t index =
+                    std::visit(VariantToIntVisitor(), findCPU->second);
+                auto presenceFind = cpuPresence.find(index);
+                if (presenceFind == cpuPresence.end())
+                {
+                    continue; // no such cpu
+                }
+                if (!presenceFind->second)
+                {
+                    continue; // cpu not installed
+                }
+            }
+            else if (updateType == UpdateType::cpuPresenceChange)
+            {
+                continue;
+            }
+
+            std::vector<thresholds::Threshold> sensorThresholds;
+            if (!parseThresholdsFromConfig(*sensorData, sensorThresholds))
+            {
+                lg2::error("error populating thresholds for '{NAME}'", "NAME",
+                           sensorName);
+            }
+
+            auto findScaleFactor =
+                baseConfiguration->second.find("ScaleFactor");
+            float scaleFactor = 1.0;
+            if (findScaleFactor != baseConfiguration->second.end())
+            {
+                scaleFactor = std::visit(VariantToFloatVisitor(),
+                                         findScaleFactor->second);
+                // scaleFactor is used in division
+                if (scaleFactor == 0.0F)
+                {
+                    scaleFactor = 1.0;
+                }
+            }
+
+            float pollRate =
+                getPollRate(baseConfiguration->second, pollRateDefault);
+            PowerState readState = getPowerState(baseConfiguration->second);
+
+            auto& sensor = sensors[sensorName];
+            sensor = nullptr;
+
+            std::optional<BridgeGpio> bridgeGpio;
+            for (const auto& [key, cfgMap] : *sensorData)
+            {
+                if (key.find("BridgeGpio") != std::string::npos)
+                {
+                    auto findName = cfgMap.find("Name");
+                    if (findName != cfgMap.end())
+                    {
+                        std::string gpioName = std::visit(
+                            VariantToStringVisitor(), findName->second);
+
+                        int polarity = gpiod::line::ACTIVE_HIGH;
+                        auto findPolarity = cfgMap.find("Polarity");
+                        if (findPolarity != cfgMap.end())
+                        {
+                            if (std::string("Low") ==
+                                std::visit(VariantToStringVisitor(),
+                                           findPolarity->second))
+                            {
+                                polarity = gpiod::line::ACTIVE_LOW;
+                            }
+                        }
+
+                        float setupTime = gpioBridgeSetupTimeDefault;
+                        auto findSetupTime = cfgMap.find("SetupTime");
+                        if (findSetupTime != cfgMap.end())
+                        {
+                            setupTime = std::visit(VariantToFloatVisitor(),
+                                                   findSetupTime->second);
+                        }
+
+                        bridgeGpio = BridgeGpio(gpioName, polarity, setupTime);
+                    }
+
+                    break;
+                }
+            }
+
+            sensor = std::make_shared<ADCSensor>(
+                path.string(), objectServer, dbusConnection, io, sensorName,
+                std::move(sensorThresholds), scaleFactor, pollRate, readState,
+                *interfacePath, std::move(bridgeGpio));
+            sensor->setupRead();
+        }
+    });
 
     getter->getConfiguration(sensorTypes);
 }
