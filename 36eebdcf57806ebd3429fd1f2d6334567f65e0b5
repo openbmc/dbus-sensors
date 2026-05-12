@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e83a95b4_2ce25a4f",
+        "filename": "src/Utils.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-12T10:56:55Z",
+      "side": 1,
+      "message": "Follow-up on the std::move comment — would you consider taking this one step further and extracting a private helper that operates on the already-prefixed interfaces? Something like:\n```\nvoid getConfiguration(std::span\u003cconst std::string_view\u003e types, size_t retries \u003d 0)\n{\n    std::vector\u003cstd::string\u003e interfaces;\n    interfaces.reserve(types.size());\n    for (const auto\u0026 type : types)\n        interfaces.push_back(configInterfaceName(type));\n        getConfigurationImpl(std::move(interfaces), retries);\n}\n\nprivate:\nvoid getConfigurationImpl(std::vector\u003cstd::string\u003e interfaces, size_t retries);\n```\nThen the retry just does self-\u003egetConfigurationImpl(std::move(interfaces), retries - 1); — no typesCopy, no string_view round-trip, and the double-prefix bug becomes structurally impossible since the prefix is only ever applied in the public entry. The current fix works but the API shape that caused the bug is still there.",
+      "range": {
+        "startLine": 310,
+        "startChar": 9,
+        "endLine": 310,
+        "endChar": 25
+      },
+      "revId": "36eebdcf57806ebd3429fd1f2d6334567f65e0b5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30ff28b4_c04feb21",
+        "filename": "src/Utils.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-12T10:56:55Z",
+      "side": 1,
+      "message": "can we use std::move?",
+      "range": {
+        "startLine": 329,
+        "startChar": 31,
+        "endLine": 329,
+        "endChar": 40
+      },
+      "revId": "36eebdcf57806ebd3429fd1f2d6334567f65e0b5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
