@@ -207,6 +207,40 @@ void persistThreshold(const std::string& path, const std::string& baseInterface,
     }
 }
 
+void fillMissingThresholds(std::vector<thresholds::Threshold>& thresholdVector)
+{
+    const std::size_t thresholdsLen = thresholdVector.size();
+    for (std::size_t index = 0; index < thresholdsLen; ++index)
+    {
+        const thresholds::Threshold& thisThreshold = thresholdVector[index];
+        bool foundOpposite = false;
+        thresholds::Direction opposite = thresholds::Direction::HIGH;
+        if (thisThreshold.direction == thresholds::Direction::HIGH)
+        {
+            opposite = thresholds::Direction::LOW;
+        }
+        for (thresholds::Threshold& otherThreshold : thresholdVector)
+        {
+            if (thisThreshold.level != otherThreshold.level)
+            {
+                continue;
+            }
+            if (otherThreshold.direction != opposite)
+            {
+                continue;
+            }
+            foundOpposite = true;
+            break;
+        }
+        if (foundOpposite)
+        {
+            continue;
+        }
+        thresholdVector.emplace_back(thisThreshold.level, opposite,
+                                     std::numeric_limits<double>::quiet_NaN());
+    }
+}
+
 void updateThresholds(Sensor* sensor)
 {
     for (const auto& threshold : sensor->thresholds)

@@ -123,6 +123,10 @@ bool parseThresholdsFromConfig(
     std::vector<thresholds::Threshold>& thresholdVector,
     const std::string* matchLabel = nullptr, const int* sensorIndex = nullptr);
 
+// If one of the thresholds for a dbus interface is provided we have to set
+// the other one as dbus properties are never optional.
+void fillMissingThresholds(std::vector<thresholds::Threshold>& thresholdVector);
+
 // Sensors touched by parseThresholdFromAttr() are forcibly updated with given
 // parameters, so callers are encouraged to specify a sane hysteresis value for
 // their HW. For reference, the hysteresis fomula used in Sensor.hpp is:
