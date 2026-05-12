@@ -26,10 +26,12 @@
 #include <cstdint>
 #include <format>
 #include <memory>
+#include <optional>
 #include <span>
 #include <string>
 #include <system_error>
 #include <utility>
+#include <variant>
 #include <vector>
 
 PcieDevice::PcieDevice(const SensorConfigs& configs, const std::string& name,
@@ -41,7 +43,7 @@ PcieDevice::PcieDevice(const SensorConfigs& configs, const std::string& name,
     eid(eid), sensorPollMs(std::chrono::milliseconds{configs.pollRate}),
     waitTimer(io, std::chrono::steady_clock::duration(0)),
     mctpRequester(mctpRequester), conn(conn), objectServer(objectServer),
-    configs(configs), name(escapeName(name)), path(path)
+    configs(configs), name(escapeName(name)), path(path), assetRetryTimer(io)
 {}
 
 void PcieDevice::init()
@@ -62,6 +64,23 @@ void PcieDevice::init()
     networkAdapterAssociationInterface->register_property(
         "Associations", associations);
 
+    locationCodeInterface = objectServer.add_interface(
+        networkAdapterPath,
+        "xyz.openbmc_project.Inventory.Decorator.LocationCode");
+    locationCodeInterface->register_property("LocationCode", name);
+
+    embeddedConnectorInterface = objectServer.add_interface(
+        networkAdapterPath, "xyz.openbmc_project.Inventory.Connector.Embedded");
+
+    assetInterface = objectServer.add_interface(
+        networkAdapterPath, "xyz.openbmc_project.Inventory.Decorator.Asset");
+    assetInterface->register_property("Manufacturer", std::string("Nvidia"));
+    registerAssetProperty(gpu::InventoryPropertyId::SERIAL_NUMBER,
+                          "SerialNumber");
+    registerAssetProperty(gpu::InventoryPropertyId::MARKETING_NAME, "Model");
+    registerAssetProperty(gpu::InventoryPropertyId::DEVICE_PART_NUMBER,
+                          "PartNumber");
+
     if (!networkAdapterInterface->initialize())
     {
         lg2::error(
@@ -75,6 +94,29 @@ void PcieDevice::init()
             "Error initializing Association Interface for Network Adapter for eid {EID}",
             "EID", eid);
     }
+
+    if (!locationCodeInterface->initialize())
+    {
+        lg2::error(
+            "Error initializing LocationCode Interface for Network Adapter for eid {EID}",
+            "EID", eid);
+    }
+
+    if (!embeddedConnectorInterface->initialize())
+    {
+        lg2::error(
+            "Error initializing Embedded Connector Interface for Network Adapter for eid {EID}",
+            "EID", eid);
+    }
+
+    if (!assetInterface->initialize())
+    {
+        lg2::error(
+            "Error initializing Asset Interface for Network Adapter for eid {EID}",
+            "EID", eid);
+    }
+
+    processNextAssetProperty();
 
     getPciePortCounts();
 
@@ -318,4 +360,144 @@ void PcieDevice::read()
         }
         read();
     });
+}
+
+void PcieDevice::registerAssetProperty(gpu::InventoryPropertyId propertyId,
+                                       const std::string& propertyName)
+{
+    assetInterface->register_property(propertyName, std::string{});
+    assetProperties[propertyId] = {propertyName, 0, true};
+}
+
+std::optional<gpu::InventoryPropertyId>
+    PcieDevice::getNextPendingAssetProperty() const
+{
+    for (const auto& [propertyId, info] : assetProperties)
+    {
+        if (info.isPending)
+        {
+            return propertyId;
+        }
+    }
+    return std::nullopt;
+}
+
+void PcieDevice::processNextAssetProperty()
+{
+    std::optional<gpu::InventoryPropertyId> nextProperty =
+        getNextPendingAssetProperty();
+    if (nextProperty)
+    {
+        sendAssetPropertyRequest(*nextProperty);
+    }
+}
+
+void PcieDevice::sendAssetPropertyRequest(gpu::InventoryPropertyId propertyId)
+{
+    int rc = gpu::encodeGetInventoryInformationRequest(
+        0, static_cast<uint8_t>(propertyId), assetRequestBuffer);
+    if (rc != 0)
+    {
+        lg2::error(
+            "Failed to encode asset property ID {PROP_ID} request for {NAME}: rc={RC}",
+            "PROP_ID", static_cast<uint8_t>(propertyId), "NAME", name, "RC",
+            rc);
+        return;
+    }
+
+    mctpRequester.sendRecvMsg(
+        eid, assetRequestBuffer,
+        [weak{weak_from_this()}, propertyId](const std::error_code& ec,
+                                             std::span<const uint8_t> buffer) {
+            std::shared_ptr<PcieDevice> self = weak.lock();
+            if (!self)
+            {
+                lg2::error("Invalid PcieDevice reference");
+                return;
+            }
+            self->handleAssetPropertyResponse(propertyId, ec, buffer);
+        });
+}
+
+void PcieDevice::handleAssetPropertyResponse(
+    gpu::InventoryPropertyId propertyId, const std::error_code& ec,
+    std::span<const uint8_t> buffer)
+{
+    auto it = assetProperties.find(propertyId);
+    if (it == assetProperties.end())
+    {
+        processNextAssetProperty();
+        return;
+    }
+
+    bool success = false;
+    if (!ec)
+    {
+        ocp::accelerator_management::CompletionCode cc{};
+        uint16_t reasonCode = 0;
+        gpu::InventoryValue info;
+        int rc = gpu::decodeGetInventoryInformationResponse(
+            buffer, cc, reasonCode, propertyId, info);
+
+        if (rc == 0 &&
+            cc == ocp::accelerator_management::CompletionCode::SUCCESS &&
+            std::holds_alternative<std::string>(info))
+        {
+            assetInterface->set_property(it->second.propertyName,
+                                         std::get<std::string>(info));
+            lg2::info(
+                "Asset property ID {PROP_ID} for {NAME} populated: {VALUE}",
+                "PROP_ID", static_cast<uint8_t>(propertyId), "NAME", name,
+                "VALUE", std::get<std::string>(info));
+            success = true;
+        }
+        else
+        {
+            lg2::error(
+                "Failed to decode asset property ID {PROP_ID} for {NAME}: rc={RC}, cc={CC}, reasonCode={REASON}",
+                "PROP_ID", static_cast<uint8_t>(propertyId), "NAME", name, "RC",
+                rc, "CC", static_cast<uint8_t>(cc), "REASON", reasonCode);
+        }
+    }
+    else
+    {
+        lg2::error(
+            "MCTP error fetching asset property ID {PROP_ID} for {NAME}: {ERR}",
+            "PROP_ID", static_cast<uint8_t>(propertyId), "NAME", name, "ERR",
+            ec.message());
+    }
+
+    if (success)
+    {
+        it->second.isPending = false;
+        processNextAssetProperty();
+        return;
+    }
+
+    it->second.retryCount++;
+    if (it->second.retryCount >= assetMaxRetryAttempts)
+    {
+        lg2::error(
+            "Asset property ID {PROP_ID} for {NAME} failed after {ATTEMPTS} attempts",
+            "PROP_ID", static_cast<uint8_t>(propertyId), "NAME", name,
+            "ATTEMPTS", assetMaxRetryAttempts);
+        it->second.isPending = false;
+        processNextAssetProperty();
+        return;
+    }
+
+    assetRetryTimer.expires_after(assetRetryDelay);
+    assetRetryTimer.async_wait(
+        [weak{weak_from_this()}](const boost::system::error_code& ec) {
+            if (ec)
+            {
+                return;
+            }
+            std::shared_ptr<PcieDevice> self = weak.lock();
+            if (!self)
+            {
+                return;
+            }
+            self->processNextAssetProperty();
+        });
 }
