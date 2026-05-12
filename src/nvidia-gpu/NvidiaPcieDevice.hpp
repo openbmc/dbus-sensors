@@ -19,10 +19,13 @@
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
+#include <array>
 #include <chrono>
 #include <cstdint>
 #include <memory>
+#include <span>
 #include <string>
+#include <system_error>
 #include <vector>
 
 constexpr const char* pcieDevicePathPrefix = "/xyz/openbmc_project/inventory/";
@@ -103,5 +106,8 @@ class PcieDevice : public std::enable_shared_from_this<PcieDevice>
     std::shared_ptr<sdbusplus::asio::dbus_interface> networkAdapterInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface>
         networkAdapterAssociationInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> locationCodeInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> embeddedConnectorInterface;
+
     std::vector<std::shared_ptr<NvidiaEthPortMetrics>> ethPortMetrics;
 };
