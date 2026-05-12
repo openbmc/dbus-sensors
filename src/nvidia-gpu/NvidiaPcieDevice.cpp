@@ -62,6 +62,14 @@ void PcieDevice::init()
     networkAdapterAssociationInterface->register_property(
         "Associations", associations);
 
+    locationCodeInterface = objectServer.add_interface(
+        networkAdapterPath,
+        "xyz.openbmc_project.Inventory.Decorator.LocationCode");
+    locationCodeInterface->register_property("LocationCode", name);
+
+    embeddedConnectorInterface = objectServer.add_interface(
+        networkAdapterPath, "xyz.openbmc_project.Inventory.Connector.Embedded");
+
     if (!networkAdapterInterface->initialize())
     {
         lg2::error(
@@ -73,6 +81,20 @@ void PcieDevice::init()
     {
         lg2::error(
             "Error initializing Association Interface for Network Adapter for eid {EID}",
+            "EID", eid);
+    }
+
+    if (!locationCodeInterface->initialize())
+    {
+        lg2::error(
+            "Error initializing LocationCode Interface for Network Adapter for eid {EID}",
+            "EID", eid);
+    }
+
+    if (!embeddedConnectorInterface->initialize())
+    {
+        lg2::error(
+            "Error initializing Embedded Connector Interface for Network Adapter for eid {EID}",
             "EID", eid);
     }
 

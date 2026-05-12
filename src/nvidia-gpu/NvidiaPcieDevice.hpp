@@ -103,5 +103,7 @@ class PcieDevice : public std::enable_shared_from_this<PcieDevice>
     std::shared_ptr<sdbusplus::asio::dbus_interface> networkAdapterInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface>
         networkAdapterAssociationInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> locationCodeInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> embeddedConnectorInterface;
     std::vector<std::shared_ptr<NvidiaEthPortMetrics>> ethPortMetrics;
 };
