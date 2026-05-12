@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67967e49_e4d32d64",
+        "filename": "src/nvidia-gpu/NvidiaPcieInterface.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-12T11:29:24Z",
+      "side": 1,
+      "message": "Please use the same order as NvidiaPcieDevice.cpp.",
+      "range": {
+        "startLine": 221,
+        "startChar": 33,
+        "endLine": 221,
+        "endChar": 47
+      },
+      "revId": "b58a17406e54d9d86222355f7564b395e1e8691c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
