@@ -19,10 +19,15 @@
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
+#include <array>
 #include <chrono>
 #include <cstdint>
 #include <memory>
+#include <optional>
+#include <span>
 #include <string>
+#include <system_error>
+#include <unordered_map>
 #include <vector>
 
 constexpr const char* pcieDevicePathPrefix = "/xyz/openbmc_project/inventory/";
@@ -68,6 +73,23 @@ class PcieDevice : public std::enable_shared_from_this<PcieDevice>
         uint16_t portNumber, const std::error_code& ec,
         std::span<const uint8_t> response);
 
+    struct AssetPropertyInfo
+    {
+        std::string propertyName;
+        int retryCount{0};
+        bool isPending{false};
+    };
+
+    void registerAssetProperty(gpu::InventoryPropertyId propertyId,
+                               const std::string& propertyName);
+
+    void processNextAssetProperty();
+    void sendAssetPropertyRequest(gpu::InventoryPropertyId propertyId);
+    void handleAssetPropertyResponse(gpu::InventoryPropertyId propertyId,
+                                     const std::error_code& ec,
+                                     std::span<const uint8_t> buffer);
+    std::optional<gpu::InventoryPropertyId> getNextPendingAssetProperty() const;
+
     PcieDeviceInfo pcieDeviceInfo;
 
     uint8_t eid{};
@@ -103,5 +125,17 @@ class PcieDevice : public std::enable_shared_from_this<PcieDevice>
     std::shared_ptr<sdbusplus::asio::dbus_interface> networkAdapterInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface>
         networkAdapterAssociationInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> locationCodeInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> embeddedConnectorInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> assetInterface;
+
+    boost::asio::steady_timer assetRetryTimer;
+    std::unordered_map<gpu::InventoryPropertyId, AssetPropertyInfo>
+        assetProperties;
+    std::array<uint8_t, gpu::getInventoryInformationRequestSize>
+        assetRequestBuffer{};
+    static constexpr std::chrono::seconds assetRetryDelay{5};
+    static constexpr int assetMaxRetryAttempts = 3;
+
     std::vector<std::shared_ptr<NvidiaEthPortMetrics>> ethPortMetrics;
 };
