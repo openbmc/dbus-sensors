@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1404f850_ff165bf6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-12T02:59:05Z",
+      "side": 1,
+      "message": "Hi @haghera@nvidia.com — Per PDI Software/Version.interface.yaml, \nhttps://github.com/openbmc/phosphor-dbus-interfaces/blob/master/yaml/xyz/openbmc_project/Software/Version.interface.yaml\nthe description recommends this interface be placed under /xyz/openbmc_project/software object path. \nShould we create a /xyz/openbmc_project/software/\u003cid\u003e object with a `running` association to the inventory item?",
+      "revId": "8c82eab5edfa52522d76abd9de2d5e75c04bf93e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
