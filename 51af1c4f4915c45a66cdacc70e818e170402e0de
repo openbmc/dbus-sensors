@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25f23bd9_de0a6854",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-12T10:31:09Z",
+      "side": 1,
+      "message": "decodeQueryScalarGroupTelemetryResponseImpl() resizes telemetryValues before any write and reads are gated on a successful decode, so there\u0027s no actual OOB.\nI think we can abandon this patch.",
+      "revId": "51af1c4f4915c45a66cdacc70e818e170402e0de",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
