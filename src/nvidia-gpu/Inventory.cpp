@@ -304,6 +304,16 @@ void Inventory::handleInventoryPropertyResponse(
                             std::get<uint32_t>(info) / milliwattsPerWatt;
                         it->second.interface->set_property(
                             it->second.propertyName, powerLimit);
+                        if (propertyId ==
+                            gpu::InventoryPropertyId::MIN_DEVICE_POWER_LIMIT)
+                        {
+                            minPowerCapWatts = powerLimit;
+                        }
+                        else if (propertyId == gpu::InventoryPropertyId::
+                                                   MAX_DEVICE_POWER_LIMIT)
+                        {
+                            maxPowerCapWatts = powerLimit;
+                        }
                         lg2::info(
                             "Successfully received property ID {PROP_ID} for {NAME} with value: {VALUE}",
                             "PROP_ID", static_cast<uint8_t>(propertyId), "NAME",

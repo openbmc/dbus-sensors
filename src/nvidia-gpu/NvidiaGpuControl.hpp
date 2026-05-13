@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include "Inventory.hpp"
 #include "MctpRequester.hpp"
 
 #include <NvidiaGpuMctpVdm.hpp>
@@ -24,7 +25,8 @@ class NvidiaGpuControl : public std::enable_shared_from_this<NvidiaGpuControl>
         sdbusplus::asio::object_server& objectServer,
         const std::string& deviceName, const std::string& inventoryPath,
         mctp::MctpRequester& mctpRequester, uint8_t eid,
-        const std::shared_ptr<sdbusplus::asio::dbus_interface>& powerCapIface);
+        const std::shared_ptr<sdbusplus::asio::dbus_interface>& powerCapIface,
+        std::shared_ptr<Inventory> inventory);
 
     ~NvidiaGpuControl();
 
@@ -36,11 +38,24 @@ class NvidiaGpuControl : public std::enable_shared_from_this<NvidiaGpuControl>
     void handleGetPowerLimitsResponse(const std::error_code& ec,
                                       std::span<const uint8_t> buffer);
 
+    int handlePowerCapSet(const uint32_t& newCap, uint32_t& current);
+
+    int handlePowerCapEnableSet(const bool& newEnable, bool& current);
+
+    void sendSetPowerLimitsRequest(uint32_t milliwatts,
+                                   gpu::SetPowerLimitsAction action);
+
+    void handleSetPowerLimitsResponse(const std::error_code& ec,
+                                      std::span<const uint8_t> buffer);
+
     std::shared_ptr<sdbusplus::asio::dbus_interface> powerCapInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> associationInterface;
+    std::shared_ptr<Inventory> inventory;
 
     uint32_t powerCapValue{0};
     bool powerCapEnabled{false};
+    bool setPowerLimitInflight{false};
+    bool internalSet{false};
 
     std::string name;
     sdbusplus::asio::object_server& objectServer;
@@ -49,4 +64,6 @@ class NvidiaGpuControl : public std::enable_shared_from_this<NvidiaGpuControl>
 
     std::array<uint8_t, gpu::getPowerLimitsRequestSize>
         getPowerLimitsRequestBuffer{};
+    std::array<uint8_t, gpu::setPowerLimitsRequestSize>
+        setPowerLimitsRequestBuffer{};
 };
