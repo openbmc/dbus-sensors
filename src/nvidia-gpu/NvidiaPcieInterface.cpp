@@ -88,6 +88,12 @@ NvidiaPcieInterface::NvidiaPcieInterface(
         case gpu::DeviceIdentification::DEVICE_PCIE:
             switchInterface = objectServer.add_interface(
                 dbusPath, "xyz.openbmc_project.Inventory.Item.PCIeSwitch");
+            powerStateInterface = objectServer.add_interface(
+                dbusPath, "xyz.openbmc_project.State.Decorator.PowerState");
+            powerStateInterface->register_property(
+                "PowerState",
+                std::string{
+                    "xyz.openbmc_project.State.Decorator.PowerState.State.On"});
             break;
         default:
             break;
@@ -132,6 +138,12 @@ NvidiaPcieInterface::NvidiaPcieInterface(
                    eid);
     }
 
+    if (powerStateInterface && !powerStateInterface->initialize())
+    {
+        lg2::error("Error initializing PowerState Interface for eid={EID}",
+                   "EID", eid);
+    }
+
     if (associationInterface && !associationInterface->initialize())
     {
         lg2::error(
@@ -144,6 +156,7 @@ NvidiaPcieInterface::~NvidiaPcieInterface()
 {
     objectServer.remove_interface(pcieDeviceInterface);
     objectServer.remove_interface(switchInterface);
+    objectServer.remove_interface(powerStateInterface);
     objectServer.remove_interface(associationInterface);
 }
 
