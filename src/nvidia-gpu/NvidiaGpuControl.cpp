@@ -14,7 +14,6 @@
 #include <sdbusplus/asio/object_server.hpp>
 
 #include <cstdint>
-#include <limits>
 #include <memory>
 #include <span>
 #include <string>
@@ -25,7 +24,6 @@ constexpr const char* controlPowerPrefix =
     "/xyz/openbmc_project/control/power/";
 
 constexpr uint32_t milliwattsPerWatt = 1000;
-constexpr uint32_t powerLimitUnlimited = std::numeric_limits<uint32_t>::max();
 
 NvidiaGpuControl::NvidiaGpuControl(
     sdbusplus::asio::object_server& objectServer, const std::string& deviceName,
@@ -118,8 +116,8 @@ void NvidiaGpuControl::handleGetPowerLimitsResponse(
     // PDI specifies PowerCap is in Watts; device reports milliwatts, so
     // convert.
     powerCapValue = enforcedLimit / milliwattsPerWatt;
-    powerCapEnabled =
-        (enforcedLimit > 0 && enforcedLimit != powerLimitUnlimited);
+    powerCapEnabled = (persistentPowerLimit == enforcedLimit) ||
+                      (oneshotPowerLimit == enforcedLimit);
 
     powerCapInterface->set_property("PowerCap", powerCapValue);
     powerCapInterface->set_property("PowerCapEnable", powerCapEnabled);
