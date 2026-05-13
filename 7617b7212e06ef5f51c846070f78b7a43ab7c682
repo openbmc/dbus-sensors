@@ -33,6 +33,24 @@
       "message": "nit: the commit message is fairly long for a one-line change — the second paragraph (\"memory units vs data-rate units\") and the \"Key changes:\" block mostly restate the first paragraph. \nCould be trimmed if you feel like it. Not blocking.",
       "revId": "7617b7212e06ef5f51c846070f78b7a43ab7c682",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "010d1d11_0221850e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-05-13T04:10:19Z",
+      "side": 1,
+      "message": "Done, thanks for review.",
+      "parentUuid": "3b8b4230_4f35b65d",
+      "revId": "7617b7212e06ef5f51c846070f78b7a43ab7c682",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
