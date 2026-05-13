@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f361691e_e3f288c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-05-13T04:09:29Z",
+      "side": 1,
+      "message": "Done, thanks for review.",
+      "parentUuid": "f24ba182_428ff7ab",
+      "revId": "624693927848a083a515284c3031c062e749f50b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6538e427_cd274a37",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-05-12T11:16:07Z",
       "side": 1,
       "message": "The rest of the file already uses weak_from_this(). Please matches the same pattern as Inventory.cppretry Line 356 \u0026 NvidiaGpuDevice.cpp Line 342.",
+      "range": {
+        "startLine": 315,
+        "startChar": 0,
+        "endLine": 326,
+        "endChar": 11
+      },
+      "revId": "624693927848a083a515284c3031c062e749f50b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fce44bcc_59d1c46f",
+        "filename": "src/nvidia-gpu/NvidiaPcieDevice.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-05-13T04:09:29Z",
+      "side": 1,
+      "message": "Done, thanks for review.",
+      "parentUuid": "6538e427_cd274a37",
       "range": {
         "startLine": 315,
         "startChar": 0,
