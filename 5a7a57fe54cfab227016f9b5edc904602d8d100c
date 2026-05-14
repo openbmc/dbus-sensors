@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "273ecf2c_7e114bd7",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerPeakReading.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-14T02:35:24Z",
+      "side": 1,
+      "message": "please add EID and SID info",
+      "range": {
+        "startLine": 117,
+        "startChar": 8,
+        "endLine": 124,
+        "endChar": 13
+      },
+      "revId": "5a7a57fe54cfab227016f9b5edc904602d8d100c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
