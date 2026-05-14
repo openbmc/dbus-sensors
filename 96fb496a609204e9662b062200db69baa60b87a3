@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ae602bb_20a03935",
+        "filename": "src/nvidia-gpu/NvidiaGpuControl.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-05-14T12:43:02Z",
+      "side": 1,
+      "message": "Register the property with customized getter and setter.\nIn the custom setter, update the property and call `signal_property()` to avoid the infinite loop: `set_property -\u003e setter -\u003e set_property -\u003e ...`",
+      "range": {
+        "startLine": 55,
+        "startChar": 4,
+        "endLine": 60,
+        "endChar": 75
+      },
+      "revId": "96fb496a609204e9662b062200db69baa60b87a3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4439b853_bba33443",
+        "filename": "src/nvidia-gpu/NvidiaGpuControl.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-05-14T12:43:02Z",
+      "side": 1,
+      "message": "Drop the flag and update the value here manually.\n```\nif (powerCapValue !\u003d newCap) {\n    powerCapValue \u003d newCap;\n    powerCapInterface-\u003esignal_property(\"PowerCap\");\n}\n...\n```",
+      "range": {
+        "startLine": 138,
+        "startChar": 4,
+        "endLine": 141,
+        "endChar": 24
+      },
+      "revId": "96fb496a609204e9662b062200db69baa60b87a3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b469d0e_d11601b8",
+        "filename": "src/nvidia-gpu/NvidiaGpuControl.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-05-14T12:43:02Z",
+      "side": 1,
+      "message": "Drop this.",
+      "range": {
+        "startLine": 147,
+        "startChar": 4,
+        "endLine": 151,
+        "endChar": 5
+      },
+      "revId": "96fb496a609204e9662b062200db69baa60b87a3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7f601ff_7ef58b4c",
+        "filename": "src/nvidia-gpu/NvidiaGpuControl.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-05-14T12:43:02Z",
+      "side": 1,
+      "message": "Drop this.",
+      "range": {
+        "startLine": 193,
+        "startChar": 4,
+        "endLine": 197,
+        "endChar": 5
+      },
+      "revId": "96fb496a609204e9662b062200db69baa60b87a3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b86d325_68fa8653",
+        "filename": "src/nvidia-gpu/NvidiaGpuControl.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-05-14T12:43:02Z",
+      "side": 1,
+      "message": "Drop this as no re-broadcast here is needed if followed the approach mentioned above.",
+      "range": {
+        "startLine": 283,
+        "startChar": 4,
+        "endLine": 286,
+        "endChar": 24
+      },
+      "revId": "96fb496a609204e9662b062200db69baa60b87a3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fbb610a_f600863f",
+        "filename": "src/nvidia-gpu/NvidiaGpuControl.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-05-14T12:43:02Z",
+      "side": 1,
+      "message": "Consider dropping this. \nI think registering the property with a custom getter that returns live members,\nand update the property with a custom setter that assigns value + call `signal_property()` from the internal paths.\n\nIn this way, the setter callback then only ever runs on a D-Bus client write, and the flag is unnecessary.",
+      "range": {
+        "startLine": 58,
+        "startChar": 4,
+        "endLine": 58,
+        "endChar": 28
+      },
+      "revId": "96fb496a609204e9662b062200db69baa60b87a3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e0af16d_393be13c",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-05-14T12:43:02Z",
+      "side": 1,
+      "message": "An alternatives: Register these properties inside `Inventory` itself using `register_property_r` with a getter lambda that returns the `Inventory`-owned member. The optional then becomes the single source of truth, and `getMinPowerCap()` / `getMaxPowerCap()` keep returning it for the setter\u0027s range check.",
+      "range": {
+        "startLine": 78,
+        "startChar": 4,
+        "endLine": 80,
+        "endChar": 79
+      },
+      "revId": "96fb496a609204e9662b062200db69baa60b87a3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
