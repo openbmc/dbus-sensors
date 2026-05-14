@@ -334,7 +334,7 @@ void MCTPDEndpoint::subscribe(Event&& degraded, Event&& available,
             mctpdBusName, objpath.str, "org.freedesktop.DBus.Properties", "Get",
             mctpdEndpointControlInterface, "Connectivity");
     }
-    catch (const sdbusplus::exception::SdBusError& err)
+    catch (const sdbusplus::exception::internal_exception& err)
     {
         this->notifyDegraded = nullptr;
         this->notifyAvailable = nullptr;
