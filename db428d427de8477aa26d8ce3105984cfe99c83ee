@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42c880f5_f1c15f7b",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-14T16:26:03Z",
+      "side": 1,
+      "message": "nit: Could we derive from commonResponseSize + sizeof(int32_t) instead of hardcodeing the number?",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 39
+      },
+      "revId": "db428d427de8477aa26d8ce3105984cfe99c83ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8c902ae_48100aa9",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuSensorTest.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-14T16:26:03Z",
+      "side": 1,
+      "message": "nit: this filename collides visually with test_NvidiaGpuSensor.cpp\nadded in this patch. Could rename to test_NvidiaGpuMctpVdm.cpp\nsince this file tests the MctpVdm encode/decode functions.",
+      "revId": "db428d427de8477aa26d8ce3105984cfe99c83ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e2a124e_5c72bf9b",
+        "filename": "src/tests/nvidia-gpu/utils/MockDbusHelper.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-14T16:26:03Z",
+      "side": 1,
+      "message": "Could you add a comment explaining where 200 comes from?",
+      "range": {
+        "startLine": 75,
+        "startChar": 32,
+        "endLine": 75,
+        "endChar": 35
+      },
+      "revId": "db428d427de8477aa26d8ce3105984cfe99c83ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "421531aa_9c3b3aa2",
+        "filename": "src/tests/nvidia-gpu/utils/MockDbusHelper.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-14T16:26:03Z",
+      "side": 1,
+      "message": "Could you add a comment explaining where 1000 comes from?",
+      "range": {
+        "startLine": 125,
+        "startChar": 28,
+        "endLine": 125,
+        "endChar": 32
+      },
+      "revId": "db428d427de8477aa26d8ce3105984cfe99c83ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54a8fba5_1e799264",
+        "filename": "src/tests/nvidia-gpu/utils/MockDbusHelper.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-14T16:26:03Z",
+      "side": 1,
+      "message": "nit: std::filesystem::create_directories(tmpDir) would avoid the\nshell here, as in src/tests/test_Utils.cpp.",
+      "range": {
+        "startLine": 151,
+        "startChar": 8,
+        "endLine": 151,
+        "endChar": 58
+      },
+      "revId": "db428d427de8477aa26d8ce3105984cfe99c83ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1fea9998_398a3b63",
+        "filename": "src/tests/nvidia-gpu/utils/MockDbusHelper.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-14T16:26:03Z",
+      "side": 1,
+      "message": "coulde we use --nofork here?",
+      "range": {
+        "startLine": 160,
+        "startChar": 29,
+        "endLine": 160,
+        "endChar": 35
+      },
+      "revId": "db428d427de8477aa26d8ce3105984cfe99c83ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
