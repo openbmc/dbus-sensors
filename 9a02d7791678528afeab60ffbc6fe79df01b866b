@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "14da206e_3a08d8df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-05-15T10:34:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dae2a9d9_896b8527",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 6
+      },
+      "revId": "9a02d7791678528afeab60ffbc6fe79df01b866b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "be3c33b7_b679af8e",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-05-15T03:54:11Z",
       "side": 1,
       "message": "nit: for consistency with other helpers, could we pack the version string via PackBuffer instead of std::memcpy + hardcoded offset 12?",
+      "range": {
+        "startLine": 59,
+        "startChar": 4,
+        "endLine": 60,
+        "endChar": 76
+      },
+      "revId": "9a02d7791678528afeab60ffbc6fe79df01b866b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6445fa1_f7e1510c",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaDriverInformation.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-05-15T10:34:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be3c33b7_b679af8e",
       "range": {
         "startLine": 59,
         "startChar": 4,
@@ -70,6 +118,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "45c6e014_e4ad2ac4",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaEthPort.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-05-15T10:34:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7fdf2df4_f318f3b7",
+      "range": {
+        "startLine": 42,
+        "startChar": 8,
+        "endLine": 42,
+        "endChar": 18
+      },
+      "revId": "9a02d7791678528afeab60ffbc6fe79df01b866b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4e9bfadb_0454f808",
@@ -83,6 +155,30 @@
       "writtenOn": "2026-05-15T03:54:11Z",
       "side": 1,
       "message": "The test name says \"RemovesInterface\" but SUCCEED() doesn\u0027t verify removal. Could we add EXPECT_THROW(getProperty\u003c...\u003e(path, ...), sdbusplus::exception_t) after the scope exit?",
+      "range": {
+        "startLine": 244,
+        "startChar": 33,
+        "endLine": 244,
+        "endChar": 59
+      },
+      "revId": "9a02d7791678528afeab60ffbc6fe79df01b866b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6d8881a_4d72f9a1",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuControl.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-05-15T10:34:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e9bfadb_0454f808",
       "range": {
         "startLine": 244,
         "startChar": 33,
@@ -116,6 +212,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8114504_bc3c810c",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuDevice.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-05-15T10:34:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56db2834_4beff2a4",
+      "range": {
+        "startLine": 38,
+        "startChar": 7,
+        "endLine": 38,
+        "endChar": 24
+      },
+      "revId": "9a02d7791678528afeab60ffbc6fe79df01b866b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "38485772_154d00a8",
@@ -129,6 +249,30 @@
       "writtenOn": "2026-05-15T03:54:11Z",
       "side": 1,
       "message": "nit: this drain pattern is duplicated across NvidiaGpu/Sma/Pcie Device tests — could become a DbusMockTestBase::drainPendingAsync() helper.",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 7
+      },
+      "revId": "9a02d7791678528afeab60ffbc6fe79df01b866b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f7a8aeb_6f3355f0",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuDevice.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-05-15T10:34:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38485772_154d00a8",
       "range": {
         "startLine": 70,
         "startChar": 0,
@@ -162,6 +306,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fc9897f_2b59c0ba",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuPowerSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-05-15T10:34:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "567eeeaa_d479b60d",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 39
+      },
+      "revId": "9a02d7791678528afeab60ffbc6fe79df01b866b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6527ba00_c99a3990",
@@ -175,6 +343,30 @@
       "writtenOn": "2026-05-15T03:54:11Z",
       "side": 1,
       "message": "The buildXxxResponse pattern is repeated near-identically across most test files. Could it be extracted to a shared utils/TestResponseBuilders.hpp?",
+      "range": {
+        "startLine": 33,
+        "startChar": 21,
+        "endLine": 33,
+        "endChar": 39
+      },
+      "revId": "9a02d7791678528afeab60ffbc6fe79df01b866b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "196c7926_ac4632f2",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuPowerSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-05-15T10:34:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6527ba00_c99a3990",
       "range": {
         "startLine": 33,
         "startChar": 21,
@@ -208,6 +400,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "83b74308_8d4dce93",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuPowerSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-05-15T10:34:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2138f6f_d2361e8c",
+      "range": {
+        "startLine": 41,
+        "startChar": 35,
+        "endLine": 41,
+        "endChar": 39
+      },
+      "revId": "9a02d7791678528afeab60ffbc6fe79df01b866b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5b8c6f6d_2598542a",
@@ -221,6 +437,30 @@
       "writtenOn": "2026-05-15T03:54:11Z",
       "side": 1,
       "message": "Could we put in utils/TestResponseBuilders.hpp? (Same as Line 33)",
+      "range": {
+        "startLine": 49,
+        "startChar": 21,
+        "endLine": 49,
+        "endChar": 44
+      },
+      "revId": "9a02d7791678528afeab60ffbc6fe79df01b866b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e7d2339_fded198b",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuPowerSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-05-15T10:34:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b8c6f6d_2598542a",
       "range": {
         "startLine": 49,
         "startChar": 21,
