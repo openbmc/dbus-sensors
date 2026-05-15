@@ -33,6 +33,16 @@ class Inventory : public std::enable_shared_from_this<Inventory>
 
     void init();
 
+    std::optional<uint32_t> getMinPowerCap() const
+    {
+        return minPowerCapWatts;
+    }
+
+    std::optional<uint32_t> getMaxPowerCap() const
+    {
+        return maxPowerCapWatts;
+    }
+
   private:
     struct PropertyInfo
     {
@@ -74,6 +84,8 @@ class Inventory : public std::enable_shared_from_this<Inventory>
     std::unordered_map<gpu::InventoryPropertyId, PropertyInfo> properties;
     std::array<uint8_t, gpu::getInventoryInformationRequestSize>
         requestBuffer{};
+    std::optional<uint32_t> minPowerCapWatts;
+    std::optional<uint32_t> maxPowerCapWatts;
 
     static constexpr std::chrono::seconds retryDelay{5};
     static constexpr int maxRetryAttempts = 3;
