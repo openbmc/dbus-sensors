@@ -92,18 +92,6 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
     powerCapInterface = objectServer.add_interface(
         powerControlPath, "xyz.openbmc_project.Control.Power.Cap");
 
-    powerCapInterface->register_property("PowerCap",
-                                         std::numeric_limits<uint32_t>::max());
-    powerCapInterface->register_property("PowerCapEnable", false);
-    powerCapInterface->register_property("MinPowerCapValue", uint32_t{0});
-    powerCapInterface->register_property("MaxPowerCapValue",
-                                         std::numeric_limits<uint32_t>::max());
-    powerCapInterface->register_property(
-        "DefaultPowerCap", std::numeric_limits<uint32_t>::max(),
-        sdbusplus::asio::PropertyPermission::readOnly);
-
-    powerCapInterface->initialize();
-
     const std::string gpuPath = std::string(inventoryPrefix) + this->name;
     const std::string dramPath = gpuPath + "_DRAM_0";
 
@@ -239,7 +227,7 @@ void GpuDevice::makeSensors()
 
     gpuPowerControl = std::make_shared<NvidiaGpuPowerControl>(
         objectServer, name, inventoryPrefix + name, mctpRequester, eid,
-        powerCapInterface);
+        powerCapInterface, inventory);
 
     gpuClockSpeedControl = std::make_shared<NvidiaGpuClockSpeedControl>(
         objectServer, name, inventoryPrefix + name, mctpRequester, eid,
