@@ -25,7 +25,7 @@ constexpr const char* controlPowerPrefix =
     "/xyz/openbmc_project/control/power/";
 
 constexpr uint32_t milliwattsPerWatt = 1000;
-constexpr uint32_t powerLimitUnlimited = std::numeric_limits<uint32_t>::max();
+constexpr uint32_t unsetPowerLimit = std::numeric_limits<uint32_t>::max();
 
 NvidiaGpuControl::NvidiaGpuControl(
     sdbusplus::asio::object_server& objectServer, const std::string& deviceName,
@@ -115,11 +115,27 @@ void NvidiaGpuControl::handleGetPowerLimitsResponse(
         return;
     }
 
-    // PDI specifies PowerCap is in Watts; device reports milliwatts, so
-    // convert.
-    powerCapValue = enforcedLimit / milliwattsPerWatt;
-    powerCapEnabled =
-        (enforcedLimit > 0 && enforcedLimit != powerLimitUnlimited);
+    // PDI defines PowerCap as the user-specified value (maxint if the
+    // user has not set one). The GPU exposes both a one-shot and a
+    // persistent requested limit; prefer one-shot, fall back to
+    // persistent, otherwise report unset.
+    if (oneshotPowerLimit != unsetPowerLimit)
+    {
+        powerCapValue = oneshotPowerLimit / milliwattsPerWatt;
+    }
+    else if (persistentPowerLimit != unsetPowerLimit)
+    {
+        powerCapValue = persistentPowerLimit / milliwattsPerWatt;
+    }
+    else
+    {
+        powerCapValue = unsetPowerLimit;
+    }
+
+    // PowerCapEnable is true only when the user-specified cap is the
+    // limit currently being enforced.
+    powerCapEnabled = (oneshotPowerLimit == enforcedLimit) ||
+                      (persistentPowerLimit == enforcedLimit);
 
     powerCapInterface->set_property("PowerCap", powerCapValue);
     powerCapInterface->set_property("PowerCapEnable", powerCapEnabled);
