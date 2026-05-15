@@ -51,6 +51,7 @@ enum class PlatformEnvironmentalCommands : uint8_t
     GET_MAX_OBSERVED_POWER = 0x04,
     GET_CURRENT_ENERGY_COUNTER = 0x06,
     GET_POWER_LIMITS = 0x07,
+    SET_POWER_LIMITS = 0x08,
     GET_INVENTORY_INFORMATION = 0x0C,
     GET_DRIVER_INFORMATION = 0x0E,
     GET_VOLTAGE = 0x0F,
@@ -140,6 +141,18 @@ enum class PciePortType : uint8_t
     DOWNSTREAM = 1,
 };
 
+enum class SetPowerLimitsAction : uint8_t
+{
+    NEW_LIMIT = 0,
+    DEFAULT_LIMIT = 1,
+};
+
+enum class SetPowerLimitsPersistence : uint8_t
+{
+    ONE_SHOT = 0,
+    PERSISTENT = 1,
+};
+
 enum class DriverState : uint8_t
 {
     DRIVER_STATE_UNKNOWN = 0,
@@ -173,6 +186,9 @@ constexpr size_t getPowerDrawRequestSize =
 
 constexpr size_t getPowerLimitsRequestSize =
     ocp::accelerator_management::commonRequestSize + 4;
+
+constexpr size_t setPowerLimitsRequestSize =
+    ocp::accelerator_management::commonRequestSize + 10;
 
 constexpr size_t getCurrentEnergyCounterRequestSize =
     getNumericSensorReadingRequestSize;
@@ -292,6 +308,15 @@ int decodeGetPowerLimitsResponse(
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     uint32_t& persistentPowerLimitRequested,
     uint32_t& oneshotPowerLimitRequested, uint32_t& powerLimitEnforced);
+
+int encodeSetPowerLimitsRequest(
+    uint8_t instanceId, uint32_t powerLimitId, SetPowerLimitsAction action,
+    SetPowerLimitsPersistence persistence, uint32_t powerLimitMilliwatts,
+    std::span<uint8_t> buf);
+
+int decodeSetPowerLimitsResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode);
 
 int encodeGetInventoryInformationRequest(uint8_t instanceId, uint8_t propertyId,
                                          std::span<uint8_t> buf);
