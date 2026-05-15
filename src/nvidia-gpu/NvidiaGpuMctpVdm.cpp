@@ -718,6 +718,53 @@ int decodeGetPowerLimitsResponse(
     return buffer.getError();
 }
 
+int encodeSetPowerLimitsRequest(
+    uint8_t instanceId, uint32_t powerLimitId, SetPowerLimitsAction action,
+    SetPowerLimitsPersistence persistence, uint32_t powerLimitMilliwatts,
+    std::span<uint8_t> buf)
+{
+    PackBuffer buffer(buf);
+
+    int rc = encodeRequestCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(PlatformEnvironmentalCommands::SET_POWER_LIMITS),
+        instanceId);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    const uint8_t dataSize = sizeof(powerLimitId) + sizeof(uint8_t) +
+                             sizeof(uint8_t) + sizeof(powerLimitMilliwatts);
+    buffer.pack(dataSize);
+    buffer.pack(powerLimitId);
+    buffer.pack(static_cast<uint8_t>(action));
+    buffer.pack(static_cast<uint8_t>(persistence));
+    buffer.pack(powerLimitMilliwatts);
+
+    return buffer.getError();
+}
+
+int decodeSetPowerLimitsResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode)
+{
+    UnpackBuffer buffer(buf);
+
+    int rc = decodeResponseCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(PlatformEnvironmentalCommands::SET_POWER_LIMITS),
+        cc, reasonCode);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    return 0;
+}
+
 int encodeGetDriverInformationRequest(uint8_t instanceId,
                                       std::span<uint8_t> buf)
 {
