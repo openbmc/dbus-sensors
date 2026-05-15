@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65d75dae_5cf8da47",
+        "filename": "src/nvidia-gpu/NvidiaGpuControl.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-15T09:38:05Z",
+      "side": 1,
+      "message": "Done. Registered both PowerCap and PowerCapEnable with a custom\nsetter and a custom getter (direct member assignment + signal_property())",
+      "parentUuid": "7ae602bb_20a03935",
+      "range": {
+        "startLine": 55,
+        "startChar": 4,
+        "endLine": 60,
+        "endChar": 75
+      },
+      "revId": "96fb496a609204e9662b062200db69baa60b87a3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4439b853_bba33443",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-05-14T12:43:02Z",
       "side": 1,
       "message": "Drop the flag and update the value here manually.\n```\nif (powerCapValue !\u003d newCap) {\n    powerCapValue \u003d newCap;\n    powerCapInterface-\u003esignal_property(\"PowerCap\");\n}\n...\n```",
+      "range": {
+        "startLine": 138,
+        "startChar": 4,
+        "endLine": 141,
+        "endChar": 24
+      },
+      "revId": "96fb496a609204e9662b062200db69baa60b87a3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d00c319a_9eefab7e",
+        "filename": "src/nvidia-gpu/NvidiaGpuControl.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-15T09:38:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4439b853_bba33443",
       "range": {
         "startLine": 138,
         "startChar": 4,
@@ -70,6 +118,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aee00334_14969c86",
+        "filename": "src/nvidia-gpu/NvidiaGpuControl.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-15T09:38:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b469d0e_d11601b8",
+      "range": {
+        "startLine": 147,
+        "startChar": 4,
+        "endLine": 151,
+        "endChar": 5
+      },
+      "revId": "96fb496a609204e9662b062200db69baa60b87a3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e7f601ff_7ef58b4c",
@@ -83,6 +155,30 @@
       "writtenOn": "2026-05-14T12:43:02Z",
       "side": 1,
       "message": "Drop this.",
+      "range": {
+        "startLine": 193,
+        "startChar": 4,
+        "endLine": 197,
+        "endChar": 5
+      },
+      "revId": "96fb496a609204e9662b062200db69baa60b87a3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2529116_b124cac0",
+        "filename": "src/nvidia-gpu/NvidiaGpuControl.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-15T09:38:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7f601ff_7ef58b4c",
       "range": {
         "startLine": 193,
         "startChar": 4,
@@ -116,6 +212,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e6bd279_aee3d0f6",
+        "filename": "src/nvidia-gpu/NvidiaGpuControl.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-15T09:38:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b86d325_68fa8653",
+      "range": {
+        "startLine": 283,
+        "startChar": 4,
+        "endLine": 286,
+        "endChar": 24
+      },
+      "revId": "96fb496a609204e9662b062200db69baa60b87a3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3fbb610a_f600863f",
@@ -129,6 +249,30 @@
       "writtenOn": "2026-05-14T12:43:02Z",
       "side": 1,
       "message": "Consider dropping this. \nI think registering the property with a custom getter that returns live members,\nand update the property with a custom setter that assigns value + call `signal_property()` from the internal paths.\n\nIn this way, the setter callback then only ever runs on a D-Bus client write, and the flag is unnecessary.",
+      "range": {
+        "startLine": 58,
+        "startChar": 4,
+        "endLine": 58,
+        "endChar": 28
+      },
+      "revId": "96fb496a609204e9662b062200db69baa60b87a3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a07a703_f1ae3d92",
+        "filename": "src/nvidia-gpu/NvidiaGpuControl.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-15T09:38:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fbb610a_f600863f",
       "range": {
         "startLine": 58,
         "startChar": 4,
@@ -176,6 +320,30 @@
       "side": 1,
       "message": "*PS: It should be `register_property()` instead of `register_property_r`.\nApologize for typo.",
       "parentUuid": "4e0af16d_393be13c",
+      "range": {
+        "startLine": 78,
+        "startChar": 4,
+        "endLine": 80,
+        "endChar": 79
+      },
+      "revId": "96fb496a609204e9662b062200db69baa60b87a3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bcd1f95_95093838",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-15T09:38:05Z",
+      "side": 1,
+      "message": "Kept register_property_r since it is the canonical read-only overload and \nthe 4-arg register_property would require providing a no-op/reject setter just to make them read-only, which is more boilerplate.\nThanks.",
+      "parentUuid": "108438bf_eda47272",
       "range": {
         "startLine": 78,
         "startChar": 4,
