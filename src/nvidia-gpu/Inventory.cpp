@@ -341,6 +341,16 @@ void Inventory::handleInventoryPropertyResponse(
                         // Device reports milliwatts; expose watts on D-Bus
                         uint32_t powerLimit =
                             std::get<uint32_t>(info) / milliwattsPerWatt;
+                        if (propertyId ==
+                            gpu::InventoryPropertyId::MIN_DEVICE_POWER_LIMIT)
+                        {
+                            minPowerCapWatts = powerLimit;
+                        }
+                        else if (propertyId == gpu::InventoryPropertyId::
+                                                   MAX_DEVICE_POWER_LIMIT)
+                        {
+                            maxPowerCapWatts = powerLimit;
+                        }
                         it->second.interface->set_property(
                             it->second.propertyName, powerLimit);
                         lg2::info(
