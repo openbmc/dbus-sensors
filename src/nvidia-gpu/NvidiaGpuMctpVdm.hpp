@@ -322,7 +322,6 @@ int encodeGetPowerLimitsRequest(uint8_t instanceId, uint32_t powerLimitId,
 int decodeGetPowerLimitsResponse(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
-    uint32_t& persistentPowerLimitRequested,
     uint32_t& oneshotPowerLimitRequested, uint32_t& powerLimitEnforced);
 
 int encodeGetInventoryInformationRequest(uint8_t instanceId, uint8_t propertyId,

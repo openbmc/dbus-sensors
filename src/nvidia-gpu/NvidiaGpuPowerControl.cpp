@@ -25,7 +25,7 @@ constexpr const char* controlPowerPrefix =
     "/xyz/openbmc_project/control/power/";
 
 constexpr uint32_t milliwattsPerWatt = 1000;
-constexpr uint32_t powerLimitUnlimited = std::numeric_limits<uint32_t>::max();
+constexpr uint32_t unsetPowerLimit = std::numeric_limits<uint32_t>::max();
 
 NvidiaGpuPowerControl::NvidiaGpuPowerControl(
     sdbusplus::asio::object_server& objectServer, const std::string& deviceName,
@@ -98,13 +98,11 @@ void NvidiaGpuPowerControl::handleGetPowerLimitsResponse(
 
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode = 0;
-    uint32_t persistentPowerLimit = 0;
     uint32_t oneshotPowerLimit = 0;
     uint32_t enforcedLimit = 0;
 
     const int rc = gpu::decodeGetPowerLimitsResponse(
-        buffer, cc, reasonCode, persistentPowerLimit, oneshotPowerLimit,
-        enforcedLimit);
+        buffer, cc, reasonCode, oneshotPowerLimit, enforcedLimit);
 
     if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
     {
@@ -115,11 +113,25 @@ void NvidiaGpuPowerControl::handleGetPowerLimitsResponse(
         return;
     }
 
-    // PDI specifies PowerCap is in Watts; device reports milliwatts, so
-    // convert.
-    powerCapValue = enforcedLimit / milliwattsPerWatt;
-    powerCapEnabled =
-        (enforcedLimit > 0 && enforcedLimit != powerLimitUnlimited);
+    // PDI defines PowerCap as the user-specified value (maxint if the
+    // user has not set one). The Set path only ever writes the one-shot
+    // limit, so the read path mirrors that and reports the one-shot
+    // requested limit (maxint if unset), ignoring the persistent limit.
+    if (oneshotPowerLimit != unsetPowerLimit)
+    {
+        powerCapValue = oneshotPowerLimit / milliwattsPerWatt;
+    }
+    else
+    {
+        powerCapValue = unsetPowerLimit;
+    }
+
+    // PowerCapEnable is true only when the one-shot cap is the limit
+    // currently being enforced. Guard against the case where enforcedLimit
+    // is the unset sentinel: a matching unset one-shot would otherwise
+    // compare equal and incorrectly report the cap as enabled.
+    powerCapEnabled = (enforcedLimit != unsetPowerLimit) &&
+                      (oneshotPowerLimit == enforcedLimit);
 
     powerCapInterface->set_property("PowerCap", powerCapValue);
     powerCapInterface->set_property("PowerCapEnable", powerCapEnabled);

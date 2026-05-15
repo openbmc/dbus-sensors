@@ -685,7 +685,6 @@ int encodeGetPowerLimitsRequest(uint8_t instanceId, uint32_t powerLimitId,
 int decodeGetPowerLimitsResponse(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
-    uint32_t& persistentPowerLimitRequested,
     uint32_t& oneshotPowerLimitRequested, uint32_t& powerLimitEnforced)
 {
     UnpackBuffer buffer(buf);
@@ -713,6 +712,9 @@ int decodeGetPowerLimitsResponse(
         return EINVAL;
     }
 
+    // The persistent limit precedes the one-shot limit on the wire but is not
+    // consumed; unpack it to advance the buffer.
+    uint32_t persistentPowerLimitRequested = 0;
     buffer.unpack(persistentPowerLimitRequested);
     buffer.unpack(oneshotPowerLimitRequested);
     buffer.unpack(powerLimitEnforced);

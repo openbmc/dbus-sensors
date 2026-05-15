@@ -1419,18 +1419,15 @@ TEST_F(GpuMctpVdmTests, DecodeGetPowerLimitsResponseSuccess)
 
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
-    uint32_t persistentPowerLimit{};
     uint32_t oneshotPowerLimit{};
     uint32_t powerLimitEnforced{};
 
     int result = gpu::decodeGetPowerLimitsResponse(
-        buf, cc, reasonCode, persistentPowerLimit, oneshotPowerLimit,
-        powerLimitEnforced);
+        buf, cc, reasonCode, oneshotPowerLimit, powerLimitEnforced);
 
     EXPECT_EQ(result, 0);
     EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
     EXPECT_EQ(reasonCode, 0);
-    EXPECT_EQ(persistentPowerLimit, expectedPersistent);
     EXPECT_EQ(oneshotPowerLimit, expectedOneshot);
     EXPECT_EQ(powerLimitEnforced, expectedEnforced);
 }
@@ -1452,13 +1449,11 @@ TEST_F(GpuMctpVdmTests, DecodeGetPowerLimitsResponseError)
 
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
-    uint32_t persistentPowerLimit{};
     uint32_t oneshotPowerLimit{};
     uint32_t powerLimitEnforced{};
 
     int result = gpu::decodeGetPowerLimitsResponse(
-        buf, cc, reasonCode, persistentPowerLimit, oneshotPowerLimit,
-        powerLimitEnforced);
+        buf, cc, reasonCode, oneshotPowerLimit, powerLimitEnforced);
 
     EXPECT_EQ(result, 0);
     EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
@@ -1471,13 +1466,11 @@ TEST_F(GpuMctpVdmTests, DecodeGetPowerLimitsResponseBufferTooSmall)
 
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
-    uint32_t persistentPowerLimit{};
     uint32_t oneshotPowerLimit{};
     uint32_t powerLimitEnforced{};
 
     int result = gpu::decodeGetPowerLimitsResponse(
-        buf, cc, reasonCode, persistentPowerLimit, oneshotPowerLimit,
-        powerLimitEnforced);
+        buf, cc, reasonCode, oneshotPowerLimit, powerLimitEnforced);
 
     EXPECT_NE(result, 0);
 }
@@ -1500,13 +1493,11 @@ TEST_F(GpuMctpVdmTests, DecodeGetPowerLimitsResponseInvalidDataSize)
 
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
-    uint32_t persistentPowerLimit{};
     uint32_t oneshotPowerLimit{};
     uint32_t powerLimitEnforced{};
 
     int result = gpu::decodeGetPowerLimitsResponse(
-        buf, cc, reasonCode, persistentPowerLimit, oneshotPowerLimit,
-        powerLimitEnforced);
+        buf, cc, reasonCode, oneshotPowerLimit, powerLimitEnforced);
 
     EXPECT_EQ(result, EINVAL);
 }
