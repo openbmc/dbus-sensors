@@ -66,6 +66,7 @@ static constexpr double minValueTemperature = -128;     // DegreesC
 static constexpr auto sensorTypes =
     std::to_array<std::pair<std::string_view, I2CDeviceType>>({
         {"ADM1021", I2CDeviceType{"adm1021", true}},
+        {"ADT7461", I2CDeviceType{"adt7461", true}},
         {"BME280", I2CDeviceType{"bme280", false}},
         {"DPS310", I2CDeviceType{"dps310", false}},
         {"EMC1403", I2CDeviceType{"emc1403", true}},
