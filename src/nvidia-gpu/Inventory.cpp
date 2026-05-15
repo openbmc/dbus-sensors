@@ -11,6 +11,7 @@
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/vtable.hpp>
 
 #include <algorithm>
 #include <cstdint>
@@ -25,6 +26,7 @@
 #include <vector>
 
 constexpr uint32_t milliwattsPerWatt = 1000;
+constexpr uint32_t unsetPowerLimit = std::numeric_limits<uint32_t>::max();
 
 constexpr const char* acceleratorIfaceName =
     "xyz.openbmc_project.Inventory.Item.Accelerator";
@@ -96,6 +98,22 @@ Inventory::Inventory(
             powerCapInterface, "MaxPowerCapValue", 0, true};
         properties[gpu::InventoryPropertyId::RATED_DEVICE_POWER_LIMIT] = {
             powerCapInterface, "DefaultPowerCap", 0, true};
+
+        powerCapInterface->register_property_r<uint32_t>(
+            "MinPowerCapValue", uint32_t{0},
+            sdbusplus::vtable::property_::emits_change, [this](uint32_t&) {
+                return minPowerCapWatts.value_or(unsetPowerLimit);
+            });
+        powerCapInterface->register_property_r<uint32_t>(
+            "MaxPowerCapValue", unsetPowerLimit,
+            sdbusplus::vtable::property_::emits_change, [this](uint32_t&) {
+                return maxPowerCapWatts.value_or(unsetPowerLimit);
+            });
+        powerCapInterface->register_property_r<uint32_t>(
+            "DefaultPowerCap", unsetPowerLimit,
+            sdbusplus::vtable::property_::emits_change, [this](uint32_t&) {
+                return defaultPowerCapWatts.value_or(unsetPowerLimit);
+            });
     }
 }
 
@@ -302,8 +320,22 @@ void Inventory::handleInventoryPropertyResponse(
                         // Device reports milliwatts; expose watts on D-Bus
                         uint32_t powerLimit =
                             std::get<uint32_t>(info) / milliwattsPerWatt;
-                        it->second.interface->set_property(
-                            it->second.propertyName, powerLimit);
+                        if (propertyId ==
+                            gpu::InventoryPropertyId::MIN_DEVICE_POWER_LIMIT)
+                        {
+                            minPowerCapWatts = powerLimit;
+                        }
+                        else if (propertyId == gpu::InventoryPropertyId::
+                                                   MAX_DEVICE_POWER_LIMIT)
+                        {
+                            maxPowerCapWatts = powerLimit;
+                        }
+                        else
+                        {
+                            defaultPowerCapWatts = powerLimit;
+                        }
+                        it->second.interface->signal_property(
+                            it->second.propertyName);
                         lg2::info(
                             "Successfully received property ID {PROP_ID} for {NAME} with value: {VALUE}",
                             "PROP_ID", static_cast<uint8_t>(propertyId), "NAME",
