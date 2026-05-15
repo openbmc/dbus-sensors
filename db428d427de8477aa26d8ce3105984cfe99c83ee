@@ -41,6 +41,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8ebbc85_8c3c3c0d",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-05-15T10:34:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42c880f5_f1c15f7b",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 39
+      },
+      "revId": "db428d427de8477aa26d8ce3105984cfe99c83ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b8c902ae_48100aa9",
@@ -58,6 +82,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b0e4bee_c377cfa0",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuSensorTest.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-05-15T10:34:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8c902ae_48100aa9",
+      "revId": "db428d427de8477aa26d8ce3105984cfe99c83ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3e2a124e_5c72bf9b",
@@ -71,6 +113,30 @@
       "writtenOn": "2026-05-14T16:26:03Z",
       "side": 1,
       "message": "Could you add a comment explaining where 200 comes from?",
+      "range": {
+        "startLine": 75,
+        "startChar": 32,
+        "endLine": 75,
+        "endChar": 35
+      },
+      "revId": "db428d427de8477aa26d8ce3105984cfe99c83ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4aa6128_fd668aba",
+        "filename": "src/tests/nvidia-gpu/utils/MockDbusHelper.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-05-15T10:34:18Z",
+      "side": 1,
+      "message": "Removed the loop.",
+      "parentUuid": "3e2a124e_5c72bf9b",
       "range": {
         "startLine": 75,
         "startChar": 32,
@@ -104,6 +170,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e73eb185_8ed75cd9",
+        "filename": "src/tests/nvidia-gpu/utils/MockDbusHelper.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-05-15T10:34:18Z",
+      "side": 1,
+      "message": "Removed the loop.",
+      "parentUuid": "421531aa_9c3b3aa2",
+      "range": {
+        "startLine": 125,
+        "startChar": 28,
+        "endLine": 125,
+        "endChar": 32
+      },
+      "revId": "db428d427de8477aa26d8ce3105984cfe99c83ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "54a8fba5_1e799264",
@@ -127,6 +217,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3640f63_86237ec0",
+        "filename": "src/tests/nvidia-gpu/utils/MockDbusHelper.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-05-15T10:34:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54a8fba5_1e799264",
+      "range": {
+        "startLine": 151,
+        "startChar": 8,
+        "endLine": 151,
+        "endChar": 58
+      },
+      "revId": "db428d427de8477aa26d8ce3105984cfe99c83ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1fea9998_398a3b63",
@@ -140,6 +254,30 @@
       "writtenOn": "2026-05-14T16:26:03Z",
       "side": 1,
       "message": "coulde we use --nofork here?",
+      "range": {
+        "startLine": 160,
+        "startChar": 29,
+        "endLine": 160,
+        "endChar": 35
+      },
+      "revId": "db428d427de8477aa26d8ce3105984cfe99c83ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd70f7a3_d103acdb",
+        "filename": "src/tests/nvidia-gpu/utils/MockDbusHelper.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-05-15T10:34:18Z",
+      "side": 1,
+      "message": "Using it would required unnecessary extra plumbing.",
+      "parentUuid": "1fea9998_398a3b63",
       "range": {
         "startLine": 160,
         "startChar": 29,
