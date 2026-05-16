@@ -34,6 +34,10 @@ class NvidiaGpuClockSpeedControl :
     void handleResponse(const std::error_code& ec,
                         std::span<const uint8_t> buffer);
 
+    void reset();
+    void emitResetComplete(ocp::accelerator_management::CompletionCode cc,
+                           uint16_t reasonCode);
+
     std::shared_ptr<sdbusplus::asio::dbus_interface> controlClockSpeedInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> associationInterface;
 
@@ -41,5 +45,6 @@ class NvidiaGpuClockSpeedControl :
     std::string name;
     sdbusplus::asio::object_server& objectServer;
     uint8_t eid;
+    bool resetInFlight{false};
     std::array<uint8_t, gpu::getClockLimitRequestSize> requestBuffer{};
 };
