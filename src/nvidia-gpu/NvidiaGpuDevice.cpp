@@ -123,7 +123,6 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
         "RequestedSpeedLimitMaxHz", std::numeric_limits<uint64_t>::max());
     controlClockSpeedInterface->register_property(
         "RequestedSpeedLimitMinHz", std::numeric_limits<uint64_t>::max());
-    controlClockSpeedInterface->initialize();
 }
 
 GpuDevice::~GpuDevice()

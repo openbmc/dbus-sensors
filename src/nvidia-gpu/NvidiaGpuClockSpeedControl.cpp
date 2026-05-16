@@ -12,8 +12,13 @@
 #include <OcpMctpVdm.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/exception.hpp>
+#include <sdbusplus/message.hpp>
 #include <sdbusplus/message/native_types.hpp>
+#include <xyz/openbmc_project/Common/Device/error.hpp>
+#include <xyz/openbmc_project/Common/error.hpp>
 
+#include <array>
 #include <cstdint>
 #include <memory>
 #include <span>
@@ -42,6 +47,10 @@ NvidiaGpuClockSpeedControl::NvidiaGpuClockSpeedControl(
     associations.emplace_back("controlling", "controlled_by", inventoryPath);
     associationInterface->register_property("Associations", associations);
     associationInterface->initialize();
+
+    controlClockSpeedInterface->register_method("Reset", [this]() { reset(); });
+    controlClockSpeedInterface->register_signal<uint16_t>("ResetComplete");
+    controlClockSpeedInterface->initialize();
 }
 
 NvidiaGpuClockSpeedControl::~NvidiaGpuClockSpeedControl()
@@ -121,4 +130,82 @@ void NvidiaGpuClockSpeedControl::handleResponse(const std::error_code& ec,
                                              reqMaxHz);
     controlClockSpeedInterface->set_property("RequestedSpeedLimitMinHz",
                                              reqMinHz);
+}
+
+void NvidiaGpuClockSpeedControl::emitResetComplete(uint16_t status)
+{
+    try
+    {
+        sdbusplus::message_t signal =
+            controlClockSpeedInterface->new_signal("ResetComplete");
+        signal.append(status);
+        signal.signal_send();
+    }
+    catch (const sdbusplus::exception_t& e)
+    {
+        lg2::error(
+            "Failed to emit ResetComplete signal for {NAME}: status={STATUS}, error={ERR}",
+            "NAME", name, "STATUS", status, "ERR", e.what());
+    }
+}
+
+void NvidiaGpuClockSpeedControl::reset()
+{
+    if (resetInFlight)
+    {
+        throw sdbusplus::error::xyz::openbmc_project::common::Unavailable();
+    }
+
+    std::array<uint8_t, gpu::setClockLimitRequestSize> reqBuf{};
+    int rc = gpu::encodeSetClockLimitRequest(
+        0, static_cast<uint8_t>(gpu::ClockType::GRAPHICS_CLOCK),
+        gpu::clockLimitFlagClear, 0, 0, reqBuf);
+    if (rc != 0)
+    {
+        lg2::error(
+            "Failed to encode SET_CLOCK_LIMIT request for {NAME}: rc={RC}",
+            "NAME", name, "RC", rc);
+        throw sdbusplus::error::xyz::openbmc_project::common::device::
+            WriteFailure();
+    }
+
+    resetInFlight = true;
+    mctpRequester.sendRecvMsg(
+        eid, reqBuf,
+        [weak{weak_from_this()}](const std::error_code& ec,
+                                 std::span<const uint8_t> buffer) {
+            auto self = weak.lock();
+            if (!self)
+            {
+                lg2::error("Invalid NvidiaGpuClockSpeedControl reference");
+                return;
+            }
+            self->resetInFlight = false;
+
+            if (ec)
+            {
+                lg2::error("MCTP transport error on Reset for {NAME}: rc={RC}",
+                           "NAME", self->name, "RC", ec.message());
+                self->emitResetComplete(resetStatusTransportError);
+                return;
+            }
+
+            ocp::accelerator_management::CompletionCode cc{};
+            uint16_t reasonCode = 0;
+            int drc = gpu::decodeSetClockLimitResponse(buffer, cc, reasonCode);
+            if (drc != 0 ||
+                cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+            {
+                lg2::error(
+                    "Error decoding SET_CLOCK_LIMIT for {NAME}: rc={RC}, "
+                    "cc={CC}, reasonCode={REASON}",
+                    "NAME", self->name, "RC", drc, "CC",
+                    static_cast<uint8_t>(cc), "REASON", reasonCode);
+                self->emitResetComplete(
+                    reasonCode != 0 ? reasonCode : resetStatusDecodeFailure);
+                return;
+            }
+
+            self->emitResetComplete(0);
+        });
 }
