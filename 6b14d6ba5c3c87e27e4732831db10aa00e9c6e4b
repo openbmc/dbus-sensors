@@ -22,6 +22,30 @@
       },
       "revId": "6b14d6ba5c3c87e27e4732831db10aa00e9c6e4b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "394635ab_d9b1f932",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-05-17T13:41:19Z",
+      "side": 1,
+      "message": "Thanks for the catching!\nAlready have the testing machine information updated in the commit message.",
+      "parentUuid": "7ab9653f_df99e58f",
+      "range": {
+        "startLine": 44,
+        "startChar": 40,
+        "endLine": 44,
+        "endChar": 47
+      },
+      "revId": "6b14d6ba5c3c87e27e4732831db10aa00e9c6e4b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
