@@ -21,6 +21,7 @@
 #include <NvidiaDriverInformation.hpp>
 #include <NvidiaGpuCurrentUtilization.hpp>
 #include <NvidiaGpuEnergySensor.hpp>
+#include <NvidiaGpuMemoryCapacityUtilization.hpp>
 #include <NvidiaGpuPowerPeakReading.hpp>
 #include <NvidiaGpuVoltageSensor.hpp>
 #include <NvidiaLongRunningHandler.hpp>
@@ -114,6 +115,8 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
     std::shared_ptr<SerialQueue> longRunningQueue;
     std::shared_ptr<NvidiaLongRunningResponseHandler> longRunningHandler;
     std::shared_ptr<NvidiaGpuCurrentUtilization> currentUtilization;
+    std::shared_ptr<NvidiaGpuMemoryCapacityUtilization>
+        memoryCapacityUtilization;
 
     std::shared_ptr<NvidiaXidEventHandler> xidEventHandler;
 

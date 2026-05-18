@@ -58,6 +58,7 @@ enum class PlatformEnvironmentalCommands : uint8_t
     GET_CLOCK_LIMIT = 0x11,
     GET_CURRENT_UTILIZATION = 0x47,
     GET_ECC_ERROR_COUNTS = 0x7D,
+    GET_MEMORY_CAPACITY_UTILIZATION = 0xAD,
 };
 
 enum class PlatformEnvironmentalEvent : uint8_t
@@ -346,6 +347,14 @@ int decodeGetCurrentUtilizationModeResponse(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     uint32_t& gpuUtilization, uint32_t& memoryUtilization);
+
+int encodeGetMemoryCapacityUtilizationRequest(uint8_t instanceId,
+                                              std::span<uint8_t> buf);
+
+int decodeGetMemoryCapacityUtilizationResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint32_t& reservedMemory, uint32_t& usedMemory);
 
 int decodeLongRunningResponseEvent(
     std::span<const uint8_t> buf,
