@@ -11,6 +11,7 @@
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/vtable.hpp>
 
 #include <algorithm>
 #include <cstddef>
@@ -122,12 +123,31 @@ Inventory::Inventory(
     if (dramItemIface)
     {
         dramItemInterface = dramItemIface;
+
+        // Publish MemorySizeInKB from this class with a custom getter that
+        // recomputes from the memorySizeInKB member on every read, so the
+        // D-Bus cache and the member share a single source of truth and can
+        // never drift out of sync.
+        dramItemIface->register_property_r(
+            "MemorySizeInKB", std::size_t{0},
+            sdbusplus::vtable::property_::emits_change,
+            [this](const std::size_t& /*unused*/) {
+                return static_cast<std::size_t>(memorySizeInKB.value_or(0));
+            });
+
         properties[gpu::InventoryPropertyId::MAX_MEMORY_CAPACITY] = {
             dramItemIface, "MemorySizeInKB", 0, true};
         properties[gpu::InventoryPropertyId::MIN_MEMORY_CLOCK] = {
             dramItemIface, "AllowedSpeedsMT", 0, true};
         properties[gpu::InventoryPropertyId::MAX_MEMORY_CLOCK] = {
             dramItemIface, "AllowedSpeedsMT", 0, true};
+
+        if (!dramItemIface->initialize())
+        {
+            lg2::error(
+                "Failed to initialize DRAM Item.Dimm interface for {NAME}",
+                "NAME", name);
+        }
     }
 }
 
@@ -361,11 +381,11 @@ void Inventory::handleInventoryPropertyResponse(
                 case gpu::InventoryPropertyId::MAX_MEMORY_CAPACITY:
                     if (std::holds_alternative<uint32_t>(info))
                     {
-                        const size_t memorySizeInKB =
-                            static_cast<size_t>(std::get<uint32_t>(info)) *
+                        memorySizeInKB =
+                            static_cast<uint64_t>(std::get<uint32_t>(info)) *
                             1024;
-                        it->second.interface->set_property(
-                            it->second.propertyName, memorySizeInKB);
+                        it->second.interface->signal_property(
+                            it->second.propertyName);
                         success = true;
                     }
                     else
