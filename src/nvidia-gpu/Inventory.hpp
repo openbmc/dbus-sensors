@@ -33,6 +33,11 @@ class Inventory : public std::enable_shared_from_this<Inventory>
 
     void init();
 
+    std::optional<uint32_t> getMaxMemoryMiB() const
+    {
+        return memorySizeInMiB;
+    }
+
   private:
     struct PropertyInfo
     {
@@ -72,6 +77,7 @@ class Inventory : public std::enable_shared_from_this<Inventory>
     uint8_t eid;
     boost::asio::steady_timer retryTimer;
     std::unordered_map<gpu::InventoryPropertyId, PropertyInfo> properties;
+    std::optional<uint32_t> memorySizeInMiB;
     std::array<uint8_t, gpu::getInventoryInformationRequestSize>
         requestBuffer{};
 
