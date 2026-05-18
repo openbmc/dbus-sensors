@@ -15,6 +15,7 @@
 #include <NvidiaEventReporting.hpp>
 #include <NvidiaGpuControl.hpp>
 #include <NvidiaGpuCurrentUtilization.hpp>
+#include <NvidiaGpuEccMode.hpp>
 #include <NvidiaGpuEnergySensor.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
 #include <NvidiaGpuMemoryDevice.hpp>
@@ -176,6 +177,10 @@ void GpuDevice::makeSensors()
                              longRunningHandler)}});
 
     currentUtilization = std::make_shared<NvidiaGpuCurrentUtilization>(
+        conn, mctpRequester, objectServer, name, eid, longRunningQueue,
+        longRunningHandler);
+
+    eccMode = std::make_shared<NvidiaGpuEccMode>(
         conn, mctpRequester, objectServer, name, eid, longRunningQueue,
         longRunningHandler);
 
@@ -367,6 +372,7 @@ void GpuDevice::read()
 void GpuDevice::readLongRunning()
 {
     currentUtilization->update();
+    eccMode->update();
 
     waitTimerLongRunning.expires_after(longRunningSensorPollRate);
     waitTimerLongRunning.async_wait(
