@@ -19,6 +19,7 @@
 #include "NvidiaGpuXid.hpp"
 
 #include <NvidiaDriverInformation.hpp>
+#include <NvidiaGpuEccMode.hpp>
 #include <NvidiaGpuEnergySensor.hpp>
 #include <NvidiaGpuPowerPeakReading.hpp>
 #include <NvidiaGpuUtilizationMetrics.hpp>
@@ -116,6 +117,7 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
     std::shared_ptr<NvidiaLongRunningResponseHandler> longRunningHandler;
     std::shared_ptr<NvidiaGpuUtilizationMetrics> utilizationMetrics;
     std::shared_ptr<NvidiaGpuViolationDuration> violationDuration;
+    std::shared_ptr<NvidiaGpuEccMode> eccMode;
 
     std::shared_ptr<NvidiaXidEventHandler> xidEventHandler;
 
