@@ -60,6 +60,7 @@ enum class PlatformEnvironmentalCommands : uint8_t
     GET_VIOLATION_DURATION = 0x45,
     GET_CURRENT_UTILIZATION = 0x47,
     GET_ECC_ERROR_COUNTS = 0x7D,
+    GET_MEMORY_CAPACITY_UTILIZATION = 0xAD,
 };
 
 enum class PlatformEnvironmentalEvent : uint8_t
@@ -213,6 +214,9 @@ constexpr size_t getCurrentUtilizationRequestSize =
     ocp::accelerator_management::commonRequestSize;
 
 constexpr size_t getViolationDurationRequestSize =
+    ocp::accelerator_management::commonRequestSize;
+
+constexpr size_t getMemoryCapacityUtilizationRequestSize =
     ocp::accelerator_management::commonRequestSize;
 
 constexpr size_t queryScalarGroupTelemetryV1RequestSize =
@@ -400,6 +404,20 @@ int decodeGetCurrentUtilizationModeResponse(
 int decodeGetCurrentUtilizationModeResponse(std::span<const uint8_t> buf,
                                             uint32_t& gpuUtilization,
                                             uint32_t& memoryUtilization);
+
+int encodeGetMemoryCapacityUtilizationRequest(uint8_t instanceId,
+                                              std::span<uint8_t> buf);
+
+int decodeGetMemoryCapacityUtilizationResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint32_t& reservedMemory, uint32_t& usedMemory);
+
+// Overload for the long-running response event payload, which contains
+// only the reserved and used memory values (no OCP/common response header).
+int decodeGetMemoryCapacityUtilizationResponse(std::span<const uint8_t> buf,
+                                               uint32_t& reservedMemory,
+                                               uint32_t& usedMemory);
 
 int decodeLongRunningResponseEvent(
     std::span<const uint8_t> buf,
