@@ -286,6 +286,30 @@
       },
       "revId": "db428d427de8477aa26d8ce3105984cfe99c83ee",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3b4258f_a31a3e04",
+        "filename": "src/tests/nvidia-gpu/utils/MockDbusHelper.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-18T01:59:10Z",
+      "side": 1,
+      "message": "Agree. Or could we use --fork with --print-pid instead? Capture the daemon pid, then add a TearDownTestSuite() that kill()s it?",
+      "parentUuid": "bd70f7a3_d103acdb",
+      "range": {
+        "startLine": 160,
+        "startChar": 29,
+        "endLine": 160,
+        "endChar": 35
+      },
+      "revId": "db428d427de8477aa26d8ce3105984cfe99c83ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
