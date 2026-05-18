@@ -4258,4 +4258,203 @@ TEST_F(GpuMctpVdmTests,
     EXPECT_NE(result, 0);
 }
 
+// Tests for gpu::encodeGetEccModeRequest
+
+TEST_F(GpuMctpVdmTests, EncodeGetEccModeRequestSuccess)
+{
+    const uint8_t instanceId = 4;
+    std::array<uint8_t, gpu::getEccModeRequestSize> buf{};
+
+    int result = gpu::encodeGetEccModeRequest(instanceId, buf);
+    EXPECT_EQ(result, 0);
+
+    UnpackBuffer ubuf{std::span<const uint8_t>(buf)};
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t recvInstanceId = 0;
+    uint8_t recvMsgType = 0;
+    EXPECT_EQ(ocp::accelerator_management::unpackHeader(
+                  ubuf, gpu::nvidiaPciVendorId, msgType, recvInstanceId,
+                  recvMsgType),
+              0);
+    EXPECT_EQ(msgType, ocp::accelerator_management::MessageType::REQUEST);
+    EXPECT_EQ(recvInstanceId & ocp::accelerator_management::instanceIdBitMask,
+              instanceId & ocp::accelerator_management::instanceIdBitMask);
+    EXPECT_EQ(recvMsgType,
+              static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+
+    uint8_t command = 0;
+    ubuf.unpack(command);
+    EXPECT_EQ(command, static_cast<uint8_t>(
+                           gpu::PlatformEnvironmentalCommands::GET_ECC_MODE));
+
+    uint8_t dataSize = 0;
+    ubuf.unpack(dataSize);
+    EXPECT_EQ(dataSize, 0);
+    EXPECT_EQ(ubuf.getError(), 0);
+}
+
+TEST_F(GpuMctpVdmTests, EncodeGetEccModeRequestBufferTooSmall)
+{
+    std::array<uint8_t, 1> buf{};
+    int result = gpu::encodeGetEccModeRequest(0, buf);
+    EXPECT_EQ(result, EINVAL);
+}
+
+// Tests for gpu::decodeGetEccModeResponse
+
+namespace
+{
+void packEccModeResponse(std::span<uint8_t> buf, uint8_t completionCode,
+                         uint8_t flags)
+{
+    PackBuffer packer(buf);
+    ocp::accelerator_management::packHeader(
+        packer, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 0,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    packer.pack(
+        static_cast<uint8_t>(gpu::PlatformEnvironmentalCommands::GET_ECC_MODE));
+    packer.pack(completionCode);
+    packer.pack(uint16_t{0});                          // reasonCode
+    packer.pack(static_cast<uint16_t>(sizeof(flags))); // dataSize
+    packer.pack(flags);
+}
+} // namespace
+
+TEST_F(GpuMctpVdmTests, DecodeGetEccModeResponseBothEnabled)
+{
+    // header(9) + dataSize(2) + flags(1) = 12
+    std::vector<uint8_t> buf(12);
+    packEccModeResponse(
+        buf,
+        static_cast<uint8_t>(
+            ocp::accelerator_management::CompletionCode::SUCCESS),
+        0x03U);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    bool current = false;
+    bool pending = false;
+
+    int result =
+        gpu::decodeGetEccModeResponse(buf, cc, reasonCode, current, pending);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_TRUE(current);
+    EXPECT_TRUE(pending);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetEccModeResponseCurrentOnly)
+{
+    std::vector<uint8_t> buf(12);
+    packEccModeResponse(
+        buf,
+        static_cast<uint8_t>(
+            ocp::accelerator_management::CompletionCode::SUCCESS),
+        0x01U);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    bool current = false;
+    bool pending = true;
+
+    int result =
+        gpu::decodeGetEccModeResponse(buf, cc, reasonCode, current, pending);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_TRUE(current);
+    EXPECT_FALSE(pending);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetEccModeResponsePendingOnly)
+{
+    std::vector<uint8_t> buf(12);
+    packEccModeResponse(
+        buf,
+        static_cast<uint8_t>(
+            ocp::accelerator_management::CompletionCode::SUCCESS),
+        0x02U);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    bool current = true;
+    bool pending = false;
+
+    int result =
+        gpu::decodeGetEccModeResponse(buf, cc, reasonCode, current, pending);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_FALSE(current);
+    EXPECT_TRUE(pending);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetEccModeResponseInvalidDataSize)
+{
+    // dataSize advertised as 2 but only 1 byte present after header
+    std::vector<uint8_t> buf(12);
+    PackBuffer packer(buf);
+    ocp::accelerator_management::packHeader(
+        packer, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 0,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    packer.pack(
+        static_cast<uint8_t>(gpu::PlatformEnvironmentalCommands::GET_ECC_MODE));
+    packer.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));
+    packer.pack(uint16_t{0});
+    packer.pack(uint16_t{2}); // wrong dataSize
+    packer.pack(uint8_t{0});
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    bool current = false;
+    bool pending = false;
+
+    int result =
+        gpu::decodeGetEccModeResponse(buf, cc, reasonCode, current, pending);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+// Tests for the long-running payload overload of
+// gpu::decodeGetEccModeResponse
+
+TEST_F(GpuMctpVdmTests, DecodeGetEccModeLongRunningResponseBothEnabled)
+{
+    std::vector<uint8_t> buf{0x03};
+
+    bool current = false;
+    bool pending = false;
+    const int result = gpu::decodeGetEccModeResponse(buf, current, pending);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_TRUE(current);
+    EXPECT_TRUE(pending);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetEccModeLongRunningResponseCurrentOnly)
+{
+    std::vector<uint8_t> buf{0x01};
+
+    bool current = false;
+    bool pending = false;
+    const int result = gpu::decodeGetEccModeResponse(buf, current, pending);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_TRUE(current);
+    EXPECT_FALSE(pending);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetEccModeLongRunningResponseEmptyBuffer)
+{
+    std::vector<uint8_t> buf;
+
+    bool current = false;
+    bool pending = false;
+    const int result = gpu::decodeGetEccModeResponse(buf, current, pending);
+
+    EXPECT_NE(result, 0);
+}
+
 } // namespace gpu_mctp_tests

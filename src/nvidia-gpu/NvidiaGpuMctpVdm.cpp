@@ -1655,4 +1655,93 @@ int decodeGetEccErrorCountsResponse(
     return buffer.getError();
 }
 
+// GET_ECC_MODE returns a single flags byte: bit 0 is the ECC mode currently in
+// effect, bit 1 is the mode that will apply after the next reset.
+constexpr uint8_t eccModeCurrentEnabledMask = 0x01U;
+constexpr uint8_t eccModePendingEnabledMask = 0x02U;
+
+int encodeGetEccModeRequest(uint8_t instanceId, std::span<uint8_t> buf)
+{
+    PackBuffer buffer(buf);
+
+    int rc = encodeRequestCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(PlatformEnvironmentalCommands::GET_ECC_MODE),
+        instanceId);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    const uint8_t dataSize = 0;
+    buffer.pack(dataSize);
+
+    return buffer.getError();
+}
+
+int decodeGetEccModeResponse(std::span<const uint8_t> buf,
+                             ocp::accelerator_management::CompletionCode& cc,
+                             uint16_t& reasonCode, bool& currentEccModeEnabled,
+                             bool& pendingEccModeEnabled)
+{
+    UnpackBuffer buffer(buf);
+
+    int rc = decodeResponseCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(PlatformEnvironmentalCommands::GET_ECC_MODE), cc,
+        reasonCode);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    uint16_t dataSize = 0;
+    rc = buffer.unpack(dataSize);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    if (dataSize != sizeof(uint8_t))
+    {
+        return EINVAL;
+    }
+
+    uint8_t flags = 0;
+    rc = buffer.unpack(flags);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    currentEccModeEnabled = (flags & eccModeCurrentEnabledMask) != 0U;
+    pendingEccModeEnabled = (flags & eccModePendingEnabledMask) != 0U;
+
+    return buffer.getError();
+}
+
+int decodeGetEccModeResponse(std::span<const uint8_t> buf,
+                             bool& currentEccModeEnabled,
+                             bool& pendingEccModeEnabled)
+{
+    UnpackBuffer buffer(buf);
+
+    uint8_t flags = 0;
+    const int rc = buffer.unpack(flags);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    currentEccModeEnabled = (flags & eccModeCurrentEnabledMask) != 0U;
+    pendingEccModeEnabled = (flags & eccModePendingEnabledMask) != 0U;
+
+    return buffer.getError();
+}
+
 } // namespace gpu
