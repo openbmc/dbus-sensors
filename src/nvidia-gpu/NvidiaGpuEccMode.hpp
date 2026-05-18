@@ -45,7 +45,20 @@ struct NvidiaGpuEccMode : public std::enable_shared_from_this<NvidiaGpuEccMode>
         ocp::accelerator_management::CompletionCode cc, uint16_t reasonCode,
         std::span<const uint8_t> responseData);
 
-    void applyEccModeToDbus(bool current);
+    void doSet(SerialQueue::ReleaseHandle handle, bool desired);
+
+    void processSetResponse(SerialQueue::ReleaseHandle handle,
+                            const std::error_code& ec,
+                            std::span<const uint8_t> buffer);
+
+    void processSetLongRunningResponse(
+        boost::system::error_code ec,
+        ocp::accelerator_management::CompletionCode cc, uint16_t reasonCode,
+        std::span<const uint8_t> responseData);
+
+    void onPendingSetRequested(bool desired);
+
+    void applyEccModeToDbus(bool current, bool pending);
 
     uint8_t eid{};
 
@@ -57,6 +70,13 @@ struct NvidiaGpuEccMode : public std::enable_shared_from_this<NvidiaGpuEccMode>
         longRunningResponseHandler;
 
     std::shared_ptr<sdbusplus::asio::dbus_interface> currentInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> pendingInterface;
+
+    // True while the GET response handler refreshes pendingInterface
+    // from hardware; short-circuits the writable setter callback to
+    // avoid re-issuing an NSM Set.
+    bool internalUpdateInProgress{false};
 
     std::array<uint8_t, gpu::getEccModeRequestSize> getRequest{};
+    std::array<uint8_t, gpu::setEccModeRequestSize> setRequest{};
 };
