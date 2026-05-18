@@ -391,11 +391,10 @@ void Inventory::handleInventoryPropertyResponse(
                 case gpu::InventoryPropertyId::MAX_MEMORY_CAPACITY:
                     if (std::holds_alternative<uint32_t>(info))
                     {
-                        const size_t memorySizeInKB =
-                            static_cast<size_t>(std::get<uint32_t>(info)) *
-                            1024;
+                        memorySizeInMiB = std::get<uint32_t>(info);
                         it->second.interface->set_property(
-                            it->second.propertyName, memorySizeInKB);
+                            it->second.propertyName,
+                            static_cast<size_t>(*memorySizeInMiB) * 1024);
                         success = true;
                     }
                     else

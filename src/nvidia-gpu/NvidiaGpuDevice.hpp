@@ -20,6 +20,7 @@
 
 #include <NvidiaDriverInformation.hpp>
 #include <NvidiaGpuEnergySensor.hpp>
+#include <NvidiaGpuMemoryCapacityUtilization.hpp>
 #include <NvidiaGpuPowerPeakReading.hpp>
 #include <NvidiaGpuUtilizationMetrics.hpp>
 #include <NvidiaGpuViolationDuration.hpp>
@@ -116,6 +117,8 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
     std::shared_ptr<NvidiaLongRunningResponseHandler> longRunningHandler;
     std::shared_ptr<NvidiaGpuUtilizationMetrics> utilizationMetrics;
     std::shared_ptr<NvidiaGpuViolationDuration> violationDuration;
+    std::shared_ptr<NvidiaGpuMemoryCapacityUtilization>
+        memoryCapacityUtilization;
 
     std::shared_ptr<NvidiaXidEventHandler> xidEventHandler;
 

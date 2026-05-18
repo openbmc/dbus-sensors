@@ -4258,4 +4258,245 @@ TEST_F(GpuMctpVdmTests,
     EXPECT_NE(result, 0);
 }
 
+// Tests for gpu::encodeGetMemoryCapacityUtilizationRequest
+
+TEST_F(GpuMctpVdmTests, EncodeGetMemoryCapacityUtilizationRequestSuccess)
+{
+    const uint8_t instanceId = 4;
+    std::array<uint8_t, ocp::accelerator_management::commonRequestSize> buf{};
+
+    int result =
+        gpu::encodeGetMemoryCapacityUtilizationRequest(instanceId, buf);
+    EXPECT_EQ(result, 0);
+
+    UnpackBuffer ubuf{std::span<const uint8_t>(buf)};
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t recvInstanceId = 0;
+    uint8_t recvMsgType = 0;
+    EXPECT_EQ(ocp::accelerator_management::unpackHeader(
+                  ubuf, gpu::nvidiaPciVendorId, msgType, recvInstanceId,
+                  recvMsgType),
+              0);
+    EXPECT_EQ(msgType, ocp::accelerator_management::MessageType::REQUEST);
+    EXPECT_EQ(recvInstanceId & ocp::accelerator_management::instanceIdBitMask,
+              instanceId & ocp::accelerator_management::instanceIdBitMask);
+    EXPECT_EQ(recvMsgType,
+              static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+
+    uint8_t command = 0;
+    ubuf.unpack(command);
+    EXPECT_EQ(command,
+              static_cast<uint8_t>(gpu::PlatformEnvironmentalCommands::
+                                       GET_MEMORY_CAPACITY_UTILIZATION));
+
+    uint8_t dataSize = 0;
+    ubuf.unpack(dataSize);
+    EXPECT_EQ(dataSize, 0);
+    EXPECT_EQ(ubuf.getError(), 0);
+}
+
+TEST_F(GpuMctpVdmTests, EncodeGetMemoryCapacityUtilizationRequestBufferTooSmall)
+{
+    std::array<uint8_t, 1> buf{};
+    int result = gpu::encodeGetMemoryCapacityUtilizationRequest(0, buf);
+    EXPECT_EQ(result, EINVAL);
+}
+
+// Tests for gpu::decodeGetMemoryCapacityUtilizationResponse
+
+TEST_F(GpuMctpVdmTests, DecodeGetMemoryCapacityUtilizationResponseSuccess)
+{
+    // CommonResponse header(9) + data_size(2) + reserved(4) + used(4) = 19
+    std::vector<uint8_t> buf(19);
+    PackBuffer packer(buf);
+
+    packCommonResponseHeader(
+        packer, static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL),
+        static_cast<uint8_t>(gpu::PlatformEnvironmentalCommands::
+                                 GET_MEMORY_CAPACITY_UTILIZATION),
+        static_cast<uint8_t>(
+            ocp::accelerator_management::CompletionCode::SUCCESS),
+        0);
+    // data_size = 8 (2 x uint32_t)
+    packer.pack(static_cast<uint16_t>(8));
+    packer.pack(static_cast<uint32_t>(1024));
+    packer.pack(static_cast<uint32_t>(8192));
+
+    ASSERT_EQ(packer.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint32_t reservedMemory{};
+    uint32_t usedMemory{};
+
+    int result = gpu::decodeGetMemoryCapacityUtilizationResponse(
+        buf, cc, reasonCode, reservedMemory, usedMemory);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+    EXPECT_EQ(reservedMemory, 1024U);
+    EXPECT_EQ(usedMemory, 8192U);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetMemoryCapacityUtilizationResponseZeroValues)
+{
+    std::vector<uint8_t> buf(19);
+    PackBuffer packer(buf);
+
+    packCommonResponseHeader(
+        packer, static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL),
+        static_cast<uint8_t>(gpu::PlatformEnvironmentalCommands::
+                                 GET_MEMORY_CAPACITY_UTILIZATION),
+        static_cast<uint8_t>(
+            ocp::accelerator_management::CompletionCode::SUCCESS),
+        0);
+    packer.pack(static_cast<uint16_t>(8));
+    packer.pack(static_cast<uint32_t>(0));
+    packer.pack(static_cast<uint32_t>(0));
+
+    ASSERT_EQ(packer.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint32_t reservedMemory{};
+    uint32_t usedMemory{};
+
+    int result = gpu::decodeGetMemoryCapacityUtilizationResponse(
+        buf, cc, reasonCode, reservedMemory, usedMemory);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reservedMemory, 0U);
+    EXPECT_EQ(usedMemory, 0U);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetMemoryCapacityUtilizationResponseMaxValues)
+{
+    std::vector<uint8_t> buf(19);
+    PackBuffer packer(buf);
+
+    packCommonResponseHeader(
+        packer, static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL),
+        static_cast<uint8_t>(gpu::PlatformEnvironmentalCommands::
+                                 GET_MEMORY_CAPACITY_UTILIZATION),
+        static_cast<uint8_t>(
+            ocp::accelerator_management::CompletionCode::SUCCESS),
+        0);
+    packer.pack(static_cast<uint16_t>(8));
+    packer.pack(static_cast<uint32_t>(0xFFFFFFFF));
+    packer.pack(static_cast<uint32_t>(0xFFFFFFFF));
+
+    ASSERT_EQ(packer.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint32_t reservedMemory{};
+    uint32_t usedMemory{};
+
+    int result = gpu::decodeGetMemoryCapacityUtilizationResponse(
+        buf, cc, reasonCode, reservedMemory, usedMemory);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reservedMemory, 0xFFFFFFFFU);
+    EXPECT_EQ(usedMemory, 0xFFFFFFFFU);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetMemoryCapacityUtilizationResponseError)
+{
+    // Non-success response: header(9) only, no data payload
+    std::vector<uint8_t> buf(9);
+    PackBuffer packer(buf);
+
+    packCommonResponseHeader(
+        packer, static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL),
+        static_cast<uint8_t>(gpu::PlatformEnvironmentalCommands::
+                                 GET_MEMORY_CAPACITY_UTILIZATION),
+        static_cast<uint8_t>(
+            ocp::accelerator_management::CompletionCode::ERROR),
+        0x1234);
+
+    ASSERT_EQ(packer.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint32_t reservedMemory{};
+    uint32_t usedMemory{};
+
+    int result = gpu::decodeGetMemoryCapacityUtilizationResponse(
+        buf, cc, reasonCode, reservedMemory, usedMemory);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERROR);
+    EXPECT_EQ(reasonCode, 0x1234);
+}
+
+TEST_F(GpuMctpVdmTests,
+       DecodeGetMemoryCapacityUtilizationResponseInvalidDataSize)
+{
+    // Valid header but wrong data_size (4 instead of 8)
+    std::vector<uint8_t> buf(15);
+    PackBuffer packer(buf);
+
+    packCommonResponseHeader(
+        packer, static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL),
+        static_cast<uint8_t>(gpu::PlatformEnvironmentalCommands::
+                                 GET_MEMORY_CAPACITY_UTILIZATION),
+        static_cast<uint8_t>(
+            ocp::accelerator_management::CompletionCode::SUCCESS),
+        0);
+    packer.pack(static_cast<uint16_t>(4));
+    packer.pack(static_cast<uint32_t>(100));
+
+    ASSERT_EQ(packer.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint32_t reservedMemory{};
+    uint32_t usedMemory{};
+
+    int result = gpu::decodeGetMemoryCapacityUtilizationResponse(
+        buf, cc, reasonCode, reservedMemory, usedMemory);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+// Tests for the long-running payload overload of
+// gpu::decodeGetMemoryCapacityUtilizationResponse
+
+TEST_F(GpuMctpVdmTests,
+       DecodeGetMemoryCapacityUtilizationLongRunningResponseSuccess)
+{
+    std::vector<uint8_t> buf(sizeof(uint32_t) * 2);
+    PackBuffer packer(buf);
+    packer.pack(static_cast<uint32_t>(1024)); // reserved
+    packer.pack(static_cast<uint32_t>(4096)); // used
+    ASSERT_EQ(packer.getError(), 0);
+
+    uint32_t reservedMemory{};
+    uint32_t usedMemory{};
+
+    int result = gpu::decodeGetMemoryCapacityUtilizationResponse(
+        buf, reservedMemory, usedMemory);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(reservedMemory, 1024U);
+    EXPECT_EQ(usedMemory, 4096U);
+}
+
+TEST_F(GpuMctpVdmTests,
+       DecodeGetMemoryCapacityUtilizationLongRunningResponseBufferTooSmall)
+{
+    std::vector<uint8_t> buf(sizeof(uint32_t) * 2 - 1); // 7 bytes, too small
+
+    uint32_t reservedMemory{};
+    uint32_t usedMemory{};
+
+    int result = gpu::decodeGetMemoryCapacityUtilizationResponse(
+        buf, reservedMemory, usedMemory);
+
+    EXPECT_NE(result, 0);
+}
+
 } // namespace gpu_mctp_tests
