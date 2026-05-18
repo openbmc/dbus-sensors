@@ -47,7 +47,7 @@ struct NvidiaGpuCurrentUtilization :
         ocp::accelerator_management::CompletionCode cc, uint16_t reasonCode,
         std::span<const uint8_t> responseData);
 
-    void updateUtilization(uint32_t gpuUtilization);
+    void updateUtilization(uint32_t gpuUtilization, uint32_t memoryUtilization);
 
     uint8_t eid{};
 
@@ -62,6 +62,10 @@ struct NvidiaGpuCurrentUtilization :
 
     std::shared_ptr<sdbusplus::asio::dbus_interface> metricInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> metricAssociationInterface;
+
+    std::shared_ptr<sdbusplus::asio::dbus_interface> memoryMetricInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface>
+        memoryMetricAssociationInterface;
 
     std::array<uint8_t, ocp::accelerator_management::commonRequestSize>
         request{};

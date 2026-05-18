@@ -80,6 +80,44 @@ NvidiaGpuCurrentUtilization::NvidiaGpuCurrentUtilization(
             "Failed to initialize Current Utilization metric association interface for GPU {NAME}",
             "NAME", deviceName);
     }
+
+    const sdbusplus::object_path memoryMetricObjectPath =
+        sdbusplus::object_path(metricPath) / std::format("gpu_{}", deviceName) /
+        "memory_bandwidth";
+
+    memoryMetricInterface = objectServer.add_interface(
+        memoryMetricObjectPath, "xyz.openbmc_project.Metric.Value");
+
+    memoryMetricInterface->register_property(
+        "Unit", "xyz.openbmc_project.Metric.Value.Unit.Percent"s);
+    memoryMetricInterface->register_property("Value", 0.0);
+
+    std::vector<Association> memoryAssociations;
+
+    const std::string memoryObjectPath = processorObjectPath.str + "_DRAM_0";
+
+    memoryAssociations.emplace_back("measuring", "measured_by",
+                                    memoryObjectPath);
+
+    memoryMetricAssociationInterface = objectServer.add_interface(
+        memoryMetricObjectPath, association::interface);
+
+    memoryMetricAssociationInterface->register_property("Associations",
+                                                        memoryAssociations);
+
+    if (!memoryMetricInterface->initialize())
+    {
+        lg2::error(
+            "Failed to initialize Memory Bandwidth metric interface for GPU {NAME}",
+            "NAME", deviceName);
+    }
+
+    if (!memoryMetricAssociationInterface->initialize())
+    {
+        lg2::error(
+            "Failed to initialize Memory Bandwidth metric association interface for GPU {NAME}",
+            "NAME", deviceName);
+    }
 }
 
 void NvidiaGpuCurrentUtilization::update()
@@ -174,7 +212,7 @@ void NvidiaGpuCurrentUtilization::processResponse(
                 return;
             }
 
-            updateUtilization(utilization);
+            updateUtilization(utilization, memoryUtilization);
 
             return;
         }
@@ -268,10 +306,14 @@ void NvidiaGpuCurrentUtilization::processLongRunningResponse(
     }
 
     uint32_t utilization = 0;
+    uint32_t memoryUtilization = 0;
 
     UnpackBuffer buffer(responseData);
 
-    const int rc = buffer.unpack(utilization);
+    buffer.unpack(utilization);
+    buffer.unpack(memoryUtilization);
+
+    const int rc = buffer.getError();
 
     if (rc != 0)
     {
@@ -282,10 +324,13 @@ void NvidiaGpuCurrentUtilization::processLongRunningResponse(
         return;
     }
 
-    updateUtilization(utilization);
+    updateUtilization(utilization, memoryUtilization);
 }
 
-void NvidiaGpuCurrentUtilization::updateUtilization(uint32_t utilization)
+void NvidiaGpuCurrentUtilization::updateUtilization(uint32_t utilization,
+                                                    uint32_t memoryUtilization)
 {
     metricInterface->set_property("Value", static_cast<double>(utilization));
+    memoryMetricInterface->set_property("Value",
+                                        static_cast<double>(memoryUtilization));
 }
