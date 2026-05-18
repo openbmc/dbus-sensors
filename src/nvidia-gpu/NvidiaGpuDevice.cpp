@@ -18,6 +18,7 @@
 #include <NvidiaGpuCurrentUtilization.hpp>
 #include <NvidiaGpuEnergySensor.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
+#include <NvidiaGpuMemoryCapacityUtilization.hpp>
 #include <NvidiaGpuMemoryClockFrequency.hpp>
 #include <NvidiaGpuMemoryDevice.hpp>
 #include <NvidiaGpuPowerControl.hpp>
@@ -122,11 +123,11 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
     dramItemInterface->register_property(
         "ECC", std::string(
                    "xyz.openbmc_project.Inventory.Item.Dimm.Ecc.SingleBitECC"));
-    dramItemInterface->register_property("MemorySizeInKB", size_t{0});
     dramItemInterface->register_property("MemoryConfiguredSpeedInMhz",
                                          uint16_t{0});
     dramItemInterface->register_property("AllowedSpeedsMT",
                                          std::vector<uint16_t>(2, 0));
+    dramItemInterface->register_property("MemorySizeInKB", size_t{0});
 
     if (!dramItemInterface->initialize())
     {
@@ -232,6 +233,11 @@ void GpuDevice::makeSensors()
     violationDuration = std::make_shared<NvidiaGpuViolationDuration>(
         mctpRequester, objectServer, name, eid, longRunningQueue,
         longRunningHandler);
+
+    memoryCapacityUtilization =
+        std::make_shared<NvidiaGpuMemoryCapacityUtilization>(
+            mctpRequester, objectServer, name, eid, longRunningQueue,
+            longRunningHandler, inventory);
 
     driverInfo = std::make_shared<NvidiaDriverInformation>(
         conn, mctpRequester, name, path, eid, objectServer);
@@ -436,6 +442,7 @@ void GpuDevice::readLongRunning()
 {
     currentUtilization->update();
     violationDuration->update();
+    memoryCapacityUtilization->update();
 
     waitTimerLongRunning.expires_after(longRunningSensorPollRate);
     waitTimerLongRunning.async_wait(
