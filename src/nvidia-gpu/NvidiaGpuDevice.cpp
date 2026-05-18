@@ -17,6 +17,7 @@
 #include <NvidiaGpuClockSpeedControl.hpp>
 #include <NvidiaGpuEnergySensor.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
+#include <NvidiaGpuMemoryCapacityUtilization.hpp>
 #include <NvidiaGpuMemoryClockFrequency.hpp>
 #include <NvidiaGpuMemoryDevice.hpp>
 #include <NvidiaGpuPowerControl.hpp>
@@ -234,6 +235,11 @@ void GpuDevice::makeSensors()
         mctpRequester, objectServer, name, eid, longRunningQueue,
         longRunningHandler);
 
+    memoryCapacityUtilization =
+        std::make_shared<NvidiaGpuMemoryCapacityUtilization>(
+            mctpRequester, objectServer, name, eid, longRunningQueue,
+            longRunningHandler, inventory);
+
     driverInfo = std::make_shared<NvidiaDriverInformation>(
         conn, mctpRequester, name, path, eid, objectServer);
 
@@ -437,6 +443,7 @@ void GpuDevice::readLongRunning()
 {
     utilizationMetrics->update();
     violationDuration->update();
+    memoryCapacityUtilization->update();
 
     waitTimerLongRunning.expires_after(longRunningSensorPollRate);
     waitTimerLongRunning.async_wait(
