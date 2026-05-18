@@ -57,6 +57,7 @@ enum class PlatformEnvironmentalCommands : uint8_t
     GET_VOLTAGE = 0x0F,
     GET_CLOCK_LIMIT = 0x11,
     GET_CURRENT_UTILIZATION = 0x47,
+    GET_ECC_MODE = 0x4F,
     GET_ECC_ERROR_COUNTS = 0x7D,
 };
 
@@ -217,6 +218,9 @@ constexpr size_t getCurrentClockFrequencyRequestSize =
     ocp::accelerator_management::commonRequestSize + sizeof(uint8_t);
 
 constexpr size_t getEccErrorCountsRequestSize =
+    ocp::accelerator_management::commonRequestSize;
+
+constexpr size_t getEccModeRequestSize =
     ocp::accelerator_management::commonRequestSize;
 
 constexpr size_t setEventSubscriptionRequestSize =
@@ -414,5 +418,12 @@ int decodeGetEccErrorCountsResponse(
     uint16_t& flags, uint32_t& sramCorrected, uint32_t& sramUncorrectedSecded,
     uint32_t& sramUncorrectedParity, uint32_t& dramCorrected,
     uint32_t& dramUncorrected);
+
+int encodeGetEccModeRequest(uint8_t instanceId, std::span<uint8_t> buf);
+
+int decodeGetEccModeResponse(std::span<const uint8_t> buf,
+                             ocp::accelerator_management::CompletionCode& cc,
+                             uint16_t& reasonCode, bool& eccModeEnabled,
+                             bool& pendingEccModeEnabled);
 
 } // namespace gpu
