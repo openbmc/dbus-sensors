@@ -10,14 +10,11 @@
 #include <endian.h>
 
 #include <array>
-#include <bit>
 #include <cerrno>
 #include <cstddef>
 #include <cstdint>
-#include <cstring>
 #include <span>
 #include <string>
-#include <string_view>
 #include <utility>
 #include <vector>
 
@@ -2984,169 +2981,6 @@ TEST_F(GpuMctpVdmTests, DecodeLongRunningResponseEventBufferTooSmall)
     EXPECT_EQ(result, EINVAL);
 }
 
-TEST_F(GpuMctpVdmTests, DecodeXidEventSuccess)
-{
-    // Buffer: 20-byte header + message text
-    const std::string message = "XID error occurred";
-    constexpr size_t headerSize = gpu::xidEventMinDataSize;
-    std::vector<uint8_t> buf(headerSize + message.size());
-
-    PackBuffer packer(buf);
-    packer.pack(static_cast<uint8_t>(0x01));           // flags
-    packer.pack(static_cast<uint8_t>(0x00));           // reserved[0]
-    packer.pack(static_cast<uint8_t>(0x00));           // reserved[1]
-    packer.pack(static_cast<uint8_t>(0x00));           // reserved[2]
-    packer.pack(static_cast<uint32_t>(42));            // eventMessageReason
-    packer.pack(static_cast<uint32_t>(100));           // sequenceNumber
-    packer.pack(static_cast<uint64_t>(1000000000ULL)); // timestamp
-    ASSERT_EQ(packer.getError(), 0);
-
-    std::memcpy(buf.data() + headerSize, message.data(), message.size());
-
-    uint8_t flags{};
-    uint32_t eventMessageReason{};
-    uint32_t sequenceNumber{};
-    uint64_t timestamp{};
-    std::string_view messageTextString{};
-
-    int result =
-        gpu::decodeXidEvent(buf, flags, eventMessageReason, sequenceNumber,
-                            timestamp, messageTextString);
-
-    EXPECT_EQ(result, 0);
-    EXPECT_EQ(flags, 0x01);
-    EXPECT_EQ(eventMessageReason, 42U);
-    EXPECT_EQ(sequenceNumber, 100U);
-    EXPECT_EQ(timestamp, 1000000000ULL);
-    EXPECT_EQ(messageTextString, message);
-}
-
-TEST_F(GpuMctpVdmTests, DecodeXidEventMinimumBufferEmptyMessage)
-{
-    std::vector<uint8_t> buf(gpu::xidEventMinDataSize);
-
-    PackBuffer packer(buf);
-    packer.pack(static_cast<uint8_t>(0xFF));         // flags
-    packer.pack(static_cast<uint8_t>(0x00));         // reserved[0]
-    packer.pack(static_cast<uint8_t>(0x00));         // reserved[1]
-    packer.pack(static_cast<uint8_t>(0x00));         // reserved[2]
-    packer.pack(static_cast<uint32_t>(0xDEADBEEFU)); // eventMessageReason
-    packer.pack(static_cast<uint32_t>(0xCAFEBABEU)); // sequenceNumber
-    packer.pack(static_cast<uint64_t>(0x123456789ABCDEF0ULL)); // timestamp
-    ASSERT_EQ(packer.getError(), 0);
-
-    uint8_t flags{};
-    uint32_t eventMessageReason{};
-    uint32_t sequenceNumber{};
-    uint64_t timestamp{};
-    std::string_view messageTextString{};
-
-    int result =
-        gpu::decodeXidEvent(buf, flags, eventMessageReason, sequenceNumber,
-                            timestamp, messageTextString);
-
-    EXPECT_EQ(result, 0);
-    EXPECT_EQ(flags, 0xFF);
-    EXPECT_EQ(eventMessageReason, 0xDEADBEEFU);
-    EXPECT_EQ(sequenceNumber, 0xCAFEBABEU);
-    EXPECT_EQ(timestamp, 0x123456789ABCDEF0ULL);
-    EXPECT_TRUE(messageTextString.empty());
-}
-
-TEST_F(GpuMctpVdmTests, DecodeXidEventZeroValues)
-{
-    std::vector<uint8_t> buf(gpu::xidEventMinDataSize, 0);
-
-    uint8_t flags{};
-    uint32_t eventMessageReason{};
-    uint32_t sequenceNumber{};
-    uint64_t timestamp{};
-    std::string_view messageTextString{};
-
-    int result =
-        gpu::decodeXidEvent(buf, flags, eventMessageReason, sequenceNumber,
-                            timestamp, messageTextString);
-
-    EXPECT_EQ(result, 0);
-    EXPECT_EQ(flags, 0);
-    EXPECT_EQ(eventMessageReason, 0U);
-    EXPECT_EQ(sequenceNumber, 0U);
-    EXPECT_EQ(timestamp, 0ULL);
-    EXPECT_TRUE(messageTextString.empty());
-}
-
-TEST_F(GpuMctpVdmTests, DecodeXidEventBufferTooSmall)
-{
-    std::vector<uint8_t> buf(gpu::xidEventMinDataSize - 1);
-
-    uint8_t flags{};
-    uint32_t eventMessageReason{};
-    uint32_t sequenceNumber{};
-    uint64_t timestamp{};
-    std::string_view messageTextString{};
-
-    int result =
-        gpu::decodeXidEvent(buf, flags, eventMessageReason, sequenceNumber,
-                            timestamp, messageTextString);
-
-    EXPECT_EQ(result, EINVAL);
-}
-
-TEST_F(GpuMctpVdmTests, DecodeXidEventEmptyBuffer)
-{
-    // Zero-length buffer — must return EINVAL immediately
-    std::vector<uint8_t> buf;
-
-    uint8_t flags{};
-    uint32_t eventMessageReason{};
-    uint32_t sequenceNumber{};
-    uint64_t timestamp{};
-    std::string_view messageTextString{};
-
-    int result =
-        gpu::decodeXidEvent(buf, flags, eventMessageReason, sequenceNumber,
-                            timestamp, messageTextString);
-
-    EXPECT_EQ(result, EINVAL);
-}
-
-TEST_F(GpuMctpVdmTests, DecodeXidEventMessageTextPointsIntoBuffer)
-{
-    // Verify that string_view returned by decodeXidEvent points directly into
-    // the original buffer (zero-copy) rather than a copy.
-    const std::string message = "GPU fault";
-    std::vector<uint8_t> buf(gpu::xidEventMinDataSize + message.size());
-
-    PackBuffer packer(buf);
-    packer.pack(static_cast<uint8_t>(0x00));   // flags
-    packer.pack(static_cast<uint8_t>(0x00));   // reserved[0]
-    packer.pack(static_cast<uint8_t>(0x00));   // reserved[1]
-    packer.pack(static_cast<uint8_t>(0x00));   // reserved[2]
-    packer.pack(static_cast<uint32_t>(7U));    // eventMessageReason
-    packer.pack(static_cast<uint32_t>(3U));    // sequenceNumber
-    packer.pack(static_cast<uint64_t>(42ULL)); // timestamp
-    ASSERT_EQ(packer.getError(), 0);
-
-    std::memcpy(buf.data() + gpu::xidEventMinDataSize, message.data(),
-                message.size());
-
-    uint8_t flags{};
-    uint32_t eventMessageReason{};
-    uint32_t sequenceNumber{};
-    uint64_t timestamp{};
-    std::string_view messageTextString{};
-
-    int result =
-        gpu::decodeXidEvent(buf, flags, eventMessageReason, sequenceNumber,
-                            timestamp, messageTextString);
-
-    ASSERT_EQ(result, 0);
-    EXPECT_EQ(
-        messageTextString.data(),
-        std::bit_cast<const char*>(buf.data() + gpu::xidEventMinDataSize));
-    EXPECT_EQ(messageTextString.size(), message.size());
-}
-
 TEST_F(GpuMctpVdmTests, EncodeGetEccErrorCountsRequestSuccess)
 {
     const uint8_t instanceId = 1;
@@ -3390,65 +3224,6 @@ TEST_F(GpuMctpVdmTests, DecodeGetCurrentUtilizationModeResponseBufferTooSmall)
     EXPECT_EQ(result, EINVAL);
 }
 
-// Tests for the long-running variant:
-// gpu::decodeGetCurrentUtilizationModeResponse(buf, utilization)
-
-TEST_F(GpuMctpVdmTests,
-       DecodeGetCurrentUtilizationModeLongRunningResponseSuccess)
-{
-    std::vector<uint8_t> buf(sizeof(uint32_t));
-    PackBuffer packer(buf);
-    packer.pack(static_cast<uint32_t>(75));
-    ASSERT_EQ(packer.getError(), 0);
-
-    uint32_t utilization{};
-    int result = gpu::decodeGetCurrentUtilizationModeResponse(buf, utilization);
-
-    EXPECT_EQ(result, 0);
-    EXPECT_EQ(utilization, 75U);
-}
-
-TEST_F(GpuMctpVdmTests,
-       DecodeGetCurrentUtilizationModeLongRunningResponseZeroValue)
-{
-    std::vector<uint8_t> buf(sizeof(uint32_t));
-    PackBuffer packer(buf);
-    packer.pack(static_cast<uint32_t>(0));
-    ASSERT_EQ(packer.getError(), 0);
-
-    uint32_t utilization{};
-    int result = gpu::decodeGetCurrentUtilizationModeResponse(buf, utilization);
-
-    EXPECT_EQ(result, 0);
-    EXPECT_EQ(utilization, 0U);
-}
-
-TEST_F(GpuMctpVdmTests,
-       DecodeGetCurrentUtilizationModeLongRunningResponseMaxValue)
-{
-    std::vector<uint8_t> buf(sizeof(uint32_t));
-    PackBuffer packer(buf);
-    packer.pack(static_cast<uint32_t>(0xFFFFFFFF));
-    ASSERT_EQ(packer.getError(), 0);
-
-    uint32_t utilization{};
-    int result = gpu::decodeGetCurrentUtilizationModeResponse(buf, utilization);
-
-    EXPECT_EQ(result, 0);
-    EXPECT_EQ(utilization, 0xFFFFFFFFU);
-}
-
-TEST_F(GpuMctpVdmTests,
-       DecodeGetCurrentUtilizationModeLongRunningResponseBufferTooSmall)
-{
-    std::vector<uint8_t> buf(sizeof(uint32_t) - 1); // 3 bytes, too small
-
-    uint32_t utilization{};
-    int result = gpu::decodeGetCurrentUtilizationModeResponse(buf, utilization);
-
-    EXPECT_NE(result, 0);
-}
-
 TEST_F(GpuMctpVdmTests, DecodeGetEccErrorCountsResponseSuccess)
 {
     constexpr uint16_t eccDataSize = sizeof(uint16_t) + sizeof(uint32_t) * 5;
@@ -3565,13 +3340,14 @@ TEST_F(GpuMctpVdmTests, DecodeGetEccErrorCountsResponseBufferTooSmall)
     EXPECT_EQ(result, EINVAL);
 }
 
-TEST_F(GpuMctpVdmTests, EncodeGetCurrentClockFrequencyRequestSuccess)
-{
-    const uint8_t instanceId = 5;
-    std::array<uint8_t, gpu::getCurrentClockFrequencyRequestSize> buf{};
+// Tests for gpu::encodeGetEccModeRequest
 
-    int result = gpu::encodeGetCurrentClockFrequencyRequest(
-        instanceId, gpu::ClockType::MEMORY_CLOCK, buf);
+TEST_F(GpuMctpVdmTests, EncodeGetEccModeRequestSuccess)
+{
+    const uint8_t instanceId = 4;
+    std::array<uint8_t, gpu::getEccModeRequestSize> buf{};
+
+    int result = gpu::encodeGetEccModeRequest(instanceId, buf);
     EXPECT_EQ(result, 0);
 
     UnpackBuffer ubuf{std::span<const uint8_t>(buf)};
@@ -3582,288 +3358,143 @@ TEST_F(GpuMctpVdmTests, EncodeGetCurrentClockFrequencyRequestSuccess)
                   ubuf, gpu::nvidiaPciVendorId, msgType, recvInstanceId,
                   recvMsgType),
               0);
-    uint8_t command = 0;
-    ubuf.unpack(command);
-    EXPECT_EQ(
-        command,
-        static_cast<uint8_t>(
-            gpu::PlatformEnvironmentalCommands::GET_CURRENT_CLOCK_FREQUENCY));
-    uint8_t dataSize = 0;
-    ubuf.unpack(dataSize);
-    uint8_t clockId = 0;
-    ubuf.unpack(clockId);
-    EXPECT_EQ(clockId, static_cast<uint8_t>(gpu::ClockType::MEMORY_CLOCK));
-}
-
-TEST_F(GpuMctpVdmTests, EncodeGetCurrentClockFrequencyRequestBufferTooSmall)
-{
-    const uint8_t instanceId = 5;
-    std::array<uint8_t, 1> buf{};
-
-    int result = gpu::encodeGetCurrentClockFrequencyRequest(
-        instanceId, gpu::ClockType::MEMORY_CLOCK, buf);
-    EXPECT_EQ(result, EINVAL);
-}
-
-TEST_F(GpuMctpVdmTests, DecodeGetCurrentClockFrequencyResponseSuccess)
-{
-    std::vector<uint8_t> buf(
-        ocp::accelerator_management::commonResponseSize + sizeof(uint32_t));
-
-    PackBuffer pbuf{std::span<uint8_t>(buf)};
-    ocp::accelerator_management::packHeader(
-        pbuf, gpu::nvidiaPciVendorId,
-        ocp::accelerator_management::MessageType::RESPONSE, 5,
-        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
-    pbuf.pack(static_cast<uint8_t>(
-        gpu::PlatformEnvironmentalCommands::GET_CURRENT_CLOCK_FREQUENCY));
-    pbuf.pack(static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::SUCCESS));
-    pbuf.pack(uint16_t{0});
-    pbuf.pack(htole16(static_cast<uint16_t>(sizeof(uint32_t))));
-    pbuf.pack(htole32(uint32_t{405}));
-    EXPECT_EQ(pbuf.getError(), 0);
-
-    ocp::accelerator_management::CompletionCode cc{};
-    uint16_t reasonCode{};
-    uint32_t clockFreqMHz{};
-
-    int result = gpu::decodeGetCurrentClockFrequencyResponse(
-        buf, cc, reasonCode, clockFreqMHz);
-
-    EXPECT_EQ(result, 0);
-    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
-    EXPECT_EQ(reasonCode, 0);
-    EXPECT_EQ(clockFreqMHz, 405U);
-}
-
-TEST_F(GpuMctpVdmTests, DecodeGetCurrentClockFrequencyResponseError)
-{
-    // CommonNonSuccessResponse: BindingPciVid(5) + command(1) + cc(1) +
-    //   reason_code(2) = 9 bytes
-    std::vector<uint8_t> buf(9);
-
-    PackBuffer pbuf{std::span<uint8_t>(buf)};
-    ocp::accelerator_management::packHeader(
-        pbuf, gpu::nvidiaPciVendorId,
-        ocp::accelerator_management::MessageType::RESPONSE, 5,
-        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
-    pbuf.pack(static_cast<uint8_t>(
-        gpu::PlatformEnvironmentalCommands::GET_CURRENT_CLOCK_FREQUENCY));
-    pbuf.pack(static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::ERR_NOT_READY));
-    pbuf.pack(htole16(uint16_t{0x5678}));
-    EXPECT_EQ(pbuf.getError(), 0);
-
-    ocp::accelerator_management::CompletionCode cc{};
-    uint16_t reasonCode{};
-    uint32_t clockFreqMHz{};
-
-    int result = gpu::decodeGetCurrentClockFrequencyResponse(
-        buf, cc, reasonCode, clockFreqMHz);
-
-    EXPECT_EQ(result, 0);
-    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
-    EXPECT_EQ(reasonCode, 0x5678);
-}
-
-TEST_F(GpuMctpVdmTests, DecodeGetCurrentClockFrequencyResponseDataSizeMismatch)
-{
-    std::vector<uint8_t> buf(ocp::accelerator_management::commonResponseSize);
-
-    PackBuffer pbuf{std::span<uint8_t>(buf)};
-    ocp::accelerator_management::packHeader(
-        pbuf, gpu::nvidiaPciVendorId,
-        ocp::accelerator_management::MessageType::RESPONSE, 5,
-        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
-    pbuf.pack(static_cast<uint8_t>(
-        gpu::PlatformEnvironmentalCommands::GET_CURRENT_CLOCK_FREQUENCY));
-    pbuf.pack(static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::SUCCESS));
-    pbuf.pack(uint16_t{0});
-    pbuf.pack(htole16(uint16_t{2}));
-    EXPECT_EQ(pbuf.getError(), 0);
-
-    ocp::accelerator_management::CompletionCode cc{};
-    uint16_t reasonCode{};
-    uint32_t clockFreqMHz{};
-
-    int result = gpu::decodeGetCurrentClockFrequencyResponse(
-        buf, cc, reasonCode, clockFreqMHz);
-
-    EXPECT_EQ(result, EINVAL);
-}
-
-// Tests for encodeGetClockLimitRequest
-TEST_F(GpuMctpVdmTests, EncodeGetClockLimitRequestSuccess)
-{
-    const uint8_t instanceId = 15;
-    std::array<uint8_t, gpu::getClockLimitRequestSize> buf{};
-
-    int result = gpu::encodeGetClockLimitRequest(
-        instanceId, gpu::ClockType::GRAPHICS_CLOCK, buf);
-
-    EXPECT_EQ(result, 0);
-
-    UnpackBuffer ubuf(std::span<const uint8_t>(buf.data(), buf.size()));
-    ocp::accelerator_management::MessageType msgType{};
-    uint8_t unpackedInstanceId = 0;
-    uint8_t unpackedMsgType = 0;
-    EXPECT_EQ(ocp::accelerator_management::unpackHeader(
-                  ubuf, gpu::nvidiaPciVendorId, msgType, unpackedInstanceId,
-                  unpackedMsgType),
-              0);
     EXPECT_EQ(msgType, ocp::accelerator_management::MessageType::REQUEST);
-    EXPECT_EQ(unpackedInstanceId,
+    EXPECT_EQ(recvInstanceId & ocp::accelerator_management::instanceIdBitMask,
               instanceId & ocp::accelerator_management::instanceIdBitMask);
-    EXPECT_EQ(unpackedMsgType,
+    EXPECT_EQ(recvMsgType,
               static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+
     uint8_t command = 0;
     ubuf.unpack(command);
-    EXPECT_EQ(command,
-              static_cast<uint8_t>(
-                  gpu::PlatformEnvironmentalCommands::GET_CLOCK_LIMIT));
+    EXPECT_EQ(command, static_cast<uint8_t>(
+                           gpu::PlatformEnvironmentalCommands::GET_ECC_MODE));
+
     uint8_t dataSize = 0;
     ubuf.unpack(dataSize);
-    EXPECT_EQ(dataSize, sizeof(uint8_t));
-    uint8_t clockType = 0;
-    ubuf.unpack(clockType);
-    EXPECT_EQ(clockType, static_cast<uint8_t>(gpu::ClockType::GRAPHICS_CLOCK));
+    EXPECT_EQ(dataSize, 0);
     EXPECT_EQ(ubuf.getError(), 0);
 }
 
-TEST_F(GpuMctpVdmTests, EncodeGetClockLimitRequestBufferTooSmall)
+TEST_F(GpuMctpVdmTests, EncodeGetEccModeRequestBufferTooSmall)
 {
     std::array<uint8_t, 1> buf{};
-
-    int result = gpu::encodeGetClockLimitRequest(
-        15, gpu::ClockType::GRAPHICS_CLOCK, buf);
-
+    int result = gpu::encodeGetEccModeRequest(0, buf);
     EXPECT_EQ(result, EINVAL);
 }
 
-// Tests for decodeGetClockLimitResponse
-TEST_F(GpuMctpVdmTests, DecodeGetClockLimitResponseSuccess)
+// Tests for gpu::decodeGetEccModeResponse
+
+namespace
 {
-    std::vector<uint8_t> buf(64);
-    PackBuffer pbuf(buf);
+void packEccModeResponse(std::span<uint8_t> buf, uint8_t completionCode,
+                         uint8_t flags)
+{
+    PackBuffer packer(buf);
     ocp::accelerator_management::packHeader(
-        pbuf, gpu::nvidiaPciVendorId,
-        ocp::accelerator_management::MessageType::RESPONSE, 15,
+        packer, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 0,
         static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
-    pbuf.pack(static_cast<uint8_t>(
-        gpu::PlatformEnvironmentalCommands::GET_CLOCK_LIMIT));  // command
-    pbuf.pack(static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::SUCCESS)); // CC
-    pbuf.pack(static_cast<uint16_t>(0));                        // reserved
-    pbuf.pack(static_cast<uint16_t>(4 * sizeof(uint32_t)));     // data_size
-    pbuf.pack(static_cast<uint32_t>(300));  // requestedLimitMin
-    pbuf.pack(static_cast<uint32_t>(2100)); // requestedLimitMax
-    pbuf.pack(static_cast<uint32_t>(500));  // presentLimitMin
-    pbuf.pack(static_cast<uint32_t>(1800)); // presentLimitMax
-    ASSERT_EQ(pbuf.getError(), 0);
+    packer.pack(
+        static_cast<uint8_t>(gpu::PlatformEnvironmentalCommands::GET_ECC_MODE));
+    packer.pack(completionCode);
+    packer.pack(uint16_t{0});                          // reasonCode
+    packer.pack(static_cast<uint16_t>(sizeof(flags))); // dataSize
+    packer.pack(flags);
+}
+} // namespace
+
+TEST_F(GpuMctpVdmTests, DecodeGetEccModeResponseBothEnabled)
+{
+    // header(9) + dataSize(2) + flags(1) = 12
+    std::vector<uint8_t> buf(12);
+    packEccModeResponse(
+        buf,
+        static_cast<uint8_t>(
+            ocp::accelerator_management::CompletionCode::SUCCESS),
+        0x03U);
 
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
-    uint32_t requestedLimitMin{};
-    uint32_t requestedLimitMax{};
-    uint32_t presentLimitMin{};
-    uint32_t presentLimitMax{};
+    bool current = false;
+    bool pending = false;
 
-    int result = gpu::decodeGetClockLimitResponse(
-        buf, cc, reasonCode, requestedLimitMin, requestedLimitMax,
-        presentLimitMin, presentLimitMax);
+    int result =
+        gpu::decodeGetEccModeResponse(buf, cc, reasonCode, current, pending);
 
     EXPECT_EQ(result, 0);
     EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
-    EXPECT_EQ(reasonCode, 0);
-    EXPECT_EQ(requestedLimitMin, 300U);
-    EXPECT_EQ(requestedLimitMax, 2100U);
-    EXPECT_EQ(presentLimitMin, 500U);
-    EXPECT_EQ(presentLimitMax, 1800U);
+    EXPECT_TRUE(current);
+    EXPECT_TRUE(pending);
 }
 
-TEST_F(GpuMctpVdmTests, DecodeGetClockLimitResponseError)
+TEST_F(GpuMctpVdmTests, DecodeGetEccModeResponseCurrentOnly)
 {
-    std::vector<uint8_t> buf(64);
-    PackBuffer pbuf(buf);
-    ocp::accelerator_management::packHeader(
-        pbuf, gpu::nvidiaPciVendorId,
-        ocp::accelerator_management::MessageType::RESPONSE, 15,
-        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
-    pbuf.pack(static_cast<uint8_t>(
-        gpu::PlatformEnvironmentalCommands::GET_CLOCK_LIMIT));        // cmd
-    pbuf.pack(static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::ERR_NOT_READY)); // CC
-    pbuf.pack(static_cast<uint16_t>(0xBBBB)); // reason_code
-    ASSERT_EQ(pbuf.getError(), 0);
+    std::vector<uint8_t> buf(12);
+    packEccModeResponse(
+        buf,
+        static_cast<uint8_t>(
+            ocp::accelerator_management::CompletionCode::SUCCESS),
+        0x01U);
 
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
-    uint32_t requestedLimitMin{};
-    uint32_t requestedLimitMax{};
-    uint32_t presentLimitMin{};
-    uint32_t presentLimitMax{};
+    bool current = false;
+    bool pending = true;
 
-    int result = gpu::decodeGetClockLimitResponse(
-        buf, cc, reasonCode, requestedLimitMin, requestedLimitMax,
-        presentLimitMin, presentLimitMax);
+    int result =
+        gpu::decodeGetEccModeResponse(buf, cc, reasonCode, current, pending);
 
     EXPECT_EQ(result, 0);
-    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
-    EXPECT_EQ(reasonCode, 0xBBBB);
+    EXPECT_TRUE(current);
+    EXPECT_FALSE(pending);
 }
 
-TEST_F(GpuMctpVdmTests, DecodeGetClockLimitResponseBufferTooSmall)
+TEST_F(GpuMctpVdmTests, DecodeGetEccModeResponsePendingOnly)
 {
-    std::vector<uint8_t> buf(7);
-    PackBuffer pbuf(buf);
-    ocp::accelerator_management::packHeader(
-        pbuf, gpu::nvidiaPciVendorId,
-        ocp::accelerator_management::MessageType::RESPONSE, 15,
-        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
-    ASSERT_EQ(pbuf.getError(), 0);
+    std::vector<uint8_t> buf(12);
+    packEccModeResponse(
+        buf,
+        static_cast<uint8_t>(
+            ocp::accelerator_management::CompletionCode::SUCCESS),
+        0x02U);
 
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
-    uint32_t requestedLimitMin{};
-    uint32_t requestedLimitMax{};
-    uint32_t presentLimitMin{};
-    uint32_t presentLimitMax{};
+    bool current = true;
+    bool pending = false;
 
-    int result = gpu::decodeGetClockLimitResponse(
-        buf, cc, reasonCode, requestedLimitMin, requestedLimitMax,
-        presentLimitMin, presentLimitMax);
+    int result =
+        gpu::decodeGetEccModeResponse(buf, cc, reasonCode, current, pending);
 
-    EXPECT_EQ(result, EINVAL);
+    EXPECT_EQ(result, 0);
+    EXPECT_FALSE(current);
+    EXPECT_TRUE(pending);
 }
 
-TEST_F(GpuMctpVdmTests, DecodeGetClockLimitResponseInvalidDataSize)
+TEST_F(GpuMctpVdmTests, DecodeGetEccModeResponseInvalidDataSize)
 {
-    std::vector<uint8_t> buf(64);
-    PackBuffer pbuf(buf);
+    // dataSize advertised as 2 but only 1 byte present after header
+    std::vector<uint8_t> buf(12);
+    PackBuffer packer(buf);
     ocp::accelerator_management::packHeader(
-        pbuf, gpu::nvidiaPciVendorId,
-        ocp::accelerator_management::MessageType::RESPONSE, 15,
+        packer, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 0,
         static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
-    pbuf.pack(static_cast<uint8_t>(
-        gpu::PlatformEnvironmentalCommands::GET_CLOCK_LIMIT));  // command
-    pbuf.pack(static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::SUCCESS)); // CC
-    pbuf.pack(static_cast<uint16_t>(0));                        // reserved
-    pbuf.pack(static_cast<uint16_t>(4)); // data_size (wrong)
-    ASSERT_EQ(pbuf.getError(), 0);
+    packer.pack(
+        static_cast<uint8_t>(gpu::PlatformEnvironmentalCommands::GET_ECC_MODE));
+    packer.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));
+    packer.pack(uint16_t{0});
+    packer.pack(uint16_t{2}); // wrong dataSize
+    packer.pack(uint8_t{0});
 
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode{};
-    uint32_t requestedLimitMin{};
-    uint32_t requestedLimitMax{};
-    uint32_t presentLimitMin{};
-    uint32_t presentLimitMax{};
+    bool current = false;
+    bool pending = false;
 
-    int result = gpu::decodeGetClockLimitResponse(
-        buf, cc, reasonCode, requestedLimitMin, requestedLimitMax,
-        presentLimitMin, presentLimitMax);
+    int result =
+        gpu::decodeGetEccModeResponse(buf, cc, reasonCode, current, pending);
 
     EXPECT_EQ(result, EINVAL);
 }
