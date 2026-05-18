@@ -11,6 +11,7 @@
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/vtable.hpp>
 
 #include <algorithm>
 #include <cstddef>
@@ -104,6 +105,17 @@ Inventory::Inventory(
     {
         properties[gpu::InventoryPropertyId::MAX_MEMORY_CAPACITY] = {
             dramItemIface, "MemorySizeInKB", 0, true};
+
+        dramItemIface->register_property_r<size_t>(
+            "MemorySizeInKB", size_t{0},
+            sdbusplus::vtable::property_::emits_change,
+            [this](size_t&) { return memorySizeInKB.value_or(0); });
+
+        if (!dramItemIface->initialize())
+        {
+            lg2::error("Failed to initialize Dram interface for {NAME}", "NAME",
+                       name);
+        }
     }
 }
 
@@ -330,11 +342,11 @@ void Inventory::handleInventoryPropertyResponse(
                 case gpu::InventoryPropertyId::MAX_MEMORY_CAPACITY:
                     if (std::holds_alternative<uint32_t>(info))
                     {
-                        const size_t memorySizeInKB =
-                            static_cast<size_t>(std::get<uint32_t>(info)) *
+                        memorySizeInKB =
+                            static_cast<uint64_t>(std::get<uint32_t>(info)) *
                             1024;
-                        it->second.interface->set_property(
-                            it->second.propertyName, memorySizeInKB);
+                        it->second.interface->signal_property(
+                            it->second.propertyName);
                         success = true;
                     }
                     else
