@@ -17,6 +17,7 @@
 
 #include <cstdint>
 #include <memory>
+#include <optional>
 #include <span>
 #include <string>
 #include <system_error>
@@ -28,7 +29,9 @@ NvidiaDriverInformation::NvidiaDriverInformation(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, const std::string& name,
     const sdbusplus::object_path& path, const uint8_t eid,
-    sdbusplus::asio::object_server& objectServer) :
+    sdbusplus::asio::object_server& objectServer,
+    const std::optional<sdbusplus::object_path>& associationEndpoint,
+    const std::string& manufacturer) :
     eid(eid), conn(conn), mctpRequester(mctpRequester)
 {
     const std::string dbusPath = softwareInventoryPath + escapeName(name);
@@ -49,7 +52,8 @@ NvidiaDriverInformation::NvidiaDriverInformation(
     }
 
     std::vector<Association> associations;
-    associations.emplace_back("running", "ran_on", path.parent_path());
+    associations.emplace_back("running", "ran_on",
+                              associationEndpoint.value_or(path.parent_path()));
 
     associationInterface =
         objectServer.add_interface(dbusPath, association::interface);
@@ -61,6 +65,21 @@ NvidiaDriverInformation::NvidiaDriverInformation(
         lg2::error(
             "Failed to initialize Association interface for Driver Information for eid {EID}",
             "EID", eid);
+    }
+
+    if (!manufacturer.empty())
+    {
+        assetInterface = objectServer.add_interface(
+            dbusPath, "xyz.openbmc_project.Inventory.Decorator.Asset");
+
+        assetInterface->register_property("Manufacturer", manufacturer);
+
+        if (!assetInterface->initialize())
+        {
+            lg2::error(
+                "Failed to initialize Asset interface for Driver Information for eid {EID}",
+                "EID", eid);
+        }
     }
 }
 

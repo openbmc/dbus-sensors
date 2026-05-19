@@ -6,6 +6,7 @@
 #include "NvidiaPcieDevice.hpp"
 
 #include "NvidiaDeviceDiscovery.hpp"
+#include "NvidiaDriverInformation.hpp"
 #include "NvidiaEthPort.hpp"
 #include "NvidiaGpuMctpVdm.hpp"
 #include "NvidiaPcieFunction.hpp"
@@ -117,6 +118,10 @@ void PcieDevice::init()
     }
 
     processNextAssetProperty();
+
+    driverInfo = std::make_shared<NvidiaDriverInformation>(
+        conn, mctpRequester, name + "_NIC", path, eid, objectServer,
+        networkAdapterPath, "Nvidia");
 
     getPciePortCounts();
 
@@ -336,6 +341,8 @@ void PcieDevice::read()
 {
     pcieInterface->update();
     pcieFunction->update();
+
+    driverInfo->update();
 
     for (auto& port : pciePorts)
     {
