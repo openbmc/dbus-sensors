@@ -46,10 +46,20 @@ NvidiaPcieInterface::NvidiaPcieInterface(
     pcieDeviceInterface = objectServer.add_interface(
         dbusPath, "xyz.openbmc_project.Inventory.Item.PCIeDevice");
 
-    if (deviceType == gpu::DeviceIdentification::DEVICE_PCIE)
+    switch (deviceType)
     {
-        switchInterface = objectServer.add_interface(
-            dbusPath, "xyz.openbmc_project.Inventory.Item.PCIeSwitch");
+        case gpu::DeviceIdentification::DEVICE_GPU:
+            pcieDeviceInterface->register_property(
+                "DeviceType",
+                std::string("xyz.openbmc_project.Inventory.Item.PCIeDevice."
+                            "DeviceTypes.SingleFunction"));
+            break;
+        case gpu::DeviceIdentification::DEVICE_PCIE:
+            switchInterface = objectServer.add_interface(
+                dbusPath, "xyz.openbmc_project.Inventory.Item.PCIeSwitch");
+            break;
+        default:
+            break;
     }
 
     std::vector<Association> associations;
