@@ -6,12 +6,14 @@
 #include "NvidiaPcieDevice.hpp"
 
 #include "NvidiaDeviceDiscovery.hpp"
+#include "NvidiaDriverInformation.hpp"
 #include "NvidiaEthPort.hpp"
 #include "NvidiaGpuMctpVdm.hpp"
 #include "NvidiaPcieFunction.hpp"
 #include "NvidiaPcieInterface.hpp"
 #include "NvidiaPciePort.hpp"
 #include "NvidiaPciePortMetrics.hpp"
+#include "NvidiaUtils.hpp"
 #include "Utils.hpp"
 
 #include <MctpRequester.hpp>
@@ -96,6 +98,10 @@ void PcieDevice::init()
             "Error initializing Embedded Connector interface for Network Adapter, eid={EID}",
             "EID", eid);
     }
+
+    driverInfo = std::make_shared<NvidiaDriverInformation>(
+        conn, mctpRequester, name + "_NIC", path, eid, objectServer,
+        networkAdapterPath, nvidiaManufacturer);
 
     getPciePortCounts();
 
@@ -315,6 +321,8 @@ void PcieDevice::read()
 {
     pcieInterface->update();
     pcieFunction->update();
+
+    driverInfo->update();
 
     for (auto& port : pciePorts)
     {
