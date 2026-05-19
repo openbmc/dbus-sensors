@@ -6,3 +6,5 @@
 #pragma once
 
 const constexpr char* metricPath = "/xyz/openbmc_project/metric/";
+
+const constexpr char* nvidiaManufacturer = "NVIDIA";
