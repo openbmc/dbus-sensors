@@ -53,10 +53,20 @@ NvidiaPcieInterface::NvidiaPcieInterface(
     associations.emplace_back("contained_by", "containing",
                               sdbusplus::object_path(path).parent_path());
 
-    if (deviceType == gpu::DeviceIdentification::DEVICE_PCIE)
+    switch (deviceType)
     {
-        switchInterface = objectServer.add_interface(
-            dbusPath, "xyz.openbmc_project.Inventory.Item.PCIeSwitch");
+        case gpu::DeviceIdentification::DEVICE_GPU:
+            pcieDeviceInterface->register_property(
+                "DeviceType",
+                std::string("xyz.openbmc_project.Inventory.Item.PCIeDevice."
+                            "DeviceTypes.SingleFunction"));
+            break;
+        case gpu::DeviceIdentification::DEVICE_PCIE:
+            switchInterface = objectServer.add_interface(
+                dbusPath, "xyz.openbmc_project.Inventory.Item.PCIeSwitch");
+            break;
+        default:
+            break;
     }
 
     if (networkAdapterName.has_value())
