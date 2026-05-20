@@ -16,6 +16,8 @@
 #include <string>
 #include <unordered_map>
 
+class Chassis;
+
 constexpr const char* inventoryPrefix = "/xyz/openbmc_project/inventory/";
 
 class Inventory : public std::enable_shared_from_this<Inventory>
@@ -29,7 +31,8 @@ class Inventory : public std::enable_shared_from_this<Inventory>
         boost::asio::io_context& io,
         const std::shared_ptr<sdbusplus::asio::dbus_interface>&
             powerCapInterface,
-        const std::shared_ptr<sdbusplus::asio::dbus_interface>& dramItemIface);
+        const std::shared_ptr<sdbusplus::asio::dbus_interface>& dramItemIface,
+        std::shared_ptr<Chassis> chassis = nullptr);
 
     void init();
 
@@ -64,6 +67,7 @@ class Inventory : public std::enable_shared_from_this<Inventory>
     std::shared_ptr<sdbusplus::asio::dbus_interface> uuidInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> revisionIface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> dramItemInterface;
+    std::shared_ptr<Chassis> chassis;
     std::array<uint16_t, 2> allowedSpeedsMT{0, 0};
 
     std::string name;

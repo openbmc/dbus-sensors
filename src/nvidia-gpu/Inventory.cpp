@@ -1,5 +1,6 @@
 #include "Inventory.hpp"
 
+#include "Chassis.hpp"
 #include "Utils.hpp"
 
 #include <MctpRequester.hpp>
@@ -23,6 +24,7 @@
 #include <system_error>
 #include <tuple>
 #include <unordered_map>
+#include <utility>
 #include <variant>
 #include <vector>
 
@@ -45,9 +47,11 @@ Inventory::Inventory(
     const gpu::DeviceIdentification deviceTypeIn, const uint8_t eid,
     boost::asio::io_context& io,
     const std::shared_ptr<sdbusplus::asio::dbus_interface>& powerCapInterface,
-    const std::shared_ptr<sdbusplus::asio::dbus_interface>& dramItemIface) :
-    name(escapeName(inventoryName)), mctpRequester(mctpRequester),
-    deviceType(deviceTypeIn), eid(eid), retryTimer(io)
+    const std::shared_ptr<sdbusplus::asio::dbus_interface>& dramItemIface,
+    std::shared_ptr<Chassis> chassisIn) :
+    chassis(std::move(chassisIn)), name(escapeName(inventoryName)),
+    mctpRequester(mctpRequester), deviceType(deviceTypeIn), eid(eid),
+    retryTimer(io)
 {
     std::string path = inventoryPrefix + name;
 
@@ -343,6 +347,19 @@ void Inventory::handleInventoryPropertyResponse(
                             std::get<uint32_t>(info) / milliwattsPerWatt;
                         it->second.interface->set_property(
                             it->second.propertyName, powerLimit);
+                        if (chassis)
+                        {
+                            if (propertyId == gpu::InventoryPropertyId::
+                                                  MIN_DEVICE_POWER_LIMIT)
+                            {
+                                chassis->onMinPower(powerLimit);
+                            }
+                            else if (propertyId == gpu::InventoryPropertyId::
+                                                       MAX_DEVICE_POWER_LIMIT)
+                            {
+                                chassis->onMaxPower(powerLimit);
+                            }
+                        }
                         lg2::info(
                             "Successfully received property ID {PROP_ID} for {NAME} with value: {VALUE}",
                             "PROP_ID", static_cast<uint8_t>(propertyId), "NAME",
@@ -418,6 +435,18 @@ void Inventory::handleInventoryPropertyResponse(
             {
                 it->second.interface->set_property(it->second.propertyName,
                                                    value);
+                if (chassis)
+                {
+                    if (propertyId == gpu::InventoryPropertyId::DEVICE_GUID)
+                    {
+                        chassis->onUuid(value);
+                    }
+                    else if (propertyId ==
+                             gpu::InventoryPropertyId::SERIAL_NUMBER)
+                    {
+                        chassis->onSerialNumber(value);
+                    }
+                }
                 lg2::info(
                     "Successfully received property ID {PROP_ID} for {NAME} with value: {VALUE}",
                     "PROP_ID", static_cast<uint8_t>(propertyId), "NAME", name,
