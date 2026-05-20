@@ -12,6 +12,7 @@
 
 #include <bits/basic_string.h>
 
+#include <Chassis.hpp>
 #include <MctpRequester.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
 #include <OcpMctpVdm.hpp>
@@ -376,6 +377,29 @@ void processSensorConfigs(
     const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     mctp::MctpRequester& mctpRequester, const ManagedObjectType& resp)
 {
+    static constexpr const char* assetIfaceName =
+        "xyz.openbmc_project.Inventory.Decorator.Asset";
+    auto candidateChassis = std::make_shared<std::vector<ChassisCandidate>>();
+    for (const auto& [path, interfaces] : resp)
+    {
+        auto assetIt = interfaces.find(assetIfaceName);
+        if (assetIt == interfaces.end())
+        {
+            continue;
+        }
+        auto snIt = assetIt->second.find("SerialNumber");
+        if (snIt == assetIt->second.end())
+        {
+            continue;
+        }
+        const auto* sn = std::get_if<std::string>(&snIt->second);
+        if (sn == nullptr || sn->empty())
+        {
+            continue;
+        }
+        candidateChassis->emplace_back(path, *sn);
+    }
+
     for (const auto& [path, interfaces] : resp)
     {
         for (const auto& [intf, cfg] : interfaces)
@@ -388,6 +412,7 @@ void processSensorConfigs(
             SensorConfigs configs;
 
             configs.name = loadVariant<std::string>(cfg, "Name");
+            configs.candidateChassis = candidateChassis;
 
             try
             {
