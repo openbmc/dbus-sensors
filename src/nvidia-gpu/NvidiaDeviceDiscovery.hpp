@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include "Chassis.hpp"
 #include "MctpRequester.hpp"
 
 #include <boost/asio/io_context.hpp>
@@ -16,6 +17,7 @@
 #include <cstdint>
 #include <memory>
 #include <string>
+#include <vector>
 
 constexpr const char* sensorPathPrefix = "/xyz/openbmc_project/sensors/";
 constexpr const char* deviceType = "NvidiaMctpVdm";
@@ -25,6 +27,7 @@ struct SensorConfigs
     std::string name;
     uint64_t pollRate{};
     uint64_t nicNetworkPortCount{};
+    std::shared_ptr<const std::vector<ChassisCandidate>> candidateChassis;
 };
 
 class GpuDevice;

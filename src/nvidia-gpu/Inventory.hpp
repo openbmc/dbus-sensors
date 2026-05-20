@@ -16,6 +16,8 @@
 #include <string>
 #include <unordered_map>
 
+class Chassis;
+
 constexpr const char* inventoryPrefix = "/xyz/openbmc_project/inventory/";
 
 class Inventory : public std::enable_shared_from_this<Inventory>
@@ -28,7 +30,8 @@ class Inventory : public std::enable_shared_from_this<Inventory>
               gpu::DeviceIdentification deviceType, uint8_t eid,
               boost::asio::io_context& io,
               const std::shared_ptr<sdbusplus::asio::dbus_interface>&
-                  powerCapInterface);
+                  powerCapInterface,
+              std::shared_ptr<Chassis> chassis = nullptr);
 
     void init();
 
@@ -62,6 +65,7 @@ class Inventory : public std::enable_shared_from_this<Inventory>
     std::shared_ptr<sdbusplus::asio::dbus_interface> acceleratorInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> uuidInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> revisionIface;
+    std::shared_ptr<Chassis> chassis;
 
     std::string name;
     mctp::MctpRequester& mctpRequester;

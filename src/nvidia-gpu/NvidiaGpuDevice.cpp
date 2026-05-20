@@ -8,6 +8,7 @@
 #include "Thresholds.hpp"
 #include "Utils.hpp"
 
+#include <Chassis.hpp>
 #include <Inventory.hpp>
 #include <MctpRequester.hpp>
 #include <NvidiaDeviceDiscovery.hpp>
@@ -119,9 +120,12 @@ GpuDevice::~GpuDevice()
 
 void GpuDevice::init()
 {
+    chassis = std::make_shared<Chassis>(objectServer, configs.candidateChassis);
+
     inventory = std::make_shared<Inventory>(
         conn, objectServer, name, mctpRequester,
-        gpu::DeviceIdentification::DEVICE_GPU, eid, io, powerCapInterface);
+        gpu::DeviceIdentification::DEVICE_GPU, eid, io, powerCapInterface,
+        chassis);
 
     inventory->init();
 
