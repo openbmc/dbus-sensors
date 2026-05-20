@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include "Chassis.hpp"
 #include "Inventory.hpp"
 #include "MctpRequester.hpp"
 #include "NvidiaDeviceDiscovery.hpp"
@@ -128,6 +129,7 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
 
     std::string path;
 
+    std::shared_ptr<Chassis> chassis;
     std::shared_ptr<Inventory> inventory;
 
     std::shared_ptr<sdbusplus::asio::dbus_interface> controlClockSpeedInterface;
