@@ -17,6 +17,7 @@
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
+#include <array>
 #include <cmath>
 #include <cstddef>
 #include <cstdint>
@@ -26,6 +27,7 @@
 #include <span>
 #include <string>
 #include <system_error>
+#include <variant>
 #include <vector>
 
 using std::string;
@@ -58,6 +60,10 @@ NvidiaPcieInterface::NvidiaPcieInterface(
     {
         switchInterface = objectServer.add_interface(
             dbusPath, "xyz.openbmc_project.Inventory.Item.PCIeSwitch");
+
+        assetInterface = objectServer.add_interface(
+            dbusPath, "xyz.openbmc_project.Inventory.Decorator.Asset");
+        assetInterface->register_property("Model", std::string{});
     }
 
     std::vector<Association> associations;
@@ -101,6 +107,86 @@ NvidiaPcieInterface::NvidiaPcieInterface(
             "Error initializing Association Interface for PCIeSwitch EID={EID}",
             "EID", eid);
     }
+
+    if (assetInterface)
+    {
+        if (!assetInterface->initialize())
+        {
+            lg2::error("Error initializing Asset Interface for EID={EID}",
+                       "EID", eid);
+        }
+        populateModel();
+    }
+}
+
+void NvidiaPcieInterface::populateModel()
+{
+    auto reqBuf = std::make_shared<
+        std::array<uint8_t, gpu::getInventoryInformationRequestSize>>();
+
+    const int rc = gpu::encodeGetInventoryInformationRequest(
+        0, static_cast<uint8_t>(gpu::InventoryPropertyId::MARKETING_NAME),
+        *reqBuf);
+
+    if (rc != 0)
+    {
+        lg2::error(
+            "Error encoding MARKETING_NAME request for Model: encode failed, rc={RC}, EID={EID}",
+            "RC", rc, "EID", eid);
+        return;
+    }
+
+    mctpRequester.sendRecvMsg(
+        eid, *reqBuf,
+        [weak{weak_from_this()},
+         reqBuf](const std::error_code& ec, std::span<const uint8_t> response) {
+            std::shared_ptr<NvidiaPcieInterface> self = weak.lock();
+            if (!self)
+            {
+                lg2::error("Invalid reference to NvidiaPcieInterface");
+                return;
+            }
+            self->processModelResponse(ec, response);
+        });
+}
+
+void NvidiaPcieInterface::processModelResponse(
+    const std::error_code& ec, std::span<const uint8_t> response)
+{
+    if (ec)
+    {
+        lg2::error(
+            "Error fetching Model: sending message over MCTP failed, rc={RC}, EID={EID}",
+            "RC", ec.value(), "EID", eid);
+        return;
+    }
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode = 0;
+    gpu::InventoryValue value;
+
+    const int rc = gpu::decodeGetInventoryInformationResponse(
+        response, cc, reasonCode, gpu::InventoryPropertyId::MARKETING_NAME,
+        value);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        lg2::error(
+            "Error fetching Model: decode failed, rc={RC}, cc={CC}, reasonCode={RESC}, EID={EID}",
+            "RC", rc, "CC", static_cast<uint8_t>(cc), "RESC", reasonCode, "EID",
+            eid);
+        return;
+    }
+
+    if (!std::holds_alternative<std::string>(value))
+    {
+        lg2::error(
+            "Error fetching Model: expected string but got different type, EID={EID}",
+            "EID", eid);
+        return;
+    }
+
+    assetInterface->set_property("Model", std::get<std::string>(value));
 }
 
 string NvidiaPcieInterface::mapPcieGeneration(uint32_t value)

@@ -39,6 +39,11 @@ struct NvidiaPcieInterface :
     void processResponse(const std::error_code& ec,
                          std::span<const uint8_t> response);
 
+    void populateModel();
+
+    void processModelResponse(const std::error_code& ec,
+                              std::span<const uint8_t> response);
+
     static std::string mapPcieGeneration(uint32_t value);
 
     uint8_t eid{};
@@ -59,6 +64,7 @@ struct NvidiaPcieInterface :
 
     std::shared_ptr<sdbusplus::asio::dbus_interface> pcieDeviceInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> switchInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> assetInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> associationInterface;
 
     std::vector<uint32_t> telemetryValues{maxTelemetryValues};
