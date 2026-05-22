@@ -14,6 +14,7 @@
 #include "NvidiaGpuMemoryDevice.hpp"
 #include "NvidiaGpuPowerSensor.hpp"
 #include "NvidiaGpuSensor.hpp"
+#include "Sku.hpp"
 
 #include <NvidiaDriverInformation.hpp>
 #include <NvidiaGpuCurrentUtilization.hpp>
@@ -124,4 +125,5 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
 
     std::shared_ptr<Chassis> chassis;
     std::shared_ptr<Inventory> inventory;
+    std::shared_ptr<Sku> sku;
 };
