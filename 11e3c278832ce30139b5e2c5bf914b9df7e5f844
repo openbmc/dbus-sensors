@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f978e59_0afb5512",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 37
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-22T03:04:02Z",
+      "side": 1,
+      "message": "Splitting patches that share an Inventory-updated interface (like dramItemInterface) creates confusion about where the interface should be declared (NvidiaGpuMemoryDevice vs GpuDevice). \n\nSuggest keeping this and 87166 together in one patch, like https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/87017 did for powerCapInterface.\n\nNot blocking.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 50
+      },
+      "revId": "11e3c278832ce30139b5e2c5bf914b9df7e5f844",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
