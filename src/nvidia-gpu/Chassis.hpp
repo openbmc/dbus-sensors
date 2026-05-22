@@ -51,12 +51,17 @@ class Chassis
     // Cache MaxPowerCapValue (watts); write through if attached.
     void onMaxPower(uint32_t value);
 
+    // Cache the SKU string; write through if attached.
+    void onSku(const std::string& sku);
+
   private:
     sdbusplus::asio::object_server& objectServer;
     std::shared_ptr<const std::vector<ChassisCandidate>> candidates;
     std::shared_ptr<sdbusplus::asio::dbus_interface> uuidInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> powerCapInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> skuInterface;
     std::optional<std::string> cachedUuid;
     std::optional<uint32_t> cachedMinPower;
     std::optional<uint32_t> cachedMaxPower;
+    std::optional<std::string> cachedSku;
 };

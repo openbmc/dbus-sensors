@@ -18,6 +18,8 @@
 static constexpr const char* uuidIfaceName = "xyz.openbmc_project.Common.UUID";
 static constexpr const char* powerCapIfaceName =
     "xyz.openbmc_project.Control.Power.Cap";
+static constexpr const char* skuIfaceName =
+    "xyz.openbmc_project.Inventory.Decorator.SKU";
 
 Chassis::Chassis(
     sdbusplus::asio::object_server& objectServer,
@@ -34,6 +36,10 @@ Chassis::~Chassis()
     if (powerCapInterface)
     {
         objectServer.remove_interface(powerCapInterface);
+    }
+    if (skuInterface)
+    {
+        objectServer.remove_interface(skuInterface);
     }
 }
 
@@ -74,6 +80,11 @@ void Chassis::onSerialNumber(const std::string& nsmSerial)
             "MaxPowerCapValue",
             cachedMaxPower.value_or(std::numeric_limits<uint32_t>::max()));
         powerCapInterface->initialize();
+
+        skuInterface = objectServer.add_interface(path, skuIfaceName);
+        skuInterface->register_property("SKU",
+                                        cachedSku.value_or(std::string{}));
+        skuInterface->initialize();
         return;
     }
 }
@@ -102,5 +113,14 @@ void Chassis::onMaxPower(uint32_t value)
     if (powerCapInterface)
     {
         powerCapInterface->set_property("MaxPowerCapValue", value);
+    }
+}
+
+void Chassis::onSku(const std::string& sku)
+{
+    cachedSku = sku;
+    if (skuInterface)
+    {
+        skuInterface->set_property("SKU", sku);
     }
 }

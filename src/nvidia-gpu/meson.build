@@ -25,6 +25,7 @@ gpusensor_sources = files(
     'NvidiaSmaDevice.cpp',
     'OcpMctpVdm.cpp',
     'SerialQueue.cpp',
+    'Sku.cpp',
 )
 
 if not get_option('nvidia-gpu').allowed()
