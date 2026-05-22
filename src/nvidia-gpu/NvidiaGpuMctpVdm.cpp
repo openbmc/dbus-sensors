@@ -12,6 +12,7 @@
 #include <cerrno>
 #include <cstddef>
 #include <cstdint>
+#include <cstring>
 #include <functional>
 #include <iterator>
 #include <limits>
@@ -899,6 +900,105 @@ int decodeGetInventoryInformationResponse(
         default:
             return EINVAL;
     }
+    return 0;
+}
+
+int encodeFirmwareGetRotStateRequest(
+    uint8_t instanceId, uint16_t componentClassification,
+    uint16_t componentIdentifier, uint8_t componentClassificationIndex,
+    std::span<uint8_t> buf)
+{
+    PackBuffer buffer(buf);
+
+    int rc = encodeRequestCommonHeader(
+        buffer, MessageType::FIRMWARE,
+        static_cast<uint8_t>(FirmwareCommands::QUERY_GET_EROT_STATE_PARAMETERS),
+        instanceId);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    const uint8_t dataSize = 5;
+    buffer.pack(dataSize);
+    buffer.pack(componentClassification);
+    buffer.pack(componentIdentifier);
+    buffer.pack(componentClassificationIndex);
+
+    return buffer.getError();
+}
+
+int decodeFirmwareGetRotStateApSkuIdResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint32_t& apSkuId)
+{
+    UnpackBuffer buffer(buf);
+
+    int rc = decodeResponseCommonHeader(
+        buffer, MessageType::FIRMWARE,
+        static_cast<uint8_t>(FirmwareCommands::QUERY_GET_EROT_STATE_PARAMETERS),
+        cc, reasonCode);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    // QUERY_GET_EROT_STATE_PARAMETERS returns its payload as a sequence
+    // of aggregate telemetry tags:
+    //
+    //   [tag:u8][flags:u8 (valid:1, length:3, reserved:4)][data:N]
+    //
+    // where N = 1 << length (1, 2, 4, 8, 16, ... bytes). Walk the
+    // payload skipping over any tag until AP_SKU_ID (uint32 LE) is
+    // located.
+    std::span<const uint8_t> remaining = buffer.getRemaining();
+    size_t offset = 0;
+    while (offset + 2 <= remaining.size())
+    {
+        const uint8_t tag = remaining[offset];
+        const uint8_t flags = remaining[offset + 1];
+        const uint8_t valid = flags & 0x01;
+        const uint8_t lengthCode = (flags >> 1) & 0x07;
+        const size_t dataLen = static_cast<size_t>(1) << lengthCode;
+
+        if (offset + 2 + dataLen > remaining.size())
+        {
+            return EINVAL;
+        }
+
+        if (tag == firmwareApSkuIdTag)
+        {
+            if (dataLen != sizeof(uint32_t))
+            {
+                return EINVAL;
+            }
+            if (valid != 0)
+            {
+                uint32_t leValue = 0;
+                std::memcpy(&leValue, remaining.data() + offset + 2,
+                            sizeof(leValue));
+                if constexpr (std::endian::native != std::endian::little)
+                {
+                    leValue = std::byteswap(leValue);
+                }
+                apSkuId = leValue;
+            }
+            else
+            {
+                apSkuId = 0;
+            }
+            return 0;
+        }
+
+        offset += 2 + dataLen;
+    }
+
+    // AP_SKU_ID tag is optional in the firmware response. Match libnsm
+    // semantics: leave apSkuId at zero when the tag is absent.
+    apSkuId = 0;
     return 0;
 }
 

@@ -28,7 +28,8 @@ enum class MessageType : uint8_t
     DEVICE_CAPABILITY_DISCOVERY = 0,
     NETWORK_PORT = 1,
     PCIE_LINK = 2,
-    PLATFORM_ENVIRONMENTAL = 3
+    PLATFORM_ENVIRONMENTAL = 3,
+    FIRMWARE = 6
 };
 
 enum class DeviceCapabilityDiscoveryCommands : uint8_t
@@ -42,6 +43,17 @@ enum class DeviceCapabilityDiscoveryEvents : uint8_t
 {
     LONG_RUNNING_RESPONSE = 0x02,
 };
+
+enum class FirmwareCommands : uint8_t
+{
+    QUERY_GET_EROT_STATE_PARAMETERS = 0x01,
+};
+
+// Component classification values (per NVIDIA NSM spec). Used as the
+// filter for QueryGetErotStateParameters when only the AP SKU ID is
+// of interest.
+constexpr uint16_t componentClassificationAp = 10;
+constexpr uint16_t componentIdentifierGpuAp = 0xC000;
 
 enum class PlatformEnvironmentalCommands : uint8_t
 {
@@ -199,6 +211,13 @@ constexpr size_t getEthernetPortTelemetryCountersRequestSize =
 constexpr size_t getInventoryInformationRequestSize =
     ocp::accelerator_management::commonRequestSize + 1;
 
+constexpr size_t firmwareGetRotStateRequestSize =
+    ocp::accelerator_management::commonRequestSize + 5;
+
+// Tag value of the NSM_FIRMWARE_AP_SKU_ID field within the aggregate
+// telemetry payload of a QUERY_GET_EROT_STATE_PARAMETERS response.
+constexpr uint8_t firmwareApSkuIdTag = 19;
+
 constexpr size_t getDriverInformationResponseMinSize =
     ocp::accelerator_management::commonResponseSize + 2;
 
@@ -311,6 +330,16 @@ int decodeGetInventoryInformationResponse(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     InventoryPropertyId propertyId, InventoryValue& value);
+
+int encodeFirmwareGetRotStateRequest(
+    uint8_t instanceId, uint16_t componentClassification,
+    uint16_t componentIdentifier, uint8_t componentClassificationIndex,
+    std::span<uint8_t> buf);
+
+int decodeFirmwareGetRotStateApSkuIdResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint32_t& apSkuId);
 
 int encodeQueryScalarGroupTelemetryV1Request(
     uint8_t instanceId, uint8_t deviceIndex, PcieScalarGroupId groupId,
