@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aad2ed68_3d740164",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-24T09:34:38Z",
+      "side": 1,
+      "message": "Need PDI.\nWe need MemoryBandwidth path for https://github.com/openbmc/phosphor-dbus-interfaces/blob/master/yaml/xyz/openbmc_project/Metric/Value.interface.yaml",
+      "range": {
+        "startLine": 54,
+        "startChar": 42,
+        "endLine": 54,
+        "endChar": 58
+      },
+      "revId": "dd9da20db831daa58b190896f1def6d5bddf43a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
