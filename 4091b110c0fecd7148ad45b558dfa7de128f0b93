@@ -79,6 +79,29 @@
       },
       "revId": "4091b110c0fecd7148ad45b558dfa7de128f0b93",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a908060_73f68ff4",
+        "filename": "src/nvidia-gpu/NvidiaGpuEccMode.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-24T08:19:41Z",
+      "side": 1,
+      "message": "nit: Use UnpackBuffer to extract flags, to stay consistent with the SUCCESS path and other LR consumers.",
+      "range": {
+        "startLine": 233,
+        "startChar": 4,
+        "endLine": 234,
+        "endChar": 45
+      },
+      "revId": "4091b110c0fecd7148ad45b558dfa7de128f0b93",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
