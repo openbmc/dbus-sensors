@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96383d4e_d8b01abd",
+        "filename": "src/nvidia-gpu/NvidiaPcieInterface.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-24T05:38:50Z",
+      "side": 1,
+      "message": "Could we use `switch` and include gpu::DeviceIdentification::DEVICE_GPU and gpu::DeviceIdentification::DEVICE_PCIE, thanks.\nIt can be easier read than if + if.",
+      "range": {
+        "startLine": 49,
+        "startChar": 4,
+        "endLine": 49,
+        "endChar": 60
+      },
+      "revId": "1e486c442ff172c1c74ddba3931a440fb4286fd9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
