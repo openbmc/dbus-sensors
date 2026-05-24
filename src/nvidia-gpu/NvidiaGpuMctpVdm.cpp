@@ -959,6 +959,14 @@ int decodeGetCurrentUtilizationModeResponse(
     return buffer.getError();
 }
 
+int decodeGetCurrentUtilizationModeResponse(std::span<const uint8_t> buf,
+                                            uint32_t& utilization)
+{
+    UnpackBuffer buffer(buf);
+    buffer.unpack(utilization);
+    return buffer.getError();
+}
+
 int encodeQueryScalarGroupTelemetryV1Request(
     uint8_t instanceId, uint8_t deviceIndex, PcieScalarGroupId groupId,
     std::span<uint8_t> buf)

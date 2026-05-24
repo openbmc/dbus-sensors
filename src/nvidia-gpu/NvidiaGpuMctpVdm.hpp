@@ -179,6 +179,9 @@ constexpr size_t getCurrentEnergyCounterRequestSize =
 
 constexpr size_t getVoltageRequestSize = getNumericSensorReadingRequestSize;
 
+constexpr size_t getCurrentUtilizationRequestSize =
+    ocp::accelerator_management::commonRequestSize;
+
 constexpr size_t queryScalarGroupTelemetryV1RequestSize =
     ocp::accelerator_management::commonRequestSize + 2;
 
@@ -312,6 +315,11 @@ int decodeGetCurrentUtilizationModeResponse(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     uint32_t& gpuUtilization, uint32_t& memoryUtilization);
+
+// Overload for the long-running response event payload, which contains
+// only the bare utilization value (no OCP/common response header).
+int decodeGetCurrentUtilizationModeResponse(std::span<const uint8_t> buf,
+                                            uint32_t& utilization);
 
 int decodeLongRunningResponseEvent(
     std::span<const uint8_t> buf,
