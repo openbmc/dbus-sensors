@@ -6,26 +6,20 @@
 #pragma once
 
 #include <MctpRequester.hpp>
-#include <NvidiaGpuMctpVdm.hpp>
+#include <MessagePackUnpackUtils.hpp>
+#include <NvidiaGpuLongRunningCommand.hpp>
 #include <NvidiaLongRunningHandler.hpp>
 #include <SerialQueue.hpp>
-#include <boost/system/error_code.hpp>
-#include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
-#include <array>
 #include <cstdint>
 #include <memory>
-#include <span>
 #include <string>
-#include <system_error>
 
-struct NvidiaGpuCurrentUtilization :
-    public std::enable_shared_from_this<NvidiaGpuCurrentUtilization>
+struct NvidiaGpuCurrentUtilization
 {
   public:
     NvidiaGpuCurrentUtilization(
-        std::shared_ptr<sdbusplus::asio::connection>& conn,
         mctp::MctpRequester& mctpRequester,
         sdbusplus::asio::object_server& objectServer,
         const std::string& deviceName, uint8_t eid,
@@ -36,33 +30,20 @@ struct NvidiaGpuCurrentUtilization :
     void update();
 
   private:
-    void doUpdate(SerialQueue::ReleaseHandle handle);
+    static void onImmediateSuccess(
+        const std::shared_ptr<sdbusplus::asio::dbus_interface>& metricInterface,
+        uint8_t eid, UnpackBuffer& buf);
 
-    void processResponse(SerialQueue::ReleaseHandle handle,
-                         const std::error_code& ec,
-                         std::span<const uint8_t> buffer);
+    static void onLongRunningPayload(
+        const std::shared_ptr<sdbusplus::asio::dbus_interface>& metricInterface,
+        uint8_t eid, UnpackBuffer& buf);
 
-    void processLongRunningResponse(
-        boost::system::error_code ec,
-        ocp::accelerator_management::CompletionCode cc, uint16_t reasonCode,
-        std::span<const uint8_t> responseData);
-
-    void updateUtilization(uint32_t gpuUtilization);
-
-    uint8_t eid{};
-
-    std::shared_ptr<sdbusplus::asio::connection> conn;
-
-    mctp::MctpRequester& mctpRequester;
-
-    std::shared_ptr<SerialQueue> longRunningQueue;
-
-    std::shared_ptr<NvidiaLongRunningResponseHandler>
-        longRunningResponseHandler;
+    static void applyUtilization(
+        const std::shared_ptr<sdbusplus::asio::dbus_interface>& metricInterface,
+        uint32_t utilization);
 
     std::shared_ptr<sdbusplus::asio::dbus_interface> metricInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> metricAssociationInterface;
 
-    std::array<uint8_t, ocp::accelerator_management::commonRequestSize>
-        request{};
+    std::shared_ptr<NvidiaGpuLongRunningCommand> cmd;
 };
