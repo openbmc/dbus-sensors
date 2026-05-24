@@ -120,7 +120,7 @@ void PcieDevice::init()
     processNextAssetProperty();
 
     driverInfo = std::make_shared<NvidiaDriverInformation>(
-        conn, mctpRequester, name + "_NIC", path, eid, objectServer,
+        conn, mctpRequester, name + "_NIC", eid, objectServer,
         networkAdapterPath, "Nvidia");
 
     getPciePortCounts();

@@ -17,7 +17,6 @@
 
 #include <cstdint>
 #include <memory>
-#include <optional>
 #include <span>
 #include <string>
 #include <system_error>
@@ -28,9 +27,8 @@ const std::string softwareInventoryPath = "/xyz/openbmc_project/software/";
 NvidiaDriverInformation::NvidiaDriverInformation(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, const std::string& name,
-    const sdbusplus::object_path& path, const uint8_t eid,
-    sdbusplus::asio::object_server& objectServer,
-    const std::optional<sdbusplus::object_path>& associationEndpoint,
+    const uint8_t eid, sdbusplus::asio::object_server& objectServer,
+    const sdbusplus::object_path& associationEndpoint,
     const std::string& manufacturer) :
     eid(eid), conn(conn), mctpRequester(mctpRequester)
 {
@@ -52,8 +50,7 @@ NvidiaDriverInformation::NvidiaDriverInformation(
     }
 
     std::vector<Association> associations;
-    associations.emplace_back("running", "ran_on",
-                              associationEndpoint.value_or(path.parent_path()));
+    associations.emplace_back("running", "ran_on", associationEndpoint);
 
     associationInterface =
         objectServer.add_interface(dbusPath, association::interface);
