@@ -24,10 +24,8 @@ struct NvidiaDriverInformation :
     NvidiaDriverInformation(
         std::shared_ptr<sdbusplus::asio::connection>& conn,
         mctp::MctpRequester& mctpRequester, const std::string& name,
-        const sdbusplus::object_path& path, uint8_t eid,
-        sdbusplus::asio::object_server& objectServer,
-        const std::optional<sdbusplus::object_path>& associationEndpoint =
-            std::nullopt,
+        uint8_t eid, sdbusplus::asio::object_server& objectServer,
+        const sdbusplus::object_path& associationEndpoint,
         const std::optional<std::string>& manufacturer = std::nullopt);
 
     void update();
