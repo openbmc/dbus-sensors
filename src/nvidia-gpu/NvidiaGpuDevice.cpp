@@ -176,7 +176,7 @@ void GpuDevice::makeSensors()
                              longRunningHandler)}});
 
     currentUtilization = std::make_shared<NvidiaGpuCurrentUtilization>(
-        conn, mctpRequester, objectServer, name, eid, longRunningQueue,
+        mctpRequester, objectServer, name, eid, longRunningQueue,
         longRunningHandler);
 
     driverInfo = std::make_shared<NvidiaDriverInformation>(

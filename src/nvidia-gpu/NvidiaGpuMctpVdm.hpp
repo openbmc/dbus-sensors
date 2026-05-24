@@ -179,6 +179,9 @@ constexpr size_t getCurrentEnergyCounterRequestSize =
 
 constexpr size_t getVoltageRequestSize = getNumericSensorReadingRequestSize;
 
+constexpr size_t getCurrentUtilizationRequestSize =
+    ocp::accelerator_management::commonRequestSize;
+
 constexpr size_t queryScalarGroupTelemetryV1RequestSize =
     ocp::accelerator_management::commonRequestSize + 2;
 
