@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ae55928_e0d59032",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-24T08:18:52Z",
+      "side": 1,
+      "message": "Paths under `/xyz/openbmc_project/control/` conventionally pair with `xyz.openbmc_project.Control.*` interfaces (e.g. Control.Power.Cap), not the generic Object.Enable. Consider either defining an `xyz.openbmc_project.Control.Processor.EccMode` PDI, or use the existing control PDI.",
+      "revId": "4091b110c0fecd7148ad45b558dfa7de128f0b93",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62a6d9cc_35c91fa3",
+        "filename": "src/nvidia-gpu/NvidiaGpuEccMode.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-24T08:18:52Z",
+      "side": 1,
+      "message": "This duplicates the long-running pipeline boilerplate. Consider refactoring\nto use the NvidiaGpuLongRunningCommand helper proposed in\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/90492 once it lands.\nThanks!",
+      "revId": "4091b110c0fecd7148ad45b558dfa7de128f0b93",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65d5c2d7_41892849",
+        "filename": "src/nvidia-gpu/NvidiaGpuEccMode.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-24T08:18:52Z",
+      "side": 1,
+      "message": "nit: `conn` is never used. Either remove the parameter or use it.",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 37,
+        "endChar": 59
+      },
+      "revId": "4091b110c0fecd7148ad45b558dfa7de128f0b93",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f9568d8_76e836a9",
+        "filename": "src/nvidia-gpu/NvidiaGpuEccMode.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-24T08:18:52Z",
+      "side": 1,
+      "message": "SUCCESS path decodes both current and pending via decodeGetEccModeResponse, but this LR path only extracts current. \nConsider sharing the payload decode between both paths so they stay in sync.",
+      "range": {
+        "startLine": 234,
+        "startChar": 4,
+        "endLine": 234,
+        "endChar": 45
+      },
+      "revId": "4091b110c0fecd7148ad45b558dfa7de128f0b93",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
