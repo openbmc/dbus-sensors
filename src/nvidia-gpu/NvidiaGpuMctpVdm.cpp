@@ -967,6 +967,14 @@ int decodeGetCurrentUtilizationModeResponse(
     return buffer.getError();
 }
 
+int decodeGetCurrentUtilizationModeResponse(std::span<const uint8_t> buf,
+                                            uint32_t& utilization)
+{
+    UnpackBuffer buffer(buf);
+    buffer.unpack(utilization);
+    return buffer.getError();
+}
+
 int encodeGetClockLimitRequest(uint8_t instanceId, ClockType clockType,
                                std::span<uint8_t> buf)
 {
