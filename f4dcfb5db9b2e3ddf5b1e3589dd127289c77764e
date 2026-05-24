@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48b0a938_1c2e21e1",
+        "filename": "src/nvidia-gpu/NvidiaGpuEccMode.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-24T08:43:05Z",
+      "side": 1,
+      "message": "This uses a boolean lock (internalUpdateInProgress) to distinguish internal vs external sets. An alternative pattern (used in https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/90189 PS2 for PowerCap) is register_property with explicit setter+getter callbacks, where the BMC updates its own member and the getter returns it — no flag needed.\nBoth work, but consistency across the codebase may be worth considering.",
+      "range": {
+        "startLine": 266,
+        "startChar": 4,
+        "endLine": 266,
+        "endChar": 36
+      },
+      "revId": "f4dcfb5db9b2e3ddf5b1e3589dd127289c77764e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d35fe3ed_725fbd70",
+        "filename": "src/nvidia-gpu/NvidiaGpuEccMode.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-24T08:43:05Z",
+      "side": 1,
+      "message": "On Set failure, the optimistic pending property stays stale until the next Get polling cycle (~30s). That\u0027s long enough for a user to observe the \"updated\" pending, trigger a GPU reset, then find ECC mode didn\u0027t change as expected. \nConsider triggering update() on Set failure to refresh pending from hardware sooner.",
+      "range": {
+        "startLine": 310,
+        "startChar": 23,
+        "endLine": 310,
+        "endChar": 41
+      },
+      "revId": "f4dcfb5db9b2e3ddf5b1e3589dd127289c77764e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aae7a8c1_9c534b68",
+        "filename": "src/nvidia-gpu/NvidiaGpuEccMode.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-24T08:43:05Z",
+      "side": 1,
+      "message": "Same as Line 310",
+      "range": {
+        "startLine": 391,
+        "startChar": 23,
+        "endLine": 391,
+        "endChar": 52
+      },
+      "revId": "f4dcfb5db9b2e3ddf5b1e3589dd127289c77764e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
