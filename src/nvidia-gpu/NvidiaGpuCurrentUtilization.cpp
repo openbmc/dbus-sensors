@@ -9,15 +9,14 @@
 
 #include <MctpRequester.hpp>
 #include <MessagePackUnpackUtils.hpp>
+#include <NvidiaGpuLongRunningCommand.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
 #include <NvidiaLongRunningHandler.hpp>
 #include <NvidiaUtils.hpp>
 #include <OcpMctpVdm.hpp>
 #include <SerialQueue.hpp>
 #include <Utils.hpp>
-#include <boost/system/error_code.hpp>
 #include <phosphor-logging/lg2.hpp>
-#include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/message/native_types.hpp>
 
@@ -27,22 +26,17 @@
 #include <memory>
 #include <span>
 #include <string>
-#include <system_error>
 #include <utility>
 #include <vector>
 
 using namespace std::literals;
 
 NvidiaGpuCurrentUtilization::NvidiaGpuCurrentUtilization(
-    std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester,
     sdbusplus::asio::object_server& objectServer, const std::string& deviceName,
     uint8_t eid, std::shared_ptr<SerialQueue> longRunningQueue,
     std::shared_ptr<NvidiaLongRunningResponseHandler>
-        longRunningResponseHandler) :
-    eid(eid), conn(conn), mctpRequester(mctpRequester),
-    longRunningQueue(std::move(longRunningQueue)),
-    longRunningResponseHandler(std::move(longRunningResponseHandler))
+        longRunningResponseHandler)
 {
     const sdbusplus::object_path metricObjectPath =
         sdbusplus::object_path(metricPath) / std::format("gpu_{}", deviceName) /
@@ -80,70 +74,44 @@ NvidiaGpuCurrentUtilization::NvidiaGpuCurrentUtilization(
             "Failed to initialize Current Utilization metric association interface for GPU {NAME}",
             "NAME", deviceName);
     }
+
+    cmd = std::make_shared<NvidiaGpuLongRunningCommand>(
+        eid, mctpRequester, std::move(longRunningQueue),
+        std::move(longRunningResponseHandler),
+        NvidiaGpuLongRunningCommand::Config{
+            .metricName = "GPU Current Utilization",
+            .messageType = gpu::MessageType::PLATFORM_ENVIRONMENTAL,
+            .commandId =
+                gpu::PlatformEnvironmentalCommands::GET_CURRENT_UTILIZATION,
+            .encodeRequest =
+                [](std::span<uint8_t> buf) {
+                    return gpu::encodeGetCurrentUtilizationModeRequest(0, buf);
+                },
+            .onImmediateSuccess = std::bind_front(
+                &NvidiaGpuCurrentUtilization::onImmediateSuccess,
+                metricInterface, eid),
+            .onLongRunningPayload = std::bind_front(
+                &NvidiaGpuCurrentUtilization::onLongRunningPayload,
+                metricInterface, eid),
+        });
 }
 
 void NvidiaGpuCurrentUtilization::update()
 {
-    longRunningQueue->submit(
-        [weak{weak_from_this()}](SerialQueue::ReleaseHandle handle) {
-            std::shared_ptr<NvidiaGpuCurrentUtilization> self = weak.lock();
-            if (!self)
-            {
-                return;
-            }
-            self->doUpdate(std::move(handle));
-        });
+    cmd->update();
 }
 
-void NvidiaGpuCurrentUtilization::doUpdate(SerialQueue::ReleaseHandle handle)
+void NvidiaGpuCurrentUtilization::onImmediateSuccess(
+    const std::shared_ptr<sdbusplus::asio::dbus_interface>& metricInterface,
+    uint8_t eid, std::span<const uint8_t> buffer)
 {
-    const int rc = gpu::encodeGetCurrentUtilizationModeRequest(0, request);
-
-    if (rc != 0)
-    {
-        lg2::error(
-            "Error updating GPU Current Utilization: encode failed, rc={RC}, EID={EID}",
-            "RC", rc, "EID", eid);
-        return;
-    }
-
-    mctpRequester.sendRecvMsg(
-        eid, request,
-        [weak{weak_from_this()},
-         handle = std::move(handle)](const std::error_code& ec,
-                                     std::span<const uint8_t> buffer) mutable {
-            std::shared_ptr<NvidiaGpuCurrentUtilization> self = weak.lock();
-            if (!self)
-            {
-                return;
-            }
-            self->processResponse(std::move(handle), ec, buffer);
-        });
-}
-
-void NvidiaGpuCurrentUtilization::processResponse(
-    SerialQueue::ReleaseHandle handle, const std::error_code& ec,
-    std::span<const uint8_t> buffer)
-{
-    if (ec)
-    {
-        lg2::error(
-            "Error updating GPU Current Utilization: sending message over MCTP failed, "
-            "rc={RC}, EID={EID}",
-            "RC", ec.message(), "EID", eid);
-        return;
-    }
-
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode = 0;
+    uint32_t utilization = 0;
+    uint32_t memoryUtilization = 0;
 
-    UnpackBuffer unpackBuffer(buffer);
-
-    int rc = gpu::decodeResponseCommonHeader(
-        unpackBuffer, gpu::MessageType::PLATFORM_ENVIRONMENTAL,
-        static_cast<uint8_t>(
-            gpu::PlatformEnvironmentalCommands::GET_CURRENT_UTILIZATION),
-        cc, reasonCode);
+    const int rc = gpu::decodeGetCurrentUtilizationModeResponse(
+        buffer, cc, reasonCode, utilization, memoryUtilization);
 
     if (rc != 0)
     {
@@ -154,124 +122,26 @@ void NvidiaGpuCurrentUtilization::processResponse(
         return;
     }
 
-    switch (cc)
-    {
-        case ocp::accelerator_management::CompletionCode::SUCCESS:
-        {
-            uint32_t utilization = 0;
-            uint32_t memoryUtilization = 0;
-            rc = gpu::decodeGetCurrentUtilizationModeResponse(
-                buffer, cc, reasonCode, utilization, memoryUtilization);
-
-            if (rc != 0)
-            {
-                lg2::error(
-                    "Error updating GPU Current Utilization: decode failed, "
-                    "rc={RC}, cc={CC}, reasonCode={RESC}, EID={EID}",
-                    "RC", rc, "CC", static_cast<uint8_t>(cc), "RESC",
-                    reasonCode, "EID", eid);
-
-                return;
-            }
-
-            updateUtilization(utilization);
-
-            return;
-        }
-
-        case ocp::accelerator_management::CompletionCode::ACCEPTED:
-        {
-            uint8_t instanceId = 0;
-            rc = ocp::accelerator_management::decodeInstanceId(buffer,
-                                                               instanceId);
-            if (rc != 0)
-            {
-                lg2::error(
-                    "Error updating GPU Current Utilization: failed to decode instance id, "
-                    "rc={RC}, EID={EID}",
-                    "RC", rc, "EID", eid);
-                return;
-            }
-
-            rc = longRunningResponseHandler->registerResponseHandler(
-                gpu::MessageType::PLATFORM_ENVIRONMENTAL,
-                static_cast<uint8_t>(gpu::PlatformEnvironmentalCommands::
-                                         GET_CURRENT_UTILIZATION),
-                instanceId,
-                [weak{weak_from_this()}, handle = std::move(handle)](
-                    boost::system::error_code longRunningEc,
-                    ocp::accelerator_management::CompletionCode longRunningCc,
-                    uint16_t longRunningReasonCode,
-                    std::span<const uint8_t> responseData) mutable {
-                    std::shared_ptr<NvidiaGpuCurrentUtilization> self =
-                        weak.lock();
-                    if (!self)
-                    {
-                        return;
-                    }
-
-                    self->processLongRunningResponse(
-                        longRunningEc, longRunningCc, longRunningReasonCode,
-                        responseData);
-                });
-
-            if (rc != 0)
-            {
-                lg2::error(
-                    "Error updating GPU Current Utilization: failed to register long running response handler, "
-                    "rc={RC}, EID={EID}",
-                    "RC", rc, "EID", eid);
-            }
-
-            return;
-        }
-
-        default:
-            lg2::error(
-                "Error updating GPU Current Utilization: received unexpected completion code, "
-                "cc={CC}, reasonCode={RESC}, EID={EID}",
-                "CC", static_cast<uint8_t>(cc), "RESC", reasonCode, "EID", eid);
-            return;
-    }
+    applyUtilization(metricInterface, utilization);
 }
 
-void NvidiaGpuCurrentUtilization::processLongRunningResponse(
-    boost::system::error_code ec,
-    ocp::accelerator_management::CompletionCode cc, uint16_t reasonCode,
-    std::span<const uint8_t> responseData)
+void NvidiaGpuCurrentUtilization::onLongRunningPayload(
+    const std::shared_ptr<sdbusplus::asio::dbus_interface>& metricInterface,
+    uint8_t eid, std::span<const uint8_t> payload)
 {
-    if (ec)
-    {
-        lg2::error(
-            "Error updating GPU Current Utilization: long running response failed, "
-            "rc={RC}, EID={EID}",
-            "RC", ec.message(), "EID", eid);
-        return;
-    }
-
-    if (cc != ocp::accelerator_management::CompletionCode::SUCCESS)
-    {
-        lg2::error(
-            "Error updating GPU Current Utilization: long running response indicated failure, "
-            "cc={CC}, reasonCode={RESC}, EID={EID}",
-            "CC", static_cast<uint8_t>(cc), "RESC", reasonCode, "EID", eid);
-        return;
-    }
-
-    if (responseData.size() < 8)
+    if (payload.size() < 8)
     {
         lg2::error(
             "Error updating GPU Current Utilization: invalid long running response data size, "
             "size={SIZE}, EID={EID}",
-            "SIZE", responseData.size(), "EID", eid);
+            "SIZE", payload.size(), "EID", eid);
         return;
     }
 
+    UnpackBuffer buf(payload);
     uint32_t utilization = 0;
 
-    UnpackBuffer buffer(responseData);
-
-    const int rc = buffer.unpack(utilization);
+    const int rc = buf.unpack(utilization);
 
     if (rc != 0)
     {
@@ -282,10 +152,12 @@ void NvidiaGpuCurrentUtilization::processLongRunningResponse(
         return;
     }
 
-    updateUtilization(utilization);
+    applyUtilization(metricInterface, utilization);
 }
 
-void NvidiaGpuCurrentUtilization::updateUtilization(uint32_t utilization)
+void NvidiaGpuCurrentUtilization::applyUtilization(
+    const std::shared_ptr<sdbusplus::asio::dbus_interface>& metricInterface,
+    uint32_t utilization)
 {
     metricInterface->set_property("Value", static_cast<double>(utilization));
 }
