@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8173e00_d05c17f1",
+        "filename": "src/nvidia-gpu/NvidiaDriverInformation.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-24T07:28:52Z",
+      "side": 1,
+      "message": "The `path` and `const std::optional\u003csdbusplus::object_path\u003e\u0026 associationEndpoint` parameters create a readability conflict — path only feeds parent_path() as a fallback when associationEndpoint is absent, so the NIC caller has to pass an unused path. I drafted a refactor at \nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/90493 \nto drop path and make associationEndpoint required — could you take a look?",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 68
+      },
+      "revId": "8c2bc8e368979bd9325a8679cd46b15218f0a0cd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8a2a5b0_f9cc8f07",
+        "filename": "src/nvidia-gpu/NvidiaDriverInformation.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-24T07:28:52Z",
+      "side": 1,
+      "message": "please use `std::optional\u003cstd::string\u003e` instead of empty-string sentinel, consistent with the associationEndpoint parameter right above.",
+      "range": {
+        "startLine": 31,
+        "startChar": 8,
+        "endLine": 31,
+        "endChar": 44
+      },
+      "revId": "8c2bc8e368979bd9325a8679cd46b15218f0a0cd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8da34ae9_72b67089",
+        "filename": "src/nvidia-gpu/NvidiaPcieDevice.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-24T07:28:52Z",
+      "side": 1,
+      "message": "Consider moving \"Nvidia\" to NvidiaUtils.hpp as a file-scope constant (e.g. `const constexpr char* nvidiaManufacturer \u003d \"Nvidia\";`). \nLets other devices in this module reuse it without duplicating the literal.",
+      "range": {
+        "startLine": 124,
+        "startChar": 28,
+        "endLine": 124,
+        "endChar": 36
+      },
+      "revId": "8c2bc8e368979bd9325a8679cd46b15218f0a0cd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
