@@ -33,6 +33,7 @@
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/message/native_types.hpp>
 
 #include <array>
 #include <chrono>
@@ -180,7 +181,8 @@ void GpuDevice::makeSensors()
         longRunningHandler);
 
     driverInfo = std::make_shared<NvidiaDriverInformation>(
-        conn, mctpRequester, name, path, eid, objectServer);
+        conn, mctpRequester, name, eid, objectServer,
+        sdbusplus::object_path(path).parent_path());
 
     gpuControl = std::make_shared<NvidiaGpuControl>(
         objectServer, name, inventoryPrefix + name, mctpRequester, eid,
