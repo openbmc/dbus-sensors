@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95cef59a_950ceb54",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-24T09:22:06Z",
+      "side": 1,
+      "message": "We don\u0027t need this. I think we can just use getter memorySizeInKB and then convert the units yourself where needed.",
+      "range": {
+        "startLine": 333,
+        "startChar": 24,
+        "endLine": 333,
+        "endChar": 64
+      },
+      "revId": "ae693724daf12805c850dc4edbde65b642867b02",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "702be208_100b23ec",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-24T09:22:06Z",
+      "side": 1,
+      "message": "Consider register_property_r with a custom getter that reads from memorySizeInKB. \nThe benefit isn\u0027t memory, but a single source of truth — the D-Bus cache and the member can never drift out of sync because the getter recomputes on every read. \nRef: \nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/90189/2/src/nvidia-gpu/Inventory.hpp\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/90189/2/src/nvidia-gpu/Inventory.cpp",
+      "range": {
+        "startLine": 334,
+        "startChar": 24,
+        "endLine": 334,
+        "endChar": 53
+      },
+      "revId": "ae693724daf12805c850dc4edbde65b642867b02",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b2469a3_9f714a4c",
+        "filename": "src/nvidia-gpu/NvidiaGpuMemoryCapacityUtilization.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-24T09:22:06Z",
+      "side": 1,
+      "message": "This duplicates the long-running pipeline boilerplate shared with NvidiaGpuCurrentUtilization and NvidiaGpuEccMode. \nPlease refactoring to use the NvidiaGpuLongRunningCommand helper proposed in\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/90492 once it lands.\nThanks!",
+      "revId": "ae693724daf12805c850dc4edbde65b642867b02",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43ddac84_364b3f3d",
+        "filename": "src/nvidia-gpu/NvidiaGpuMemoryCapacityUtilization.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-24T09:22:06Z",
+      "side": 1,
+      "message": "nit: `conn` is stored but never used. Same as in NvidiaGpuEccMode — remove\nthe parameter and member, or use it.",
+      "range": {
+        "startLine": 39,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 54
+      },
+      "revId": "ae693724daf12805c850dc4edbde65b642867b02",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "073e8785_b2e4c846",
+        "filename": "src/nvidia-gpu/NvidiaGpuMemoryCapacityUtilization.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-24T09:22:06Z",
+      "side": 1,
+      "message": "nit: This nests one level deeper than NvidiaGpuCurrentUtilization\n(`processor_bandwidth` is flat under gpu_\u003cname\u003e). Is the extra `memory/`\nintentional for future grouping with other memory metrics, or should it\nbe flattened to `memory_capacity_utilization` for consistency?",
+      "range": {
+        "startLine": 51,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 42
+      },
+      "revId": "ae693724daf12805c850dc4edbde65b642867b02",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
