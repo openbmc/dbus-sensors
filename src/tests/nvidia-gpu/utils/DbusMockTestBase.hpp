@@ -102,14 +102,15 @@ class DbusMockTestBase : public ::testing::Test
         return std::move(state->value);
     }
 
+    // Pump the shared io_context until done() holds; false on timeout. Needed
+    // by tests that wait on a timer inside the object under test.
+    static bool pumpIoUntil(const std::function<bool()>& done,
+                            std::chrono::seconds timeout);
+
   private:
     friend class DbusEnvironment;
 
     static constexpr std::chrono::seconds propertyReadTimeout{5};
-
-    // Pump the shared io_context until done() holds; false on timeout.
-    static bool pumpIoUntil(const std::function<bool()>& done,
-                            std::chrono::seconds timeout);
 
     static bool tryConnect();
 

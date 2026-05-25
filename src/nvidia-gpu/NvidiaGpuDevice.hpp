@@ -137,7 +137,6 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
 
     std::shared_ptr<Inventory> inventory;
 
-    std::shared_ptr<sdbusplus::asio::dbus_interface> controlClockSpeedInterface;
     std::shared_ptr<NvidiaGpuClockFrequencyMetric> clockFrequencyMetric;
     std::shared_ptr<NvidiaGpuClockSpeedControl> gpuClockSpeedControl;
 };
