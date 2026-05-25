@@ -91,11 +91,9 @@ Inventory::Inventory(
             "BaseSpeedInHz", std::numeric_limits<uint64_t>::max(),
             sdbusplus::asio::PropertyPermission::readOnly);
         acceleratorInterface->register_property(
-            "MaxSpeedInHz", std::numeric_limits<uint64_t>::max(),
-            sdbusplus::asio::PropertyPermission::readOnly);
+            "MaxSpeedInHz", std::numeric_limits<uint64_t>::max());
         acceleratorInterface->register_property(
-            "MinSpeedInHz", std::numeric_limits<uint64_t>::max(),
-            sdbusplus::asio::PropertyPermission::readOnly);
+            "MinSpeedInHz", std::numeric_limits<uint64_t>::max());
 
         acceleratorInterface->initialize();
 
@@ -316,6 +314,16 @@ void Inventory::handleInventoryPropertyResponse(
                         const uint32_t mhz = std::get<uint32_t>(info);
                         const uint64_t hz =
                             static_cast<uint64_t>(mhz) * mhzToHzFactor;
+                        if (propertyId ==
+                            gpu::InventoryPropertyId::MIN_GRAPHICS_CLOCK)
+                        {
+                            minGraphicsClockHz = hz;
+                        }
+                        else if (propertyId ==
+                                 gpu::InventoryPropertyId::MAX_GRAPHICS_CLOCK)
+                        {
+                            maxGraphicsClockHz = hz;
+                        }
                         it->second.interface->set_property(
                             it->second.propertyName, hz);
                         lg2::info(
