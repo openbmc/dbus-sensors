@@ -336,6 +336,16 @@ void Inventory::handleInventoryPropertyResponse(
                         const uint32_t mhz = std::get<uint32_t>(info);
                         const uint64_t hz =
                             static_cast<uint64_t>(mhz) * mhzToHzFactor;
+                        if (propertyId ==
+                            gpu::InventoryPropertyId::MIN_GRAPHICS_CLOCK)
+                        {
+                            minGraphicsClockHz = hz;
+                        }
+                        else if (propertyId ==
+                                 gpu::InventoryPropertyId::MAX_GRAPHICS_CLOCK)
+                        {
+                            maxGraphicsClockHz = hz;
+                        }
                         it->second.interface->set_property(
                             it->second.propertyName, hz);
                         lg2::info(
