@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d7e3079_83f595cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002520
+      },
+      "writtenOn": "2026-05-25T17:55:00Z",
+      "side": 1,
+      "message": "Reviewed and tested on Ventura2. No further comments from my side.",
+      "revId": "60952c2cf34df43489adc9a1a0c2e36b6f4aa89a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
