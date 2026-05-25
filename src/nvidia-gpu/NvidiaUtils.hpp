@@ -6,3 +6,7 @@
 #pragma once
 
 const constexpr char* metricPath = "/xyz/openbmc_project/metric/";
+
+// Suffix appended to a GPU inventory path to form its DRAM inventory object,
+// e.g. /xyz/openbmc_project/inventory/GPU_0_0 -> .../GPU_0_0_DRAM_0
+const constexpr char* dramInventorySuffix = "_DRAM_0";
