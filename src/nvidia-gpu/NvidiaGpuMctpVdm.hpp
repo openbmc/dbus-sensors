@@ -396,9 +396,10 @@ int decodeGetCurrentUtilizationModeResponse(
     uint32_t& gpuUtilization, uint32_t& memoryUtilization);
 
 // Overload for the long-running response event payload, which contains
-// only the bare utilization value (no OCP/common response header).
+// only the two utilization values (no OCP/common response header).
 int decodeGetCurrentUtilizationModeResponse(std::span<const uint8_t> buf,
-                                            uint32_t& utilization);
+                                            uint32_t& gpuUtilization,
+                                            uint32_t& memoryUtilization);
 
 int decodeLongRunningResponseEvent(
     std::span<const uint8_t> buf,

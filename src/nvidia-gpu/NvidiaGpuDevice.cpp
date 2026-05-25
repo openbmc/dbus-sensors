@@ -15,7 +15,6 @@
 #include <NvidiaEventReporting.hpp>
 #include <NvidiaGpuClockFrequencyMetric.hpp>
 #include <NvidiaGpuClockSpeedControl.hpp>
-#include <NvidiaGpuCurrentUtilization.hpp>
 #include <NvidiaGpuEnergySensor.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
 #include <NvidiaGpuMemoryClockFrequency.hpp>
@@ -24,6 +23,7 @@
 #include <NvidiaGpuPowerPeakReading.hpp>
 #include <NvidiaGpuPowerSensor.hpp>
 #include <NvidiaGpuSensor.hpp>
+#include <NvidiaGpuUtilizationMetrics.hpp>
 #include <NvidiaGpuViolationDuration.hpp>
 #include <NvidiaGpuVoltageSensor.hpp>
 #include <NvidiaGpuXid.hpp>
@@ -32,6 +32,7 @@
 #include <NvidiaPcieInterface.hpp>
 #include <NvidiaPciePort.hpp>
 #include <NvidiaPciePortMetrics.hpp>
+#include <NvidiaUtils.hpp>
 #include <OcpMctpVdm.hpp>
 #include <SerialQueue.hpp>
 #include <boost/asio/io_context.hpp>
@@ -100,7 +101,7 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
                                          std::numeric_limits<uint32_t>::max());
 
     const std::string gpuPath = std::string(inventoryPrefix) + this->name;
-    const std::string dramPath = gpuPath + "_DRAM_0";
+    const std::string dramPath = gpuPath + dramInventorySuffix;
 
     std::vector<Association> associations;
     associations.emplace_back("contained_by", "containing", gpuPath);
@@ -225,7 +226,7 @@ void GpuDevice::makeSensors()
              std::bind_front(&NvidiaXidEventHandler::handleXidEvent,
                              xidEventHandler)}});
 
-    currentUtilization = std::make_shared<NvidiaGpuCurrentUtilization>(
+    utilizationMetrics = std::make_shared<NvidiaGpuUtilizationMetrics>(
         mctpRequester, objectServer, name, eid, longRunningQueue,
         longRunningHandler);
 
@@ -434,7 +435,7 @@ void GpuDevice::read()
 
 void GpuDevice::readLongRunning()
 {
-    currentUtilization->update();
+    utilizationMetrics->update();
     violationDuration->update();
 
     waitTimerLongRunning.expires_after(longRunningSensorPollRate);
