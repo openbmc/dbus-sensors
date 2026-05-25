@@ -145,23 +145,17 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
         controlClockSpeedPrefix + this->name;
     controlClockSpeedInterface = objectServer.add_interface(
         gpuClockSpeedControlPath, controlClockSpeedIfaceName);
+    // PresentSpeedLimit*Hz are read-only and never patched by clients, so they
+    // are plain read-only properties updated from the GetClockLimit poll via
+    // set_property. The writable RequestedSpeedLimit*Hz are registered by
+    // NvidiaGpuClockSpeedControl, which also calls initialize() on this
+    // interface once all properties are registered.
     controlClockSpeedInterface->register_property(
         "PresentSpeedLimitMaxHz", std::numeric_limits<uint64_t>::max(),
         sdbusplus::asio::PropertyPermission::readOnly);
     controlClockSpeedInterface->register_property(
         "PresentSpeedLimitMinHz", uint64_t{0},
         sdbusplus::asio::PropertyPermission::readOnly);
-    controlClockSpeedInterface->register_property(
-        "RequestedSpeedLimitMaxHz", std::numeric_limits<uint64_t>::max());
-    controlClockSpeedInterface->register_property(
-        "RequestedSpeedLimitMinHz", std::numeric_limits<uint64_t>::max());
-
-    if (!controlClockSpeedInterface->initialize())
-    {
-        lg2::error(
-            "Error initializing OperatingClockSpeed interface for {NAME}, eid={EID}",
-            "NAME", this->name, "EID", eid);
-    }
 }
 
 GpuDevice::~GpuDevice()
@@ -255,7 +249,8 @@ void GpuDevice::makeSensors()
         inventory);
 
     gpuClockSpeedControl = std::make_shared<NvidiaGpuClockSpeedControl>(
-        objectServer, name, mctpRequester, eid, controlClockSpeedInterface);
+        objectServer, name, mctpRequester, eid, io, controlClockSpeedInterface,
+        inventory);
 
     pcieInterface = std::make_shared<NvidiaPcieInterface>(
         conn, mctpRequester, name, path, eid, objectServer,
