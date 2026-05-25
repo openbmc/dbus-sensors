@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7dfe8ba2_a8049254",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-25T16:06:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c932215_bac42b39",
+      "range": {
+        "startLine": 151,
+        "startChar": 46,
+        "endLine": 151,
+        "endChar": 59
+      },
+      "revId": "3f7a00cd9899e6f46e5c36b6201bca06ed830204",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dd48d8bc_4fe8ddc6",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-05-25T10:33:34Z",
       "side": 1,
       "message": "I think we can setup a default value for this argument to simplify the declaration  of PCIeInterface without networkAdapter though.",
+      "range": {
+        "startLine": 30,
+        "startChar": 24,
+        "endLine": 30,
+        "endChar": 77
+      },
+      "revId": "3f7a00cd9899e6f46e5c36b6201bca06ed830204",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97a3bd7a_79ad196e",
+        "filename": "src/nvidia-gpu/NvidiaPcieInterface.hpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-25T16:06:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd48d8bc_4fe8ddc6",
       "range": {
         "startLine": 30,
         "startChar": 24,
