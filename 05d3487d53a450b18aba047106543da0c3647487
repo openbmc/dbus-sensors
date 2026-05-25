@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e9ff306_5a5d588f",
+        "filename": "src/nvidia-gpu/NvidiaGpuCurrentUtilization.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-05-25T09:00:10Z",
+      "side": 1,
+      "message": "This inline hardcode might be difficult to maintain. Please replace this magic number with a declared variable for the response data size for easier maintainance.",
+      "range": {
+        "startLine": 118,
+        "startChar": 4,
+        "endLine": 118,
+        "endChar": 41
+      },
+      "revId": "05d3487d53a450b18aba047106543da0c3647487",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8cf771a_2e447253",
+        "filename": "src/nvidia-gpu/NvidiaGpuCurrentUtilization.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-05-25T09:00:10Z",
+      "side": 1,
+      "message": "Does this `unpack()` order have any impact for the resulting data?\nIf so, I think putting a comment here to avoid the order changing would be nice.",
+      "range": {
+        "startLine": 128,
+        "startChar": 4,
+        "endLine": 129,
+        "endChar": 34
+      },
+      "revId": "05d3487d53a450b18aba047106543da0c3647487",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a6fe37b_8c2c0d12",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-05-25T09:00:10Z",
+      "side": 1,
+      "message": "Declaring `constexpr size_t getCurrentUtilizationResponseSize` here would be nice.",
+      "revId": "05d3487d53a450b18aba047106543da0c3647487",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b22df077_6eb682d4",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-05-25T09:00:10Z",
+      "side": 1,
+      "message": "Please remove this function, as well in the .cpp file.\nI believe that it has no caller now.",
+      "range": {
+        "startLine": 314,
+        "startChar": 0,
+        "endLine": 317,
+        "endChar": 59
+      },
+      "revId": "05d3487d53a450b18aba047106543da0c3647487",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
