@@ -4258,4 +4258,165 @@ TEST_F(GpuMctpVdmTests,
     EXPECT_NE(result, 0);
 }
 
+// Tests for encodeSetClockLimitRequest
+TEST_F(GpuMctpVdmTests, EncodeSetClockLimitRequestSuccess)
+{
+    const uint8_t instanceId = 15;
+    const uint32_t limitMinMHz = 300;
+    const uint32_t limitMaxMHz = 2100;
+    std::array<uint8_t, gpu::setClockLimitRequestSize> buf{};
+
+    int result = gpu::encodeSetClockLimitRequest(
+        instanceId, gpu::ClockType::GRAPHICS_CLOCK,
+        gpu::ClockLimitFlag::PERSISTENCE, limitMinMHz, limitMaxMHz, buf);
+
+    EXPECT_EQ(result, 0);
+
+    UnpackBuffer ubuf(std::span<const uint8_t>(buf.data(), buf.size()));
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t unpackedInstanceId = 0;
+    uint8_t unpackedMsgType = 0;
+    EXPECT_EQ(ocp::accelerator_management::unpackHeader(
+                  ubuf, gpu::nvidiaPciVendorId, msgType, unpackedInstanceId,
+                  unpackedMsgType),
+              0);
+    EXPECT_EQ(msgType, ocp::accelerator_management::MessageType::REQUEST);
+    EXPECT_EQ(unpackedInstanceId,
+              instanceId & ocp::accelerator_management::instanceIdBitMask);
+    EXPECT_EQ(unpackedMsgType,
+              static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    uint8_t command = 0;
+    ubuf.unpack(command);
+    EXPECT_EQ(command,
+              static_cast<uint8_t>(
+                  gpu::PlatformEnvironmentalCommands::SET_CLOCK_LIMIT));
+    uint8_t dataSize = 0;
+    ubuf.unpack(dataSize);
+    EXPECT_EQ(dataSize, sizeof(uint8_t) + sizeof(uint8_t) + sizeof(uint32_t) +
+                            sizeof(uint32_t));
+    uint8_t clockType = 0;
+    ubuf.unpack(clockType);
+    EXPECT_EQ(clockType, static_cast<uint8_t>(gpu::ClockType::GRAPHICS_CLOCK));
+    uint8_t flag = 0;
+    ubuf.unpack(flag);
+    EXPECT_EQ(flag, static_cast<uint8_t>(gpu::ClockLimitFlag::PERSISTENCE));
+    uint32_t unpackedMin = 0;
+    uint32_t unpackedMax = 0;
+    ubuf.unpack(unpackedMin);
+    ubuf.unpack(unpackedMax);
+    EXPECT_EQ(unpackedMin, limitMinMHz);
+    EXPECT_EQ(unpackedMax, limitMaxMHz);
+    EXPECT_EQ(ubuf.getError(), 0);
+}
+
+TEST_F(GpuMctpVdmTests, EncodeSetClockLimitRequestClearFlag)
+{
+    std::array<uint8_t, gpu::setClockLimitRequestSize> buf{};
+
+    int result =
+        gpu::encodeSetClockLimitRequest(7, gpu::ClockType::GRAPHICS_CLOCK,
+                                        gpu::ClockLimitFlag::CLEAR, 0, 0, buf);
+
+    EXPECT_EQ(result, 0);
+
+    UnpackBuffer ubuf(std::span<const uint8_t>(buf.data(), buf.size()));
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t unpackedInstanceId = 0;
+    uint8_t unpackedMsgType = 0;
+    ocp::accelerator_management::unpackHeader(
+        ubuf, gpu::nvidiaPciVendorId, msgType, unpackedInstanceId,
+        unpackedMsgType);
+    uint8_t command = 0;
+    uint8_t dataSize = 0;
+    uint8_t clockType = 0;
+    uint8_t flag = 0;
+    ubuf.unpack(command);
+    ubuf.unpack(dataSize);
+    ubuf.unpack(clockType);
+    ubuf.unpack(flag);
+    EXPECT_EQ(flag, static_cast<uint8_t>(gpu::ClockLimitFlag::CLEAR));
+}
+
+TEST_F(GpuMctpVdmTests, EncodeSetClockLimitRequestBufferTooSmall)
+{
+    std::array<uint8_t, 1> buf{};
+
+    int result = gpu::encodeSetClockLimitRequest(
+        15, gpu::ClockType::GRAPHICS_CLOCK, gpu::ClockLimitFlag::PERSISTENCE,
+        300, 2100, buf);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+// Tests for decodeSetClockLimitResponse
+TEST_F(GpuMctpVdmTests, DecodeSetClockLimitResponseSuccess)
+{
+    std::vector<uint8_t> buf(32);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 15,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::SET_CLOCK_LIMIT));  // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS)); // CC
+    pbuf.pack(static_cast<uint16_t>(0));                        // reserved
+    pbuf.pack(static_cast<uint16_t>(0));                        // data_size
+    ASSERT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+
+    int result = gpu::decodeSetClockLimitResponse(buf, cc, reasonCode);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeSetClockLimitResponseError)
+{
+    std::vector<uint8_t> buf(32);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 15,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::SET_CLOCK_LIMIT));           // cmd
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERR_INVALID_DATA)); // CC
+    pbuf.pack(static_cast<uint16_t>(0xAAAA)); // reason_code
+    ASSERT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+
+    int result = gpu::decodeSetClockLimitResponse(buf, cc, reasonCode);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc,
+              ocp::accelerator_management::CompletionCode::ERR_INVALID_DATA);
+    EXPECT_EQ(reasonCode, 0xAAAA);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeSetClockLimitResponseBufferTooSmall)
+{
+    std::vector<uint8_t> buf(7);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 15,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    ASSERT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+
+    int result = gpu::decodeSetClockLimitResponse(buf, cc, reasonCode);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
 } // namespace gpu_mctp_tests
