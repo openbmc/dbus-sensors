@@ -32,6 +32,16 @@ class Inventory : public std::enable_shared_from_this<Inventory>
 
     void init();
 
+    std::optional<uint64_t> getMinSpeedInHz() const
+    {
+        return minGraphicsClockHz;
+    }
+
+    std::optional<uint64_t> getMaxSpeedInHz() const
+    {
+        return maxGraphicsClockHz;
+    }
+
   private:
     struct PropertyInfo
     {
@@ -71,6 +81,8 @@ class Inventory : public std::enable_shared_from_this<Inventory>
     std::unordered_map<gpu::InventoryPropertyId, PropertyInfo> properties;
     std::array<uint8_t, gpu::getInventoryInformationRequestSize>
         requestBuffer{};
+    std::optional<uint64_t> minGraphicsClockHz;
+    std::optional<uint64_t> maxGraphicsClockHz;
 
     static constexpr std::chrono::seconds retryDelay{5};
     static constexpr int maxRetryAttempts = 3;
