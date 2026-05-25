@@ -11,6 +11,7 @@
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/vtable.hpp>
 
 #include <algorithm>
 #include <cstddef>
@@ -90,12 +91,18 @@ Inventory::Inventory(
         acceleratorInterface->register_property(
             "BaseSpeedInHz", std::numeric_limits<uint64_t>::max(),
             sdbusplus::asio::PropertyPermission::readOnly);
-        acceleratorInterface->register_property(
+        acceleratorInterface->register_property_r<uint64_t>(
             "MaxSpeedInHz", std::numeric_limits<uint64_t>::max(),
-            sdbusplus::asio::PropertyPermission::readOnly);
-        acceleratorInterface->register_property(
+            sdbusplus::vtable::property_::emits_change, [this](uint64_t&) {
+                return maxGraphicsClockHz.value_or(
+                    std::numeric_limits<uint64_t>::max());
+            });
+        acceleratorInterface->register_property_r<uint64_t>(
             "MinSpeedInHz", std::numeric_limits<uint64_t>::max(),
-            sdbusplus::asio::PropertyPermission::readOnly);
+            sdbusplus::vtable::property_::emits_change, [this](uint64_t&) {
+                return minGraphicsClockHz.value_or(
+                    std::numeric_limits<uint64_t>::max());
+            });
 
         acceleratorInterface->initialize();
 
@@ -316,8 +323,25 @@ void Inventory::handleInventoryPropertyResponse(
                         const uint32_t mhz = std::get<uint32_t>(info);
                         const uint64_t hz =
                             static_cast<uint64_t>(mhz) * mhzToHzFactor;
-                        it->second.interface->set_property(
-                            it->second.propertyName, hz);
+                        if (propertyId ==
+                            gpu::InventoryPropertyId::MIN_GRAPHICS_CLOCK)
+                        {
+                            minGraphicsClockHz = hz;
+                            it->second.interface->signal_property(
+                                it->second.propertyName);
+                        }
+                        else if (propertyId ==
+                                 gpu::InventoryPropertyId::MAX_GRAPHICS_CLOCK)
+                        {
+                            maxGraphicsClockHz = hz;
+                            it->second.interface->signal_property(
+                                it->second.propertyName);
+                        }
+                        else
+                        {
+                            it->second.interface->set_property(
+                                it->second.propertyName, hz);
+                        }
                         lg2::info(
                             "Successfully received property ID {PROP_ID} for {NAME} with value: {VALUE}",
                             "PROP_ID", static_cast<uint8_t>(propertyId), "NAME",
