@@ -14,13 +14,13 @@
 #include <NvidiaDriverInformation.hpp>
 #include <NvidiaEventReporting.hpp>
 #include <NvidiaGpuControl.hpp>
-#include <NvidiaGpuCurrentUtilization.hpp>
 #include <NvidiaGpuEnergySensor.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
 #include <NvidiaGpuMemoryDevice.hpp>
 #include <NvidiaGpuPowerPeakReading.hpp>
 #include <NvidiaGpuPowerSensor.hpp>
 #include <NvidiaGpuSensor.hpp>
+#include <NvidiaGpuUtilizationMetrics.hpp>
 #include <NvidiaGpuVoltageSensor.hpp>
 #include <NvidiaLongRunningHandler.hpp>
 #include <NvidiaPcieFunction.hpp>
@@ -175,7 +175,7 @@ void GpuDevice::makeSensors()
              std::bind_front(&NvidiaLongRunningResponseHandler::handler,
                              longRunningHandler)}});
 
-    currentUtilization = std::make_shared<NvidiaGpuCurrentUtilization>(
+    utilizationMetrics = std::make_shared<NvidiaGpuUtilizationMetrics>(
         mctpRequester, objectServer, name, eid, longRunningQueue,
         longRunningHandler);
 
@@ -366,7 +366,7 @@ void GpuDevice::read()
 
 void GpuDevice::readLongRunning()
 {
-    currentUtilization->update();
+    utilizationMetrics->update();
 
     waitTimerLongRunning.expires_after(longRunningSensorPollRate);
     waitTimerLongRunning.async_wait(

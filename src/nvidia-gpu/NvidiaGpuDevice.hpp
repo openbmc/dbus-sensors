@@ -15,9 +15,9 @@
 #include "NvidiaGpuSensor.hpp"
 
 #include <NvidiaDriverInformation.hpp>
-#include <NvidiaGpuCurrentUtilization.hpp>
 #include <NvidiaGpuEnergySensor.hpp>
 #include <NvidiaGpuPowerPeakReading.hpp>
+#include <NvidiaGpuUtilizationMetrics.hpp>
 #include <NvidiaGpuVoltageSensor.hpp>
 #include <NvidiaLongRunningHandler.hpp>
 #include <NvidiaPcieFunction.hpp>
@@ -108,7 +108,7 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
     std::shared_ptr<NvidiaEventReportingConfig> eventReporting;
     std::shared_ptr<SerialQueue> longRunningQueue;
     std::shared_ptr<NvidiaLongRunningResponseHandler> longRunningHandler;
-    std::shared_ptr<NvidiaGpuCurrentUtilization> currentUtilization;
+    std::shared_ptr<NvidiaGpuUtilizationMetrics> utilizationMetrics;
 
     std::array<uint8_t, gpu::readThermalParametersRequestSize>
         thermalParamReqMsg{};
