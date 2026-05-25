@@ -151,17 +151,6 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
     controlClockSpeedInterface->register_property(
         "PresentSpeedLimitMinHz", uint64_t{0},
         sdbusplus::asio::PropertyPermission::readOnly);
-    controlClockSpeedInterface->register_property(
-        "RequestedSpeedLimitMaxHz", std::numeric_limits<uint64_t>::max());
-    controlClockSpeedInterface->register_property(
-        "RequestedSpeedLimitMinHz", std::numeric_limits<uint64_t>::max());
-
-    if (!controlClockSpeedInterface->initialize())
-    {
-        lg2::error(
-            "Error initializing OperatingClockSpeed interface for {NAME}, eid={EID}",
-            "NAME", this->name, "EID", eid);
-    }
 }
 
 GpuDevice::~GpuDevice()
@@ -255,7 +244,8 @@ void GpuDevice::makeSensors()
         inventory);
 
     gpuClockSpeedControl = std::make_shared<NvidiaGpuClockSpeedControl>(
-        objectServer, name, mctpRequester, eid, controlClockSpeedInterface);
+        objectServer, name, mctpRequester, eid, io, controlClockSpeedInterface,
+        inventory);
 
     pcieInterface = std::make_shared<NvidiaPcieInterface>(
         conn, mctpRequester, name, path, eid, objectServer,
