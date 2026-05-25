@@ -968,10 +968,12 @@ int decodeGetCurrentUtilizationModeResponse(
 }
 
 int decodeGetCurrentUtilizationModeResponse(std::span<const uint8_t> buf,
-                                            uint32_t& utilization)
+                                            uint32_t& gpuUtilization,
+                                            uint32_t& memoryUtilization)
 {
     UnpackBuffer buffer(buf);
-    buffer.unpack(utilization);
+    buffer.unpack(gpuUtilization);
+    buffer.unpack(memoryUtilization);
     return buffer.getError();
 }
 

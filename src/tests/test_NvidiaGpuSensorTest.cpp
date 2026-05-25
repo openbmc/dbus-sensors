@@ -3391,60 +3391,76 @@ TEST_F(GpuMctpVdmTests, DecodeGetCurrentUtilizationModeResponseBufferTooSmall)
 }
 
 // Tests for the long-running variant:
-// gpu::decodeGetCurrentUtilizationModeResponse(buf, utilization)
+// gpu::decodeGetCurrentUtilizationModeResponse(buf, gpuUtilization,
+//                                              memoryUtilization)
 
 TEST_F(GpuMctpVdmTests,
        DecodeGetCurrentUtilizationModeLongRunningResponseSuccess)
 {
-    std::vector<uint8_t> buf(sizeof(uint32_t));
+    std::vector<uint8_t> buf(sizeof(uint32_t) * 2);
     PackBuffer packer(buf);
-    packer.pack(static_cast<uint32_t>(75));
+    packer.pack(static_cast<uint32_t>(75)); // gpuUtilization
+    packer.pack(static_cast<uint32_t>(42)); // memoryUtilization
     ASSERT_EQ(packer.getError(), 0);
 
-    uint32_t utilization{};
-    int result = gpu::decodeGetCurrentUtilizationModeResponse(buf, utilization);
+    uint32_t gpuUtilization{};
+    uint32_t memoryUtilization{};
+    int result = gpu::decodeGetCurrentUtilizationModeResponse(
+        buf, gpuUtilization, memoryUtilization);
 
     EXPECT_EQ(result, 0);
-    EXPECT_EQ(utilization, 75U);
+    EXPECT_EQ(gpuUtilization, 75U);
+    EXPECT_EQ(memoryUtilization, 42U);
 }
 
 TEST_F(GpuMctpVdmTests,
-       DecodeGetCurrentUtilizationModeLongRunningResponseZeroValue)
+       DecodeGetCurrentUtilizationModeLongRunningResponseZeroValues)
 {
-    std::vector<uint8_t> buf(sizeof(uint32_t));
+    std::vector<uint8_t> buf(sizeof(uint32_t) * 2);
     PackBuffer packer(buf);
+    packer.pack(static_cast<uint32_t>(0));
     packer.pack(static_cast<uint32_t>(0));
     ASSERT_EQ(packer.getError(), 0);
 
-    uint32_t utilization{};
-    int result = gpu::decodeGetCurrentUtilizationModeResponse(buf, utilization);
+    uint32_t gpuUtilization{};
+    uint32_t memoryUtilization{};
+    int result = gpu::decodeGetCurrentUtilizationModeResponse(
+        buf, gpuUtilization, memoryUtilization);
 
     EXPECT_EQ(result, 0);
-    EXPECT_EQ(utilization, 0U);
+    EXPECT_EQ(gpuUtilization, 0U);
+    EXPECT_EQ(memoryUtilization, 0U);
 }
 
 TEST_F(GpuMctpVdmTests,
-       DecodeGetCurrentUtilizationModeLongRunningResponseMaxValue)
+       DecodeGetCurrentUtilizationModeLongRunningResponseMaxValues)
 {
-    std::vector<uint8_t> buf(sizeof(uint32_t));
+    std::vector<uint8_t> buf(sizeof(uint32_t) * 2);
     PackBuffer packer(buf);
+    packer.pack(static_cast<uint32_t>(0xFFFFFFFF));
     packer.pack(static_cast<uint32_t>(0xFFFFFFFF));
     ASSERT_EQ(packer.getError(), 0);
 
-    uint32_t utilization{};
-    int result = gpu::decodeGetCurrentUtilizationModeResponse(buf, utilization);
+    uint32_t gpuUtilization{};
+    uint32_t memoryUtilization{};
+    int result = gpu::decodeGetCurrentUtilizationModeResponse(
+        buf, gpuUtilization, memoryUtilization);
 
     EXPECT_EQ(result, 0);
-    EXPECT_EQ(utilization, 0xFFFFFFFFU);
+    EXPECT_EQ(gpuUtilization, 0xFFFFFFFFU);
+    EXPECT_EQ(memoryUtilization, 0xFFFFFFFFU);
 }
 
 TEST_F(GpuMctpVdmTests,
        DecodeGetCurrentUtilizationModeLongRunningResponseBufferTooSmall)
 {
-    std::vector<uint8_t> buf(sizeof(uint32_t) - 1); // 3 bytes, too small
+    // 7 bytes: enough for gpuUtilization but truncates memoryUtilization
+    std::vector<uint8_t> buf(sizeof(uint32_t) * 2 - 1);
 
-    uint32_t utilization{};
-    int result = gpu::decodeGetCurrentUtilizationModeResponse(buf, utilization);
+    uint32_t gpuUtilization{};
+    uint32_t memoryUtilization{};
+    int result = gpu::decodeGetCurrentUtilizationModeResponse(
+        buf, gpuUtilization, memoryUtilization);
 
     EXPECT_NE(result, 0);
 }

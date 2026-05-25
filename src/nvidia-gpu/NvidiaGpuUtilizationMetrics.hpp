@@ -16,10 +16,10 @@
 #include <span>
 #include <string>
 
-struct NvidiaGpuCurrentUtilization
+struct NvidiaGpuUtilizationMetrics
 {
   public:
-    NvidiaGpuCurrentUtilization(
+    NvidiaGpuUtilizationMetrics(
         mctp::MctpRequester& mctpRequester,
         sdbusplus::asio::object_server& objectServer,
         const std::string& deviceName, uint8_t eid,
@@ -31,19 +31,30 @@ struct NvidiaGpuCurrentUtilization
 
   private:
     static void onImmediateSuccess(
-        const std::shared_ptr<sdbusplus::asio::dbus_interface>& metricInterface,
+        const std::shared_ptr<sdbusplus::asio::dbus_interface>&
+            processorMetricInterface,
+        const std::shared_ptr<sdbusplus::asio::dbus_interface>&
+            memoryMetricInterface,
         uint8_t eid, std::span<const uint8_t> buffer);
 
     static void onLongRunningPayload(
-        const std::shared_ptr<sdbusplus::asio::dbus_interface>& metricInterface,
+        const std::shared_ptr<sdbusplus::asio::dbus_interface>&
+            processorMetricInterface,
+        const std::shared_ptr<sdbusplus::asio::dbus_interface>&
+            memoryMetricInterface,
         uint8_t eid, std::span<const uint8_t> payload);
 
     static void applyUtilization(
         const std::shared_ptr<sdbusplus::asio::dbus_interface>& metricInterface,
         uint32_t utilization);
 
-    std::shared_ptr<sdbusplus::asio::dbus_interface> metricInterface;
-    std::shared_ptr<sdbusplus::asio::dbus_interface> metricAssociationInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> processorMetricInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface>
+        processorMetricAssociationInterface;
+
+    std::shared_ptr<sdbusplus::asio::dbus_interface> memoryMetricInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface>
+        memoryMetricAssociationInterface;
 
     std::shared_ptr<NvidiaGpuLongRunningCommand> cmd;
 };
