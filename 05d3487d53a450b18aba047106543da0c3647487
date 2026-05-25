@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b08c10d_be5e97c1",
+        "filename": "src/nvidia-gpu/NvidiaGpuCurrentUtilization.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-25T15:35:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e9ff306_5a5d588f",
+      "range": {
+        "startLine": 118,
+        "startChar": 4,
+        "endLine": 118,
+        "endChar": 41
+      },
+      "revId": "05d3487d53a450b18aba047106543da0c3647487",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f8cf771a_2e447253",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-05-25T09:00:10Z",
       "side": 1,
       "message": "Does this `unpack()` order have any impact for the resulting data?\nIf so, I think putting a comment here to avoid the order changing would be nice.",
+      "range": {
+        "startLine": 128,
+        "startChar": 4,
+        "endLine": 129,
+        "endChar": 34
+      },
+      "revId": "05d3487d53a450b18aba047106543da0c3647487",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c22ce8a_3fc28e36",
+        "filename": "src/nvidia-gpu/NvidiaGpuCurrentUtilization.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-25T15:35:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8cf771a_2e447253",
       "range": {
         "startLine": 128,
         "startChar": 4,
@@ -64,6 +112,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee195af0_d8af8ed1",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-25T15:35:30Z",
+      "side": 1,
+      "message": "With onImmediateSuccess reverted to call decodeGetCurrentUtilizationModeResponse in PS3, the metric no longer references the response size directly.",
+      "parentUuid": "1a6fe37b_8c2c0d12",
+      "revId": "05d3487d53a450b18aba047106543da0c3647487",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b22df077_6eb682d4",
@@ -77,6 +143,30 @@
       "writtenOn": "2026-05-25T09:00:10Z",
       "side": 1,
       "message": "Please remove this function, as well in the .cpp file.\nI believe that it has no caller now.",
+      "range": {
+        "startLine": 314,
+        "startChar": 0,
+        "endLine": 317,
+        "endChar": 59
+      },
+      "revId": "05d3487d53a450b18aba047106543da0c3647487",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69d20e83_36454545",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-25T15:35:30Z",
+      "side": 1,
+      "message": "Originally I inlined the decode in onImmediateSuccess to avoid re-decoding the common response header. \nOn reflection I\u0027d rather keep decodeGetCurrentUtilizationModeResponse — it preserves the existing DecodeGetCurrentUtilizationModeResponse* unit-test coverage in test_NvidiaGpuSensorTest.cpp and keeps the byte-level decode in one named place. The cost of re-decoding the 7-byte common header at a 30-second poll cadence is negligible.\n\nReverted in PS3 — onImmediateSuccess calls decodeGetCurrentUtilizationModeResponse again, so the function has a caller. Function and tests kept as-is.",
+      "parentUuid": "b22df077_6eb682d4",
       "range": {
         "startLine": 314,
         "startChar": 0,
