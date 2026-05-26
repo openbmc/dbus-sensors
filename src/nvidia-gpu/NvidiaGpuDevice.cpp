@@ -21,6 +21,7 @@
 #include <NvidiaGpuPowerPeakReading.hpp>
 #include <NvidiaGpuPowerSensor.hpp>
 #include <NvidiaGpuSensor.hpp>
+#include <NvidiaGpuViolationDuration.hpp>
 #include <NvidiaGpuVoltageSensor.hpp>
 #include <NvidiaLongRunningHandler.hpp>
 #include <NvidiaPcieFunction.hpp>
@@ -176,6 +177,10 @@ void GpuDevice::makeSensors()
                              longRunningHandler)}});
 
     currentUtilization = std::make_shared<NvidiaGpuCurrentUtilization>(
+        mctpRequester, objectServer, name, eid, longRunningQueue,
+        longRunningHandler);
+
+    violationDuration = std::make_shared<NvidiaGpuViolationDuration>(
         mctpRequester, objectServer, name, eid, longRunningQueue,
         longRunningHandler);
 
@@ -367,6 +372,7 @@ void GpuDevice::read()
 void GpuDevice::readLongRunning()
 {
     currentUtilization->update();
+    violationDuration->update();
 
     waitTimerLongRunning.expires_after(longRunningSensorPollRate);
     waitTimerLongRunning.async_wait(
