@@ -32,21 +32,34 @@ struct NvidiaGpuEccMode
     static void onGetImmediateSuccess(
         const std::shared_ptr<sdbusplus::asio::dbus_interface>&
             eccModeInterface,
-        uint8_t eid, std::span<const uint8_t> fullBuffer);
+        const std::shared_ptr<bool>& enabledValue, uint8_t eid,
+        std::span<const uint8_t> fullBuffer);
 
     static void onGetLongRunningPayload(
         const std::shared_ptr<sdbusplus::asio::dbus_interface>&
             eccModeInterface,
-        uint8_t eid, std::span<const uint8_t> payload);
+        const std::shared_ptr<bool>& enabledValue, uint8_t eid,
+        std::span<const uint8_t> payload);
 
     static void applyEccModeToDbus(
         const std::shared_ptr<sdbusplus::asio::dbus_interface>&
             eccModeInterface,
-        bool active, bool enabled);
+        const std::shared_ptr<bool>& enabledValue, bool active, bool enabled);
+
+    // Enabled is member-backed (following the setter+getter pattern from
+    // xyz.openbmc_project.Control.Power.Cap, 90189) so the GET pipeline can
+    // refresh it via signal_property without re-triggering the writable
+    // setter callback. Active is owned by sdbusplus (read-only) and refreshed
+    // via set_property.
+    std::shared_ptr<bool> enabledValue;
 
     std::shared_ptr<sdbusplus::asio::dbus_interface> eccModeInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface>
         eccModeAssociationInterface;
 
+    // GET refreshes Active/Enabled from hardware; SET dispatches NSM Set ECC
+    // Mode for an external write. Both drive their MCTP VDM command through
+    // the shared long-running command helper.
     std::shared_ptr<NvidiaGpuLongRunningCommand> getCmd;
+    std::shared_ptr<NvidiaGpuLongRunningCommand> setCmd;
 };
