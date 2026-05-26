@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "05543f06_570a8c31",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-05-26T11:53:00Z",
+      "side": 1,
+      "message": "Done, thanks.\nhttps://gerrit.openbmc.org/c/openbmc/phosphor-dbus-interfaces/+/90526",
+      "parentUuid": "8ae55928_e0d59032",
+      "revId": "4091b110c0fecd7148ad45b558dfa7de128f0b93",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "62a6d9cc_35c91fa3",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "19d50de3_e91449c0",
+        "filename": "src/nvidia-gpu/NvidiaGpuEccMode.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-05-26T11:53:00Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "62a6d9cc_35c91fa3",
+      "revId": "4091b110c0fecd7148ad45b558dfa7de128f0b93",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "65d5c2d7_41892849",
@@ -48,6 +84,30 @@
       "writtenOn": "2026-05-24T08:18:52Z",
       "side": 1,
       "message": "nit: `conn` is never used. Either remove the parameter or use it.",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 37,
+        "endChar": 59
+      },
+      "revId": "4091b110c0fecd7148ad45b558dfa7de128f0b93",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d37ee4d9_b272e9e0",
+        "filename": "src/nvidia-gpu/NvidiaGpuEccMode.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-05-26T11:53:00Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "65d5c2d7_41892849",
       "range": {
         "startLine": 37,
         "startChar": 4,
@@ -96,6 +156,30 @@
       "message": "nit: Use UnpackBuffer to extract flags, to stay consistent with the SUCCESS path and other LR consumers.",
       "range": {
         "startLine": 233,
+        "startChar": 4,
+        "endLine": 234,
+        "endChar": 45
+      },
+      "revId": "4091b110c0fecd7148ad45b558dfa7de128f0b93",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e62586f_e35fe4a5",
+        "filename": "src/nvidia-gpu/NvidiaGpuEccMode.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-05-26T11:53:00Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "9f9568d8_76e836a9",
+      "range": {
+        "startLine": 234,
         "startChar": 4,
         "endLine": 234,
         "endChar": 45
