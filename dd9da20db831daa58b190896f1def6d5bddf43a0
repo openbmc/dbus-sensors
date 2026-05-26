@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f96e9b46_313fed94",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-05-26T05:40:26Z",
+      "side": 1,
+      "message": "Done, thanks.\nhttps://gerrit.openbmc.org/c/openbmc/phosphor-dbus-interfaces/+/90512",
+      "parentUuid": "aad2ed68_3d740164",
+      "range": {
+        "startLine": 54,
+        "startChar": 42,
+        "endLine": 54,
+        "endChar": 58
+      },
+      "revId": "dd9da20db831daa58b190896f1def6d5bddf43a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c1fac52d_c853221a",
@@ -58,6 +82,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "efd9a7d1_ba7ee298",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-05-26T05:40:26Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "c1fac52d_c853221a",
+      "revId": "dd9da20db831daa58b190896f1def6d5bddf43a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1e60c93c_b3e55177",
@@ -71,6 +113,24 @@
       "writtenOn": "2026-05-25T02:22:21Z",
       "side": 1,
       "message": "Could you refactoring to use the NvidiaGpuLongRunningCommand helper proposed in\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/90492 once it lands.\nThanks!",
+      "revId": "dd9da20db831daa58b190896f1def6d5bddf43a0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "533f88cc_d4e6d917",
+        "filename": "src/nvidia-gpu/NvidiaGpuCurrentUtilization.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-05-26T05:40:26Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "1e60c93c_b3e55177",
       "revId": "dd9da20db831daa58b190896f1def6d5bddf43a0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
