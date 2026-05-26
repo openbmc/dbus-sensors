@@ -16,6 +16,23 @@
       "message": "Hi @deepak.kodihalli.83@gmail.com @ed@tanous.net @vernon.mauery@gmail.com @jae.hyun.yoo@linux.intel.com \n  Could anybody help to review this?\n  Thanks.",
       "revId": "fb340520512888d4bd69535d80f6df2c57c8ea6c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d71e86a0_3ee8467c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002711
+      },
+      "writtenOn": "2026-05-26T11:05:56Z",
+      "side": 1,
+      "message": "I have sent backport patch for delta devices. \nlore link:  https://lore.kernel.org/openbmc/20260519-dev-6-18-add-delta-q54sn120a1-q54sw120a7-v1-0-9b5eb2c0752e@gmail.com/T/#t",
+      "revId": "fb340520512888d4bd69535d80f6df2c57c8ea6c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
