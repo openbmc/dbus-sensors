@@ -3399,4 +3399,247 @@ TEST_F(GpuMctpVdmTests, DecodeGetEccErrorCountsResponseBufferTooSmall)
     EXPECT_EQ(result, EINVAL);
 }
 
+// Tests for gpu::encodeGetViolationDurationRequest
+
+TEST_F(GpuMctpVdmTests, EncodeGetViolationDurationRequestSuccess)
+{
+    const uint8_t instanceId = 3;
+    std::array<uint8_t, gpu::getViolationDurationRequestSize> buf{};
+
+    int result = gpu::encodeGetViolationDurationRequest(instanceId, buf);
+    EXPECT_EQ(result, 0);
+
+    UnpackBuffer ubuf{std::span<const uint8_t>(buf)};
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t recvInstanceId = 0;
+    uint8_t recvMsgType = 0;
+    EXPECT_EQ(ocp::accelerator_management::unpackHeader(
+                  ubuf, gpu::nvidiaPciVendorId, msgType, recvInstanceId,
+                  recvMsgType),
+              0);
+    EXPECT_EQ(msgType, ocp::accelerator_management::MessageType::REQUEST);
+    EXPECT_EQ(recvInstanceId & ocp::accelerator_management::instanceIdBitMask,
+              instanceId & ocp::accelerator_management::instanceIdBitMask);
+    EXPECT_EQ(recvMsgType,
+              static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+
+    uint8_t command = 0;
+    ubuf.unpack(command);
+    EXPECT_EQ(command,
+              static_cast<uint8_t>(
+                  gpu::PlatformEnvironmentalCommands::GET_VIOLATION_DURATION));
+
+    uint8_t dataSize = 0;
+    ubuf.unpack(dataSize);
+    EXPECT_EQ(dataSize, 0);
+    EXPECT_EQ(ubuf.getError(), 0);
+}
+
+TEST_F(GpuMctpVdmTests, EncodeGetViolationDurationRequestBufferTooSmall)
+{
+    std::array<uint8_t, 1> buf{};
+
+    int result = gpu::encodeGetViolationDurationRequest(0, buf);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+// Tests for gpu::decodeGetViolationDurationResponse
+
+TEST_F(GpuMctpVdmTests, DecodeGetViolationDurationResponseSuccess)
+{
+    constexpr uint16_t violationDataSize = sizeof(uint64_t) * 4;
+    std::vector<uint8_t> buf(
+        ocp::accelerator_management::commonResponseSize + violationDataSize);
+
+    PackBuffer pbuf{std::span<uint8_t>(buf)};
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 1,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_VIOLATION_DURATION));
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));
+    pbuf.pack(uint16_t{0});
+    pbuf.pack(violationDataSize);
+    pbuf.pack(uint64_t{1'000'000'000ULL}); // hwViolation = 1s
+    pbuf.pack(uint64_t{2'000'000'000ULL}); // globalSwViolation = 2s
+    pbuf.pack(uint64_t{3'500'000'000ULL}); // powerViolation = 3.5s
+    pbuf.pack(uint64_t{500'000'000ULL});   // thermalViolation = 0.5s
+    EXPECT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint64_t hwViolation{};
+    uint64_t globalSwViolation{};
+    uint64_t powerViolation{};
+    uint64_t thermalViolation{};
+
+    int result = gpu::decodeGetViolationDurationResponse(
+        buf, cc, reasonCode, hwViolation, globalSwViolation, powerViolation,
+        thermalViolation);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+    EXPECT_EQ(hwViolation, 1'000'000'000ULL);
+    EXPECT_EQ(globalSwViolation, 2'000'000'000ULL);
+    EXPECT_EQ(powerViolation, 3'500'000'000ULL);
+    EXPECT_EQ(thermalViolation, 500'000'000ULL);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetViolationDurationResponseError)
+{
+    std::array<uint8_t, ocp::accelerator_management::commonResponseSize> buf{};
+
+    PackBuffer pbuf{std::span<uint8_t>(buf)};
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 1,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_VIOLATION_DURATION));
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERR_NOT_READY));
+    pbuf.pack(htole16(uint16_t{0xABCD}));
+    EXPECT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint64_t hwViolation{};
+    uint64_t globalSwViolation{};
+    uint64_t powerViolation{};
+    uint64_t thermalViolation{};
+
+    int result = gpu::decodeGetViolationDurationResponse(
+        buf, cc, reasonCode, hwViolation, globalSwViolation, powerViolation,
+        thermalViolation);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
+    EXPECT_EQ(reasonCode, 0xABCD);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetViolationDurationResponseInvalidDataSize)
+{
+    std::vector<uint8_t> buf(ocp::accelerator_management::commonResponseSize +
+                             sizeof(uint16_t) + sizeof(uint64_t));
+
+    PackBuffer pbuf{std::span<uint8_t>(buf)};
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 1,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_VIOLATION_DURATION));
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));
+    pbuf.pack(uint16_t{0});
+    // Wrong data_size: 8 instead of expected 32
+    pbuf.pack(static_cast<uint16_t>(sizeof(uint64_t)));
+    pbuf.pack(uint64_t{0});
+    EXPECT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint64_t hwViolation{};
+    uint64_t globalSwViolation{};
+    uint64_t powerViolation{};
+    uint64_t thermalViolation{};
+
+    int result = gpu::decodeGetViolationDurationResponse(
+        buf, cc, reasonCode, hwViolation, globalSwViolation, powerViolation,
+        thermalViolation);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetViolationDurationResponseBufferTooSmall)
+{
+    std::array<uint8_t, 4> buf{}; // Too small for response header
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint64_t hwViolation{};
+    uint64_t globalSwViolation{};
+    uint64_t powerViolation{};
+    uint64_t thermalViolation{};
+
+    int result = gpu::decodeGetViolationDurationResponse(
+        buf, cc, reasonCode, hwViolation, globalSwViolation, powerViolation,
+        thermalViolation);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+// Tests for the long-running variant:
+// gpu::decodeGetViolationDurationResponse(buf, hw, sw, power, thermal)
+
+TEST_F(GpuMctpVdmTests, DecodeGetViolationDurationLongRunningResponseSuccess)
+{
+    std::vector<uint8_t> buf(sizeof(uint64_t) * 4);
+    PackBuffer packer(buf);
+    packer.pack(uint64_t{1'000'000'000ULL}); // hw = 1s
+    packer.pack(uint64_t{2'000'000'000ULL}); // globalSw = 2s
+    packer.pack(uint64_t{3'500'000'000ULL}); // power = 3.5s
+    packer.pack(uint64_t{500'000'000ULL});   // thermal = 0.5s
+    ASSERT_EQ(packer.getError(), 0);
+
+    uint64_t hwViolation{};
+    uint64_t globalSwViolation{};
+    uint64_t powerViolation{};
+    uint64_t thermalViolation{};
+
+    int result = gpu::decodeGetViolationDurationResponse(
+        buf, hwViolation, globalSwViolation, powerViolation, thermalViolation);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(hwViolation, 1'000'000'000ULL);
+    EXPECT_EQ(globalSwViolation, 2'000'000'000ULL);
+    EXPECT_EQ(powerViolation, 3'500'000'000ULL);
+    EXPECT_EQ(thermalViolation, 500'000'000ULL);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetViolationDurationLongRunningResponseZeroValues)
+{
+    std::vector<uint8_t> buf(sizeof(uint64_t) * 4);
+    PackBuffer packer(buf);
+    packer.pack(uint64_t{0});
+    packer.pack(uint64_t{0});
+    packer.pack(uint64_t{0});
+    packer.pack(uint64_t{0});
+    ASSERT_EQ(packer.getError(), 0);
+
+    uint64_t hwViolation{};
+    uint64_t globalSwViolation{};
+    uint64_t powerViolation{};
+    uint64_t thermalViolation{};
+
+    int result = gpu::decodeGetViolationDurationResponse(
+        buf, hwViolation, globalSwViolation, powerViolation, thermalViolation);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(hwViolation, 0U);
+    EXPECT_EQ(globalSwViolation, 0U);
+    EXPECT_EQ(powerViolation, 0U);
+    EXPECT_EQ(thermalViolation, 0U);
+}
+
+TEST_F(GpuMctpVdmTests,
+       DecodeGetViolationDurationLongRunningResponseBufferTooSmall)
+{
+    std::vector<uint8_t> buf(sizeof(uint64_t) * 4 - 1); // 31 bytes, too small
+
+    uint64_t hwViolation{};
+    uint64_t globalSwViolation{};
+    uint64_t powerViolation{};
+    uint64_t thermalViolation{};
+
+    int result = gpu::decodeGetViolationDurationResponse(
+        buf, hwViolation, globalSwViolation, powerViolation, thermalViolation);
+
+    EXPECT_NE(result, 0);
+}
+
 } // namespace gpu_mctp_tests
