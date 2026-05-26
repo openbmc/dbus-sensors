@@ -1739,4 +1739,40 @@ int decodeGetEccModeResponse(std::span<const uint8_t> buf,
     return buffer.getError();
 }
 
+int encodeSetEccModeRequest(uint8_t instanceId, bool enable,
+                            std::span<uint8_t> buf)
+{
+    PackBuffer buffer(buf);
+
+    int rc = encodeRequestCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(PlatformEnvironmentalCommands::SET_ECC_MODE),
+        instanceId);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    const uint8_t dataSize = sizeof(uint8_t);
+    buffer.pack(dataSize);
+    buffer.pack(static_cast<uint8_t>(enable ? 1U : 0U));
+
+    return buffer.getError();
+}
+
+int decodeSetEccModeResponse(std::span<const uint8_t> buf,
+                             ocp::accelerator_management::CompletionCode& cc,
+                             uint16_t& reasonCode)
+{
+    UnpackBuffer buffer(buf);
+
+    int rc = decodeResponseCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(PlatformEnvironmentalCommands::SET_ECC_MODE), cc,
+        reasonCode);
+
+    return rc;
+}
+
 } // namespace gpu
