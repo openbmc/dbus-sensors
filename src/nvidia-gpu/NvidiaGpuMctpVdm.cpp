@@ -1036,6 +1036,81 @@ int decodeGetClockLimitResponse(
     return buffer.getError();
 }
 
+int encodeGetViolationDurationRequest(uint8_t instanceId,
+                                      std::span<uint8_t> buf)
+{
+    PackBuffer buffer(buf);
+
+    int rc = encodeRequestCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(
+            PlatformEnvironmentalCommands::GET_VIOLATION_DURATION),
+        instanceId);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    const uint8_t dataSize = 0;
+    buffer.pack(dataSize);
+
+    return buffer.getError();
+}
+
+int decodeGetViolationDurationResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint64_t& hwViolationDuration, uint64_t& globalSwViolationDuration,
+    uint64_t& powerViolationDuration, uint64_t& thermalViolationDuration)
+{
+    UnpackBuffer buffer(buf);
+
+    int rc = decodeResponseCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(
+            PlatformEnvironmentalCommands::GET_VIOLATION_DURATION),
+        cc, reasonCode);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    uint16_t dataSize = 0;
+    rc = buffer.unpack(dataSize);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    if (dataSize != sizeof(uint64_t) * 4)
+    {
+        return EINVAL;
+    }
+
+    buffer.unpack(hwViolationDuration);
+    buffer.unpack(globalSwViolationDuration);
+    buffer.unpack(powerViolationDuration);
+    buffer.unpack(thermalViolationDuration);
+
+    return buffer.getError();
+}
+
+int decodeGetViolationDurationResponse(
+    std::span<const uint8_t> buf, uint64_t& hwViolationDuration,
+    uint64_t& globalSwViolationDuration, uint64_t& powerViolationDuration,
+    uint64_t& thermalViolationDuration)
+{
+    UnpackBuffer buffer(buf);
+    buffer.unpack(hwViolationDuration);
+    buffer.unpack(globalSwViolationDuration);
+    buffer.unpack(powerViolationDuration);
+    buffer.unpack(thermalViolationDuration);
+    return buffer.getError();
+}
+
 int encodeQueryScalarGroupTelemetryV1Request(
     uint8_t instanceId, uint8_t deviceIndex, PcieScalarGroupId groupId,
     std::span<uint8_t> buf)
