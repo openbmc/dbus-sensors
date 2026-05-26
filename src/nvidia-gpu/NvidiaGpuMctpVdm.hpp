@@ -56,6 +56,7 @@ enum class PlatformEnvironmentalCommands : uint8_t
     GET_DRIVER_INFORMATION = 0x0E,
     GET_VOLTAGE = 0x0F,
     GET_CLOCK_LIMIT = 0x11,
+    GET_VIOLATION_DURATION = 0x45,
     GET_CURRENT_UTILIZATION = 0x47,
     GET_ECC_ERROR_COUNTS = 0x7D,
 };
@@ -193,6 +194,9 @@ constexpr size_t getCurrentEnergyCounterRequestSize =
 constexpr size_t getVoltageRequestSize = getNumericSensorReadingRequestSize;
 
 constexpr size_t getCurrentUtilizationRequestSize =
+    ocp::accelerator_management::commonRequestSize;
+
+constexpr size_t getViolationDurationRequestSize =
     ocp::accelerator_management::commonRequestSize;
 
 constexpr size_t queryScalarGroupTelemetryV1RequestSize =
@@ -341,6 +345,22 @@ int decodeGetClockLimitResponse(
 int encodeQueryScalarGroupTelemetryV1Request(
     uint8_t instanceId, uint8_t deviceIndex, PcieScalarGroupId groupId,
     std::span<uint8_t> buf);
+
+int encodeGetViolationDurationRequest(uint8_t instanceId,
+                                      std::span<uint8_t> buf);
+
+int decodeGetViolationDurationResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint64_t& hwViolationDuration, uint64_t& globalSwViolationDuration,
+    uint64_t& powerViolationDuration, uint64_t& thermalViolationDuration);
+
+// Overload for the long-running response event payload, which contains
+// only the four violation duration values (no OCP/common response header).
+int decodeGetViolationDurationResponse(
+    std::span<const uint8_t> buf, uint64_t& hwViolationDuration,
+    uint64_t& globalSwViolationDuration, uint64_t& powerViolationDuration,
+    uint64_t& thermalViolationDuration);
 
 int encodeGetCurrentUtilizationModeRequest(uint8_t instanceId,
                                            std::span<uint8_t> buf);
