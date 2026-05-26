@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "76c2df83_48e310d1",
+        "filename": "src/nvidia-gpu/NvidiaDriverInformation.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-05-26T05:53:21Z",
+      "side": 1,
+      "message": "Thanks, I will review this patch.",
+      "parentUuid": "c8173e00_d05c17f1",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 68
+      },
+      "revId": "8c2bc8e368979bd9325a8679cd46b15218f0a0cd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e8a2a5b0_f9cc8f07",
@@ -47,6 +71,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0dcc053_9730adaa",
+        "filename": "src/nvidia-gpu/NvidiaDriverInformation.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-05-26T05:53:21Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "e8a2a5b0_f9cc8f07",
+      "range": {
+        "startLine": 31,
+        "startChar": 8,
+        "endLine": 31,
+        "endChar": 44
+      },
+      "revId": "8c2bc8e368979bd9325a8679cd46b15218f0a0cd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8da34ae9_72b67089",
@@ -60,6 +108,30 @@
       "writtenOn": "2026-05-24T07:28:52Z",
       "side": 1,
       "message": "Consider moving \"Nvidia\" to NvidiaUtils.hpp as a file-scope constant (e.g. `const constexpr char* nvidiaManufacturer \u003d \"Nvidia\";`). \nLets other devices in this module reuse it without duplicating the literal.",
+      "range": {
+        "startLine": 124,
+        "startChar": 28,
+        "endLine": 124,
+        "endChar": 36
+      },
+      "revId": "8c2bc8e368979bd9325a8679cd46b15218f0a0cd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c23f960_b43e8640",
+        "filename": "src/nvidia-gpu/NvidiaPcieDevice.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-05-26T05:53:21Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "8da34ae9_72b67089",
       "range": {
         "startLine": 124,
         "startChar": 28,
