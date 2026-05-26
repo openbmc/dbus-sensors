@@ -29,7 +29,10 @@ NvidiaGpuEccMode::NvidiaGpuEccMode(
     sdbusplus::asio::object_server& objectServer, const std::string& deviceName,
     uint8_t eid, std::shared_ptr<SerialQueue> longRunningQueue,
     std::shared_ptr<NvidiaLongRunningResponseHandler>
-        longRunningResponseHandler)
+        longRunningResponseHandler) :
+    mctpRequester(mctpRequester), eid(eid),
+    longRunningQueue(std::move(longRunningQueue)),
+    longRunningResponseHandler(std::move(longRunningResponseHandler))
 {
     const std::string controlPath =
         std::string("/xyz/openbmc_project/control/processor/") + deviceName;
@@ -37,12 +40,18 @@ NvidiaGpuEccMode::NvidiaGpuEccMode(
     eccModeInterface = objectServer.add_interface(
         controlPath, "xyz.openbmc_project.Control.Processor.EccMode");
 
-    // Both properties are read-only in this commit. The writable setter
-    // that dispatches NSM Set ECC Mode is added in a follow-up.
+    // Active is read-only; the GET pipeline refreshes it via set_property.
     eccModeInterface->register_property(
         "Active", false, sdbusplus::asio::PropertyPermission::readOnly);
-    eccModeInterface->register_property(
-        "Enabled", false, sdbusplus::asio::PropertyPermission::readOnly);
+
+    // Enabled is writable and member-backed following the Control.Power.Cap
+    // pattern (90189): the getter returns eccModeEnabled and the setter
+    // dispatches a SET without writing it. eccModeEnabled is refreshed only
+    // from a GET response, so the D-Bus value never drifts from hardware.
+    eccModeInterface->register_property<bool>(
+        "Enabled", false,
+        std::bind_front(&NvidiaGpuEccMode::handleEnabledSet, this),
+        [this](bool&) { return eccModeEnabled; });
 
     if (!eccModeInterface->initialize())
     {
@@ -70,8 +79,8 @@ NvidiaGpuEccMode::NvidiaGpuEccMode(
     }
 
     getCmd = std::make_shared<NvidiaGpuLongRunningCommand>(
-        eid, mctpRequester, std::move(longRunningQueue),
-        std::move(longRunningResponseHandler),
+        eid, this->mctpRequester, this->longRunningQueue,
+        this->longRunningResponseHandler,
         NvidiaGpuLongRunningCommand::Config{
             .metricName = "GPU ECC Mode",
             .messageType = gpu::MessageType::PLATFORM_ENVIRONMENTAL,
@@ -80,11 +89,9 @@ NvidiaGpuEccMode::NvidiaGpuEccMode(
             .encodeRequest =
                 std::bind_front(&gpu::encodeGetEccModeRequest, uint8_t{0}),
             .onImmediateSuccess =
-                std::bind_front(&NvidiaGpuEccMode::onGetImmediateSuccess,
-                                eccModeInterface, eid),
-            .onLongRunningPayload =
-                std::bind_front(&NvidiaGpuEccMode::onGetLongRunningPayload,
-                                eccModeInterface, eid),
+                std::bind_front(&NvidiaGpuEccMode::onGetImmediateSuccess, this),
+            .onLongRunningPayload = std::bind_front(
+                &NvidiaGpuEccMode::onGetLongRunningPayload, this),
         });
 }
 
@@ -93,9 +100,42 @@ void NvidiaGpuEccMode::update()
     getCmd->update();
 }
 
+int NvidiaGpuEccMode::handleEnabledSet(const bool& newEnable, bool& /*current*/)
+{
+    // Dispatch the SET for the requested value. Do not touch eccModeEnabled:
+    // it mirrors the device and is refreshed only from a GET response, so a
+    // failed SET cannot leave a stale optimistic value on D-Bus.
+    sendSetEccModeRequest(newEnable);
+    return 1;
+}
+
+void NvidiaGpuEccMode::sendSetEccModeRequest(bool enable)
+{
+    setCmd = std::make_shared<NvidiaGpuLongRunningCommand>(
+        eid, mctpRequester, longRunningQueue, longRunningResponseHandler,
+        NvidiaGpuLongRunningCommand::Config{
+            .metricName = "GPU ECC Mode Set",
+            .messageType = gpu::MessageType::PLATFORM_ENVIRONMENTAL,
+            .commandId = gpu::PlatformEnvironmentalCommands::SET_ECC_MODE,
+            .requestSize = gpu::setEccModeRequestSize,
+            .encodeRequest =
+                [enable](std::span<uint8_t> buf) {
+                    return gpu::encodeSetEccModeRequest(0, enable, buf);
+                },
+            // Once the SET finishes, re-read ECC mode from hardware so Active
+            // and Enabled reflect the new state without waiting for the next
+            // GET poll.
+            .onImmediateSuccess =
+                [this](std::span<const uint8_t>) { getCmd->update(); },
+            .onLongRunningPayload =
+                [this](std::span<const uint8_t>) { getCmd->update(); },
+        });
+
+    setCmd->update();
+}
+
 void NvidiaGpuEccMode::onGetImmediateSuccess(
-    const std::shared_ptr<sdbusplus::asio::dbus_interface>& eccModeInterface,
-    uint8_t eid, std::span<const uint8_t> fullBuffer)
+    std::span<const uint8_t> fullBuffer)
 {
     ocp::accelerator_management::CompletionCode cc{};
     uint16_t reasonCode = 0;
@@ -112,12 +152,10 @@ void NvidiaGpuEccMode::onGetImmediateSuccess(
         return;
     }
 
-    applyEccModeToDbus(eccModeInterface, active, enabled);
+    applyEccModeToDbus(active, enabled);
 }
 
-void NvidiaGpuEccMode::onGetLongRunningPayload(
-    const std::shared_ptr<sdbusplus::asio::dbus_interface>& eccModeInterface,
-    uint8_t eid, std::span<const uint8_t> payload)
+void NvidiaGpuEccMode::onGetLongRunningPayload(std::span<const uint8_t> payload)
 {
     bool active = false;
     bool enabled = false;
@@ -125,18 +163,27 @@ void NvidiaGpuEccMode::onGetLongRunningPayload(
     if (rc != 0)
     {
         lg2::error("Error updating GPU ECC Mode: "
-                   "failed to unpack long running flags, rc={RC}, EID={EID}",
+                   "failed to decode long running response, rc={RC}, EID={EID}",
                    "RC", rc, "EID", eid);
         return;
     }
 
-    applyEccModeToDbus(eccModeInterface, active, enabled);
+    applyEccModeToDbus(active, enabled);
 }
 
-void NvidiaGpuEccMode::applyEccModeToDbus(
-    const std::shared_ptr<sdbusplus::asio::dbus_interface>& eccModeInterface,
-    bool active, bool enabled)
+void NvidiaGpuEccMode::applyEccModeToDbus(bool active, bool enabled)
 {
+    // Active is read-only and owned by sdbusplus; set_property updates and
+    // signals it.
     eccModeInterface->set_property("Active", active);
-    eccModeInterface->set_property("Enabled", enabled);
+
+    // Enabled is member-backed (the getter returns eccModeEnabled). Emit
+    // PropertiesChanged only when it actually changes; this runs on every GET
+    // poll. signal_property does not invoke the setter, so a hardware-driven
+    // refresh never retriggers an NSM Set.
+    if (enabled != eccModeEnabled)
+    {
+        eccModeEnabled = enabled;
+        eccModeInterface->signal_property("Enabled");
+    }
 }
