@@ -186,6 +186,30 @@
       },
       "revId": "4091b110c0fecd7148ad45b558dfa7de128f0b93",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bc6acf8_2973f243",
+        "filename": "src/nvidia-gpu/NvidiaGpuEccMode.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-05-26T11:56:58Z",
+      "side": 1,
+      "message": "Done, thanks",
+      "parentUuid": "6a908060_73f68ff4",
+      "range": {
+        "startLine": 233,
+        "startChar": 4,
+        "endLine": 234,
+        "endChar": 45
+      },
+      "revId": "4091b110c0fecd7148ad45b558dfa7de128f0b93",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
