@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2cbf494_c8735049",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-05-27T03:55:35Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "95cef59a_950ceb54",
+      "range": {
+        "startLine": 333,
+        "startChar": 24,
+        "endLine": 333,
+        "endChar": 64
+      },
+      "revId": "ae693724daf12805c850dc4edbde65b642867b02",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "702be208_100b23ec",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-05-24T09:22:06Z",
       "side": 1,
       "message": "Consider register_property_r with a custom getter that reads from memorySizeInKB. \nThe benefit isn\u0027t memory, but a single source of truth — the D-Bus cache and the member can never drift out of sync because the getter recomputes on every read. \nRef: \nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/90189/2/src/nvidia-gpu/Inventory.hpp\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/90189/2/src/nvidia-gpu/Inventory.cpp",
+      "range": {
+        "startLine": 334,
+        "startChar": 24,
+        "endLine": 334,
+        "endChar": 53
+      },
+      "revId": "ae693724daf12805c850dc4edbde65b642867b02",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afa602f8_122e27ac",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-05-27T03:55:35Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "702be208_100b23ec",
       "range": {
         "startLine": 334,
         "startChar": 24,
@@ -64,6 +112,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e5c3099_0c293338",
+        "filename": "src/nvidia-gpu/NvidiaGpuMemoryCapacityUtilization.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-05-27T03:55:35Z",
+      "side": 1,
+      "message": "Thanks, I will wait for 90492 merge than I will refactor base on 90492.",
+      "parentUuid": "0b2469a3_9f714a4c",
+      "revId": "ae693724daf12805c850dc4edbde65b642867b02",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "43ddac84_364b3f3d",
@@ -87,6 +153,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2366c822_40e88a6e",
+        "filename": "src/nvidia-gpu/NvidiaGpuMemoryCapacityUtilization.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-05-27T03:55:35Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "43ddac84_364b3f3d",
+      "range": {
+        "startLine": 39,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 54
+      },
+      "revId": "ae693724daf12805c850dc4edbde65b642867b02",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "073e8785_b2e4c846",
@@ -100,6 +190,30 @@
       "writtenOn": "2026-05-24T09:22:06Z",
       "side": 1,
       "message": "nit: This nests one level deeper than NvidiaGpuCurrentUtilization\n(`processor_bandwidth` is flat under gpu_\u003cname\u003e). Is the extra `memory/`\nintentional for future grouping with other memory metrics, or should it\nbe flattened to `memory_capacity_utilization` for consistency?",
+      "range": {
+        "startLine": 51,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 42
+      },
+      "revId": "ae693724daf12805c850dc4edbde65b642867b02",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f25081b_5f32cdb1",
+        "filename": "src/nvidia-gpu/NvidiaGpuMemoryCapacityUtilization.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-05-27T03:55:35Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "073e8785_b2e4c846",
       "range": {
         "startLine": 51,
         "startChar": 4,
