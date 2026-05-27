@@ -44,7 +44,12 @@ NvidiaGpuControl::NvidiaGpuControl(
     associations.emplace_back("controlling", "controlled_by", inventoryPath);
 
     associationInterface->register_property("Associations", associations);
-    associationInterface->initialize();
+    if (!associationInterface->initialize())
+    {
+        lg2::error(
+            "Error initializing Association interface for GPU Control for {NAME}",
+            "NAME", name);
+    }
 }
 
 NvidiaGpuControl::~NvidiaGpuControl()
