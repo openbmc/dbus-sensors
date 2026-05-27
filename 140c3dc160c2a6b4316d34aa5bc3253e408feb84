@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a0e28fe_b6be7392",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 40
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-27T11:01:47Z",
+      "side": 0,
+      "message": "Let\u0027s add it back here.",
+      "range": {
+        "startLine": 224,
+        "startChar": 0,
+        "endLine": 225,
+        "endChar": 54
+      },
+      "revId": "140c3dc160c2a6b4316d34aa5bc3253e408feb84",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

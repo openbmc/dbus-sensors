@@ -16,6 +16,29 @@
       "message": "Our code style is that objects that need update() are done in makeSensors. Sorry, my original comment may have caused confusion — what I meant was that interfaces used by both Inventory and another object class should be declared in NvidiaGpuDevice.cpp. Because in your previous patch 87166 there was no indication you needed Inventory, that\u0027s why I suggested in 87166 not to declare dramIfaceName in NvidiaGpuDevice.cpp — since that patch had no Inventory, and this patch is the one that does. That\u0027s also why I suggested merging the two patches together, so it would be clear why you originally declared dramIfaceName in NvidiaGpuDevice.cpp.\n\nYou\u0027ve now moved the dramIfaceName declaration into NvidiaGpuMemoryDevice.cpp in 87166 — could you move it back to NvidiaGpuDevice.cpp in 87975? Sorry for the misleading. \nThanks.",
       "revId": "87c23606dfa2ebfa45b75dd9e95bd0458a757c34",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3bec930_2b7ce2c7",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 40
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-27T11:01:47Z",
+      "side": 1,
+      "message": "We need dramItemInterface \u003d objectServer.add_interface(dramPath, dramIfaceName); here because of Inventory class need it.",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 1
+      },
+      "revId": "87c23606dfa2ebfa45b75dd9e95bd0458a757c34",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
