@@ -53,7 +53,12 @@ NvidiaGpuClockSpeedControl::NvidiaGpuClockSpeedControl(
     std::vector<Association> associations;
     associations.emplace_back("controlling", "controlled_by", inventoryPath);
     associationInterface->register_property("Associations", associations);
-    associationInterface->initialize();
+    if (!associationInterface->initialize())
+    {
+        lg2::error(
+            "Error initializing Association interface for Clock Speed Control for {NAME}, eid={EID}",
+            "NAME", name, "EID", eid);
+    }
 }
 
 NvidiaGpuClockSpeedControl::~NvidiaGpuClockSpeedControl()

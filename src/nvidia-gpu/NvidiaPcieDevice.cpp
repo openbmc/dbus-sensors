@@ -74,29 +74,30 @@ void PcieDevice::init()
 
     if (!networkAdapterInterface->initialize())
     {
-        lg2::error("Error initializing network adapter interface, eid={EID}",
-                   "EID", eid);
+        lg2::error(
+            "Error initializing network adapter interface for {NAME}, eid={EID}",
+            "NAME", name, "EID", eid);
     }
 
     if (!networkAdapterAssociationInterface->initialize())
     {
         lg2::error(
-            "Error initializing Association interface for Network Adapter, eid={EID}",
-            "EID", eid);
+            "Error initializing Association interface for Network Adapter for {NAME}, eid={EID}",
+            "NAME", name, "EID", eid);
     }
 
     if (!locationCodeInterface->initialize())
     {
         lg2::error(
-            "Error initializing LocationCode interface for Network Adapter, eid={EID}",
-            "EID", eid);
+            "Error initializing LocationCode interface for Network Adapter for {NAME}, eid={EID}",
+            "NAME", name, "EID", eid);
     }
 
     if (!embeddedConnectorInterface->initialize())
     {
         lg2::error(
-            "Error initializing Embedded Connector interface for Network Adapter, eid={EID}",
-            "EID", eid);
+            "Error initializing Embedded Connector interface for Network Adapter for {NAME}, eid={EID}",
+            "NAME", name, "EID", eid);
     }
 
     driverInfo = std::make_shared<NvidiaDriverInformation>(

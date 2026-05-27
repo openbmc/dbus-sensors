@@ -105,7 +105,7 @@ NvidiaPciePortInfo::NvidiaPciePortInfo(
     if (!pciePortInterface->initialize())
     {
         lg2::error(
-            "Error initializing PCIe Device Interface for EID={EID}, PortType={PT}, PortNumber={PN}",
+            "Error initializing PCIe Device interface, eid={EID}, portType={PT}, portNumber={PN}",
             "EID", eid, "PT", static_cast<uint8_t>(portType), "PN", portNumber);
     }
 
@@ -120,7 +120,7 @@ NvidiaPciePortInfo::NvidiaPciePortInfo(
     if (!associationInterface->initialize())
     {
         lg2::error(
-            "Error initializing Association Interface for PCIe Port Info for EID={EID}, PortType={PT}, PortNumber={PN}",
+            "Error initializing Association interface for PCIe Port Info, eid={EID}, portType={PT}, portNumber={PN}",
             "EID", eid, "PT", static_cast<uint8_t>(portType), "PN", portNumber);
     }
 }
