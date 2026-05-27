@@ -71,7 +71,12 @@ NvidiaGpuPowerControl::NvidiaGpuPowerControl(
     associations.emplace_back("controlling", "controlled_by", inventoryPath);
 
     associationInterface->register_property("Associations", associations);
-    associationInterface->initialize();
+    if (!associationInterface->initialize())
+    {
+        lg2::error(
+            "Error initializing Association interface for GPU Control for {NAME}, eid={EID}",
+            "NAME", name, "EID", eid);
+    }
 
     powerCapInterface->register_property<uint32_t>(
         "PowerCap", std::numeric_limits<uint32_t>::max(),
@@ -81,7 +86,12 @@ NvidiaGpuPowerControl::NvidiaGpuPowerControl(
         "PowerCapEnable", false,
         std::bind_front(&NvidiaGpuPowerControl::handlePowerCapEnableSet, this),
         [this](bool&) { return powerCapEnabled; });
-    powerCapInterface->initialize();
+    if (!powerCapInterface->initialize())
+    {
+        lg2::error(
+            "Error initializing Power Cap interface for {NAME}, eid={EID}",
+            "NAME", name, "EID", eid);
+    }
 }
 
 NvidiaGpuPowerControl::~NvidiaGpuPowerControl()

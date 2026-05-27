@@ -58,7 +58,7 @@ NvidiaDriverInformation::NvidiaDriverInformation(
     if (!versionInterface->initialize())
     {
         lg2::error(
-            "Failed to initialize Version interface for Driver Information for eid {EID}",
+            "Error initializing Version interface for Driver Information, eid={EID}",
             "EID", eid);
     }
 
@@ -73,7 +73,7 @@ NvidiaDriverInformation::NvidiaDriverInformation(
     if (!associationInterface->initialize())
     {
         lg2::error(
-            "Failed to initialize Association interface for Driver Information for eid {EID}",
+            "Error initializing Association interface for Driver Information, eid={EID}",
             "EID", eid);
     }
 
@@ -87,7 +87,7 @@ NvidiaDriverInformation::NvidiaDriverInformation(
         if (!assetInterface->initialize())
         {
             lg2::error(
-                "Failed to initialize Asset interface for Driver Information for eid {EID}",
+                "Error initializing Asset interface for Driver Information, eid={EID}",
                 "EID", eid);
         }
     }

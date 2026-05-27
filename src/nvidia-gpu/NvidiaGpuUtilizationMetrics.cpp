@@ -65,15 +65,15 @@ NvidiaGpuUtilizationMetrics::NvidiaGpuUtilizationMetrics(
     if (!processorMetricInterface->initialize())
     {
         lg2::error(
-            "Failed to initialize Processor Bandwidth metric interface for GPU {NAME}",
-            "NAME", deviceName);
+            "Error initializing Processor Bandwidth metric interface for GPU {NAME}, eid={EID}",
+            "NAME", deviceName, "EID", eid);
     }
 
     if (!processorMetricAssociationInterface->initialize())
     {
         lg2::error(
-            "Failed to initialize Processor Bandwidth metric association interface for GPU {NAME}",
-            "NAME", deviceName);
+            "Error initializing Processor Bandwidth metric association interface for GPU {NAME}, eid={EID}",
+            "NAME", deviceName, "EID", eid);
     }
 
     const sdbusplus::object_path memoryMetricObjectPath =
@@ -101,15 +101,15 @@ NvidiaGpuUtilizationMetrics::NvidiaGpuUtilizationMetrics(
     if (!memoryMetricInterface->initialize())
     {
         lg2::error(
-            "Failed to initialize Memory Bandwidth metric interface for GPU {NAME}",
-            "NAME", deviceName);
+            "Error initializing Memory Bandwidth metric interface for GPU {NAME}, eid={EID}",
+            "NAME", deviceName, "EID", eid);
     }
 
     if (!memoryMetricAssociationInterface->initialize())
     {
         lg2::error(
-            "Failed to initialize Memory Bandwidth metric association interface for GPU {NAME}",
-            "NAME", deviceName);
+            "Error initializing Memory Bandwidth metric association interface for GPU {NAME}, eid={EID}",
+            "NAME", deviceName, "EID", eid);
     }
 
     cmd = std::make_shared<NvidiaGpuLongRunningCommand>(

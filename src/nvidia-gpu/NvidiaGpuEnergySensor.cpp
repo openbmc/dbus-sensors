@@ -95,7 +95,7 @@ NvidiaGpuEnergySensor::NvidiaGpuEnergySensor(
         if (!commonPhysicalContextInterface->initialize())
         {
             lg2::error(
-                "Error initializing PhysicalContext Interface for Energy Sensor for eid {EID} and sensor id {SID}",
+                "Error initializing PhysicalContext interface for Energy Sensor, eid={EID}, sensorId={SID}",
                 "EID", eid, "SID", sensorId);
             objectServer.remove_interface(commonPhysicalContextInterface);
             commonPhysicalContextInterface = nullptr;

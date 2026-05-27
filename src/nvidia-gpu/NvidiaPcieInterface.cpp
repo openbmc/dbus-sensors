@@ -122,20 +122,20 @@ NvidiaPcieInterface::NvidiaPcieInterface(
 
     if (!pcieDeviceInterface->initialize())
     {
-        lg2::error("Error initializing PCIe Device Interface for EID={EID}",
-                   "EID", eid);
+        lg2::error("Error initializing PCIe Device interface, eid={EID}", "EID",
+                   eid);
     }
 
     if (switchInterface && !switchInterface->initialize())
     {
-        lg2::error("Error initializing Switch Interface for EID={EID}", "EID",
+        lg2::error("Error initializing Switch interface, eid={EID}", "EID",
                    eid);
     }
 
     if (associationInterface && !associationInterface->initialize())
     {
         lg2::error(
-            "Error initializing Association Interface for PCIeSwitch EID={EID}",
+            "Error initializing Association interface for PCIeSwitch, eid={EID}",
             "EID", eid);
     }
 }

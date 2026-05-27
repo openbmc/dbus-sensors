@@ -67,12 +67,12 @@ std::shared_ptr<sdbusplus::asio::dbus_interface> createAssociationInterface(
 
 void initializeInterface(
     const std::shared_ptr<sdbusplus::asio::dbus_interface>& iface,
-    const std::string& deviceName, const std::string& label)
+    const std::string& deviceName, uint8_t eid, const std::string& label)
 {
     if (!iface->initialize())
     {
-        lg2::error("Failed to initialize {LABEL} for GPU {NAME}", "LABEL",
-                   label, "NAME", deviceName);
+        lg2::error("Error initializing {LABEL} for GPU {NAME}, eid={EID}",
+                   "LABEL", label, "NAME", deviceName, "EID", eid);
     }
 }
 
@@ -104,15 +104,15 @@ NvidiaGpuViolationDuration::NvidiaGpuViolationDuration(
     thermalMetricAssociationInterface = createAssociationInterface(
         objectServer, thermalObjectPath, processorObjectPath);
 
-    initializeInterface(powerMetricInterface, deviceName,
+    initializeInterface(powerMetricInterface, deviceName, eid,
                         "Power Limit Throttle Duration metric interface");
     initializeInterface(
-        powerMetricAssociationInterface, deviceName,
+        powerMetricAssociationInterface, deviceName, eid,
         "Power Limit Throttle Duration metric association interface");
-    initializeInterface(thermalMetricInterface, deviceName,
+    initializeInterface(thermalMetricInterface, deviceName, eid,
                         "Thermal Limit Throttle Duration metric interface");
     initializeInterface(
-        thermalMetricAssociationInterface, deviceName,
+        thermalMetricAssociationInterface, deviceName, eid,
         "Thermal Limit Throttle Duration metric association interface");
 
     cmd = std::make_shared<NvidiaGpuLongRunningCommand>(

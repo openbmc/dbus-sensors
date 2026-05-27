@@ -55,14 +55,24 @@ NvidiaGpuClockFrequencyMetric::NvidiaGpuClockFrequencyMetric(
     metricInterface->register_property(
         "Unit", "xyz.openbmc_project.Metric.Value.Unit.Frequency"s);
     metricInterface->register_property("Value", 0.0);
-    metricInterface->initialize();
+    if (!metricInterface->initialize())
+    {
+        lg2::error(
+            "Error initializing Clock Frequency Metric interface for {NAME}, eid={EID}",
+            "NAME", name, "EID", eid);
+    }
 
     associationInterface =
         objectServer.add_interface(metricDbusPath, association::interface);
     std::vector<Association> associations;
     associations.emplace_back("measuring", "measured_by", inventoryPath);
     associationInterface->register_property("Associations", associations);
-    associationInterface->initialize();
+    if (!associationInterface->initialize())
+    {
+        lg2::error(
+            "Error initializing Association interface for Clock Frequency Metric for {NAME}, eid={EID}",
+            "NAME", name, "EID", eid);
+    }
 }
 
 NvidiaGpuClockFrequencyMetric::~NvidiaGpuClockFrequencyMetric()

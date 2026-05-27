@@ -102,21 +102,21 @@ NvidiaPciePortMetrics::NvidiaPciePortMetrics(
         if (!metricValueInterfaces[id]->initialize())
         {
             lg2::error(
-                "Error initializing PCIe Port Metric Interface for EID={EID}, "
-                "PortType={PT}, PortNumber={PN}, ScalarGroup={SG}, Metric={MN}",
+                "Error initializing PCIe Port Metric interface, eid={EID}, "
+                "portType={PT}, portNumber={PN}, scalarGroup={SG}, metric={MN}",
                 "EID", eid, "PT", static_cast<uint8_t>(portType), "PN",
-                portNumber, "EID", eid, "PN", portNumber, "SG",
-                static_cast<uint8_t>(scalarGroupId), "MN", name);
+                portNumber, "SG", static_cast<uint8_t>(scalarGroupId), "MN",
+                name);
         }
 
         if (!metricAssociationInterfaces[id]->initialize())
         {
             lg2::error(
-                "Error initializing PCIe Port Metric Association Interface for EID={EID}, "
-                "PortType={PT}, PortNumber={PN}, ScalarGroup={SG}, Metric={MN}",
+                "Error initializing PCIe Port Metric Association interface, eid={EID}, "
+                "portType={PT}, portNumber={PN}, scalarGroup={SG}, metric={MN}",
                 "EID", eid, "PT", static_cast<uint8_t>(portType), "PN",
-                portNumber, "EID", eid, "PN", portNumber, "SG",
-                static_cast<uint8_t>(scalarGroupId), "MN", name);
+                portNumber, "SG", static_cast<uint8_t>(scalarGroupId), "MN",
+                name);
         }
     }
 }

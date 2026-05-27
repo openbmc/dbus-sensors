@@ -55,8 +55,9 @@ NvidiaGpuMemoryDevice::NvidiaGpuMemoryDevice(
 
     if (!sramEccInterface->initialize())
     {
-        lg2::error("Failed to initialize SRAM ECC interface for {NAME}", "NAME",
-                   gpuName);
+        lg2::error(
+            "Error initializing SRAM ECC interface for {NAME}, eid={EID}",
+            "NAME", gpuName, "EID", eid);
     }
 
     lg2::info("Created SRAM ECC interface for {NAME} at {PATH}", "NAME",
@@ -67,8 +68,9 @@ NvidiaGpuMemoryDevice::NvidiaGpuMemoryDevice(
 
     if (!dramEmbeddedInterface->initialize())
     {
-        lg2::error("Failed to initialize Embedded interface for {NAME}", "NAME",
-                   dramName);
+        lg2::error(
+            "Error initializing Embedded interface for {NAME}, eid={EID}",
+            "NAME", dramName, "EID", eid);
     }
 
     dramEccInterface = objectServer.add_interface(
@@ -79,8 +81,9 @@ NvidiaGpuMemoryDevice::NvidiaGpuMemoryDevice(
 
     if (!dramEccInterface->initialize())
     {
-        lg2::error("Failed to initialize DRAM ECC interface for {NAME}", "NAME",
-                   dramName);
+        lg2::error(
+            "Error initializing DRAM ECC interface for {NAME}, eid={EID}",
+            "NAME", dramName, "EID", eid);
     }
 }
 

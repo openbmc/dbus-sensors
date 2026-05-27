@@ -106,9 +106,9 @@ NvidiaEthPortMetrics::NvidiaEthPortMetrics(
         networkDeviceFunctionInterface->register_property("MACAddress", macStr);
         if (!networkDeviceFunctionInterface->initialize())
         {
-            lg2::error("Error initializing NetworkDeviceFunction Interface for "
-                       "EID={EID}, PortNumber={PN}",
-                       "EID", eid, "PN", portNumber);
+            lg2::error(
+                "Error initializing NetworkDeviceFunction interface, eid={EID}, portNumber={PN}",
+                "EID", eid, "PN", portNumber);
         }
 
         std::vector<Association> ndfAssociations;
@@ -120,9 +120,9 @@ NvidiaEthPortMetrics::NvidiaEthPortMetrics(
             "Associations", ndfAssociations);
         if (!networkDeviceFunctionAssociationInterface->initialize())
         {
-            lg2::error("Error initializing NetworkDeviceFunction Association "
-                       "Interface for EID={EID}, PortNumber={PN}",
-                       "EID", eid, "PN", portNumber);
+            lg2::error(
+                "Error initializing NetworkDeviceFunction Association interface, eid={EID}, portNumber={PN}",
+                "EID", eid, "PN", portNumber);
         }
         break;
     }
@@ -172,14 +172,14 @@ NvidiaEthPortMetrics::NvidiaEthPortMetrics(
         if (!metricValueInterface[tag]->initialize())
         {
             lg2::error(
-                "Error initializing Ethernet Port Metric Interface for EID={EID}, PortNumber={PN}, Metric={MN}",
+                "Error initializing Ethernet Port Metric interface, eid={EID}, portNumber={PN}, metric={MN}",
                 "EID", eid, "PN", portNumber, "MN", metricName);
         }
 
         if (!metricAssociationInterfaces[tag]->initialize())
         {
             lg2::error(
-                "Error initializing Ethernet Port Metric Association Interface for EID={EID}, PortNumber={PN}, Metric={MN}",
+                "Error initializing Ethernet Port Metric Association interface, eid={EID}, portNumber={PN}, metric={MN}",
                 "EID", eid, "PN", portNumber, "MN", metricName);
         }
     }
@@ -187,14 +187,14 @@ NvidiaEthPortMetrics::NvidiaEthPortMetrics(
     if (!portInterface->initialize())
     {
         lg2::error(
-            "Error initializing Ethernet Port Interface for EID={EID}, PortNumber={PN}",
+            "Error initializing Ethernet Port interface, eid={EID}, portNumber={PN}",
             "EID", eid, "PN", portNumber);
     }
 
     if (!associationInterface->initialize())
     {
         lg2::error(
-            "Error initializing Association Interface for Ethernet Port for EID={EID}, PortNumber={PN}",
+            "Error initializing Association interface for Ethernet Port, eid={EID}, portNumber={PN}",
             "EID", eid, "PN", portNumber);
     }
 }

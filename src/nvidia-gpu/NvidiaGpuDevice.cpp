@@ -113,8 +113,9 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
 
     if (!dramAssociationInterface->initialize())
     {
-        lg2::error("Failed to initialize DRAM association interface for {NAME}",
-                   "NAME", this->name);
+        lg2::error(
+            "Error initializing DRAM association interface for {NAME}, eid={EID}",
+            "NAME", this->name, "EID", eid);
     }
 
     dramItemInterface = objectServer.add_interface(dramPath, dramIfaceName);
@@ -132,8 +133,9 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
 
     if (!dramItemInterface->initialize())
     {
-        lg2::error("Failed to initialize DRAM Item.Dimm interface for {NAME}",
-                   "NAME", this->name);
+        lg2::error(
+            "Error initializing DRAM Item.Dimm interface for {NAME}, eid={EID}",
+            "NAME", this->name, "EID", eid);
     }
 
     const std::string gpuClockSpeedControlPath =
@@ -150,7 +152,13 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
         "RequestedSpeedLimitMaxHz", std::numeric_limits<uint64_t>::max());
     controlClockSpeedInterface->register_property(
         "RequestedSpeedLimitMinHz", std::numeric_limits<uint64_t>::max());
-    controlClockSpeedInterface->initialize();
+
+    if (!controlClockSpeedInterface->initialize())
+    {
+        lg2::error(
+            "Error initializing OperatingClockSpeed interface for {NAME}, eid={EID}",
+            "NAME", this->name, "EID", eid);
+    }
 }
 
 GpuDevice::~GpuDevice()

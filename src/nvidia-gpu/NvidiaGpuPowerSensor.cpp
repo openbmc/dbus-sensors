@@ -98,7 +98,7 @@ NvidiaGpuPowerSensor::NvidiaGpuPowerSensor(
         if (!commonPhysicalContextInterface->initialize())
         {
             lg2::error(
-                "Error initializing PhysicalContext Interface for Power Sensor for eid {EID} and sensor id {SID}",
+                "Error initializing PhysicalContext interface for Power Sensor, eid={EID}, sensorId={SID}",
                 "EID", eid, "SID", sensorId);
         }
     }
