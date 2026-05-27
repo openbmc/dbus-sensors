@@ -57,7 +57,12 @@ NvidiaGpuPowerPeakReading::NvidiaGpuPowerPeakReading(
     telemetryReportInterface->register_property("Readings", readings);
     telemetryReportInterface->register_property("Enabled", true);
 
-    telemetryReportInterface->initialize();
+    if (!telemetryReportInterface->initialize())
+    {
+        lg2::error(
+            "Error initializing Telemetry Report interface for Peak Power for eid {EID} and sensor id {SID}",
+            "EID", eid, "SID", sensorId);
+    }
 }
 
 NvidiaGpuPowerPeakReading::~NvidiaGpuPowerPeakReading()

@@ -60,17 +60,30 @@ Inventory::Inventory(
                      "PartNumber");
     registerProperty(gpu::InventoryPropertyId::MARKETING_NAME, assetIface,
                      "Model");
-    assetIface->initialize();
+    if (!assetIface->initialize())
+    {
+        lg2::error("Error initializing Asset interface for {NAME}, eid={EID}",
+                   "NAME", name, "EID", eid);
+    }
 
     uuidInterface = objectServer.add_interface(path, uuidIfaceName);
     registerProperty(gpu::InventoryPropertyId::DEVICE_GUID, uuidInterface,
                      "UUID");
-    uuidInterface->initialize();
+    if (!uuidInterface->initialize())
+    {
+        lg2::error("Error initializing UUID interface for {NAME}, eid={EID}",
+                   "NAME", name, "EID", eid);
+    }
 
     revisionIface = objectServer.add_interface(path, revisionIfaceName);
     registerProperty(gpu::InventoryPropertyId::DEVICE_PART_NUMBER,
                      revisionIface, "Version");
-    revisionIface->initialize();
+    if (!revisionIface->initialize())
+    {
+        lg2::error(
+            "Error initializing Revision interface for {NAME}, eid={EID}",
+            "NAME", name, "EID", eid);
+    }
 
     // Static properties
     if (deviceType == gpu::DeviceIdentification::DEVICE_GPU)
@@ -97,7 +110,12 @@ Inventory::Inventory(
             "MinSpeedInHz", std::numeric_limits<uint64_t>::max(),
             sdbusplus::asio::PropertyPermission::readOnly);
 
-        acceleratorInterface->initialize();
+        if (!acceleratorInterface->initialize())
+        {
+            lg2::error(
+                "Error initializing Accelerator interface for {NAME}, eid={EID}",
+                "NAME", name, "EID", eid);
+        }
 
         properties[gpu::InventoryPropertyId::DEFAULT_BOOST_CLOCKS] = {
             acceleratorInterface, "BoostClockFrequency", 0, true};
