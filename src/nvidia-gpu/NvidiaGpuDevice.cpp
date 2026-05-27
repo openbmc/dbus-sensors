@@ -102,7 +102,11 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
         "DefaultPowerCap", std::numeric_limits<uint32_t>::max(),
         sdbusplus::asio::PropertyPermission::readOnly);
 
-    powerCapInterface->initialize();
+    if (!powerCapInterface->initialize())
+    {
+        lg2::error("Error initializing Power Cap interface for {NAME}", "NAME",
+                   this->name);
+    }
 
     const std::string gpuPath = std::string(inventoryPrefix) + this->name;
     const std::string dramPath = gpuPath + "_DRAM_0";
@@ -153,7 +157,13 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
         "RequestedSpeedLimitMaxHz", std::numeric_limits<uint64_t>::max());
     controlClockSpeedInterface->register_property(
         "RequestedSpeedLimitMinHz", std::numeric_limits<uint64_t>::max());
-    controlClockSpeedInterface->initialize();
+
+    if (!controlClockSpeedInterface->initialize())
+    {
+        lg2::error(
+            "Error initializing OperatingClockSpeed interface for {NAME}",
+            "NAME", this->name);
+    }
 }
 
 GpuDevice::~GpuDevice()
