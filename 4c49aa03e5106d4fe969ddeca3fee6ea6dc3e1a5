@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "85ba4e8d_66443326",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 29
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-27T12:05:43Z",
+      "side": 1,
+      "message": "After adding the MHz→MT/s conversion, please re-run busctl and update 405 / 12481 here with the converted values.\nThanks.",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 53
+      },
+      "revId": "4c49aa03e5106d4fe969ddeca3fee6ea6dc3e1a5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7a6069f4_8a9e343f",
         "filename": "src/nvidia-gpu/Inventory.cpp",
         "patchSetId": 29
