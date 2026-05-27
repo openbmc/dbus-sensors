@@ -65,15 +65,15 @@ void PcieDevice::init()
     if (!networkAdapterInterface->initialize())
     {
         lg2::error(
-            "Failed to initialize network adapter interface for for eid {EID}",
-            "EID", eid);
+            "Error initializing network adapter interface for {NAME}, eid={EID}",
+            "NAME", name, "EID", eid);
     }
 
     if (!networkAdapterAssociationInterface->initialize())
     {
         lg2::error(
-            "Error initializing Association Interface for Network Adapter for eid {EID}",
-            "EID", eid);
+            "Error initializing Association interface for Network Adapter for {NAME}, eid={EID}",
+            "NAME", name, "EID", eid);
     }
 
     getPciePortCounts();

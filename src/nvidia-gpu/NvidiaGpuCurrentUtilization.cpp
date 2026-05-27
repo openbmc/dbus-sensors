@@ -63,15 +63,15 @@ NvidiaGpuCurrentUtilization::NvidiaGpuCurrentUtilization(
     if (!metricInterface->initialize())
     {
         lg2::error(
-            "Failed to initialize Current Utilization metric interface for GPU {NAME}",
-            "NAME", deviceName);
+            "Error initializing Current Utilization metric interface for GPU {NAME}, eid={EID}",
+            "NAME", deviceName, "EID", eid);
     }
 
     if (!metricAssociationInterface->initialize())
     {
         lg2::error(
-            "Failed to initialize Current Utilization metric association interface for GPU {NAME}",
-            "NAME", deviceName);
+            "Error initializing Current Utilization metric association interface for GPU {NAME}, eid={EID}",
+            "NAME", deviceName, "EID", eid);
     }
 
     cmd = std::make_shared<NvidiaGpuLongRunningCommand>(

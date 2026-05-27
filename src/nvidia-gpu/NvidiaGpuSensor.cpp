@@ -82,7 +82,7 @@ NvidiaGpuTempSensor::NvidiaGpuTempSensor(
         if (!sensorTypeInterface->initialize())
         {
             lg2::error(
-                "Error initializing Type Interface for Temperature Sensor for eid {EID} and sensor id {SID}",
+                "Error initializing Type interface for Temperature Sensor, eid={EID}, sensorId={SID}",
                 "EID", eid, "SID", sensorId);
         }
     }
@@ -101,7 +101,7 @@ NvidiaGpuTempSensor::NvidiaGpuTempSensor(
         if (!commonPhysicalContextInterface->initialize())
         {
             lg2::error(
-                "Error initializing PhysicalContext Interface for Temperature Sensor for eid {EID} and sensor id {SID}",
+                "Error initializing PhysicalContext interface for Temperature Sensor, eid={EID}, sensorId={SID}",
                 "EID", eid, "SID", sensorId);
         }
     }

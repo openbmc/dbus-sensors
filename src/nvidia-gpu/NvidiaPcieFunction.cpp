@@ -67,7 +67,7 @@ NvidiaPcieFunction::NvidiaPcieFunction(
 
     if (!pcieFunctionInterface->initialize())
     {
-        lg2::error("Error initializing PCIe Function Interface for EID={EID}",
+        lg2::error("Error initializing PCIe Function interface, eid={EID}",
                    "EID", eid);
     }
 
@@ -83,7 +83,7 @@ NvidiaPcieFunction::NvidiaPcieFunction(
     if (!associationInterface->initialize())
     {
         lg2::error(
-            "Error initializing Association Interface for PCIe Function for EID={EID}",
+            "Error initializing Association interface for PCIe Function, eid={EID}",
             "EID", eid);
     }
 }
