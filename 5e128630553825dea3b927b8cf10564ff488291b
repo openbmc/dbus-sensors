@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "187ae965_3fd9715b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-05-28T13:51:39Z",
+      "side": 1,
+      "message": "Done.\nRemoved the 2 patches.",
+      "parentUuid": "cfd86f91_fcf43e8b",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 3
+      },
+      "revId": "5e128630553825dea3b927b8cf10564ff488291b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "342c64e4_89b43e69",
@@ -47,6 +71,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "175f49fb_11e5dbe0",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-05-28T13:51:39Z",
+      "side": 1,
+      "message": "Done.\nMoved the implementation to new files named `NvidiaGpuFirmwareInformation.cpp` and `NvidiaGpuFirmwareInformation.hpp`.",
+      "parentUuid": "342c64e4_89b43e69",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 75
+      },
+      "revId": "5e128630553825dea3b927b8cf10564ff488291b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "65033d72_e6212cf7",
@@ -60,6 +108,30 @@
       "writtenOn": "2026-05-28T11:57:40Z",
       "side": 1,
       "message": "We should do it at gpu device cpp",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 75
+      },
+      "revId": "5e128630553825dea3b927b8cf10564ff488291b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67de036f_bbd05db0",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-05-28T13:51:39Z",
+      "side": 1,
+      "message": "Done.\n`NvidiaGpuFirmwareInformation` us now constructed in `GpuDevice::makeSensors()` and refreshed from `GpuDevice::read()`.",
+      "parentUuid": "65033d72_e6212cf7",
       "range": {
         "startLine": 79,
         "startChar": 0,
