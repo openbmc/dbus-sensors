@@ -101,8 +101,8 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
     powerCapInterface->register_property("DefaultPowerCap",
                                          std::numeric_limits<uint32_t>::max());
 
-    const std::string gpuPath = std::string(inventoryPrefix) + this->name;
-    const std::string dramPath = gpuPath + dramInventorySuffix;
+    const sdbusplus::object_path gpuPath = inventoryPrefix / this->name;
+    const std::string dramPath = std::string(gpuPath) + dramInventorySuffix;
 
     std::vector<Association> associations;
     associations.emplace_back("contained_by", "containing", gpuPath);
@@ -248,12 +248,11 @@ void GpuDevice::makeSensors()
         sdbusplus::object_path(path).parent_path());
 
     gpuPowerControl = std::make_shared<NvidiaGpuPowerControl>(
-        objectServer, name, inventoryPrefix + name, mctpRequester, eid, io,
-        powerCapInterface, inventory);
+        objectServer, name, mctpRequester, eid, io, powerCapInterface,
+        inventory);
 
     gpuClockSpeedControl = std::make_shared<NvidiaGpuClockSpeedControl>(
-        objectServer, name, inventoryPrefix + name, mctpRequester, eid,
-        controlClockSpeedInterface);
+        objectServer, name, mctpRequester, eid, controlClockSpeedInterface);
 
     pcieInterface = std::make_shared<NvidiaPcieInterface>(
         conn, mctpRequester, name, path, eid, objectServer,
@@ -290,7 +289,7 @@ void GpuDevice::makeSensors()
         mctpRequester, name, eid, dramItemInterface);
 
     clockFrequencyMetric = std::make_shared<NvidiaGpuClockFrequencyMetric>(
-        mctpRequester, name, eid, objectServer, inventoryPrefix + name);
+        mctpRequester, name, eid, objectServer);
 
     getTLimitThresholds();
 

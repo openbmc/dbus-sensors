@@ -1,5 +1,6 @@
 #include "Inventory.hpp"
 
+#include "NvidiaUtils.hpp"
 #include "Utils.hpp"
 
 #include <MctpRequester.hpp>
@@ -11,6 +12,7 @@
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/message/native_types.hpp>
 
 #include <algorithm>
 #include <cstddef>
@@ -49,7 +51,7 @@ Inventory::Inventory(
     name(escapeName(inventoryName)), mctpRequester(mctpRequester),
     deviceType(deviceTypeIn), eid(eid), retryTimer(io)
 {
-    std::string path = inventoryPrefix + name;
+    sdbusplus::object_path path = inventoryPrefix / name;
 
     assetIface = objectServer.add_interface(path, assetIfaceName);
     assetIface->register_property("Manufacturer", std::string("NVIDIA"));

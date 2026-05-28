@@ -28,9 +28,8 @@ class NvidiaGpuPowerControl :
   public:
     NvidiaGpuPowerControl(
         sdbusplus::asio::object_server& objectServer,
-        const std::string& deviceName, const std::string& inventoryPath,
-        mctp::MctpRequester& mctpRequester, uint8_t eid,
-        boost::asio::io_context& io,
+        const std::string& deviceName, mctp::MctpRequester& mctpRequester,
+        uint8_t eid, boost::asio::io_context& io,
         const std::shared_ptr<sdbusplus::asio::dbus_interface>& powerCapIface,
         const std::shared_ptr<Inventory>& inventory);
 

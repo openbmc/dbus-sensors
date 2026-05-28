@@ -9,7 +9,7 @@
 
 #include <MctpRequester.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
-#include <NvidiaPcieDevice.hpp>
+#include <NvidiaUtils.hpp>
 #include <OcpMctpVdm.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
@@ -61,7 +61,7 @@ NvidiaPcieFunction::NvidiaPcieFunction(
     }
 
     const sdbusplus::object_path dbusPath =
-        sdbusplus::object_path(pcieDevicePathPrefix) / pcieDeviceName /
+        inventoryPrefix / pcieDeviceName /
         std::format("Function{}", functionNumber);
 
     pcieFunctionInterface = objectServer.add_interface(
@@ -94,7 +94,8 @@ NvidiaPcieFunction::NvidiaPcieFunction(
                    "EID", eid);
     }
 
-    const std::string pcieDevicePath = pcieDevicePathPrefix + pcieDeviceName;
+    const sdbusplus::object_path pcieDevicePath =
+        inventoryPrefix / pcieDeviceName;
 
     std::vector<Association> associations;
     associations.emplace_back("exposed_by", "exposing", pcieDevicePath);

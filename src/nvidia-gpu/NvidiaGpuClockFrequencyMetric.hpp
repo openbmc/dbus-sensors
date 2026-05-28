@@ -21,8 +21,7 @@ class NvidiaGpuClockFrequencyMetric :
   public:
     NvidiaGpuClockFrequencyMetric(mctp::MctpRequester& mctpRequester,
                                   const std::string& name, uint8_t eid,
-                                  sdbusplus::asio::object_server& objectServer,
-                                  const std::string& inventoryPath);
+                                  sdbusplus::asio::object_server& objectServer);
 
     ~NvidiaGpuClockFrequencyMetric();
 

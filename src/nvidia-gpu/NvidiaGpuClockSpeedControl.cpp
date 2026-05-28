@@ -5,6 +5,7 @@
 
 #include "NvidiaGpuClockSpeedControl.hpp"
 
+#include "NvidiaUtils.hpp"
 #include "Utils.hpp"
 
 #include <MctpRequester.hpp>
@@ -25,8 +26,7 @@ static constexpr uint64_t mhzToHzFactor = 1'000'000;
 
 NvidiaGpuClockSpeedControl::NvidiaGpuClockSpeedControl(
     sdbusplus::asio::object_server& objectServer, const std::string& deviceName,
-    const std::string& inventoryPath, mctp::MctpRequester& mctpRequester,
-    uint8_t eid,
+    mctp::MctpRequester& mctpRequester, uint8_t eid,
     const std::shared_ptr<sdbusplus::asio::dbus_interface>&
         controlClockSpeedIface) :
     controlClockSpeedInterface(controlClockSpeedIface),
@@ -45,6 +45,7 @@ NvidiaGpuClockSpeedControl::NvidiaGpuClockSpeedControl(
                    "NAME", name, "RC", rc);
     }
 
+    const sdbusplus::object_path inventoryPath = inventoryPrefix / name;
     const sdbusplus::object_path objPath(
         controlClockSpeedIface->get_object_path());
 
