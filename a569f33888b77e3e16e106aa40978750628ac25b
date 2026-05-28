@@ -1,0 +1,205 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef28d8ad_f3419405",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-28T11:01:31Z",
+      "side": 1,
+      "message": "Could we use the new name, thanks.",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 35
+      },
+      "revId": "a569f33888b77e3e16e106aa40978750628ac25b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b5eef98_83eb8761",
+        "filename": "src/nvidia-gpu/NvidiaGpuAssembly.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-28T11:01:31Z",
+      "side": 1,
+      "message": "nit: ~95% duplicated with createDeviceAssembly above — only the Asset property list differs. \nConsider merging into a single createAssembly(...) taking the variable Asset properties as a std::vector\u003cstd::string\u003e\u0026 parameter; callers spell out the per-assembly diff:\n deviceAssembly \u003d createAssembly(objectServer, devicePath, chassisPath,\n     {\"PartNumber\", \"SerialNumber\", \"Model\", \"BuildDate\"});\n boardAssembly  \u003d createAssembly(objectServer, boardPath,  chassisPath,\n     {\"PartNumber\"});\n     \nPlease do this if it\u0027s convenient. Thanks.\nNot blocking",
+      "revId": "a569f33888b77e3e16e106aa40978750628ac25b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6a49f31_a5613d62",
+        "filename": "src/nvidia-gpu/NvidiaGpuAssembly.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-28T11:01:31Z",
+      "side": 1,
+      "message": "please add the error check such like:\n```\nif (!assembly.panelIface-\u003einitialize())\n{\n    lg2::error(\"Failed to initialize panel interface for {PATH}\",\n               \"PATH\", path);\n}\n```",
+      "range": {
+        "startLine": 23,
+        "startChar": 4,
+        "endLine": 23,
+        "endChar": 38
+      },
+      "revId": "a569f33888b77e3e16e106aa40978750628ac25b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07d592fb_8ccce67b",
+        "filename": "src/nvidia-gpu/NvidiaGpuAssembly.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-28T11:01:31Z",
+      "side": 1,
+      "message": "Inconsistent with nvidiaManufacturer \u003d \"Nvidia\" already defined in NvidiaUtils.hpp (added in 90392, https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/90392). \nCould you base on 90392 to use the NvidiaUtils.hpp?",
+      "range": {
+        "startLine": 28,
+        "startChar": 43,
+        "endLine": 28,
+        "endChar": 66
+      },
+      "revId": "a569f33888b77e3e16e106aa40978750628ac25b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "049e37ad_53d774bc",
+        "filename": "src/nvidia-gpu/NvidiaGpuAssembly.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-28T11:01:31Z",
+      "side": 1,
+      "message": "add error check",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 38
+      },
+      "revId": "a569f33888b77e3e16e106aa40978750628ac25b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "991d5b9f_ed4fc83a",
+        "filename": "src/nvidia-gpu/NvidiaGpuAssembly.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-28T11:01:31Z",
+      "side": 1,
+      "message": "add error check, so do the below interface",
+      "range": {
+        "startLine": 44,
+        "startChar": 4,
+        "endLine": 44,
+        "endChar": 41
+      },
+      "revId": "a569f33888b77e3e16e106aa40978750628ac25b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "567c392c_ef5d08ad",
+        "filename": "src/nvidia-gpu/NvidiaGpuAssembly.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-28T11:01:31Z",
+      "side": 1,
+      "message": "Same problem at Line 28.",
+      "range": {
+        "startLine": 79,
+        "startChar": 43,
+        "endLine": 79,
+        "endChar": 66
+      },
+      "revId": "a569f33888b77e3e16e106aa40978750628ac25b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adb80ee9_0900ab5c",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-28T11:01:31Z",
+      "side": 1,
+      "message": "use the short alias `sdbusplus::object_path`, also the code below.",
+      "range": {
+        "startLine": 108,
+        "startChar": 10,
+        "endLine": 108,
+        "endChar": 41
+      },
+      "revId": "a569f33888b77e3e16e106aa40978750628ac25b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3baf710a_fc8fb596",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-28T11:01:31Z",
+      "side": 1,
+      "message": "Style nit: every other sub-component in this header is a std::shared_ptr\u003cClass\u003e (e.g. powerCapInterface, pcieInterface). \nConsider promoting AssemblyInterfaces to a proper class (NvidiaGpuAssembly) so the 7 interfaces and their cleanup are owned via std::shared_ptr\u003cNvidiaGpuAssembly\u003e. That removes the need for removeAssemblyInterfaces(...) calls in GpuDevice::~GpuDevice() and matches the codebase convention.",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 37
+      },
+      "revId": "a569f33888b77e3e16e106aa40978750628ac25b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
