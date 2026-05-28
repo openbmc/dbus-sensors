@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5dee156_c2941764",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 29
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-05-28T06:41:08Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "85ba4e8d_66443326",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 53
+      },
+      "revId": "4c49aa03e5106d4fe969ddeca3fee6ea6dc3e1a5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7a6069f4_8a9e343f",
@@ -47,6 +71,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1875cf1_c0e465d5",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-05-28T06:41:08Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "7a6069f4_8a9e343f",
+      "range": {
+        "startLine": 364,
+        "startChar": 24,
+        "endLine": 365,
+        "endChar": 76
+      },
+      "revId": "4c49aa03e5106d4fe969ddeca3fee6ea6dc3e1a5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c10f2309_68b19bd4",
@@ -60,6 +108,30 @@
       "writtenOn": "2026-05-27T12:03:14Z",
       "side": 1,
       "message": "Earlier you replied \"Done. Changed to std::array\u003cuint16_t, 2\u003e\" to Harshit\u0027s PS12 L68, but this is still `std::vector`.",
+      "range": {
+        "startLine": 68,
+        "startChar": 4,
+        "endLine": 68,
+        "endChar": 48
+      },
+      "revId": "4c49aa03e5106d4fe969ddeca3fee6ea6dc3e1a5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc12402c_8819ec77",
+        "filename": "src/nvidia-gpu/Inventory.hpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-05-28T06:41:08Z",
+      "side": 1,
+      "message": "Done, thanks for review this merge error.",
+      "parentUuid": "c10f2309_68b19bd4",
       "range": {
         "startLine": 68,
         "startChar": 4,
