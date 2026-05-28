@@ -22,6 +22,30 @@
       },
       "revId": "cbf6c41be5458e44469ad623e0700392e529fbcd",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f962d467_6775a75c",
+        "filename": "src/nvidia-gpu/NvidiaPcieInterface.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-05-28T10:33:52Z",
+      "side": 1,
+      "message": "Done, thanks for acknowledging this.",
+      "parentUuid": "87327b83_b80fbe9d",
+      "range": {
+        "startLine": 56,
+        "startChar": 61,
+        "endLine": 56,
+        "endChar": 79
+      },
+      "revId": "cbf6c41be5458e44469ad623e0700392e529fbcd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
