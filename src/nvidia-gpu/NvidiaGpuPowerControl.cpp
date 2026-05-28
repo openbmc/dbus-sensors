@@ -5,6 +5,7 @@
 
 #include "NvidiaGpuPowerControl.hpp"
 
+#include "NvidiaUtils.hpp"
 #include "Utils.hpp"
 
 #include <Inventory.hpp>
@@ -40,8 +41,8 @@ constexpr std::chrono::milliseconds setLimitDebounce{100};
 
 NvidiaGpuPowerControl::NvidiaGpuPowerControl(
     sdbusplus::asio::object_server& objectServer, const std::string& deviceName,
-    const std::string& inventoryPath, mctp::MctpRequester& mctpRequester,
-    uint8_t eid, boost::asio::io_context& io,
+    mctp::MctpRequester& mctpRequester, uint8_t eid,
+    boost::asio::io_context& io,
     const std::shared_ptr<sdbusplus::asio::dbus_interface>& powerCapIface,
     const std::shared_ptr<Inventory>& inventory) :
     powerCapInterface(powerCapIface), inventory(inventory),
@@ -63,6 +64,7 @@ NvidiaGpuPowerControl::NvidiaGpuPowerControl(
     }
 
     const std::string powerControlPath = controlPowerPrefix + name;
+    const std::string inventoryPath = std::string(inventoryPrefix) + name;
 
     associationInterface =
         objectServer.add_interface(powerControlPath, association::interface);
