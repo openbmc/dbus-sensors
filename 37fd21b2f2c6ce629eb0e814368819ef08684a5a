@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21222f0b_6c1e6914",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-28T14:49:39Z",
+      "side": 1,
+      "message": "can we use `inventoryPrefix + name` here?",
+      "range": {
+        "startLine": 246,
+        "startChar": 35,
+        "endLine": 246,
+        "endChar": 39
+      },
+      "revId": "37fd21b2f2c6ce629eb0e814368819ef08684a5a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ae0c056_d7e431ca",
+        "filename": "src/nvidia-gpu/NvidiaGpuFirmwareInformation.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-28T14:49:39Z",
+      "side": 1,
+      "message": "if we pass the `inventoryPrefix + name` here, we can use it.",
+      "range": {
+        "startLine": 32,
+        "startChar": 4,
+        "endLine": 32,
+        "endChar": 42
+      },
+      "revId": "37fd21b2f2c6ce629eb0e814368819ef08684a5a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73679a97_28d26fce",
+        "filename": "src/nvidia-gpu/NvidiaGpuFirmwareInformation.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-28T14:49:39Z",
+      "side": 1,
+      "message": "Could we add `_Firmware` here too? So both objects have parallel naming.",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 36,
+        "endChar": 74
+      },
+      "revId": "37fd21b2f2c6ce629eb0e814368819ef08684a5a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b9fffcc_3510e778",
+        "filename": "src/nvidia-gpu/NvidiaGpuFirmwareInformation.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-28T14:49:39Z",
+      "side": 1,
+      "message": "we can remove it, if we use the path input",
+      "range": {
+        "startLine": 50,
+        "startChar": 4,
+        "endLine": 51,
+        "endChar": 56
+      },
+      "revId": "37fd21b2f2c6ce629eb0e814368819ef08684a5a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "586ce858_3379c68d",
+        "filename": "src/nvidia-gpu/NvidiaGpuFirmwareInformation.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-28T14:49:39Z",
+      "side": 1,
+      "message": "I think this is unused, we can remove it.",
+      "range": {
+        "startLine": 40,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 54
+      },
+      "revId": "37fd21b2f2c6ce629eb0e814368819ef08684a5a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
