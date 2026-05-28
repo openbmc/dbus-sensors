@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "01f76678_e5db6285",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-05-28T16:42:13Z",
+      "side": 1,
+      "message": "Done. \nModified and passes `inventoryPrefix + name` as the inventory path.",
+      "parentUuid": "21222f0b_6c1e6914",
+      "range": {
+        "startLine": 246,
+        "startChar": 35,
+        "endLine": 246,
+        "endChar": 39
+      },
+      "revId": "37fd21b2f2c6ce629eb0e814368819ef08684a5a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4ae0c056_d7e431ca",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-05-28T14:49:39Z",
       "side": 1,
       "message": "if we pass the `inventoryPrefix + name` here, we can use it.",
+      "range": {
+        "startLine": 32,
+        "startChar": 4,
+        "endLine": 32,
+        "endChar": 42
+      },
+      "revId": "37fd21b2f2c6ce629eb0e814368819ef08684a5a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "561dfda2_4753481f",
+        "filename": "src/nvidia-gpu/NvidiaGpuFirmwareInformation.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-05-28T16:42:13Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "4ae0c056_d7e431ca",
       "range": {
         "startLine": 32,
         "startChar": 4,
@@ -70,6 +118,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "11672d4e_95d1eda2",
+        "filename": "src/nvidia-gpu/NvidiaGpuFirmwareInformation.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-05-28T16:42:13Z",
+      "side": 1,
+      "message": "Sure!\nAdded `_Firmware` as the suffix for the object now.",
+      "parentUuid": "73679a97_28d26fce",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 36,
+        "endChar": 74
+      },
+      "revId": "37fd21b2f2c6ce629eb0e814368819ef08684a5a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b9fffcc_3510e778",
@@ -93,6 +165,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "afa4df56_df0a97e1",
+        "filename": "src/nvidia-gpu/NvidiaGpuFirmwareInformation.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-05-28T16:42:13Z",
+      "side": 1,
+      "message": "Okay. The reconstruction logic has been removed, and now depends on the `path` parameter now.",
+      "parentUuid": "3b9fffcc_3510e778",
+      "range": {
+        "startLine": 50,
+        "startChar": 4,
+        "endLine": 51,
+        "endChar": 56
+      },
+      "revId": "37fd21b2f2c6ce629eb0e814368819ef08684a5a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "586ce858_3379c68d",
@@ -106,6 +202,30 @@
       "writtenOn": "2026-05-28T14:49:39Z",
       "side": 1,
       "message": "I think this is unused, we can remove it.",
+      "range": {
+        "startLine": 40,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 54
+      },
+      "revId": "37fd21b2f2c6ce629eb0e814368819ef08684a5a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9b136e8_6949903c",
+        "filename": "src/nvidia-gpu/NvidiaGpuFirmwareInformation.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-05-28T16:42:13Z",
+      "side": 1,
+      "message": "Thanks for the catching!\n`conn` member has been removed,.",
+      "parentUuid": "586ce858_3379c68d",
       "range": {
         "startLine": 40,
         "startChar": 4,
