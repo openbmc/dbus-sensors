@@ -33,7 +33,7 @@
 
 owners:
 - ed@tanous.net
-- jae.hyun.yoo@linux.intel.com
+- jae.yoo@oss.qualcomm.com
 - vernon.mauery@gmail.com
 - zhikui.ren@intel.com
 
@@ -45,7 +45,7 @@ openbmc:
   email: ed@tanous.net
   discord: edtanous
 - name: Jae Hyun Yoo
-  email: jae.hyun.yoo@linux.intel.com
+  email: jae.yoo@oss.qualcomm.com
   discord: jae
 - name: Vernon Mauery
   email: vernon.mauery@gmail.com
