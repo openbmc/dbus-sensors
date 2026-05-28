@@ -12,3 +12,5 @@ const constexpr char* metricPath = "/xyz/openbmc_project/metric/";
 const constexpr char* dramInventorySuffix = "_DRAM_0";
 
 const constexpr char* nvidiaManufacturer = "NVIDIA";
+
+constexpr const char* inventoryPrefix = "/xyz/openbmc_project/inventory/";
