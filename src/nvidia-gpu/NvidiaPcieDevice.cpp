@@ -49,7 +49,7 @@ PcieDevice::PcieDevice(const SensorConfigs& configs, const std::string& name,
 void PcieDevice::init()
 {
     sdbusplus::object_path networkAdapterPath =
-        sdbusplus::object_path(nicPathPrefix) / (name + "_NIC");
+        inventoryPrefix / (name + "_NIC");
 
     networkAdapterInterface = objectServer.add_interface(
         networkAdapterPath,

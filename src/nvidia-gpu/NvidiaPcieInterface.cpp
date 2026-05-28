@@ -11,16 +11,16 @@
 
 #include <MctpRequester.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
-#include <NvidiaPcieDevice.hpp>
+#include <NvidiaUtils.hpp>
 #include <OcpMctpVdm.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/message/native_types.hpp>
 
 #include <cmath>
 #include <cstddef>
 #include <cstdint>
-#include <format>
 #include <functional>
 #include <limits>
 #include <memory>
@@ -68,7 +68,7 @@ NvidiaPcieInterface::NvidiaPcieInterface(
             rc, "EID", eid);
     }
 
-    const std::string dbusPath = pcieDevicePathPrefix + escapeName(name);
+    const sdbusplus::object_path dbusPath = inventoryPrefix / escapeName(name);
 
     pcieDeviceInterface = objectServer.add_interface(
         dbusPath, "xyz.openbmc_project.Inventory.Item.PCIeDevice");
@@ -95,8 +95,8 @@ NvidiaPcieInterface::NvidiaPcieInterface(
 
     if (networkAdapterName.has_value())
     {
-        const std::string networkAdapterPath =
-            std::format("{}{}_NIC", nicPathPrefix, *networkAdapterName);
+        const sdbusplus::object_path networkAdapterPath =
+            inventoryPrefix / (*networkAdapterName + "_NIC");
         associations.emplace_back("connected_to", "connecting",
                                   networkAdapterPath);
     }

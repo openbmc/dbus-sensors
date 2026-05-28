@@ -87,7 +87,7 @@ NvidiaGpuUtilizationMetrics::NvidiaGpuUtilizationMetrics(
     memoryMetricInterface->register_property("Value", 0.0);
 
     const sdbusplus::object_path memoryInventoryPath(
-        processorInventoryPath.str + dramInventorySuffix);
+        std::format("{}_{}", processorInventoryPath.str, dramInventorySuffix));
 
     std::vector<Association> memoryAssociations;
     memoryAssociations.emplace_back("measuring", "measured_by",

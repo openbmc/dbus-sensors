@@ -12,7 +12,6 @@
 
 #include <MctpRequester.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
-#include <NvidiaPcieDevice.hpp>
 #include <OcpMctpVdm.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
@@ -59,11 +58,10 @@ NvidiaEthPortMetrics::NvidiaEthPortMetrics(
             "EID", eid, "PN", portNumber, "RC", rc);
     }
 
-    const sdbusplus::object_path deviceDbusPath =
-        sdbusplus::object_path(nicPathPrefix) / deviceName;
+    const sdbusplus::object_path deviceDbusPath = inventoryPrefix / deviceName;
 
     const sdbusplus::object_path portDbusPath =
-        sdbusplus::object_path(nicPathPrefix) / deviceName / name;
+        inventoryPrefix / deviceName / name;
 
     const std::string metricsDbusPathPrefix =
         metricPath + std::format("port_{}_{}", deviceName, name);
@@ -98,8 +96,7 @@ NvidiaEthPortMetrics::NvidiaEthPortMetrics(
                         mac[1], mac[2], mac[3], mac[4], mac[5]);
 
         const sdbusplus::object_path ndfDbusPath =
-            sdbusplus::object_path(nicPathPrefix) / deviceName /
-            "NetworkDeviceFunctions" / name;
+            inventoryPrefix / deviceName / "NetworkDeviceFunctions" / name;
 
         networkDeviceFunctionInterface = objectServer.add_interface(
             ndfDbusPath, "xyz.openbmc_project.Inventory.Item.NetworkInterface");

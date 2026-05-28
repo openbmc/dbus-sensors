@@ -29,10 +29,6 @@
 #include <system_error>
 #include <vector>
 
-constexpr const char* pcieDevicePathPrefix = "/xyz/openbmc_project/inventory/";
-
-constexpr const char* nicPathPrefix = "/xyz/openbmc_project/inventory/";
-
 struct PcieDeviceInfo
 {
     uint16_t numUpstreamPorts{};

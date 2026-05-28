@@ -5,6 +5,7 @@
 
 #include "NvidiaGpuPowerControl.hpp"
 
+#include "NvidiaUtils.hpp"
 #include "Utils.hpp"
 
 #include <Inventory.hpp>
@@ -15,6 +16,7 @@
 #include <boost/asio/io_context.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/message/native_types.hpp>
 #include <xyz/openbmc_project/Common/error.hpp>
 
 #include <chrono>
@@ -40,8 +42,8 @@ constexpr std::chrono::milliseconds setLimitDebounce{100};
 
 NvidiaGpuPowerControl::NvidiaGpuPowerControl(
     sdbusplus::asio::object_server& objectServer, const std::string& deviceName,
-    const std::string& inventoryPath, mctp::MctpRequester& mctpRequester,
-    uint8_t eid, boost::asio::io_context& io,
+    mctp::MctpRequester& mctpRequester, uint8_t eid,
+    boost::asio::io_context& io,
     const std::shared_ptr<sdbusplus::asio::dbus_interface>& powerCapIface,
     const std::shared_ptr<Inventory>& inventory) :
     powerCapInterface(powerCapIface), inventory(inventory),
@@ -63,6 +65,7 @@ NvidiaGpuPowerControl::NvidiaGpuPowerControl(
     }
 
     const std::string powerControlPath = controlPowerPrefix + name;
+    const sdbusplus::object_path inventoryPath = inventoryPrefix / name;
 
     associationInterface =
         objectServer.add_interface(powerControlPath, association::interface);

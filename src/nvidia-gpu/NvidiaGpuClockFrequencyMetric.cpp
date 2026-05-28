@@ -15,6 +15,7 @@
 #include <OcpMctpVdm.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/message/native_types.hpp>
 
 #include <cstdint>
 #include <memory>
@@ -29,8 +30,7 @@ static constexpr uint32_t mhzToHzFactor = 1'000'000;
 
 NvidiaGpuClockFrequencyMetric::NvidiaGpuClockFrequencyMetric(
     mctp::MctpRequester& mctpRequester, const std::string& name, uint8_t eid,
-    sdbusplus::asio::object_server& objectServer,
-    const std::string& inventoryPath) :
+    sdbusplus::asio::object_server& objectServer) :
     mctpRequester(mctpRequester), name(name), eid(eid),
     objectServer(objectServer)
 {
@@ -47,6 +47,7 @@ NvidiaGpuClockFrequencyMetric::NvidiaGpuClockFrequencyMetric(
             "NAME", name, "RC", rc);
     }
 
+    const sdbusplus::object_path inventoryPath = inventoryPrefix / this->name;
     const std::string metricDbusPath =
         metricPath + this->name + "/OperatingFrequency";
 
