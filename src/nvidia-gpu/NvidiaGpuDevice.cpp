@@ -73,7 +73,8 @@ static constexpr std::array<uint8_t, 3> thresholdIds{
     gpuTLimitWarningThresholdId, gpuTLimitCriticalThresholdId,
     gpuTLimitHardshutDownThresholdId};
 
-static constexpr auto dramIfaceName = "xyz.openbmc_project.Inventory.Item.Dimm";
+static constexpr const char* dramIfaceName =
+    "xyz.openbmc_project.Inventory.Item.Dimm";
 
 GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
                      const std::string& path,

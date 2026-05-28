@@ -5,6 +5,6 @@
 
 #pragma once
 
-const constexpr char* metricPath = "/xyz/openbmc_project/metric/";
+constexpr const char* metricPath = "/xyz/openbmc_project/metric/";
 
 constexpr const char* inventoryPrefix = "/xyz/openbmc_project/inventory/";
