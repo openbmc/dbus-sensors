@@ -1,5 +1,6 @@
 #include "Inventory.hpp"
 
+#include "NvidiaUtils.hpp"
 #include "Utils.hpp"
 
 #include <MctpRequester.hpp>

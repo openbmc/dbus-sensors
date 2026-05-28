@@ -22,21 +22,20 @@
 
 static constexpr auto embeddedIfaceName =
     "xyz.openbmc_project.Inventory.Connector.Embedded";
-static constexpr auto inventoryPrefix = "/xyz/openbmc_project/inventory/";
 
 NvidiaGpuMemoryDevice::NvidiaGpuMemoryDevice(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, const std::string& gpuName, uint8_t eid,
-    sdbusplus::asio::object_server& objectServer) :
+    sdbusplus::asio::object_server& objectServer,
+    const std::string& inventoryPath) :
     eid(eid), gpuName(gpuName), conn(conn), mctpRequester(mctpRequester),
     objectServer(objectServer)
 {
-    std::string gpuPath = std::string(inventoryPrefix) + gpuName;
     const std::string dramName = gpuName + "_DRAM_0";
-    const std::string dramPath = std::string(inventoryPrefix) + dramName;
+    const std::string dramPath = inventoryPath + "_DRAM_0";
 
     sramEccInterface = objectServer.add_interface(
-        gpuPath, "xyz.openbmc_project.Memory.MemoryECC");
+        inventoryPath, "xyz.openbmc_project.Memory.MemoryECC");
 
     sramEccInterface->register_property("ceCount", int64_t{0});
     sramEccInterface->register_property("ueCount", int64_t{0});
@@ -48,7 +47,7 @@ NvidiaGpuMemoryDevice::NvidiaGpuMemoryDevice(
     }
 
     lg2::info("Created SRAM ECC interface for {NAME} at {PATH}", "NAME",
-              gpuName, "PATH", gpuPath);
+              gpuName, "PATH", inventoryPath);
 
     dramEmbeddedInterface =
         objectServer.add_interface(dramPath, embeddedIfaceName);
