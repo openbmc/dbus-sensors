@@ -238,12 +238,11 @@ void GpuDevice::makeSensors()
         conn, mctpRequester, name, path, eid, objectServer);
 
     gpuPowerControl = std::make_shared<NvidiaGpuPowerControl>(
-        objectServer, name, inventoryPrefix + name, mctpRequester, eid, io,
-        powerCapInterface, inventory);
+        objectServer, name, mctpRequester, eid, io, powerCapInterface,
+        inventory);
 
     gpuClockSpeedControl = std::make_shared<NvidiaGpuClockSpeedControl>(
-        objectServer, name, inventoryPrefix + name, mctpRequester, eid,
-        controlClockSpeedInterface);
+        objectServer, name, mctpRequester, eid, controlClockSpeedInterface);
 
     pcieInterface = std::make_shared<NvidiaPcieInterface>(
         conn, mctpRequester, name, path, eid, objectServer,
@@ -280,7 +279,7 @@ void GpuDevice::makeSensors()
         mctpRequester, name, eid, dramItemInterface);
 
     clockFrequencyMetric = std::make_shared<NvidiaGpuClockFrequencyMetric>(
-        mctpRequester, name, eid, objectServer, inventoryPrefix + name);
+        mctpRequester, name, eid, objectServer);
 
     getTLimitThresholds();
 
