@@ -29,11 +29,11 @@ static constexpr uint32_t mhzToHzFactor = 1'000'000;
 
 NvidiaGpuClockFrequencyMetric::NvidiaGpuClockFrequencyMetric(
     mctp::MctpRequester& mctpRequester, const std::string& name, uint8_t eid,
-    sdbusplus::asio::object_server& objectServer,
-    const std::string& inventoryPath) :
+    sdbusplus::asio::object_server& objectServer) :
     mctpRequester(mctpRequester), name(name), eid(eid),
     objectServer(objectServer)
 {
+    const std::string inventoryPath = std::string(inventoryPrefix) + this->name;
     const std::string metricDbusPath =
         metricPath + this->name + "/OperatingFrequency";
 

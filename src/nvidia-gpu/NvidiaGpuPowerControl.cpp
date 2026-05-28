@@ -5,6 +5,7 @@
 
 #include "NvidiaGpuPowerControl.hpp"
 
+#include "NvidiaUtils.hpp"
 #include "Utils.hpp"
 
 #include <MctpRequester.hpp>
@@ -29,13 +30,13 @@ constexpr uint32_t powerLimitUnlimited = std::numeric_limits<uint32_t>::max();
 
 NvidiaGpuPowerControl::NvidiaGpuPowerControl(
     sdbusplus::asio::object_server& objectServer, const std::string& deviceName,
-    const std::string& inventoryPath, mctp::MctpRequester& mctpRequester,
-    uint8_t eid,
+    mctp::MctpRequester& mctpRequester, uint8_t eid,
     const std::shared_ptr<sdbusplus::asio::dbus_interface>& powerCapIface) :
     powerCapInterface(powerCapIface), name(escapeName(deviceName)),
     objectServer(objectServer), mctpRequester(mctpRequester), eid(eid)
 {
     const std::string powerControlPath = controlPowerPrefix + name;
+    const std::string inventoryPath = std::string(inventoryPrefix) + name;
 
     associationInterface =
         objectServer.add_interface(powerControlPath, association::interface);
