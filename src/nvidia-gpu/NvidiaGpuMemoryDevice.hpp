@@ -23,7 +23,8 @@ struct NvidiaGpuMemoryDevice :
     NvidiaGpuMemoryDevice(std::shared_ptr<sdbusplus::asio::connection>& conn,
                           mctp::MctpRequester& mctpRequester,
                           const std::string& gpuName, uint8_t eid,
-                          sdbusplus::asio::object_server& objectServer);
+                          sdbusplus::asio::object_server& objectServer,
+                          const std::string& inventoryPath);
 
     ~NvidiaGpuMemoryDevice();
 

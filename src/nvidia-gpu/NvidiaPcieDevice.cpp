@@ -12,6 +12,7 @@
 #include "NvidiaPcieInterface.hpp"
 #include "NvidiaPciePort.hpp"
 #include "NvidiaPciePortMetrics.hpp"
+#include "NvidiaUtils.hpp"
 #include "Utils.hpp"
 
 #include <MctpRequester.hpp>
@@ -47,7 +48,7 @@ PcieDevice::PcieDevice(const SensorConfigs& configs, const std::string& name,
 void PcieDevice::init()
 {
     sdbusplus::object_path networkAdapterPath =
-        sdbusplus::object_path(nicPathPrefix) / (name + "_NIC");
+        sdbusplus::object_path(inventoryPrefix) / (name + "_NIC");
 
     networkAdapterInterface = objectServer.add_interface(
         networkAdapterPath,

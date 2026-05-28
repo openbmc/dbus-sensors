@@ -31,6 +31,7 @@
 #include <NvidiaPcieInterface.hpp>
 #include <NvidiaPciePort.hpp>
 #include <NvidiaPciePortMetrics.hpp>
+#include <NvidiaUtils.hpp>
 #include <OcpMctpVdm.hpp>
 #include <SerialQueue.hpp>
 #include <boost/asio/io_context.hpp>
@@ -274,7 +275,7 @@ void GpuDevice::makeSensors()
         gpu::DeviceIdentification::DEVICE_GPU));
 
     memoryDevice = std::make_shared<NvidiaGpuMemoryDevice>(
-        conn, mctpRequester, name, eid, objectServer);
+        conn, mctpRequester, name, eid, objectServer, inventoryPrefix + name);
 
     memoryClockFrequency = std::make_shared<NvidiaGpuMemoryClockFrequency>(
         mctpRequester, name, eid, dramItemInterface);
