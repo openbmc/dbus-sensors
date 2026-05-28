@@ -5,6 +5,7 @@
 
 #include "NvidiaPcieDevice.hpp"
 
+#include "Inventory.hpp"
 #include "NvidiaDeviceDiscovery.hpp"
 #include "NvidiaEthPort.hpp"
 #include "NvidiaGpuMctpVdm.hpp"
@@ -47,7 +48,7 @@ PcieDevice::PcieDevice(const SensorConfigs& configs, const std::string& name,
 void PcieDevice::init()
 {
     sdbusplus::object_path networkAdapterPath =
-        sdbusplus::object_path(nicPathPrefix) / (name + "_NIC");
+        sdbusplus::object_path(inventoryPrefix) / (name + "_NIC");
 
     networkAdapterInterface = objectServer.add_interface(
         networkAdapterPath,

@@ -9,9 +9,9 @@
 
 #include <bits/basic_string.h>
 
+#include <Inventory.hpp>
 #include <MctpRequester.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
-#include <NvidiaPcieDevice.hpp>
 #include <NvidiaPcieInterface.hpp>
 #include <OcpMctpVdm.hpp>
 #include <phosphor-logging/lg2.hpp>
@@ -45,7 +45,7 @@ NvidiaPciePortInfo::NvidiaPciePortInfo(
     mctpRequester(mctpRequester), deviceType(deviceType)
 {
     const sdbusplus::object_path dbusPath =
-        sdbusplus::object_path(pcieDevicePathPrefix) / pcieDeviceName / name;
+        sdbusplus::object_path(inventoryPrefix) / pcieDeviceName / name;
 
     pciePortInterface = objectServer.add_interface(
         dbusPath, "xyz.openbmc_project.Inventory.Connector.Port");
@@ -85,7 +85,7 @@ NvidiaPciePortInfo::NvidiaPciePortInfo(
 
     std::vector<Association> associations;
     associations.emplace_back("connected_to", "connecting",
-                              pcieDevicePathPrefix + pcieDeviceName);
+                              inventoryPrefix + pcieDeviceName);
 
     associationInterface =
         objectServer.add_interface(dbusPath, association::interface);

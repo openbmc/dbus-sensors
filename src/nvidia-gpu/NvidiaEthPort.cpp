@@ -10,9 +10,9 @@
 
 #include <bits/basic_string.h>
 
+#include <Inventory.hpp>
 #include <MctpRequester.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
-#include <NvidiaPcieDevice.hpp>
 #include <OcpMctpVdm.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
@@ -43,10 +43,10 @@ NvidiaEthPortMetrics::NvidiaEthPortMetrics(
     mctpRequester(mctpRequester)
 {
     const sdbusplus::object_path deviceDbusPath =
-        sdbusplus::object_path(nicPathPrefix) / deviceName;
+        sdbusplus::object_path(inventoryPrefix) / deviceName;
 
     const sdbusplus::object_path portDbusPath =
-        sdbusplus::object_path(nicPathPrefix) / deviceName / name;
+        sdbusplus::object_path(inventoryPrefix) / deviceName / name;
 
     const std::string metricsDbusPathPrefix =
         metricPath + std::format("port_{}_{}", deviceName, name);

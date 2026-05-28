@@ -10,9 +10,9 @@
 
 #include <bits/basic_string.h>
 
+#include <Inventory.hpp>
 #include <MctpRequester.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
-#include <NvidiaPcieDevice.hpp>
 #include <OcpMctpVdm.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
@@ -52,7 +52,7 @@ NvidiaPciePortMetrics::NvidiaPciePortMetrics(
         metricPath + std::format("port_{}_{}", pcieDeviceName, name);
 
     const sdbusplus::object_path portDbusPath =
-        sdbusplus::object_path(pcieDevicePathPrefix) / pcieDeviceName / name;
+        sdbusplus::object_path(inventoryPrefix) / pcieDeviceName / name;
 
     for (const auto& [id, name] : metricsInfo)
     {
