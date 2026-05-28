@@ -22,6 +22,52 @@
       },
       "revId": "5e128630553825dea3b927b8cf10564ff488291b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "342c64e4_89b43e69",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-28T11:57:40Z",
+      "side": 1,
+      "message": "We should create a new cpp file or exist file to implement it.",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 75
+      },
+      "revId": "5e128630553825dea3b927b8cf10564ff488291b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65033d72_e6212cf7",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-05-28T11:57:40Z",
+      "side": 1,
+      "message": "We should do it at gpu device cpp",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 75
+      },
+      "revId": "5e128630553825dea3b927b8cf10564ff488291b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
