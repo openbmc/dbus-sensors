@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "296a8137_571997e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-05-29T09:01:19Z",
+      "side": 1,
+      "message": "FWIW, most people use an ADC configuration for the RTC battery.",
+      "revId": "cb75ae8872d53b3b952a89bc21d6be9338ae5697",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2f3ec64_924dc1ac",
+        "filename": "src/batterystatus/BatteryStatus.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-05-29T09:01:19Z",
+      "side": 1,
+      "message": "There is no such interface in PDI. Please don’t make up interfaces.  If you want to propose it in PDI, you need to include that in your topic.",
+      "revId": "cb75ae8872d53b3b952a89bc21d6be9338ae5697",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "357457c5_a35bf1d9",
+        "filename": "src/batterystatus/BatteryStatus.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-05-29T09:01:19Z",
+      "side": 1,
+      "message": "Why are you casting enums to integers??!?\n\nPDI has enumerations if that’s what you want to do.",
+      "revId": "cb75ae8872d53b3b952a89bc21d6be9338ae5697",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
