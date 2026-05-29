@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83db77f9_0c76dab0",
+        "filename": "src/nvidia-gpu/NvidiaGpuCurrentUtilization.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-05-29T11:28:32Z",
+      "side": 1,
+      "message": "can we use bind_front here also?",
+      "revId": "eaac8b93ec191bf2d086ed5a134766d875c82531",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79524b94_35493aa9",
+        "filename": "src/nvidia-gpu/NvidiaGpuCurrentUtilization.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-05-29T11:28:32Z",
+      "side": 1,
+      "message": "Is there a reason we need this as a shared_ptr? Can we directly use `NvidiaGpuLongRunningCommand cmd;`?",
+      "revId": "eaac8b93ec191bf2d086ed5a134766d875c82531",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a36289e4_83f4415e",
+        "filename": "src/nvidia-gpu/NvidiaGpuLongRunningCommand.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-05-29T11:28:32Z",
+      "side": 1,
+      "message": "Can we pass `config` as rvalue reference instead of by value?",
+      "revId": "eaac8b93ec191bf2d086ed5a134766d875c82531",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
