@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "08c60397_89c1cacc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-05-29T05:16:40Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "ef28d8ad_f3419405",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 35
+      },
+      "revId": "a569f33888b77e3e16e106aa40978750628ac25b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "6b5eef98_83eb8761",
         "filename": "src/nvidia-gpu/NvidiaGpuAssembly.cpp",
         "patchSetId": 11
@@ -64,6 +88,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "828169d6_d36e5982",
+        "filename": "src/nvidia-gpu/NvidiaGpuAssembly.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-05-29T05:16:40Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "e6a49f31_a5613d62",
+      "range": {
+        "startLine": 23,
+        "startChar": 4,
+        "endLine": 23,
+        "endChar": 38
+      },
+      "revId": "a569f33888b77e3e16e106aa40978750628ac25b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "07d592fb_8ccce67b",
@@ -77,6 +125,30 @@
       "writtenOn": "2026-05-28T11:01:31Z",
       "side": 1,
       "message": "Inconsistent with nvidiaManufacturer \u003d \"Nvidia\" already defined in NvidiaUtils.hpp (added in 90392, https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/90392). \nCould you base on 90392 to use the NvidiaUtils.hpp?",
+      "range": {
+        "startLine": 28,
+        "startChar": 43,
+        "endLine": 28,
+        "endChar": 66
+      },
+      "revId": "a569f33888b77e3e16e106aa40978750628ac25b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5afaa7e2_1164ddbe",
+        "filename": "src/nvidia-gpu/NvidiaGpuAssembly.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-05-29T05:16:40Z",
+      "side": 1,
+      "message": "I add in this patch first, then refactor in 90392, thanks.",
+      "parentUuid": "07d592fb_8ccce67b",
       "range": {
         "startLine": 28,
         "startChar": 43,
@@ -110,6 +182,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "966aa9d3_6faf934e",
+        "filename": "src/nvidia-gpu/NvidiaGpuAssembly.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-05-29T05:16:40Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "049e37ad_53d774bc",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 38
+      },
+      "revId": "a569f33888b77e3e16e106aa40978750628ac25b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "991d5b9f_ed4fc83a",
@@ -123,6 +219,30 @@
       "writtenOn": "2026-05-28T11:01:31Z",
       "side": 1,
       "message": "add error check, so do the below interface",
+      "range": {
+        "startLine": 44,
+        "startChar": 4,
+        "endLine": 44,
+        "endChar": 41
+      },
+      "revId": "a569f33888b77e3e16e106aa40978750628ac25b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d9f9159_a1e5b464",
+        "filename": "src/nvidia-gpu/NvidiaGpuAssembly.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-05-29T05:16:40Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "991d5b9f_ed4fc83a",
       "range": {
         "startLine": 44,
         "startChar": 4,
@@ -156,6 +276,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "650e7fb1_25101cc5",
+        "filename": "src/nvidia-gpu/NvidiaGpuAssembly.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-05-29T05:16:40Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "567c392c_ef5d08ad",
+      "range": {
+        "startLine": 79,
+        "startChar": 43,
+        "endLine": 79,
+        "endChar": 66
+      },
+      "revId": "a569f33888b77e3e16e106aa40978750628ac25b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "adb80ee9_0900ab5c",
@@ -179,6 +323,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "97ac755d_91de4062",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-05-29T05:16:40Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "adb80ee9_0900ab5c",
+      "range": {
+        "startLine": 108,
+        "startChar": 10,
+        "endLine": 108,
+        "endChar": 41
+      },
+      "revId": "a569f33888b77e3e16e106aa40978750628ac25b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3baf710a_fc8fb596",
@@ -192,6 +360,30 @@
       "writtenOn": "2026-05-28T11:01:31Z",
       "side": 1,
       "message": "Style nit: every other sub-component in this header is a std::shared_ptr\u003cClass\u003e (e.g. powerCapInterface, pcieInterface). \nConsider promoting AssemblyInterfaces to a proper class (NvidiaGpuAssembly) so the 7 interfaces and their cleanup are owned via std::shared_ptr\u003cNvidiaGpuAssembly\u003e. That removes the need for removeAssemblyInterfaces(...) calls in GpuDevice::~GpuDevice() and matches the codebase convention.",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 37
+      },
+      "revId": "a569f33888b77e3e16e106aa40978750628ac25b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5b9b504_365ab9c2",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-05-29T05:16:40Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "3baf710a_fc8fb596",
       "range": {
         "startLine": 98,
         "startChar": 0,
