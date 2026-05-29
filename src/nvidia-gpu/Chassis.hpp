@@ -60,6 +60,8 @@ class Chassis
     std::shared_ptr<sdbusplus::asio::dbus_interface> uuidInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> acceleratorInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> skuInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> locationCodeInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> slotInterface;
     std::optional<std::string> cachedUuid;
     std::optional<uint32_t> cachedMinPower;
     std::optional<uint32_t> cachedMaxPower;
