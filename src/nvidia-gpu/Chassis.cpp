@@ -20,6 +20,10 @@ static constexpr const char* acceleratorIfaceName =
     "xyz.openbmc_project.Inventory.Item.Accelerator";
 static constexpr const char* skuIfaceName =
     "xyz.openbmc_project.Inventory.Decorator.SKU";
+static constexpr const char* locationCodeIfaceName =
+    "xyz.openbmc_project.Inventory.Decorator.LocationCode";
+static constexpr const char* slotIfaceName =
+    "xyz.openbmc_project.Inventory.Connector.Slot";
 
 Chassis::Chassis(
     sdbusplus::asio::object_server& objectServer,
@@ -40,6 +44,14 @@ Chassis::~Chassis()
     if (skuInterface)
     {
         objectServer.remove_interface(skuInterface);
+    }
+    if (locationCodeInterface)
+    {
+        objectServer.remove_interface(locationCodeInterface);
+    }
+    if (slotInterface)
+    {
+        objectServer.remove_interface(slotInterface);
     }
 }
 
@@ -87,6 +99,25 @@ void Chassis::onSerialNumber(const std::string& nsmSerial)
         skuInterface->register_property("SKU",
                                         cachedSku.value_or(std::string{}));
         skuInterface->initialize();
+
+        // Hardcoded silk-screen label derived from the chassis path
+        // suffix (Nvidia_RTX_PRO_6000_Blackwell_<N> -> "GPU_SLOT_<N>")
+        // until Entity-Manager publishes Decorator.LocationCode from
+        // platform JSON.
+        const auto underscore = path.find_last_of('_');
+        const std::string locationCode =
+            (underscore != std::string::npos)
+                ? "GPU_SLOT_" + path.substr(underscore + 1)
+                : std::string{};
+        locationCodeInterface =
+            objectServer.add_interface(path, locationCodeIfaceName);
+        locationCodeInterface->register_property("LocationCode", locationCode);
+        locationCodeInterface->initialize();
+
+        // Marker interface; LocationType is derived from the interface
+        // presence by bmcweb's location_util::getLocationType().
+        slotInterface = objectServer.add_interface(path, slotIfaceName);
+        slotInterface->initialize();
         return;
     }
 }
