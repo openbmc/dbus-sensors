@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "37716070_6f62e7dc",
+        "filename": "src/nvidia-gpu/NvidiaGpuCurrentUtilization.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-05-29T11:36:08Z",
+      "side": 1,
+      "message": "Does this have to be static?",
+      "revId": "eaac8b93ec191bf2d086ed5a134766d875c82531",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "79524b94_35493aa9",
         "filename": "src/nvidia-gpu/NvidiaGpuCurrentUtilization.hpp",
         "patchSetId": 7
