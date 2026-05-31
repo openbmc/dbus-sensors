@@ -33,6 +33,24 @@
       "message": "nit: Would it be better to leave a short comment here as well, to prevent someone from accidentally moving this back into the loop in the future?",
       "revId": "9549602d0cedefdd6fc32eef10057e503ff00ea9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e61b8e9_1118d1d4",
+        "filename": "src/EntityManagerInterface.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2026-05-31T14:14:12Z",
+      "side": 1,
+      "message": "From my perspective it is a compiler bug and Patrick already filed a bug report:\n\nhttps://gcc.gnu.org/bugzilla/show_bug.cgi?id\u003d125495\n\nAt some point the openbmc CI will move to GCC 16 and then bugs like that should surface, preventing anyone from moving it back into the loop, making the comment unnecessary.\n\nEither than, or the bug will get fixed in GCC. So long-term, the comment would not be needed.",
+      "parentUuid": "96b08abe_01b97005",
+      "revId": "9549602d0cedefdd6fc32eef10057e503ff00ea9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
