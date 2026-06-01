@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b338594_f1190040",
+        "filename": "src/nvidia-gpu/NvidiaGpuCurrentUtilization.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-01T06:45:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83db77f9_0c76dab0",
+      "revId": "eaac8b93ec191bf2d086ed5a134766d875c82531",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "37716070_6f62e7dc",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-05-29T11:36:08Z",
       "side": 1,
       "message": "Does this have to be static?",
+      "revId": "eaac8b93ec191bf2d086ed5a134766d875c82531",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d37c1b8f_61e04728",
+        "filename": "src/nvidia-gpu/NvidiaGpuCurrentUtilization.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-01T06:45:24Z",
+      "side": 1,
+      "message": "It has to be static because the callers `onImmediateSuccess` and\n`onLongRunningPayload` are static. \nThat said, the body is a one-liner, so I\u0027m happy to inline it into both callers and drop this helper entirely.\nWhich do you prefer?",
+      "parentUuid": "37716070_6f62e7dc",
       "revId": "eaac8b93ec191bf2d086ed5a134766d875c82531",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -52,6 +88,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c15ac52_cdb11a94",
+        "filename": "src/nvidia-gpu/NvidiaGpuCurrentUtilization.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-01T06:45:24Z",
+      "side": 1,
+      "message": "Because the helper uses `std::enable_shared_from_this` for its asio-chain lifetime management, which requires shared_ptr ownership — a value member would make weak_from_this() empty. Happy to restructure if you\u0027d prefer.",
+      "parentUuid": "79524b94_35493aa9",
+      "revId": "eaac8b93ec191bf2d086ed5a134766d875c82531",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a36289e4_83f4415e",
@@ -65,6 +119,24 @@
       "writtenOn": "2026-05-29T11:28:32Z",
       "side": 1,
       "message": "Can we pass `config` as rvalue reference instead of by value?",
+      "revId": "eaac8b93ec191bf2d086ed5a134766d875c82531",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fb4a58e_361aadfa",
+        "filename": "src/nvidia-gpu/NvidiaGpuLongRunningCommand.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-01T06:45:24Z",
+      "side": 1,
+      "message": "By-value is the modern sink-parameter idiom and the caller already\npasses a Config{...} rvalue, so there\u0027s no perf difference vs\nConfig\u0026\u0026. Happy to switch if you prefer.",
+      "parentUuid": "a36289e4_83f4415e",
       "revId": "eaac8b93ec191bf2d086ed5a134766d875c82531",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
