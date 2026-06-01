@@ -16,6 +16,24 @@
       "message": "Does this have to be static?",
       "revId": "1cff742a8d78788de7ab41ae9c13597d1ede9783",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9c21ab6_6144de0a",
+        "filename": "src/nvidia-gpu/NvidiaGpuViolationDuration.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-01T07:17:37Z",
+      "side": 1,
+      "message": "It has to be static because the callers onImmediateSuccess and\nonLongRunningPayload are static.\nThat said, the body is a two-liner, so I\u0027m happy to inline it into both callers and drop this helper entirely.\nWhich do you prefer?",
+      "parentUuid": "da33b209_7789cdfe",
+      "revId": "1cff742a8d78788de7ab41ae9c13597d1ede9783",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
