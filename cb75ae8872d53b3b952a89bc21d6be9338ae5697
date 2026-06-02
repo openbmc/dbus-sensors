@@ -104,6 +104,24 @@
       "message": "Why are you casting enums to integers??!?\n\nPDI has enumerations if that’s what you want to do.",
       "revId": "cb75ae8872d53b3b952a89bc21d6be9338ae5697",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb53652f_f770d4c5",
+        "filename": "src/batterystatus/BatteryStatus.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-06-02T05:33:27Z",
+      "side": 1,
+      "message": "Before:\n  if (reading \u0026 (1 \u003c\u003c static_cast\u003cint8_t\u003e(IPMIThresholds::warningLow)))\n\nAfter:\n  constexpr int8_t criticalLowMask \u003d 0x04;\n  if (available \u0026\u0026 ((thresholdAlarms \u0026 criticalLowMask) !\u003d 0))\n\nThis approach:\n- Eliminates the enum-to-int cast entirely\n- Uses explicit, self-documenting bit constants\n- Makes the threshold mapping clear at a glance\n- Reduces cognitive overhead and maintenance burden\n\nI\u0027ve verified the updated code compiles cleanly and the binary contains\nno legacy enum-cast patterns. Thank you for pushing me to clean this up.",
+      "parentUuid": "357457c5_a35bf1d9",
+      "revId": "cb75ae8872d53b3b952a89bc21d6be9338ae5697",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
