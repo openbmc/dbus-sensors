@@ -15,12 +15,6 @@
 
 static constexpr unsigned int sensorPollMs = 2000;
 constexpr auto sensorObjectPath = "/xyz/openbmc_project/sensors/voltage/";
-enum class battery
-{
-    batteryLow,
-    batteryFailed,
-    batteryPresence,
-};
 
 class BatteryStatus :
     public Discrete,
@@ -36,11 +30,11 @@ class BatteryStatus :
     void setupRead(void);
 
   private:
-    uint8_t reading = 0;
     sdbusplus::asio::object_server& objServer;
     boost::asio::steady_timer waitTimer;
     std::string deviceName;
     std::shared_ptr<sdbusplus::asio::connection>& conn;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> availableInterface;
     void restartRead();
     void monitorState();
 };

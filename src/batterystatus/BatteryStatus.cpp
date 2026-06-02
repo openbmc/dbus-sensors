@@ -12,6 +12,15 @@
 #include <utility>
 #include <vector>
 
+namespace
+{
+constexpr const char* operationalStatusInterface =
+    "xyz.openbmc_project.State.Decorator.OperationalStatus";
+constexpr const char* availabilityInterface =
+    "xyz.openbmc_project.State.Decorator.Availability";
+constexpr int8_t criticalLowMask = 0x04;
+} // namespace
+
 BatteryStatus::BatteryStatus(
     sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& conn,
@@ -22,9 +31,19 @@ BatteryStatus::BatteryStatus(
 {
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/battery/" + name,
-        "xyz.openbmc_project.Sensor.State");
+        operationalStatusInterface);
 
     if (!sensorInterface)
+    {
+        std::cerr << "Error: Failed to create DBus interfaces\n";
+        return;
+    }
+
+    availableInterface = objectServer.add_interface(
+        "/xyz/openbmc_project/sensors/battery/" + name,
+        availabilityInterface);
+
+    if (!availableInterface)
     {
         std::cerr << "Error: Failed to create DBus interfaces\n";
         return;
@@ -39,9 +58,12 @@ BatteryStatus::BatteryStatus(
         return;
     }
 
-    setInitialProperties();
+    createAssociation(association, configurationPath);
+    sensorInterface->register_property("Functional", true);
+    availableInterface->register_property("Available", true);
 
-    if (!sensorInterface->initialize() || !association->initialize())
+    if (!sensorInterface->initialize() || !availableInterface->initialize() ||
+        !association->initialize())
     {
         std::cerr << "Error: Failed to initialize DBus interfaces\n";
         return;
@@ -51,6 +73,7 @@ BatteryStatus::BatteryStatus(
 BatteryStatus::~BatteryStatus()
 {
     objServer.remove_interface(sensorInterface);
+    objServer.remove_interface(availableInterface);
     objServer.remove_interface(association);
 }
 
@@ -61,23 +84,25 @@ void BatteryStatus::setupRead(void)
 
 void BatteryStatus::monitorState()
 {
-    int8_t reading = monitorThreshold(deviceName, sensorObjectPath);
-    uint16_t state = 0;
-    if (reading != -1)
+    int8_t thresholdAlarms = monitorThreshold(deviceName, sensorObjectPath);
+    bool available = (thresholdAlarms != -1);
+    bool functional = available;
+
+    if (available && ((thresholdAlarms & criticalLowMask) != 0))
     {
-        if (reading & (1 << static_cast<int8_t>(IPMIThresholds::warningLow)))
-        {
-            state = state | (1 << static_cast<uint16_t>(battery::batteryLow));
-        }
-        if (reading & (1 << static_cast<int8_t>(IPMIThresholds::criticalLow)))
-        {
-            state = state |
-                    (1 << static_cast<uint16_t>(battery::batteryFailed));
-        }
-        state = state | (1 << static_cast<uint16_t>(battery::batteryPresence));
+        functional = false;
     }
 
-    updateState(sensorInterface, state);
+    if (availableInterface)
+    {
+        availableInterface->set_property("Available", available);
+    }
+
+    if (sensorInterface)
+    {
+        sensorInterface->set_property("Functional", functional);
+    }
+
     restartRead();
 }
 
