@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bbcb6dd8_73250248",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-06-02T04:57:26Z",
+      "side": 1,
+      "message": "You\u0027re absolutely right - ADC-based threshold monitoring is the standard and\npreferred approach for RTC battery monitoring on most OpenBMC systems, and I\nshould have been clearer about that context in the commit message.\n\nI\u0027ve updated the commit message to explicitly acknowledge that ADC is the\npreferred model and explain when BatteryStatus might be used as an\nalternative (systems where entity-manager integration and a dedicated daemon\nare preferred over ADC threshold handling).\n\nThis makes it clear to future maintainers when this feature should or should\nnot be enabled for a given platform. Thank you for catching that omission.",
+      "parentUuid": "60b3345d_f7486a7b",
+      "revId": "cb75ae8872d53b3b952a89bc21d6be9338ae5697",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a2f3ec64_924dc1ac",
         "filename": "src/batterystatus/BatteryStatus.cpp",
         "patchSetId": 1
