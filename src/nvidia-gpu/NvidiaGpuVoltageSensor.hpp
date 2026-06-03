@@ -58,6 +58,8 @@ struct NvidiaGpuVoltageSensor :
 
     std::array<uint8_t, gpu::getVoltageRequestSize> request{};
 
+    bool requestEncoded{false};
+
     std::shared_ptr<sdbusplus::asio::dbus_interface>
         commonPhysicalContextInterface;
 };
