@@ -54,6 +54,16 @@ NvidiaGpuPowerSensor::NvidiaGpuPowerSensor(
     mctpRequester(mctpRequester), objectServer(objectServer)
 
 {
+    const int rc = gpu::encodeGetPowerDrawRequest(
+        gpu::PlatformEnvironmentalCommands::GET_CURRENT_POWER_DRAW, 0, sensorId,
+        averagingInterval, request);
+    if (rc != 0)
+    {
+        lg2::error(
+            "Failed to encode Power Sensor request for eid {EID} and sensor id {SID}, rc={RC}",
+            "EID", eid, "SID", sensorId, "RC", rc);
+    }
+
     std::string dbusPath = sensorPathPrefix + "power/"s + escapeName(name);
 
     sensorInterface = objectServer.add_interface(
@@ -143,17 +153,6 @@ void NvidiaGpuPowerSensor::processResponse(const std::error_code& ec,
 
 void NvidiaGpuPowerSensor::update()
 {
-    const int rc = gpu::encodeGetPowerDrawRequest(
-        gpu::PlatformEnvironmentalCommands::GET_CURRENT_POWER_DRAW, 0, sensorId,
-        averagingInterval, request);
-
-    if (rc != 0)
-    {
-        lg2::error(
-            "Error updating Temperature Sensor for eid {EID} and sensor id {SID} : encode failed, rc={RC}",
-            "EID", eid, "SID", sensorId, "RC", rc);
-    }
-
     mctpRequester.sendRecvMsg(
         eid, request,
         [weak{weak_from_this()}](const std::error_code& ec,
