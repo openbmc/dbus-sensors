@@ -31,6 +31,14 @@ NvidiaDriverInformation::NvidiaDriverInformation(
     sdbusplus::asio::object_server& objectServer) :
     eid(eid), conn(conn), mctpRequester(mctpRequester)
 {
+    const int rc = gpu::encodeGetDriverInformationRequest(0, request);
+    if (rc != 0)
+    {
+        lg2::error(
+            "Failed to encode Driver Information request for eid {EID}, rc={RC}",
+            "EID", eid, "RC", rc);
+    }
+
     const std::string dbusPath = softwareInventoryPath + escapeName(name);
 
     versionInterface = objectServer.add_interface(
@@ -97,16 +105,6 @@ void NvidiaDriverInformation::processResponse(const std::error_code& ec,
 
 void NvidiaDriverInformation::update()
 {
-    const int rc = gpu::encodeGetDriverInformationRequest(0, request);
-
-    if (rc != 0)
-    {
-        lg2::error(
-            "Error updating Driver Information for eid {EID} : encode failed, rc={RC}",
-            "EID", eid, "RC", rc);
-        return;
-    }
-
     mctpRequester.sendRecvMsg(
         eid, request,
         [weak{weak_from_this()}](const std::error_code& ec,
