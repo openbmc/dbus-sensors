@@ -1,0 +1,17 @@
+[Unit]
+Description=Battery Sensor
+StopWhenUnneeded=false
+Requires=xyz.openbmc_project.EntityManager.service
+After=xyz.openbmc_project.EntityManager.service
+Requires=xyz.openbmc_project.adcsensor.service
+After=xyz.openbmc_project.adcsensor.service
+
+[Service]
+Type=dbus
+BusName=xyz.openbmc_project.BatteryStatus
+Restart=always
+RestartSec=5
+ExecStart=/usr/libexec/dbus-sensors/batterystatus
+
+[Install]
+WantedBy=multi-user.target
