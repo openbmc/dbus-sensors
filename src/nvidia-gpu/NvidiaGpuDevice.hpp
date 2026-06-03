@@ -15,7 +15,7 @@
 #include "NvidiaGpuMemoryDevice.hpp"
 #include "NvidiaGpuPowerControl.hpp"
 #include "NvidiaGpuPowerSensor.hpp"
-#include "NvidiaGpuSensor.hpp"
+#include "NvidiaGpuTempSensor.hpp"
 #include "NvidiaGpuXid.hpp"
 
 #include <NvidiaDriverInformation.hpp>

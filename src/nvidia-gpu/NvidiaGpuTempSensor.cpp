@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-#include "NvidiaGpuSensor.hpp"
+#include "NvidiaGpuTempSensor.hpp"
 
 #include "NvidiaSensorUtils.hpp"
 #include "SensorPaths.hpp"

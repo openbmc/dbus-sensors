@@ -7,7 +7,7 @@
 
 #include "MctpRequester.hpp"
 #include "NvidiaDeviceDiscovery.hpp"
-#include "NvidiaGpuSensor.hpp"
+#include "NvidiaGpuTempSensor.hpp"
 
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/steady_timer.hpp>
