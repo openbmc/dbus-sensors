@@ -17,8 +17,6 @@
 #include <tuple>
 #include <vector>
 
-constexpr uint8_t gpuPeakPowerSensorId{0};
-
 // GPU Power Sensor Averaging Interval in seconds, 0 implies default
 constexpr uint8_t gpuPowerAveragingIntervalInSec{0};
 
