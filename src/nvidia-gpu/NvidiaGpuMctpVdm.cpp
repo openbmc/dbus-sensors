@@ -8,6 +8,7 @@
 #include "MessagePackUnpackUtils.hpp"
 #include "OcpMctpVdm.hpp"
 
+#include <array>
 #include <bit>
 #include <cerrno>
 #include <cstddef>
@@ -328,6 +329,129 @@ int decodeQueryDeviceIdentificationResponse(
 
     buffer.unpack(deviceIdentification);
     buffer.unpack(deviceInstance);
+
+    return buffer.getError();
+}
+
+int encodeGetSupportedMessageTypesRequest(uint8_t instanceId,
+                                          const std::span<uint8_t> buf)
+{
+    PackBuffer buffer(buf);
+
+    int rc = encodeRequestCommonHeader(
+        buffer, MessageType::DEVICE_CAPABILITY_DISCOVERY,
+        static_cast<uint8_t>(
+            DeviceCapabilityDiscoveryCommands::GET_SUPPORTED_MESSAGE_TYPES),
+        instanceId);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    const uint8_t dataSize = 0;
+    buffer.pack(dataSize);
+
+    return buffer.getError();
+}
+
+int decodeGetSupportedMessageTypesResponse(
+    const std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    std::array<uint8_t, supportedListBitfieldSize>& supportedTypes)
+{
+    UnpackBuffer buffer(buf);
+
+    int rc = decodeResponseCommonHeader(
+        buffer, MessageType::DEVICE_CAPABILITY_DISCOVERY,
+        static_cast<uint8_t>(
+            DeviceCapabilityDiscoveryCommands::GET_SUPPORTED_MESSAGE_TYPES),
+        cc, reasonCode);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    uint16_t dataSize = 0;
+    rc = buffer.unpack(dataSize);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    if (dataSize != supportedTypes.size())
+    {
+        return EINVAL;
+    }
+
+    for (auto& byte : supportedTypes)
+    {
+        buffer.unpack(byte);
+    }
+
+    return buffer.getError();
+}
+
+int encodeGetSupportedCommandCodesRequest(
+    uint8_t instanceId, uint8_t nvidiaMessageType, const std::span<uint8_t> buf)
+{
+    PackBuffer buffer(buf);
+
+    int rc = encodeRequestCommonHeader(
+        buffer, MessageType::DEVICE_CAPABILITY_DISCOVERY,
+        static_cast<uint8_t>(
+            DeviceCapabilityDiscoveryCommands::GET_SUPPORTED_COMMAND_CODES),
+        instanceId);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    const uint8_t dataSize = 1;
+    buffer.pack(dataSize);
+    buffer.pack(nvidiaMessageType);
+
+    return buffer.getError();
+}
+
+int decodeGetSupportedCommandCodesResponse(
+    const std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    std::array<uint8_t, supportedListBitfieldSize>& supportedCommands)
+{
+    UnpackBuffer buffer(buf);
+
+    int rc = decodeResponseCommonHeader(
+        buffer, MessageType::DEVICE_CAPABILITY_DISCOVERY,
+        static_cast<uint8_t>(
+            DeviceCapabilityDiscoveryCommands::GET_SUPPORTED_COMMAND_CODES),
+        cc, reasonCode);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    uint16_t dataSize = 0;
+    rc = buffer.unpack(dataSize);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    if (dataSize != supportedCommands.size())
+    {
+        return EINVAL;
+    }
+
+    for (auto& byte : supportedCommands)
+    {
+        buffer.unpack(byte);
+    }
 
     return buffer.getError();
 }
