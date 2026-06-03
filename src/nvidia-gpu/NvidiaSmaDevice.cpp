@@ -6,7 +6,7 @@
 #include "NvidiaSmaDevice.hpp"
 
 #include "NvidiaDeviceDiscovery.hpp"
-#include "NvidiaGpuSensor.hpp"
+#include "NvidiaGpuTempSensor.hpp"
 #include "Thresholds.hpp"
 #include "Utils.hpp"
 
