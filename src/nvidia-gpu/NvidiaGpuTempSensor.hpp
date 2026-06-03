@@ -19,11 +19,6 @@
 #include <string>
 #include <vector>
 
-constexpr uint8_t gpuTempSensorId{0};
-constexpr uint8_t gpuTLimitSensorId{2};
-constexpr uint8_t gpuDramTempSensorId{1};
-constexpr uint8_t smaTempSensorId{5};
-
 struct NvidiaGpuTempSensor :
     public Sensor,
     public std::enable_shared_from_this<NvidiaGpuTempSensor>
