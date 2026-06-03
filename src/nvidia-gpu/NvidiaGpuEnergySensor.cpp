@@ -52,6 +52,15 @@ NvidiaGpuEnergySensor::NvidiaGpuEnergySensor(
     eid(eid), sensorId{sensorId}, mctpRequester(mctpRequester),
     objectServer(objectServer)
 {
+    const int rc =
+        gpu::encodeGetCurrentEnergyCounterRequest(0, sensorId, request);
+    if (rc != 0)
+    {
+        lg2::error(
+            "Failed to encode Energy Sensor request for eid {EID} and sensor id {SID}, rc={RC}",
+            "EID", eid, "SID", sensorId, "RC", rc);
+    }
+
     std::string dbusPath = sensorPathPrefix + "energy/"s + escapeName(name);
 
     sensorInterface = objectServer.add_interface(
@@ -143,16 +152,6 @@ void NvidiaGpuEnergySensor::processResponse(const std::error_code& ec,
 
 void NvidiaGpuEnergySensor::update()
 {
-    auto rc = gpu::encodeGetCurrentEnergyCounterRequest(0, sensorId, request);
-
-    if (rc != 0)
-    {
-        lg2::error(
-            "Error updating Energy Sensor for eid {EID} and sensor id {SID} : encode failed, rc={RC}",
-            "EID", eid, "SID", sensorId, "RC", rc);
-        return;
-    }
-
     mctpRequester.sendRecvMsg(
         eid, request,
         [weak{weak_from_this()}](const std::error_code& ec,
