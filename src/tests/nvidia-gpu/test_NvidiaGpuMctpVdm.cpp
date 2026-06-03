@@ -509,6 +509,199 @@ TEST_F(GpuMctpVdmTests, DecodeQueryDeviceIdentificationResponseInvalidSize)
     EXPECT_EQ(result, EINVAL); // Should indicate error for invalid size
 }
 
+// Tests for GpuMctpVdm::encodeGetSupportedMessageTypesRequest function
+TEST_F(GpuMctpVdmTests, EncodeGetSupportedMessageTypesRequestSuccess)
+{
+    const uint8_t instanceId = 3;
+    std::vector<uint8_t> buf(256);
+
+    int result = gpu::encodeGetSupportedMessageTypesRequest(instanceId, buf);
+
+    EXPECT_EQ(result, 0);
+
+    UnpackBuffer ubuf(std::span<const uint8_t>(buf.data(), buf.size()));
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t unpackedInstanceId = 0;
+    uint8_t unpackedMsgType = 0;
+    EXPECT_EQ(ocp::accelerator_management::unpackHeader(
+                  ubuf, gpu::nvidiaPciVendorId, msgType, unpackedInstanceId,
+                  unpackedMsgType),
+              0);
+    EXPECT_EQ(msgType, ocp::accelerator_management::MessageType::REQUEST);
+    EXPECT_EQ(
+        unpackedMsgType,
+        static_cast<uint8_t>(gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY));
+    uint8_t command = 0;
+    ubuf.unpack(command);
+    EXPECT_EQ(command,
+              static_cast<uint8_t>(gpu::DeviceCapabilityDiscoveryCommands::
+                                       GET_SUPPORTED_MESSAGE_TYPES));
+    uint8_t dataSize = 0;
+    ubuf.unpack(dataSize);
+    EXPECT_EQ(dataSize, 0);
+    EXPECT_EQ(ubuf.getError(), 0);
+}
+
+// Tests for GpuMctpVdm::decodeGetSupportedMessageTypesResponse function
+TEST_F(GpuMctpVdmTests, DecodeGetSupportedMessageTypesResponseSuccess)
+{
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 3,
+        static_cast<uint8_t>(gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY));
+    pbuf.pack(static_cast<uint8_t>(gpu::DeviceCapabilityDiscoveryCommands::
+                                       GET_SUPPORTED_MESSAGE_TYPES)); // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));       // CC
+    pbuf.pack(static_cast<uint16_t>(0)); // reserved
+    pbuf.pack(static_cast<uint16_t>(gpu::supportedListBitfieldSize)); // size
+    pbuf.pack(static_cast<uint8_t>(0x0F)); // byte 0: types 0,1,2,3 supported
+    for (size_t i = 1; i < gpu::supportedListBitfieldSize; ++i)
+    {
+        pbuf.pack(static_cast<uint8_t>(0));
+    }
+    ASSERT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    std::array<uint8_t, gpu::supportedListBitfieldSize> supportedTypes{};
+
+    int result = gpu::decodeGetSupportedMessageTypesResponse(
+        buf, cc, reasonCode, supportedTypes);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(supportedTypes[0], 0x0F);
+    EXPECT_EQ(supportedTypes[1], 0x00);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetSupportedMessageTypesResponseError)
+{
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 3,
+        static_cast<uint8_t>(gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY));
+    pbuf.pack(static_cast<uint8_t>(gpu::DeviceCapabilityDiscoveryCommands::
+                                       GET_SUPPORTED_MESSAGE_TYPES)); // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERROR));         // CC
+    pbuf.pack(static_cast<uint16_t>(0x1234)); // reason_code
+    ASSERT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    std::array<uint8_t, gpu::supportedListBitfieldSize> supportedTypes{};
+
+    int result = gpu::decodeGetSupportedMessageTypesResponse(
+        buf, cc, reasonCode, supportedTypes);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERROR);
+    EXPECT_EQ(reasonCode, 0x1234);
+}
+
+// Tests for GpuMctpVdm::encodeGetSupportedCommandCodesRequest function
+TEST_F(GpuMctpVdmTests, EncodeGetSupportedCommandCodesRequestSuccess)
+{
+    const uint8_t instanceId = 5;
+    const uint8_t nvidiaMessageType =
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL);
+    std::vector<uint8_t> buf(256);
+
+    int result = gpu::encodeGetSupportedCommandCodesRequest(
+        instanceId, nvidiaMessageType, buf);
+
+    EXPECT_EQ(result, 0);
+
+    UnpackBuffer ubuf(std::span<const uint8_t>(buf.data(), buf.size()));
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t unpackedInstanceId = 0;
+    uint8_t unpackedMsgType = 0;
+    EXPECT_EQ(ocp::accelerator_management::unpackHeader(
+                  ubuf, gpu::nvidiaPciVendorId, msgType, unpackedInstanceId,
+                  unpackedMsgType),
+              0);
+    EXPECT_EQ(msgType, ocp::accelerator_management::MessageType::REQUEST);
+    uint8_t command = 0;
+    ubuf.unpack(command);
+    EXPECT_EQ(command,
+              static_cast<uint8_t>(gpu::DeviceCapabilityDiscoveryCommands::
+                                       GET_SUPPORTED_COMMAND_CODES));
+    uint8_t dataSize = 0;
+    ubuf.unpack(dataSize);
+    EXPECT_EQ(dataSize, 1);
+    uint8_t payloadType = 0;
+    ubuf.unpack(payloadType);
+    EXPECT_EQ(payloadType, nvidiaMessageType);
+    EXPECT_EQ(ubuf.getError(), 0);
+}
+
+// Tests for GpuMctpVdm::decodeGetSupportedCommandCodesResponse function
+TEST_F(GpuMctpVdmTests, DecodeGetSupportedCommandCodesResponseSuccess)
+{
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 3,
+        static_cast<uint8_t>(gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY));
+    pbuf.pack(static_cast<uint8_t>(gpu::DeviceCapabilityDiscoveryCommands::
+                                       GET_SUPPORTED_COMMAND_CODES)); // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));       // CC
+    pbuf.pack(static_cast<uint16_t>(0)); // reserved
+    pbuf.pack(static_cast<uint16_t>(gpu::supportedListBitfieldSize)); // size
+    // command 0x00 and 0x03 supported -> byte 0 = bit0 | bit3 = 0x09
+    pbuf.pack(static_cast<uint8_t>(0x09));
+    for (size_t i = 1; i < gpu::supportedListBitfieldSize; ++i)
+    {
+        pbuf.pack(static_cast<uint8_t>(0));
+    }
+    ASSERT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    std::array<uint8_t, gpu::supportedListBitfieldSize> supportedCommands{};
+
+    int result = gpu::decodeGetSupportedCommandCodesResponse(
+        buf, cc, reasonCode, supportedCommands);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(supportedCommands[0], 0x09);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetSupportedCommandCodesResponseError)
+{
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 3,
+        static_cast<uint8_t>(gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY));
+    pbuf.pack(static_cast<uint8_t>(gpu::DeviceCapabilityDiscoveryCommands::
+                                       GET_SUPPORTED_COMMAND_CODES)); // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERROR));         // CC
+    pbuf.pack(static_cast<uint16_t>(0x5678)); // reason_code
+    ASSERT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    std::array<uint8_t, gpu::supportedListBitfieldSize> supportedCommands{};
+
+    int result = gpu::decodeGetSupportedCommandCodesResponse(
+        buf, cc, reasonCode, supportedCommands);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERROR);
+    EXPECT_EQ(reasonCode, 0x5678);
+}
+
 // Tests for GpuMctpVdm::encodeGetTemperatureReadingRequest function
 TEST_F(GpuMctpVdmTests, EncodeGetTemperatureReadingRequestSuccess)
 {
