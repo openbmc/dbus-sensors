@@ -21,8 +21,6 @@
 #include <system_error>
 #include <vector>
 
-constexpr uint8_t gpuPowerSensorId{0};
-
 struct NvidiaGpuPowerSensor :
     public Sensor,
     public std::enable_shared_from_this<NvidiaGpuPowerSensor>

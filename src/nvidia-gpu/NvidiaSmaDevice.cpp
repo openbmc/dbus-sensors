@@ -6,7 +6,8 @@
 #include "NvidiaSmaDevice.hpp"
 
 #include "NvidiaDeviceDiscovery.hpp"
-#include "NvidiaGpuSensor.hpp"
+#include "NvidiaGpuTempSensor.hpp"
+#include "NvidiaSensorUtils.hpp"
 #include "Thresholds.hpp"
 #include "Utils.hpp"
 
@@ -45,8 +46,9 @@ void SmaDevice::init()
 void SmaDevice::makeSensors()
 {
     tempSensor = std::make_shared<NvidiaGpuTempSensor>(
-        conn, mctpRequester, name + "_TEMP_0", path, eid, smaTempSensorId,
-        objectServer, std::vector<thresholds::Threshold>{},
+        conn, mctpRequester, name + "_TEMP_0", path, eid,
+        nvidia_sensor_utils::temperature_sensor_id::sma, objectServer,
+        std::vector<thresholds::Threshold>{},
         gpu::DeviceIdentification::DEVICE_SMA);
 
     lg2::info("Added MCA {NAME} Sensors with chassis path: {PATH}.", "NAME",
