@@ -85,4 +85,5 @@ class NvidiaGpuPowerControl :
         getPowerLimitsRequestBuffer{};
     std::array<uint8_t, gpu::setPowerLimitsRequestSize>
         setPowerLimitsRequestBuffer{};
+    bool requestEncoded{false};
 };

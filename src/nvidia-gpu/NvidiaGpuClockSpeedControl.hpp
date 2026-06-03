@@ -42,4 +42,5 @@ class NvidiaGpuClockSpeedControl :
     sdbusplus::asio::object_server& objectServer;
     uint8_t eid;
     std::array<uint8_t, gpu::getClockLimitRequestSize> requestBuffer{};
+    bool requestEncoded{false};
 };

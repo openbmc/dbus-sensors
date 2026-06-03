@@ -96,4 +96,6 @@ class NvidiaGpuLongRunningCommand :
     Config config;
 
     std::vector<uint8_t> request;
+
+    bool requestEncoded{false};
 };

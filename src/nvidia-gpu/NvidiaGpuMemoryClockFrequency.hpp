@@ -36,4 +36,5 @@ class NvidiaGpuMemoryClockFrequency :
     std::shared_ptr<sdbusplus::asio::dbus_interface> dramItemInterface;
     std::array<uint8_t, gpu::getCurrentClockFrequencyRequestSize>
         requestBuffer{};
+    bool requestEncoded{false};
 };

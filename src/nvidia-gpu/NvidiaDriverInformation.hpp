@@ -41,6 +41,8 @@ struct NvidiaDriverInformation :
     std::array<uint8_t, ocp::accelerator_management::commonRequestSize>
         request{};
 
+    bool requestEncoded{false};
+
     std::shared_ptr<sdbusplus::asio::dbus_interface> versionInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> associationInterface;
 };

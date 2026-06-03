@@ -48,6 +48,20 @@ NvidiaGpuPowerControl::NvidiaGpuPowerControl(
     name(escapeName(deviceName)), objectServer(objectServer),
     mctpRequester(mctpRequester), setLimitTimer(io), eid(eid)
 {
+    constexpr uint32_t devicePowerLimitId = 0;
+    const int rc = gpu::encodeGetPowerLimitsRequest(
+        0, devicePowerLimitId, getPowerLimitsRequestBuffer);
+    if (rc == 0)
+    {
+        requestEncoded = true;
+    }
+    else
+    {
+        lg2::error(
+            "Failed to encode GET_POWER_LIMITS request for eid {EID}, rc={RC}",
+            "EID", eid, "RC", rc);
+    }
+
     const std::string powerControlPath = controlPowerPrefix + name;
 
     associationInterface =
@@ -82,16 +96,8 @@ void NvidiaGpuPowerControl::update()
 
 void NvidiaGpuPowerControl::sendGetPowerLimitsRequest()
 {
-    constexpr uint32_t devicePowerLimitId = 0;
-
-    const int rc = gpu::encodeGetPowerLimitsRequest(
-        0, devicePowerLimitId, getPowerLimitsRequestBuffer);
-
-    if (rc != 0)
+    if (!requestEncoded)
     {
-        lg2::error(
-            "Error encoding GET_POWER_LIMITS request for eid {EID}, rc={RC}",
-            "EID", eid, "RC", rc);
         return;
     }
 
