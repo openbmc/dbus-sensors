@@ -22,20 +22,19 @@ NvidiaGpuMemoryClockFrequency::NvidiaGpuMemoryClockFrequency(
     const std::shared_ptr<sdbusplus::asio::dbus_interface>& dramItemIface) :
     mctpRequester(mctpRequester), name(name), eid(eid),
     dramItemInterface(dramItemIface)
-{}
-
-void NvidiaGpuMemoryClockFrequency::update()
 {
-    int rc = gpu::encodeGetCurrentClockFrequencyRequest(
+    const int rc = gpu::encodeGetCurrentClockFrequencyRequest(
         0, gpu::ClockType::MEMORY_CLOCK, requestBuffer);
     if (rc != 0)
     {
         lg2::error(
             "Failed to encode memory clock frequency request for {NAME}: rc={RC}",
             "NAME", name, "RC", rc);
-        return;
     }
+}
 
+void NvidiaGpuMemoryClockFrequency::update()
+{
     mctpRequester.sendRecvMsg(
         eid, requestBuffer,
         [weak{weak_from_this()}](const std::error_code& ec,

@@ -34,6 +34,15 @@ NvidiaGpuClockFrequencyMetric::NvidiaGpuClockFrequencyMetric(
     mctpRequester(mctpRequester), name(name), eid(eid),
     objectServer(objectServer)
 {
+    const int rc = gpu::encodeGetCurrentClockFrequencyRequest(
+        0, gpu::ClockType::GRAPHICS_CLOCK, requestBuffer);
+    if (rc != 0)
+    {
+        lg2::error(
+            "Failed to encode clock frequency request for {NAME}: rc={RC}",
+            "NAME", name, "RC", rc);
+    }
+
     const std::string metricDbusPath =
         metricPath + this->name + "/OperatingFrequency";
 
@@ -60,16 +69,6 @@ NvidiaGpuClockFrequencyMetric::~NvidiaGpuClockFrequencyMetric()
 
 void NvidiaGpuClockFrequencyMetric::update()
 {
-    int rc = gpu::encodeGetCurrentClockFrequencyRequest(
-        0, gpu::ClockType::GRAPHICS_CLOCK, requestBuffer);
-    if (rc != 0)
-    {
-        lg2::error(
-            "Failed to encode clock frequency request for {NAME}: rc={RC}",
-            "NAME", name, "RC", rc);
-        return;
-    }
-
     mctpRequester.sendRecvMsg(
         eid, requestBuffer,
         [weak{weak_from_this()}](const std::error_code& ec,

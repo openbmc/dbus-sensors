@@ -33,6 +33,14 @@ NvidiaGpuClockSpeedControl::NvidiaGpuClockSpeedControl(
     mctpRequester(mctpRequester), name(escapeName(deviceName)),
     objectServer(objectServer), eid(eid)
 {
+    const int rc = gpu::encodeGetClockLimitRequest(
+        0, gpu::ClockType::GRAPHICS_CLOCK, requestBuffer);
+    if (rc != 0)
+    {
+        lg2::error("Failed to encode clock limit request for {NAME}: rc={RC}",
+                   "NAME", name, "RC", rc);
+    }
+
     const sdbusplus::object_path objPath(
         controlClockSpeedIface->get_object_path());
 
@@ -51,15 +59,6 @@ NvidiaGpuClockSpeedControl::~NvidiaGpuClockSpeedControl()
 
 void NvidiaGpuClockSpeedControl::update()
 {
-    int rc = gpu::encodeGetClockLimitRequest(0, gpu::ClockType::GRAPHICS_CLOCK,
-                                             requestBuffer);
-    if (rc != 0)
-    {
-        lg2::error("Failed to encode clock limit request for {NAME}: rc={RC}",
-                   "NAME", name, "RC", rc);
-        return;
-    }
-
     mctpRequester.sendRecvMsg(
         eid, requestBuffer,
         [weak{weak_from_this()}](const std::error_code& ec,
