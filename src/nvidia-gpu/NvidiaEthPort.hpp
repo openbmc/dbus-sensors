@@ -50,6 +50,8 @@ struct NvidiaEthPortMetrics :
     std::array<uint8_t, gpu::getEthernetPortTelemetryCountersRequestSize>
         request{};
 
+    bool requestEncoded{false};
+
     std::shared_ptr<sdbusplus::asio::dbus_interface> portInterface;
 
     std::shared_ptr<sdbusplus::asio::dbus_interface> associationInterface;

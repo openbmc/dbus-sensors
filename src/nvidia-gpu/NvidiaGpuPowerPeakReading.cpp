@@ -34,6 +34,20 @@ NvidiaGpuPowerPeakReading::NvidiaGpuPowerPeakReading(
     eid(eid), sensorId{sensorId}, mctpRequester(mctpRequester),
     objectServer(objectServer)
 {
+    const int rc = gpu::encodeGetPowerDrawRequest(
+        gpu::PlatformEnvironmentalCommands::GET_MAX_OBSERVED_POWER, 0, sensorId,
+        averagingInterval, request);
+    if (rc == 0)
+    {
+        requestEncoded = true;
+    }
+    else
+    {
+        lg2::error(
+            "Failed to encode Peak Power Sensor request for eid {EID} and sensor id {SID}, rc={RC}",
+            "EID", eid, "SID", sensorId, "RC", rc);
+    }
+
     std::string dbusPath = sensorPathPrefix + "power/"s + escapeName(name);
 
     telemetryReportInterface = objectServer.add_interface(
@@ -101,15 +115,8 @@ void NvidiaGpuPowerPeakReading::processResponse(const std::error_code& ec,
 
 void NvidiaGpuPowerPeakReading::update()
 {
-    const int rc = gpu::encodeGetPowerDrawRequest(
-        gpu::PlatformEnvironmentalCommands::GET_MAX_OBSERVED_POWER, 0, sensorId,
-        averagingInterval, request);
-
-    if (rc != 0)
+    if (!requestEncoded)
     {
-        lg2::error(
-            "Error updating Peak Power Sensor for eid {EID} and sensor id {SID} : encode failed, rc={RC}",
-            "EID", eid, "SID", sensorId, "RC", rc);
         return;
     }
 

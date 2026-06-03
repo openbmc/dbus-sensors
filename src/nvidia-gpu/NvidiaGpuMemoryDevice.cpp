@@ -31,6 +31,18 @@ NvidiaGpuMemoryDevice::NvidiaGpuMemoryDevice(
     eid(eid), gpuName(gpuName), conn(conn), mctpRequester(mctpRequester),
     objectServer(objectServer)
 {
+    const int rc = gpu::encodeGetEccErrorCountsRequest(0, requestBuffer);
+    if (rc == 0)
+    {
+        requestEncoded = true;
+    }
+    else
+    {
+        lg2::error(
+            "Failed to encode ECC request for {NAME}, eid={EID}, rc={RC}",
+            "NAME", gpuName, "EID", eid, "RC", rc);
+    }
+
     std::string gpuPath = std::string(inventoryPrefix) + gpuName;
     const std::string dramName = gpuName + "_DRAM_0";
     const std::string dramPath = std::string(inventoryPrefix) + dramName;
@@ -81,12 +93,8 @@ NvidiaGpuMemoryDevice::~NvidiaGpuMemoryDevice()
 
 void NvidiaGpuMemoryDevice::update()
 {
-    auto rc = gpu::encodeGetEccErrorCountsRequest(0, requestBuffer);
-
-    if (rc != 0)
+    if (!requestEncoded)
     {
-        lg2::error("Error encoding ECC request for {NAME}, eid={EID}, rc={RC}",
-                   "NAME", gpuName, "EID", eid, "RC", rc);
         return;
     }
 

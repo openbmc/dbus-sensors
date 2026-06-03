@@ -50,4 +50,5 @@ class NvidiaGpuPowerControl :
 
     std::array<uint8_t, gpu::getPowerLimitsRequestSize>
         getPowerLimitsRequestBuffer{};
+    bool requestEncoded{false};
 };
