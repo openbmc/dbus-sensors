@@ -7,6 +7,7 @@
 
 #include <OcpMctpVdm.hpp>
 
+#include <array>
 #include <cstddef>
 #include <cstdint>
 #include <span>
@@ -33,6 +34,8 @@ enum class MessageType : uint8_t
 
 enum class DeviceCapabilityDiscoveryCommands : uint8_t
 {
+    GET_SUPPORTED_MESSAGE_TYPES = 0x01,
+    GET_SUPPORTED_COMMAND_CODES = 0x02,
     SET_CURRENT_EVENT_SOURCES = 0x5,
     SET_EVENT_SUBSCRIPTION = 0x6,
     QUERY_DEVICE_IDENTIFICATION = 0x09,
@@ -186,6 +189,16 @@ constexpr size_t maxInventoryDataSize = 256;
 constexpr size_t queryDeviceIdentificationRequestSize =
     ocp::accelerator_management::commonRequestSize;
 
+// Type 0 supported-message-types / supported-command-codes responses carry a
+// bitfield8[32]: 256 bits, bit N set means item N is supported.
+constexpr size_t supportedListBitfieldSize = 32;
+
+constexpr size_t getSupportedMessageTypesRequestSize =
+    ocp::accelerator_management::commonRequestSize;
+
+constexpr size_t getSupportedCommandCodesRequestSize =
+    ocp::accelerator_management::commonRequestSize + 1;
+
 constexpr size_t getNumericSensorReadingRequestSize =
     ocp::accelerator_management::commonRequestSize + 1;
 
@@ -284,6 +297,22 @@ int decodeQueryDeviceIdentificationResponse(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     uint8_t& deviceIdentification, uint8_t& deviceInstance);
+
+int encodeGetSupportedMessageTypesRequest(uint8_t instanceId,
+                                          std::span<uint8_t> buf);
+
+int decodeGetSupportedMessageTypesResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    std::array<uint8_t, supportedListBitfieldSize>& supportedTypes);
+
+int encodeGetSupportedCommandCodesRequest(
+    uint8_t instanceId, uint8_t nvidiaMessageType, std::span<uint8_t> buf);
+
+int decodeGetSupportedCommandCodesResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    std::array<uint8_t, supportedListBitfieldSize>& supportedCommands);
 
 int encodeGetTemperatureReadingRequest(uint8_t instanceId, uint8_t sensorId,
                                        std::span<uint8_t> buf);
