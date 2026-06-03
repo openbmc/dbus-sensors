@@ -50,7 +50,8 @@ NvidiaGpuVoltageSensor::NvidiaGpuVoltageSensor(
            "energy", false, true, gpuVoltageSensorMaxReading,
            gpuVoltageSensorMinReading, conn),
     eid(eid), sensorId{sensorId}, mctpRequester(mctpRequester),
-    objectServer(objectServer)
+    objectServer(objectServer),
+    request(gpu::encodeGetVoltageRequest(0, sensorId))
 {
     std::string dbusPath = sensorPathPrefix + "voltage/"s + escapeName(name);
 
@@ -115,8 +116,8 @@ void NvidiaGpuVoltageSensor::processResponse(const std::error_code& ec,
     if (ec)
     {
         lg2::error(
-            "Error updating Voltage Sensor: sending message over MCTP failed, rc={RC}",
-            "RC", ec.message());
+            "Error updating Voltage Sensor for eid {EID} and sensor id {SID} : sending message over MCTP failed, rc={RC}",
+            "EID", eid, "SID", sensorId, "RC", ec.message());
         return;
     }
 
@@ -130,8 +131,9 @@ void NvidiaGpuVoltageSensor::processResponse(const std::error_code& ec,
     if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
     {
         lg2::error(
-            "Error updating Voltage Sensor: decode failed, rc={RC}, cc={CC}, reasonCode={RESC}",
-            "RC", rc, "CC", cc, "RESC", reasonCode);
+            "Error updating Voltage Sensor for eid {EID} and sensor id {SID} : decode failed, rc={RC}, cc={CC}, reasonCode={RESC}",
+            "EID", eid, "SID", sensorId, "RC", rc, "CC", cc, "RESC",
+            reasonCode);
         return;
     }
 
@@ -142,15 +144,6 @@ void NvidiaGpuVoltageSensor::processResponse(const std::error_code& ec,
 
 void NvidiaGpuVoltageSensor::update()
 {
-    auto rc = gpu::encodeGetVoltageRequest(0, sensorId, request);
-
-    if (rc != 0)
-    {
-        lg2::error("Error updating Voltage Sensor: encode failed, rc={RC}",
-                   "RC", rc);
-        return;
-    }
-
     mctpRequester.sendRecvMsg(
         eid, request,
         [weak{weak_from_this()}](const std::error_code& ec,

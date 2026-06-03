@@ -57,8 +57,8 @@ struct NvidiaGpuTempSensor :
 
     sdbusplus::asio::object_server& objectServer;
 
-    std::array<uint8_t, gpu::getTemperatureReadingRequestSize>
-        getTemperatureReadingRequest{};
+    const std::array<uint8_t, gpu::getTemperatureReadingRequestSize>
+        getTemperatureReadingRequest;
 
     std::shared_ptr<sdbusplus::asio::dbus_interface> sensorTypeInterface;
 

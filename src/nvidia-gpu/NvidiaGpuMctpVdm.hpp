@@ -7,6 +7,7 @@
 
 #include <OcpMctpVdm.hpp>
 
+#include <array>
 #include <cstddef>
 #include <cstdint>
 #include <span>
@@ -272,6 +273,9 @@ int decodeQueryDeviceIdentificationResponse(
 int encodeGetTemperatureReadingRequest(uint8_t instanceId, uint8_t sensorId,
                                        std::span<uint8_t> buf);
 
+std::array<uint8_t, getTemperatureReadingRequestSize>
+    encodeGetTemperatureReadingRequest(uint8_t instanceId, uint8_t sensorId);
+
 int decodeGetTemperatureReadingResponse(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
@@ -289,12 +293,19 @@ int encodeGetPowerDrawRequest(
     PlatformEnvironmentalCommands commandCode, uint8_t instanceId,
     uint8_t sensorId, uint8_t averagingInterval, std::span<uint8_t> buf);
 
+std::array<uint8_t, getPowerDrawRequestSize> encodeGetPowerDrawRequest(
+    PlatformEnvironmentalCommands commandCode, uint8_t instanceId,
+    uint8_t sensorId, uint8_t averagingInterval);
+
 int decodeGetPowerDrawResponse(std::span<const uint8_t> buf,
                                ocp::accelerator_management::CompletionCode& cc,
                                uint16_t& reasonCode, uint32_t& power);
 
 int encodeGetCurrentEnergyCounterRequest(uint8_t instanceId, uint8_t sensorId,
                                          std::span<uint8_t> buf);
+
+std::array<uint8_t, getCurrentEnergyCounterRequestSize>
+    encodeGetCurrentEnergyCounterRequest(uint8_t instanceId, uint8_t sensorId);
 
 int decodeGetCurrentEnergyCounterResponse(
     std::span<const uint8_t> buf,
@@ -303,6 +314,9 @@ int decodeGetCurrentEnergyCounterResponse(
 
 int encodeGetVoltageRequest(uint8_t instanceId, uint8_t sensorId,
                             std::span<uint8_t> buf);
+
+std::array<uint8_t, getVoltageRequestSize> encodeGetVoltageRequest(
+    uint8_t instanceId, uint8_t sensorId);
 
 int decodeGetVoltageResponse(std::span<const uint8_t> buf,
                              ocp::accelerator_management::CompletionCode& cc,
