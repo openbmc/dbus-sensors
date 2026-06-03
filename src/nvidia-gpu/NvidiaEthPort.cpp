@@ -42,6 +42,15 @@ NvidiaEthPortMetrics::NvidiaEthPortMetrics(
     eid(eid), portNumber(portNumber), path(path), conn(conn),
     mctpRequester(mctpRequester)
 {
+    const int rc = gpu::encodeGetEthernetPortTelemetryCountersRequest(
+        0, portNumber, request);
+    if (rc != 0)
+    {
+        lg2::error(
+            "Failed to encode Ethernet Port Metrics request for EID={EID}, PortNumber={PN}, rc={RC}",
+            "EID", eid, "PN", portNumber, "RC", rc);
+    }
+
     const sdbusplus::object_path deviceDbusPath =
         sdbusplus::object_path(nicPathPrefix) / deviceName;
 
@@ -175,17 +184,6 @@ void NvidiaEthPortMetrics::processResponse(
 
 void NvidiaEthPortMetrics::update()
 {
-    const int rc = gpu::encodeGetEthernetPortTelemetryCountersRequest(
-        0, portNumber, request);
-
-    if (rc != 0)
-    {
-        lg2::error(
-            "Error updating Ethernet Port Metrics: encode failed, rc={RC}, EID={EID}, PortNumber={PN}",
-            "RC", rc, "EID", eid, "PN", portNumber);
-        return;
-    }
-
     mctpRequester.sendRecvMsg(
         eid, request,
         [weak{weak_from_this()}](const std::error_code& ec,

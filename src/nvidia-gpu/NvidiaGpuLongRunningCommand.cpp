@@ -30,7 +30,14 @@ NvidiaGpuLongRunningCommand::NvidiaGpuLongRunningCommand(
     longRunningQueue(std::move(longRunningQueue)),
     longRunningResponseHandler(std::move(longRunningResponseHandler)),
     config(std::move(config)), request(this->config.requestSize, 0)
-{}
+{
+    const int rc = this->config.encodeRequest(request);
+    if (rc != 0)
+    {
+        lg2::error("Failed to encode {NAME} request: rc={RC}, EID={EID}",
+                   "NAME", this->config.metricName, "RC", rc, "EID", eid);
+    }
+}
 
 void NvidiaGpuLongRunningCommand::update()
 {
@@ -47,15 +54,6 @@ void NvidiaGpuLongRunningCommand::update()
 
 void NvidiaGpuLongRunningCommand::doUpdate(SerialQueue::ReleaseHandle handle)
 {
-    const int rc = config.encodeRequest(request);
-
-    if (rc != 0)
-    {
-        lg2::error("Error updating {NAME}: encode failed, rc={RC}, EID={EID}",
-                   "NAME", config.metricName, "RC", rc, "EID", eid);
-        return;
-    }
-
     mctpRequester.sendRecvMsg(
         eid, request,
         [weak{weak_from_this()},
