@@ -8,6 +8,7 @@
 #include "MessagePackUnpackUtils.hpp"
 #include "OcpMctpVdm.hpp"
 
+#include <array>
 #include <bit>
 #include <cerrno>
 #include <cstddef>
@@ -355,6 +356,14 @@ int encodeGetTemperatureReadingRequest(uint8_t instanceId, uint8_t sensorId,
     return buffer.getError();
 }
 
+std::array<uint8_t, getTemperatureReadingRequestSize>
+    encodeGetTemperatureReadingRequest(uint8_t instanceId, uint8_t sensorId)
+{
+    std::array<uint8_t, getTemperatureReadingRequestSize> buf{};
+    encodeGetTemperatureReadingRequest(instanceId, sensorId, buf);
+    return buf;
+}
+
 int decodeGetTemperatureReadingResponse(
     const std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
@@ -481,6 +490,16 @@ int encodeGetPowerDrawRequest(PlatformEnvironmentalCommands commandCode,
     return buffer.getError();
 }
 
+std::array<uint8_t, getPowerDrawRequestSize> encodeGetPowerDrawRequest(
+    PlatformEnvironmentalCommands commandCode, uint8_t instanceId,
+    uint8_t sensorId, uint8_t averagingInterval)
+{
+    std::array<uint8_t, getPowerDrawRequestSize> buf{};
+    encodeGetPowerDrawRequest(commandCode, instanceId, sensorId,
+                              averagingInterval, buf);
+    return buf;
+}
+
 int decodeGetPowerDrawResponse(std::span<const uint8_t> buf,
                                ocp::accelerator_management::CompletionCode& cc,
                                uint16_t& reasonCode, uint32_t& power)
@@ -568,6 +587,14 @@ int encodeGetCurrentEnergyCounterRequest(uint8_t instanceId, uint8_t sensorId,
     return buffer.getError();
 }
 
+std::array<uint8_t, getCurrentEnergyCounterRequestSize>
+    encodeGetCurrentEnergyCounterRequest(uint8_t instanceId, uint8_t sensorId)
+{
+    std::array<uint8_t, getCurrentEnergyCounterRequestSize> buf{};
+    encodeGetCurrentEnergyCounterRequest(instanceId, sensorId, buf);
+    return buf;
+}
+
 int decodeGetCurrentEnergyCounterResponse(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
@@ -624,6 +651,14 @@ int encodeGetVoltageRequest(uint8_t instanceId, uint8_t sensorId,
     buffer.pack(sensorId);
 
     return buffer.getError();
+}
+
+std::array<uint8_t, getVoltageRequestSize> encodeGetVoltageRequest(
+    uint8_t instanceId, uint8_t sensorId)
+{
+    std::array<uint8_t, getVoltageRequestSize> buf{};
+    encodeGetVoltageRequest(instanceId, sensorId, buf);
+    return buf;
 }
 
 int decodeGetVoltageResponse(std::span<const uint8_t> buf,
