@@ -19,8 +19,6 @@
 #include <string>
 #include <vector>
 
-constexpr uint8_t gpuEnergySensorId{0};
-
 struct NvidiaGpuEnergySensor :
     public Sensor,
     public std::enable_shared_from_this<NvidiaGpuEnergySensor>

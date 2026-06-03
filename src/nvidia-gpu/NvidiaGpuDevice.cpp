@@ -22,7 +22,7 @@
 #include <NvidiaGpuPowerControl.hpp>
 #include <NvidiaGpuPowerPeakReading.hpp>
 #include <NvidiaGpuPowerSensor.hpp>
-#include <NvidiaGpuSensor.hpp>
+#include <NvidiaGpuTempSensor.hpp>
 #include <NvidiaGpuUtilizationMetrics.hpp>
 #include <NvidiaGpuViolationDuration.hpp>
 #include <NvidiaGpuVoltageSensor.hpp>
@@ -32,6 +32,7 @@
 #include <NvidiaPcieInterface.hpp>
 #include <NvidiaPciePort.hpp>
 #include <NvidiaPciePortMetrics.hpp>
+#include <NvidiaSensorUtils.hpp>
 #include <NvidiaUtils.hpp>
 #include <OcpMctpVdm.hpp>
 #include <SerialQueue.hpp>
@@ -54,8 +55,8 @@
 #include <utility>
 #include <vector>
 
-// Each long-running command can take up to 2s on timeout; worst-case capacity
-// is ~15 commands/device.
+// Each long-running command can take up to 2s on timeout; worst-case
+// capacity is ~15 commands/device.
 static constexpr auto longRunningSensorPollRate = std::chrono::seconds{30};
 
 static constexpr const char* controlClockSpeedIfaceName =
@@ -177,34 +178,38 @@ void GpuDevice::init()
 void GpuDevice::makeSensors()
 {
     tempSensor = std::make_shared<NvidiaGpuTempSensor>(
-        conn, mctpRequester, name + "_TEMP_0", path, eid, gpuTempSensorId,
-        objectServer, std::vector<thresholds::Threshold>{},
+        conn, mctpRequester, name + "_TEMP_0", path, eid,
+        nvidia_sensor_utils::temperature_sensor_id::device, objectServer,
+        std::vector<thresholds::Threshold>{},
         gpu::DeviceIdentification::DEVICE_GPU);
 
     dramTempSensor = std::make_shared<NvidiaGpuTempSensor>(
         conn, mctpRequester, name + "_DRAM_0_TEMP_0", path, eid,
-        gpuDramTempSensorId, objectServer,
+        nvidia_sensor_utils::temperature_sensor_id::dram, objectServer,
         std::vector<thresholds::Threshold>{thresholds::Threshold{
             thresholds::Level::CRITICAL, thresholds::Direction::HIGH, 95.0}},
         gpu::DeviceIdentification::DEVICE_GPU);
 
     powerSensor = std::make_shared<NvidiaGpuPowerSensor>(
-        conn, mctpRequester, name + "_Power_0", path, eid, gpuPowerSensorId,
-        objectServer, std::vector<thresholds::Threshold>{},
+        conn, mctpRequester, name + "_Power_0", path, eid,
+        nvidia_sensor_utils::power_energy_sensor_id::device, objectServer,
+        std::vector<thresholds::Threshold>{},
         gpu::DeviceIdentification::DEVICE_GPU);
 
     peakPower = std::make_shared<NvidiaGpuPowerPeakReading>(
-        mctpRequester, name + "_Power_0", eid, gpuPeakPowerSensorId,
-        objectServer);
+        mctpRequester, name + "_Power_0", eid,
+        nvidia_sensor_utils::power_energy_sensor_id::device, objectServer);
 
     energySensor = std::make_shared<NvidiaGpuEnergySensor>(
-        conn, mctpRequester, name + "_Energy_0", path, eid, gpuEnergySensorId,
-        objectServer, std::vector<thresholds::Threshold>{},
+        conn, mctpRequester, name + "_Energy_0", path, eid,
+        nvidia_sensor_utils::power_energy_sensor_id::device, objectServer,
+        std::vector<thresholds::Threshold>{},
         gpu::DeviceIdentification::DEVICE_GPU);
 
     voltageSensor = std::make_shared<NvidiaGpuVoltageSensor>(
-        conn, mctpRequester, name + "_Voltage_0", path, eid, gpuVoltageSensorId,
-        objectServer, std::vector<thresholds::Threshold>{},
+        conn, mctpRequester, name + "_Voltage_0", path, eid,
+        nvidia_sensor_utils::voltage_sensor_id::gpu, objectServer,
+        std::vector<thresholds::Threshold>{},
         gpu::DeviceIdentification::DEVICE_GPU);
 
     longRunningQueue = std::make_shared<SerialQueue>(io);
@@ -385,9 +390,9 @@ void GpuDevice::processTLimitThresholds(const std::error_code& ec)
     }
 
     tLimitSensor = std::make_shared<NvidiaGpuTempSensor>(
-        conn, mctpRequester, name + "_TEMP_1", path, eid, gpuTLimitSensorId,
-        objectServer, std::move(tLimitThresholds),
-        gpu::DeviceIdentification::DEVICE_GPU);
+        conn, mctpRequester, name + "_TEMP_1", path, eid,
+        nvidia_sensor_utils::temperature_sensor_id::tLimit, objectServer,
+        std::move(tLimitThresholds), gpu::DeviceIdentification::DEVICE_GPU);
 }
 
 void GpuDevice::read()

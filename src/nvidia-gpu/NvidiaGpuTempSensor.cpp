@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-#include "NvidiaGpuSensor.hpp"
+#include "NvidiaGpuTempSensor.hpp"
 
 #include "NvidiaSensorUtils.hpp"
 #include "SensorPaths.hpp"
@@ -80,7 +80,7 @@ NvidiaGpuTempSensor::NvidiaGpuTempSensor(
 
     setInitialProperties(sensor_paths::unitDegreesC);
 
-    if (sensorId == gpuTLimitSensorId)
+    if (sensorId == nvidia_sensor_utils::temperature_sensor_id::tLimit)
     {
         sensorTypeInterface = objectServer.add_interface(
             dbusPath, "xyz.openbmc_project.Sensor.Type");
