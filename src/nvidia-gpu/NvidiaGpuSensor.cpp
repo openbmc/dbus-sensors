@@ -50,6 +50,15 @@ NvidiaGpuTempSensor::NvidiaGpuTempSensor(
     eid(eid), sensorId{sensorId}, mctpRequester(mctpRequester),
     objectServer(objectServer)
 {
+    const int rc = gpu::encodeGetTemperatureReadingRequest(
+        0, sensorId, getTemperatureReadingRequest);
+    if (rc != 0)
+    {
+        lg2::error(
+            "Failed to encode Temperature Sensor request for eid {EID} and sensor id {SID}, rc={RC}",
+            "EID", eid, "SID", sensorId, "RC", rc);
+    }
+
     std::string dbusPath =
         sensorPathPrefix + "temperature/"s + escapeName(name);
 
@@ -163,17 +172,6 @@ void NvidiaGpuTempSensor::processResponse(const std::error_code& ec,
 
 void NvidiaGpuTempSensor::update()
 {
-    auto rc = gpu::encodeGetTemperatureReadingRequest(
-        0, sensorId, getTemperatureReadingRequest);
-
-    if (rc != 0)
-    {
-        lg2::error(
-            "Error updating Temperature Sensor for eid {EID} and sensor id {SID} : encode failed, rc={RC}",
-            "EID", eid, "SID", sensorId, "RC", rc);
-        return;
-    }
-
     mctpRequester.sendRecvMsg(
         eid, getTemperatureReadingRequest,
         [weak{weak_from_this()}](const std::error_code& ec,
