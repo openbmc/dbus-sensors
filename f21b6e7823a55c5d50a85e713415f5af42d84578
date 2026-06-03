@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "49308572_65edb95f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-03T07:55:51Z",
+      "side": 1,
+      "message": "Please update the commit msg",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 61
+      },
+      "revId": "f21b6e7823a55c5d50a85e713415f5af42d84578",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b2082bb1_595b57b6",
         "filename": "src/nvidia-gpu/NvidiaGpuUtilizationMetrics.cpp",
         "patchSetId": 5
