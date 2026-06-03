@@ -22,7 +22,7 @@
 #include <NvidiaGpuPowerControl.hpp>
 #include <NvidiaGpuPowerPeakReading.hpp>
 #include <NvidiaGpuPowerSensor.hpp>
-#include <NvidiaGpuSensor.hpp>
+#include <NvidiaGpuTempSensor.hpp>
 #include <NvidiaGpuUtilizationMetrics.hpp>
 #include <NvidiaGpuViolationDuration.hpp>
 #include <NvidiaGpuVoltageSensor.hpp>
@@ -55,8 +55,8 @@
 #include <utility>
 #include <vector>
 
-// Each long-running command can take up to 2s on timeout; worst-case capacity
-// is ~15 commands/device.
+// Each long-running command can take up to 2s on timeout; worst-case
+// capacity is ~15 commands/device.
 static constexpr auto longRunningSensorPollRate = std::chrono::seconds{30};
 
 static constexpr const char* controlClockSpeedIfaceName =
