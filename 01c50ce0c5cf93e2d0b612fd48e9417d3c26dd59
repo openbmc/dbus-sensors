@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2f05fef_18621d5e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001886
+      },
+      "writtenOn": "2026-06-04T05:23:21Z",
+      "side": 1,
+      "message": "The commit body should not exceed 72 characters. Can you update the commit message?",
+      "revId": "01c50ce0c5cf93e2d0b612fd48e9417d3c26dd59",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
