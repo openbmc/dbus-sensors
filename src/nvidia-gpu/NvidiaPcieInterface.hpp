@@ -16,6 +16,7 @@
 #include <cstdint>
 #include <memory>
 #include <optional>
+#include <span>
 #include <string>
 #include <vector>
 
@@ -56,6 +57,8 @@ struct NvidiaPcieInterface :
 
     std::array<uint8_t, gpu::queryScalarGroupTelemetryV2RequestSize>
         requestV2{};
+
+    std::span<const uint8_t> activeRequest;
 
     gpu::DeviceIdentification deviceType;
 

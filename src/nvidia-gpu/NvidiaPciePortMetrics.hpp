@@ -16,6 +16,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <memory>
+#include <span>
 #include <string>
 #include <vector>
 
@@ -72,6 +73,8 @@ struct NvidiaPciePortMetrics :
 
     std::array<uint8_t, gpu::queryScalarGroupTelemetryV2RequestSize>
         requestV2{};
+
+    std::span<const uint8_t> activeRequest;
 
     std::array<uint8_t, ocp::accelerator_management::commonResponseSize +
                             sizeof(uint32_t) * maxTelemetryValues>
