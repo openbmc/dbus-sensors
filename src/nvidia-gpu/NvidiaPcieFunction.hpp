@@ -53,6 +53,8 @@ struct NvidiaPcieFunction :
     std::array<uint8_t, gpu::queryScalarGroupTelemetryV2RequestSize>
         requestV2{};
 
+    std::span<const uint8_t> activeRequest;
+
     std::shared_ptr<sdbusplus::asio::dbus_interface> pcieFunctionInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> associationInterface;
 

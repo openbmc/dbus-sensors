@@ -44,6 +44,29 @@ NvidiaPcieInterface::NvidiaPcieInterface(
     eid(eid), path(path), conn(conn), mctpRequester(mctpRequester),
     deviceType(deviceType)
 {
+    int rc = 0;
+    switch (deviceType)
+    {
+        case gpu::DeviceIdentification::DEVICE_GPU:
+            rc = gpu::encodeQueryScalarGroupTelemetryV1Request(
+                0, 0, gpu::PcieScalarGroupId::LinkSpeedWidth, requestV1);
+            activeRequest = requestV1;
+            break;
+        case gpu::DeviceIdentification::DEVICE_PCIE:
+            rc = gpu::encodeQueryScalarGroupTelemetryV2Request(
+                0, {}, 0, 0, gpu::PcieScalarGroupId::LinkSpeedWidth, requestV2);
+            activeRequest = requestV2;
+            break;
+        default:
+            break;
+    }
+    if (rc != 0)
+    {
+        lg2::error(
+            "Failed to encode PCIe Interface request: rc={RC}, EID={EID}", "RC",
+            rc, "EID", eid);
+    }
+
     const std::string dbusPath = pcieDevicePathPrefix + escapeName(name);
 
     pcieDeviceInterface = objectServer.add_interface(
@@ -211,34 +234,13 @@ void NvidiaPcieInterface::processResponse(const std::error_code& ec,
 
 void NvidiaPcieInterface::update()
 {
-    int rc = 0;
-    std::span<uint8_t> buf;
-
-    switch (deviceType)
+    if (activeRequest.empty())
     {
-        case gpu::DeviceIdentification::DEVICE_GPU:
-            rc = gpu::encodeQueryScalarGroupTelemetryV1Request(
-                0, 0, gpu::PcieScalarGroupId::LinkSpeedWidth, requestV1);
-            buf = requestV1;
-            break;
-        case gpu::DeviceIdentification::DEVICE_PCIE:
-            rc = gpu::encodeQueryScalarGroupTelemetryV2Request(
-                0, {}, 0, 0, gpu::PcieScalarGroupId::LinkSpeedWidth, requestV2);
-            buf = requestV2;
-            break;
-        default:
-            return;
-    }
-
-    if (rc != 0)
-    {
-        lg2::error("Error updating PCIe Interface: failed, rc={RC}, EID={EID}",
-                   "RC", rc, "EID", eid);
         return;
     }
 
     mctpRequester.sendRecvMsg(
-        eid, buf,
+        eid, activeRequest,
         [eid{this->eid}, weak{weak_from_this()}](
             const std::error_code& ec, std::span<const uint8_t> buffer) {
             std::shared_ptr<NvidiaPcieInterface> self = weak.lock();
