@@ -11,10 +11,10 @@
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
-#include <array>
 #include <cstddef>
 #include <cstdint>
 #include <memory>
+#include <span>
 #include <string>
 #include <vector>
 
@@ -54,11 +54,7 @@ struct NvidiaPciePortInfo :
 
     mctp::MctpRequester& mctpRequester;
 
-    std::array<uint8_t, gpu::queryScalarGroupTelemetryV1RequestSize>
-        requestV1{};
-
-    std::array<uint8_t, gpu::queryScalarGroupTelemetryV2RequestSize>
-        requestV2{};
+    std::vector<uint8_t> request;
 
     gpu::DeviceIdentification deviceType;
 

@@ -48,6 +48,32 @@ NvidiaPciePortMetrics::NvidiaPciePortMetrics(
     portNumber(portNumber), scalarGroupId(scalarGroupId), path(path),
     conn(conn), mctpRequester(mctpRequester), deviceType(deviceType)
 {
+    int rc = 0;
+    switch (deviceType)
+    {
+        case gpu::DeviceIdentification::DEVICE_GPU:
+            request.resize(gpu::queryScalarGroupTelemetryV1RequestSize);
+            rc = gpu::encodeQueryScalarGroupTelemetryV1Request(
+                0, 0, scalarGroupId, request);
+            break;
+        case gpu::DeviceIdentification::DEVICE_PCIE:
+            request.resize(gpu::queryScalarGroupTelemetryV2RequestSize);
+            rc = gpu::encodeQueryScalarGroupTelemetryV2Request(
+                0, portType, this->upstreamPortNumber, portNumber,
+                scalarGroupId, request);
+            break;
+        default:
+            break;
+    }
+    if (rc != 0)
+    {
+        request.clear();
+        lg2::error(
+            "Failed to encode PCIe Port Metrics request: rc={RC}, EID={EID}, PortType={PT}, PortNumber={PN}, ScalarGroup={SG}",
+            "RC", rc, "EID", eid, "PT", static_cast<uint8_t>(portType), "PN",
+            portNumber, "SG", static_cast<uint8_t>(scalarGroupId));
+    }
+
     const std::string metricsDbusPathPrefix =
         metricPath + std::format("port_{}_{}", pcieDeviceName, name);
 
@@ -150,37 +176,13 @@ void NvidiaPciePortMetrics::processResponse(
 
 void NvidiaPciePortMetrics::update()
 {
-    int rc = 0;
-    std::span<uint8_t> buf;
-
-    switch (deviceType)
+    if (request.empty())
     {
-        case gpu::DeviceIdentification::DEVICE_GPU:
-            rc = gpu::encodeQueryScalarGroupTelemetryV1Request(
-                0, 0, scalarGroupId, requestV1);
-            buf = requestV1;
-            break;
-        case gpu::DeviceIdentification::DEVICE_PCIE:
-            rc = gpu::encodeQueryScalarGroupTelemetryV2Request(
-                0, portType, upstreamPortNumber, portNumber, scalarGroupId,
-                requestV2);
-            buf = requestV2;
-            break;
-        default:
-            return;
-    }
-
-    if (rc != 0)
-    {
-        lg2::error(
-            "Error updating PCIe Port Metrics: encode failed, rc={RC}, EID={EID}, PortType={PT}, PortNumber={PN}, ScalarGroup={SG}",
-            "RC", rc, "EID", eid, "PT", static_cast<uint8_t>(portType), "PN",
-            portNumber, "SG", static_cast<uint8_t>(scalarGroupId));
         return;
     }
 
     mctpRequester.sendRecvMsg(
-        eid, buf,
+        eid, request,
         [weak{weak_from_this()}](const std::error_code& ec,
                                  std::span<const uint8_t> buffer) {
             std::shared_ptr<NvidiaPciePortMetrics> self = weak.lock();
