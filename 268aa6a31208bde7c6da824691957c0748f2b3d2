@@ -35,6 +35,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7b2118d_712bddd2",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1001127
+      },
+      "writtenOn": "2026-06-04T08:37:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79a56a92_23a77e8a",
+      "revId": "268aa6a31208bde7c6da824691957c0748f2b3d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "73a3cf3e_fbd6aa4a",
@@ -48,6 +66,30 @@
       "writtenOn": "2026-04-13T22:50:27Z",
       "side": 1,
       "message": "?  What is this even doing?",
+      "range": {
+        "startLine": 396,
+        "startChar": 0,
+        "endLine": 396,
+        "endChar": 68
+      },
+      "revId": "268aa6a31208bde7c6da824691957c0748f2b3d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e916396_063428fe",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1001127
+      },
+      "writtenOn": "2026-06-04T08:37:27Z",
+      "side": 1,
+      "message": "It strips the trailing number. e.g., converting `Yosemite5_MB_VR_CPU0_MEM_3602` to `Yosemite5_MB_VR_CPU0_MEM`",
+      "parentUuid": "73a3cf3e_fbd6aa4a",
       "range": {
         "startLine": 396,
         "startChar": 0,
