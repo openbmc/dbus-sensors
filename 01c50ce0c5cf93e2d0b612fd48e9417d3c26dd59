@@ -16,6 +16,24 @@
       "message": "The commit body should not exceed 72 characters. Can you update the commit message?",
       "revId": "01c50ce0c5cf93e2d0b612fd48e9417d3c26dd59",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cd8de34_723ca3d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-06-04T09:59:15Z",
+      "side": 1,
+      "message": "Addressed this by adjusting the commit message formatting to follow the 72-character line limit.",
+      "parentUuid": "b2f05fef_18621d5e",
+      "revId": "01c50ce0c5cf93e2d0b612fd48e9417d3c26dd59",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
