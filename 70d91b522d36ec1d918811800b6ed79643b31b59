@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ded22bc9_09e67813",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-06-05T10:25:40Z",
+      "side": 1,
+      "message": "Don\u0027t think this is necessary we can use plain set_property call to update the value on dbus and that way dramItemIface can be created and populated in GPU Device class.",
+      "revId": "70d91b522d36ec1d918811800b6ed79643b31b59",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "397e1904_7b621aef",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-06-05T10:25:40Z",
+      "side": 1,
+      "message": "Let\u0027s store the value in member data in same unit that we have received it with MCTP VDM command.",
+      "revId": "70d91b522d36ec1d918811800b6ed79643b31b59",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a19acb2_5f6ea8e7",
+        "filename": "src/nvidia-gpu/NvidiaGpuMemoryCapacityUtilization.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-06-05T10:25:40Z",
+      "side": 1,
+      "message": "We can avoid this check since we already have check while updating the value on dbus.",
+      "revId": "70d91b522d36ec1d918811800b6ed79643b31b59",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
