@@ -214,6 +214,11 @@ void MCTPReactor::tick()
             case MCTPDeviceState::Quarantine:
                 break;
             case MCTPDeviceState::Lost:
+                // Check power state before attempting to recover the device.
+                if (!readingStateGood(entry.second->getRequiredPowerState()))
+                {
+                    break;
+                }
                 next(entry.second, MCTPDeviceState::Recovering);
                 setupEndpoint(entry.second);
                 break;
@@ -250,8 +255,15 @@ void MCTPReactor::manageMCTPDevice(const std::string& path,
     {
         case MCTPDeviceState::Unmanaged:
             devices.add(path, device);
-            next(device, MCTPDeviceState::Assigning);
-            setupEndpoint(device);
+            if (!readingStateGood(device->getRequiredPowerState()))
+            {
+                next(device, MCTPDeviceState::Lost);
+            }
+            else
+            {
+                next(device, MCTPDeviceState::Assigning);
+                setupEndpoint(device);
+            }
             break;
         case MCTPDeviceState::Assigning:
         case MCTPDeviceState::Unassigned:
