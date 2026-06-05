@@ -54,6 +54,23 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "45518e46_3960ab87",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-06-05T17:00:38Z",
+      "side": 1,
+      "message": "Honestly, it is kind of annoying to abandon all the commits and then submit a new one.  People have given you code review feedback on _this_ commit and now I have to manually see if you\u0027ve fixed those things in your new change.  You\u0027re making more works for reviewers, which makes them not want to review your stuff.",
+      "revId": "cb75ae8872d53b3b952a89bc21d6be9338ae5697",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a2f3ec64_924dc1ac",
