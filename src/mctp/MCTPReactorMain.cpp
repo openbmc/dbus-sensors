@@ -244,6 +244,8 @@ int main()
 
     systemBus->request_name("xyz.openbmc_project.MCTPReactor");
 
+    setupPowerMatch(systemBus);
+
     boost::asio::post(io, [reactor, systemBus]() {
         auto gsc = std::make_shared<GetSensorConfiguration>(
             systemBus, std::bind_front(manageMCTPEntity, systemBus, reactor));

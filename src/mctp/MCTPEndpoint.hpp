@@ -183,6 +183,11 @@ class MCTPDevice
      * @return An opaque, internally-stable identifier representing the device
      */
     virtual std::size_t id() const = 0;
+
+    /**
+     * @return The PowerState requirement for this device
+     */
+    virtual PowerState getRequiredPowerState() const = 0;
 };
 
 class MCTPDDevice;
@@ -271,7 +276,8 @@ class MCTPDDevice :
     MCTPDDevice() = delete;
     MCTPDDevice(const std::shared_ptr<sdbusplus::asio::connection>& connection,
                 const std::string& interface,
-                const std::vector<uint8_t>& physaddr);
+                const std::vector<uint8_t>& physaddr,
+                PowerState powerState = PowerState::always);
     MCTPDDevice(const MCTPDDevice& other) = delete;
     MCTPDDevice(MCTPDDevice&& other) = delete;
     ~MCTPDDevice() override = default;
@@ -282,6 +288,10 @@ class MCTPDDevice :
     void remove() override;
     std::string describe() const override;
     std::size_t id() const override;
+    PowerState getRequiredPowerState() const override
+    {
+        return powerState;
+    }
 
   private:
     static void onEndpointInterfacesRemoved(
@@ -291,6 +301,7 @@ class MCTPDDevice :
     std::shared_ptr<sdbusplus::asio::connection> connection;
     const std::string interface;
     const std::vector<uint8_t> physaddr;
+    PowerState powerState;
     std::shared_ptr<MCTPDEndpoint> endpoint;
     std::unique_ptr<sdbusplus::bus::match_t> removeMatch;
 
@@ -322,8 +333,8 @@ class I2CMCTPDDevice : public MCTPDDevice
     I2CMCTPDDevice() = delete;
     I2CMCTPDDevice(
         const std::shared_ptr<sdbusplus::asio::connection>& connection, int bus,
-        uint8_t physaddr) :
-        MCTPDDevice(connection, interfaceFromBus(bus), {physaddr})
+        uint8_t physaddr, PowerState powerState = PowerState::always) :
+        MCTPDDevice(connection, interfaceFromBus(bus), {physaddr}, powerState)
     {}
     ~I2CMCTPDDevice() override = default;
 
@@ -345,8 +356,9 @@ class I3CMCTPDDevice : public MCTPDDevice
     I3CMCTPDDevice() = delete;
     I3CMCTPDDevice(
         const std::shared_ptr<sdbusplus::asio::connection>& connection, int bus,
-        const std::vector<uint8_t>& physaddr) :
-        MCTPDDevice(connection, interfaceFromBus(bus), physaddr)
+        const std::vector<uint8_t>& physaddr,
+        PowerState powerState = PowerState::always) :
+        MCTPDDevice(connection, interfaceFromBus(bus), physaddr, powerState)
     {}
     ~I3CMCTPDDevice() override = default;
 

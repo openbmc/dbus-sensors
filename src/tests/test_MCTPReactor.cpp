@@ -26,6 +26,7 @@ class MockMCTPDevice : public MCTPDevice
     MOCK_METHOD(void, remove, (), (override));
     MOCK_METHOD(std::string, describe, (), (const, override));
     MOCK_METHOD(std::size_t, id, (), (const, override));
+    MOCK_METHOD(PowerState, getRequiredPowerState, (), (const, override));
 };
 
 class MockMCTPEndpoint : public MCTPEndpoint
@@ -65,6 +66,8 @@ class MCTPReactorFixture : public testing::Test
         EXPECT_CALL(*device, describe())
             .WillRepeatedly(testing::Return("mock device"));
         EXPECT_CALL(*device, id()).WillRepeatedly(testing::Return(0UL));
+        EXPECT_CALL(*device, getRequiredPowerState())
+            .WillRepeatedly(testing::Return(PowerState::always));
 
         endpoint = std::make_shared<MockMCTPEndpoint>();
         EXPECT_CALL(*endpoint, device())
@@ -483,6 +486,8 @@ TEST(MCTPReactor, replaceConfiguration)
     EXPECT_CALL(*idev, setup(testing::_))
         .WillOnce(testing::InvokeArgument<0>(std::error_code(), iep));
     EXPECT_CALL(*idev, remove()).WillOnce([&]() { iep->remove(); });
+    EXPECT_CALL(*idev, getRequiredPowerState())
+        .WillRepeatedly(testing::Return(PowerState::always));
 
     EXPECT_CALL(*iep, device()).WillRepeatedly(testing::Return(idev));
 
@@ -502,6 +507,8 @@ TEST(MCTPReactor, replaceConfiguration)
     EXPECT_CALL(*rdev, setup(testing::_))
         .WillOnce(testing::InvokeArgument<0>(std::error_code(), rep));
     EXPECT_CALL(*rdev, remove()).WillOnce([&]() { rep->remove(); });
+    EXPECT_CALL(*rdev, getRequiredPowerState())
+        .WillRepeatedly(testing::Return(PowerState::always));
 
     EXPECT_CALL(*rep, device()).WillRepeatedly(testing::Return(rdev));
 
@@ -540,6 +547,8 @@ TEST(MCTPReactor, concurrentEndpointSetupReactorTeardown)
         EXPECT_CALL(*device, id()).WillRepeatedly(testing::Return(0UL));
         EXPECT_CALL(*device, setup(testing::_))
             .WillOnce(testing::SaveArg<0>(&setupHandler));
+        EXPECT_CALL(*device, getRequiredPowerState())
+            .WillRepeatedly(testing::Return(PowerState::always));
 
         reactor->manageMCTPDevice("/test", device);
     }
@@ -575,6 +584,8 @@ TEST(MCTPReactor, manageMockDeviceDelayedSetup)
                     std::make_error_code(std::errc::permission_denied),
                     endpoint))
                 .WillOnce(testing::SaveArg<0>(&setupHandler));
+            EXPECT_CALL(*device, getRequiredPowerState())
+                .WillRepeatedly(testing::Return(PowerState::always));
 
             reactor->manageMCTPDevice("/test", device);
 
