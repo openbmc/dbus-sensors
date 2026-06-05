@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "798ff2ba_e304575f",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerControl.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-06-05T04:42:45Z",
+      "side": 1,
+      "message": "Is `name` sufficient to uniquely identify a device? If not let\u0027s also add EID. Same applies to other files as well.",
+      "revId": "4e4a9e233e94f86c0f592eff5bbf4ac58e885c37",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
