@@ -130,6 +130,23 @@ void MCTPReactor::trackEndpoint(const std::shared_ptr<MCTPEndpoint>& ep)
 
 void MCTPReactor::setupEndpoint(const std::shared_ptr<MCTPDevice>& dev)
 {
+    // Check power state before attempting setup
+    if (!readingStateGood(dev->getRequiredPowerState()))
+    {
+        switch (states[dev->id()])
+        {
+            case MCTPDeviceState::Assigning:
+                next(dev, MCTPDeviceState::Unassigned);
+                break;
+            case MCTPDeviceState::Recovering:
+                next(dev, MCTPDeviceState::Lost);
+                break;
+            default:
+                break;
+        }
+        return;
+    }
+
     debug(
         "Attempting to setup up MCTP endpoint for device at [ {MCTP_DEVICE} ]",
         "MCTP_DEVICE", dev->describe());
