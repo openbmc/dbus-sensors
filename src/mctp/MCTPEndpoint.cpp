@@ -44,8 +44,10 @@ static constexpr const char* mctpdEndpointControlInterface =
 
 MCTPDDevice::MCTPDDevice(
     const std::shared_ptr<sdbusplus::asio::connection>& connection,
-    const std::string& interface, const std::vector<uint8_t>& physaddr) :
-    connection(connection), interface(interface), physaddr(physaddr)
+    const std::string& interface, const std::vector<uint8_t>& physaddr,
+    PowerState powerState) :
+    connection(connection), interface(interface), physaddr(physaddr),
+    powerState(powerState)
 {}
 
 void MCTPDDevice::onEndpointInterfacesRemoved(
@@ -453,9 +455,11 @@ std::shared_ptr<I2CMCTPDDevice> I2CMCTPDDevice::from(
         throw std::invalid_argument("Bad bus index");
     }
 
+    PowerState ps = getPowerState(iface);
+
     try
     {
-        return std::make_shared<I2CMCTPDDevice>(connection, bus, address);
+        return std::make_shared<I2CMCTPDDevice>(connection, bus, address, ps);
     }
     catch (const MCTPException& ex)
     {
@@ -508,9 +512,11 @@ std::shared_ptr<I3CMCTPDDevice> I3CMCTPDDevice::from(
         throw std::invalid_argument("Bad bus index");
     }
 
+    PowerState ps = getPowerState(iface);
+
     try
     {
-        return std::make_shared<I3CMCTPDDevice>(connection, bus, address);
+        return std::make_shared<I3CMCTPDDevice>(connection, bus, address, ps);
     }
     catch (const MCTPException& ex)
     {
