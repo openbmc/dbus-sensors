@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b236f201_c34a291f",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-06-05T16:44:55Z",
+      "side": 1,
+      "message": "Sharing the class instance across different classes should be handled carefully.\nIn your case, you were sharing `inventory*` to `dramItemIface` while they were all attributes of `GpuDevices`. \nHaving destructor of `GpuDevices` on flight while having user trying to access this property published on dbus will resulting in daemon crash, because `inventory` will have been destroyed while `dramItemIface` isn\u0027t(which means user can still found the interface and property online).",
+      "range": {
+        "startLine": 134,
+        "startChar": 12,
+        "endLine": 137,
+        "endChar": 0
+      },
+      "revId": "70d91b522d36ec1d918811800b6ed79643b31b59",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "397e1904_7b621aef",
         "filename": "src/nvidia-gpu/Inventory.cpp",
         "patchSetId": 6
@@ -37,6 +60,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "84aaf3c5_e25624a4",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-06-05T16:44:55Z",
+      "side": 1,
+      "message": "Noticed that `dramItemInterface` is declared earlier than `inventory`, which means\n`inventory` will be destroyer earlier in a reverse manner.",
+      "range": {
+        "startLine": 106,
+        "startChar": 4,
+        "endLine": 106,
+        "endChar": 71
+      },
+      "revId": "70d91b522d36ec1d918811800b6ed79643b31b59",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3a70b5e_7297d013",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-06-05T16:44:55Z",
+      "side": 1,
+      "message": "`inventory` is the very last few attribute in `GpuDevices`.",
+      "range": {
+        "startLine": 136,
+        "startChar": 4,
+        "endLine": 136,
+        "endChar": 41
+      },
+      "revId": "70d91b522d36ec1d918811800b6ed79643b31b59",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0a19acb2_5f6ea8e7",
         "filename": "src/nvidia-gpu/NvidiaGpuMemoryCapacityUtilization.cpp",
         "patchSetId": 6
@@ -48,6 +117,29 @@
       "writtenOn": "2026-06-05T10:25:40Z",
       "side": 1,
       "message": "We can avoid this check since we already have check while updating the value on dbus.",
+      "revId": "70d91b522d36ec1d918811800b6ed79643b31b59",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e043bc79_ade30edf",
+        "filename": "src/nvidia-gpu/NvidiaGpuMemoryCapacityUtilization.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-06-05T16:44:55Z",
+      "side": 1,
+      "message": "Due to the same reason, we should at least have a checker before accessing to `inventory`.",
+      "range": {
+        "startLine": 167,
+        "startChar": 4,
+        "endLine": 167,
+        "endChar": 75
+      },
       "revId": "70d91b522d36ec1d918811800b6ed79643b31b59",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
