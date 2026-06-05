@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b0752dfa_f9bcfcca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-06-05T09:20:55Z",
+      "side": 1,
+      "message": "Agree. Let\u0027s create a separate Object path for this control and link it to GPU Object path with association.",
+      "parentUuid": "582f4cc5_90b031c6",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 50
+      },
+      "revId": "628fd7cee14ae1f73d42bf97b1cf2e55b429c0e6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c6852fe4_6a4e1eb1",
         "filename": "src/nvidia-gpu/NvidiaGpuEccMode.cpp",
         "patchSetId": 5
