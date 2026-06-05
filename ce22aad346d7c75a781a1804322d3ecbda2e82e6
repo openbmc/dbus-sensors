@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28b3a868_8b81dcb7",
+        "filename": "src/nvidia-gpu/NvidiaGpuEccMode.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-06-05T09:38:08Z",
+      "side": 1,
+      "message": "Let\u0027s not do this. Can\u0027t we define a second `std::shared_ptr\u003cNvidiaGpuLongRunningCommand\u003e` within this class for set MCTP VDM command?",
+      "revId": "ce22aad346d7c75a781a1804322d3ecbda2e82e6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
