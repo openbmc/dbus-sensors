@@ -26,6 +26,7 @@ class MockMCTPDevice : public MCTPDevice
     MOCK_METHOD(void, remove, (), (override));
     MOCK_METHOD(std::string, describe, (), (const, override));
     MOCK_METHOD(std::size_t, id, (), (const, override));
+    MOCK_METHOD(PowerState, getRequiredPowerState, (), (const, override));
 };
 
 class MockMCTPEndpoint : public MCTPEndpoint
