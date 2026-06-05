@@ -26,6 +26,7 @@ class MockMCTPDevice : public MCTPDevice
     MOCK_METHOD(void, remove, (), (override));
     MOCK_METHOD(std::string, describe, (), (const, override));
     MOCK_METHOD(std::size_t, id, (), (const, override));
+    MOCK_METHOD(PowerState, getRequiredPowerState, (), (const, override));
 };
 
 class MockMCTPEndpoint : public MCTPEndpoint
@@ -65,6 +66,8 @@ class MCTPReactorFixture : public testing::Test
         EXPECT_CALL(*device, describe())
             .WillRepeatedly(testing::Return("mock device"));
         EXPECT_CALL(*device, id()).WillRepeatedly(testing::Return(0UL));
+        EXPECT_CALL(*device, getRequiredPowerState())
+            .WillRepeatedly(testing::Return(PowerState::always));
 
         endpoint = std::make_shared<MockMCTPEndpoint>();
         EXPECT_CALL(*endpoint, device())
