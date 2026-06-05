@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb01dd40_395e4ae1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-06-05T10:23:29Z",
+      "side": 1,
+      "message": "Done,thanks.",
+      "parentUuid": "49308572_65edb95f",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 61
+      },
+      "revId": "f21b6e7823a55c5d50a85e713415f5af42d84578",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b2082bb1_595b57b6",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-06-03T07:48:44Z",
       "side": 1,
       "message": "I think we can rename \"Current Utilization\" to \"Processor Bandwidth\" here (and Line 76) for symmetry with the Memory Bandwidth logs.",
+      "range": {
+        "startLine": 69,
+        "startChar": 34,
+        "endLine": 69,
+        "endChar": 53
+      },
+      "revId": "f21b6e7823a55c5d50a85e713415f5af42d84578",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f77e04fd_26f920d8",
+        "filename": "src/nvidia-gpu/NvidiaGpuUtilizationMetrics.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-06-05T10:23:29Z",
+      "side": 1,
+      "message": "Done,thanks.",
+      "parentUuid": "b2082bb1_595b57b6",
       "range": {
         "startLine": 69,
         "startChar": 34,
@@ -70,6 +118,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "272fb74c_cc23451f",
+        "filename": "src/nvidia-gpu/NvidiaGpuUtilizationMetrics.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-06-05T10:23:29Z",
+      "side": 1,
+      "message": "Done,thanks.",
+      "parentUuid": "ab5cf2e0_6da9a789",
+      "range": {
+        "startLine": 90,
+        "startChar": 4,
+        "endLine": 91,
+        "endChar": 47
+      },
+      "revId": "f21b6e7823a55c5d50a85e713415f5af42d84578",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ee6fb713_9483b304",
@@ -83,6 +155,30 @@
       "writtenOn": "2026-06-03T07:48:44Z",
       "side": 1,
       "message": "I think we should rename here. Maybe \"GPU Utilization Metrics\" or similar.",
+      "range": {
+        "startLine": 120,
+        "startChar": 26,
+        "endLine": 120,
+        "endChar": 52
+      },
+      "revId": "f21b6e7823a55c5d50a85e713415f5af42d84578",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67693295_dae4ce96",
+        "filename": "src/nvidia-gpu/NvidiaGpuUtilizationMetrics.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-06-05T10:23:29Z",
+      "side": 1,
+      "message": "Done,thanks.",
+      "parentUuid": "ee6fb713_9483b304",
       "range": {
         "startLine": 120,
         "startChar": 26,
@@ -116,6 +212,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "063680af_7e13592f",
+        "filename": "src/nvidia-gpu/NvidiaGpuUtilizationMetrics.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-06-05T10:23:29Z",
+      "side": 1,
+      "message": "Done,thanks.",
+      "parentUuid": "b795b669_bb1113fd",
+      "range": {
+        "startLine": 126,
+        "startChar": 16,
+        "endLine": 128,
+        "endChar": 18
+      },
+      "revId": "f21b6e7823a55c5d50a85e713415f5af42d84578",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c7b0426f_1d1e30b1",
@@ -129,6 +249,30 @@
       "writtenOn": "2026-06-03T07:48:44Z",
       "side": 1,
       "message": "We have overload decodeGetCurrentUtilizationModeResponse at NvidiaGpuMctpVdm.cpp.\nCould you add a 2-uint32 overload, use it here, and update the\ntests?\nPlease keep this file and NvidiaGpuCurrentUtilization.cpp on the same template.\nThanks.",
+      "range": {
+        "startLine": 178,
+        "startChar": 4,
+        "endLine": 182,
+        "endChar": 34
+      },
+      "revId": "f21b6e7823a55c5d50a85e713415f5af42d84578",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de0583a5_a71acfc6",
+        "filename": "src/nvidia-gpu/NvidiaGpuUtilizationMetrics.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-06-05T10:23:29Z",
+      "side": 1,
+      "message": "Done,thanks.",
+      "parentUuid": "c7b0426f_1d1e30b1",
       "range": {
         "startLine": 178,
         "startChar": 4,
