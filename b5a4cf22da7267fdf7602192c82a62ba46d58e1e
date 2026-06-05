@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "217aab40_d31443bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-06-05T06:03:24Z",
+      "side": 1,
+      "message": "Let\u0027s not do that. We should find a generic way to associate an EID to EM object path and add appropriate interfaces at the same object path if that EM object path has Item.Chassis / Item.Board. We will be able to do that with use of these patches https://gerrit.openbmc.org/q/topic:%22mctp-usb-config%22. If you cannot find any other way to associate an EID to EM object without using those patch, I suggest marking these patches WIP until that feature lands.",
+      "range": {
+        "startLine": 25,
+        "startChar": 10,
+        "endLine": 25,
+        "endChar": 58
+      },
+      "revId": "b5a4cf22da7267fdf7602192c82a62ba46d58e1e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
