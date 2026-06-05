@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6490bc04_bec0bdf3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-05T08:16:13Z",
+      "side": 1,
+      "message": "Thanks for adding these case.\nCould we add UpdateMctpTransportError and UpdateSuccessThenErrorKeepsPreviousValue tests here (and in test_NvidiaGpuMemoryClockFrequency.cpp) following the pattern in\ntest_NvidiaGpuSensor.cpp L278 / L316?",
+      "revId": "5dad351c4473c942873d947de263dc68d4f776fd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67827111_a448ebea",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuControl.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-05T08:16:13Z",
+      "side": 1,
+      "message": "Please rename to `test_NvidiaGpuPowerControl.cpp`.",
+      "revId": "5dad351c4473c942873d947de263dc68d4f776fd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5df0330_b3d98e80",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuControl.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-05T08:16:13Z",
+      "side": 1,
+      "message": "add Power too. Thanks.",
+      "range": {
+        "startLine": 71,
+        "startChar": 6,
+        "endLine": 71,
+        "endChar": 30
+      },
+      "revId": "5dad351c4473c942873d947de263dc68d4f776fd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
