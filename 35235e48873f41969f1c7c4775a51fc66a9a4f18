@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bed3cd3c_f7848d8b",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-06-05T08:19:50Z",
+      "side": 1,
+      "message": "Is it possible to do register_property in GPU Device class? can we use plain set_property method to update the value once it is available and also populate the member data at the same time?",
+      "revId": "35235e48873f41969f1c7c4775a51fc66a9a4f18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a41a2104_8c26b05e",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-06-05T08:19:50Z",
+      "side": 1,
+      "message": "Please add unit test cases for these functions.",
+      "revId": "35235e48873f41969f1c7c4775a51fc66a9a4f18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35672339_4fc5e743",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerControl.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-06-05T08:19:50Z",
+      "side": 1,
+      "message": "Using reference to const and than copying it would be preferred pattern here in my opinion to avoid constructing the object twice.",
+      "revId": "35235e48873f41969f1c7c4775a51fc66a9a4f18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebed5bc2_08fffc2b",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerControl.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-06-05T08:19:50Z",
+      "side": 1,
+      "message": "We should only emit the signal if the property is changed.",
+      "revId": "35235e48873f41969f1c7c4775a51fc66a9a4f18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44be4c6a_6ada5ec0",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerControl.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-06-05T08:19:50Z",
+      "side": 1,
+      "message": "We should only emit the signal if the property is changed.",
+      "revId": "35235e48873f41969f1c7c4775a51fc66a9a4f18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5c1ee7e_34bca9a8",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerControl.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-06-05T08:19:50Z",
+      "side": 1,
+      "message": "This would also update the value on dbus right? That would be incorrect if Set operation using MCTP VDM command fails. Calling update after the Set operation would anyway update the value on dbus.",
+      "revId": "35235e48873f41969f1c7c4775a51fc66a9a4f18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d19efa9_abb5ffdc",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerControl.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-06-05T08:19:50Z",
+      "side": 1,
+      "message": "Do we need this since we have custom getter for property?",
+      "revId": "35235e48873f41969f1c7c4775a51fc66a9a4f18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1190024f_22408a20",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerControl.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-06-05T08:19:50Z",
+      "side": 1,
+      "message": "remove else block and return from if block to align with pattern in this daemon.",
+      "revId": "35235e48873f41969f1c7c4775a51fc66a9a4f18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70fd46e4_5e8a70d4",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerControl.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-06-05T08:19:50Z",
+      "side": 1,
+      "message": "Call update function after the set is completed to update the latest value on dbus.",
+      "revId": "35235e48873f41969f1c7c4775a51fc66a9a4f18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
