@@ -16,6 +16,24 @@
       "message": "Are multiple files using these sensor ids? If not let\u0027s not put this into common file and instead put it into the file where it is being used?",
       "revId": "89cb34d61e543b6a2dc8d159fa0b1c560cce1531",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1afa144_e95f83cc",
+        "filename": "src/nvidia-gpu/NvidiaSensorUtils.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-05T05:28:08Z",
+      "side": 1,
+      "message": "You\u0027re right, only `tLimit` is cross-file today. But future SMA and ConnectX or other device sensors support will pull more of these across files; happy to revert this and revisit when those land.\nWhich do you prefer?",
+      "parentUuid": "c0377220_b54f8e66",
+      "revId": "89cb34d61e543b6a2dc8d159fa0b1c560cce1531",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
