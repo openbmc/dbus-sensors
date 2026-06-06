@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3eeeec8_2df586ed",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-06T04:53:11Z",
+      "side": 1,
+      "message": "Done — reverted to the patchset 1 approach: Min/Max/Default are registered in the GPU device class and published via set_property (updating the value and member together).",
+      "parentUuid": "bed3cd3c_f7848d8b",
+      "revId": "35235e48873f41969f1c7c4775a51fc66a9a4f18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a41a2104_8c26b05e",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-06-05T08:19:50Z",
       "side": 1,
       "message": "Please add unit test cases for these functions.",
+      "revId": "35235e48873f41969f1c7c4775a51fc66a9a4f18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd6881b0_ea8f38dd",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-06T04:53:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a41a2104_8c26b05e",
       "revId": "35235e48873f41969f1c7c4775a51fc66a9a4f18",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -52,6 +88,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "886b2ff3_b4fe4140",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerControl.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-06T04:53:11Z",
+      "side": 1,
+      "message": "Taking the shared_ptr by value + std::move is the recommended sink idiom: an rvalue moves in with no refcount bump, an lvalue copies once (same as const-ref + copy). Happy to switch if you\u0027d still prefer it.",
+      "parentUuid": "35672339_4fc5e743",
+      "revId": "35235e48873f41969f1c7c4775a51fc66a9a4f18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ebed5bc2_08fffc2b",
@@ -65,6 +119,24 @@
       "writtenOn": "2026-06-05T08:19:50Z",
       "side": 1,
       "message": "We should only emit the signal if the property is changed.",
+      "revId": "35235e48873f41969f1c7c4775a51fc66a9a4f18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95af8807_dba8a4fe",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerControl.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-06T04:53:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebed5bc2_08fffc2b",
       "revId": "35235e48873f41969f1c7c4775a51fc66a9a4f18",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -86,6 +158,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f22e8404_ca81becd",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerControl.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-06T04:53:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44be4c6a_6ada5ec0",
+      "revId": "35235e48873f41969f1c7c4775a51fc66a9a4f18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c5c1ee7e_34bca9a8",
@@ -99,6 +189,24 @@
       "writtenOn": "2026-06-05T08:19:50Z",
       "side": 1,
       "message": "This would also update the value on dbus right? That would be incorrect if Set operation using MCTP VDM command fails. Calling update after the Set operation would anyway update the value on dbus.",
+      "revId": "35235e48873f41969f1c7c4775a51fc66a9a4f18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92d847ff_96a9d77d",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerControl.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-06T04:53:11Z",
+      "side": 1,
+      "message": "Done — the setter no longer writes the exposed value. PowerCap/PowerCapEnable are written only in the GetPowerLimits response handler; a SetPowerLimits success triggers an immediate GetPowerLimits, so the value reflects the device (and a failed write leaves no stale value). The requested cap is kept in a member so a combined PATCH isn\u0027t lost.",
+      "parentUuid": "c5c1ee7e_34bca9a8",
       "revId": "35235e48873f41969f1c7c4775a51fc66a9a4f18",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -120,6 +228,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "51d0cd1e_9651ead6",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerControl.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-06T04:53:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d19efa9_abb5ffdc",
+      "revId": "35235e48873f41969f1c7c4775a51fc66a9a4f18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1190024f_22408a20",
@@ -137,6 +263,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d285fec_84877b0f",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerControl.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-06T04:53:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1190024f_22408a20",
+      "revId": "35235e48873f41969f1c7c4775a51fc66a9a4f18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "70fd46e4_5e8a70d4",
@@ -150,6 +294,24 @@
       "writtenOn": "2026-06-05T08:19:50Z",
       "side": 1,
       "message": "Call update function after the set is completed to update the latest value on dbus.",
+      "revId": "35235e48873f41969f1c7c4775a51fc66a9a4f18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfbd679f_d89cc788",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerControl.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-06T04:53:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70fd46e4_5e8a70d4",
       "revId": "35235e48873f41969f1c7c4775a51fc66a9a4f18",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
