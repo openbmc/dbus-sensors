@@ -53,6 +53,7 @@ void NvidiaGpuLongRunningCommand::doUpdate(SerialQueue::ReleaseHandle handle)
     {
         lg2::error("Error updating {NAME}: encode failed, rc={RC}, EID={EID}",
                    "NAME", config.metricName, "RC", rc, "EID", eid);
+        notifyError();
         return;
     }
 
@@ -79,6 +80,7 @@ void NvidiaGpuLongRunningCommand::processResponse(
         lg2::error("Error updating {NAME}: sending message over MCTP failed, "
                    "rc={RC}, EID={EID}",
                    "NAME", config.metricName, "RC", ec.message(), "EID", eid);
+        notifyError();
         return;
     }
 
@@ -97,6 +99,7 @@ void NvidiaGpuLongRunningCommand::processResponse(
                    "rc={RC}, cc={CC}, reasonCode={RESC}, EID={EID}",
                    "NAME", config.metricName, "RC", rc, "CC",
                    static_cast<uint8_t>(cc), "RESC", reasonCode, "EID", eid);
+        notifyError();
         return;
     }
 
@@ -119,6 +122,7 @@ void NvidiaGpuLongRunningCommand::processResponse(
                     "Error updating {NAME}: failed to decode instance id, "
                     "rc={RC}, EID={EID}",
                     "NAME", config.metricName, "RC", rc, "EID", eid);
+                notifyError();
                 return;
             }
 
@@ -148,6 +152,7 @@ void NvidiaGpuLongRunningCommand::processResponse(
                     "Error updating {NAME}: failed to register long running "
                     "response handler, rc={RC}, EID={EID}",
                     "NAME", config.metricName, "RC", rc, "EID", eid);
+                notifyError();
             }
 
             return;
@@ -159,6 +164,7 @@ void NvidiaGpuLongRunningCommand::processResponse(
                 "cc={CC}, reasonCode={RESC}, EID={EID}",
                 "NAME", config.metricName, "CC", static_cast<uint8_t>(cc),
                 "RESC", reasonCode, "EID", eid);
+            notifyError();
             return;
     }
 }
@@ -173,6 +179,7 @@ void NvidiaGpuLongRunningCommand::processLongRunningResponse(
         lg2::error("Error updating {NAME}: long running response failed, "
                    "rc={RC}, EID={EID}",
                    "NAME", config.metricName, "RC", ec.message(), "EID", eid);
+        notifyError();
         return;
     }
 
@@ -183,8 +190,17 @@ void NvidiaGpuLongRunningCommand::processLongRunningResponse(
             "cc={CC}, reasonCode={RESC}, EID={EID}",
             "NAME", config.metricName, "CC", static_cast<uint8_t>(cc), "RESC",
             reasonCode, "EID", eid);
+        notifyError();
         return;
     }
 
     config.onLongRunningPayload(responseData);
+}
+
+void NvidiaGpuLongRunningCommand::notifyError()
+{
+    if (config.onError)
+    {
+        config.onError();
+    }
 }
