@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f1f3cef_f016018a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-06-07T02:37:22Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "b0752dfa_f9bcfcca",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 50
+      },
+      "revId": "628fd7cee14ae1f73d42bf97b1cf2e55b429c0e6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c6852fe4_6a4e1eb1",
@@ -61,6 +85,30 @@
       "writtenOn": "2026-06-03T09:18:59Z",
       "side": 1,
       "message": "Could be std::bind_front for symmetry.",
+      "range": {
+        "startLine": 81,
+        "startChar": 12,
+        "endLine": 84,
+        "endChar": 18
+      },
+      "revId": "628fd7cee14ae1f73d42bf97b1cf2e55b429c0e6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b63f7014_0bfb527e",
+        "filename": "src/nvidia-gpu/NvidiaGpuEccMode.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-06-07T02:37:22Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "c6852fe4_6a4e1eb1",
       "range": {
         "startLine": 81,
         "startChar": 12,
@@ -94,6 +142,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c93b4a8_1dc35475",
+        "filename": "src/nvidia-gpu/NvidiaGpuEccMode.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-06-07T02:37:22Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "b177c8bf_8c9b5d00",
+      "range": {
+        "startLine": 126,
+        "startChar": 4,
+        "endLine": 128,
+        "endChar": 56
+      },
+      "revId": "628fd7cee14ae1f73d42bf97b1cf2e55b429c0e6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fdd1f590_f6aa6ee3",
@@ -117,6 +189,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0268ba6c_4027d5a9",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-06-07T02:37:22Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "fdd1f590_f6aa6ee3",
+      "range": {
+        "startLine": 426,
+        "startChar": 57,
+        "endLine": 426,
+        "endChar": 71
+      },
+      "revId": "628fd7cee14ae1f73d42bf97b1cf2e55b429c0e6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "394a3659_e02d7273",
@@ -130,6 +226,24 @@
       "writtenOn": "2026-06-03T09:18:59Z",
       "side": 1,
       "message": "Why you drop ~17 tests unrelated to ECC mode from test_NvidiaGpuSensorTest.cpp?\nIf is mistake please restore it. Thanks.",
+      "revId": "628fd7cee14ae1f73d42bf97b1cf2e55b429c0e6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94712451_281a095d",
+        "filename": "src/tests/test_NvidiaGpuSensorTest.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-06-07T02:37:22Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "394a3659_e02d7273",
       "revId": "628fd7cee14ae1f73d42bf97b1cf2e55b429c0e6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
