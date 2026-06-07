@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fe5a720_6b055458",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerControl.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-06-07T07:02:12Z",
+      "side": 1,
+      "message": "If there is no other consumer for this decode function,\nshould we consider to refactor it because `persistentPowerLimit` has no consumer anymore?",
+      "range": {
+        "startLine": 105,
+        "startChar": 4,
+        "endLine": 107,
+        "endChar": 23
+      },
+      "revId": "e258d4445795eefb5914d1e68de2ffca4ff5c937",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b723a099_196f5d55",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerControl.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-06-07T07:02:12Z",
+      "side": 1,
+      "message": "It seems like the persistentPowerLimit is unused after the decoding.\nIn this case, should we consider dropping this variable?",
+      "range": {
+        "startLine": 121,
+        "startChar": 42,
+        "endLine": 121,
+        "endChar": 72
+      },
+      "revId": "e258d4445795eefb5914d1e68de2ffca4ff5c937",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
