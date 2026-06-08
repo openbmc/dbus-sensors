@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "768c853c_a1e39d99",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-06-08T11:20:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6490bc04_bec0bdf3",
+      "revId": "5dad351c4473c942873d947de263dc68d4f776fd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "67827111_a448ebea",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea0e5fb7_f382f0aa",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuControl.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-06-08T11:20:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67827111_a448ebea",
+      "revId": "5dad351c4473c942873d947de263dc68d4f776fd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5df0330_b3d98e80",
@@ -48,6 +84,30 @@
       "writtenOn": "2026-06-05T08:16:13Z",
       "side": 1,
       "message": "add Power too. Thanks.",
+      "range": {
+        "startLine": 71,
+        "startChar": 6,
+        "endLine": 71,
+        "endChar": 30
+      },
+      "revId": "5dad351c4473c942873d947de263dc68d4f776fd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78e7ba33_b2ae898f",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuControl.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-06-08T11:20:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5df0330_b3d98e80",
       "range": {
         "startLine": 71,
         "startChar": 6,
