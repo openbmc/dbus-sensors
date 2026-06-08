@@ -169,7 +169,6 @@ void PSUSensor::setupRead()
         return;
     }
 
-    std::weak_ptr<PSUSensor> weak = weak_from_this();
     inputDev.async_read_some_at(
         0, boost::asio::buffer(buffer),
         std::bind_front(&PSUSensor::handleResponseStatic, weak_from_this()));
