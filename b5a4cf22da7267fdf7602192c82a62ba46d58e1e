@@ -22,6 +22,30 @@
       },
       "revId": "b5a4cf22da7267fdf7602192c82a62ba46d58e1e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5fefedc_ad0d4524",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-06-08T08:21:42Z",
+      "side": 1,
+      "message": "Got it, thanks, I will set WIP first and wait this topic merge.",
+      "parentUuid": "217aab40_d31443bc",
+      "range": {
+        "startLine": 25,
+        "startChar": 10,
+        "endLine": 25,
+        "endChar": 58
+      },
+      "revId": "b5a4cf22da7267fdf7602192c82a62ba46d58e1e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
