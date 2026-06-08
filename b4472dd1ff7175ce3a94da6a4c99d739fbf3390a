@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "11db9005_b9e75948",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-06-08T06:32:57Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "96e1a716_812705b7",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 89
+      },
+      "revId": "b4472dd1ff7175ce3a94da6a4c99d739fbf3390a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dc5753f9_9edcfe98",
@@ -47,6 +71,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "43a1fbbd_ec258029",
+        "filename": "src/nvidia-gpu/NvidiaPcieDevice.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-06-08T06:32:57Z",
+      "side": 1,
+      "message": "Currently, the approach is consistent with that of GPU devices, so we will maintain this approach for now.",
+      "parentUuid": "dc5753f9_9edcfe98",
+      "range": {
+        "startLine": 326,
+        "startChar": 4,
+        "endLine": 326,
+        "endChar": 25
+      },
+      "revId": "b4472dd1ff7175ce3a94da6a4c99d739fbf3390a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f1cb1bc1_7ef70be7",
@@ -60,6 +108,30 @@
       "writtenOn": "2026-06-05T08:42:23Z",
       "side": 1,
       "message": "Please aligns the name of manufacturer with the previous one.\nEither reuse the previous format or update the previous implementation to the current\u0027s.\n\nhttps://github.com/openbmc/dbus-sensors/blob/150b1684b4cc6b0753ccb01607f41c8fb5f4face/src/nvidia-gpu/Inventory.cpp#L55",
+      "range": {
+        "startLine": 10,
+        "startChar": 43,
+        "endLine": 10,
+        "endChar": 52
+      },
+      "revId": "b4472dd1ff7175ce3a94da6a4c99d739fbf3390a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8005e56_5231ff91",
+        "filename": "src/nvidia-gpu/NvidiaUtils.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-06-08T06:32:57Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "f1cb1bc1_7ef70be7",
       "range": {
         "startLine": 10,
         "startChar": 43,
