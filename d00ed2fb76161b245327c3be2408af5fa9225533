@@ -16,6 +16,24 @@
       "message": "The code changes look fine. Just update the commit. Keep the subject line within 50 characters and the body within 72 characters.",
       "revId": "d00ed2fb76161b245327c3be2408af5fa9225533",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a47428e5_738df97b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003006
+      },
+      "writtenOn": "2026-06-08T08:46:01Z",
+      "side": 1,
+      "message": "Revised",
+      "parentUuid": "ee4065fa_a57c2fca",
+      "revId": "d00ed2fb76161b245327c3be2408af5fa9225533",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
