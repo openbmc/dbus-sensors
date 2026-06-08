@@ -22,6 +22,30 @@
       },
       "revId": "536fce3ae138f9925b403b3369a65c2260a06638",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84f912aa_e8103034",
+        "filename": "src/nvidia-gpu/NvidiaUtils.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-06-08T06:11:12Z",
+      "side": 1,
+      "message": "Done,thanks.",
+      "parentUuid": "b8d69268_9f46a4ad",
+      "range": {
+        "startLine": 11,
+        "startChar": 39,
+        "endLine": 11,
+        "endChar": 46
+      },
+      "revId": "536fce3ae138f9925b403b3369a65c2260a06638",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
