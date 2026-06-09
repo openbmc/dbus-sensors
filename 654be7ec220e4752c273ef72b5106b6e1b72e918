@@ -22,6 +22,30 @@
       },
       "revId": "654be7ec220e4752c273ef72b5106b6e1b72e918",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8260910_07d8a5ae",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-06-09T04:40:55Z",
+      "side": 1,
+      "message": "The long-running overload is already unit-tested in test_NvidiaGpuSensorTest.cpp",
+      "parentUuid": "79b5c867_8369bf3a",
+      "range": {
+        "startLine": 375,
+        "startChar": 4,
+        "endLine": 375,
+        "endChar": 43
+      },
+      "revId": "654be7ec220e4752c273ef72b5106b6e1b72e918",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
