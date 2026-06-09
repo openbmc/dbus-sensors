@@ -21,19 +21,17 @@
 #include "Utils.hpp"
 #include "sensor.hpp"
 
-#include <fcntl.h>
-#include <unistd.h>
-
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/asio/error.hpp>
 #include <boost/asio/io_context.hpp>
-#include <boost/asio/posix/descriptor_base.hpp>
+#include <boost/asio/random_access_file.hpp>
 #include <boost/container/flat_map.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
 #include <algorithm>
+#include <charconv>
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
@@ -56,9 +54,10 @@ IntelCPUSensor::IntelCPUSensor(
     double dtsOffset) :
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
            objectType, false, false, 0, 0, conn, PowerState::on),
-    objServer(objectServer), inputDev(io), waitTimer(io),
-    nameTcontrol("Tcontrol CPU" + std::to_string(cpuId)), path(path),
-    privTcontrol(std::numeric_limits<double>::quiet_NaN()),
+    objServer(objectServer),
+    inputDev(io, path, boost::asio::random_access_file::read_only),
+    waitTimer(io), nameTcontrol("Tcontrol CPU" + std::to_string(cpuId)),
+    path(path), privTcontrol(std::numeric_limits<double>::quiet_NaN()),
     dtsOffset(dtsOffset), show(show)
 {
     if (show)
@@ -106,8 +105,6 @@ IntelCPUSensor::IntelCPUSensor(
 
 IntelCPUSensor::~IntelCPUSensor()
 {
-    // close the input dev to cancel async operations
-    inputDev.close();
     waitTimer.cancel();
     if (show)
     {
@@ -143,21 +140,7 @@ void IntelCPUSensor::restartRead()
 
 void IntelCPUSensor::setupRead()
 {
-    if (readingStateGood())
-    {
-        inputDev.close();
-
-        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
-        fd = open(path.c_str(), O_RDONLY | O_NONBLOCK);
-        if (fd < 0)
-        {
-            lg2::error("'{NAME}' unable to open fd!", "NAME", name);
-            return;
-        }
-
-        inputDev.assign(fd);
-    }
-    else
+    if (!readingStateGood())
     {
         markAvailable(false);
         if (show)
@@ -173,16 +156,17 @@ void IntelCPUSensor::setupRead()
     }
 
     std::weak_ptr<IntelCPUSensor> weakRef = weak_from_this();
-    inputDev.async_wait(boost::asio::posix::descriptor_base::wait_read,
-                        [weakRef](const boost::system::error_code& ec) {
-                            std::shared_ptr<IntelCPUSensor> self =
-                                weakRef.lock();
+    inputDev.async_read_some_at(
+        0, boost::asio::buffer(buffer),
+        [weakRef](const boost::system::error_code& ec, size_t bytesRead) {
+            std::shared_ptr<IntelCPUSensor> self = weakRef.lock();
 
-                            if (self)
-                            {
-                                self->handleResponse(ec);
-                            }
-                        });
+            if (self)
+            {
+                self->handleResponse(
+                    ec, std::span<char>(self->buffer.data(), bytesRead));
+            }
+        });
 }
 
 void IntelCPUSensor::updateMinMaxValues()
@@ -235,7 +219,8 @@ void IntelCPUSensor::updateMinMaxValues()
     }
 }
 
-void IntelCPUSensor::handleResponse(const boost::system::error_code& err)
+void IntelCPUSensor::handleResponse(const boost::system::error_code& err,
+                                    std::span<char> incomingData)
 {
     if ((err == boost::system::errc::bad_file_descriptor) ||
         (err == boost::asio::error::misc_errors::not_found))
@@ -258,85 +243,66 @@ void IntelCPUSensor::handleResponse(const boost::system::error_code& err)
     }
     loggedInterfaceDown = false;
 
-    if (err)
+    if (err || incomingData.empty())
     {
         pollTime = sensorFailedPollTimeMs;
         incrementError();
         return;
     }
 
-    static constexpr uint32_t bufLen = 128;
-    std::string response;
-    response.resize(bufLen);
-    int rdLen = 0;
-
-    if (fd >= 0)
+    std::from_chars_result res = std::from_chars(
+        incomingData.data(), incomingData.data() + incomingData.size(),
+        rawValue);
+    if (res.ec != std::errc())
     {
-        rdLen = pread(fd, response.data(), bufLen, 0);
+        incrementError();
+        return;
     }
+    double nvalue = rawValue / IntelCPUSensor::sensorScaleFactor;
 
-    if (rdLen > 0)
+    if (show)
     {
-        try
-        {
-            rawValue = std::stod(response);
-            double nvalue = rawValue / IntelCPUSensor::sensorScaleFactor;
-
-            if (show)
-            {
-                updateValue(nvalue);
-            }
-            else
-            {
-                value = nvalue;
-            }
-            if (minMaxReadCounter++ % 8 == 0)
-            {
-                updateMinMaxValues();
-            }
-
-            double gTcontrol = gCpuSensors[nameTcontrol]
-                                   ? gCpuSensors[nameTcontrol]->value
-                                   : std::numeric_limits<double>::quiet_NaN();
-            if (gTcontrol != privTcontrol)
-            {
-                privTcontrol = gTcontrol;
-
-                if (!thresholds.empty())
-                {
-                    std::vector<thresholds::Threshold> newThresholds;
-                    if (parseThresholdsFromAttr(
-                            newThresholds, path,
-                            IntelCPUSensor::sensorScaleFactor, dtsOffset, 0))
-                    {
-                        if (!std::equal(thresholds.begin(), thresholds.end(),
-                                        newThresholds.begin(),
-                                        newThresholds.end()))
-                        {
-                            thresholds = newThresholds;
-                            if (show)
-                            {
-                                thresholds::updateThresholds(this);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        lg2::error("Failure to update thresholds for '{NAME}'",
-                                   "NAME", name);
-                    }
-                }
-            }
-        }
-        catch (const std::invalid_argument&)
-        {
-            incrementError();
-        }
+        updateValue(nvalue);
     }
     else
     {
-        pollTime = sensorFailedPollTimeMs;
-        incrementError();
+        value = nvalue;
+    }
+    if (minMaxReadCounter++ % 8 == 0)
+    {
+        updateMinMaxValues();
+    }
+
+    double gTcontrol = gCpuSensors[nameTcontrol]
+                           ? gCpuSensors[nameTcontrol]->value
+                           : std::numeric_limits<double>::quiet_NaN();
+    if (gTcontrol != privTcontrol)
+    {
+        privTcontrol = gTcontrol;
+
+        if (!thresholds.empty())
+        {
+            std::vector<thresholds::Threshold> newThresholds;
+            if (parseThresholdsFromAttr(newThresholds, path,
+                                        IntelCPUSensor::sensorScaleFactor,
+                                        dtsOffset, 0))
+            {
+                if (!std::equal(thresholds.begin(), thresholds.end(),
+                                newThresholds.begin(), newThresholds.end()))
+                {
+                    thresholds = newThresholds;
+                    if (show)
+                    {
+                        thresholds::updateThresholds(this);
+                    }
+                }
+            }
+            else
+            {
+                lg2::error("Failure to update thresholds for '{NAME}'",
+                           "NAME", name);
+            }
+        }
     }
     restartRead();
 }

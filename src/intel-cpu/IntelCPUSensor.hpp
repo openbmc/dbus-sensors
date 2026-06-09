@@ -4,9 +4,8 @@
 #include "Utils.hpp"
 
 #include <boost/asio/io_context.hpp>
-#include <boost/asio/posix/stream_descriptor.hpp>
+#include <boost/asio/random_access_file.hpp>
 #include <boost/asio/steady_timer.hpp>
-#include <boost/asio/streambuf.hpp>
 #include <boost/container/flat_map.hpp>
 #include <gpiod.hpp>
 #include <phosphor-logging/lg2.hpp>
@@ -14,9 +13,11 @@
 #include <sdbusplus/asio/object_server.hpp>
 #include <sensor.hpp>
 
+#include <array>
 #include <cstddef>
 #include <cstdint>
 #include <memory>
+#include <span>
 #include <string>
 #include <system_error>
 #include <variant>
@@ -43,8 +44,8 @@ class IntelCPUSensor :
 
   private:
     sdbusplus::asio::object_server& objServer;
-    boost::asio::streambuf readBuf;
-    boost::asio::posix::stream_descriptor inputDev;
+    std::array<char, 128> buffer{};
+    boost::asio::random_access_file inputDev;
     boost::asio::steady_timer waitTimer;
     std::string nameTcontrol;
     std::string path;
@@ -54,8 +55,8 @@ class IntelCPUSensor :
     size_t pollTime{IntelCPUSensor::sensorPollMs};
     bool loggedInterfaceDown = false;
     uint8_t minMaxReadCounter{0};
-    int fd{};
-    void handleResponse(const boost::system::error_code& err);
+    void handleResponse(const boost::system::error_code& err,
+                        std::span<char> incomingData);
     void checkThresholds() override;
     void updateMinMaxValues();
     void restartRead();
