@@ -7,14 +7,6 @@ project(
     meson_version: '>=1.1.1',
 )
 
-# Enable io_uring for all daemons with below flags.
-#    '-DBOOST_ASIO_HAS_IO_URING',
-#    '-DBOOST_ASIO_DISABLE_EPOLL',
-# Note, there is currently an issue with CPUSensor when used in
-# conjunction with io_uring. So it has not been changed to use
-# random file access. But we'd like to enable it for all daemons.
-# https://github.com/openbmc/dbus-sensors/issues/19
-
 add_project_arguments(
     '-Wno-psabi',
     '-Wuninitialized',
@@ -27,7 +19,6 @@ add_project_arguments(
     '-DBOOST_ASIO_DISABLE_THREADS',
     '-DBOOST_ALLOW_DEPRECATED_HEADERS',
     '-DBOOST_ASIO_HAS_IO_URING',
-    '-DBOOST_ASIO_DISABLE_EPOLL',
     language: 'cpp',
 )
 
