@@ -108,6 +108,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "84e9ac97_ed635b40",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerControl.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-06-09T13:55:34Z",
+      "side": 1,
+      "message": "Please correct me if I am wrong, but with by value and move, we are doing 2 shared_ptr constructor calls and 1 ref count update, with reference to const and copy, we will do 1 shared_ptr constructor call and 1 ref count update. So reference to const is preferred in my opinion and if we always expect caller to pass an rvalue we should make the constructor parameter an rvalue reference.",
+      "parentUuid": "886b2ff3_b4fe4140",
+      "revId": "35235e48873f41969f1c7c4775a51fc66a9a4f18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ebed5bc2_08fffc2b",
         "filename": "src/nvidia-gpu/NvidiaGpuPowerControl.cpp",
         "patchSetId": 6
