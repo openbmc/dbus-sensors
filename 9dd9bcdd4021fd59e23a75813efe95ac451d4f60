@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "175cd485_405997b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-06-09T21:06:57Z",
+      "side": 1,
+      "message": "if the goal is to not report iowait from uring, that seems like a kernel patch to make the configurable.",
+      "parentUuid": "4b2fe3ae_78e7a068",
+      "range": {
+        "startLine": 11,
+        "startChar": 65,
+        "endLine": 15,
+        "endChar": 0
+      },
+      "revId": "9dd9bcdd4021fd59e23a75813efe95ac451d4f60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6f7b80f8_34dc4010",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
