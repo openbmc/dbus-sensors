@@ -27,7 +27,6 @@ add_project_arguments(
     '-DBOOST_ASIO_DISABLE_THREADS',
     '-DBOOST_ALLOW_DEPRECATED_HEADERS',
     '-DBOOST_ASIO_HAS_IO_URING',
-    '-DBOOST_ASIO_DISABLE_EPOLL',
     language: 'cpp',
 )
 
