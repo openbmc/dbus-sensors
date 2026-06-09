@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b812baa_71de8e83",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-06-09T02:15:46Z",
+      "side": 1,
+      "message": "These unit cases already exist in test_NvidiaGpuSensorTest.cpp",
+      "parentUuid": "f65fdbed_3a10e7ea",
+      "range": {
+        "startLine": 392,
+        "startChar": 4,
+        "endLine": 392,
+        "endChar": 46
+      },
+      "revId": "36a2be9c48532264d554ed1e36ca6fe9f362083f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9ebdef4a_ddabb91e",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-06-08T09:36:45Z",
       "side": 1,
       "message": "nit: \n```\ndouble percent \u003d\n    static_cast\u003cdouble\u003e(total) * 100.0 / static_cast\u003cdouble\u003e(maxMemoryMiB);\n```",
+      "range": {
+        "startLine": 173,
+        "startChar": 4,
+        "endLine": 174,
+        "endChar": 77
+      },
+      "revId": "36a2be9c48532264d554ed1e36ca6fe9f362083f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1999b221_331087b9",
+        "filename": "src/nvidia-gpu/NvidiaGpuMemoryCapacityUtilization.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-06-09T02:15:46Z",
+      "side": 1,
+      "message": "Thanks.",
+      "parentUuid": "9ebdef4a_ddabb91e",
       "range": {
         "startLine": 173,
         "startChar": 4,
