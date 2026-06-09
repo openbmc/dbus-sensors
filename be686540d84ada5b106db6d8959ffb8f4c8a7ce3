@@ -16,6 +16,40 @@
       "message": "I expect link-time registration will alleviate a lot of the complexity here. Here\u0027s an outline of the approach:\n\nhttps://fekir.info/post/register-functions-at-link-time/#_gnu-ld-without-linker-script",
       "revId": "be686540d84ada5b106db6d8959ffb8f4c8a7ce3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6743df6_d1d3f531",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-06-09T22:07:44Z",
+      "side": 1,
+      "message": "Overall, I don\u0027t hate this idea.  I worry a little about maintenance.  Now all apps need the same compiler flags/libraries as eachother.....  that\u0027s probably worth it?",
+      "revId": "be686540d84ada5b106db6d8959ffb8f4c8a7ce3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f47291c_0ecfc4e6",
+        "filename": "src/intel-cpu/meson.build",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-06-09T22:07:44Z",
+      "side": 1,
+      "message": "This unintentionally is making cpusensor common with the uring elements.  I wonder how much effect that had on the binary size, considering that it likely deleted a bunch of asio executor code (you now compile one executor instead of 2/3).",
+      "revId": "be686540d84ada5b106db6d8959ffb8f4c8a7ce3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
