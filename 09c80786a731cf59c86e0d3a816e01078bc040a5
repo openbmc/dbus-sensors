@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4874db6_c91a282e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-06-09T21:56:26Z",
+      "side": 1,
+      "message": "This was always WIP, but I want to respond to it directly.  Boost::coroutines have been abandoned by their creators for a very.... very long time.  Their inclusion in sdbusplus considerably after deprecation was in my opinion was a mistake.  But it was made, and we have to live with it or fix it.\n\nIf this is something you want to do, the c++20 coroutines support is the way you should go.",
+      "revId": "09c80786a731cf59c86e0d3a816e01078bc040a5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
