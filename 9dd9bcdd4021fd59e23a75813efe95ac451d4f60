@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "96fb2a0d_aeca14b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001397
+      },
+      "writtenOn": "2026-06-09T23:59:03Z",
+      "side": 1,
+      "message": "\u003e \u003e BOOST_ASIO_HAS_IO_URING stays set.\n\u003e \n\u003e But... it doesn\u0027t in your patch?\n\nLooks like you saw the removed comment part. Check the code change again. I kept -DBOOST_ASIO_HAS_IO_URING and just removed the -DBOOST_ASIO_DISABLE_EPOLL.\n \n\u003e \u003e steady_timer (every poll cycle in every sensor)\n\u003e \n\u003e ??? Huh?  Can you point to the boost code you\u0027re talking about?  In all implementations that I\u0027m aware of steady_timer is a timer queue, not a kernel timer itself.\n\nOkay, you are right. It\u0027s not a kworker accounting but a user thread flag inflation. Need to fix the incorrect commit message.\n \n\u003e \u003e Those don\u0027t benefit from io_uring\u0027s offload model -\n\u003e \n\u003e You say this, but you don\u0027t really back it up with anything, nor do you say why uring would be SLOWER.  \"an inbound D-Bus message isn\u0027t slow\" does say why this improves things.\n\u003e \n\u003e A lot of the above reads like LLM, and some of them seem like hallucinations or parts of your prompt that have leaked in?\n\nFair point. \"Doesn\u0027t benefit from offload model\" was an exxaggerating. I don\u0027t actually have data showing epoll wins on perf there.",
+      "parentUuid": "c499bdd3_a1024f23",
+      "range": {
+        "startLine": 11,
+        "startChar": 65,
+        "endLine": 15,
+        "endChar": 0
+      },
+      "revId": "9dd9bcdd4021fd59e23a75813efe95ac451d4f60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6f7b80f8_34dc4010",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -169,6 +193,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a25825e1_33353db4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001397
+      },
+      "writtenOn": "2026-06-09T23:59:03Z",
+      "side": 1,
+      "message": "\u003e \u003e This patch keeps that fix.\n\u003e \n\u003e If we keep the fix, how does this fix the kernel workers?  Won\u0027t the kernel workers still be doing IO uring, and still have the same iowait reported?\n\nio-wq workers don\u0027t set in_iowait themselves. Only the waiter does, and that\u0027s the user thread sitting in io_uring_wait_cqe.\n\nWith the patch, the user thread waits in epoll_wait instead. Completions for file reads still come back from io-wq workers running the same reads against the same I2C controller.\n\nIt looks like there may be some room for improvement in the kernel\u0027s io_uring path as well, since iowait accounting appears to be getting inflated in this scenario.",
+      "parentUuid": "05a8eedc_12a0b96c",
+      "range": {
+        "startLine": 16,
+        "startChar": 63,
+        "endLine": 17,
+        "endChar": 9
+      },
+      "revId": "9dd9bcdd4021fd59e23a75813efe95ac451d4f60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "658b41a5_820cb622",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -186,6 +234,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "94b82bbf_0187e9a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001397
+      },
+      "writtenOn": "2026-06-09T23:59:03Z",
+      "side": 1,
+      "message": "\u003e And yet, it\u0027s deleted in your patch.  LLM hallucination?\n\nCheck the actual code change, not the comment removing part. -DBOOST_ASIO_HAS_IO_URING is kept in this patch.",
+      "parentUuid": "658b41a5_820cb622",
+      "revId": "9dd9bcdd4021fd59e23a75813efe95ac451d4f60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7fa66f3b_5b18e1ed",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -197,6 +263,24 @@
       "writtenOn": "2026-06-09T22:58:17Z",
       "side": 1,
       "message": "?  How does that address this?  uring was never enabled on CPUSensor, so there is no \"bug\"?",
+      "revId": "9dd9bcdd4021fd59e23a75813efe95ac451d4f60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d590a04_fec40094",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001397
+      },
+      "writtenOn": "2026-06-09T23:59:03Z",
+      "side": 1,
+      "message": "\u003e ?  How does that address this?  uring was never enabled on CPUSensor, so there is no \"bug\"?\n\nI added this part while removing the existing comment int the meson.build. I was not able to check if the issue is addressed. I\u0027ll remove the line in the commit message.",
+      "parentUuid": "7fa66f3b_5b18e1ed",
       "revId": "9dd9bcdd4021fd59e23a75813efe95ac451d4f60",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -345,6 +429,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "56aada4b_d528471d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001397
+      },
+      "writtenOn": "2026-06-09T23:59:03Z",
+      "side": 1,
+      "message": "\u003e Usually when I\u0027ve needed to test that in the past, I just duplicate devices in EM to test load of a lot of devices and a full bus.\n\nOkay. It\u0027s a good idea. I\u0027ll try this way. Thanks!",
+      "parentUuid": "43346984_31530d43",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 72
+      },
+      "revId": "9dd9bcdd4021fd59e23a75813efe95ac451d4f60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a24d651e_ffdc7379",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -426,6 +534,41 @@
       "side": 1,
       "message": "\u003e The 99% iowait is therefore \"kworkers exist,\" not \"I/O is bottlenecking the BMC.\"\n\nSure, that explaination is fine;  What I don\u0027t understand is why this is a problem?  As you say, the daemon is not blocked.",
       "parentUuid": "eb278c68_9c7f947f",
+      "revId": "9dd9bcdd4021fd59e23a75813efe95ac451d4f60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1345638c_e4b247a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001397
+      },
+      "writtenOn": "2026-06-09T23:59:03Z",
+      "side": 1,
+      "message": "One possible solution, while keeping io_uring, would be to have the kernel side hwmon driver periodically read the device at a user-configured interval and cache the results, allowing it to respond to userspace read requests immediately. Another option would be to move toward an IIO-based approach, as you suggested.\n\nThat said, kernel drivers generally prefer performing device reads on demand in response to user requests rather than polling proactively, so I\u0027m not sure whether such a design would be accepted upstream.",
+      "revId": "9dd9bcdd4021fd59e23a75813efe95ac451d4f60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b749664f_3ca5f5eb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001397
+      },
+      "writtenOn": "2026-06-09T23:59:03Z",
+      "side": 1,
+      "message": "\u003e \u003e The 99% iowait is therefore \"kworkers exist,\" not \"I/O is bottlenecking the BMC.\"\n\u003e \n\u003e Sure, that explaination is fine;  What I don\u0027t understand is why this is a problem?  As you say, the daemon is not blocked.\n\nI didn\u0027t say it\u0027s a problem and the current io_uring setting has been worked well for a long time thus far. Main purpose of this patch is removing a potential misunderstanding so iowait and load averages on a BMC running this stack don\u0027t mean what they look like they mean. Thuogh, this patch changes some io_uring path to epoll.",
+      "parentUuid": "cf731fc4_6eac9c51",
       "revId": "9dd9bcdd4021fd59e23a75813efe95ac451d4f60",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
