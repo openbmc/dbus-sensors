@@ -311,6 +311,17 @@ auto AnalogValve::checkSetPointTolerance(double voltage)
 
 auto AnalogValve::monitorFeedbackAsync() -> sdbusplus::async::task<>
 {
+    // Wait for the valve feedback to stabilize after power-on.
+    // Ignore invalid feedback during startup.
+    static constexpr auto startupDelay = std::chrono::seconds(120);
+    info(
+        "Waiting {DELAY_SECONDS}s for analog valve feedback to stabilize before monitoring: "
+        "inventory={INVENTORY}, valve={VALVE}",
+        "DELAY_SECONDS", startupDelay.count(), "INVENTORY", inventoryPath.str,
+        "VALVE", baseConfig.name);
+
+    co_await sdbusplus::async::sleep_for(ctx, startupDelay);
+
     while (!ctx.stop_requested())
     {
         co_await sdbusplus::async::sleep_for(
