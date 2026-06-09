@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d267f88b_c1d8f3e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001397
+      },
+      "writtenOn": "2026-06-09T22:45:29Z",
+      "side": 1,
+      "message": "To be precise about what the patch actually changes:\n\nBOOST_ASIO_HAS_IO_URING stays set. boost::asio::random_access_file\u0027s io_uring_file_service is gated on HAS_IO_URING alone (not on HAS_IO_URING_AS_DEFAULT), so every sysfs read in HwmonTempSensor / PSUSensor / SMBPBI / PSUEvent / TachSensor continues through io_uring kworkers. The kernel still does the I2C work asynchronously.\n\nWhat DISABLE_EPOLL additionally forces into io_uring beyond file I/O:\n - D-Bus sockets (PropertiesChanged, method dispatch)\n - steady_timer (every poll cycle in every sensor)\n - posix::stream_descriptor (CPUSensor\u0027s read fd)\n\nThose don\u0027t benefit from io_uring\u0027s offload model - a timer firing isn\u0027t I/O-bound, an inbound D-Bus message isn\u0027t slow. epoll handles them well. Routing them through io_uring puts a steady stream of trivial completions through kworkers, which is what\u0027s pegging iowait.\n\nSo the patch is scoping io_uring usage to file I/O instead of forcing it on everything. CPUSensor going back to the epoll path is what 46918 originally documented before DISABLE_EPOLL was added; #19 is the regression caused by that addition.\n\nMeasured behavior on AST2600 (host off, all daemons running, 5s window):\n                                BEFORE              AFTER\n top                            99% io              0% io / 83% idle\n iowait ticks/s                 +193/s              0\n idle ticks/s                   0 (frozen)          +170/s\n i2c bus 4 IRQ rate             +328/s              +377/s     (same)\n\ni2c IRQ rate unchanged - same read frequency, same async behavior. D-Bus PropertiesChanged delivered at the unchanged 500ms per-sensor cadence in my test.\n\nOf course, it needs to be tested on heavy load with lots of sensor connections so it\u0027s the reason why I left a note in the commit message.",
+      "parentUuid": "175cd485_405997b7",
+      "range": {
+        "startLine": 11,
+        "startChar": 65,
+        "endLine": 15,
+        "endChar": 0
+      },
+      "revId": "9dd9bcdd4021fd59e23a75813efe95ac451d4f60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6f7b80f8_34dc4010",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -61,6 +85,30 @@
       "writtenOn": "2026-06-09T21:00:37Z",
       "side": 1,
       "message": "Last measured, io-uring was more efficient compared to blocking calls.",
+      "range": {
+        "startLine": 16,
+        "startChar": 63,
+        "endLine": 17,
+        "endChar": 9
+      },
+      "revId": "9dd9bcdd4021fd59e23a75813efe95ac451d4f60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4402f1dc_647ff5fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001397
+      },
+      "writtenOn": "2026-06-09T22:45:29Z",
+      "side": 1,
+      "message": "The \"blocking calls\" from your 16966b558 was posix::stream_descriptor silently falling back to sync reads on regular file fds. The fix was moving sensor reads to random_access_file + io_uring. This patch keeps that fix. io_uring_file_service is gated on BOOST_ASIO_HAS_IO_URING alone, not on HAS_IO_URING_AS_DEFAULT.\n\n```\n // boost/asio/detail/io_uring_file_service.hpp\n #if defined(BOOST_ASIO_HAS_IO_URING)\n class io_uring_file_service : ...\n```\n\nSo PSU / Hwmon / SMBPBI / PSUEvent / Tach reads still flow through io_uring kworkers. The measurement I shared above confirms it that i2c IRQ rate is unchanged.\n\nWhat DISABLE_EPOLL additionally forces through io_uring is socket / timer / stream_descriptor traffic, all of which are epoll-able and async under epoll. The epoll itself is not \"blocking calls\". It\u0027s just a different async reactor for non-file paths.",
+      "parentUuid": "6f7b80f8_34dc4010",
       "range": {
         "startLine": 16,
         "startChar": 63,
@@ -96,6 +144,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "193a9395_88eaa0c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001397
+      },
+      "writtenOn": "2026-06-09T22:45:29Z",
+      "side": 1,
+      "message": "As I shared above, random_access_file keeps using io_uring kworkers, which the unchanged i2c IRQ rate in the measurement confirms.",
+      "parentUuid": "23110c01_17fcec08",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 51
+      },
+      "revId": "9dd9bcdd4021fd59e23a75813efe95ac451d4f60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "677ffc81_4ac99c3e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -107,6 +179,30 @@
       "writtenOn": "2026-06-09T21:00:37Z",
       "side": 1,
       "message": "Can you please provide some timing numbers under heavy load with lots of sensors?  That was the original reason for the uring change.  I would be really surprised if there were no regressions.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 72
+      },
+      "revId": "9dd9bcdd4021fd59e23a75813efe95ac451d4f60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ecc232ad_1ac73c3b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001397
+      },
+      "writtenOn": "2026-06-09T22:45:29Z",
+      "side": 1,
+      "message": "Honest answer: I don\u0027t have access to a heavy-sensor system — my dev setup is small. That\u0027s why the commit body\u0027s Note flags wider testing as a prerequisite before merge.",
+      "parentUuid": "677ffc81_4ac99c3e",
       "range": {
         "startLine": 28,
         "startChar": 0,
@@ -147,6 +243,41 @@
       "writtenOn": "2026-06-09T21:05:24Z",
       "side": 1,
       "message": "Long term I suspect some of the solution to this is to route the hwmon sampling into the kernel through iio, then blocking reads can be done without userspace even needing to initiate it, and values can be streamed out.  At least that\u0027s what the kernel folks recommended.",
+      "revId": "9dd9bcdd4021fd59e23a75813efe95ac451d4f60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb278c68_9c7f947f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001397
+      },
+      "writtenOn": "2026-06-09T22:45:29Z",
+      "side": 1,
+      "message": "1. Agree in general on \"iowait is a feature\". The specific situation: with DISABLE_EPOLL set, every dbus-sensors event (sockets, timers, files) is dispatched through io_uring, and lightweight events get punted to kernel workers that sit in io_schedule() while the user io_context thread is already busy processing the next callback. Kernel reports the kworker waits as iowait; the daemon itself is not blocked. The 99% iowait is therefore \"kworkers exist,\" not \"I/O is bottlenecking the BMC.\"\n\n2. From Boost\u0027s config.hpp:\n\n```\n  // Linux: io_uring is used instead of epoll.\n  #if !defined(BOOST_ASIO_HAS_IO_URING_AS_DEFAULT)\n  # if !defined(BOOST_ASIO_HAS_EPOLL) \u0026\u0026 defined(BOOST_ASIO_HAS_IO_URING)\n  #  define BOOST_ASIO_HAS_IO_URING_AS_DEFAULT 1\n  # endif\n  #endif\n```\n\nHAS_IO_URING_AS_DEFAULT is auto-set only when EPOLL is disabled AND IO_URING is still enabled. So file I/O is not switching to blocking calls. As long as BOOST_ASIO_HAS_IO_URING is kept, random_access_file compiles unconditionally on io_uring whenever that macro is defined.",
+      "parentUuid": "a24d651e_ffdc7379",
+      "revId": "9dd9bcdd4021fd59e23a75813efe95ac451d4f60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f4f34af_b3131453",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001397
+      },
+      "writtenOn": "2026-06-09T22:45:29Z",
+      "side": 1,
+      "message": "Thanks for your review. I left my answers.",
       "revId": "9dd9bcdd4021fd59e23a75813efe95ac451d4f60",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
