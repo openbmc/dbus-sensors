@@ -131,6 +131,7 @@ void NvidiaGpuPowerSensor::processResponse(const std::error_code& ec,
         lg2::error(
             "Error updating Power Sensor for eid {EID} and sensor id {SID} : sending message over MCTP failed, rc={RC}",
             "EID", eid, "SID", sensorId, "RC", ec.message());
+        updateValue(std::numeric_limits<double>::quiet_NaN());
         return;
     }
 
@@ -147,6 +148,7 @@ void NvidiaGpuPowerSensor::processResponse(const std::error_code& ec,
             "Error updating Power Sensor eid {EID} and sensor id {SID} : decode failed, rc={RC}, cc={CC}, reasonCode={RESC}",
             "EID", eid, "SID", sensorId, "RC", rc, "CC", cc, "RESC",
             reasonCode);
+        updateValue(std::numeric_limits<double>::quiet_NaN());
         return;
     }
 

@@ -10,6 +10,7 @@
 #include <array>
 #include <cstddef>
 #include <cstdint>
+#include <map>
 #include <span>
 #include <string>
 #include <utility>
@@ -24,12 +25,32 @@ using InventoryValue =
 
 constexpr uint16_t nvidiaPciVendorId = 0x10de;
 
+// NSM message types (the complete set defined by the NSM specification).
+// Each type has its own command-code enum, so a command code is only
+// meaningful together with its message type:
+//
+//   MessageType                  Command-code enum
+//   ---------------------------  ---------------------------------
+//   DEVICE_CAPABILITY_DISCOVERY  DeviceCapabilityDiscoveryCommands
+//   NETWORK_PORT                 NetworkPortCommands
+//   PCIE_LINK                    PcieLinkCommands
+//   PLATFORM_ENVIRONMENTAL       PlatformEnvironmentalCommands
+//   DIAGNOSTICS                  (not used by this daemon yet)
+//   DEVICE_CONFIGURATION         (not used by this daemon yet)
+//   FIRMWARE                     (not used by this daemon yet)
+//
+// DIAGNOSTICS, DEVICE_CONFIGURATION and FIRMWARE are listed for
+// completeness; add a command-code enum and a supports() overload when one
+// is needed.
 enum class MessageType : uint8_t
 {
     DEVICE_CAPABILITY_DISCOVERY = 0,
     NETWORK_PORT = 1,
     PCIE_LINK = 2,
-    PLATFORM_ENVIRONMENTAL = 3
+    PLATFORM_ENVIRONMENTAL = 3,
+    DIAGNOSTICS = 4,
+    DEVICE_CONFIGURATION = 5,
+    FIRMWARE = 6
 };
 
 enum class DeviceCapabilityDiscoveryCommands : uint8_t
@@ -264,6 +285,67 @@ constexpr size_t xidEventMinDataSize = 20;
 
 constexpr size_t getClockLimitRequestSize =
     ocp::accelerator_management::commonRequestSize + sizeof(uint8_t);
+
+// Command codes a device reports as supported, keyed by NVIDIA message type.
+// Populated during discovery from the Type 0 GetSupportedMessageTypes /
+// GetSupportedCommandCodes responses and consulted before creating a sensor so
+// the daemon does not poll commands the device does not implement.
+struct DeviceCapabilities
+{
+    // Supported command codes per message type, decoded from
+    // GetSupportedCommandCodes and stored as the raw response bitmap (bit N set
+    // means command code N is supported). Each message type uses a different
+    // command-code enum (see MessageType); the typed supports() overloads below
+    // restore type safety, and has() is private so a command cannot be checked
+    // against the wrong message type.
+    //
+    // To gate work on device support, call the matching overload, e.g.
+    //   if (caps.supports(gpu::PlatformEnvironmentalCommands::GET_FOO)) {...}
+    // A new command in an already-queried message type needs nothing here; a
+    // new message type needs a supports() overload below plus an entry in the
+    // CapabilityQuery query list (NvidiaDeviceDiscovery.cpp).
+    //
+    // queried == false means the device did not answer the capability query, so
+    // supports() returns true to preserve behavior for devices that do not
+    // report supported command codes.
+    bool queried{false};
+    std::map<MessageType, std::array<uint8_t, supportedListBitfieldSize>>
+        commands;
+
+    bool supports(DeviceCapabilityDiscoveryCommands command) const
+    {
+        return has(MessageType::DEVICE_CAPABILITY_DISCOVERY,
+                   static_cast<uint8_t>(command));
+    }
+
+    bool supports(NetworkPortCommands command) const
+    {
+        return has(MessageType::NETWORK_PORT, static_cast<uint8_t>(command));
+    }
+
+    bool supports(PcieLinkCommands command) const
+    {
+        return has(MessageType::PCIE_LINK, static_cast<uint8_t>(command));
+    }
+
+    bool supports(PlatformEnvironmentalCommands command) const
+    {
+        return has(MessageType::PLATFORM_ENVIRONMENTAL,
+                   static_cast<uint8_t>(command));
+    }
+
+  private:
+    bool has(MessageType type, uint8_t command) const
+    {
+        if (!queried)
+        {
+            return true;
+        }
+        auto it = commands.find(type);
+        return it != commands.end() &&
+               (it->second[command / 8U] & (1U << (command % 8U))) != 0;
+    }
+};
 
 int encodeRequestCommonHeader(PackBuffer& buffer, gpu::MessageType msgType,
                               uint8_t command, uint8_t instanceId);

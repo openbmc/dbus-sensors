@@ -19,6 +19,7 @@
 
 #include <cstdint>
 #include <functional>
+#include <limits>
 #include <memory>
 #include <span>
 #include <string>
@@ -92,6 +93,9 @@ void NvidiaGpuPowerPeakReading::processResponse(const std::error_code& ec,
         lg2::error(
             "Error updating Peak Power Sensor for eid {EID} and sensor id {SID} : sending message over MCTP failed, rc={RC}",
             "EID", eid, "SID", sensorId, "RC", ec.message());
+        std::get<2>(std::get<1>(readings)[0]) =
+            std::numeric_limits<double>::quiet_NaN();
+        telemetryReportInterface->set_property("Readings", readings);
         return;
     }
 
@@ -108,6 +112,9 @@ void NvidiaGpuPowerPeakReading::processResponse(const std::error_code& ec,
             "Error updating Peak Power Sensor eid {EID} and sensor id {SID} : decode failed, rc={RC}, cc={CC}, reasonCode={RESC}",
             "EID", eid, "SID", sensorId, "RC", rc, "CC", cc, "RESC",
             reasonCode);
+        std::get<2>(std::get<1>(readings)[0]) =
+            std::numeric_limits<double>::quiet_NaN();
+        telemetryReportInterface->set_property("Readings", readings);
         return;
     }
 

@@ -23,6 +23,7 @@
 #include <cstring>
 #include <format>
 #include <functional>
+#include <limits>
 #include <memory>
 #include <span>
 #include <string>
@@ -205,6 +206,14 @@ void NvidiaEthPortMetrics::processResponse(
             "Error updating Ethernet Port Metrics: sending message over MCTP failed, "
             "rc={RC}, EID={EID}, PortNumber={PN}",
             "RC", sendRecvMsgResult.message(), "EID", eid, "PN", portNumber);
+        for (auto& interface : metricValueInterface)
+        {
+            if (interface != nullptr)
+            {
+                interface->set_property(
+                    "Value", std::numeric_limits<double>::quiet_NaN());
+            }
+        }
         return;
     }
 
@@ -222,6 +231,14 @@ void NvidiaEthPortMetrics::processResponse(
             "rc={RC}, cc={CC}, reasonCode={RESC}, EID={EID}, PortNumber={PN}",
             "RC", rc, "CC", static_cast<uint8_t>(cc), "RESC", reasonCode, "EID",
             eid, "PN", portNumber);
+        for (auto& interface : metricValueInterface)
+        {
+            if (interface != nullptr)
+            {
+                interface->set_property(
+                    "Value", std::numeric_limits<double>::quiet_NaN());
+            }
+        }
         return;
     }
 

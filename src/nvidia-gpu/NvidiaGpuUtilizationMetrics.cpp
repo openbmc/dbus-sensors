@@ -22,6 +22,7 @@
 #include <cstdint>
 #include <format>
 #include <functional>
+#include <limits>
 #include <memory>
 #include <span>
 #include <string>
@@ -158,6 +159,10 @@ void NvidiaGpuUtilizationMetrics::onImmediateSuccess(
                    "rc={RC}, cc={CC}, reasonCode={RESC}, EID={EID}",
                    "RC", rc, "CC", static_cast<uint8_t>(cc), "RESC", reasonCode,
                    "EID", eid);
+        processorMetricInterface->set_property(
+            "Value", std::numeric_limits<double>::quiet_NaN());
+        memoryMetricInterface->set_property(
+            "Value", std::numeric_limits<double>::quiet_NaN());
         return;
     }
 
@@ -183,6 +188,10 @@ void NvidiaGpuUtilizationMetrics::onLongRunningPayload(
         lg2::error("Error updating GPU Utilization Metrics: failed to decode "
                    "long running response data, rc={RC}, EID={EID}",
                    "RC", rc, "EID", eid);
+        processorMetricInterface->set_property(
+            "Value", std::numeric_limits<double>::quiet_NaN());
+        memoryMetricInterface->set_property(
+            "Value", std::numeric_limits<double>::quiet_NaN());
         return;
     }
 

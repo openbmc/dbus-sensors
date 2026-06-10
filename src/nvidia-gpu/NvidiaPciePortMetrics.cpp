@@ -22,6 +22,7 @@
 #include <cstdint>
 #include <format>
 #include <functional>
+#include <limits>
 #include <memory>
 #include <span>
 #include <string>
@@ -131,6 +132,14 @@ void NvidiaPciePortMetrics::processResponse(
             "RC", sendRecvMsgResult.message(), "EID", eid, "PT",
             static_cast<uint8_t>(portType), "UP", upstreamPortNumber, "PN",
             portNumber, "SG", static_cast<uint8_t>(scalarGroupId));
+        for (auto& metricValueInterface : metricValueInterfaces)
+        {
+            if (metricValueInterface != nullptr)
+            {
+                metricValueInterface->set_property(
+                    "Value", std::numeric_limits<double>::quiet_NaN());
+            }
+        }
         return;
     }
 
@@ -161,6 +170,14 @@ void NvidiaPciePortMetrics::processResponse(
             "RC", rc, "CC", static_cast<uint8_t>(cc), "RESC", reasonCode, "EID",
             eid, "PT", static_cast<uint8_t>(portType), "UP", upstreamPortNumber,
             "PN", portNumber, "SG", static_cast<uint8_t>(scalarGroupId));
+        for (auto& metricValueInterface : metricValueInterfaces)
+        {
+            if (metricValueInterface != nullptr)
+            {
+                metricValueInterface->set_property(
+                    "Value", std::numeric_limits<double>::quiet_NaN());
+            }
+        }
         return;
     }
 

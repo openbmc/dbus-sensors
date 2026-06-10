@@ -84,13 +84,14 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
                      const std::shared_ptr<sdbusplus::asio::connection>& conn,
                      uint8_t eid, boost::asio::io_context& io,
                      mctp::MctpRequester& mctpRequester,
-                     sdbusplus::asio::object_server& objectServer) :
+                     sdbusplus::asio::object_server& objectServer,
+                     const gpu::DeviceCapabilities& caps) :
     eid(eid), sensorPollMs(std::chrono::milliseconds{configs.pollRate}),
     waitTimer(io, std::chrono::steady_clock::duration(0)),
     waitTimerLongRunning(io, std::chrono::steady_clock::duration(0)),
     mctpRequester(mctpRequester), io(io), conn(conn),
     objectServer(objectServer), configs(configs), name(escapeName(name)),
-    path(path)
+    path(path), caps(caps)
 {
     const std::string powerControlPath = controlPowerPrefix + this->name;
 
@@ -179,7 +180,14 @@ void GpuDevice::init()
         gpu::DeviceIdentification::DEVICE_GPU, eid, io, powerCapInterface,
         dramItemInterface);
 
-    inventory->init();
+    // GetInventoryInformation is a one-shot read (with retries) that runs
+    // outside the poll loop, so gate it here as well: only read inventory
+    // when the device reports the command as supported.
+    if (caps.supports(
+            gpu::PlatformEnvironmentalCommands::GET_INVENTORY_INFORMATION))
+    {
+        inventory->init();
+    }
 
     makeSensors();
 
@@ -304,6 +312,13 @@ void GpuDevice::makeSensors()
 
 void GpuDevice::getTLimitThresholds()
 {
+    if (!caps.supports(
+            gpu::PlatformEnvironmentalCommands::READ_THERMAL_PARAMETERS))
+    {
+        processTLimitThresholds(std::make_error_code(std::errc::not_supported));
+        return;
+    }
+
     thresholds = {};
     current_threshold_index = 0;
     getNextThermalParameter();
@@ -404,29 +419,98 @@ void GpuDevice::processTLimitThresholds(const std::error_code& ec)
 
 void GpuDevice::read()
 {
-    tempSensor->update();
+    using enum gpu::PlatformEnvironmentalCommands;
+
+    // Sensors are always created; gate each poll on whether the device reports
+    // the command it uses as supported. Sensor-derived members are additionally
+    // marked unavailable when the command is unsupported; the rest are simply
+    // not polled.
+    if (caps.supports(GET_TEMPERATURE_READING))
+    {
+        tempSensor->update();
+    }
+    else
+    {
+        tempSensor->markAvailable(false);
+    }
     if (tLimitSensor)
     {
-        tLimitSensor->update();
+        if (caps.supports(GET_TEMPERATURE_READING))
+        {
+            tLimitSensor->update();
+        }
+        else
+        {
+            tLimitSensor->markAvailable(false);
+        }
     }
-    dramTempSensor->update();
-    powerSensor->update();
-    peakPower->update();
-    energySensor->update();
-    voltageSensor->update();
-    driverInfo->update();
-    gpuPowerControl->update();
-    gpuClockSpeedControl->update();
-    pcieInterface->update();
-    pciePort->update();
-    pcieFunction->update();
-    for (auto& metrics : pciePortMetrics)
+    if (caps.supports(GET_TEMPERATURE_READING))
     {
-        metrics->update();
+        dramTempSensor->update();
     }
-    memoryDevice->update();
-    memoryClockFrequency->update();
-    clockFrequencyMetric->update();
+    else
+    {
+        dramTempSensor->markAvailable(false);
+    }
+    if (caps.supports(GET_CURRENT_POWER_DRAW))
+    {
+        powerSensor->update();
+    }
+    else
+    {
+        powerSensor->markAvailable(false);
+    }
+    if (caps.supports(GET_MAX_OBSERVED_POWER))
+    {
+        peakPower->update();
+    }
+    if (caps.supports(GET_CURRENT_ENERGY_COUNTER))
+    {
+        energySensor->update();
+    }
+    else
+    {
+        energySensor->markAvailable(false);
+    }
+    if (caps.supports(GET_VOLTAGE))
+    {
+        voltageSensor->update();
+    }
+    else
+    {
+        voltageSensor->markAvailable(false);
+    }
+    if (caps.supports(GET_DRIVER_INFORMATION))
+    {
+        driverInfo->update();
+    }
+    if (caps.supports(GET_POWER_LIMITS))
+    {
+        gpuPowerControl->update();
+    }
+    if (caps.supports(GET_CLOCK_LIMIT))
+    {
+        gpuClockSpeedControl->update();
+    }
+    if (caps.supports(gpu::PcieLinkCommands::QueryScalarGroupTelemetryV1))
+    {
+        pcieInterface->update();
+        pciePort->update();
+        pcieFunction->update();
+        for (auto& metrics : pciePortMetrics)
+        {
+            metrics->update();
+        }
+    }
+    if (caps.supports(GET_ECC_ERROR_COUNTS))
+    {
+        memoryDevice->update();
+    }
+    if (caps.supports(GET_CURRENT_CLOCK_FREQUENCY))
+    {
+        memoryClockFrequency->update();
+        clockFrequencyMetric->update();
+    }
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait(
@@ -447,8 +531,16 @@ void GpuDevice::read()
 
 void GpuDevice::readLongRunning()
 {
-    utilizationMetrics->update();
-    violationDuration->update();
+    if (caps.supports(
+            gpu::PlatformEnvironmentalCommands::GET_CURRENT_UTILIZATION))
+    {
+        utilizationMetrics->update();
+    }
+    if (caps.supports(
+            gpu::PlatformEnvironmentalCommands::GET_VIOLATION_DURATION))
+    {
+        violationDuration->update();
+    }
 
     waitTimerLongRunning.expires_after(longRunningSensorPollRate);
     waitTimerLongRunning.async_wait(

@@ -22,6 +22,7 @@
 #include <cstdint>
 #include <format>
 #include <functional>
+#include <limits>
 #include <memory>
 #include <span>
 #include <string>
@@ -164,6 +165,10 @@ void NvidiaGpuViolationDuration::onImmediateSuccess(
                    "rc={RC}, cc={CC}, reasonCode={RESC}, EID={EID}",
                    "RC", rc, "CC", static_cast<uint8_t>(cc), "RESC", reasonCode,
                    "EID", eid);
+        powerMetricInterface->set_property(
+            "Value", std::numeric_limits<double>::quiet_NaN());
+        thermalMetricInterface->set_property(
+            "Value", std::numeric_limits<double>::quiet_NaN());
         return;
     }
 
@@ -192,6 +197,10 @@ void NvidiaGpuViolationDuration::onLongRunningPayload(
         lg2::error("Error updating GPU Violation Duration: failed to decode "
                    "long running response data, rc={RC}, EID={EID}",
                    "RC", rc, "EID", eid);
+        powerMetricInterface->set_property(
+            "Value", std::numeric_limits<double>::quiet_NaN());
+        thermalMetricInterface->set_property(
+            "Value", std::numeric_limits<double>::quiet_NaN());
         return;
     }
 

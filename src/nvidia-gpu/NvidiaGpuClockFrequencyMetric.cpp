@@ -18,6 +18,7 @@
 #include <sdbusplus/message/native_types.hpp>
 
 #include <cstdint>
+#include <limits>
 #include <memory>
 #include <span>
 #include <string>
@@ -111,6 +112,8 @@ void NvidiaGpuClockFrequencyMetric::handleResponse(
         lg2::error(
             "Error reading clock frequency for {NAME}: MCTP failed, rc={RC}",
             "NAME", name, "RC", ec.message());
+        metricInterface->set_property("Value",
+                                      std::numeric_limits<double>::quiet_NaN());
         return;
     }
 
@@ -127,6 +130,8 @@ void NvidiaGpuClockFrequencyMetric::handleResponse(
             "Error decoding clock frequency for {NAME}: rc={RC}, cc={CC}, reasonCode={REASON}",
             "NAME", name, "RC", rc, "CC", static_cast<uint8_t>(cc), "REASON",
             reasonCode);
+        metricInterface->set_property("Value",
+                                      std::numeric_limits<double>::quiet_NaN());
         return;
     }
 
