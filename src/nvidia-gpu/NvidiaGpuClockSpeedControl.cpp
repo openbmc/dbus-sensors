@@ -12,13 +12,17 @@
 #include <OcpMctpVdm.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/message.hpp>
 #include <sdbusplus/message/native_types.hpp>
+#include <xyz/openbmc_project/Common/Device/error.hpp>
+#include <xyz/openbmc_project/Common/error.hpp>
 
 #include <cstdint>
 #include <memory>
 #include <span>
 #include <string>
 #include <system_error>
+#include <utility>
 #include <vector>
 
 static constexpr uint64_t mhzToHzFactor = 1'000'000;
@@ -121,4 +125,68 @@ void NvidiaGpuClockSpeedControl::handleResponse(const std::error_code& ec,
                                              reqMaxHz);
     controlClockSpeedInterface->set_property("RequestedSpeedLimitMinHz",
                                              reqMinHz);
+}
+
+void NvidiaGpuClockSpeedControl::reset(sdbusplus::message_t msg)
+{
+    if (resetInFlight)
+    {
+        throw sdbusplus::error::xyz::openbmc_project::common::Unavailable();
+    }
+
+    int rc = gpu::encodeSetClockLimitRequest(
+        0, gpu::ClockType::GRAPHICS_CLOCK, gpu::ClockLimitFlag::CLEAR, 0, 0,
+        resetRequestBuffer);
+    if (rc != 0)
+    {
+        lg2::error("Failed to encode clock limit reset for {NAME}: rc={RC}",
+                   "NAME", name, "RC", rc);
+        throw sdbusplus::error::xyz::openbmc_project::common::device::
+            WriteFailure();
+    }
+
+    resetInFlight = true;
+    mctpRequester.sendRecvMsg(
+        eid, resetRequestBuffer,
+        [weak{weak_from_this()}](const std::error_code& ec,
+                                 std::span<const uint8_t> buffer) {
+            auto self = weak.lock();
+            if (!self)
+            {
+                lg2::error("Invalid NvidiaGpuClockSpeedControl reference");
+                return;
+            }
+            self->completeReset(ec, buffer);
+        },
+        std::move(msg));
+    // reset() returns here; MctpRequester sends the deferred D-Bus reply once
+    // the NSM round-trip finishes (success on a clean transport, a method
+    // error on a transport failure).
+}
+
+void NvidiaGpuClockSpeedControl::completeReset(const std::error_code& ec,
+                                               std::span<const uint8_t> buffer)
+{
+    resetInFlight = false;
+
+    if (ec)
+    {
+        lg2::error(
+            "Error resetting clock limit for {NAME}: MCTP failed, rc={RC}",
+            "NAME", name, "RC", ec.message());
+        return;
+    }
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode = 0;
+
+    int rc = gpu::decodeSetClockLimitResponse(buffer, cc, reasonCode);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        lg2::error(
+            "Error decoding clock limit reset for {NAME}: rc={RC}, cc={CC}, reasonCode={REASON}",
+            "NAME", name, "RC", rc, "CC", static_cast<uint8_t>(cc), "REASON",
+            reasonCode);
+    }
 }

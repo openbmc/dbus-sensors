@@ -38,6 +38,8 @@
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/message.hpp>
+#include <xyz/openbmc_project/Common/error.hpp>
 
 #include <array>
 #include <chrono>
@@ -154,6 +156,17 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
         "RequestedSpeedLimitMaxHz", std::numeric_limits<uint64_t>::max());
     controlClockSpeedInterface->register_property(
         "RequestedSpeedLimitMinHz", std::numeric_limits<uint64_t>::max());
+    controlClockSpeedInterface->register_method(
+        "Reset",
+        [this](sdbusplus::message_t msg) {
+            if (!gpuClockSpeedControl)
+            {
+                throw sdbusplus::error::xyz::openbmc_project::common::
+                    Unavailable();
+            }
+            gpuClockSpeedControl->reset(std::move(msg));
+        },
+        0, /*deferred=*/true);
     controlClockSpeedInterface->initialize();
 }
 
