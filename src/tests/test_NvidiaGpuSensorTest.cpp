@@ -15,6 +15,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
+#include <map>
 #include <span>
 #include <string>
 #include <string_view>
@@ -700,6 +701,65 @@ TEST_F(GpuMctpVdmTests, DecodeGetSupportedCommandCodesResponseError)
     EXPECT_EQ(result, 0);
     EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERROR);
     EXPECT_EQ(reasonCode, 0x5678);
+}
+
+// Tests for gpu::DeviceCapabilities::supports(), the gate decision used to
+// skip commands a device does not report as supported.
+TEST_F(GpuMctpVdmTests, DeviceCapabilitiesNotQueriedSupportsEverything)
+{
+    // A device that did not answer the capability query reports every command
+    // as supported, so devices that do not report supported command codes are
+    // polled as before.
+    gpu::DeviceCapabilities caps{};
+    ASSERT_FALSE(caps.queried);
+    EXPECT_TRUE(caps.supports(
+        gpu::PlatformEnvironmentalCommands::GET_TEMPERATURE_READING));
+    EXPECT_TRUE(
+        caps.supports(gpu::PcieLinkCommands::QueryScalarGroupTelemetryV1));
+    EXPECT_TRUE(caps.supports(
+        gpu::NetworkPortCommands::GetEthernetPortTelemetryCounters));
+}
+
+TEST_F(GpuMctpVdmTests, DeviceCapabilitiesReportsSupportedCommand)
+{
+    gpu::DeviceCapabilities caps{};
+    caps.queried = true;
+    caps.commands[gpu::MessageType::PLATFORM_ENVIRONMENTAL] = {
+        static_cast<uint8_t>(
+            gpu::PlatformEnvironmentalCommands::GET_TEMPERATURE_READING)};
+
+    EXPECT_TRUE(caps.supports(
+        gpu::PlatformEnvironmentalCommands::GET_TEMPERATURE_READING));
+}
+
+TEST_F(GpuMctpVdmTests, DeviceCapabilitiesReportsUnsupportedCommand)
+{
+    // queried and the command absent from the set: not supported, so the gate
+    // skips it.
+    gpu::DeviceCapabilities caps{};
+    caps.queried = true;
+    caps.commands[gpu::MessageType::PLATFORM_ENVIRONMENTAL] = {
+        static_cast<uint8_t>(
+            gpu::PlatformEnvironmentalCommands::GET_TEMPERATURE_READING)};
+
+    EXPECT_FALSE(
+        caps.supports(gpu::PlatformEnvironmentalCommands::GET_VOLTAGE));
+}
+
+TEST_F(GpuMctpVdmTests, DeviceCapabilitiesTypedOverloadIsMessageTypeScoped)
+{
+    // Each typed overload checks its own message type, so a command reported
+    // under one message type is not treated as supported under another.
+    gpu::DeviceCapabilities caps{};
+    caps.queried = true;
+    caps.commands[gpu::MessageType::PLATFORM_ENVIRONMENTAL] = {
+        static_cast<uint8_t>(
+            gpu::PlatformEnvironmentalCommands::GET_TEMPERATURE_READING)};
+
+    EXPECT_TRUE(caps.supports(
+        gpu::PlatformEnvironmentalCommands::GET_TEMPERATURE_READING));
+    EXPECT_FALSE(
+        caps.supports(gpu::PcieLinkCommands::QueryScalarGroupTelemetryV1));
 }
 
 // Tests for GpuMctpVdm::encodeGetTemperatureReadingRequest function
