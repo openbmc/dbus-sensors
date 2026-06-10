@@ -63,6 +63,7 @@ TEST_F(NvidiaSmaDeviceTest, InitSendsAtLeastOneRequest)
 
     const std::shared_ptr<SmaDevice> device = createDevice();
     device->init();
+    device->setOnline();
 }
 
 TEST_F(NvidiaSmaDeviceTest, ReadLoopStopsAfterDeviceIsDestroyed)
@@ -80,6 +81,7 @@ TEST_F(NvidiaSmaDeviceTest, ReadLoopStopsAfterDeviceIsDestroyed)
         const std::shared_ptr<SmaDevice> device =
             createDevice("sma_readloop", defaultEid, fastPollMs);
         device->init();
+        device->setOnline();
 
         // While the device is alive the poll timer keeps re-arming the loop,
         // so a later round has to produce more requests.

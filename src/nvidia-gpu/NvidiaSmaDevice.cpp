@@ -52,7 +52,17 @@ void SmaDevice::makeSensors()
 
     lg2::info("Added MCA {NAME} Sensors with chassis path: {PATH}.", "NAME",
               name, "PATH", path);
+}
 
+void SmaDevice::setOffline()
+{
+    waitTimer.cancel();
+    tempSensor->markFunctional(false);
+}
+
+void SmaDevice::setOnline()
+{
+    tempSensor->markFunctional(true);
     read();
 }
 
