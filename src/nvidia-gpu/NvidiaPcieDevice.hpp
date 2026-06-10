@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include "DeviceInterface.hpp"
 #include "MctpRequester.hpp"
 #include "NvidiaDeviceDiscovery.hpp"
 #include "NvidiaGpuMctpVdm.hpp"
@@ -35,7 +36,9 @@ struct PcieDeviceInfo
     std::vector<uint8_t> numDownstreamPorts;
 };
 
-class PcieDevice : public std::enable_shared_from_this<PcieDevice>
+class PcieDevice :
+    public DeviceInterface,
+    public std::enable_shared_from_this<PcieDevice>
 {
   public:
     PcieDevice(const SensorConfigs& configs, const std::string& name,
@@ -45,12 +48,16 @@ class PcieDevice : public std::enable_shared_from_this<PcieDevice>
                mctp::MctpRequester& mctpRequester,
                sdbusplus::asio::object_server& objectServer);
 
-    const std::string& getPath() const
+    const std::string& getPath() const override
     {
         return path;
     }
 
-    void init();
+    void init() override;
+
+    void setOffline() override;
+
+    void setOnline() override;
 
   private:
     void makeSensors();

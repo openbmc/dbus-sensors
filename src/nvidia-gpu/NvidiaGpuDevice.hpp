@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include "DeviceInterface.hpp"
 #include "Inventory.hpp"
 #include "MctpRequester.hpp"
 #include "NvidiaDeviceDiscovery.hpp"
@@ -41,7 +42,9 @@
 #include <string>
 #include <vector>
 
-class GpuDevice : public std::enable_shared_from_this<GpuDevice>
+class GpuDevice :
+    public DeviceInterface,
+    public std::enable_shared_from_this<GpuDevice>
 {
   public:
     GpuDevice(const SensorConfigs& configs, const std::string& name,
@@ -51,14 +54,18 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
               mctp::MctpRequester& mctpRequester,
               sdbusplus::asio::object_server& objectServer);
 
-    ~GpuDevice();
+    ~GpuDevice() override;
 
-    const std::string& getPath() const
+    const std::string& getPath() const override
     {
         return path;
     }
 
-    void init();
+    void init() override;
+
+    void setOffline() override;
+
+    void setOnline() override;
 
   private:
     void makeSensors();

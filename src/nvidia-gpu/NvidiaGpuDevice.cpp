@@ -438,6 +438,29 @@ void GpuDevice::read()
         });
 }
 
+void GpuDevice::setOffline()
+{
+    waitTimer.cancel();
+    waitTimerLongRunning.cancel();
+
+    auto nan = std::numeric_limits<double>::quiet_NaN();
+    tempSensor->updateValue(nan);
+    if (tLimitSensor)
+    {
+        tLimitSensor->updateValue(nan);
+    }
+    dramTempSensor->updateValue(nan);
+    powerSensor->updateValue(nan);
+    energySensor->updateValue(nan);
+    voltageSensor->updateValue(nan);
+}
+
+void GpuDevice::setOnline()
+{
+    read();
+    readLongRunning();
+}
+
 void GpuDevice::readLongRunning()
 {
     currentUtilization->update();

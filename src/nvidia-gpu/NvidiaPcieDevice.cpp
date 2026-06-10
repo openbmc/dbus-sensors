@@ -290,6 +290,19 @@ void PcieDevice::makeSensors()
     read();
 }
 
+void PcieDevice::setOffline()
+{
+    // PcieDevice members are mostly metric/interface objects with no single
+    // numeric reading; the first version only stops polling (stops sending
+    // NSM to a dead EID).
+    waitTimer.cancel();
+}
+
+void PcieDevice::setOnline()
+{
+    read();
+}
+
 void PcieDevice::read()
 {
     pcieInterface->update();
