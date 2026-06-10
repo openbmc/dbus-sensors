@@ -7,7 +7,6 @@
 
 #include "Inventory.hpp"
 #include "MctpRequester.hpp"
-#include "NvidiaDeviceDiscovery.hpp"
 #include "NvidiaEventReporting.hpp"
 #include "NvidiaGpuClockFrequencyMetric.hpp"
 #include "NvidiaGpuClockSpeedControl.hpp"
@@ -17,6 +16,7 @@
 #include "NvidiaGpuPowerSensor.hpp"
 #include "NvidiaGpuTempSensor.hpp"
 #include "NvidiaGpuXid.hpp"
+#include "NvidiaSensorConfig.hpp"
 
 #include <NvidiaDriverInformation.hpp>
 #include <NvidiaGpuEnergySensor.hpp>

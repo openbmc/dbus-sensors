@@ -10,8 +10,8 @@
 
 #include <bits/basic_string.h>
 
-#include <NvidiaDeviceDiscovery.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
+#include <NvidiaSensorConfig.hpp>
 #include <OcpMctpVdm.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/object_server.hpp>
