@@ -6,8 +6,8 @@
 #pragma once
 
 #include "MctpRequester.hpp"
-#include "NvidiaDeviceDiscovery.hpp"
 #include "NvidiaGpuSensor.hpp"
+#include "NvidiaSensorConfig.hpp"
 
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/steady_timer.hpp>
