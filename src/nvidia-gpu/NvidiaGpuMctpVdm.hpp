@@ -65,6 +65,7 @@ enum class DeviceCapabilityDiscoveryCommands : uint8_t
 
 enum class DeviceCapabilityDiscoveryEvents : uint8_t
 {
+    REDISCOVERY = 0x01,
     LONG_RUNNING_RESPONSE = 0x02,
 };
 
