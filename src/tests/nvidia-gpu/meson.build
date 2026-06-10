@@ -35,3 +35,14 @@ test(
         include_directories: gpusensor_inc,
     ),
 )
+
+test(
+    'EndpointState',
+    executable(
+        'test_EndpointState',
+        'test_EndpointState.cpp',
+        dependencies: [gtest_dep, gmock_dep],
+        implicit_include_directories: false,
+        include_directories: gpusensor_dir,
+    ),
+)
