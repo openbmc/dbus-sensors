@@ -6,6 +6,7 @@
 #pragma once
 
 #include "MctpRequester.hpp"
+#include "NvidiaGpuMctpVdm.hpp"
 #include "NvidiaGpuTempSensor.hpp"
 #include "NvidiaSensorConfig.hpp"
 
@@ -28,7 +29,8 @@ class SmaDevice : public std::enable_shared_from_this<SmaDevice>
               const std::shared_ptr<sdbusplus::asio::connection>& conn,
               uint8_t eid, boost::asio::io_context& io,
               mctp::MctpRequester& mctpRequester,
-              sdbusplus::asio::object_server& objectServer);
+              sdbusplus::asio::object_server& objectServer,
+              const gpu::DeviceCapabilities& caps);
 
     const sdbusplus::object_path& getPath() const
     {
@@ -61,4 +63,6 @@ class SmaDevice : public std::enable_shared_from_this<SmaDevice>
     std::string name;
 
     sdbusplus::object_path path;
+
+    gpu::DeviceCapabilities caps;
 };

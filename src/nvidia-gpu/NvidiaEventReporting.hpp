@@ -49,7 +49,7 @@ class NvidiaEventReportingConfig :
         delete;
     ~NvidiaEventReportingConfig() = default;
 
-    void init();
+    void init(const gpu::DeviceCapabilities& caps);
 
   private:
     void handleSetupSubscription(const std::error_code& ec,
@@ -64,6 +64,7 @@ class NvidiaEventReportingConfig :
     mctp::MctpRequester& requester;
     std::array<uint64_t, messageTypeCount> eventMasks{};
     size_t currentMessageTypeIdx{0};
+    bool eventSourcesSupported{true};
     std::array<uint8_t, gpu::setEventSourcesRequestSize> sourcesReq{};
     std::array<uint8_t, gpu::setEventSubscriptionRequestSize> subscriptionReq{};
 };

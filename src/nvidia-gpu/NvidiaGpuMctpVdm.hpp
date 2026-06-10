@@ -10,6 +10,7 @@
 #include <array>
 #include <cstddef>
 #include <cstdint>
+#include <map>
 #include <span>
 #include <string>
 #include <utility>
@@ -29,7 +30,10 @@ enum class MessageType : uint8_t
     DEVICE_CAPABILITY_DISCOVERY = 0,
     NETWORK_PORT = 1,
     PCIE_LINK = 2,
-    PLATFORM_ENVIRONMENTAL = 3
+    PLATFORM_ENVIRONMENTAL = 3,
+    DIAGNOSTICS = 4,
+    DEVICE_CONFIGURATION = 5,
+    FIRMWARE = 6
 };
 
 enum class DeviceCapabilityDiscoveryCommands : uint8_t
@@ -43,6 +47,7 @@ enum class DeviceCapabilityDiscoveryCommands : uint8_t
 
 enum class DeviceCapabilityDiscoveryEvents : uint8_t
 {
+    REDISCOVERY = 0x01,
     LONG_RUNNING_RESPONSE = 0x02,
 };
 
@@ -284,6 +289,51 @@ constexpr size_t getClockLimitRequestSize =
 constexpr size_t setClockLimitRequestSize =
     ocp::accelerator_management::commonRequestSize + sizeof(uint8_t) +
     sizeof(uint8_t) + sizeof(uint32_t) + sizeof(uint32_t);
+
+// Command codes a device reports as supported, populated during discovery.
+struct DeviceCapabilities
+{
+    // queried == false means the device did not answer the capability query, so
+    // supports() returns true to preserve behavior for devices that do not
+    // report supported command codes.
+    bool queried{false};
+    std::map<MessageType, std::array<uint8_t, supportedListBitfieldSize>>
+        commands;
+
+    bool supports(DeviceCapabilityDiscoveryCommands command) const
+    {
+        return has(MessageType::DEVICE_CAPABILITY_DISCOVERY,
+                   static_cast<uint8_t>(command));
+    }
+
+    bool supports(NetworkPortCommands command) const
+    {
+        return has(MessageType::NETWORK_PORT, static_cast<uint8_t>(command));
+    }
+
+    bool supports(PcieLinkCommands command) const
+    {
+        return has(MessageType::PCIE_LINK, static_cast<uint8_t>(command));
+    }
+
+    bool supports(PlatformEnvironmentalCommands command) const
+    {
+        return has(MessageType::PLATFORM_ENVIRONMENTAL,
+                   static_cast<uint8_t>(command));
+    }
+
+  private:
+    bool has(MessageType type, uint8_t command) const
+    {
+        if (!queried)
+        {
+            return true;
+        }
+        auto it = commands.find(type);
+        return it != commands.end() &&
+               (it->second[command / 8U] & (1U << (command % 8U))) != 0;
+    }
+};
 
 int encodeRequestCommonHeader(PackBuffer& buffer, gpu::MessageType msgType,
                               uint8_t command, uint8_t instanceId);

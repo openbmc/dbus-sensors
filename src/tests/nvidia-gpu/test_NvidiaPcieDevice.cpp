@@ -5,6 +5,7 @@
 
 #include "MctpMockTestBase.hpp"
 #include "MockMctpRequester.hpp"
+#include "NvidiaGpuMctpVdm.hpp"
 #include "NvidiaPcieDevice.hpp"
 #include "NvidiaSensorConfig.hpp"
 #include "TestUtils.hpp"
@@ -35,8 +36,8 @@ class NvidiaPcieDeviceTest : public MctpMockTestBase
                                     .pollRate = pollRate,
                                     .nicNetworkPortCount = nicNetworkPortCount};
         return std::make_shared<PcieDevice>(configs, name, path, bus(), eid,
-                                            ioContext(), requester(),
-                                            objects());
+                                            ioContext(), requester(), objects(),
+                                            gpu::DeviceCapabilities{});
     }
 };
 
