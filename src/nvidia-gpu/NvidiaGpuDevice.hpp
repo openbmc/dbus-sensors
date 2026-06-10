@@ -40,6 +40,7 @@
 #include <cstdint>
 #include <memory>
 #include <string>
+#include <utility>
 #include <vector>
 
 class GpuDevice : public std::enable_shared_from_this<GpuDevice>
@@ -61,6 +62,13 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
     }
 
     void init();
+
+    // Replace the cached device capabilities after a rediscovery event
+    // re-queries them; the poll loop applies the new set on its next cycle.
+    void setCapabilities(gpu::DeviceCapabilities newCaps)
+    {
+        caps = std::move(newCaps);
+    }
 
   private:
     void makeSensors();
