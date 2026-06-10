@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include "DeviceInterface.hpp"
 #include "MctpRequester.hpp"
 #include "NvidiaGpuTempSensor.hpp"
 #include "NvidiaSensorConfig.hpp"
@@ -19,7 +20,9 @@
 #include <memory>
 #include <string>
 
-class SmaDevice : public std::enable_shared_from_this<SmaDevice>
+class SmaDevice :
+    public DeviceInterface,
+    public std::enable_shared_from_this<SmaDevice>
 {
   public:
     SmaDevice(const SensorConfigs& configs, const std::string& name,
@@ -29,12 +32,16 @@ class SmaDevice : public std::enable_shared_from_this<SmaDevice>
               mctp::MctpRequester& mctpRequester,
               sdbusplus::asio::object_server& objectServer);
 
-    const std::string& getPath() const
+    const std::string& getPath() const override
     {
         return path;
     }
 
-    void init();
+    void init() override;
+
+    void setOffline() override;
+
+    void setOnline() override;
 
   private:
     void makeSensors();

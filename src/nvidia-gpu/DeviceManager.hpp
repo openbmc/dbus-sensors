@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include "DeviceInterface.hpp"
+#include "EndpointState.hpp"
 #include "MctpRequester.hpp"
 #include "NvidiaGpuDevice.hpp"
 #include "NvidiaPcieDevice.hpp"
@@ -13,6 +15,7 @@
 #include "Utils.hpp"
 
 #include <boost/asio/io_context.hpp>
+#include <boost/asio/steady_timer.hpp>
 #include <boost/container/flat_map.hpp>
 #include <boost/system/error_code.hpp>
 #include <sdbusplus/asio/connection.hpp>
@@ -24,6 +27,7 @@
 #include <span>
 #include <string>
 #include <system_error>
+#include <unordered_map>
 #include <vector>
 
 class DeviceManager
@@ -35,7 +39,11 @@ class DeviceManager
                   mctp::MctpRequester& mctpRequester);
 
     void createSensors();
+    // Debounced re-discovery: coalesces bursts of entity-manager config
+    // changes and mctpd connectivity events into a single createSensors().
+    void scheduleRescan();
     void onConfigInterfaceRemoved(sdbusplus::message_t& message);
+    void onConnectivityChanged(sdbusplus::message_t& msg);
 
   private:
     void processSensorConfigs(const ManagedObjectType& resp);
@@ -44,14 +52,21 @@ class DeviceManager
                         const boost::system::error_code& ec,
                         const GetSubTreeType& ret);
     void processEndpoint(const SensorConfigs& configs, const std::string& path,
+                         const std::string& endpointPath,
                          const boost::system::error_code& ec,
                          const SensorBaseConfigMap& endpoint);
-    void queryDeviceIdentification(const SensorConfigs& configs,
-                                   const std::string& path, uint8_t eid);
+    void queryDeviceIdentification(
+        const SensorConfigs& configs, const std::string& path,
+        const std::string& endpointPath, uint8_t eid);
     void processQueryDeviceIdResponse(
-        const SensorConfigs& configs, const std::string& path, uint8_t eid,
+        const SensorConfigs& configs, const std::string& path,
+        const std::string& endpointPath, uint8_t eid,
         const std::error_code& sendRecvMsgResult,
         std::span<const uint8_t> queryDeviceIdentificationResponse);
+
+    void registerEndpoint(const std::string& endpointPath, uint8_t eid,
+                          const std::shared_ptr<DeviceInterface>& device);
+    void applyEvent(const std::string& endpointPath, EndpointEvent event);
 
     boost::asio::io_context& io;
     sdbusplus::asio::object_server& objectServer;
@@ -64,4 +79,15 @@ class DeviceManager
         smaDevices;
     boost::container::flat_map<std::string, std::shared_ptr<PcieDevice>>
         pcieDevices;
+
+    boost::asio::steady_timer configTimer;
+
+    struct EndpointRecord
+    {
+        std::weak_ptr<DeviceInterface> device; // SmaDevice for now
+        uint8_t eid{};
+        EndpointState state{EndpointState::Init};
+    };
+    // key = mctpd endpoint D-Bus object path
+    std::unordered_map<std::string, EndpointRecord> endpoints;
 };
