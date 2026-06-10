@@ -50,6 +50,42 @@
       "message": "I think of this as giving boost some flexibility in choosing it\u0027s kernel interface for specific use cases.  Otherwise why wouldn\u0027t they just have one feature flag?  I can\u0027t imagine why using io_uring over epoll for non-file IO would have any meaningful performance impact, but that\u0027s just my intution.  +1 since I can\u0027t see any down-side to using epoll for non-file IO.",
       "revId": "914fcd4d646e090e9d5bb45171987fcc9e7db940",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e74eb0a_595a8f3b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-06-10T20:34:53Z",
+      "side": 1,
+      "message": "Jae, can you please read and audit the LLM output before you post it?  I don\u0027t want to argue with a robot, or I can get my robot to argue with your robot.\n\n    D-Bus get-property latency  count\u003d50             count\u003d50\n                                min\u003d20000 us         min\u003d20000 us\n                                avg\u003d29200 us         avg\u003d30400 us\n                                p50\u003d30000 us         p50\u003d30000 us\n                                p90\u003d40000 us         p90\u003d40000 us\n                                p99\u003d40000 us         p99\u003d40000 us\n                                max\u003d40000 us         max\u003d40000 us\n                                \nAverage for uring based one appears to be marginally faster, so I\u0027m not sure what we\u0027re doing here.\n\n\"However, based on these results, I don\u0027t see any\nsignificant performance difference or regression between using io_uring and\nio_uring + epoll.\"\n\nSo lets keep the uring implementation and abandon this patch?",
+      "parentUuid": "11cfc301_e9b56ee7",
+      "revId": "914fcd4d646e090e9d5bb45171987fcc9e7db940",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da2cf9da_7df85259",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-06-10T20:34:53Z",
+      "side": 1,
+      "message": "Brad, I\u0027m a little confused.  From my perspective this isn\u0027t giving flexibility, it\u0027s just hardcoding a different set of tradeoffs.  Before we do that, I\u0027d like at least SOME indication in the commit message of why we did it so that in 2 months when someone proposes the opposite, I can point to the problem being solved.\n\n\u003e I can\u0027t imagine why using io_uring over epoll for non-file IO would have any meaningful performance impact\n\nExactly...... I can\u0027t either, and I don\u0027t think the commit message give adequate justification for why we should change.\n\nOne downside would be that we\u0027re chaining reactors, adding extra sys calls to add the uring into an epoll.  If we find that\u0027s truly faster, I\u0027m open to that, but we should back that up with at least a little load testing.",
+      "parentUuid": "266deec0_90897fa9",
+      "revId": "914fcd4d646e090e9d5bb45171987fcc9e7db940",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
