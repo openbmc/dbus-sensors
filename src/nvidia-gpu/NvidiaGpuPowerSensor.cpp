@@ -7,6 +7,7 @@
 
 #include "MctpRequester.hpp"
 #include "NvidiaSensorUtils.hpp"
+#include "NvidiaUtils.hpp"
 #include "SensorPaths.hpp"
 #include "Thresholds.hpp"
 #include "Utils.hpp"
@@ -14,7 +15,6 @@
 
 #include <bits/basic_string.h>
 
-#include <NvidiaDeviceDiscovery.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
 #include <OcpMctpVdm.hpp>
 #include <phosphor-logging/lg2.hpp>

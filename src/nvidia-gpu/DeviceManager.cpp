@@ -3,17 +3,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-#include "NvidiaDeviceDiscovery.hpp"
+#include "DeviceManager.hpp"
 
 #include "NvidiaGpuDevice.hpp"
 #include "NvidiaPcieDevice.hpp"
 #include "NvidiaSmaDevice.hpp"
 #include "Utils.hpp"
 
-#include <bits/basic_string.h>
-
 #include <MctpRequester.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
+#include <NvidiaSensorConfig.hpp>
 #include <OcpMctpVdm.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/container/flat_map.hpp>
@@ -31,6 +30,7 @@
 #include <span>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <system_error>
 #include <utility>
 #include <variant>
@@ -38,17 +38,16 @@
 
 static constexpr auto sensorPollRateMs = 1000;
 
-void processQueryDeviceIdResponse(
-    boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
-    boost::container::flat_map<std::string, std::shared_ptr<GpuDevice>>&
-        gpuDevices,
-    boost::container::flat_map<std::string, std::shared_ptr<SmaDevice>>&
-        smaDevices,
-    boost::container::flat_map<std::string, std::shared_ptr<PcieDevice>>&
-        pcieDevices,
-    const std::shared_ptr<sdbusplus::asio::connection>& conn,
-    mctp::MctpRequester& mctpRequester, const SensorConfigs& configs,
-    const std::string& path, uint8_t eid,
+DeviceManager::DeviceManager(boost::asio::io_context& io,
+                             sdbusplus::asio::object_server& objectServer,
+                             std::shared_ptr<sdbusplus::asio::connection> conn,
+                             mctp::MctpRequester& mctpRequester) :
+    io(io), objectServer(objectServer), conn(std::move(conn)),
+    mctpRequester(mctpRequester)
+{}
+
+void DeviceManager::processQueryDeviceIdResponse(
+    const SensorConfigs& configs, const std::string& path, uint8_t eid,
     const std::error_code& sendRecvMsgResult,
     std::span<const uint8_t> queryDeviceIdentificationResponse)
 {
@@ -165,20 +164,16 @@ void processQueryDeviceIdResponse(
 
             break;
         }
+
+        default:
+            lg2::error("Unknown device type {TYPE} for EID {EID}", "TYPE",
+                       responseDeviceType, "EID", eid);
+            break;
     }
 }
 
-void queryDeviceIdentification(
-    boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
-    boost::container::flat_map<std::string, std::shared_ptr<GpuDevice>>&
-        gpuDevices,
-    boost::container::flat_map<std::string, std::shared_ptr<SmaDevice>>&
-        smaDevices,
-    boost::container::flat_map<std::string, std::shared_ptr<PcieDevice>>&
-        pcieDevices,
-    const std::shared_ptr<sdbusplus::asio::connection>& conn,
-    mctp::MctpRequester& mctpRequester, const SensorConfigs& configs,
-    const std::string& path, uint8_t eid)
+void DeviceManager::queryDeviceIdentification(
+    const SensorConfigs& configs, const std::string& path, uint8_t eid)
 {
     auto queryDeviceIdentificationRequest = std::make_shared<
         std::array<uint8_t, gpu::queryDeviceIdentificationRequestSize>>();
@@ -195,27 +190,15 @@ void queryDeviceIdentification(
 
     mctpRequester.sendRecvMsg(
         eid, *queryDeviceIdentificationRequest,
-        [&io, &objectServer, &gpuDevices, &smaDevices, &pcieDevices, conn,
-         &mctpRequester, configs, path, eid, queryDeviceIdentificationRequest](
+        [this, configs, path, eid, queryDeviceIdentificationRequest](
             const std::error_code& ec, std::span<const uint8_t> response) {
-            processQueryDeviceIdResponse(
-                io, objectServer, gpuDevices, smaDevices, pcieDevices, conn,
-                mctpRequester, configs, path, eid, ec, response);
+            processQueryDeviceIdResponse(configs, path, eid, ec, response);
         });
 }
 
-void processEndpoint(
-    boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
-    boost::container::flat_map<std::string, std::shared_ptr<GpuDevice>>&
-        gpuDevices,
-    boost::container::flat_map<std::string, std::shared_ptr<SmaDevice>>&
-        smaDevices,
-    boost::container::flat_map<std::string, std::shared_ptr<PcieDevice>>&
-        pcieDevices,
-    const std::shared_ptr<sdbusplus::asio::connection>& conn,
-    mctp::MctpRequester& mctpRequester, const SensorConfigs& configs,
-    const std::string& path, const boost::system::error_code& ec,
-    const SensorBaseConfigMap& endpoint)
+void DeviceManager::processEndpoint(
+    const SensorConfigs& configs, const std::string& path,
+    const boost::system::error_code& ec, const SensorBaseConfigMap& endpoint)
 {
     if (ec)
     {
@@ -279,24 +262,13 @@ void processEndpoint(
                   ocp::accelerator_management::messageType) != mctpTypes.end())
     {
         lg2::info("Found OCP MCTP VDM Endpoint with ID {EID}", "EID", eid);
-        queryDeviceIdentification(io, objectServer, gpuDevices, smaDevices,
-                                  pcieDevices, conn, mctpRequester, configs,
-                                  path, eid);
+        queryDeviceIdentification(configs, path, eid);
     }
 }
 
-void queryEndpoints(
-    boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
-    boost::container::flat_map<std::string, std::shared_ptr<GpuDevice>>&
-        gpuDevices,
-    boost::container::flat_map<std::string, std::shared_ptr<SmaDevice>>&
-        smaDevices,
-    boost::container::flat_map<std::string, std::shared_ptr<PcieDevice>>&
-        pcieDevices,
-    const std::shared_ptr<sdbusplus::asio::connection>& conn,
-    mctp::MctpRequester& mctpRequester, const SensorConfigs& configs,
-    const std::string& path, const boost::system::error_code& ec,
-    const GetSubTreeType& ret)
+void DeviceManager::queryEndpoints(
+    const SensorConfigs& configs, const std::string& path,
+    const boost::system::error_code& ec, const GetSubTreeType& ret)
 {
     if (ec)
     {
@@ -319,14 +291,10 @@ void queryEndpoints(
                 if (iface == "xyz.openbmc_project.MCTP.Endpoint")
                 {
                     conn->async_method_call(
-                        [&io, &objectServer, &gpuDevices, &smaDevices,
-                         &pcieDevices, conn, &mctpRequester, configs,
+                        [this, configs,
                          path](const boost::system::error_code& ec,
                                const SensorBaseConfigMap& endpoint) {
-                            processEndpoint(io, objectServer, gpuDevices,
-                                            smaDevices, pcieDevices, conn,
-                                            mctpRequester, configs, path, ec,
-                                            endpoint);
+                            processEndpoint(configs, path, ec, endpoint);
                         },
                         service, objPath, "org.freedesktop.DBus.Properties",
                         "GetAll", iface);
@@ -336,28 +304,16 @@ void queryEndpoints(
     }
 }
 
-void discoverDevices(
-    boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
-    boost::container::flat_map<std::string, std::shared_ptr<GpuDevice>>&
-        gpuDevices,
-    boost::container::flat_map<std::string, std::shared_ptr<SmaDevice>>&
-        smaDevices,
-    boost::container::flat_map<std::string, std::shared_ptr<PcieDevice>>&
-        pcieDevices,
-    const std::shared_ptr<sdbusplus::asio::connection>& conn,
-    mctp::MctpRequester& mctpRequester, const SensorConfigs& configs,
-    const std::string& path)
+void DeviceManager::discoverDevices(const SensorConfigs& configs,
+                                    const std::string& path)
 {
     std::string searchPath{"/au/com/codeconstruct/"};
     std::vector<std::string> ifaceList{{"xyz.openbmc_project.MCTP.Endpoint"}};
 
     conn->async_method_call(
-        [&io, &objectServer, &gpuDevices, &smaDevices, &pcieDevices, conn,
-         &mctpRequester, configs,
+        [this, configs,
          path](const boost::system::error_code& ec, const GetSubTreeType& ret) {
-            queryEndpoints(io, objectServer, gpuDevices, smaDevices,
-                           pcieDevices, conn, mctpRequester, configs, path, ec,
-                           ret);
+            queryEndpoints(configs, path, ec, ret);
         },
         "xyz.openbmc_project.ObjectMapper",
         "/xyz/openbmc_project/object_mapper",
@@ -365,22 +321,13 @@ void discoverDevices(
         ifaceList);
 }
 
-void processSensorConfigs(
-    boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
-    boost::container::flat_map<std::string, std::shared_ptr<GpuDevice>>&
-        gpuDevices,
-    boost::container::flat_map<std::string, std::shared_ptr<SmaDevice>>&
-        smaDevices,
-    boost::container::flat_map<std::string, std::shared_ptr<PcieDevice>>&
-        pcieDevices,
-    const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
-    mctp::MctpRequester& mctpRequester, const ManagedObjectType& resp)
+void DeviceManager::processSensorConfigs(const ManagedObjectType& resp)
 {
     for (const auto& [path, interfaces] : resp)
     {
         for (const auto& [intf, cfg] : interfaces)
         {
-            if (intf != configInterfaceName(deviceType))
+            if (intf != configInterfaceName(sensorType))
             {
                 continue;
             }
@@ -410,59 +357,37 @@ void processSensorConfigs(
                 configs.nicNetworkPortCount = 0;
             }
 
-            discoverDevices(io, objectServer, gpuDevices, smaDevices,
-                            pcieDevices, dbusConnection, mctpRequester, configs,
-                            path);
+            discoverDevices(configs, path);
 
             lg2::info(
                 "Detected configuration {NAME} of type {TYPE} at path: {PATH}.",
-                "NAME", configs.name, "TYPE", deviceType, "PATH", path);
+                "NAME", configs.name, "TYPE", sensorType, "PATH", path);
         }
     }
 }
 
-void createSensors(
-    boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
-    boost::container::flat_map<std::string, std::shared_ptr<GpuDevice>>&
-        gpuDevices,
-    boost::container::flat_map<std::string, std::shared_ptr<SmaDevice>>&
-        smaDevices,
-    boost::container::flat_map<std::string, std::shared_ptr<PcieDevice>>&
-        pcieDevices,
-    const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
-    mctp::MctpRequester& mctpRequester)
+void DeviceManager::createSensors()
 {
-    if (!dbusConnection)
+    if (!conn)
     {
         lg2::error("Connection not created");
         return;
     }
-    dbusConnection->async_method_call(
-        [&gpuDevices, &smaDevices, &pcieDevices, &mctpRequester, dbusConnection,
-         &io, &objectServer](boost::system::error_code ec,
-                             const ManagedObjectType& resp) {
+    conn->async_method_call(
+        [this](boost::system::error_code ec, const ManagedObjectType& resp) {
             if (ec)
             {
                 lg2::error("Error contacting entity manager");
                 return;
             }
 
-            processSensorConfigs(io, objectServer, gpuDevices, smaDevices,
-                                 pcieDevices, dbusConnection, mctpRequester,
-                                 resp);
+            processSensorConfigs(resp);
         },
         entityManagerName, "/xyz/openbmc_project/inventory",
         "org.freedesktop.DBus.ObjectManager", "GetManagedObjects");
 }
 
-void interfaceRemoved(
-    sdbusplus::message_t& message,
-    boost::container::flat_map<std::string, std::shared_ptr<GpuDevice>>&
-        gpuDevices,
-    boost::container::flat_map<std::string, std::shared_ptr<SmaDevice>>&
-        smaDevices,
-    boost::container::flat_map<std::string, std::shared_ptr<PcieDevice>>&
-        pcieDevices)
+void DeviceManager::onConfigInterfaceRemoved(sdbusplus::message_t& message)
 {
     sdbusplus::object_path removedPath;
     std::vector<std::string> interfaces;
@@ -476,7 +401,7 @@ void interfaceRemoved(
     {
         if ((sensorIt->second->getPath() == removedPath) &&
             (std::find(interfaces.begin(), interfaces.end(),
-                       configInterfaceName(deviceType)) != interfaces.end()))
+                       configInterfaceName(sensorType)) != interfaces.end()))
         {
             sensorIt = gpuDevices.erase(sensorIt);
         }
@@ -491,7 +416,7 @@ void interfaceRemoved(
     {
         if ((smaSensorIt->second->getPath() == removedPath) &&
             (std::find(interfaces.begin(), interfaces.end(),
-                       configInterfaceName(deviceType)) != interfaces.end()))
+                       configInterfaceName(sensorType)) != interfaces.end()))
         {
             smaSensorIt = smaDevices.erase(smaSensorIt);
         }
@@ -506,7 +431,7 @@ void interfaceRemoved(
     {
         if ((pcieSensorIt->second->getPath() == removedPath) &&
             (std::find(interfaces.begin(), interfaces.end(),
-                       configInterfaceName(deviceType)) != interfaces.end()))
+                       configInterfaceName(sensorType)) != interfaces.end()))
         {
             pcieSensorIt = pcieDevices.erase(pcieSensorIt);
         }

@@ -5,8 +5,8 @@
 
 #include "NvidiaSmaDevice.hpp"
 
-#include "NvidiaDeviceDiscovery.hpp"
 #include "NvidiaGpuTempSensor.hpp"
+#include "NvidiaSensorConfig.hpp"
 #include "Thresholds.hpp"
 #include "Utils.hpp"
 

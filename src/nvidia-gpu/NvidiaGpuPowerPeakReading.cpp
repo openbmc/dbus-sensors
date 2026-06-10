@@ -6,11 +6,11 @@
 #include "NvidiaGpuPowerPeakReading.hpp"
 
 #include "MctpRequester.hpp"
+#include "NvidiaUtils.hpp"
 #include "Utils.hpp"
 
 #include <bits/basic_string.h>
 
-#include <NvidiaDeviceDiscovery.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
 #include <OcpMctpVdm.hpp>
 #include <phosphor-logging/lg2.hpp>
