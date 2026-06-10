@@ -39,11 +39,12 @@ PcieDevice::PcieDevice(const SensorConfigs& configs, const std::string& name,
                        const std::shared_ptr<sdbusplus::asio::connection>& conn,
                        uint8_t eid, boost::asio::io_context& io,
                        mctp::MctpRequester& mctpRequester,
-                       sdbusplus::asio::object_server& objectServer) :
+                       sdbusplus::asio::object_server& objectServer,
+                       const gpu::DeviceCapabilities& caps) :
     eid(eid), sensorPollMs(std::chrono::milliseconds{configs.pollRate}),
     waitTimer(io, std::chrono::steady_clock::duration(0)),
     mctpRequester(mctpRequester), conn(conn), objectServer(objectServer),
-    configs(configs), name(escapeName(name)), path(path)
+    configs(configs), name(escapeName(name)), path(path), caps(caps)
 {}
 
 void PcieDevice::init()
@@ -320,24 +321,36 @@ void PcieDevice::makeSensors()
 
 void PcieDevice::read()
 {
-    pcieInterface->update();
-    pcieFunction->update();
-
     driverInfo->update();
 
-    for (auto& port : pciePorts)
+    // Sensors are always created; gate each poll on whether the device reports
+    // the command it uses as supported, so the daemon does not poll commands
+    // the device does not implement. PCIe scalar telemetry uses
+    // QueryScalarGroupTelemetry v2 on PCIe devices; ethernet port telemetry
+    // uses its network-port command.
+    if (caps.supports(gpu::PcieLinkCommands::QueryScalarGroupTelemetryV2))
     {
-        port->update();
+        pcieInterface->update();
+        pcieFunction->update();
+
+        for (auto& port : pciePorts)
+        {
+            port->update();
+        }
+
+        for (auto& portMetrics : pciePortMetrics)
+        {
+            portMetrics->update();
+        }
     }
 
-    for (auto& portMetrics : pciePortMetrics)
+    if (caps.supports(
+            gpu::NetworkPortCommands::GetEthernetPortTelemetryCounters))
     {
-        portMetrics->update();
-    }
-
-    for (auto& ethPortMetric : ethPortMetrics)
-    {
-        ethPortMetric->update();
+        for (auto& ethPortMetric : ethPortMetrics)
+        {
+            ethPortMetric->update();
+        }
     }
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));

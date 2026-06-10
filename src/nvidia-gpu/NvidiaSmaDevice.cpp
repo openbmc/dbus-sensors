@@ -30,11 +30,12 @@ SmaDevice::SmaDevice(const SensorConfigs& configs, const std::string& name,
                      const std::shared_ptr<sdbusplus::asio::connection>& conn,
                      uint8_t eid, boost::asio::io_context& io,
                      mctp::MctpRequester& mctpRequester,
-                     sdbusplus::asio::object_server& objectServer) :
+                     sdbusplus::asio::object_server& objectServer,
+                     const gpu::DeviceCapabilities& caps) :
     eid(eid), sensorPollMs(std::chrono::milliseconds{configs.pollRate}),
     waitTimer(io, std::chrono::steady_clock::duration(0)),
     mctpRequester(mctpRequester), conn(conn), objectServer(objectServer),
-    configs(configs), name(escapeName(name)), path(path)
+    configs(configs), name(escapeName(name)), path(path), caps(caps)
 {}
 
 void SmaDevice::init()
@@ -57,7 +58,14 @@ void SmaDevice::makeSensors()
 
 void SmaDevice::read()
 {
-    tempSensor->update();
+    // Sensors are always created; gate each poll on whether the device reports
+    // the command it uses as supported, so the daemon does not poll commands
+    // the device does not implement.
+    if (caps.supports(
+            gpu::PlatformEnvironmentalCommands::GET_TEMPERATURE_READING))
+    {
+        tempSensor->update();
+    }
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait(

@@ -11,6 +11,7 @@
 #include "NvidiaEventReporting.hpp"
 #include "NvidiaGpuClockFrequencyMetric.hpp"
 #include "NvidiaGpuClockSpeedControl.hpp"
+#include "NvidiaGpuMctpVdm.hpp"
 #include "NvidiaGpuMemoryClockFrequency.hpp"
 #include "NvidiaGpuMemoryDevice.hpp"
 #include "NvidiaGpuPowerControl.hpp"
@@ -49,7 +50,8 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
               const std::shared_ptr<sdbusplus::asio::connection>& conn,
               uint8_t eid, boost::asio::io_context& io,
               mctp::MctpRequester& mctpRequester,
-              sdbusplus::asio::object_server& objectServer);
+              sdbusplus::asio::object_server& objectServer,
+              const gpu::DeviceCapabilities& caps);
 
     ~GpuDevice();
 
@@ -135,4 +137,6 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
     std::shared_ptr<sdbusplus::asio::dbus_interface> controlClockSpeedInterface;
     std::shared_ptr<NvidiaGpuClockFrequencyMetric> clockFrequencyMetric;
     std::shared_ptr<NvidiaGpuClockSpeedControl> gpuClockSpeedControl;
+
+    gpu::DeviceCapabilities caps;
 };
