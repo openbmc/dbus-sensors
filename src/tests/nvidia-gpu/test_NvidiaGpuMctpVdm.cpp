@@ -4,6 +4,7 @@
  */
 
 #include "MessagePackUnpackUtils.hpp"
+#include "NvidiaEventReporting.hpp"
 #include "NvidiaGpuMctpVdm.hpp"
 #include "OcpMctpVdm.hpp"
 
@@ -770,6 +771,86 @@ TEST_F(GpuMctpVdmTests, DeviceCapabilitiesTypedOverloadIsMessageTypeScoped)
         gpu::PlatformEnvironmentalCommands::GET_TEMPERATURE_READING));
     EXPECT_FALSE(
         caps.supports(gpu::PcieLinkCommands::QueryScalarGroupTelemetryV1));
+}
+
+// Builds the on-wire bytes of a Device Capability Discovery event so the
+// static dispatcher can be exercised without an MCTP socket. Mirrors the
+// layout decodeEvent unpacks: OCP header + version byte + event id +
+// event class + event state + size, with no trailing event data.
+static std::vector<uint8_t> makeCapabilityDiscoveryEvent(
+    uint8_t eventCode, bool ackRequired, uint8_t version)
+{
+    std::vector<uint8_t> buf(ocp::accelerator_management::eventHeaderSize);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::REQUEST, 0,
+        static_cast<uint8_t>(gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY));
+    const uint8_t versionByte =
+        (ackRequired ? ocp::accelerator_management::eventAckRequiredBitMask
+                     : 0) |
+        (version & ocp::accelerator_management::eventVersionBitMask);
+    pbuf.pack(versionByte);              // ack-required bit + version
+    pbuf.pack(eventCode);                // event id
+    pbuf.pack(static_cast<uint8_t>(0));  // event class
+    pbuf.pack(static_cast<uint16_t>(0)); // event state
+    pbuf.pack(static_cast<uint8_t>(0));  // size: no trailing event data
+    return buf;
+}
+
+// A genuine rediscovery event must reach the handler registered for that EID,
+// with the OCP event header correctly decoded. This is the receive half of the
+// rediscovery path (event -> handler), the seam an MCTP socket cannot cover in
+// a host unit test.
+TEST_F(GpuMctpVdmTests, RediscoveryEventDispatchInvokesHandler)
+{
+    constexpr uint8_t testEid = 0x42;
+    bool handlerCalled = false;
+    EventInfo capturedInfo{};
+
+    NvidiaEventHandler::registerEventHandler(
+        testEid, gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY,
+        static_cast<uint8_t>(gpu::DeviceCapabilityDiscoveryEvents::REDISCOVERY),
+        [&handlerCalled,
+         &capturedInfo](const EventInfo& info, std::span<const uint8_t>) {
+            handlerCalled = true;
+            capturedInfo = info;
+        });
+
+    const std::vector<uint8_t> buf = makeCapabilityDiscoveryEvent(
+        static_cast<uint8_t>(gpu::DeviceCapabilityDiscoveryEvents::REDISCOVERY),
+        true, 0x01);
+
+    NvidiaEventHandler::handleEvent(testEid, buf);
+
+    EXPECT_TRUE(handlerCalled);
+    EXPECT_TRUE(capturedInfo.ackRequired);
+    EXPECT_EQ(capturedInfo.version, 0x01);
+}
+
+// Only the rediscovery event code may trigger the re-query. A different Device
+// Capability Discovery event for the same EID must not fire the rediscovery
+// handler, so an unrelated event never forces a capability refresh.
+TEST_F(GpuMctpVdmTests, RediscoveryEventHandlerIsEventCodeScoped)
+{
+    constexpr uint8_t testEid = 0x43;
+    bool handlerCalled = false;
+
+    NvidiaEventHandler::registerEventHandler(
+        testEid, gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY,
+        static_cast<uint8_t>(gpu::DeviceCapabilityDiscoveryEvents::REDISCOVERY),
+        [&handlerCalled](const EventInfo&, std::span<const uint8_t>) {
+            handlerCalled = true;
+        });
+
+    // Event code 0x02 is not the rediscovery code, and nothing is registered
+    // for it on this EID.
+    const std::vector<uint8_t> buf =
+        makeCapabilityDiscoveryEvent(0x02, false, 0x01);
+
+    NvidiaEventHandler::handleEvent(testEid, buf);
+
+    EXPECT_FALSE(handlerCalled);
 }
 
 // Tests for GpuMctpVdm::encodeGetTemperatureReadingRequest function

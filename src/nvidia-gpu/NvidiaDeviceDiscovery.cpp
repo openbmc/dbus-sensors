@@ -5,6 +5,7 @@
 
 #include "NvidiaDeviceDiscovery.hpp"
 
+#include "NvidiaEventReporting.hpp"
 #include "NvidiaGpuDevice.hpp"
 #include "NvidiaPcieDevice.hpp"
 #include "NvidiaSmaDevice.hpp"
@@ -224,6 +225,33 @@ void createDeviceForType(
                                                   objectServer, caps);
 
                 gpu->init();
+
+                // Handle the device's rediscovery event: when the GPU reports
+                // that its supported command codes changed, re-query them and
+                // update the device's capabilities in place. The poll loop
+                // applies the new set on its next cycle, so no sensor object
+                // is created or destroyed.
+                NvidiaEventHandler::registerEventHandler(
+                    eid, gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY,
+                    static_cast<uint8_t>(
+                        gpu::DeviceCapabilityDiscoveryEvents::REDISCOVERY),
+                    [&gpuDevices, &mctpRequester, eid,
+                     gpuName](const EventInfo&, std::span<const uint8_t>) {
+                        lg2::info(
+                            "Rediscovery event received for GPU EID {EID}",
+                            "EID", eid);
+                        auto query = std::make_shared<CapabilityQuery>(
+                            eid, mctpRequester,
+                            [&gpuDevices,
+                             gpuName](const gpu::DeviceCapabilities& newCaps) {
+                                auto it = gpuDevices.find(gpuName);
+                                if (it != gpuDevices.end() && it->second)
+                                {
+                                    it->second->setCapabilities(newCaps);
+                                }
+                            });
+                        query->start();
+                    });
             }
             else
             {
