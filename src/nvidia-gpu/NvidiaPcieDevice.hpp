@@ -6,10 +6,10 @@
 #pragma once
 
 #include "MctpRequester.hpp"
-#include "NvidiaDeviceDiscovery.hpp"
 #include "NvidiaGpuMctpVdm.hpp"
 #include "NvidiaPcieFunction.hpp"
 #include "NvidiaPcieInterface.hpp"
+#include "NvidiaSensorConfig.hpp"
 
 #include <NvidiaEthPort.hpp>
 #include <NvidiaPciePort.hpp>
