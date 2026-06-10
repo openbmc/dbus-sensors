@@ -7,6 +7,7 @@
 
 #include "MctpRequester.hpp"
 #include "NvidiaGpuDevice.hpp"
+#include "NvidiaGpuMctpVdm.hpp"
 #include "NvidiaPcieDevice.hpp"
 #include "NvidiaSensorConfig.hpp"
 #include "NvidiaSmaDevice.hpp"
@@ -56,6 +57,10 @@ class DeviceManager
         const SensorConfigs& configs, const sdbusplus::object_path& path,
         uint8_t eid, const std::error_code& sendRecvMsgResult,
         std::span<const uint8_t> queryDeviceIdentificationResponse);
+    void createDeviceForType(
+        const SensorConfigs& configs, const std::string& path, uint8_t eid,
+        uint8_t responseDeviceType, uint8_t responseInstanceId,
+        const gpu::DeviceCapabilities& caps);
 
     boost::asio::io_context& io;
     sdbusplus::asio::object_server& objectServer;
