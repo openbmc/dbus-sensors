@@ -10,7 +10,6 @@
 
 #include <Inventory.hpp>
 #include <MctpRequester.hpp>
-#include <NvidiaDeviceDiscovery.hpp>
 #include <NvidiaDriverInformation.hpp>
 #include <NvidiaEventReporting.hpp>
 #include <NvidiaGpuClockFrequencyMetric.hpp>
@@ -32,6 +31,7 @@
 #include <NvidiaPcieInterface.hpp>
 #include <NvidiaPciePort.hpp>
 #include <NvidiaPciePortMetrics.hpp>
+#include <NvidiaSensorConfig.hpp>
 #include <NvidiaUtils.hpp>
 #include <OcpMctpVdm.hpp>
 #include <SerialQueue.hpp>

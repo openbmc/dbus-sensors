@@ -5,7 +5,6 @@
 
 #include "NvidiaPcieDevice.hpp"
 
-#include "NvidiaDeviceDiscovery.hpp"
 #include "NvidiaDriverInformation.hpp"
 #include "NvidiaEthPort.hpp"
 #include "NvidiaGpuMctpVdm.hpp"
@@ -13,6 +12,7 @@
 #include "NvidiaPcieInterface.hpp"
 #include "NvidiaPciePort.hpp"
 #include "NvidiaPciePortMetrics.hpp"
+#include "NvidiaSensorConfig.hpp"
 #include "NvidiaUtils.hpp"
 #include "Utils.hpp"
 
