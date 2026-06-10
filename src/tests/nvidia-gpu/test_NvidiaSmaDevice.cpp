@@ -5,6 +5,7 @@
 
 #include "MctpMockTestBase.hpp"
 #include "MockMctpRequester.hpp"
+#include "NvidiaGpuMctpVdm.hpp"
 #include "NvidiaSensorConfig.hpp"
 #include "NvidiaSmaDevice.hpp"
 
@@ -42,7 +43,8 @@ class NvidiaSmaDeviceTest : public MctpMockTestBase
         const std::string path = "/test/chassis/" + name;
         const SensorConfigs configs{.name = name, .pollRate = pollRate};
         return std::make_shared<SmaDevice>(configs, name, path, bus(), eid,
-                                           ioContext(), requester(), objects());
+                                           ioContext(), requester(), objects(),
+                                           gpu::DeviceCapabilities{});
     }
 };
 

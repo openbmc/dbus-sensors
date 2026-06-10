@@ -10,6 +10,7 @@
 #include "NvidiaGpuMctpVdm.hpp"
 #include "OcpMctpVdm.hpp"
 
+#include <array>
 #include <cstdint>
 #include <initializer_list>
 #include <memory>
@@ -105,15 +106,90 @@ std::optional<std::vector<uint8_t>>& dispatchedEventData()
     return data;
 }
 
+using DiscoveryCommands = gpu::DeviceCapabilityDiscoveryCommands;
+
+std::array<uint8_t, gpu::supportedListBitfieldSize> bitsOf(
+    std::initializer_list<DiscoveryCommands> commands)
+{
+    std::array<uint8_t, gpu::supportedListBitfieldSize> bits{};
+    for (DiscoveryCommands command : commands)
+    {
+        const auto code = static_cast<uint8_t>(command);
+        bits[code / 8U] |= static_cast<uint8_t>(1U << (code % 8U));
+    }
+    return bits;
+}
+
+gpu::DeviceCapabilities queriedCaps(
+    std::initializer_list<DiscoveryCommands> commands)
+{
+    gpu::DeviceCapabilities caps{};
+    caps.queried = true;
+    caps.commands[gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY] =
+        bitsOf(commands);
+    return caps;
+}
+
+std::vector<uint8_t> buildSuccessResponse(uint8_t command)
+{
+    std::vector<uint8_t> buf(ocp::accelerator_management::commonResponseSize);
+    PackBuffer pack(buf);
+    ocp::accelerator_management::packHeader(
+        pack, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 0,
+        static_cast<uint8_t>(gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY));
+    pack.pack(command);
+    pack.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));
+    pack.pack(static_cast<uint16_t>(0)); // reserved
+    pack.pack(static_cast<uint16_t>(0)); // data size
+    return buf;
+}
+
+uint8_t requestCommand(std::span<const uint8_t> request)
+{
+    UnpackBuffer buffer(request);
+    ocp::accelerator_management::MessageType messageType{};
+    uint8_t instanceId = 0;
+    uint8_t nvidiaMessageType = 0;
+    ocp::accelerator_management::unpackHeader(
+        buffer, gpu::nvidiaPciVendorId, messageType, instanceId,
+        nvidiaMessageType);
+    uint8_t command = 0;
+    buffer.unpack(command);
+    return command;
+}
+
+// The event handler registry is process wide, so each test uses its own
+// EID rather than leaving a registration behind for the next one.
 class NvidiaEventReportingTest : public MctpMockTestBase
 {
   protected:
+    void SetUp() override
+    {
+        MctpMockTestBase::SetUp();
+        if (testing::Test::IsSkipped())
+        {
+            return;
+        }
+        ON_CALL(mctpMock, sendRecvMsg)
+            .WillByDefault(
+                [this](uint8_t /*eid*/, std::span<const uint8_t> request,
+                       auto callback) {
+                    const uint8_t command = requestCommand(request);
+                    sentCommands.push_back(command);
+                    callback(std::error_code{}, buildSuccessResponse(command));
+                });
+    }
+
     static std::shared_ptr<NvidiaEventReportingConfig> createConfig(
         uint8_t eid, std::initializer_list<EventDescriptor> events)
     {
         return std::make_shared<NvidiaEventReportingConfig>(eid, requester(),
                                                             events);
     }
+
+    std::vector<uint8_t> sentCommands;
 };
 
 TEST_F(NvidiaEventReportingTest, InitSubscriptionFailureStops)
@@ -130,7 +206,7 @@ TEST_F(NvidiaEventReportingTest, InitSubscriptionFailureStops)
         110,
         {EventDescriptor{gpu::MessageType::PLATFORM_ENVIRONMENTAL, 5,
                          [](const EventInfo&, std::span<const uint8_t>) {}}});
-    cfg->init();
+    cfg->init(gpu::DeviceCapabilities{});
 }
 
 TEST_F(NvidiaEventReportingTest, InitSubscriptionTransportErrorStops)
@@ -143,7 +219,7 @@ TEST_F(NvidiaEventReportingTest, InitSubscriptionTransportErrorStops)
         111,
         {EventDescriptor{gpu::MessageType::PLATFORM_ENVIRONMENTAL, 5,
                          [](const EventInfo&, std::span<const uint8_t>) {}}});
-    EXPECT_NO_THROW(cfg->init());
+    EXPECT_NO_THROW(cfg->init(gpu::DeviceCapabilities{}));
 }
 
 TEST_F(NvidiaEventReportingTest, InitDrivesEventSourcesForRegisteredTypes)
@@ -159,7 +235,7 @@ TEST_F(NvidiaEventReportingTest, InitDrivesEventSourcesForRegisteredTypes)
         112,
         {EventDescriptor{gpu::MessageType::PLATFORM_ENVIRONMENTAL, 5,
                          [](const EventInfo&, std::span<const uint8_t>) {}}});
-    cfg->init();
+    cfg->init(gpu::DeviceCapabilities{});
 
     ASSERT_EQ(history.size(), 2U);
 
@@ -199,7 +275,7 @@ TEST_F(NvidiaEventReportingTest, InitVerifiesSubscriptionRequestEncoding)
         113,
         {EventDescriptor{gpu::MessageType::PLATFORM_ENVIRONMENTAL, 5,
                          [](const EventInfo&, std::span<const uint8_t>) {}}});
-    cfg->init();
+    cfg->init(gpu::DeviceCapabilities{});
 
     ASSERT_EQ(history.size(), 1U);
     const std::vector<uint8_t>& req = history[0];
@@ -245,7 +321,7 @@ TEST_F(NvidiaEventReportingTest, InitEventSourcesEncodingHasMask)
         114,
         {EventDescriptor{gpu::MessageType::PLATFORM_ENVIRONMENTAL, eventCode,
                          [](const EventInfo&, std::span<const uint8_t>) {}}});
-    cfg->init();
+    cfg->init(gpu::DeviceCapabilities{});
 
     ASSERT_EQ(history.size(), 2U);
 
@@ -310,6 +386,73 @@ TEST_F(NvidiaEventReportingTest, HandleEventDecodeErrorNoCrash)
 {
     const std::vector<uint8_t> buf{0x00, 0x01, 0x02}; // too short
     EXPECT_NO_THROW(NvidiaEventHandler::handleEvent(102, buf));
+}
+
+TEST_F(NvidiaEventReportingTest, SetsUpEventsWhenTheDeviceSupportsThem)
+{
+    createConfig(
+        0x20,
+        {EventDescriptor{gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY,
+                         static_cast<uint8_t>(
+                             gpu::DeviceCapabilityDiscoveryEvents::REDISCOVERY),
+                         [](const EventInfo&, std::span<const uint8_t>) {}}})
+        ->init(queriedCaps({DiscoveryCommands::SET_EVENT_SUBSCRIPTION,
+                            DiscoveryCommands::SET_CURRENT_EVENT_SOURCES}));
+
+    EXPECT_THAT(
+        sentCommands,
+        testing::ElementsAre(
+            static_cast<uint8_t>(DiscoveryCommands::SET_EVENT_SUBSCRIPTION),
+            static_cast<uint8_t>(
+                DiscoveryCommands::SET_CURRENT_EVENT_SOURCES)));
+}
+
+TEST_F(NvidiaEventReportingTest, SkipsSubscriptionWhenTheDeviceDoesNotSupportIt)
+{
+    createConfig(
+        0x21,
+        {EventDescriptor{gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY,
+                         static_cast<uint8_t>(
+                             gpu::DeviceCapabilityDiscoveryEvents::REDISCOVERY),
+                         [](const EventInfo&, std::span<const uint8_t>) {}}})
+        ->init(queriedCaps({DiscoveryCommands::SET_CURRENT_EVENT_SOURCES}));
+
+    EXPECT_THAT(sentCommands, testing::IsEmpty());
+}
+
+TEST_F(NvidiaEventReportingTest, SkipsEventSourcesWhenTheDeviceDoesNotSupportIt)
+{
+    createConfig(
+        0x22,
+        {EventDescriptor{gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY,
+                         static_cast<uint8_t>(
+                             gpu::DeviceCapabilityDiscoveryEvents::REDISCOVERY),
+                         [](const EventInfo&, std::span<const uint8_t>) {}}})
+        ->init(queriedCaps({DiscoveryCommands::SET_EVENT_SUBSCRIPTION}));
+
+    EXPECT_THAT(sentCommands, testing::ElementsAre(static_cast<uint8_t>(
+                                  DiscoveryCommands::SET_EVENT_SUBSCRIPTION)));
+}
+
+TEST_F(NvidiaEventReportingTest, SetsUpEventsWhenTheDeviceWasNeverQueried)
+{
+    const gpu::DeviceCapabilities caps{};
+    ASSERT_FALSE(caps.queried);
+
+    createConfig(
+        0x23,
+        {EventDescriptor{gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY,
+                         static_cast<uint8_t>(
+                             gpu::DeviceCapabilityDiscoveryEvents::REDISCOVERY),
+                         [](const EventInfo&, std::span<const uint8_t>) {}}})
+        ->init(caps);
+
+    EXPECT_THAT(
+        sentCommands,
+        testing::ElementsAre(
+            static_cast<uint8_t>(DiscoveryCommands::SET_EVENT_SUBSCRIPTION),
+            static_cast<uint8_t>(
+                DiscoveryCommands::SET_CURRENT_EVENT_SOURCES)));
 }
 
 } // namespace

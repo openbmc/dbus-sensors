@@ -5,6 +5,7 @@
 
 #include "DeviceManager.hpp"
 
+#include "NvidiaCapabilityQuery.hpp"
 #include "NvidiaGpuDevice.hpp"
 #include "NvidiaPcieDevice.hpp"
 #include "NvidiaSmaDevice.hpp"
@@ -74,6 +75,21 @@ void DeviceManager::processQueryDeviceIdResponse(
         return;
     }
 
+    auto query = std::make_shared<CapabilityQuery>(
+        eid, mctpRequester,
+        [this, configs, path, eid, responseDeviceType,
+         responseInstanceId](const gpu::DeviceCapabilities& caps) {
+            createDeviceForType(configs, path, eid, responseDeviceType,
+                                responseInstanceId, caps);
+        });
+    query->start();
+}
+
+void DeviceManager::createDeviceForType(
+    const SensorConfigs& configs, const std::string& path, uint8_t eid,
+    uint8_t responseDeviceType, uint8_t responseInstanceId,
+    const gpu::DeviceCapabilities& caps)
+{
     switch (static_cast<gpu::DeviceIdentification>(responseDeviceType))
     {
         case gpu::DeviceIdentification::DEVICE_GPU:
@@ -91,7 +107,7 @@ void DeviceManager::processQueryDeviceIdResponse(
             {
                 gpu = std::make_shared<GpuDevice>(configs, gpuName, path, conn,
                                                   eid, io, mctpRequester,
-                                                  objectServer);
+                                                  objectServer, caps);
 
                 gpu->init();
             }
@@ -120,7 +136,7 @@ void DeviceManager::processQueryDeviceIdResponse(
             {
                 sma = std::make_shared<SmaDevice>(configs, smaName, path, conn,
                                                   eid, io, mctpRequester,
-                                                  objectServer);
+                                                  objectServer, caps);
 
                 sma->init();
             }
@@ -149,7 +165,7 @@ void DeviceManager::processQueryDeviceIdResponse(
             {
                 pcie = std::make_shared<PcieDevice>(
                     configs, pcieName, path, conn, eid, io, mctpRequester,
-                    objectServer);
+                    objectServer, caps);
 
                 pcie->init();
             }

@@ -6,6 +6,7 @@
 #include "MctpMockTestBase.hpp"
 #include "MockMctpRequester.hpp"
 #include "NvidiaGpuDevice.hpp"
+#include "NvidiaGpuMctpVdm.hpp"
 #include "NvidiaSensorConfig.hpp"
 
 #include <sdbusplus/exception.hpp>
@@ -46,7 +47,8 @@ class NvidiaGpuDeviceTest : public MctpMockTestBase
         const std::string path = "/test/gpu/" + name;
         const SensorConfigs configs{.name = name, .pollRate = pollRate};
         return std::make_shared<GpuDevice>(configs, name, path, bus(), eid,
-                                           ioContext(), requester(), objects());
+                                           ioContext(), requester(), objects(),
+                                           gpu::DeviceCapabilities{});
     }
 
     static std::string dramPath(const std::string& name)

@@ -60,8 +60,20 @@ NvidiaEventReportingConfig::NvidiaEventReportingConfig(
     }
 }
 
-void NvidiaEventReportingConfig::init()
+void NvidiaEventReportingConfig::init(const gpu::DeviceCapabilities& caps)
 {
+    if (!caps.supports(
+            gpu::DeviceCapabilityDiscoveryCommands::SET_EVENT_SUBSCRIPTION))
+    {
+        lg2::info(
+            "EID {EID} does not report SetEventSubscription as supported, skipping event reporting setup",
+            "EID", eid);
+        return;
+    }
+
+    eventSourcesSupported = caps.supports(
+        gpu::DeviceCapabilityDiscoveryCommands::SET_CURRENT_EVENT_SOURCES);
+
     int rc = gpu::encodeSetEventSubscriptionRequest(generationSettingEnablePush,
                                                     bmc_eid, subscriptionReq);
     if (rc != 0)
@@ -103,6 +115,14 @@ void NvidiaEventReportingConfig::handleSetupSubscription(
         lg2::error("failed to setup event subscription on eid {EID}: "
                    "rc={RC}, cc={CC}, reasonCode={RESC}",
                    "EID", eid, "RC", rc, "CC", cc, "RESC", reasonCode);
+        return;
+    }
+
+    if (!eventSourcesSupported)
+    {
+        lg2::info(
+            "EID {EID} does not report SetCurrentEventSources as supported, skipping event source setup",
+            "EID", eid);
         return;
     }
 
