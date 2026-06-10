@@ -236,6 +236,14 @@ void GpuDevice::makeSensors()
     eventReporting = std::make_shared<NvidiaEventReportingConfig>(
         eid, mctpRequester,
         std::initializer_list<EventDescriptor>{
+            // Subscribe to the rediscovery event so the device pushes it when
+            // its supported command codes change. This entry only sets the
+            // event-source subscription mask; the handler that re-queries the
+            // capabilities is registered by createDeviceForType.
+            {gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY,
+             static_cast<uint8_t>(
+                 gpu::DeviceCapabilityDiscoveryEvents::REDISCOVERY),
+             [](const EventInfo&, std::span<const uint8_t>) {}},
             {gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY,
              static_cast<uint8_t>(
                  gpu::DeviceCapabilityDiscoveryEvents::LONG_RUNNING_RESPONSE),
