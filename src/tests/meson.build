@@ -80,6 +80,17 @@ test(
 )
 
 test(
+    'EndpointState',
+    executable(
+        'test_EndpointState',
+        'test_EndpointState.cpp',
+        dependencies: [gtest_dep, gmock_dep],
+        implicit_include_directories: false,
+        include_directories: '../nvidia-gpu',
+    ),
+)
+
+test(
     'NvidiaGPU',
     executable(
         'test_NvidiaGPU',
