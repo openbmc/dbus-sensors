@@ -18,10 +18,12 @@
 #include <boost/asio/steady_timer.hpp>
 #include <boost/container/devector.hpp>
 #include <phosphor-logging/lg2.hpp>
+#include <sdbusplus/message.hpp>
 
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
+#include <exception>
 #include <expected>
 #include <format>
 #include <functional>
@@ -227,9 +229,11 @@ void MctpRequester::sendRecvMsg(
     uint8_t eid, std::span<const uint8_t> reqMsg,
     std::move_only_function<void(const std::error_code&,
                                  std::span<const uint8_t>)>
-        callback)
+        callback,
+    std::optional<sdbusplus::message_t> dbusMethodReplier)
 {
-    RequestContext reqCtx{reqMsg, std::move(callback)};
+    RequestContext reqCtx{reqMsg, std::move(callback),
+                          std::move(dbusMethodReplier)};
 
     // try_emplace only affects the result if the key does not already exist
     auto [it, inserted] = requestContextQueues.try_emplace(eid, io);
@@ -250,6 +254,32 @@ static bool isFatalError(const std::error_code& ec)
            (ec != std::errc::timed_out && ec != std::errc::host_unreachable);
 }
 
+// Send the reply for a deferred D-Bus method call: an empty method return on
+// success, or a method-errno reply carrying the transport error otherwise.
+// Reply-send failures are logged and swallowed so they cannot disrupt queue
+// processing or escape into the fatal-error path below.
+static void sendDeferredReply(sdbusplus::message_t& reply,
+                              const std::error_code& ec)
+{
+    try
+    {
+        if (ec)
+        {
+            reply.new_method_errno(-ec.value()).method_return();
+        }
+        else
+        {
+            reply.new_method_return().method_return();
+        }
+    }
+    catch (const std::exception& e)
+    {
+        lg2::error(
+            "MctpRequester: failed to send deferred D-Bus reply: {ERROR}",
+            "ERROR", e.what());
+    }
+}
+
 void MctpRequester::handleResult(uint8_t eid, const std::error_code& ec,
                                  std::span<const uint8_t> buffer)
 {
@@ -267,7 +297,24 @@ void MctpRequester::handleResult(uint8_t eid, const std::error_code& ec,
 
     it->second.timer.cancel();
 
+    // Move the deferred replier out before invoking the callback.  The callback
+    // can enqueue a follow-up request on this same eid, and queue is a
+    // devector: that push_back may reallocate and invalidate reqCtx.  Keeping
+    // the replier in a local that outlives the callback avoids touching reqCtx
+    // afterwards.
+    std::optional<sdbusplus::message_t> dbusMethodReplier =
+        std::move(reqCtx.dbusMethodReplier);
+
     reqCtx.callback(ec, buffer); // Call the original callback
+
+    // If this request was initiated from a deferred-reply D-Bus method, send
+    // its reply now.  Do this after the callback (so it can decode the
+    // response and update D-Bus state) but before the fatal-error throw below,
+    // so the client always gets a reply instead of hanging on a terminal path.
+    if (dbusMethodReplier)
+    {
+        sendDeferredReply(*dbusMethodReplier, ec);
+    }
 
     if (isFatalError(ec))
     {

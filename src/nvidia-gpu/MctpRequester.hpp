@@ -14,6 +14,7 @@
 #include <boost/container/devector.hpp>
 #include <boost/container/flat_map.hpp>
 #include <boost/container/small_vector.hpp>
+#include <sdbusplus/message.hpp>
 
 #include <cstddef>
 #include <cstdint>
@@ -21,6 +22,7 @@
 #include <functional>
 #include <iostream>
 #include <memory>
+#include <optional>
 #include <queue>
 #include <span>
 #include <system_error>
@@ -44,10 +46,21 @@ class MctpRequester
 
     explicit MctpRequester(boost::asio::io_context& ctx);
 
-    void sendRecvMsg(uint8_t eid, std::span<const uint8_t> reqMsg,
-                     std::move_only_function<void(const std::error_code&,
-                                                  std::span<const uint8_t>)>
-                         callback);
+    // Issue an MCTP request and deliver the response (or error) to callback.
+    //
+    // dbusMethodReplier optionally carries the sdbusplus::message_t for a
+    // D-Bus method call that is registered with deferred reply
+    // (register_method(..., /*deferred=*/true)).  When present, handleResult
+    // sends the reply for that call once the response arrives or the request
+    // terminates: an empty method return on success, or a method-errno reply
+    // on a transport error.  Leave it as std::nullopt for requests that are
+    // not driven by a deferred D-Bus method.
+    void sendRecvMsg(
+        uint8_t eid, std::span<const uint8_t> reqMsg,
+        std::move_only_function<void(const std::error_code&,
+                                     std::span<const uint8_t>)>
+            callback,
+        std::optional<sdbusplus::message_t> dbusMethodReplier = std::nullopt);
 
   private:
     using cb_t = std::move_only_function<void(const std::error_code&,
@@ -60,6 +73,11 @@ class MctpRequester
         std::vector<uint8_t> reqMsg;
         cb_t callback;
 
+        // The call message for a deferred-reply D-Bus method, if this request
+        // was initiated from one; std::nullopt otherwise.  handleResult sends
+        // the method reply through it when it has a value.
+        std::optional<sdbusplus::message_t> dbusMethodReplier;
+
         RequestContext(const RequestContext&) = delete;
         RequestContext& operator=(const RequestContext&) = delete;
 
@@ -67,8 +85,10 @@ class MctpRequester
         RequestContext& operator=(RequestContext&&) = default;
         ~RequestContext() = default;
 
-        explicit RequestContext(std::span<const uint8_t> req, cb_t&& cb) :
-            reqMsg(req.begin(), req.end()), callback(std::move(cb))
+        RequestContext(std::span<const uint8_t> req, cb_t&& cb,
+                       std::optional<sdbusplus::message_t>&& replier) :
+            reqMsg(req.begin(), req.end()), callback(std::move(cb)),
+            dbusMethodReplier(std::move(replier))
         {}
     };
 
