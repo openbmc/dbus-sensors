@@ -43,7 +43,8 @@ class PcieDevice : public std::enable_shared_from_this<PcieDevice>
                const std::shared_ptr<sdbusplus::asio::connection>& conn,
                uint8_t eid, boost::asio::io_context& io,
                mctp::MctpRequester& mctpRequester,
-               sdbusplus::asio::object_server& objectServer);
+               sdbusplus::asio::object_server& objectServer,
+               const gpu::DeviceCapabilities& caps);
 
     const std::string& getPath() const
     {
@@ -109,4 +110,6 @@ class PcieDevice : public std::enable_shared_from_this<PcieDevice>
     std::shared_ptr<sdbusplus::asio::dbus_interface> embeddedConnectorInterface;
 
     std::vector<std::shared_ptr<NvidiaEthPortMetrics>> ethPortMetrics;
+
+    gpu::DeviceCapabilities caps;
 };
