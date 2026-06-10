@@ -21,6 +21,7 @@
 
 #include <chrono>
 #include <cstdint>
+#include <limits>
 #include <memory>
 #include <string>
 #include <vector>
@@ -51,7 +52,16 @@ void SmaDevice::makeSensors()
 
     lg2::info("Added MCA {NAME} Sensors with chassis path: {PATH}.", "NAME",
               name, "PATH", path);
+}
 
+void SmaDevice::setOffline()
+{
+    waitTimer.cancel();
+    tempSensor->updateValue(std::numeric_limits<double>::quiet_NaN());
+}
+
+void SmaDevice::setOnline()
+{
     read();
 }
 

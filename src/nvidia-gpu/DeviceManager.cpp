@@ -10,6 +10,8 @@
 #include "NvidiaSmaDevice.hpp"
 #include "Utils.hpp"
 
+#include <DeviceInterface.hpp>
+#include <EndpointState.hpp>
 #include <MctpRequester.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
 #include <NvidiaSensorConfig.hpp>
@@ -39,6 +41,7 @@
 #include <string>
 #include <string_view>
 #include <system_error>
+#include <unordered_map>
 #include <utility>
 #include <variant>
 #include <vector>
@@ -62,17 +65,7 @@ void DeviceManager::start()
     boost::asio::post(io, [this]() { createSensors(); });
 
     std::function<void(sdbusplus::message_t&)> eventHandler =
-        [this](sdbusplus::message_t&) {
-            configTimer.expires_after(configSettleInterval);
-            // create a timer because normally multiple properties change
-            configTimer.async_wait([this](const boost::system::error_code& ec) {
-                if (ec == boost::asio::error::operation_aborted)
-                {
-                    return; // we're being canceled
-                }
-                createSensors();
-            });
-        };
+        [this](sdbusplus::message_t&) { scheduleRescan(); };
 
     std::array<std::string_view, 1> deviceTypes({deviceType});
     configMatches =
@@ -85,10 +78,39 @@ void DeviceManager::start()
         sdbusplus::bus::match::rules::interfacesRemovedAtPath(
             std::string(inventoryPath)),
         [this](sdbusplus::message_t& msg) { onConfigInterfaceRemoved(msg); });
+
+    // Watch mctpd for endpoint Connectivity changes so devices can react:
+    // Degraded -> offline (stop polling, NaN sensors), Available -> online.
+    namespace rules = sdbusplus::bus::match::rules;
+    auto& bus = static_cast<sdbusplus::bus_t&>(*conn);
+
+    mctpConnectivityMatch = std::make_unique<sdbusplus::bus::match_t>(
+        bus,
+        rules::type::signal() +
+            rules::interface("org.freedesktop.DBus.Properties") +
+            rules::member("PropertiesChanged") +
+            rules::argN(0, "au.com.codeconstruct.MCTP.Endpoint1") +
+            rules::path_namespace("/au/com/codeconstruct/mctp1"),
+        [this](sdbusplus::message_t& msg) { onConnectivityChanged(msg); });
+}
+
+void DeviceManager::scheduleRescan()
+{
+    // Coalesce bursts of entity-manager config property changes into a single
+    // discovery sweep (multiple properties typically change together).
+    configTimer.expires_after(configSettleInterval);
+    configTimer.async_wait([this](const boost::system::error_code& ec) {
+        if (ec == boost::asio::error::operation_aborted)
+        {
+            return; // we're being canceled
+        }
+        createSensors();
+    });
 }
 
 void DeviceManager::processQueryDeviceIdResponse(
-    const SensorConfigs& configs, const std::string& path, uint8_t eid,
+    const SensorConfigs& configs, const std::string& path,
+    const std::string& endpointPath, uint8_t eid,
     const std::error_code& sendRecvMsgResult,
     std::span<const uint8_t> queryDeviceIdentificationResponse)
 {
@@ -166,6 +188,14 @@ void DeviceManager::processQueryDeviceIdResponse(
                                                   objectServer);
 
                 sma->init();
+
+                registerEndpoint(
+                    endpointPath, eid,
+                    std::static_pointer_cast<DeviceInterface>(sma));
+
+                // init() only builds the D-Bus objects; the Init -> Online
+                // transition starts polling via setOnline().
+                applyEvent(endpointPath, EndpointEvent::InitComplete);
             }
             else
             {
@@ -214,7 +244,8 @@ void DeviceManager::processQueryDeviceIdResponse(
 }
 
 void DeviceManager::queryDeviceIdentification(
-    const SensorConfigs& configs, const std::string& path, uint8_t eid)
+    const SensorConfigs& configs, const std::string& path,
+    const std::string& endpointPath, uint8_t eid)
 {
     auto queryDeviceIdentificationRequest = std::make_shared<
         std::array<uint8_t, gpu::queryDeviceIdentificationRequestSize>>();
@@ -231,15 +262,18 @@ void DeviceManager::queryDeviceIdentification(
 
     mctpRequester.sendRecvMsg(
         eid, *queryDeviceIdentificationRequest,
-        [this, configs, path, eid, queryDeviceIdentificationRequest](
-            const std::error_code& ec, std::span<const uint8_t> response) {
-            processQueryDeviceIdResponse(configs, path, eid, ec, response);
+        [this, configs, path, endpointPath, eid,
+         queryDeviceIdentificationRequest](const std::error_code& ec,
+                                           std::span<const uint8_t> response) {
+            processQueryDeviceIdResponse(configs, path, endpointPath, eid, ec,
+                                         response);
         });
 }
 
 void DeviceManager::processEndpoint(
     const SensorConfigs& configs, const std::string& path,
-    const boost::system::error_code& ec, const SensorBaseConfigMap& endpoint)
+    const std::string& endpointPath, const boost::system::error_code& ec,
+    const SensorBaseConfigMap& endpoint)
 {
     if (ec)
     {
@@ -303,7 +337,7 @@ void DeviceManager::processEndpoint(
                   ocp::accelerator_management::messageType) != mctpTypes.end())
     {
         lg2::info("Found OCP MCTP VDM Endpoint with ID {EID}", "EID", eid);
-        queryDeviceIdentification(configs, path, eid);
+        queryDeviceIdentification(configs, path, endpointPath, eid);
     }
 }
 
@@ -332,10 +366,11 @@ void DeviceManager::queryEndpoints(
                 if (iface == "xyz.openbmc_project.MCTP.Endpoint")
                 {
                     conn->async_method_call(
-                        [this, configs,
-                         path](const boost::system::error_code& ec,
-                               const SensorBaseConfigMap& endpoint) {
-                            processEndpoint(configs, path, ec, endpoint);
+                        [this, configs, path, endpointPath{objPath}](
+                            const boost::system::error_code& ec,
+                            const SensorBaseConfigMap& endpoint) {
+                            processEndpoint(configs, path, endpointPath, ec,
+                                            endpoint);
                         },
                         service, objPath, "org.freedesktop.DBus.Properties",
                         "GetAll", iface);
@@ -480,5 +515,79 @@ void DeviceManager::onConfigInterfaceRemoved(sdbusplus::message_t& message)
         {
             pcieSensorIt++;
         }
+    }
+}
+
+void DeviceManager::registerEndpoint(
+    const std::string& endpointPath, uint8_t eid,
+    const std::shared_ptr<DeviceInterface>& device)
+{
+    endpoints[endpointPath] = EndpointRecord{device, eid, EndpointState::Init};
+}
+
+void DeviceManager::applyEvent(const std::string& endpointPath,
+                               EndpointEvent event)
+{
+    auto it = endpoints.find(endpointPath);
+    if (it == endpoints.end())
+    {
+        return;
+    }
+    auto& rec = it->second;
+    auto [next, action] = nextState(rec.state, event);
+    rec.state = next;
+
+    auto device = rec.device.lock();
+    switch (action)
+    {
+        case EndpointAction::GoOffline:
+            lg2::info("MCTP endpoint {PATH} (eid {EID}) offline; stopping poll",
+                      "PATH", endpointPath, "EID", rec.eid);
+            if (device)
+            {
+                device->setOffline();
+            }
+            break;
+        case EndpointAction::GoOnline:
+            lg2::info("MCTP endpoint {PATH} (eid {EID}) online; starting poll",
+                      "PATH", endpointPath, "EID", rec.eid);
+            if (device)
+            {
+                device->setOnline();
+            }
+            break;
+        case EndpointAction::None:
+            break;
+    }
+}
+
+void DeviceManager::onConnectivityChanged(sdbusplus::message_t& msg)
+{
+    std::string iface;
+    boost::container::flat_map<std::string, std::variant<std::string>> props;
+    std::vector<std::string> invalidated;
+    msg.read(iface, props, invalidated);
+
+    auto it = props.find("Connectivity");
+    if (it == props.end())
+    {
+        return;
+    }
+
+    const auto* value = std::get_if<std::string>(&it->second);
+    if (value == nullptr)
+    {
+        return;
+    }
+
+    const std::string endpointPath{msg.get_path()};
+
+    if (*value == "Degraded")
+    {
+        applyEvent(endpointPath, EndpointEvent::ConnectivityDegraded);
+    }
+    else if (*value == "Available")
+    {
+        applyEvent(endpointPath, EndpointEvent::ConnectivityAvailable);
     }
 }
