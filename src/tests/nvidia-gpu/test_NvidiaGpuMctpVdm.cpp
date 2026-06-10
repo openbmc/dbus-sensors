@@ -15,6 +15,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
+#include <map>
 #include <span>
 #include <string>
 #include <string_view>
@@ -700,6 +701,64 @@ TEST_F(GpuMctpVdmTests, DecodeGetSupportedCommandCodesResponseError)
     EXPECT_EQ(result, 0);
     EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERROR);
     EXPECT_EQ(reasonCode, 0x5678);
+}
+
+template <typename... Commands>
+std::array<uint8_t, gpu::supportedListBitfieldSize> bitmapOf(Commands... cmds)
+{
+    std::array<uint8_t, gpu::supportedListBitfieldSize> bitmap{};
+    for (uint8_t code : {static_cast<uint8_t>(cmds)...})
+    {
+        bitmap[code / 8U] |= static_cast<uint8_t>(1U << (code % 8U));
+    }
+    return bitmap;
+}
+
+TEST_F(GpuMctpVdmTests, DeviceCapabilitiesNotQueriedSupportsEverything)
+{
+    gpu::DeviceCapabilities caps{};
+    ASSERT_FALSE(caps.queried);
+    EXPECT_TRUE(caps.supports(
+        gpu::PlatformEnvironmentalCommands::GET_TEMPERATURE_READING));
+    EXPECT_TRUE(
+        caps.supports(gpu::PcieLinkCommands::QueryScalarGroupTelemetryV1));
+    EXPECT_TRUE(caps.supports(
+        gpu::NetworkPortCommands::GetEthernetPortTelemetryCounters));
+}
+
+TEST_F(GpuMctpVdmTests, DeviceCapabilitiesReportsSupportedCommand)
+{
+    gpu::DeviceCapabilities caps{};
+    caps.queried = true;
+    caps.commands[gpu::MessageType::PLATFORM_ENVIRONMENTAL] =
+        bitmapOf(gpu::PlatformEnvironmentalCommands::GET_TEMPERATURE_READING);
+
+    EXPECT_TRUE(caps.supports(
+        gpu::PlatformEnvironmentalCommands::GET_TEMPERATURE_READING));
+}
+
+TEST_F(GpuMctpVdmTests, DeviceCapabilitiesReportsUnsupportedCommand)
+{
+    gpu::DeviceCapabilities caps{};
+    caps.queried = true;
+    caps.commands[gpu::MessageType::PLATFORM_ENVIRONMENTAL] =
+        bitmapOf(gpu::PlatformEnvironmentalCommands::GET_TEMPERATURE_READING);
+
+    EXPECT_FALSE(
+        caps.supports(gpu::PlatformEnvironmentalCommands::GET_VOLTAGE));
+}
+
+TEST_F(GpuMctpVdmTests, DeviceCapabilitiesTypedOverloadIsMessageTypeScoped)
+{
+    gpu::DeviceCapabilities caps{};
+    caps.queried = true;
+    caps.commands[gpu::MessageType::PLATFORM_ENVIRONMENTAL] =
+        bitmapOf(gpu::PlatformEnvironmentalCommands::GET_TEMPERATURE_READING);
+
+    EXPECT_TRUE(caps.supports(
+        gpu::PlatformEnvironmentalCommands::GET_TEMPERATURE_READING));
+    EXPECT_FALSE(
+        caps.supports(gpu::PcieLinkCommands::QueryScalarGroupTelemetryV1));
 }
 
 // Tests for GpuMctpVdm::encodeGetTemperatureReadingRequest function
