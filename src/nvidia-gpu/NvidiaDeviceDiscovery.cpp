@@ -25,9 +25,12 @@
 
 #include <algorithm>
 #include <array>
+#include <cstddef>
 #include <cstdint>
 #include <format>
+#include <functional>
 #include <memory>
+#include <set>
 #include <span>
 #include <stdexcept>
 #include <string>
@@ -37,6 +40,254 @@
 #include <vector>
 
 static constexpr auto sensorPollRateMs = 1000;
+
+namespace
+{
+
+// Drives the Type 0 capability query for one endpoint:
+//   GetSupportedMessageTypes -> (per gated message type)
+//   GetSupportedCommandCodes
+// then invokes onComplete with the populated DeviceCapabilities. Any query
+// failure stops the chain and hands back caps with queried=false, so the daemon
+// falls back to creating all sensors (behavior for devices that do not report
+// supported command codes).
+class CapabilityQuery : public std::enable_shared_from_this<CapabilityQuery>
+{
+  public:
+    CapabilityQuery(
+        uint8_t eid, mctp::MctpRequester& mctpRequester,
+        std::function<void(const gpu::DeviceCapabilities&)> onComplete) :
+        eid(eid), mctpRequester(mctpRequester),
+        onComplete(std::move(onComplete))
+    {}
+
+    void start()
+    {
+        request.assign(gpu::getSupportedMessageTypesRequestSize, 0);
+        if (gpu::encodeGetSupportedMessageTypesRequest(0, request) != 0)
+        {
+            finish();
+            return;
+        }
+        mctpRequester.sendRecvMsg(
+            eid, request,
+            [self = shared_from_this()](const std::error_code& ec,
+                                        std::span<const uint8_t> resp) {
+                self->onMessageTypes(ec, resp);
+            });
+    }
+
+  private:
+    void onMessageTypes(const std::error_code& ec,
+                        std::span<const uint8_t> resp)
+    {
+        ocp::accelerator_management::CompletionCode cc{};
+        uint16_t reasonCode = 0;
+        std::array<uint8_t, gpu::supportedListBitfieldSize> bitmap{};
+
+        if (ec ||
+            gpu::decodeGetSupportedMessageTypesResponse(resp, cc, reasonCode,
+                                                        bitmap) != 0 ||
+            cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+        {
+            lg2::error(
+                "EID {EID}: GetSupportedMessageTypes failed; creating all sensors",
+                "EID", eid);
+            finish();
+            return;
+        }
+
+        for (auto type :
+             {gpu::MessageType::NETWORK_PORT, gpu::MessageType::PCIE_LINK,
+              gpu::MessageType::PLATFORM_ENVIRONMENTAL})
+        {
+            auto bit = static_cast<uint8_t>(type);
+            if ((bitmap[bit / 8] & (1U << (bit % 8))) != 0)
+            {
+                typesToQuery.push_back(type);
+            }
+        }
+
+        queryNextType();
+    }
+
+    void queryNextType()
+    {
+        if (index >= typesToQuery.size())
+        {
+            caps.queried = true;
+            finish();
+            return;
+        }
+
+        request.assign(gpu::getSupportedCommandCodesRequestSize, 0);
+        if (gpu::encodeGetSupportedCommandCodesRequest(
+                0, static_cast<uint8_t>(typesToQuery[index]), request) != 0)
+        {
+            finish();
+            return;
+        }
+        mctpRequester.sendRecvMsg(
+            eid, request,
+            [self = shared_from_this()](const std::error_code& ec,
+                                        std::span<const uint8_t> resp) {
+                self->onCommandCodes(ec, resp);
+            });
+    }
+
+    void onCommandCodes(const std::error_code& ec,
+                        std::span<const uint8_t> resp)
+    {
+        gpu::MessageType type = typesToQuery[index];
+        ocp::accelerator_management::CompletionCode cc{};
+        uint16_t reasonCode = 0;
+        std::array<uint8_t, gpu::supportedListBitfieldSize> bitmap{};
+
+        if (!ec &&
+            gpu::decodeGetSupportedCommandCodesResponse(resp, cc, reasonCode,
+                                                        bitmap) == 0 &&
+            cc == ocp::accelerator_management::CompletionCode::SUCCESS)
+        {
+            std::set<uint8_t> codes;
+            for (size_t bit = 0; bit < bitmap.size() * 8; ++bit)
+            {
+                if ((bitmap[bit / 8] & (1U << (bit % 8))) != 0)
+                {
+                    codes.insert(static_cast<uint8_t>(bit));
+                }
+            }
+            caps.commands[type] = std::move(codes);
+        }
+        else
+        {
+            lg2::error(
+                "EID {EID}: GetSupportedCommandCodes for type {TYPE} failed",
+                "EID", eid, "TYPE", static_cast<int>(type));
+        }
+
+        ++index;
+        queryNextType();
+    }
+
+    void finish()
+    {
+        onComplete(caps);
+    }
+
+    uint8_t eid;
+    mctp::MctpRequester& mctpRequester;
+    std::function<void(const gpu::DeviceCapabilities&)> onComplete;
+    gpu::DeviceCapabilities caps;
+    std::vector<gpu::MessageType> typesToQuery;
+    size_t index{0};
+    std::vector<uint8_t> request;
+};
+
+} // namespace
+
+void createDeviceForType(
+    boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
+    boost::container::flat_map<std::string, std::shared_ptr<GpuDevice>>&
+        gpuDevices,
+    boost::container::flat_map<std::string, std::shared_ptr<SmaDevice>>&
+        smaDevices,
+    boost::container::flat_map<std::string, std::shared_ptr<PcieDevice>>&
+        pcieDevices,
+    const std::shared_ptr<sdbusplus::asio::connection>& conn,
+    mctp::MctpRequester& mctpRequester, const SensorConfigs& configs,
+    const std::string& path, uint8_t eid, uint8_t responseDeviceType,
+    uint8_t responseInstanceId, const gpu::DeviceCapabilities& caps)
+{
+    switch (static_cast<gpu::DeviceIdentification>(responseDeviceType))
+    {
+        case gpu::DeviceIdentification::DEVICE_GPU:
+        {
+            lg2::info(
+                "Found the GPU with EID {EID}, DeviceType {DEVTYPE}, InstanceId {IID}.",
+                "EID", eid, "DEVTYPE", responseDeviceType, "IID",
+                responseInstanceId);
+
+            const std::string gpuName = std::format("Nvidia_GPU_{}", eid);
+
+            std::shared_ptr<GpuDevice>& gpu = gpuDevices[gpuName];
+
+            if (gpu == nullptr)
+            {
+                gpu = std::make_shared<GpuDevice>(configs, gpuName, path, conn,
+                                                  eid, io, mctpRequester,
+                                                  objectServer, caps);
+
+                gpu->init();
+            }
+            else
+            {
+                lg2::info(
+                    "GPU Device with name {NAME} already exists. Skipping creating a new device.",
+                    "NAME", gpuName);
+            }
+
+            break;
+        }
+
+        case gpu::DeviceIdentification::DEVICE_SMA:
+        {
+            lg2::info(
+                "Found the SMA Device with EID {EID}, DeviceType {DEVTYPE}, InstanceId {IID}.",
+                "EID", eid, "DEVTYPE", responseDeviceType, "IID",
+                responseInstanceId);
+
+            const std::string smaName = std::format("Nvidia_SMA_{}", eid);
+
+            std::shared_ptr<SmaDevice>& sma = smaDevices[smaName];
+
+            if (sma == nullptr)
+            {
+                sma = std::make_shared<SmaDevice>(configs, smaName, path, conn,
+                                                  eid, io, mctpRequester,
+                                                  objectServer, caps);
+
+                sma->init();
+            }
+            else
+            {
+                lg2::info(
+                    "SMA Device with name {NAME} already exists. Skipping creating a new device.",
+                    "NAME", smaName);
+            }
+
+            break;
+        }
+
+        case gpu::DeviceIdentification::DEVICE_PCIE:
+        {
+            lg2::info(
+                "Found the PCIe Device with EID {EID}, DeviceType {DEVTYPE}, InstanceId {IID}.",
+                "EID", eid, "DEVTYPE", responseDeviceType, "IID",
+                responseInstanceId);
+
+            const std::string pcieName = std::format("Nvidia_ConnectX_{}", eid);
+
+            std::shared_ptr<PcieDevice>& pcie = pcieDevices[pcieName];
+
+            if (pcie == nullptr)
+            {
+                pcie = std::make_shared<PcieDevice>(
+                    configs, pcieName, path, conn, eid, io, mctpRequester,
+                    objectServer, caps);
+
+                pcie->init();
+            }
+            else
+            {
+                lg2::info(
+                    "PCIe Device with name {NAME} already exists. Skipping creating a new device.",
+                    "NAME", pcieName);
+            }
+
+            break;
+        }
+    }
+}
 
 void processQueryDeviceIdResponse(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
@@ -77,95 +328,17 @@ void processQueryDeviceIdResponse(
         return;
     }
 
-    switch (static_cast<gpu::DeviceIdentification>(responseDeviceType))
-    {
-        case gpu::DeviceIdentification::DEVICE_GPU:
-        {
-            lg2::info(
-                "Found the GPU with EID {EID}, DeviceType {DEVTYPE}, InstanceId {IID}.",
-                "EID", eid, "DEVTYPE", responseDeviceType, "IID",
-                responseInstanceId);
-
-            const std::string gpuName = std::format("Nvidia_GPU_{}", eid);
-
-            std::shared_ptr<GpuDevice>& gpu = gpuDevices[gpuName];
-
-            if (gpu == nullptr)
-            {
-                gpu = std::make_shared<GpuDevice>(configs, gpuName, path, conn,
-                                                  eid, io, mctpRequester,
-                                                  objectServer);
-
-                gpu->init();
-            }
-            else
-            {
-                lg2::info(
-                    "GPU Device with name {NAME} already exists. Skipping creating a new device.",
-                    "NAME", gpuName);
-            }
-
-            break;
-        }
-
-        case gpu::DeviceIdentification::DEVICE_SMA:
-        {
-            lg2::info(
-                "Found the SMA Device with EID {EID}, DeviceType {DEVTYPE}, InstanceId {IID}.",
-                "EID", eid, "DEVTYPE", responseDeviceType, "IID",
-                responseInstanceId);
-
-            const std::string smaName = std::format("Nvidia_SMA_{}", eid);
-
-            std::shared_ptr<SmaDevice>& sma = smaDevices[smaName];
-
-            if (sma == nullptr)
-            {
-                sma = std::make_shared<SmaDevice>(configs, smaName, path, conn,
-                                                  eid, io, mctpRequester,
-                                                  objectServer);
-
-                sma->init();
-            }
-            else
-            {
-                lg2::info(
-                    "SMA Device with name {NAME} already exists. Skipping creating a new device.",
-                    "NAME", smaName);
-            }
-
-            break;
-        }
-
-        case gpu::DeviceIdentification::DEVICE_PCIE:
-        {
-            lg2::info(
-                "Found the PCIe Device with EID {EID}, DeviceType {DEVTYPE}, InstanceId {IID}.",
-                "EID", eid, "DEVTYPE", responseDeviceType, "IID",
-                responseInstanceId);
-
-            const std::string pcieName = std::format("Nvidia_ConnectX_{}", eid);
-
-            std::shared_ptr<PcieDevice>& pcie = pcieDevices[pcieName];
-
-            if (pcie == nullptr)
-            {
-                pcie = std::make_shared<PcieDevice>(
-                    configs, pcieName, path, conn, eid, io, mctpRequester,
-                    objectServer);
-
-                pcie->init();
-            }
-            else
-            {
-                lg2::info(
-                    "PCIe Device with name {NAME} already exists. Skipping creating a new device.",
-                    "NAME", pcieName);
-            }
-
-            break;
-        }
-    }
+    auto query = std::make_shared<CapabilityQuery>(
+        eid, mctpRequester,
+        [&io, &objectServer, &gpuDevices, &smaDevices, &pcieDevices, conn,
+         &mctpRequester, configs, path, eid, responseDeviceType,
+         responseInstanceId](const gpu::DeviceCapabilities& caps) {
+            createDeviceForType(io, objectServer, gpuDevices, smaDevices,
+                                pcieDevices, conn, mctpRequester, configs, path,
+                                eid, responseDeviceType, responseInstanceId,
+                                caps);
+        });
+    query->start();
 }
 
 void queryDeviceIdentification(
