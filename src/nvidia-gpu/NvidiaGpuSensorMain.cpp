@@ -3,17 +3,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+#include "DeviceManager.hpp"
 #include "MctpRequester.hpp"
+#include "NvidiaSensorConfig.hpp"
 #include "Utils.hpp"
 
-#include <NvidiaDeviceDiscovery.hpp>
-#include <NvidiaPcieDevice.hpp>
-#include <NvidiaSmaDevice.hpp>
 #include <boost/asio/error.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/post.hpp>
 #include <boost/asio/steady_timer.hpp>
-#include <boost/container/flat_map.hpp>
+#include <boost/system/error_code.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
@@ -29,25 +28,10 @@
 #include <memory>
 #include <string>
 #include <string_view>
-#include <vector>
 
-boost::container::flat_map<std::string, std::shared_ptr<GpuDevice>> gpuDevices;
-boost::container::flat_map<std::string, std::shared_ptr<SmaDevice>> smaDevices;
-boost::container::flat_map<std::string, std::shared_ptr<PcieDevice>>
-    pcieDevices;
-
-void configTimerExpiryCallback(
-    boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
-    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
-    mctp::MctpRequester& mctpRequester, const boost::system::error_code& ec)
-{
-    if (ec == boost::asio::error::operation_aborted)
-    {
-        return; // we're being canceled
-    }
-    createSensors(io, objectServer, gpuDevices, smaDevices, pcieDevices,
-                  dbusConnection, mctpRequester);
-}
+// Debounce window to coalesce a burst of entity-manager config property
+// changes (which normally fire several at once) into one rescan.
+constexpr std::chrono::seconds configSettleInterval{1};
 
 int main()
 {
@@ -63,34 +47,37 @@ int main()
 
     mctp::MctpRequester mctpRequester(io);
 
-    boost::asio::post(io, [&]() {
-        createSensors(io, objectServer, gpuDevices, smaDevices, pcieDevices,
-                      systemBus, mctpRequester);
-    });
+    DeviceManager deviceManager(io, objectServer, systemBus, mctpRequester);
+
+    boost::asio::post(io, [&deviceManager]() { deviceManager.createSensors(); });
 
     boost::asio::steady_timer configTimer(io);
-
     std::function<void(sdbusplus::message_t&)> eventHandler =
-        [&configTimer, &io, &objectServer, &systemBus,
-         &mctpRequester](sdbusplus::message_t&) {
-            configTimer.expires_after(std::chrono::seconds(1));
-            // create a timer because normally multiple properties change
-            configTimer.async_wait(std::bind_front(
-                configTimerExpiryCallback, std::ref(io), std::ref(objectServer),
-                std::ref(systemBus), std::ref(mctpRequester)));
+        [&configTimer, &deviceManager](sdbusplus::message_t&) {
+            // create a timer because normally multiple properties change at once
+            configTimer.expires_after(configSettleInterval);
+            configTimer.async_wait(
+                [&deviceManager](const boost::system::error_code& ec) {
+                    if (ec == boost::asio::error::operation_aborted)
+                    {
+                        return; // we're being canceled
+                    }
+                    deviceManager.createSensors();
+                });
         };
-    std::array<std::string_view, 1> deviceTypes({deviceType});
-    std::vector<std::unique_ptr<sdbusplus::match>> matches =
-        setupPropertiesChangedMatches(*systemBus, deviceTypes, eventHandler);
 
-    // Watch for entity-manager to remove configuration interfaces
-    // so the corresponding sensors can be removed.
-    auto ifaceRemovedMatch = std::make_shared<sdbusplus::match>(
+    std::array<std::string_view, 1> sensorTypes({sensorType});
+    auto configMatches =
+        setupPropertiesChangedMatches(*systemBus, sensorTypes, eventHandler);
+
+    // Watch for entity-manager to remove configuration interfaces so the
+    // corresponding sensors can be removed.
+    auto configIfaceRemovedMatch = std::make_unique<sdbusplus::bus::match_t>(
         static_cast<sdbusplus::bus_t&>(*systemBus),
-        sdbusplus::match_rules::interfacesRemovedAtPath(
+        sdbusplus::bus::match::rules::interfacesRemovedAtPath(
             std::string(inventoryPath)),
-        [](sdbusplus::message_t& msg) {
-            interfaceRemoved(msg, gpuDevices, smaDevices, pcieDevices);
+        [&deviceManager](sdbusplus::message_t& msg) {
+            deviceManager.onConfigInterfaceRemoved(msg);
         });
 
     try
