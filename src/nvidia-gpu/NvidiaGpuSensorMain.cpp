@@ -8,11 +8,8 @@
 #include "NvidiaSensorConfig.hpp"
 #include "Utils.hpp"
 
-#include <boost/asio/error.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/post.hpp>
-#include <boost/asio/steady_timer.hpp>
-#include <boost/system/error_code.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
@@ -21,17 +18,12 @@
 #include <sdbusplus/message.hpp>
 
 #include <array>
-#include <chrono>
 #include <cstdlib>
 #include <exception>
 #include <functional>
 #include <memory>
 #include <string>
 #include <string_view>
-
-// Debounce window to coalesce a burst of entity-manager config property
-// changes (which normally fire several at once) into one rescan.
-constexpr std::chrono::seconds configSettleInterval{1};
 
 int main()
 {
@@ -52,20 +44,9 @@ int main()
     boost::asio::post(io,
                       [&deviceManager]() { deviceManager.createSensors(); });
 
-    boost::asio::steady_timer configTimer(io);
     std::function<void(sdbusplus::message_t&)> eventHandler =
-        [&configTimer, &deviceManager](sdbusplus::message_t&) {
-            // create a timer because normally multiple properties change at
-            // once
-            configTimer.expires_after(configSettleInterval);
-            configTimer.async_wait(
-                [&deviceManager](const boost::system::error_code& ec) {
-                    if (ec == boost::asio::error::operation_aborted)
-                    {
-                        return; // we're being canceled
-                    }
-                    deviceManager.createSensors();
-                });
+        [&deviceManager](sdbusplus::message_t&) {
+            deviceManager.scheduleRescan();
         };
 
     std::array<std::string_view, 1> sensorTypes({sensorType});
@@ -80,6 +61,21 @@ int main()
             std::string(inventoryPath)),
         [&deviceManager](sdbusplus::message_t& msg) {
             deviceManager.onConfigInterfaceRemoved(msg);
+        });
+
+    // Watch mctpd for endpoint Connectivity changes so devices can react.
+    auto mctpConnectivityMatch = std::make_unique<sdbusplus::match>(
+        static_cast<sdbusplus::bus_t&>(*systemBus),
+        sdbusplus::match_rules::type::signal() +
+            sdbusplus::match_rules::interface(
+                "org.freedesktop.DBus.Properties") +
+            sdbusplus::match_rules::member("PropertiesChanged") +
+            sdbusplus::match_rules::argN(
+                0, "au.com.codeconstruct.MCTP.Endpoint1") +
+            sdbusplus::match_rules::path_namespace(
+                "/au/com/codeconstruct/mctp1"),
+        [&deviceManager](sdbusplus::message_t& msg) {
+            deviceManager.onConnectivityChanged(msg);
         });
 
     try
