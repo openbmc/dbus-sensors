@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0177d58f_2215a47f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2026-06-10T03:00:59Z",
+      "side": 1,
+      "message": "This commit rebase the changes from [66372](https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/66372), and update the commit message.\n\nHi @ed@tanous.net,\nRegarding your comment on \"66372\", I think \"ADC128D818\" was a example, but it shouldn\u0027t be a blocker. To avoid confusion, I remove the example from original commit message.",
+      "revId": "569c1e7b30b6fe85bf792b1a74328b7430321d87",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
