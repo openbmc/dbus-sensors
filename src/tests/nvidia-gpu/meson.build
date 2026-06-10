@@ -1,6 +1,7 @@
 gpusensor_dir = '../../nvidia-gpu'
 
 gpusensor_sources = files(
+    gpusensor_dir / 'NvidiaEventReporting.cpp',
     gpusensor_dir / 'NvidiaGpuMctpVdm.cpp',
     gpusensor_dir / 'OcpMctpVdm.cpp',
     gpusensor_dir / 'NvidiaGpuTempSensor.cpp',
