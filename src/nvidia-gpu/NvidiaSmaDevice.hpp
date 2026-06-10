@@ -30,12 +30,23 @@ class SmaDevice : public std::enable_shared_from_this<SmaDevice>
               mctp::MctpRequester& mctpRequester,
               sdbusplus::asio::object_server& objectServer);
 
+    // The D-Bus path of the EntityManager configuration object the device
+    // was created from.
     const sdbusplus::object_path& getPath() const
     {
         return path;
     }
 
+    // Build the device's D-Bus objects. Polling only starts once the device
+    // is taken online.
     void init();
+
+    // Stop polling timer(s) and set reading sensors to unavailable. The
+    // D-Bus objects are retained.
+    void setOffline();
+
+    // Resume polling.
+    void setOnline();
 
   private:
     void makeSensors();
