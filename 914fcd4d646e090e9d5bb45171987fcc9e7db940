@@ -194,6 +194,24 @@
       "parentUuid": "69929170_7c9d3796",
       "revId": "914fcd4d646e090e9d5bb45171987fcc9e7db940",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b093ebf3_5bcc73fa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001397
+      },
+      "writtenOn": "2026-06-11T00:09:10Z",
+      "side": 1,
+      "message": "\u003e Are we sure this isn\u0027t a kernel bug in how it accounts for iowait?\n\nLooked at the kernel code, it seems that I/O requests submitted through io_uring are accounted as iowait even when they are not actually file I/O. In other words, the time spent waiting for events can still end up being marked as iowait.\n\nTo address this issue, the kernel already provides the IORING_ENTER_NO_IOWAIT flag, which allows io_uring requests to avoid that iowait accounting. However, it does\u0027nt seem that boost.asio supports this flag yet.\n\nThese are the flags currently available in the Linux 6.18.33 io_uring.h:\n\n#define IORING_ENTER_GETEVENTS          (1U \u003c\u003c 0)\n#define IORING_ENTER_SQ_WAKEUP          (1U \u003c\u003c 1)\n#define IORING_ENTER_SQ_WAIT            (1U \u003c\u003c 2)\n#define IORING_ENTER_EXT_ARG            (1U \u003c\u003c 3)\n#define IORING_ENTER_REGISTERED_RING    (1U \u003c\u003c 4)\n#define IORING_ENTER_ABS_TIMER          (1U \u003c\u003c 5)\n#define IORING_ENTER_EXT_ARG_REG        (1U \u003c\u003c 6)\n#define IORING_ENTER_NO_IOWAIT          (1U \u003c\u003c 7)\n\nBut boost 1.90.0 exposes only:\n\n#define IORING_ENTER_GETEVENTS          (1U \u003c\u003c 0)\n#define IORING_ENTER_SQ_WAKEUP          (1U \u003c\u003c 1)\n#define IORING_ENTER_SQ_WAIT            (1U \u003c\u003c 2)\n#define IORING_ENTER_EXT_ARG            (1U \u003c\u003c 3)\n#define IORING_ENTER_REGISTERED_RING    (1U \u003c\u003c 4)\n#define IORING_ENTER_ABS_TIMER          (1U \u003c\u003c 5)\n\nMy understanding is, the kernel side is already prepared for this use case, but boost.asio 1.90.0 doesn\u0027t support the IORING_ENTER_NO_IOWAIT flag yet. If that\u0027s the case, this may be a boost library side limitation, IMO.",
+      "parentUuid": "eb120543_abba2443",
+      "revId": "914fcd4d646e090e9d5bb45171987fcc9e7db940",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
