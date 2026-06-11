@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "842a34ce_3c810924",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-06-11T14:59:55Z",
+      "side": 1,
+      "message": "I\u0027m always perplexed by \"Output\" values being prefixed with \"in_\", but I guess that is because it is the \"output\" value of a voltage regulator measured by an input shunt resistor on this device.",
+      "range": {
+        "startLine": 207,
+        "startChar": 0,
+        "endLine": 209,
+        "endChar": 51
+      },
+      "revId": "1d631072e5b4515896d193cdb3aeba2f94a2e74c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
