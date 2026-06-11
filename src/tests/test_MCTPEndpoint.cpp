@@ -1,6 +1,7 @@
 #include "MCTPEndpoint.hpp"
 #include "Utils.hpp"
 
+#include <cstdint>
 #include <stdexcept>
 
 #include <gtest/gtest.h>
@@ -82,6 +83,30 @@ TEST(I2CMCTPDDevice, fromBadIfaceNoName)
     SensorBaseConfigMap iface{
         {"Address", "0x1d"},
         {"Bus", "0"},
+        {"Type", "MCTPI2CTarget"},
+    };
+    EXPECT_THROW(I2CMCTPDDevice::from({}, iface), std::invalid_argument);
+}
+
+TEST(I2CMCTPDDevice, fromBadIfaceInvalidEndpointId)
+{
+    SensorBaseConfigMap iface{
+        {"Address", "0x1d"},
+        {"Bus", "0"},
+        {"MCTPEndpointID", uint64_t{7}},
+        {"Name", "test"},
+        {"Type", "MCTPI2CTarget"},
+    };
+    EXPECT_THROW(I2CMCTPDDevice::from({}, iface), std::invalid_argument);
+}
+
+TEST(I2CMCTPDDevice, fromBadIfaceEndpointIdTooLarge)
+{
+    SensorBaseConfigMap iface{
+        {"Address", "0x1d"},
+        {"Bus", "0"},
+        {"MCTPEndpointID", uint64_t{0xff}},
+        {"Name", "test"},
         {"Type", "MCTPI2CTarget"},
     };
     EXPECT_THROW(I2CMCTPDDevice::from({}, iface), std::invalid_argument);
