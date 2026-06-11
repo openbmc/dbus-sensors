@@ -41,11 +41,38 @@ static constexpr const char* mctpdControlInterface =
     "au.com.codeconstruct.MCTP.BusOwner1";
 static constexpr const char* mctpdEndpointControlInterface =
     "au.com.codeconstruct.MCTP.Endpoint1";
+static constexpr const char* preferredEndpointIdProperty = "MCTPEndpointID";
+
+static std::optional<uint8_t> preferredEndpointIdFromConfig(
+    const SensorBaseConfigMap& iface)
+{
+    auto mEndpointId = iface.find(preferredEndpointIdProperty);
+    if (mEndpointId == iface.end())
+    {
+        return std::nullopt;
+    }
+
+    auto sEndpointId =
+        std::visit(VariantToStringVisitor(), mEndpointId->second);
+    unsigned int endpointId{};
+    auto [ptr, ec] =
+        std::from_chars(sEndpointId.data(),
+                        sEndpointId.data() + sEndpointId.size(), endpointId);
+    if (ec != std::errc{} || ptr != sEndpointId.data() + sEndpointId.size() ||
+        endpointId < 0x08 || endpointId > 0xfe)
+    {
+        throw std::invalid_argument("Bad MCTP endpoint ID");
+    }
+
+    return static_cast<uint8_t>(endpointId);
+}
 
 MCTPDDevice::MCTPDDevice(
     const std::shared_ptr<sdbusplus::asio::connection>& connection,
-    const std::string& interface, const std::vector<uint8_t>& physaddr) :
-    connection(connection), interface(interface), physaddr(physaddr)
+    const std::string& interface, const std::vector<uint8_t>& physaddr,
+    std::optional<uint8_t> preferredEndpointId) :
+    connection(connection), interface(interface), physaddr(physaddr),
+    preferredEndpointId(preferredEndpointId)
 {}
 
 void MCTPDDevice::onEndpointInterfacesRemoved(
@@ -117,6 +144,17 @@ void MCTPDDevice::setup(
                 "INVENTORY_PATH", objpath);
         }
     };
+
+    if (preferredEndpointId)
+        {
+            connection->async_method_call(
+                onSetup, mctpdBusName,
+                mctpdControlPath + std::string("/interfaces/") + interface,
+                mctpdControlInterface, "AssignEndpointPreferred", physaddr,
+                *preferredEndpointId);
+            return;
+        }
+
     connection->async_method_call(
         onSetup, mctpdBusName,
         mctpdControlPath + std::string("/interfaces/") + interface,
@@ -453,9 +491,12 @@ std::shared_ptr<I2CMCTPDDevice> I2CMCTPDDevice::from(
         throw std::invalid_argument("Bad bus index");
     }
 
+    auto preferredEndpointId = preferredEndpointIdFromConfig(iface);
+
     try
     {
-        return std::make_shared<I2CMCTPDDevice>(connection, bus, address);
+        return std::make_shared<I2CMCTPDDevice>(connection, bus, address,
+                                                preferredEndpointId);
     }
     catch (const MCTPException& ex)
     {
@@ -508,9 +549,12 @@ std::shared_ptr<I3CMCTPDDevice> I3CMCTPDDevice::from(
         throw std::invalid_argument("Bad bus index");
     }
 
+    auto preferredEndpointId = preferredEndpointIdFromConfig(iface);
+
     try
     {
-        return std::make_shared<I3CMCTPDDevice>(connection, bus, address);
+        return std::make_shared<I3CMCTPDDevice>(connection, bus, address,
+                                                preferredEndpointId);
     }
     catch (const MCTPException& ex)
     {
