@@ -33,6 +33,24 @@
       "message": "In my opinion, since the original issue is that the high I/O usage could be confusing for developers or users, I think upgrading liburing and setting io_uring_set_iowait() to false would be the best way to solve this problem.",
       "revId": "d99b81ca3e2d8256cb330796b1e9256c04529bda",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf4e9e7d_4ed9072a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001397
+      },
+      "writtenOn": "2026-06-11T19:24:43Z",
+      "side": 1,
+      "message": "Yeah, figured out that a proper fix should be made in boost.asio. We\u0027ve moved to working on this thru https://gerrit.openbmc.org/c/openbmc/openbmc/+/91209\n\nClosing it now.",
+      "parentUuid": "0f619f59_d108e156",
+      "revId": "d99b81ca3e2d8256cb330796b1e9256c04529bda",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ],
   "submitRequirementResults": []
