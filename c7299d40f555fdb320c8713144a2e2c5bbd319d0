@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a59c93d_0255b82c",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerControl.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-11T08:56:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffe32348_1ef5e957",
+      "range": {
+        "startLine": 204,
+        "startChar": 4,
+        "endLine": 204,
+        "endChar": 27
+      },
+      "revId": "c7299d40f555fdb320c8713144a2e2c5bbd319d0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b248bbb4_ca01f8a1",
@@ -37,6 +61,24 @@
       "writtenOn": "2026-06-09T14:17:28Z",
       "side": 1,
       "message": "Is this behaviour expected, ideally shouldn\u0027t we clear both requested property values?",
+      "revId": "c7299d40f555fdb320c8713144a2e2c5bbd319d0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d186336_2bdde9b7",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerControl.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-11T08:56:03Z",
+      "side": 1,
+      "message": "Done — applyPendingPowerLimit now clears both requestedPowerCapWatts and pendingEnable once the coalesced burst is dispatched (snapshotting the cap first so a combined PATCH still applies it). \nA cap set while disabled is no longer silently re-applied on a later unrelated enable.",
+      "parentUuid": "b248bbb4_ca01f8a1",
       "revId": "c7299d40f555fdb320c8713144a2e2c5bbd319d0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
