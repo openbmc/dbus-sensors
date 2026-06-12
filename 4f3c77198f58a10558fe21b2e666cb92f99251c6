@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9cd7b943_8ea856ef",
+        "filename": "src/nvidia-gpu/NvidiaGpuLongRunningCommand.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-06-12T07:33:18Z",
+      "side": 1,
+      "message": "encode() is now in the ctor, which can\u0027t bail on failure. I think we can store the result (bool requestEncoded) and add `if (!requestEncoded) return;` at the top of doUpdate(), so a failed encode skips the poll like before.\nSame encode-in-ctor / dropped-guard pattern as the rest files of this patch.",
+      "revId": "4f3c77198f58a10558fe21b2e666cb92f99251c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff2e582c_40897c76",
+        "filename": "src/nvidia-gpu/NvidiaGpuMemoryDevice.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-06-12T07:33:18Z",
+      "side": 1,
+      "message": "nit: the other classes in this patch use \"Failed to encode ...\"; consider matching that wording here for grep consistency.",
+      "revId": "4f3c77198f58a10558fe21b2e666cb92f99251c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fec22301_2e8e9e85",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerControl.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-06-12T07:33:18Z",
+      "side": 1,
+      "message": "nit: the other classes in this patch use \"Failed to encode ...\"; consider matching that wording here for grep consistency.",
+      "revId": "4f3c77198f58a10558fe21b2e666cb92f99251c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
