@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebf19433_2c008b6a",
+        "filename": "src/nvidia-gpu/NvidiaPcieFunction.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-06-12T08:30:24Z",
+      "side": 1,
+      "message": "activeRequest is assigned inside the case before the rc check, so on encode failure it stays non-empty and update()\u0027s empty() guard (which only covers the default case) won\u0027t skip it.\nSuggest `if (rc \u003d\u003d 0) { activeRequest \u003d requestVx; }` so a failed encode leaves it empty and gets skipped.",
+      "revId": "5e6818c77843b0ea015bf1b9ddb6ba0efcf68a61",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a2a4c30_a34f4341",
+        "filename": "src/nvidia-gpu/NvidiaPcieFunction.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-06-12T08:30:24Z",
+      "side": 1,
+      "message": "This empty() check only catches the unknown-deviceType (default) case. It won\u0027t catch an encode failure, because activeRequest is assigned before the rc check in the ctor (see ＃46 comment there).",
+      "revId": "5e6818c77843b0ea015bf1b9ddb6ba0efcf68a61",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9aa68aab_d9489542",
+        "filename": "src/nvidia-gpu/NvidiaPcieInterface.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-06-12T08:30:24Z",
+      "side": 1,
+      "message": "Same problem here — activeRequest is assigned before the rc check in the ctor. Gate it on rc \u003d\u003d 0 like the others.\n\nSame pattern in the other three PCIe classes (NvidiaPcieInterface, NvidiaPciePort,\nNvidiaPciePortMetrics) — same fix applies to each.",
+      "revId": "5e6818c77843b0ea015bf1b9ddb6ba0efcf68a61",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
