@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e5ca90e_ee9f4e40",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-12T11:18:58Z",
+      "side": 1,
+      "message": "Consider moving this capability discovery into the device\u0027s own init() (NvidiaXxxDevice) so each device owns querying and gating its capabilities, rather than the discovery layer querying and injecting caps. That keeps device-specific knowledge in one place; the trade-off is the device needs an \"initializing\" phase before it starts polling.\nThis is just my opinion. @haghera@nvidia.com What is your opinion?\nThanks.",
+      "revId": "45ee96854a8e10962ead965a46c580f66496c65f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3bd08b6_29b3a30d",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-12T11:18:58Z",
+      "side": 1,
+      "message": "Could we storing the bitmap directly (map\u003cMessageType, array\u003cuint8_t,32\u003e\u003e) and bit-testing in has() drops the per-type set allocation and the conversion loop.",
+      "range": {
+        "startLine": 151,
+        "startChar": 12,
+        "endLine": 151,
+        "endChar": 36
+      },
+      "revId": "45ee96854a8e10962ead965a46c580f66496c65f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c00fa2d_fad8b61d",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-12T11:18:58Z",
+      "side": 1,
+      "message": "This `else` covers any failure (transport ec, decode error, or non-success CC), and leaves commands[type] unset. Could we distinguish them?\nI think they might have different handle way.",
+      "range": {
+        "startLine": 161,
+        "startChar": 8,
+        "endLine": 161,
+        "endChar": 12
+      },
+      "revId": "45ee96854a8e10962ead965a46c580f66496c65f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31315585_476cd002",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-12T11:18:58Z",
+      "side": 1,
+      "message": "The metric objects just stop being polled and keep their last published value — for a permanently-unsupported command those stale values can still look valid to a Redfish client. Was keeping them intentional?",
+      "range": {
+        "startLine": 476,
+        "startChar": 0,
+        "endLine": 506,
+        "endChar": 5
+      },
+      "revId": "45ee96854a8e10962ead965a46c580f66496c65f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
