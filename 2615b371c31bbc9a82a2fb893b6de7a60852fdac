@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d71877b_ef448e22",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-12T10:39:53Z",
+      "side": 1,
+      "message": "Quick question — why we need to separate 91236 and 91237??\nOn its own, 91236 only adds the encode/decode helpers with no runtime caller, so it lands as dead code until 91237 wires it into discovery.\nNo strong, just raising it as a preference. Thanks!",
+      "revId": "2615b371c31bbc9a82a2fb893b6de7a60852fdac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
