@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e000da0d_18acd83f",
+        "filename": "src/nvidia-gpu/NvidiaGpuEnergySensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-06-12T07:51:20Z",
+      "side": 1,
+      "message": "encode() is now in the ctor, which can\u0027t bail on failure. I think we can store the result\n(bool requestEncoded) and add if (!requestEncoded) return; at the top of update(), so a\nfailed encode skips the poll like before. Same dropped-guard pattern across the sensor\nclasses here (Temp/Energy/Voltage).",
+      "revId": "05d65329202cadd0c540d3e8bb2b889dcdf6ef44",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
