@@ -17,7 +17,9 @@
 #include <cstdint>
 #include <memory>
 #include <optional>
+#include <span>
 #include <string>
+#include <system_error>
 
 class NvidiaGpuClockSpeedControl :
     public std::enable_shared_from_this<NvidiaGpuClockSpeedControl>
@@ -32,6 +34,11 @@ class NvidiaGpuClockSpeedControl :
     ~NvidiaGpuClockSpeedControl();
 
     void update();
+
+    // Backs the Control.ResetToDefault ResetToDefault method. Sends an NSM
+    // SET_CLOCK_LIMIT (CLEAR) request and returns without waiting for the
+    // device response; a failed reset is only logged.
+    void reset();
 
   private:
     void sendGetClockLimitRequest();
@@ -55,7 +62,12 @@ class NvidiaGpuClockSpeedControl :
     void handleSetClockLimitResponse(const std::error_code& ec,
                                      std::span<const uint8_t> buffer);
 
+    void handleResetResponse(const std::error_code& ec,
+                             std::span<const uint8_t> buffer);
+
     std::shared_ptr<sdbusplus::asio::dbus_interface> controlClockSpeedInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface>
+        controlResetToDefaultInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> associationInterface;
     std::shared_ptr<Inventory> inventory;
 
@@ -81,8 +93,11 @@ class NvidiaGpuClockSpeedControl :
     sdbusplus::asio::object_server& objectServer;
     boost::asio::steady_timer setLimitTimer;
     uint8_t eid;
+    bool resetInFlight{false};
     std::array<uint8_t, gpu::getClockLimitRequestSize> requestBuffer{};
     bool requestEncoded{false};
     std::array<uint8_t, gpu::setClockLimitRequestSize>
         setClockLimitRequestBuffer{};
+    std::array<uint8_t, gpu::setClockLimitRequestSize> resetRequestBuffer{};
+    bool resetEncoded{false};
 };

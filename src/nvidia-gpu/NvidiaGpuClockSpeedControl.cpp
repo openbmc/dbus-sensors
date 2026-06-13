@@ -33,6 +33,8 @@
 
 static constexpr const char* controlClockSpeedIfaceName =
     "xyz.openbmc_project.Control.OperatingClockSpeed";
+static constexpr const char* controlResetToDefaultIfaceName =
+    "xyz.openbmc_project.Control.ResetToDefault";
 static constexpr const char* controlClockSpeedPrefix =
     "/xyz/openbmc_project/control/operatingclockspeed/";
 
@@ -60,6 +62,19 @@ NvidiaGpuClockSpeedControl::NvidiaGpuClockSpeedControl(
     {
         lg2::error("Failed to encode clock limit request for {NAME}: rc={RC}",
                    "NAME", name, "RC", rc);
+    }
+
+    const int resetRc = gpu::encodeSetClockLimitRequest(
+        0, gpu::ClockType::GRAPHICS_CLOCK, gpu::ClockLimitFlag::CLEAR, 0, 0,
+        resetRequestBuffer);
+    if (resetRc == 0)
+    {
+        resetEncoded = true;
+    }
+    else
+    {
+        lg2::error("Failed to encode clock limit reset for {NAME}: rc={RC}",
+                   "NAME", name, "RC", resetRc);
     }
 
     const sdbusplus::object_path inventoryPath = inventoryPrefix / name;
@@ -106,12 +121,28 @@ NvidiaGpuClockSpeedControl::NvidiaGpuClockSpeedControl(
             "Error initializing OperatingClockSpeed interface for {NAME}, eid={EID}",
             "NAME", name, "EID", eid);
     }
+
+    controlResetToDefaultInterface =
+        objectServer.add_interface(objPath.str, controlResetToDefaultIfaceName);
+    controlResetToDefaultInterface->register_method("ResetToDefault", [this]() {
+        reset();
+    });
+    controlResetToDefaultInterface->register_property(
+        "DefaultSetPoint", std::numeric_limits<double>::quiet_NaN(),
+        sdbusplus::asio::PropertyPermission::readOnly);
+    if (!controlResetToDefaultInterface->initialize())
+    {
+        lg2::error(
+            "Error initializing ResetToDefault interface for {NAME}, eid={EID}",
+            "NAME", name, "EID", eid);
+    }
 }
 
 NvidiaGpuClockSpeedControl::~NvidiaGpuClockSpeedControl()
 {
     objectServer.remove_interface(associationInterface);
     objectServer.remove_interface(controlClockSpeedInterface);
+    objectServer.remove_interface(controlResetToDefaultInterface);
 }
 
 void NvidiaGpuClockSpeedControl::update()
@@ -392,5 +423,55 @@ void NvidiaGpuClockSpeedControl::handleSetClockLimitResponse(
         return;
     }
     setClockLimitReadbackPending = true;
+    sendGetClockLimitRequest();
+}
+
+void NvidiaGpuClockSpeedControl::reset()
+{
+    if (!resetEncoded || resetInFlight)
+    {
+        throw Unavailable();
+    }
+
+    resetInFlight = true;
+    mctpRequester.sendRecvMsg(
+        eid, resetRequestBuffer,
+        [weak{weak_from_this()}](const std::error_code& ec,
+                                 std::span<const uint8_t> buffer) {
+            auto self = weak.lock();
+            if (!self)
+            {
+                lg2::error("Invalid NvidiaGpuClockSpeedControl reference");
+                return;
+            }
+            self->handleResetResponse(ec, buffer);
+        });
+}
+
+void NvidiaGpuClockSpeedControl::handleResetResponse(
+    const std::error_code& ec, std::span<const uint8_t> buffer)
+{
+    resetInFlight = false;
+
+    if (ec)
+    {
+        lg2::error("Error resetting clock limit for eid {EID}: {MSG}", "EID",
+                   eid, "MSG", ec.message());
+        return;
+    }
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode = 0;
+    const int rc = gpu::decodeSetClockLimitResponse(buffer, cc, reasonCode);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        lg2::error(
+            "Error decoding clock limit reset response for eid {EID}: rc={RC}, cc={CC}, reasonCode={RESC}",
+            "EID", eid, "RC", rc, "CC", static_cast<uint8_t>(cc), "RESC",
+            reasonCode);
+        return;
+    }
+
     sendGetClockLimitRequest();
 }
