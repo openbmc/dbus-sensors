@@ -37,9 +37,11 @@
 #include <SerialQueue.hpp>
 #include <boost/asio/io_context.hpp>
 #include <phosphor-logging/lg2.hpp>
+#include <sdbusplus/asio/completion.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/message/native_types.hpp>
+#include <xyz/openbmc_project/Common/error.hpp>
 
 #include <array>
 #include <chrono>
@@ -155,6 +157,15 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
         "RequestedSpeedLimitMaxHz", std::numeric_limits<uint64_t>::max());
     controlClockSpeedInterface->register_property(
         "RequestedSpeedLimitMinHz", std::numeric_limits<uint64_t>::max());
+    controlClockSpeedInterface->register_completion_method(
+        "Reset", [this](sdbusplus::asio::completion<> done) {
+            if (!gpuClockSpeedControl)
+            {
+                throw sdbusplus::error::xyz::openbmc_project::common::
+                    Unavailable();
+            }
+            gpuClockSpeedControl->reset(std::move(done));
+        });
 
     if (!controlClockSpeedInterface->initialize())
     {
