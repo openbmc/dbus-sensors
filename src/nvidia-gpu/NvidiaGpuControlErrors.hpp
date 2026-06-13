@@ -40,3 +40,19 @@ struct InvalidArgument : sdbusplus::exception_t
         return EINVAL;
     }
 };
+
+struct WriteFailure : sdbusplus::exception_t
+{
+    const char* name() const noexcept override
+    {
+        return "xyz.openbmc_project.Common.Device.Error.WriteFailure";
+    }
+    const char* description() const noexcept override
+    {
+        return "Failed to write to the device.";
+    }
+    int get_errno() const noexcept override
+    {
+        return EIO;
+    }
+};
