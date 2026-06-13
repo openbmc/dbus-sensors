@@ -11,13 +11,16 @@
 #include <NvidiaGpuMctpVdm.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/steady_timer.hpp>
+#include <sdbusplus/asio/completion.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
 #include <array>
 #include <cstdint>
 #include <memory>
 #include <optional>
+#include <span>
 #include <string>
+#include <system_error>
 
 class NvidiaGpuClockSpeedControl :
     public std::enable_shared_from_this<NvidiaGpuClockSpeedControl>
@@ -32,6 +35,11 @@ class NvidiaGpuClockSpeedControl :
     ~NvidiaGpuClockSpeedControl();
 
     void update();
+
+    // Backs the Control.Reset Reset method. Queues an NSM SET_CLOCK_LIMIT
+    // (CLEAR) request and completes the deferred reply once the device
+    // responds. Synchronous failures throw an sd-bus error.
+    void reset(sdbusplus::asio::completion<> done);
 
   private:
     void sendGetClockLimitRequest();
@@ -55,7 +63,12 @@ class NvidiaGpuClockSpeedControl :
     void handleSetClockLimitResponse(const std::error_code& ec,
                                      std::span<const uint8_t> buffer);
 
+    void completeReset(const std::error_code& ec,
+                       std::span<const uint8_t> buffer,
+                       sdbusplus::asio::completion<> done);
+
     std::shared_ptr<sdbusplus::asio::dbus_interface> controlClockSpeedInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> controlResetInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> associationInterface;
     std::shared_ptr<Inventory> inventory;
 
@@ -81,8 +94,11 @@ class NvidiaGpuClockSpeedControl :
     sdbusplus::asio::object_server& objectServer;
     boost::asio::steady_timer setLimitTimer;
     uint8_t eid;
+    bool resetInFlight{false};
     std::array<uint8_t, gpu::getClockLimitRequestSize> requestBuffer{};
     bool requestEncoded{false};
     std::array<uint8_t, gpu::setClockLimitRequestSize>
         setClockLimitRequestBuffer{};
+    std::array<uint8_t, gpu::setClockLimitRequestSize> resetRequestBuffer{};
+    bool resetEncoded{false};
 };
