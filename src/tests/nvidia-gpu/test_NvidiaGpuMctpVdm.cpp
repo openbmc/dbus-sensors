@@ -4859,4 +4859,31 @@ TEST_F(GpuMctpVdmTests, DecodeSetClockLimitResponseBufferTooSmall)
     EXPECT_EQ(result, EINVAL);
 }
 
+// A response carrying the wrong command byte must decode to a non-zero rc.
+// completeReset() treats rc != 0 as a failure and replies protocol_error
+// rather than falling through to the success path.
+TEST_F(GpuMctpVdmTests, DecodeSetClockLimitResponseCommandMismatch)
+{
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 15,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_CLOCK_LIMIT));  // wrong cmd
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS)); // CC
+    pbuf.pack(static_cast<uint16_t>(0));                        // reserved
+    pbuf.pack(static_cast<uint16_t>(0));                        // data_size
+    ASSERT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+
+    int result = gpu::decodeSetClockLimitResponse(buf, cc, reasonCode);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
 } // namespace gpu_mctp_tests
