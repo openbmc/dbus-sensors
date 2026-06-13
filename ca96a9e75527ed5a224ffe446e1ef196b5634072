@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f47ae63_3ebadf6b",
+        "filename": "src/nvidia-gpu/NvidiaGpuEnergySensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-06-13T17:13:05Z",
+      "side": 1,
+      "message": "Can we perform the initialization in the initializer list?\nI think we might have to modify the encode function to be able to do that.\nBut this help us make `request` become `const`.",
+      "range": {
+        "startLine": 55,
+        "startChar": 4,
+        "endLine": 56,
+        "endChar": 72
+      },
+      "revId": "ca96a9e75527ed5a224ffe446e1ef196b5634072",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbca7119_633fb790",
+        "filename": "src/nvidia-gpu/NvidiaGpuEnergySensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-06-13T17:13:05Z",
+      "side": 1,
+      "message": "I think we can remove this because the code itself should take care of it.\nThe encode function is relatively simple, and shouldn\u0027t have any unexpected error.",
+      "range": {
+        "startLine": 159,
+        "startChar": 4,
+        "endLine": 162,
+        "endChar": 5
+      },
+      "revId": "ca96a9e75527ed5a224ffe446e1ef196b5634072",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "198a1cdc_ccad845a",
+        "filename": "src/nvidia-gpu/NvidiaGpuEnergySensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-06-13T17:13:05Z",
+      "side": 1,
+      "message": "Can we make this `const`?",
+      "range": {
+        "startLine": 57,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 75
+      },
+      "revId": "ca96a9e75527ed5a224ffe446e1ef196b5634072",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00c1dff1_69d34615",
+        "filename": "src/nvidia-gpu/NvidiaGpuEnergySensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-06-13T17:13:05Z",
+      "side": 1,
+      "message": "I think we can remove this and make sure `request` to be initialized once the sensor class is declared.",
+      "range": {
+        "startLine": 59,
+        "startChar": 4,
+        "endLine": 59,
+        "endChar": 31
+      },
+      "revId": "ca96a9e75527ed5a224ffe446e1ef196b5634072",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
