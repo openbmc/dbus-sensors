@@ -1085,6 +1085,44 @@ int decodeGetClockLimitResponse(
     return buffer.getError();
 }
 
+int encodeSetClockLimitRequest(uint8_t instanceId, ClockType clockType,
+                               ClockLimitFlag flag, uint32_t limitMin,
+                               uint32_t limitMax, std::span<uint8_t> buf)
+{
+    PackBuffer buffer(buf);
+
+    int rc = encodeRequestCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(PlatformEnvironmentalCommands::SET_CLOCK_LIMIT),
+        instanceId);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    const uint8_t dataSize = 2 * sizeof(uint8_t) + 2 * sizeof(uint32_t);
+    buffer.pack(dataSize);
+    buffer.pack(static_cast<uint8_t>(clockType));
+    buffer.pack(static_cast<uint8_t>(flag));
+    buffer.pack(limitMin);
+    buffer.pack(limitMax);
+
+    return buffer.getError();
+}
+
+int decodeSetClockLimitResponse(std::span<const uint8_t> buf,
+                                ocp::accelerator_management::CompletionCode& cc,
+                                uint16_t& reasonCode)
+{
+    UnpackBuffer buffer(buf);
+
+    return decodeResponseCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(PlatformEnvironmentalCommands::SET_CLOCK_LIMIT),
+        cc, reasonCode);
+}
+
 int encodeGetViolationDurationRequest(uint8_t instanceId,
                                       std::span<uint8_t> buf)
 {

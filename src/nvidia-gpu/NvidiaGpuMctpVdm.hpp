@@ -56,6 +56,7 @@ enum class PlatformEnvironmentalCommands : uint8_t
     GET_INVENTORY_INFORMATION = 0x0C,
     GET_DRIVER_INFORMATION = 0x0E,
     GET_VOLTAGE = 0x0F,
+    SET_CLOCK_LIMIT = 0x10,
     GET_CLOCK_LIMIT = 0x11,
     GET_VIOLATION_DURATION = 0x45,
     GET_CURRENT_UTILIZATION = 0x47,
@@ -181,6 +182,14 @@ enum class ClockType : uint8_t
     MEMORY_CLOCK = 1,
 };
 
+// Flags for the SET_CLOCK_LIMIT command. PERSISTENCE applies the limit
+// across resets; CLEAR restores the factory default limits.
+enum class ClockLimitFlag : uint8_t
+{
+    PERSISTENCE = 1,
+    CLEAR = 3,
+};
+
 constexpr size_t maxInventoryDataSize = 256;
 
 constexpr size_t queryDeviceIdentificationRequestSize =
@@ -251,6 +260,10 @@ constexpr size_t xidEventMinDataSize = 20;
 
 constexpr size_t getClockLimitRequestSize =
     ocp::accelerator_management::commonRequestSize + sizeof(uint8_t);
+
+constexpr size_t setClockLimitRequestSize =
+    ocp::accelerator_management::commonRequestSize + 2 * sizeof(uint8_t) +
+    2 * sizeof(uint32_t);
 
 int encodeRequestCommonHeader(PackBuffer& buffer, gpu::MessageType msgType,
                               uint8_t command, uint8_t instanceId);
@@ -360,6 +373,14 @@ int decodeGetInventoryInformationResponse(
 
 int encodeGetClockLimitRequest(uint8_t instanceId, ClockType clockType,
                                std::span<uint8_t> buf);
+
+int encodeSetClockLimitRequest(uint8_t instanceId, ClockType clockType,
+                               ClockLimitFlag flag, uint32_t limitMin,
+                               uint32_t limitMax, std::span<uint8_t> buf);
+
+int decodeSetClockLimitResponse(std::span<const uint8_t> buf,
+                                ocp::accelerator_management::CompletionCode& cc,
+                                uint16_t& reasonCode);
 
 int decodeGetClockLimitResponse(
     std::span<const uint8_t> buf,
