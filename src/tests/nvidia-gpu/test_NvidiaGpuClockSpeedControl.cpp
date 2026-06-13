@@ -22,6 +22,7 @@
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <memory>
 #include <optional>
 #include <ranges>
@@ -306,6 +307,37 @@ class NvidiaGpuClockSpeedControlTest : public MctpMockTestBase
         pumpIoUntil([result] { return result->has_value(); }, pumpTimeout);
         return result->value_or(SetResult{false, "timeout"});
     }
+
+    // Invokes the Reset method. Async for the same reason as setSpeedLimit,
+    // and the reply only arrives once the deferred completion fires.
+    static SetResult callReset(const std::string& path)
+    {
+        auto result = std::make_shared<std::optional<SetResult>>();
+
+        bus()->async_method_call(
+            [result](const boost::system::error_code& ec,
+                     sdbusplus::message_t& reply) {
+                SetResult outcome;
+                outcome.succeeded = !ec;
+                // NOLINTNEXTLINE(misc-include-cleaner): from sd-bus.h
+                const sd_bus_error* error = reply.get_error();
+                if (error != nullptr && error->name != nullptr)
+                {
+                    outcome.errorName = error->name;
+                }
+                *result = outcome;
+            },
+            bus()->get_unique_name(), path, clockSpeedIface, "Reset");
+
+        pumpIoUntil([result] { return result->has_value(); }, pumpTimeout);
+        return result->value_or(SetResult{false, "timeout"});
+    }
+
+    // Parks a SetClockLimit completion so that request stays in flight for as
+    // long as a test needs it to.
+    std::move_only_function<void(const std::error_code&,
+                                 std::span<const uint8_t>)>
+        heldSetCompletion;
 
     // Values the mock GPU reports for GetClockLimit, in MHz.
     struct ClockLimit
@@ -627,6 +659,192 @@ TEST_F(NvidiaGpuClockSpeedControlTest, SetFailureDoesNotBlockLaterSet)
                        gpu::PlatformEnvironmentalCommands::SET_CLOCK_LIMIT) > 1;
         },
         pumpTimeout));
+}
+
+// Reset — clears the graphics clock limit on the device
+
+TEST_F(NvidiaGpuClockSpeedControlTest, ResetSendsClearFlag)
+{
+    const std::string name = "clk_reset_flag";
+    const auto control = createControl(name, createInventory(name));
+    sentRequests.clear();
+
+    const SetResult result = callReset(pathFor(name));
+    ASSERT_TRUE(result.succeeded) << result.errorName;
+
+    EXPECT_EQ(
+        countRequests(gpu::PlatformEnvironmentalCommands::SET_CLOCK_LIMIT), 1U);
+
+    const std::vector<uint8_t> request =
+        lastRequest(gpu::PlatformEnvironmentalCommands::SET_CLOCK_LIMIT);
+    ASSERT_FALSE(request.empty());
+
+    const SetClockLimitFields fields = decodeSetClockLimitRequest(request);
+    EXPECT_EQ(fields.clockType,
+              static_cast<uint8_t>(gpu::ClockType::GRAPHICS_CLOCK));
+    EXPECT_EQ(fields.flag, static_cast<uint8_t>(gpu::ClockLimitFlag::CLEAR));
+}
+
+// Reset — a failed round trip must reply with an error, not a silent success.
+// The error name comes from sd-bus's errno mapping, so the test pins the
+// failure and the distinction between the two paths rather than the spelling.
+
+TEST_F(NvidiaGpuClockSpeedControlTest, ResetTransportErrorRepliesError)
+{
+    const std::string name = "clk_reset_mctp_err";
+    const auto control = createControl(name, createInventory(name));
+
+    ON_CALL(mctpMock, sendRecvMsg)
+        .WillByDefault([this](uint8_t /*eid*/, std::span<const uint8_t> request,
+                              auto callback) {
+            sentRequests.emplace_back(request.begin(), request.end());
+            if (commandOf(request) ==
+                static_cast<uint8_t>(
+                    gpu::PlatformEnvironmentalCommands::SET_CLOCK_LIMIT))
+            {
+                callback(std::make_error_code(std::errc::timed_out), {});
+                return;
+            }
+            const std::vector<uint8_t> response = buildReply(request);
+            callback(std::error_code{}, response);
+        });
+
+    const SetResult result = callReset(pathFor(name));
+    EXPECT_FALSE(result.succeeded);
+    EXPECT_FALSE(result.errorName.empty());
+}
+
+TEST_F(NvidiaGpuClockSpeedControlTest, ResetBadCompletionCodeRepliesError)
+{
+    const std::string name = "clk_reset_bad_cc";
+    const auto control = createControl(name, createInventory(name));
+
+    ON_CALL(mctpMock, sendRecvMsg)
+        .WillByDefault([this](uint8_t /*eid*/, std::span<const uint8_t> request,
+                              auto callback) {
+            sentRequests.emplace_back(request.begin(), request.end());
+            if (commandOf(request) ==
+                static_cast<uint8_t>(
+                    gpu::PlatformEnvironmentalCommands::SET_CLOCK_LIMIT))
+            {
+                const std::vector<uint8_t> response =
+                    test_utils::buildPlatformEnvErrorResponse(
+                        gpu::PlatformEnvironmentalCommands::SET_CLOCK_LIMIT,
+                        static_cast<uint8_t>(
+                            ocp::accelerator_management::CompletionCode::ERROR),
+                        0);
+                callback(std::error_code{}, response);
+                return;
+            }
+            const std::vector<uint8_t> response = buildReply(request);
+            callback(std::error_code{}, response);
+        });
+
+    const SetResult result = callReset(pathFor(name));
+    EXPECT_FALSE(result.succeeded);
+    EXPECT_FALSE(result.errorName.empty());
+}
+
+// Reset — the set path and Reset drive the same device state, so they share
+// one gate: Reset is refused while a SetClockLimit is still outstanding.
+
+TEST_F(NvidiaGpuClockSpeedControlTest, ResetWhileSetInFlightRepliesUnavailable)
+{
+    const std::string name = "clk_reset_busy";
+    const auto control = createControl(name, createInventory(name));
+
+    ON_CALL(mctpMock, sendRecvMsg)
+        .WillByDefault([this](uint8_t /*eid*/, std::span<const uint8_t> request,
+                              auto callback) {
+            sentRequests.emplace_back(request.begin(), request.end());
+            if (commandOf(request) ==
+                static_cast<uint8_t>(
+                    gpu::PlatformEnvironmentalCommands::SET_CLOCK_LIMIT))
+            {
+                // Never completed, so the set stays in flight.
+                heldSetCompletion = std::move(callback);
+                return;
+            }
+            const std::vector<uint8_t> response = buildReply(request);
+            callback(std::error_code{}, response);
+        });
+
+    sentRequests.clear();
+    ASSERT_TRUE(setSpeedLimit(pathFor(name), "RequestedSpeedLimitMaxHz",
+                              1500ULL * mhzToHz)
+                    .succeeded);
+    ASSERT_TRUE(pumpIoUntil(
+        [this] {
+            return countRequests(
+                       gpu::PlatformEnvironmentalCommands::SET_CLOCK_LIMIT) > 0;
+        },
+        pumpTimeout));
+
+    const SetResult result = callReset(pathFor(name));
+    EXPECT_FALSE(result.succeeded);
+    EXPECT_EQ(result.errorName, "xyz.openbmc_project.Common.Error.Unavailable");
+}
+
+// Reset — a debounced write that has not been dispatched yet must not survive
+// the clear and re-apply the user's limit behind Reset's back.
+
+TEST_F(NvidiaGpuClockSpeedControlTest, ResetDiscardsPendingSet)
+{
+    const std::string name = "clk_reset_pending";
+    const auto control = createControl(name, createInventory(name));
+    sentRequests.clear();
+
+    ASSERT_TRUE(setSpeedLimit(pathFor(name), "RequestedSpeedLimitMaxHz",
+                              1500ULL * mhzToHz)
+                    .succeeded);
+
+    const SetResult result = callReset(pathFor(name));
+    ASSERT_TRUE(result.succeeded) << result.errorName;
+
+    // Let the debounce window the write armed expire before counting.
+    pumpIoUntil([] { return false; }, std::chrono::seconds{1});
+
+    EXPECT_EQ(
+        countRequests(gpu::PlatformEnvironmentalCommands::SET_CLOCK_LIMIT), 1U);
+
+    const SetClockLimitFields fields = decodeSetClockLimitRequest(
+        lastRequest(gpu::PlatformEnvironmentalCommands::SET_CLOCK_LIMIT));
+    EXPECT_EQ(fields.flag, static_cast<uint8_t>(gpu::ClockLimitFlag::CLEAR));
+}
+
+// Reset — a failed Reset must release the gate, so a later Reset still runs.
+
+TEST_F(NvidiaGpuClockSpeedControlTest, ResetFailureDoesNotBlockLaterReset)
+{
+    const std::string name = "clk_reset_err";
+    const auto control = createControl(name, createInventory(name));
+
+    bool failNextSet = true;
+    ON_CALL(mctpMock, sendRecvMsg)
+        .WillByDefault([this, &failNextSet](uint8_t /*eid*/,
+                                            std::span<const uint8_t> request,
+                                            auto callback) {
+            sentRequests.emplace_back(request.begin(), request.end());
+            if (commandOf(request) ==
+                    static_cast<uint8_t>(
+                        gpu::PlatformEnvironmentalCommands::SET_CLOCK_LIMIT) &&
+                failNextSet)
+            {
+                failNextSet = false;
+                callback(std::make_error_code(std::errc::timed_out), {});
+                return;
+            }
+            const std::vector<uint8_t> response = buildReply(request);
+            callback(std::error_code{}, response);
+        });
+
+    sentRequests.clear();
+    EXPECT_FALSE(callReset(pathFor(name)).succeeded);
+
+    const SetResult second = callReset(pathFor(name));
+    EXPECT_TRUE(second.succeeded) << second.errorName;
+    EXPECT_EQ(
+        countRequests(gpu::PlatformEnvironmentalCommands::SET_CLOCK_LIMIT), 2U);
 }
 
 // Destructor

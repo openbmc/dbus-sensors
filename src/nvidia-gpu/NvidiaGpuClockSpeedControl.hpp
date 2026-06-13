@@ -11,13 +11,16 @@
 #include <NvidiaGpuMctpVdm.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/steady_timer.hpp>
+#include <sdbusplus/asio/completion.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
 #include <array>
 #include <cstdint>
 #include <memory>
 #include <optional>
+#include <span>
 #include <string>
+#include <system_error>
 
 class NvidiaGpuClockSpeedControl :
     public std::enable_shared_from_this<NvidiaGpuClockSpeedControl>
@@ -32,6 +35,11 @@ class NvidiaGpuClockSpeedControl :
     ~NvidiaGpuClockSpeedControl();
 
     void update();
+
+    // Backs the Control.OperatingClockSpeed Reset method. Queues an NSM
+    // SET_CLOCK_LIMIT (CLEAR) request and completes the deferred reply once
+    // the device responds. Synchronous failures throw an sd-bus error.
+    void reset(sdbusplus::asio::completion<> done);
 
   private:
     void sendGetClockLimitRequest();
@@ -54,6 +62,17 @@ class NvidiaGpuClockSpeedControl :
     void sendSetClockLimitRequest(uint32_t limitMinMHz, uint32_t limitMaxMHz);
     void handleSetClockLimitResponse(const std::error_code& ec,
                                      std::span<const uint8_t> buffer);
+
+    void completeReset(const std::error_code& ec,
+                       std::span<const uint8_t> buffer,
+                       sdbusplus::asio::completion<> done);
+
+    // The debounced set path and Reset both issue SET_CLOCK_LIMIT to the same
+    // device, so they share one gate: neither may start while the other is
+    // outstanding. The two flags stay separate because they cover different
+    // windows -- a Reset is one round trip, a set is held through its
+    // read-back.
+    bool clockLimitBusy() const;
 
     std::shared_ptr<sdbusplus::asio::dbus_interface> controlClockSpeedInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> associationInterface;
@@ -81,8 +100,10 @@ class NvidiaGpuClockSpeedControl :
     sdbusplus::asio::object_server& objectServer;
     boost::asio::steady_timer setLimitTimer;
     uint8_t eid;
+    bool resetInFlight{false};
     std::array<uint8_t, gpu::getClockLimitRequestSize> requestBuffer{};
     bool requestEncoded{false};
     std::array<uint8_t, gpu::setClockLimitRequestSize>
         setClockLimitRequestBuffer{};
+    std::array<uint8_t, gpu::setClockLimitRequestSize> resetRequestBuffer{};
 };

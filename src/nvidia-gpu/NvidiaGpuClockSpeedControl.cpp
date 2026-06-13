@@ -14,9 +14,13 @@
 #include <OcpMctpVdm.hpp>
 #include <boost/asio/error.hpp>
 #include <boost/asio/io_context.hpp>
+#include <boost/system/errc.hpp>
+#include <boost/system/error_code.hpp>
 #include <phosphor-logging/lg2.hpp>
+#include <sdbusplus/asio/completion.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/message/native_types.hpp>
+#include <xyz/openbmc_project/Common/Device/error.hpp>
 #include <xyz/openbmc_project/Common/error.hpp>
 
 #include <chrono>
@@ -99,6 +103,10 @@ NvidiaGpuClockSpeedControl::NvidiaGpuClockSpeedControl(
             &NvidiaGpuClockSpeedControl::handleRequestedSpeedLimitMinHzSet,
             this),
         [this](uint64_t&) { return requestedMinHz; });
+
+    controlClockSpeedInterface->register_completion_method(
+        "Reset",
+        [this](sdbusplus::asio::completion<> done) { reset(std::move(done)); });
 
     if (!controlClockSpeedInterface->initialize())
     {
@@ -306,11 +314,17 @@ void NvidiaGpuClockSpeedControl::armSetLimitTimer()
         });
 }
 
+bool NvidiaGpuClockSpeedControl::clockLimitBusy() const
+{
+    return setClockLimitInflight || resetInFlight;
+}
+
 void NvidiaGpuClockSpeedControl::applyPendingClockLimit()
 {
-    if (setClockLimitInflight)
+    if (clockLimitBusy())
     {
-        // A previous SetClockLimit is still in flight; retry once it lands.
+        // A previous SetClockLimit or a Reset is still in flight; retry once
+        // it lands.
         armSetLimitTimer();
         return;
     }
@@ -393,4 +407,81 @@ void NvidiaGpuClockSpeedControl::handleSetClockLimitResponse(
     }
     setClockLimitReadbackPending = true;
     sendGetClockLimitRequest();
+}
+
+void NvidiaGpuClockSpeedControl::reset(sdbusplus::asio::completion<> done)
+{
+    if (clockLimitBusy())
+    {
+        throw sdbusplus::error::xyz::openbmc_project::common::Unavailable();
+    }
+
+    int rc = gpu::encodeSetClockLimitRequest(
+        0, gpu::ClockType::GRAPHICS_CLOCK, gpu::ClockLimitFlag::CLEAR, 0, 0,
+        resetRequestBuffer);
+    if (rc != 0)
+    {
+        lg2::error("Failed to encode clock limit reset for {NAME}: rc={RC}",
+                   "NAME", name, "RC", rc);
+        throw sdbusplus::error::xyz::openbmc_project::common::device::
+            WriteFailure();
+    }
+
+    // A queued set would re-apply a user limit right after the clear, so
+    // discard it: Reset restores the factory default. The cancelled timer's
+    // waiter returns on operation_aborted.
+    setLimitTimer.cancel();
+    pendingMinHz.reset();
+    pendingMaxHz.reset();
+
+    resetInFlight = true;
+    mctpRequester.sendRecvMsg(
+        eid, resetRequestBuffer,
+        [weak{weak_from_this()},
+         done = std::move(done)](const std::error_code& ec,
+                                 std::span<const uint8_t> buffer) mutable {
+            auto self = weak.lock();
+            if (!self)
+            {
+                lg2::error("Invalid NvidiaGpuClockSpeedControl reference");
+                done(boost::asio::error::operation_aborted);
+                return;
+            }
+            self->completeReset(ec, buffer, std::move(done));
+        });
+}
+
+void NvidiaGpuClockSpeedControl::completeReset(
+    const std::error_code& ec, std::span<const uint8_t> buffer,
+    sdbusplus::asio::completion<> done)
+{
+    resetInFlight = false;
+
+    if (ec)
+    {
+        lg2::error(
+            "Error resetting clock limit for {NAME}: MCTP failed, rc={RC}",
+            "NAME", name, "RC", ec.message());
+        done(boost::system::errc::make_error_code(
+            boost::system::errc::io_error));
+        return;
+    }
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode = 0;
+
+    int rc = gpu::decodeSetClockLimitResponse(buffer, cc, reasonCode);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        lg2::error(
+            "Error decoding clock limit reset for {NAME}: rc={RC}, cc={CC}, reasonCode={REASON}",
+            "NAME", name, "RC", rc, "CC", static_cast<uint8_t>(cc), "REASON",
+            reasonCode);
+        done(boost::system::errc::make_error_code(
+            boost::system::errc::protocol_error));
+        return;
+    }
+
+    done(boost::system::error_code{}); // success
 }
