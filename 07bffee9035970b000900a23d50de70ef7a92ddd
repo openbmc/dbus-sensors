@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39e3a01d_ee49e2ba",
+        "filename": "src/nvidia-gpu/NvidiaDriverInformation.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-06-13T17:33:42Z",
+      "side": 1,
+      "message": "Due to the same reason in the parent patch, can we move this initialization to the initializer list?",
+      "range": {
+        "startLine": 34,
+        "startChar": 4,
+        "endLine": 34,
+        "endChar": 70
+      },
+      "revId": "07bffee9035970b000900a23d50de70ef7a92ddd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57fb9128_014e2747",
+        "filename": "src/nvidia-gpu/NvidiaDriverInformation.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-06-13T17:33:42Z",
+      "side": 1,
+      "message": "I think we can remove this and let the code itself take care of it.",
+      "range": {
+        "startLine": 112,
+        "startChar": 4,
+        "endLine": 116,
+        "endChar": 0
+      },
+      "revId": "07bffee9035970b000900a23d50de70ef7a92ddd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ecf4d15_69311444",
+        "filename": "src/nvidia-gpu/NvidiaDriverInformation.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-06-13T17:33:42Z",
+      "side": 1,
+      "message": "This can be declared as `const` if we initialize it in the initializer list.",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 42,
+        "endChar": 18
+      },
+      "revId": "07bffee9035970b000900a23d50de70ef7a92ddd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85e98f04_f08a60e1",
+        "filename": "src/nvidia-gpu/NvidiaDriverInformation.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-06-13T17:33:42Z",
+      "side": 1,
+      "message": "Please remove this.",
+      "range": {
+        "startLine": 44,
+        "startChar": 4,
+        "endLine": 44,
+        "endChar": 31
+      },
+      "revId": "07bffee9035970b000900a23d50de70ef7a92ddd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
