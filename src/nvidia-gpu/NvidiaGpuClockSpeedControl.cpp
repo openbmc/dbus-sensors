@@ -15,7 +15,10 @@
 #include <OcpMctpVdm.hpp>
 #include <boost/asio/error.hpp>
 #include <boost/asio/io_context.hpp>
+#include <boost/system/errc.hpp>
+#include <boost/system/error_code.hpp>
 #include <phosphor-logging/lg2.hpp>
+#include <sdbusplus/asio/completion.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/message/native_types.hpp>
 
@@ -33,6 +36,8 @@
 
 static constexpr const char* controlClockSpeedIfaceName =
     "xyz.openbmc_project.Control.OperatingClockSpeed";
+static constexpr const char* controlResetToDefaultIfaceName =
+    "xyz.openbmc_project.Control.ResetToDefault";
 static constexpr const char* controlClockSpeedPrefix =
     "/xyz/openbmc_project/control/operatingclockspeed/";
 
@@ -60,6 +65,19 @@ NvidiaGpuClockSpeedControl::NvidiaGpuClockSpeedControl(
     {
         lg2::error("Failed to encode clock limit request for {NAME}: rc={RC}",
                    "NAME", name, "RC", rc);
+    }
+
+    const int resetRc = gpu::encodeSetClockLimitRequest(
+        0, gpu::ClockType::GRAPHICS_CLOCK, gpu::ClockLimitFlag::CLEAR, 0, 0,
+        resetRequestBuffer);
+    if (resetRc == 0)
+    {
+        resetEncoded = true;
+    }
+    else
+    {
+        lg2::error("Failed to encode clock limit reset for {NAME}: rc={RC}",
+                   "NAME", name, "RC", resetRc);
     }
 
     const sdbusplus::object_path inventoryPath = inventoryPrefix / name;
@@ -106,12 +124,28 @@ NvidiaGpuClockSpeedControl::NvidiaGpuClockSpeedControl(
             "Error initializing OperatingClockSpeed interface for {NAME}, eid={EID}",
             "NAME", name, "EID", eid);
     }
+
+    controlResetToDefaultInterface =
+        objectServer.add_interface(objPath.str, controlResetToDefaultIfaceName);
+    controlResetToDefaultInterface->register_completion_method(
+        "ResetToDefault",
+        [this](sdbusplus::asio::completion<> done) { reset(std::move(done)); });
+    controlResetToDefaultInterface->register_property(
+        "DefaultSetPoint", std::numeric_limits<double>::quiet_NaN(),
+        sdbusplus::asio::PropertyPermission::readOnly);
+    if (!controlResetToDefaultInterface->initialize())
+    {
+        lg2::error(
+            "Error initializing ResetToDefault interface for {NAME}, eid={EID}",
+            "NAME", name, "EID", eid);
+    }
 }
 
 NvidiaGpuClockSpeedControl::~NvidiaGpuClockSpeedControl()
 {
     objectServer.remove_interface(associationInterface);
     objectServer.remove_interface(controlClockSpeedInterface);
+    objectServer.remove_interface(controlResetToDefaultInterface);
 }
 
 void NvidiaGpuClockSpeedControl::update()
@@ -392,5 +426,65 @@ void NvidiaGpuClockSpeedControl::handleSetClockLimitResponse(
         return;
     }
     setClockLimitReadbackPending = true;
+    sendGetClockLimitRequest();
+}
+
+void NvidiaGpuClockSpeedControl::reset(sdbusplus::asio::completion<> done)
+{
+    if (!resetEncoded || resetInFlight)
+    {
+        throw Unavailable();
+    }
+
+    resetInFlight = true;
+    mctpRequester.sendRecvMsg(
+        eid, resetRequestBuffer,
+        [weak{weak_from_this()},
+         done = std::move(done)](const std::error_code& ec,
+                                 std::span<const uint8_t> buffer) mutable {
+            auto self = weak.lock();
+            if (!self)
+            {
+                lg2::error("Invalid NvidiaGpuClockSpeedControl reference");
+                done(boost::asio::error::operation_aborted);
+                return;
+            }
+            self->completeReset(ec, buffer, std::move(done));
+        });
+}
+
+void NvidiaGpuClockSpeedControl::completeReset(
+    const std::error_code& ec, std::span<const uint8_t> buffer,
+    sdbusplus::asio::completion<> done)
+{
+    resetInFlight = false;
+
+    if (ec)
+    {
+        lg2::error(
+            "Error resetting clock limit for {NAME}: MCTP failed, rc={RC}",
+            "NAME", name, "RC", ec.message());
+        done(boost::system::errc::make_error_code(
+            boost::system::errc::io_error));
+        return;
+    }
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode = 0;
+
+    int rc = gpu::decodeSetClockLimitResponse(buffer, cc, reasonCode);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        lg2::error(
+            "Error decoding clock limit reset for {NAME}: rc={RC}, cc={CC}, reasonCode={REASON}",
+            "NAME", name, "RC", rc, "CC", static_cast<uint8_t>(cc), "REASON",
+            reasonCode);
+        done(boost::system::errc::make_error_code(
+            boost::system::errc::protocol_error));
+        return;
+    }
+
+    done(boost::system::error_code{}); // success
     sendGetClockLimitRequest();
 }
