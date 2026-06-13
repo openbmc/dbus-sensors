@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "06168ffb_e320ab0e",
+        "filename": "src/nvidia-gpu/NvidiaPcieFunction.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-13T07:08:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebf19433_2c008b6a",
+      "revId": "5e6818c77843b0ea015bf1b9ddb6ba0efcf68a61",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0a2a4c30_a34f4341",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "18c081cc_18e0dd1b",
+        "filename": "src/nvidia-gpu/NvidiaPcieFunction.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-13T07:08:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a2a4c30_a34f4341",
+      "revId": "5e6818c77843b0ea015bf1b9ddb6ba0efcf68a61",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9aa68aab_d9489542",
@@ -48,6 +84,24 @@
       "writtenOn": "2026-06-12T08:30:24Z",
       "side": 1,
       "message": "Same problem here — activeRequest is assigned before the rc check in the ctor. Gate it on rc \u003d\u003d 0 like the others.\n\nSame pattern in the other three PCIe classes (NvidiaPcieInterface, NvidiaPciePort,\nNvidiaPciePortMetrics) — same fix applies to each.",
+      "revId": "5e6818c77843b0ea015bf1b9ddb6ba0efcf68a61",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5c56386_6f975ac5",
+        "filename": "src/nvidia-gpu/NvidiaPcieInterface.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-13T07:08:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9aa68aab_d9489542",
       "revId": "5e6818c77843b0ea015bf1b9ddb6ba0efcf68a61",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
