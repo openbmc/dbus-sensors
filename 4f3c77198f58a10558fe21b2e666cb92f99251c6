@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "01b3b795_e8fa5c7b",
+        "filename": "src/nvidia-gpu/NvidiaGpuLongRunningCommand.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-13T07:07:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9cd7b943_8ea856ef",
+      "revId": "4f3c77198f58a10558fe21b2e666cb92f99251c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff2e582c_40897c76",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "312aa518_88d320ab",
+        "filename": "src/nvidia-gpu/NvidiaGpuMemoryDevice.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-13T07:07:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff2e582c_40897c76",
+      "revId": "4f3c77198f58a10558fe21b2e666cb92f99251c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fec22301_2e8e9e85",
@@ -48,6 +84,24 @@
       "writtenOn": "2026-06-12T07:33:18Z",
       "side": 1,
       "message": "nit: the other classes in this patch use \"Failed to encode ...\"; consider matching that wording here for grep consistency.",
+      "revId": "4f3c77198f58a10558fe21b2e666cb92f99251c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd1ca462_c64e2370",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerControl.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-13T07:07:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fec22301_2e8e9e85",
       "revId": "4f3c77198f58a10558fe21b2e666cb92f99251c6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
