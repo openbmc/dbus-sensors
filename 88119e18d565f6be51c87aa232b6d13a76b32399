@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27ddae3f_0a41be2c",
+        "filename": "src/nvidia-gpu/NvidiaPcieFunction.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-06-14T11:06:58Z",
+      "side": 1,
+      "message": "If there is no interchanging case happens, I think we can simply make use of `const std::vector\u003cuint8_t\u003e` to store the encoded requests.",
+      "range": {
+        "startLine": 40,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 5
+      },
+      "revId": "88119e18d565f6be51c87aa232b6d13a76b32399",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44146580_2a396df2",
+        "filename": "src/nvidia-gpu/NvidiaPcieFunction.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-06-14T11:06:58Z",
+      "side": 1,
+      "message": "One interchangable case I can think of is that, the backend device performed firmware update at the daemon runtime.\n\nIn this case, the updated device could have switched to another version.\nHowever, I am not sure if we should also be handling that case here.\n\nIf we are going to handle that case here, obviously checking only `activeRequest.empty()` isn\u0027t enough here.",
+      "range": {
+        "startLine": 180,
+        "startChar": 4,
+        "endLine": 184,
+        "endChar": 0
+      },
+      "revId": "88119e18d565f6be51c87aa232b6d13a76b32399",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b63a196_b16ee394",
+        "filename": "src/nvidia-gpu/NvidiaPcieFunction.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-06-14T11:06:58Z",
+      "side": 1,
+      "message": "Why do we need to keep both v1 and v2 request but used only one of them at runtime?\nIs there a case where a given instance would possibly sending v1 and v2 request interchangingly?",
+      "range": {
+        "startLine": 50,
+        "startChar": 4,
+        "endLine": 56,
+        "endChar": 43
+      },
+      "revId": "88119e18d565f6be51c87aa232b6d13a76b32399",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
