@@ -3,6 +3,57 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dd33a78d_6a63a5c1",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-06-15T03:33:56Z",
+      "side": 1,
+      "message": "nit: consider extracting the 1s debounce into a named constant, e.g.\n`constexpr auto configSettleInterval \u003d std::chrono::seconds(1);`, so the magic number reads as intent.",
+      "revId": "c33155a8db2508aeb7bc8aeaa328287dc89236cc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33109cf5_e3b99b36",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-06-15T03:33:56Z",
+      "side": 1,
+      "message": "Consider adding default case here — an unknown deviceType is silently ignored.",
+      "revId": "c33155a8db2508aeb7bc8aeaa328287dc89236cc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ccad151_5498ff9b",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-06-15T03:33:56Z",
+      "side": 1,
+      "message": "nit: after this change the header no longer contains any discovery code — just SensorConfigs, the shared constants, and the forward decls. The \"DeviceDiscovery\" name is now stale. Worth a follow-up to rename it to something like NvidiaSensorConfig.hpp.",
+      "revId": "c33155a8db2508aeb7bc8aeaa328287dc89236cc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "404d8764_65a85577",
         "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.hpp",
         "patchSetId": 1
