@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe624c7d_6d978b15",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 1496,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-06-15T12:18:55Z",
+      "side": 1,
+      "message": "Is UnpackBuffer\u0027s handling of endianness is not sufficient that we have to handle it manually?",
+      "revId": "2e83b27e5e36036ce56d2d7264b2543d6be8ad01",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad8eb05d_09b0a43c",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 1510,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-06-15T12:18:55Z",
+      "side": 1,
+      "message": "Is UnpackBuffer\u0027s handling of endianness is not sufficient that we have to handle it manually?",
+      "revId": "2e83b27e5e36036ce56d2d7264b2543d6be8ad01",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3be70ed2_2682c569",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-06-15T12:18:55Z",
+      "side": 1,
+      "message": "Please add test cases for added functions in this file.",
+      "revId": "2e83b27e5e36036ce56d2d7264b2543d6be8ad01",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "213d21d7_c3cff082",
+        "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-06-15T12:18:55Z",
+      "side": 1,
+      "message": "To avoid malloc for each update, consider making this a member data of this class.",
+      "revId": "2e83b27e5e36036ce56d2d7264b2543d6be8ad01",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09a1084c_f6ee9930",
+        "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-06-15T12:18:55Z",
+      "side": 1,
+      "message": "Please add a comment at the Class definition that it only published reading from sensor index zero and ignores the rest of the sensor.",
+      "revId": "2e83b27e5e36036ce56d2d7264b2543d6be8ad01",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
