@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe8a859e_42261d4e",
+        "filename": "src/nvidia-gpu/NvidiaGpuClockFrequencyMetric.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-06-15T02:28:07Z",
+      "side": 1,
+      "message": "Why don\u0027t we use `sdbusplus::object_path()` here?",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 36,
+        "endChar": 80
+      },
+      "revId": "ba92073c5555149f1eadc4a0c76e4bf971229edd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "464f8301_eaf4bd23",
+        "filename": "src/nvidia-gpu/NvidiaGpuClockSpeedControl.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-06-15T02:28:07Z",
+      "side": 1,
+      "message": "Should we use `sdbusplus::object_path()` here as well?",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 36,
+        "endChar": 74
+      },
+      "revId": "ba92073c5555149f1eadc4a0c76e4bf971229edd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32a682b3_12775744",
+        "filename": "src/nvidia-gpu/NvidiaUtils.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-06-15T02:28:07Z",
+      "side": 1,
+      "message": "nit: Please make the order aligns with the others.\n`constexpr const char* metricPath \u003d \"/xyz/openbmc_project/metric/\";`.",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 66
+      },
+      "revId": "ba92073c5555149f1eadc4a0c76e4bf971229edd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
