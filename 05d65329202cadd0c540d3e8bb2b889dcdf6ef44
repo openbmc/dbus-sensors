@@ -34,6 +34,24 @@
       "parentUuid": "e000da0d_18acd83f",
       "revId": "05d65329202cadd0c540d3e8bb2b889dcdf6ef44",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42343d85_563e69de",
+        "filename": "src/nvidia-gpu/NvidiaGpuEnergySensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-15T04:46:13Z",
+      "side": 1,
+      "message": "I\u0027ve reverted the requestEncoded guard you suggested here, in favour of JY-Voon\u0027s approach in the sibling comments — the request is now a const member initialized in the constructor initializer list.\n\nReasoning: encode*Request() only returns non-zero when the output buffer is smaller than the packed bytes, but the buffer is a constexpr-sized std::array that matches the request size, so encode cannot fail at runtime. A size/encoder drift would be a build-time bug, not a runtime condition, so the guard was protecting a path that can\u0027t be hit in practice.\n\nIf you\u0027d still prefer a guard, could you and JY-Voon settle on a direction here? Happy to go either way once you two align.",
+      "parentUuid": "e7417811_4fcf18de",
+      "revId": "05d65329202cadd0c540d3e8bb2b889dcdf6ef44",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

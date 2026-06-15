@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbd3d158_9627434f",
+        "filename": "src/nvidia-gpu/NvidiaGpuEnergySensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-15T04:46:13Z",
+      "side": 1,
+      "message": "Done. Added value-returning encode*Request(...) overloads in NvidiaGpuMctpVdm. request is now a const member, and the requestEncoded flag and the update() guard are removed.",
+      "parentUuid": "7f47ae63_3ebadf6b",
+      "range": {
+        "startLine": 55,
+        "startChar": 4,
+        "endLine": 56,
+        "endChar": 72
+      },
+      "revId": "ca96a9e75527ed5a224ffe446e1ef196b5634072",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dbca7119_633fb790",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-06-13T17:13:05Z",
       "side": 1,
       "message": "I think we can remove this because the code itself should take care of it.\nThe encode function is relatively simple, and shouldn\u0027t have any unexpected error.",
+      "range": {
+        "startLine": 159,
+        "startChar": 4,
+        "endLine": 162,
+        "endChar": 5
+      },
+      "revId": "ca96a9e75527ed5a224ffe446e1ef196b5634072",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c51ff6cd_7684f920",
+        "filename": "src/nvidia-gpu/NvidiaGpuEnergySensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-15T04:46:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dbca7119_633fb790",
       "range": {
         "startLine": 159,
         "startChar": 4,
@@ -70,6 +118,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c56343b9_3ab9f6a5",
+        "filename": "src/nvidia-gpu/NvidiaGpuEnergySensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-15T04:46:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "198a1cdc_ccad845a",
+      "range": {
+        "startLine": 57,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 75
+      },
+      "revId": "ca96a9e75527ed5a224ffe446e1ef196b5634072",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "00c1dff1_69d34615",
@@ -83,6 +155,30 @@
       "writtenOn": "2026-06-13T17:13:05Z",
       "side": 1,
       "message": "I think we can remove this and make sure `request` to be initialized once the sensor class is declared.",
+      "range": {
+        "startLine": 59,
+        "startChar": 4,
+        "endLine": 59,
+        "endChar": 31
+      },
+      "revId": "ca96a9e75527ed5a224ffe446e1ef196b5634072",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a5bd573_72a4fc8c",
+        "filename": "src/nvidia-gpu/NvidiaGpuEnergySensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-15T04:46:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00c1dff1_69d34615",
       "range": {
         "startLine": 59,
         "startChar": 4,
