@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9194c3b_767db862",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-15T06:25:26Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "dd33a78d_6a63a5c1",
+      "revId": "c33155a8db2508aeb7bc8aeaa328287dc89236cc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "33109cf5_e3b99b36",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "280a0ace_73df0f3f",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-15T06:25:26Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "33109cf5_e3b99b36",
+      "revId": "c33155a8db2508aeb7bc8aeaa328287dc89236cc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0ccad151_5498ff9b",
@@ -48,6 +84,24 @@
       "writtenOn": "2026-06-15T03:33:56Z",
       "side": 1,
       "message": "nit: after this change the header no longer contains any discovery code — just SensorConfigs, the shared constants, and the forward decls. The \"DeviceDiscovery\" name is now stale. Worth a follow-up to rename it to something like NvidiaSensorConfig.hpp.",
+      "revId": "c33155a8db2508aeb7bc8aeaa328287dc89236cc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd35f496_f63ccdee",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-15T06:25:26Z",
+      "side": 1,
+      "message": "Agreed — after centralizing the discovery code, this header is just a leftover. Renamed it to NvidiaSensorConfig.hpp (only SensorConfigs + the shared constants) and trimmed its includes in this patch set.",
+      "parentUuid": "0ccad151_5498ff9b",
       "revId": "c33155a8db2508aeb7bc8aeaa328287dc89236cc",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -75,6 +129,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "30a4ec1b_1136d9b8",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-15T06:25:26Z",
+      "side": 1,
+      "message": "Thanks! I\u0027d rather not move SensorConfigs into DeviceManager.hpp — As Eric suggested, the cleaner fix is to rename this now-stale header to something lightweight like NvidiaSensorConfig.hpp (just SensorConfigs + the shared constants). I\u0027ll do that rename in a follow-up patch to keep this change focused on the centralization refactor.",
+      "parentUuid": "404d8764_65a85577",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 2
+      },
+      "revId": "c33155a8db2508aeb7bc8aeaa328287dc89236cc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "45945eee_4e831116",
@@ -88,6 +166,30 @@
       "writtenOn": "2026-06-14T12:20:50Z",
       "side": 1,
       "message": "These looked duplicated with what `DeviceManager.hpp` has defined. \nPlease consider remove these.",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 0
+      },
+      "revId": "c33155a8db2508aeb7bc8aeaa328287dc89236cc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9d56cc2_3b711cf9",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-15T06:25:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45945eee_4e831116",
       "range": {
         "startLine": 30,
         "startChar": 0,
