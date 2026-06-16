@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d94dc34c_595d94db",
+        "filename": "src/nvidia-gpu/NvidiaGpuClockSpeedControl.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-06-16T04:06:44Z",
+      "side": 1,
+      "message": "Consider use this error type or other specific type\ndone(boost::system::errc::make_error_code(boost::system::errc::io_error));",
+      "revId": "e3d21a7e408aca3b3daf1eec453033e1c8a043da",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "574c833e_9b8f698c",
+        "filename": "src/nvidia-gpu/NvidiaGpuClockSpeedControl.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-06-16T04:06:44Z",
+      "side": 1,
+      "message": "This branch only logs and falls through to done({}) at line 196 — a default error_code is falsy, so completion takes the success path and the caller is told it succeeded. The if (ec) branch above (173-181) correctly does done(err); return; — consider this branch should mirror it.",
+      "revId": "e3d21a7e408aca3b3daf1eec453033e1c8a043da",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a3aca07_d6d3927f",
+        "filename": "src/nvidia-gpu/NvidiaGpuClockSpeedControl.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-06-16T04:06:44Z",
+      "side": 1,
+      "message": "Consider like this follow:\nif (rc !\u003d 0 || cc !\u003d ocp::accelerator_management::CompletionCode::SUCCESS) {\n    lg2::error(\"...decode failed...\");\n    done(boost::system::errc::make_error_code(boost::system::errc::protocol_error));\n    return;\n}\ndone({});  // success",
+      "revId": "e3d21a7e408aca3b3daf1eec453033e1c8a043da",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
