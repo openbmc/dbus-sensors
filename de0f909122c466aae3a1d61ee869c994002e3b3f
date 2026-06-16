@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1754cfa_0bd511c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-06-16T02:40:50Z",
+      "side": 1,
+      "message": "Update the latest patch list, other look good to me.",
+      "revId": "de0f909122c466aae3a1d61ee869c994002e3b3f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
