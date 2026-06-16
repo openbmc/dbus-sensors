@@ -199,12 +199,18 @@ void TachSensor::handleResponse(const boost::system::error_code& err,
 
 void TachSensor::checkThresholds()
 {
-    bool status = thresholds::checkThresholds(this);
+    bool status = false;
 
-    if ((redundancy != nullptr) && *redundancy)
+    if (value > 0)
     {
-        (*redundancy)
-            ->update("/xyz/openbmc_project/sensors/fan_tach/" + name, !status);
+        status = thresholds::checkThresholds(this);
+
+        if ((redundancy != nullptr) && *redundancy)
+        {
+            (*redundancy)
+                ->update("/xyz/openbmc_project/sensors/fan_tach/" + name,
+                         !status);
+        }
     }
 
     bool curLed = !status;
