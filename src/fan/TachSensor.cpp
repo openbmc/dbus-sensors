@@ -165,6 +165,7 @@ void TachSensor::handleResponse(const boost::system::error_code& err,
             markAvailable(false);
             missing = true;
             pollTime = sensorFailedPollTimeMs;
+            seenPositiveReading = false;
         }
         itemIface->set_property("Present", !missing);
     }
@@ -199,15 +200,28 @@ void TachSensor::handleResponse(const boost::system::error_code& err,
 
 void TachSensor::checkThresholds()
 {
-    bool status = thresholds::checkThresholds(this);
+    bool status = false;
+    const bool positiveReading = value > 0;
+    const bool validForThreshold =
+        positiveReading || ((value == 0) && seenPositiveReading);
 
-    if ((redundancy != nullptr) && *redundancy)
+    if (positiveReading)
     {
-        (*redundancy)
-            ->update("/xyz/openbmc_project/sensors/fan_tach/" + name, !status);
+        seenPositiveReading = true;
+    }
+    if (validForThreshold)
+    {
+        status = thresholds::checkThresholds(this);
+
+        if ((redundancy != nullptr) && *redundancy)
+        {
+            (*redundancy)
+                ->update("/xyz/openbmc_project/sensors/fan_tach/" + name,
+                         !status);
+        }
     }
 
-    bool curLed = !status;
+    bool curLed = validForThreshold && !status;
     if (led && ledState != curLed)
     {
         ledState = curLed;

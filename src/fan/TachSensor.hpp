@@ -92,6 +92,7 @@ class TachSensor :
     std::string path;
     std::optional<std::string> led;
     bool ledState = false;
+    bool seenPositiveReading = false;
 
     void handleResponse(const boost::system::error_code& err, size_t bytesRead);
     void restartRead(size_t pollTime);
