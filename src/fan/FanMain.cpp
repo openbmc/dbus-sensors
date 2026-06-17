@@ -315,6 +315,12 @@ void createSensors(
 
             std::filesystem::path directory = path.parent_path();
             FanTypes fanType = getFanType(directory);
+            if (fanType >= FanTypes::max)
+            {
+                lg2::error("Invalid fanType index: {TYPE}", "TYPE",
+                           static_cast<int>(fanType));
+                continue;
+            }
             std::string cfgIntf = configInterfaceName(sensorTypes[fanType]);
 
             // convert to 0 based
