@@ -315,7 +315,17 @@ void createSensors(
 
             std::filesystem::path directory = path.parent_path();
             FanTypes fanType = getFanType(directory);
-            std::string cfgIntf = configInterfaceName(sensorTypes[fanType]);
+            // Defensive bounds check in case getFanType() ever returns a
+            // value that is outside the sensorTypes table.
+            const std::size_t fanTypeIndex = static_cast<std::size_t>(fanType);
+            if (fanTypeIndex >= sensorTypes.size())
+            {
+                lg2::error("Invalid fanType index: {TYPE} for {PATH}", "TYPE",
+                           static_cast<int>(fanType), "PATH", path.string());
+                continue;
+            }
+            std::string cfgIntf =
+                configInterfaceName(sensorTypes[fanTypeIndex]);
 
             // convert to 0 based
             size_t index = std::stoul(indexStr) - 1;
@@ -336,7 +346,7 @@ void createSensors(
 
                 baseConfiguration = &(*sensorBaseFind);
                 interfacePath = &path.str;
-                baseType = sensorTypes[fanType];
+                baseType = sensorTypes[fanTypeIndex];
 
                 auto findIndex = baseConfiguration->second.find("Index");
                 if (findIndex == baseConfiguration->second.end())
