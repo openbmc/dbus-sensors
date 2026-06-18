@@ -167,7 +167,7 @@ bool findPwmfanPath(unsigned int configPwmfanIndex,
             continue;
         }
 
-        if (link.filename().string() == pwmfanDevName)
+        if (link.filename().string().ends_with(pwmfanDevName))
         {
             pwmPath = path;
             return true;
