@@ -493,13 +493,13 @@ int main()
     static constexpr auto sensorTypes =
         std::to_array<std::string_view>({sensorType});
 
-    std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
+    std::vector<std::unique_ptr<sdbusplus::match>> matches =
         setupPropertiesChangedMatches(*systemBus, sensorTypes, eventHandler);
 
     if (initializeLanStatus(systemBus))
     {
         // add match to monitor lan status change
-        sdbusplus::bus::match_t lanStatusMatch(
+        sdbusplus::match lanStatusMatch(
             static_cast<sdbusplus::bus_t&>(*systemBus),
             "type='signal', member='PropertiesChanged',"
             "arg0namespace='org.freedesktop.network1.Link'",
@@ -507,7 +507,7 @@ int main()
 
         // add match to monitor entity manager signal about nic name config
         // change
-        sdbusplus::bus::match_t lanConfigMatch(
+        sdbusplus::match lanConfigMatch(
             static_cast<sdbusplus::bus_t&>(*systemBus),
             "type='signal', member='PropertiesChanged',path_namespace='" +
                 std::string(inventoryPath) + "',arg0namespace='" +
