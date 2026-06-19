@@ -43,7 +43,7 @@ struct CFMSensor : public Sensor, std::enable_shared_from_this<CFMSensor>
     uint64_t getMaxRpm(uint64_t cfmMax) const;
 
   private:
-    std::vector<sdbusplus::bus::match_t> matches;
+    std::vector<sdbusplus::match> matches;
     boost::container::flat_map<std::string, double> tachReadings;
     boost::container::flat_map<std::string, std::pair<double, double>>
         tachRanges;
@@ -78,7 +78,7 @@ struct ExitAirTempSensor :
   private:
     double lastReading = 0.0;
 
-    std::vector<sdbusplus::bus::match_t> matches;
+    std::vector<sdbusplus::match> matches;
     double inletTemp = std::numeric_limits<double>::quiet_NaN();
     boost::container::flat_map<std::string, double> powerReadings;
 

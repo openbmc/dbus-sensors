@@ -80,7 +80,7 @@ void MCTPDDevice::finaliseEndpoint(
 {
     const auto matchSpec =
         sdbusplus::bus::match::rules::interfacesRemovedAtPath(objpath);
-    removeMatch = std::make_unique<sdbusplus::bus::match_t>(
+    removeMatch = std::make_unique<sdbusplus::match>(
         *connection, matchSpec,
         std::bind_front(MCTPDDevice::onEndpointInterfacesRemoved,
                         weak_from_this(), objpath));

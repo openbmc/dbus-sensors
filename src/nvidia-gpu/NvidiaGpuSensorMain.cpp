@@ -80,12 +80,12 @@ int main()
                 std::ref(systemBus), std::ref(mctpRequester)));
         };
     std::array<std::string_view, 1> deviceTypes({deviceType});
-    std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
+    std::vector<std::unique_ptr<sdbusplus::match>> matches =
         setupPropertiesChangedMatches(*systemBus, deviceTypes, eventHandler);
 
     // Watch for entity-manager to remove configuration interfaces
     // so the corresponding sensors can be removed.
-    auto ifaceRemovedMatch = std::make_shared<sdbusplus::bus::match_t>(
+    auto ifaceRemovedMatch = std::make_shared<sdbusplus::match>(
         static_cast<sdbusplus::bus_t&>(*systemBus),
         sdbusplus::bus::match::rules::interfacesRemovedAtPath(
             std::string(inventoryPath)),
