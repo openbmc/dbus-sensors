@@ -347,6 +347,51 @@ void createSensors(
                     continue;
                 }
 
+                const SensorBaseConfigMap& baseConfigMap =
+                    findSensorCfg->second.config;
+
+                auto findOffset = baseConfigMap.find("OffsetValue");
+                if (findOffset != baseConfigMap.end())
+                {
+                    double rawOffset = std::visit(
+                        [](const auto& val) -> double {
+                            if constexpr (std::is_convertible_v<decltype(val),
+                                                                double>)
+                            {
+                                return static_cast<double>(val);
+                            }
+                            return 0.0;
+                        },
+                        findOffset->second);
+
+                    if (!pathStr.ends_with("_raw") &&
+                        thisSensorParameters.typeName == "temperature")
+                    {
+                        thisSensorParameters.offsetValue = rawOffset * 1000.0;
+                    }
+                    else
+                    {
+                        thisSensorParameters.offsetValue = rawOffset;
+                    }
+                }
+
+                auto findScale = baseConfigMap.find("ScaleValue");
+                if (findScale != baseConfigMap.end())
+                {
+                    double rawScale = std::visit(
+                        [](const auto& val) -> double {
+                            if constexpr (std::is_convertible_v<decltype(val),
+                                                                double>)
+                            {
+                                return static_cast<double>(val);
+                            }
+                            return 1.0;
+                        },
+                        findScale->second);
+
+                    thisSensorParameters.scaleValue *= rawScale;
+                }
+
                 const std::string& interfacePath =
                     findSensorCfg->second.sensorPath;
                 auto findI2CDev = devices.find(interfacePath);
@@ -371,8 +416,6 @@ void createSensors(
                 {
                     sensorType = sensorType.substr(pos + 1);
                 }
-                const SensorBaseConfigMap& baseConfigMap =
-                    findSensorCfg->second.config;
                 std::vector<std::string>& hwmonName =
                     findSensorCfg->second.name;
 
