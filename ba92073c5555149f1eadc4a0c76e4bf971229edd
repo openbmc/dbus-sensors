@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bc597bb_a90aef6e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-06-22T12:38:16Z",
+      "side": 1,
+      "message": "LGTM",
+      "revId": "ba92073c5555149f1eadc4a0c76e4bf971229edd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe8a859e_42261d4e",
@@ -38,6 +55,30 @@
       "side": 1,
       "message": "I don\u0027t think this change should have been made in this commit. \nI imagine there could be a future patch to change all path strings to `sdbusplus::object_path()`.",
       "parentUuid": "fe8a859e_42261d4e",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 36,
+        "endChar": 80
+      },
+      "revId": "ba92073c5555149f1eadc4a0c76e4bf971229edd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be2287fc_262763e8",
+        "filename": "src/nvidia-gpu/NvidiaGpuClockFrequencyMetric.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-06-22T12:38:16Z",
+      "side": 1,
+      "message": "Sure!",
+      "parentUuid": "832f3871_31662d1a",
       "range": {
         "startLine": 36,
         "startChar": 4,
@@ -132,6 +173,30 @@
       "side": 1,
       "message": "I do it at https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/90634.",
       "parentUuid": "32a682b3_12775744",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 66
+      },
+      "revId": "ba92073c5555149f1eadc4a0c76e4bf971229edd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a4b1fca_6022a379",
+        "filename": "src/nvidia-gpu/NvidiaUtils.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-06-22T12:38:16Z",
+      "side": 1,
+      "message": "Thanks for acknowledging that!",
+      "parentUuid": "6cd8a5b8_34e21db0",
       "range": {
         "startLine": 8,
         "startChar": 0,
