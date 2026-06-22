@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5677d2e8_b9529686",
+        "filename": "src/nvidia-gpu/NvidiaGpuClockSpeedControl.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-06-22T09:04:44Z",
+      "side": 1,
+      "message": "Thanks for the acknowledging!\nI have modified the implementation and switched to `done(boost::system::errc::make_error_code(boost::system::errc::io_error))`",
+      "parentUuid": "d94dc34c_595d94db",
+      "revId": "e3d21a7e408aca3b3daf1eec453033e1c8a043da",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "574c833e_9b8f698c",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9d39a70_ede3a1ad",
+        "filename": "src/nvidia-gpu/NvidiaGpuClockSpeedControl.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-06-22T09:04:44Z",
+      "side": 1,
+      "message": "Thanks for the catching!\nI have reworked and have the bug fixed, the error handler is now perform completion differs from success case.",
+      "parentUuid": "574c833e_9b8f698c",
+      "revId": "e3d21a7e408aca3b3daf1eec453033e1c8a043da",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2a3aca07_d6d3927f",
@@ -48,6 +84,24 @@
       "writtenOn": "2026-06-16T04:06:44Z",
       "side": 1,
       "message": "Consider like this follow:\nif (rc !\u003d 0 || cc !\u003d ocp::accelerator_management::CompletionCode::SUCCESS) {\n    lg2::error(\"...decode failed...\");\n    done(boost::system::errc::make_error_code(boost::system::errc::protocol_error));\n    return;\n}\ndone({});  // success",
+      "revId": "e3d21a7e408aca3b3daf1eec453033e1c8a043da",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02517a24_93a270ca",
+        "filename": "src/nvidia-gpu/NvidiaGpuClockSpeedControl.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-06-22T09:04:44Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "2a3aca07_d6d3927f",
       "revId": "e3d21a7e408aca3b3daf1eec453033e1c8a043da",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
