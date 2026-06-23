@@ -34,6 +34,7 @@
 #include <sdbusplus/bus.hpp>
 #include <sdbusplus/bus/match.hpp>
 #include <sdbusplus/message.hpp>
+#include <sdbusplus/message/native_types.hpp>
 
 #include <array>
 #include <chrono>
@@ -322,7 +323,7 @@ void createSensors(
 
             std::string_view baseType;
             const SensorData* sensorData = nullptr;
-            const std::string* interfacePath = nullptr;
+            const sdbusplus::object_path* interfacePath = nullptr;
             const SensorBaseConfiguration* baseConfiguration = nullptr;
             for (const auto& [path, cfgData] : sensorConfigurations)
             {
@@ -335,7 +336,7 @@ void createSensors(
                 }
 
                 baseConfiguration = &(*sensorBaseFind);
-                interfacePath = &path.str;
+                interfacePath = &path;
                 baseType = sensorTypes[fanType];
 
                 auto findIndex = baseConfiguration->second.find("Index");

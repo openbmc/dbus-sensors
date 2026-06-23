@@ -35,7 +35,7 @@ auto SystemdInterface::startUnit(sdbusplus::async::context& ctx,
                                                           sysdUnit, "replace");
 
         debug("Started {UNIT} with {JOBID}", "UNIT", sysdUnit, "JOBID",
-              jobObjectPath.str);
+              jobObjectPath);
     }
     catch (const std::exception& e)
     {

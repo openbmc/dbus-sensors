@@ -32,6 +32,7 @@
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/bus/match.hpp>
 #include <sdbusplus/message.hpp>
+#include <sdbusplus/message/native_types.hpp>
 
 #include <algorithm>
 #include <array>
@@ -243,7 +244,7 @@ bool createSensors(boost::asio::io_context& io,
 
         std::string sensorType;
         const SensorData* sensorData = nullptr;
-        const std::string* interfacePath = nullptr;
+        const sdbusplus::object_path* interfacePath = nullptr;
         const SensorBaseConfiguration* baseConfiguration = nullptr;
 
         for (const auto& [path, cfgData] : sensorConfigs)
@@ -283,7 +284,7 @@ bool createSensors(boost::asio::io_context& io,
                 continue;
             }
 
-            interfacePath = &path.str;
+            interfacePath = &path;
             break;
         }
         if (interfacePath == nullptr)

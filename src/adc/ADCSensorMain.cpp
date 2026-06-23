@@ -123,7 +123,7 @@ void createSensors(
                 size_t index = std::stoul(indexStr) - 1;
 
                 const SensorData* sensorData = nullptr;
-                const std::string* interfacePath = nullptr;
+                const sdbusplus::object_path* interfacePath = nullptr;
                 const std::pair<std::string, SensorBaseConfigMap>*
                     baseConfiguration = nullptr;
                 for (const auto& [path, cfgData] : sensorConfigurations)
@@ -164,7 +164,7 @@ void createSensors(
                     }
 
                     sensorData = &cfgData;
-                    interfacePath = &path.str;
+                    interfacePath = &path;
                     break;
                 }
                 if (sensorData == nullptr)

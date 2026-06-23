@@ -461,7 +461,7 @@ static void createSensorsCallback(
 
         const SensorBaseConfigMap* baseConfig = nullptr;
         const SensorData* sensorData = nullptr;
-        const std::string* interfacePath = nullptr;
+        const sdbusplus::object_path* interfacePath = nullptr;
         std::string sensorType;
         size_t thresholdConfSize = 0;
 
@@ -521,7 +521,7 @@ static void createSensorsCallback(
             }
             thresholdConfSize = confThresholds.size();
 
-            interfacePath = &path.str;
+            interfacePath = &path;
             break;
         }
         if (interfacePath == nullptr)
