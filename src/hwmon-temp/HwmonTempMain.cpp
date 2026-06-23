@@ -229,7 +229,7 @@ static SensorConfigMap buildSensorConfigMap(
             if ((std::get_if<uint64_t>(&busCfg->second) == nullptr) ||
                 (std::get_if<uint64_t>(&addrCfg->second) == nullptr))
             {
-                lg2::error("'{PATH}' Bus or Address invalid", "PATH", path.str);
+                lg2::error("'{PATH}' Bus or Address invalid", "PATH", path);
                 continue;
             }
 
@@ -246,15 +246,14 @@ static SensorConfigMap buildSensorConfigMap(
 
             SensorConfigKey key = {std::get<uint64_t>(busCfg->second),
                                    std::get<uint64_t>(addrCfg->second)};
-            SensorConfig val = {path.str, cfgData, intf, cfg,
+            SensorConfig val = {path, cfgData, intf, cfg,
                                 std::move(hwmonNames)};
             auto [it, inserted] = configMap.emplace(key, std::move(val));
             if (!inserted)
             {
                 lg2::error(
                     "'{PATH}': ignoring duplicate entry for '{BUS}', '{ADDR}'",
-                    "PATH", path.str, "BUS", key.bus, "ADDR", lg2::hex,
-                    key.addr);
+                    "PATH", path, "BUS", key.bus, "ADDR", lg2::hex, key.addr);
             }
         }
     }

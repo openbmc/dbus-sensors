@@ -134,7 +134,7 @@ static void removeInventory(const std::shared_ptr<MCTPReactor>& reactor,
     {
         if (I2CMCTPDDevice::match(removed) || I3CMCTPDDevice::match(removed))
         {
-            reactor->unmanageMCTPDevice(path.str);
+            reactor->unmanageMCTPDevice(path);
         }
     }
     catch (const std::logic_error& e)

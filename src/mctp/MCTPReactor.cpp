@@ -7,6 +7,7 @@
 #include <boost/system/detail/error_code.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <phosphor-logging/lg2/flags.hpp>
+#include <sdbusplus/message/native_types.hpp>
 
 #include <memory>
 #include <optional>
@@ -294,7 +295,7 @@ void MCTPReactor::manageMCTPDevice(const std::string& path,
     }
 }
 
-void MCTPReactor::unmanageMCTPDevice(const std::string& path)
+void MCTPReactor::unmanageMCTPDevice(const sdbusplus::object_path& path)
 {
     auto device = devices.deviceFor(path);
     if (!device)
