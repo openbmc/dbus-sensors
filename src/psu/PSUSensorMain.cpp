@@ -63,7 +63,7 @@
 #include <variant>
 #include <vector>
 
-static std::regex devRegex(R"((\/i[23]c\-\d+\/\d+-[a-fA-F0-9]{4,4})(\/|$))");
+static std::regex devRegex(R"((\/i[23]c\-\d+\/\d+-[a-fA-F0-9]{4,12})(\/|$))");
 
 static constexpr auto sensorTypes = std::to_array<
     std::pair<std::string_view, I2CDeviceType>>({
@@ -450,8 +450,8 @@ static void createSensorsCallback(
             devType = DevTypes::IIO;
         }
 
-        size_t bus = 0;
-        size_t addr = 0;
+        uint64_t bus = 0;
+        uint64_t addr = 0;
         if (!getDeviceBusAddr(deviceName, bus, addr))
         {
             continue;
