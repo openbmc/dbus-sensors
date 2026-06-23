@@ -20,7 +20,7 @@ auto Events::generateLeakEvent(sdbusplus::object_path detectorPath,
                                config::DetectorLevel level)
     -> sdbusplus::async::task<>
 {
-    auto eventName = std::make_tuple(detectorPath.str, level);
+    auto eventName = std::make_tuple(detectorPath, level);
 
     // NOLINTNEXTLINE(clang-analyzer-core.uninitialized.Branch)
     if (state == DetectorStateIntf::DetectorState::Normal)

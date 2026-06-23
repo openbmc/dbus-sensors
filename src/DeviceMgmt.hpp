@@ -111,7 +111,7 @@ boost::container::flat_map<std::string,
             if (sensorName == nullptr)
             {
                 lg2::info("Unable to find '{NAME}' on '{PATH}'", "NAME", name,
-                          "PATH", path.str);
+                          "PATH", path);
                 continue;
             }
 
@@ -128,8 +128,7 @@ boost::container::flat_map<std::string,
             if (findSensor != nullptr && findSensor->isActive())
             {
                 devices.emplace(
-                    path.str,
-                    std::make_pair(findSensor->getI2CDevice(), false));
+                    path, std::make_pair(findSensor->getI2CDevice(), false));
                 continue;
             }
 
@@ -148,16 +147,15 @@ boost::container::flat_map<std::string,
                 if (params->devicePresent())
                 {
                     lg2::info("Clearing out previous instance for '{PATH}'",
-                              "PATH", path.str);
+                              "PATH", path);
                     I2CDevice tmp(*params);
                 }
 
                 try
                 {
                     devices.emplace(
-                        path.str,
-                        std::make_pair(std::make_shared<I2CDevice>(*params),
-                                       true));
+                        path, std::make_pair(
+                                  std::make_shared<I2CDevice>(*params), true));
                 }
                 catch (std::runtime_error&)
                 {

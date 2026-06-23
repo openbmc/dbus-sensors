@@ -39,12 +39,12 @@ auto DetectionManager::processInventoryRemoved(
     const sdbusplus::object_path& objectPath, const std::string& /*unused*/)
     -> void
 {
-    if (!detectors.contains(objectPath.str))
+    if (!detectors.contains(objectPath))
     {
         return;
     }
     debug("Removed detector {DETECTOR}", "DETECTOR", objectPath);
-    detectors.erase(objectPath.str);
+    detectors.erase(objectPath);
 }
 
 auto DetectionManager::processConfigAddedAsync(
@@ -57,7 +57,7 @@ auto DetectionManager::processConfigAddedAsync(
     }
     auto config = res.value();
 
-    if (detectors.contains(objectPath.str))
+    if (detectors.contains(objectPath))
     {
         warning("Detector {DETECTOR} already exist", "DETECTOR", config.name);
         co_return;
@@ -65,7 +65,7 @@ auto DetectionManager::processConfigAddedAsync(
 
     try
     {
-        detectors[objectPath.str] =
+        detectors[objectPath] =
             std::make_unique<GPIODetector>(ctx, leakEvents, config);
     }
     catch (std::exception& e)
@@ -82,10 +82,13 @@ auto DetectionManager::getDetectorConfig(sdbusplus::object_path objectPath)
 {
     config::DetectorConfig config = {};
 
+    // TODO: fix up async client to handle object_path parameter
+    const std::string pathStr = objectPath.string();
+
     auto properties =
         co_await GPIODetectorConfigIntf(ctx)
             .service(entity_manager::EntityManagerInterface::serviceName)
-            .path(objectPath.str)
+            .path(pathStr)
             .properties();
 
     config.name = properties.name;
@@ -131,8 +134,7 @@ auto DetectionManager::getDetectorConfig(sdbusplus::object_path objectPath)
         co_return std::nullopt;
     }
 
-    config.parentInventoryPath =
-        std::filesystem::path(objectPath.str).parent_path().string();
+    config.parentInventoryPath = objectPath.parent_path();
 
     debug(
         "Detector config: {NAME} {PIN_NAME} {POLARITY} {LEVEL} {INVENTORY_PATH}",
