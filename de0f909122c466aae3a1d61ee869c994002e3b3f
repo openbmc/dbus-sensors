@@ -16,6 +16,24 @@
       "message": "Update the latest patch list, other look good to me.",
       "revId": "de0f909122c466aae3a1d61ee869c994002e3b3f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3db04b6_5654e433",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-23T03:13:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1754cfa_0bd511c6",
+      "revId": "de0f909122c466aae3a1d61ee869c994002e3b3f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
