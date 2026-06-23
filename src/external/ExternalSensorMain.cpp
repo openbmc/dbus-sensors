@@ -165,7 +165,7 @@ void createSensors(
             for (const std::pair<sdbusplus::object_path, SensorData>& sensor :
                  sensorConfigurations)
             {
-                const std::string& interfacePath = sensor.first.str;
+                const sdbusplus::object_path& interfacePath = sensor.first;
                 const SensorData& sensorData = sensor.second;
 
                 auto sensorBase =

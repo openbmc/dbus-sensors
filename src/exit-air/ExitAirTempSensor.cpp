@@ -867,7 +867,7 @@ void createSensor(sdbusplus::asio::object_server& objectServer,
                             loadVariant<std::string>(cfg, "Name");
                         exitAirSensor = nullptr;
                         exitAirSensor = std::make_shared<ExitAirTempSensor>(
-                            dbusConnection, name, path.str, objectServer,
+                            dbusConnection, name, path.string(), objectServer,
                             std::move(sensorThresholds));
                         exitAirSensor->powerFactorMin =
                             loadVariant<double>(cfg, "PowerFactorMin");
@@ -888,7 +888,7 @@ void createSensor(sdbusplus::asio::object_server& objectServer,
                         std::string name =
                             loadVariant<std::string>(cfg, "Name");
                         auto sensor = std::make_shared<CFMSensor>(
-                            dbusConnection, name, path.str, objectServer,
+                            dbusConnection, name, path.string(), objectServer,
                             std::move(sensorThresholds), exitAirSensor);
                         loadVariantPathArray(cfg, "Tachs", sensor->tachs);
                         sensor->maxCFM = loadVariant<double>(cfg, "MaxCFM");
