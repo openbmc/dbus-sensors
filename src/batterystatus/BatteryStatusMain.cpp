@@ -141,7 +141,7 @@ int main()
 
         boost::container::flat_map<std::string, std::shared_ptr<BatteryStatus>>
             sensors;
-        std::vector<std::unique_ptr<sdbusplus::bus::match::match>> matches;
+        std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches;
         auto sensorsChanged =
             std::make_shared<boost::container::flat_set<std::string>>();
 
@@ -177,8 +177,8 @@ int main()
                     });
             };
 
-        auto match = std::make_unique<sdbusplus::bus::match::match>(
-            static_cast<sdbusplus::bus::bus&>(*systemBus),
+        auto match = std::make_unique<sdbusplus::bus::match_t>(
+            static_cast<sdbusplus::bus_t&>(*systemBus),
             "type='signal',member='PropertiesChanged',path_namespace='" +
                 std::string(inventoryPath) + "',arg0namespace='" +
                 configInterfaceName(sensorType) + "'",

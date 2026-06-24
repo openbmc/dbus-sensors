@@ -17,7 +17,6 @@
 #include <array>
 #include <chrono>
 #include <cstddef>
-#include <cstdint>
 #include <limits>
 #include <memory>
 #include <string>
@@ -28,11 +27,11 @@
 
 namespace thresholds
 {
-Level findThresholdLevel(uint8_t sev)
+Level findThresholdLevel(const std::string& sev)
 {
     for (const ThresholdDefinition& prop : thresProp)
     {
-        if (prop.sevOrder == sev)
+        if (prop.levelName == sev)
         {
             return prop.level;
         }
@@ -115,8 +114,15 @@ bool parseThresholdsFromConfig(
                 "INTERFACE", intf);
             return false;
         }
-        unsigned int severity =
-            std::visit(VariantToUnsignedIntVisitor(), severityFind->second);
+        if (!std::holds_alternative<std::string>(severityFind->second))
+        {
+            lg2::error(
+                "Threshold severity must be a string on configuration interface: '{INTERFACE}'",
+                "INTERFACE", intf);
+            continue;
+        }
+
+        std::string severity = std::get<std::string>(severityFind->second);
 
         std::string directions =
             std::visit(VariantToStringVisitor(), directionFind->second);
@@ -178,8 +184,16 @@ void persistThreshold(const std::string& path, const std::string& baseInterface,
                     lg2::error("Malformed threshold in configuration");
                     return;
                 }
-                unsigned int severity = std::visit(
-                    VariantToUnsignedIntVisitor(), severityFind->second);
+                if (!std::holds_alternative<std::string>(severityFind->second))
+                {
+                    lg2::error(
+                        "Threshold severity must be a string in configuration: '{INTERFACE}'",
+                        "INTERFACE", thresholdInterface);
+                    return;
+                }
+
+                std::string severity =
+                    std::get<std::string>(severityFind->second);
 
                 std::string dir =
                     std::visit(VariantToStringVisitor(), directionFind->second);
