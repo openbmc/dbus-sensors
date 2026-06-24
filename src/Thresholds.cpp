@@ -17,7 +17,6 @@
 #include <array>
 #include <chrono>
 #include <cstddef>
-#include <cstdint>
 #include <limits>
 #include <memory>
 #include <string>
@@ -28,11 +27,11 @@
 
 namespace thresholds
 {
-Level findThresholdLevel(uint8_t sev)
+Level findThresholdLevel(const std::string& sev)
 {
     for (const ThresholdDefinition& prop : thresProp)
     {
-        if (prop.sevOrder == sev)
+        if (prop.levelName == sev)
         {
             return prop.level;
         }
@@ -115,13 +114,19 @@ bool parseThresholdsFromConfig(
                 "INTERFACE", intf);
             return false;
         }
-        unsigned int severity =
-            std::visit(VariantToUnsignedIntVisitor(), severityFind->second);
+        const auto* severity = std::get_if<std::string>(&severityFind->second);
+        if (severity == nullptr)
+        {
+            lg2::error(
+                "Threshold severity must be a string on configuration interface: '{INTERFACE}'",
+                "INTERFACE", intf);
+            continue;
+        }
 
         std::string directions =
             std::visit(VariantToStringVisitor(), directionFind->second);
 
-        Level level = findThresholdLevel(severity);
+        Level level = findThresholdLevel(*severity);
         Direction direction = findThresholdDirection(directions);
 
         if ((level == Level::ERROR) || (direction == Direction::ERROR))
@@ -178,12 +183,19 @@ void persistThreshold(const std::string& path, const std::string& baseInterface,
                     lg2::error("Malformed threshold in configuration");
                     return;
                 }
-                unsigned int severity = std::visit(
-                    VariantToUnsignedIntVisitor(), severityFind->second);
+                const auto* severity =
+                    std::get_if<std::string>(&severityFind->second);
+                if (severity == nullptr)
+                {
+                    lg2::error(
+                        "Threshold severity must be a string in configuration: '{INTERFACE}'",
+                        "INTERFACE", thresholdInterface);
+                    return;
+                }
 
                 std::string dir =
                     std::visit(VariantToStringVisitor(), directionFind->second);
-                if ((findThresholdLevel(severity) != threshold.level) ||
+                if ((findThresholdLevel(*severity) != threshold.level) ||
                     (findThresholdDirection(dir) != threshold.direction))
                 {
                     return; // not the droid we're looking for
