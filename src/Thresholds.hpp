@@ -136,16 +136,15 @@ bool parseThresholdsFromAttr(
 struct ThresholdDefinition
 {
     Level level;
-    uint8_t sevOrder;
     const char* levelName;
 };
 
 constexpr static std::array<thresholds::ThresholdDefinition, 5> thresProp = {
-    {{Level::WARNING, 0, "Warning"},
-     {Level::CRITICAL, 1, "Critical"},
-     {Level::PERFORMANCELOSS, 2, "PerformanceLoss"},
-     {Level::SOFTSHUTDOWN, 3, "SoftShutdown"},
-     {Level::HARDSHUTDOWN, 4, "HardShutdown"}}};
+    {{Level::WARNING, "Warning"},
+     {Level::CRITICAL, "Critical"},
+     {Level::PERFORMANCELOSS, "PerformanceLoss"},
+     {Level::SOFTSHUTDOWN, "SoftShutdown"},
+     {Level::HARDSHUTDOWN, "HardShutdown"}}};
 
 std::string getInterface(Level level);
 
