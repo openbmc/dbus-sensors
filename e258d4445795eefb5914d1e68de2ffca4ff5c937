@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2fe203f5_2e5360e8",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerControl.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-06-24T05:48:30Z",
+      "side": 1,
+      "message": "Better to keep `persistentPowerLimit` in decode function. Callers can ignore it if they don\u0027t need it.",
+      "parentUuid": "403dffaa_b3236d4f",
+      "range": {
+        "startLine": 105,
+        "startChar": 4,
+        "endLine": 107,
+        "endChar": 23
+      },
+      "revId": "e258d4445795eefb5914d1e68de2ffca4ff5c937",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b723a099_196f5d55",
         "filename": "src/nvidia-gpu/NvidiaGpuPowerControl.cpp",
         "patchSetId": 6
