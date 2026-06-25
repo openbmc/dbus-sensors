@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe79453b_f62e2e48",
+        "filename": "src/nvidia-gpu/NvidiaPcieFunction.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-25T07:03:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27ddae3f_0a41be2c",
+      "range": {
+        "startLine": 40,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 5
+      },
+      "revId": "88119e18d565f6be51c87aa232b6d13a76b32399",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "44146580_2a396df2",
@@ -47,6 +71,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8bb3bd9_aa530775",
+        "filename": "src/nvidia-gpu/NvidiaPcieFunction.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-25T07:03:55Z",
+      "side": 1,
+      "message": "Handling runtime version switch would be a separate change (likely tied to MCTP re-discovery). Keeping it out of scope here.",
+      "parentUuid": "44146580_2a396df2",
+      "range": {
+        "startLine": 180,
+        "startChar": 4,
+        "endLine": 184,
+        "endChar": 0
+      },
+      "revId": "88119e18d565f6be51c87aa232b6d13a76b32399",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9b63a196_b16ee394",
@@ -60,6 +108,30 @@
       "writtenOn": "2026-06-14T11:06:58Z",
       "side": 1,
       "message": "Why do we need to keep both v1 and v2 request but used only one of them at runtime?\nIs there a case where a given instance would possibly sending v1 and v2 request interchangingly?",
+      "range": {
+        "startLine": 50,
+        "startChar": 4,
+        "endLine": 56,
+        "endChar": 43
+      },
+      "revId": "88119e18d565f6be51c87aa232b6d13a76b32399",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df5ed79e_adf9c487",
+        "filename": "src/nvidia-gpu/NvidiaPcieFunction.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-25T07:03:55Z",
+      "side": 1,
+      "message": "Good Catch. Done.",
+      "parentUuid": "9b63a196_b16ee394",
       "range": {
         "startLine": 50,
         "startChar": 4,
