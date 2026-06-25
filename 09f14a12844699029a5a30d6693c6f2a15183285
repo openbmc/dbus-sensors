@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b75b6550_b74fefa8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002720
+      },
+      "writtenOn": "2026-06-25T06:08:07Z",
+      "side": 1,
+      "message": "Thanks for the review. I have updated the code to address the comments in the latest patch set.",
+      "revId": "09f14a12844699029a5a30d6693c6f2a15183285",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
