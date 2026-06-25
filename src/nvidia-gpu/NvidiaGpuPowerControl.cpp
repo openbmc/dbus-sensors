@@ -63,10 +63,10 @@ NvidiaGpuPowerControl::NvidiaGpuPowerControl(
         "PowerCap", std::numeric_limits<uint32_t>::max(),
         std::bind_front(&NvidiaGpuPowerControl::handlePowerCapSet, this),
         [this](uint32_t&) { return powerCapValue; });
-    powerCapInterface->register_property<bool>(
-        "PowerCapEnable", false,
+    powerCapInterface->register_property<std::string>(
+        "PowerCapEnable", powerCapEnableUnknown,
         std::bind_front(&NvidiaGpuPowerControl::handlePowerCapEnableSet, this),
-        [this](bool&) { return powerCapEnabled; });
+        [this](std::string&) { return powerCapEnabled; });
     powerCapInterface->initialize();
 }
 
@@ -147,12 +147,15 @@ void NvidiaGpuPowerControl::handleGetPowerLimitsResponse(
             ? oneshotPowerLimit / milliwattsPerWatt
             : unsetPowerLimit;
 
-    // PowerCapEnable is true only when the one-shot cap is the limit
+    // PowerCapEnable is Enabled only when the one-shot cap is the limit
     // currently being enforced. Guard against the case where enforcedLimit
     // is the unset sentinel: a matching unset one-shot would otherwise
     // compare equal and incorrectly report the cap as enabled.
-    const bool newPowerCapEnabled = (enforcedLimit != unsetPowerLimit) &&
-                                    (oneshotPowerLimit == enforcedLimit);
+    const std::string newPowerCapEnabled =
+        ((enforcedLimit != unsetPowerLimit) &&
+         (oneshotPowerLimit == enforcedLimit))
+            ? powerCapEnableEnabled
+            : powerCapEnableDisabled;
 
     // Only emit PropertiesChanged when the value actually changes; this
     // handler runs on every poll.
@@ -208,13 +211,17 @@ int NvidiaGpuPowerControl::handlePowerCapSet(const uint32_t& newCap,
     return 1;
 }
 
-int NvidiaGpuPowerControl::handlePowerCapEnableSet(const bool& newEnable,
-                                                   bool& /*current*/)
+int NvidiaGpuPowerControl::handlePowerCapEnableSet(const std::string& newEnable,
+                                                   std::string& /*current*/)
 {
+    if (newEnable != powerCapEnableEnabled && newEnable != powerCapEnableDisabled)
+    {
+        throw sdbusplus::error::xyz::openbmc_project::common::InvalidArgument();
+    }
     // Record the requested enable state and arm the debounce timer. Do not
     // touch powerCapEnabled here: the D-Bus value is only updated from a
     // GetPowerLimits response.
-    pendingEnable = newEnable;
+    pendingEnable = (newEnable == powerCapEnableEnabled);
     armSetLimitTimer();
 
     return 1;
@@ -248,7 +255,8 @@ void NvidiaGpuPowerControl::applyPendingPowerLimit()
         return;
     }
 
-    const bool enable = pendingEnable.value_or(powerCapEnabled);
+    const bool enable = pendingEnable.value_or(
+        powerCapEnabled == powerCapEnableEnabled);
     const bool enableChanged = pendingEnable.has_value();
 
     // Snapshot the cap to enforce before clearing: prefer the explicitly
