@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33eb67bf_ae17511e",
+        "filename": "src/nvidia-gpu/NvidiaPcieDevice.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-25T09:10:08Z",
+      "side": 1,
+      "message": "please use the template of error log in https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/90593.\nChange `Interface` to `interface`. Thanks.",
+      "range": {
+        "startLine": 90,
+        "startChar": 45,
+        "endLine": 90,
+        "endChar": 54
+      },
+      "revId": "ff346e92d971bc594d8ff385125bed6aaf0eb05a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2511fb70_9cc4a947",
+        "filename": "src/nvidia-gpu/NvidiaPcieDevice.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-25T09:10:08Z",
+      "side": 1,
+      "message": "So do here.",
+      "range": {
+        "startLine": 97,
+        "startChar": 51,
+        "endLine": 97,
+        "endChar": 60
+      },
+      "revId": "ff346e92d971bc594d8ff385125bed6aaf0eb05a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
