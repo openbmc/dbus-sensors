@@ -46,7 +46,8 @@ class NvidiaGpuPowerControl :
 
     int handlePowerCapSet(const uint32_t& newCap, uint32_t& current);
 
-    int handlePowerCapEnableSet(const bool& newEnable, bool& current);
+    int handlePowerCapEnableSet(const std::string& newEnable,
+                                std::string& current);
 
     // Coalesce the PowerCap and PowerCapEnable writes that make up a single
     // PATCH into one SetPowerLimits: each setter arms a short debounce timer
@@ -65,12 +66,22 @@ class NvidiaGpuPowerControl :
     std::shared_ptr<sdbusplus::asio::dbus_interface> associationInterface;
     std::shared_ptr<Inventory> inventory;
 
+    static constexpr const char* powerCapEnableUnknown =
+        "xyz.openbmc_project.Control.Power.Cap"
+        ".PowerCapEnableState.Unknown";
+    static constexpr const char* powerCapEnableEnabled =
+        "xyz.openbmc_project.Control.Power.Cap"
+        ".PowerCapEnableState.Enabled";
+    static constexpr const char* powerCapEnableDisabled =
+        "xyz.openbmc_project.Control.Power.Cap"
+        ".PowerCapEnableState.Disabled";
+
     // powerCapValue / powerCapEnabled mirror the device and are only updated
     // from a GetPowerLimits response. requestedPowerCapWatts and pendingEnable
     // hold the cap / enable requested in the current debounce burst; both are
     // consumed and cleared when applyPendingPowerLimit dispatches.
     uint32_t powerCapValue{std::numeric_limits<uint32_t>::max()};
-    bool powerCapEnabled{false};
+    std::string powerCapEnabled{powerCapEnableUnknown};
     std::optional<uint32_t> requestedPowerCapWatts;
     std::optional<bool> pendingEnable;
     bool setPowerLimitInflight{false};
