@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "25d97b5e_8b168c5d",
+        "filename": "src/nvidia-gpu/NvidiaDriverInformation.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-25T06:02:24Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "39e3a01d_ee49e2ba",
+      "range": {
+        "startLine": 34,
+        "startChar": 4,
+        "endLine": 34,
+        "endChar": 70
+      },
+      "revId": "07bffee9035970b000900a23d50de70ef7a92ddd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "57fb9128_014e2747",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-06-13T17:33:42Z",
       "side": 1,
       "message": "I think we can remove this and let the code itself take care of it.",
+      "range": {
+        "startLine": 112,
+        "startChar": 4,
+        "endLine": 116,
+        "endChar": 0
+      },
+      "revId": "07bffee9035970b000900a23d50de70ef7a92ddd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13a5e3c3_f4ec73bc",
+        "filename": "src/nvidia-gpu/NvidiaDriverInformation.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-25T06:02:24Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "57fb9128_014e2747",
       "range": {
         "startLine": 112,
         "startChar": 4,
@@ -70,6 +118,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9fed5b4_88038c4b",
+        "filename": "src/nvidia-gpu/NvidiaDriverInformation.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-25T06:02:24Z",
+      "side": 1,
+      "message": "Thanks for reviewing, but for now we will maintain the status quo.",
+      "parentUuid": "4ecf4d15_69311444",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 42,
+        "endChar": 18
+      },
+      "revId": "07bffee9035970b000900a23d50de70ef7a92ddd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "85e98f04_f08a60e1",
@@ -83,6 +155,30 @@
       "writtenOn": "2026-06-13T17:33:42Z",
       "side": 1,
       "message": "Please remove this.",
+      "range": {
+        "startLine": 44,
+        "startChar": 4,
+        "endLine": 44,
+        "endChar": 31
+      },
+      "revId": "07bffee9035970b000900a23d50de70ef7a92ddd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c2c76f5_0a660206",
+        "filename": "src/nvidia-gpu/NvidiaDriverInformation.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-25T06:02:24Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "85e98f04_f08a60e1",
       "range": {
         "startLine": 44,
         "startChar": 4,
