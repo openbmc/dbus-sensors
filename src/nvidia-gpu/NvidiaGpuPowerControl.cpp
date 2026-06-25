@@ -119,7 +119,9 @@ void NvidiaGpuPowerControl::handleGetPowerLimitsResponse(
     // convert.
     powerCapValue = enforcedLimit / milliwattsPerWatt;
     powerCapEnabled =
-        (enforcedLimit > 0 && enforcedLimit != powerLimitUnlimited);
+        (enforcedLimit > 0 && enforcedLimit != powerLimitUnlimited)
+            ? powerCapEnableEnabled
+            : powerCapEnableDisabled;
 
     powerCapInterface->set_property("PowerCap", powerCapValue);
     powerCapInterface->set_property("PowerCapEnable", powerCapEnabled);

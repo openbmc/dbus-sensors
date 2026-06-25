@@ -40,8 +40,18 @@ class NvidiaGpuPowerControl :
     std::shared_ptr<sdbusplus::asio::dbus_interface> powerCapInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> associationInterface;
 
+    static constexpr const char* powerCapEnableUnknown =
+        "xyz.openbmc_project.Control.Power.Cap"
+        ".PowerCapEnableState.Unknown";
+    static constexpr const char* powerCapEnableEnabled =
+        "xyz.openbmc_project.Control.Power.Cap"
+        ".PowerCapEnableState.Enabled";
+    static constexpr const char* powerCapEnableDisabled =
+        "xyz.openbmc_project.Control.Power.Cap"
+        ".PowerCapEnableState.Disabled";
+
     uint32_t powerCapValue{0};
-    bool powerCapEnabled{false};
+    std::string powerCapEnabled{powerCapEnableUnknown};
 
     std::string name;
     sdbusplus::asio::object_server& objectServer;

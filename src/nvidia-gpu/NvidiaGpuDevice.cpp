@@ -95,7 +95,10 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
 
     powerCapInterface->register_property("PowerCap",
                                          std::numeric_limits<uint32_t>::max());
-    powerCapInterface->register_property("PowerCapEnable", false);
+    powerCapInterface->register_property(
+        "PowerCapEnable",
+        std::string("xyz.openbmc_project.Control.Power.Cap"
+                    ".PowerCapEnableState.Unknown"));
     powerCapInterface->register_property("MinPowerCapValue", uint32_t{0});
     powerCapInterface->register_property("MaxPowerCapValue",
                                          std::numeric_limits<uint32_t>::max());
