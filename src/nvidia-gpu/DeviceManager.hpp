@@ -44,6 +44,9 @@ class DeviceManager
     void scheduleRescan();
     void onConfigInterfaceRemoved(sdbusplus::message_t& message);
     void onConnectivityChanged(sdbusplus::message_t& msg);
+    // mctpd removed/re-added an endpoint object (device reset / power cycle).
+    void onEndpointRemoved(sdbusplus::message_t& msg);
+    void onEndpointAdded(sdbusplus::message_t& msg);
 
   private:
     void processSensorConfigs(const ManagedObjectType& resp);
@@ -66,6 +69,16 @@ class DeviceManager
 
     void registerEndpoint(const std::string& endpointPath, uint8_t eid,
                           const std::shared_ptr<DeviceInterface>& device);
+    // Best-effort read of the endpoint's Common.UUID, cached for identity
+    // verification when the endpoint object is removed and re-added.
+    void fetchEndpointUuid(const std::string& endpointPath);
+    // Re-attach a previously-offline endpoint after confirming its UUID still
+    // matches the device we have at that path.
+    void verifyAndReadd(const std::string& endpointPath);
+    // A known device (matched by UUID) reappeared at a new endpoint path
+    // because its EID changed: re-bind the existing device object to the new
+    // EID/path in place, without rebuilding its D-Bus objects.
+    void reattachByUuid(const std::string& endpointPath);
     void applyEvent(const std::string& endpointPath, EndpointEvent event);
 
     boost::asio::io_context& io;
@@ -87,7 +100,11 @@ class DeviceManager
         std::weak_ptr<DeviceInterface> device; // SmaDevice for now
         uint8_t eid{};
         EndpointState state{EndpointState::Init};
+        std::string uuid; // endpoint Common.UUID, for re-add identity check
     };
     // key = mctpd endpoint D-Bus object path
     std::unordered_map<std::string, EndpointRecord> endpoints;
+    // key = endpoint Common.UUID -> device, for matching across EID changes
+    std::unordered_map<std::string, std::weak_ptr<DeviceInterface>>
+        uuidToDevice;
 };
