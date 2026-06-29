@@ -40,6 +40,7 @@ SmaDevice::SmaDevice(const SensorConfigs& configs, const std::string& name,
 
 void SmaDevice::init()
 {
+    makeInventory();
     makeSensors();
 }
 
@@ -54,16 +55,74 @@ void SmaDevice::makeSensors()
               name, "PATH", path);
 }
 
+void SmaDevice::makeInventory()
+{
+    inventoryPath =
+        (sdbusplus::object_path("/xyz/openbmc_project/inventory") / name);
+
+    itemInterface = objectServer.add_interface(
+        inventoryPath, "xyz.openbmc_project.Inventory.Item");
+    if (!itemInterface->initialize())
+    {
+        lg2::error("Error initializing Item interface for {NAME}, eid={EID}",
+                   "NAME", name, "EID", eid);
+    }
+
+    operationalStatusInterface = objectServer.add_interface(
+        inventoryPath, "xyz.openbmc_project.State.Decorator.OperationalStatus");
+    operationalStatusInterface->register_property("Functional", false);
+    if (!operationalStatusInterface->initialize())
+    {
+        lg2::error(
+            "Error initializing OperationalStatus interface for {NAME}, eid={EID}",
+            "NAME", name, "EID", eid);
+    }
+
+    // The configuration object lives under the board entity-manager created,
+    // so its parent is the board this device is on.
+    std::vector<Association> associations;
+    associations.emplace_back("contained_by", "containing", path.parent_path());
+
+    associationInterface =
+        objectServer.add_interface(inventoryPath, association::interface);
+    associationInterface->register_property("Associations", associations);
+    if (!associationInterface->initialize())
+    {
+        lg2::error(
+            "Error initializing Association interface for {NAME}, eid={EID}",
+            "NAME", name, "EID", eid);
+    }
+}
+
+void SmaDevice::setFunctional(bool functional)
+{
+    if (operationalStatusInterface)
+    {
+        operationalStatusInterface->set_property("Functional", functional);
+    }
+}
+
 void SmaDevice::setOffline()
 {
+    setFunctional(false);
     waitTimer.cancel();
     tempSensor->markFunctional(false);
 }
 
 void SmaDevice::setOnline()
 {
+    setFunctional(true);
     tempSensor->markFunctional(true);
     read();
+}
+
+void SmaDevice::setEid(uint8_t newEid)
+{
+    eid = newEid;
+    if (tempSensor)
+    {
+        tempSensor->setEid(newEid);
+    }
 }
 
 void SmaDevice::read()
