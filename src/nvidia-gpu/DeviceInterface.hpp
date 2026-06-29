@@ -6,6 +6,8 @@
 
 #include <sdbusplus/message/native_types.hpp>
 
+#include <cstdint>
+
 class DeviceInterface
 {
   public:
@@ -22,6 +24,9 @@ class DeviceInterface
     virtual void setOffline() = 0;
     // Resume polling.
     virtual void setOnline() = 0;
+    // Re-target the device to a new MCTP EID (device re-enumerated with a
+    // different endpoint ID). D-Bus objects are retained.
+    virtual void setEid(uint8_t eid) = 0;
     // The D-Bus path of the EntityManager configuration object the
     // device was created from.
     virtual const sdbusplus::object_path& getPath() const = 0;
