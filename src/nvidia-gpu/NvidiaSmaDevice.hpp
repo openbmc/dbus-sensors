@@ -49,6 +49,8 @@ class SmaDevice : public std::enable_shared_from_this<SmaDevice>
     // Resume polling.
     void setOnline();
 
+    void setEid(uint8_t newEid);
+
   private:
     void makeSensors();
 
@@ -56,6 +58,14 @@ class SmaDevice : public std::enable_shared_from_this<SmaDevice>
 
     void processLeakSensorsResponse(const std::error_code& ec,
                                     std::span<const uint8_t> response);
+
+    // Build the SMA inventory object (Inventory.Item + OperationalStatus) so
+    // the device's reachability is observable on D-Bus.
+    void makeInventory();
+
+    // OperationalStatus.Functional: true while polling (online), false while
+    // offline (Degraded/Recovering/Removed).
+    void setFunctional(bool functional);
 
     void read();
 
@@ -75,9 +85,19 @@ class SmaDevice : public std::enable_shared_from_this<SmaDevice>
 
     std::vector<std::shared_ptr<NvidiaSmaLeakSensor>> leakSensors;
 
+    // TODO: temporary - reuses the generic xyz.openbmc_project.Inventory.Item
+    // because there is no dedicated inventory item type for an MCTP
+    // bridge/management controller yet. A proper PDI inventory item should be
+    // added later and swapped in here.
+    std::shared_ptr<sdbusplus::asio::dbus_interface> itemInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> operationalStatusInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> associationInterface;
+
     SensorConfigs configs;
 
     std::string name;
 
     sdbusplus::object_path path;
+
+    std::string inventoryPath;
 };
