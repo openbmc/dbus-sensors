@@ -16,6 +16,74 @@
       "message": "LGTM. Wait for PDI.",
       "revId": "1b81e49673dbea545133dde638fe454654b77e4c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5756efdf_9df566a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-06-29T08:44:01Z",
+      "side": 1,
+      "message": "Minor comments, looks good otherwise. Waiting for PDI.",
+      "revId": "1b81e49673dbea545133dde638fe454654b77e4c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d329fa50_2a50afa2",
+        "filename": "src/nvidia-gpu/NvidiaGpuEccMode.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-06-29T08:44:01Z",
+      "side": 1,
+      "message": "This can be removed and value can be put inline.",
+      "revId": "1b81e49673dbea545133dde638fe454654b77e4c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5bbb086_ad6fbfe1",
+        "filename": "src/nvidia-gpu/NvidiaGpuEccMode.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-06-29T08:44:01Z",
+      "side": 1,
+      "message": "Isn\u0027t this available in any of the utils files?",
+      "revId": "1b81e49673dbea545133dde638fe454654b77e4c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e348c43_7cf720c4",
+        "filename": "src/nvidia-gpu/NvidiaGpuEccMode.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-06-29T08:44:01Z",
+      "side": 1,
+      "message": "This can be removed and value can be put inline.",
+      "revId": "1b81e49673dbea545133dde638fe454654b77e4c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
