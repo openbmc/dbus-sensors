@@ -5,8 +5,12 @@
 
 #include "MctpMockTestBase.hpp"
 #include "MockMctpRequester.hpp"
+#include "NvidiaGpuMctpVdm.hpp"
 #include "NvidiaSensorConfig.hpp"
 #include "NvidiaSmaDevice.hpp"
+#include "OcpMctpVdm.hpp"
+
+#include <MessagePackUnpackUtils.hpp>
 
 #include <chrono>
 #include <cstdint>
@@ -14,6 +18,7 @@
 #include <span>
 #include <string>
 #include <system_error>
+#include <vector>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -31,6 +36,42 @@ constexpr std::chrono::seconds pollTimeout{5};
 
 // Several fastPollMs intervals, so a loop that kept running would be caught.
 constexpr std::chrono::seconds quietWindow{1};
+
+// A GetLeakDetectionInfo response reporting one leak sensor, so the device
+// creates one.
+std::vector<uint8_t> buildOneLeakSensorResponse()
+{
+    // numSensors + numThresholdLevels + one sensor of sensorId, leakState and
+    // adcReadingMv, with no thresholds
+    const uint16_t dataSize = 1 + 1 + (1 + 1 + 2);
+
+    std::vector<uint8_t> buf(
+        ocp::accelerator_management::commonResponseSize + dataSize);
+    PackBuffer pack(buf);
+    ocp::accelerator_management::packHeader(
+        pack, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 0,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pack.pack(static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_LEAK_DETECTION_INFO));
+    pack.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));
+    pack.pack(static_cast<uint16_t>(0)); // reserved
+    pack.pack(dataSize);
+    pack.pack(static_cast<uint8_t>(1));  // numSensors
+    pack.pack(static_cast<uint8_t>(0));  // numThresholdLevels
+    pack.pack(static_cast<uint8_t>(0));  // sensorId
+    pack.pack(static_cast<uint8_t>(0));  // leakState
+    pack.pack(static_cast<uint16_t>(0)); // adcReadingMv
+    return buf;
+}
+
+bool isLeakDetectionInfo(std::span<const uint8_t> request)
+{
+    return request[ocp::accelerator_management::messageHeaderSize] ==
+           static_cast<uint8_t>(
+               gpu::PlatformEnvironmentalCommands::GET_LEAK_DETECTION_INFO);
+}
 
 class NvidiaSmaDeviceTest : public MctpMockTestBase
 {
@@ -95,6 +136,38 @@ TEST_F(NvidiaSmaDeviceTest, ReadLoopStopsAfterDeviceIsDestroyed)
     const int afterDestroy = requests;
     EXPECT_FALSE(
         pumpIoUntil([&] { return requests > afterDestroy; }, quietWindow));
+}
+
+// A device re-enumerated at a new EID keeps its sensors, so every one of them
+// has to follow it there, the leak sensors included.
+TEST_F(NvidiaSmaDeviceTest, SetEidRetargetsLeakSensors)
+{
+    constexpr uint8_t newEid = 30;
+    std::vector<uint8_t> leakEids;
+    ON_CALL(mctpMock, sendRecvMsg)
+        .WillByDefault([&leakEids](uint8_t eid, std::span<const uint8_t> req,
+                                   auto callback) {
+            if (!isLeakDetectionInfo(req))
+            {
+                callback(std::make_error_code(std::errc::timed_out), {});
+                return;
+            }
+            leakEids.push_back(eid);
+            const std::vector<uint8_t> response = buildOneLeakSensorResponse();
+            callback(std::error_code{}, response);
+        });
+
+    const std::shared_ptr<SmaDevice> device =
+        createDevice("sma_set_eid", defaultEid, fastPollMs);
+    device->init();
+    ASSERT_TRUE(pumpIoUntil([&] { return !leakEids.empty(); }, pollTimeout));
+
+    device->setEid(newEid);
+    leakEids.clear();
+    device->setOnline();
+
+    ASSERT_TRUE(pumpIoUntil([&] { return !leakEids.empty(); }, pollTimeout));
+    EXPECT_THAT(leakEids, testing::Each(newEid));
 }
 
 } // namespace
