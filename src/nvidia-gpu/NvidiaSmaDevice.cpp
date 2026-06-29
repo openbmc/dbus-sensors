@@ -18,6 +18,7 @@
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/message/native_types.hpp>
 
 #include <chrono>
 #include <cstdint>
@@ -40,6 +41,7 @@ SmaDevice::SmaDevice(const SensorConfigs& configs, const std::string& name,
 
 void SmaDevice::init()
 {
+    makeInventory();
     makeSensors();
 }
 
@@ -54,15 +56,58 @@ void SmaDevice::makeSensors()
               name, "PATH", path);
 }
 
+void SmaDevice::makeInventory()
+{
+    inventoryPath =
+        (sdbusplus::object_path("/xyz/openbmc_project/inventory") / name).str;
+
+    itemInterface = objectServer.add_interface(
+        inventoryPath, "xyz.openbmc_project.Inventory.Item");
+    if (!itemInterface->initialize())
+    {
+        lg2::error("Error initializing Item interface for {NAME}, eid={EID}",
+                   "NAME", name, "EID", eid);
+    }
+
+    operationalStatusInterface = objectServer.add_interface(
+        inventoryPath, "xyz.openbmc_project.State.Decorator.OperationalStatus");
+    operationalStatusInterface->register_property("Functional", false);
+    if (!operationalStatusInterface->initialize())
+    {
+        lg2::error(
+            "Error initializing OperationalStatus interface for {NAME}, eid={EID}",
+            "NAME", name, "EID", eid);
+    }
+}
+
+void SmaDevice::setFunctional(bool functional)
+{
+    if (operationalStatusInterface)
+    {
+        operationalStatusInterface->set_property("Functional", functional);
+    }
+}
+
 void SmaDevice::setOffline()
 {
+    setFunctional(false);
     waitTimer.cancel();
     tempSensor->updateValue(std::numeric_limits<double>::quiet_NaN());
 }
 
 void SmaDevice::setOnline()
 {
+    setFunctional(true);
     read();
+}
+
+void SmaDevice::setEid(uint8_t newEid)
+{
+    eid = newEid;
+    if (tempSensor)
+    {
+        tempSensor->setEid(newEid);
+    }
 }
 
 void SmaDevice::read()
