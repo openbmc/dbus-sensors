@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f7c3557_e37c21ec",
+        "filename": "src/nvidia-gpu/NvidiaGpuClockSpeedControl.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-06-29T06:33:48Z",
+      "side": 1,
+      "message": "Can\u0027t we use regular `register_property` without a custom getter?",
+      "revId": "6122e6af7ef7e4716e79c416a14010037d4df2bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59c205be_cbb20933",
+        "filename": "src/nvidia-gpu/NvidiaGpuClockSpeedControl.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-06-29T06:33:48Z",
+      "side": 1,
+      "message": "I think we should set `setClockLimitInflight` to false only after the response of the GetClockLimit request (send at the end of this function) is received to avoid lost update problem. We have to distinguish between response handling of period update vs update after set.",
+      "revId": "6122e6af7ef7e4716e79c416a14010037d4df2bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
