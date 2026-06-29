@@ -77,6 +77,24 @@ int main()
             deviceManager.onConnectivityChanged(msg);
         });
 
+    // Watch mctpd for endpoint objects being removed (device reset / power
+    // cycle) and re-added, so devices can go offline and recover in place.
+    auto mctpEndpointRemovedMatch = std::make_unique<sdbusplus::bus::match_t>(
+        static_cast<sdbusplus::bus_t&>(*systemBus),
+        rules::interfacesRemoved() +
+            rules::argNpath(0, "/au/com/codeconstruct/mctp1/"),
+        [&deviceManager](sdbusplus::message_t& msg) {
+            deviceManager.onEndpointRemoved(msg);
+        });
+
+    auto mctpEndpointAddedMatch = std::make_unique<sdbusplus::bus::match_t>(
+        static_cast<sdbusplus::bus_t&>(*systemBus),
+        rules::interfacesAdded() +
+            rules::argNpath(0, "/au/com/codeconstruct/mctp1/"),
+        [&deviceManager](sdbusplus::message_t& msg) {
+            deviceManager.onEndpointAdded(msg);
+        });
+
     try
     {
         io.run();

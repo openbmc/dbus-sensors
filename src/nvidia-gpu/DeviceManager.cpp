@@ -24,6 +24,7 @@
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/asio/property.hpp>
 #include <sdbusplus/message.hpp>
 #include <sdbusplus/message/native_types.hpp>
 
@@ -484,7 +485,160 @@ void DeviceManager::registerEndpoint(
     const std::string& endpointPath, uint8_t eid,
     const std::shared_ptr<DeviceInterface>& device)
 {
-    endpoints[endpointPath] = EndpointRecord{device, eid, EndpointState::Init};
+    endpoints[endpointPath] =
+        EndpointRecord{device, eid, EndpointState::Init, {}};
+    fetchEndpointUuid(endpointPath);
+}
+
+void DeviceManager::fetchEndpointUuid(const std::string& endpointPath)
+{
+    sdbusplus::asio::getProperty<std::string>(
+        *conn, "au.com.codeconstruct.MCTP1", endpointPath,
+        "xyz.openbmc_project.Common.UUID", "UUID",
+        [this, endpointPath](const boost::system::error_code& ec,
+                             const std::string& uuid) {
+            // UUID is an optional interface on the endpoint; absence is fine.
+            if (ec || uuid.empty())
+            {
+                return;
+            }
+            auto it = endpoints.find(endpointPath);
+            if (it == endpoints.end())
+            {
+                return;
+            }
+            it->second.uuid = uuid;
+            uuidToDevice[uuid] = it->second.device;
+        });
+}
+
+void DeviceManager::onEndpointRemoved(sdbusplus::message_t& msg)
+{
+    sdbusplus::object_path objPath;
+    std::vector<std::string> removedInterfaces;
+    msg.read(objPath, removedInterfaces);
+
+    // Only react when the MCTP endpoint interface itself goes away.
+    if (std::ranges::find(removedInterfaces,
+                          "au.com.codeconstruct.MCTP.Endpoint1") ==
+        removedInterfaces.end())
+    {
+        return;
+    }
+
+    // applyEvent is a no-op if we do not track this endpoint.
+    applyEvent(objPath.str, EndpointEvent::EndpointRemoved);
+}
+
+void DeviceManager::onEndpointAdded(sdbusplus::message_t& msg)
+{
+    sdbusplus::object_path objPath;
+    // Read only the object path; the interface/property dictionary carries
+    // many typed properties whose variant types we do not want to depend on.
+    msg.read(objPath);
+
+    auto it = endpoints.find(objPath.str);
+    if (it == endpoints.end())
+    {
+        // New endpoint path. It may be a device we already manage that was
+        // re-enumerated with a different EID (path changes with the EID), so
+        // try to re-attach it by UUID. Guard against churn from non-endpoint
+        // mctp objects (networks, interfaces).
+        if (objPath.str.find("/endpoints/") != std::string::npos)
+        {
+            reattachByUuid(objPath.str);
+        }
+        return;
+    }
+
+    if (it->second.state != EndpointState::Offline)
+    {
+        return;
+    }
+
+    verifyAndReadd(objPath.str);
+}
+
+void DeviceManager::reattachByUuid(const std::string& endpointPath)
+{
+    sdbusplus::asio::getProperty<std::string>(
+        *conn, "au.com.codeconstruct.MCTP1", endpointPath,
+        "xyz.openbmc_project.Common.UUID", "UUID",
+        [this, endpointPath](const boost::system::error_code& ec,
+                             const std::string& uuid) {
+            std::shared_ptr<DeviceInterface> device;
+            if (!ec && !uuid.empty())
+            {
+                auto uit = uuidToDevice.find(uuid);
+                if (uit != uuidToDevice.end())
+                {
+                    device = uit->second.lock();
+                }
+            }
+            if (!device)
+            {
+                // Unknown device (or no UUID) -> let discovery create it.
+                scheduleRescan();
+                return;
+            }
+
+            // Known device re-enumerated at a new EID: read the new EID and
+            // re-bind the existing device object in place (no rebuild).
+            sdbusplus::asio::getProperty<uint8_t>(
+                *conn, "au.com.codeconstruct.MCTP1", endpointPath,
+                "xyz.openbmc_project.MCTP.Endpoint", "EID",
+                [this, endpointPath, uuid, device](
+                    const boost::system::error_code& eidEc, uint8_t newEid) {
+                    if (eidEc)
+                    {
+                        lg2::error(
+                            "Failed to read EID for re-added endpoint {PATH}",
+                            "PATH", endpointPath);
+                        return;
+                    }
+                    // Drop the stale (Offline) entry still tracking this device
+                    // under its previous endpoint path.
+                    std::erase_if(endpoints, [&device](const auto& kv) {
+                        return kv.second.device.lock() == device;
+                    });
+                    device->setEid(newEid);
+                    endpoints[endpointPath] = EndpointRecord{
+                        device, newEid, EndpointState::Offline, uuid};
+                    uuidToDevice[uuid] = device;
+                    applyEvent(endpointPath, EndpointEvent::EndpointReadded);
+                });
+        });
+}
+
+void DeviceManager::verifyAndReadd(const std::string& endpointPath)
+{
+    sdbusplus::asio::getProperty<std::string>(
+        *conn, "au.com.codeconstruct.MCTP1", endpointPath,
+        "xyz.openbmc_project.Common.UUID", "UUID",
+        [this, endpointPath](const boost::system::error_code& ec,
+                             const std::string& uuid) {
+            auto it = endpoints.find(endpointPath);
+            if (it == endpoints.end() ||
+                it->second.state != EndpointState::Offline)
+            {
+                return;
+            }
+
+            const std::string& expected = it->second.uuid;
+            if (!ec && !uuid.empty() && !expected.empty() && uuid != expected)
+            {
+                // Same path/EID but a different device took it over; treat as
+                // a fresh device rather than re-attaching the old one.
+                lg2::warning(
+                    "MCTP endpoint {PATH} reappeared with different UUID; rescanning",
+                    "PATH", endpointPath);
+                endpoints.erase(it);
+                scheduleRescan();
+                return;
+            }
+
+            applyEvent(endpointPath, EndpointEvent::EndpointReadded);
+        });
 }
 
 void DeviceManager::applyEvent(const std::string& endpointPath,
