@@ -44,6 +44,13 @@ struct NvidiaGpuTempSensor :
 
     void update();
 
+    // Re-target polling to a new EID after the device is re-enumerated with a
+    // different endpoint ID.
+    void setEid(uint8_t newEid)
+    {
+        eid = newEid;
+    }
+
   private:
     void processResponse(const std::error_code& ec,
                          std::span<const uint8_t> buffer);
