@@ -38,10 +38,13 @@ class DeviceManager
 
     void createSensors();
     // Debounced re-discovery: coalesces bursts of entity-manager
-    // configuration changes into a single createSensors().
+    // configuration changes and endpoints added by mctpd into a single
+    // createSensors().
     void scheduleRescan();
     void onConfigInterfaceRemoved(sdbusplus::message_t& message);
     void onConnectivityChanged(sdbusplus::message_t& msg);
+    void onEndpointRemoved(sdbusplus::message_t& msg);
+    void onEndpointAdded(sdbusplus::message_t& msg);
 
   private:
     void processSensorConfigs(const ManagedObjectType& resp);
@@ -67,6 +70,9 @@ class DeviceManager
         const std::error_code& sendRecvMsgResult,
         std::span<const uint8_t> queryDeviceIdentificationResponse);
 
+    // Best-effort read of the endpoint's Common.UUID, cached for identity
+    // verification when the endpoint object is removed and re-added.
+    void fetchEndpointUuid(const sdbusplus::object_path& mctpObjectPath);
     void applyEvent(const sdbusplus::object_path& mctpObjectPath,
                     EndpointEvent event);
 
@@ -82,6 +88,9 @@ class DeviceManager
         // The mctpd endpoint the device is reached through. A Connectivity
         // signal only carries this path, so it is what a device is found by.
         sdbusplus::object_path mctpObjectPath;
+        // The endpoint's Common.UUID, which is what identifies the device
+        // again once mctpd has taken the endpoint object away.
+        std::string uuid;
         uint8_t eid{};
         EndpointState state{EndpointState::Init};
     };

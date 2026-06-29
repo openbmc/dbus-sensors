@@ -23,6 +23,7 @@
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/asio/property.hpp>
 #include <sdbusplus/message.hpp>
 #include <sdbusplus/message/native_types.hpp>
 
@@ -32,6 +33,7 @@
 #include <cstdint>
 #include <format>
 #include <memory>
+#include <optional>
 #include <span>
 #include <stdexcept>
 #include <string>
@@ -151,9 +153,11 @@ void DeviceManager::processQueryDeviceIdResponse(
                     .device = std::move(sma),
                     .name = smaName,
                     .mctpObjectPath = mctpObjectPath,
+                    .uuid = {},
                     .eid = eid,
                     .state = EndpointState::Init});
 
+                fetchEndpointUuid(mctpObjectPath);
                 applyEvent(mctpObjectPath, EndpointEvent::InitComplete);
             }
             else
@@ -472,6 +476,144 @@ void DeviceManager::onConfigInterfaceRemoved(sdbusplus::message_t& message)
         {
             pcieSensorIt++;
         }
+    }
+}
+
+void DeviceManager::fetchEndpointUuid(
+    const sdbusplus::object_path& mctpObjectPath)
+{
+    sdbusplus::asio::getProperty<std::string>(
+        *conn, "au.com.codeconstruct.MCTP1", mctpObjectPath,
+        "xyz.openbmc_project.Common.UUID", "UUID",
+        [this, mctpObjectPath](const boost::system::error_code& ec,
+                               const std::string& uuid) {
+            // UUID is an optional interface on the endpoint; absence is fine.
+            if (ec || uuid.empty())
+            {
+                return;
+            }
+            auto it = std::ranges::find(smaDevices, mctpObjectPath,
+                                        &SmaDeviceRecord::mctpObjectPath);
+            if (it == smaDevices.end())
+            {
+                return;
+            }
+            it->uuid = uuid;
+        });
+}
+
+void DeviceManager::onEndpointRemoved(sdbusplus::message_t& msg)
+{
+    sdbusplus::object_path objPath;
+    std::vector<std::string> removedInterfaces;
+    msg.read(objPath, removedInterfaces);
+
+    if (std::ranges::find(removedInterfaces,
+                          "au.com.codeconstruct.MCTP.Endpoint1") ==
+        removedInterfaces.end())
+    {
+        return;
+    }
+
+    // applyEvent is a no-op if we do not track this endpoint.
+    applyEvent(objPath, EndpointEvent::EndpointRemoved);
+}
+
+namespace
+{
+
+// Every other property of the endpoint has a type of its own, and is skipped
+// rather than failing the read.
+using EndpointProperties =
+    boost::container::flat_map<std::string, std::variant<std::string, uint8_t>>;
+using EndpointInterfaces =
+    boost::container::flat_map<std::string, EndpointProperties>;
+
+template <typename T>
+const T* findEndpointProperty(const EndpointInterfaces& interfaces,
+                              const std::string& interface,
+                              const std::string& property)
+{
+    auto iface = interfaces.find(interface);
+    if (iface == interfaces.end())
+    {
+        return nullptr;
+    }
+    auto prop = iface->second.find(property);
+    if (prop == iface->second.end())
+    {
+        return nullptr;
+    }
+    return std::get_if<T>(&prop->second);
+}
+
+// What mctpd reports for a device that does not give a UUID of its own.
+constexpr std::string_view nilUuid = "00000000-0000-0000-0000-000000000000";
+
+} // namespace
+
+void DeviceManager::onEndpointAdded(sdbusplus::message_t& msg)
+{
+    sdbusplus::object_path objPath;
+    msg.read(objPath);
+
+    // mctpd also adds networks and interfaces under the same namespace.
+    if (!objPath.str.contains("/endpoints/"))
+    {
+        return;
+    }
+
+    EndpointInterfaces interfaces;
+    msg.read(interfaces);
+
+    const auto* uuid = findEndpointProperty<std::string>(
+        interfaces, "xyz.openbmc_project.Common.UUID", "UUID");
+    const auto* eid = findEndpointProperty<uint8_t>(
+        interfaces, "xyz.openbmc_project.MCTP.Endpoint", "EID");
+    const bool identified = uuid != nullptr && !uuid->empty() &&
+                            *uuid != nilUuid && eid != nullptr;
+
+    // The EID was given up before mctpd handed it out again, so a device known
+    // at this path is gone unless it is the one that came back.
+    std::erase_if(smaDevices, [&](const SmaDeviceRecord& rec) {
+        return rec.mctpObjectPath == objPath &&
+               (!identified || rec.uuid != *uuid);
+    });
+
+    if (!identified)
+    {
+        scheduleRescan();
+        return;
+    }
+
+    auto it = std::ranges::find(smaDevices, *uuid, &SmaDeviceRecord::uuid);
+    std::optional<EndpointState> known;
+    if (it != smaDevices.end())
+    {
+        known = it->state;
+    }
+
+    switch (matchAddedEndpoint(known, known && it->mctpObjectPath == objPath))
+    {
+        case EndpointMatch::Rescan:
+            scheduleRescan();
+            break;
+        case EndpointMatch::Ignore:
+            lg2::warning(
+                "MCTP endpoint {PATH} has the UUID of a device still reached through {KNOWN}",
+                "PATH", objPath, "KNOWN", it->mctpObjectPath);
+            break;
+        case EndpointMatch::Rebind:
+            lg2::info("MCTP endpoint {KNOWN} moved to {PATH}", "KNOWN",
+                      it->mctpObjectPath, "PATH", objPath);
+            it->device->setEid(*eid);
+            it->mctpObjectPath = objPath;
+            it->eid = *eid;
+            applyEvent(objPath, EndpointEvent::EndpointReadded);
+            break;
+        case EndpointMatch::Readd:
+            applyEvent(objPath, EndpointEvent::EndpointReadded);
+            break;
     }
 }
 
