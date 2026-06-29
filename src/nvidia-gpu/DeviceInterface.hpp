@@ -4,6 +4,7 @@
  */
 #pragma once
 
+#include <cstdint>
 #include <string>
 
 class DeviceInterface
@@ -22,5 +23,8 @@ class DeviceInterface
     virtual void setOffline() = 0;
     // Resume polling.
     virtual void setOnline() = 0;
+    // Re-target the device to a new MCTP EID (device re-enumerated with a
+    // different endpoint ID). D-Bus objects are retained.
+    virtual void setEid(uint8_t eid) = 0;
     virtual const std::string& getPath() const = 0;
 };
