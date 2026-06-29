@@ -43,8 +43,18 @@ class SmaDevice :
 
     void setOnline() override;
 
+    void setEid(uint8_t newEid) override;
+
   private:
     void makeSensors();
+
+    // Build the SMA inventory object (Inventory.Item + OperationalStatus) so
+    // the device's reachability is observable on D-Bus.
+    void makeInventory();
+
+    // OperationalStatus.Functional: true while polling (online), false while
+    // offline (Degraded/Recovering/Removed).
+    void setFunctional(bool functional);
 
     void read();
 
@@ -62,9 +72,18 @@ class SmaDevice :
 
     std::shared_ptr<NvidiaGpuTempSensor> tempSensor;
 
+    // TODO: temporary - reuses the generic xyz.openbmc_project.Inventory.Item
+    // because there is no dedicated inventory item type for an MCTP
+    // bridge/management controller yet. A proper PDI inventory item should be
+    // added later and swapped in here.
+    std::shared_ptr<sdbusplus::asio::dbus_interface> itemInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> operationalStatusInterface;
+
     SensorConfigs configs;
 
     std::string name;
 
     std::string path;
+
+    std::string inventoryPath;
 };
