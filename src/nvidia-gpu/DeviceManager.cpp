@@ -23,6 +23,7 @@
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/asio/property.hpp>
 #include <sdbusplus/message.hpp>
 #include <sdbusplus/message/native_types.hpp>
 
@@ -37,6 +38,7 @@
 #include <string>
 #include <string_view>
 #include <system_error>
+#include <unordered_map>
 #include <utility>
 #include <variant>
 #include <vector>
@@ -51,12 +53,14 @@ DeviceManager::DeviceManager(boost::asio::io_context& io,
     mctpRequester(mctpRequester), configTimer(io)
 {}
 
-// A configuration usually arrives as several properties changing together,
-// so wait for them to settle rather than sweeping once per property.
+// Debounce window to coalesce a burst of entity-manager config property
+// changes / mctpd connectivity events into a single discovery sweep.
 static constexpr std::chrono::seconds configSettleInterval{1};
 
 void DeviceManager::scheduleRescan()
 {
+    // Coalesce bursts of entity-manager config property changes into a single
+    // discovery sweep (multiple properties typically change together).
     configTimer.expires_after(configSettleInterval);
     configTimer.async_wait([this](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
@@ -67,8 +71,7 @@ void DeviceManager::scheduleRescan()
     });
 }
 void DeviceManager::processQueryDeviceIdResponse(
-    const SensorConfigs& configs,
-    const sdbusplus::object_path& entityObjectPath,
+    const SensorConfigs& configs, const sdbusplus::object_path& path,
     const sdbusplus::object_path& mctpObjectPath, uint8_t eid,
     const std::error_code& sendRecvMsgResult,
     std::span<const uint8_t> queryDeviceIdentificationResponse)
@@ -113,9 +116,9 @@ void DeviceManager::processQueryDeviceIdResponse(
 
             if (gpu == nullptr)
             {
-                gpu = std::make_shared<GpuDevice>(
-                    configs, gpuName, entityObjectPath, conn, eid, io,
-                    mctpRequester, objectServer);
+                gpu = std::make_shared<GpuDevice>(configs, gpuName, path, conn,
+                                                  eid, io, mctpRequester,
+                                                  objectServer);
 
                 gpu->init();
             }
@@ -144,7 +147,7 @@ void DeviceManager::processQueryDeviceIdResponse(
             if (existing == smaDevices.end())
             {
                 auto sma = std::make_shared<SmaDevice>(
-                    configs, smaName, entityObjectPath, conn, eid, io,
+                    configs, entityObjectPath, smaName, conn, eid, io,
                     mctpRequester, objectServer);
 
                 sma->init();
@@ -153,9 +156,11 @@ void DeviceManager::processQueryDeviceIdResponse(
                     .device = std::move(sma),
                     .name = smaName,
                     .mctpObjectPath = mctpObjectPath,
+                    .uuid = {},
                     .eid = eid,
                     .state = EndpointState::Init});
 
+                fetchEndpointUuid(mctpObjectPath);
                 applyEvent(mctpObjectPath, EndpointEvent::InitComplete);
             }
             else
@@ -182,8 +187,8 @@ void DeviceManager::processQueryDeviceIdResponse(
             if (pcie == nullptr)
             {
                 pcie = std::make_shared<PcieDevice>(
-                    configs, pcieName, entityObjectPath, conn, eid, io,
-                    mctpRequester, objectServer);
+                    configs, pcieName, path, conn, eid, io, mctpRequester,
+                    objectServer);
 
                 pcie->init();
             }
@@ -205,8 +210,7 @@ void DeviceManager::processQueryDeviceIdResponse(
 }
 
 void DeviceManager::queryDeviceIdentification(
-    const SensorConfigs& configs,
-    const sdbusplus::object_path& entityObjectPath,
+    const SensorConfigs& configs, const sdbusplus::object_path& path,
     const sdbusplus::object_path& mctpObjectPath, uint8_t eid)
 {
     auto queryDeviceIdentificationRequest = std::make_shared<
@@ -224,17 +228,16 @@ void DeviceManager::queryDeviceIdentification(
 
     mctpRequester.sendRecvMsg(
         eid, *queryDeviceIdentificationRequest,
-        [this, configs, entityObjectPath, mctpObjectPath, eid,
+        [this, configs, path, mctpObjectPath, eid,
          queryDeviceIdentificationRequest](const std::error_code& ec,
                                            std::span<const uint8_t> response) {
-            processQueryDeviceIdResponse(configs, entityObjectPath,
-                                         mctpObjectPath, eid, ec, response);
+            processQueryDeviceIdResponse(configs, path, mctpObjectPath, eid, ec,
+                                         response);
         });
 }
 
 void DeviceManager::processEndpoint(
-    const SensorConfigs& configs,
-    const sdbusplus::object_path& entityObjectPath,
+    const SensorConfigs& configs, const sdbusplus::object_path& path,
     const sdbusplus::object_path& mctpObjectPath,
     const boost::system::error_code& ec, const SensorBaseConfigMap& endpoint)
 {
@@ -300,14 +303,12 @@ void DeviceManager::processEndpoint(
                   ocp::accelerator_management::messageType) != mctpTypes.end())
     {
         lg2::info("Found OCP MCTP VDM Endpoint with ID {EID}", "EID", eid);
-        queryDeviceIdentification(configs, entityObjectPath, mctpObjectPath,
-                                  eid);
+        queryDeviceIdentification(configs, path, mctpObjectPath, eid);
     }
 }
 
 void DeviceManager::queryEndpoints(
-    const SensorConfigs& configs,
-    const sdbusplus::object_path& entityObjectPath,
+    const SensorConfigs& configs, const sdbusplus::object_path& path,
     const boost::system::error_code& ec, const GetSubTreeType& ret)
 {
     if (ec)
@@ -331,12 +332,11 @@ void DeviceManager::queryEndpoints(
                 if (iface == "xyz.openbmc_project.MCTP.Endpoint")
                 {
                     conn->async_method_call(
-                        [this, configs, entityObjectPath,
-                         mctpObjectPath{objPath}](
+                        [this, configs, path, mctpObjectPath{objPath}](
                             const boost::system::error_code& ec,
                             const SensorBaseConfigMap& endpoint) {
-                            processEndpoint(configs, entityObjectPath,
-                                            mctpObjectPath, ec, endpoint);
+                            processEndpoint(configs, path, mctpObjectPath, ec,
+                                            endpoint);
                         },
                         service, objPath, "org.freedesktop.DBus.Properties",
                         "GetAll", iface);
@@ -346,17 +346,16 @@ void DeviceManager::queryEndpoints(
     }
 }
 
-void DeviceManager::discoverDevices(
-    const SensorConfigs& configs,
-    const sdbusplus::object_path& entityObjectPath)
+void DeviceManager::discoverDevices(const SensorConfigs& configs,
+                                    const sdbusplus::object_path& path)
 {
     std::string searchPath{"/au/com/codeconstruct/"};
     std::vector<std::string> ifaceList{{"xyz.openbmc_project.MCTP.Endpoint"}};
 
     conn->async_method_call(
-        [this, configs, entityObjectPath](const boost::system::error_code& ec,
-                                          const GetSubTreeType& ret) {
-            queryEndpoints(configs, entityObjectPath, ec, ret);
+        [this, configs,
+         path](const boost::system::error_code& ec, const GetSubTreeType& ret) {
+            queryEndpoints(configs, path, ec, ret);
         },
         "xyz.openbmc_project.ObjectMapper",
         "/xyz/openbmc_project/object_mapper",
@@ -366,7 +365,7 @@ void DeviceManager::discoverDevices(
 
 void DeviceManager::processSensorConfigs(const ManagedObjectType& resp)
 {
-    for (const auto& [entityObjectPath, interfaces] : resp)
+    for (const auto& [path, interfaces] : resp)
     {
         for (const auto& [intf, cfg] : interfaces)
         {
@@ -400,12 +399,11 @@ void DeviceManager::processSensorConfigs(const ManagedObjectType& resp)
                 configs.nicNetworkPortCount = 0;
             }
 
-            discoverDevices(configs, entityObjectPath);
+            discoverDevices(configs, path);
 
             lg2::info(
                 "Detected configuration {NAME} of type {TYPE} at path: {PATH}.",
-                "NAME", configs.name, "TYPE", sensorType, "PATH",
-                entityObjectPath);
+                "NAME", configs.name, "TYPE", sensorType, "PATH", path);
         }
     }
 }
@@ -455,11 +453,20 @@ void DeviceManager::onConfigInterfaceRemoved(sdbusplus::message_t& message)
         }
     }
 
-    std::erase_if(smaDevices, [&](const SmaDeviceRecord& rec) {
-        return (rec.device->getPath() == removedPath) &&
-               (std::find(interfaces.begin(), interfaces.end(),
-                          configInterfaceName(sensorType)) != interfaces.end());
-    });
+    auto smaSensorIt = smaDevices.begin();
+    while (smaSensorIt != smaDevices.end())
+    {
+        if ((smaSensorIt->second->getPath() == removedPath) &&
+            (std::find(interfaces.begin(), interfaces.end(),
+                       configInterfaceName(sensorType)) != interfaces.end()))
+        {
+            smaSensorIt = smaDevices.erase(smaSensorIt);
+        }
+        else
+        {
+            smaSensorIt++;
+        }
+    }
 
     auto pcieSensorIt = pcieDevices.begin();
     while (pcieSensorIt != pcieDevices.end())
@@ -475,6 +482,154 @@ void DeviceManager::onConfigInterfaceRemoved(sdbusplus::message_t& message)
             pcieSensorIt++;
         }
     }
+}
+
+void DeviceManager::fetchEndpointUuid(
+    const sdbusplus::object_path& mctpObjectPath)
+{
+    sdbusplus::asio::getProperty<std::string>(
+        *conn, "au.com.codeconstruct.MCTP1", mctpObjectPath,
+        "xyz.openbmc_project.Common.UUID", "UUID",
+        [this, mctpObjectPath](const boost::system::error_code& ec,
+                             const std::string& uuid) {
+            // UUID is an optional interface on the endpoint; absence is fine.
+            if (ec || uuid.empty())
+            {
+                return;
+            }
+            auto it = std::ranges::find(smaDevices, mctpObjectPath,
+                                        &SmaDeviceRecord::mctpObjectPath);
+            if (it == smaDevices.end())
+            {
+                return;
+            }
+            it->uuid = uuid;
+        });
+}
+
+void DeviceManager::onEndpointRemoved(sdbusplus::message_t& msg)
+{
+    sdbusplus::object_path objPath;
+    std::vector<std::string> removedInterfaces;
+    msg.read(objPath, removedInterfaces);
+
+    // Only react when the MCTP endpoint interface itself goes away.
+    if (std::ranges::find(removedInterfaces,
+                          "au.com.codeconstruct.MCTP.Endpoint1") ==
+        removedInterfaces.end())
+    {
+        return;
+    }
+
+    // applyEvent is a no-op if we do not track this endpoint.
+    applyEvent(objPath, EndpointEvent::EndpointRemoved);
+}
+
+void DeviceManager::onEndpointAdded(sdbusplus::message_t& msg)
+{
+    sdbusplus::object_path objPath;
+    // Read only the object path; the interface/property dictionary carries
+    // many typed properties whose variant types we do not want to depend on.
+    msg.read(objPath);
+
+    auto it = std::ranges::find(smaDevices, objPath,
+                                &SmaDeviceRecord::mctpObjectPath);
+    if (it == smaDevices.end())
+    {
+        // New endpoint path. It may be a device we already manage that was
+        // re-enumerated with a different EID (path changes with the EID), so
+        // try to re-attach it by UUID. Guard against churn from non-endpoint
+        // mctp objects (networks, interfaces).
+        if (objPath.string().find("/endpoints/") != std::string::npos)
+        {
+            reattachByUuid(objPath);
+        }
+        return;
+    }
+
+    if (it->second.state != EndpointState::Offline)
+    {
+        return;
+    }
+
+    verifyAndReadd(objPath);
+}
+
+void DeviceManager::reattachByUuid(const sdbusplus::object_path& mctpObjectPath)
+{
+    sdbusplus::asio::getProperty<std::string>(
+        *conn, "au.com.codeconstruct.MCTP1", mctpObjectPath,
+        "xyz.openbmc_project.Common.UUID", "UUID",
+        [this, mctpObjectPath](const boost::system::error_code& ec,
+                             const std::string& uuid) {
+            if (ec || uuid.empty() ||
+                std::ranges::find(smaDevices, uuid, &SmaDeviceRecord::uuid) ==
+                    smaDevices.end())
+            {
+                // Unknown device (or no UUID) -> let discovery create it.
+                scheduleRescan();
+                return;
+            }
+
+            // Known device re-enumerated at a new EID: read the new EID and
+            // re-bind the existing device object in place (no rebuild).
+            sdbusplus::asio::getProperty<uint8_t>(
+                *conn, "au.com.codeconstruct.MCTP1", mctpObjectPath,
+                "xyz.openbmc_project.MCTP.Endpoint", "EID",
+                [this, mctpObjectPath, uuid](
+                    const boost::system::error_code& eidEc, uint8_t newEid) {
+                    if (eidEc)
+                    {
+                        lg2::error(
+                            "Failed to read EID for re-added endpoint {PATH}",
+                            "PATH", mctpObjectPath);
+                        return;
+                    }
+                    auto it = std::ranges::find(smaDevices, uuid,
+                                                &SmaDeviceRecord::uuid);
+                    if (it == smaDevices.end())
+                    {
+                        return;
+                    }
+                    // The record moves with the device, so its previous
+                    // endpoint path leaves nothing behind to clean up.
+                    it->device->setEid(newEid);
+                    it->mctpObjectPath = mctpObjectPath;
+                    it->eid = newEid;
+                    applyEvent(mctpObjectPath, EndpointEvent::EndpointReadded);
+                });
+        });
+}
+
+void DeviceManager::verifyAndReadd(const sdbusplus::object_path& mctpObjectPath)
+{
+    sdbusplus::asio::getProperty<std::string>(
+        *conn, "au.com.codeconstruct.MCTP1", mctpObjectPath,
+        "xyz.openbmc_project.Common.UUID", "UUID",
+        [this, mctpObjectPath](const boost::system::error_code& ec,
+                             const std::string& uuid) {
+            auto it = std::ranges::find(smaDevices, mctpObjectPath,
+                                        &SmaDeviceRecord::mctpObjectPath);
+            if (it == smaDevices.end() || it->state != EndpointState::Offline)
+            {
+                return;
+            }
+
+            const std::string& expected = it->uuid;
+            if (!ec && !uuid.empty() && !expected.empty() && uuid != expected)
+            {
+                // Same path/EID but a different device took it over; treat as
+                // a fresh device rather than re-attaching the old one.
+                lg2::warning(
+                    "MCTP endpoint {PATH} reappeared with different UUID; rescanning",
+                    "PATH", mctpObjectPath);
+                smaDevices.erase(it);
+                scheduleRescan();
+                return;
+            }
+
+            applyEvent(mctpObjectPath, EndpointEvent::EndpointReadded);
+        });
 }
 
 void DeviceManager::applyEvent(const sdbusplus::object_path& mctpObjectPath,
@@ -508,8 +663,6 @@ void DeviceManager::applyEvent(const sdbusplus::object_path& mctpObjectPath,
     }
 }
 
-// mctpd reports an endpoint as Degraded once it stops answering, and as
-// Available when it is reachable again.
 void DeviceManager::onConnectivityChanged(sdbusplus::message_t& msg)
 {
     std::string iface;
@@ -523,16 +676,13 @@ void DeviceManager::onConnectivityChanged(sdbusplus::message_t& msg)
         return;
     }
 
-    const sdbusplus::object_path mctpObjectPath{msg.get_path()};
-
     const auto* value = std::get_if<std::string>(&it->second);
     if (value == nullptr)
     {
-        lg2::error(
-            "MCTP endpoint {PATH} reported a Connectivity that is not a string",
-            "PATH", mctpObjectPath);
         return;
     }
+
+    const sdbusplus::object_path mctpObjectPath{msg.get_path()};
 
     if (*value == "Degraded")
     {
@@ -541,11 +691,5 @@ void DeviceManager::onConnectivityChanged(sdbusplus::message_t& msg)
     else if (*value == "Available")
     {
         applyEvent(mctpObjectPath, EndpointEvent::ConnectivityAvailable);
-    }
-    else
-    {
-        lg2::error(
-            "MCTP endpoint {PATH} reported an unknown Connectivity {VALUE}",
-            "PATH", mctpObjectPath, "VALUE", *value);
     }
 }
