@@ -17,6 +17,7 @@
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <boost/container/devector.hpp>
+#include <boost/system/error_code.hpp>
 #include <phosphor-logging/lg2.hpp>
 
 #include <cstddef>
@@ -30,6 +31,7 @@
 #include <stdexcept>
 #include <system_error>
 #include <utility>
+#include <vector>
 
 using namespace std::literals;
 
