@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89aff09d_9ecc2d20",
+        "filename": "src/nvidia-gpu/NvidiaGpuFirmwareInformation.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-30T09:22:21Z",
+      "side": 1,
+      "message": "Please help modify all the error log in this patch with this template: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/90593. Thanks.",
+      "range": {
+        "startLine": 44,
+        "startChar": 12,
+        "endLine": 44,
+        "endChar": 85
+      },
+      "revId": "be727ac412dc3818a29d6f015a9db73af42f57e4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
