@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6314615b_1ba5f259",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-06-30T05:26:02Z",
+      "side": 1,
+      "message": "All of the PDI patches has +1 and there is no update on those patches since 10 Jun. If there are any changes in those PDI patches before they are merged, the content of this patch will be reworked accordingly.",
+      "revId": "ec6bc6ef2aab1e9ea2ed34776af376bb53ea7116",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
