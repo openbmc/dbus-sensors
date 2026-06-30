@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76102a70_b3053d0d",
+        "filename": "src/nvidia-gpu/NvidiaPcieDevice.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-06-30T05:18:30Z",
+      "side": 1,
+      "message": "Put it next to the object `switchResetControl`.",
+      "revId": "e282bd738f26ed44f35f8485b7034e7f9897a373",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8172d237_4c579bca",
+        "filename": "src/nvidia-gpu/NvidiaPcieDevice.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-06-30T05:18:30Z",
+      "side": 1,
+      "message": "Put it next to the object `switchResetControl`.",
+      "revId": "e282bd738f26ed44f35f8485b7034e7f9897a373",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
