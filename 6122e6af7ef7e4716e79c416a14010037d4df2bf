@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "395ead53_f0395609",
+        "filename": "src/nvidia-gpu/NvidiaGpuClockSpeedControl.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-30T05:30:42Z",
+      "side": 1,
+      "message": "A plain register_property would route the daemon\u0027s own poll/readback updates (via set_property) through the same setter callback used for client PATCHes, so we\u0027d need an extra \"internal set\" flag to tell poll-driven writes apart from real client writes. \nThe custom getter keeps the cached member as the single source of truth and avoids that setter re-entry, so I\u0027d prefer to keep it here (same pattern as the PowerCap control).\nWe use it in https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/90189/13/src/nvidia-gpu/NvidiaGpuPowerControl.cpp too.",
+      "parentUuid": "7f7c3557_e37c21ec",
+      "revId": "6122e6af7ef7e4716e79c416a14010037d4df2bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "59c205be_cbb20933",
