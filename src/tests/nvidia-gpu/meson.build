@@ -17,6 +17,7 @@ gpusensor_sources = files(
     gpusensor_dir / 'NvidiaPcieInterface.cpp',
     gpusensor_dir / 'NvidiaPciePort.cpp',
     gpusensor_dir / 'NvidiaPciePortMetrics.cpp',
+    gpusensor_dir / 'NvidiaSwitchResetControl.cpp',
 )
 
 dbus_fixture_sources = files(
