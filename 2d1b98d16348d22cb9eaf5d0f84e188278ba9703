@@ -39,6 +39,48 @@
       "message": "Isn\u0027t scalar group fix for this class? It would make this info redundant.",
       "revId": "2d1b98d16348d22cb9eaf5d0f84e188278ba9703",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6148fb26_e5709eef",
+        "filename": "src/nvidia-gpu/NvidiaPciePort.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-30T13:57:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57da43d7_55de2875",
+      "range": {
+        "startLine": 158,
+        "startChar": 48,
+        "endLine": 158,
+        "endChar": 60
+      },
+      "revId": "2d1b98d16348d22cb9eaf5d0f84e188278ba9703",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b91264b8_a811362e",
+        "filename": "src/nvidia-gpu/NvidiaPciePort.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-30T13:57:50Z",
+      "side": 1,
+      "message": "Done.\nYou\u0027re right, the scalar group is always LinkSpeedWidth for this class.\n\nI added it to visually align the error log with NvidiaPciePortMetrics, which logs a dynamic scalar group. Without it, the two logs looked like:\n```\nError updating PCIe Port Info:   ..., PortType\u003d0, PortNumber\u003d1\nError updating PCIe Port Errors: ..., PortType\u003d0, PortNumber\u003d1, ScalarGroup\u003d2\nError updating PCIe Port Errors: ..., PortType\u003d0, PortNumber\u003d1, ScalarGroup\u003d3\nError updating PCIe Port Errors: ..., PortType\u003d0, PortNumber\u003d1, ScalarGroup\u003d4\n...\n```",
+      "parentUuid": "38bbefbd_23b23526",
+      "revId": "2d1b98d16348d22cb9eaf5d0f84e188278ba9703",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
