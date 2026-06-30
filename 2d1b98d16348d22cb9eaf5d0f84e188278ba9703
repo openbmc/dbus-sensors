@@ -81,6 +81,30 @@
       "parentUuid": "38bbefbd_23b23526",
       "revId": "2d1b98d16348d22cb9eaf5d0f84e188278ba9703",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fefd996_8014a680",
+        "filename": "src/nvidia-gpu/NvidiaPciePort.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-30T14:03:13Z",
+      "side": 1,
+      "message": "Also update NvidiaPciePortMetrics.cpp.",
+      "parentUuid": "6148fb26_e5709eef",
+      "range": {
+        "startLine": 158,
+        "startChar": 48,
+        "endLine": 158,
+        "endChar": 60
+      },
+      "revId": "2d1b98d16348d22cb9eaf5d0f84e188278ba9703",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
