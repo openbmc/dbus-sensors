@@ -40,3 +40,19 @@ struct InvalidArgument : sdbusplus::exception_t
         return EINVAL;
     }
 };
+
+struct NotAllowed : sdbusplus::exception_t
+{
+    const char* name() const noexcept override
+    {
+        return "xyz.openbmc_project.Common.Error.NotAllowed";
+    }
+    const char* description() const noexcept override
+    {
+        return "The operation is not allowed.";
+    }
+    int get_errno() const noexcept override
+    {
+        return EPERM;
+    }
+};
