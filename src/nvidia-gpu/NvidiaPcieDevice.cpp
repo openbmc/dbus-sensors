@@ -13,6 +13,7 @@
 #include "NvidiaPcieInterface.hpp"
 #include "NvidiaPciePort.hpp"
 #include "NvidiaPciePortMetrics.hpp"
+#include "NvidiaSwitchResetControl.hpp"
 #include "NvidiaUtils.hpp"
 #include "Utils.hpp"
 
@@ -256,6 +257,12 @@ void PcieDevice::makeSensors()
     pcieFunction = std::make_shared<NvidiaPcieFunction>(
         conn, mctpRequester, pcieDeviceName, path, eid, 0, objectServer,
         gpu::DeviceIdentification::DEVICE_PCIE);
+
+    const std::string switchInventoryPath =
+        std::string(pcieDevicePathPrefix) + escapeName(pcieDeviceName);
+
+    switchResetControl = std::make_shared<NvidiaSwitchResetControl>(
+        objectServer, mctpRequester, pcieDeviceName, switchInventoryPath, eid);
 
     uint64_t downstreamPortIndex = 0;
 
