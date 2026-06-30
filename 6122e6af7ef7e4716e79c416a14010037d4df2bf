@@ -51,6 +51,24 @@
       "message": "I think we should set `setClockLimitInflight` to false only after the response of the GetClockLimit request (send at the end of this function) is received to avoid lost update problem. We have to distinguish between response handling of period update vs update after set.",
       "revId": "6122e6af7ef7e4716e79c416a14010037d4df2bf",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0928104_2028b691",
+        "filename": "src/nvidia-gpu/NvidiaGpuClockSpeedControl.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-06-30T06:01:20Z",
+      "side": 1,
+      "message": "Good catch. I added a setClockLimitReadbackPending flag — only the post-set read-back clears the in-flight gate, periodic polls leave it untouched. The error paths (and the case where no read-back can be sent) clear the gate too, so a failed set can\u0027t wedge it shut.",
+      "parentUuid": "59c205be_cbb20933",
+      "revId": "6122e6af7ef7e4716e79c416a14010037d4df2bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
