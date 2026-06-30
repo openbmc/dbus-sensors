@@ -264,22 +264,22 @@ void PcieDevice::makeSensors()
 
         pciePorts.emplace_back(std::make_shared<NvidiaPciePortInfo>(
             conn, mctpRequester, portName, pcieDeviceName, path, eid,
-            gpu::PciePortType::UPSTREAM, i, i, objectServer,
+            gpu::PciePortType::UPSTREAM, i, 0, objectServer,
             gpu::DeviceIdentification::DEVICE_PCIE));
 
         pciePortMetrics.emplace_back(makeNvidiaPciePortErrors(
             conn, mctpRequester, portName, pcieDeviceName, path, eid,
-            gpu::PciePortType::UPSTREAM, i, i, objectServer,
+            gpu::PciePortType::UPSTREAM, i, 0, objectServer,
             gpu::DeviceIdentification::DEVICE_PCIE));
 
         pciePortMetrics.emplace_back(makeNvidiaPciePortCounters(
             conn, mctpRequester, portName, pcieDeviceName, path, eid,
-            gpu::PciePortType::UPSTREAM, i, i, objectServer,
+            gpu::PciePortType::UPSTREAM, i, 0, objectServer,
             gpu::DeviceIdentification::DEVICE_PCIE));
 
         pciePortMetrics.emplace_back(makeNvidiaPciePortL0ToRecoveryCount(
             conn, mctpRequester, portName, pcieDeviceName, path, eid,
-            gpu::PciePortType::UPSTREAM, i, i, objectServer,
+            gpu::PciePortType::UPSTREAM, i, 0, objectServer,
             gpu::DeviceIdentification::DEVICE_PCIE));
 
         for (uint64_t j = 0; j < pcieDeviceInfo.numDownstreamPorts[i]; ++j)
