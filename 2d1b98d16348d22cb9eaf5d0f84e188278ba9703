@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57da43d7_55de2875",
+        "filename": "src/nvidia-gpu/NvidiaPciePort.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-06-30T13:45:13Z",
+      "side": 1,
+      "message": "nit: UpstreamPortNumber",
+      "range": {
+        "startLine": 158,
+        "startChar": 48,
+        "endLine": 158,
+        "endChar": 60
+      },
+      "revId": "2d1b98d16348d22cb9eaf5d0f84e188278ba9703",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38bbefbd_23b23526",
+        "filename": "src/nvidia-gpu/NvidiaPciePort.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-06-30T13:45:13Z",
+      "side": 1,
+      "message": "Isn\u0027t scalar group fix for this class? It would make this info redundant.",
+      "revId": "2d1b98d16348d22cb9eaf5d0f84e188278ba9703",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
