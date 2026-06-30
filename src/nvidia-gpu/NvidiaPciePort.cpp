@@ -155,9 +155,10 @@ void NvidiaPciePortInfo::processResponse(
     {
         lg2::error(
             "Error updating PCIe Port Info: sending message over MCTP failed, "
-            "rc={RC}, EID={EID}, PortType={PT}, PortNumber={PN}",
+            "rc={RC}, EID={EID}, PortType={PT}, UpstreamPortNumber={UP}, PortNumber={PN}",
             "RC", sendRecvMsgResult.message(), "EID", eid, "PT",
-            static_cast<uint8_t>(portType), "PN", portNumber);
+            static_cast<uint8_t>(portType), "UP", upstreamPortNumber, "PN",
+            portNumber);
         return;
     }
 
@@ -184,9 +185,10 @@ void NvidiaPciePortInfo::processResponse(
     {
         lg2::error(
             "Error updating PCIe Port Info: decode failed, "
-            "rc={RC}, cc={CC}, reasonCode={RESC}, EID={EID}, PortType={PT}, PortNumber={PN}",
+            "rc={RC}, cc={CC}, reasonCode={RESC}, EID={EID}, PortType={PT}, UpstreamPortNumber={UP}, PortNumber={PN}",
             "RC", rc, "CC", static_cast<uint8_t>(cc), "RESC", reasonCode, "EID",
-            eid, "PT", static_cast<uint8_t>(portType), "PN", portNumber);
+            eid, "PT", static_cast<uint8_t>(portType), "UP", upstreamPortNumber,
+            "PN", portNumber);
         return;
     }
 
@@ -194,9 +196,10 @@ void NvidiaPciePortInfo::processResponse(
     {
         lg2::error(
             "Error updating PCIe Port Info: insufficient telemetry values, "
-            "NumValues={NUM}, EID={EID}, PortType={PT}, PortNumber={PN}",
+            "NumValues={NUM}, EID={EID}, PortType={PT}, UpstreamPortNumber={UP}, PortNumber={PN}",
             "NUM", telemetryValues.size(), "EID", eid, "PT",
-            static_cast<uint8_t>(portType), "PN", portNumber);
+            static_cast<uint8_t>(portType), "UP", upstreamPortNumber, "PN",
+            portNumber);
         return;
     }
 

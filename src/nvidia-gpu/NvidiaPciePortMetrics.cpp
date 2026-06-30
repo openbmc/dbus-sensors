@@ -69,9 +69,10 @@ NvidiaPciePortMetrics::NvidiaPciePortMetrics(
     {
         request.clear();
         lg2::error(
-            "Failed to encode PCIe Port Metrics request: rc={RC}, EID={EID}, PortType={PT}, PortNumber={PN}, ScalarGroup={SG}",
-            "RC", rc, "EID", eid, "PT", static_cast<uint8_t>(portType), "PN",
-            portNumber, "SG", static_cast<uint8_t>(scalarGroupId));
+            "Failed to encode PCIe Port Metrics request: rc={RC}, EID={EID}, PortType={PT}, UpstreamPortNumber={UP}, PortNumber={PN}, ScalarGroup={SG}",
+            "RC", rc, "EID", eid, "PT", static_cast<uint8_t>(portType), "UP",
+            upstreamPortNumber, "PN", portNumber, "SG",
+            static_cast<uint8_t>(scalarGroupId));
     }
 
     const std::string metricsDbusPathPrefix =
@@ -127,10 +128,10 @@ void NvidiaPciePortMetrics::processResponse(
     {
         lg2::error(
             "Error updating PCIe Port Metrics: sending message over MCTP failed, "
-            "rc={RC}, EID={EID}, PortType={PT}, PortNumber={PN}, ScalarGroup={SG}",
+            "rc={RC}, EID={EID}, PortType={PT}, UpstreamPortNumber={UP}, PortNumber={PN}, ScalarGroup={SG}",
             "RC", sendRecvMsgResult.message(), "EID", eid, "PT",
-            static_cast<uint8_t>(portType), "PN", portNumber, "SG",
-            static_cast<uint8_t>(scalarGroupId));
+            static_cast<uint8_t>(portType), "UP", upstreamPortNumber, "PN",
+            portNumber, "SG", static_cast<uint8_t>(scalarGroupId));
         return;
     }
 
@@ -157,10 +158,10 @@ void NvidiaPciePortMetrics::processResponse(
     {
         lg2::error(
             "Error updating PCIe Port Errors: decode failed, "
-            "rc={RC}, cc={CC}, reasonCode={RESC}, EID={EID}, PortType={PT}, PortNumber={PN}, ScalarGroup={SG}",
+            "rc={RC}, cc={CC}, reasonCode={RESC}, EID={EID}, PortType={PT}, UpstreamPortNumber={UP}, PortNumber={PN}, ScalarGroup={SG}",
             "RC", rc, "CC", static_cast<uint8_t>(cc), "RESC", reasonCode, "EID",
-            eid, "PT", static_cast<uint8_t>(portType), "PN", portNumber, "SG",
-            static_cast<uint8_t>(scalarGroupId));
+            eid, "PT", static_cast<uint8_t>(portType), "UP", upstreamPortNumber,
+            "PN", portNumber, "SG", static_cast<uint8_t>(scalarGroupId));
         return;
     }
 
