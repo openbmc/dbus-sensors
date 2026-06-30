@@ -23,7 +23,7 @@
 #include <string>
 #include <system_error>
 
-static constexpr auto embeddedIfaceName =
+static constexpr const char* embeddedIfaceName =
     "xyz.openbmc_project.Inventory.Connector.Embedded";
 
 NvidiaGpuMemoryDevice::NvidiaGpuMemoryDevice(
