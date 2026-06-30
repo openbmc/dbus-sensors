@@ -61,9 +61,9 @@ static bool biosHasPost = false;
 static bool manufacturingMode = false;
 static bool chassisStatusOn = false;
 
-static std::unique_ptr<sdbusplus::bus::match_t> powerMatch = nullptr;
-static std::unique_ptr<sdbusplus::bus::match_t> postMatch = nullptr;
-static std::unique_ptr<sdbusplus::bus::match_t> chassisMatch = nullptr;
+static std::unique_ptr<sdbusplus::match> powerMatch = nullptr;
+static std::unique_ptr<sdbusplus::match> postMatch = nullptr;
+static std::unique_ptr<sdbusplus::match> chassisMatch = nullptr;
 
 /**
  * return the contents of a file
@@ -465,7 +465,7 @@ void setupPowerMatchCallback(
         return;
     }
 
-    powerMatch = std::make_unique<sdbusplus::bus::match_t>(
+    powerMatch = std::make_unique<sdbusplus::match>(
         static_cast<sdbusplus::bus_t&>(*conn),
         "type='signal',interface='" + std::string(properties::interface) +
             "',path='" + std::string(power::path) + "',arg0='" +
@@ -507,7 +507,7 @@ void setupPowerMatchCallback(
             }
         });
 
-    postMatch = std::make_unique<sdbusplus::bus::match_t>(
+    postMatch = std::make_unique<sdbusplus::match>(
         static_cast<sdbusplus::bus_t&>(*conn),
         "type='signal',interface='" + std::string(properties::interface) +
             "',path='" + std::string(post::path) + "',arg0='" +
@@ -529,7 +529,7 @@ void setupPowerMatchCallback(
             }
         });
 
-    chassisMatch = std::make_unique<sdbusplus::bus::match_t>(
+    chassisMatch = std::make_unique<sdbusplus::match>(
         static_cast<sdbusplus::bus_t&>(*conn),
         "type='signal',interface='" + std::string(properties::interface) +
             "',path='" + std::string(chassis::path) + "',arg0='" +
@@ -768,15 +768,15 @@ static void handleSpecialModeChange(const std::string& manufacturingModeStatus)
 
 void setupManufacturingModeMatch(sdbusplus::asio::connection& conn)
 {
-    namespace rules = sdbusplus::bus::match::rules;
+    namespace rules = sdbusplus::match_rules;
     static constexpr const char* specialModeInterface =
         "xyz.openbmc_project.Security.SpecialMode";
 
     const std::string filterSpecialModeIntfAdd =
         rules::interfacesAdded() +
         rules::argNpath(0, "/xyz/openbmc_project/security/special_mode");
-    static std::unique_ptr<sdbusplus::bus::match_t> specialModeIntfMatch =
-        std::make_unique<sdbusplus::bus::match_t>(
+    static std::unique_ptr<sdbusplus::match> specialModeIntfMatch =
+        std::make_unique<sdbusplus::match>(
             conn, filterSpecialModeIntfAdd, [](sdbusplus::message_t& m) {
                 sdbusplus::object_path path;
                 using PropertyMap =
@@ -806,8 +806,8 @@ void setupManufacturingModeMatch(sdbusplus::asio::connection& conn)
         rules::type::signal() + rules::member("PropertiesChanged") +
         rules::interface("org.freedesktop.DBus.Properties") +
         rules::argN(0, specialModeInterface);
-    static std::unique_ptr<sdbusplus::bus::match_t> specialModeChangeMatch =
-        std::make_unique<sdbusplus::bus::match_t>(
+    static std::unique_ptr<sdbusplus::match> specialModeChangeMatch =
+        std::make_unique<sdbusplus::match>(
             conn, filterSpecialModeChange, [](sdbusplus::message_t& m) {
                 std::string interfaceName;
                 boost::container::flat_map<std::string,
@@ -850,16 +850,14 @@ bool getManufacturingMode()
     return manufacturingMode;
 }
 
-std::vector<std::unique_ptr<sdbusplus::bus::match_t>>
-    setupPropertiesChangedMatches(
-        sdbusplus::asio::connection& bus,
-        std::span<const std::string_view> types,
-        const std::function<void(sdbusplus::message_t&)>& handler)
+std::vector<std::unique_ptr<sdbusplus::match>> setupPropertiesChangedMatches(
+    sdbusplus::asio::connection& bus, std::span<const std::string_view> types,
+    const std::function<void(sdbusplus::message_t&)>& handler)
 {
-    std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches;
+    std::vector<std::unique_ptr<sdbusplus::match>> matches;
     for (const std::string_view type : types)
     {
-        auto match = std::make_unique<sdbusplus::bus::match_t>(
+        auto match = std::make_unique<sdbusplus::match>(
             static_cast<sdbusplus::bus_t&>(bus),
             "type='signal',member='PropertiesChanged',path_namespace='" +
                 std::string(inventoryPath) + "',arg0namespace='" +
@@ -870,11 +868,10 @@ std::vector<std::unique_ptr<sdbusplus::bus::match_t>>
     return matches;
 }
 
-std::vector<std::unique_ptr<sdbusplus::bus::match_t>>
-    setupPropertiesChangedMatches(
-        sdbusplus::asio::connection& bus,
-        std::span<const std::pair<std::string_view, I2CDeviceType>> typeMap,
-        const std::function<void(sdbusplus::message_t&)>& handler)
+std::vector<std::unique_ptr<sdbusplus::match>> setupPropertiesChangedMatches(
+    sdbusplus::asio::connection& bus,
+    std::span<const std::pair<std::string_view, I2CDeviceType>> typeMap,
+    const std::function<void(sdbusplus::message_t&)>& handler)
 {
     std::vector<std::string_view> types;
     types.reserve(typeMap.size());
