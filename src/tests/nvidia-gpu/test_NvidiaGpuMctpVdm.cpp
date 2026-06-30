@@ -4258,4 +4258,94 @@ TEST_F(GpuMctpVdmTests,
     EXPECT_NE(result, 0);
 }
 
+// Tests for gpu::encodeResetNetworkDeviceRequest function
+TEST_F(GpuMctpVdmTests, EncodeResetNetworkDeviceRequestSuccess)
+{
+    const uint8_t instanceId = 3;
+    std::array<uint8_t, gpu::resetNetworkDeviceRequestSize> buf{};
+
+    int result = gpu::encodeResetNetworkDeviceRequest(
+        instanceId, gpu::ResetNetworkDeviceMode::StartAfterResponse, buf);
+
+    EXPECT_EQ(result, 0);
+
+    UnpackBuffer ubuf{std::span<const uint8_t>(buf)};
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t recvInstanceId = 0;
+    uint8_t recvMsgType = 0;
+    EXPECT_EQ(ocp::accelerator_management::unpackHeader(
+                  ubuf, gpu::nvidiaPciVendorId, msgType, recvInstanceId,
+                  recvMsgType),
+              0);
+    EXPECT_EQ(msgType, ocp::accelerator_management::MessageType::REQUEST);
+    EXPECT_EQ(recvInstanceId & ocp::accelerator_management::instanceIdBitMask,
+              instanceId & ocp::accelerator_management::instanceIdBitMask);
+    EXPECT_EQ(recvMsgType, static_cast<uint8_t>(gpu::MessageType::DIAGNOSTICS));
+    uint8_t command = 0;
+    ubuf.unpack(command);
+    EXPECT_EQ(command, static_cast<uint8_t>(
+                           gpu::DiagnosticsCommands::ResetNetworkDevice));
+    uint8_t dataSize = 0;
+    ubuf.unpack(dataSize);
+    EXPECT_EQ(dataSize, 1);
+    uint8_t mode = 0;
+    ubuf.unpack(mode);
+    EXPECT_EQ(mode, static_cast<uint8_t>(
+                        gpu::ResetNetworkDeviceMode::StartAfterResponse));
+}
+
+// Tests for gpu::decodeResetNetworkDeviceResponse function
+TEST_F(GpuMctpVdmTests, DecodeResetNetworkDeviceResponseSuccess)
+{
+    std::array<uint8_t, ocp::accelerator_management::commonResponseSize> buf{};
+
+    PackBuffer pbuf{std::span<uint8_t>(buf)};
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 0,
+        static_cast<uint8_t>(gpu::MessageType::DIAGNOSTICS));
+    pbuf.pack(
+        static_cast<uint8_t>(gpu::DiagnosticsCommands::ResetNetworkDevice));
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));
+    pbuf.pack(uint16_t{0});
+    pbuf.pack(uint16_t{0});
+    EXPECT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+
+    int result = gpu::decodeResetNetworkDeviceResponse(buf, cc, reasonCode);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeResetNetworkDeviceResponseError)
+{
+    std::array<uint8_t, ocp::accelerator_management::commonResponseSize> buf{};
+
+    PackBuffer pbuf{std::span<uint8_t>(buf)};
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 0,
+        static_cast<uint8_t>(gpu::MessageType::DIAGNOSTICS));
+    pbuf.pack(
+        static_cast<uint8_t>(gpu::DiagnosticsCommands::ResetNetworkDevice));
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERR_NOT_READY));
+    pbuf.pack(htole16(uint16_t{0x1234}));
+    EXPECT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+
+    int result = gpu::decodeResetNetworkDeviceResponse(buf, cc, reasonCode);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
+    EXPECT_EQ(reasonCode, 0x1234);
+}
+
 } // namespace gpu_mctp_tests
