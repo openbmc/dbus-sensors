@@ -30,6 +30,7 @@ gpusensor_sources = files(
     'NvidiaPciePort.cpp',
     'NvidiaPciePortMetrics.cpp',
     'NvidiaSmaDevice.cpp',
+    'NvidiaSwitchResetControl.cpp',
     'OcpMctpVdm.cpp',
     'SerialQueue.cpp',
 )
