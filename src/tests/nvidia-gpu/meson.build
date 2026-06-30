@@ -32,6 +32,7 @@ gpusensor_sources = files(
     gpusensor_dir / 'NvidiaPciePort.cpp',
     gpusensor_dir / 'NvidiaPciePortMetrics.cpp',
     gpusensor_dir / 'NvidiaSmaDevice.cpp',
+    gpusensor_dir / 'NvidiaSwitchResetControl.cpp',
     gpusensor_dir / 'OcpMctpVdm.cpp',
     gpusensor_dir / 'SerialQueue.cpp',
 )
@@ -83,6 +84,7 @@ test(
         'test_NvidiaSmaDevice.cpp',
         'test_NvidiaGpuClockSpeedControl.cpp',
         'test_NvidiaGpuResetRequired.cpp',
+        'test_NvidiaSwitchResetControl.cpp',
         gpusensor_sources,
         dbus_fixture_sources,
         mock_mctp_sources,
