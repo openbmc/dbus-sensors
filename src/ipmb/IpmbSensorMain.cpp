@@ -131,17 +131,17 @@ int main()
     static constexpr auto sensorTypes =
         std::to_array<std::string_view>({sensorType});
 
-    std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
+    std::vector<std::unique_ptr<sdbusplus::match>> matches =
         setupPropertiesChangedMatches(*systemBus, sensorTypes, eventHandler);
 
-    sdbusplus::bus::match_t powerChangeMatch(
+    sdbusplus::match powerChangeMatch(
         static_cast<sdbusplus::bus_t&>(*systemBus),
         "type='signal',interface='" + std::string(properties::interface) +
             "',path='" + std::string(power::path) + "',arg0='" +
             std::string(power::interface) + "'",
         reinitSensors);
 
-    auto matchSignal = std::make_shared<sdbusplus::bus::match_t>(
+    auto matchSignal = std::make_shared<sdbusplus::match>(
         static_cast<sdbusplus::bus_t&>(*systemBus),
         "type='signal',member='PropertiesChanged',path_namespace='" +
             std::string(inventoryPath) + "',arg0namespace='" +
@@ -152,7 +152,7 @@ int main()
 
     // Watch for entity-manager to remove configuration interfaces
     // so the corresponding sensors can be removed.
-    auto ifaceRemovedMatch = std::make_shared<sdbusplus::bus::match_t>(
+    auto ifaceRemovedMatch = std::make_shared<sdbusplus::match>(
         static_cast<sdbusplus::bus_t&>(*systemBus),
         "type='signal',member='InterfacesRemoved',arg0path='" +
             std::string(inventoryPath) + "/'",

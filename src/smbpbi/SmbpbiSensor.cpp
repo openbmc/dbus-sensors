@@ -537,7 +537,7 @@ int main()
             });
         };
 
-    sdbusplus::bus::match_t configMatch(
+    sdbusplus::match configMatch(
         static_cast<sdbusplus::bus_t&>(*systemBus),
         "type='signal',member='PropertiesChanged',"
         "path_namespace='" +

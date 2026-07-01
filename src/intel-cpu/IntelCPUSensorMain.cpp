@@ -839,7 +839,7 @@ int main()
             });
         };
 
-    std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
+    std::vector<std::unique_ptr<sdbusplus::match>> matches =
         setupPropertiesChangedMatches(*systemBus, sensorTypes, eventHandler);
 
     systemBus->request_name("xyz.openbmc_project.IntelCPUSensor");

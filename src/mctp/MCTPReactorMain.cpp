@@ -213,23 +213,23 @@ int main()
     const std::string entityManagerNameLostSpec =
         rules::nameOwnerChanged("xyz.openbmc_project.EntityManager");
 
-    auto entityManagerNameLostMatch = sdbusplus::bus::match_t(
+    auto entityManagerNameLostMatch = sdbusplus::match(
         static_cast<sdbusplus::bus_t&>(*systemBus), entityManagerNameLostSpec,
         std::bind_front(exitReactor, &io));
 
     const std::string mctpdNameLostSpec =
         rules::nameOwnerChanged("au.com.codeconstruct.MCTP1");
 
-    auto mctpdNameLostMatch = sdbusplus::bus::match_t(
-        static_cast<sdbusplus::bus_t&>(*systemBus), mctpdNameLostSpec,
-        std::bind_front(exitReactor, &io));
+    auto mctpdNameLostMatch =
+        sdbusplus::match(static_cast<sdbusplus::bus_t&>(*systemBus),
+                         mctpdNameLostSpec, std::bind_front(exitReactor, &io));
 
     const std::string interfacesRemovedMatchSpec =
         rules::sender("xyz.openbmc_project.EntityManager") +
         // Trailing slash on path: Listen for signals on the inventory subtree
         rules::interfacesRemovedAtPath("/xyz/openbmc_project/inventory/");
 
-    auto interfacesRemovedMatch = sdbusplus::bus::match_t(
+    auto interfacesRemovedMatch = sdbusplus::match(
         static_cast<sdbusplus::bus_t&>(*systemBus), interfacesRemovedMatchSpec,
         std::bind_front(removeInventory, reactor));
 
@@ -238,7 +238,7 @@ int main()
         // Trailing slash on path: Listen for signals on the inventory subtree
         rules::interfacesAddedAtPath("/xyz/openbmc_project/inventory/");
 
-    auto interfacesAddedMatch = sdbusplus::bus::match_t(
+    auto interfacesAddedMatch = sdbusplus::match(
         static_cast<sdbusplus::bus_t&>(*systemBus), interfacesAddedMatchSpec,
         std::bind_front(addInventory, systemBus, reactor));
 

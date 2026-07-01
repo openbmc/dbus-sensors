@@ -319,12 +319,12 @@ int main()
     static constexpr auto sensorTypes =
         std::to_array<std::string_view>({NVMeSensor::sensorType});
 
-    std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
+    std::vector<std::unique_ptr<sdbusplus::match>> matches =
         setupPropertiesChangedMatches(*systemBus, sensorTypes, eventHandler);
 
     // Watch for entity-manager to remove configuration interfaces
     // so the corresponding sensors can be removed.
-    auto ifaceRemovedMatch = std::make_unique<sdbusplus::bus::match_t>(
+    auto ifaceRemovedMatch = std::make_unique<sdbusplus::match>(
         static_cast<sdbusplus::bus_t&>(*systemBus),
         "type='signal',member='InterfacesRemoved',arg0path='" +
             std::string(inventoryPath) + "/'",

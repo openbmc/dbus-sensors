@@ -248,7 +248,7 @@ class MCTPDEndpoint :
     MCTPEndpoint::Event notifyAvailable;
     MCTPEndpoint::Event notifyDegraded;
     MCTPEndpoint::Event notifyRemoved;
-    std::optional<sdbusplus::bus::match_t> connectivityMatch;
+    std::optional<sdbusplus::match> connectivityMatch;
 
     void onMctpEndpointChange(sdbusplus::message_t& msg);
     void updateEndpointConnectivity(const std::string& connectivity);
@@ -292,7 +292,7 @@ class MCTPDDevice :
     const std::string interface;
     const std::vector<uint8_t> physaddr;
     std::shared_ptr<MCTPDEndpoint> endpoint;
-    std::unique_ptr<sdbusplus::bus::match_t> removeMatch;
+    std::unique_ptr<sdbusplus::match> removeMatch;
 
     /**
      * @brief Actions to perform once endpoint setup has succeeded

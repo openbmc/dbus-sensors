@@ -15,7 +15,7 @@ namespace entity_manager
 
 PHOSPHOR_LOG2_USING;
 
-namespace rules_intf = sdbusplus::bus::match::rules;
+namespace rules_intf = sdbusplus::match_rules;
 
 EntityManagerInterface::EntityManagerInterface(
     sdbusplus::async::context& ctx, const interface_list_t& interfaceNames,
