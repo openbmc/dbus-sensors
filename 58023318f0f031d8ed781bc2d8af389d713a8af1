@@ -34,6 +34,24 @@
       "parentUuid": "88e7c848_4f0b2ecf",
       "revId": "58023318f0f031d8ed781bc2d8af389d713a8af1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97acc9af_f5b5269c",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 840,
+      "author": {
+        "id": 1003004
+      },
+      "writtenOn": "2026-07-01T11:17:09Z",
+      "side": 1,
+      "message": "Could you please add this test case reference in the commit message for clarity? It will help future readers understand how the change was validated.",
+      "parentUuid": "ecb5fbfb_cb5ae04f",
+      "revId": "58023318f0f031d8ed781bc2d8af389d713a8af1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
