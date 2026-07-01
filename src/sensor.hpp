@@ -30,6 +30,7 @@ constexpr size_t sensorFailedPollTimeMs = 5000;
 constexpr bool enableInstrumentation = false;
 
 constexpr const char* sensorValueInterface = "xyz.openbmc_project.Sensor.Value";
+constexpr const char* fanStatusIface = "xyz.openbmc_project.Sensor.FanStatus";
 constexpr const char* valueMutabilityInterfaceName =
     "xyz.openbmc_project.Sensor.ValueMutability";
 constexpr const char* availableInterfaceName =

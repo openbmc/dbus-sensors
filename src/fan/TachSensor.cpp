@@ -76,6 +76,10 @@ TachSensor::TachSensor(
     association = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/fan_tach/" + name,
         association::interface);
+    fanStatusInterface = objectServer.add_interface(
+        "/xyz/openbmc_project/sensors/fan_tach/" + name, fanStatusIface);
+    fanStatusInterface->register_property("Running", false);
+    fanStatusInterface->initialize();
 
     if (presence)
     {
@@ -110,6 +114,7 @@ TachSensor::~TachSensor()
     }
     objServer.remove_interface(sensorInterface);
     objServer.remove_interface(association);
+    objServer.remove_interface(fanStatusInterface);
     objServer.remove_interface(itemIface);
     objServer.remove_interface(itemAssoc);
 }
@@ -146,6 +151,17 @@ void TachSensor::restartRead(size_t pollTime)
     });
 }
 
+void TachSensor::updateRunningStatus(bool running)
+{
+    if (runningState == running)
+    {
+        return;
+    }
+
+    runningState = running;
+    fanStatusInterface->set_property("Running", running);
+}
+
 void TachSensor::handleResponse(const boost::system::error_code& err,
                                 size_t bytesRead)
 {
@@ -154,6 +170,7 @@ void TachSensor::handleResponse(const boost::system::error_code& err,
     {
         lg2::error("TachSensor '{NAME}' removed '{PATH}'", "NAME", name, "PATH",
                    path);
+        updateRunningStatus(false);
         return; // we're being destroyed
     }
     bool missing = false;
@@ -163,6 +180,7 @@ void TachSensor::handleResponse(const boost::system::error_code& err,
         if (!presence->isPresent())
         {
             markAvailable(false);
+            updateRunningStatus(false);
             missing = true;
             pollTime = sensorFailedPollTimeMs;
         }
@@ -180,16 +198,19 @@ void TachSensor::handleResponse(const boost::system::error_code& err,
             if (ret.ec != std::errc())
             {
                 incrementError();
+                updateRunningStatus(false);
                 pollTime = sensorFailedPollTimeMs;
             }
             else
             {
+                updateRunningStatus(nvalue > 0);
                 updateValue(nvalue);
             }
         }
         else
         {
             incrementError();
+            updateRunningStatus(false);
             pollTime = sensorFailedPollTimeMs;
         }
     }
