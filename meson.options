@@ -71,6 +71,12 @@ option(
     description: 'Enable GPU sensor.',
 )
 option(
+    'nvidia-gpu-pcie',
+    type: 'feature',
+    value: 'enabled',
+    description: 'Enable PCIe support in Nvidia GPU sensor.',
+)
+option(
     'external',
     type: 'feature',
     value: 'enabled',
