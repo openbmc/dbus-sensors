@@ -92,7 +92,9 @@ class TachSensor :
     std::string path;
     std::optional<std::string> led;
     bool ledState = false;
+    bool runningState = true;
 
+    void signalRunningStatus(bool running);
     void handleResponse(const boost::system::error_code& err, size_t bytesRead);
     void restartRead(size_t pollTime);
     void checkThresholds() override;
