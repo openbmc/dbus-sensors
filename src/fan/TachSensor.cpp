@@ -146,6 +146,21 @@ void TachSensor::restartRead(size_t pollTime)
     });
 }
 
+void TachSensor::signalRunningStatus(bool running)
+{
+    if (runningState == running)
+    {
+        return;
+    }
+
+    runningState = running;
+    std::string objPath = "/xyz/openbmc_project/sensors/fan_tach/" + name;
+    auto msg = dbusConnection->new_signal(objPath.c_str(), fanStatusIface,
+                                          "FanRunning");
+    msg.append(running);
+    msg.signal_send();
+}
+
 void TachSensor::handleResponse(const boost::system::error_code& err,
                                 size_t bytesRead)
 {
@@ -163,6 +178,7 @@ void TachSensor::handleResponse(const boost::system::error_code& err,
         if (!presence->isPresent())
         {
             markAvailable(false);
+            signalRunningStatus(false);
             missing = true;
             pollTime = sensorFailedPollTimeMs;
         }
@@ -180,16 +196,19 @@ void TachSensor::handleResponse(const boost::system::error_code& err,
             if (ret.ec != std::errc())
             {
                 incrementError();
+                signalRunningStatus(false);
                 pollTime = sensorFailedPollTimeMs;
             }
             else
             {
+                signalRunningStatus(nvalue > 0);
                 updateValue(nvalue);
             }
         }
         else
         {
             incrementError();
+            signalRunningStatus(false);
             pollTime = sensorFailedPollTimeMs;
         }
     }
