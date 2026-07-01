@@ -61,11 +61,10 @@ class I2CDevice
 // HACK: this declaration "should" live in Utils.hpp, but that leads to a
 // tangle of header-dependency hell because each header needs types declared
 // in the other.
-std::vector<std::unique_ptr<sdbusplus::bus::match_t>>
-    setupPropertiesChangedMatches(
-        sdbusplus::asio::connection& bus,
-        std::span<const std::pair<std::string_view, I2CDeviceType>> typeMap,
-        const std::function<void(sdbusplus::message_t&)>& handler);
+std::vector<std::unique_ptr<sdbusplus::match>> setupPropertiesChangedMatches(
+    sdbusplus::asio::connection& bus,
+    std::span<const std::pair<std::string_view, I2CDeviceType>> typeMap,
+    const std::function<void(sdbusplus::message_t&)>& handler);
 
 // Helper find function because some sensors use underscores in their names
 // while others use spaces. Ignore this discrepancy by changing all spaces to

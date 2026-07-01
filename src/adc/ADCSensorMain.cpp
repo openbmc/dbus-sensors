@@ -404,9 +404,9 @@ int main()
             });
         };
 
-    std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
+    std::vector<std::unique_ptr<sdbusplus::match>> matches =
         setupPropertiesChangedMatches(*systemBus, sensorTypes, eventHandler);
-    matches.emplace_back(std::make_unique<sdbusplus::bus::match_t>(
+    matches.emplace_back(std::make_unique<sdbusplus::match>(
         static_cast<sdbusplus::bus_t&>(*systemBus),
         "type='signal',member='PropertiesChanged',path_namespace='" +
             std::string(cpuInventoryPath) +

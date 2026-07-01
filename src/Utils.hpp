@@ -399,11 +399,9 @@ std::optional<double> readFile(const std::string& thresholdFile,
                                const double& scaleFactor);
 void setupManufacturingModeMatch(sdbusplus::asio::connection& conn);
 bool getManufacturingMode();
-std::vector<std::unique_ptr<sdbusplus::bus::match_t>>
-    setupPropertiesChangedMatches(
-        sdbusplus::asio::connection& bus,
-        std::span<const std::string_view> types,
-        const std::function<void(sdbusplus::message_t&)>& handler);
+std::vector<std::unique_ptr<sdbusplus::match>> setupPropertiesChangedMatches(
+    sdbusplus::asio::connection& bus, std::span<const std::string_view> types,
+    const std::function<void(sdbusplus::message_t&)>& handler);
 
 template <typename T>
 bool getDeviceBusAddr(const std::string& deviceName, T& bus, T& addr)

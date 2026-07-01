@@ -74,7 +74,7 @@ constexpr const auto monitorTypes{
 static std::vector<std::shared_ptr<CFMSensor>> cfmSensors;
 
 static void setupSensorMatch(
-    std::vector<sdbusplus::bus::match_t>& matches, sdbusplus::bus_t& connection,
+    std::vector<sdbusplus::match>& matches, sdbusplus::bus_t& connection,
     const std::string& type,
     std::function<void(const double&, sdbusplus::message_t&)>&& callback)
 {
@@ -947,7 +947,7 @@ int main()
                 }
             });
         };
-    std::vector<std::unique_ptr<sdbusplus::bus::match_t>> matches =
+    std::vector<std::unique_ptr<sdbusplus::match>> matches =
         setupPropertiesChangedMatches(*systemBus, monitorTypes, eventHandler);
 
     setupManufacturingModeMatch(*systemBus);
