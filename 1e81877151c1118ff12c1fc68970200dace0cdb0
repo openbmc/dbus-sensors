@@ -72,6 +72,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "635cc039_dcf8d07b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002134
+      },
+      "writtenOn": "2026-07-01T12:35:29Z",
+      "side": 1,
+      "message": "Thank you for the question. Let me explain the constraint and the approach I\u0027m considering.\n\nFor boards that represent a host system (e.g. Yosemite 4\u0027s Sentinel Dome), the board-level `Decorator.ManagedHost` provides the host index, and all sensors on that board naturally share the same power domain.\n\nThe challenge is shared infrastructure boards like Yosemite 4\u0027s Medusa power board: a single always-powered board with HSC sensors serving 8 independent chassis. It has no `ManagedHost` since it isn\u0027t a host system, and even if it did, `ManagedHost` only carries a single HostIndex per board, so it cannot express that each sensor on the same board depends on a different chassis. The desired behavior is for these sensors to remain on D-Bus when their chassis is off (reporting unavailable), not disappear.\n\nThe sensor itself doesn\u0027t know which slot it belongs to. The mapping comes from the platform hardware designer who knows from the schematic which HSC monitors which slot\u0027s power rail, and captures this in the Entity Manager config.\n\nIn the current patch, the sensor retains `SlotId` as a member and queries global maps with it at every reading. I plan to change this: at daemon startup, each host/chassis power state would be tracked as an independent instance. When a sensor is created, the daemon reads `SlotId` from the config to find the matching power state instance and gives the sensor a direct reference to it. After construction, the sensor only checks whether its power domain is active, without knowing or retaining any slot identifier.\n\nIf you have a different approach in mind, I\u0027d appreciate your feedback. I\u0027ll update the patch accordingly to make it easier to review.",
+      "parentUuid": "55077c14_44d6a015",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 65
+      },
+      "revId": "1e81877151c1118ff12c1fc68970200dace0cdb0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d331e0e_5f18f1d1",
@@ -214,6 +238,30 @@
       "side": 1,
       "message": "\u003e we’re tracking multiple systems, not changing who owns the state\n\nThis is the gist of the problem.  If this is no longer a singleton, then we need to register each host indepdently.",
       "parentUuid": "6cfca6ad_998803ae",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 0
+      },
+      "revId": "1e81877151c1118ff12c1fc68970200dace0cdb0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "452bb178_278aafaf",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1002134
+      },
+      "writtenOn": "2026-07-01T12:35:29Z",
+      "side": 1,
+      "message": "I\u0027ll restructure the power state tracking so each host is registered independently rather than in global maps, with sensors referencing their instance directly, and update the patch.",
+      "parentUuid": "8f56ee55_958ad325",
       "range": {
         "startLine": 63,
         "startChar": 0,
