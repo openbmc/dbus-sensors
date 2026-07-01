@@ -44,6 +44,9 @@ void processQueryDeviceIdResponse(
         gpuDevices,
     boost::container::flat_map<std::string, std::shared_ptr<SmaDevice>>&
         smaDevices,
+#ifdef NVIDIA_GPU_DISABLE_PCIE
+    [[maybe_unused]]
+#endif
     boost::container::flat_map<std::string, std::shared_ptr<PcieDevice>>&
         pcieDevices,
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
@@ -139,6 +142,7 @@ void processQueryDeviceIdResponse(
 
         case gpu::DeviceIdentification::DEVICE_PCIE:
         {
+#ifndef NVIDIA_GPU_DISABLE_PCIE
             lg2::info(
                 "Found the PCIe Device with EID {EID}, DeviceType {DEVTYPE}, InstanceId {IID}.",
                 "EID", eid, "DEVTYPE", responseDeviceType, "IID",
@@ -162,7 +166,7 @@ void processQueryDeviceIdResponse(
                     "PCIe Device with name {NAME} already exists. Skipping creating a new device.",
                     "NAME", pcieName);
             }
-
+#endif
             break;
         }
     }
