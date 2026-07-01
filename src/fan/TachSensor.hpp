@@ -87,12 +87,15 @@ class TachSensor :
     std::shared_ptr<PresenceGpio> presence;
     std::shared_ptr<sdbusplus::asio::dbus_interface> itemIface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> itemAssoc;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> fanStatusInterface;
     boost::asio::random_access_file inputDev;
     boost::asio::steady_timer waitTimer;
     std::string path;
     std::optional<std::string> led;
     bool ledState = false;
+    bool runningState = false;
 
+    void updateRunningStatus(bool running);
     void handleResponse(const boost::system::error_code& err, size_t bytesRead);
     void restartRead(size_t pollTime);
     void checkThresholds() override;
