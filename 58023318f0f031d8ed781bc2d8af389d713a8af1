@@ -16,6 +16,24 @@
       "message": "Does EM always expose the property as a double ?",
       "revId": "58023318f0f031d8ed781bc2d8af389d713a8af1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecb5fbfb_cb5ae04f",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 840,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2026-07-01T07:11:32Z",
+      "side": 1,
+      "message": "Yes, the type is double.\nBelow is an example from Catalina system.\n\n```\nroot@bmc:~# busctl get-property xyz.openbmc_project.EntityManager /xyz/openbmc_project/inventory/system/board/Catalina_PDB/PDB_P48V_HSC1 xyz.openbmc_project.Configuration.LTC4287 iout1_Scale\nd 1061.8\n```",
+      "parentUuid": "88e7c848_4f0b2ecf",
+      "revId": "58023318f0f031d8ed781bc2d8af389d713a8af1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
