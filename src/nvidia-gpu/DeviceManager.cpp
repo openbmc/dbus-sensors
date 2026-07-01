@@ -138,6 +138,7 @@ void DeviceManager::processQueryDeviceIdResponse(
 
         case gpu::DeviceIdentification::DEVICE_PCIE:
         {
+#ifndef NVIDIA_GPU_DISABLE_PCIE
             lg2::info(
                 "Found the PCIe Device with EID {EID}, DeviceType {DEVTYPE}, InstanceId {IID}.",
                 "EID", eid, "DEVTYPE", responseDeviceType, "IID",
@@ -161,7 +162,11 @@ void DeviceManager::processQueryDeviceIdResponse(
                     "PCIe Device with name {NAME} already exists. Skipping creating a new device.",
                     "NAME", pcieName);
             }
-
+#else
+            lg2::info(
+                "Found the PCIe Device with EID {EID}, but PCIe support is disabled.",
+                "EID", eid);
+#endif
             break;
         }
 

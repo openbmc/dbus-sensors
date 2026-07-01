@@ -55,5 +55,9 @@ default_deps = [
     uring,
 ]
 
+if not get_option('nvidia-gpu-pcie').allowed()
+    add_project_arguments('-DNVIDIA_GPU_DISABLE_PCIE', language: 'cpp')
+endif
+
 subdir('service_files')
 subdir('src')
