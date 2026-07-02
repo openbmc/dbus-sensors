@@ -40,10 +40,10 @@
 #include <chrono>
 #include <cstdint>
 #include <filesystem>
+#include <fstream>
 #include <functional>
 #include <memory>
 #include <optional>
-#include <regex>
 #include <span>
 #include <string>
 #include <string_view>
@@ -103,6 +103,9 @@ static constexpr auto sensorTypes =
         {"TMP75", I2CDeviceType{"tmp75", true}},
         {"W83773G", I2CDeviceType{"w83773g", true}},
     });
+
+static constexpr auto ntcThermistorTypes =
+    std::to_array<std::string_view>({"NTCThermistor"});
 
 static struct SensorParams getSensorParameters(
     const std::filesystem::path& path)
@@ -212,53 +215,145 @@ struct SensorConfig
 using SensorConfigMap =
     boost::container::flat_map<SensorConfigKey, SensorConfig>;
 
-static SensorConfigMap buildSensorConfigMap(
+using ThermistorConfigMap = boost::container::flat_map<uint64_t, SensorConfig>;
+
+struct SensorConfigMaps
+{
+    SensorConfigMap byI2c;
+    ThermistorConfigMap byThermistorChannel;
+};
+
+static std::vector<std::string> collectHwmonNames(
+    const SensorBaseConfigMap& cfg)
+{
+    std::vector<std::string> hwmonNames;
+    for (const auto& [confKey, confValue] : cfg)
+    {
+        // Collect all "Name" and "Name<...>" variants (e.g. Name,
+        // Name1, Name2, NameHumidity).
+        if (confKey.starts_with("Name"))
+        {
+            hwmonNames.push_back(std::get<std::string>(confValue));
+        }
+    }
+    return hwmonNames;
+}
+
+static bool isNtcThermistor(const std::filesystem::path& device)
+{
+    std::error_code ec;
+    std::filesystem::path driver =
+        std::filesystem::canonical(device / "driver", ec);
+    if (ec)
+    {
+        return false;
+    }
+    return driver.filename() == "ntc-thermistor";
+}
+
+// Read the ADC channel from the thermistor's io-channels DT node. The
+// io-channels property is an array of <phandle channel> u32 pairs; the
+// ntc-thermistor binding takes exactly one entry, so only the first pair is
+// read and the phandle in bytes 0-3 is ignored. DT property cells are
+// big-endian, assembling the value byte-by-byte keeps the result correct
+// regardless of host endianness.
+static std::optional<uint32_t> readThermistorAdcChannel(
+    const std::filesystem::path& device)
+{
+    std::ifstream file(device / "of_node/io-channels", std::ios::binary);
+    if (!file.good())
+    {
+        return std::nullopt;
+    }
+    std::array<char, 8> bytes{};
+    file.read(bytes.data(), bytes.size());
+    if (file.gcount() < static_cast<std::streamsize>(bytes.size()))
+    {
+        return std::nullopt;
+    }
+    auto u8 = [&bytes](size_t i) {
+        return static_cast<uint32_t>(static_cast<unsigned char>(bytes[i]));
+    };
+    return (u8(4) << 24) | (u8(5) << 16) | (u8(6) << 8) | u8(7);
+}
+
+static void addI2cConfig(SensorConfigMap& map, const std::string& path,
+                         const SensorBaseConfigMap::mapped_type& busVal,
+                         const SensorBaseConfigMap::mapped_type& addrVal,
+                         SensorConfig&& val)
+{
+    const auto* bus = std::get_if<uint64_t>(&busVal);
+    const auto* addr = std::get_if<uint64_t>(&addrVal);
+    if ((bus == nullptr) || (addr == nullptr))
+    {
+        lg2::error("'{PATH}' Bus or Address invalid", "PATH", path);
+        return;
+    }
+
+    SensorConfigKey key = {*bus, *addr};
+
+    if (!map.emplace(key, std::move(val)).second)
+    {
+        lg2::error("'{PATH}': ignoring duplicate entry for '{BUS}', '{ADDR}'",
+                   "PATH", path, "BUS", key.bus, "ADDR", lg2::hex, key.addr);
+    }
+}
+
+static void addThermistorConfig(
+    ThermistorConfigMap& map, const std::string& path,
+    const SensorBaseConfigMap::mapped_type& thermistorAdcChannel,
+    SensorConfig&& val)
+{
+    const auto* channel = std::get_if<uint64_t>(&thermistorAdcChannel);
+    if (channel == nullptr)
+    {
+        lg2::error("'{PATH}' ThermistorAdcChannel invalid", "PATH", path);
+        return;
+    }
+
+    if (!map.emplace(*channel, std::move(val)).second)
+    {
+        lg2::error("'{PATH}': ignoring duplicate entry for channel '{CHANNEL}'",
+                   "PATH", path, "CHANNEL", *channel);
+    }
+}
+
+static SensorConfigMaps buildSensorConfigMaps(
     const ManagedObjectType& sensorConfigs)
 {
-    SensorConfigMap configMap;
+    SensorConfigMaps configMaps;
     for (const auto& [path, cfgData] : sensorConfigs)
     {
         for (const auto& [intf, cfg] : cfgData)
         {
             auto busCfg = cfg.find("Bus");
             auto addrCfg = cfg.find("Address");
-            if ((busCfg == cfg.end()) || (addrCfg == cfg.end()))
+            auto channelCfg = cfg.find("ThermistorAdcChannel");
+
+            const bool isI2c = (busCfg != cfg.end()) && (addrCfg != cfg.end());
+            const bool isThermistor = (channelCfg != cfg.end());
+
+            if (!isI2c && !isThermistor)
             {
                 continue;
             }
-            if ((std::get_if<uint64_t>(&busCfg->second) == nullptr) ||
-                (std::get_if<uint64_t>(&addrCfg->second) == nullptr))
-            {
-                lg2::error("'{PATH}' Bus or Address invalid", "PATH", path.str);
-                continue;
-            }
 
-            std::vector<std::string> hwmonNames;
-            for (const auto& [confKey, confValue] : cfg)
-            {
-                // Collect all "Name" and "Name<...>" variants (e.g. Name,
-                // Name1, Name2, NameHumidity).
-                if (confKey.starts_with("Name"))
-                {
-                    hwmonNames.push_back(std::get<std::string>(confValue));
-                }
-            }
-
-            SensorConfigKey key = {std::get<uint64_t>(busCfg->second),
-                                   std::get<uint64_t>(addrCfg->second)};
             SensorConfig val = {path.str, cfgData, intf, cfg,
-                                std::move(hwmonNames)};
-            auto [it, inserted] = configMap.emplace(key, std::move(val));
-            if (!inserted)
+                                collectHwmonNames(cfg)};
+
+            if (isI2c)
             {
-                lg2::error(
-                    "'{PATH}': ignoring duplicate entry for '{BUS}', '{ADDR}'",
-                    "PATH", path.str, "BUS", key.bus, "ADDR", lg2::hex,
-                    key.addr);
+                addI2cConfig(configMaps.byI2c, path.str, busCfg->second,
+                             addrCfg->second, std::move(val));
+            }
+            else
+            {
+                addThermistorConfig(configMaps.byThermistorChannel, path.str,
+                                    channelCfg->second, std::move(val));
             }
         }
     }
-    return configMap;
+    return configMaps;
 }
 
 void createSensors(
@@ -276,8 +371,8 @@ void createSensors(
          activateOnly](const ManagedObjectType& sensorConfigurations) {
             bool firstScan = sensorsChanged == nullptr;
 
-            SensorConfigMap configMap =
-                buildSensorConfigMap(sensorConfigurations);
+            SensorConfigMaps configMaps =
+                buildSensorConfigMaps(sensorConfigurations);
 
             auto devices =
                 instantiateDevices(sensorConfigurations, sensors, sensorTypes);
@@ -302,7 +397,6 @@ void createSensors(
             // and try to match them with configuration
             for (auto& path : paths)
             {
-                std::smatch match;
                 const std::string pathStr = path.string();
                 auto directory = path.parent_path();
                 std::filesystem::path device;
@@ -333,48 +427,73 @@ void createSensors(
                     deviceName = device.stem();
                 }
 
+                SensorConfig* sensorCfg = nullptr;
+                bool matchedI2c = false;
                 uint64_t bus = 0;
                 uint64_t addr = 0;
-                if (!getDeviceBusAddr(deviceName, bus, addr))
+                // valid only when a thermistor config matched
+                uint32_t thermistorChannel = 0;
+
+                if (getDeviceBusAddr(deviceName, bus, addr))
+                {
+                    auto it = configMaps.byI2c.find({bus, addr});
+                    if (it != configMaps.byI2c.end())
+                    {
+                        sensorCfg = &it->second;
+                        matchedI2c = true;
+                    }
+                }
+                else if (isNtcThermistor(device))
+                {
+                    auto channel = readThermistorAdcChannel(device);
+                    if (channel)
+                    {
+                        auto it = configMaps.byThermistorChannel.find(*channel);
+                        if (it != configMaps.byThermistorChannel.end())
+                        {
+                            sensorCfg = &it->second;
+                            thermistorChannel = *channel;
+                        }
+                    }
+                }
+                if (sensorCfg == nullptr)
                 {
                     continue;
                 }
 
                 auto thisSensorParameters = getSensorParameters(path);
-                auto findSensorCfg = configMap.find({bus, addr});
-                if (findSensorCfg == configMap.end())
-                {
-                    continue;
-                }
 
-                const std::string& interfacePath =
-                    findSensorCfg->second.sensorPath;
-                auto findI2CDev = devices.find(interfacePath);
+                const std::string& interfacePath = sensorCfg->sensorPath;
 
+                // NTC thermistor sensors are bound by the kernel
+                // ntc-thermistor driver; there is no I2CDevice to look up.
                 std::shared_ptr<I2CDevice> i2cDev;
-                if (findI2CDev != devices.end())
+                if (matchedI2c)
                 {
-                    // If we're only looking to activate newly-instantiated i2c
-                    // devices and this sensor's underlying device was already
-                    // there before this call, there's nothing more to do here.
-                    if (activateOnly && !findI2CDev->second.second)
+                    auto findI2CDev = devices.find(interfacePath);
+                    if (findI2CDev != devices.end())
                     {
-                        continue;
+                        // If we're only looking to activate newly-instantiated
+                        // i2c devices and this sensor's underlying device was
+                        // already there before this call, there's nothing more
+                        // to do here.
+                        if (activateOnly && !findI2CDev->second.second)
+                        {
+                            continue;
+                        }
+                        i2cDev = findI2CDev->second.first;
                     }
-                    i2cDev = findI2CDev->second.first;
                 }
 
-                const SensorData& sensorData = findSensorCfg->second.sensorData;
-                std::string sensorType = findSensorCfg->second.interface;
+                const SensorData& sensorData = sensorCfg->sensorData;
+                std::string sensorType = sensorCfg->interface;
                 auto pos = sensorType.find_last_of('.');
                 if (pos != std::string::npos)
                 {
                     sensorType = sensorType.substr(pos + 1);
                 }
-                const SensorBaseConfigMap& baseConfigMap =
-                    findSensorCfg->second.config;
-                std::vector<std::string>& hwmonName =
-                    findSensorCfg->second.name;
+                const SensorBaseConfigMap& baseConfigMap = sensorCfg->config;
+                std::vector<std::string>& hwmonName = sensorCfg->name;
 
                 // Temperature has "Name", pressure has "Name1"
                 auto findSensorName = baseConfigMap.find("Name");
@@ -532,13 +651,24 @@ void createSensors(
                 }
                 if (hwmonName.empty())
                 {
-                    configMap.erase(findSensorCfg);
+                    if (matchedI2c)
+                    {
+                        configMaps.byI2c.erase({bus, addr});
+                    }
+                    else
+                    {
+                        configMaps.byThermistorChannel.erase(thermistorChannel);
+                    }
                 }
             }
         });
     std::vector<std::string_view> types;
-    types.reserve(sensorTypes.size());
+    types.reserve(sensorTypes.size() + ntcThermistorTypes.size());
     for (const auto& [type, dt] : sensorTypes)
+    {
+        types.emplace_back(type);
+    }
+    for (const std::string_view type : ntcThermistorTypes)
     {
         types.emplace_back(type);
     }
@@ -649,6 +779,14 @@ int main()
                 sensorTypes),
             eventHandler);
     setupManufacturingModeMatch(*systemBus);
+
+    auto ntcMatches = setupPropertiesChangedMatches(
+        *systemBus, std::span<const std::string_view>(ntcThermistorTypes),
+        eventHandler);
+    for (auto& match : ntcMatches)
+    {
+        matches.emplace_back(std::move(match));
+    }
 
     // Watch for entity-manager to remove configuration interfaces
     // so the corresponding sensors can be removed.
