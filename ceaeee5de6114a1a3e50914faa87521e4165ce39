@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64bb107f_dcedb66e",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-07-02T10:05:43Z",
+      "side": 0,
+      "message": "This is referenced from other apps in this repo as is. I suggest keeping this as is in this file but make it interact with `DeviceManager` class.",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 11
+      },
+      "revId": "ceaeee5de6114a1a3e50914faa87521e4165ce39",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
