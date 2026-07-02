@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4f8d945_46730cf0",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-07-02T07:59:09Z",
+      "side": 1,
+      "message": "can we do `inventoryPrefix / std::format(\"{}_{}\", this-\u003ename, dramInventorySuffix)`?",
+      "revId": "4264aa59e1312adacad6713942804e864e9656ff",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b4122ce_b94ddc4d",
+        "filename": "src/nvidia-gpu/NvidiaGpuMemoryDevice.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-07-02T07:59:09Z",
+      "side": 1,
+      "message": "can we do `inventoryPrefix / std::format(\"{}_{}\", this-\u003ename, dramInventorySuffix)`?",
+      "revId": "4264aa59e1312adacad6713942804e864e9656ff",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
