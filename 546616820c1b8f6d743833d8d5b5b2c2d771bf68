@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "59e668a4_2f5c1d4b",
+        "filename": "src/nvidia-gpu/NvidiaPcieInterface.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-02T07:28:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "462bedb2_33ed6087",
+      "revId": "546616820c1b8f6d743833d8d5b5b2c2d771bf68",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cd2feaf9_581d4ac7",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-07-01T04:47:48Z",
       "side": 1,
       "message": "If every consumer is going to initialize sdbusplus::object_path with it, let\u0027s make this of type sdbusplus::object_path directly.",
+      "revId": "546616820c1b8f6d743833d8d5b5b2c2d771bf68",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a8fbe55_b506dc47",
+        "filename": "src/nvidia-gpu/NvidiaUtils.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-02T07:28:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd2feaf9_581d4ac7",
       "revId": "546616820c1b8f6d743833d8d5b5b2c2d771bf68",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
