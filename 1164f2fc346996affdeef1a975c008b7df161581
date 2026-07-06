@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "495e14ff_0aa8fab0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003004
+      },
+      "writtenOn": "2026-07-06T05:57:52Z",
+      "side": 1,
+      "message": "LGTM. The change from exact match to suffix match correctly handles kernel-prefixed pwm-fan symlink names and keeps existing behavior.",
+      "revId": "1164f2fc346996affdeef1a975c008b7df161581",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
