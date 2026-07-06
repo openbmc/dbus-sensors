@@ -81,7 +81,7 @@ option(
     'validate-unsecure-feature',
     type: 'feature',
     value: 'disabled',
-    description: 'Enables unsecure features required by validation. Note: mustbe turned off for production images.',
+    description: 'Enables insecure features required by validation. Note: must be turned off for production images.',
 )
 option(
     'insecure-sensor-override',
