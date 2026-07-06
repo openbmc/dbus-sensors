@@ -231,7 +231,7 @@ class MCTPDEndpoint :
      *
      * Called from the implementation of MctpdDevice for resource cleanup
      * prior to destruction. Resource cleanup is delegated by invoking the
-     * notifyRemoved() callback. As the actions may be abitrary we avoid
+    * notifyRemoved() callback. As the actions may be arbitrary we avoid
      * invoking notifyRemoved() in the destructor.
      */
     void removed();
