@@ -34,6 +34,11 @@ enum class Direction
     LOW,
     ERROR
 };
+enum class ThresholdEmit
+{
+    onChange,
+    forced
+};
 struct Threshold
 {
     Threshold(
@@ -58,7 +63,7 @@ struct Threshold
 
 void assertThresholds(Sensor* sensor, double assertValue,
                       thresholds::Level level, thresholds::Direction direction,
-                      bool assert);
+                      bool assert, ThresholdEmit emit);
 
 struct TimerUsed
 {
