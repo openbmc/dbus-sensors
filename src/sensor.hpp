@@ -113,6 +113,7 @@ struct Sensor
     std::shared_ptr<sdbusplus::asio::dbus_interface> valueMutabilityInterface;
     double value = std::numeric_limits<double>::quiet_NaN();
     double rawValue = std::numeric_limits<double>::quiet_NaN();
+    bool hadValidValue = false;
     bool overriddenState = false;
     bool internalSet = false;
     double hysteresisTrigger = 1.0;
@@ -509,7 +510,7 @@ struct Sensor
             for (auto& threshold : thresholds)
             {
                 assertThresholds(this, value, threshold.level,
-                                 threshold.direction, false);
+                                 threshold.direction, false, false);
             }
             updateValueProperty(std::numeric_limits<double>::quiet_NaN());
             return;
@@ -528,6 +529,7 @@ struct Sensor
         {
             markFunctional(true);
             markAvailable(true);
+            hadValidValue = true;
         }
     }
 
