@@ -34,6 +34,15 @@ enum class Direction
     LOW,
     ERROR
 };
+enum class ThresholdEmit
+{
+    onChange,
+    forced
+};
+
+ThresholdEmit thresholdEmit(const Sensor* sensor);
+bool shouldEmitThresholdSignal(bool propertyChanged, ThresholdEmit emit);
+
 struct Threshold
 {
     Threshold(
@@ -58,7 +67,7 @@ struct Threshold
 
 void assertThresholds(Sensor* sensor, double assertValue,
                       thresholds::Level level, thresholds::Direction direction,
-                      bool assert);
+                      bool assert, ThresholdEmit emit);
 
 struct TimerUsed
 {
@@ -111,8 +120,8 @@ struct ThresholdTimer
     }
 
     void startTimer(const std::weak_ptr<Sensor>& weakSensor,
-                    const Threshold& threshold, bool assert,
-                    double assertValue);
+                    const Threshold& threshold, bool assert, double assertValue,
+                    ThresholdEmit emit);
 
     boost::asio::io_context& io;
     std::list<TimerPair> timers;
