@@ -22,6 +22,30 @@
       },
       "revId": "ceaeee5de6114a1a3e50914faa87521e4165ce39",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbdf2e57_46817d6b",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-07T11:11:26Z",
+      "side": 0,
+      "message": "Done — moved the match objects to main().",
+      "parentUuid": "64bb107f_dcedb66e",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 11
+      },
+      "revId": "ceaeee5de6114a1a3e50914faa87521e4165ce39",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

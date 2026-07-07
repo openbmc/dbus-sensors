@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d7fd38a_576ccb30",
+        "filename": "src/nvidia-gpu/DeviceManager.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-07T11:11:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0eff5435_2b0e7ac6",
+      "revId": "dc5c3c629a75aba57fee11f0419c585c86aaa237",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dac4b647_925c82ba",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9f20d44_41f1d084",
+        "filename": "src/nvidia-gpu/NvidiaSensorConfig.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-07T11:11:26Z",
+      "side": 1,
+      "message": "Done — moved to NvidiaUtils.hpp alongside metricPath.",
+      "parentUuid": "dac4b647_925c82ba",
+      "revId": "dc5c3c629a75aba57fee11f0419c585c86aaa237",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0d44a5e4_2deadb1e",
@@ -48,6 +84,30 @@
       "writtenOn": "2026-07-02T10:05:43Z",
       "side": 1,
       "message": "Let\u0027s use the same object name as the other apps in this repo.",
+      "range": {
+        "startLine": 12,
+        "startChar": 22,
+        "endLine": 12,
+        "endChar": 33
+      },
+      "revId": "dc5c3c629a75aba57fee11f0419c585c86aaa237",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5cec7c5c_c134723a",
+        "filename": "src/nvidia-gpu/NvidiaSensorConfig.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-07T11:11:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d44a5e4_2deadb1e",
       "range": {
         "startLine": 12,
         "startChar": 22,
