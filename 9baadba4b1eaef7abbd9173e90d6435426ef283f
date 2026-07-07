@@ -33,6 +33,23 @@
       "message": "Deferring to the actual maintainers.",
       "revId": "9baadba4b1eaef7abbd9173e90d6435426ef283f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77a99e04_61a1a76b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003004
+      },
+      "writtenOn": "2026-07-07T11:46:38Z",
+      "side": 1,
+      "message": "LGTM",
+      "revId": "9baadba4b1eaef7abbd9173e90d6435426ef283f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
