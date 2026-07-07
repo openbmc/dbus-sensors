@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a3ab5fe_a218aff7",
+        "filename": "src/nvidia-gpu/NvidiaGpuClockSpeedControl.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-07-07T10:00:51Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be outside of `if (!requestEncoded)` statement? And wouldn\u0027t this be always true since we are setting it to true at line number 383?",
+      "revId": "f4e3a58d282e4cec133d39b90aa11af21d84a7d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e0da165_9af3c31b",
+        "filename": "src/nvidia-gpu/NvidiaGpuClockSpeedControl.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-07-07T10:00:51Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we set this to false only after the getting the response from the device?",
+      "revId": "f4e3a58d282e4cec133d39b90aa11af21d84a7d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

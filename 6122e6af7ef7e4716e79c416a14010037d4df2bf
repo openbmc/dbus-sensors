@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4c314d24_e2f3a62c",
+        "filename": "src/nvidia-gpu/NvidiaGpuClockSpeedControl.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-07-07T10:00:51Z",
+      "side": 1,
+      "message": "We haven\u0027t added custom set-property handler for the property `PresentSpeedLimitMaxHz` unlike `RequestedSpeedLimitMaxHz`, right?",
+      "parentUuid": "395ead53_f0395609",
+      "revId": "6122e6af7ef7e4716e79c416a14010037d4df2bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "59c205be_cbb20933",
         "filename": "src/nvidia-gpu/NvidiaGpuClockSpeedControl.cpp",
         "patchSetId": 6
