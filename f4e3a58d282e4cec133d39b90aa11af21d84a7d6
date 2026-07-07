@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "00f65099_24d93d30",
+        "filename": "src/nvidia-gpu/NvidiaGpuClockSpeedControl.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-07T11:36:03Z",
+      "side": 1,
+      "message": "Moved the gate-release out of sendGetClockLimitRequest. It\u0027s now handled in handleSetClockLimitResponse.\n(You\u0027re right it wasn\u0027t strictly always-true, since update()\u0027s periodic poll also calls this with the flag unset — but the check was confusing to begin with, so it\u0027s gone now.)",
+      "parentUuid": "5a3ab5fe_a218aff7",
+      "revId": "f4e3a58d282e4cec133d39b90aa11af21d84a7d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9e0da165_9af3c31b",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-07-07T10:00:51Z",
       "side": 1,
       "message": "Shouldn\u0027t we set this to false only after the getting the response from the device?",
+      "revId": "f4e3a58d282e4cec133d39b90aa11af21d84a7d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2864e706_b8b8dd49",
+        "filename": "src/nvidia-gpu/NvidiaGpuClockSpeedControl.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-07T11:36:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e0da165_9af3c31b",
       "revId": "f4e3a58d282e4cec133d39b90aa11af21d84a7d6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
