@@ -231,7 +231,7 @@ static void handleSensorConfigurations(
         catch (const std::invalid_argument& ex)
         {
             lg2::error("Failed to add sensor for '{PATH}': '{ERROR}'", "PATH",
-                       interfacePath.str, "ERROR", ex);
+                       interfacePath, "ERROR", ex);
         }
     }
     for (const auto& [_, context] : nvmeDeviceMap)
