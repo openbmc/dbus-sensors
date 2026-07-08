@@ -92,7 +92,7 @@ class MCTPReactor : public std::enable_shared_from_this<MCTPReactor>
 
     void manageMCTPDevice(const std::string& path,
                           const std::shared_ptr<MCTPDevice>& device);
-    void unmanageMCTPDevice(const std::string& path);
+    void unmanageMCTPDevice(const sdbusplus::object_path& path);
 
   private:
     static std::optional<std::string> findSMBusInterface(int bus);

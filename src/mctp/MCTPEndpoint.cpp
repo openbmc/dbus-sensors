@@ -53,7 +53,7 @@ void MCTPDDevice::onEndpointInterfacesRemoved(
     sdbusplus::message_t& msg)
 {
     auto path = msg.unpack<sdbusplus::object_path>();
-    assert(path.str == objpath);
+    assert(path.string() == objpath);
 
     auto removedIfaces = msg.unpack<std::set<std::string>>();
     if (!removedIfaces.contains(mctpdEndpointControlInterface))
@@ -281,7 +281,7 @@ void MCTPDEndpoint::subscribe(Event&& degraded, Event&& available,
                               Event&& removed)
 {
     const auto matchSpec = sdbusplus::match_rules::propertiesChangedNamespace(
-        objpath.str, mctpdEndpointControlInterface);
+        objpath.string(), mctpdEndpointControlInterface);
 
     this->notifyDegraded = std::move(degraded);
     this->notifyAvailable = std::move(available);
@@ -292,7 +292,7 @@ void MCTPDEndpoint::subscribe(Event&& degraded, Event&& available,
         connectivityMatch.emplace(
             static_cast<sdbusplus::bus_t&>(*connection), matchSpec,
             [weak{weak_from_this()},
-             path{objpath.str}](sdbusplus::message_t& msg) {
+             path{objpath.string()}](sdbusplus::message_t& msg) {
                 if (auto self = weak.lock())
                 {
                     self->onMctpEndpointChange(msg);
@@ -306,8 +306,8 @@ void MCTPDEndpoint::subscribe(Event&& degraded, Event&& available,
             });
         connection->async_method_call(
             [weak{weak_from_this()},
-             path{objpath.str}](const boost::system::error_code& ec,
-                                const std::variant<std::string>& value) {
+             path{objpath.string()}](const boost::system::error_code& ec,
+                                     const std::variant<std::string>& value) {
                 if (ec)
                 {
                     debug(
@@ -330,8 +330,8 @@ void MCTPDEndpoint::subscribe(Event&& degraded, Event&& available,
                         "INVENTORY_PATH", path);
                 }
             },
-            mctpdBusName, objpath.str, "org.freedesktop.DBus.Properties", "Get",
-            mctpdEndpointControlInterface, "Connectivity");
+            mctpdBusName, objpath.string(), "org.freedesktop.DBus.Properties",
+            "Get", mctpdEndpointControlInterface, "Connectivity");
     }
     catch (const sdbusplus::exception::internal_exception& err)
     {
@@ -354,7 +354,8 @@ void MCTPDEndpoint::remove()
                 return;
             }
         },
-        mctpdBusName, objpath.str, mctpdEndpointControlInterface, "Remove");
+        mctpdBusName, objpath.string(), mctpdEndpointControlInterface,
+        "Remove");
 }
 
 void MCTPDEndpoint::removed()
