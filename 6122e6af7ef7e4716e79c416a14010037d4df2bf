@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bceeb4ec_503e588a",
+        "filename": "src/nvidia-gpu/NvidiaGpuClockSpeedControl.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-07-08T05:32:24Z",
+      "side": 1,
+      "message": "So, can\u0027t we use regular register_property without custom get-property handler?",
+      "parentUuid": "27ccf2f8_59cdbf82",
+      "revId": "6122e6af7ef7e4716e79c416a14010037d4df2bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "59c205be_cbb20933",
         "filename": "src/nvidia-gpu/NvidiaGpuClockSpeedControl.cpp",
         "patchSetId": 6
