@@ -2,6 +2,8 @@
 #include "MCTPReactor.hpp"
 #include "Utils.hpp"
 
+#include <sdbusplus/message/native_types.hpp>
+
 #include <cstddef>
 #include <cstdint>
 #include <functional>
@@ -91,7 +93,7 @@ class MCTPReactorFixture : public testing::Test
 TEST_F(MCTPReactorFixture, manageNullDevice)
 {
     reactor->manageMCTPDevice("/test", {});
-    reactor->unmanageMCTPDevice("/test");
+    reactor->unmanageMCTPDevice(sdbusplus::object_path("/test"));
 }
 
 TEST_F(MCTPReactorFixture, manageMockDeviceSetupFailure)
@@ -101,7 +103,7 @@ TEST_F(MCTPReactorFixture, manageMockDeviceSetupFailure)
             std::make_error_code(std::errc::permission_denied), endpoint));
 
     reactor->manageMCTPDevice("/test", device);
-    reactor->unmanageMCTPDevice("/test");
+    reactor->unmanageMCTPDevice(sdbusplus::object_path("/test"));
 }
 
 TEST_F(MCTPReactorFixture, manageMockDevice)
@@ -128,7 +130,7 @@ TEST_F(MCTPReactorFixture, manageMockDevice)
         .WillOnce(testing::InvokeArgument<0>(std::error_code(), endpoint));
 
     reactor->manageMCTPDevice("/test", device);
-    reactor->unmanageMCTPDevice("/test");
+    reactor->unmanageMCTPDevice(sdbusplus::object_path("/test"));
 }
 
 TEST_F(MCTPReactorFixture, manageMockDeviceDeferredSetup)
@@ -158,7 +160,7 @@ TEST_F(MCTPReactorFixture, manageMockDeviceDeferredSetup)
 
     reactor->manageMCTPDevice("/test", device);
     reactor->tick();
-    reactor->unmanageMCTPDevice("/test");
+    reactor->unmanageMCTPDevice(sdbusplus::object_path("/test"));
 }
 
 TEST_F(MCTPReactorFixture, unmanageLostDevice)
@@ -185,7 +187,7 @@ TEST_F(MCTPReactorFixture, unmanageLostDevice)
     // Enter Lost
     removeHandler(endpoint);
     // Terminate device
-    reactor->unmanageMCTPDevice("/test");
+    reactor->unmanageMCTPDevice(sdbusplus::object_path("/test"));
 }
 
 TEST_F(MCTPReactorFixture, manageMockDeviceRemoveRecovered)
@@ -220,7 +222,7 @@ TEST_F(MCTPReactorFixture, manageMockDeviceRemoveRecovered)
     // Enter Assigned
     reactor->tick();
     // Terminate device
-    reactor->unmanageMCTPDevice("/test");
+    reactor->unmanageMCTPDevice(sdbusplus::object_path("/test"));
 }
 
 TEST_F(MCTPReactorFixture, gracefulRemoveOfRecovered)
@@ -258,11 +260,11 @@ TEST_F(MCTPReactorFixture, gracefulRemoveOfRecovered)
     // Enter Recovered
     reactor->tick();
     // Enable transition to Assigned
-    reactor->unmanageMCTPDevice("/test");
+    reactor->unmanageMCTPDevice(sdbusplus::object_path("/test"));
     // Re-enter Assigned
     reactor->manageMCTPDevice("/test", device);
     // Terminate device
-    reactor->unmanageMCTPDevice("/test");
+    reactor->unmanageMCTPDevice(sdbusplus::object_path("/test"));
 }
 
 TEST_F(MCTPReactorFixture, recoverFromQuarantine)
@@ -297,7 +299,7 @@ TEST_F(MCTPReactorFixture, recoverFromQuarantine)
     // Enter Recovering
     reactor->tick();
     // Enter Quarantined
-    reactor->unmanageMCTPDevice("/test");
+    reactor->unmanageMCTPDevice(sdbusplus::object_path("/test"));
     // Enter Recovered
     setupHandler(std::error_code(), endpoint);
 }
@@ -318,7 +320,7 @@ TEST_F(MCTPReactorFixture, assigningFromQuarantine)
     // Enter Assigning
     reactor->manageMCTPDevice("/test", device);
     // Enter Quarantine
-    reactor->unmanageMCTPDevice("/test");
+    reactor->unmanageMCTPDevice(sdbusplus::object_path("/test"));
     // Re-enter Assigning
     reactor->manageMCTPDevice("/test", device);
     // Enter Assigned
@@ -408,7 +410,7 @@ TEST_F(MCTPReactorFixture, unassignedFromPending)
     // Enter Assigned
     reactor->manageMCTPDevice("/test", device);
     // Enter Removing by preventing invocation of remove callback
-    reactor->unmanageMCTPDevice("/test");
+    reactor->unmanageMCTPDevice(sdbusplus::object_path("/test"));
     // Enter Pending
     reactor->manageMCTPDevice("/test", device);
     // Enter Unassigned
@@ -440,11 +442,11 @@ TEST_F(MCTPReactorFixture, removingFromPending)
     // Enter Assigned
     reactor->manageMCTPDevice("/test", device);
     // Enter Removing
-    reactor->unmanageMCTPDevice("/test");
+    reactor->unmanageMCTPDevice(sdbusplus::object_path("/test"));
     // Enter Pending
     reactor->manageMCTPDevice("/test", device);
     // Re-enter Removing
-    reactor->unmanageMCTPDevice("/test");
+    reactor->unmanageMCTPDevice(sdbusplus::object_path("/test"));
     // Terminate
     removeHandler(endpoint);
 }
@@ -508,7 +510,7 @@ TEST(MCTPReactor, replaceConfiguration)
     reactor->manageMCTPDevice("/test", idev);
     reactor->manageMCTPDevice("/test", rdev);
     reactor->tick();
-    reactor->unmanageMCTPDevice("/test");
+    reactor->unmanageMCTPDevice(sdbusplus::object_path("/test"));
 
     EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(idev.get()));
     EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(iep.get()));
@@ -579,7 +581,7 @@ TEST(MCTPReactor, manageMockDeviceDelayedSetup)
             reactor->manageMCTPDevice("/test", device);
 
             reactor->tick();
-            reactor->unmanageMCTPDevice("/test");
+            reactor->unmanageMCTPDevice(sdbusplus::object_path("/test"));
             testing::Mock::VerifyAndClearExpectations(device.get());
             wdev = device;
             testing::Mock::VerifyAndClearExpectations(endpoint.get());
