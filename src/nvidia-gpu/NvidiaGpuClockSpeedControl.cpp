@@ -69,7 +69,7 @@ NvidiaGpuClockSpeedControl::NvidiaGpuClockSpeedControl(
         objectServer.add_interface(objPath.str, controlClockSpeedIfaceName);
 
     associationInterface =
-        objectServer.add_interface(objPath.str, association::interface);
+        objectServer.add_interface(objPath, association::interface);
     std::vector<Association> associations;
     associations.emplace_back("controlling", "controlled_by", inventoryPath);
     associationInterface->register_property("Associations", associations);
