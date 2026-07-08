@@ -86,8 +86,8 @@ NvidiaGpuUtilizationMetrics::NvidiaGpuUtilizationMetrics(
         "Unit", "xyz.openbmc_project.Metric.Value.Unit.Percent"s);
     memoryMetricInterface->register_property("Value", 0.0);
 
-    const sdbusplus::object_path memoryInventoryPath(
-        std::format("{}_{}", processorInventoryPath.str, dramInventorySuffix));
+    const sdbusplus::object_path memoryInventoryPath(std::format(
+        "{}_{}", processorInventoryPath.string(), dramInventorySuffix));
 
     std::vector<Association> memoryAssociations;
     memoryAssociations.emplace_back("measuring", "measured_by",
