@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6feb0d81_a55a2a2f",
+        "filename": "src/nvidia-gpu/NvidiaGpuEccMode.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-08T07:26:24Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "b16b4b80_c134c9ba",
+      "revId": "0f4cd9ee8aa270f44eb947224c019943ead86eaa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "552aa389_fa0c6940",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "72a0cb43_bc92d6f7",
+        "filename": "src/nvidia-gpu/NvidiaGpuEccMode.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-08T07:26:24Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "552aa389_fa0c6940",
+      "revId": "0f4cd9ee8aa270f44eb947224c019943ead86eaa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c931dcb9_b966a942",
@@ -48,6 +84,30 @@
       "writtenOn": "2026-06-29T09:04:29Z",
       "side": 1,
       "message": "Is this needed if we follow pattern used in https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/90189?",
+      "range": {
+        "startLine": 35,
+        "startChar": 8,
+        "endLine": 35,
+        "endChar": 51
+      },
+      "revId": "0f4cd9ee8aa270f44eb947224c019943ead86eaa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7f56acf_6c73c069",
+        "filename": "src/nvidia-gpu/NvidiaGpuEccMode.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-08T07:26:24Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "c931dcb9_b966a942",
       "range": {
         "startLine": 35,
         "startChar": 8,
