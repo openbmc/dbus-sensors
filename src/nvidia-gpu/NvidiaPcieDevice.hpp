@@ -98,6 +98,7 @@ class PcieDevice : public std::enable_shared_from_this<PcieDevice>
     std::shared_ptr<NvidiaPcieInterface> pcieInterface;
     std::shared_ptr<NvidiaPcieFunction> pcieFunction;
     std::shared_ptr<NvidiaSwitchResetControl> switchResetControl;
+    std::shared_ptr<NvidiaSwitchResetControl> nicResetControl;
 
     std::shared_ptr<NvidiaDriverInformation> driverInfo;
 
