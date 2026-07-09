@@ -37,6 +37,7 @@
 #include <array>
 #include <chrono>
 #include <cstddef>
+#include <cstdint>
 #include <cstring>
 #include <filesystem>
 #include <fstream>
@@ -758,7 +759,8 @@ void createAssociation(
 
 void setInventoryAssociation(
     const std::weak_ptr<sdbusplus::asio::dbus_interface>& weakRef,
-    const std::string& inventoryPath, const std::string& chassisPath)
+    const std::string& inventoryPath, const std::string& chassisPath,
+    const std::optional<std::string>& monitoredChassisPath = std::nullopt)
 {
     auto association = weakRef.lock();
     if (!association)
@@ -769,9 +771,67 @@ void setInventoryAssociation(
     std::vector<Association> associations;
     associations.emplace_back("inventory", "sensors", inventoryPath);
     associations.emplace_back("chassis", "all_sensors", chassisPath);
+    if (monitoredChassisPath)
+    {
+        associations.emplace_back("monitoring", "monitored_by",
+                                  *monitoredChassisPath);
+    }
 
     association->register_property("Associations", associations);
     association->initialize();
+}
+
+// Finds the chassis inventory object whose Decorator.Slot.SlotNumber matches
+// slotId, so a sensor on a shared multi-slot board can publish which chassis
+// it monitors. Returns the path via the callback, or std::nullopt if none
+// matches. Other objects in the same slot (motherboard, CPU) carry the same
+// SlotNumber, so Item.Chassis is required to pick out the chassis.
+static void resolveSlotChassis(
+    const std::shared_ptr<sdbusplus::asio::connection>& conn, size_t slotId,
+    std::function<void(std::optional<std::string>)>&& callback)
+{
+    auto cb = std::make_shared<std::function<void(std::optional<std::string>)>>(
+        std::move(callback));
+
+    conn->async_method_call(
+        [slotId, cb](const boost::system::error_code ec,
+                     const ManagedObjectType& objects) {
+            if (ec)
+            {
+                (*cb)(std::nullopt);
+                return;
+            }
+
+            for (const auto& [objPath, interfaces] : objects)
+            {
+                if (interfaces.find(
+                        "xyz.openbmc_project.Inventory.Item.Chassis") ==
+                    interfaces.end())
+                {
+                    continue;
+                }
+                auto slot = interfaces.find(
+                    "xyz.openbmc_project.Inventory.Decorator.Slot");
+                if (slot == interfaces.end())
+                {
+                    continue;
+                }
+                auto slotNumber = slot->second.find("SlotNumber");
+                if (slotNumber == slot->second.end())
+                {
+                    continue;
+                }
+                const auto* number = std::get_if<uint64_t>(&slotNumber->second);
+                if (number != nullptr && *number == slotId)
+                {
+                    (*cb)(objPath.str);
+                    return;
+                }
+            }
+            (*cb)(std::nullopt);
+        },
+        entityManagerName, "/xyz/openbmc_project/inventory",
+        "org.freedesktop.DBus.ObjectManager", "GetManagedObjects");
 }
 
 std::optional<std::string> findContainingChassis(std::string_view configParent,
@@ -807,7 +867,7 @@ std::optional<std::string> findContainingChassis(std::string_view configParent,
 void createInventoryAssoc(
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
     const std::shared_ptr<sdbusplus::asio::dbus_interface>& association,
-    const std::string& path)
+    const std::string& path, std::optional<size_t> slotId)
 {
     if (!association)
     {
@@ -821,23 +881,32 @@ void createInventoryAssoc(
 
     std::weak_ptr<sdbusplus::asio::dbus_interface> weakRef = association;
     conn->async_method_call(
-        [weakRef, path](const boost::system::error_code ec,
-                        const GetSubTreeType& subtree) {
+        [conn, weakRef, path, slotId](const boost::system::error_code ec,
+                                      const GetSubTreeType& subtree) {
             // The parent of the config is always the inventory object, and may
             // be the associated chassis. If the parent is not itself a chassis
             // or board, the sensor is associated with the system chassis.
             std::string parent =
                 std::filesystem::path(path).parent_path().string();
-            if (ec)
+            std::string chassis =
+                ec ? parent
+                   : findContainingChassis(parent, subtree).value_or(parent);
+
+            // A sensor with a configured slot additionally publishes a
+            // monitoring association to the chassis it serves, resolved from
+            // that slot. Sensors with no slot rely on containment alone.
+            if (!slotId)
             {
-                // In case of error, set the default associations and
-                // initialize the association Interface.
-                setInventoryAssociation(weakRef, parent, parent);
+                setInventoryAssociation(weakRef, parent, chassis);
                 return;
             }
-            setInventoryAssociation(
-                weakRef, parent,
-                findContainingChassis(parent, subtree).value_or(parent));
+            resolveSlotChassis(
+                conn, *slotId,
+                [weakRef, parent, chassis](
+                    const std::optional<std::string>& monitoredChassisPath) {
+                    setInventoryAssociation(weakRef, parent, chassis,
+                                            monitoredChassisPath);
+                });
         },
         mapper::busName, mapper::path, mapper::interface, "GetSubTree",
         "/xyz/openbmc_project/inventory/system", 2, allInterfaces);
