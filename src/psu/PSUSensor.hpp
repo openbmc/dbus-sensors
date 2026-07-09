@@ -14,6 +14,7 @@
 #include <array>
 #include <cstddef>
 #include <memory>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -31,7 +32,8 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
               double factor, double max, double min, double offset,
               const std::string& label, size_t tSize, double pollRate,
               const std::shared_ptr<I2CDevice>& i2cDevice,
-              std::shared_ptr<HostPowerState> hostPowerState);
+              std::shared_ptr<HostPowerState> hostPowerState,
+              std::optional<size_t> monitoredSlotId);
     ~PSUSensor() override;
     PSUSensor(const PSUSensor&) = delete;
     PSUSensor(PSUSensor&&) = delete;

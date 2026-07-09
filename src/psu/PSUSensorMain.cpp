@@ -54,6 +54,7 @@
 #include <functional>
 #include <iterator>
 #include <memory>
+#include <optional>
 #include <ranges>
 #include <regex>
 #include <stdexcept>
@@ -599,6 +600,14 @@ static void createSensorsCallback(
                 powerStateChanged(state, io, objectServer, dbusConnection);
             });
 
+        // Publish the chassis monitoring association only for sensors that
+        // declare a slot; single-host sensors rely on containment.
+        std::optional<size_t> monitoredSlot;
+        if (baseConfig->find("SlotId") != baseConfig->end())
+        {
+            monitoredSlot = getSlotId(*baseConfig);
+        }
+
         /* Check if there are more sensors in the same interface */
         int i = 1;
         std::vector<std::string> psuNames;
@@ -1129,7 +1138,7 @@ static void createSensorsCallback(
                     sensorName, std::move(sensorThresholds), *interfacePath,
                     readState, sensorUnits, factor, maxReading, minReading,
                     sensorOffset, labelHead, thresholdConfSize, pollRate,
-                    i2cDev, hostPowerState);
+                    i2cDev, hostPowerState, monitoredSlot);
                 sensors[sensorName]->setupRead();
                 ++numCreated;
                 lg2::debug("Created '{NUM}' sensors so far", "NUM", numCreated);
