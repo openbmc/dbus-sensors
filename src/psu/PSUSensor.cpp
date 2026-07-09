@@ -103,7 +103,8 @@ PSUSensor::PSUSensor(
 
     association = objectServer.add_interface(dbusPath, association::interface);
 
-    createInventoryAssoc(conn, association, configurationPath);
+    createInventoryAssoc(conn, association, configurationPath,
+                         this->powerState ? this->powerState->getSlotId() : 0);
 }
 
 PSUSensor::~PSUSensor()
