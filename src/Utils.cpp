@@ -758,7 +758,8 @@ void createAssociation(
 
 void setInventoryAssociation(
     const std::weak_ptr<sdbusplus::asio::dbus_interface>& weakRef,
-    const std::string& inventoryPath, const std::string& chassisPath)
+    const std::string& inventoryPath, const std::string& chassisPath,
+    const std::optional<std::string>& monitoredChassisPath = std::nullopt)
 {
     auto association = weakRef.lock();
     if (!association)
@@ -769,9 +770,102 @@ void setInventoryAssociation(
     std::vector<Association> associations;
     associations.emplace_back("inventory", "sensors", inventoryPath);
     associations.emplace_back("chassis", "all_sensors", chassisPath);
+    if (monitoredChassisPath)
+    {
+        associations.emplace_back("monitoring", "monitored_by",
+                                  *monitoredChassisPath);
+    }
 
     association->register_property("Associations", associations);
     association->initialize();
+}
+
+// Finds the chassis inventory object whose Decorator.Slot.SlotNumber matches
+// slotId, so a sensor on a shared multi-slot board can publish which chassis it
+// monitors. Returns the path via the callback, or std::nullopt if none matches.
+static void resolveSlotChassis(
+    const std::shared_ptr<sdbusplus::asio::connection>& conn, size_t slotId,
+    std::function<void(std::optional<std::string>)>&& callback)
+{
+    constexpr auto slotChassisInterfaces = std::to_array({
+        "xyz.openbmc_project.Inventory.Item.Chassis",
+        "xyz.openbmc_project.Inventory.Decorator.Slot",
+    });
+
+    auto cb = std::make_shared<std::function<void(std::optional<std::string>)>>(
+        std::move(callback));
+
+    conn->async_method_call(
+        [conn, slotId, cb](const boost::system::error_code ec,
+                           const GetSubTreeType& subtree) {
+            if (ec)
+            {
+                (*cb)(std::nullopt);
+                return;
+            }
+
+            std::vector<std::pair<std::string, std::string>> candidates;
+            for (const auto& [objPath, services] : subtree)
+            {
+                for (const auto& [service, interfaces] : services)
+                {
+                    // Only a chassis is a valid monitoring target. Other
+                    // objects in the same slot (motherboard, CPU) carry the
+                    // same SlotNumber, so require Item.Chassis as well.
+                    bool isChassis =
+                        std::find(
+                            interfaces.begin(), interfaces.end(),
+                            "xyz.openbmc_project.Inventory.Item.Chassis") !=
+                        interfaces.end();
+                    bool hasSlot =
+                        std::find(
+                            interfaces.begin(), interfaces.end(),
+                            "xyz.openbmc_project.Inventory.Decorator.Slot") !=
+                        interfaces.end();
+                    if (isChassis && hasSlot)
+                    {
+                        candidates.emplace_back(objPath, service);
+                        break;
+                    }
+                }
+            }
+
+            if (candidates.empty())
+            {
+                (*cb)(std::nullopt);
+                return;
+            }
+
+            auto remaining = std::make_shared<size_t>(candidates.size());
+            auto matched = std::make_shared<bool>(false);
+            for (const auto& [objPath, service] : candidates)
+            {
+                conn->async_method_call(
+                    [slotId, cb, remaining, matched,
+                     objPath](const boost::system::error_code ec2,
+                              const std::variant<uint64_t>& value) {
+                        if (!*matched && !ec2)
+                        {
+                            const auto* number = std::get_if<uint64_t>(&value);
+                            if (number != nullptr && *number == slotId)
+                            {
+                                *matched = true;
+                                (*cb)(objPath);
+                                return;
+                            }
+                        }
+                        if (--(*remaining) == 0 && !*matched)
+                        {
+                            (*cb)(std::nullopt);
+                        }
+                    },
+                    service, objPath, "org.freedesktop.DBus.Properties", "Get",
+                    "xyz.openbmc_project.Inventory.Decorator.Slot",
+                    "SlotNumber");
+            }
+        },
+        mapper::busName, mapper::path, mapper::interface, "GetSubTree",
+        inventoryPath, 0, slotChassisInterfaces);
 }
 
 std::optional<std::string> findContainingChassis(std::string_view configParent,
@@ -807,7 +901,7 @@ std::optional<std::string> findContainingChassis(std::string_view configParent,
 void createInventoryAssoc(
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
     const std::shared_ptr<sdbusplus::asio::dbus_interface>& association,
-    const std::string& path)
+    const std::string& path, size_t slotId)
 {
     if (!association)
     {
@@ -821,23 +915,32 @@ void createInventoryAssoc(
 
     std::weak_ptr<sdbusplus::asio::dbus_interface> weakRef = association;
     conn->async_method_call(
-        [weakRef, path](const boost::system::error_code ec,
-                        const GetSubTreeType& subtree) {
+        [conn, weakRef, path, slotId](const boost::system::error_code ec,
+                                      const GetSubTreeType& subtree) {
             // The parent of the config is always the inventory object, and may
             // be the associated chassis. If the parent is not itself a chassis
             // or board, the sensor is associated with the system chassis.
             std::string parent =
                 std::filesystem::path(path).parent_path().string();
-            if (ec)
+            std::string chassis =
+                ec ? parent
+                   : findContainingChassis(parent, subtree).value_or(parent);
+
+            // A sensor on a shared multi-slot board additionally publishes a
+            // monitoring association to the chassis it serves, resolved from
+            // its slot. slotId 0 is the single-host default and needs none.
+            if (slotId == 0)
             {
-                // In case of error, set the default associations and
-                // initialize the association Interface.
-                setInventoryAssociation(weakRef, parent, parent);
+                setInventoryAssociation(weakRef, parent, chassis);
                 return;
             }
-            setInventoryAssociation(
-                weakRef, parent,
-                findContainingChassis(parent, subtree).value_or(parent));
+            resolveSlotChassis(
+                conn, slotId,
+                [weakRef, parent, chassis](
+                    const std::optional<std::string>& monitoredChassisPath) {
+                    setInventoryAssociation(weakRef, parent, chassis,
+                                            monitoredChassisPath);
+                });
         },
         mapper::busName, mapper::path, mapper::interface, "GetSubTree",
         "/xyz/openbmc_project/inventory/system", 2, allInterfaces);

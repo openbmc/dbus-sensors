@@ -104,6 +104,10 @@ class HostPowerState : public std::enable_shared_from_this<HostPowerState>
     bool isPowerOn() const;
     bool hasBiosPost() const;
     bool isChassisOn() const;
+    size_t getSlotId() const
+    {
+        return slotId;
+    }
 
   private:
     void handlePowerSignal(sdbusplus::message_t& message);
@@ -340,7 +344,7 @@ inline void setLed(const std::shared_ptr<sdbusplus::asio::connection>& conn,
 void createInventoryAssoc(
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
     const std::shared_ptr<sdbusplus::asio::dbus_interface>& association,
-    const std::string& path);
+    const std::string& path, size_t slotId = 0);
 
 struct GetSensorConfiguration :
     std::enable_shared_from_this<GetSensorConfiguration>
