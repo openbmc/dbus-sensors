@@ -16,6 +16,24 @@
       "message": "Is there a reason u r not doing this inline at line#89 but creating a new var ?",
       "revId": "5b2ecba1c78a2400b464b1dbacebffb67ea0bc8b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d5881d4_522db986",
+        "filename": "src/leakdetector/LeakDetectionManager.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2026-07-09T09:40:19Z",
+      "side": 1,
+      "message": "So at that point we have a client which has a proxy which has a reference to a string (since `Preserved \u003d\u003d false` by default)\n\nSince the temporary object is alive until the end of the full expression, and\n`.properties()` already creates the D-Bus message with the path copied into it,\nwe should be safe to use a temporary object as you suggested!\n\nHowever the API does not support temporary objects\n```\n/* Convert a non-Path instance to a Path instance. */\nauto path(auto\u0026 p) const noexcept\n          requires(!P)\n{\n     return client\u003cS, true, Preserved, Types...\u003e(ctx, proxy.path(p)); \n}\n```\n\nsince temporary objects do not bind to non-const reference.\n\n\nLet me know if the explanation is lacking or i missed anything.\n\nLong term the client and proxy should probably get an overload that directly support object_path.",
+      "parentUuid": "9547ae78_2b7dc083",
+      "revId": "5b2ecba1c78a2400b464b1dbacebffb67ea0bc8b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
