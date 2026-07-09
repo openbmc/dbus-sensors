@@ -5,6 +5,7 @@
 #include <sdbusplus/async.hpp>
 #include <xyz/openbmc_project/State/Cable/event.hpp>
 
+#include <exception>
 #include <string>
 
 PHOSPHOR_LOG2_USING;
@@ -23,12 +24,23 @@ auto Events::generateCableEvent(Type type, std::string name)
         auto pendingEvent = pendingEvents.find(name);
         if (pendingEvent != pendingEvents.end())
         {
-            co_await lg2::resolve(ctx, pendingEvent->second);
+            auto pendingEventPath = pendingEvent->second;
+            try
+            {
+                co_await lg2::resolve(ctx, pendingEventPath);
+                pendingEvents.erase(name);
+            }
+            catch (const std::exception& e)
+            {
+                error(
+                    "Failed to resolve pending cable event for {NAME}: {ERROR}",
+                    "NAME", name, "ERROR", e.what());
+                pendingEvents.erase(name);
+            }
 
             using CableConnected = sdbusplus::event::xyz::openbmc_project::
                 state::Cable::CableConnected;
             co_await lg2::commit(ctx, CableConnected("PORT_ID", name));
-            pendingEvents.erase(pendingEvent);
         }
     }
     else if (type == Type::disconnected)
