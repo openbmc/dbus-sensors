@@ -340,7 +340,7 @@ inline void setLed(const std::shared_ptr<sdbusplus::asio::connection>& conn,
 void createInventoryAssoc(
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
     const std::shared_ptr<sdbusplus::asio::dbus_interface>& association,
-    const std::string& path);
+    const std::string& path, std::optional<size_t> slotId = std::nullopt);
 
 struct GetSensorConfiguration :
     std::enable_shared_from_this<GetSensorConfiguration>

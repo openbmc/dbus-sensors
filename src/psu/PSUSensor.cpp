@@ -37,6 +37,7 @@
 #include <functional>
 #include <limits>
 #include <memory>
+#include <optional>
 #include <string>
 #include <string_view>
 #include <system_error>
@@ -55,7 +56,8 @@ PSUSensor::PSUSensor(
     const std::string_view sensorUnits, double factor, double max, double min,
     double offset, const std::string& label, size_t tSize, double pollRate,
     const std::shared_ptr<I2CDevice>& i2cDevice,
-    std::shared_ptr<HostPowerState> hostPowerState) :
+    std::shared_ptr<HostPowerState> hostPowerState,
+    std::optional<size_t> monitoredSlotId) :
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
            objectType, false, false, max, min, conn, powerState,
            std::move(hostPowerState)),
@@ -103,7 +105,7 @@ PSUSensor::PSUSensor(
 
     association = objectServer.add_interface(dbusPath, association::interface);
 
-    createInventoryAssoc(conn, association, configurationPath);
+    createInventoryAssoc(conn, association, configurationPath, monitoredSlotId);
 }
 
 PSUSensor::~PSUSensor()
