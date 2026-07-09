@@ -264,6 +264,12 @@ void PcieDevice::makeSensors()
     switchResetControl = std::make_shared<NvidiaSwitchResetControl>(
         objectServer, mctpRequester, pcieDeviceName, switchInventoryPath, eid);
 
+    const std::string nicDeviceName = name + "_NIC";
+    const std::string nicInventoryPath = (inventoryPrefix / nicDeviceName).str;
+
+    nicResetControl = std::make_shared<NvidiaSwitchResetControl>(
+        objectServer, mctpRequester, nicDeviceName, nicInventoryPath, eid);
+
     uint64_t downstreamPortIndex = 0;
 
     for (uint64_t i = 0; i < pcieDeviceInfo.numUpstreamPorts; ++i)
