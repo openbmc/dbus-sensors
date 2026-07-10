@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90ffb0c3_08402ee2",
+        "filename": "src/tests/nvidia-gpu/utils/DbusMockTestBase.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-10T08:42:07Z",
+      "side": 1,
+      "message": "No callers for ioContext()/hasBus() in this patch — reserved for a follow-up async test (like Patch action)? Just confirming.",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 25
+      },
+      "revId": "e09c58c3a6949f58091f24a59883f93932552c72",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
