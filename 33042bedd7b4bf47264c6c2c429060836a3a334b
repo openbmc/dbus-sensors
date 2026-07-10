@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b96c120_87b09ff0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003004
+      },
+      "writtenOn": "2026-07-10T04:45:29Z",
+      "side": 1,
+      "message": "Can you please provide the test result log for the I2C/I3C probing by PSUSensor",
+      "revId": "33042bedd7b4bf47264c6c2c429060836a3a334b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
