@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d1e2d6b_bf98dec2",
+        "filename": "src/nvidia-gpu/NvidiaPcieDevice.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-10T03:04:49Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "76102a70_b3053d0d",
+      "revId": "e282bd738f26ed44f35f8485b7034e7f9897a373",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8172d237_4c579bca",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-06-30T05:18:30Z",
       "side": 1,
       "message": "Put it next to the object `switchResetControl`.",
+      "revId": "e282bd738f26ed44f35f8485b7034e7f9897a373",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db19b674_f93c64ea",
+        "filename": "src/nvidia-gpu/NvidiaPcieDevice.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-10T03:04:49Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "8172d237_4c579bca",
       "revId": "e282bd738f26ed44f35f8485b7034e7f9897a373",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
