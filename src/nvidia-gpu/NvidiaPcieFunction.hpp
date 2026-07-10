@@ -28,6 +28,8 @@ struct NvidiaPcieFunction :
         sdbusplus::asio::object_server& objectServer,
         gpu::DeviceIdentification deviceType);
 
+    ~NvidiaPcieFunction();
+
     void update();
 
   private:
@@ -43,6 +45,8 @@ struct NvidiaPcieFunction :
     std::shared_ptr<sdbusplus::asio::connection> conn;
 
     mctp::MctpRequester& mctpRequester;
+
+    sdbusplus::asio::object_server& objectServer;
 
     gpu::DeviceIdentification deviceType{};
 

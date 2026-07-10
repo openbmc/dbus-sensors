@@ -46,6 +46,26 @@ PcieDevice::PcieDevice(const SensorConfigs& configs, const std::string& name,
     configs(configs), name(escapeName(name)), path(path)
 {}
 
+PcieDevice::~PcieDevice()
+{
+    if (networkAdapterInterface)
+    {
+        objectServer.remove_interface(networkAdapterInterface);
+    }
+    if (networkAdapterAssociationInterface)
+    {
+        objectServer.remove_interface(networkAdapterAssociationInterface);
+    }
+    if (locationCodeInterface)
+    {
+        objectServer.remove_interface(locationCodeInterface);
+    }
+    if (embeddedConnectorInterface)
+    {
+        objectServer.remove_interface(embeddedConnectorInterface);
+    }
+}
+
 void PcieDevice::init()
 {
     sdbusplus::object_path networkAdapterPath =

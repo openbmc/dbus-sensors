@@ -30,6 +30,8 @@ struct NvidiaPciePortInfo :
         uint8_t portNumber, sdbusplus::asio::object_server& objectServer,
         gpu::DeviceIdentification deviceType);
 
+    ~NvidiaPciePortInfo();
+
     void update();
 
   private:
@@ -53,6 +55,8 @@ struct NvidiaPciePortInfo :
     std::shared_ptr<sdbusplus::asio::connection> conn;
 
     mctp::MctpRequester& mctpRequester;
+
+    sdbusplus::asio::object_server& objectServer;
 
     std::vector<uint8_t> request;
 

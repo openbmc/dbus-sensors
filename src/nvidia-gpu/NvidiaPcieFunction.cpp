@@ -35,7 +35,7 @@ NvidiaPcieFunction::NvidiaPcieFunction(
     sdbusplus::asio::object_server& objectServer,
     gpu::DeviceIdentification deviceType) :
     eid(eid), path(path), conn(conn), mctpRequester(mctpRequester),
-    deviceType(deviceType)
+    objectServer(objectServer), deviceType(deviceType)
 {
     int rc = 0;
     switch (deviceType)
@@ -110,6 +110,12 @@ NvidiaPcieFunction::NvidiaPcieFunction(
             "Error initializing Association interface for PCIe Function, eid={EID}",
             "EID", eid);
     }
+}
+
+NvidiaPcieFunction::~NvidiaPcieFunction()
+{
+    objectServer.remove_interface(pcieFunctionInterface);
+    objectServer.remove_interface(associationInterface);
 }
 
 void NvidiaPcieFunction::processResponse(const std::error_code& ec,

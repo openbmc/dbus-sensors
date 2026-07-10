@@ -42,7 +42,7 @@ NvidiaPcieInterface::NvidiaPcieInterface(
     gpu::DeviceIdentification deviceType,
     const std::optional<std::string>& networkAdapterName) :
     eid(eid), path(path), conn(conn), mctpRequester(mctpRequester),
-    deviceType(deviceType)
+    objectServer(objectServer), deviceType(deviceType)
 {
     int rc = 0;
     switch (deviceType)
@@ -138,6 +138,16 @@ NvidiaPcieInterface::NvidiaPcieInterface(
             "Error initializing Association interface for PCIeSwitch, eid={EID}",
             "EID", eid);
     }
+}
+
+NvidiaPcieInterface::~NvidiaPcieInterface()
+{
+    objectServer.remove_interface(pcieDeviceInterface);
+    if (switchInterface)
+    {
+        objectServer.remove_interface(switchInterface);
+    }
+    objectServer.remove_interface(associationInterface);
 }
 
 string NvidiaPcieInterface::mapPcieGeneration(uint32_t value)
