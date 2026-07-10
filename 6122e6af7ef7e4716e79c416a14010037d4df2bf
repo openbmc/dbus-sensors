@@ -90,6 +90,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "18a6eb0d_013bd7ec",
+        "filename": "src/nvidia-gpu/NvidiaGpuClockSpeedControl.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-10T06:45:17Z",
+      "side": 1,
+      "message": "Done for the read-only Present* — switched to plain register_property updated via set_property. The writable Requested* keep the custom getter.",
+      "parentUuid": "bceeb4ec_503e588a",
+      "revId": "6122e6af7ef7e4716e79c416a14010037d4df2bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "59c205be_cbb20933",
