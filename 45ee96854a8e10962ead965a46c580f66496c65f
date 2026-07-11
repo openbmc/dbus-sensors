@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c899f67_16f76c5e",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-11T09:19:07Z",
+      "side": 1,
+      "message": "I can change this if there is a final conclusion. Thanks.",
+      "parentUuid": "5e5ca90e_ee9f4e40",
+      "revId": "45ee96854a8e10962ead965a46c580f66496c65f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e3bd08b6_29b3a30d",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-06-12T11:18:58Z",
       "side": 1,
       "message": "Could we storing the bitmap directly (map\u003cMessageType, array\u003cuint8_t,32\u003e\u003e) and bit-testing in has() drops the per-type set allocation and the conversion loop.",
+      "range": {
+        "startLine": 151,
+        "startChar": 12,
+        "endLine": 151,
+        "endChar": 36
+      },
+      "revId": "45ee96854a8e10962ead965a46c580f66496c65f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b495327_465e8f17",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-11T09:19:07Z",
+      "side": 1,
+      "message": "Done ,thanks.",
+      "parentUuid": "e3bd08b6_29b3a30d",
       "range": {
         "startLine": 151,
         "startChar": 12,
@@ -64,6 +106,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "986b875e_63401226",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-11T09:19:07Z",
+      "side": 1,
+      "message": "Done ,thanks.",
+      "parentUuid": "3c00fa2d_fad8b61d",
+      "range": {
+        "startLine": 161,
+        "startChar": 8,
+        "endLine": 161,
+        "endChar": 12
+      },
+      "revId": "45ee96854a8e10962ead965a46c580f66496c65f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "31315585_476cd002",
@@ -77,6 +143,30 @@
       "writtenOn": "2026-06-12T11:18:58Z",
       "side": 1,
       "message": "The metric objects just stop being polled and keep their last published value — for a permanently-unsupported command those stale values can still look valid to a Redfish client. Was keeping them intentional?",
+      "range": {
+        "startLine": 476,
+        "startChar": 0,
+        "endLine": 506,
+        "endChar": 5
+      },
+      "revId": "45ee96854a8e10962ead965a46c580f66496c65f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a17fbf7_adb4b36b",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-11T09:19:07Z",
+      "side": 1,
+      "message": "Done. Every double-valued reading now updates to NaN on any read failure (transport error, decode error, or non-success completion code) instead of keeping its previous value.\n\nNon-numeric properties (driver version, clock/power limits, ECC counts, PCIe link info) still keep their last value on failure, since there is no NaN equivalent for those types. The proper fix would be to add an \"unregister property\" API so a stale property can be dropped rather than left published; I think that is best handled as a follow-up patch.",
+      "parentUuid": "31315585_476cd002",
       "range": {
         "startLine": 476,
         "startChar": 0,
