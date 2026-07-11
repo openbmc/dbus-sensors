@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4209341_9eb9b4e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-11T09:21:12Z",
+      "side": 1,
+      "message": "nit: Consider adding evidence for the removal path — this only covers creation.\nA busctl before/after (removing the EM config or MCTP endpoint) showing the\ninterfaces are gone would confirm what this patch adds.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 0
+      },
+      "revId": "04c88d6a345a30b781e1003a385f705e5bb6b8e5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
