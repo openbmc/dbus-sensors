@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d0413e1_85dab6aa",
+        "filename": "src/cable-monitor/CableEvents.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-07-13T05:44:53Z",
+      "side": 1,
+      "message": "Should this be pendingEvents.erase(name) instead? After co_await, the iterator may no longer be valid. The catch block already uses the key-based erase for this reason.",
+      "revId": "878145fb681f902ab7212af39289060fc48bedcf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
