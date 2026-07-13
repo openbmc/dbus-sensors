@@ -24,10 +24,12 @@
 
 #include <cstdint>
 #include <memory>
+#include <optional>
 #include <span>
 #include <string>
 #include <system_error>
 #include <unordered_map>
+#include <utility>
 #include <variant>
 #include <vector>
 
@@ -57,51 +59,69 @@ class DeviceManager
     void processEndpoint(const SensorConfigs& configs,
                          const std::string& endpointPath,
                          const boost::system::error_code& ec,
-                         const SensorBaseConfigMap& endpoint);
-    void checkAssociationAndQueryDevice(const SensorConfigs& configs,
-                                        const std::string& endpointPath,
-                                        uint8_t eid);
-    void getAssociationEndpoints(const SensorConfigs& configs,
-                                 const std::string& endpointPath, uint8_t eid,
-                                 const std::string& associationPath,
-                                 const std::string& associationService);
+                         const SensorBaseConfigMap& endpoint,
+                         std::optional<std::pair<uint8_t, uint8_t>> bridgePool);
+    void checkAssociationAndQueryDevice(
+        const SensorConfigs& configs, const std::string& endpointPath,
+        uint8_t eid, std::optional<std::pair<uint8_t, uint8_t>> bridgePool);
+    void getAssociationEndpoints(
+        const SensorConfigs& configs, const std::string& endpointPath,
+        uint8_t eid, const std::string& associationPath,
+        const std::string& associationService,
+        std::optional<std::pair<uint8_t, uint8_t>> bridgePool);
     void processAssociationEndpointsResult(
         const SensorConfigs& configs, const std::string& endpointPath,
         uint8_t eid, const boost::system::error_code& ec,
-        const std::variant<std::vector<std::string>>& value);
-    void getConfigService(const SensorConfigs& configs,
-                          const std::string& endpointPath, uint8_t eid,
-                          const std::string& configPath);
-    void getConfigProperties(const SensorConfigs& configs,
-                             const std::string& endpointPath, uint8_t eid,
-                             const std::string& configPath,
-                             const std::string& configService);
+        const std::variant<std::vector<std::string>>& value,
+        std::optional<std::pair<uint8_t, uint8_t>> bridgePool);
+    void getConfigService(
+        const SensorConfigs& configs, const std::string& endpointPath,
+        uint8_t eid, const std::string& configPath,
+        std::optional<std::pair<uint8_t, uint8_t>> bridgePool);
+    void getConfigProperties(
+        const SensorConfigs& configs, const std::string& endpointPath,
+        uint8_t eid, const std::string& configPath,
+        const std::string& configService,
+        std::optional<std::pair<uint8_t, uint8_t>> bridgePool);
     void processConfigPropertiesResult(
         const SensorConfigs& configs, const std::string& endpointPath,
         uint8_t eid, const std::string& configPath,
         const boost::system::error_code& ec,
-        const SensorBaseConfigMap& configProps);
-    void findBoardInventoryPath(const SensorConfigs& configs,
-                                const std::string& endpointPath, uint8_t eid,
-                                const std::string& boardName,
-                                const std::string& configPath);
+        const SensorBaseConfigMap& configProps,
+        std::optional<std::pair<uint8_t, uint8_t>> bridgePool);
+    void findBoardInventoryPath(
+        const SensorConfigs& configs, const std::string& endpointPath,
+        uint8_t eid, const std::string& boardName,
+        const std::string& configPath,
+        std::optional<std::pair<uint8_t, uint8_t>> bridgePool,
+        const std::optional<std::vector<std::string>>& bridgedEndpoints);
     void processBoardInventoryResult(
         const SensorConfigs& configs, const std::string& endpointPath,
         uint8_t eid, const std::string& boardName,
         const std::string& configPath, const boost::system::error_code& ec,
-        const GetSubTreeType& ret);
+        const GetSubTreeType& ret,
+        std::optional<std::pair<uint8_t, uint8_t>> bridgePool,
+        const std::optional<std::vector<std::string>>& bridgedEndpoints);
     void processNvidiaMctpVdmConfigSearch(
         const SensorConfigs& configs, const std::string& endpointPath,
         uint8_t eid, const std::string& inventoryPath,
         const std::string& configPath, const boost::system::error_code& ec,
-        const GetSubTreeType& ret);
-    void queryDeviceIdentification(
-        const SensorConfigs& configs, const std::string& path,
-        const std::string& endpointPath, uint8_t eid);
+        const GetSubTreeType& ret,
+        std::optional<std::pair<uint8_t, uint8_t>> bridgePool,
+        const std::optional<std::vector<std::string>>& bridgedEndpoints);
+    void queryDevicesForEndpoint(
+        const SensorConfigs& configs, const std::string& configPath,
+        const std::string& endpointPath, uint8_t eid,
+        const std::optional<std::pair<uint8_t, uint8_t>>& bridgePool,
+        const std::optional<std::vector<std::string>>& bridgedEndpoints);
+    void queryDeviceIdentification(const SensorConfigs& configs,
+                                   const std::string& path,
+                                   const std::string& endpointPath, uint8_t eid,
+                                   const std::string& deviceName);
     void processQueryDeviceIdResponse(
         const SensorConfigs& configs, const std::string& path,
         const std::string& endpointPath, uint8_t eid,
-        const std::error_code& sendRecvMsgResult,
+        const std::string& deviceName, const std::error_code& sendRecvMsgResult,
         std::span<const uint8_t> queryDeviceIdentificationResponse);
 
     void registerEndpoint(const std::string& endpointPath, uint8_t eid,
