@@ -28,6 +28,7 @@
 #include <string>
 #include <system_error>
 #include <unordered_map>
+#include <variant>
 #include <vector>
 
 class DeviceManager
@@ -49,15 +50,51 @@ class DeviceManager
     void onEndpointAdded(sdbusplus::message_t& msg);
 
   private:
-    void processSensorConfigs(const ManagedObjectType& resp);
-    void discoverDevices(const SensorConfigs& configs, const std::string& path);
-    void queryEndpoints(const SensorConfigs& configs, const std::string& path,
+    void discoverDevices(const SensorConfigs& configs);
+    void queryEndpoints(const SensorConfigs& configs,
                         const boost::system::error_code& ec,
                         const GetSubTreeType& ret);
-    void processEndpoint(const SensorConfigs& configs, const std::string& path,
+    void processEndpoint(const SensorConfigs& configs,
                          const std::string& endpointPath,
                          const boost::system::error_code& ec,
                          const SensorBaseConfigMap& endpoint);
+    void checkAssociationAndQueryDevice(const SensorConfigs& configs,
+                                        const std::string& endpointPath,
+                                        uint8_t eid);
+    void getAssociationEndpoints(const SensorConfigs& configs,
+                                 const std::string& endpointPath, uint8_t eid,
+                                 const std::string& associationPath,
+                                 const std::string& associationService);
+    void processAssociationEndpointsResult(
+        const SensorConfigs& configs, const std::string& endpointPath,
+        uint8_t eid, const boost::system::error_code& ec,
+        const std::variant<std::vector<std::string>>& value);
+    void getConfigService(const SensorConfigs& configs,
+                          const std::string& endpointPath, uint8_t eid,
+                          const std::string& configPath);
+    void getConfigProperties(const SensorConfigs& configs,
+                             const std::string& endpointPath, uint8_t eid,
+                             const std::string& configPath,
+                             const std::string& configService);
+    void processConfigPropertiesResult(
+        const SensorConfigs& configs, const std::string& endpointPath,
+        uint8_t eid, const std::string& configPath,
+        const boost::system::error_code& ec,
+        const SensorBaseConfigMap& configProps);
+    void findBoardInventoryPath(const SensorConfigs& configs,
+                                const std::string& endpointPath, uint8_t eid,
+                                const std::string& boardName,
+                                const std::string& configPath);
+    void processBoardInventoryResult(
+        const SensorConfigs& configs, const std::string& endpointPath,
+        uint8_t eid, const std::string& boardName,
+        const std::string& configPath, const boost::system::error_code& ec,
+        const GetSubTreeType& ret);
+    void processNvidiaMctpVdmConfigSearch(
+        const SensorConfigs& configs, const std::string& endpointPath,
+        uint8_t eid, const std::string& inventoryPath,
+        const std::string& configPath, const boost::system::error_code& ec,
+        const GetSubTreeType& ret);
     void queryDeviceIdentification(
         const SensorConfigs& configs, const std::string& path,
         const std::string& endpointPath, uint8_t eid);
@@ -80,6 +117,11 @@ class DeviceManager
     // EID/path in place, without rebuilding its D-Bus objects.
     void reattachByUuid(const std::string& endpointPath);
     void applyEvent(const std::string& endpointPath, EndpointEvent event);
+
+    // A transient D-Bus failure during the per-endpoint config-resolution
+    // chain schedules a bounded number of full-sweep retries before the
+    // endpoint is given up on. Returns false once the cap is reached.
+    bool retryDiscovery(const std::string& endpointPath, uint8_t eid);
 
     boost::asio::io_context& io;
     sdbusplus::asio::object_server& objectServer;
@@ -107,4 +149,8 @@ class DeviceManager
     // key = endpoint Common.UUID -> device, for matching across EID changes
     std::unordered_map<std::string, std::weak_ptr<DeviceInterface>>
         uuidToDevice;
+    // key = mctpd endpoint path -> number of transient-error discovery retries
+    // already scheduled for it; capped so a persistently failing endpoint does
+    // not re-trigger sweeps forever. Reset when the endpoint's config resolves.
+    std::unordered_map<std::string, unsigned> discoveryRetries;
 };
