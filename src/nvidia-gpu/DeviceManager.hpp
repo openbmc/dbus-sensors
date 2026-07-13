@@ -28,6 +28,7 @@
 #include <string>
 #include <system_error>
 #include <unordered_map>
+#include <variant>
 #include <vector>
 
 class DeviceManager
@@ -49,15 +50,51 @@ class DeviceManager
     void onEndpointAdded(sdbusplus::message_t& msg);
 
   private:
-    void processSensorConfigs(const ManagedObjectType& resp);
-    void discoverDevices(const SensorConfigs& configs, const std::string& path);
-    void queryEndpoints(const SensorConfigs& configs, const std::string& path,
+    void discoverDevices(const SensorConfigs& configs);
+    void queryEndpoints(const SensorConfigs& configs,
                         const boost::system::error_code& ec,
                         const GetSubTreeType& ret);
-    void processEndpoint(const SensorConfigs& configs, const std::string& path,
+    void processEndpoint(const SensorConfigs& configs,
                          const std::string& endpointPath,
                          const boost::system::error_code& ec,
                          const SensorBaseConfigMap& endpoint);
+    void checkAssociationAndQueryDevice(const SensorConfigs& configs,
+                                        const std::string& endpointPath,
+                                        uint8_t eid);
+    void getAssociationEndpoints(const SensorConfigs& configs,
+                                 const std::string& endpointPath, uint8_t eid,
+                                 const std::string& associationPath,
+                                 const std::string& associationService);
+    void processAssociationEndpointsResult(
+        const SensorConfigs& configs, const std::string& endpointPath,
+        uint8_t eid, const boost::system::error_code& ec,
+        const std::variant<std::vector<std::string>>& value);
+    void getConfigService(const SensorConfigs& configs,
+                          const std::string& endpointPath, uint8_t eid,
+                          const std::string& configPath);
+    void getConfigProperties(const SensorConfigs& configs,
+                             const std::string& endpointPath, uint8_t eid,
+                             const std::string& configPath,
+                             const std::string& configService);
+    void processConfigPropertiesResult(
+        const SensorConfigs& configs, const std::string& endpointPath,
+        uint8_t eid, const std::string& configPath,
+        const boost::system::error_code& ec,
+        const SensorBaseConfigMap& configProps);
+    void findBoardInventoryPath(const SensorConfigs& configs,
+                                const std::string& endpointPath, uint8_t eid,
+                                const std::string& boardName,
+                                const std::string& configPath);
+    void processBoardInventoryResult(
+        const SensorConfigs& configs, const std::string& endpointPath,
+        uint8_t eid, const std::string& boardName,
+        const std::string& configPath, const boost::system::error_code& ec,
+        const GetSubTreeType& ret);
+    void processNvidiaMctpVdmConfigSearch(
+        const SensorConfigs& configs, const std::string& endpointPath,
+        uint8_t eid, const std::string& inventoryPath,
+        const std::string& configPath, const boost::system::error_code& ec,
+        const GetSubTreeType& ret);
     void queryDeviceIdentification(
         const SensorConfigs& configs, const std::string& path,
         const std::string& endpointPath, uint8_t eid);
