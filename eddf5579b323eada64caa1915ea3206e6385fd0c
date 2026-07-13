@@ -16,6 +16,23 @@
       "message": "gentle ping on this commit.",
       "revId": "eddf5579b323eada64caa1915ea3206e6385fd0c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "380087c6_0ed06a57",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003004
+      },
+      "writtenOn": "2026-07-13T07:27:42Z",
+      "side": 1,
+      "message": "Could you please provide test cases for this change, especially one invalid temperature payload and one valid payload, to confirm the new 4-byte validation behavior?",
+      "revId": "eddf5579b323eada64caa1915ea3206e6385fd0c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
