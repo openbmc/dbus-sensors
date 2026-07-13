@@ -35,9 +35,7 @@
 #include <format>
 #include <memory>
 #include <span>
-#include <stdexcept>
 #include <string>
-#include <string_view>
 #include <system_error>
 #include <unordered_map>
 #include <utility>
@@ -45,6 +43,26 @@
 #include <vector>
 
 static constexpr auto sensorPollRateMs = 1000;
+
+// Bound on how many times a transient D-Bus failure during a single endpoint's
+// config-resolution chain will re-trigger a discovery sweep before giving up.
+static constexpr unsigned maxDiscoveryRetries = 3;
+
+// EntityManager escapes inventory object paths by replacing every character
+// that is not [A-Za-z0-9_] with '_'; escapeName() only replaces spaces, so a
+// board name with e.g. a hyphen would not match its inventory path segment.
+static std::string escapeForInventoryPath(const std::string& name)
+{
+    std::string out = name;
+    std::ranges::replace_if(
+        out,
+        [](char c) {
+            return (c < '0' || c > '9') && (c < 'A' || c > 'Z') &&
+                   (c < 'a' || c > 'z') && c != '_';
+        },
+        '_');
+    return out;
+}
 
 DeviceManager::DeviceManager(boost::asio::io_context& io,
                              sdbusplus::asio::object_server& objectServer,
@@ -70,6 +88,28 @@ void DeviceManager::scheduleRescan()
         }
         createSensors();
     });
+}
+
+bool DeviceManager::retryDiscovery(const std::string& endpointPath, uint8_t eid)
+{
+    unsigned& count = discoveryRetries[endpointPath];
+    if (count >= maxDiscoveryRetries)
+    {
+        // Keep the entry at the cap (do not erase) so a persistently failing
+        // endpoint stops re-triggering sweeps; a normal event-driven rescan
+        // will still process it if its config later appears.
+        lg2::error(
+            "EID {EID}: giving up discovery for {PATH} after {MAX} transient retries",
+            "EID", eid, "PATH", endpointPath, "MAX", maxDiscoveryRetries);
+        return false;
+    }
+    ++count;
+    lg2::warning(
+        "EID {EID}: transient discovery error for {PATH}, scheduling retry {N}/{MAX}",
+        "EID", eid, "PATH", endpointPath, "N", count, "MAX",
+        maxDiscoveryRetries);
+    scheduleRescan();
+    return true;
 }
 void DeviceManager::processQueryDeviceIdResponse(
     const SensorConfigs& configs, const std::string& path,
@@ -210,6 +250,10 @@ void DeviceManager::queryDeviceIdentification(
     const SensorConfigs& configs, const std::string& path,
     const std::string& endpointPath, uint8_t eid)
 {
+    // Reaching here means the config-resolution chain succeeded for this
+    // endpoint, so clear any transient-error retry budget accrued for it.
+    discoveryRetries.erase(endpointPath);
+
     auto queryDeviceIdentificationRequest = std::make_shared<
         std::array<uint8_t, gpu::queryDeviceIdentificationRequestSize>>();
 
@@ -233,10 +277,255 @@ void DeviceManager::queryDeviceIdentification(
         });
 }
 
+void DeviceManager::checkAssociationAndQueryDevice(
+    const SensorConfigs& configs, const std::string& endpointPath, uint8_t eid)
+{
+    const std::string associationPath = endpointPath + "/configured_by";
+
+    conn->async_method_call(
+        [this, configs, endpointPath, eid, associationPath](
+            const boost::system::error_code& ec,
+            const std::vector<std::pair<std::string, std::vector<std::string>>>&
+                ret) {
+            if (ec || ret.empty())
+            {
+                lg2::error(
+                    "EID {EID}: No association found at {PATH}, skipping endpoint",
+                    "EID", eid, "PATH", associationPath);
+                return;
+            }
+            getAssociationEndpoints(configs, endpointPath, eid, associationPath,
+                                    ret[0].first);
+        },
+        "xyz.openbmc_project.ObjectMapper",
+        "/xyz/openbmc_project/object_mapper",
+        "xyz.openbmc_project.ObjectMapper", "GetObject", associationPath,
+        std::vector<std::string>{"xyz.openbmc_project.Association"});
+}
+
+void DeviceManager::getAssociationEndpoints(
+    const SensorConfigs& configs, const std::string& endpointPath, uint8_t eid,
+    const std::string& associationPath, const std::string& associationService)
+{
+    conn->async_method_call(
+        [this, configs, endpointPath,
+         eid](const boost::system::error_code& ec,
+              const std::variant<std::vector<std::string>>& value) {
+            processAssociationEndpointsResult(configs, endpointPath, eid, ec,
+                                              value);
+        },
+        associationService, associationPath, "org.freedesktop.DBus.Properties",
+        "Get", "xyz.openbmc_project.Association", "endpoints");
+}
+
+void DeviceManager::processAssociationEndpointsResult(
+    const SensorConfigs& configs, const std::string& endpointPath, uint8_t eid,
+    const boost::system::error_code& ec,
+    const std::variant<std::vector<std::string>>& value)
+{
+    if (ec)
+    {
+        lg2::error("EID {EID}: Failed to get endpoints property: {ERROR}",
+                   "EID", eid, "ERROR", ec.message());
+        retryDiscovery(endpointPath, eid);
+        return;
+    }
+
+    const auto* endpointsPtr = std::get_if<std::vector<std::string>>(&value);
+    if ((endpointsPtr == nullptr) || endpointsPtr->empty())
+    {
+        lg2::error("EID {EID}: endpoints property is empty, skipping", "EID",
+                   eid);
+        return;
+    }
+
+    getConfigService(configs, endpointPath, eid, (*endpointsPtr)[0]);
+}
+
+void DeviceManager::getConfigService(const SensorConfigs& configs,
+                                     const std::string& endpointPath,
+                                     uint8_t eid, const std::string& configPath)
+{
+    conn->async_method_call(
+        [this, configs, endpointPath, eid, configPath](
+            const boost::system::error_code& ec,
+            const std::vector<std::pair<std::string, std::vector<std::string>>>&
+                ret) {
+            if (ec || ret.empty())
+            {
+                lg2::error(
+                    "EID {EID}: Failed to get service for config path {PATH}: {ERROR}",
+                    "EID", eid, "PATH", configPath, "ERROR", ec.message());
+                retryDiscovery(endpointPath, eid);
+                return;
+            }
+            getConfigProperties(configs, endpointPath, eid, configPath,
+                                ret[0].first);
+        },
+        "xyz.openbmc_project.ObjectMapper",
+        "/xyz/openbmc_project/object_mapper",
+        "xyz.openbmc_project.ObjectMapper", "GetObject", configPath,
+        std::vector<std::string>{});
+}
+
+void DeviceManager::getConfigProperties(
+    const SensorConfigs& configs, const std::string& endpointPath, uint8_t eid,
+    const std::string& configPath, const std::string& configService)
+{
+    conn->async_method_call(
+        [this, configs, endpointPath, eid,
+         configPath](const boost::system::error_code& ec,
+                     const SensorBaseConfigMap& configProps) {
+            processConfigPropertiesResult(configs, endpointPath, eid,
+                                          configPath, ec, configProps);
+        },
+        configService, configPath, "org.freedesktop.DBus.Properties", "GetAll",
+        "");
+}
+
+void DeviceManager::processConfigPropertiesResult(
+    const SensorConfigs& configs, const std::string& endpointPath, uint8_t eid,
+    const std::string& configPath, const boost::system::error_code& ec,
+    const SensorBaseConfigMap& configProps)
+{
+    if (ec)
+    {
+        lg2::error("EID {EID}: Failed to get config properties: {ERROR}", "EID",
+                   eid, "ERROR", ec.message());
+        retryDiscovery(endpointPath, eid);
+        return;
+    }
+
+    auto nameIt = configProps.find("Name");
+    if (nameIt == configProps.end())
+    {
+        lg2::error("EID {EID}: Name property not found in config, skipping",
+                   "EID", eid);
+        return;
+    }
+    const auto* namePtr = std::get_if<std::string>(&nameIt->second);
+    if (namePtr == nullptr)
+    {
+        lg2::error("EID {EID}: Name property has invalid type, skipping", "EID",
+                   eid);
+        return;
+    }
+    const std::string& deviceName = *namePtr;
+    lg2::info("EID {EID}: Found device name {NAME}", "EID", eid, "NAME",
+              deviceName);
+
+    auto boardIt = configProps.find("Board");
+    if (boardIt != configProps.end())
+    {
+        const auto* boardPtr = std::get_if<std::string>(&boardIt->second);
+        if ((boardPtr != nullptr) && !boardPtr->empty())
+        {
+            findBoardInventoryPath(configs, endpointPath, eid,
+                                   escapeForInventoryPath(*boardPtr),
+                                   configPath);
+            return;
+        }
+    }
+
+    lg2::info("EID {EID}: No Board property found, using config path {PATH}",
+              "EID", eid, "PATH", configPath);
+    queryDeviceIdentification(configs, configPath, endpointPath, eid);
+}
+
+void DeviceManager::findBoardInventoryPath(
+    const SensorConfigs& configs, const std::string& endpointPath, uint8_t eid,
+    const std::string& boardName, const std::string& configPath)
+{
+    const std::string searchPath{"/xyz/openbmc_project/inventory"};
+    const std::vector<std::string> ifaceList{
+        "xyz.openbmc_project.Inventory.Item.Chassis",
+        "xyz.openbmc_project.Inventory.Item.Board"};
+
+    conn->async_method_call(
+        [this, configs, endpointPath, eid, boardName, configPath](
+            const boost::system::error_code& ec, const GetSubTreeType& ret) {
+            processBoardInventoryResult(configs, endpointPath, eid, boardName,
+                                        configPath, ec, ret);
+        },
+        "xyz.openbmc_project.ObjectMapper",
+        "/xyz/openbmc_project/object_mapper",
+        "xyz.openbmc_project.ObjectMapper", "GetSubTree", searchPath, 0,
+        ifaceList);
+}
+
+void DeviceManager::processBoardInventoryResult(
+    const SensorConfigs& configs, const std::string& endpointPath, uint8_t eid,
+    const std::string& boardName, const std::string& configPath,
+    const boost::system::error_code& ec, const GetSubTreeType& ret)
+{
+    std::string inventoryPath = configPath;
+
+    if (!ec && !ret.empty())
+    {
+        for (const auto& [objPath, services] : ret)
+        {
+            if (objPath.ends_with("/" + boardName))
+            {
+                inventoryPath = objPath;
+                lg2::info(
+                    "EID {EID}: Found board inventory path {PATH} for board {BOARD}",
+                    "EID", eid, "PATH", inventoryPath, "BOARD", boardName);
+                break;
+            }
+        }
+    }
+
+    if (inventoryPath == configPath)
+    {
+        lg2::info(
+            "EID {EID}: Board {BOARD} not found in inventory, using config path {PATH}",
+            "EID", eid, "BOARD", boardName, "PATH", configPath);
+        queryDeviceIdentification(configs, configPath, endpointPath, eid);
+        return;
+    }
+
+    conn->async_method_call(
+        [this, configs, endpointPath, eid, inventoryPath, configPath](
+            const boost::system::error_code& ec2, const GetSubTreeType& ret2) {
+            processNvidiaMctpVdmConfigSearch(configs, endpointPath, eid,
+                                             inventoryPath, configPath, ec2,
+                                             ret2);
+        },
+        "xyz.openbmc_project.ObjectMapper",
+        "/xyz/openbmc_project/object_mapper",
+        "xyz.openbmc_project.ObjectMapper", "GetSubTree", inventoryPath, 0,
+        std::vector<std::string>{
+            "xyz.openbmc_project.Configuration.NvidiaMctpVdm"});
+}
+
+void DeviceManager::processNvidiaMctpVdmConfigSearch(
+    const SensorConfigs& configs, const std::string& endpointPath, uint8_t eid,
+    const std::string& inventoryPath, const std::string& configPath,
+    const boost::system::error_code& ec, const GetSubTreeType& ret)
+{
+    std::string finalConfigPath = configPath;
+
+    if (!ec && !ret.empty())
+    {
+        const std::string& objPath = ret[0].first;
+        if (objPath.find(inventoryPath) != std::string::npos)
+        {
+            finalConfigPath = objPath;
+        }
+    }
+    else
+    {
+        lg2::info(
+            "EID {EID}: NvidiaMctpVdm config not found under board, using original {PATH}",
+            "EID", eid, "PATH", configPath);
+    }
+
+    queryDeviceIdentification(configs, finalConfigPath, endpointPath, eid);
+}
+
 void DeviceManager::processEndpoint(
-    const SensorConfigs& configs, const std::string& path,
-    const std::string& endpointPath, const boost::system::error_code& ec,
-    const SensorBaseConfigMap& endpoint)
+    const SensorConfigs& configs, const std::string& endpointPath,
+    const boost::system::error_code& ec, const SensorBaseConfigMap& endpoint)
 {
     if (ec)
     {
@@ -300,13 +589,13 @@ void DeviceManager::processEndpoint(
                   ocp::accelerator_management::messageType) != mctpTypes.end())
     {
         lg2::info("Found OCP MCTP VDM Endpoint with ID {EID}", "EID", eid);
-        queryDeviceIdentification(configs, path, endpointPath, eid);
+        checkAssociationAndQueryDevice(configs, endpointPath, eid);
     }
 }
 
-void DeviceManager::queryEndpoints(
-    const SensorConfigs& configs, const std::string& path,
-    const boost::system::error_code& ec, const GetSubTreeType& ret)
+void DeviceManager::queryEndpoints(const SensorConfigs& configs,
+                                   const boost::system::error_code& ec,
+                                   const GetSubTreeType& ret)
 {
     if (ec)
     {
@@ -329,10 +618,10 @@ void DeviceManager::queryEndpoints(
                 if (iface == "xyz.openbmc_project.MCTP.Endpoint")
                 {
                     conn->async_method_call(
-                        [this, configs, path, endpointPath{objPath}](
+                        [this, configs, endpointPath{objPath}](
                             const boost::system::error_code& ec,
                             const SensorBaseConfigMap& endpoint) {
-                            processEndpoint(configs, path, endpointPath, ec,
+                            processEndpoint(configs, endpointPath, ec,
                                             endpoint);
                         },
                         service, objPath, "org.freedesktop.DBus.Properties",
@@ -343,66 +632,20 @@ void DeviceManager::queryEndpoints(
     }
 }
 
-void DeviceManager::discoverDevices(const SensorConfigs& configs,
-                                    const std::string& path)
+void DeviceManager::discoverDevices(const SensorConfigs& configs)
 {
     std::string searchPath{"/au/com/codeconstruct/"};
     std::vector<std::string> ifaceList{{"xyz.openbmc_project.MCTP.Endpoint"}};
 
     conn->async_method_call(
-        [this, configs,
-         path](const boost::system::error_code& ec, const GetSubTreeType& ret) {
-            queryEndpoints(configs, path, ec, ret);
+        [this, configs](const boost::system::error_code& ec,
+                        const GetSubTreeType& ret) {
+            queryEndpoints(configs, ec, ret);
         },
         "xyz.openbmc_project.ObjectMapper",
         "/xyz/openbmc_project/object_mapper",
         "xyz.openbmc_project.ObjectMapper", "GetSubTree", searchPath, 0,
         ifaceList);
-}
-
-void DeviceManager::processSensorConfigs(const ManagedObjectType& resp)
-{
-    for (const auto& [path, interfaces] : resp)
-    {
-        for (const auto& [intf, cfg] : interfaces)
-        {
-            if (intf != configInterfaceName(sensorType))
-            {
-                continue;
-            }
-
-            SensorConfigs configs;
-
-            configs.name = loadVariant<std::string>(cfg, "Name");
-
-            try
-            {
-                configs.pollRate = loadVariant<uint64_t>(cfg, "PollRate");
-            }
-            catch (const std::invalid_argument&)
-            {
-                // PollRate is an optional config
-                configs.pollRate = sensorPollRateMs;
-            }
-
-            try
-            {
-                configs.nicNetworkPortCount =
-                    loadVariant<uint64_t>(cfg, "NicNetworkPortCount");
-            }
-            catch (const std::invalid_argument&)
-            {
-                // NicNetworkPortCount is an optional config
-                configs.nicNetworkPortCount = 0;
-            }
-
-            discoverDevices(configs, path);
-
-            lg2::info(
-                "Detected configuration {NAME} of type {TYPE} at path: {PATH}.",
-                "NAME", configs.name, "TYPE", sensorType, "PATH", path);
-        }
-    }
 }
 
 void DeviceManager::createSensors()
@@ -412,18 +655,10 @@ void DeviceManager::createSensors()
         lg2::error("Connection not created");
         return;
     }
-    conn->async_method_call(
-        [this](boost::system::error_code ec, const ManagedObjectType& resp) {
-            if (ec)
-            {
-                lg2::error("Error contacting entity manager");
-                return;
-            }
 
-            processSensorConfigs(resp);
-        },
-        entityManagerName, "/xyz/openbmc_project/inventory",
-        "org.freedesktop.DBus.ObjectManager", "GetManagedObjects");
+    SensorConfigs configs;
+    configs.pollRate = sensorPollRateMs;
+    discoverDevices(configs);
 }
 
 void DeviceManager::onConfigInterfaceRemoved(sdbusplus::message_t& message)
@@ -439,8 +674,9 @@ void DeviceManager::onConfigInterfaceRemoved(sdbusplus::message_t& message)
     while (sensorIt != gpuDevices.end())
     {
         if ((sensorIt->second->getPath() == removedPath) &&
-            (std::find(interfaces.begin(), interfaces.end(),
-                       configInterfaceName(sensorType)) != interfaces.end()))
+            (std::ranges::any_of(interfaces, [](const std::string& i) {
+                return i.starts_with(configInterfacePrefix);
+            })))
         {
             sensorIt = gpuDevices.erase(sensorIt);
         }
@@ -454,8 +690,9 @@ void DeviceManager::onConfigInterfaceRemoved(sdbusplus::message_t& message)
     while (smaSensorIt != smaDevices.end())
     {
         if ((smaSensorIt->second->getPath() == removedPath) &&
-            (std::find(interfaces.begin(), interfaces.end(),
-                       configInterfaceName(sensorType)) != interfaces.end()))
+            (std::ranges::any_of(interfaces, [](const std::string& i) {
+                return i.starts_with(configInterfacePrefix);
+            })))
         {
             smaSensorIt = smaDevices.erase(smaSensorIt);
         }
@@ -469,8 +706,9 @@ void DeviceManager::onConfigInterfaceRemoved(sdbusplus::message_t& message)
     while (pcieSensorIt != pcieDevices.end())
     {
         if ((pcieSensorIt->second->getPath() == removedPath) &&
-            (std::find(interfaces.begin(), interfaces.end(),
-                       configInterfaceName(sensorType)) != interfaces.end()))
+            (std::ranges::any_of(interfaces, [](const std::string& i) {
+                return i.starts_with(configInterfacePrefix);
+            })))
         {
             pcieSensorIt = pcieDevices.erase(pcieSensorIt);
         }
