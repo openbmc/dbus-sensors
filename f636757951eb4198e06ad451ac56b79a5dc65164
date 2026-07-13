@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67f9465a_5de79f7b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-13T18:35:57Z",
+      "side": 1,
+      "message": "please remove",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 49
+      },
+      "revId": "f636757951eb4198e06ad451ac56b79a5dc65164",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aed6cbe9_2a4cf658",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-13T18:35:57Z",
+      "side": 1,
+      "message": "Please add the test case.",
+      "revId": "f636757951eb4198e06ad451ac56b79a5dc65164",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa2ff1e8_f3a9b6fe",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-13T18:35:57Z",
+      "side": 1,
+      "message": "How about this two case?",
+      "range": {
+        "startLine": 442,
+        "startChar": 0,
+        "endLine": 443,
+        "endChar": 64
+      },
+      "revId": "f636757951eb4198e06ad451ac56b79a5dc65164",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c2f18c3_95d5cab7",
+        "filename": "src/nvidia-gpu/NvidiaGpuAssembly.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-13T18:35:57Z",
+      "side": 1,
+      "message": "Please follow the same init failed error log way as other types of files.\nSo as below case.",
+      "range": {
+        "startLine": 25,
+        "startChar": 8,
+        "endLine": 26,
+        "endChar": 25
+      },
+      "revId": "f636757951eb4198e06ad451ac56b79a5dc65164",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
