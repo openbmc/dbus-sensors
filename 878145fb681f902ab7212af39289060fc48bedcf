@@ -34,6 +34,24 @@
       "parentUuid": "9d0413e1_85dab6aa",
       "revId": "878145fb681f902ab7212af39289060fc48bedcf",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd2faffb_31d990a4",
+        "filename": "src/cable-monitor/CableEvents.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1002532
+      },
+      "writtenOn": "2026-07-13T06:15:54Z",
+      "side": 1,
+      "message": "@mahalakshmik@ami.com Thanks for pointing this out. I agree that using the iterator after co_await isn\u0027t safe. I\u0027ve updated it to pendingEvents.erase(name);, which also matches the approach used in the catch block.",
+      "parentUuid": "82f78804_229f02c5",
+      "revId": "878145fb681f902ab7212af39289060fc48bedcf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
