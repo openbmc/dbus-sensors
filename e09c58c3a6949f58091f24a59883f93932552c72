@@ -22,6 +22,30 @@
       },
       "revId": "e09c58c3a6949f58091f24a59883f93932552c72",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c58ff49_53084a16",
+        "filename": "src/tests/nvidia-gpu/utils/DbusMockTestBase.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-07-13T03:57:07Z",
+      "side": 1,
+      "message": "Yes, it will be used for test cases of other source files.",
+      "parentUuid": "90ffb0c3_08402ee2",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 25
+      },
+      "revId": "e09c58c3a6949f58091f24a59883f93932552c72",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
