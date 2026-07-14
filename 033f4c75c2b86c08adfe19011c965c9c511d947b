@@ -33,6 +33,23 @@
       "message": "You can keep the \n\npendingEvents.erase(name);\n\nafter the catch block so u don\u0027t have to duplicate it on line# 31 and 38.",
       "revId": "033f4c75c2b86c08adfe19011c965c9c511d947b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a355a810_4aca9925",
+        "filename": "src/cable-monitor/CableEvents.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2026-07-14T00:16:30Z",
+      "side": 1,
+      "message": "lg2::commit API can also throw if the phosphor-logging service is not reachable, so lets add the try catch handling for that one as well. Same in disconnect API flow.",
+      "revId": "033f4c75c2b86c08adfe19011c965c9c511d947b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
