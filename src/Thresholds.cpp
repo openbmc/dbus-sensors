@@ -397,8 +397,9 @@ bool checkThresholds(Sensor* sensor)
     {
         assertThresholds(sensor, change.assertValue, change.threshold.level,
                          change.threshold.direction, change.asserted);
-        if (change.threshold.level == thresholds::Level::CRITICAL &&
-            change.asserted)
+        if (change.asserted &&
+            (change.threshold.level == thresholds::Level::CRITICAL ||
+             change.threshold.level == thresholds::Level::NONRECOVERABLE))
         {
             status = false;
         }

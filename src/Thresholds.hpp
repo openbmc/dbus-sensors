@@ -26,6 +26,7 @@ enum class Level
     PERFORMANCELOSS,
     SOFTSHUTDOWN,
     HARDSHUTDOWN,
+    NONRECOVERABLE,
     ERROR
 };
 enum class Direction
@@ -140,12 +141,16 @@ struct ThresholdDefinition
     const char* levelName;
 };
 
-constexpr static std::array<thresholds::ThresholdDefinition, 5> thresProp = {
+constexpr static std::array<thresholds::ThresholdDefinition, 6> thresProp = {
     {{Level::WARNING, 0, "Warning"},
      {Level::CRITICAL, 1, "Critical"},
      {Level::PERFORMANCELOSS, 2, "PerformanceLoss"},
      {Level::SOFTSHUTDOWN, 3, "SoftShutdown"},
-     {Level::HARDSHUTDOWN, 4, "HardShutdown"}}};
+     {Level::HARDSHUTDOWN, 4, "HardShutdown"},
+     {Level::NONRECOVERABLE, 5, "NonRecoverable"}}};
+
+static_assert(static_cast<size_t>(Level::ERROR) == thresProp.size(),
+              "Level enum and threshold property table are out of sync");
 
 std::string getInterface(Level level);
 
@@ -155,7 +160,8 @@ void persistThreshold(const std::string& path, const std::string& baseInterface,
                       size_t thresholdCount, const std::string& label);
 
 void updateThresholds(Sensor* sensor);
-// returns false if a critical threshold has been crossed, true otherwise
+// returns false if a critical or non-recoverable threshold has been crossed,
+// true otherwise
 bool checkThresholds(Sensor* sensor);
 void checkThresholdsPowerDelay(const std::weak_ptr<Sensor>& weakSensor,
                                ThresholdTimer& thresholdTimer);
