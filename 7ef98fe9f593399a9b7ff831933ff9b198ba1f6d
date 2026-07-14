@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5d2778e_ce842f4c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-14T12:47:53Z",
+      "side": 1,
+      "message": "Suggest a test showing the guard actually fires, thanks.",
+      "revId": "7ef98fe9f593399a9b7ff831933ff9b198ba1f6d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fd3695b_c593d2ea",
+        "filename": "src/adc/ADCSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-14T12:47:53Z",
+      "side": 1,
+      "message": "This eventHandler is a PropertiesChanged signal match callback (registered via setupPropertiesChangedMatches, line 412, whose match rule is type\u003d\u0027signal\u0027). is_method_error() is only true for a method-call error reply — a signal is never a method error, so this condition is always false and the early return never fires, making the guard a no-op here. Did you observe an actual error message reaching this handler? Thanks.",
+      "revId": "7ef98fe9f593399a9b7ff831933ff9b198ba1f6d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8231d6f4_730313b7",
+        "filename": "src/adc/ADCSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-14T12:47:53Z",
+      "side": 1,
+      "message": "nit: this log has no context. If the guard stays, consider a structured field, e.g. lg2::error(\"ADC callback method error on {PATH}\", \"PATH\", message.get_path()), to make it actionable.",
+      "revId": "7ef98fe9f593399a9b7ff831933ff9b198ba1f6d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
