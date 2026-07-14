@@ -67,6 +67,7 @@ enum class PlatformEnvironmentalCommands : uint8_t
 
 enum class PlatformEnvironmentalEvent : uint8_t
 {
+    RESET_REQUIRED = 0x00,
     XID = 0x01,
 };
 

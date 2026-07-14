@@ -14,6 +14,7 @@
 #include "NvidiaGpuMemoryDevice.hpp"
 #include "NvidiaGpuPowerControl.hpp"
 #include "NvidiaGpuPowerSensor.hpp"
+#include "NvidiaGpuResetRequired.hpp"
 #include "NvidiaGpuTempSensor.hpp"
 #include "NvidiaGpuXid.hpp"
 #include "NvidiaSensorConfig.hpp"
@@ -123,6 +124,8 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
         memoryCapacityUtilization;
 
     std::shared_ptr<NvidiaXidEventHandler> xidEventHandler;
+
+    std::shared_ptr<NvidiaResetRequiredEventHandler> resetRequiredEventHandler;
 
     std::array<uint8_t, gpu::readThermalParametersRequestSize>
         thermalParamReqMsg{};
