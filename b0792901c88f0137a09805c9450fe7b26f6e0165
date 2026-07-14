@@ -33,6 +33,24 @@
       "message": "Nit: This could be a map from the SOC family name to an array of the sysfs paths.",
       "revId": "b0792901c88f0137a09805c9450fe7b26f6e0165",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dda884a3_d678d40c",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 30
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 1001076
+      },
+      "writtenOn": "2026-07-14T05:31:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56f5d947_17606854",
+      "revId": "b0792901c88f0137a09805c9450fe7b26f6e0165",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

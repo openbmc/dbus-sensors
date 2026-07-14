@@ -58,6 +58,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "94b6c57a_312b5ad4",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 32
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 1001076
+      },
+      "writtenOn": "2026-07-14T05:31:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68ab96f5_85abc328",
+      "range": {
+        "startLine": 686,
+        "startChar": 0,
+        "endLine": 700,
+        "endChar": 0
+      },
+      "revId": "49f0958fa53e05d0c19a5716ba8d0609a2cd4200",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ee4bc893_bd5d29de",
@@ -71,6 +95,30 @@
       "writtenOn": "2026-02-26T06:17:24Z",
       "side": 1,
       "message": "Similar to SOC, rootHubPath too can change, hence restricting this to a few paths would limit the other rootHub (including in other SOC) from using this mctp usb configuration.",
+      "range": {
+        "startLine": 701,
+        "startChar": 4,
+        "endLine": 718,
+        "endChar": 5
+      },
+      "revId": "49f0958fa53e05d0c19a5716ba8d0609a2cd4200",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a2c29bf_d77098dd",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 32
+      },
+      "lineNbr": 718,
+      "author": {
+        "id": 1001076
+      },
+      "writtenOn": "2026-07-14T05:31:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee4bc893_bd5d29de",
       "range": {
         "startLine": 701,
         "startChar": 4,
@@ -98,6 +146,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c034de1d_5bdb58fd",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 32
+      },
+      "lineNbr": 727,
+      "author": {
+        "id": 1001076
+      },
+      "writtenOn": "2026-07-14T05:31:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ccc8469_7ea6596a",
+      "revId": "49f0958fa53e05d0c19a5716ba8d0609a2cd4200",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3fd77657_80bf3516",
@@ -111,6 +177,30 @@
       "writtenOn": "2026-03-23T09:45:09Z",
       "side": 1,
       "message": "If there is no USB device that is MCTP capable then this will cause the flow to enter catch. better to nullptr in that case with error log rather than causing daemon to stop. \n\nThere could be possibilities that USB device can be hot pluggable, and on daemon start it couldn\u0027t be found causing daemon to exit with a warning.",
+      "range": {
+        "startLine": 757,
+        "startChar": 1,
+        "endLine": 758,
+        "endChar": 71
+      },
+      "revId": "49f0958fa53e05d0c19a5716ba8d0609a2cd4200",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d62b74b_4aee243d",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 32
+      },
+      "lineNbr": 758,
+      "author": {
+        "id": 1001076
+      },
+      "writtenOn": "2026-07-14T05:31:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fd77657_80bf3516",
       "range": {
         "startLine": 757,
         "startChar": 1,
