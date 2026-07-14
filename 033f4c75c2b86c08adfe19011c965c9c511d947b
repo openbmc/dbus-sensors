@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0564e5fc_7ecfb590",
+        "filename": "src/cable-monitor/CableEvents.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2026-07-14T00:00:05Z",
+      "side": 1,
+      "message": "What\u0027s the reason to create this local var ? Can\u0027t you directly use pendingEvent-\u003esecond in resolve API ?",
+      "revId": "033f4c75c2b86c08adfe19011c965c9c511d947b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13aaff57_b74d149e",
+        "filename": "src/cable-monitor/CableEvents.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2026-07-14T00:00:05Z",
+      "side": 1,
+      "message": "You can keep the \n\npendingEvents.erase(name);\n\nafter the catch block so u don\u0027t have to duplicate it on line# 31 and 38.",
+      "revId": "033f4c75c2b86c08adfe19011c965c9c511d947b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
