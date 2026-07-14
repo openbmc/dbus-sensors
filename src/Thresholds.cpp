@@ -402,6 +402,11 @@ bool checkThresholds(Sensor* sensor)
         {
             status = false;
         }
+        if (change.threshold.level == thresholds::Level::NONRECOVERABLE &&
+            change.asserted)
+        {
+            status = false;
+        }
     }
 
     return status;
