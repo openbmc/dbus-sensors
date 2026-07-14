@@ -23,6 +23,7 @@
 #include <NvidiaGpuPowerControl.hpp>
 #include <NvidiaGpuPowerPeakReading.hpp>
 #include <NvidiaGpuPowerSensor.hpp>
+#include <NvidiaGpuResetRequired.hpp>
 #include <NvidiaGpuTempSensor.hpp>
 #include <NvidiaGpuUtilizationMetrics.hpp>
 #include <NvidiaGpuViolationDuration.hpp>
@@ -200,6 +201,9 @@ void GpuDevice::makeSensors()
 
     xidEventHandler = std::make_shared<NvidiaXidEventHandler>(name, conn);
 
+    resetRequiredEventHandler =
+        std::make_shared<NvidiaResetRequiredEventHandler>(name, conn);
+
     eventReporting = std::make_shared<NvidiaEventReportingConfig>(
         eid, mctpRequester,
         std::initializer_list<EventDescriptor>{
@@ -211,7 +215,13 @@ void GpuDevice::makeSensors()
             {gpu::MessageType::PLATFORM_ENVIRONMENTAL,
              static_cast<uint8_t>(gpu::PlatformEnvironmentalEvent::XID),
              std::bind_front(&NvidiaXidEventHandler::handleXidEvent,
-                             xidEventHandler)}});
+                             xidEventHandler)},
+            {gpu::MessageType::PLATFORM_ENVIRONMENTAL,
+             static_cast<uint8_t>(
+                 gpu::PlatformEnvironmentalEvent::RESET_REQUIRED),
+             std::bind_front(
+                 &NvidiaResetRequiredEventHandler::handleResetRequiredEvent,
+                 resetRequiredEventHandler)}});
 
     utilizationMetrics = std::make_shared<NvidiaGpuUtilizationMetrics>(
         mctpRequester, objectServer, name, eid, longRunningQueue,
