@@ -3,6 +3,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ce585704_dcd3b2e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2026-07-14T11:32:10Z",
+      "side": 1,
+      "message": "Do you have logs, busctl, anything here in the commit message showing how you tested this.",
+      "revId": "a308a55d6e39531e32a30462305404f44008d0ab",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6512b6c_44877164",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2026-07-14T11:32:10Z",
+      "side": 1,
+      "message": "Is there an EM schema change needed to make it work?\n\nIf so, can you link that change also in your commit message / gerrit topic.\n\nOtherwise feel free to close this comment. But i have not seen that type before so i assume it\u0027s not in the schema.",
+      "range": {
+        "startLine": 106,
+        "startChar": 1,
+        "endLine": 109,
+        "endChar": 1
+      },
+      "revId": "a308a55d6e39531e32a30462305404f44008d0ab",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7837c7e9_1f48e097",
         "filename": "src/hwmon-temp/HwmonTempMain.cpp",
         "patchSetId": 1
