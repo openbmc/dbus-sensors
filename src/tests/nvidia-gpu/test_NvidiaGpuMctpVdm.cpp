@@ -204,6 +204,48 @@ TEST_F(OcpMctpVdmTests, DecodeEventSuccess)
     EXPECT_TRUE(eventData.empty());
 }
 
+TEST_F(OcpMctpVdmTests, DecodeEventResetRequired)
+{
+    // Reset Required event: Platform Environmental message type, event id
+    // RESET_REQUIRED, general event class and no payload.
+    std::vector<uint8_t> buf(11);
+    PackBuffer packer(buf);
+
+    packResponseHeader(packer, 0x03);
+
+    packer.pack(static_cast<uint8_t>(0x01)); // version=1, no ack
+    packer.pack(
+        static_cast<uint8_t>(gpu::PlatformEnvironmentalEvent::RESET_REQUIRED));
+    packer.pack(static_cast<uint8_t>(0x00));    // eventClass (general)
+    packer.pack(static_cast<uint16_t>(0x0000)); // eventState
+    packer.pack(static_cast<uint8_t>(0));       // size (no payload)
+
+    ASSERT_EQ(packer.getError(), 0);
+
+    uint8_t messageType{};
+    bool ackRequired{};
+    uint8_t version{};
+    uint8_t eventId{};
+    uint8_t eventClass{};
+    uint16_t eventState{};
+    uint8_t size{};
+    std::span<const uint8_t> eventData;
+
+    int result = ocp::accelerator_management::decodeEvent(
+        buf, gpu::nvidiaPciVendorId, messageType, ackRequired, version, eventId,
+        eventClass, eventState, size, eventData);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(messageType,
+              static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    EXPECT_EQ(eventId, static_cast<uint8_t>(
+                           gpu::PlatformEnvironmentalEvent::RESET_REQUIRED));
+    EXPECT_EQ(eventClass, 0x00);
+    EXPECT_EQ(eventState, 0x0000);
+    EXPECT_EQ(size, 0);
+    EXPECT_TRUE(eventData.empty());
+}
+
 TEST_F(OcpMctpVdmTests, DecodeEventWithEventData)
 {
     // 11 bytes header + 4 bytes event data

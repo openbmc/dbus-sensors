@@ -16,6 +16,7 @@ gpusensor_sources = files(
     'NvidiaGpuPowerControl.cpp',
     'NvidiaGpuPowerPeakReading.cpp',
     'NvidiaGpuPowerSensor.cpp',
+    'NvidiaGpuResetRequired.cpp',
     'NvidiaGpuTempSensor.cpp',
     'NvidiaGpuUtilizationMetrics.cpp',
     'NvidiaGpuViolationDuration.cpp',
