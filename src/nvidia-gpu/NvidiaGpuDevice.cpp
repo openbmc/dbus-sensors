@@ -30,6 +30,8 @@
 #include <NvidiaGpuVoltageSensor.hpp>
 #include <NvidiaGpuXid.hpp>
 #include <NvidiaLongRunningHandler.hpp>
+#include <NvidiaNVLinkPortCharacteristics.hpp>
+#include <NvidiaNVLinkPortStatus.hpp>
 #include <NvidiaPcieFunction.hpp>
 #include <NvidiaPcieInterface.hpp>
 #include <NvidiaPciePort.hpp>
@@ -146,6 +148,11 @@ GpuDevice::~GpuDevice()
     objectServer.remove_interface(powerCapInterface);
     objectServer.remove_interface(dramAssociationInterface);
     objectServer.remove_interface(dramItemInterface);
+
+    for (auto& interface : nvLinkPortInterfaces)
+    {
+        objectServer.remove_interface(interface);
+    }
 }
 
 void GpuDevice::init()
@@ -289,6 +296,8 @@ void GpuDevice::makeSensors()
 
     getTLimitThresholds();
 
+    getNvLinkPortCounts();
+
     lg2::info("Added GPU {NAME} Sensors with chassis path: {PATH}.", "NAME",
               name, "PATH", path);
     read();
@@ -420,6 +429,14 @@ void GpuDevice::read()
     memoryDevice->update();
     memoryClockFrequency->update();
     clockFrequencyMetric->update();
+    for (auto& portStatus : nvLinkPortStatuses)
+    {
+        portStatus->update();
+    }
+    for (auto& portCharacteristics : nvLinkPortCharacteristics)
+    {
+        portCharacteristics->update();
+    }
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait(
@@ -460,4 +477,165 @@ void GpuDevice::readLongRunning()
             }
             self->readLongRunning();
         });
+}
+
+void GpuDevice::getNvLinkPortCounts()
+{
+    const int rc =
+        gpu::encodeQueryPortsAvailableRequest(0, nvLinkPortCountRequest);
+
+    if (rc != 0)
+    {
+        lg2::error(
+            "Error querying NVLink ports available: encode failed, rc={RC}, EID={EID}",
+            "RC", rc, "EID", eid);
+        return;
+    }
+
+    mctpRequester.sendRecvMsg(
+        eid, nvLinkPortCountRequest,
+        [weak{weak_from_this()}](const std::error_code& ec,
+                                 std::span<const uint8_t> buffer) {
+            std::shared_ptr<GpuDevice> self = weak.lock();
+            if (!self)
+            {
+                lg2::error("Invalid reference to GpuDevice");
+                return;
+            }
+            self->processNvLinkPortCountsResponse(ec, buffer);
+        });
+}
+
+namespace
+{
+
+// The two interfaces that make up one NVLink port's inventory object. The port
+// telemetry classes publish onto the Connector.Port interface, and the GPU
+// device removes both when it goes away.
+struct NvLinkPortInterfaces
+{
+    std::shared_ptr<sdbusplus::asio::dbus_interface> port;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> association;
+};
+
+// Creates the inventory object of one NVLink port under the GPU: its
+// Connector.Port interface, seeded with the properties that no telemetry
+// command reports, and its association back to the GPU.
+NvLinkPortInterfaces makeNvLinkPortObject(
+    sdbusplus::asio::object_server& objectServer,
+    const sdbusplus::object_path& gpuPath, uint8_t eid, uint8_t portIndex)
+{
+    const sdbusplus::object_path dbusPath =
+        gpuPath / std::format("NVLink_{}", portIndex);
+
+    NvLinkPortInterfaces interfaces;
+
+    interfaces.port = objectServer.add_interface(
+        dbusPath, "xyz.openbmc_project.Inventory.Connector.Port");
+
+    interfaces.port->register_property(
+        "PortProtocol",
+        std::string("xyz.openbmc_project.Inventory.Connector.Port."
+                    "PortProtocol.NVLink"));
+
+    interfaces.port->register_property(
+        "PortType", std::string("xyz.openbmc_project.Inventory.Connector.Port."
+                                "PortType.Bidirectional"));
+
+    interfaces.port->register_property("Speed",
+                                       std::numeric_limits<uint64_t>::max());
+
+    interfaces.port->register_property("MaxSpeed",
+                                       std::numeric_limits<uint64_t>::max());
+
+    interfaces.port->register_property("Width",
+                                       std::numeric_limits<size_t>::max());
+
+    interfaces.port->register_property(
+        "LinkStatus",
+        std::string("xyz.openbmc_project.Inventory.Connector.Port."
+                    "LinkStatus.NoLink"));
+
+    interfaces.port->register_property(
+        "LinkState", std::string("xyz.openbmc_project.Inventory.Connector.Port."
+                                 "LinkState.Unknown"));
+
+    if (!interfaces.port->initialize())
+    {
+        lg2::error(
+            "Error initializing NVLink Port interface, eid={EID}, portIndex={PI}",
+            "EID", eid, "PI", portIndex);
+    }
+
+    std::vector<Association> associations;
+    associations.emplace_back("connected_to", "connecting", gpuPath);
+
+    interfaces.association =
+        objectServer.add_interface(dbusPath, association::interface);
+    interfaces.association->register_property("Associations", associations);
+
+    if (!interfaces.association->initialize())
+    {
+        lg2::error(
+            "Error initializing Association interface for NVLink Port, eid={EID}, portIndex={PI}",
+            "EID", eid, "PI", portIndex);
+    }
+
+    return interfaces;
+}
+
+} // namespace
+
+void GpuDevice::processNvLinkPortCountsResponse(
+    const std::error_code& ec, std::span<const uint8_t> response)
+{
+    if (ec)
+    {
+        lg2::error(
+            "Error querying NVLink ports available: sending message over MCTP failed, rc={RC}, EID={EID}",
+            "RC", ec.message(), "EID", eid);
+        return;
+    }
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode = 0;
+    uint8_t numberNvPorts = 0;
+
+    const int rc = gpu::decodeQueryPortsAvailableResponse(
+        response, cc, reasonCode, numberNvPorts);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        lg2::error(
+            "Error querying NVLink ports available: decode failed, rc={RC}, cc={CC}, reasonCode={RESC}, EID={EID}",
+            "RC", rc, "CC", static_cast<uint8_t>(cc), "RESC", reasonCode, "EID",
+            eid);
+        return;
+    }
+
+    lg2::info("GPU {NAME} with eid {EID} has {NUM} NVLink ports.", "NAME", name,
+              "EID", eid, "NUM", numberNvPorts);
+
+    const sdbusplus::object_path gpuPath = inventoryPrefix / name;
+
+    nvLinkPortInterfaces.reserve(static_cast<size_t>(numberNvPorts) * 2);
+    nvLinkPortStatuses.reserve(numberNvPorts);
+    nvLinkPortCharacteristics.reserve(numberNvPorts);
+
+    for (uint8_t i = 0; i < numberNvPorts; ++i)
+    {
+        const NvLinkPortInterfaces interfaces =
+            makeNvLinkPortObject(objectServer, gpuPath, eid, i);
+
+        nvLinkPortInterfaces.emplace_back(interfaces.port);
+        nvLinkPortInterfaces.emplace_back(interfaces.association);
+
+        nvLinkPortStatuses.emplace_back(
+            std::make_shared<NvidiaNVLinkPortStatus>(mctpRequester, eid, i,
+                                                     interfaces.port));
+
+        nvLinkPortCharacteristics.emplace_back(
+            std::make_shared<NvidiaNVLinkPortCharacteristics>(
+                mctpRequester, eid, i, interfaces.port));
+    }
 }

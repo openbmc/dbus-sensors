@@ -28,6 +28,8 @@
 #include <NvidiaGpuViolationDuration.hpp>
 #include <NvidiaGpuVoltageSensor.hpp>
 #include <NvidiaLongRunningHandler.hpp>
+#include <NvidiaNVLinkPortCharacteristics.hpp>
+#include <NvidiaNVLinkPortStatus.hpp>
 #include <NvidiaPcieFunction.hpp>
 #include <NvidiaPcieInterface.hpp>
 #include <NvidiaPciePort.hpp>
@@ -39,9 +41,11 @@
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/message/native_types.hpp>
 
+#include <array>
 #include <chrono>
 #include <cstdint>
 #include <memory>
+#include <span>
 #include <string>
 #include <vector>
 
@@ -70,6 +74,11 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
     void read();
 
     void readLongRunning();
+
+    void getNvLinkPortCounts();
+
+    void processNvLinkPortCountsResponse(const std::error_code& ec,
+                                         std::span<const uint8_t> response);
 
     void processTLimitThresholds(const std::error_code& ec);
 
@@ -114,6 +123,16 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
     std::vector<std::shared_ptr<NvidiaPciePortMetrics>> pciePortMetrics;
     std::shared_ptr<NvidiaGpuMemoryDevice> memoryDevice;
     std::shared_ptr<NvidiaGpuMemoryClockFrequency> memoryClockFrequency;
+
+    std::array<uint8_t, gpu::queryPortsAvailableRequestSize>
+        nvLinkPortCountRequest{};
+    // The Connector.Port and association interfaces of every NVLink port, kept
+    // so they can be removed from the object server on teardown.
+    std::vector<std::shared_ptr<sdbusplus::asio::dbus_interface>>
+        nvLinkPortInterfaces;
+    std::vector<std::shared_ptr<NvidiaNVLinkPortStatus>> nvLinkPortStatuses;
+    std::vector<std::shared_ptr<NvidiaNVLinkPortCharacteristics>>
+        nvLinkPortCharacteristics;
 
     std::shared_ptr<NvidiaEventReportingConfig> eventReporting;
     std::shared_ptr<SerialQueue> longRunningQueue;
