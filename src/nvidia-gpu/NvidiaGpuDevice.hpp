@@ -28,6 +28,7 @@
 #include <NvidiaGpuViolationDuration.hpp>
 #include <NvidiaGpuVoltageSensor.hpp>
 #include <NvidiaLongRunningHandler.hpp>
+#include <NvidiaNVLinkPort.hpp>
 #include <NvidiaPcieFunction.hpp>
 #include <NvidiaPcieInterface.hpp>
 #include <NvidiaPciePort.hpp>
@@ -39,9 +40,11 @@
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/message/native_types.hpp>
 
+#include <array>
 #include <chrono>
 #include <cstdint>
 #include <memory>
+#include <span>
 #include <string>
 #include <vector>
 
@@ -70,6 +73,11 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
     void read();
 
     void readLongRunning();
+
+    void getNvLinkPortCounts();
+
+    void processNvLinkPortCountsResponse(const std::error_code& ec,
+                                         std::span<const uint8_t> response);
 
     void processTLimitThresholds(const std::error_code& ec);
 
@@ -114,6 +122,10 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
     std::vector<std::shared_ptr<NvidiaPciePortMetrics>> pciePortMetrics;
     std::shared_ptr<NvidiaGpuMemoryDevice> memoryDevice;
     std::shared_ptr<NvidiaGpuMemoryClockFrequency> memoryClockFrequency;
+
+    std::array<uint8_t, gpu::queryPortsAvailableRequestSize>
+        nvLinkPortCountRequest{};
+    std::vector<std::shared_ptr<NvidiaNVLinkPort>> nvLinkPorts;
 
     std::shared_ptr<NvidiaEventReportingConfig> eventReporting;
     std::shared_ptr<SerialQueue> longRunningQueue;
