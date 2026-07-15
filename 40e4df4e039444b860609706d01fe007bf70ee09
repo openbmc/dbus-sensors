@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2da97d17_ba8ab435",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-07-15T12:31:16Z",
+      "side": 1,
+      "message": "Addressed in latest patchset. Added a reference to the related PDI change in the commit message:\nhttps://gerrit.openbmc.org/c/openbmc/phosphor-dbus-interfaces/+/92329",
+      "parentUuid": "e7f276e3_58c7fe77",
+      "revId": "40e4df4e039444b860609706d01fe007bf70ee09",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d019bff_d655fe40",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc816dca_8494df09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-07-15T12:31:16Z",
+      "side": 1,
+      "message": "Added the EVB busctl ObjectMapper command and output under Tested, showing no NonRecoverable threshold objects were instantiated on the available image.",
+      "parentUuid": "5d019bff_d655fe40",
+      "revId": "40e4df4e039444b860609706d01fe007bf70ee09",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b594b82b_266c973b",
@@ -48,6 +84,24 @@
       "writtenOn": "2026-07-15T02:58:04Z",
       "side": 1,
       "message": "nit: this duplicates the Critical block above; consider merging the two with ||\nso the shared \"asserted -\u003e not functional\" semantics is expressed once.",
+      "revId": "40e4df4e039444b860609706d01fe007bf70ee09",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "efa29798_96d0c5bc",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-07-15T12:31:16Z",
+      "side": 1,
+      "message": "Merged the logic so asserted Critical and asserted NonRecoverable are handled in one shared condition for the asserted -\u003e not functional path.",
+      "parentUuid": "b594b82b_266c973b",
       "revId": "40e4df4e039444b860609706d01fe007bf70ee09",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
