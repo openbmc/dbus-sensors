@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "24184280_a4ae9a03",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-07-15T16:56:06Z",
+      "side": 1,
+      "message": "Can you add details about why we\u0027re getting negative readings here?  I wouldn\u0027t expect a conforming sensor to produce negative values, and I would expect it to have a MinValue of 0.\n\nIf we\u0027re publishing negative values, somewhere, it likely means the tach sensor code is broken.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 18
+      },
+      "revId": "6964af47cd5bb02acd36f27b19ffeabc2fe84bd7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f9a31465_060e2c02",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
