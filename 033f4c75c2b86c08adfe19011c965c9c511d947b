@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5a8c4b4_57314283",
+        "filename": "src/cable-monitor/CableEvents.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1002532
+      },
+      "writtenOn": "2026-07-15T00:55:15Z",
+      "side": 1,
+      "message": "There was no specific need for the local variable here. I’ve updated the code to pass pendingEvent-\u003esecond directly to lg2::resolve() as suggested. Thanks.",
+      "parentUuid": "0564e5fc_7ecfb590",
+      "revId": "033f4c75c2b86c08adfe19011c965c9c511d947b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "13aaff57_b74d149e",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a43c9d5b_78a56e90",
+        "filename": "src/cable-monitor/CableEvents.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1002532
+      },
+      "writtenOn": "2026-07-15T00:55:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13aaff57_b74d149e",
+      "revId": "033f4c75c2b86c08adfe19011c965c9c511d947b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a355a810_4aca9925",
@@ -48,6 +84,24 @@
       "writtenOn": "2026-07-14T00:16:30Z",
       "side": 1,
       "message": "lg2::commit API can also throw if the phosphor-logging service is not reachable, so lets add the try catch handling for that one as well. Same in disconnect API flow.",
+      "revId": "033f4c75c2b86c08adfe19011c965c9c511d947b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6b560fc_da4a6dea",
+        "filename": "src/cable-monitor/CableEvents.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1002532
+      },
+      "writtenOn": "2026-07-15T00:55:15Z",
+      "side": 1,
+      "message": "Thanks for the review.  I’ve added exception handling for lg2::commit() in both the connected and disconnected flows. Please take another look.",
+      "parentUuid": "a355a810_4aca9925",
       "revId": "033f4c75c2b86c08adfe19011c965c9c511d947b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
