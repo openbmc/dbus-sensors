@@ -67,6 +67,47 @@
       "message": "Reading getFanType(), every return is either i2c (three fallbacks) or a map value (aspeed/nuvoton/hpe), i.e. {0..3}, and the static_assert at line 70 already ties sensorTypes\u0027s size to max — so this branch looks unreachable today. Is there an input I\u0027m missing that makes getFanType() return \u003e\u003d max? If not, perhaps consider dropping the guard, or noting in the commit that it\u0027s forward-looking defense for a future change to getFanType().",
       "revId": "2c2c20c5c64373ce583fe90804e5964d8b4aecd0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "954e1006_b1be91af",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-07-15T16:59:27Z",
+      "side": 1,
+      "message": "If we\u0027re being pedantic here, we should test against sensorTypes.size()",
+      "range": {
+        "startLine": 318,
+        "startChar": 27,
+        "endLine": 318,
+        "endChar": 35
+      },
+      "revId": "2c2c20c5c64373ce583fe90804e5964d8b4aecd0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd863157_50f2df59",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-07-15T16:59:27Z",
+      "side": 1,
+      "message": "I\u0027m generally fine with this kind of check.  It doesn\u0027t hurt anything, and people reviewing the code can \"know\" they would\u0027ve seen a print if it went out of range.",
+      "parentUuid": "3b9607fd_97a339cf",
+      "revId": "2c2c20c5c64373ce583fe90804e5964d8b4aecd0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
