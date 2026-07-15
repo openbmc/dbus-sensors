@@ -1,6 +1,40 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "2eb87ef9_118fa608",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-15T06:37:53Z",
+      "side": 1,
+      "message": "nit: Consider aligning the subject with the fan: style used in the related change 91352",
+      "revId": "2c2c20c5c64373ce583fe90804e5964d8b4aecd0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92a6f3f3_da359b88",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-15T06:37:53Z",
+      "side": 1,
+      "message": "Consider sharing how the \"Invalid fanType path\" was exercised for the Tested section? Given getFanType()\u0027s current implementation, normal operation doesn\u0027t seem to reach that branch, so I wanted to check whether it was forced via a temporary change. Documenting the method would help reproducibility — or, if it isn\u0027t reachable, wording it as defensive/currently-unreachable would read more accurately.",
+      "revId": "2c2c20c5c64373ce583fe90804e5964d8b4aecd0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "1e7240b7_d4ae58bf",
@@ -14,6 +48,23 @@
       "writtenOn": "2026-06-24T12:47:49Z",
       "side": 1,
       "message": "Gentle reminder to review this change !",
+      "revId": "2c2c20c5c64373ce583fe90804e5964d8b4aecd0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b9607fd_97a339cf",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-15T06:37:53Z",
+      "side": 1,
+      "message": "Reading getFanType(), every return is either i2c (three fallbacks) or a map value (aspeed/nuvoton/hpe), i.e. {0..3}, and the static_assert at line 70 already ties sensorTypes\u0027s size to max — so this branch looks unreachable today. Is there an input I\u0027m missing that makes getFanType() return \u003e\u003d max? If not, perhaps consider dropping the guard, or noting in the commit that it\u0027s forward-looking defense for a future change to getFanType().",
       "revId": "2c2c20c5c64373ce583fe90804e5964d8b4aecd0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
