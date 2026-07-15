@@ -71,6 +71,9 @@ enum class NetworkPortCommands : uint8_t
 {
     GetEthernetPortTelemetryCounters = 0x0F,
     GetPortNetworkAddresses = 0x11,
+    QueryPortsAvailable = 0x41,
+    QueryPortCharacteristics = 0x42,
+    QueryPortStatus = 0x43,
 };
 
 enum class PcieLinkCommands : uint8_t
@@ -228,6 +231,15 @@ constexpr size_t getEthernetPortTelemetryCountersRequestSize =
     ocp::accelerator_management::commonRequestSize + 2;
 
 constexpr size_t getInventoryInformationRequestSize =
+    ocp::accelerator_management::commonRequestSize + 1;
+
+constexpr size_t queryPortsAvailableRequestSize =
+    ocp::accelerator_management::commonRequestSize;
+
+constexpr size_t queryPortCharacteristicsRequestSize =
+    ocp::accelerator_management::commonRequestSize + 1;
+
+constexpr size_t queryPortStatusRequestSize =
     ocp::accelerator_management::commonRequestSize + 1;
 
 constexpr size_t getDriverInformationResponseMinSize =
@@ -451,6 +463,31 @@ int decodeGetCurrentClockFrequencyResponse(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     uint32_t& clockFreqMHz);
+
+int encodeQueryPortsAvailableRequest(uint8_t instanceId,
+                                     std::span<uint8_t> buf);
+
+int decodeQueryPortsAvailableResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint8_t& numberNvPorts);
+
+int encodeQueryPortCharacteristicsRequest(
+    uint8_t instanceId, uint8_t portNumber, std::span<uint8_t> buf);
+
+int decodeQueryPortCharacteristicsResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint32_t& status, uint32_t& nvportLineRateMbps,
+    uint32_t& nvportDataRateKbps, uint32_t& statusLaneInfo);
+
+int encodeQueryPortStatusRequest(uint8_t instanceId, uint8_t portNumber,
+                                 std::span<uint8_t> buf);
+
+int decodeQueryPortStatusResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint8_t& portState, uint8_t& portStatus);
 
 int encodeGetEccErrorCountsRequest(uint8_t instanceId, std::span<uint8_t> buf);
 

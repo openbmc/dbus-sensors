@@ -2061,6 +2061,298 @@ TEST_F(GpuMctpVdmTests, DecodeListPciePortsResponseInvalidSize)
     EXPECT_EQ(result, EINVAL);
 }
 
+TEST_F(GpuMctpVdmTests, EncodeQueryPortsAvailableRequestSuccess)
+{
+    const uint8_t instanceId = 7;
+    std::array<uint8_t, gpu::queryPortsAvailableRequestSize> buf{};
+
+    int result = gpu::encodeQueryPortsAvailableRequest(instanceId, buf);
+
+    EXPECT_EQ(result, 0);
+
+    UnpackBuffer ubuf(std::span<const uint8_t>(buf.data(), buf.size()));
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t unpackedInstanceId = 0;
+    uint8_t unpackedMsgType = 0;
+    EXPECT_EQ(ocp::accelerator_management::unpackHeader(
+                  ubuf, gpu::nvidiaPciVendorId, msgType, unpackedInstanceId,
+                  unpackedMsgType),
+              0);
+    EXPECT_EQ(msgType, ocp::accelerator_management::MessageType::REQUEST);
+    EXPECT_EQ(unpackedMsgType,
+              static_cast<uint8_t>(gpu::MessageType::NETWORK_PORT));
+
+    uint8_t command = 0;
+    ubuf.unpack(command);
+    EXPECT_EQ(command, static_cast<uint8_t>(
+                           gpu::NetworkPortCommands::QueryPortsAvailable));
+    uint8_t dataSize = 0;
+    ubuf.unpack(dataSize);
+    EXPECT_EQ(dataSize, 0);
+    EXPECT_EQ(ubuf.getError(), 0);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeQueryPortsAvailableResponseSuccess)
+{
+    const uint8_t numberNvPorts = 18;
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 7,
+        static_cast<uint8_t>(gpu::MessageType::NETWORK_PORT));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::NetworkPortCommands::QueryPortsAvailable));        // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS)); // CC
+    pbuf.pack(static_cast<uint16_t>(0));                        // reserved
+    pbuf.pack(static_cast<uint16_t>(sizeof(uint8_t)));          // data_size
+    pbuf.pack(numberNvPorts);
+    ASSERT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint8_t decodedNumberNvPorts{};
+
+    int result = gpu::decodeQueryPortsAvailableResponse(buf, cc, reasonCode,
+                                                        decodedNumberNvPorts);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+    EXPECT_EQ(decodedNumberNvPorts, numberNvPorts);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeQueryPortsAvailableResponseInvalidSize)
+{
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 7,
+        static_cast<uint8_t>(gpu::MessageType::NETWORK_PORT));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::NetworkPortCommands::QueryPortsAvailable));        // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS)); // CC
+    pbuf.pack(static_cast<uint16_t>(0));                        // reserved
+    pbuf.pack(static_cast<uint16_t>(2)); // Invalid data_size
+    ASSERT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint8_t decodedNumberNvPorts{};
+
+    int result = gpu::decodeQueryPortsAvailableResponse(buf, cc, reasonCode,
+                                                        decodedNumberNvPorts);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+TEST_F(GpuMctpVdmTests, EncodeQueryPortCharacteristicsRequestSuccess)
+{
+    const uint8_t instanceId = 3;
+    const uint8_t portNumber = 5;
+    std::array<uint8_t, gpu::queryPortCharacteristicsRequestSize> buf{};
+
+    int result =
+        gpu::encodeQueryPortCharacteristicsRequest(instanceId, portNumber, buf);
+
+    EXPECT_EQ(result, 0);
+
+    UnpackBuffer ubuf(std::span<const uint8_t>(buf.data(), buf.size()));
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t unpackedInstanceId = 0;
+    uint8_t unpackedMsgType = 0;
+    EXPECT_EQ(ocp::accelerator_management::unpackHeader(
+                  ubuf, gpu::nvidiaPciVendorId, msgType, unpackedInstanceId,
+                  unpackedMsgType),
+              0);
+    EXPECT_EQ(unpackedMsgType,
+              static_cast<uint8_t>(gpu::MessageType::NETWORK_PORT));
+
+    uint8_t command = 0;
+    ubuf.unpack(command);
+    EXPECT_EQ(command, static_cast<uint8_t>(
+                           gpu::NetworkPortCommands::QueryPortCharacteristics));
+    uint8_t dataSize = 0;
+    ubuf.unpack(dataSize);
+    EXPECT_EQ(dataSize, sizeof(uint8_t));
+    uint8_t decodedPortNumber = 0;
+    ubuf.unpack(decodedPortNumber);
+    EXPECT_EQ(decodedPortNumber, portNumber);
+    EXPECT_EQ(ubuf.getError(), 0);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeQueryPortCharacteristicsResponseSuccess)
+{
+    const uint32_t status = 0x1;
+    const uint32_t lineRateMbps = 100000;
+    const uint32_t dataRateKbps = 90000000;
+    const uint32_t laneInfo = 0x14; // width in low nibble = 4
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 3,
+        static_cast<uint8_t>(gpu::MessageType::NETWORK_PORT));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::NetworkPortCommands::QueryPortCharacteristics));   // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS)); // CC
+    pbuf.pack(static_cast<uint16_t>(0));                        // reserved
+    pbuf.pack(static_cast<uint16_t>(sizeof(uint32_t) * 4));     // data_size
+    pbuf.pack(status);
+    pbuf.pack(lineRateMbps);
+    pbuf.pack(dataRateKbps);
+    pbuf.pack(laneInfo);
+    ASSERT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint32_t decodedStatus{};
+    uint32_t decodedLineRate{};
+    uint32_t decodedDataRate{};
+    uint32_t decodedLaneInfo{};
+
+    int result = gpu::decodeQueryPortCharacteristicsResponse(
+        buf, cc, reasonCode, decodedStatus, decodedLineRate, decodedDataRate,
+        decodedLaneInfo);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(decodedStatus, status);
+    EXPECT_EQ(decodedLineRate, lineRateMbps);
+    EXPECT_EQ(decodedDataRate, dataRateKbps);
+    EXPECT_EQ(decodedLaneInfo, laneInfo);
+    EXPECT_EQ(decodedLaneInfo & 0x0F, 4U);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeQueryPortCharacteristicsResponseInvalidSize)
+{
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 3,
+        static_cast<uint8_t>(gpu::MessageType::NETWORK_PORT));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::NetworkPortCommands::QueryPortCharacteristics));   // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS)); // CC
+    pbuf.pack(static_cast<uint16_t>(0));                        // reserved
+    pbuf.pack(static_cast<uint16_t>(8)); // Invalid data_size
+    ASSERT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint32_t decodedStatus{};
+    uint32_t decodedLineRate{};
+    uint32_t decodedDataRate{};
+    uint32_t decodedLaneInfo{};
+
+    int result = gpu::decodeQueryPortCharacteristicsResponse(
+        buf, cc, reasonCode, decodedStatus, decodedLineRate, decodedDataRate,
+        decodedLaneInfo);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+TEST_F(GpuMctpVdmTests, EncodeQueryPortStatusRequestSuccess)
+{
+    const uint8_t instanceId = 9;
+    const uint8_t portNumber = 12;
+    std::array<uint8_t, gpu::queryPortStatusRequestSize> buf{};
+
+    int result = gpu::encodeQueryPortStatusRequest(instanceId, portNumber, buf);
+
+    EXPECT_EQ(result, 0);
+
+    UnpackBuffer ubuf(std::span<const uint8_t>(buf.data(), buf.size()));
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t unpackedInstanceId = 0;
+    uint8_t unpackedMsgType = 0;
+    EXPECT_EQ(ocp::accelerator_management::unpackHeader(
+                  ubuf, gpu::nvidiaPciVendorId, msgType, unpackedInstanceId,
+                  unpackedMsgType),
+              0);
+    EXPECT_EQ(unpackedMsgType,
+              static_cast<uint8_t>(gpu::MessageType::NETWORK_PORT));
+
+    uint8_t command = 0;
+    ubuf.unpack(command);
+    EXPECT_EQ(command,
+              static_cast<uint8_t>(gpu::NetworkPortCommands::QueryPortStatus));
+    uint8_t dataSize = 0;
+    ubuf.unpack(dataSize);
+    EXPECT_EQ(dataSize, sizeof(uint8_t));
+    uint8_t decodedPortNumber = 0;
+    ubuf.unpack(decodedPortNumber);
+    EXPECT_EQ(decodedPortNumber, portNumber);
+    EXPECT_EQ(ubuf.getError(), 0);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeQueryPortStatusResponseSuccess)
+{
+    const uint8_t portState = 2;  // LinkUp
+    const uint8_t portStatus = 2; // Enabled
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 9,
+        static_cast<uint8_t>(gpu::MessageType::NETWORK_PORT));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::NetworkPortCommands::QueryPortStatus));            // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS)); // CC
+    pbuf.pack(static_cast<uint16_t>(0));                        // reserved
+    pbuf.pack(static_cast<uint16_t>(sizeof(uint8_t) * 2));      // data_size
+    pbuf.pack(portState);
+    pbuf.pack(portStatus);
+    ASSERT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint8_t decodedPortState{};
+    uint8_t decodedPortStatus{};
+
+    int result = gpu::decodeQueryPortStatusResponse(
+        buf, cc, reasonCode, decodedPortState, decodedPortStatus);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(decodedPortState, portState);
+    EXPECT_EQ(decodedPortStatus, portStatus);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeQueryPortStatusResponseInvalidSize)
+{
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 9,
+        static_cast<uint8_t>(gpu::MessageType::NETWORK_PORT));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::NetworkPortCommands::QueryPortStatus));            // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS)); // CC
+    pbuf.pack(static_cast<uint16_t>(0));                        // reserved
+    pbuf.pack(static_cast<uint16_t>(1)); // Invalid data_size
+    ASSERT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint8_t decodedPortState{};
+    uint8_t decodedPortStatus{};
+
+    int result = gpu::decodeQueryPortStatusResponse(
+        buf, cc, reasonCode, decodedPortState, decodedPortStatus);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
 // Tests for GpuMctpVdm::decodeAggregateResponse function
 TEST_F(GpuMctpVdmTests, DecodeAggregateResponsePowerOf2LengthEncodingValid)
 {
