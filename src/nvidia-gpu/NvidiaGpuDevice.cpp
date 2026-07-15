@@ -28,6 +28,7 @@
 #include <NvidiaGpuVoltageSensor.hpp>
 #include <NvidiaGpuXid.hpp>
 #include <NvidiaLongRunningHandler.hpp>
+#include <NvidiaNVLinkPort.hpp>
 #include <NvidiaPcieFunction.hpp>
 #include <NvidiaPcieInterface.hpp>
 #include <NvidiaPciePort.hpp>
@@ -296,6 +297,8 @@ void GpuDevice::makeSensors()
 
     getTLimitThresholds();
 
+    getNvLinkPortCounts();
+
     lg2::info("Added GPU {NAME} Sensors with chassis path: {PATH}.", "NAME",
               name, "PATH", path);
     read();
@@ -427,6 +430,10 @@ void GpuDevice::read()
     memoryDevice->update();
     memoryClockFrequency->update();
     clockFrequencyMetric->update();
+    for (auto& nvLinkPort : nvLinkPorts)
+    {
+        nvLinkPort->update();
+    }
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait(
@@ -465,4 +472,68 @@ void GpuDevice::readLongRunning()
             }
             self->readLongRunning();
         });
+}
+
+void GpuDevice::getNvLinkPortCounts()
+{
+    const int rc =
+        gpu::encodeQueryPortsAvailableRequest(0, nvLinkPortCountRequest);
+
+    if (rc != 0)
+    {
+        lg2::error(
+            "Error querying NVLink ports available: encode failed, rc={RC}, EID={EID}",
+            "RC", rc, "EID", eid);
+        return;
+    }
+
+    mctpRequester.sendRecvMsg(
+        eid, nvLinkPortCountRequest,
+        [weak{weak_from_this()}](const std::error_code& ec,
+                                 std::span<const uint8_t> buffer) {
+            std::shared_ptr<GpuDevice> self = weak.lock();
+            if (!self)
+            {
+                lg2::error("Invalid reference to GpuDevice");
+                return;
+            }
+            self->processNvLinkPortCountsResponse(ec, buffer);
+        });
+}
+
+void GpuDevice::processNvLinkPortCountsResponse(
+    const std::error_code& ec, std::span<const uint8_t> response)
+{
+    if (ec)
+    {
+        lg2::error(
+            "Error querying NVLink ports available: sending message over MCTP failed, rc={RC}, EID={EID}",
+            "RC", ec.message(), "EID", eid);
+        return;
+    }
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode = 0;
+    uint8_t numberNvPorts = 0;
+
+    const int rc = gpu::decodeQueryPortsAvailableResponse(
+        response, cc, reasonCode, numberNvPorts);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        lg2::error(
+            "Error querying NVLink ports available: decode failed, rc={RC}, cc={CC}, reasonCode={RESC}, EID={EID}",
+            "RC", rc, "CC", static_cast<uint8_t>(cc), "RESC", reasonCode, "EID",
+            eid);
+        return;
+    }
+
+    lg2::info("GPU {NAME} with eid {EID} has {NUM} NVLink ports.", "NAME", name,
+              "EID", eid, "NUM", numberNvPorts);
+
+    for (uint8_t i = 0; i < numberNvPorts; ++i)
+    {
+        nvLinkPorts.emplace_back(std::make_shared<NvidiaNVLinkPort>(
+            conn, mctpRequester, name, eid, i, objectServer));
+    }
 }
