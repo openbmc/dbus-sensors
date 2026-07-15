@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94f248b0_9fcb9fc7",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-15T07:50:58Z",
+      "side": 1,
+      "message": "Suggestion: std::get_if would fold the holds_alternative check and the value fetch into a single variant access and avoid the string copy:\n\n\nconst auto* severity \u003d std::get_if\u003cstd::string\u003e(\u0026severityFind-\u003esecond);\nif (severity \u003d\u003d nullptr) { lg2::error(...); continue; }",
+      "revId": "a9f8a359462a721f8ddc8fe30666a38ea8957215",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22e3f212_0bf5e1dc",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-15T07:50:58Z",
+      "side": 1,
+      "message": "Suggestion: same two-step pattern here — std::get_if would collapse it into one access and drop the copy. \n\nconst auto* severity \u003d std::get_if\u003cstd::string\u003e(\u0026severityFind-\u003esecond);\nif (severity \u003d\u003d nullptr) { lg2::error(...); return; }",
+      "revId": "a9f8a359462a721f8ddc8fe30666a38ea8957215",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1725750f_3028fb4c",
+        "filename": "src/batterystatus/BatteryStatusMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-15T07:50:58Z",
+      "side": 1,
+      "message": "Consider splitting the BatteryStatusMain.cpp change into its own commit. The match_t/bus_t alias modernization is unrelated to the Severity-as-string topic and isn\u0027t mentioned in the commit body, so keeping this commit focused on threshold parsing would make the scope (and any future revert) cleaner.",
+      "revId": "a9f8a359462a721f8ddc8fe30666a38ea8957215",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
