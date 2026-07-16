@@ -3,11 +3,18 @@ if not get_option('cable-monitor').allowed()
 endif
 phosphor_dbus_interfaces_dep = dependency('phosphor-dbus-interfaces')
 
+cable_monitor_args = [
+    '-DCABLE_MONITOR_RECONCILE_DELAY_SECONDS=' + get_option(
+        'cable-monitor-reconcile-delay-seconds',
+    ).to_string(),
+]
+
 executable(
     'cablemonitor',
     'CableMonitor.cpp',
     'CableConfig.cpp',
     'CableEvents.cpp',
+    cpp_args: cable_monitor_args,
     dependencies: [
         default_deps,
         utils_dep,

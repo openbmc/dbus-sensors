@@ -107,3 +107,9 @@ option(
     value: 'enabled',
     description: 'Enable Cable monitor.',
 )
+option(
+    'cable-monitor-reconcile-delay-seconds',
+    type: 'integer',
+    value: 5,
+    description: 'Delay in seconds before CableMonitor reconciles cable data after startup, to allow all cable inventory data to become available.',
+)

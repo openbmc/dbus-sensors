@@ -68,7 +68,11 @@ auto Monitor::configUpdateHandler(std::string configFileName)
     }
     co_await entityManager.handleInventoryGet();
     ctx.spawn([](auto& self) -> sdbusplus::async::task<> {
-        co_await sdbusplus::async::sleep_for(self.ctx, std::chrono::seconds(5));
+        info("Reconciling cable data after {DELAY}s startup delay", "DELAY",
+             CABLE_MONITOR_RECONCILE_DELAY_SECONDS);
+        co_await sdbusplus::async::sleep_for(
+            self.ctx,
+            std::chrono::seconds(CABLE_MONITOR_RECONCILE_DELAY_SECONDS));
         self.reconcileCableData();
     }(*this));
 }
