@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9540664f_8ea81b8f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-16T08:12:31Z",
+      "side": 1,
+      "message": "Consider documenting in the commit body why 100000 was chosen, which attribute\u0027s range it reflects, and how it affects the fallback path.",
+      "revId": "2a5767ee16d6df243d565345cfbc3221c99211ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8345cf6_1aaa2600",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-16T08:12:31Z",
+      "side": 1,
+      "message": "Consider adding real test result.",
+      "revId": "2a5767ee16d6df243d565345cfbc3221c99211ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ecb50b71_96949286",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-16T08:12:31Z",
+      "side": 1,
+      "message": "This introduces std::filesystem::canonical(sensorPath), which throws filesystem_error if the path is missing or a broken symlink (the previous code used pure string ops and couldn\u0027t throw). Since checkPWMSensor doesn\u0027t appear to be wrapped in a matching try/catch, consider the std::error_code overload (canonical(sensorPath, ec)) and bailing out on error, so a transient path removal doesn\u0027t abort sensor creation.",
+      "revId": "2a5767ee16d6df243d565345cfbc3221c99211ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
