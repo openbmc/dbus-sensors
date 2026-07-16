@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64ab98e2_fae98923",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-16T04:01:30Z",
+      "side": 1,
+      "message": "The subject/body describe emitting a \"FanRunning signal\", but the implementation (and the PDI in 91892) is a boolean Running property notified via the standard PropertiesChanged — there is no custom FanRunning signal. This wording may lead consumers to subscribe to a signal that doesn\u0027t exist. Consider rewording to match the implementation, e.g. \"publish Running state via Sensor.FanStatus\", and say \"property/PropertiesChanged\" instead of \"signal\".",
+      "revId": "ac6a1026cc0b1872caafacded94c06e6a72f5aca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a50c5c33_e9a29394",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-16T04:01:30Z",
+      "side": 1,
+      "message": "Consider testing on a fan-capable board (e.g. busctl get-property/monitor showing Running flip as the fan starts/stops) and pasting the result, or explicitly flagging the feature as not yet hardware-verified.",
+      "revId": "ac6a1026cc0b1872caafacded94c06e6a72f5aca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ca89124_83348cdf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-16T04:01:30Z",
+      "side": 1,
+      "message": "Consider adding PDI patch link, so the merge order is explicit for reviewers",
+      "revId": "ac6a1026cc0b1872caafacded94c06e6a72f5aca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
