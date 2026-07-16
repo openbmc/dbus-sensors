@@ -2156,4 +2156,98 @@ int decodeQueryPortStatusResponse(
     return buffer.getError();
 }
 
+int encodeGetPortTelemetryCounterRequest(uint8_t instanceId, uint8_t portNumber,
+                                         std::span<uint8_t> buf)
+{
+    PackBuffer buffer(buf);
+
+    const int rc = encodeRequestCommonHeader(
+        buffer, MessageType::NETWORK_PORT,
+        static_cast<uint8_t>(NetworkPortCommands::GetPortTelemetryCounter),
+        instanceId);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    const uint8_t dataSize = sizeof(portNumber);
+    buffer.pack(dataSize);
+    buffer.pack(portNumber);
+
+    return buffer.getError();
+}
+
+// The device sends a 32-bit supportedCounters bitmap followed by a dense array
+// of up to maxPortTelemetryCounters 64-bit counters (data_size bytes), in the
+// fixed order of the port counter struct; bit i of supportedCounters marks
+// counter i valid. numCounters returns how many counters were on the wire.
+int decodeGetPortTelemetryCounterResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint32_t& supportedCounters, size_t& numCounters,
+    std::array<uint64_t, maxPortTelemetryCounters>& counters)
+{
+    UnpackBuffer buffer(buf);
+
+    int rc = decodeResponseCommonHeader(
+        buffer, MessageType::NETWORK_PORT,
+        static_cast<uint8_t>(NetworkPortCommands::GetPortTelemetryCounter), cc,
+        reasonCode);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    uint16_t dataSize = 0;
+    rc = buffer.unpack(dataSize);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    // Data is the 32-bit supportedCounters bitmap followed by a dense array of
+    // 64-bit counters (data_size bytes total).
+    if (dataSize < sizeof(supportedCounters))
+    {
+        return EINVAL;
+    }
+
+    // The counters are a dense array of 64-bit values, so the bytes after the
+    // bitmap must be a whole multiple of a counter; reject a partial trailing
+    // counter instead of silently dropping it.
+    if ((dataSize - sizeof(supportedCounters)) % sizeof(uint64_t) != 0)
+    {
+        return EINVAL;
+    }
+
+    rc = buffer.unpack(supportedCounters);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    numCounters = (dataSize - sizeof(supportedCounters)) / sizeof(uint64_t);
+
+    if (numCounters > counters.size())
+    {
+        return EINVAL;
+    }
+
+    for (size_t i = 0; i < numCounters; ++i)
+    {
+        rc = buffer.unpack(counters[i]);
+
+        if (rc != 0)
+        {
+            return rc;
+        }
+    }
+
+    return 0;
+}
+
 } // namespace gpu
