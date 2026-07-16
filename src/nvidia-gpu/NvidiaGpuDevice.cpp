@@ -31,6 +31,7 @@
 #include <NvidiaGpuXid.hpp>
 #include <NvidiaLongRunningHandler.hpp>
 #include <NvidiaNVLinkPortCharacteristics.hpp>
+#include <NvidiaNVLinkPortMetrics.hpp>
 #include <NvidiaNVLinkPortStatus.hpp>
 #include <NvidiaPcieFunction.hpp>
 #include <NvidiaPcieInterface.hpp>
@@ -435,6 +436,10 @@ void GpuDevice::read()
     {
         portCharacteristics->update();
     }
+    for (auto& metrics : nvLinkPortMetrics)
+    {
+        metrics->update();
+    }
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait(
@@ -619,6 +624,7 @@ void GpuDevice::processNvLinkPortCountsResponse(
     nvLinkPortInterfaces.reserve(static_cast<size_t>(numberNvPorts) * 2);
     nvLinkPortStatuses.reserve(numberNvPorts);
     nvLinkPortCharacteristics.reserve(numberNvPorts);
+    nvLinkPortMetrics.reserve(numberNvPorts);
 
     for (uint8_t i = 0; i < numberNvPorts; ++i)
     {
@@ -635,5 +641,8 @@ void GpuDevice::processNvLinkPortCountsResponse(
         nvLinkPortCharacteristics.emplace_back(
             std::make_shared<NvidiaNVLinkPortCharacteristics>(
                 mctpRequester, eid, i, interfaces.port));
+
+        nvLinkPortMetrics.emplace_back(makeNvidiaNVLinkPortMetrics(
+            conn, mctpRequester, name, eid, i, objectServer));
     }
 }

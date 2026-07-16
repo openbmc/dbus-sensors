@@ -29,6 +29,7 @@
 #include <NvidiaGpuVoltageSensor.hpp>
 #include <NvidiaLongRunningHandler.hpp>
 #include <NvidiaNVLinkPortCharacteristics.hpp>
+#include <NvidiaNVLinkPortMetrics.hpp>
 #include <NvidiaNVLinkPortStatus.hpp>
 #include <NvidiaPcieFunction.hpp>
 #include <NvidiaPcieInterface.hpp>
@@ -132,6 +133,7 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
     std::vector<std::shared_ptr<NvidiaNVLinkPortStatus>> nvLinkPortStatuses;
     std::vector<std::shared_ptr<NvidiaNVLinkPortCharacteristics>>
         nvLinkPortCharacteristics;
+    std::vector<std::shared_ptr<NvidiaNVLinkPortMetrics>> nvLinkPortMetrics;
 
     std::shared_ptr<NvidiaEventReportingConfig> eventReporting;
     std::shared_ptr<SerialQueue> longRunningQueue;
