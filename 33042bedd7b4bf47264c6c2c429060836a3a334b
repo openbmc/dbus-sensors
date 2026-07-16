@@ -16,6 +16,23 @@
       "message": "Can you please provide the test result log for the I2C/I3C probing by PSUSensor",
       "revId": "33042bedd7b4bf47264c6c2c429060836a3a334b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bea7223b_e28117e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002734
+      },
+      "writtenOn": "2026-07-16T01:44:27Z",
+      "side": 1,
+      "message": "Hi @ed@tanous.net @vernon.mauery@gmail.com, Could you please review this change when you have a chance? We\u0027d like to get this moving forward.",
+      "revId": "33042bedd7b4bf47264c6c2c429060836a3a334b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
