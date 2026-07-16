@@ -26,6 +26,7 @@ gpusensor_sources = files(
     'NvidiaGpuXid.cpp',
     'NvidiaLongRunningHandler.cpp',
     'NvidiaNVLinkPortCharacteristics.cpp',
+    'NvidiaNVLinkPortMetrics.cpp',
     'NvidiaNVLinkPortStatus.cpp',
     'NvidiaPcieDevice.cpp',
     'NvidiaPcieFunction.cpp',
