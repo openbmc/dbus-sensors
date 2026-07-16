@@ -434,6 +434,10 @@ void GpuDevice::read()
     {
         nvLinkPort->update();
     }
+    for (auto& metrics : nvLinkPortMetrics)
+    {
+        metrics->update();
+    }
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait(
@@ -534,6 +538,8 @@ void GpuDevice::processNvLinkPortCountsResponse(
     for (uint8_t i = 0; i < numberNvPorts; ++i)
     {
         nvLinkPorts.emplace_back(std::make_shared<NvidiaNVLinkPort>(
+            conn, mctpRequester, name, eid, i, objectServer));
+        nvLinkPortMetrics.emplace_back(makeNvidiaNVLinkPortMetrics(
             conn, mctpRequester, name, eid, i, objectServer));
     }
 }
