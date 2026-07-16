@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "290d849f_773c2352",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-07-16T07:17:37Z",
+      "side": 1,
+      "message": "Updated as suggested.\nSubject changed to fan: avoid false tach failures on invalid startup readings",
+      "parentUuid": "62eb3d09_c538ee23",
+      "revId": "6964af47cd5bb02acd36f27b19ffeabc2fe84bd7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "24184280_a4ae9a03",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-07-15T16:56:06Z",
       "side": 1,
       "message": "Can you add details about why we\u0027re getting negative readings here?  I wouldn\u0027t expect a conforming sensor to produce negative values, and I would expect it to have a MinValue of 0.\n\nIf we\u0027re publishing negative values, somewhere, it likely means the tach sensor code is broken.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 18
+      },
+      "revId": "6964af47cd5bb02acd36f27b19ffeabc2fe84bd7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b87e24ba_23c18cdd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-07-16T07:17:37Z",
+      "side": 1,
+      "message": "Good point. I have updated the logic so 0 RPM is not globally ignored.\nNow, negative values are treated as invalid, and 0 RPM is ignored only during startup/transient phase before the first valid positive tach sample. After first valid tach, 0 RPM is evaluated normally so real stall detection is preserved.",
+      "parentUuid": "24184280_a4ae9a03",
       "range": {
         "startLine": 9,
         "startChar": 0,
@@ -58,6 +100,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bf2e6a5_2be16724",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-07-16T07:17:37Z",
+      "side": 1,
+      "message": "Updated Tested section with concrete outcomes:\n\n- EVB2600 boot/restart transient case: no false threshold/redundancy failures from startup 0 RPM.\n- EVB2600 normal RPM case: thresholds and redundancy updates behave normally.\n- EVB2600 post-initialization 0 RPM case: 0 RPM is evaluated via normal threshold path.",
+      "parentUuid": "f9a31465_060e2c02",
+      "revId": "6964af47cd5bb02acd36f27b19ffeabc2fe84bd7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bfbd6d64_e2800615",
@@ -71,6 +131,30 @@
       "writtenOn": "2026-07-15T16:56:29Z",
       "side": 1,
       "message": "This doesn\u0027t say how you tested this behavior.",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 0
+      },
+      "revId": "6964af47cd5bb02acd36f27b19ffeabc2fe84bd7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31322212_f4863f16",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-07-16T07:17:37Z",
+      "side": 1,
+      "message": "Expanded test details in commit message to include platform, scenario, and observed result (not just generic claims), including boot/restart transient behavior, normal operation, post-init 0 RPM behavior, and build verification.",
+      "parentUuid": "bfbd6d64_e2800615",
       "range": {
         "startLine": 37,
         "startChar": 0,
@@ -111,6 +195,24 @@
       "writtenOn": "2026-07-15T06:19:59Z",
       "side": 1,
       "message": "Question: checkThresholds() looks like it runs on every poll (updateValue() → checkThresholds(), with restartRead() rescheduling), not only at boot. If so, value \u003e 0 skips all zero readings at any time — would a fan that genuinely stalls during normal operation (0 RPM) then no longer raise a threshold alarm or update redundancy? I\u0027d like to understand how a boot-transient 0 is distinguished from a real 0-RPM stall. As one option, a startup settle window / marking the sensor non-functional until the first valid reading / requiring N consecutive zeros might filter boot-time false alarms without affecting real failure detection — just a thought.",
+      "revId": "6964af47cd5bb02acd36f27b19ffeabc2fe84bd7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e93223fd_82c3d287",
+        "filename": "src/fan/TachSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-07-16T07:17:37Z",
+      "side": 1,
+      "message": "Agreed, and fixed with startup-only gating.\nThe implementation now tracks whether a positive tach sample has been seen:\n\n- before first positive sample: ignore startup 0 RPM transient readings\n- after first positive sample: evaluate 0 RPM normally\n- on fan absence: reset startup gating state\n\nThis avoids boot false alarms without masking real 0 RPM failures.",
+      "parentUuid": "d7c300d9_cd138f38",
       "revId": "6964af47cd5bb02acd36f27b19ffeabc2fe84bd7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
