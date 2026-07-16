@@ -7,6 +7,7 @@
 
 #include <OcpMctpVdm.hpp>
 
+#include <array>
 #include <cstddef>
 #include <cstdint>
 #include <span>
@@ -69,6 +70,7 @@ enum class PlatformEnvironmentalEvent : uint8_t
 
 enum class NetworkPortCommands : uint8_t
 {
+    GetPortTelemetryCounter = 0x01,
     GetEthernetPortTelemetryCounters = 0x0F,
     GetPortNetworkAddresses = 0x11,
     QueryPortsAvailable = 0x41,
@@ -241,6 +243,13 @@ constexpr size_t queryPortCharacteristicsRequestSize =
 
 constexpr size_t queryPortStatusRequestSize =
     ocp::accelerator_management::commonRequestSize + 1;
+
+constexpr size_t getPortTelemetryCounterRequestSize =
+    ocp::accelerator_management::commonRequestSize + 1;
+
+// Number of 64-bit counters in the Get Port Telemetry Counter response,
+// matching the 32-bit supportedCounters bitmap (bit i gates counter i).
+constexpr size_t maxPortTelemetryCounters = 32;
 
 constexpr size_t getDriverInformationResponseMinSize =
     ocp::accelerator_management::commonResponseSize + 2;
@@ -488,6 +497,21 @@ int decodeQueryPortStatusResponse(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     uint8_t& portState, uint8_t& portStatus);
+
+int encodeGetPortTelemetryCounterRequest(uint8_t instanceId, uint8_t portNumber,
+                                         std::span<uint8_t> buf);
+
+// Decodes the Get Port Telemetry Counter (NSM 0x01) response. The device sends
+// a 32-bit supportedCounters bitmap followed by a dense array of up to
+// maxPortTelemetryCounters 64-bit counters (data_size bytes), in the fixed
+// order of the NSM port counter struct; bit i of supportedCounters marks
+// counter i valid. numCounters returns how many counters were present on the
+// wire.
+int decodeGetPortTelemetryCounterResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint32_t& supportedCounters, size_t& numCounters,
+    std::array<uint64_t, maxPortTelemetryCounters>& counters);
 
 int encodeGetEccErrorCountsRequest(uint8_t instanceId, std::span<uint8_t> buf);
 
