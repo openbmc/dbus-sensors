@@ -4,7 +4,9 @@
 #include <boost/asio/posix/stream_descriptor.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <gpiod.hpp>
+#include <phosphor-logging/commit.hpp>
 #include <phosphor-logging/lg2.hpp>
+#include <xyz/openbmc_project/State/Fan/event.hpp>
 
 #include <memory>
 #include <string>
@@ -34,17 +36,25 @@ class PresenceGpio
     void logPresent(const std::string& device)
     {
         std::string summary = deviceType + " " + deviceName + " Inserted";
-        std::string msg = "OpenBMC.0.1." + deviceType + "Inserted";
-        lg2::info(summary.c_str(), "REDFISH_MESSAGE_ID", msg.c_str(),
-                  "REDFISH_MESSAGE_ARGS", device);
+        lg2::info(summary.c_str());
+
+        const sdbusplus::object_path fanPath{
+            "/xyz/openbmc_project/inventory/" + device};
+        lg2::commit(
+            sdbusplus::event::xyz::openbmc_project::state::Fan::FanInserted(
+                "FAN_NAME", fanPath));
     }
 
     void logRemoved(const std::string& device)
     {
         std::string summary = deviceType + " " + deviceName + " Removed";
-        std::string msg = "OpenBMC.0.1." + deviceType + "Removed";
-        lg2::error(summary.c_str(), "REDFISH_MESSAGE_ID", msg.c_str(),
-                   "REDFISH_MESSAGE_ARGS", device);
+        lg2::error(summary.c_str());
+
+        const sdbusplus::object_path fanPath{
+            "/xyz/openbmc_project/inventory/" + device};
+        lg2::commit(
+            sdbusplus::event::xyz::openbmc_project::state::Fan::FanRemoved(
+                "FAN_NAME", fanPath));
     }
 
     void updateAndTracePresence(int newValue);
