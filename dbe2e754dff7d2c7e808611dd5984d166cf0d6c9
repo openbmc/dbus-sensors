@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1ddeace_1ce44641",
+        "filename": "src/nvidia-gpu/NvidiaPcieDevice.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-17T05:51:54Z",
+      "side": 1,
+      "message": "Can we directly use `sdbusplus::object_path`.",
+      "range": {
+        "startLine": 268,
+        "startChar": 4,
+        "endLine": 268,
+        "endChar": 21
+      },
+      "revId": "dbe2e754dff7d2c7e808611dd5984d166cf0d6c9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
