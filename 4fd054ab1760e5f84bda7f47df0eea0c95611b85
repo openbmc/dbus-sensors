@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9616a53_2fe91019",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-17T08:35:56Z",
+      "side": 1,
+      "message": "Suggest sharing how it was actually exercised.",
+      "revId": "4fd054ab1760e5f84bda7f47df0eea0c95611b85",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "123bc3a2_53d1a646",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-17T08:35:56Z",
+      "side": 1,
+      "message": "Question: Is there an input that makes getFanType() return \u003e\u003d max?",
+      "revId": "4fd054ab1760e5f84bda7f47df0eea0c95611b85",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c476999_6b29d321",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-17T08:35:56Z",
+      "side": 1,
+      "message": "If it were \u003e\u003d max, line 317 would already have continued the outer loop.",
+      "revId": "4fd054ab1760e5f84bda7f47df0eea0c95611b85",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
