@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff335a82_692bc4dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-17T07:34:09Z",
+      "side": 1,
+      "message": "nit: Consider prefixing the subject with the subsystem to match convention — nvidia-gpu: change PowerCapEnable from bool to enum.",
+      "revId": "b69400257593e156beab095d0e6466c9ad7fade3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bb40c4a_a05f55ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-17T07:34:09Z",
+      "side": 1,
+      "message": "Suggestions: currently uses a bare Change-Id — a full Gerrit URL is clearer.",
+      "revId": "b69400257593e156beab095d0e6466c9ad7fade3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37888b01_64edc9dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-17T07:34:09Z",
+      "side": 1,
+      "message": "The commit message ends with a stray \" after the Signed-off-by line . Consider removing it.",
+      "revId": "b69400257593e156beab095d0e6466c9ad7fade3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
