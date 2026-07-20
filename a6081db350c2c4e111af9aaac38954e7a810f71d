@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f0ccc91_9419d7dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-07-20T09:14:25Z",
+      "side": 1,
+      "message": "Addressed with runtime validation on BMC.\n- Sensor tested: /xyz/openbmc_project/sensors/temperature/CPU0_Temp\n- Property tested: xyz.openbmc_project.Sensor.Threshold.Critical.CriticalAlarmHigh\n- Before restart: b false\nRestarted service: xyz.openbmc_project.hwmontempsensor.service\n- After restart: b false\n\nObserved post-restart signal from dbus-monitor:\n- member\u003dThresholdAsserted\n- path\u003d/xyz/openbmc_project/sensors/temperature/CPU0_Temp\n- interface\u003dxyz.openbmc_project.Sensor.Threshold.Critical\nproperty\u003dCriticalAlarmHigh\nboolean false\n- This confirms first-cycle ThresholdAsserted is emitted even when the alarm property remains unchanged after reconstruction.",
+      "parentUuid": "738edff9_bf981a81",
+      "revId": "a6081db350c2c4e111af9aaac38954e7a810f71d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f46e3f46_b1ad3aa0",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bb51cb7_0a532cca",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-07-20T09:14:25Z",
+      "side": 1,
+      "message": "Addressed. Replaced the trailing force boolean with an explicit emit enum and updated all call sites accordingly. This makes the intent clear at each call site and improves readability.",
+      "parentUuid": "f46e3f46_b1ad3aa0",
+      "revId": "a6081db350c2c4e111af9aaac38954e7a810f71d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "055985d7_1e53e794",
@@ -48,6 +84,24 @@
       "writtenOn": "2026-07-16T05:45:16Z",
       "side": 1,
       "message": "Consider an early return here to flatten the nesting: if (!force \u0026\u0026 !propertyChanged) { return; } and then run the signal-emit code unindented, rather than wrapping it in if (force || propertyChanged) { ... }.",
+      "revId": "a6081db350c2c4e111af9aaac38954e7a810f71d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b752221_37d5fc8e",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-07-20T09:14:25Z",
+      "side": 1,
+      "message": "Updated. Refactored to early-return when emit mode is change-based and the property did not change, then kept signal emission logic unindented. Behavior is preserved: forced mode still emits on the first valid cycle after reconstruction.",
+      "parentUuid": "055985d7_1e53e794",
       "revId": "a6081db350c2c4e111af9aaac38954e7a810f71d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
