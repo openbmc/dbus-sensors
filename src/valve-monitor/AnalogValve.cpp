@@ -185,7 +185,8 @@ auto AnalogValve::setState(State state) -> bool
     debug("Setting {VALVE} to {STATE}", "VALVE", baseConfig.name, "STATE",
           convertStateToString(state));
 
-    if ((!isOpen && state == State::Close) || (isOpen && state == State::Open))
+    if (stateInitialized && ((!isOpen && state == State::Close) ||
+                             (isOpen && state == State::Open)))
     {
         info("Ignoring, as new state {STATE} matches the current state",
              "STATE", convertStateToString(state));
@@ -249,11 +250,12 @@ auto AnalogValve::handleStateChange(double voltage) -> sdbusplus::async::task<>
         isOpen = (voltage > analogConfig.openThreshold + hysteresis);
     }
 
-    if (wasOpen == isOpen)
+    if (stateInitialized && wasOpen == isOpen)
     {
         co_return;
     }
 
+    stateInitialized = true;
     co_await events.generateValveEvent(inventoryPath, isOpen);
 
     /** @brief Valve state to systemd target service map */
