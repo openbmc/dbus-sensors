@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "85129df4_1a9be77e",
+        "filename": "src/fan/PresenceGpio.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-07-20T10:41:33Z",
+      "side": 1,
+      "message": "logPresent uses lg2::info but logRemoved uses lg2::error. Fan removal isn\u0027t inherently an error — an intentional hot-swap or maintenance removal should be lg2::info or lg2::warning for consistency.",
+      "parentUuid": "0d52f468_4e2cbe0c",
+      "revId": "9e6256211cc12eff97a9ea901283c9ed7552bbd2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "a4a8fd41_93d30da4",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-07-20T10:40:36Z",
       "side": 1,
       "message": "If the GPIO signal flaps (e.g. loose connector), logPresent/logRemoved emit a lg2::commit D-Bus event on every transition. Is there debounce already in updateAndTracePresence, or should one be added to prevent event flooding?",
+      "revId": "9e6256211cc12eff97a9ea901283c9ed7552bbd2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b255cb91_b5ab39e2",
+        "filename": "src/fan/PresenceGpio.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-07-20T10:41:33Z",
+      "side": 1,
+      "message": "If the GPIO signal flaps (e.g. loose connector), logPresent/logRemoved emit a lg2::commit D-Bus event on every transition. Is there debounce already in updateAndTracePresence, or should one be added to prevent event flooding?",
+      "parentUuid": "a4a8fd41_93d30da4",
       "revId": "9e6256211cc12eff97a9ea901283c9ed7552bbd2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
