@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6f58256_fa92a4e3",
+        "filename": "src/fan/TachSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-21T03:54:59Z",
+      "side": 1,
+      "message": "For the startup/invalid case status stays at its default false, so curLed becomes true and the\nfault LED turns on -- the false failure we skip on thresholds still shows on the LED. Maybe\ndefault status to true, or gate the LED update on validForThreshold too?",
+      "revId": "8d33c86650eecdebcd63e576a61b587417d30133",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a27a5ea_be6b245b",
+        "filename": "src/fan/TachSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-21T03:54:59Z",
+      "side": 1,
+      "message": "nit: value \u003e 0 is evaluated twice here (in validForThreshold and in the if below). Consider\nnaming it once, e.g. `const bool positive \u003d value \u003e 0;`, and reusing it in both spots.",
+      "revId": "8d33c86650eecdebcd63e576a61b587417d30133",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
