@@ -76,6 +76,7 @@ enum class PlatformEnvironmentalEvent : uint8_t
 
 enum class NetworkPortCommands : uint8_t
 {
+    GetPortTelemetryCounters = 0x01,
     GetEthernetPortTelemetryCounters = 0x0F,
     GetPortNetworkAddresses = 0x11,
 };
@@ -252,6 +253,9 @@ constexpr size_t getPortNetworkAddressesRequestSize =
 
 constexpr size_t getEthernetPortTelemetryCountersRequestSize =
     ocp::accelerator_management::commonRequestSize + 2;
+
+constexpr size_t getPortTelemetryCountersRequestSize =
+    ocp::accelerator_management::commonRequestSize + 1;
 
 constexpr size_t getInventoryInformationRequestSize =
     ocp::accelerator_management::commonRequestSize + 1;
@@ -511,6 +515,14 @@ int encodeGetEthernetPortTelemetryCountersRequest(
     uint8_t instanceId, uint16_t portNumber, std::span<uint8_t> buf);
 
 int decodeGetEthernetPortTelemetryCountersResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    std::vector<std::pair<uint8_t, uint64_t>>& telemetryValues);
+
+int encodeGetPortTelemetryCountersRequest(
+    uint8_t instanceId, uint16_t portNumber, std::span<uint8_t> buf);
+
+int decodeGetPortTelemetryCountersResponse(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     std::vector<std::pair<uint8_t, uint64_t>>& telemetryValues);
