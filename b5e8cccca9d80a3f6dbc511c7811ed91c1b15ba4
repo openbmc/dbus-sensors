@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a68ef61b_0f2b17a1",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-21T01:44:41Z",
+      "side": 1,
+      "message": "On the power-delay path, LOW changes are deferred via `startTimer` and the timer callback asserts\nwith a hardcoded `ThresholdEmit::onChange`, so the forced first-cycle emit never reaches\npower-delayed LOW thresholds. Intentional, or should `emit` be threaded through `startTimer`?",
+      "revId": "b5e8cccca9d80a3f6dbc511c7811ed91c1b15ba4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
