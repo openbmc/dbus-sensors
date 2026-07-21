@@ -1,6 +1,8 @@
 gpusensor_dir = '../../nvidia-gpu'
 
 gpusensor_sources = files(
+    gpusensor_dir / 'Inventory.cpp',
+    gpusensor_dir / 'NvidiaDriverInformation.cpp',
     gpusensor_dir / 'NvidiaGpuEnergySensor.cpp',
     gpusensor_dir / 'NvidiaGpuMctpVdm.cpp',
     gpusensor_dir / 'NvidiaGpuPowerPeakReading.cpp',
@@ -34,6 +36,8 @@ test(
         'test_NvidiaGpuEnergySensor.cpp',
         'test_NvidiaGpuVoltageSensor.cpp',
         'test_NvidiaGpuPowerPeakReading.cpp',
+        'test_NvidiaDriverInformation.cpp',
+        'test_Inventory.cpp',
         gpusensor_sources,
         dbus_fixture_sources,
         mock_mctp_sources,
