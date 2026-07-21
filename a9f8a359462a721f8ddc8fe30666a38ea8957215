@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f91a60a_bf3dcc38",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-07-21T10:34:50Z",
+      "side": 1,
+      "message": "Accepted. Refactored to a single std::get_if\u003cstd::string\u003e(\u0026severityFind-\u003esecond) lookup with a null check. This removes the separate holds_alternative check and avoids an unnecessary copy.",
+      "parentUuid": "94f248b0_9fcb9fc7",
+      "revId": "a9f8a359462a721f8ddc8fe30666a38ea8957215",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "22e3f212_0bf5e1dc",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "86b874fc_261e7fb2",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-07-21T10:34:50Z",
+      "side": 1,
+      "message": "Applied the same cleanup in this path as well: switched to std::get_if + null guard, then used the validated string reference for comparison.",
+      "parentUuid": "22e3f212_0bf5e1dc",
+      "revId": "a9f8a359462a721f8ddc8fe30666a38ea8957215",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1725750f_3028fb4c",
@@ -48,6 +84,24 @@
       "writtenOn": "2026-07-15T07:50:58Z",
       "side": 1,
       "message": "Consider splitting the BatteryStatusMain.cpp change into its own commit. The match_t/bus_t alias modernization is unrelated to the Severity-as-string topic and isn\u0027t mentioned in the commit body, so keeping this commit focused on threshold parsing would make the scope (and any future revert) cleaner.",
+      "revId": "a9f8a359462a721f8ddc8fe30666a38ea8957215",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "255f20f7_f64d0014",
+        "filename": "src/batterystatus/BatteryStatusMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-07-21T10:34:50Z",
+      "side": 1,
+      "message": "Agreed. I will keep this change focused and move the BatteryStatus alias update into a separate commit.",
+      "parentUuid": "1725750f_3028fb4c",
       "revId": "a9f8a359462a721f8ddc8fe30666a38ea8957215",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
