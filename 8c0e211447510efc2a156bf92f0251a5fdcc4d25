@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54ecf38e_d39c1f6a",
+        "filename": "src/Thresholds.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-21T02:23:01Z",
+      "side": 1,
+      "message": "Consider a static_assert(static_cast\u003csize_t\u003e(Level::ERROR) \u003d\u003d thresProp.size()); here.\ngetThresholdInterface() indexes by enum ordinal with ERROR as the past-the-end sentinel, and\nthis bumps the array/enum by hand -- the assert guards against a future mismatch silently\nbreaking interface lookup.",
+      "revId": "8c0e211447510efc2a156bf92f0251a5fdcc4d25",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41af738a_0bedc1be",
+        "filename": "src/Thresholds.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-21T02:23:01Z",
+      "side": 1,
+      "message": "This comment is now stale -- Consider updating it\nto \"returns false if a critical or non-recoverable threshold has been crossed\".",
+      "revId": "8c0e211447510efc2a156bf92f0251a5fdcc4d25",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
