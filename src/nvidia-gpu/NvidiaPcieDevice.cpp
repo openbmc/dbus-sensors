@@ -9,6 +9,7 @@
 #include "NvidiaEthPort.hpp"
 #include "NvidiaGpuMctpVdm.hpp"
 #include "NvidiaIbPort.hpp"
+#include "NvidiaIbPortMetrics.hpp"
 #include "NvidiaPcieFunction.hpp"
 #include "NvidiaPcieInterface.hpp"
 #include "NvidiaPciePort.hpp"
@@ -304,6 +305,10 @@ void PcieDevice::processGetNetworkPortAddressesResponse(
 
         ibPorts.emplace_back(std::make_shared<NvidiaIbPort>(
             portName, nicDeviceName, eid, portNumber, objectServer, addresses));
+
+        ibPortMetrics.emplace_back(std::make_shared<NvidiaIbPortMetrics>(
+            mctpRequester, portName, nicDeviceName, eid, portNumber,
+            objectServer));
     }
 }
 
@@ -400,6 +405,11 @@ void PcieDevice::read()
     for (auto& ethPortMetric : ethPortMetrics)
     {
         ethPortMetric->update();
+    }
+
+    for (auto& ibPortMetric : ibPortMetrics)
+    {
+        ibPortMetric->update();
     }
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));

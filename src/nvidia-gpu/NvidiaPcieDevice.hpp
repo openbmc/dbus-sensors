@@ -14,6 +14,7 @@
 
 #include <NvidiaEthPort.hpp>
 #include <NvidiaIbPort.hpp>
+#include <NvidiaIbPortMetrics.hpp>
 #include <NvidiaPciePort.hpp>
 #include <NvidiaPciePortMetrics.hpp>
 #include <boost/asio/io_context.hpp>
@@ -128,4 +129,6 @@ class PcieDevice : public std::enable_shared_from_this<PcieDevice>
     std::vector<std::shared_ptr<NvidiaEthPortMetrics>> ethPortMetrics;
 
     std::vector<std::shared_ptr<NvidiaIbPort>> ibPorts;
+
+    std::vector<std::shared_ptr<NvidiaIbPortMetrics>> ibPortMetrics;
 };
