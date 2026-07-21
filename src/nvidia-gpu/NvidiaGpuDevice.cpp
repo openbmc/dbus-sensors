@@ -20,6 +20,7 @@
 #include <NvidiaGpuMemoryCapacityUtilization.hpp>
 #include <NvidiaGpuMemoryClockFrequency.hpp>
 #include <NvidiaGpuMemoryDevice.hpp>
+#include <NvidiaGpuNvlinkPortHealth.hpp>
 #include <NvidiaGpuPowerControl.hpp>
 #include <NvidiaGpuPowerPeakReading.hpp>
 #include <NvidiaGpuPowerSensor.hpp>
@@ -204,6 +205,9 @@ void GpuDevice::makeSensors()
     resetRequiredEventHandler =
         std::make_shared<NvidiaResetRequiredEventHandler>(name, conn);
 
+    nvlinkPortHealthEventHandler =
+        std::make_shared<NvidiaNvlinkPortHealthEventHandler>(name, conn);
+
     eventReporting = std::make_shared<NvidiaEventReportingConfig>(
         eid, mctpRequester,
         std::initializer_list<EventDescriptor>{
@@ -221,7 +225,12 @@ void GpuDevice::makeSensors()
                  gpu::PlatformEnvironmentalEvent::RESET_REQUIRED),
              std::bind_front(
                  &NvidiaResetRequiredEventHandler::handleResetRequiredEvent,
-                 resetRequiredEventHandler)}});
+                 resetRequiredEventHandler)},
+            {gpu::MessageType::NETWORK_PORT,
+             static_cast<uint8_t>(gpu::NetworkPortEvent::THRESHOLD),
+             std::bind_front(&NvidiaNvlinkPortHealthEventHandler::
+                                 handleNvlinkPortHealthEvent,
+                             nvlinkPortHealthEventHandler)}});
 
     utilizationMetrics = std::make_shared<NvidiaGpuUtilizationMetrics>(
         mctpRequester, objectServer, name, eid, longRunningQueue,
