@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f3d894d_1a2df49e",
+        "filename": "src/Thresholds.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-07-21T05:57:47Z",
+      "side": 1,
+      "message": "Updated. I have added a compile-time guard to prevent silent drift:\nstatic_assert(static_cast\u003csize_t\u003e(Level::ERROR) \u003d\u003d thresProp.size(), \"Level enum and threshold property table are out of sync\");",
+      "parentUuid": "54ecf38e_d39c1f6a",
+      "revId": "8c0e211447510efc2a156bf92f0251a5fdcc4d25",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "41af738a_0bedc1be",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-07-21T02:23:01Z",
       "side": 1,
       "message": "This comment is now stale -- Consider updating it\nto \"returns false if a critical or non-recoverable threshold has been crossed\".",
+      "revId": "8c0e211447510efc2a156bf92f0251a5fdcc4d25",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4bf69c4_1d211ff4",
+        "filename": "src/Thresholds.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-07-21T05:57:47Z",
+      "side": 1,
+      "message": "Agreed, the comment was stale. This returns false for both CRITICAL and NONRECOVERABLE assertions, so I have updated the header comment accordingly in Thresholds.hpp. Behavior remains unchanged and matches implementation in Thresholds.cpp",
+      "parentUuid": "41af738a_0bedc1be",
       "revId": "8c0e211447510efc2a156bf92f0251a5fdcc4d25",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
