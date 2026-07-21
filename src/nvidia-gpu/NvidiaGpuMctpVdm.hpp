@@ -73,6 +73,11 @@ enum class NetworkPortCommands : uint8_t
     GetPortNetworkAddresses = 0x11,
 };
 
+enum class NetworkPortEvent : uint8_t
+{
+    THRESHOLD = 0x00,
+};
+
 enum class PcieLinkCommands : uint8_t
 {
     QueryScalarGroupTelemetryV1 = 0x04,
@@ -249,6 +254,11 @@ constexpr size_t longRunningResponseEventSize = 4;
 
 constexpr size_t xidEventMinDataSize = 20;
 
+// NVLink port health (threshold) event data: portNumber(1) + reserved(3) +
+// a 32-bit threshold bitmap. Bit N is set when counter N crossed its health
+// threshold (see NvidiaGpuNvlinkPortHealth for the bit meanings).
+constexpr size_t nvlinkHealthEventDataSize = 8;
+
 constexpr size_t getClockLimitRequestSize =
     ocp::accelerator_management::commonRequestSize + sizeof(uint8_t);
 
@@ -279,6 +289,9 @@ int decodeSetEventSourcesResponse(
 int decodeXidEvent(std::span<const uint8_t> buf, uint8_t& flags,
                    uint32_t& eventMessageReason, uint32_t& sequenceNumber,
                    uint64_t& timestamp, std::string_view& messageTextString);
+
+int decodeNvlinkHealthEvent(std::span<const uint8_t> buf, uint8_t& portNumber,
+                            uint32_t& thresholdMask);
 
 int decodeQueryDeviceIdentificationResponse(
     std::span<const uint8_t> buf,

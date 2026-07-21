@@ -1531,6 +1531,20 @@ int decodeXidEvent(std::span<const uint8_t> buf, uint8_t& flags,
     return 0;
 }
 
+int decodeNvlinkHealthEvent(std::span<const uint8_t> buf, uint8_t& portNumber,
+                            uint32_t& thresholdMask)
+{
+    UnpackBuffer buffer(buf);
+
+    // Data layout: portNumber(1) + reserved(3) + threshold bitmap(4). The
+    // bitmap's low 7 bits flag which port counters crossed their threshold.
+    buffer.unpack(portNumber);
+    buffer.skip(3);
+    buffer.unpack(thresholdMask);
+
+    return buffer.getError();
+}
+
 int encodeGetCurrentClockFrequencyRequest(uint8_t instanceId, ClockType clockId,
                                           std::span<uint8_t> buf)
 {
