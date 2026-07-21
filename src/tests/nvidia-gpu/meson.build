@@ -49,6 +49,7 @@ test(
         'test_NvidiaPciePort.cpp',
         'test_NvidiaPciePortMetrics.cpp',
         'test_NvidiaEthPort.cpp',
+        'test_NvidiaIbPort.cpp',
         'test_NvidiaPcieDevice.cpp',
         'test_NvidiaPcieFunction.cpp',
         'test_Inventory.cpp',
