@@ -5,6 +5,7 @@
 
 #include "MessagePackUnpackUtils.hpp"
 #include "NvidiaGpuMctpVdm.hpp"
+#include "NvidiaGpuNvlinkPortHealth.hpp"
 #include "OcpMctpVdm.hpp"
 
 #include <endian.h>
@@ -4256,6 +4257,106 @@ TEST_F(GpuMctpVdmTests,
         buf, hwViolation, globalSwViolation, powerViolation, thermalViolation);
 
     EXPECT_NE(result, 0);
+}
+
+// Tests for GpuMctpVdm::decodeNvlinkHealthEvent (NVLink port health event).
+TEST_F(GpuMctpVdmTests, DecodeNvlinkHealthEventSuccess)
+{
+    // portNumber=1, symbol_ber threshold (bit 2) set.
+    std::array<uint8_t, gpu::nvlinkHealthEventDataSize> buf = {
+        0x01, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00};
+
+    uint8_t portNumber = 0;
+    uint32_t thresholdMask = 0;
+    int result = gpu::decodeNvlinkHealthEvent(buf, portNumber, thresholdMask);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(portNumber, 1);
+    EXPECT_EQ(thresholdMask, 0x04U);
+    EXPECT_NE(thresholdMask & (1U << 2), 0U); // symbol_ber
+    EXPECT_EQ(thresholdMask & (1U << 0), 0U); // port_rcv_errors clear
+}
+
+TEST_F(GpuMctpVdmTests, DecodeNvlinkHealthEventMultipleThresholds)
+{
+    // portNumber=5, bits 0 (port_rcv_errors) and 6 (estimated_effective_ber).
+    std::array<uint8_t, gpu::nvlinkHealthEventDataSize> buf = {
+        0x05, 0x00, 0x00, 0x00, 0x41, 0x00, 0x00, 0x00};
+
+    uint8_t portNumber = 0;
+    uint32_t thresholdMask = 0;
+    int result = gpu::decodeNvlinkHealthEvent(buf, portNumber, thresholdMask);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(portNumber, 5);
+    EXPECT_EQ(thresholdMask, 0x41U);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeNvlinkHealthEventTruncated)
+{
+    // Only 5 bytes - the 4-byte threshold word is incomplete.
+    std::array<uint8_t, 5> buf = {0x01, 0x00, 0x00, 0x00, 0x04};
+
+    uint8_t portNumber = 0;
+    uint32_t thresholdMask = 0;
+    int result = gpu::decodeNvlinkHealthEvent(buf, portNumber, thresholdMask);
+
+    EXPECT_NE(result, 0);
+}
+
+TEST_F(GpuMctpVdmTests, FormatNvlinkPortHealthMessageSingleThreshold)
+{
+    // port 1, symbol_ber (bit 2). This is the string that surfaces as the
+    // Redfish EventLog entry Message.
+    EXPECT_EQ(
+        formatNvlinkPortHealthMessage("GPU_0", 1, 0x04U),
+        "The resource property GPU_0 NVLink Port 1 has detected errors of "
+        "type [symbol_ber]");
+}
+
+TEST_F(GpuMctpVdmTests, FormatNvlinkPortHealthMessageMultipleThresholds)
+{
+    // port 5, bits 0 (port_rcv_errors) and 6 (estimated_effective_ber),
+    // joined by "; " in bit order.
+    EXPECT_EQ(
+        formatNvlinkPortHealthMessage("GPU_0", 5, 0x41U),
+        "The resource property GPU_0 NVLink Port 5 has detected errors of "
+        "type [port_rcv_errors; estimated_effective_ber]");
+}
+
+TEST_F(GpuMctpVdmTests, FormatNvlinkPortHealthMessageNoThresholds)
+{
+    // No bits set - the raw mask is reported so the entry stays diagnosable
+    // rather than an empty error-type list.
+    EXPECT_EQ(formatNvlinkPortHealthMessage("GPU_0", 3, 0x00U),
+              "The resource property GPU_0 NVLink Port 3 has detected errors "
+              "of type [0x00000000]");
+}
+
+TEST_F(GpuMctpVdmTests, FormatNvlinkPortHealthMessageUnknownBits)
+{
+    // Only a reserved/future bit (bit 7) set, with no known name - fall back
+    // to the raw bitmap.
+    EXPECT_EQ(formatNvlinkPortHealthMessage("GPU_0", 3, 0x80U),
+              "The resource property GPU_0 NVLink Port 3 has detected errors "
+              "of type [0x00000080]");
+}
+
+TEST_F(GpuMctpVdmTests, NvlinkHealthEventToLogMessage)
+{
+    // End to end: decode a raw event payload and format the log message,
+    // exactly as the event handler does.
+    std::array<uint8_t, gpu::nvlinkHealthEventDataSize> buf = {
+        0x01, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00};
+
+    uint8_t portNumber = 0;
+    uint32_t thresholdMask = 0;
+    ASSERT_EQ(gpu::decodeNvlinkHealthEvent(buf, portNumber, thresholdMask), 0);
+
+    EXPECT_EQ(
+        formatNvlinkPortHealthMessage("GPU_0", portNumber, thresholdMask),
+        "The resource property GPU_0 NVLink Port 1 has detected errors of "
+        "type [symbol_ber]");
 }
 
 } // namespace gpu_mctp_tests

@@ -2,22 +2,16 @@ gpusensor_dir = '../../nvidia-gpu'
 
 gpusensor_sources = files(
     gpusensor_dir / 'NvidiaGpuMctpVdm.cpp',
+    gpusensor_dir / 'NvidiaGpuNvlinkPortHealth.cpp',
     gpusensor_dir / 'OcpMctpVdm.cpp',
     gpusensor_dir / 'NvidiaGpuTempSensor.cpp',
 )
 
-dbus_fixture_sources = files(
-    'utils/DbusMockTestBase.cpp',
-)
+dbus_fixture_sources = files('utils/DbusMockTestBase.cpp')
 
-mock_mctp_sources = files(
-    'utils/MockMctpRequester.cpp',
-)
+mock_mctp_sources = files('utils/MockMctpRequester.cpp')
 
-gpusensor_inc = include_directories(
-    'utils',
-    gpusensor_dir,
-)
+gpusensor_inc = include_directories('utils', gpusensor_dir)
 
 test(
     'NvidiaGpuSensors',
