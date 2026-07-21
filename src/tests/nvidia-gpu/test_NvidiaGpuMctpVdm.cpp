@@ -4650,6 +4650,47 @@ TEST_F(GpuMctpVdmTests, DecodeGetEccModeLongRunningResponseEmptyBuffer)
     EXPECT_NE(result, 0);
 }
 
+TEST_F(GpuMctpVdmTests, DecodeNvlinkHealthEventSuccess)
+{
+    std::array<uint8_t, gpu::nvlinkHealthEventDataSize> buf = {
+        0x01, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00};
+
+    uint8_t portNumber = 0;
+    uint32_t thresholdMask = 0;
+    int result = gpu::decodeNvlinkHealthEvent(buf, portNumber, thresholdMask);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(portNumber, 1);
+    EXPECT_EQ(thresholdMask, 0x04U);
+    EXPECT_NE(thresholdMask & (1U << 2), 0U);
+    EXPECT_EQ(thresholdMask & (1U << 0), 0U);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeNvlinkHealthEventMultipleThresholds)
+{
+    std::array<uint8_t, gpu::nvlinkHealthEventDataSize> buf = {
+        0x05, 0x00, 0x00, 0x00, 0x41, 0x00, 0x00, 0x00};
+
+    uint8_t portNumber = 0;
+    uint32_t thresholdMask = 0;
+    int result = gpu::decodeNvlinkHealthEvent(buf, portNumber, thresholdMask);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(portNumber, 5);
+    EXPECT_EQ(thresholdMask, 0x41U);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeNvlinkHealthEventTruncated)
+{
+    std::array<uint8_t, 5> buf = {0x01, 0x00, 0x00, 0x00, 0x04};
+
+    uint8_t portNumber = 0;
+    uint32_t thresholdMask = 0;
+    int result = gpu::decodeNvlinkHealthEvent(buf, portNumber, thresholdMask);
+
+    EXPECT_NE(result, 0);
+}
+
 // Tests for gpu::encodeGetMemoryCapacityUtilizationRequest
 
 TEST_F(GpuMctpVdmTests, EncodeGetMemoryCapacityUtilizationRequestSuccess)
