@@ -8,6 +8,7 @@
 #include "NvidiaDriverInformation.hpp"
 #include "NvidiaEthPort.hpp"
 #include "NvidiaGpuMctpVdm.hpp"
+#include "NvidiaIbPortMetrics.hpp"
 #include "NvidiaPcieFunction.hpp"
 #include "NvidiaPcieInterface.hpp"
 #include "NvidiaPciePort.hpp"
@@ -242,6 +243,19 @@ void PcieDevice::processGetNetworkPortAddressesResponse(
         ethPortMetrics.emplace_back(std::make_shared<NvidiaEthPortMetrics>(
             conn, mctpRequester, portName, nicDeviceName, path, eid, portNumber,
             objectServer, addresses));
+    }
+    else if (linkType == gpu::NetworkPortLinkType::INFINIBAND)
+    {
+        lg2::info(
+            "Port {PN} of PCIe Device with eid {EID} is of type InfiniBand.",
+            "EID", eid, "PN", portNumber);
+
+        const std::string nicDeviceName = name + "_NIC";
+
+        const std::string portName = std::format("Port_{}", portNumber);
+
+        ibPortMetrics.emplace_back(std::make_shared<NvidiaIbPortMetrics>(
+            portName, nicDeviceName, eid, portNumber, objectServer, addresses));
     }
 }
 

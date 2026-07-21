@@ -497,6 +497,18 @@ void DeviceManager::processConfigPropertiesResult(
     lg2::info("EID {EID}: Found device name {NAME}", "EID", eid, "NAME",
               deviceName);
 
+    // NicNetworkPortCount is an optional per-endpoint config that tells
+    // PcieDevice how many ConnectX network ports to enumerate. Carry it into a
+    // mutable copy of the shared SensorConfigs threaded to this endpoint's
+    // devices; without it PcieDevice would default to 0 and create no network
+    // ports.
+    SensorConfigs deviceConfigs = configs;
+    if (configProps.find("NicNetworkPortCount") != configProps.end())
+    {
+        deviceConfigs.nicNetworkPortCount =
+            loadVariant<uint64_t>(configProps, "NicNetworkPortCount");
+    }
+
     // If this endpoint is a bridge, resolve the list of names for the devices
     // living behind it (one per EID in the bridge's pool).
     std::optional<std::vector<std::string>> bridgedEndpoints;
@@ -541,7 +553,7 @@ void DeviceManager::processConfigPropertiesResult(
         const auto* boardPtr = std::get_if<std::string>(&boardIt->second);
         if ((boardPtr != nullptr) && !boardPtr->empty())
         {
-            findBoardInventoryPath(configs, endpointPath, eid,
+            findBoardInventoryPath(deviceConfigs, endpointPath, eid,
                                    escapeForInventoryPath(*boardPtr),
                                    configPath, bridgePool, bridgedEndpoints);
             return;
@@ -550,8 +562,8 @@ void DeviceManager::processConfigPropertiesResult(
 
     lg2::info("EID {EID}: No Board property found, using config path {PATH}",
               "EID", eid, "PATH", configPath);
-    queryDevicesForEndpoint(configs, configPath, endpointPath, eid, bridgePool,
-                            bridgedEndpoints);
+    queryDevicesForEndpoint(deviceConfigs, configPath, endpointPath, eid,
+                            bridgePool, bridgedEndpoints);
 }
 
 void DeviceManager::findBoardInventoryPath(
