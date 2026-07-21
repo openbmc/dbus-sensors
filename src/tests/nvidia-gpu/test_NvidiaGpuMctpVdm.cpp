@@ -5,6 +5,7 @@
 
 #include "MessagePackUnpackUtils.hpp"
 #include "NvidiaGpuMctpVdm.hpp"
+#include "NvidiaGpuNvlinkPortHealth.hpp"
 #include "OcpMctpVdm.hpp"
 
 #include <endian.h>
@@ -4650,6 +4651,47 @@ TEST_F(GpuMctpVdmTests, DecodeGetEccModeLongRunningResponseEmptyBuffer)
     EXPECT_NE(result, 0);
 }
 
+TEST_F(GpuMctpVdmTests, DecodeNvlinkHealthEventSuccess)
+{
+    std::array<uint8_t, gpu::nvlinkHealthEventDataSize> buf = {
+        0x01, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00};
+
+    uint8_t portNumber = 0;
+    uint32_t thresholdMask = 0;
+    int result = gpu::decodeNvlinkHealthEvent(buf, portNumber, thresholdMask);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(portNumber, 1);
+    EXPECT_EQ(thresholdMask, 0x04U);
+    EXPECT_NE(thresholdMask & (1U << 2), 0U);
+    EXPECT_EQ(thresholdMask & (1U << 0), 0U);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeNvlinkHealthEventMultipleThresholds)
+{
+    std::array<uint8_t, gpu::nvlinkHealthEventDataSize> buf = {
+        0x05, 0x00, 0x00, 0x00, 0x41, 0x00, 0x00, 0x00};
+
+    uint8_t portNumber = 0;
+    uint32_t thresholdMask = 0;
+    int result = gpu::decodeNvlinkHealthEvent(buf, portNumber, thresholdMask);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(portNumber, 5);
+    EXPECT_EQ(thresholdMask, 0x41U);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeNvlinkHealthEventTruncated)
+{
+    std::array<uint8_t, 5> buf = {0x01, 0x00, 0x00, 0x00, 0x04};
+
+    uint8_t portNumber = 0;
+    uint32_t thresholdMask = 0;
+    int result = gpu::decodeNvlinkHealthEvent(buf, portNumber, thresholdMask);
+
+    EXPECT_NE(result, 0);
+}
+
 // Tests for gpu::encodeGetMemoryCapacityUtilizationRequest
 
 TEST_F(GpuMctpVdmTests, EncodeGetMemoryCapacityUtilizationRequestSuccess)
@@ -5050,6 +5092,58 @@ TEST_F(GpuMctpVdmTests, DecodeSetClockLimitResponseBufferTooSmall)
     int result = gpu::decodeSetClockLimitResponse(buf, cc, reasonCode);
 
     EXPECT_EQ(result, EINVAL);
+}
+
+TEST_F(GpuMctpVdmTests, FormatNvlinkPortHealthMessageSingleThreshold)
+{
+    EXPECT_EQ(
+        gpu::formatNvlinkPortHealthMessage("GPU_0", 1, 0x04U),
+        "The resource property GPU_0 NVLink Port 1 has detected errors of "
+        "type [symbol_ber]");
+}
+
+TEST_F(GpuMctpVdmTests, FormatNvlinkPortHealthMessageMultipleThresholds)
+{
+    EXPECT_EQ(
+        gpu::formatNvlinkPortHealthMessage("GPU_0", 5, 0x41U),
+        "The resource property GPU_0 NVLink Port 5 has detected errors of "
+        "type [port_rcv_errors; estimated_effective_ber]");
+}
+
+TEST_F(GpuMctpVdmTests, FormatNvlinkPortHealthMessageNoThresholds)
+{
+    EXPECT_EQ(gpu::formatNvlinkPortHealthMessage("GPU_0", 3, 0x00U),
+              "The resource property GPU_0 NVLink Port 3 has detected errors "
+              "of type [0x00000000]");
+}
+
+TEST_F(GpuMctpVdmTests, FormatNvlinkPortHealthMessageUnknownBits)
+{
+    EXPECT_EQ(gpu::formatNvlinkPortHealthMessage("GPU_0", 3, 0x80U),
+              "The resource property GPU_0 NVLink Port 3 has detected errors "
+              "of type [0x00000080]");
+}
+
+TEST_F(GpuMctpVdmTests, FormatNvlinkPortHealthMessageMixedKnownAndReservedBits)
+{
+    EXPECT_EQ(gpu::formatNvlinkPortHealthMessage("GPU_0", 3, 0x84U),
+              "The resource property GPU_0 NVLink Port 3 has detected errors "
+              "of type [symbol_ber; 0x00000084]");
+}
+
+TEST_F(GpuMctpVdmTests, NvlinkHealthEventToLogMessage)
+{
+    std::array<uint8_t, gpu::nvlinkHealthEventDataSize> buf = {
+        0x01, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00};
+
+    uint8_t portNumber = 0;
+    uint32_t thresholdMask = 0;
+    ASSERT_EQ(gpu::decodeNvlinkHealthEvent(buf, portNumber, thresholdMask), 0);
+
+    EXPECT_EQ(
+        gpu::formatNvlinkPortHealthMessage("GPU_0", portNumber, thresholdMask),
+        "The resource property GPU_0 NVLink Port 1 has detected errors of "
+        "type [symbol_ber]");
 }
 
 } // namespace gpu_mctp_tests
