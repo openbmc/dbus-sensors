@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95939b76_6ff30542",
+        "filename": "src/leakdetector/LeakEvents.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-07-21T04:30:13Z",
+      "side": 1,
+      "message": "If lg2::resolve() throws in the Normal-state path, we log and continue, but pendingEvents.erase(eventName) still runs unconditionally. That drops the in-memory handle even though the D-Bus log entry was not resolved, so no retry is possible on later Normal transitions. Is this best-effort/silent-drop intentional, or should erase be conditional on successful resolve?",
+      "revId": "722e6a43b10f30e21827f8871ab9bb0bd9c736a1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
