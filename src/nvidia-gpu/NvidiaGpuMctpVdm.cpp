@@ -8,6 +8,7 @@
 #include "MessagePackUnpackUtils.hpp"
 #include "OcpMctpVdm.hpp"
 
+#include <algorithm>
 #include <bit>
 #include <cerrno>
 #include <cstddef>
@@ -1502,6 +1503,99 @@ int decodeGetEthernetPortTelemetryCountersResponse(
         });
 
     return rc;
+}
+
+int encodeGetPortTelemetryCountersRequest(
+    uint8_t instanceId, uint16_t portNumber, std::span<uint8_t> buf)
+{
+    PackBuffer buffer(buf);
+
+    const int rc = encodeRequestCommonHeader(
+        buffer, MessageType::NETWORK_PORT,
+        static_cast<uint8_t>(NetworkPortCommands::GetPortTelemetryCounters),
+        instanceId);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    // GetPortTelemetryCounters carries a single-byte port number, unlike the
+    // Ethernet counters command which uses a 16-bit port number.
+    const auto portNumberByte = static_cast<uint8_t>(portNumber);
+    const uint8_t dataSize = sizeof(portNumberByte);
+    buffer.pack(dataSize);
+    buffer.pack(portNumberByte);
+
+    return buffer.getError();
+}
+
+int decodeGetPortTelemetryCountersResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    std::vector<std::pair<uint8_t, uint64_t>>& telemetryValues)
+{
+    UnpackBuffer buffer(buf);
+
+    telemetryValues.clear();
+
+    int rc = decodeResponseCommonHeader(
+        buffer, MessageType::NETWORK_PORT,
+        static_cast<uint8_t>(NetworkPortCommands::GetPortTelemetryCounters), cc,
+        reasonCode);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    // Success payload: dataSize(2) + supportedCounters(4) + one 64-bit value
+    // per counter slot. supportedCounters is a bitmap whose bit N indicates
+    // that counter slot N holds a valid value. The response's 2-byte reserved
+    // field is consumed as the reason code by the common header decode above.
+    uint16_t dataSize = 0;
+    rc = buffer.unpack(dataSize);
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    uint32_t supportedCounters = 0;
+    rc = buffer.unpack(supportedCounters);
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    if (dataSize < sizeof(supportedCounters))
+    {
+        return EINVAL;
+    }
+
+    const size_t counterCount =
+        (dataSize - sizeof(supportedCounters)) / sizeof(uint64_t);
+
+    telemetryValues.reserve(
+        std::min<size_t>(counterCount, std::numeric_limits<uint32_t>::digits));
+
+    for (size_t index = 0;
+         index < counterCount && index < std::numeric_limits<uint32_t>::digits;
+         ++index)
+    {
+        uint64_t value = 0;
+        rc = buffer.unpack(value);
+        if (rc != 0)
+        {
+            return rc;
+        }
+
+        if ((supportedCounters & (static_cast<uint32_t>(1) << index)) != 0)
+        {
+            telemetryValues.emplace_back(static_cast<uint8_t>(index), value);
+        }
+    }
+
+    return 0;
 }
 
 int decodeXidEvent(std::span<const uint8_t> buf, uint8_t& flags,
