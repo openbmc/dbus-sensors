@@ -4258,4 +4258,164 @@ TEST_F(GpuMctpVdmTests,
     EXPECT_NE(result, 0);
 }
 
+// Tests for GpuMctpVdm::encodeGetPortTelemetryCountersRequest and
+// decodeGetPortTelemetryCountersResponse (InfiniBand port telemetry)
+TEST_F(GpuMctpVdmTests, EncodeGetPortTelemetryCountersRequestSuccess)
+{
+    const uint8_t instanceId = 13;
+    const uint16_t portNumber = 7;
+    std::array<uint8_t, gpu::getPortTelemetryCountersRequestSize> buf{};
+
+    int result =
+        gpu::encodeGetPortTelemetryCountersRequest(instanceId, portNumber, buf);
+
+    EXPECT_EQ(result, 0);
+
+    UnpackBuffer ubuf(std::span<const uint8_t>(buf.data(), buf.size()));
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t unpackedInstanceId = 0;
+    uint8_t unpackedMsgType = 0;
+    EXPECT_EQ(ocp::accelerator_management::unpackHeader(
+                  ubuf, gpu::nvidiaPciVendorId, msgType, unpackedInstanceId,
+                  unpackedMsgType),
+              0);
+    EXPECT_EQ(msgType, ocp::accelerator_management::MessageType::REQUEST);
+    EXPECT_EQ(unpackedInstanceId,
+              instanceId & ocp::accelerator_management::instanceIdBitMask);
+    EXPECT_EQ(unpackedMsgType,
+              static_cast<uint8_t>(gpu::MessageType::NETWORK_PORT));
+
+    uint8_t command = 0;
+    ubuf.unpack(command);
+    EXPECT_EQ(command, static_cast<uint8_t>(
+                           gpu::NetworkPortCommands::GetPortTelemetryCounters));
+    uint8_t dataSize = 0;
+    ubuf.unpack(dataSize);
+    EXPECT_EQ(dataSize, 1);
+    uint8_t unpackedPortNumber = 0;
+    ubuf.unpack(unpackedPortNumber);
+    EXPECT_EQ(unpackedPortNumber, portNumber);
+    EXPECT_EQ(ubuf.getError(), 0);
+}
+
+TEST_F(GpuMctpVdmTests, EncodeGetPortTelemetryCountersRequestInvalidBufferSize)
+{
+    const uint8_t instanceId = 13;
+    const uint16_t portNumber = 7;
+    std::array<uint8_t, gpu::getPortTelemetryCountersRequestSize - 1> buf{};
+
+    int result =
+        gpu::encodeGetPortTelemetryCountersRequest(instanceId, portNumber, buf);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetPortTelemetryCountersResponseSuccess)
+{
+    // Success payload: reserved(2) + dataSize(2) + supportedCounters(4) +
+    // one 64-bit value per counter slot. supportedCounters bit N marks slot N
+    // as valid; slots whose bit is clear are skipped even though the value is
+    // still present in the dense array.
+    std::vector<uint8_t> buf = {
+        0x10, 0xde, 0x00, 0x89, 0x01, 0x01, // Message header
+        0x00,                               // completion_code (SUCCESS)
+        0x00, 0x00,                         // reserved
+        0x1C, 0x00,                         // dataSize = 4 + 3*8 = 28
+        0x05, 0x00, 0x00, 0x00,             // supportedCounters = bits 0 and 2
+        // slot 0 (port_rcv_pkts) = 1000, valid
+        0xE8, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        // slot 1 = 9999, bit clear -> skipped
+        0x0F, 0x27, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        // slot 2 (port_multicast_rcv_pkts) = 0x1234, valid
+        0x34, 0x12, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    std::vector<std::pair<uint8_t, uint64_t>> telemetryValues{};
+
+    int result = gpu::decodeGetPortTelemetryCountersResponse(
+        buf, cc, reasonCode, telemetryValues);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+    EXPECT_EQ(telemetryValues.size(), 2U);
+
+    // slot 0 (port_rcv_pkts)
+    EXPECT_EQ(telemetryValues[0].first, 0);
+    EXPECT_EQ(telemetryValues[0].second, 1000U);
+
+    // slot 2 (port_multicast_rcv_pkts); slot 1 skipped as its bit is clear
+    EXPECT_EQ(telemetryValues[1].first, 2);
+    EXPECT_EQ(telemetryValues[1].second, 0x1234U);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetPortTelemetryCountersResponseError)
+{
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 13,
+        static_cast<uint8_t>(gpu::MessageType::NETWORK_PORT));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::NetworkPortCommands::GetPortTelemetryCounters));         // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERR_NOT_READY)); // CC
+    pbuf.pack(static_cast<uint16_t>(0xABCD));                         // reason
+    ASSERT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    std::vector<std::pair<uint8_t, uint64_t>> telemetryValues{};
+
+    int result = gpu::decodeGetPortTelemetryCountersResponse(
+        buf, cc, reasonCode, telemetryValues);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
+    EXPECT_EQ(reasonCode, 0xABCD);
+    EXPECT_EQ(telemetryValues.size(), 0U);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetPortTelemetryCountersResponseInvalidBufferSize)
+{
+    // Buffer too small - truncated before the reserved/dataSize fields
+    std::vector<uint8_t> buf = {
+        0x10, 0xde, 0x00, 0x89, 0x01, 0x01, // Message header
+        0x00,                               // completion_code (SUCCESS)
+        0x01                                // Truncated
+    };
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    std::vector<std::pair<uint8_t, uint64_t>> telemetryValues{};
+
+    int result = gpu::decodeGetPortTelemetryCountersResponse(
+        buf, cc, reasonCode, telemetryValues);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetPortTelemetryCountersResponseDataSizeTooSmall)
+{
+    // dataSize smaller than the 4-byte supportedCounters bitmap is invalid.
+    std::vector<uint8_t> buf = {
+        0x10, 0xde, 0x00, 0x89, 0x01, 0x01, // Message header
+        0x00,                               // completion_code (SUCCESS)
+        0x00, 0x00,                         // reserved
+        0x02, 0x00,                         // dataSize = 2 (< 4)
+        0x00, 0x00, 0x00, 0x00};            // supportedCounters
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    std::vector<std::pair<uint8_t, uint64_t>> telemetryValues{};
+
+    int result = gpu::decodeGetPortTelemetryCountersResponse(
+        buf, cc, reasonCode, telemetryValues);
+
+    EXPECT_EQ(result, EINVAL);
+    EXPECT_TRUE(telemetryValues.empty());
+}
+
 } // namespace gpu_mctp_tests

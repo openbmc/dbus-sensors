@@ -255,7 +255,8 @@ void PcieDevice::processGetNetworkPortAddressesResponse(
         const std::string portName = std::format("Port_{}", portNumber);
 
         ibPortMetrics.emplace_back(std::make_shared<NvidiaIbPortMetrics>(
-            portName, nicDeviceName, eid, portNumber, objectServer, addresses));
+            mctpRequester, portName, nicDeviceName, eid, portNumber,
+            objectServer, addresses));
     }
 }
 
@@ -352,6 +353,11 @@ void PcieDevice::read()
     for (auto& ethPortMetric : ethPortMetrics)
     {
         ethPortMetric->update();
+    }
+
+    for (auto& ibPortMetric : ibPortMetrics)
+    {
+        ibPortMetric->update();
     }
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
