@@ -12,6 +12,7 @@
 #include "NvidiaGpuClockSpeedControl.hpp"
 #include "NvidiaGpuMemoryClockFrequency.hpp"
 #include "NvidiaGpuMemoryDevice.hpp"
+#include "NvidiaGpuNvlinkPortHealth.hpp"
 #include "NvidiaGpuPowerControl.hpp"
 #include "NvidiaGpuPowerSensor.hpp"
 #include "NvidiaGpuTempSensor.hpp"
@@ -123,6 +124,9 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
         memoryCapacityUtilization;
 
     std::shared_ptr<NvidiaXidEventHandler> xidEventHandler;
+
+    std::shared_ptr<NvidiaNvlinkPortHealthEventHandler>
+        nvlinkPortHealthEventHandler;
 
     std::array<uint8_t, gpu::readThermalParametersRequestSize>
         thermalParamReqMsg{};
