@@ -13,6 +13,7 @@
 #include "NvidiaSensorConfig.hpp"
 
 #include <NvidiaEthPort.hpp>
+#include <NvidiaIbPortMetrics.hpp>
 #include <NvidiaPciePort.hpp>
 #include <NvidiaPciePortMetrics.hpp>
 #include <boost/asio/io_context.hpp>
@@ -109,4 +110,6 @@ class PcieDevice : public std::enable_shared_from_this<PcieDevice>
     std::shared_ptr<sdbusplus::asio::dbus_interface> embeddedConnectorInterface;
 
     std::vector<std::shared_ptr<NvidiaEthPortMetrics>> ethPortMetrics;
+
+    std::vector<std::shared_ptr<NvidiaIbPortMetrics>> ibPortMetrics;
 };
