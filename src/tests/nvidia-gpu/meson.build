@@ -11,6 +11,10 @@ gpusensor_sources = files(
     gpusensor_dir / 'NvidiaGpuPowerSensor.cpp',
     gpusensor_dir / 'NvidiaGpuTempSensor.cpp',
     gpusensor_dir / 'NvidiaGpuVoltageSensor.cpp',
+    gpusensor_dir / 'NvidiaPcieDevice.cpp',
+    gpusensor_dir / 'NvidiaPcieFunction.cpp',
+    gpusensor_dir / 'NvidiaPcieInterface.cpp',
+    gpusensor_dir / 'NvidiaPciePort.cpp',
     gpusensor_dir / 'NvidiaPciePortMetrics.cpp',
 )
 
@@ -39,8 +43,12 @@ test(
         'test_NvidiaGpuVoltageSensor.cpp',
         'test_NvidiaGpuPowerPeakReading.cpp',
         'test_NvidiaDriverInformation.cpp',
+        'test_NvidiaPcieInterface.cpp',
+        'test_NvidiaPciePort.cpp',
         'test_NvidiaPciePortMetrics.cpp',
         'test_NvidiaEthPort.cpp',
+        'test_NvidiaPcieDevice.cpp',
+        'test_NvidiaPcieFunction.cpp',
         'test_Inventory.cpp',
         gpusensor_sources,
         dbus_fixture_sources,
