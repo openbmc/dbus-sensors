@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "342fb13c_3afea39a",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2026-07-21T12:46:59Z",
+      "side": 1,
+      "message": "Let\u0027s please not hardcode EM implementation details into `dbus-sensors`.\n\nThis is the same logic as https://github.com/openbmc/entity-manager/blob/4b8c87fb5e3fa492fc7f631faa62e8a411d60a1a/src/dbus_util.cpp#L24-L30\n\n\nIf you need to find related things those should probably connected by association / parent path?\n\n\nIf this is a common shared function / encoding scheme between EM and dbus-sensors and possibly other daemons that we want to rely and depend on then let\u0027s implement it into sdbusplus and use a library function instead of copy-pasting the code.",
+      "range": {
+        "startLine": 50,
+        "startChar": 1,
+        "endLine": 64,
+        "endChar": 12
+      },
+      "revId": "68203dd3e993bea51e371802071fef16cf3c0fbb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
