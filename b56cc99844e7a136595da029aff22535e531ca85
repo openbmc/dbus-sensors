@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22b72bd4_be049aee",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-07-22T10:25:54Z",
+      "side": 1,
+      "message": "[[maybe_unused]] can be applied unconditionally to the parameter. When PCIe is enabled, the attribute is harmless. When PCIe is disabled, it suppresses the unused-parameter warning. The #ifdef/#endif wrapper is unnecessary and adds noise — 3 lines can be reduced to 1.",
+      "revId": "b56cc99844e7a136595da029aff22535e531ca85",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d29391d5_bafec3f2",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-07-22T10:25:54Z",
+      "side": 1,
+      "message": "When NVIDIA_GPU_DISABLE_PCIE is defined and a DEVICE_PCIE EID is discovered at runtime, it is silently dropped with no log message. A developer who sets nvidia-gpu-pcie\u003ddisabled and sees no PCIe devices will have no log evidence to confirm the build flag is taking effect. Consider adding an #else branch.",
+      "revId": "b56cc99844e7a136595da029aff22535e531ca85",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
