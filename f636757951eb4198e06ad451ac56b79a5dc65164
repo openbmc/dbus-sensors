@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e0240b2_df1b3108",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-22T07:58:39Z",
+      "side": 1,
+      "message": "Done,thanks.",
+      "parentUuid": "67f9465a_5de79f7b",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 49
+      },
+      "revId": "f636757951eb4198e06ad451ac56b79a5dc65164",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aed6cbe9_2a4cf658",
@@ -37,6 +61,24 @@
       "writtenOn": "2026-07-13T18:35:57Z",
       "side": 1,
       "message": "Please add the test case.",
+      "revId": "f636757951eb4198e06ad451ac56b79a5dc65164",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61470ecc_046aef1f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-22T07:58:39Z",
+      "side": 1,
+      "message": "Done,thanks.",
+      "parentUuid": "aed6cbe9_2a4cf658",
       "revId": "f636757951eb4198e06ad451ac56b79a5dc65164",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -64,6 +106,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "edeb7aff_a8a97a91",
+        "filename": "src/nvidia-gpu/Inventory.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-22T07:58:39Z",
+      "side": 1,
+      "message": "Done,thanks.",
+      "parentUuid": "aa2ff1e8_f3a9b6fe",
+      "range": {
+        "startLine": 442,
+        "startChar": 0,
+        "endLine": 443,
+        "endChar": 64
+      },
+      "revId": "f636757951eb4198e06ad451ac56b79a5dc65164",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3c2f18c3_95d5cab7",
@@ -77,6 +143,30 @@
       "writtenOn": "2026-07-13T18:35:57Z",
       "side": 1,
       "message": "Please follow the same init failed error log way as other types of files.\nSo as below case.",
+      "range": {
+        "startLine": 25,
+        "startChar": 8,
+        "endLine": 26,
+        "endChar": 25
+      },
+      "revId": "f636757951eb4198e06ad451ac56b79a5dc65164",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c986ea7d_417d72fa",
+        "filename": "src/nvidia-gpu/NvidiaGpuAssembly.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-22T07:58:39Z",
+      "side": 1,
+      "message": "Done,thanks.",
+      "parentUuid": "3c2f18c3_95d5cab7",
       "range": {
         "startLine": 25,
         "startChar": 8,
