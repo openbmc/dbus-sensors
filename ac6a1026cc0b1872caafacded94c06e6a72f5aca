@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5f488e5_44b5916e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-07-22T09:34:47Z",
+      "side": 1,
+      "message": "Thanks for catching that. Updated the commit message to be more explicit:\n\n- Changed title to \"emit FanRunning signal on Sensor.FanStatus interface\"\n- Clarified in description that this is RPM-based running-state semantics\n- Explained the implementation uses signal emission on transitions\n\nThe wording now matches the actual implementation. Please review.",
+      "parentUuid": "64ab98e2_fae98923",
+      "revId": "ac6a1026cc0b1872caafacded94c06e6a72f5aca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a50c5c33_e9a29394",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bc348e6_59e6f470",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-07-22T09:34:47Z",
+      "side": 1,
+      "message": "Verified on fan-capable hardware:\n- FanRunning signal observed during host power transitions\n- Host powered off: signal shows false (fans stopped)\n- Host powered on: signal shows true (fans running)\n\nAdded test results to commit message Tested section.",
+      "parentUuid": "a50c5c33_e9a29394",
+      "revId": "ac6a1026cc0b1872caafacded94c06e6a72f5aca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ca89124_83348cdf",
@@ -48,6 +84,24 @@
       "writtenOn": "2026-07-16T04:01:30Z",
       "side": 1,
       "message": "Consider adding PDI patch link, so the merge order is explicit for reviewers",
+      "revId": "ac6a1026cc0b1872caafacded94c06e6a72f5aca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6d6598a_04942aa6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-07-22T09:34:47Z",
+      "side": 1,
+      "message": "Added PDI patch dependency link in commit message:\n\nDepends-On:\nhttps://gerrit.openbmc.org/c/openbmc/phosphor-dbus-interfaces/+/91892",
+      "parentUuid": "1ca89124_83348cdf",
       "revId": "ac6a1026cc0b1872caafacded94c06e6a72f5aca",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
