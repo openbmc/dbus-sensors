@@ -8,6 +8,7 @@
 #include "Thresholds.hpp"
 #include "Utils.hpp"
 
+#include <Chassis.hpp>
 #include <Inventory.hpp>
 #include <MctpRequester.hpp>
 #include <NvidiaDriverInformation.hpp>
@@ -80,7 +81,7 @@ static constexpr const char* dramIfaceName =
     "xyz.openbmc_project.Inventory.Item.Dimm";
 
 GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
-                     const std::string& path,
+                     const std::string& path, const std::string& chassisPath,
                      const std::shared_ptr<sdbusplus::asio::connection>& conn,
                      uint8_t eid, boost::asio::io_context& io,
                      mctp::MctpRequester& mctpRequester,
@@ -162,6 +163,14 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
             "Error initializing OperatingClockSpeed interface for {NAME}, eid={EID}",
             "NAME", this->name, "EID", eid);
     }
+
+    // MCTP discovery resolves the Entity-Manager board object (Item.Chassis /
+    // Item.Board) for this endpoint through its configured_by association;
+    // publish the firmware-sourced chassis interfaces there when one was found.
+    if (!chassisPath.empty())
+    {
+        chassis = std::make_shared<Chassis>(objectServer, chassisPath);
+    }
 }
 
 GpuDevice::~GpuDevice()
@@ -177,7 +186,7 @@ void GpuDevice::init()
     inventory = std::make_shared<Inventory>(
         conn, objectServer, name, mctpRequester,
         gpu::DeviceIdentification::DEVICE_GPU, eid, io, powerCapInterface,
-        dramItemInterface);
+        dramItemInterface, chassis);
 
     inventory->init();
 

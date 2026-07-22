@@ -112,16 +112,18 @@ class DeviceManager
     void queryDevicesForEndpoint(
         const SensorConfigs& configs, const std::string& configPath,
         const std::string& endpointPath, uint8_t eid,
+        const std::string& chassisPath,
         const std::optional<std::pair<uint8_t, uint8_t>>& bridgePool,
         const std::optional<std::vector<std::string>>& bridgedEndpoints);
-    void queryDeviceIdentification(const SensorConfigs& configs,
-                                   const std::string& path,
-                                   const std::string& endpointPath, uint8_t eid,
-                                   const std::string& deviceName);
+    void queryDeviceIdentification(
+        const SensorConfigs& configs, const std::string& path,
+        const std::string& endpointPath, uint8_t eid,
+        const std::string& chassisPath, const std::string& deviceName);
     void processQueryDeviceIdResponse(
         const SensorConfigs& configs, const std::string& path,
         const std::string& endpointPath, uint8_t eid,
-        const std::string& deviceName, const std::error_code& sendRecvMsgResult,
+        const std::string& chassisPath, const std::string& deviceName,
+        const std::error_code& sendRecvMsgResult,
         std::span<const uint8_t> queryDeviceIdentificationResponse);
 
     void registerEndpoint(const std::string& endpointPath, uint8_t eid,

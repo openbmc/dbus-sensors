@@ -150,7 +150,8 @@ bool DeviceManager::retryDiscovery(const std::string& endpointPath, uint8_t eid)
 }
 void DeviceManager::processQueryDeviceIdResponse(
     const SensorConfigs& configs, const std::string& path,
-    const std::string& endpointPath, uint8_t eid, const std::string& deviceName,
+    const std::string& endpointPath, uint8_t eid,
+    const std::string& chassisPath, const std::string& deviceName,
     const std::error_code& sendRecvMsgResult,
     std::span<const uint8_t> queryDeviceIdentificationResponse)
 {
@@ -196,9 +197,9 @@ void DeviceManager::processQueryDeviceIdResponse(
 
             if (gpu == nullptr)
             {
-                gpu = std::make_shared<GpuDevice>(configs, gpuName, path, conn,
-                                                  eid, io, mctpRequester,
-                                                  objectServer);
+                gpu = std::make_shared<GpuDevice>(configs, gpuName, path,
+                                                  chassisPath, conn, eid, io,
+                                                  mctpRequester, objectServer);
 
                 gpu->init();
             }
@@ -298,7 +299,8 @@ void DeviceManager::processQueryDeviceIdResponse(
 
 void DeviceManager::queryDeviceIdentification(
     const SensorConfigs& configs, const std::string& path,
-    const std::string& endpointPath, uint8_t eid, const std::string& deviceName)
+    const std::string& endpointPath, uint8_t eid,
+    const std::string& chassisPath, const std::string& deviceName)
 {
     // Reaching here means the config-resolution chain succeeded for this
     // endpoint, so clear any transient-error retry budget accrued for it.
@@ -319,23 +321,25 @@ void DeviceManager::queryDeviceIdentification(
 
     mctpRequester.sendRecvMsg(
         eid, *queryDeviceIdentificationRequest,
-        [this, configs, path, endpointPath, eid, deviceName,
+        [this, configs, path, endpointPath, eid, chassisPath, deviceName,
          queryDeviceIdentificationRequest](const std::error_code& ec,
                                            std::span<const uint8_t> response) {
             processQueryDeviceIdResponse(configs, path, endpointPath, eid,
-                                         deviceName, ec, response);
+                                         chassisPath, deviceName, ec, response);
         });
 }
 
 void DeviceManager::queryDevicesForEndpoint(
     const SensorConfigs& configs, const std::string& configPath,
     const std::string& endpointPath, uint8_t eid,
+    const std::string& chassisPath,
     const std::optional<std::pair<uint8_t, uint8_t>>& bridgePool,
     const std::optional<std::vector<std::string>>& bridgedEndpoints)
 {
     // Query the SMA (the endpoint itself) with an empty name to keep the
     // eid-based naming and the recovery wiring intact.
-    queryDeviceIdentification(configs, configPath, endpointPath, eid, "");
+    queryDeviceIdentification(configs, configPath, endpointPath, eid,
+                              chassisPath, "");
 
     // If this endpoint is a bridge, also create the bridged devices behind it
     // by walking the bridge's EID pool alongside the BridgedEndpoints names.
@@ -346,7 +350,7 @@ void DeviceManager::queryDevicesForEndpoint(
         {
             uint8_t bridgedEid = bridgePool->first + index;
             queryDeviceIdentification(configs, configPath, endpointPath,
-                                      bridgedEid, name);
+                                      bridgedEid, chassisPath, name);
             ++index;
         }
     }
@@ -550,8 +554,8 @@ void DeviceManager::processConfigPropertiesResult(
 
     lg2::info("EID {EID}: No Board property found, using config path {PATH}",
               "EID", eid, "PATH", configPath);
-    queryDevicesForEndpoint(configs, configPath, endpointPath, eid, bridgePool,
-                            bridgedEndpoints);
+    queryDevicesForEndpoint(configs, configPath, endpointPath, eid, "",
+                            bridgePool, bridgedEndpoints);
 }
 
 void DeviceManager::findBoardInventoryPath(
@@ -608,7 +612,7 @@ void DeviceManager::processBoardInventoryResult(
         lg2::info(
             "EID {EID}: Board {BOARD} not found in inventory, using config path {PATH}",
             "EID", eid, "BOARD", boardName, "PATH", configPath);
-        queryDevicesForEndpoint(configs, configPath, endpointPath, eid,
+        queryDevicesForEndpoint(configs, configPath, endpointPath, eid, "",
                                 bridgePool, bridgedEndpoints);
         return;
     }
@@ -652,8 +656,12 @@ void DeviceManager::processNvidiaMctpVdmConfigSearch(
             "EID", eid, "PATH", configPath);
     }
 
+    // inventoryPath is the Entity-Manager board object (Item.Chassis /
+    // Item.Board) resolved via the endpoint's configured_by association; pass
+    // it as the chassis path so the device can publish its chassis interfaces
+    // there.
     queryDevicesForEndpoint(configs, finalConfigPath, endpointPath, eid,
-                            bridgePool, bridgedEndpoints);
+                            inventoryPath, bridgePool, bridgedEndpoints);
 }
 
 void DeviceManager::processEndpoint(

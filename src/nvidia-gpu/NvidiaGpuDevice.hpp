@@ -41,11 +41,13 @@
 #include <string>
 #include <vector>
 
+class Chassis;
+
 class GpuDevice : public std::enable_shared_from_this<GpuDevice>
 {
   public:
     GpuDevice(const SensorConfigs& configs, const std::string& name,
-              const std::string& path,
+              const std::string& path, const std::string& chassisPath,
               const std::shared_ptr<sdbusplus::asio::connection>& conn,
               uint8_t eid, boost::asio::io_context& io,
               mctp::MctpRequester& mctpRequester,
@@ -130,6 +132,7 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
 
     std::string path;
 
+    std::shared_ptr<Chassis> chassis;
     std::shared_ptr<Inventory> inventory;
 
     std::shared_ptr<sdbusplus::asio::dbus_interface> controlClockSpeedInterface;
