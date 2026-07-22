@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "81cd824f_01670186",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-07-22T06:44:12Z",
+      "side": 1,
+      "message": "Thank you for the thorough review (comments #17, #336, #338). After analysis, I\u0027ve determined the guard using is_method_error() is ineffective for signal callbacks—it\u0027s dead code that would never execute. Rather than removing it, I\u0027m abandoning this PR since there\u0027s no valid improvement to merge. The codebase should remain in its original state without this ineffective guard.",
+      "parentUuid": "f5d2778e_ce842f4c",
+      "revId": "7ef98fe9f593399a9b7ff831933ff9b198ba1f6d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6fd3695b_c593d2ea",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "25e62b59_2e11aaa4",
+        "filename": "src/adc/ADCSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-07-22T06:44:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6fd3695b_c593d2ea",
+      "revId": "7ef98fe9f593399a9b7ff831933ff9b198ba1f6d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8231d6f4_730313b7",
@@ -48,6 +84,24 @@
       "writtenOn": "2026-07-14T12:47:53Z",
       "side": 1,
       "message": "nit: this log has no context. If the guard stays, consider a structured field, e.g. lg2::error(\"ADC callback method error on {PATH}\", \"PATH\", message.get_path()), to make it actionable.",
+      "revId": "7ef98fe9f593399a9b7ff831933ff9b198ba1f6d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a262bf0_c01bb044",
+        "filename": "src/adc/ADCSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-07-22T06:44:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8231d6f4_730313b7",
       "revId": "7ef98fe9f593399a9b7ff831933ff9b198ba1f6d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
