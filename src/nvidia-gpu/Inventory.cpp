@@ -1,5 +1,6 @@
 #include "Inventory.hpp"
 
+#include "Chassis.hpp"
 #include "NvidiaUtils.hpp"
 #include "Utils.hpp"
 
@@ -47,9 +48,10 @@ Inventory::Inventory(
     const gpu::DeviceIdentification deviceTypeIn, const uint8_t eid,
     boost::asio::io_context& io,
     const std::shared_ptr<sdbusplus::asio::dbus_interface>& powerCapInterface,
-    const std::shared_ptr<sdbusplus::asio::dbus_interface>& dramItemIface) :
+    const std::shared_ptr<sdbusplus::asio::dbus_interface>& dramItemIface,
+    const std::shared_ptr<Chassis>& chassisIn) :
     name(escapeName(inventoryName)), mctpRequester(mctpRequester),
-    deviceType(deviceTypeIn), eid(eid), retryTimer(io)
+    deviceType(deviceTypeIn), eid(eid), retryTimer(io), chassis(chassisIn)
 {
     sdbusplus::object_path path = inventoryPrefix / name;
 
@@ -306,6 +308,10 @@ void Inventory::handleInventoryPropertyResponse(
                             std::copy(guidBytes.begin(), guidBytes.begin() + 16,
                                       uuid.begin());
                             value = boost::uuids::to_string(uuid);
+                            if (chassis)
+                            {
+                                chassis->onUuid(value);
+                            }
                         }
                         else
                         {
@@ -365,11 +371,19 @@ void Inventory::handleInventoryPropertyResponse(
                             gpu::InventoryPropertyId::MIN_DEVICE_POWER_LIMIT)
                         {
                             minPowerCapWatts = powerLimit;
+                            if (chassis)
+                            {
+                                chassis->onMinPowerWatts(powerLimit);
+                            }
                         }
                         else if (propertyId == gpu::InventoryPropertyId::
                                                    MAX_DEVICE_POWER_LIMIT)
                         {
                             maxPowerCapWatts = powerLimit;
+                            if (chassis)
+                            {
+                                chassis->onMaxPowerWatts(powerLimit);
+                            }
                         }
                         it->second.interface->set_property(
                             it->second.propertyName, powerLimit);

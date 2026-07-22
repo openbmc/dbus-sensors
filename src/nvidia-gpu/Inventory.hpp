@@ -16,6 +16,8 @@
 #include <string>
 #include <unordered_map>
 
+class Chassis;
+
 class Inventory : public std::enable_shared_from_this<Inventory>
 {
   public:
@@ -27,7 +29,8 @@ class Inventory : public std::enable_shared_from_this<Inventory>
         boost::asio::io_context& io,
         const std::shared_ptr<sdbusplus::asio::dbus_interface>&
             powerCapInterface,
-        const std::shared_ptr<sdbusplus::asio::dbus_interface>& dramItemIface);
+        const std::shared_ptr<sdbusplus::asio::dbus_interface>& dramItemIface,
+        const std::shared_ptr<Chassis>& chassis);
 
     void init();
 
@@ -84,6 +87,7 @@ class Inventory : public std::enable_shared_from_this<Inventory>
         requestBuffer{};
     std::optional<uint32_t> minPowerCapWatts;
     std::optional<uint32_t> maxPowerCapWatts;
+    std::shared_ptr<Chassis> chassis;
 
     static constexpr std::chrono::seconds retryDelay{5};
     static constexpr int maxRetryAttempts = 3;
