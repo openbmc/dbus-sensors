@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42eeac15_9c9bc3a4",
+        "filename": "src/tests/nvidia-gpu/test_Inventory.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-22T07:02:15Z",
+      "side": 1,
+      "message": "Could we add a success case that feeds a valid inventory-property response and asserts the decoded Asset property is set? \nThe decode -\u003e set_property path looks untested right now.",
+      "revId": "9c8b2977fc9d474b860f568bdfdc986e014df50b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2492613f_d21d0491",
+        "filename": "src/tests/nvidia-gpu/test_Inventory.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-22T07:02:15Z",
+      "side": 1,
+      "message": "nit: these call init() not update() so do Line 77, 86. Should we change another name?",
+      "range": {
+        "startLine": 67,
+        "startChar": 22,
+        "endLine": 67,
+        "endChar": 53
+      },
+      "revId": "9c8b2977fc9d474b860f568bdfdc986e014df50b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c76edbd4_d93fb4b7",
+        "filename": "src/tests/nvidia-gpu/test_Inventory.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-22T07:02:15Z",
+      "side": 1,
+      "message": "What\u0027s this test aiming to check? A 5-byte zero buffer fails header validation before the cc is read, so it\u0027s a malformed-response case rather than a bad cc — rename, or send a real bad-cc response?",
+      "range": {
+        "startLine": 80,
+        "startChar": 9,
+        "endLine": 80,
+        "endChar": 79
+      },
+      "revId": "9c8b2977fc9d474b860f568bdfdc986e014df50b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
