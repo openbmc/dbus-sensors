@@ -4258,4 +4258,271 @@ TEST_F(GpuMctpVdmTests,
     EXPECT_NE(result, 0);
 }
 
+// Tests for gpu::encodeFirmwareGetRotStateRequest
+
+TEST_F(GpuMctpVdmTests, EncodeFirmwareGetRotStateRequestSuccess)
+{
+    const uint8_t instanceId = 2;
+    std::array<uint8_t, gpu::firmwareGetRotStateRequestSize> buf{};
+
+    int result = gpu::encodeFirmwareGetRotStateRequest(
+        instanceId, gpu::componentClassificationAp,
+        gpu::componentIdentifierGpuAp, 0, buf);
+    EXPECT_EQ(result, 0);
+
+    UnpackBuffer ubuf{std::span<const uint8_t>(buf)};
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t recvInstanceId = 0;
+    uint8_t recvMsgType = 0;
+    EXPECT_EQ(ocp::accelerator_management::unpackHeader(
+                  ubuf, gpu::nvidiaPciVendorId, msgType, recvInstanceId,
+                  recvMsgType),
+              0);
+    EXPECT_EQ(msgType, ocp::accelerator_management::MessageType::REQUEST);
+    EXPECT_EQ(recvMsgType, static_cast<uint8_t>(gpu::MessageType::FIRMWARE));
+
+    uint8_t command = 0;
+    ubuf.unpack(command);
+    EXPECT_EQ(command,
+              static_cast<uint8_t>(
+                  gpu::FirmwareCommands::QUERY_GET_EROT_STATE_PARAMETERS));
+
+    uint8_t dataSize = 0;
+    ubuf.unpack(dataSize);
+    EXPECT_EQ(dataSize, 5);
+
+    uint16_t componentClassification = 0;
+    uint16_t componentIdentifier = 0;
+    uint8_t componentClassificationIndex = 0xFF;
+    ubuf.unpack(componentClassification);
+    ubuf.unpack(componentIdentifier);
+    ubuf.unpack(componentClassificationIndex);
+    EXPECT_EQ(componentClassification, gpu::componentClassificationAp);
+    EXPECT_EQ(componentIdentifier, gpu::componentIdentifierGpuAp);
+    EXPECT_EQ(componentClassificationIndex, 0);
+    EXPECT_EQ(ubuf.getError(), 0);
+}
+
+TEST_F(GpuMctpVdmTests, EncodeFirmwareGetRotStateRequestBufferTooSmall)
+{
+    std::array<uint8_t, 1> buf{};
+
+    int result = gpu::encodeFirmwareGetRotStateRequest(
+        0, gpu::componentClassificationAp, gpu::componentIdentifierGpuAp, 0,
+        buf);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+// Tests for gpu::decodeFirmwareGetRotStateApSkuIdResponse
+//
+// Get RoT State Information (Type 6, command 0x01) returns an aggregate:
+// header + command + completion code + total telemetry count (uint16) + a
+// sequence of [tag][tag-info][data] records. AP_SKU_ID is tag 19 (uint32);
+// it is optional and decodes to 0 when the firmware does not report it.
+
+TEST_F(GpuMctpVdmTests, DecodeFirmwareGetRotStateApSkuIdResponseSuccess)
+{
+    // Single-record aggregate carrying AP_SKU_ID (tag 19, 4-byte value).
+    std::vector<uint8_t> buf(
+        ocp::accelerator_management::commonResponseSize + 2 + sizeof(uint32_t));
+
+    PackBuffer pbuf{std::span<uint8_t>(buf)};
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 1,
+        static_cast<uint8_t>(gpu::MessageType::FIRMWARE));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::FirmwareCommands::QUERY_GET_EROT_STATE_PARAMETERS));
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));
+    pbuf.pack(uint16_t{1});                // total telemetry count
+    pbuf.pack(gpu::firmwareApSkuIdTag);
+    pbuf.pack(static_cast<uint8_t>(0x05)); // valid=1, lengthCode=2 (4 bytes)
+    pbuf.pack(uint32_t{0x12345678});
+    EXPECT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint32_t apSkuId = 0;
+
+    int result = gpu::decodeFirmwareGetRotStateApSkuIdResponse(
+        buf, cc, reasonCode, apSkuId);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(apSkuId, 0x12345678U);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeFirmwareGetRotStateApSkuIdResponseMultiTag)
+{
+    // AP_SKU_ID (tag 19) appears after a byte-length-encoded record. The
+    // decoder must honour the tag-info byte-length-encoding bit (0x80) to stay
+    // aligned; a decoder assuming power-of-two lengths would desync and miss
+    // tag 19.
+    std::vector<uint8_t> buf(ocp::accelerator_management::commonResponseSize +
+                             (2 + 1) + (2 + sizeof(uint32_t)));
+
+    PackBuffer pbuf{std::span<uint8_t>(buf)};
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 1,
+        static_cast<uint8_t>(gpu::MessageType::FIRMWARE));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::FirmwareCommands::QUERY_GET_EROT_STATE_PARAMETERS));
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));
+    pbuf.pack(uint16_t{2}); // total telemetry count
+    // Record 1: tag 5, byte-length-encoded, length = 1 (0x80 | (1<<1) | valid).
+    pbuf.pack(static_cast<uint8_t>(5));
+    pbuf.pack(static_cast<uint8_t>(0x83));
+    pbuf.pack(static_cast<uint8_t>(0xAA));
+    // Record 2: tag 19, power-of-two length code 2 (4 bytes).
+    pbuf.pack(gpu::firmwareApSkuIdTag);
+    pbuf.pack(static_cast<uint8_t>(0x05));
+    pbuf.pack(uint32_t{0xCAFEBABE});
+    EXPECT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint32_t apSkuId = 0;
+
+    int result = gpu::decodeFirmwareGetRotStateApSkuIdResponse(
+        buf, cc, reasonCode, apSkuId);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(apSkuId, 0xCAFEBABEU);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeFirmwareGetRotStateApSkuIdResponseNonSuccess)
+{
+    std::array<uint8_t, ocp::accelerator_management::commonResponseSize> buf{};
+
+    PackBuffer pbuf{std::span<uint8_t>(buf)};
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 1,
+        static_cast<uint8_t>(gpu::MessageType::FIRMWARE));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::FirmwareCommands::QUERY_GET_EROT_STATE_PARAMETERS));
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERR_NOT_READY));
+    pbuf.pack(uint16_t{0xABCD});
+    EXPECT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint32_t apSkuId = 0;
+
+    int result = gpu::decodeFirmwareGetRotStateApSkuIdResponse(
+        buf, cc, reasonCode, apSkuId);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeFirmwareGetRotStateApSkuIdResponseTagAbsent)
+{
+    // Success aggregate carrying only a non-AP_SKU_ID record; AP_SKU_ID is
+    // optional, so decode succeeds and leaves the value at 0.
+    std::vector<uint8_t> buf(
+        ocp::accelerator_management::commonResponseSize + 2 + sizeof(uint16_t));
+
+    PackBuffer pbuf{std::span<uint8_t>(buf)};
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 1,
+        static_cast<uint8_t>(gpu::MessageType::FIRMWARE));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::FirmwareCommands::QUERY_GET_EROT_STATE_PARAMETERS));
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));
+    pbuf.pack(uint16_t{1});                // total telemetry count
+    pbuf.pack(static_cast<uint8_t>(1));    // some other tag
+    pbuf.pack(static_cast<uint8_t>(0x03)); // valid=1, lengthCode=1 (2 bytes)
+    pbuf.pack(uint16_t{0x1234});
+    EXPECT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint32_t apSkuId = 0xDEADBEEF;
+
+    int result = gpu::decodeFirmwareGetRotStateApSkuIdResponse(
+        buf, cc, reasonCode, apSkuId);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(apSkuId, 0U);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeFirmwareGetRotStateApSkuIdResponseWrongLength)
+{
+    // AP_SKU_ID tag present but with a non-uint32 length must be rejected.
+    std::vector<uint8_t> buf(
+        ocp::accelerator_management::commonResponseSize + 2 + sizeof(uint16_t));
+
+    PackBuffer pbuf{std::span<uint8_t>(buf)};
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 1,
+        static_cast<uint8_t>(gpu::MessageType::FIRMWARE));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::FirmwareCommands::QUERY_GET_EROT_STATE_PARAMETERS));
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));
+    pbuf.pack(uint16_t{1});
+    pbuf.pack(gpu::firmwareApSkuIdTag);
+    pbuf.pack(static_cast<uint8_t>(0x03)); // valid=1, lengthCode=1 (2 bytes)
+    pbuf.pack(uint16_t{0x1234});
+    EXPECT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint32_t apSkuId = 0;
+
+    int result = gpu::decodeFirmwareGetRotStateApSkuIdResponse(
+        buf, cc, reasonCode, apSkuId);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeFirmwareGetRotStateApSkuIdResponseTruncated)
+{
+    // AP_SKU_ID advertises a 4-byte value but the buffer ends before all four
+    // bytes are present; the unpack must fail rather than read past the end.
+    // Size with no trailing slack (commonResponseSize reserves a larger,
+    // non-aggregate tail) so dropping the last two bytes truncates the value.
+    std::vector<uint8_t> buf(
+        ocp::accelerator_management::messageHeaderSize + sizeof(uint8_t) +
+        sizeof(uint8_t) + sizeof(uint16_t) + sizeof(uint8_t) + sizeof(uint8_t) +
+        sizeof(uint32_t));
+
+    PackBuffer pbuf{std::span<uint8_t>(buf)};
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 1,
+        static_cast<uint8_t>(gpu::MessageType::FIRMWARE));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::FirmwareCommands::QUERY_GET_EROT_STATE_PARAMETERS));
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));
+    pbuf.pack(uint16_t{1});
+    pbuf.pack(gpu::firmwareApSkuIdTag);
+    pbuf.pack(static_cast<uint8_t>(0x05)); // valid=1, lengthCode=2 (4 bytes)
+    pbuf.pack(uint32_t{0x12345678});
+    EXPECT_EQ(pbuf.getError(), 0);
+
+    // Present only two of the four AP_SKU_ID bytes to the decoder.
+    std::span<const uint8_t> truncated(buf.data(), buf.size() - 2);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint32_t apSkuId = 0;
+
+    int result = gpu::decodeFirmwareGetRotStateApSkuIdResponse(
+        truncated, cc, reasonCode, apSkuId);
+
+    EXPECT_NE(result, 0);
+}
+
 } // namespace gpu_mctp_tests

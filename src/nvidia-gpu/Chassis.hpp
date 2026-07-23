@@ -31,9 +31,11 @@ class Chassis
     void onUuid(const std::string& uuid);
     void onMinPowerWatts(uint32_t watts);
     void onMaxPowerWatts(uint32_t watts);
+    void onSku(const std::string& sku);
 
   private:
     sdbusplus::asio::object_server& objectServer;
     std::shared_ptr<sdbusplus::asio::dbus_interface> uuidInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> powerBoundsInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> skuInterface;
 };
