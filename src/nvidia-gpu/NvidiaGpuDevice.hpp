@@ -42,6 +42,7 @@
 #include <vector>
 
 class Chassis;
+class Sku;
 
 class GpuDevice : public std::enable_shared_from_this<GpuDevice>
 {
@@ -134,6 +135,7 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
 
     std::shared_ptr<Chassis> chassis;
     std::shared_ptr<Inventory> inventory;
+    std::shared_ptr<Sku> sku;
 
     std::shared_ptr<sdbusplus::asio::dbus_interface> controlClockSpeedInterface;
     std::shared_ptr<NvidiaGpuClockFrequencyMetric> clockFrequencyMetric;

@@ -16,6 +16,8 @@
 static constexpr const char* uuidIfaceName = "xyz.openbmc_project.Common.UUID";
 static constexpr const char* powerBoundsIfaceName =
     "xyz.openbmc_project.Inventory.Decorator.PowerBounds";
+static constexpr const char* skuIfaceName =
+    "xyz.openbmc_project.Inventory.Decorator.SKU";
 
 Chassis::Chassis(sdbusplus::asio::object_server& objectServer,
                  const std::string& chassisPath) : objectServer(objectServer)
@@ -40,12 +42,21 @@ Chassis::Chassis(sdbusplus::asio::object_server& objectServer,
             "Error initializing PowerBounds interface for chassis {PATH}",
             "PATH", chassisPath);
     }
+
+    skuInterface = objectServer.add_interface(chassisPath, skuIfaceName);
+    skuInterface->register_property("SKU", std::string{});
+    if (!skuInterface->initialize())
+    {
+        lg2::error("Error initializing SKU interface for chassis {PATH}",
+                   "PATH", chassisPath);
+    }
 }
 
 Chassis::~Chassis()
 {
     objectServer.remove_interface(uuidInterface);
     objectServer.remove_interface(powerBoundsInterface);
+    objectServer.remove_interface(skuInterface);
 }
 
 void Chassis::onUuid(const std::string& uuid)
@@ -61,4 +72,9 @@ void Chassis::onMinPowerWatts(uint32_t watts)
 void Chassis::onMaxPowerWatts(uint32_t watts)
 {
     powerBoundsInterface->set_property("MaxPowerWatts", watts);
+}
+
+void Chassis::onSku(const std::string& sku)
+{
+    skuInterface->set_property("SKU", sku);
 }

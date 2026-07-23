@@ -955,6 +955,66 @@ int decodeGetInventoryInformationResponse(
     return 0;
 }
 
+int encodeFirmwareGetRotStateRequest(
+    uint8_t instanceId, uint16_t componentClassification,
+    uint16_t componentIdentifier, uint8_t componentClassificationIndex,
+    std::span<uint8_t> buf)
+{
+    PackBuffer buffer(buf);
+
+    int rc = encodeRequestCommonHeader(
+        buffer, MessageType::FIRMWARE,
+        static_cast<uint8_t>(FirmwareCommands::QUERY_GET_EROT_STATE_PARAMETERS),
+        instanceId);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    const uint8_t dataSize = static_cast<uint8_t>(
+        sizeof(componentClassification) + sizeof(componentIdentifier) +
+        sizeof(componentClassificationIndex));
+    buffer.pack(dataSize);
+    buffer.pack(componentClassification);
+    buffer.pack(componentIdentifier);
+    buffer.pack(componentClassificationIndex);
+
+    return buffer.getError();
+}
+
+int decodeFirmwareGetRotStateApSkuIdResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint32_t& apSkuId)
+{
+    UnpackBuffer buffer(buf);
+
+    // Get RoT State Information (Type 6, command 0x01) returns an aggregate
+    // telemetry response. AP_SKU_ID is tag 19 (NvU32). The tag is optional;
+    // when the firmware does not report it the value is left at 0, matching the
+    // nsmd/libnsm behavior for the same command.
+    apSkuId = 0;
+
+    return decodeAggregateResponse(
+        buffer, MessageType::FIRMWARE,
+        static_cast<uint8_t>(FirmwareCommands::QUERY_GET_EROT_STATE_PARAMETERS),
+        cc, reasonCode,
+        [&apSkuId](const uint8_t tag, const uint8_t length,
+                   UnpackBuffer& buffer) -> int {
+            if (tag != firmwareApSkuIdTag)
+            {
+                buffer.skip(length);
+                return 0;
+            }
+            if (length != sizeof(uint32_t))
+            {
+                return EINVAL;
+            }
+            return buffer.unpack(apSkuId);
+        });
+}
+
 int encodeGetCurrentUtilizationModeRequest(uint8_t instanceId,
                                            std::span<uint8_t> buf)
 {
