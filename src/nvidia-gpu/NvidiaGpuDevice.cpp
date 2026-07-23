@@ -36,6 +36,7 @@
 #include <NvidiaUtils.hpp>
 #include <OcpMctpVdm.hpp>
 #include <SerialQueue.hpp>
+#include <Sku.hpp>
 #include <boost/asio/io_context.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
@@ -189,6 +190,12 @@ void GpuDevice::init()
         dramItemInterface, chassis);
 
     inventory->init();
+
+    if (chassis)
+    {
+        sku = std::make_shared<Sku>(mctpRequester, eid, chassis);
+        sku->init();
+    }
 
     makeSensors();
 
