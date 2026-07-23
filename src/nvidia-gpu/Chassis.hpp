@@ -38,4 +38,6 @@ class Chassis
     std::shared_ptr<sdbusplus::asio::dbus_interface> uuidInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> powerBoundsInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> skuInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> locationCodeInterface;
+    std::shared_ptr<sdbusplus::asio::dbus_interface> slotInterface;
 };
