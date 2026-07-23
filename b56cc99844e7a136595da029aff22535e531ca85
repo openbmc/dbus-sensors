@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "843c53ba_8170fd9a",
+        "filename": "meson.options",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2026-07-23T01:18:02Z",
+      "side": 1,
+      "message": "Thanks for the feedback.\n\nCurrently, the nvidia-gpu daemon queries all MCTP endpoints on D-Bus whenever an `NvidiaMctpVdm` node is present in the EM configuration. At runtime, it sends an MCTP VDM QueryDeviceIdentification command to each endpoint and dynamically discovers the device type (GPU, SMA, CX9 PCIe, etc.) from the response.\n\nBecause device discovery and type identification happen dynamically over MCTP rather than being declared per EID in the EM config, a single NvidiaMctpVdm entry causes all NSM-capable devices on the bus to be monitored.\n\nIn our target platform, multiple devices support NSM (e.g., SMA and CX9), but we only intend to monitor SMA at this stage.\n\nIf compile-time options aren\u0027t preferred, would you suggest extending the NvidiaMctpVdm EM configuration schema (e.g., adding an optional property like SupportedDeviceTypes or EnablePcie: false) so filtering can be driven at runtime by EM config instead?",
+      "parentUuid": "aaa9091d_bdc5d0ae",
+      "revId": "b56cc99844e7a136595da029aff22535e531ca85",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "22b72bd4_be049aee",
         "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
         "patchSetId": 2
@@ -31,6 +49,24 @@
       "writtenOn": "2026-07-22T10:25:54Z",
       "side": 1,
       "message": "[[maybe_unused]] can be applied unconditionally to the parameter. When PCIe is enabled, the attribute is harmless. When PCIe is disabled, it suppresses the unused-parameter warning. The #ifdef/#endif wrapper is unnecessary and adds noise — 3 lines can be reduced to 1.",
+      "revId": "b56cc99844e7a136595da029aff22535e531ca85",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdc51ec9_36c973f4",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2026-07-23T01:18:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22b72bd4_be049aee",
       "revId": "b56cc99844e7a136595da029aff22535e531ca85",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -48,6 +84,24 @@
       "writtenOn": "2026-07-22T10:25:54Z",
       "side": 1,
       "message": "When NVIDIA_GPU_DISABLE_PCIE is defined and a DEVICE_PCIE EID is discovered at runtime, it is silently dropped with no log message. A developer who sets nvidia-gpu-pcie\u003ddisabled and sees no PCIe devices will have no log evidence to confirm the build flag is taking effect. Consider adding an #else branch.",
+      "revId": "b56cc99844e7a136595da029aff22535e531ca85",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48e2716a_567f8e1f",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2026-07-23T01:18:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d29391d5_bafec3f2",
       "revId": "b56cc99844e7a136595da029aff22535e531ca85",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
