@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90b78471_70a34cf4",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-23T01:50:36Z",
+      "side": 1,
+      "message": "nit: Consider if (emit \u003d\u003d ThresholdEmit::onChange \u0026\u0026 !propertyChanged) instead of !\u003d ThresholdEmit::forced. The positive form reads more clearly (skip only in change-based mode when unchanged). Non-blocking.",
+      "revId": "be0d411b1fd009df4e47719ce72fa6461a348978",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
