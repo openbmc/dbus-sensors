@@ -104,6 +104,23 @@
       "parentUuid": "8231d6f4_730313b7",
       "revId": "7ef98fe9f593399a9b7ff831933ff9b198ba1f6d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ca07a9b_80fcf32d",
+        "filename": "src/adc/ADCSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-23T01:59:58Z",
+      "side": 1,
+      "message": "For future reference: if defensive handling of method errors is genuinely wanted, is_method_error() belongs in the async_method_call reply callbacks (which actually receive method errors).",
+      "revId": "7ef98fe9f593399a9b7ff831933ff9b198ba1f6d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ],
   "submitRequirementResults": []
