@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8bc3894e_48d63259",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-23T02:20:07Z",
+      "side": 1,
+      "message": "nit: fanTypeIndex is never reassigned, so it could be const:\n`const std::size_t fanTypeIndex \u003d static_cast\u003cstd::size_t\u003e(fanType);`. Non-blocking.",
+      "revId": "d8bb1eb2018fbbeb2f08588dfdca476d0c16f783",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c128079_fce37fbc",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-23T02:20:07Z",
+      "side": 1,
+      "message": "nit: since this is a defensive path , including the fan input path would make it easier to trace the source if it ever fires, e.g. lg2::error(\"Invalid fanType index {TYPE} for {PATH}\", \"TYPE\", static_cast\u003cint\u003e(fanType), \"PATH\", path.string()). Non-blocking.",
+      "revId": "d8bb1eb2018fbbeb2f08588dfdca476d0c16f783",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
