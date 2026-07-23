@@ -116,6 +116,8 @@ static constexpr auto sensorTypes = std::to_array<
     {"MAX20730", I2CDeviceType{"max20730", true}},
     {"MAX20734", I2CDeviceType{"max20734", true}},
     {"MAX20796", I2CDeviceType{"max20796", true}},
+    {"MAX20912", I2CDeviceType{"max20912", true}},
+    {"MAX20916", I2CDeviceType{"max20916", true}},
     {"MAX34451", I2CDeviceType{"max34451", true}},
     {"MP2856", I2CDeviceType{"mp2856", true}},
     {"MP2857", I2CDeviceType{"mp2857", true}},
