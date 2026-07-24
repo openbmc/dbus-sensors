@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b74a8afd_9cfc9a9e",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-24T05:05:19Z",
+      "side": 1,
+      "message": "nit: numberNvPorts is known before the loop — a nvLinkPorts.reserve(numberNvPorts); beforehand avoids the incremental reallocations from emplace_back.",
+      "revId": "3136fcf107a74f23820aaeb2e255319f68259ccb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d1bb74c_bf5b6fc3",
+        "filename": "src/nvidia-gpu/NvidiaNVLinkPort.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-24T05:05:19Z",
+      "side": 1,
+      "message": "This class adds two interfaces (here + line 146) but has no destructor to remove them. object_server keeps a strong ref, so a destroyed port leaves both objects stale on the bus. GpuDevice::~GpuDevice() already does the matching remove_interface() — could we do the same here?",
+      "revId": "3136fcf107a74f23820aaeb2e255319f68259ccb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd7f9e7a_d150b938",
+        "filename": "src/nvidia-gpu/NvidiaNVLinkPort.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-24T05:05:19Z",
+      "side": 1,
+      "message": "nit: seeding the defaults via mapPortStateToLinkStatus(3)/(0) is a bit indirect — registering the enum strings (NoLink/Unknown) directly would read clearer.",
+      "range": {
+        "startLine": 131,
+        "startChar": 19,
+        "endLine": 131,
+        "endChar": 36
+      },
+      "revId": "3136fcf107a74f23820aaeb2e255319f68259ccb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
