@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24079f3b_72fda4b1",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 1894,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-24T02:49:36Z",
+      "side": 1,
+      "message": "nit: numCounters uses integer division, so a dataSize where (dataSize - 4) isn\u0027t a multiple of 8 silently drops the trailing partial counter and still returns success. Consider rejecting it with (dataSize - sizeof(supportedCounters)) % sizeof(uint64_t) !\u003d 0 -\u003e EINVAL.",
+      "revId": "ac0839662a7d21eec766414225be8e3e485ce947",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7045cf26_e6e994e9",
+        "filename": "src/nvidia-gpu/NvidiaNVLinkPortMetrics.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-24T02:49:36Z",
+      "side": 1,
+      "message": "This class adds two interfaces per counter (12 per port) but has no destructor to remove them and doesn\u0027t keep objectServer. object_server holds a strong ref, so on teardown they all stay on the bus as stale objects. GpuDevice::~GpuDevice() already does the matching remove_interface() for its own — could we add a destructor here too?",
+      "revId": "ac0839662a7d21eec766414225be8e3e485ce947",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ab72b7a_6582271f",
+        "filename": "src/nvidia-gpu/NvidiaNVLinkPortMetrics.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-24T02:49:36Z",
+      "side": 1,
+      "message": "Unsupported counters still get a Value\u003d0 object here (e.g. on your Tested, bit 9 of 0xfb1eddf3 is clear, so tx_bytes is unsupported but still published as 0). How do you want to handle those — skip creating them once supportedCounters is known, or is publishing 0 intended?",
+      "revId": "ac0839662a7d21eec766414225be8e3e485ce947",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
