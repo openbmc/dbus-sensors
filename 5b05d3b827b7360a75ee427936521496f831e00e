@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "759f875c_24845984",
+        "filename": "src/nvidia-gpu/NvidiaPcieInterface.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003037
+      },
+      "writtenOn": "2026-07-24T10:00:41Z",
+      "side": 1,
+      "message": "Nit: with https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/90593 merged, the log use changed to \u0027eid\u003d\u0027 in lower case. I would suggest doing the same for consistency.",
+      "range": {
+        "startLine": 143,
+        "startChar": 64,
+        "endLine": 143,
+        "endChar": 67
+      },
+      "revId": "5b05d3b827b7360a75ee427936521496f831e00e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
