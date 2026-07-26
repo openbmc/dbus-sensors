@@ -22,6 +22,30 @@
       },
       "revId": "5b05d3b827b7360a75ee427936521496f831e00e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f66b72f_9b14053a",
+        "filename": "src/nvidia-gpu/NvidiaPcieInterface.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-07-26T05:34:58Z",
+      "side": 1,
+      "message": "Thanks for the catching!\nI have modified to adapt to the suggestion in PS 13.",
+      "parentUuid": "759f875c_24845984",
+      "range": {
+        "startLine": 143,
+        "startChar": 64,
+        "endLine": 143,
+        "endChar": 67
+      },
+      "revId": "5b05d3b827b7360a75ee427936521496f831e00e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
