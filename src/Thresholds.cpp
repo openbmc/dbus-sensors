@@ -53,6 +53,20 @@ Direction findThresholdDirection(const std::string& direct)
     return Direction::ERROR;
 }
 
+static bool matchesSensorIndex(const SensorBaseConfigMap& cfg, int sensorIndex)
+{
+    if (sensorIndex == 0)
+    {
+        return true;
+    }
+    auto indexFind = cfg.find("Index");
+    if (indexFind == cfg.end())
+    {
+        return sensorIndex == 1;
+    }
+    return std::visit(VariantToIntVisitor(), indexFind->second) == sensorIndex;
+}
+
 bool parseThresholdsFromConfig(
     const SensorData& sensorData,
     std::vector<thresholds::Threshold>& thresholdVector,
@@ -78,22 +92,9 @@ bool parseThresholdsFromConfig(
             }
         }
 
-        if (sensorIndex != nullptr)
+        if (sensorIndex != nullptr && !matchesSensorIndex(cfg, *sensorIndex))
         {
-            auto indexFind = cfg.find("Index");
-
-            // If we're checking for index 1, a missing Index is OK.
-            if ((indexFind == cfg.end()) && (*sensorIndex != 1))
-            {
-                continue;
-            }
-
-            if ((indexFind != cfg.end()) &&
-                (std::visit(VariantToIntVisitor(), indexFind->second) !=
-                 *sensorIndex))
-            {
-                continue;
-            }
+            continue;
         }
 
         double hysteresis = std::numeric_limits<double>::quiet_NaN();
@@ -138,19 +139,24 @@ bool parseThresholdsFromConfig(
 void persistThreshold(const std::string& path, const std::string& baseInterface,
                       const thresholds::Threshold& threshold,
                       std::shared_ptr<sdbusplus::asio::connection>& conn,
-                      size_t thresholdCount, const std::string& labelMatch)
+                      size_t thresholdCount, const std::string& labelMatch,
+                      int sensorIndex)
 {
     for (size_t ii = 0; ii < thresholdCount; ii++)
     {
         std::string thresholdInterface =
             baseInterface + ".Thresholds" + std::to_string(ii);
         conn->async_method_call(
-            [&, path, threshold, thresholdInterface,
-             labelMatch](const boost::system::error_code& ec,
-                         const SensorBaseConfigMap& result) {
+            [&, path, threshold, thresholdInterface, labelMatch,
+             sensorIndex](const boost::system::error_code& ec,
+                          const SensorBaseConfigMap& result) {
                 if (ec)
                 {
                     return; // threshold not supported
+                }
+                if (!matchesSensorIndex(result, sensorIndex))
+                {
+                    return;
                 }
 
                 if (!labelMatch.empty())
