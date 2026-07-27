@@ -177,7 +177,7 @@ AnalogValve::AnalogValve(sdbusplus::async::context& ctx,
 auto AnalogValve::getState() const -> State
 {
     debug("Getting {VALVE} state", "VALVE", baseConfig.name);
-    return isOpen ? State::Open : State::Close;
+    return currentState;
 }
 
 auto AnalogValve::setState(State state) -> bool
@@ -185,7 +185,7 @@ auto AnalogValve::setState(State state) -> bool
     debug("Setting {VALVE} to {STATE}", "VALVE", baseConfig.name, "STATE",
           convertStateToString(state));
 
-    if ((!isOpen && state == State::Close) || (isOpen && state == State::Open))
+    if (state == currentState)
     {
         info("Ignoring, as new state {STATE} matches the current state",
              "STATE", convertStateToString(state));
@@ -227,33 +227,37 @@ auto AnalogValve::setState(State state) -> bool
 
 auto AnalogValve::handleStateChange(double voltage) -> sdbusplus::async::task<>
 {
-    bool wasOpen = isOpen;
-
     // Apply hysteresis on the open transition to prevent oscillation
     // when voltage fluctuates near the threshold.
     // Operating range is 2-10V, so voltage won't drop below 2V.
     double hysteresis =
         analogConfig.openThreshold * (analogConfig.tolerance / 100.0);
-    if (isOpen)
+    State newState;
+    if (currentState == State::Open)
     {
         // Valve is currently open. Close when voltage drops to or
         // below the threshold. No hysteresis needed here as the
         // valve is essentially shut at this voltage.
-        isOpen = (voltage > analogConfig.openThreshold);
+        newState =
+            (voltage > analogConfig.openThreshold) ? State::Open : State::Close;
     }
     else
     {
         // Valve is currently closed. Only mark as open when voltage
         // rises above (threshold + hysteresis) to confirm the valve
         // is truly opening and not just noise around the threshold.
-        isOpen = (voltage > analogConfig.openThreshold + hysteresis);
+        newState = (voltage > analogConfig.openThreshold + hysteresis)
+                       ? State::Open
+                       : State::Close;
     }
 
-    if (wasOpen == isOpen)
+    if (newState == currentState)
     {
         co_return;
     }
 
+    currentState = newState;
+    const bool isOpen = currentState == State::Open;
     co_await events.generateValveEvent(inventoryPath, isOpen);
 
     /** @brief Valve state to systemd target service map */
@@ -263,7 +267,6 @@ auto AnalogValve::handleStateChange(double voltage) -> sdbusplus::async::task<>
             {State::Close, "xyz.openbmc_project.valve.close@"},
         }};
 
-    auto newState = isOpen ? State::Open : State::Close;
     for (const auto& [state, serviceSuffix] : valveActionTargets)
     {
         if (state == newState)

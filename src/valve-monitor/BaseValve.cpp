@@ -7,6 +7,7 @@
 #include <sdbusplus/async.hpp>
 #include <sdbusplus/message/native_types.hpp>
 #include <xyz/openbmc_project/Association/Definitions/aserver.hpp>
+#include <xyz/openbmc_project/Common/error.hpp>
 #include <xyz/openbmc_project/Control/Valve/aserver.hpp>
 #include <xyz/openbmc_project/ObjectMapper/client.hpp>
 #include <xyz/openbmc_project/Sensor/Value/aserver.hpp>
@@ -47,7 +48,7 @@ constexpr ValveIntf::Definitions::properties_t initAssociations{};
 constexpr ValveIntf::Availability::properties_t initAvailability{true};
 constexpr ValveIntf::OperationalStatus::properties_t initOperationalState{true};
 constexpr ValveControlIntf::Valve::properties_t initControl{
-    ValveControlIntf::State::Close};
+    ValveControlIntf::State::Unknown};
 constexpr ValveControlIntf::Definitions::properties_t initControlAssociations{};
 
 BaseValve::BaseValve(sdbusplus::async::context& ctx,
@@ -81,6 +82,18 @@ BaseValve::~BaseValve()
 auto BaseValve::get_property(state_t /*unused*/) const -> State
 {
     return getState();
+}
+
+auto BaseValve::set_property(state_t /*unused*/, State state) -> bool
+{
+    if (state == State::Unknown)
+    {
+        error("Setting {VALVE} to unknown state is not allowed", "VALVE",
+              baseConfig.name);
+        throw sdbusplus::error::xyz::openbmc_project::common::NotAllowed();
+    }
+
+    return setState(state);
 }
 
 auto BaseValve::createAssociations() -> sdbusplus::async::task<>

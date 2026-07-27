@@ -71,10 +71,7 @@ class BaseValve : public ValveIntf, public ValveControlIntf
     auto get_property(state_t /*unused*/) const -> State;
 
     // NOLINTNEXTLINE(readability-identifier-naming)
-    auto set_property(state_t /*unused*/, auto state) -> bool
-    {
-        return setState(state);
-    }
+    auto set_property(state_t /*unused*/, State state) -> bool;
 
   protected:
     virtual auto getState() const -> State = 0;
