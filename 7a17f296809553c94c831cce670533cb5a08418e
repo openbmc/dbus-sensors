@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "243c2216_32ce5918",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-27T08:39:22Z",
+      "side": 1,
+      "message": "Could you add the partial obj tree in commit log?",
+      "revId": "7a17f296809553c94c831cce670533cb5a08418e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81e436c6_bce58f44",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-27T08:39:22Z",
+      "side": 1,
+      "message": "What happens when one board hosts two GPUs? Both bridged EIDs get the same\nchassisPath here, so both publish Common.UUID at the same path and only one wins.",
+      "range": {
+        "startLine": 353,
+        "startChar": 50,
+        "endLine": 353,
+        "endChar": 61
+      },
+      "revId": "7a17f296809553c94c831cce670533cb5a08418e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
