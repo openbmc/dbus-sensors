@@ -5,6 +5,7 @@
 
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/async.hpp>
+#include <sdbusplus/async/server.hpp>
 #include <sdbusplus/message/native_types.hpp>
 #include <xyz/openbmc_project/Association/Definitions/aserver.hpp>
 #include <xyz/openbmc_project/Control/Valve/aserver.hpp>
@@ -15,6 +16,7 @@
 
 #include <algorithm>
 #include <filesystem>
+#include <memory>
 #include <optional>
 #include <string>
 #include <tuple>
@@ -24,6 +26,43 @@ namespace valve
 {
 
 PHOSPHOR_LOG2_USING;
+
+using association_t = std::tuple<std::string, std::string, std::string>;
+using association_list_t = std::vector<association_t>;
+
+using ValveControlIntf = sdbusplus::async::server_t<
+    ValveControl, sdbusplus::aserver::xyz::openbmc_project::control::Valve,
+    sdbusplus::aserver::xyz::openbmc_project::association::Definitions>;
+
+class ValveControl : public ValveControlIntf
+{
+  public:
+    ValveControl(sdbusplus::async::context& ctx,
+                 const sdbusplus::object_path& objectPath,
+                 const sdbusplus::object_path& inventoryPath,
+                 BaseValve& valve) :
+        ValveControlIntf(ctx, objectPath), valve(valve)
+    {
+        associations({{"controlling", "controlled_by", inventoryPath}});
+        Definitions::emit_added();
+        Valve::emit_added();
+    }
+
+    // NOLINTNEXTLINE(readability-identifier-naming)
+    auto get_property(state_t /*unused*/) const -> State
+    {
+        return valve.getState();
+    }
+
+    // NOLINTNEXTLINE(readability-identifier-naming)
+    auto set_property(state_t /*unused*/, State state) -> bool
+    {
+        return valve.setState(state);
+    }
+
+  private:
+    BaseValve& valve;
+};
 
 static auto getObjectPath(std::string valveName)
 {
@@ -49,9 +88,6 @@ constexpr ValveIntf::Value::properties_t initValues{
 constexpr ValveIntf::Definitions::properties_t initAssociations{};
 constexpr ValveIntf::Availability::properties_t initAvailability{true};
 constexpr ValveIntf::OperationalStatus::properties_t initOperationalState{true};
-constexpr ValveControlIntf::Valve::properties_t initControl{
-    ValveControlIntf::State::Close};
-constexpr ValveControlIntf::Definitions::properties_t initControlAssociations{};
 
 BaseValve::BaseValve(sdbusplus::async::context& ctx,
                      const sdbusplus::object_path& objectPath, Events& events,
@@ -59,8 +95,6 @@ BaseValve::BaseValve(sdbusplus::async::context& ctx,
                      const config::BaseConfig& config) :
     ValveIntf(ctx, getObjectPath(config.name).str.c_str(), initValues,
               initAssociations, initAvailability, initOperationalState),
-    ValveControlIntf(ctx, getControlObjectPath(config.name).str.c_str(),
-                     initControl, initControlAssociations),
     ctx(ctx),
     inventoryPath(std::filesystem::path(objectPath.str).parent_path().string()),
     events(events), localConfig(localConfig), baseConfig(config)
@@ -68,12 +102,11 @@ BaseValve::BaseValve(sdbusplus::async::context& ctx,
     info("Created valve {VALVE}", "VALVE", baseConfig.name);
 }
 
-auto BaseValve::emitInterfaces() -> void
+auto BaseValve::emitSensorInterfaces() -> void
 {
     Value::emit_added();
     OperationalStatus::emit_added();
     Availability::emit_added();
-    Valve::emit_added();
 }
 
 BaseValve::~BaseValve()
@@ -81,22 +114,17 @@ BaseValve::~BaseValve()
     available(false);
 }
 
-auto BaseValve::get_property(state_t /*unused*/) const -> State
+auto BaseValve::publishControlInterface() -> bool
 {
-    return getState();
+    if (controlInterface)
+    {
+        return false;
+    }
+
+    controlInterface = std::make_unique<ValveControl>(
+        ctx, getControlObjectPath(baseConfig.name), inventoryPath, *this);
+    return true;
 }
-
-auto BaseValve::createAssociations() -> sdbusplus::async::task<>
-{
-    co_await createSensorAssociations();
-
-    createControlAssociations();
-
-    co_return;
-}
-
-using association_t = std::tuple<std::string, std::string, std::string>;
-using association_list_t = std::vector<association_t>;
 
 auto BaseValve::createSensorAssociations() -> sdbusplus::async::task<>
 {
@@ -120,19 +148,6 @@ auto BaseValve::createSensorAssociations() -> sdbusplus::async::task<>
     ValveIntf::Definitions::emit_added();
 
     co_return;
-}
-
-auto BaseValve::createControlAssociations() -> void
-{
-    association_list_t associationList;
-
-    association_t association = {"controlling", "controlled_by", inventoryPath};
-
-    associationList.emplace_back(association);
-
-    ValveControlIntf::associations(associationList);
-
-    ValveControlIntf::Definitions::emit_added();
 }
 
 auto BaseValve::getContainingChassis(sdbusplus::async::context& ctx,
