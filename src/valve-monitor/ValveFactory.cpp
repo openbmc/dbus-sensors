@@ -65,8 +65,8 @@ auto ValveFactory::createValve(sdbusplus::async::context& ctx,
         co_return nullptr;
     }
 
-    valve->emitInterfaces();
-    co_await valve->createAssociations();
+    valve->emitSensorInterfaces();
+    co_await valve->createSensorAssociations();
     co_return valve;
 }
 

@@ -183,12 +183,12 @@ auto AnalogValve::getState() const -> State
 auto AnalogValve::setState(State state) -> bool
 {
     debug("Setting {VALVE} to {STATE}", "VALVE", baseConfig.name, "STATE",
-          convertStateToString(state));
+          Valve::convertStateToString(state));
 
     if ((!isOpen && state == State::Close) || (isOpen && state == State::Open))
     {
         info("Ignoring, as new state {STATE} matches the current state",
-             "STATE", convertStateToString(state));
+             "STATE", Valve::convertStateToString(state));
         return true;
     }
 
@@ -214,14 +214,14 @@ auto AnalogValve::setState(State state) -> bool
     if (!writeDACVoltage(targetVoltage))
     {
         error("Failed to set {VALVE} to {STATE}", "VALVE", baseConfig.name,
-              "STATE", convertStateToString(state));
+              "STATE", Valve::convertStateToString(state));
         return false;
     }
 
     currentSetPointVoltage = targetVoltage;
     lastSetPointChange = std::chrono::steady_clock::now();
     info("Successfully set {VALVE} to {STATE}", "VALVE", baseConfig.name,
-         "STATE", convertStateToString(state));
+         "STATE", Valve::convertStateToString(state));
     return true;
 }
 
@@ -249,12 +249,17 @@ auto AnalogValve::handleStateChange(double voltage) -> sdbusplus::async::task<>
         isOpen = (voltage > analogConfig.openThreshold + hysteresis);
     }
 
-    if (wasOpen == isOpen)
+    // Publish the control interface once the initial state is known; generate
+    // events only for subsequent state changes.
+    if (!publishControlInterface())
     {
-        co_return;
-    }
+        if (wasOpen == isOpen)
+        {
+            co_return;
+        }
 
-    co_await events.generateValveEvent(inventoryPath, isOpen);
+        co_await events.generateValveEvent(inventoryPath, isOpen);
+    }
 
     /** @brief Valve state to systemd target service map */
     static constexpr std::array<std::pair<State, std::string_view>, 2>
