@@ -16,6 +16,92 @@
       "message": "Could you add the partial obj tree in commit log?",
       "revId": "102af96bb7f1dc8df53feb77a89b6d84ae28ee75",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c91b0a80_dd0b61db",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-27T06:06:18Z",
+      "side": 1,
+      "message": "The comment could be trimmed. Most of it restates the code and please split it into its own commit ahead of this one so it can be reviewed and merged on its own.",
+      "range": {
+        "startLine": 500,
+        "startChar": 0,
+        "endLine": 510,
+        "endChar": 5
+      },
+      "revId": "102af96bb7f1dc8df53feb77a89b6d84ae28ee75",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3276943_abeaf9c9",
+        "filename": "src/nvidia-gpu/NvidiaIbPortMetrics.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-27T06:06:18Z",
+      "side": 1,
+      "message": "This class has no metrics. Should just call `NvidiaIbPort`?",
+      "revId": "102af96bb7f1dc8df53feb77a89b6d84ae28ee75",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a01be45_754920a7",
+        "filename": "src/nvidia-gpu/NvidiaIbPortMetrics.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-27T06:06:18Z",
+      "side": 1,
+      "message": "Please add the destructor as your comment. Thanks for the catching.\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/92390/comment/2d1bb74c_bf5b6fc3/",
+      "range": {
+        "startLine": 38,
+        "startChar": 21,
+        "endLine": 38,
+        "endChar": 40
+      },
+      "revId": "102af96bb7f1dc8df53feb77a89b6d84ae28ee75",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad097c3f_b2f99062",
+        "filename": "src/nvidia-gpu/NvidiaIbPortMetrics.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-27T06:06:18Z",
+      "side": 1,
+      "message": "Should this be gated when neither GUID tag is present?",
+      "range": {
+        "startLine": 89,
+        "startChar": 3,
+        "endLine": 90,
+        "endChar": 76
+      },
+      "revId": "102af96bb7f1dc8df53feb77a89b6d84ae28ee75",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
