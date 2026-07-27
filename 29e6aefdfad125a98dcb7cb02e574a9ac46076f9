@@ -16,6 +16,24 @@
       "message": "nit: unlike the power/energy/voltage tests, this asserts only that a request was sent — never that the decoded peakPower/1000 reaches Readings; assert the published value, or is the nested-variant readback not worth it?",
       "revId": "29e6aefdfad125a98dcb7cb02e574a9ac46076f9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "097b75bd_1274dfdf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-07-27T10:04:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e846e5d4_89642965",
+      "revId": "29e6aefdfad125a98dcb7cb02e574a9ac46076f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
