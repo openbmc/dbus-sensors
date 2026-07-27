@@ -11,6 +11,8 @@
 #include "OcpMctpVdm.hpp"
 #include "TestUtils.hpp"
 
+#include <sdbusplus/exception.hpp>
+
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
@@ -218,6 +220,36 @@ TEST_F(NvidiaEthPortTest, UpdateEmptyBufferNoCrash)
     const std::shared_ptr<NvidiaEthPortMetrics> ethPort =
         createEthPort("Eth_0", "eth_empty");
     EXPECT_NO_THROW(ethPort->update());
+}
+
+// Destructor
+
+TEST_F(NvidiaEthPortTest, DestructorRemovesInterfaces)
+{
+    const std::string deviceName = "eth_dtor";
+    const std::string portPath =
+        "/xyz/openbmc_project/inventory/" + deviceName + "/Eth_0";
+    const std::string metricPath = "/xyz/openbmc_project/metric/port_" +
+                                   deviceName + "_Eth_0/nic/rx_bytes";
+    {
+        const std::shared_ptr<NvidiaEthPortMetrics> ethPort =
+            createEthPort("Eth_0", deviceName);
+        ASSERT_NE(ethPort, nullptr);
+        EXPECT_NO_THROW(getProperty<std::string>(
+            portPath, "xyz.openbmc_project.Inventory.Connector.Port",
+            "PortProtocol"));
+        EXPECT_NO_THROW(getProperty<double>(
+            metricPath, "xyz.openbmc_project.Metric.Value", "Value"));
+    }
+    drainPendingAsync();
+
+    EXPECT_THROW(getProperty<std::string>(
+                     portPath, "xyz.openbmc_project.Inventory.Connector.Port",
+                     "PortProtocol"),
+                 sdbusplus::exception_t);
+    EXPECT_THROW(getProperty<double>(
+                     metricPath, "xyz.openbmc_project.Metric.Value", "Value"),
+                 sdbusplus::exception_t);
 }
 
 } // namespace

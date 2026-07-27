@@ -11,6 +11,8 @@
 #include "OcpMctpVdm.hpp"
 #include "TestUtils.hpp"
 
+#include <sdbusplus/exception.hpp>
+
 #include <cstdint>
 #include <memory>
 #include <span>
@@ -177,6 +179,28 @@ TEST_F(NvidiaPciePortMetricsTest, UpdateEmptyBufferNoCrash)
     const std::shared_ptr<NvidiaPciePortMetrics> metrics =
         createPciePortMetrics("Port_0", "pcie_metrics_empty");
     EXPECT_NO_THROW(metrics->update());
+}
+
+// Destructor
+
+TEST_F(NvidiaPciePortMetricsTest, DestructorRemovesInterfaces)
+{
+    const std::string pcieDeviceName = "pcie_metrics_dtor";
+    const std::string metricPath =
+        "/xyz/openbmc_project/metric/port_" + pcieDeviceName +
+        "_Port_0/pcie/fatal_error_count";
+    {
+        const std::shared_ptr<NvidiaPciePortMetrics> metrics =
+            createPciePortMetrics("Port_0", pcieDeviceName);
+        ASSERT_NE(metrics, nullptr);
+        EXPECT_NO_THROW(getProperty<double>(
+            metricPath, "xyz.openbmc_project.Metric.Value", "Value"));
+    }
+    drainPendingAsync();
+
+    EXPECT_THROW(getProperty<double>(
+                     metricPath, "xyz.openbmc_project.Metric.Value", "Value"),
+                 sdbusplus::exception_t);
 }
 
 } // namespace

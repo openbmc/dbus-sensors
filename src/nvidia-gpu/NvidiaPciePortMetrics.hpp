@@ -40,6 +40,13 @@ struct NvidiaPciePortMetrics :
         const std::vector<NvidiaMetricInfo>& metricsInfo,
         gpu::DeviceIdentification deviceType);
 
+    ~NvidiaPciePortMetrics();
+
+    NvidiaPciePortMetrics(const NvidiaPciePortMetrics&) = delete;
+    NvidiaPciePortMetrics& operator=(const NvidiaPciePortMetrics&) = delete;
+    NvidiaPciePortMetrics(NvidiaPciePortMetrics&&) = delete;
+    NvidiaPciePortMetrics& operator=(NvidiaPciePortMetrics&&) = delete;
+
     void update();
 
   private:
@@ -65,6 +72,8 @@ struct NvidiaPciePortMetrics :
     std::shared_ptr<sdbusplus::asio::connection> conn;
 
     mctp::MctpRequester& mctpRequester;
+
+    sdbusplus::asio::object_server& objectServer;
 
     gpu::DeviceIdentification deviceType;
 
