@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b42fa8dc_ffb8c1e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-27T07:58:18Z",
+      "side": 1,
+      "message": "Could you add the partial obj tree in commit log?",
+      "revId": "64c9ebde522ba44fd19d17ed7e7ccfcd72cf74bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de636bcc_e891b454",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 1576,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-27T07:58:18Z",
+      "side": 1,
+      "message": "nit: the dataSize sanity check reads more naturally right after unpacking dataSize, before consuming supportedCounters.",
+      "range": {
+        "startLine": 1575,
+        "startChar": 1,
+        "endLine": 1576,
+        "endChar": 66
+      },
+      "revId": "64c9ebde522ba44fd19d17ed7e7ccfcd72cf74bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3209d65e_6ce5fe0d",
+        "filename": "src/nvidia-gpu/NvidiaIbPortMetrics.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-27T07:58:18Z",
+      "side": 1,
+      "message": "`rx_bytes/tx_bytes` should use Unit.Bytes. The PDI defines these segments as byte totals, not counts.\nI summit the patch for NvidiaEthPort.cpp.",
+      "range": {
+        "startLine": 162,
+        "startChar": 8,
+        "endLine": 163,
+        "endChar": 80
+      },
+      "revId": "64c9ebde522ba44fd19d17ed7e7ccfcd72cf74bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f563001_eb41de99",
+        "filename": "src/nvidia-gpu/NvidiaIbPortMetrics.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-27T07:58:18Z",
+      "side": 1,
+      "message": "Same comment as https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/92414/comment/2ab72b7a_6582271f/.\nThanks for catching.",
+      "range": {
+        "startLine": 164,
+        "startChar": 8,
+        "endLine": 164,
+        "endChar": 67
+      },
+      "revId": "64c9ebde522ba44fd19d17ed7e7ccfcd72cf74bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
