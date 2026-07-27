@@ -44,7 +44,7 @@ NvidiaEthPortMetrics::NvidiaEthPortMetrics(
     uint16_t portNumber, sdbusplus::asio::object_server& objectServer,
     const std::vector<std::pair<uint8_t, uint64_t>>& addresses) :
     eid(eid), portNumber(portNumber), path(path), conn(conn),
-    mctpRequester(mctpRequester)
+    mctpRequester(mctpRequester), objectServer(objectServer)
 {
     const int rc = gpu::encodeGetEthernetPortTelemetryCountersRequest(
         0, portNumber, request);
@@ -193,6 +193,22 @@ NvidiaEthPortMetrics::NvidiaEthPortMetrics(
         lg2::error(
             "Error initializing Association interface for Ethernet Port, eid={EID}, portNumber={PN}",
             "EID", eid, "PN", portNumber);
+    }
+}
+
+NvidiaEthPortMetrics::~NvidiaEthPortMetrics()
+{
+    objectServer.remove_interface(portInterface);
+    objectServer.remove_interface(associationInterface);
+    objectServer.remove_interface(networkDeviceFunctionInterface);
+    objectServer.remove_interface(networkDeviceFunctionAssociationInterface);
+    for (const auto& iface : metricValueInterface)
+    {
+        objectServer.remove_interface(iface);
+    }
+    for (const auto& iface : metricAssociationInterfaces)
+    {
+        objectServer.remove_interface(iface);
     }
 }
 

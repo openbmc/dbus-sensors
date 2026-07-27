@@ -45,7 +45,8 @@ NvidiaPciePortMetrics::NvidiaPciePortMetrics(
     gpu::DeviceIdentification deviceType) :
     eid(eid), portType(portType), upstreamPortNumber(upstreamPortNumber),
     portNumber(portNumber), scalarGroupId(scalarGroupId), path(path),
-    conn(conn), mctpRequester(mctpRequester), deviceType(deviceType)
+    conn(conn), mctpRequester(mctpRequester), objectServer(objectServer),
+    deviceType(deviceType)
 {
     int rc = 0;
     switch (deviceType)
@@ -117,6 +118,18 @@ NvidiaPciePortMetrics::NvidiaPciePortMetrics(
                 portNumber, "SG", static_cast<uint8_t>(scalarGroupId), "MN",
                 name);
         }
+    }
+}
+
+NvidiaPciePortMetrics::~NvidiaPciePortMetrics()
+{
+    for (const auto& iface : metricValueInterfaces)
+    {
+        objectServer.remove_interface(iface);
+    }
+    for (const auto& iface : metricAssociationInterfaces)
+    {
+        objectServer.remove_interface(iface);
     }
 }
 

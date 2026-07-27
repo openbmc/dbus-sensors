@@ -11,6 +11,8 @@
 #include "OcpMctpVdm.hpp"
 #include "TestUtils.hpp"
 
+#include <sdbusplus/exception.hpp>
+
 #include <cstddef>
 #include <cstdint>
 #include <memory>
@@ -287,6 +289,24 @@ TEST_F(NvidiaPcieFunctionTest, UpdateTinyBufferNoCrash)
     auto func =
         createFunction("pciefn_tiny", gpu::DeviceIdentification::DEVICE_PCIE);
     EXPECT_NO_THROW(func->update());
+}
+
+// Destructor
+
+TEST_F(NvidiaPcieFunctionTest, DestructorRemovesInterfaces)
+{
+    const std::string pcieDeviceName = "pcie_func_dtor";
+    const std::string path = functionPath(pcieDeviceName);
+    {
+        const std::shared_ptr<NvidiaPcieFunction> function = createFunction(
+            pcieDeviceName, gpu::DeviceIdentification::DEVICE_PCIE);
+        ASSERT_NE(function, nullptr);
+        EXPECT_NO_THROW(getProperty<uint16_t>(path, functionIface, "VendorId"));
+    }
+    drainPendingAsync();
+
+    EXPECT_THROW(getProperty<uint16_t>(path, functionIface, "VendorId"),
+                 sdbusplus::exception_t);
 }
 
 } // namespace

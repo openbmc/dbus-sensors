@@ -9,6 +9,8 @@
 #include "NvidiaSensorConfig.hpp"
 #include "TestUtils.hpp"
 
+#include <sdbusplus/exception.hpp>
+
 #include <cstdint>
 #include <memory>
 #include <string>
@@ -82,6 +84,33 @@ TEST_F(NvidiaPcieDeviceTest, ReadLoopStopsOnTimerCancel)
     }
 
     EXPECT_NO_THROW(drainPendingAsync());
+}
+
+// Destructor
+
+TEST_F(NvidiaPcieDeviceTest, DestructorRemovesInterfaces)
+{
+    ON_CALL(mctpMock, sendRecvMsg)
+        .WillByDefault(mock_mctp::respondWith(
+            std::make_error_code(std::errc::timed_out), {}));
+
+    const std::string name = "pciedev_dtor";
+    const std::string adapterPath =
+        "/xyz/openbmc_project/inventory/" + name + "_NIC";
+    {
+        const std::shared_ptr<PcieDevice> device = createDevice(name);
+        device->init();
+        EXPECT_NO_THROW(getProperty<std::string>(
+            adapterPath, "xyz.openbmc_project.Inventory.Decorator.LocationCode",
+            "LocationCode"));
+    }
+    drainPendingAsync();
+
+    EXPECT_THROW(getProperty<std::string>(
+                     adapterPath,
+                     "xyz.openbmc_project.Inventory.Decorator.LocationCode",
+                     "LocationCode"),
+                 sdbusplus::exception_t);
 }
 
 } // namespace
