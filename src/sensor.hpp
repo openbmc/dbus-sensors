@@ -268,7 +268,7 @@ struct Sensor
 
     void setInitialProperties(const std::string_view unit,
                               const std::string& label = std::string(),
-                              size_t thresholdSize = 0)
+                              int thresholdIndex = 0, size_t thresholdSize = 0)
     {
         if (readState == PowerState::on || readState == PowerState::biosPost ||
             readState == PowerState::chassisOn)
@@ -317,12 +317,13 @@ struct Sensor
                 label.empty() ? thresholds.size() : thresholdSize;
             iface->register_property(
                 level, threshold.value,
-                [&, label, thresSize](const double& request, double& oldValue) {
+                [&, label, thresSize,
+                 thresholdIndex](const double& request, double& oldValue) {
                     oldValue = request; // todo, just let the config do this?
                     threshold.value = request;
                     thresholds::persistThreshold(
                         configurationPath, configInterface, threshold,
-                        dbusConnection, thresSize, label);
+                        dbusConnection, thresSize, label, thresholdIndex);
                     // Invalidate previously remembered value,
                     // so new thresholds will be checked during next update,
                     // even if sensor reading remains unchanged.
