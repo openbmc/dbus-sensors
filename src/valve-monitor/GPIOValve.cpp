@@ -105,13 +105,13 @@ auto GPIOValve::getState() const -> State
 auto GPIOValve::setState(State state) -> bool
 {
     debug("Setting {VALVE} to {STATE}", "VALVE", baseConfig.name, "STATE",
-          convertStateToString(state));
+          Valve::convertStateToString(state));
 
     if ((value() == 0 && state == State::Close) ||
         (value() != 0 && state == State::Open))
     {
         info("Ignoring, as new state {STATE} matches the current state",
-             "STATE", convertStateToString(state));
+             "STATE", Valve::convertStateToString(state));
         return true;
     }
 
@@ -126,7 +126,7 @@ auto GPIOValve::setState(State state) -> bool
         if (res)
         {
             info("Successfully set {VALVE} to {STATE}", "VALVE",
-                 baseConfig.name, "STATE", convertStateToString(state));
+                 baseConfig.name, "STATE", Valve::convertStateToString(state));
             return res;
         }
     }
@@ -138,7 +138,7 @@ auto GPIOValve::setState(State state) -> bool
     }
 
     error("Failed to set {VALVE} to {STATE}", "VALVE", baseConfig.name, "STATE",
-          convertStateToString(state));
+          Valve::convertStateToString(state));
 
     return false;
 }
@@ -147,13 +147,18 @@ auto GPIOValve::updateGPIOStateAsync(bool gpioState) -> sdbusplus::async::task<>
 {
     auto newValue = gpioState ? 100 : 0;
 
-    if (newValue != value())
+    // Publish the control interface once the initial state is known; generate
+    // events only for subsequent state changes.
+    if (!publishControlInterface())
     {
-        debug("Updating valve {VALVE} to {VALUE}", "VALVE", baseConfig.name,
-              "VALUE", newValue);
-        value(newValue);
+        if (newValue != value())
+        {
+            debug("Updating valve {VALVE} to {VALUE}", "VALVE", baseConfig.name,
+                  "VALUE", newValue);
+            value(newValue);
 
-        co_await events.generateValveEvent(inventoryPath, gpioState);
+            co_await events.generateValveEvent(inventoryPath, gpioState);
+        }
     }
 
     co_return;
