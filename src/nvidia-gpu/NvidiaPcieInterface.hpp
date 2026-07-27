@@ -31,6 +31,13 @@ struct NvidiaPcieInterface :
         gpu::DeviceIdentification deviceType,
         const std::optional<std::string>& networkAdapterName = std::nullopt);
 
+    ~NvidiaPcieInterface();
+
+    NvidiaPcieInterface(const NvidiaPcieInterface&) = delete;
+    NvidiaPcieInterface& operator=(const NvidiaPcieInterface&) = delete;
+    NvidiaPcieInterface(NvidiaPcieInterface&&) = delete;
+    NvidiaPcieInterface& operator=(NvidiaPcieInterface&&) = delete;
+
     void update();
 
     static size_t decodeLinkWidth(uint32_t value);
@@ -50,6 +57,8 @@ struct NvidiaPcieInterface :
     std::shared_ptr<sdbusplus::asio::connection> conn;
 
     mctp::MctpRequester& mctpRequester;
+
+    sdbusplus::asio::object_server& objectServer;
 
     std::vector<uint8_t> request;
 
