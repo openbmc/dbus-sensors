@@ -46,6 +46,13 @@ class PcieDevice : public std::enable_shared_from_this<PcieDevice>
                mctp::MctpRequester& mctpRequester,
                sdbusplus::asio::object_server& objectServer);
 
+    ~PcieDevice();
+
+    PcieDevice(const PcieDevice&) = delete;
+    PcieDevice& operator=(const PcieDevice&) = delete;
+    PcieDevice(PcieDevice&&) = delete;
+    PcieDevice& operator=(PcieDevice&&) = delete;
+
     const sdbusplus::object_path& getPath() const
     {
         return path;

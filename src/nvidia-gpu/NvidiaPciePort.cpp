@@ -42,7 +42,8 @@ NvidiaPciePortInfo::NvidiaPciePortInfo(
     gpu::DeviceIdentification deviceType) :
     eid(eid), portType(portType), upstreamPortNumber(upstreamPortNumber),
     portNumber(portNumber), path(path), conn(conn),
-    mctpRequester(mctpRequester), deviceType(deviceType)
+    mctpRequester(mctpRequester), objectServer(objectServer),
+    deviceType(deviceType)
 {
     int rc = 0;
     switch (deviceType)
@@ -123,6 +124,12 @@ NvidiaPciePortInfo::NvidiaPciePortInfo(
             "Error initializing Association interface for PCIe Port Info, eid={EID}, portType={PT}, portNumber={PN}",
             "EID", eid, "PT", static_cast<uint8_t>(portType), "PN", portNumber);
     }
+}
+
+NvidiaPciePortInfo::~NvidiaPciePortInfo()
+{
+    objectServer.remove_interface(pciePortInterface);
+    objectServer.remove_interface(associationInterface);
 }
 
 uint64_t NvidiaPciePortInfo::mapPcieGenToLinkSpeedBitsPerSecond(uint32_t value)

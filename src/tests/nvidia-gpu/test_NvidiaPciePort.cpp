@@ -11,6 +11,8 @@
 #include "OcpMctpVdm.hpp"
 #include "TestUtils.hpp"
 
+#include <sdbusplus/exception.hpp>
+
 #include <cstddef>
 #include <cstdint>
 #include <memory>
@@ -185,6 +187,29 @@ TEST_F(NvidiaPciePortTest, UpdateEmptyBufferNoCrash)
     const std::shared_ptr<NvidiaPciePortInfo> port =
         createPciePort("Port_0", "pcie_port_empty");
     EXPECT_NO_THROW(port->update());
+}
+
+// Destructor
+
+TEST_F(NvidiaPciePortTest, DestructorRemovesInterfaces)
+{
+    const std::string pcieDeviceName = "pcie_port_dtor";
+    const std::string path =
+        "/xyz/openbmc_project/inventory/" + pcieDeviceName + "/Port_0";
+    {
+        const std::shared_ptr<NvidiaPciePortInfo> port =
+            createPciePort("Port_0", pcieDeviceName);
+        ASSERT_NE(port, nullptr);
+        EXPECT_NO_THROW(getProperty<std::string>(
+            path, "xyz.openbmc_project.Inventory.Connector.Port",
+            "PortProtocol"));
+    }
+    drainPendingAsync();
+
+    EXPECT_THROW(getProperty<std::string>(
+                     path, "xyz.openbmc_project.Inventory.Connector.Port",
+                     "PortProtocol"),
+                 sdbusplus::exception_t);
 }
 
 } // namespace

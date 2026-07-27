@@ -11,6 +11,8 @@
 #include "OcpMctpVdm.hpp"
 #include "TestUtils.hpp"
 
+#include <sdbusplus/exception.hpp>
+
 #include <cstddef>
 #include <cstdint>
 #include <limits>
@@ -199,6 +201,28 @@ TEST_F(NvidiaPcieInterfaceTest, UpdateEmptyBufferNoCrash)
     const std::shared_ptr<NvidiaPcieInterface> pcieIf =
         createPcieInterface("pcie_empty");
     EXPECT_NO_THROW(pcieIf->update());
+}
+
+// Destructor
+
+TEST_F(NvidiaPcieInterfaceTest, DestructorRemovesInterfaces)
+{
+    const std::string name = "pcie_if_dtor";
+    const std::string path = pciePath(name);
+    {
+        const std::shared_ptr<NvidiaPcieInterface> pcieInterface =
+            createPcieInterface(name);
+        ASSERT_NE(pcieInterface, nullptr);
+        EXPECT_NO_THROW(getProperty<size_t>(
+            path, "xyz.openbmc_project.Inventory.Item.PCIeDevice",
+            "LanesInUse"));
+    }
+    drainPendingAsync();
+
+    EXPECT_THROW(getProperty<size_t>(
+                     path, "xyz.openbmc_project.Inventory.Item.PCIeDevice",
+                     "LanesInUse"),
+                 sdbusplus::exception_t);
 }
 
 } // namespace
