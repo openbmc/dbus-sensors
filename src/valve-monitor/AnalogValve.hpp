@@ -109,7 +109,7 @@ class AnalogValve : public BaseValve
     std::string dacSysfsPath;
     std::string adcSysfsPath;
     double currentSetPointVoltage = 0.0;
-    bool isOpen = false;
+    State currentState = State::Unknown;
     std::chrono::steady_clock::time_point lastSetPointChange;
 };
 
