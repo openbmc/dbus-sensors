@@ -49,6 +49,7 @@
 #include <vector>
 
 static constexpr uint8_t nvmeMiDefaultSlaveAddr = 0x6A;
+static constexpr float pollRateDefault = 1.0;
 
 static NVMEMap nvmeDeviceMap;
 
@@ -144,16 +145,17 @@ static std::optional<int> deriveRootBus(std::optional<int> busNumber)
 }
 
 static std::shared_ptr<NVMeContext> provideRootBusContext(
-    boost::asio::io_context& io, NVMEMap& map, int rootBus)
+    boost::asio::io_context& io, NVMEMap& map, int rootBus, float pollRate)
 {
     auto findRoot = map.find(rootBus);
     if (findRoot != map.end())
     {
+        findRoot->second->requestPollRate(pollRate);
         return findRoot->second;
     }
 
     std::shared_ptr<NVMeContext> context =
-        std::make_shared<NVMeBasicContext>(io, rootBus);
+        std::make_shared<NVMeBasicContext>(io, rootBus, pollRate);
     map[rootBus] = context;
 
     return context;
@@ -212,11 +214,13 @@ static void handleSensorConfigurations(
             smbusPEC = (*smbusPECStr == "Required");
         }
 
+        float pollRate = getPollRate(sensorConfig, pollRateDefault);
+
         try
         {
             // May throw for an invalid rootBus
             std::shared_ptr<NVMeContext> context =
-                provideRootBusContext(io, nvmeDeviceMap, *rootBus);
+                provideRootBusContext(io, nvmeDeviceMap, *rootBus, pollRate);
 
             // Construct the sensor after grabbing the context so we don't
             // glitch D-Bus May throw for an invalid busNumber

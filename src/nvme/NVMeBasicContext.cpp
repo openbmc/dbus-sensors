@@ -189,8 +189,10 @@ static ssize_t processBasicQueryStream(FileHandle& in, FileHandle& out)
 
 /* Throws std::error_code on failure */
 /* FIXME: Probably shouldn't do fallible stuff in a constructor */
-NVMeBasicContext::NVMeBasicContext(boost::asio::io_context& io, int rootBus) :
-    NVMeContext::NVMeContext(io, rootBus), io(io), reqStream(io), respStream(io)
+NVMeBasicContext::NVMeBasicContext(boost::asio::io_context& io, int rootBus,
+                                   float pollRate) :
+    NVMeContext::NVMeContext(io, rootBus, pollRate), io(io), reqStream(io),
+    respStream(io)
 {
     std::array<int, 2> responsePipe{};
     std::array<int, 2> requestPipe{};
@@ -367,7 +369,8 @@ void NVMeBasicContext::pollNVMeDevices()
 {
     pollCursor = sensors.begin();
 
-    scanTimer.expires_after(std::chrono::seconds(1));
+    scanTimer.expires_after(std::chrono::milliseconds(
+        static_cast<unsigned int>(getPollRate() * 1000)));
     scanTimer.async_wait([weakSelf{weak_from_this()}](
                              const boost::system::error_code errorCode) {
         if (errorCode == boost::asio::error::operation_aborted)

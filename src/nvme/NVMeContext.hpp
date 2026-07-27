@@ -17,8 +17,9 @@
 class NVMeContext : public std::enable_shared_from_this<NVMeContext>
 {
   public:
-    NVMeContext(boost::asio::io_context& io, int rootBus) :
-        scanTimer(io), rootBus(rootBus), pollCursor(sensors.end())
+    NVMeContext(boost::asio::io_context& io, int rootBus, float pollRate) :
+        scanTimer(io), rootBus(rootBus), pollRate(pollRate),
+        pollCursor(sensors.end())
     {
         if (rootBus < 0)
         {
@@ -30,6 +31,18 @@ class NVMeContext : public std::enable_shared_from_this<NVMeContext>
     virtual ~NVMeContext()
     {
         scanTimer.cancel();
+    }
+
+    // The timer is shared by all sensors on the same bus.
+    // Use the fastest polling rate requested by any sensor.
+    void requestPollRate(float rate)
+    {
+        pollRate = std::min(pollRate, rate);
+    }
+
+    float getPollRate() const
+    {
+        return pollRate;
     }
 
     void addSensor(const std::shared_ptr<NVMeSensor>& sensor)
@@ -106,6 +119,7 @@ class NVMeContext : public std::enable_shared_from_this<NVMeContext>
   protected:
     boost::asio::steady_timer scanTimer;
     int rootBus; // Root bus for this drive
+    float pollRate;
     std::list<std::shared_ptr<NVMeSensor>> sensors;
     std::list<std::shared_ptr<NVMeSensor>>::iterator pollCursor;
 };
