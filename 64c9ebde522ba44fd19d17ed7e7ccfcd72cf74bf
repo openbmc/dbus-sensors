@@ -66,6 +66,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "80152e43_ee4b83e3",
+        "filename": "src/nvidia-gpu/NvidiaIbPortMetrics.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-27T07:58:45Z",
+      "side": 1,
+      "message": "Follow-up: IB PortCounters defines port_rcv_data/port_xmit_data\nas data octets divided by 4, so could you check whether the device already normalizes them?",
+      "parentUuid": "3209d65e_6ce5fe0d",
+      "range": {
+        "startLine": 162,
+        "startChar": 8,
+        "endLine": 163,
+        "endChar": 80
+      },
+      "revId": "64c9ebde522ba44fd19d17ed7e7ccfcd72cf74bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8f563001_eb41de99",
         "filename": "src/nvidia-gpu/NvidiaIbPortMetrics.cpp",
         "patchSetId": 3
