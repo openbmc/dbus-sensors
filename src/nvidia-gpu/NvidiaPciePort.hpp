@@ -30,6 +30,13 @@ struct NvidiaPciePortInfo :
         uint8_t portNumber, sdbusplus::asio::object_server& objectServer,
         gpu::DeviceIdentification deviceType);
 
+    ~NvidiaPciePortInfo();
+
+    NvidiaPciePortInfo(const NvidiaPciePortInfo&) = delete;
+    NvidiaPciePortInfo& operator=(const NvidiaPciePortInfo&) = delete;
+    NvidiaPciePortInfo(NvidiaPciePortInfo&&) = delete;
+    NvidiaPciePortInfo& operator=(NvidiaPciePortInfo&&) = delete;
+
     void update();
 
   private:
@@ -53,6 +60,8 @@ struct NvidiaPciePortInfo :
     std::shared_ptr<sdbusplus::asio::connection> conn;
 
     mctp::MctpRequester& mctpRequester;
+
+    sdbusplus::asio::object_server& objectServer;
 
     std::vector<uint8_t> request;
 

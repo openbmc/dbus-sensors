@@ -30,6 +30,13 @@ struct NvidiaEthPortMetrics :
         uint16_t portNumber, sdbusplus::asio::object_server& objectServer,
         const std::vector<std::pair<uint8_t, uint64_t>>& addresses);
 
+    ~NvidiaEthPortMetrics();
+
+    NvidiaEthPortMetrics(const NvidiaEthPortMetrics&) = delete;
+    NvidiaEthPortMetrics& operator=(const NvidiaEthPortMetrics&) = delete;
+    NvidiaEthPortMetrics(NvidiaEthPortMetrics&&) = delete;
+    NvidiaEthPortMetrics& operator=(NvidiaEthPortMetrics&&) = delete;
+
     void update();
 
   private:
@@ -49,6 +56,8 @@ struct NvidiaEthPortMetrics :
     std::shared_ptr<sdbusplus::asio::connection> conn;
 
     mctp::MctpRequester& mctpRequester;
+
+    sdbusplus::asio::object_server& objectServer;
 
     std::array<uint8_t, gpu::getEthernetPortTelemetryCountersRequestSize>
         request{};
