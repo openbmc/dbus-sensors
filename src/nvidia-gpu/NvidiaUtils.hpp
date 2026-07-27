@@ -9,6 +9,12 @@
 
 constexpr const char* metricPath = "/xyz/openbmc_project/metric/";
 
+// Units for the Value property of xyz.openbmc_project.Metric.Value.
+constexpr const char* metricUnitBytes =
+    "xyz.openbmc_project.Metric.Value.Unit.Bytes";
+constexpr const char* metricUnitCount =
+    "xyz.openbmc_project.Metric.Value.Unit.Count";
+
 // DRAM inventory name segment, joined to a GPU name with a '_' separator to
 // form its DRAM inventory object, e.g. Nvidia_GPU_0 -> Nvidia_GPU_0_DRAM_0
 constexpr const char* dramInventorySuffix = "DRAM_0";
