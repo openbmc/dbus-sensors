@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8339b0e_c79965fd",
+        "filename": "src/tests/nvidia-gpu/test_Inventory.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-07-27T10:05:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42eeac15_9c9bc3a4",
+      "revId": "9c8b2977fc9d474b860f568bdfdc986e014df50b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2492613f_d21d0491",
@@ -41,6 +59,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "634dfc6c_1475cc54",
+        "filename": "src/tests/nvidia-gpu/test_Inventory.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-07-27T10:05:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2492613f_d21d0491",
+      "range": {
+        "startLine": 67,
+        "startChar": 22,
+        "endLine": 67,
+        "endChar": 53
+      },
+      "revId": "9c8b2977fc9d474b860f568bdfdc986e014df50b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c76edbd4_d93fb4b7",
@@ -54,6 +96,30 @@
       "writtenOn": "2026-07-22T07:02:15Z",
       "side": 1,
       "message": "What\u0027s this test aiming to check? A 5-byte zero buffer fails header validation before the cc is read, so it\u0027s a malformed-response case rather than a bad cc — rename, or send a real bad-cc response?",
+      "range": {
+        "startLine": 80,
+        "startChar": 9,
+        "endLine": 80,
+        "endChar": 79
+      },
+      "revId": "9c8b2977fc9d474b860f568bdfdc986e014df50b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55c3543f_3c75149e",
+        "filename": "src/tests/nvidia-gpu/test_Inventory.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-07-27T10:05:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c76edbd4_d93fb4b7",
       "range": {
         "startLine": 80,
         "startChar": 9,
