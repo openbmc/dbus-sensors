@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "da6196de_0d4f9f23",
+        "filename": "src/nvidia-gpu/NvidiaGpuEccMode.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-27T09:04:49Z",
+      "side": 1,
+      "message": "Please also add destructor.",
+      "range": {
+        "startLine": 27,
+        "startChar": 18,
+        "endLine": 27,
+        "endChar": 34
+      },
+      "revId": "8c708a5997e37c63eb0e8fd39bad3b33c3d516af",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8a4da02c_5584ec2f",
         "filename": "src/nvidia-gpu/NvidiaGpuEccMode.cpp",
         "patchSetId": 11
