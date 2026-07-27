@@ -7,11 +7,12 @@
 #include <sdbusplus/async/server.hpp>
 #include <sdbusplus/message/native_types.hpp>
 #include <xyz/openbmc_project/Association/Definitions/aserver.hpp>
-#include <xyz/openbmc_project/Control/Valve/aserver.hpp>
+#include <xyz/openbmc_project/Control/Valve/common.hpp>
 #include <xyz/openbmc_project/Sensor/Value/aserver.hpp>
 #include <xyz/openbmc_project/State/Decorator/Availability/aserver.hpp>
 #include <xyz/openbmc_project/State/Decorator/OperationalStatus/aserver.hpp>
 
+#include <memory>
 #include <optional>
 #include <string>
 
@@ -34,6 +35,7 @@ struct BaseConfig
 } // namespace config
 
 class BaseValve;
+class ValveControl;
 
 using ValveIntf = sdbusplus::async::server_t<
     BaseValve, sdbusplus::aserver::xyz::openbmc_project::sensor::Value,
@@ -42,13 +44,12 @@ using ValveIntf = sdbusplus::async::server_t<
     sdbusplus::aserver::xyz::openbmc_project::state::decorator::
         OperationalStatus>;
 
-using ValveControlIntf = sdbusplus::async::server_t<
-    BaseValve, sdbusplus::aserver::xyz::openbmc_project::control::Valve,
-    sdbusplus::aserver::xyz::openbmc_project::association::Definitions>;
-
-class BaseValve : public ValveIntf, public ValveControlIntf
+class BaseValve : public ValveIntf
 {
   public:
+    using Valve = sdbusplus::common::xyz::openbmc_project::control::Valve;
+    using State = Valve::State;
+
     explicit BaseValve(sdbusplus::async::context& ctx,
                        const sdbusplus::message::object_path& objectPath,
                        Events& events, const LocalConfig& localConfig,
@@ -61,24 +62,25 @@ class BaseValve : public ValveIntf, public ValveControlIntf
     BaseValve& operator=(const BaseValve&) = delete;
     BaseValve& operator=(BaseValve&&) = delete;
 
-    /** @brief Emit D-Bus interfaces after construction is complete */
-    auto emitInterfaces() -> void;
+    /** @brief Emit sensor D-Bus interfaces after construction is complete */
+    auto emitSensorInterfaces() -> void;
 
-    /** @brief Create associations for the valve */
-    auto createAssociations() -> sdbusplus::async::task<>;
-
-    // NOLINTNEXTLINE(readability-identifier-naming)
-    auto get_property(state_t /*unused*/) const -> State;
-
-    // NOLINTNEXTLINE(readability-identifier-naming)
-    auto set_property(state_t /*unused*/, auto state) -> bool
-    {
-        return setState(state);
-    }
+    /** @brief Create associations for the valve sensor */
+    auto createSensorAssociations() -> sdbusplus::async::task<>;
 
   protected:
     virtual auto getState() const -> State = 0;
     virtual auto setState(State state) -> bool = 0;
+
+    static auto convertStateToString(State state) -> std::string
+    {
+        return Valve::convertStateToString(state);
+    }
+
+    /** @brief Publish the control interface once the valve state is known
+     *  @return true if the interface was published by this call
+     */
+    auto publishControlInterface() -> bool;
 
     /** @brief Get the chassis containing the given object path */
     static auto getContainingChassis(sdbusplus::async::context& ctx,
@@ -92,9 +94,9 @@ class BaseValve : public ValveIntf, public ValveControlIntf
     config::BaseConfig baseConfig;
 
   private:
-    auto createSensorAssociations() -> sdbusplus::async::task<>;
+    friend class ValveControl;
 
-    auto createControlAssociations() -> void;
+    std::unique_ptr<ValveControl> controlInterface;
 };
 
 } // namespace valve

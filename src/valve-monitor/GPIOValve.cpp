@@ -146,13 +146,19 @@ auto GPIOValve::setState(State state) -> bool
 auto GPIOValve::updateGPIOStateAsync(bool gpioState) -> sdbusplus::async::task<>
 {
     auto newValue = gpioState ? 100 : 0;
+    bool stateChanged = newValue != value();
 
-    if (newValue != value())
+    if (stateChanged)
     {
         debug("Updating valve {VALVE} to {VALUE}", "VALVE", baseConfig.name,
               "VALUE", newValue);
         value(newValue);
+    }
 
+    publishControlInterface();
+
+    if (stateChanged)
+    {
         co_await events.generateValveEvent(inventoryPath, gpioState);
     }
 

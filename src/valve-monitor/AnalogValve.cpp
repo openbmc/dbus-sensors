@@ -249,7 +249,7 @@ auto AnalogValve::handleStateChange(double voltage) -> sdbusplus::async::task<>
         isOpen = (voltage > analogConfig.openThreshold + hysteresis);
     }
 
-    if (wasOpen == isOpen)
+    if (!publishControlInterface() && wasOpen == isOpen)
     {
         co_return;
     }
