@@ -27,6 +27,7 @@
 #include <span>
 #include <string>
 #include <system_error>
+#include <tuple>
 #include <utility>
 #include <vector>
 
@@ -125,38 +126,37 @@ NvidiaEthPortMetrics::NvidiaEthPortMetrics(
     }
 
     static constexpr auto telemetryMetrics =
-        std::to_array<std::pair<uint8_t, const char*>>({
-            {0, "/nic/rx_bytes"},
-            {1, "/nic/tx_bytes"},
-            {2, "/nic/rx_unicast_frames"},
-            {3, "/nic/rx_multicast_frames"},
-            {4, "/nic/rx_broadcast_frames"},
-            {5, "/nic/tx_unicast_frames"},
-            {6, "/nic/tx_multicast_frames"},
-            {7, "/nic/tx_broadcast_frames"},
-            {8, "/nic/rx_fcs_errors"},
-            {9, "/nic/rx_frame_alignment_errors"},
-            {10, "/nic/rx_false_carrier_errors"},
-            {11, "/nic/rx_undersize_frames"},
-            {12, "/nic/rx_oversize_frames"},
-            {13, "/nic/rx_pause_xon_frames"},
-            {14, "/nic/rx_pause_xoff_frames"},
-            {15, "/nic/tx_pause_xon_frames"},
-            {16, "/nic/tx_pause_xoff_frames"},
-            {17, "/nic/tx_single_collisions"},
-            {18, "/nic/tx_multiple_collisions"},
-            {19, "/nic/tx_late_collisions"},
-            {20, "/nic/tx_excessive_collisions"},
+        std::to_array<std::tuple<uint8_t, const char*, const std::string*>>({
+            {0, "/nic/rx_bytes", &metricUnitBytes},
+            {1, "/nic/tx_bytes", &metricUnitBytes},
+            {2, "/nic/rx_unicast_frames", &metricUnitCount},
+            {3, "/nic/rx_multicast_frames", &metricUnitCount},
+            {4, "/nic/rx_broadcast_frames", &metricUnitCount},
+            {5, "/nic/tx_unicast_frames", &metricUnitCount},
+            {6, "/nic/tx_multicast_frames", &metricUnitCount},
+            {7, "/nic/tx_broadcast_frames", &metricUnitCount},
+            {8, "/nic/rx_fcs_errors", &metricUnitCount},
+            {9, "/nic/rx_frame_alignment_errors", &metricUnitCount},
+            {10, "/nic/rx_false_carrier_errors", &metricUnitCount},
+            {11, "/nic/rx_undersize_frames", &metricUnitCount},
+            {12, "/nic/rx_oversize_frames", &metricUnitCount},
+            {13, "/nic/rx_pause_xon_frames", &metricUnitCount},
+            {14, "/nic/rx_pause_xoff_frames", &metricUnitCount},
+            {15, "/nic/tx_pause_xon_frames", &metricUnitCount},
+            {16, "/nic/tx_pause_xoff_frames", &metricUnitCount},
+            {17, "/nic/tx_single_collisions", &metricUnitCount},
+            {18, "/nic/tx_multiple_collisions", &metricUnitCount},
+            {19, "/nic/tx_late_collisions", &metricUnitCount},
+            {20, "/nic/tx_excessive_collisions", &metricUnitCount},
         });
 
-    for (const auto& [tag, metricName] : telemetryMetrics)
+    for (const auto& [tag, metricName, unit] : telemetryMetrics)
     {
         metricValueInterface[tag] =
             objectServer.add_interface(metricsDbusPathPrefix + metricName,
                                        "xyz.openbmc_project.Metric.Value");
 
-        metricValueInterface[tag]->register_property(
-            "Unit", "xyz.openbmc_project.Metric.Value.Unit.Count"s);
+        metricValueInterface[tag]->register_property("Unit", *unit);
         metricValueInterface[tag]->register_property("Value", 0.0);
 
         std::vector<Association> associations;
