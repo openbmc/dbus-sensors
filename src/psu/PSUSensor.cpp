@@ -96,7 +96,7 @@ PSUSensor::PSUSensor(
     }
     else
     {
-        setInitialProperties(sensorUnits, label, tSize);
+        setInitialProperties(sensorUnits, label, 0, tSize);
     }
 
     association = objectServer.add_interface(dbusPath, association::interface);
