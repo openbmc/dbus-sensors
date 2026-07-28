@@ -5052,4 +5052,74 @@ TEST_F(GpuMctpVdmTests, DecodeSetClockLimitResponseBufferTooSmall)
     EXPECT_EQ(result, EINVAL);
 }
 
+// Tests for gpu::encodeSetEccModeRequest
+
+TEST_F(GpuMctpVdmTests, EncodeSetEccModeRequestEnable)
+{
+    const uint8_t instanceId = 2;
+    std::array<uint8_t, gpu::setEccModeRequestSize> buf{};
+
+    int result = gpu::encodeSetEccModeRequest(instanceId, true, buf);
+    EXPECT_EQ(result, 0);
+
+    UnpackBuffer ubuf{std::span<const uint8_t>(buf)};
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t recvInstanceId = 0;
+    uint8_t recvMsgType = 0;
+    EXPECT_EQ(ocp::accelerator_management::unpackHeader(
+                  ubuf, gpu::nvidiaPciVendorId, msgType, recvInstanceId,
+                  recvMsgType),
+              0);
+    EXPECT_EQ(recvInstanceId & ocp::accelerator_management::instanceIdBitMask,
+              instanceId & ocp::accelerator_management::instanceIdBitMask);
+    EXPECT_EQ(recvMsgType,
+              static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+
+    uint8_t command = 0;
+    ubuf.unpack(command);
+    EXPECT_EQ(command, static_cast<uint8_t>(
+                           gpu::PlatformEnvironmentalCommands::SET_ECC_MODE));
+
+    uint8_t dataSize = 0;
+    ubuf.unpack(dataSize);
+    EXPECT_EQ(dataSize, sizeof(uint8_t));
+
+    uint8_t requested = 0;
+    ubuf.unpack(requested);
+    EXPECT_EQ(requested, 1U);
+    EXPECT_EQ(ubuf.getError(), 0);
+}
+
+TEST_F(GpuMctpVdmTests, EncodeSetEccModeRequestDisable)
+{
+    std::array<uint8_t, gpu::setEccModeRequestSize> buf{};
+
+    int result = gpu::encodeSetEccModeRequest(0, false, buf);
+    EXPECT_EQ(result, 0);
+
+    UnpackBuffer ubuf{std::span<const uint8_t>(buf)};
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t recvInstanceId = 0;
+    uint8_t recvMsgType = 0;
+    ASSERT_EQ(ocp::accelerator_management::unpackHeader(
+                  ubuf, gpu::nvidiaPciVendorId, msgType, recvInstanceId,
+                  recvMsgType),
+              0);
+
+    uint8_t command = 0;
+    uint8_t dataSize = 0;
+    uint8_t requested = 0xFFU;
+    ubuf.unpack(command);
+    ubuf.unpack(dataSize);
+    ubuf.unpack(requested);
+    EXPECT_EQ(requested, 0U);
+}
+
+TEST_F(GpuMctpVdmTests, EncodeSetEccModeRequestBufferTooSmall)
+{
+    std::array<uint8_t, 1> buf{};
+    int result = gpu::encodeSetEccModeRequest(0, true, buf);
+    EXPECT_EQ(result, EINVAL);
+}
+
 } // namespace gpu_mctp_tests
