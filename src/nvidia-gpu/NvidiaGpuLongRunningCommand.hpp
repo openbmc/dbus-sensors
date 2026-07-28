@@ -61,6 +61,11 @@ class NvidiaGpuLongRunningCommand :
         // decodeGet*Response() overload.
         std::move_only_function<void(std::span<const uint8_t> payload)>
             onLongRunningPayload;
+
+        // Invoked once if the command terminates without success, in place
+        // of onImmediateSuccess/onLongRunningPayload. Optional: a guarded
+        // writer sets it to release its in-flight guard on failure.
+        std::move_only_function<void()> onError = nullptr;
     };
 
     NvidiaGpuLongRunningCommand(
@@ -83,6 +88,9 @@ class NvidiaGpuLongRunningCommand :
         boost::system::error_code ec,
         ocp::accelerator_management::CompletionCode cc, uint16_t reasonCode,
         std::span<const uint8_t> responseData);
+
+    // Runs config.onError if the caller supplied one.
+    void notifyError();
 
     uint8_t eid;
 

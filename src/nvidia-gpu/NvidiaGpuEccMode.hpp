@@ -9,19 +9,23 @@
 #include <NvidiaGpuLongRunningCommand.hpp>
 #include <NvidiaLongRunningHandler.hpp>
 #include <SerialQueue.hpp>
+#include <boost/asio/io_context.hpp>
+#include <boost/asio/steady_timer.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
 #include <cstdint>
 #include <memory>
+#include <optional>
 #include <span>
 #include <string>
 
-struct NvidiaGpuEccMode
+struct NvidiaGpuEccMode : std::enable_shared_from_this<NvidiaGpuEccMode>
 {
   public:
     NvidiaGpuEccMode(mctp::MctpRequester& mctpRequester,
                      sdbusplus::asio::object_server& objectServer,
                      const std::string& deviceName, uint8_t eid,
+                     boost::asio::io_context& io,
                      std::shared_ptr<SerialQueue> longRunningQueue,
                      std::shared_ptr<NvidiaLongRunningResponseHandler>
                          longRunningResponseHandler);
@@ -42,17 +46,31 @@ struct NvidiaGpuEccMode
 
     void applyEccModeToDbus(bool active, bool enabled);
 
+    int handleEnabledSet(const bool& newEnable, bool& current);
+
+    void armSetEccTimer();
+    void applyPendingEccMode();
+    void sendSetEccModeRequest(bool enable);
+    void finishSet(bool succeeded);
+
     mctp::MctpRequester& mctpRequester;
     uint8_t eid;
     std::shared_ptr<SerialQueue> longRunningQueue;
     std::shared_ptr<NvidiaLongRunningResponseHandler>
         longRunningResponseHandler;
 
+    bool eccModeEnabled{false};
+
     sdbusplus::asio::object_server& objectServer;
+
+    std::optional<bool> pendingEnable;
+    bool setEccModeInflight{false};
+    boost::asio::steady_timer setEccTimer;
 
     std::shared_ptr<sdbusplus::asio::dbus_interface> eccModeInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface>
         eccModeAssociationInterface;
 
     std::shared_ptr<NvidiaGpuLongRunningCommand> getCmd;
+    std::shared_ptr<NvidiaGpuLongRunningCommand> setCmd;
 };

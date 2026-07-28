@@ -248,7 +248,7 @@ void GpuDevice::makeSensors()
         longRunningHandler);
 
     eccMode = std::make_shared<NvidiaGpuEccMode>(
-        mctpRequester, objectServer, name, eid, longRunningQueue,
+        mctpRequester, objectServer, name, eid, io, longRunningQueue,
         longRunningHandler);
 
     driverInfo = std::make_shared<NvidiaDriverInformation>(
