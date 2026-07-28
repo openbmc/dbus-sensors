@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb134308_4ab03da6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-28T09:14:40Z",
+      "side": 1,
+      "message": "I think the remaining questions can only be raised after https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/91168 is merged. Thanks.",
+      "revId": "97577a0cc70bd251f4dbc640eb086024209110de",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b89e8765_cffe0ffc",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-28T09:14:40Z",
+      "side": 1,
+      "message": "Should we really need these comment?",
+      "range": {
+        "startLine": 239,
+        "startChar": 15,
+        "endLine": 242,
+        "endChar": 65
+      },
+      "revId": "97577a0cc70bd251f4dbc640eb086024209110de",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c0b9629_130b070a",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-28T09:14:40Z",
+      "side": 1,
+      "message": "This is only correct because createDeviceForType overwrites it later; reordering would silently disable rediscovery. Could the real handler just go here, using weak_from_this() to call setCapabilities()?",
+      "range": {
+        "startLine": 243,
+        "startChar": 12,
+        "endLine": 246,
+        "endChar": 62
+      },
+      "revId": "97577a0cc70bd251f4dbc640eb086024209110de",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
