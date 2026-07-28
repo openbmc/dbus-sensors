@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c48820b_fd06d5af",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 1894,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-28T08:11:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24079f3b_72fda4b1",
+      "revId": "ac0839662a7d21eec766414225be8e3e485ce947",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7045cf26_e6e994e9",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "00e3286d_bcaf3edc",
+        "filename": "src/nvidia-gpu/NvidiaNVLinkPortMetrics.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-28T08:11:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7045cf26_e6e994e9",
+      "revId": "ac0839662a7d21eec766414225be8e3e485ce947",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2ab72b7a_6582271f",
@@ -48,6 +84,24 @@
       "writtenOn": "2026-07-24T02:49:36Z",
       "side": 1,
       "message": "Unsupported counters still get a Value\u003d0 object here (e.g. on your Tested, bit 9 of 0xfb1eddf3 is clear, so tx_bytes is unsupported but still published as 0). How do you want to handle those — skip creating them once supportedCounters is known, or is publishing 0 intended?",
+      "revId": "ac0839662a7d21eec766414225be8e3e485ce947",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74fa5a38_23eda15d",
+        "filename": "src/nvidia-gpu/NvidiaNVLinkPortMetrics.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-28T08:11:30Z",
+      "side": 1,
+      "message": "Done. Changed to create the metric objects lazily on the first response, only for counters whose supportedCounters bit is set, so unsupported counters no longer publish a 0.",
+      "parentUuid": "2ab72b7a_6582271f",
       "revId": "ac0839662a7d21eec766414225be8e3e485ce947",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
