@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "216a50f0_16a04dc9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-28T03:42:13Z",
+      "side": 1,
+      "message": "Could we use Set Port Health Thresholds (0x07) to deliberately lower a threshold and trigger a real event, so the decode is verified against the device?",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 9
+      },
+      "revId": "01b0a7b9ed6dd0e1d11e74111d4ecc45b5c1fdb7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92ca9bed_3a2021a0",
+        "filename": "src/nvidia-gpu/NvidiaGpuNvlinkPortHealth.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-28T03:42:13Z",
+      "side": 1,
+      "message": "If the mask mixes known and reserved bits (0x84, say), this fallback doesn\u0027t fire and bit 7 is dropped from the message entirely. \nCould the raw mask be appended whenever there are bits outside 0..6, not only when nothing is recognised? The format tests cover 0x80 but not the mixed case.",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 5
+      },
+      "revId": "01b0a7b9ed6dd0e1d11e74111d4ecc45b5c1fdb7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "723ccf23_bed0b5cf",
+        "filename": "src/nvidia-gpu/NvidiaGpuNvlinkPortHealth.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-28T03:42:13Z",
+      "side": 1,
+      "message": "nit: could this go in a namespace rather than global scope?\nnot block",
+      "range": {
+        "startLine": 41,
+        "startChar": 12,
+        "endLine": 41,
+        "endChar": 41
+      },
+      "revId": "01b0a7b9ed6dd0e1d11e74111d4ecc45b5c1fdb7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
