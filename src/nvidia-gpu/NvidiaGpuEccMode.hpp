@@ -42,17 +42,27 @@ struct NvidiaGpuEccMode
 
     void applyEccModeToDbus(bool active, bool enabled);
 
+    int handleEnabledSet(const bool& newEnable, bool& current);
+
+    void sendSetEccModeRequest(bool enable);
+    void finishSet(bool succeeded);
+
     mctp::MctpRequester& mctpRequester;
     uint8_t eid;
     std::shared_ptr<SerialQueue> longRunningQueue;
     std::shared_ptr<NvidiaLongRunningResponseHandler>
         longRunningResponseHandler;
 
+    bool eccModeEnabled{false};
+
     sdbusplus::asio::object_server& objectServer;
+
+    bool setEccModeInflight{false};
 
     std::shared_ptr<sdbusplus::asio::dbus_interface> eccModeInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface>
         eccModeAssociationInterface;
 
     std::shared_ptr<NvidiaGpuLongRunningCommand> getCmd;
+    std::shared_ptr<NvidiaGpuLongRunningCommand> setCmd;
 };
