@@ -16,6 +16,7 @@
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/message/native_types.hpp>
+#include <xyz/openbmc_project/Common/error.hpp>
 
 #include <cstdint>
 #include <functional>
@@ -45,8 +46,11 @@ NvidiaGpuEccMode::NvidiaGpuEccMode(
 
     eccModeInterface->register_property(
         "Active", false, sdbusplus::asio::PropertyPermission::readOnly);
-    eccModeInterface->register_property(
-        "Enabled", false, sdbusplus::asio::PropertyPermission::readOnly);
+
+    eccModeInterface->register_property<bool>(
+        "Enabled", false,
+        std::bind_front(&NvidiaGpuEccMode::handleEnabledSet, this),
+        [this](bool&) { return eccModeEnabled; });
 
     if (!eccModeInterface->initialize())
     {
@@ -100,6 +104,54 @@ void NvidiaGpuEccMode::update()
     getCmd->update();
 }
 
+int NvidiaGpuEccMode::handleEnabledSet(const bool& newEnable, bool& /*current*/)
+{
+    if (setEccModeInflight)
+    {
+        lg2::error(
+            "GPU ECC Mode set rejected for EID={EID}: a set is already in flight",
+            "EID", eid);
+        throw sdbusplus::error::xyz::openbmc_project::common::Unavailable();
+    }
+
+    sendSetEccModeRequest(newEnable);
+    return 1;
+}
+
+void NvidiaGpuEccMode::sendSetEccModeRequest(bool enable)
+{
+    setEccModeInflight = true;
+    setCmd = std::make_shared<NvidiaGpuLongRunningCommand>(
+        eid, mctpRequester, longRunningQueue, longRunningResponseHandler,
+        NvidiaGpuLongRunningCommand::Config{
+            .metricName = "GPU ECC Mode Set",
+            .messageType = gpu::MessageType::PLATFORM_ENVIRONMENTAL,
+            .commandId = gpu::PlatformEnvironmentalCommands::SET_ECC_MODE,
+            .requestSize = gpu::setEccModeRequestSize,
+            .encodeRequest =
+                [enable](std::span<uint8_t> buf) {
+                    return gpu::encodeSetEccModeRequest(0, enable, buf);
+                },
+            .onImmediateSuccess =
+                [this](std::span<const uint8_t>) { finishSet(true); },
+            .onLongRunningPayload =
+                [this](std::span<const uint8_t>) { finishSet(true); },
+            .onError = [this]() { finishSet(false); },
+        });
+
+    setCmd->update();
+}
+
+void NvidiaGpuEccMode::finishSet(bool succeeded)
+{
+    setEccModeInflight = false;
+
+    if (succeeded)
+    {
+        getCmd->update();
+    }
+}
+
 void NvidiaGpuEccMode::onGetImmediateSuccess(
     std::span<const uint8_t> fullBuffer)
 {
@@ -140,5 +192,11 @@ void NvidiaGpuEccMode::onGetLongRunningPayload(std::span<const uint8_t> payload)
 void NvidiaGpuEccMode::applyEccModeToDbus(bool active, bool enabled)
 {
     eccModeInterface->set_property("Active", active);
-    eccModeInterface->set_property("Enabled", enabled);
+
+    // signal_property does not invoke the setter, avoiding a SET loop.
+    if (enabled != eccModeEnabled)
+    {
+        eccModeEnabled = enabled;
+        eccModeInterface->signal_property("Enabled");
+    }
 }
