@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e707dd1_c68d49d7",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-28T08:11:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b74a8afd_9cfc9a9e",
+      "revId": "3136fcf107a74f23820aaeb2e255319f68259ccb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d1bb74c_bf5b6fc3",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b27e4cf2_1770af15",
+        "filename": "src/nvidia-gpu/NvidiaNVLinkPort.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-28T08:11:16Z",
+      "side": 1,
+      "message": "Done. But there are no destructor in the Port type class.\nI will upload another patch to complete the port destructor.",
+      "parentUuid": "2d1bb74c_bf5b6fc3",
+      "revId": "3136fcf107a74f23820aaeb2e255319f68259ccb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dd7f9e7a_d150b938",
@@ -48,6 +84,30 @@
       "writtenOn": "2026-07-24T05:05:19Z",
       "side": 1,
       "message": "nit: seeding the defaults via mapPortStateToLinkStatus(3)/(0) is a bit indirect — registering the enum strings (NoLink/Unknown) directly would read clearer.",
+      "range": {
+        "startLine": 131,
+        "startChar": 19,
+        "endLine": 131,
+        "endChar": 36
+      },
+      "revId": "3136fcf107a74f23820aaeb2e255319f68259ccb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39e9b7ba_fdb655e2",
+        "filename": "src/nvidia-gpu/NvidiaNVLinkPort.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-07-28T08:11:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd7f9e7a_d150b938",
       "range": {
         "startLine": 131,
         "startChar": 19,
