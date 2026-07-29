@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "be1ceda5_a36fff5c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-07-29T14:49:08Z",
+      "side": 1,
+      "message": "@paligill@gmail.com - The fact that we even need a \"reconcile delay\" is a bug.  We shouldn\u0027t add a meson option to work around a bug.  Please fix the bug.\n\nIf you haven\u0027t detected the FRU that a cable plugs into yet you shouldn\u0027t be reporting errors for the cable not being present.",
+      "revId": "fd9fd41b9e7f3338895b0ee86676866724b2211a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1cedc33f_f5c25eb4",
