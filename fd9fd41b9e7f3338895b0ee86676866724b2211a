@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b36c12c8_15f9fa5d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2026-07-29T22:04:37Z",
+      "side": 1,
+      "message": "\u003e @paligill@gmail.com - The fact that we even need a \"reconcile delay\" is a bug.  We shouldn\u0027t add a meson option to work around a bug.  Please fix the bug.\n\u003e \n\u003e If you haven\u0027t detected the FRU that a cable plugs into yet you shouldn\u0027t be reporting errors for the cable not being present.\n\n@patrick@stwcx.xyz - The Base FRU not being detected couldn\u0027t be the only issue here. The hardware inventory source for the cable can itself take more time to detect the cable (even if the FRU hosting the cable is detected/created by EM), so even in that case this issue will be there. So, i see 2 options -\n\n1. Only send Disconnected messages (whenever they disconnect) for any cables which were ever discovered by CableMonitor (via existing path). But with that we loose the functionality that we never compare against the cable config (Which was the purpose of this feature).\n\n2. \na). Extend CableMonitor config to also include Base FRU Info which holds the cable.\nb). Rather than relying on GPIO Hardware inventory, have the CableMonitor consume a new EM Config and read the GPIOs or source of Cable presence.\n\n If a) is not done then CableMonitor never sends the Disconnected Messages, otherwise since b will become part of CableMonitor it will locally know which Cable presence has been processed or not and will take action accordingly.",
+      "parentUuid": "be1ceda5_a36fff5c",
+      "revId": "fd9fd41b9e7f3338895b0ee86676866724b2211a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1cedc33f_f5c25eb4",
         "filename": "src/cable-monitor/CableMonitor.cpp",
         "patchSetId": 1
