@@ -16,6 +16,24 @@
       "message": "Could we follow https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/90189 for in-flight handling (debounce + setPowerLimitInflight guard)? Overwriting setCmd here destroys an in-flight command, so a queued SET can be silently dropped after the setter already returned success.",
       "revId": "3b79c95084b02a4fbb14c857b2abe929b9ba6c36",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e18be5a3_3ce60a75",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-07-29T02:14:04Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "3c721c63_29b9b2e9",
+      "revId": "3b79c95084b02a4fbb14c857b2abe929b9ba6c36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
