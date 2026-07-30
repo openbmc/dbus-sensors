@@ -95,7 +95,7 @@ static void execBasicQuery(int bus, uint8_t addr, uint8_t cmd, bool smbusPEC,
         if (size < 0)
         {
             lg2::error(
-                "Failed to read block data from device '{ADDR}' on bus '{BUS}': ERRNO",
+                "Failed to read block data from device '{ADDR}' on bus '{BUS}': '{ERRNO}'",
                 "ADDR", lg2::hex, addr, "BUS", bus, "ERRNO", lg2::hex, errno);
             resp.resize(0);
         }

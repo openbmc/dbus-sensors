@@ -77,7 +77,7 @@ static uint8_t extractSlaveAddr(const std::string& path,
     if (findSlaveAddr == properties.end())
     {
         lg2::error(
-            "could not determine slave address for '{PATH} 'using default as "
+            "could not determine slave address for '{PATH}' using default as "
             "specified in nvme-mi",
             "PATH", path);
         return nvmeMiDefaultSlaveAddr;
