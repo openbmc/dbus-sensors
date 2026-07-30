@@ -9,6 +9,7 @@
 
 #include <endian.h>
 
+#include <algorithm>
 #include <array>
 #include <bit>
 #include <cerrno>
@@ -3276,6 +3277,101 @@ TEST_F(GpuMctpVdmTests, DecodeXidEventMessageTextPointsIntoBuffer)
         messageTextString.data(),
         std::bit_cast<const char*>(buf.data() + gpu::xidEventMinDataSize));
     EXPECT_EQ(messageTextString.size(), message.size());
+}
+
+TEST_F(GpuMctpVdmTests, DecodeRistEventSuccess)
+{
+    static_assert(gpu::ristEventDataSize == 105);
+
+    constexpr std::string_view gpuIdentifier =
+        "GPU-a2672026-6272-5a8f-bffb-fa5b7a72f3e2";
+    constexpr std::string_view appVersion = "1.0.0";
+    constexpr size_t timestampOffset = gpu::ristGpuIdentifierSize;
+    constexpr size_t appVersionOffset = timestampOffset + sizeof(uint64_t);
+    constexpr size_t resultOffset = appVersionOffset + gpu::ristAppVersionSize;
+    constexpr size_t statusCodeOffset = resultOffset + sizeof(uint8_t);
+    constexpr size_t maxTemperatureOffset = statusCodeOffset + sizeof(uint64_t);
+    constexpr size_t avgTemperatureOffset =
+        maxTemperatureOffset + sizeof(int32_t);
+    std::array<uint8_t, gpu::ristEventDataSize> buf{};
+    std::copy(gpuIdentifier.begin(), gpuIdentifier.end(), buf.begin());
+    std::copy(appVersion.begin(), appVersion.end(),
+              buf.begin() + appVersionOffset);
+
+    const std::array<uint8_t, sizeof(uint64_t)> timestamp{
+        0x08, 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01};
+    std::copy(timestamp.begin(), timestamp.end(),
+              buf.begin() + timestampOffset);
+    buf[resultOffset] = 0x42;
+
+    const std::array<uint8_t, sizeof(uint64_t)> statusCode{
+        0x34, 0x12, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80};
+    std::copy(statusCode.begin(), statusCode.end(),
+              buf.begin() + statusCodeOffset);
+
+    const std::array<uint8_t, sizeof(int32_t)> maxTemperature{
+        0x00, 0x80, 0xFF, 0xFF};
+    std::copy(maxTemperature.begin(), maxTemperature.end(),
+              buf.begin() + maxTemperatureOffset);
+    const std::array<uint8_t, sizeof(int32_t)> avgTemperature{
+        0x19, 0x00, 0x00, 0x00};
+    std::copy(avgTemperature.begin(), avgTemperature.end(),
+              buf.begin() + avgTemperatureOffset);
+
+    gpu::RistEventData decoded{};
+    const int result = gpu::decodeRistEvent(buf, decoded);
+
+    ASSERT_EQ(result, 0);
+    EXPECT_EQ(std::string_view(decoded.gpuIdentifier.data(),
+                               gpuIdentifier.size()),
+              gpuIdentifier);
+    EXPECT_EQ(decoded.gpuIdentifier[gpuIdentifier.size()], '\0');
+    EXPECT_EQ(decoded.timestamp, 0x0102030405060708ULL);
+    EXPECT_EQ(std::string_view(decoded.appVersion.data(), appVersion.size()),
+              appVersion);
+    EXPECT_EQ(decoded.appVersion[appVersion.size()], '\0');
+    EXPECT_EQ(decoded.result, 0x42);
+    EXPECT_EQ(decoded.statusCode, 0x8000000000001234ULL);
+    EXPECT_EQ(decoded.maxTemperature, -32'768);
+    EXPECT_EQ(decoded.avgTemperature, 25);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeRistEventBufferTooSmall)
+{
+    std::array<uint8_t, gpu::ristEventDataSize - 1> buf{};
+    gpu::RistEventData eventData{};
+
+    EXPECT_EQ(gpu::decodeRistEvent(buf, eventData), EINVAL);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeRistEventAllowsTrailingData)
+{
+    constexpr size_t timestampOffset = gpu::ristGpuIdentifierSize;
+    constexpr size_t appVersionOffset = timestampOffset + sizeof(uint64_t);
+    constexpr size_t resultOffset = appVersionOffset + gpu::ristAppVersionSize;
+    constexpr size_t statusCodeOffset = resultOffset + sizeof(uint8_t);
+    constexpr size_t maxTemperatureOffset = statusCodeOffset + sizeof(uint64_t);
+    constexpr size_t avgTemperatureOffset =
+        maxTemperatureOffset + sizeof(int32_t);
+    std::array<uint8_t, gpu::ristEventDataSize + 3> buf{};
+    const std::array<uint8_t, sizeof(uint64_t)> timestamp{
+        0xF0, 0xDE, 0xBC, 0x9A, 0x78, 0x56, 0x34, 0x12};
+    std::copy(timestamp.begin(), timestamp.end(),
+              buf.begin() + timestampOffset);
+    buf[resultOffset] = 1;
+    buf[maxTemperatureOffset] = 0x64;
+    buf[avgTemperatureOffset] = 0x19;
+    buf[gpu::ristEventDataSize] = 0xAA;
+    buf[gpu::ristEventDataSize + 1] = 0xBB;
+    buf[gpu::ristEventDataSize + 2] = 0xCC;
+
+    gpu::RistEventData decoded{};
+    EXPECT_EQ(gpu::decodeRistEvent(buf, decoded), 0);
+    EXPECT_EQ(decoded.timestamp, 0x123456789ABCDEF0ULL);
+    EXPECT_EQ(decoded.result, 1);
+    EXPECT_EQ(decoded.statusCode, 0);
+    EXPECT_EQ(decoded.maxTemperature, 100);
+    EXPECT_EQ(decoded.avgTemperature, 25);
 }
 
 TEST_F(GpuMctpVdmTests, EncodeGetEccErrorCountsRequestSuccess)

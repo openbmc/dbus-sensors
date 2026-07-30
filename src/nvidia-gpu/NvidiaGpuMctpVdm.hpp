@@ -7,6 +7,7 @@
 
 #include <OcpMctpVdm.hpp>
 
+#include <array>
 #include <cstddef>
 #include <cstdint>
 #include <span>
@@ -28,7 +29,8 @@ enum class MessageType : uint8_t
     DEVICE_CAPABILITY_DISCOVERY = 0,
     NETWORK_PORT = 1,
     PCIE_LINK = 2,
-    PLATFORM_ENVIRONMENTAL = 3
+    PLATFORM_ENVIRONMENTAL = 3,
+    DIAGNOSTICS = 4
 };
 
 enum class DeviceCapabilityDiscoveryCommands : uint8_t
@@ -65,6 +67,11 @@ enum class PlatformEnvironmentalCommands : uint8_t
 enum class PlatformEnvironmentalEvent : uint8_t
 {
     XID = 0x01,
+};
+
+enum class DiagnosticsEvent : uint8_t
+{
+    RUNTIME_IST_COMPLETE = 0x04,
 };
 
 enum class NetworkPortCommands : uint8_t
@@ -249,6 +256,23 @@ constexpr size_t longRunningResponseEventSize = 4;
 
 constexpr size_t xidEventMinDataSize = 20;
 
+constexpr size_t ristGpuIdentifierSize = 64;
+constexpr size_t ristAppVersionSize = 16;
+constexpr size_t ristEventDataSize =
+    ristGpuIdentifierSize + sizeof(uint64_t) + ristAppVersionSize +
+    sizeof(uint8_t) + sizeof(uint64_t) + (2 * sizeof(int32_t));
+
+struct RistEventData
+{
+    std::array<char, ristGpuIdentifierSize> gpuIdentifier{};
+    uint64_t timestamp{};
+    std::array<char, ristAppVersionSize> appVersion{};
+    uint8_t result{};
+    uint64_t statusCode{};
+    int32_t maxTemperature{};
+    int32_t avgTemperature{};
+};
+
 constexpr size_t getClockLimitRequestSize =
     ocp::accelerator_management::commonRequestSize + sizeof(uint8_t);
 
@@ -279,6 +303,8 @@ int decodeSetEventSourcesResponse(
 int decodeXidEvent(std::span<const uint8_t> buf, uint8_t& flags,
                    uint32_t& eventMessageReason, uint32_t& sequenceNumber,
                    uint64_t& timestamp, std::string_view& messageTextString);
+
+int decodeRistEvent(std::span<const uint8_t> buf, RistEventData& eventData);
 
 int decodeQueryDeviceIdentificationResponse(
     std::span<const uint8_t> buf,

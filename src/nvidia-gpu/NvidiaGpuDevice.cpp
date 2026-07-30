@@ -22,6 +22,7 @@
 #include <NvidiaGpuPowerControl.hpp>
 #include <NvidiaGpuPowerPeakReading.hpp>
 #include <NvidiaGpuPowerSensor.hpp>
+#include <NvidiaGpuRist.hpp>
 #include <NvidiaGpuTempSensor.hpp>
 #include <NvidiaGpuUtilizationMetrics.hpp>
 #include <NvidiaGpuViolationDuration.hpp>
@@ -224,6 +225,7 @@ void GpuDevice::makeSensors()
     longRunningHandler = std::make_shared<NvidiaLongRunningResponseHandler>(io);
 
     xidEventHandler = std::make_shared<NvidiaXidEventHandler>(name, conn);
+    ristEventHandler = std::make_shared<NvidiaRistEventHandler>(name, conn);
 
     eventReporting = std::make_shared<NvidiaEventReportingConfig>(
         eid, mctpRequester,
@@ -236,7 +238,11 @@ void GpuDevice::makeSensors()
             {gpu::MessageType::PLATFORM_ENVIRONMENTAL,
              static_cast<uint8_t>(gpu::PlatformEnvironmentalEvent::XID),
              std::bind_front(&NvidiaXidEventHandler::handleXidEvent,
-                             xidEventHandler)}});
+                             xidEventHandler)},
+            {gpu::MessageType::DIAGNOSTICS,
+             static_cast<uint8_t>(gpu::DiagnosticsEvent::RUNTIME_IST_COMPLETE),
+             std::bind_front(&NvidiaRistEventHandler::handleRistEvent,
+                             ristEventHandler)}});
 
     utilizationMetrics = std::make_shared<NvidiaGpuUtilizationMetrics>(
         mctpRequester, objectServer, name, eid, longRunningQueue,

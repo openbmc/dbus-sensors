@@ -1531,6 +1531,31 @@ int decodeXidEvent(std::span<const uint8_t> buf, uint8_t& flags,
     return 0;
 }
 
+int decodeRistEvent(std::span<const uint8_t> buf, RistEventData& eventData)
+{
+    UnpackBuffer buffer(buf);
+
+    for (char& character : eventData.gpuIdentifier)
+    {
+        uint8_t encodedCharacter = 0;
+        buffer.unpack(encodedCharacter);
+        character = static_cast<char>(encodedCharacter);
+    }
+    buffer.unpack(eventData.timestamp);
+    for (char& character : eventData.appVersion)
+    {
+        uint8_t encodedCharacter = 0;
+        buffer.unpack(encodedCharacter);
+        character = static_cast<char>(encodedCharacter);
+    }
+    buffer.unpack(eventData.result);
+    buffer.unpack(eventData.statusCode);
+    buffer.unpack(eventData.maxTemperature);
+    buffer.unpack(eventData.avgTemperature);
+
+    return buffer.getError();
+}
+
 int encodeGetCurrentClockFrequencyRequest(uint8_t instanceId, ClockType clockId,
                                           std::span<uint8_t> buf)
 {
