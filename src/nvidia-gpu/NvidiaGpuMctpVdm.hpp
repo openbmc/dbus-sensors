@@ -9,6 +9,8 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <limits>
+#include <optional>
 #include <span>
 #include <string>
 #include <utility>
@@ -36,6 +38,7 @@ enum class DeviceCapabilityDiscoveryCommands : uint8_t
     SET_CURRENT_EVENT_SOURCES = 0x5,
     SET_EVENT_SUBSCRIPTION = 0x6,
     QUERY_DEVICE_IDENTIFICATION = 0x09,
+    GET_EVENT_LOG_RECORD_V2 = 0x12,
 };
 
 enum class DeviceCapabilityDiscoveryEvents : uint8_t
@@ -65,6 +68,47 @@ enum class PlatformEnvironmentalCommands : uint8_t
 enum class PlatformEnvironmentalEvent : uint8_t
 {
     XID = 0x01,
+    CPER = 0x02,
+};
+
+enum class EventClass : uint8_t
+{
+    POLLED = 0x02,
+};
+
+enum class EventLogRecordV2Mode : uint8_t
+{
+    GET_DATA = 0,
+    ACKNOWLEDGEMENT = 1,
+};
+
+struct EventLogRecordV2FirstResponse
+{
+    uint16_t nextTransferHandle{};
+    uint16_t eventHandle{};
+    uint8_t nvidiaMessageType{};
+    uint8_t eventVersion{};
+    uint8_t eventId{};
+    uint8_t eventClass{};
+    uint16_t eventState{};
+    std::span<const uint8_t> eventData;
+    bool hasEventRecord{};
+};
+
+struct EventLogRecordV2NextResponse
+{
+    uint16_t nextTransferHandle{};
+    uint16_t eventHandle{};
+    std::span<const uint8_t> eventData;
+};
+
+struct CperRecordInfo
+{
+    uint32_t severity{};
+    std::string notificationType;
+    std::optional<std::string> timestamp;
+    std::vector<std::string> sectionTypes;
+    bool timestampInvalid{};
 };
 
 enum class NetworkPortCommands : uint8_t
@@ -249,6 +293,18 @@ constexpr size_t longRunningResponseEventSize = 4;
 
 constexpr size_t xidEventMinDataSize = 20;
 
+constexpr size_t getEventLogRecordV2RequestSize =
+    ocp::accelerator_management::commonRequestSize + sizeof(uint8_t) +
+    sizeof(uint16_t) * 2;
+
+constexpr size_t getEventLogRecordV2FirstResponseMinDataSize =
+    sizeof(uint16_t) * 3 + sizeof(uint8_t) * 4;
+
+constexpr size_t getEventLogRecordV2NextResponseMinDataSize =
+    sizeof(uint16_t) * 2;
+
+constexpr size_t maxCperRecordSize = std::numeric_limits<uint16_t>::max();
+
 constexpr size_t getClockLimitRequestSize =
     ocp::accelerator_management::commonRequestSize + sizeof(uint8_t);
 
@@ -279,6 +335,22 @@ int decodeSetEventSourcesResponse(
 int decodeXidEvent(std::span<const uint8_t> buf, uint8_t& flags,
                    uint32_t& eventMessageReason, uint32_t& sequenceNumber,
                    uint64_t& timestamp, std::string_view& messageTextString);
+
+int encodeGetEventLogRecordV2Request(
+    uint8_t instanceId, EventLogRecordV2Mode mode, uint16_t eventHandle,
+    uint16_t transferHandle, std::span<uint8_t> buf);
+
+int decodeGetEventLogRecordV2FirstResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& completionCode,
+    uint16_t& reasonCode, EventLogRecordV2FirstResponse& response);
+
+int decodeGetEventLogRecordV2NextResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& completionCode,
+    uint16_t& reasonCode, EventLogRecordV2NextResponse& response);
+
+int decodeCperRecord(std::span<const uint8_t> buf, CperRecordInfo& recordInfo);
 
 int decodeQueryDeviceIdentificationResponse(
     std::span<const uint8_t> buf,

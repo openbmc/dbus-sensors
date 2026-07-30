@@ -8,13 +8,16 @@
 #include "MessagePackUnpackUtils.hpp"
 #include "OcpMctpVdm.hpp"
 
+#include <array>
 #include <bit>
 #include <cerrno>
 #include <cstddef>
 #include <cstdint>
+#include <format>
 #include <functional>
 #include <iterator>
 #include <limits>
+#include <optional>
 #include <span>
 #include <string>
 #include <string_view>
@@ -1528,6 +1531,313 @@ int decodeXidEvent(std::span<const uint8_t> buf, uint8_t& flags,
     messageTextString = std::string_view{
         std::bit_cast<const char*>(remainingData.data()), remainingData.size()};
 
+    return 0;
+}
+
+int encodeGetEventLogRecordV2Request(
+    uint8_t instanceId, EventLogRecordV2Mode mode, uint16_t eventHandle,
+    uint16_t transferHandle, std::span<uint8_t> buf)
+{
+    if ((mode != EventLogRecordV2Mode::GET_DATA &&
+         mode != EventLogRecordV2Mode::ACKNOWLEDGEMENT) ||
+        eventHandle == std::numeric_limits<uint16_t>::max())
+    {
+        return EINVAL;
+    }
+    if (mode == EventLogRecordV2Mode::ACKNOWLEDGEMENT && transferHandle != 0)
+    {
+        return EINVAL;
+    }
+
+    PackBuffer buffer(buf);
+    int rc = encodeRequestCommonHeader(
+        buffer, MessageType::DEVICE_CAPABILITY_DISCOVERY,
+        static_cast<uint8_t>(
+            DeviceCapabilityDiscoveryCommands::GET_EVENT_LOG_RECORD_V2),
+        instanceId);
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    constexpr uint8_t dataSize = sizeof(uint8_t) + sizeof(uint16_t) * 2;
+    buffer.pack(dataSize);
+    buffer.pack(static_cast<uint8_t>(mode));
+    buffer.pack(eventHandle);
+    buffer.pack(transferHandle);
+    return buffer.getError();
+}
+
+int decodeGetEventLogRecordV2FirstResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& completionCode,
+    uint16_t& reasonCode, EventLogRecordV2FirstResponse& response)
+{
+    response = {};
+    UnpackBuffer buffer(buf);
+    int rc = decodeResponseCommonHeader(
+        buffer, MessageType::DEVICE_CAPABILITY_DISCOVERY,
+        static_cast<uint8_t>(
+            DeviceCapabilityDiscoveryCommands::GET_EVENT_LOG_RECORD_V2),
+        completionCode, reasonCode);
+    if (rc != 0 ||
+        completionCode != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    uint16_t dataSize = 0;
+    buffer.unpack(dataSize);
+    if (buffer.getError() != 0 ||
+        dataSize < getEventLogRecordV2NextResponseMinDataSize ||
+        buffer.getRemaining().size() < dataSize)
+    {
+        return EINVAL;
+    }
+
+    buffer.unpack(response.nextTransferHandle);
+    buffer.unpack(response.eventHandle);
+    if (dataSize == getEventLogRecordV2NextResponseMinDataSize)
+    {
+        if (response.eventHandle != std::numeric_limits<uint16_t>::max() ||
+            response.nextTransferHandle != 0)
+        {
+            return EINVAL;
+        }
+        return 0;
+    }
+
+    if (dataSize < getEventLogRecordV2FirstResponseMinDataSize ||
+        response.eventHandle == std::numeric_limits<uint16_t>::max())
+    {
+        return EINVAL;
+    }
+
+    response.hasEventRecord = true;
+    buffer.unpack(response.nvidiaMessageType);
+    buffer.unpack(response.eventVersion);
+    buffer.unpack(response.eventId);
+    buffer.unpack(response.eventClass);
+    buffer.unpack(response.eventState);
+    if (buffer.getError() != 0)
+    {
+        return buffer.getError();
+    }
+
+    const size_t eventDataSize =
+        dataSize - getEventLogRecordV2FirstResponseMinDataSize;
+    if (buffer.getRemaining().size() < eventDataSize)
+    {
+        return EINVAL;
+    }
+    response.eventData = buffer.getRemaining().first(eventDataSize);
+    return 0;
+}
+
+int decodeGetEventLogRecordV2NextResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& completionCode,
+    uint16_t& reasonCode, EventLogRecordV2NextResponse& response)
+{
+    response = {};
+    UnpackBuffer buffer(buf);
+    int rc = decodeResponseCommonHeader(
+        buffer, MessageType::DEVICE_CAPABILITY_DISCOVERY,
+        static_cast<uint8_t>(
+            DeviceCapabilityDiscoveryCommands::GET_EVENT_LOG_RECORD_V2),
+        completionCode, reasonCode);
+    if (rc != 0 ||
+        completionCode != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    uint16_t dataSize = 0;
+    buffer.unpack(dataSize);
+    if (buffer.getError() != 0 ||
+        dataSize < getEventLogRecordV2NextResponseMinDataSize ||
+        buffer.getRemaining().size() < dataSize)
+    {
+        return EINVAL;
+    }
+
+    buffer.unpack(response.nextTransferHandle);
+    buffer.unpack(response.eventHandle);
+    if (buffer.getError() != 0)
+    {
+        return buffer.getError();
+    }
+
+    const size_t eventDataSize =
+        dataSize - getEventLogRecordV2NextResponseMinDataSize;
+    response.eventData = buffer.getRemaining().first(eventDataSize);
+    return 0;
+}
+
+namespace
+{
+
+template <typename T>
+int readCperValue(std::span<const uint8_t> buf, size_t offset, T& value)
+{
+    if (offset > buf.size() || buf.size() - offset < sizeof(T))
+    {
+        return EINVAL;
+    }
+    UnpackBuffer buffer(buf.subspan(offset, sizeof(T)));
+    return buffer.unpack(value);
+}
+
+std::string formatCperGuid(std::span<const uint8_t, 16> guid)
+{
+    return std::format("{:02x}{:02x}{:02x}{:02x}-{:02x}{:02x}-{:02x}{:02x}-"
+                       "{:02x}{:02x}-{:02x}{:02x}{:02x}{:02x}{:02x}{:02x}",
+                       guid[3], guid[2], guid[1], guid[0], guid[5], guid[4],
+                       guid[7], guid[6], guid[8], guid[9], guid[10], guid[11],
+                       guid[12], guid[13], guid[14], guid[15]);
+}
+
+bool decodeBcd(uint8_t value, uint8_t maximum, uint8_t& decoded)
+{
+    const uint8_t high = value >> 4;
+    const uint8_t low = value & 0x0F;
+    if (high > 9 || low > 9)
+    {
+        return false;
+    }
+    decoded = static_cast<uint8_t>(high * 10 + low);
+    return decoded <= maximum;
+}
+
+bool isLeapYear(uint16_t year)
+{
+    return (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
+}
+
+std::optional<std::string> decodeCperTimestamp(
+    std::span<const uint8_t, 8> timestamp)
+{
+    uint8_t second = 0;
+    uint8_t minute = 0;
+    uint8_t hour = 0;
+    uint8_t day = 0;
+    uint8_t month = 0;
+    uint8_t year = 0;
+    uint8_t century = 0;
+    if (!decodeBcd(timestamp[0], 59, second) ||
+        !decodeBcd(timestamp[1], 59, minute) ||
+        !decodeBcd(timestamp[2], 23, hour) ||
+        !decodeBcd(timestamp[4], 31, day) ||
+        !decodeBcd(timestamp[5], 12, month) ||
+        !decodeBcd(timestamp[6], 99, year) ||
+        !decodeBcd(timestamp[7], 99, century) || month == 0 || day == 0)
+    {
+        return std::nullopt;
+    }
+
+    const uint16_t fullYear = static_cast<uint16_t>(century * 100 + year);
+    if (fullYear == 0)
+    {
+        return std::nullopt;
+    }
+
+    constexpr std::array<uint8_t, 12> daysPerMonth{31, 28, 31, 30, 31, 30,
+                                                   31, 31, 30, 31, 30, 31};
+    uint8_t maximumDay = daysPerMonth[month - 1];
+    if (month == 2 && isLeapYear(fullYear))
+    {
+        maximumDay = 29;
+    }
+    if (day > maximumDay)
+    {
+        return std::nullopt;
+    }
+
+    return std::format("{:04}-{:02}-{:02}T{:02}:{:02}:{:02}+00:00", fullYear,
+                       month, day, hour, minute, second);
+}
+
+} // namespace
+
+int decodeCperRecord(std::span<const uint8_t> buf, CperRecordInfo& recordInfo)
+{
+    constexpr size_t headerSize = 128;
+    constexpr size_t descriptorSize = 72;
+    constexpr size_t signatureEndOffset = 6;
+    constexpr size_t sectionCountOffset = 10;
+    constexpr size_t severityOffset = 12;
+    constexpr size_t validationBitsOffset = 16;
+    constexpr size_t recordLengthOffset = 20;
+    constexpr size_t timestampOffset = 24;
+    constexpr size_t notificationTypeOffset = 80;
+    constexpr size_t sectionOffsetOffset = 0;
+    constexpr size_t sectionLengthOffset = 4;
+    constexpr size_t sectionTypeOffset = 16;
+    constexpr uint32_t timestampValid = 1U << 1;
+
+    if (buf.size() < headerSize || buf.size() > maxCperRecordSize ||
+        buf[0] != 'C' || buf[1] != 'P' || buf[2] != 'E' || buf[3] != 'R')
+    {
+        return EINVAL;
+    }
+
+    CperRecordInfo decoded{};
+    uint32_t signatureEnd = 0;
+    uint16_t sectionCount = 0;
+    uint32_t validationBits = 0;
+    uint32_t recordLength = 0;
+    if (readCperValue(buf, signatureEndOffset, signatureEnd) != 0 ||
+        readCperValue(buf, sectionCountOffset, sectionCount) != 0 ||
+        readCperValue(buf, severityOffset, decoded.severity) != 0 ||
+        readCperValue(buf, validationBitsOffset, validationBits) != 0 ||
+        readCperValue(buf, recordLengthOffset, recordLength) != 0 ||
+        signatureEnd != std::numeric_limits<uint32_t>::max() ||
+        sectionCount == 0 || recordLength != buf.size())
+    {
+        return EINVAL;
+    }
+
+    if (sectionCount > (buf.size() - headerSize) / descriptorSize)
+    {
+        return EINVAL;
+    }
+    const size_t descriptorTableEnd =
+        headerSize + static_cast<size_t>(sectionCount) * descriptorSize;
+
+    decoded.notificationType = formatCperGuid(
+        std::span<const uint8_t, 16>(buf.subspan(notificationTypeOffset, 16)));
+
+    if ((validationBits & timestampValid) != 0)
+    {
+        decoded.timestamp = decodeCperTimestamp(
+            std::span<const uint8_t, 8>(buf.subspan(timestampOffset, 8)));
+        decoded.timestampInvalid = !decoded.timestamp.has_value();
+    }
+
+    decoded.sectionTypes.reserve(sectionCount);
+    for (uint16_t index = 0; index < sectionCount; ++index)
+    {
+        const size_t descriptorOffset =
+            headerSize + static_cast<size_t>(index) * descriptorSize;
+        uint32_t sectionOffset = 0;
+        uint32_t sectionLength = 0;
+        if (readCperValue(buf, descriptorOffset + sectionOffsetOffset,
+                          sectionOffset) != 0 ||
+            readCperValue(buf, descriptorOffset + sectionLengthOffset,
+                          sectionLength) != 0 ||
+            sectionLength == 0 || sectionOffset < descriptorTableEnd ||
+            sectionOffset > buf.size() ||
+            sectionLength > buf.size() - sectionOffset)
+        {
+            return EINVAL;
+        }
+
+        decoded.sectionTypes.emplace_back(
+            formatCperGuid(std::span<const uint8_t, 16>(
+                buf.subspan(descriptorOffset + sectionTypeOffset, 16))));
+    }
+
+    recordInfo = std::move(decoded);
     return 0;
 }
 

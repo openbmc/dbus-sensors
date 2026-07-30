@@ -9,12 +9,14 @@
 
 #include <endian.h>
 
+#include <algorithm>
 #include <array>
 #include <bit>
 #include <cerrno>
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
+#include <limits>
 #include <span>
 #include <string>
 #include <string_view>
@@ -4256,6 +4258,291 @@ TEST_F(GpuMctpVdmTests,
         buf, hwViolation, globalSwViolation, powerViolation, thermalViolation);
 
     EXPECT_NE(result, 0);
+}
+
+TEST_F(GpuMctpVdmTests, EncodeGetEventLogRecordV2Request)
+{
+    std::array<uint8_t, gpu::getEventLogRecordV2RequestSize> buf{};
+
+    ASSERT_EQ(gpu::encodeGetEventLogRecordV2Request(
+                  5, gpu::EventLogRecordV2Mode::GET_DATA, 0x1234, 0xABCD, buf),
+              0);
+
+    UnpackBuffer unpacker(buf);
+    ocp::accelerator_management::MessageType messageType{};
+    uint8_t instanceId = 0;
+    uint8_t nvidiaMessageType = 0;
+    ASSERT_EQ(ocp::accelerator_management::unpackHeader(
+                  unpacker, gpu::nvidiaPciVendorId, messageType, instanceId,
+                  nvidiaMessageType),
+              0);
+    EXPECT_EQ(messageType, ocp::accelerator_management::MessageType::REQUEST);
+    EXPECT_EQ(instanceId, 5);
+    EXPECT_EQ(
+        nvidiaMessageType,
+        static_cast<uint8_t>(gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY));
+
+    uint8_t command = 0;
+    uint8_t dataSize = 0;
+    uint8_t mode = 0;
+    uint16_t eventHandle = 0;
+    uint16_t transferHandle = 0;
+    unpacker.unpack(command);
+    unpacker.unpack(dataSize);
+    unpacker.unpack(mode);
+    unpacker.unpack(eventHandle);
+    unpacker.unpack(transferHandle);
+    ASSERT_EQ(unpacker.getError(), 0);
+    EXPECT_EQ(
+        command,
+        static_cast<uint8_t>(
+            gpu::DeviceCapabilityDiscoveryCommands::GET_EVENT_LOG_RECORD_V2));
+    EXPECT_EQ(dataSize, 5);
+    EXPECT_EQ(mode, static_cast<uint8_t>(gpu::EventLogRecordV2Mode::GET_DATA));
+    EXPECT_EQ(eventHandle, 0x1234);
+    EXPECT_EQ(transferHandle, 0xABCD);
+
+    ASSERT_EQ(gpu::encodeGetEventLogRecordV2Request(
+                  5, gpu::EventLogRecordV2Mode::ACKNOWLEDGEMENT, 0x5678, 0,
+                  buf),
+              0);
+    EXPECT_EQ(buf[7],
+              static_cast<uint8_t>(gpu::EventLogRecordV2Mode::ACKNOWLEDGEMENT));
+    EXPECT_EQ(buf[8], 0x78);
+    EXPECT_EQ(buf[9], 0x56);
+    EXPECT_EQ(buf[10], 0);
+    EXPECT_EQ(buf[11], 0);
+}
+
+TEST_F(GpuMctpVdmTests, EncodeGetEventLogRecordV2RequestRejectsInvalidFields)
+{
+    std::array<uint8_t, gpu::getEventLogRecordV2RequestSize> buf{};
+
+    EXPECT_EQ(gpu::encodeGetEventLogRecordV2Request(
+                  0, gpu::EventLogRecordV2Mode::ACKNOWLEDGEMENT, 1, 1, buf),
+              EINVAL);
+    EXPECT_EQ(gpu::encodeGetEventLogRecordV2Request(
+                  0, gpu::EventLogRecordV2Mode::GET_DATA,
+                  std::numeric_limits<uint16_t>::max(), 0, buf),
+              EINVAL);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetEventLogRecordV2FirstResponse)
+{
+    constexpr std::array<uint8_t, 4> eventData{0xDE, 0xAD, 0xBE, 0xEF};
+    std::array<uint8_t, ocp::accelerator_management::commonResponseSize +
+                            gpu::getEventLogRecordV2FirstResponseMinDataSize +
+                            eventData.size()>
+        buf{};
+    PackBuffer packer(buf);
+    ASSERT_EQ(ocp::accelerator_management::packHeader(
+                  packer, gpu::nvidiaPciVendorId,
+                  ocp::accelerator_management::MessageType::RESPONSE, 3,
+                  static_cast<uint8_t>(
+                      gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY)),
+              0);
+    packer.pack(static_cast<uint8_t>(
+        gpu::DeviceCapabilityDiscoveryCommands::GET_EVENT_LOG_RECORD_V2));
+    packer.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));
+    packer.pack(uint16_t{0});
+    packer.pack(static_cast<uint16_t>(
+        gpu::getEventLogRecordV2FirstResponseMinDataSize + eventData.size()));
+    packer.pack(uint16_t{0x1111});
+    packer.pack(uint16_t{0x2222});
+    packer.pack(static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    packer.pack(uint8_t{1});
+    packer.pack(static_cast<uint8_t>(gpu::PlatformEnvironmentalEvent::CPER));
+    packer.pack(static_cast<uint8_t>(gpu::EventClass::POLLED));
+    packer.pack(uint16_t{0x3333});
+    for (const uint8_t byte : eventData)
+    {
+        packer.pack(byte);
+    }
+    ASSERT_EQ(packer.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode = 0;
+    gpu::EventLogRecordV2FirstResponse decoded{};
+    ASSERT_EQ(gpu::decodeGetEventLogRecordV2FirstResponse(buf, cc, reasonCode,
+                                                          decoded),
+              0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+    EXPECT_TRUE(decoded.hasEventRecord);
+    EXPECT_EQ(decoded.nextTransferHandle, 0x1111);
+    EXPECT_EQ(decoded.eventHandle, 0x2222);
+    EXPECT_EQ(decoded.nvidiaMessageType,
+              static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    EXPECT_EQ(decoded.eventVersion, 1);
+    EXPECT_EQ(decoded.eventId,
+              static_cast<uint8_t>(gpu::PlatformEnvironmentalEvent::CPER));
+    EXPECT_EQ(decoded.eventClass,
+              static_cast<uint8_t>(gpu::EventClass::POLLED));
+    EXPECT_EQ(decoded.eventState, 0x3333);
+    EXPECT_TRUE(std::ranges::equal(decoded.eventData, eventData));
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetEventLogRecordV2EmptyResponse)
+{
+    std::array<uint8_t, ocp::accelerator_management::commonResponseSize +
+                            gpu::getEventLogRecordV2NextResponseMinDataSize>
+        buf{};
+    PackBuffer packer(buf);
+    ASSERT_EQ(ocp::accelerator_management::packHeader(
+                  packer, gpu::nvidiaPciVendorId,
+                  ocp::accelerator_management::MessageType::RESPONSE, 0,
+                  static_cast<uint8_t>(
+                      gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY)),
+              0);
+    packer.pack(static_cast<uint8_t>(
+        gpu::DeviceCapabilityDiscoveryCommands::GET_EVENT_LOG_RECORD_V2));
+    packer.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));
+    packer.pack(uint16_t{0});
+    packer.pack(
+        static_cast<uint16_t>(gpu::getEventLogRecordV2NextResponseMinDataSize));
+    packer.pack(uint16_t{0});
+    packer.pack(std::numeric_limits<uint16_t>::max());
+    ASSERT_EQ(packer.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode = 0;
+    gpu::EventLogRecordV2FirstResponse decoded{};
+    ASSERT_EQ(gpu::decodeGetEventLogRecordV2FirstResponse(buf, cc, reasonCode,
+                                                          decoded),
+              0);
+    EXPECT_FALSE(decoded.hasEventRecord);
+    EXPECT_EQ(decoded.nextTransferHandle, 0);
+    EXPECT_EQ(decoded.eventHandle, std::numeric_limits<uint16_t>::max());
+    EXPECT_TRUE(decoded.eventData.empty());
+
+    buf[11] = 1;
+    EXPECT_EQ(gpu::decodeGetEventLogRecordV2FirstResponse(buf, cc, reasonCode,
+                                                          decoded),
+              EINVAL);
+}
+
+TEST_F(GpuMctpVdmTests, GetEventLogRecordV2FirstResponseChecksWireLength)
+{
+    constexpr std::array<uint8_t, 2> eventData{1, 2};
+    std::array<uint8_t, ocp::accelerator_management::commonResponseSize +
+                            gpu::getEventLogRecordV2FirstResponseMinDataSize +
+                            eventData.size()>
+        buf{};
+    PackBuffer packer(buf);
+    ASSERT_EQ(ocp::accelerator_management::packHeader(
+                  packer, gpu::nvidiaPciVendorId,
+                  ocp::accelerator_management::MessageType::RESPONSE, 0,
+                  static_cast<uint8_t>(
+                      gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY)),
+              0);
+    packer.pack(static_cast<uint8_t>(
+        gpu::DeviceCapabilityDiscoveryCommands::GET_EVENT_LOG_RECORD_V2));
+    packer.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));
+    packer.pack(uint16_t{0});
+    packer.pack(static_cast<uint16_t>(
+        gpu::getEventLogRecordV2FirstResponseMinDataSize + eventData.size()));
+    packer.pack(uint16_t{0});
+    packer.pack(uint16_t{1});
+    packer.pack(static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    packer.pack(uint8_t{1});
+    packer.pack(static_cast<uint8_t>(gpu::PlatformEnvironmentalEvent::CPER));
+    packer.pack(static_cast<uint8_t>(gpu::EventClass::POLLED));
+    packer.pack(uint16_t{0});
+    packer.pack(eventData[0]);
+    packer.pack(eventData[1]);
+    ASSERT_EQ(packer.getError(), 0);
+
+    // data_size starts after the response header, command, CC and reserved.
+    buf[9] = 0xFF;
+    buf[10] = 0x00;
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode = 0;
+    gpu::EventLogRecordV2FirstResponse decoded{};
+    EXPECT_EQ(gpu::decodeGetEventLogRecordV2FirstResponse(buf, cc, reasonCode,
+                                                          decoded),
+              EINVAL);
+
+    buf[9] = static_cast<uint8_t>(
+        gpu::getEventLogRecordV2FirstResponseMinDataSize + eventData.size());
+    buf[10] = 0;
+    buf[13] = 0xFF;
+    buf[14] = 0xFF;
+    EXPECT_EQ(gpu::decodeGetEventLogRecordV2FirstResponse(buf, cc, reasonCode,
+                                                          decoded),
+              EINVAL);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetEventLogRecordV2NextResponse)
+{
+    constexpr std::array<uint8_t, 3> eventData{0x10, 0x20, 0x30};
+    std::array<uint8_t, ocp::accelerator_management::commonResponseSize +
+                            gpu::getEventLogRecordV2NextResponseMinDataSize +
+                            eventData.size()>
+        buf{};
+    PackBuffer packer(buf);
+    ASSERT_EQ(ocp::accelerator_management::packHeader(
+                  packer, gpu::nvidiaPciVendorId,
+                  ocp::accelerator_management::MessageType::RESPONSE, 2,
+                  static_cast<uint8_t>(
+                      gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY)),
+              0);
+    packer.pack(static_cast<uint8_t>(
+        gpu::DeviceCapabilityDiscoveryCommands::GET_EVENT_LOG_RECORD_V2));
+    packer.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));
+    packer.pack(uint16_t{0});
+    packer.pack(static_cast<uint16_t>(
+        gpu::getEventLogRecordV2NextResponseMinDataSize + eventData.size()));
+    packer.pack(uint16_t{0x4444});
+    packer.pack(uint16_t{0x5555});
+    for (const uint8_t byte : eventData)
+    {
+        packer.pack(byte);
+    }
+    ASSERT_EQ(packer.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode = 0;
+    gpu::EventLogRecordV2NextResponse decoded{};
+    ASSERT_EQ(gpu::decodeGetEventLogRecordV2NextResponse(buf, cc, reasonCode,
+                                                         decoded),
+              0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(decoded.nextTransferHandle, 0x4444);
+    EXPECT_EQ(decoded.eventHandle, 0x5555);
+    EXPECT_TRUE(std::ranges::equal(decoded.eventData, eventData));
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetEventLogRecordV2ErrorResponse)
+{
+    std::array<uint8_t, ocp::accelerator_management::messageHeaderSize + 4>
+        buf{};
+    PackBuffer packer(buf);
+    ASSERT_EQ(ocp::accelerator_management::packHeader(
+                  packer, gpu::nvidiaPciVendorId,
+                  ocp::accelerator_management::MessageType::RESPONSE, 0,
+                  static_cast<uint8_t>(
+                      gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY)),
+              0);
+    packer.pack(static_cast<uint8_t>(
+        gpu::DeviceCapabilityDiscoveryCommands::GET_EVENT_LOG_RECORD_V2));
+    packer.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERROR));
+    packer.pack(uint16_t{0x1234});
+    ASSERT_EQ(packer.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode = 0;
+    gpu::EventLogRecordV2NextResponse decoded{};
+    EXPECT_EQ(gpu::decodeGetEventLogRecordV2NextResponse(buf, cc, reasonCode,
+                                                         decoded),
+              0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERROR);
+    EXPECT_EQ(reasonCode, 0x1234);
+    EXPECT_TRUE(decoded.eventData.empty());
 }
 
 } // namespace gpu_mctp_tests

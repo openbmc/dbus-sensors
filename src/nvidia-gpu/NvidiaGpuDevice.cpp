@@ -15,6 +15,7 @@
 #include <NvidiaEventReporting.hpp>
 #include <NvidiaGpuClockFrequencyMetric.hpp>
 #include <NvidiaGpuClockSpeedControl.hpp>
+#include <NvidiaGpuCper.hpp>
 #include <NvidiaGpuEnergySensor.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
 #include <NvidiaGpuMemoryClockFrequency.hpp>
@@ -224,6 +225,8 @@ void GpuDevice::makeSensors()
     longRunningHandler = std::make_shared<NvidiaLongRunningResponseHandler>(io);
 
     xidEventHandler = std::make_shared<NvidiaXidEventHandler>(name, conn);
+    cperEventHandler =
+        std::make_shared<NvidiaCperEventHandler>(eid, io, mctpRequester, conn);
 
     eventReporting = std::make_shared<NvidiaEventReportingConfig>(
         eid, mctpRequester,
@@ -236,7 +239,11 @@ void GpuDevice::makeSensors()
             {gpu::MessageType::PLATFORM_ENVIRONMENTAL,
              static_cast<uint8_t>(gpu::PlatformEnvironmentalEvent::XID),
              std::bind_front(&NvidiaXidEventHandler::handleXidEvent,
-                             xidEventHandler)}});
+                             xidEventHandler)},
+            {gpu::MessageType::PLATFORM_ENVIRONMENTAL,
+             static_cast<uint8_t>(gpu::PlatformEnvironmentalEvent::CPER),
+             std::bind_front(&NvidiaCperEventHandler::handleCperEvent,
+                             cperEventHandler)}});
 
     utilizationMetrics = std::make_shared<NvidiaGpuUtilizationMetrics>(
         mctpRequester, objectServer, name, eid, longRunningQueue,
