@@ -33,6 +33,24 @@
       "message": "The new limit appears higher than the currently estimated requirement. Is there a reason for choosing this value instead of a limit closer to the calculated maximum usage?",
       "revId": "397183bcbd0dda92a89084acfae5cf814c7e16fb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36ba9917_fab7987e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002532
+      },
+      "writtenOn": "2026-07-31T16:14:15Z",
+      "side": 1,
+      "message": "I chose 8192 mainly to leave some buffer for future growth. Since I do not have much experience sizing this type of limit, I intentionally selected a value that would be unlikely to become a constraint.\n\nThat said, I do not have a strong preference for 8192 specifically. If there is a more appropriate value based on our expected usage or existing guidelines, I would be happy to update it. Do you have a recommendation?",
+      "parentUuid": "ee87f1de_45522bc2",
+      "revId": "397183bcbd0dda92a89084acfae5cf814c7e16fb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
