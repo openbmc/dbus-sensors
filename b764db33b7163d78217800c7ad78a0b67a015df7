@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7810ff3_c1d64f6c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-07-31T07:26:33Z",
+      "side": 1,
+      "message": "Requesting a brief Tested section in the commit message for the new probe-gated initialization paths and no-sensor stop behavior.",
+      "revId": "b764db33b7163d78217800c7ad78a0b67a015df7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fa079f7_fa6fb854",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-07-31T07:26:33Z",
+      "side": 1,
+      "message": "Can we add logging for the non-success temperature probe path (transport error, decode rc, completion code, reason code)? Right now, only the success path is explicit, which makes field diagnosis harder.",
+      "revId": "b764db33b7163d78217800c7ad78a0b67a015df7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7462f2b_72d13fe4",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-07-31T07:26:33Z",
+      "side": 1,
+      "message": "Could we avoid calling self-\u003eread () in this encode-failure branch? If temp probing did not instantiate a sensor, this path can still start the poll timer with zero sensors and bypass the later no-sensor stop guard. Suggest calling self-\u003eread () only when at least one sensor object exists; otherwise return and stop polling.",
+      "revId": "b764db33b7163d78217800c7ad78a0b67a015df7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "304e39b6_9223e80b",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-07-31T07:26:33Z",
+      "side": 1,
+      "message": "Can we add similar diagnostics for leak probe failures (ec2, decode rc, completion code, reason code), so unsupported-command behavior is distinguishable from transport/parsing failures?",
+      "revId": "b764db33b7163d78217800c7ad78a0b67a015df7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
