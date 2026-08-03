@@ -6,6 +6,8 @@
 #include <sdbusplus/message/native_types.hpp>
 #include <xyz/openbmc_project/State/Valve/event.hpp>
 
+#include <exception>
+
 namespace valve
 {
 
@@ -53,9 +55,19 @@ auto Events::handleValveSetPointWarning(
     else if (!asserted && currentlyAsserted)
     {
         // Warning cleared — resolve the pending event
-        co_await lg2::resolve(ctx, pendingEvents[valvePath.str]);
+        const auto eventPath = pendingEvents.at(valvePath.str);
+        try
+        {
+            co_await lg2::resolve(ctx, eventPath);
+            debug("Valve set point warning resolved for {PATH}", "PATH",
+                  valvePath);
+        }
+        catch (const std::exception& e)
+        {
+            error("Unable to resolve valve event {LOG}: {ERROR}", "LOG",
+                  eventPath, "ERROR", e.what());
+        }
         pendingEvents.erase(valvePath.str);
-        debug("Valve set point warning resolved for {PATH}", "PATH", valvePath);
     }
 }
 
