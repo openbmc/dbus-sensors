@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "28acba5e_eb36dce5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-08-04T12:11:42Z",
+      "side": 1,
+      "message": "Thanks for the suggestion. I wasn\u0027t able to trigger an actual NVLink port\nhealth event on the device to validate the decode end to end — using Set\nPort Health Thresholds (0x07) to lower a threshold and get a real event to\nfire wasn\u0027t something I could reliably reproduce on the available hardware.\n\nFor now the decode is covered by unit-test vectors that match the documented\non-wire event payload (portNumber + reserved + 32-bit threshold bitmap).\n\nI\u0027d like to track the on-device, 0x07-triggered validation as a follow-up\nsurvey item rather than block this change on it.",
+      "parentUuid": "216a50f0_16a04dc9",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 9
+      },
+      "revId": "01b0a7b9ed6dd0e1d11e74111d4ecc45b5c1fdb7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "92ca9bed_3a2021a0",
@@ -47,6 +71,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "02bc4abb_fed51cfe",
+        "filename": "src/nvidia-gpu/NvidiaGpuNvlinkPortHealth.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-08-04T12:11:42Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "92ca9bed_3a2021a0",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 5
+      },
+      "revId": "01b0a7b9ed6dd0e1d11e74111d4ecc45b5c1fdb7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "723ccf23_bed0b5cf",
@@ -60,6 +108,30 @@
       "writtenOn": "2026-07-28T03:42:13Z",
       "side": 1,
       "message": "nit: could this go in a namespace rather than global scope?\nnot block",
+      "range": {
+        "startLine": 41,
+        "startChar": 12,
+        "endLine": 41,
+        "endChar": 41
+      },
+      "revId": "01b0a7b9ed6dd0e1d11e74111d4ecc45b5c1fdb7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c6f3961_c0747ffe",
+        "filename": "src/nvidia-gpu/NvidiaGpuNvlinkPortHealth.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-08-04T12:11:42Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "723ccf23_bed0b5cf",
       "range": {
         "startLine": 41,
         "startChar": 12,
