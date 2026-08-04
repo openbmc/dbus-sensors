@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c5b038a_a708b85a",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-08-04T07:54:38Z",
+      "side": 1,
+      "message": "Done. Extracted a static bool matchesSensorIndex(const SensorBaseConfigMap\u0026, int) helper that encapsulates the index-match logic (including the \"skip when zero\" and \"missing Index is OK for index 1\" special cases). Both parseThresholdsFromConfig and persistThreshold now delegate to it, so the two stay in sync automatically.",
+      "parentUuid": "624b2061_508656a0",
+      "revId": "2859e4aa94c0900475e68172666e52a6b475446c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2f2d8ec0_defdcfde",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea6dacf6_7bea02c9",
+        "filename": "src/hwmon-temp/HwmonTempSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-08-04T07:54:38Z",
+      "side": 1,
+      "message": "Done. Swapped thresholdIndex and thresholdSize in the setInitialProperties signature so thresholdIndex is now the third parameter. The call site drops the 0 placeholder and reads setInitialProperties(units, \"\", thresholdIndex). PSUSensor updated to pass 0 explicitly for the index slot.",
+      "parentUuid": "2f2d8ec0_defdcfde",
+      "revId": "2859e4aa94c0900475e68172666e52a6b475446c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2eff52ec_5f5235d4",
@@ -48,6 +84,24 @@
       "writtenOn": "2026-08-02T01:00:46Z",
       "side": 1,
       "message": "The last two arguments look swapped — persistThreshold() takes (conn, thresholdCount, label, sensorIndex), so thresholdIndex goes into thresholdCount. int/size_t convert implicitly so it builds clean, but sensors that don\u0027t pass an index (PSU, ADC, fan, NVMe) get 0 and the loop never runs.",
+      "revId": "2859e4aa94c0900475e68172666e52a6b475446c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "648a3b17_47641858",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-08-04T07:54:38Z",
+      "side": 1,
+      "message": "Done. The arguments were indeed swapped — thresSize now maps to thresholdCount and thresholdIndex to sensorIndex, matching the persistThreshold signature. This fixes the bug where sensors without an explicit index (PSU, ADC, fan, NVMe) passed 0 as thresholdCount, causing the loop to never execute.",
+      "parentUuid": "2eff52ec_5f5235d4",
       "revId": "2859e4aa94c0900475e68172666e52a6b475446c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
