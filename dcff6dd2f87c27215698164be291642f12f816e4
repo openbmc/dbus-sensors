@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ad25c47_5a4d5c0e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-08-04T06:46:56Z",
+      "side": 1,
+      "message": "Could you add a Tested section with the validation steps and results (for example mixed PowerState sensors on the same device path, power-state transitions and confirmation that psusensor no longer crashes/restarts during re-instantiation scenarios)?",
+      "revId": "dcff6dd2f87c27215698164be291642f12f816e4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "522e5f70_29831258",
+        "filename": "src/DeviceMgmt.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-08-04T06:46:56Z",
+      "side": 1,
+      "message": "The intent is correct, but this continue only advances the inner sensor loop. Could we make the all-sensors-inactive decision explicit (for example with a hasActiveSensorForPath flag) and decide re-instantiation after the loop? That would improve readability and reduce regression risk.",
+      "revId": "dcff6dd2f87c27215698164be291642f12f816e4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
