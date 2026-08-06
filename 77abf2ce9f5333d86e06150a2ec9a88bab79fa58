@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b113fc7_75da01c8",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-08-06T09:16:14Z",
+      "side": 1,
+      "message": "nit: Could we consider a type alias for the repeated HostStatusCallback signature to reduce repetition?",
+      "revId": "77abf2ce9f5333d86e06150a2ec9a88bab79fa58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55659c69_2edf4989",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-08-06T09:16:14Z",
+      "side": 1,
+      "message": "nit: value is not modified after initialization. Consider using const auto\u0026 to express immutability and prevent accidental modification.",
+      "revId": "77abf2ce9f5333d86e06150a2ec9a88bab79fa58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
