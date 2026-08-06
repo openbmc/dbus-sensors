@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53db95d3_0bcee5ce",
+        "filename": "src/nvidia-gpu/NvidiaNVLinkPort.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-08-06T11:16:59Z",
+      "side": 1,
+      "message": "Put this value inline.",
+      "revId": "d8c8f3dcaa77fb9228745da88875a61e0aafe4c7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "226e8ff8_ef76ac7f",
+        "filename": "src/nvidia-gpu/NvidiaNVLinkPort.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-08-06T11:16:59Z",
+      "side": 1,
+      "message": "Make this switch statement assign to `const char*` and at the end of the function append it to prefix and return the value.",
+      "revId": "d8c8f3dcaa77fb9228745da88875a61e0aafe4c7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b5ddea5_7c007a34",
+        "filename": "src/nvidia-gpu/NvidiaNVLinkPort.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-08-06T11:16:59Z",
+      "side": 1,
+      "message": "Same comment as function above.",
+      "revId": "d8c8f3dcaa77fb9228745da88875a61e0aafe4c7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fded8ac_ba5cdc6f",
+        "filename": "src/nvidia-gpu/NvidiaNVLinkPort.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-08-06T11:16:59Z",
+      "side": 1,
+      "message": "We should call this from update instead.",
+      "revId": "d8c8f3dcaa77fb9228745da88875a61e0aafe4c7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af039f8d_36da59c4",
+        "filename": "src/nvidia-gpu/NvidiaNVLinkPort.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-08-06T11:16:59Z",
+      "side": 1,
+      "message": "Add a comment about unit conversion.",
+      "revId": "d8c8f3dcaa77fb9228745da88875a61e0aafe4c7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14d70f92_99b273e3",
+        "filename": "src/nvidia-gpu/NvidiaNVLinkPort.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-08-06T11:16:59Z",
+      "side": 1,
+      "message": "Add a comment about unit conversion.",
+      "revId": "d8c8f3dcaa77fb9228745da88875a61e0aafe4c7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90a793ea_5d0d3d20",
+        "filename": "src/nvidia-gpu/NvidiaNVLinkPort.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-08-06T11:16:59Z",
+      "side": 1,
+      "message": "Use Nvidia MCTP VDM to define the Protocol.",
+      "revId": "d8c8f3dcaa77fb9228745da88875a61e0aafe4c7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0723e114_6304f05a",
+        "filename": "src/nvidia-gpu/NvidiaNVLinkPort.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-08-06T11:16:59Z",
+      "side": 1,
+      "message": "Follow same pattern as other files, make this std::array and have a flag to check if the request is encoded correctly.",
+      "revId": "d8c8f3dcaa77fb9228745da88875a61e0aafe4c7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
