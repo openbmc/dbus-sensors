@@ -5,8 +5,8 @@
 
 #include "MctpMockTestBase.hpp"
 #include "MockMctpRequester.hpp"
-#include "NvidiaDeviceDiscovery.hpp"
 #include "NvidiaPcieDevice.hpp"
+#include "NvidiaSensorConfig.hpp"
 #include "TestUtils.hpp"
 
 #include <cstdint>
