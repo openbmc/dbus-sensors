@@ -56,6 +56,24 @@
       "message": "Why do we need to set a timer? Can we directly send the request to the endpoint? If there is an already in-flight set, let\u0027s report an error to bmcweb for it.",
       "revId": "1abf7677839a2a86ab4ac00305a00a034f1c69b1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2c96d73_910546dc",
+        "filename": "src/nvidia-gpu/NvidiaGpuEccMode.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-06T08:54:48Z",
+      "side": 1,
+      "message": "My original idea was to ask Eric to follow the approach described at https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/90189, but I thought adding the timer was indeed for aggregation and in-flight handle.\nBut there is indeed no need for aggregation here. Sorry, please remove the timer.",
+      "parentUuid": "cc3e16c4_7aa63a21",
+      "revId": "1abf7677839a2a86ab4ac00305a00a034f1c69b1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
