@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c82c2c9_42b16cd0",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-08-06T11:28:17Z",
+      "side": 1,
+      "message": "Can we call reserve before start emplacing similar to `nvLinkPorts`?",
+      "revId": "19a5f56cb4c13a8891e7d63758e2d6d9186ab2db",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de655303_2f3d27d7",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-08-06T11:28:17Z",
+      "side": 1,
+      "message": "Better place to put his info is inside definition of function directly next to the decode logic.",
+      "revId": "19a5f56cb4c13a8891e7d63758e2d6d9186ab2db",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7393aad9_b3a0fa62",
+        "filename": "src/nvidia-gpu/NvidiaNVLinkPortMetrics.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-08-06T11:28:17Z",
+      "side": 1,
+      "message": "Put this value directly inline.",
+      "revId": "19a5f56cb4c13a8891e7d63758e2d6d9186ab2db",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5cb584c_ca19ede6",
+        "filename": "src/nvidia-gpu/NvidiaNVLinkPortMetrics.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-08-06T11:28:17Z",
+      "side": 1,
+      "message": "Let\u0027s create all the metrics statically for now.",
+      "revId": "19a5f56cb4c13a8891e7d63758e2d6d9186ab2db",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ead03d0_96a9b27b",
+        "filename": "src/nvidia-gpu/NvidiaNVLinkPortMetrics.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-08-06T11:28:17Z",
+      "side": 1,
+      "message": "To manage Metrics value, D-Bus interfaces, and associations, can we follow same pattern as PCIe Port Metrics through out this file?",
+      "revId": "19a5f56cb4c13a8891e7d63758e2d6d9186ab2db",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
