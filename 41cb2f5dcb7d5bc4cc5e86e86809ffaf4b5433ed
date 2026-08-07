@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aceec3d3_2e3876fe",
+        "filename": "src/nvidia-gpu/NvidiaGpuResetRequired.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-08-07T04:58:33Z",
+      "side": 1,
+      "message": "can we omit the name entirely?",
+      "range": {
+        "startLine": 38,
+        "startChar": 63,
+        "endLine": 38,
+        "endChar": 78
+      },
+      "revId": "41cb2f5dcb7d5bc4cc5e86e86809ffaf4b5433ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02d51af7_0906df16",
+        "filename": "src/nvidia-gpu/NvidiaGpuResetRequired.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-08-07T04:58:33Z",
+      "side": 1,
+      "message": "can we omit the name entirely?",
+      "range": {
+        "startLine": 38,
+        "startChar": 21,
+        "endLine": 38,
+        "endChar": 36
+      },
+      "revId": "41cb2f5dcb7d5bc4cc5e86e86809ffaf4b5433ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "833f558f_9b73ea86",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-08-07T04:58:33Z",
+      "side": 1,
+      "message": "Is this adding additional assertions that is not already covered by existing test cases? If yes we should directly update the existing test cases.",
+      "revId": "41cb2f5dcb7d5bc4cc5e86e86809ffaf4b5433ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
