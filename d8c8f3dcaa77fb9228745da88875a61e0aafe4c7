@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2d5c661_a85fd1e5",
+        "filename": "src/nvidia-gpu/NvidiaNVLinkPort.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-07T10:05:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53db95d3_0bcee5ce",
+      "revId": "d8c8f3dcaa77fb9228745da88875a61e0aafe4c7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "226e8ff8_ef76ac7f",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-08-06T11:16:59Z",
       "side": 1,
       "message": "Make this switch statement assign to `const char*` and at the end of the function append it to prefix and return the value.",
+      "revId": "d8c8f3dcaa77fb9228745da88875a61e0aafe4c7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f0c302b_5a42e7e3",
+        "filename": "src/nvidia-gpu/NvidiaNVLinkPort.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-07T10:05:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "226e8ff8_ef76ac7f",
       "revId": "d8c8f3dcaa77fb9228745da88875a61e0aafe4c7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -52,6 +88,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e54f380d_a6ca01ce",
+        "filename": "src/nvidia-gpu/NvidiaNVLinkPort.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-07T10:05:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b5ddea5_7c007a34",
+      "revId": "d8c8f3dcaa77fb9228745da88875a61e0aafe4c7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4fded8ac_ba5cdc6f",
@@ -65,6 +119,24 @@
       "writtenOn": "2026-08-06T11:16:59Z",
       "side": 1,
       "message": "We should call this from update instead.",
+      "revId": "d8c8f3dcaa77fb9228745da88875a61e0aafe4c7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c89fb73c_f1bdd224",
+        "filename": "src/nvidia-gpu/NvidiaNVLinkPort.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-07T10:05:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4fded8ac_ba5cdc6f",
       "revId": "d8c8f3dcaa77fb9228745da88875a61e0aafe4c7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -86,6 +158,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d195e44c_91a3bd45",
+        "filename": "src/nvidia-gpu/NvidiaNVLinkPort.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-07T10:05:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af039f8d_36da59c4",
+      "revId": "d8c8f3dcaa77fb9228745da88875a61e0aafe4c7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14d70f92_99b273e3",
@@ -99,6 +189,24 @@
       "writtenOn": "2026-08-06T11:16:59Z",
       "side": 1,
       "message": "Add a comment about unit conversion.",
+      "revId": "d8c8f3dcaa77fb9228745da88875a61e0aafe4c7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afc044e0_df8f2213",
+        "filename": "src/nvidia-gpu/NvidiaNVLinkPort.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-07T10:05:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14d70f92_99b273e3",
       "revId": "d8c8f3dcaa77fb9228745da88875a61e0aafe4c7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -120,6 +228,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "673a6f0b_fa1418eb",
+        "filename": "src/nvidia-gpu/NvidiaNVLinkPort.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-07T10:05:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90a793ea_5d0d3d20",
+      "revId": "d8c8f3dcaa77fb9228745da88875a61e0aafe4c7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0723e114_6304f05a",
@@ -133,6 +259,24 @@
       "writtenOn": "2026-08-06T11:16:59Z",
       "side": 1,
       "message": "Follow same pattern as other files, make this std::array and have a flag to check if the request is encoded correctly.",
+      "revId": "d8c8f3dcaa77fb9228745da88875a61e0aafe4c7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29b627de_335ce8ff",
+        "filename": "src/nvidia-gpu/NvidiaNVLinkPort.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-07T10:05:02Z",
+      "side": 1,
+      "message": "Done, I thought CX will use this too.",
+      "parentUuid": "0723e114_6304f05a",
       "revId": "d8c8f3dcaa77fb9228745da88875a61e0aafe4c7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
