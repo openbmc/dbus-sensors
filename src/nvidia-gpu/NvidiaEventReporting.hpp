@@ -81,6 +81,12 @@ class NvidiaEventHandler
         eventHandlers[EventKey{eid, messageType, eventCode}] = handler;
     }
 
+    static void unregisterEventHandler(
+        uint8_t eid, gpu::MessageType messageType, uint8_t eventCode)
+    {
+        eventHandlers.erase(EventKey{eid, messageType, eventCode});
+    }
+
   private:
     // Key is a tuple of (eid, messageType, eventCode)
     using EventKey = std::tuple<uint8_t, gpu::MessageType, uint8_t>;

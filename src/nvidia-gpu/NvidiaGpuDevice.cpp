@@ -10,6 +10,7 @@
 
 #include <Inventory.hpp>
 #include <MctpRequester.hpp>
+#include <NvidiaCapabilityQuery.hpp>
 #include <NvidiaDriverInformation.hpp>
 #include <NvidiaEventReporting.hpp>
 #include <NvidiaGpuClockFrequencyMetric.hpp>
@@ -167,6 +168,30 @@ void GpuDevice::init()
     eventReporting->init(caps);
 }
 
+void GpuDevice::requeryCapabilities()
+{
+    lg2::info("Rediscovery event received for GPU EID {EID}", "EID", eid);
+
+    auto query = std::make_shared<CapabilityQuery>(
+        eid, mctpRequester,
+        [weak{weak_from_this()}](const gpu::DeviceCapabilities& newCaps) {
+            std::shared_ptr<GpuDevice> self = weak.lock();
+            if (!self)
+            {
+                return;
+            }
+            if (!newCaps.queried)
+            {
+                lg2::error("Capability re-query failed for GPU EID {EID}; "
+                           "keeping the previous capabilities",
+                           "EID", self->eid);
+                return;
+            }
+            self->setCapabilities(newCaps);
+        });
+    query->start();
+}
+
 void GpuDevice::makeSensors()
 {
     tempSensor = std::make_shared<NvidiaGpuTempSensor>(
@@ -212,6 +237,18 @@ void GpuDevice::makeSensors()
     eventReporting = std::make_shared<NvidiaEventReportingConfig>(
         eid, mctpRequester,
         std::initializer_list<EventDescriptor>{
+            {gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY,
+             static_cast<uint8_t>(
+                 gpu::DeviceCapabilityDiscoveryEvents::REDISCOVERY),
+             [weak{weak_from_this()}](const EventInfo&,
+                                      std::span<const uint8_t>) {
+                 std::shared_ptr<GpuDevice> self = weak.lock();
+                 if (!self)
+                 {
+                     return;
+                 }
+                 self->requeryCapabilities();
+             }},
             {gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY,
              static_cast<uint8_t>(
                  gpu::DeviceCapabilityDiscoveryEvents::LONG_RUNNING_RESPONSE),
