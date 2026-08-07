@@ -4,6 +4,7 @@
  */
 
 #include "MessagePackUnpackUtils.hpp"
+#include "NvidiaEventReporting.hpp"
 #include "NvidiaGpuMctpVdm.hpp"
 #include "OcpMctpVdm.hpp"
 
@@ -759,6 +760,83 @@ TEST_F(GpuMctpVdmTests, DeviceCapabilitiesTypedOverloadIsMessageTypeScoped)
         gpu::PlatformEnvironmentalCommands::GET_TEMPERATURE_READING));
     EXPECT_FALSE(
         caps.supports(gpu::PcieLinkCommands::QueryScalarGroupTelemetryV1));
+}
+
+static std::vector<uint8_t> makeCapabilityDiscoveryEvent(
+    uint8_t eventCode, bool ackRequired, uint8_t version)
+{
+    std::vector<uint8_t> buf(ocp::accelerator_management::eventHeaderSize);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::REQUEST, 0,
+        static_cast<uint8_t>(gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY));
+    const uint8_t versionByte =
+        (ackRequired ? ocp::accelerator_management::eventAckRequiredBitMask
+                     : 0) |
+        (version & ocp::accelerator_management::eventVersionBitMask);
+    pbuf.pack(versionByte);              // ack-required bit + version
+    pbuf.pack(eventCode);                // event id
+    pbuf.pack(static_cast<uint8_t>(0));  // event class
+    pbuf.pack(static_cast<uint16_t>(0)); // event state
+    pbuf.pack(static_cast<uint8_t>(0));  // size: no trailing event data
+    return buf;
+}
+
+TEST_F(GpuMctpVdmTests, RediscoveryEventDispatchInvokesHandler)
+{
+    constexpr uint8_t testEid = 0x42;
+    bool handlerCalled = false;
+    EventInfo capturedInfo{};
+
+    NvidiaEventHandler::registerEventHandler(
+        testEid, gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY,
+        static_cast<uint8_t>(gpu::DeviceCapabilityDiscoveryEvents::REDISCOVERY),
+        [&handlerCalled,
+         &capturedInfo](const EventInfo& info, std::span<const uint8_t>) {
+            handlerCalled = true;
+            capturedInfo = info;
+        });
+
+    const std::vector<uint8_t> buf = makeCapabilityDiscoveryEvent(
+        static_cast<uint8_t>(gpu::DeviceCapabilityDiscoveryEvents::REDISCOVERY),
+        true, 0x01);
+
+    NvidiaEventHandler::handleEvent(testEid, buf);
+
+    EXPECT_TRUE(handlerCalled);
+    EXPECT_TRUE(capturedInfo.ackRequired);
+    EXPECT_EQ(capturedInfo.version, 0x01);
+
+    NvidiaEventHandler::unregisterEventHandler(
+        testEid, gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY,
+        static_cast<uint8_t>(
+            gpu::DeviceCapabilityDiscoveryEvents::REDISCOVERY));
+}
+
+TEST_F(GpuMctpVdmTests, RediscoveryEventHandlerIsEventCodeScoped)
+{
+    constexpr uint8_t testEid = 0x43;
+    bool handlerCalled = false;
+
+    NvidiaEventHandler::registerEventHandler(
+        testEid, gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY,
+        static_cast<uint8_t>(gpu::DeviceCapabilityDiscoveryEvents::REDISCOVERY),
+        [&handlerCalled](const EventInfo&, std::span<const uint8_t>) {
+            handlerCalled = true;
+        });
+
+    const std::vector<uint8_t> buf =
+        makeCapabilityDiscoveryEvent(0x02, false, 0x01);
+
+    NvidiaEventHandler::handleEvent(testEid, buf);
+
+    EXPECT_FALSE(handlerCalled);
+
+    NvidiaEventHandler::unregisterEventHandler(
+        testEid, gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY,
+        static_cast<uint8_t>(
+            gpu::DeviceCapabilityDiscoveryEvents::REDISCOVERY));
 }
 
 // Tests for GpuMctpVdm::encodeGetTemperatureReadingRequest function
