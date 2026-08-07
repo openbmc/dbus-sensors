@@ -10,6 +10,7 @@
 #include <string>
 
 constexpr const char* metricPath = "/xyz/openbmc_project/metric/";
+constexpr const char* metricInterface = "xyz.openbmc_project.Metric.Value";
 constexpr const char* sensorPathPrefix = "/xyz/openbmc_project/sensors/";
 
 // Units for the Value property of xyz.openbmc_project.Metric.Value.
