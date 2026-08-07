@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "80139ce9_c6925ca2",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-07T10:05:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c82c2c9_42b16cd0",
+      "revId": "19a5f56cb4c13a8891e7d63758e2d6d9186ab2db",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de655303_2f3d27d7",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-08-06T11:28:17Z",
       "side": 1,
       "message": "Better place to put his info is inside definition of function directly next to the decode logic.",
+      "revId": "19a5f56cb4c13a8891e7d63758e2d6d9186ab2db",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fee929f_24234f32",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-07T10:05:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de655303_2f3d27d7",
       "revId": "19a5f56cb4c13a8891e7d63758e2d6d9186ab2db",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -52,6 +88,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5584b63f_8b88a805",
+        "filename": "src/nvidia-gpu/NvidiaNVLinkPortMetrics.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-07T10:05:57Z",
+      "side": 1,
+      "message": "I make `xyz.openbmc_project.Metric.Value` to the NvidiaUtils.hpp. If you more like the inline way, I am happy to change.\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/93296",
+      "parentUuid": "7393aad9_b3a0fa62",
+      "revId": "19a5f56cb4c13a8891e7d63758e2d6d9186ab2db",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a5cb584c_ca19ede6",
@@ -69,6 +123,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0f55309_af284d30",
+        "filename": "src/nvidia-gpu/NvidiaNVLinkPortMetrics.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-07T10:05:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5cb584c_ca19ede6",
+      "revId": "19a5f56cb4c13a8891e7d63758e2d6d9186ab2db",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0ead03d0_96a9b27b",
@@ -82,6 +154,24 @@
       "writtenOn": "2026-08-06T11:28:17Z",
       "side": 1,
       "message": "To manage Metrics value, D-Bus interfaces, and associations, can we follow same pattern as PCIe Port Metrics through out this file?",
+      "revId": "19a5f56cb4c13a8891e7d63758e2d6d9186ab2db",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c75490da_b58e4f91",
+        "filename": "src/nvidia-gpu/NvidiaNVLinkPortMetrics.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-07T10:05:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ead03d0_96a9b27b",
       "revId": "19a5f56cb4c13a8891e7d63758e2d6d9186ab2db",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
