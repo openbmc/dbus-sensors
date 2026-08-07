@@ -32,8 +32,6 @@ using std::string;
 
 using namespace std::literals;
 
-constexpr const char* metricInterface = "xyz.openbmc_project.Metric.Value";
-
 NvidiaPciePortMetrics::NvidiaPciePortMetrics(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, const std::string& name,
