@@ -41,6 +41,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b7800f9_0347298c",
+        "filename": "src/nvidia-gpu/NvidiaGpuEccMode.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-08-07T07:26:09Z",
+      "side": 1,
+      "message": "Do you mean dropping only the /*current*/ comment, or the second parameter itself?\n1. Dropping only the comment (leaving a bare bool\u0026) fails clang-tidy:error: all parameters should be named in a function.\n\n2. Dropping the parameter itself isn\u0027t possible either — sdbusplus\u0027s register_property forwards to register_property_rw(), which wraps the setter in std::function\u003cbool(const T\u0026, T\u0026)\u003e, so a one-argument setter doesn\u0027t compile.",
+      "parentUuid": "1c9fcf05_93fde09e",
+      "range": {
+        "startLine": 112,
+        "startChar": 68,
+        "endLine": 112,
+        "endChar": 79
+      },
+      "revId": "1abf7677839a2a86ab4ac00305a00a034f1c69b1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cc3e16c4_7aa63a21",
@@ -72,6 +96,24 @@
       "side": 1,
       "message": "My original idea was to ask Eric to follow the approach described at https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/90189, but I thought adding the timer was indeed for aggregation and in-flight handle.\nBut there is indeed no need for aggregation here. Sorry, please remove the timer.",
       "parentUuid": "cc3e16c4_7aa63a21",
+      "revId": "1abf7677839a2a86ab4ac00305a00a034f1c69b1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d3a871a_3145a0a4",
+        "filename": "src/nvidia-gpu/NvidiaGpuEccMode.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-08-07T07:26:09Z",
+      "side": 1,
+      "message": "Remove it, thanks.",
+      "parentUuid": "d2c96d73_910546dc",
       "revId": "1abf7677839a2a86ab4ac00305a00a034f1c69b1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
