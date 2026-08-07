@@ -42,6 +42,7 @@
 #include <cstdint>
 #include <memory>
 #include <string>
+#include <utility>
 #include <vector>
 
 class GpuDevice : public std::enable_shared_from_this<GpuDevice>
@@ -65,6 +66,13 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
     void init();
 
   private:
+    void requeryCapabilities();
+
+    void setCapabilities(gpu::DeviceCapabilities newCaps)
+    {
+        caps = std::move(newCaps);
+    }
+
     void makeSensors();
 
     void read();
