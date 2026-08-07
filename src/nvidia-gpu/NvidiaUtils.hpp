@@ -8,6 +8,7 @@
 #include <sdbusplus/message/native_types.hpp>
 
 constexpr const char* metricPath = "/xyz/openbmc_project/metric/";
+constexpr const char* metricInterface = "xyz.openbmc_project.Metric.Value";
 constexpr const char* sensorPathPrefix = "/xyz/openbmc_project/sensors/";
 
 // DRAM inventory name segment, joined to a GPU name with a '_' separator to
