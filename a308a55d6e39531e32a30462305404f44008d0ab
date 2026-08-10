@@ -235,6 +235,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "419b3193_860705a9",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1003037
+      },
+      "writtenOn": "2026-08-10T13:40:39Z",
+      "side": 1,
+      "message": "@ed@tanous.net what do you think? Should I go for a refactor of both functions \u0027createSensors\u0027 and \u0027main\u0027 or it\u0027s not necessary for this patch?",
+      "parentUuid": "2812f674_1fc81e63",
+      "range": {
+        "startLine": 380,
+        "startChar": 16,
+        "endLine": 380,
+        "endChar": 28
+      },
+      "revId": "a308a55d6e39531e32a30462305404f44008d0ab",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "dffde025_2e55c5bd",
