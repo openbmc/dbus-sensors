@@ -298,11 +298,91 @@ void createSensors(
             findFiles(std::filesystem::path("/sys/class/hwmon"),
                       R"(temp\d+_input)", paths);
 
+            auto parseThresholdsForSensor =
+                [](const SensorData& sensorData,
+                   const std::string& currSensorName,
+                   const std::string& hwmonFilePath, int sensorIndex,
+                   std::vector<thresholds::Threshold>& thresholds) {
+                    std::string thresholdLabel =
+                        std::filesystem::path(hwmonFilePath).filename().string();
+                    size_t suffixPos = thresholdLabel.rfind('_');
+                    if (suffixPos != std::string::npos)
+                    {
+                        thresholdLabel.resize(suffixPos);
+                    }
+
+                    if (!parseThresholdsFromConfig(sensorData, thresholds,
+                                                   &thresholdLabel,
+                                                   &sensorIndex))
+                    {
+                        lg2::error(
+                            "error populating thresholds for "
+                            "'{NAME}', label: '{LABEL}', index: '{INDEX}'",
+                            "NAME", currSensorName, "LABEL", thresholdLabel,
+                            "INDEX", sensorIndex);
+                    }
+
+                    if (thresholds.empty())
+                    {
+                        // Keep legacy index-only behavior when label matching
+                        // does not resolve any thresholds.
+                        if (!parseThresholdsFromConfig(sensorData, thresholds,
+                                                       nullptr, &sensorIndex))
+                        {
+                            lg2::error("error populating fallback thresholds "
+                                       "for '{NAME}', index: '{INDEX}'",
+                                       "NAME", currSensorName, "INDEX",
+                                       sensorIndex);
+                        }
+                    }
+                };
+
+            auto activateOrCreateSensor =
+                [&sensors, activateOnly, &objectServer, &dbusConnection,
+                 &io](const std::string& sensorName,
+                      const std::optional<std::string>& hwmonFile,
+                      std::string_view sensorType,
+                      std::vector<thresholds::Threshold>&& thresholds,
+                      const SensorParams& sensorParams, float pollRate,
+                      const std::string& interfacePath, PowerState readState,
+                      std::shared_ptr<I2CDevice>& i2cDev) {
+                    if (!hwmonFile)
+                    {
+                        return;
+                    }
+
+                    auto& sensor = sensors[sensorName];
+                    if (!activateOnly)
+                    {
+                        sensor = nullptr;
+                    }
+
+                    if (sensor != nullptr)
+                    {
+                        sensor->activate(*hwmonFile, i2cDev);
+                        return;
+                    }
+
+                    try
+                    {
+                        sensor = std::make_shared<HwmonTempSensor>(
+                            *hwmonFile, sensorType, objectServer,
+                            dbusConnection, io, sensorName,
+                            std::move(thresholds), sensorParams, pollRate,
+                            interfacePath, readState, i2cDev);
+                        sensor->setupRead();
+                    }
+                    catch (const std::exception& e)
+                    {
+                        lg2::error("Failed to open sensor '{NAME}': '{ERR}'",
+                                   "NAME", sensorName, "ERR", e.what());
+                    }
+                };
+
             // iterate through all found temp and pressure sensors,
             // and try to match them with configuration
             for (auto& path : paths)
             {
-                std::smatch match;
                 const std::string pathStr = path.string();
                 auto directory = path.parent_path();
                 std::filesystem::path device;
@@ -422,25 +502,10 @@ void createSensors(
                     }
                 }
 
-                std::vector<thresholds::Threshold> sensorThresholds;
-
-                if (!parseThresholdsFromConfig(sensorData, sensorThresholds,
-                                               nullptr, &index))
-                {
-                    lg2::error("error populating thresholds for "
-                               "'{NAME}', index: '{INDEX}'",
-                               "NAME", sensorName, "INDEX", index);
-                }
-
                 float pollRate = getPollRate(baseConfigMap, pollRateDefault);
                 PowerState readState = getPowerState(baseConfigMap);
 
                 auto permitSet = getPermitSet(baseConfigMap);
-                auto& sensor = sensors[sensorName];
-                if (!activateOnly)
-                {
-                    sensor = nullptr;
-                }
                 auto hwmonFile = getFullHwmonFilePath(directory.string(),
                                                       "temp1", permitSet);
                 if (pathStr.starts_with("/sys/bus/iio/devices"))
@@ -449,19 +514,14 @@ void createSensors(
                 }
                 if (hwmonFile)
                 {
-                    if (sensor != nullptr)
-                    {
-                        sensor->activate(*hwmonFile, i2cDev);
-                    }
-                    else
-                    {
-                        sensor = std::make_shared<HwmonTempSensor>(
-                            *hwmonFile, sensorType, objectServer,
-                            dbusConnection, io, sensorName,
-                            std::move(sensorThresholds), thisSensorParameters,
-                            pollRate, interfacePath, readState, i2cDev);
-                        sensor->setupRead();
-                    }
+                    std::vector<thresholds::Threshold> sensorThresholds;
+                    parseThresholdsForSensor(sensorData, sensorName,
+                                             *hwmonFile, index,
+                                             sensorThresholds);
+                    activateOrCreateSensor(sensorName, hwmonFile, sensorType,
+                                           std::move(sensorThresholds),
+                                           thisSensorParameters, pollRate,
+                                           interfacePath, readState, i2cDev);
                 }
                 hwmonName.erase(
                     remove(hwmonName.begin(), hwmonName.end(), sensorName),
@@ -490,40 +550,16 @@ void createSensors(
                     }
                     if (hwmonFile)
                     {
-                        // To look up thresholds for these additional sensors,
-                        // match on the Index property in the threshold data
-                        // where the index comes from the sysfs file we're on,
-                        // i.e. index = 2 for temp2_input.
                         int index = i + 1;
                         std::vector<thresholds::Threshold> thresholds;
-
-                        if (!parseThresholdsFromConfig(sensorData, thresholds,
-                                                       nullptr, &index))
-                        {
-                            lg2::error("error populating thresholds for "
-                                       "'{NAME}', index: '{INDEX}'",
-                                       "NAME", sensorName, "INDEX", index);
-                        }
-
-                        auto& sensor = sensors[sensorName];
-                        if (!activateOnly)
-                        {
-                            sensor = nullptr;
-                        }
-
-                        if (sensor != nullptr)
-                        {
-                            sensor->activate(*hwmonFile, i2cDev);
-                        }
-                        else
-                        {
-                            sensor = std::make_shared<HwmonTempSensor>(
-                                *hwmonFile, sensorType, objectServer,
-                                dbusConnection, io, sensorName,
-                                std::move(thresholds), thisSensorParameters,
-                                pollRate, interfacePath, readState, i2cDev);
-                            sensor->setupRead();
-                        }
+                        parseThresholdsForSensor(sensorData, sensorName,
+                                                 *hwmonFile, index, thresholds);
+                        activateOrCreateSensor(sensorName, hwmonFile,
+                                               sensorType,
+                                               std::move(thresholds),
+                                               thisSensorParameters, pollRate,
+                                               interfacePath, readState,
+                                               i2cDev);
                     }
 
                     hwmonName.erase(
