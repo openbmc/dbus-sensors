@@ -298,6 +298,39 @@ void createSensors(
             findFiles(std::filesystem::path("/sys/class/hwmon"),
                       R"(temp\d+_input)", paths);
 
+            auto activateOrCreateSensor =
+                [&sensors, activateOnly, &objectServer, &dbusConnection,
+                 &io](const std::string& sensorName,
+                      const std::optional<std::string>& hwmonFile,
+                      const std::string& sensorType,
+                      std::vector<thresholds::Threshold>&& thresholds,
+                      const SensorParams& sensorParams, float pollRate,
+                      const std::string& interfacePath, PowerState readState,
+                      std::shared_ptr<I2CDevice>& i2cDev) {
+                    if (!hwmonFile)
+                    {
+                        return;
+                    }
+
+                    auto& sensor = sensors[sensorName];
+                    if (!activateOnly)
+                    {
+                        sensor = nullptr;
+                    }
+
+                    if (sensor != nullptr)
+                    {
+                        sensor->activate(*hwmonFile, i2cDev);
+                        return;
+                    }
+
+                    sensor = std::make_shared<HwmonTempSensor>(
+                        *hwmonFile, sensorType, objectServer, dbusConnection,
+                        io, sensorName, std::move(thresholds), sensorParams,
+                        pollRate, interfacePath, readState, i2cDev);
+                    sensor->setupRead();
+                };
+
             // iterate through all found temp and pressure sensors,
             // and try to match them with configuration
             for (auto& path : paths)
@@ -436,33 +469,16 @@ void createSensors(
                 PowerState readState = getPowerState(baseConfigMap);
 
                 auto permitSet = getPermitSet(baseConfigMap);
-                auto& sensor = sensors[sensorName];
-                if (!activateOnly)
-                {
-                    sensor = nullptr;
-                }
                 auto hwmonFile = getFullHwmonFilePath(directory.string(),
                                                       "temp1", permitSet);
                 if (pathStr.starts_with("/sys/bus/iio/devices"))
                 {
                     hwmonFile = pathStr;
                 }
-                if (hwmonFile)
-                {
-                    if (sensor != nullptr)
-                    {
-                        sensor->activate(*hwmonFile, i2cDev);
-                    }
-                    else
-                    {
-                        sensor = std::make_shared<HwmonTempSensor>(
-                            *hwmonFile, sensorType, objectServer,
-                            dbusConnection, io, sensorName,
-                            std::move(sensorThresholds), thisSensorParameters,
-                            pollRate, interfacePath, readState, i2cDev);
-                        sensor->setupRead();
-                    }
-                }
+                activateOrCreateSensor(sensorName, hwmonFile, sensorType,
+                                       std::move(sensorThresholds),
+                                       thisSensorParameters, pollRate,
+                                       interfacePath, readState, i2cDev);
                 hwmonName.erase(
                     remove(hwmonName.begin(), hwmonName.end(), sensorName),
                     hwmonName.end());
@@ -505,25 +521,10 @@ void createSensors(
                                        "NAME", sensorName, "INDEX", index);
                         }
 
-                        auto& sensor = sensors[sensorName];
-                        if (!activateOnly)
-                        {
-                            sensor = nullptr;
-                        }
-
-                        if (sensor != nullptr)
-                        {
-                            sensor->activate(*hwmonFile, i2cDev);
-                        }
-                        else
-                        {
-                            sensor = std::make_shared<HwmonTempSensor>(
-                                *hwmonFile, sensorType, objectServer,
-                                dbusConnection, io, sensorName,
-                                std::move(thresholds), thisSensorParameters,
-                                pollRate, interfacePath, readState, i2cDev);
-                            sensor->setupRead();
-                        }
+                        activateOrCreateSensor(
+                            sensorName, hwmonFile, sensorType,
+                            std::move(thresholds), thisSensorParameters,
+                            pollRate, interfacePath, readState, i2cDev);
                     }
 
                     hwmonName.erase(
