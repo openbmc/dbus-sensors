@@ -71,6 +71,8 @@ enum class PowerState
     chassisOn
 };
 
+using HostStatusCallback = std::function<void(PowerState type, bool state)>;
+
 std::optional<std::string> openAndRead(const std::string& hwmonFile);
 std::optional<std::string> getFullHwmonFilePath(
     const std::string& directory, const std::string& hwmonBaseName,
@@ -85,7 +87,7 @@ bool hasBiosPost();
 bool isChassisOn();
 void setupPowerMatchCallback(
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
-    std::function<void(PowerState type, bool state)>&& callback);
+    HostStatusCallback&& callback);
 void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn);
 bool getSensorConfiguration(
     std::string_view type,
