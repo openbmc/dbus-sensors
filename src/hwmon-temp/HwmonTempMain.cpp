@@ -521,12 +521,10 @@ void createSensors(
                                        "NAME", sensorName, "INDEX", index);
                         }
 
-                        activateOrCreateSensor(sensorName, hwmonFile,
-                                               sensorType,
-                                               std::move(thresholds),
-                                               thisSensorParameters, pollRate,
-                                               interfacePath, readState,
-                                               i2cDev);
+                        activateOrCreateSensor(
+                            sensorName, hwmonFile, sensorType,
+                            std::move(thresholds), thisSensorParameters,
+                            pollRate, interfacePath, readState, i2cDev);
                     }
 
                     hwmonName.erase(
