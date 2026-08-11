@@ -431,3 +431,49 @@ bool getDeviceBusAddr(const std::string& deviceName, T& bus, T& addr)
 
     return true;
 }
+
+template <typename SensorMapT, typename CreateFn>
+inline void handlePowerStateChanged(
+    PowerState type, bool newState, SensorMapT& sensors,
+    boost::asio::io_context& io, CreateFn&& createSensorsFn)
+{
+    // create a static timer to share across calls
+    static boost::asio::steady_timer createTimer(io);
+
+    if (newState)
+    {
+        // re-schedule the timer to expire after 1 second
+        createTimer.expires_after(std::chrono::seconds(1));
+
+        // async wait for the timer to expire
+        createTimer.async_wait(
+            [createSensorsFn = std::forward<CreateFn>(createSensorsFn)](
+                boost::system::error_code ec) {
+                if (ec == boost::asio::error::operation_aborted)
+                {
+                    // timer was re-scheduled (second call received),
+                    // this wait was cancelled, just return
+                    return;
+                }
+                if (ec)
+                {
+                    lg2::error("Timer error: {ERROR_MESSAGE}", "ERROR_MESSAGE",
+                               ec.message());
+                    return;
+                }
+                // after 1 second cooldown, confirm state is stable and perform
+                // actual sensor creation
+                createSensorsFn();
+            });
+    }
+    else
+    {
+        for (auto& [path, sensor] : sensors)
+        {
+            if (sensor != nullptr && sensor->readState == type)
+            {
+                sensor->deactivate();
+            }
+        }
+    }
+}

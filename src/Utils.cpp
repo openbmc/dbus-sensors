@@ -351,11 +351,13 @@ bool readingStateGood(const PowerState& powerState)
 
 static void getPowerStatus(
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
+    const std::function<void(PowerState type, bool state)>& hostStatusCallback,
     size_t retries = 2)
 {
     conn->async_method_call(
-        [conn, retries](boost::system::error_code ec,
-                        const std::variant<std::string>& state) {
+        [conn, hostStatusCallback,
+         retries](boost::system::error_code ec,
+                  const std::variant<std::string>& state) {
             if (ec)
             {
                 if (retries != 0U)
@@ -363,10 +365,10 @@ static void getPowerStatus(
                     auto timer = std::make_shared<boost::asio::steady_timer>(
                         conn->get_io_context());
                     timer->expires_after(std::chrono::seconds(15));
-                    timer->async_wait(
-                        [timer, conn, retries](boost::system::error_code) {
-                            getPowerStatus(conn, retries - 1);
-                        });
+                    timer->async_wait([timer, conn, hostStatusCallback,
+                                       retries](boost::system::error_code) {
+                        getPowerStatus(conn, hostStatusCallback, retries - 1);
+                    });
                     return;
                 }
 
@@ -376,7 +378,18 @@ static void getPowerStatus(
                            "ERROR_MESSAGE", ec.message());
                 return;
             }
-            powerStatusOn = std::get<std::string>(state).ends_with(".Running");
+            bool updatedPowerStatus =
+                std::get<std::string>(state).ends_with(".Running");
+            bool changed = (updatedPowerStatus != powerStatusOn);
+            powerStatusOn = updatedPowerStatus;
+            if (changed)
+            {
+                // Sync the initial power state. The actual state differs from
+                // the default, and no PropertiesChanged signal will be emitted
+                // for this. Manually trigger the callback to handle the actual
+                // state.
+                hostStatusCallback(PowerState::on, powerStatusOn);
+            }
         },
         power::busname, power::path, properties::interface, properties::get,
         power::interface, power::property);
@@ -384,11 +397,13 @@ static void getPowerStatus(
 
 static void getPostStatus(
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
+    const std::function<void(PowerState type, bool state)>& hostStatusCallback,
     size_t retries = 2)
 {
     conn->async_method_call(
-        [conn, retries](boost::system::error_code ec,
-                        const std::variant<std::string>& state) {
+        [conn, hostStatusCallback,
+         retries](boost::system::error_code ec,
+                  const std::variant<std::string>& state) {
             if (ec)
             {
                 if (retries != 0U)
@@ -396,10 +411,10 @@ static void getPostStatus(
                     auto timer = std::make_shared<boost::asio::steady_timer>(
                         conn->get_io_context());
                     timer->expires_after(std::chrono::seconds(15));
-                    timer->async_wait(
-                        [timer, conn, retries](boost::system::error_code) {
-                            getPostStatus(conn, retries - 1);
-                        });
+                    timer->async_wait([timer, conn, hostStatusCallback,
+                                       retries](boost::system::error_code) {
+                        getPostStatus(conn, hostStatusCallback, retries - 1);
+                    });
                     return;
                 }
                 // we commonly come up before power control, we'll capture the
@@ -409,9 +424,21 @@ static void getPostStatus(
                 return;
             }
             const auto& value = std::get<std::string>(state);
-            biosHasPost = (value != "Inactive") &&
-                          (value != "xyz.openbmc_project.State.OperatingSystem."
-                                    "Status.OSStatus.Inactive");
+            bool post = (value != "Inactive") &&
+                        (value != "xyz.openbmc_project.State.OperatingSystem."
+                                  "Status.OSStatus.Inactive");
+            bool changed = (post != biosHasPost);
+            biosHasPost = post;
+            if (changed)
+            {
+                // The initial query result differs from the default value.
+                // The first sensor scan may have already run with the stale
+                // default. When BIOS POST was already complete and only the
+                // BMC was reset, no PropertiesChanged signal will ever come.
+                // Notify the daemon so it can rescan and create sensors
+                // whose PowerState is "BiosPost".
+                hostStatusCallback(PowerState::biosPost, biosHasPost);
+            }
         },
         post::busname, post::path, properties::interface, properties::get,
         post::interface, post::property);
@@ -419,11 +446,13 @@ static void getPostStatus(
 
 static void getChassisStatus(
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
+    const std::function<void(PowerState type, bool state)>& hostStatusCallback,
     size_t retries = 2)
 {
     conn->async_method_call(
-        [conn, retries](boost::system::error_code ec,
-                        const std::variant<std::string>& state) {
+        [conn, hostStatusCallback,
+         retries](boost::system::error_code ec,
+                  const std::variant<std::string>& state) {
             if (ec)
             {
                 if (retries != 0U)
@@ -431,10 +460,10 @@ static void getChassisStatus(
                     auto timer = std::make_shared<boost::asio::steady_timer>(
                         conn->get_io_context());
                     timer->expires_after(std::chrono::seconds(15));
-                    timer->async_wait(
-                        [timer, conn, retries](boost::system::error_code) {
-                            getChassisStatus(conn, retries - 1);
-                        });
+                    timer->async_wait([timer, conn, hostStatusCallback,
+                                       retries](boost::system::error_code) {
+                        getChassisStatus(conn, hostStatusCallback, retries - 1);
+                    });
                     return;
                 }
 
@@ -445,8 +474,19 @@ static void getChassisStatus(
                     "ERROR_MESSAGE", ec.message());
                 return;
             }
-            chassisStatusOn =
-                std::get<std::string>(state).ends_with(chassis::sOn);
+            bool on = std::get<std::string>(state).ends_with(chassis::sOn);
+            bool changed = (on != chassisStatusOn);
+            chassisStatusOn = on;
+            if (changed)
+            {
+                // The initial query result differs from the default value.
+                // The first sensor scan may have already run with the stale
+                // default. When the chassis was already on and only the BMC
+                // was reset, no PropertiesChanged signal will ever come.
+                // Notify the daemon so it can rescan and create sensors
+                // whose PowerState is "ChassisOn".
+                hostStatusCallback(PowerState::chassisOn, chassisStatusOn);
+            }
         },
         chassis::busname, chassis::path, properties::interface, properties::get,
         chassis::interface, chassis::property);
@@ -454,7 +494,7 @@ static void getChassisStatus(
 
 void setupPowerMatchCallback(
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
-    std::function<void(PowerState type, bool state)>&& hostStatusCallback)
+    std::function<void(PowerState type, bool state)>&& callback)
 {
     static boost::asio::steady_timer timer(conn->get_io_context());
     static boost::asio::steady_timer timerChassisOn(conn->get_io_context());
@@ -464,6 +504,8 @@ void setupPowerMatchCallback(
     {
         return;
     }
+
+    auto hostStatusCallback = std::move(callback);
 
     powerMatch = std::make_unique<sdbusplus::match>(
         static_cast<sdbusplus::bus_t&>(*conn),
@@ -534,8 +576,7 @@ void setupPowerMatchCallback(
         "type='signal',interface='" + std::string(properties::interface) +
             "',path='" + std::string(chassis::path) + "',arg0='" +
             std::string(chassis::interface) + "'",
-        [hostStatusCallback = std::move(hostStatusCallback)](
-            sdbusplus::message_t& message) {
+        [hostStatusCallback](sdbusplus::message_t& message) {
             std::string objectName;
             boost::container::flat_map<std::string, std::variant<std::string>>
                 values;
@@ -571,9 +612,10 @@ void setupPowerMatchCallback(
                 });
             }
         });
-    getPowerStatus(conn);
-    getPostStatus(conn);
-    getChassisStatus(conn);
+
+    getPowerStatus(conn, hostStatusCallback);
+    getPostStatus(conn, hostStatusCallback);
+    getChassisStatus(conn, hostStatusCallback);
 }
 
 void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn)
