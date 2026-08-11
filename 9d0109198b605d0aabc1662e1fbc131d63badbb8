@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7880077_a831ba7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-08-11T08:17:55Z",
+      "side": 1,
+      "message": "as you suggested updated with full name in the commit message.",
+      "parentUuid": "05b64b68_2215e5de",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 46
+      },
+      "revId": "9d0109198b605d0aabc1662e1fbc131d63badbb8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "3af12eab_80fe42cc",
@@ -54,6 +78,24 @@
       "writtenOn": "2026-08-11T07:14:07Z",
       "side": 1,
       "message": "Before this refactor, sensors[sensorName] was reset to nullptr regardless of hwmonFile validity. Now the early return on !hwmonFile skips that reset, so a stale sensor can persist on the temp1 path when hwmonFile is invalid. Is this intentional?",
+      "revId": "9d0109198b605d0aabc1662e1fbc131d63badbb8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96140df1_eec88858",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-08-11T08:17:55Z",
+      "side": 1,
+      "message": "This was not intentional,the fix clears the stale sensor entry on invalid hwmonFile so behavior stays consistent with the pre-refactor logic.\n\nadded a reset of sensors[sensorName] to nullptr before returning on invalid hwmonFile, so stale sensor state is not preserved.",
+      "parentUuid": "1aa57b89_3bb834bb",
       "revId": "9d0109198b605d0aabc1662e1fbc131d63badbb8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
