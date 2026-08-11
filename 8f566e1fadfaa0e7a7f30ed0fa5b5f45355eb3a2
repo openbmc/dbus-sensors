@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b57c1e14_b2c058aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000020
+      },
+      "writtenOn": "2026-08-11T14:49:04Z",
+      "side": 1,
+      "message": "We follow https://cbea.ms/git-commit/ for commit msgs \n- Please wrap at 50 / 72 \n- Use the body to explain what and why vs. how",
+      "revId": "8f566e1fadfaa0e7a7f30ed0fa5b5f45355eb3a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bfaeb2b_9115dbca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000020
+      },
+      "writtenOn": "2026-08-11T14:49:04Z",
+      "side": 1,
+      "message": "Please use your full name here https://github.com/openbmc/docs/blob/2019c366898dbba54aed89705c89979180d8e440/CONTRIBUTING.md?plain\u003d1#L248",
+      "range": {
+        "startLine": 40,
+        "startChar": 14,
+        "endLine": 40,
+        "endChar": 29
+      },
+      "revId": "8f566e1fadfaa0e7a7f30ed0fa5b5f45355eb3a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
