@@ -68,6 +68,24 @@
       "message": "This commit is already included in downstream, but we are seeing some issues with it.\nBecause we are using an I3C hub, several ports are configured as SMBus. The full device path looks like the example below:\n\nroot@bmc:~# ls /sys/bus/i3c/devices/0-4cd52ab5706/i2c-106/i2c-42/42-0062/\ndriver     hwmon      modalias   name       power      subsystem  uevent\n\nPreviously, since 48-bit I3C PID was not supported here, it would skip the I3C hub address, such as 0-4cd52ab5706.\nHowever, with the current behavior, once it detects the first hub address, it stops there.\nCould you help support continuing to parse the address further, so that I2C devices behind the I3C hub can also be supported?",
       "revId": "33042bedd7b4bf47264c6c2c429060836a3a334b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "38e58bd0_b95c9aaa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002734
+      },
+      "writtenOn": "2026-08-11T09:47:39Z",
+      "side": 1,
+      "message": "regex_search() returns the first match, so it stopped at the I3C\nhub. New patch prepends a greedy ^.* to take the last match instead. \nCould you re-test on your environment?",
+      "parentUuid": "5369184a_4fecbe4a",
+      "revId": "33042bedd7b4bf47264c6c2c429060836a3a334b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
