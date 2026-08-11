@@ -575,29 +575,6 @@ void interfaceRemoved(
     }
 }
 
-static void powerStateChanged(
-    PowerState type, bool newState,
-    boost::container::flat_map<std::string, std::shared_ptr<HwmonTempSensor>>&
-        sensors,
-    boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
-    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
-{
-    if (newState)
-    {
-        createSensors(io, objectServer, sensors, dbusConnection, nullptr, true);
-    }
-    else
-    {
-        for (auto& [path, sensor] : sensors)
-        {
-            if (sensor != nullptr && sensor->readState == type)
-            {
-                sensor->deactivate();
-            }
-        }
-    }
-}
-
 int main()
 {
     boost::asio::io_context io;
@@ -613,7 +590,9 @@ int main()
 
     auto powerCallBack = [&sensors, &io, &objectServer,
                           &systemBus](PowerState type, bool state) {
-        powerStateChanged(type, state, sensors, io, objectServer, systemBus);
+        handlePowerStateChanged(type, state, sensors, io, [&]() {
+            createSensors(io, objectServer, sensors, systemBus, nullptr, true);
+        });
     };
     setupPowerMatchCallback(systemBus, powerCallBack);
 
