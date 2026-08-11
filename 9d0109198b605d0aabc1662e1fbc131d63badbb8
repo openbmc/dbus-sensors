@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "05b64b68_2215e5de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1002762
+      },
+      "writtenOn": "2026-08-11T07:50:29Z",
+      "side": 1,
+      "message": "Please use your full name\n\nhttps://github.com/openbmc/docs/blob/29878c3e0e5db35455a1ed73a5cc6eb9a946422a/CONTRIBUTING.md?plain\u003d1#L250",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 46
+      },
+      "revId": "9d0109198b605d0aabc1662e1fbc131d63badbb8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "3af12eab_80fe42cc",
