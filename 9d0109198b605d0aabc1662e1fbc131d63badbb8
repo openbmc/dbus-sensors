@@ -16,6 +16,23 @@
       "message": "Kindly request you review the PR.",
       "revId": "9d0109198b605d0aabc1662e1fbc131d63badbb8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1aa57b89_3bb834bb",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-08-11T07:14:07Z",
+      "side": 1,
+      "message": "Before this refactor, sensors[sensorName] was reset to nullptr regardless of hwmonFile validity. Now the early return on !hwmonFile skips that reset, so a stale sensor can persist on the temp1 path when hwmonFile is invalid. Is this intentional?",
+      "revId": "9d0109198b605d0aabc1662e1fbc131d63badbb8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
