@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a011cede_dc5b9d72",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003004
+      },
+      "writtenOn": "2026-08-11T07:33:31Z",
+      "side": 1,
+      "message": "Please expand the test section to include the D-Bus introspection command used and the corresponding MP9941 sensor readings/output for validation.",
+      "revId": "9dfa8b7d3f8f9d9e979fb3ac947dae619749fcc4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
