@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db3083c8_45c820b5",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1002720
+      },
+      "writtenOn": "2026-08-11T09:24:58Z",
+      "side": 1,
+      "message": "Fixed in the latest patchset by adding an lg2::warning log when encountering a non-numeric ScaleValue.",
+      "parentUuid": "abeeb506_f796b1d4",
+      "revId": "86a35ba07ff2f51ab7855c2ddaa0a3788e253c6a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ecc9dd24_e893d44f",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-08-10T10:46:33Z",
       "side": 1,
       "message": "Could you clarify intended scope for ScaleValue here? This applies calibration from the shared base config to whichever channel is being processed. For combo sensors, this may affect non-temperature channels as well. If calibration is intended to be temperature-only, should this be gated by sensor type or documented as applying to all channels?",
+      "revId": "86a35ba07ff2f51ab7855c2ddaa0a3788e253c6a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84679d97_8a7ed92e",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1002720
+      },
+      "writtenOn": "2026-08-11T09:24:58Z",
+      "side": 1,
+      "message": "Current implementation in HwmonTempMain.cpp is strictly within the scope of the HwmonTemp service, so these calibration properties are naturally applied only to temperature sensors managed here.",
+      "parentUuid": "ecc9dd24_e893d44f",
       "revId": "86a35ba07ff2f51ab7855c2ddaa0a3788e253c6a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
