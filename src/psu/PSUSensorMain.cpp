@@ -1238,9 +1238,33 @@ static void powerStateChanged(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
 {
+    // create a static timer to share across calls
+    static boost::asio::steady_timer createTimer(io);
+
     if (newState)
     {
-        createSensors(io, objectServer, dbusConnection, nullptr, true);
+        // re-schedule the timer to expire after 1 second
+        createTimer.expires_after(std::chrono::seconds(1));
+
+        // async wait for the timer to expire
+        createTimer.async_wait([&io, &objectServer,
+                                &dbusConnection](boost::system::error_code ec) {
+            if (ec == boost::asio::error::operation_aborted)
+            {
+                // timer was re-scheduled (second call received),
+                // this wait was cancelled, just return
+                return;
+            }
+            if (ec)
+            {
+                lg2::error("Timer error: {ERROR_MESSAGE}", "ERROR_MESSAGE",
+                           ec.message());
+                return;
+            }
+            // after 1 second cooldown, confirm state is stable and perform
+            // actual sensor creation
+            createSensors(io, objectServer, dbusConnection, nullptr, true);
+        });
     }
     else
     {
