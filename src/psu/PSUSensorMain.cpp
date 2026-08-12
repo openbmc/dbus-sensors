@@ -250,7 +250,7 @@ void checkEvent(const std::string& directory, const EventPathList& eventMatch,
         for (const auto& eventAttr : eventAttrs)
         {
             std::string eventPath = directory;
-            eventPath += "/";
+            eventPath += '/';
             eventPath += eventAttr;
 
             std::ifstream eventFile(eventPath);
@@ -1003,8 +1003,9 @@ static void createSensorsCallback(
             }
 
             std::vector<thresholds::Threshold> sensorThresholds;
-            if (!parseThresholdsFromConfig(*sensorData, sensorThresholds,
-                                           &labelHead))
+            if (!parseThresholdsFromConfigWithLabelProbe(
+                    *sensorData, sensorThresholds, &labelHead, nullptr,
+                    &sensorPathStr))
             {
                 lg2::error("error populating thresholds for '{NAME}'", "NAME",
                            sensorNameSubStr);
