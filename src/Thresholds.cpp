@@ -64,33 +64,57 @@ bool parseThresholdsFromConfig(
         {
             continue;
         }
-        if (matchLabel != nullptr)
+        // "Label" and "Index" are alternative ways for a threshold to name the
+        // sensor it belongs to, so honour whichever one the configuration
+        // used. A threshold naming a sensor the caller cannot identify must be
+        // left alone rather than applied to whichever sensor is being set up.
+        auto labelFind = cfg.find("Label");
+        auto indexFind = cfg.find("Index");
+
+        if (labelFind != cfg.end())
         {
-            auto labelFind = cfg.find("Label");
-            if (labelFind == cfg.end())
+            if (matchLabel != nullptr)
             {
+                if (std::visit(VariantToStringVisitor(), labelFind->second) !=
+                    *matchLabel)
+                {
+                    continue;
+                }
+            }
+            else if (sensorIndex != nullptr)
+            {
+                // The caller is one sensor of several but did not say which
+                // label it is, so this threshold cannot be placed.
                 continue;
             }
-            if (std::visit(VariantToStringVisitor(), labelFind->second) !=
-                *matchLabel)
+        }
+
+        if (indexFind != cfg.end())
+        {
+            if (sensorIndex != nullptr)
+            {
+                if (std::visit(VariantToIntVisitor(), indexFind->second) !=
+                    *sensorIndex)
+                {
+                    continue;
+                }
+            }
+            else if ((matchLabel != nullptr) && (labelFind == cfg.end()))
             {
                 continue;
             }
         }
 
-        if (sensorIndex != nullptr)
+        if ((labelFind == cfg.end()) && (indexFind == cfg.end()))
         {
-            auto indexFind = cfg.find("Index");
-
-            // If we're checking for index 1, a missing Index is OK.
-            if ((indexFind == cfg.end()) && (*sensorIndex != 1))
+            // The threshold names no sensor at all: it belongs to a caller
+            // that is not looking for a particular one, and to the first
+            // sensor of a caller that is.
+            if (matchLabel != nullptr)
             {
                 continue;
             }
-
-            if ((indexFind != cfg.end()) &&
-                (std::visit(VariantToIntVisitor(), indexFind->second) !=
-                 *sensorIndex))
+            if ((sensorIndex != nullptr) && (*sensorIndex != 1))
             {
                 continue;
             }
