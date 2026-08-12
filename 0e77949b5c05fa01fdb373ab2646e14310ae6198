@@ -16,6 +16,24 @@
       "message": "Not all SMAs on every platform has leak detection sensor. Ideally persence of leak detection sensors on SMA should be specified with Entity Manager config. Once this land it would be strait forward to do - https://gerrit.openbmc.org/q/topic:%22mctp-usb-config%22 .",
       "revId": "0e77949b5c05fa01fdb373ab2646e14310ae6198",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "669de17d_781b73b2",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 34
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2026-08-12T16:44:29Z",
+      "side": 1,
+      "message": "Hi @haghera@nvidia.com,\n\nI took a quick look at the EM config commits in the link you shared (please feel free to correct me if I missed anything). While most changes define configurations to support MCTP-over-USB, I couldn\u0027t find where to specify whether the SMA supports the leak detection feature.\n\nAdditionally, could you help review this follow-up commit for identifying whether the SMA supports the leak function at runtime?\n\n- https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/91623\n\nWe are very eager to integrate the leak detection feature into nvidia-gpu as soon as possible. Could you please share more implementation details from NVIDIA\u0027s side?\n\nThanks!",
+      "parentUuid": "4bac4df0_97cef420",
+      "revId": "0e77949b5c05fa01fdb373ab2646e14310ae6198",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
