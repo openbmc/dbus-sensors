@@ -17,7 +17,6 @@
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/message/native_types.hpp>
-#include <xyz/openbmc_project/Common/error.hpp>
 
 #include <chrono>
 #include <cstdint>
@@ -220,7 +219,7 @@ int NvidiaGpuClockSpeedControl::handleRequestedSpeedLimitMaxHzSet(
         lg2::error(
             "RequestedSpeedLimitMaxHz set rejected for eid {EID}: inventory not available",
             "EID", eid);
-        throw sdbusplus::error::xyz::openbmc_project::common::Unavailable();
+        throw Unavailable();
     }
 
     std::optional<uint64_t> minHw = inventory->getMinSpeedInHz();
@@ -230,7 +229,7 @@ int NvidiaGpuClockSpeedControl::handleRequestedSpeedLimitMaxHzSet(
         lg2::error(
             "RequestedSpeedLimitMaxHz set rejected for eid {EID}: hardware min/max not yet known",
             "EID", eid);
-        throw sdbusplus::error::xyz::openbmc_project::common::Unavailable();
+        throw Unavailable();
     }
 
     if (newMaxHz < *minHw || newMaxHz > *maxHw)
@@ -238,7 +237,7 @@ int NvidiaGpuClockSpeedControl::handleRequestedSpeedLimitMaxHzSet(
         lg2::error(
             "RequestedSpeedLimitMaxHz set rejected for eid {EID}: value {VAL} out of range [{MIN}, {MAX}]",
             "EID", eid, "VAL", newMaxHz, "MIN", *minHw, "MAX", *maxHw);
-        throw sdbusplus::error::xyz::openbmc_project::common::InvalidArgument();
+        throw InvalidArgument();
     }
 
     // Record the requested max and arm the debounce timer. The actual
@@ -260,7 +259,7 @@ int NvidiaGpuClockSpeedControl::handleRequestedSpeedLimitMinHzSet(
         lg2::error(
             "RequestedSpeedLimitMinHz set rejected for eid {EID}: inventory not available",
             "EID", eid);
-        throw sdbusplus::error::xyz::openbmc_project::common::Unavailable();
+        throw Unavailable();
     }
 
     std::optional<uint64_t> minHw = inventory->getMinSpeedInHz();
@@ -270,7 +269,7 @@ int NvidiaGpuClockSpeedControl::handleRequestedSpeedLimitMinHzSet(
         lg2::error(
             "RequestedSpeedLimitMinHz set rejected for eid {EID}: hardware min/max not yet known",
             "EID", eid);
-        throw sdbusplus::error::xyz::openbmc_project::common::Unavailable();
+        throw Unavailable();
     }
 
     if (newMinHz < *minHw || newMinHz > *maxHw)
@@ -278,7 +277,7 @@ int NvidiaGpuClockSpeedControl::handleRequestedSpeedLimitMinHzSet(
         lg2::error(
             "RequestedSpeedLimitMinHz set rejected for eid {EID}: value {VAL} out of range [{MIN}, {MAX}]",
             "EID", eid, "VAL", newMinHz, "MIN", *minHw, "MAX", *maxHw);
-        throw sdbusplus::error::xyz::openbmc_project::common::InvalidArgument();
+        throw InvalidArgument();
     }
 
     pendingMinHz = newMinHz;
