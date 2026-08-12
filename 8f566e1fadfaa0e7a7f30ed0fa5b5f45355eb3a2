@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2199cec1_42ad5b82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-08-12T06:55:07Z",
+      "side": 1,
+      "message": "Thanks for the review updates. I have revised the commit message to follow the cbea.ms guidelines.\nSubject is within 50 chars, body wrapped at 72, and body now\nexplains what/why.",
+      "parentUuid": "b57c1e14_b2c058aa",
+      "revId": "8f566e1fadfaa0e7a7f30ed0fa5b5f45355eb3a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2bfaeb2b_9115dbca",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-08-11T14:49:04Z",
       "side": 1,
       "message": "Please use your full name here https://github.com/openbmc/docs/blob/2019c366898dbba54aed89705c89979180d8e440/CONTRIBUTING.md?plain\u003d1#L248",
+      "range": {
+        "startLine": 40,
+        "startChar": 14,
+        "endLine": 40,
+        "endChar": 29
+      },
+      "revId": "8f566e1fadfaa0e7a7f30ed0fa5b5f45355eb3a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0012c86_931d3ebe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-08-12T06:55:07Z",
+      "side": 1,
+      "message": "Thanks for pointing this out. Updated Signed-off-by to use my full legal name per OpenBMC CONTRIBUTING guidance.",
+      "parentUuid": "2bfaeb2b_9115dbca",
       "range": {
         "startLine": 40,
         "startChar": 14,
