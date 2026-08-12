@@ -42,8 +42,14 @@ boost = dependency(
     'boost',
     version: '>=1.88.0',
     include_type: 'system',
-    fallback: 'boost-meson',
+    fallback: ['boost-meson', 'boost_dep'],
+    required: false,
 )
+
+if not boost.found()
+    error('dbus-sensors requires Boost >= 1.88.0 for CI/local builds. Install Boost 1.88+ or enable the boost-meson fallback in the build environment.')
+endif
+
 sdbusplus = dependency('sdbusplus')
 phosphor_logging_dep = dependency('phosphor-logging')
 
