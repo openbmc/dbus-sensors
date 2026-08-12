@@ -123,6 +123,12 @@ bool parseThresholdsFromConfig(
     std::vector<thresholds::Threshold>& thresholdVector,
     const std::string* matchLabel = nullptr, const int* sensorIndex = nullptr);
 
+bool parseThresholdsFromConfigWithLabelProbe(
+    const SensorData& sensorData,
+    std::vector<thresholds::Threshold>& thresholdVector,
+    const std::string* matchLabel = nullptr, const int* sensorIndex = nullptr,
+    const std::string* sensorPathStr = nullptr);
+
 // Sensors touched by parseThresholdFromAttr() are forcibly updated with given
 // parameters, so callers are encouraged to specify a sane hysteresis value for
 // their HW. For reference, the hysteresis fomula used in Sensor.hpp is:
