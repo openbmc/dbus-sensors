@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6494cc27_c1a618d2",
+        "filename": "src/nvidia-gpu/NvidiaSwitchResetControl.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-12T18:21:05Z",
+      "side": 1,
+      "message": "Throw local `sdbusplus::exception_t` error types defined in `NvidiaUtils.hpp` (same approach as SetSensorError in sensor.hpp); the power/clock controls are converted the same way.\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/93467",
+      "parentUuid": "575cf929_5b99d172",
+      "revId": "27e303433e2dbd8dfe30469e2710098374fedb60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eacc0bd2_1168d437",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-08-06T11:01:07Z",
       "side": 1,
       "message": "Put first three of these values directly inline.",
+      "revId": "27e303433e2dbd8dfe30469e2710098374fedb60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8a0dd25_df39fe67",
+        "filename": "src/nvidia-gpu/NvidiaSwitchResetControl.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-12T18:21:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eacc0bd2_1168d437",
       "revId": "27e303433e2dbd8dfe30469e2710098374fedb60",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -52,6 +88,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d45ed96_6f7d6f93",
+        "filename": "src/nvidia-gpu/NvidiaSwitchResetControl.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-12T18:21:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "683144f9_9c58da6b",
+      "revId": "27e303433e2dbd8dfe30469e2710098374fedb60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a697f8e_a4dfeb03",
@@ -69,6 +123,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "57cc2bdc_e0303be1",
+        "filename": "src/nvidia-gpu/NvidiaSwitchResetControl.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-12T18:21:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a697f8e_a4dfeb03",
+      "revId": "27e303433e2dbd8dfe30469e2710098374fedb60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "49de70be_7906735e",
@@ -82,6 +154,24 @@
       "writtenOn": "2026-08-06T11:01:07Z",
       "side": 1,
       "message": "Make sure log follows the same format as other files in the app.",
+      "revId": "27e303433e2dbd8dfe30469e2710098374fedb60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50083420_addb7409",
+        "filename": "src/nvidia-gpu/NvidiaSwitchResetControl.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-12T18:21:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49de70be_7906735e",
       "revId": "27e303433e2dbd8dfe30469e2710098374fedb60",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
