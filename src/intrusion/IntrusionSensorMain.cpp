@@ -149,7 +149,7 @@ static void createSensorsFromConfig(
                 }
             }
             // If class string contains Hwmon string
-            else if (classString.find("Hwmon") != std::string::npos)
+            else if (classString.contains("Hwmon"))
             {
                 std::string hwmonName;
                 std::map<std::string, std::string>::const_iterator
