@@ -1,7 +1,10 @@
 #pragma once
 
 // clang-format off
-constexpr const int validateUnsecureFeature = @VALIDATION_UNSECURE_FEATURE@;
+inline constexpr bool validateUnsecureFeature =
+    @VALIDATION_UNSECURE_FEATURE@;
 
-constexpr const int insecureSensorOverride = @INSECURE_UNRESTRICTED_SENSOR_OVERRIDE@;
+inline constexpr bool insecureSensorOverride =
+    @INSECURE_UNRESTRICTED_SENSOR_OVERRIDE@;
+
 // clang-format on
