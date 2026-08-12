@@ -5,6 +5,7 @@
 
 #include "NvidiaGpuPowerControl.hpp"
 
+#include "NvidiaGpuControlErrors.hpp"
 #include "NvidiaUtils.hpp"
 #include "Utils.hpp"
 
@@ -17,7 +18,6 @@
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/message/native_types.hpp>
-#include <xyz/openbmc_project/Common/error.hpp>
 
 #include <chrono>
 #include <cstdint>
@@ -196,7 +196,7 @@ int NvidiaGpuPowerControl::handlePowerCapSet(const uint32_t& newCap,
         lg2::error(
             "PowerCap set rejected for eid {EID}: inventory not available",
             "EID", eid);
-        throw sdbusplus::error::xyz::openbmc_project::common::Unavailable();
+        throw Unavailable();
     }
 
     std::optional<uint32_t> min = inventory->getMinPowerCap();
@@ -205,7 +205,7 @@ int NvidiaGpuPowerControl::handlePowerCapSet(const uint32_t& newCap,
     {
         lg2::error("PowerCap set rejected for eid {EID}: min/max not yet known",
                    "EID", eid);
-        throw sdbusplus::error::xyz::openbmc_project::common::Unavailable();
+        throw Unavailable();
     }
 
     if (newCap < *min || newCap > *max)
@@ -213,7 +213,7 @@ int NvidiaGpuPowerControl::handlePowerCapSet(const uint32_t& newCap,
         lg2::error(
             "PowerCap set rejected for eid {EID}: value {VAL} out of range [{MIN}, {MAX}]",
             "EID", eid, "VAL", newCap, "MIN", *min, "MAX", *max);
-        throw sdbusplus::error::xyz::openbmc_project::common::InvalidArgument();
+        throw InvalidArgument();
     }
 
     // Record the requested cap and arm the debounce timer. The actual

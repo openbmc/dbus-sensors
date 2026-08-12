@@ -7,6 +7,7 @@
 #include "MctpMockTestBase.hpp"
 #include "MessagePackUnpackUtils.hpp"
 #include "MockMctpRequester.hpp"
+#include "NvidiaGpuControlErrors.hpp"
 #include "NvidiaGpuMctpVdm.hpp"
 #include "NvidiaGpuPowerControl.hpp"
 #include "OcpMctpVdm.hpp"
@@ -14,7 +15,6 @@
 
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/exception.hpp>
-#include <xyz/openbmc_project/Common/error.hpp>
 
 #include <chrono>
 #include <cstdint>
@@ -409,7 +409,7 @@ TEST_F(NvidiaGpuPowerControlTest, PowerCapSetWithoutInventoryIsRejected)
     // Without an Inventory the accepted window is unknown, so the setter has
     // to refuse rather than forward an unvalidated cap to the device.
     EXPECT_THROW(powerCapInterface->set_property("PowerCap", uint32_t{200}),
-                 sdbusplus::error::xyz::openbmc_project::common::Unavailable);
+                 Unavailable);
 }
 
 TEST_F(NvidiaGpuPowerControlTest, PowerCapSetBeforeLimitsAreKnownIsRejected)
@@ -418,7 +418,7 @@ TEST_F(NvidiaGpuPowerControlTest, PowerCapSetBeforeLimitsAreKnownIsRejected)
     auto ctrl = createControlWithInventory("ctrl_no_limits", false);
 
     EXPECT_THROW(powerCapInterface->set_property("PowerCap", uint32_t{200}),
-                 sdbusplus::error::xyz::openbmc_project::common::Unavailable);
+                 Unavailable);
 }
 
 TEST_F(NvidiaGpuPowerControlTest, PowerCapSetOutsideDeviceWindowIsRejected)
@@ -428,12 +428,10 @@ TEST_F(NvidiaGpuPowerControlTest, PowerCapSetOutsideDeviceWindowIsRejected)
 
     // InvalidArgument rather than Unavailable proves the window itself was
     // known and the value is what failed.
-    EXPECT_THROW(
-        powerCapInterface->set_property("PowerCap", minCapWatts - 1),
-        sdbusplus::error::xyz::openbmc_project::common::InvalidArgument);
-    EXPECT_THROW(
-        powerCapInterface->set_property("PowerCap", maxCapWatts + 1),
-        sdbusplus::error::xyz::openbmc_project::common::InvalidArgument);
+    EXPECT_THROW(powerCapInterface->set_property("PowerCap", minCapWatts - 1),
+                 InvalidArgument);
+    EXPECT_THROW(powerCapInterface->set_property("PowerCap", maxCapWatts + 1),
+                 InvalidArgument);
 
     // A rejected cap must never reach the device, not even after the
     // debounce window a successful write would have used.
