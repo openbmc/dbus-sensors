@@ -241,7 +241,7 @@ struct Sensor
     {
         if (!internalSet)
         {
-            if (insecureSensorOverride == 0 && !isSensorSettable &&
+            if (!insecureSensorOverride && !isSensorSettable &&
                 !getManufacturingMode())
             {
                 throw SetSensorError();

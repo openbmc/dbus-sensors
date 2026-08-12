@@ -756,7 +756,7 @@ static void handleSpecialModeChange(const std::string& manufacturingModeStatus)
     {
         manufacturingMode = true;
     }
-    if (validateUnsecureFeature == 1)
+    if (validateUnsecureFeature)
     {
         if (manufacturingModeStatus == "xyz.openbmc_project.Control.Security."
                                        "SpecialMode.Modes.ValidationUnsecure")
