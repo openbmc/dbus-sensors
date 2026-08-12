@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a020e29_92c2704c",
+        "filename": "src/fan/TachSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-08-12T07:00:21Z",
+      "side": 1,
+      "message": "The state-change guard is correct and prevents duplicate notifications. Please ensure runningState is initialized explicitly and cover the relevant transitions (absent fan, read error, parse error, recovery, and valid RPM) so FanRunning reflects the effective state and does not retain stale values.",
+      "range": {
+        "startLine": 156,
+        "startChar": 0,
+        "endLine": 156,
+        "endChar": 32
+      },
+      "revId": "4685a1fb15f46c843ebe10853952ce48df9fd0d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
