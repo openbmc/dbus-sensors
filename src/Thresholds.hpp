@@ -123,6 +123,12 @@ bool parseThresholdsFromConfig(
     std::vector<thresholds::Threshold>& thresholdVector,
     const std::string* matchLabel = nullptr, const int* sensorIndex = nullptr);
 
+bool parseThresholdsFromConfigWithLabelProbe(
+    const SensorData& sensorData,
+    std::vector<thresholds::Threshold>& thresholdVector,
+    const std::string* matchLabel = nullptr, const int* sensorIndex = nullptr,
+    const std::string* sensorPathStr = nullptr);
+
 // Sensors touched by parseThresholdFromAttr() are forcibly updated with given
 // parameters, so callers are encouraged to specify a sane hysteresis value for
 // their HW. For reference, the hysteresis fomula used in Sensor.hpp is:
@@ -152,7 +158,8 @@ std::string getInterface(Level level);
 void persistThreshold(const std::string& path, const std::string& baseInterface,
                       const thresholds::Threshold& threshold,
                       std::shared_ptr<sdbusplus::asio::connection>& conn,
-                      size_t thresholdCount, const std::string& label);
+                      size_t thresholdCount, const std::string& label,
+                      int sensorIndex = 0);
 
 void updateThresholds(Sensor* sensor);
 // returns false if a critical threshold has been crossed, true otherwise
