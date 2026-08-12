@@ -140,6 +140,24 @@
       "parentUuid": "96140df1_eec88858",
       "revId": "9d0109198b605d0aabc1662e1fbc131d63badbb8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a289e7f8_9f752250",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-08-12T02:39:46Z",
+      "side": 1,
+      "message": "yes, this should respect activateOnly to match the original behavior; the reset was previously guarded by !activateOnly, and clearing it unconditionally during the power-state reactivation path would regress that logic",
+      "parentUuid": "a966462b_8269662c",
+      "revId": "9d0109198b605d0aabc1662e1fbc131d63badbb8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
