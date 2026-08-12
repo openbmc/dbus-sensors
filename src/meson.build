@@ -1,11 +1,15 @@
 conf_data = configuration_data()
-conf_data.set10(
+conf_data.set(
     'VALIDATION_UNSECURE_FEATURE',
-    get_option('validate-unsecure-feature').allowed(),
+    get_option('validate-unsecure-feature').allowed() ? 'true' : 'false',
 )
-conf_data.set10(
+conf_data.set(
     'INSECURE_UNRESTRICTED_SENSOR_OVERRIDE',
-    get_option('insecure-sensor-override').allowed(),
+    get_option('insecure-sensor-override').allowed() ? 'true' : 'false',
+)
+conf_data.set(
+    'PSU_THRESHOLD_LABEL_PROBE_ENABLED',
+    get_option('psu-threshold-label-probe').allowed() ? 'true' : 'false',
 )
 configure_file(
     input: 'dbus-sensor_config.h.in',
