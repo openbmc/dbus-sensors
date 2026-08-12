@@ -53,10 +53,55 @@ Direction findThresholdDirection(const std::string& direct)
     return Direction::ERROR;
 }
 
-bool parseThresholdsFromConfig(
+static std::optional<double> parseThresholdFromLabel(
+    const std::string* sensorPathStr, const SensorBaseConfigMap& cfg)
+{
+    if (sensorPathStr == nullptr || !psuThresholdLabelProbeEnabled)
+    {
+        return std::nullopt;
+    }
+
+    static const std::unordered_map<std::string, std::string>
+        labelToHwmonSuffix{
+            {"iout_oc_warn_limit", "max"},
+        };
+
+    auto thresholdLabelFind = cfg.find("ThresholdLabel");
+    auto scaleFactorFind = cfg.find("ScaleFactor");
+    if (thresholdLabelFind == cfg.end() || scaleFactorFind == cfg.end())
+    {
+        return std::nullopt;
+    }
+
+    const std::string thresholdLabel =
+        std::visit(VariantToStringVisitor(), thresholdLabelFind->second);
+    auto hwmonFileSuffix = labelToHwmonSuffix.find(thresholdLabel);
+    if (hwmonFileSuffix == labelToHwmonSuffix.end())
+    {
+        return std::nullopt;
+    }
+
+    auto fileParts = splitFileName(*sensorPathStr);
+    if (!fileParts.has_value())
+    {
+        return std::nullopt;
+    }
+
+    auto [type, nr, item] = fileParts.value();
+    (void)type;
+    (void)nr;
+
+    auto attrPath =
+        boost::replace_all_copy(*sensorPathStr, item, hwmonFileSuffix->second);
+    return readFile(attrPath, (1.0 / std::visit(VariantToDoubleVisitor(),
+                                                scaleFactorFind->second)));
+}
+
+static bool parseThresholdsFromConfigImpl(
     const SensorData& sensorData,
     std::vector<thresholds::Threshold>& thresholdVector,
-    const std::string* matchLabel, const int* sensorIndex)
+    const std::string* matchLabel, const int* sensorIndex,
+    const std::string* sensorPathStr, bool allowLabelProbe)
 {
     for (const auto& [intf, cfg] : sensorData)
     {
@@ -107,8 +152,8 @@ bool parseThresholdsFromConfig(
         auto directionFind = cfg.find("Direction");
         auto severityFind = cfg.find("Severity");
         auto valueFind = cfg.find("Value");
-        if (valueFind == cfg.end() || severityFind == cfg.end() ||
-            directionFind == cfg.end())
+
+        if (severityFind == cfg.end() || directionFind == cfg.end())
         {
             lg2::error(
                 "Malformed threshold on configuration interface: '{INTERFACE}'",
@@ -128,11 +173,46 @@ bool parseThresholdsFromConfig(
         {
             continue;
         }
-        double val = std::visit(VariantToDoubleVisitor(), valueFind->second);
+
+        auto labelValue = allowLabelProbe
+                              ? parseThresholdFromLabel(sensorPathStr, cfg)
+                              : std::nullopt;
+        if (valueFind == cfg.end() && !labelValue.has_value())
+        {
+            lg2::error(
+                "Malformed threshold on configuration interface: '{INTERFACE}'",
+                "INTERFACE", intf);
+            return false;
+        }
+
+        double val =
+            labelValue.has_value()
+                ? labelValue.value()
+                : std::visit(VariantToDoubleVisitor(), valueFind->second);
 
         thresholdVector.emplace_back(level, direction, val, hysteresis);
     }
     return true;
+}
+
+bool parseThresholdsFromConfig(
+    const SensorData& sensorData,
+    std::vector<thresholds::Threshold>& thresholdVector,
+    const std::string* matchLabel, const int* sensorIndex)
+{
+    return parseThresholdsFromConfigImpl(
+        sensorData, thresholdVector, matchLabel, sensorIndex, nullptr, false);
+}
+
+bool parseThresholdsFromConfigWithLabelProbe(
+    const SensorData& sensorData,
+    std::vector<thresholds::Threshold>& thresholdVector,
+    const std::string* matchLabel, const int* sensorIndex,
+    const std::string* sensorPathStr)
+{
+    return parseThresholdsFromConfigImpl(
+        sensorData, thresholdVector, matchLabel, sensorIndex, sensorPathStr,
+        true);
 }
 
 void persistThreshold(const std::string& path, const std::string& baseInterface,

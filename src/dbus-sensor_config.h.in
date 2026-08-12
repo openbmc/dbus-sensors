@@ -1,7 +1,13 @@
 #pragma once
 
 // clang-format off
-constexpr const int validateUnsecureFeature = @VALIDATION_UNSECURE_FEATURE@;
+#define VALIDATION_UNSECURE_FEATURE @VALIDATION_UNSECURE_FEATURE@
+#define INSECURE_UNRESTRICTED_SENSOR_OVERRIDE @INSECURE_UNRESTRICTED_SENSOR_OVERRIDE@
+#define PSU_THRESHOLD_LABEL_PROBE_ENABLED @PSU_THRESHOLD_LABEL_PROBE_ENABLED@
 
-constexpr const int insecureSensorOverride = @INSECURE_UNRESTRICTED_SENSOR_OVERRIDE@;
+constexpr const int validateUnsecureFeature = VALIDATION_UNSECURE_FEATURE;
+
+constexpr const int insecureSensorOverride = INSECURE_UNRESTRICTED_SENSOR_OVERRIDE;
+
+constexpr const int psuThresholdLabelProbeEnabled = PSU_THRESHOLD_LABEL_PROBE_ENABLED;
 // clang-format on
