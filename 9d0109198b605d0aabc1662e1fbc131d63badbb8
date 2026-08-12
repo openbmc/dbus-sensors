@@ -158,6 +158,24 @@
       "parentUuid": "a966462b_8269662c",
       "revId": "9d0109198b605d0aabc1662e1fbc131d63badbb8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5678fa28_f9e506f1",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-08-12T14:41:31Z",
+      "side": 1,
+      "message": "Thanks for confirming. Could you please update the helper, so the reset is guarded by !activateOnly to preserve the pre-refactor behavior?",
+      "parentUuid": "a289e7f8_9f752250",
+      "revId": "9d0109198b605d0aabc1662e1fbc131d63badbb8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
