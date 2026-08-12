@@ -40,6 +40,17 @@ test(
 )
 
 test(
+    'test_thresholds',
+    executable(
+        'test_thresholds',
+        'test_Thresholds.cpp',
+        dependencies: [ut_deps_list, thresholds_dep, utils_dep],
+        implicit_include_directories: false,
+        include_directories: src_inc,
+    ),
+)
+
+test(
     'test_ipmb',
     executable(
         'test_ipmb',
