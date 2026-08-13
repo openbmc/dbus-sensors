@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "31507b8a_ec3a0aa7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002462
+      },
+      "writtenOn": "2026-08-13T13:31:30Z",
+      "side": 1,
+      "message": "Done. Tested section added.",
+      "parentUuid": "a7810ff3_c1d64f6c",
+      "revId": "b764db33b7163d78217800c7ad78a0b67a015df7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4fa079f7_fa6fb854",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-07-31T07:26:33Z",
       "side": 1,
       "message": "Can we add logging for the non-success temperature probe path (transport error, decode rc, completion code, reason code)? Right now, only the success path is explicit, which makes field diagnosis harder.",
+      "revId": "b764db33b7163d78217800c7ad78a0b67a015df7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89c91586_3d6ca2ef",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1002462
+      },
+      "writtenOn": "2026-08-13T13:31:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4fa079f7_fa6fb854",
       "revId": "b764db33b7163d78217800c7ad78a0b67a015df7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -52,6 +88,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "701948bd_269c5391",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1002462
+      },
+      "writtenOn": "2026-08-13T13:31:30Z",
+      "side": 1,
+      "message": "Refactor the structure to avoid calling self-\u003eread().",
+      "parentUuid": "f7462f2b_72d13fe4",
+      "revId": "b764db33b7163d78217800c7ad78a0b67a015df7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "304e39b6_9223e80b",
@@ -65,6 +119,24 @@
       "writtenOn": "2026-07-31T07:26:33Z",
       "side": 1,
       "message": "Can we add similar diagnostics for leak probe failures (ec2, decode rc, completion code, reason code), so unsupported-command behavior is distinguishable from transport/parsing failures?",
+      "revId": "b764db33b7163d78217800c7ad78a0b67a015df7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3f73b8c_3bc005c2",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1002462
+      },
+      "writtenOn": "2026-08-13T13:31:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "304e39b6_9223e80b",
       "revId": "b764db33b7163d78217800c7ad78a0b67a015df7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
