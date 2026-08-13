@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1abc86ba_200190b7",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 1001939
+      },
+      "writtenOn": "2026-08-13T09:33:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af811d7f_3904c67f",
+      "revId": "f987df5b4226b56fbae7ecbeb1140744b4d4a27f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "585ada05_e6fd977a",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-08-12T09:49:11Z",
       "side": 1,
       "message": "Since all three initial status queries can independently invoke hostStatusCallback, startup can trigger up to three immediate createSensors rescans when host/chassis/POST are already true. Should we coalesce or debounce this to a single rescan to avoid redundant work?",
+      "revId": "f987df5b4226b56fbae7ecbeb1140744b4d4a27f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "020907f7_7295b5a4",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 620,
+      "author": {
+        "id": 1001939
+      },
+      "writtenOn": "2026-08-13T09:33:42Z",
+      "side": 1,
+      "message": "You are right. I checked the caller side (powerStateChanged), and it was indeed calling createSensors synchronously, which resulted in three redundant rescans during a BMC reset.\n\nWe will use a static boost::asio::steady_timer in powerStateChanged to debounce the createSensors execution by delaying it for 1 second. With this change, createSensors will be executed exactly once after the initial burst of power state syncs.",
+      "parentUuid": "585ada05_e6fd977a",
       "revId": "f987df5b4226b56fbae7ecbeb1140744b4d4a27f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
