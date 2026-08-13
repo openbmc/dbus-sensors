@@ -115,6 +115,17 @@ TEST_F(TestUtils, findFiles_in_hwmon_match)
     EXPECT_EQ(foundPaths.size(), 2U);
 }
 
+TEST_F(TestUtils, getFullHwmonFilePath_rejects_unpermitted_label)
+{
+    auto hwmon10 = hwmonDir / "hwmon10";
+    std::ofstream labelFile{hwmon10 / "temp1_label"};
+    labelFile << "Unexpected";
+
+    auto path = getFullHwmonFilePath(hwmon10.string(), "temp1", {"Permitted"});
+
+    EXPECT_FALSE(path.has_value());
+}
+
 TEST_F(TestUtils, findFiles_in_peci_no_match)
 {
     std::vector<std::filesystem::path> foundPaths;
