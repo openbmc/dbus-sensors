@@ -38,6 +38,8 @@ class SmaDevice : public std::enable_shared_from_this<SmaDevice>
     void init();
 
   private:
+    void makeTempSensors();
+    void makeLeakSensors();
     void makeSensors();
 
     void read();
