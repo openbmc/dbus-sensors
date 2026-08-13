@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a6756f7_0c310df7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-08-13T03:03:27Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "eb134308_4ab03da6",
+      "revId": "97577a0cc70bd251f4dbc640eb086024209110de",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b89e8765_cffe0ffc",
@@ -41,6 +59,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7219bc84_220fad04",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-08-13T03:03:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b89e8765_cffe0ffc",
+      "range": {
+        "startLine": 239,
+        "startChar": 15,
+        "endLine": 242,
+        "endChar": 65
+      },
+      "revId": "97577a0cc70bd251f4dbc640eb086024209110de",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8c0b9629_130b070a",
@@ -54,6 +96,30 @@
       "writtenOn": "2026-07-28T09:14:40Z",
       "side": 1,
       "message": "This is only correct because createDeviceForType overwrites it later; reordering would silently disable rediscovery. Could the real handler just go here, using weak_from_this() to call setCapabilities()?",
+      "range": {
+        "startLine": 243,
+        "startChar": 12,
+        "endLine": 246,
+        "endChar": 62
+      },
+      "revId": "97577a0cc70bd251f4dbc640eb086024209110de",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e9e7e16_907d8eca",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-08-13T03:03:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c0b9629_130b070a",
       "range": {
         "startLine": 243,
         "startChar": 12,
