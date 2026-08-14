@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b01f44f_0e970f74",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-14T10:14:41Z",
+      "side": 1,
+      "message": "Could you add class-level tests for NvidiaGpuAssembly? \ntest_Inventory.cpp passes nullptr for the assembly interfaces, so the new multi-target fan-out never runs.",
+      "revId": "ba0e0594ba859b57c8a9e16c4949b97ebaf36e03",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
