@@ -426,8 +426,13 @@ void DeviceManager::processConfigPropertiesResult(
         const auto* boardPtr = std::get_if<std::string>(&boardIt->second);
         if ((boardPtr != nullptr) && !boardPtr->empty())
         {
-            findBoardInventoryPath(configs, mctpObjectPath, eid, *boardPtr,
-                                   configPath);
+            findBoardInventoryPath(
+                *boardPtr, configPath, eid,
+                [this, configs, mctpObjectPath,
+                 eid](const sdbusplus::object_path& entityObjectPath) {
+                    queryDeviceIdentification(configs, entityObjectPath,
+                                              mctpObjectPath, eid);
+                });
             return;
         }
     }
@@ -505,52 +510,20 @@ void DeviceManager::collectBoardPaths(std::function<void()> done)
         std::vector<std::string>{std::string(probeIface)});
 }
 
-void DeviceManager::findBoardInventoryPath(
-    const SensorConfigs& configs, const sdbusplus::object_path& mctpObjectPath,
-    uint8_t eid, const std::string& boardName,
-    const sdbusplus::object_path& configPath)
+// Pick the NvidiaMctpVdm configuration found under the board, falling back to
+// fallbackPath when the search turned nothing up.
+static void selectMctpVdmConfig(
+    const sdbusplus::object_path& inventoryPath,
+    const sdbusplus::object_path& fallbackPath, uint8_t eid,
+    const boost::system::error_code& ec, const GetSubTreeType& ret,
+    const std::function<void(const std::string&)>& done)
 {
-    auto board = boardPaths.find(boardName);
-    if (board == boardPaths.end())
-    {
-        lg2::error(
-            "EID {EID}: Board {BOARD} not found in inventory, using config path {PATH}",
-            "EID", eid, "BOARD", boardName, "PATH", configPath);
-        queryDeviceIdentification(configs, configPath, mctpObjectPath, eid);
-        return;
-    }
-
-    const sdbusplus::object_path& inventoryPath = board->second;
-    lg2::info("EID {EID}: Found board inventory path {PATH} for board {BOARD}",
-              "EID", eid, "PATH", inventoryPath, "BOARD", boardName);
-
-    conn->async_method_call(
-        [this, configs, mctpObjectPath, eid, inventoryPath, configPath](
-            const boost::system::error_code& ec2, const GetSubTreeType& ret2) {
-            processNvidiaMctpVdmConfigSearch(configs, mctpObjectPath, eid,
-                                             inventoryPath, configPath, ec2,
-                                             ret2);
-        },
-        "xyz.openbmc_project.ObjectMapper",
-        "/xyz/openbmc_project/object_mapper",
-        "xyz.openbmc_project.ObjectMapper", "GetSubTree",
-        inventoryPath.string(), 0,
-        std::vector<std::string>{
-            "xyz.openbmc_project.Configuration.NvidiaMctpVdm"});
-}
-
-void DeviceManager::processNvidiaMctpVdmConfigSearch(
-    const SensorConfigs& configs, const sdbusplus::object_path& mctpObjectPath,
-    uint8_t eid, const sdbusplus::object_path& inventoryPath,
-    const sdbusplus::object_path& configPath,
-    const boost::system::error_code& ec, const GetSubTreeType& ret)
-{
-    std::string finalConfigPath = configPath;
+    std::string finalConfigPath = fallbackPath;
 
     if (!ec && !ret.empty())
     {
         const std::string& objPath = ret[0].first;
-        if (objPath.find(inventoryPath.str) != std::string::npos)
+        if (objPath.find(inventoryPath.string()) != std::string::npos)
         {
             finalConfigPath = objPath;
         }
@@ -559,10 +532,42 @@ void DeviceManager::processNvidiaMctpVdmConfigSearch(
     {
         lg2::error(
             "EID {EID}: NvidiaMctpVdm config not found under board, using original {PATH}",
-            "EID", eid, "PATH", configPath);
+            "EID", eid, "PATH", fallbackPath);
     }
 
-    queryDeviceIdentification(configs, finalConfigPath, mctpObjectPath, eid);
+    done(finalConfigPath);
+}
+
+void DeviceManager::findBoardInventoryPath(
+    const std::string& boardName, const sdbusplus::object_path& fallbackPath,
+    uint8_t eid, const ConfigPathHandler& done)
+{
+    auto board = boardPaths.find(boardName);
+    if (board == boardPaths.end())
+    {
+        lg2::error(
+            "EID {EID}: Board {BOARD} not found in inventory, using config path {PATH}",
+            "EID", eid, "BOARD", boardName, "PATH", fallbackPath);
+        done(fallbackPath);
+        return;
+    }
+
+    const sdbusplus::object_path& inventoryPath = board->second;
+    lg2::info("EID {EID}: Found board inventory path {PATH} for board {BOARD}",
+              "EID", eid, "PATH", inventoryPath, "BOARD", boardName);
+
+    conn->async_method_call(
+        [eid, inventoryPath, fallbackPath, done](
+            const boost::system::error_code& ec2, const GetSubTreeType& ret2) {
+            selectMctpVdmConfig(inventoryPath, fallbackPath, eid, ec2, ret2,
+                                done);
+        },
+        "xyz.openbmc_project.ObjectMapper",
+        "/xyz/openbmc_project/object_mapper",
+        "xyz.openbmc_project.ObjectMapper", "GetSubTree",
+        inventoryPath.string(), 0,
+        std::vector<std::string>{
+            "xyz.openbmc_project.Configuration.NvidiaMctpVdm"});
 }
 
 void DeviceManager::processEndpoint(
