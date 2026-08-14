@@ -47,6 +47,54 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5320943_4480b391",
+        "filename": "src/nvidia-gpu/NvidiaGpuResetRequired.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-08-14T02:48:38Z",
+      "side": 1,
+      "message": "Changed to `/*unused*/` — clang-tidy \nrejects a bare `const EventInfo\u0026` in a definition.",
+      "parentUuid": "02d51af7_0906df16",
+      "range": {
+        "startLine": 38,
+        "startChar": 21,
+        "endLine": 38,
+        "endChar": 36
+      },
+      "revId": "41cb2f5dcb7d5bc4cc5e86e86809ffaf4b5433ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8481482e_1cb9c236",
+        "filename": "src/nvidia-gpu/NvidiaGpuResetRequired.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-08-14T02:48:38Z",
+      "side": 1,
+      "message": "Changed to `/*unused*/` — clang-tidy \nrejects a bare `const EventInfo\u0026` in a definition.",
+      "parentUuid": "aceec3d3_2e3876fe",
+      "range": {
+        "startLine": 38,
+        "startChar": 63,
+        "endLine": 38,
+        "endChar": 78
+      },
+      "revId": "41cb2f5dcb7d5bc4cc5e86e86809ffaf4b5433ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "833f558f_9b73ea86",
@@ -60,6 +108,24 @@
       "writtenOn": "2026-08-07T04:58:33Z",
       "side": 1,
       "message": "Is this adding additional assertions that is not already covered by existing test cases? If yes we should directly update the existing test cases.",
+      "revId": "41cb2f5dcb7d5bc4cc5e86e86809ffaf4b5433ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6207ee4f_b273d186",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-08-14T02:48:38Z",
+      "side": 1,
+      "message": "Remove it, thanks.",
+      "parentUuid": "833f558f_9b73ea86",
       "revId": "41cb2f5dcb7d5bc4cc5e86e86809ffaf4b5433ed",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
