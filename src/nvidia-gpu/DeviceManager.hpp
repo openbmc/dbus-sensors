@@ -87,15 +87,14 @@ class DeviceManager
     // than something the object path can be derived from. Read every board's
     // once per sweep instead of for every device that resolves against one.
     void collectBoardPaths(std::function<void()> done);
-    void findBoardInventoryPath(const SensorConfigs& configs,
-                                const std::string& endpointPath, uint8_t eid,
-                                const std::string& boardName,
-                                const std::string& configPath);
-    void processNvidiaMctpVdmConfigSearch(
-        const SensorConfigs& configs, const std::string& endpointPath,
-        uint8_t eid, const std::string& inventoryPath,
-        const std::string& configPath, const boost::system::error_code& ec,
-        const GetSubTreeType& ret);
+    // Resolve the configuration object a device's sensors should be
+    // associated with: the NvidiaMctpVdm configuration under the named board.
+    // The resolved path, or fallbackPath if the board or its configuration
+    // cannot be found, is handed to done().
+    using ConfigPathHandler = std::function<void(const std::string&)>;
+    void findBoardInventoryPath(const std::string& boardName,
+                                const std::string& fallbackPath, uint8_t eid,
+                                const ConfigPathHandler& done);
     void queryDeviceIdentification(
         const SensorConfigs& configs, const std::string& path,
         const std::string& endpointPath, uint8_t eid);
