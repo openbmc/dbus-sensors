@@ -62,6 +62,30 @@
       },
       "revId": "7a17f296809553c94c831cce670533cb5a08418e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5effa83_e32734c4",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-14T10:29:20Z",
+      "side": 1,
+      "message": "Heads up: the chain under this changed since you based on it, and one of the changes affects how chassisPath should be sourced.\n\nBoard on a platform record now names the board that record\u0027s own device is on, rather than the board of the device behind it. On the MGX switch that means an SMA\u0027s Board is the ConnectX8 switch it is soldered on, and the GPU behind it names its own board in its BridgedEndpoints record:\n```\n{\n    \"Board\": \"Nvidia IMGX ConnectX8 SuperNIC Switch\",\n    \"BridgedEndpoints\": [\n        { \"Board\": \"Nvidia RTX PRO 6000 Blackwell 1\", \"Name\": \"GPU 0\" }\n    ],\n    \"Name\": \"GPU 0 SMA\",\n    \"Type\": \"MCTPUSBDevice\"\n}\n```\nqueryDevicesForEndpoint resolves a board per bridged device now, instead of reusing the bridge\u0027s.\n\nThe entity-manager list in the commit message needs refreshing too; the chain is seven changes now:\n\nhttps://gerrit.openbmc.org/c/openbmc/entity-manager/+/87415\nhttps://gerrit.openbmc.org/c/openbmc/entity-manager/+/77381\nhttps://gerrit.openbmc.org/c/openbmc/entity-manager/+/93523\nhttps://gerrit.openbmc.org/c/openbmc/entity-manager/+/93517\nhttps://gerrit.openbmc.org/c/openbmc/entity-manager/+/87463\nhttps://gerrit.openbmc.org/c/openbmc/entity-manager/+/93524\nhttps://gerrit.openbmc.org/c/openbmc/entity-manager/+/85991\n\nHappy to add the board path to BoardConfigs on my side if that helps.",
+      "parentUuid": "81e436c6_bce58f44",
+      "range": {
+        "startLine": 353,
+        "startChar": 50,
+        "endLine": 353,
+        "endChar": 61
+      },
+      "revId": "7a17f296809553c94c831cce670533cb5a08418e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
