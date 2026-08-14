@@ -8,7 +8,9 @@
 #include <cstdint>
 #include <string>
 
-constexpr const char* sensorType = "NvidiaMctpVdm";
+constexpr const char* sensorTypeGpu = "NvidiaMctpVdmGpu";
+constexpr const char* sensorTypeSma = "NvidiaMctpVdmSma";
+constexpr const char* sensorTypeCx = "NvidiaMctpVdmCx";
 
 constexpr uint64_t sensorPollRateMs = 1000;
 
