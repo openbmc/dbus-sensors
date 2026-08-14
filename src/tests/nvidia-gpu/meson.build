@@ -16,11 +16,13 @@ gpusensor_sources = files(
     gpusensor_dir / 'NvidiaGpuPowerSensor.cpp',
     gpusensor_dir / 'NvidiaGpuTempSensor.cpp',
     gpusensor_dir / 'NvidiaGpuVoltageSensor.cpp',
+    gpusensor_dir / 'NvidiaLongRunningHandler.cpp',
     gpusensor_dir / 'NvidiaPcieDevice.cpp',
     gpusensor_dir / 'NvidiaPcieFunction.cpp',
     gpusensor_dir / 'NvidiaPcieInterface.cpp',
     gpusensor_dir / 'NvidiaPciePort.cpp',
     gpusensor_dir / 'NvidiaPciePortMetrics.cpp',
+    gpusensor_dir / 'SerialQueue.cpp',
 )
 
 dbus_fixture_sources = files(
@@ -59,6 +61,8 @@ test(
         'test_NvidiaGpuMemoryClockFrequency.cpp',
         'test_NvidiaGpuMemoryDevice.cpp',
         'test_NvidiaPcieFunction.cpp',
+        'test_SerialQueue.cpp',
+        'test_NvidiaLongRunningHandler.cpp',
         'test_Inventory.cpp',
         gpusensor_sources,
         dbus_fixture_sources,
