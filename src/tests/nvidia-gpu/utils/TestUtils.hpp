@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include "NvidiaEventReporting.hpp"
 #include "NvidiaGpuMctpVdm.hpp"
 #include "OcpMctpVdm.hpp"
 
@@ -89,6 +90,36 @@ inline std::vector<uint8_t> buildPcieScalarTelemetryResponse(
         pack.pack(val);
     }
     return buf;
+}
+
+// Event class the device uses for a deferred long-running response.
+constexpr uint8_t longRunningResponseEventClass = 128;
+
+// Build a long-running response event data buffer:
+//   instanceId(1) + completionCode(1) + reasonCode(2 LE) + payload
+inline std::vector<uint8_t> buildLongRunningEventData(
+    uint8_t instanceId, uint8_t cc, uint16_t reasonCode,
+    const std::vector<uint8_t>& payload)
+{
+    std::vector<uint8_t> buf;
+    buf.push_back(instanceId);
+    buf.push_back(cc);
+    buf.push_back(static_cast<uint8_t>(reasonCode & 0xFF));
+    buf.push_back(static_cast<uint8_t>((reasonCode >> 8) & 0xFF));
+    buf.insert(buf.end(), payload.begin(), payload.end());
+    return buf;
+}
+
+// Build the EventInfo carrying a long-running response: the originating
+// command and message type are packed into eventState.
+inline EventInfo makeEventInfo(uint8_t eventClass, uint8_t messageType,
+                               uint8_t command)
+{
+    EventInfo info{};
+    info.eventClass = eventClass;
+    info.eventState = static_cast<uint16_t>(
+        (static_cast<uint16_t>(command) << 8) | messageType);
+    return info;
 }
 
 } // namespace test_utils
