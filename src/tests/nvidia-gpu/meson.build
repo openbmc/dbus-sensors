@@ -4,6 +4,7 @@ gpusensor_sources = files(
     gpusensor_dir / 'Inventory.cpp',
     gpusensor_dir / 'NvidiaDriverInformation.cpp',
     gpusensor_dir / 'NvidiaEthPort.cpp',
+    gpusensor_dir / 'NvidiaEventReporting.cpp',
     gpusensor_dir / 'NvidiaGpuClockFrequencyMetric.cpp',
     gpusensor_dir / 'NvidiaGpuClockSpeedControl.cpp',
     gpusensor_dir / 'NvidiaGpuPowerControl.cpp',
@@ -20,6 +21,7 @@ gpusensor_sources = files(
     gpusensor_dir / 'NvidiaGpuTempSensor.cpp',
     gpusensor_dir / 'NvidiaGpuViolationDuration.cpp',
     gpusensor_dir / 'NvidiaGpuVoltageSensor.cpp',
+    gpusensor_dir / 'NvidiaGpuXid.cpp',
     gpusensor_dir / 'NvidiaLongRunningHandler.cpp',
     gpusensor_dir / 'NvidiaPcieDevice.cpp',
     gpusensor_dir / 'NvidiaPcieFunction.cpp',
@@ -31,6 +33,7 @@ gpusensor_sources = files(
 
 dbus_fixture_sources = files(
     'utils/DbusMockTestBase.cpp',
+    'utils/LoggingStub.cpp',
 )
 
 mock_mctp_sources = files(
@@ -68,6 +71,8 @@ test(
         'test_NvidiaGpuViolationDuration.cpp',
         'test_SerialQueue.cpp',
         'test_NvidiaLongRunningHandler.cpp',
+        'test_NvidiaEventReporting.cpp',
+        'test_NvidiaGpuXid.cpp',
         'test_Inventory.cpp',
         'test_NvidiaGpuClockSpeedControl.cpp',
         'test_NvidiaGpuResetRequired.cpp',
