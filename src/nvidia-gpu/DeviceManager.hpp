@@ -9,6 +9,7 @@
 #include "EndpointState.hpp"
 #include "MctpRequester.hpp"
 #include "NvidiaGpuDevice.hpp"
+#include "NvidiaGpuMctpVdm.hpp"
 #include "NvidiaPcieDevice.hpp"
 #include "NvidiaSensorConfig.hpp"
 #include "NvidiaSmaDevice.hpp"
@@ -104,11 +105,30 @@ class DeviceManager
         const SensorBaseConfigMap& configProps,
         const std::vector<BridgedEndpoint>& bridgedEndpoints,
         std::optional<std::pair<uint8_t, uint8_t>> bridgePool);
-    // Resolve the configuration object a device's sensors should be
-    // associated with: the NvidiaMctpVdm configuration under the named board.
-    // The resolved path, or fallbackPath if the board or its configuration
-    // cannot be found, is handed to done().
-    using ConfigPathHandler = std::function<void(const std::string&)>;
+
+  public:
+    // The MCTP VDM configurations a board exposes, one per kind of device.
+    // What kind an endpoint is is only known once it answers the device
+    // identification query, so every kind is resolved up front and the
+    // matching one is picked afterwards.
+    struct BoardConfigs
+    {
+        std::string gpu;
+        std::string sma;
+        std::string pcie;
+        // A board using the type that does not name a device kind, and the
+        // fallback when nothing was resolved, serve every kind.
+        std::string shared;
+
+        const std::string& forKind(gpu::DeviceIdentification kind) const;
+    };
+
+  private:
+    // Resolve the configurations a device's sensors should be associated
+    // with: the MCTP VDM configurations under the named board. They are
+    // handed to done(), or fallbackPath as the shared one if the board or
+    // its configurations cannot be found.
+    using ConfigPathHandler = std::function<void(const BoardConfigs&)>;
     void findBoardInventoryPath(const std::string& boardName,
                                 const std::string& fallbackPath, uint8_t eid,
                                 const ConfigPathHandler& done);
@@ -117,16 +137,16 @@ class DeviceManager
         uint8_t eid, const boost::system::error_code& ec,
         const GetSubTreeType& ret, const ConfigPathHandler& done);
     void queryDevicesForEndpoint(
-        const SensorConfigs& configs, const std::string& configPath,
+        const SensorConfigs& configs, const BoardConfigs& boardConfigs,
         const std::string& endpointPath, uint8_t eid,
         const std::optional<std::pair<uint8_t, uint8_t>>& bridgePool,
         const std::vector<BridgedEndpoint>& bridgedEndpoints);
     void queryDeviceIdentification(const SensorConfigs& configs,
-                                   const std::string& path,
+                                   const BoardConfigs& boardConfigs,
                                    const std::string& endpointPath, uint8_t eid,
                                    const std::string& deviceName);
     void processQueryDeviceIdResponse(
-        const SensorConfigs& configs, const std::string& path,
+        const SensorConfigs& configs, const BoardConfigs& boardConfigs,
         const std::string& endpointPath, uint8_t eid,
         const std::string& deviceName, const std::error_code& sendRecvMsgResult,
         std::span<const uint8_t> queryDeviceIdentificationResponse);

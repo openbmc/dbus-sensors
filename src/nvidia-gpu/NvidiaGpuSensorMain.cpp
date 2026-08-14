@@ -49,7 +49,11 @@ int main()
             deviceManager.scheduleRescan();
         };
 
-    std::array<std::string_view, 1> sensorTypes({sensorType});
+    // arg0namespace matches on dot boundaries, so watching the unqualified
+    // type would not catch the per device kind ones. Watch all of them, and
+    // keep the unqualified one for configurations that still use it.
+    std::array<std::string_view, 4> sensorTypes(
+        {sensorType, sensorTypeGpu, sensorTypeSma, sensorTypeCx});
     auto configMatches =
         setupPropertiesChangedMatches(*systemBus, sensorTypes, eventHandler);
 

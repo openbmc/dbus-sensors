@@ -185,7 +185,7 @@ bool DeviceManager::retryDiscovery(const std::string& endpointPath, uint8_t eid)
     return true;
 }
 void DeviceManager::processQueryDeviceIdResponse(
-    const SensorConfigs& configs, const std::string& path,
+    const SensorConfigs& configs, const BoardConfigs& boardConfigs,
     const std::string& endpointPath, uint8_t eid, const std::string& deviceName,
     const std::error_code& sendRecvMsgResult,
     std::span<const uint8_t> queryDeviceIdentificationResponse)
@@ -214,6 +214,11 @@ void DeviceManager::processQueryDeviceIdResponse(
             "EID", eid, "RC", rc, "CC", cc, "RESC", reasonCode);
         return;
     }
+
+    // The device kind is only known now, so pick the configuration the board
+    // exposes for it.
+    const std::string& path = boardConfigs.forKind(
+        static_cast<gpu::DeviceIdentification>(responseDeviceType));
 
     switch (static_cast<gpu::DeviceIdentification>(responseDeviceType))
     {
@@ -333,7 +338,7 @@ void DeviceManager::processQueryDeviceIdResponse(
 }
 
 void DeviceManager::queryDeviceIdentification(
-    const SensorConfigs& configs, const std::string& path,
+    const SensorConfigs& configs, const BoardConfigs& boardConfigs,
     const std::string& endpointPath, uint8_t eid, const std::string& deviceName)
 {
     // Reaching here means the config-resolution chain succeeded for this
@@ -355,23 +360,23 @@ void DeviceManager::queryDeviceIdentification(
 
     mctpRequester.sendRecvMsg(
         eid, *queryDeviceIdentificationRequest,
-        [this, configs, path, endpointPath, eid, deviceName,
+        [this, configs, boardConfigs, endpointPath, eid, deviceName,
          queryDeviceIdentificationRequest](const std::error_code& ec,
                                            std::span<const uint8_t> response) {
-            processQueryDeviceIdResponse(configs, path, endpointPath, eid,
-                                         deviceName, ec, response);
+            processQueryDeviceIdResponse(configs, boardConfigs, endpointPath,
+                                         eid, deviceName, ec, response);
         });
 }
 
 void DeviceManager::queryDevicesForEndpoint(
-    const SensorConfigs& configs, const std::string& configPath,
+    const SensorConfigs& configs, const BoardConfigs& boardConfigs,
     const std::string& endpointPath, uint8_t eid,
     const std::optional<std::pair<uint8_t, uint8_t>>& bridgePool,
     const std::vector<BridgedEndpoint>& bridgedEndpoints)
 {
     // Query the SMA (the endpoint itself) with an empty name to keep the
     // eid-based naming and the recovery wiring intact.
-    queryDeviceIdentification(configs, configPath, endpointPath, eid, "");
+    queryDeviceIdentification(configs, boardConfigs, endpointPath, eid, "");
 
     if (!bridgePool)
     {
@@ -390,16 +395,17 @@ void DeviceManager::queryDevicesForEndpoint(
 
         if (endpoint.board.empty())
         {
-            queryDeviceIdentification(configs, configPath, endpointPath,
+            queryDeviceIdentification(configs, boardConfigs, endpointPath,
                                       bridgedEid, endpoint.name);
             continue;
         }
 
         findBoardInventoryPath(
-            escapeForInventoryPath(endpoint.board), configPath, bridgedEid,
+            escapeForInventoryPath(endpoint.board), boardConfigs.shared,
+            bridgedEid,
             [this, configs, endpointPath, bridgedEid,
-             name{endpoint.name}](const std::string& path) {
-                queryDeviceIdentification(configs, path, endpointPath,
+             name{endpoint.name}](const BoardConfigs& resolved) {
+                queryDeviceIdentification(configs, resolved, endpointPath,
                                           bridgedEid, name);
             });
     }
@@ -703,9 +709,9 @@ void DeviceManager::processConfigPropertiesResult(
             findBoardInventoryPath(
                 escapeForInventoryPath(*boardPtr), configPath, eid,
                 [this, configs, endpointPath, eid, bridgePool,
-                 bridged](const std::string& path) {
-                    queryDevicesForEndpoint(configs, path, endpointPath, eid,
-                                            bridgePool, bridged);
+                 bridged](const BoardConfigs& resolved) {
+                    queryDevicesForEndpoint(configs, resolved, endpointPath,
+                                            eid, bridgePool, bridged);
                 });
             return;
         }
@@ -713,37 +719,125 @@ void DeviceManager::processConfigPropertiesResult(
 
     lg2::info("EID {EID}: No Board property found, using config path {PATH}",
               "EID", eid, "PATH", configPath);
-    queryDevicesForEndpoint(configs, configPath, endpointPath, eid, bridgePool,
-                            bridged);
+    queryDevicesForEndpoint(
+        configs, {.gpu = {}, .sma = {}, .pcie = {}, .shared = configPath},
+        endpointPath, eid, bridgePool, bridged);
 }
 
 // Pick the NvidiaMctpVdm configuration found under the board, falling back to
 // fallbackPath when the search turned nothing up.
+const std::string& DeviceManager::BoardConfigs::forKind(
+    gpu::DeviceIdentification kind) const
+{
+    const std::string* specific = nullptr;
+    switch (kind)
+    {
+        case gpu::DeviceIdentification::DEVICE_GPU:
+            specific = &gpu;
+            break;
+        case gpu::DeviceIdentification::DEVICE_SMA:
+            specific = &sma;
+            break;
+        case gpu::DeviceIdentification::DEVICE_PCIE:
+            specific = &pcie;
+            break;
+        default:
+            break;
+    }
+
+    if (specific != nullptr && !specific->empty())
+    {
+        return *specific;
+    }
+    return shared;
+}
+
+// The interfaces a board can expose an MCTP VDM configuration on. The
+// unqualified one does not say what kind of device it describes, so it is
+// only usable when the board exposes nothing more specific.
+static constexpr std::string_view mctpVdmIface =
+    "xyz.openbmc_project.Configuration.NvidiaMctpVdm";
+static constexpr std::string_view mctpVdmGpuIface =
+    "xyz.openbmc_project.Configuration.NvidiaMctpVdmGpu";
+static constexpr std::string_view mctpVdmSmaIface =
+    "xyz.openbmc_project.Configuration.NvidiaMctpVdmSma";
+static constexpr std::string_view mctpVdmCxIface =
+    "xyz.openbmc_project.Configuration.NvidiaMctpVdmCx";
+
+// The field of BoardConfigs an interface fills, or nullptr if the interface
+// is not an MCTP VDM configuration.
+static std::string* mctpVdmSlot(DeviceManager::BoardConfigs& configs,
+                                std::string_view iface)
+{
+    if (iface == mctpVdmGpuIface)
+    {
+        return &configs.gpu;
+    }
+    if (iface == mctpVdmSmaIface)
+    {
+        return &configs.sma;
+    }
+    if (iface == mctpVdmCxIface)
+    {
+        return &configs.pcie;
+    }
+    if (iface == mctpVdmIface)
+    {
+        return &configs.shared;
+    }
+    return nullptr;
+}
+
 static void selectMctpVdmConfig(
     const std::string& inventoryPath, const std::string& fallbackPath,
     uint8_t eid, const boost::system::error_code& ec, const GetSubTreeType& ret,
-    const std::function<void(const std::string&)>& done)
+    const std::function<void(const DeviceManager::BoardConfigs&)>& done)
 {
-    std::string finalConfigPath = fallbackPath;
+    DeviceManager::BoardConfigs configs;
+    configs.shared = fallbackPath;
 
-    if (!ec && !ret.empty())
-    {
-        const std::string& objPath = ret[0].first;
-        if (objPath.find(inventoryPath) != std::string::npos)
-        {
-            finalConfigPath = objPath;
-        }
-    }
-    else
+    if (ec || ret.empty())
     {
         lg2::info(
-            "EID {EID}: NvidiaMctpVdm config not found under board, using original {PATH}",
+            "EID {EID}: MCTP VDM config not found under board, using original {PATH}",
             "EID", eid, "PATH", fallbackPath);
+        done(configs);
+        return;
     }
 
-    done(finalConfigPath);
-}
+    for (const auto& [objPath, services] : ret)
+    {
+        if (objPath.find(inventoryPath) == std::string::npos)
+        {
+            continue;
+        }
 
+        for (const auto& [service, ifaces] : services)
+        {
+            for (const std::string& iface : ifaces)
+            {
+                std::string* slot = mctpVdmSlot(configs, iface);
+                if (slot == nullptr)
+                {
+                    continue;
+                }
+                if (!slot->empty() && *slot != fallbackPath)
+                {
+                    // Several configurations of one kind on a board cannot be
+                    // told apart here, so say so rather than picking one.
+                    lg2::error(
+                        "EID {EID}: board {PATH} exposes more than one {IFACE} configuration, keeping {KEPT}",
+                        "EID", eid, "PATH", inventoryPath, "IFACE", iface,
+                        "KEPT", *slot);
+                    continue;
+                }
+                *slot = objPath;
+            }
+        }
+    }
+
+    done(configs);
+}
 void DeviceManager::findBoardInventoryPath(
     const std::string& boardName, const std::string& fallbackPath, uint8_t eid,
     const ConfigPathHandler& done)
@@ -792,7 +886,7 @@ void DeviceManager::processBoardInventoryResult(
         lg2::info(
             "EID {EID}: Board {BOARD} not found in inventory, using config path {PATH}",
             "EID", eid, "BOARD", boardName, "PATH", fallbackPath);
-        done(fallbackPath);
+        done({.gpu = {}, .sma = {}, .pcie = {}, .shared = fallbackPath});
         return;
     }
 
@@ -806,7 +900,8 @@ void DeviceManager::processBoardInventoryResult(
         "/xyz/openbmc_project/object_mapper",
         "xyz.openbmc_project.ObjectMapper", "GetSubTree", inventoryPath, 0,
         std::vector<std::string>{
-            "xyz.openbmc_project.Configuration.NvidiaMctpVdm"});
+            std::string(mctpVdmIface), std::string(mctpVdmGpuIface),
+            std::string(mctpVdmSmaIface), std::string(mctpVdmCxIface)});
 }
 
 void DeviceManager::processEndpoint(
