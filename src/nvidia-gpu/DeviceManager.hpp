@@ -23,6 +23,7 @@
 #include <sdbusplus/message.hpp>
 
 #include <cstdint>
+#include <functional>
 #include <memory>
 #include <span>
 #include <string>
@@ -81,20 +82,18 @@ class DeviceManager
         uint8_t eid, const std::string& configPath,
         const boost::system::error_code& ec,
         const SensorBaseConfigMap& configProps);
-    void findBoardInventoryPath(const SensorConfigs& configs,
-                                const std::string& endpointPath, uint8_t eid,
-                                const std::string& boardName,
-                                const std::string& configPath);
+    // Resolve the configuration object a device's sensors should be
+    // associated with: the NvidiaMctpVdm configuration under the named board.
+    // The resolved path, or fallbackPath if the board or its configuration
+    // cannot be found, is handed to done().
+    using ConfigPathHandler = std::function<void(const std::string&)>;
+    void findBoardInventoryPath(const std::string& boardName,
+                                const std::string& fallbackPath, uint8_t eid,
+                                const ConfigPathHandler& done);
     void processBoardInventoryResult(
-        const SensorConfigs& configs, const std::string& endpointPath,
-        uint8_t eid, const std::string& boardName,
-        const std::string& configPath, const boost::system::error_code& ec,
-        const GetSubTreeType& ret);
-    void processNvidiaMctpVdmConfigSearch(
-        const SensorConfigs& configs, const std::string& endpointPath,
-        uint8_t eid, const std::string& inventoryPath,
-        const std::string& configPath, const boost::system::error_code& ec,
-        const GetSubTreeType& ret);
+        const std::string& boardName, const std::string& fallbackPath,
+        uint8_t eid, const boost::system::error_code& ec,
+        const GetSubTreeType& ret, const ConfigPathHandler& done);
     void queryDeviceIdentification(
         const SensorConfigs& configs, const std::string& path,
         const std::string& endpointPath, uint8_t eid);

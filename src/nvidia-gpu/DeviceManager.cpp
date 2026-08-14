@@ -33,6 +33,7 @@
 #include <chrono>
 #include <cstdint>
 #include <format>
+#include <functional>
 #include <memory>
 #include <span>
 #include <string>
@@ -420,9 +421,11 @@ void DeviceManager::processConfigPropertiesResult(
         const auto* boardPtr = std::get_if<std::string>(&boardIt->second);
         if ((boardPtr != nullptr) && !boardPtr->empty())
         {
-            findBoardInventoryPath(configs, endpointPath, eid,
-                                   escapeForInventoryPath(*boardPtr),
-                                   configPath);
+            findBoardInventoryPath(
+                escapeForInventoryPath(*boardPtr), configPath, eid,
+                [this, configs, endpointPath, eid](const std::string& path) {
+                    queryDeviceIdentification(configs, path, endpointPath, eid);
+                });
             return;
         }
     }
@@ -432,9 +435,36 @@ void DeviceManager::processConfigPropertiesResult(
     queryDeviceIdentification(configs, configPath, endpointPath, eid);
 }
 
+// Pick the NvidiaMctpVdm configuration found under the board, falling back to
+// fallbackPath when the search turned nothing up.
+static void selectMctpVdmConfig(
+    const std::string& inventoryPath, const std::string& fallbackPath,
+    uint8_t eid, const boost::system::error_code& ec, const GetSubTreeType& ret,
+    const std::function<void(const std::string&)>& done)
+{
+    std::string finalConfigPath = fallbackPath;
+
+    if (!ec && !ret.empty())
+    {
+        const std::string& objPath = ret[0].first;
+        if (objPath.find(inventoryPath) != std::string::npos)
+        {
+            finalConfigPath = objPath;
+        }
+    }
+    else
+    {
+        lg2::info(
+            "EID {EID}: NvidiaMctpVdm config not found under board, using original {PATH}",
+            "EID", eid, "PATH", fallbackPath);
+    }
+
+    done(finalConfigPath);
+}
+
 void DeviceManager::findBoardInventoryPath(
-    const SensorConfigs& configs, const std::string& endpointPath, uint8_t eid,
-    const std::string& boardName, const std::string& configPath)
+    const std::string& boardName, const std::string& fallbackPath, uint8_t eid,
+    const ConfigPathHandler& done)
 {
     const std::string searchPath{"/xyz/openbmc_project/inventory"};
     const std::vector<std::string> ifaceList{
@@ -442,10 +472,10 @@ void DeviceManager::findBoardInventoryPath(
         "xyz.openbmc_project.Inventory.Item.Board"};
 
     conn->async_method_call(
-        [this, configs, endpointPath, eid, boardName, configPath](
-            const boost::system::error_code& ec, const GetSubTreeType& ret) {
-            processBoardInventoryResult(configs, endpointPath, eid, boardName,
-                                        configPath, ec, ret);
+        [this, boardName, fallbackPath, eid,
+         done](const boost::system::error_code& ec, const GetSubTreeType& ret) {
+            processBoardInventoryResult(boardName, fallbackPath, eid, ec, ret,
+                                        done);
         },
         "xyz.openbmc_project.ObjectMapper",
         "/xyz/openbmc_project/object_mapper",
@@ -454,11 +484,11 @@ void DeviceManager::findBoardInventoryPath(
 }
 
 void DeviceManager::processBoardInventoryResult(
-    const SensorConfigs& configs, const std::string& endpointPath, uint8_t eid,
-    const std::string& boardName, const std::string& configPath,
-    const boost::system::error_code& ec, const GetSubTreeType& ret)
+    const std::string& boardName, const std::string& fallbackPath, uint8_t eid,
+    const boost::system::error_code& ec, const GetSubTreeType& ret,
+    const ConfigPathHandler& done)
 {
-    std::string inventoryPath = configPath;
+    std::string inventoryPath = fallbackPath;
 
     if (!ec && !ret.empty())
     {
@@ -475,52 +505,26 @@ void DeviceManager::processBoardInventoryResult(
         }
     }
 
-    if (inventoryPath == configPath)
+    if (inventoryPath == fallbackPath)
     {
         lg2::info(
             "EID {EID}: Board {BOARD} not found in inventory, using config path {PATH}",
-            "EID", eid, "BOARD", boardName, "PATH", configPath);
-        queryDeviceIdentification(configs, configPath, endpointPath, eid);
+            "EID", eid, "BOARD", boardName, "PATH", fallbackPath);
+        done(fallbackPath);
         return;
     }
 
     conn->async_method_call(
-        [this, configs, endpointPath, eid, inventoryPath, configPath](
+        [eid, inventoryPath, fallbackPath, done](
             const boost::system::error_code& ec2, const GetSubTreeType& ret2) {
-            processNvidiaMctpVdmConfigSearch(configs, endpointPath, eid,
-                                             inventoryPath, configPath, ec2,
-                                             ret2);
+            selectMctpVdmConfig(inventoryPath, fallbackPath, eid, ec2, ret2,
+                                done);
         },
         "xyz.openbmc_project.ObjectMapper",
         "/xyz/openbmc_project/object_mapper",
         "xyz.openbmc_project.ObjectMapper", "GetSubTree", inventoryPath, 0,
         std::vector<std::string>{
             "xyz.openbmc_project.Configuration.NvidiaMctpVdm"});
-}
-
-void DeviceManager::processNvidiaMctpVdmConfigSearch(
-    const SensorConfigs& configs, const std::string& endpointPath, uint8_t eid,
-    const std::string& inventoryPath, const std::string& configPath,
-    const boost::system::error_code& ec, const GetSubTreeType& ret)
-{
-    std::string finalConfigPath = configPath;
-
-    if (!ec && !ret.empty())
-    {
-        const std::string& objPath = ret[0].first;
-        if (objPath.find(inventoryPath) != std::string::npos)
-        {
-            finalConfigPath = objPath;
-        }
-    }
-    else
-    {
-        lg2::info(
-            "EID {EID}: NvidiaMctpVdm config not found under board, using original {PATH}",
-            "EID", eid, "PATH", configPath);
-    }
-
-    queryDeviceIdentification(configs, finalConfigPath, endpointPath, eid);
 }
 
 void DeviceManager::processEndpoint(
