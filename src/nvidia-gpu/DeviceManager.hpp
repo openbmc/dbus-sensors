@@ -8,6 +8,7 @@
 #include "EndpointState.hpp"
 #include "MctpRequester.hpp"
 #include "NvidiaGpuDevice.hpp"
+#include "NvidiaGpuMctpVdm.hpp"
 #include "NvidiaPcieDevice.hpp"
 #include "NvidiaSensorConfig.hpp"
 #include "NvidiaSmaDevice.hpp"
@@ -118,29 +119,44 @@ class DeviceManager
     // than something the object path can be derived from. Read every board's
     // once per sweep instead of for every device that resolves against one.
     void collectBoardPaths(std::function<void()> done);
-    // Resolve the configuration object a device's sensors should be
-    // associated with: the NvidiaMctpVdm configuration under the named board.
-    // The resolved path, or fallbackPath if the board or its configuration
-    // cannot be found, is handed to done().
-    using ConfigPathHandler = std::function<void(const std::string&)>;
+
+  public:
+    // The board configuration a device was paired with: the record a board
+    // exposes for it, and the name that record gives it on D-Bus.
+    struct DeviceConfig
+    {
+        sdbusplus::object_path path;
+        std::string name;
+    };
+
+  private:
+    // Pair a device with the configuration its board exposes for it. A
+    // platform names a device by the PlatformConfigName of that record, so the
+    // record is the one under boardName carrying inventoryName. done() is
+    // not called when there is no such record: naming a device after a
+    // configuration that does not describe it would give it another
+    // device's settings.
+    using ConfigPathHandler = std::function<void(const DeviceConfig&)>;
     void findBoardInventoryPath(const std::string& boardName,
-                                const sdbusplus::object_path& fallbackPath,
-                                uint8_t eid, const ConfigPathHandler& done);
+                                const std::string& inventoryName, uint8_t eid,
+                                const ConfigPathHandler& done);
     void queryDevicesForEndpoint(
-        const SensorConfigs& configs, const sdbusplus::object_path& configPath,
+        const SensorConfigs& configs, const DeviceConfig& deviceConfig,
+        const std::string& boardName,
         const sdbusplus::object_path& mctpObjectPath, uint8_t eid,
         const std::optional<std::pair<uint8_t, uint8_t>>& bridgePool,
         const std::vector<BridgedEndpoint>& bridgedEndpoints);
-    void queryDeviceIdentification(
-        const SensorConfigs& configs,
-        const sdbusplus::object_path& entityObjectPath,
-        const sdbusplus::object_path& mctpObjectPath, uint8_t eid,
-        const std::string& deviceName);
+    // isEndpointItself separates the endpoint from the devices in its bridge
+    // pool: they share an endpoint path, and only the endpoint owns the mctpd
+    // object that the removal and recovery handling keys on.
+    void queryDeviceIdentification(const SensorConfigs& configs,
+                                   const DeviceConfig& deviceConfig,
+                                   const sdbusplus::object_path& mctpObjectPath,
+                                   uint8_t eid, bool isEndpointItself);
     void processQueryDeviceIdResponse(
-        const SensorConfigs& configs,
-        const sdbusplus::object_path& entityObjectPath,
+        const SensorConfigs& configs, const DeviceConfig& deviceConfig,
         const sdbusplus::object_path& mctpObjectPath, uint8_t eid,
-        const std::string& deviceName, const std::error_code& sendRecvMsgResult,
+        bool isEndpointItself, const std::error_code& sendRecvMsgResult,
         std::span<const uint8_t> queryDeviceIdentificationResponse);
 
     // Best-effort read of the endpoint's Common.UUID, cached for identity
