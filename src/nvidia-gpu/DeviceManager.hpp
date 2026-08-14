@@ -24,10 +24,12 @@
 #include <cstdint>
 #include <functional>
 #include <memory>
+#include <optional>
 #include <span>
 #include <string>
 #include <system_error>
 #include <unordered_map>
+#include <utility>
 #include <variant>
 #include <vector>
 
@@ -57,35 +59,60 @@ class DeviceManager
     void processEndpoint(const SensorConfigs& configs,
                          const sdbusplus::object_path& mctpObjectPath,
                          const boost::system::error_code& ec,
-                         const SensorBaseConfigMap& endpoint);
+                         const SensorBaseConfigMap& endpoint,
+                         std::optional<std::pair<uint8_t, uint8_t>> bridgePool);
     void checkAssociationAndQueryDevice(
         const SensorConfigs& configs,
-        const sdbusplus::object_path& mctpObjectPath, uint8_t eid);
-    void getAssociationEndpoints(const SensorConfigs& configs,
-                                 const sdbusplus::object_path& mctpObjectPath,
-                                 uint8_t eid,
-                                 const sdbusplus::object_path& associationPath,
-                                 const std::string& associationService);
+        const sdbusplus::object_path& mctpObjectPath, uint8_t eid,
+        std::optional<std::pair<uint8_t, uint8_t>> bridgePool);
+    void getAssociationEndpoints(
+        const SensorConfigs& configs,
+        const sdbusplus::object_path& mctpObjectPath, uint8_t eid,
+        const sdbusplus::object_path& associationPath,
+        const std::string& associationService,
+        std::optional<std::pair<uint8_t, uint8_t>> bridgePool);
     void processAssociationEndpointsResult(
         const SensorConfigs& configs,
         const sdbusplus::object_path& mctpObjectPath, uint8_t eid,
         const boost::system::error_code& ec,
-        const std::variant<std::vector<std::string>>& value);
-    void getConfigService(const SensorConfigs& configs,
-                          const sdbusplus::object_path& mctpObjectPath,
-                          uint8_t eid,
-                          const sdbusplus::object_path& configPath);
-    void getConfigProperties(const SensorConfigs& configs,
-                             const sdbusplus::object_path& mctpObjectPath,
-                             uint8_t eid,
-                             const sdbusplus::object_path& configPath,
-                             const std::string& configService);
+        const std::variant<std::vector<std::string>>& value,
+        std::optional<std::pair<uint8_t, uint8_t>> bridgePool);
+    void getConfigService(
+        const SensorConfigs& configs,
+        const sdbusplus::object_path& mctpObjectPath, uint8_t eid,
+        const sdbusplus::object_path& configPath,
+        std::optional<std::pair<uint8_t, uint8_t>> bridgePool);
+
+  public:
+    // A device reached through this endpoint acting as an MCTP bridge. It has
+    // its own board, since a bridge and the devices behind it are not
+    // necessarily on the same one.
+    struct BridgedEndpoint
+    {
+        std::string name;
+        std::string board;
+    };
+
+  private:
+    // Entity manager exports the config's BridgedEndpoints array as one
+    // indexed interface per element, so the properties of this object cannot
+    // be read with a single GetAll: the elements would collide with each other
+    // and with the bridge itself on Name and Board. Read each interface named
+    // in interfaces separately instead.
+    void getConfigProperties(
+        const SensorConfigs& configs,
+        const sdbusplus::object_path& mctpObjectPath, uint8_t eid,
+        const sdbusplus::object_path& configPath,
+        const std::string& configService,
+        const std::vector<std::string>& interfaces,
+        std::optional<std::pair<uint8_t, uint8_t>> bridgePool);
     void processConfigPropertiesResult(
         const SensorConfigs& configs,
         const sdbusplus::object_path& mctpObjectPath, uint8_t eid,
         const sdbusplus::object_path& configPath,
-        const boost::system::error_code& ec,
-        const SensorBaseConfigMap& configProps);
+        const SensorBaseConfigMap& configProps,
+        const std::vector<BridgedEndpoint>& bridgedEndpoints,
+        std::optional<std::pair<uint8_t, uint8_t>> bridgePool);
     // The name a board's configuration was matched under, which is what a
     // platform record names its board with, is a property on the board rather
     // than something the object path can be derived from. Read every board's
@@ -99,15 +126,21 @@ class DeviceManager
     void findBoardInventoryPath(const std::string& boardName,
                                 const sdbusplus::object_path& fallbackPath,
                                 uint8_t eid, const ConfigPathHandler& done);
+    void queryDevicesForEndpoint(
+        const SensorConfigs& configs, const sdbusplus::object_path& configPath,
+        const sdbusplus::object_path& mctpObjectPath, uint8_t eid,
+        const std::optional<std::pair<uint8_t, uint8_t>>& bridgePool,
+        const std::vector<BridgedEndpoint>& bridgedEndpoints);
     void queryDeviceIdentification(
         const SensorConfigs& configs,
         const sdbusplus::object_path& entityObjectPath,
-        const sdbusplus::object_path& mctpObjectPath, uint8_t eid);
+        const sdbusplus::object_path& mctpObjectPath, uint8_t eid,
+        const std::string& deviceName);
     void processQueryDeviceIdResponse(
         const SensorConfigs& configs,
         const sdbusplus::object_path& entityObjectPath,
         const sdbusplus::object_path& mctpObjectPath, uint8_t eid,
-        const std::error_code& sendRecvMsgResult,
+        const std::string& deviceName, const std::error_code& sendRecvMsgResult,
         std::span<const uint8_t> queryDeviceIdentificationResponse);
 
     // Best-effort read of the endpoint's Common.UUID, cached for identity
