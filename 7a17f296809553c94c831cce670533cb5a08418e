@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5c48e5de_45ffea1a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-14T06:18:05Z",
+      "side": 1,
+      "message": "Please not use ... here. Thanks.",
+      "range": {
+        "startLine": 58,
+        "startChar": 9,
+        "endLine": 58,
+        "endChar": 12
+      },
+      "revId": "7a17f296809553c94c831cce670533cb5a08418e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "81e436c6_bce58f44",
         "filename": "src/nvidia-gpu/DeviceManager.cpp",
         "patchSetId": 3
