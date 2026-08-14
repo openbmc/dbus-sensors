@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38802f36_95241ada",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-14T10:22:31Z",
+      "side": 1,
+      "message": "please update the commit msg too. Thanks",
+      "revId": "0d3279638a1152f25d3f931e1b7dc5fab2ea0949",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
