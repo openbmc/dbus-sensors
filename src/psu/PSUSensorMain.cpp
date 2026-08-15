@@ -333,14 +333,37 @@ static void checkPWMSensor(
     {
         return;
     }
-    std::string labelHeadIndex = labelHead.substr(3);
+
+    std::smatch matches;
+    std::string labelHeadIndex;
+    const std::string sensorFileName = sensorPath.filename().string();
+    if (std::regex_search(sensorFileName, matches,
+                          std::regex(R"(^fan([0-9]+)_(?:input|max)$)")))
+    {
+        labelHeadIndex = matches[1];
+    }
+    else
+    {
+        lg2::debug("Could not extract PWM index from '{NAME}'",
+                   "NAME", sensorFileName);
+        return;
+    }
 
     const std::string& sensorPathStr = sensorPath.string();
-    const std::string& pwmPathStr =
-        boost::replace_all_copy(sensorPathStr, "input", "target");
-    std::ifstream pwmFile(pwmPathStr);
+
+    // Do not assume fan*_target is a PWM control file.
+    // Only create a PWM sensor from a real pwm* hwmon entry.
+    std::filesystem::path pwmPath(sensorPathStr);
+    const std::string& fanIndex = labelHeadIndex;
+    pwmPath = std::filesystem::path("/sys/class/hwmon") /
+              std::filesystem::path(pwmPath.parent_path().filename().string()) /
+              ("pwm" + fanIndex);
+
+    std::ifstream pwmFile(pwmPath);
     if (!pwmFile.good())
     {
+        lg2::debug("No PWM file for '{PATH}' and label '{LABEL}'",
+                   "PATH", pwmPath.string(), "LABEL", labelHead);
         return;
     }
 
@@ -360,7 +383,7 @@ static void checkPWMSensor(
     objPath += labelHeadIndex;
 
     pwmSensors[psuName + labelHead] = std::make_unique<PwmSensor>(
-        name, pwmPathStr, dbusConnection, objectServer, objPath, "PSU");
+        name, pwmPath.string(), dbusConnection, objectServer, objPath, "PSU");
 }
 
 static void createSensorsCallback(
