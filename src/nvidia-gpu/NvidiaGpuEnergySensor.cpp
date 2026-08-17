@@ -70,6 +70,8 @@ NvidiaGpuEnergySensor::NvidiaGpuEnergySensor(
     sensorInterface = objectServer.add_interface(
         dbusPath, "xyz.openbmc_project.Sensor.Value");
 
+    nvidia_sensor_utils::registerUpdatedTime(sensorInterface);
+
     for (const auto& threshold : thresholds)
     {
         std::string interface = thresholds::getInterface(threshold.level);
@@ -152,6 +154,7 @@ void NvidiaGpuEnergySensor::processResponse(const std::error_code& ec,
     // Reading from the device is in millijoules and unit set on the dbus
     // is Joules.
     updateValue(energyValue / 1000.0);
+    nvidia_sensor_utils::stampUpdatedTime(sensorInterface);
 }
 
 void NvidiaGpuEnergySensor::update()

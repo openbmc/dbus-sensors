@@ -452,4 +452,96 @@ TEST_F(NvidiaGpuTempSensorTest, DestructorRemovesDbusInterfaces)
                  sdbusplus::exception_t);
 }
 
+// Update — UpdatedTime
+
+TEST_F(NvidiaGpuTempSensorTest, ConstructorUpdatedTimeIsZero)
+{
+    const std::string name = "ut_ctor";
+    const std::shared_ptr<NvidiaGpuTempSensor> sensor =
+        createSensor(gpuTempSensorId, name);
+
+    EXPECT_EQ(getProperty<uint64_t>(tempPath(name),
+                                    "xyz.openbmc_project.Sensor.Value",
+                                    "UpdatedTime"),
+              0U);
+}
+
+TEST_F(NvidiaGpuTempSensorTest, UpdateSuccessSetsUpdatedTime)
+{
+    EXPECT_CALL(mctpMock, sendRecvMsg)
+        .WillOnce(mock_mctp::respondWith({}, buildTempResponse(25.0)));
+
+    const std::string name = "ut_set";
+    const std::shared_ptr<NvidiaGpuTempSensor> sensor =
+        createSensor(gpuTempSensorId, name);
+    sensor->update();
+
+    EXPECT_NE(getProperty<uint64_t>(tempPath(name),
+                                    "xyz.openbmc_project.Sensor.Value",
+                                    "UpdatedTime"),
+              0U);
+}
+
+// The timestamp records when a reading was obtained, so it must advance even
+// when the reading is unchanged and the Value property is not republished.
+TEST_F(NvidiaGpuTempSensorTest, UpdateTwiceAdvancesUpdatedTimeForSameValue)
+{
+    EXPECT_CALL(mctpMock, sendRecvMsg)
+        .WillOnce(mock_mctp::respondWith({}, buildTempResponse(25.0)))
+        .WillOnce(mock_mctp::respondWith({}, buildTempResponse(25.0)));
+
+    const std::string name = "ut_twice";
+    const std::shared_ptr<NvidiaGpuTempSensor> sensor =
+        createSensor(gpuTempSensorId, name);
+    const std::string path = tempPath(name);
+
+    sensor->update();
+    const uint64_t first = getProperty<uint64_t>(
+        path, "xyz.openbmc_project.Sensor.Value", "UpdatedTime");
+
+    sensor->update();
+    const uint64_t second = getProperty<uint64_t>(
+        path, "xyz.openbmc_project.Sensor.Value", "UpdatedTime");
+
+    EXPECT_DOUBLE_EQ(sensor->value, 25.0);
+    EXPECT_GT(second, first);
+}
+
+TEST_F(NvidiaGpuTempSensorTest, UpdateMctpTransportErrorLeavesUpdatedTimeZero)
+{
+    EXPECT_CALL(mctpMock, sendRecvMsg)
+        .WillOnce(mock_mctp::respondWith(
+            std::make_error_code(std::errc::timed_out), {}));
+
+    const std::string name = "ut_mctp_err";
+    const std::shared_ptr<NvidiaGpuTempSensor> sensor =
+        createSensor(gpuTempSensorId, name);
+    sensor->update();
+
+    EXPECT_EQ(getProperty<uint64_t>(tempPath(name),
+                                    "xyz.openbmc_project.Sensor.Value",
+                                    "UpdatedTime"),
+              0U);
+}
+
+TEST_F(NvidiaGpuTempSensorTest, UpdateBadCompletionCodeLeavesUpdatedTimeZero)
+{
+    EXPECT_CALL(mctpMock, sendRecvMsg)
+        .WillOnce(mock_mctp::respondWith(
+            {}, buildTempErrorResponse(
+                    static_cast<uint8_t>(
+                        ocp::accelerator_management::CompletionCode::ERROR),
+                    0)));
+
+    const std::string name = "ut_cc_err";
+    const std::shared_ptr<NvidiaGpuTempSensor> sensor =
+        createSensor(gpuTempSensorId, name);
+    sensor->update();
+
+    EXPECT_EQ(getProperty<uint64_t>(tempPath(name),
+                                    "xyz.openbmc_project.Sensor.Value",
+                                    "UpdatedTime"),
+              0U);
+}
+
 } // namespace
