@@ -59,10 +59,6 @@
 #include <utility>
 #include <vector>
 
-// Each long-running command can take up to 2s on timeout; worst-case
-// capacity is ~15 commands/device.
-static constexpr auto longRunningSensorPollRate = std::chrono::seconds{30};
-
 static constexpr const char* controlPowerPrefix =
     "/xyz/openbmc_project/control/power/";
 
@@ -86,6 +82,7 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
                      sdbusplus::asio::object_server& objectServer) :
     eid(eid), sensorPollMs(std::chrono::milliseconds{configs.pollRate}),
     waitTimer(io, std::chrono::steady_clock::duration(0)),
+    waitTimerRoundRobin(io, std::chrono::steady_clock::duration(0)),
     waitTimerLongRunning(io, std::chrono::steady_clock::duration(0)),
     mctpRequester(mctpRequester), io(io), conn(conn),
     objectServer(objectServer), configs(configs), name(escapeName(name)),
@@ -291,7 +288,8 @@ void GpuDevice::makeSensors()
 
     lg2::info("Added GPU {NAME} Sensors with chassis path: {PATH}.", "NAME",
               name, "PATH", path);
-    read();
+    readPriority();
+    readRoundRobin();
     readLongRunning();
 }
 
@@ -395,7 +393,7 @@ void GpuDevice::processTLimitThresholds(const std::error_code& ec)
         gpu::DeviceIdentification::DEVICE_GPU);
 }
 
-void GpuDevice::read()
+void GpuDevice::readPriority()
 {
     tempSensor->update();
     if (tLimitSensor)
@@ -404,8 +402,28 @@ void GpuDevice::read()
     }
     dramTempSensor->update();
     powerSensor->update();
-    peakPower->update();
     energySensor->update();
+
+    waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
+    waitTimer.async_wait(
+        [weak{weak_from_this()}](const boost::system::error_code& ec) {
+            std::shared_ptr<GpuDevice> self = weak.lock();
+            if (!self)
+            {
+                lg2::error("Invalid reference to GpuDevice");
+                return;
+            }
+            if (ec)
+            {
+                return;
+            }
+            self->readPriority();
+        });
+}
+
+void GpuDevice::readRoundRobin()
+{
+    peakPower->update();
     voltageSensor->update();
     driverInfo->update();
     gpuPowerControl->update();
@@ -421,8 +439,8 @@ void GpuDevice::read()
     memoryClockFrequency->update();
     clockFrequencyMetric->update();
 
-    waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
-    waitTimer.async_wait(
+    waitTimerRoundRobin.expires_after(roundRobinPollRate);
+    waitTimerRoundRobin.async_wait(
         [weak{weak_from_this()}](const boost::system::error_code& ec) {
             std::shared_ptr<GpuDevice> self = weak.lock();
             if (!self)
@@ -434,7 +452,7 @@ void GpuDevice::read()
             {
                 return;
             }
-            self->read();
+            self->readRoundRobin();
         });
 }
 
@@ -445,7 +463,7 @@ void GpuDevice::readLongRunning()
     eccMode->update();
     memoryCapacityUtilization->update();
 
-    waitTimerLongRunning.expires_after(longRunningSensorPollRate);
+    waitTimerLongRunning.expires_after(longRunningPollRate);
     waitTimerLongRunning.async_wait(
         [weak{weak_from_this()}](const boost::system::error_code& ec) {
             std::shared_ptr<GpuDevice> self = weak.lock();
