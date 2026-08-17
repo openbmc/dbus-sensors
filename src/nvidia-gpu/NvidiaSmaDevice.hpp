@@ -46,7 +46,7 @@ class SmaDevice : public std::enable_shared_from_this<SmaDevice>
     void processLeakSensorsResponse(const std::error_code& ec,
                                     std::span<const uint8_t> response);
 
-    void read();
+    void readPriority();
 
     uint8_t eid{};
 
