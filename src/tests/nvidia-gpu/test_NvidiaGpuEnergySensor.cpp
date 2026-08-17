@@ -237,4 +237,96 @@ TEST_F(NvidiaGpuEnergySensorTest, DestructorDoesNotCrash)
     ASSERT_EQ(sensor, nullptr);
 }
 
+// Update — UpdatedTime
+
+TEST_F(NvidiaGpuEnergySensorTest, ConstructorUpdatedTimeIsZero)
+{
+    const std::string name = "ut_ctor";
+    const std::shared_ptr<NvidiaGpuEnergySensor> sensor =
+        createSensor(gpuEnergySensorId, name);
+
+    EXPECT_EQ(getProperty<uint64_t>(energyPath(name),
+                                    "xyz.openbmc_project.Sensor.Value",
+                                    "UpdatedTime"),
+              0U);
+}
+
+TEST_F(NvidiaGpuEnergySensorTest, UpdateSuccessSetsUpdatedTime)
+{
+    EXPECT_CALL(mctpMock, sendRecvMsg)
+        .WillOnce(mock_mctp::respondWith({}, buildEnergyResponse(25000)));
+
+    const std::string name = "ut_set";
+    const std::shared_ptr<NvidiaGpuEnergySensor> sensor =
+        createSensor(gpuEnergySensorId, name);
+    sensor->update();
+
+    EXPECT_NE(getProperty<uint64_t>(energyPath(name),
+                                    "xyz.openbmc_project.Sensor.Value",
+                                    "UpdatedTime"),
+              0U);
+}
+
+// The timestamp records when a reading was obtained, so it must advance even
+// when the reading is unchanged and the Value property is not republished.
+TEST_F(NvidiaGpuEnergySensorTest, UpdateTwiceAdvancesUpdatedTimeForSameValue)
+{
+    EXPECT_CALL(mctpMock, sendRecvMsg)
+        .WillOnce(mock_mctp::respondWith({}, buildEnergyResponse(25000)))
+        .WillOnce(mock_mctp::respondWith({}, buildEnergyResponse(25000)));
+
+    const std::string name = "ut_twice";
+    const std::shared_ptr<NvidiaGpuEnergySensor> sensor =
+        createSensor(gpuEnergySensorId, name);
+    const std::string path = energyPath(name);
+
+    sensor->update();
+    const uint64_t first = getProperty<uint64_t>(
+        path, "xyz.openbmc_project.Sensor.Value", "UpdatedTime");
+
+    sensor->update();
+    const uint64_t second = getProperty<uint64_t>(
+        path, "xyz.openbmc_project.Sensor.Value", "UpdatedTime");
+
+    EXPECT_DOUBLE_EQ(sensor->value, 25.0);
+    EXPECT_GT(second, first);
+}
+
+TEST_F(NvidiaGpuEnergySensorTest, UpdateMctpTransportErrorLeavesUpdatedTimeZero)
+{
+    EXPECT_CALL(mctpMock, sendRecvMsg)
+        .WillOnce(mock_mctp::respondWith(
+            std::make_error_code(std::errc::timed_out), {}));
+
+    const std::string name = "ut_mctp_err";
+    const std::shared_ptr<NvidiaGpuEnergySensor> sensor =
+        createSensor(gpuEnergySensorId, name);
+    sensor->update();
+
+    EXPECT_EQ(getProperty<uint64_t>(energyPath(name),
+                                    "xyz.openbmc_project.Sensor.Value",
+                                    "UpdatedTime"),
+              0U);
+}
+
+TEST_F(NvidiaGpuEnergySensorTest, UpdateBadCompletionCodeLeavesUpdatedTimeZero)
+{
+    EXPECT_CALL(mctpMock, sendRecvMsg)
+        .WillOnce(mock_mctp::respondWith(
+            {}, buildEnergyErrorResponse(
+                    static_cast<uint8_t>(
+                        ocp::accelerator_management::CompletionCode::ERROR),
+                    0)));
+
+    const std::string name = "ut_cc_err";
+    const std::shared_ptr<NvidiaGpuEnergySensor> sensor =
+        createSensor(gpuEnergySensorId, name);
+    sensor->update();
+
+    EXPECT_EQ(getProperty<uint64_t>(energyPath(name),
+                                    "xyz.openbmc_project.Sensor.Value",
+                                    "UpdatedTime"),
+              0U);
+}
+
 } // namespace
