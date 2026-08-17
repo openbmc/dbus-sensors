@@ -67,7 +67,9 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
   private:
     void makeSensors();
 
-    void read();
+    void readPriority();
+
+    void readRoundRobin();
 
     void readLongRunning();
 
@@ -84,6 +86,8 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
     std::chrono::milliseconds sensorPollMs;
 
     boost::asio::steady_timer waitTimer;
+
+    boost::asio::steady_timer waitTimerRoundRobin;
 
     boost::asio::steady_timer waitTimerLongRunning;
 

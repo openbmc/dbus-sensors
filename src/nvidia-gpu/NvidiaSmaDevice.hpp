@@ -40,7 +40,7 @@ class SmaDevice : public std::enable_shared_from_this<SmaDevice>
   private:
     void makeSensors();
 
-    void read();
+    void readPriority();
 
     uint8_t eid{};
 
