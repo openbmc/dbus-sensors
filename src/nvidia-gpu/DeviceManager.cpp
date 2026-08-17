@@ -36,7 +36,10 @@
 #include <variant>
 #include <vector>
 
-static constexpr auto sensorPollRateMs = 1000;
+// Half of a sub-second staleness budget, so a reading still meets it when a
+// cycle is delayed or one of its updates fails. Prime, so the poll does not
+// stay phase-locked with other periodic work on the BMC.
+static constexpr auto sensorPollRateMs = 373;
 
 DeviceManager::DeviceManager(boost::asio::io_context& io,
                              sdbusplus::asio::object_server& objectServer,
