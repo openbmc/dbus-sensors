@@ -243,4 +243,88 @@ TEST_F(NvidiaGpuVoltageSensorTest, DestructorDoesNotCrash)
     ASSERT_EQ(sensor, nullptr);
 }
 
+// Update — UpdatedTime
+
+TEST_F(NvidiaGpuVoltageSensorTest, ConstructorUpdatedTimeIsNaN)
+{
+    const std::string name = "ut_ctor";
+    const std::shared_ptr<NvidiaGpuVoltageSensor> sensor =
+        createSensor(gpuVoltageSensorId, name);
+
+    EXPECT_TRUE(std::isnan(getProperty<double>(
+        voltagePath(name), "xyz.openbmc_project.Sensor.Value", "UpdatedTime")));
+}
+
+TEST_F(NvidiaGpuVoltageSensorTest, UpdateSuccessSetsUpdatedTime)
+{
+    EXPECT_CALL(mctpMock, sendRecvMsg)
+        .WillOnce(mock_mctp::respondWith({}, buildVoltageResponse(25000000)));
+
+    const std::string name = "ut_set";
+    const std::shared_ptr<NvidiaGpuVoltageSensor> sensor =
+        createSensor(gpuVoltageSensorId, name);
+    sensor->update();
+
+    EXPECT_TRUE(std::isfinite(getProperty<double>(
+        voltagePath(name), "xyz.openbmc_project.Sensor.Value", "UpdatedTime")));
+}
+
+// The timestamp records when a reading was obtained, so it must advance even
+// when the reading is unchanged and the Value property is not republished.
+TEST_F(NvidiaGpuVoltageSensorTest, UpdateTwiceAdvancesUpdatedTimeForSameValue)
+{
+    EXPECT_CALL(mctpMock, sendRecvMsg)
+        .WillOnce(mock_mctp::respondWith({}, buildVoltageResponse(25000000)))
+        .WillOnce(mock_mctp::respondWith({}, buildVoltageResponse(25000000)));
+
+    const std::string name = "ut_twice";
+    const std::shared_ptr<NvidiaGpuVoltageSensor> sensor =
+        createSensor(gpuVoltageSensorId, name);
+    const std::string path = voltagePath(name);
+
+    sensor->update();
+    const double first = getProperty<double>(
+        path, "xyz.openbmc_project.Sensor.Value", "UpdatedTime");
+
+    sensor->update();
+    const double second = getProperty<double>(
+        path, "xyz.openbmc_project.Sensor.Value", "UpdatedTime");
+
+    EXPECT_DOUBLE_EQ(sensor->value, 25.0);
+    EXPECT_GT(second, first);
+}
+
+TEST_F(NvidiaGpuVoltageSensorTest, UpdateMctpTransportErrorLeavesUpdatedTimeNaN)
+{
+    EXPECT_CALL(mctpMock, sendRecvMsg)
+        .WillOnce(mock_mctp::respondWith(
+            std::make_error_code(std::errc::timed_out), {}));
+
+    const std::string name = "ut_mctp_err";
+    const std::shared_ptr<NvidiaGpuVoltageSensor> sensor =
+        createSensor(gpuVoltageSensorId, name);
+    sensor->update();
+
+    EXPECT_TRUE(std::isnan(getProperty<double>(
+        voltagePath(name), "xyz.openbmc_project.Sensor.Value", "UpdatedTime")));
+}
+
+TEST_F(NvidiaGpuVoltageSensorTest, UpdateBadCompletionCodeLeavesUpdatedTimeNaN)
+{
+    EXPECT_CALL(mctpMock, sendRecvMsg)
+        .WillOnce(mock_mctp::respondWith(
+            {}, buildVoltageErrorResponse(
+                    static_cast<uint8_t>(
+                        ocp::accelerator_management::CompletionCode::ERROR),
+                    0)));
+
+    const std::string name = "ut_cc_err";
+    const std::shared_ptr<NvidiaGpuVoltageSensor> sensor =
+        createSensor(gpuVoltageSensorId, name);
+    sensor->update();
+
+    EXPECT_TRUE(std::isnan(getProperty<double>(
+        voltagePath(name), "xyz.openbmc_project.Sensor.Value", "UpdatedTime")));
+}
+
 } // namespace
