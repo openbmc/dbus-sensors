@@ -10,7 +10,10 @@
 
 constexpr const char* sensorType = "NvidiaMctpVdm";
 
-constexpr uint64_t sensorPollRateMs = 1000;
+// Half of a sub-second staleness budget, so a reading still meets it when a
+// cycle is delayed or one of its updates fails. Prime, so the poll does not
+// stay phase-locked with other periodic work on the BMC.
+constexpr uint64_t sensorPollRateMs = 373;
 
 struct SensorConfigs
 {
