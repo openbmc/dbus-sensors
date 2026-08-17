@@ -6,16 +6,21 @@
 #include "MctpMockTestBase.hpp"
 #include "MockMctpRequester.hpp"
 #include "NvidiaGpuDevice.hpp"
+#include "NvidiaGpuMctpVdm.hpp"
 #include "NvidiaSensorConfig.hpp"
+#include "OcpMctpVdm.hpp"
 
 #include <sdbusplus/exception.hpp>
 
+#include <algorithm>
 #include <chrono>
+#include <cstddef>
 #include <cstdint>
 #include <memory>
 #include <span>
 #include <string>
 #include <system_error>
+#include <vector>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -35,6 +40,18 @@ constexpr std::chrono::seconds pollTimeout{5};
 
 // Several fastPollMs intervals, so a loop that kept running would be caught.
 constexpr std::chrono::seconds quietWindow{1};
+
+// A request is a common header followed by the command byte.
+constexpr size_t commandOffset = ocp::accelerator_management::messageHeaderSize;
+
+constexpr uint8_t getTemperatureReading = static_cast<uint8_t>(
+    gpu::PlatformEnvironmentalCommands::GET_TEMPERATURE_READING);
+
+// Both moved off the priority loop, so neither may appear on it again.
+constexpr uint8_t getMaxObservedPower = static_cast<uint8_t>(
+    gpu::PlatformEnvironmentalCommands::GET_MAX_OBSERVED_POWER);
+constexpr uint8_t getVoltage =
+    static_cast<uint8_t>(gpu::PlatformEnvironmentalCommands::GET_VOLTAGE);
 
 class NvidiaGpuDeviceTest : public MctpMockTestBase
 {
@@ -114,6 +131,41 @@ TEST_F(NvidiaGpuDeviceTest, ReadLoopStopsAfterDeviceIsDestroyed)
     const int afterDestroy = requests;
     EXPECT_FALSE(
         pumpIoUntil([&] { return requests > afterDestroy; }, quietWindow));
+}
+
+TEST_F(NvidiaGpuDeviceTest, PriorityLoopLeavesTheSlowReadingsAlone)
+{
+    std::vector<uint8_t> commands;
+    bool recording = false;
+
+    ON_CALL(mctpMock, sendRecvMsg)
+        .WillByDefault([&commands, &recording](uint8_t /*eid*/,
+                                               std::span<const uint8_t> reqMsg,
+                                               auto callback) {
+            if (recording && reqMsg.size() > commandOffset)
+            {
+                commands.push_back(reqMsg[commandOffset]);
+            }
+            callback(std::error_code{}, std::span<const uint8_t>{});
+        });
+
+    const std::shared_ptr<GpuDevice> device =
+        createDevice("gpudev_priority", defaultEid, fastPollMs);
+    device->init();
+
+    // init() starts all three loops, so let their first round drain before
+    // recording. Only the priority loop re-arms within the window below.
+    pumpIoUntil([] { return false; }, quietWindow);
+    recording = true;
+    ASSERT_TRUE(pumpIoUntil(
+        [&commands] {
+            return std::ranges::find(commands, getTemperatureReading) !=
+                   commands.end();
+        },
+        pollTimeout));
+
+    EXPECT_THAT(commands, testing::Not(testing::Contains(getMaxObservedPower)));
+    EXPECT_THAT(commands, testing::Not(testing::Contains(getVoltage)));
 }
 
 // Destructor

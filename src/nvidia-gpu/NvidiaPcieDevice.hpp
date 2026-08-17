@@ -22,7 +22,6 @@
 #include <sdbusplus/message/native_types.hpp>
 
 #include <array>
-#include <chrono>
 #include <cstdint>
 #include <memory>
 #include <span>
@@ -63,7 +62,7 @@ class PcieDevice : public std::enable_shared_from_this<PcieDevice>
   private:
     void makeSensors();
 
-    void read();
+    void readRoundRobin();
 
     void getPciePortCounts();
 
@@ -79,8 +78,6 @@ class PcieDevice : public std::enable_shared_from_this<PcieDevice>
     PcieDeviceInfo pcieDeviceInfo;
 
     uint8_t eid{};
-
-    std::chrono::milliseconds sensorPollMs;
 
     boost::asio::steady_timer waitTimer;
 

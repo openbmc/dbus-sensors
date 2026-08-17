@@ -70,10 +70,10 @@ void SmaDevice::setOffline()
 void SmaDevice::setOnline()
 {
     tempSensor->markFunctional(true);
-    read();
+    readPriority();
 }
 
-void SmaDevice::read()
+void SmaDevice::readPriority()
 {
     tempSensor->update();
 
@@ -95,7 +95,7 @@ void SmaDevice::read()
             {
                 return;
             }
-            self->read();
+            self->readPriority();
         });
 }
 
