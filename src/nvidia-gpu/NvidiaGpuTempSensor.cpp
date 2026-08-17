@@ -69,6 +69,8 @@ NvidiaGpuTempSensor::NvidiaGpuTempSensor(
     sensorInterface = objectServer.add_interface(
         dbusPath, "xyz.openbmc_project.Sensor.Value");
 
+    updatedTime.registerOn(sensorInterface);
+
     for (const auto& threshold : thresholds)
     {
         std::string interface = thresholds::getInterface(threshold.level);
@@ -172,6 +174,7 @@ void NvidiaGpuTempSensor::processResponse(const std::error_code& ec,
     }
 
     updateValue(tempValue);
+    updatedTime.stamp(sensorInterface, tempValue);
 }
 
 void NvidiaGpuTempSensor::update()
