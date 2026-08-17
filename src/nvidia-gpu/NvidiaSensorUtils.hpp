@@ -7,6 +7,12 @@
 
 #include "NvidiaGpuMctpVdm.hpp"
 
+#include <sdbusplus/asio/object_server.hpp>
+
+#include <chrono>
+#include <cmath>
+#include <limits>
+#include <memory>
 #include <optional>
 #include <string>
 
@@ -30,5 +36,35 @@ inline std::optional<std::string> deviceTypeToPhysicalContext(
             return std::nullopt;
     }
 }
+
+class UpdatedTimeProperty
+{
+  public:
+    void registerOn(
+        const std::shared_ptr<sdbusplus::asio::dbus_interface>& iface)
+    {
+        iface->register_property("UpdatedTime", updatedTime);
+    }
+
+    // A device that stops responding, or is being reset, leaves the timestamp
+    // at its last successful update so the value can be seen going stale.
+    void stamp(const std::shared_ptr<sdbusplus::asio::dbus_interface>& iface,
+               double reading)
+    {
+        if (std::isnan(reading))
+        {
+            return;
+        }
+
+        updatedTime = static_cast<double>(
+            std::chrono::duration_cast<std::chrono::microseconds>(
+                std::chrono::system_clock::now().time_since_epoch())
+                .count());
+        iface->set_property("UpdatedTime", updatedTime);
+    }
+
+  private:
+    double updatedTime = std::numeric_limits<double>::quiet_NaN();
+};
 
 } // namespace nvidia_sensor_utils

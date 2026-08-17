@@ -6,6 +6,7 @@
 #pragma once
 
 #include "MctpRequester.hpp"
+#include "NvidiaSensorUtils.hpp"
 #include "Thresholds.hpp"
 #include "sensor.hpp"
 
@@ -61,6 +62,8 @@ struct NvidiaGpuPowerSensor :
     std::array<uint8_t, gpu::getPowerDrawRequestSize> request{};
 
     bool requestEncoded{false};
+
+    nvidia_sensor_utils::UpdatedTimeProperty updatedTime;
 
     std::shared_ptr<sdbusplus::asio::dbus_interface>
         commonPhysicalContextInterface;
