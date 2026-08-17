@@ -69,6 +69,8 @@ NvidiaGpuVoltageSensor::NvidiaGpuVoltageSensor(
     sensorInterface = objectServer.add_interface(
         dbusPath, "xyz.openbmc_project.Sensor.Value");
 
+    nvidia_sensor_utils::registerUpdatedTime(sensorInterface);
+
     for (const auto& threshold : thresholds)
     {
         std::string interface = thresholds::getInterface(threshold.level);
@@ -151,6 +153,8 @@ void NvidiaGpuVoltageSensor::processResponse(const std::error_code& ec,
     // Reading from the device is in microvolts and unit set on the dbus
     // is volts.
     updateValue(voltageValue / 1000000.0);
+    nvidia_sensor_utils::stampUpdatedTime(sensorInterface,
+                                          voltageValue / 1000000.0);
 }
 
 void NvidiaGpuVoltageSensor::update()
