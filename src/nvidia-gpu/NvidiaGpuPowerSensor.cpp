@@ -73,6 +73,8 @@ NvidiaGpuPowerSensor::NvidiaGpuPowerSensor(
     sensorInterface = objectServer.add_interface(
         dbusPath, "xyz.openbmc_project.Sensor.Value");
 
+    updatedTime.registerOn(sensorInterface);
+
     for (const auto& threshold : thresholds)
     {
         std::string interface = thresholds::getInterface(threshold.level);
@@ -153,6 +155,7 @@ void NvidiaGpuPowerSensor::processResponse(const std::error_code& ec,
     // Reading from the device is in milliwatts and unit set on the dbus
     // is watts.
     updateValue(power / 1000.0);
+    updatedTime.stamp(sensorInterface, power / 1000.0);
 }
 
 void NvidiaGpuPowerSensor::update()
