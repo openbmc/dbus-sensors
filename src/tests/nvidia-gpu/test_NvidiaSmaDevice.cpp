@@ -37,7 +37,7 @@ class NvidiaSmaDeviceTest : public MctpMockTestBase
   protected:
     static std::shared_ptr<SmaDevice> createDevice(
         const std::string& name = "SMA", uint8_t eid = defaultEid,
-        uint64_t pollRate = sensorPollRateMs)
+        uint64_t pollRate = sensorPollRate.count())
     {
         const std::string path = "/test/chassis/" + name;
         const SensorConfigs configs{.name = name, .pollRate = pollRate};

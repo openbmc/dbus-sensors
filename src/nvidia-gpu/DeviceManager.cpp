@@ -382,13 +382,13 @@ void DeviceManager::processSensorConfigs(const ManagedObjectType& resp)
                 configs.pollRate = loadVariant<uint64_t>(cfg, "PollRate");
                 if (configs.pollRate == 0)
                 {
-                    configs.pollRate = sensorPollRateMs;
+                    configs.pollRate = sensorPollRate.count();
                 }
             }
             catch (const std::invalid_argument&)
             {
                 // PollRate is an optional config
-                configs.pollRate = sensorPollRateMs;
+                configs.pollRate = sensorPollRate.count();
             }
 
             try

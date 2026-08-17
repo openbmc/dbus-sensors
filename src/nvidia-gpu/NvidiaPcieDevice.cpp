@@ -40,8 +40,7 @@ PcieDevice::PcieDevice(const SensorConfigs& configs, const std::string& name,
                        uint8_t eid, boost::asio::io_context& io,
                        mctp::MctpRequester& mctpRequester,
                        sdbusplus::asio::object_server& objectServer) :
-    eid(eid), sensorPollMs(std::chrono::milliseconds{configs.pollRate}),
-    waitTimer(io, std::chrono::steady_clock::duration(0)),
+    eid(eid), waitTimerRoundRobin(io, std::chrono::steady_clock::duration(0)),
     mctpRequester(mctpRequester), conn(conn), objectServer(objectServer),
     configs(configs), name(escapeName(name)), path(path)
 {}
@@ -322,10 +321,10 @@ void PcieDevice::makeSensors()
     lg2::info("Added PCIe {NAME} Sensors with chassis path: {PATH}.", "NAME",
               name, "PATH", path);
 
-    read();
+    readRoundRobin();
 }
 
-void PcieDevice::read()
+void PcieDevice::readRoundRobin()
 {
     pcieInterface->update();
     pcieFunction->update();
@@ -347,8 +346,8 @@ void PcieDevice::read()
         ethPortMetric->update();
     }
 
-    waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
-    waitTimer.async_wait(
+    waitTimerRoundRobin.expires_after(roundRobinPollRate);
+    waitTimerRoundRobin.async_wait(
         [weak{weak_from_this()}](const boost::system::error_code& ec) {
             if (ec)
             {
@@ -359,6 +358,6 @@ void PcieDevice::read()
             {
                 return;
             }
-            self->read();
+            self->readRoundRobin();
         });
 }

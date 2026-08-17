@@ -38,7 +38,7 @@ SmaDevice::SmaDevice(const SensorConfigs& configs, const std::string& name,
                      mctp::MctpRequester& mctpRequester,
                      sdbusplus::asio::object_server& objectServer) :
     eid(eid), sensorPollMs(std::chrono::milliseconds{configs.pollRate}),
-    waitTimer(io, std::chrono::steady_clock::duration(0)),
+    waitTimerPriority(io, std::chrono::steady_clock::duration(0)),
     mctpRequester(mctpRequester), conn(conn), objectServer(objectServer),
     configs(configs), name(escapeName(name)), path(path)
 {}
@@ -63,17 +63,17 @@ void SmaDevice::makeSensors()
 
 void SmaDevice::setOffline()
 {
-    waitTimer.cancel();
+    waitTimerPriority.cancel();
     tempSensor->markFunctional(false);
 }
 
 void SmaDevice::setOnline()
 {
     tempSensor->markFunctional(true);
-    read();
+    readPriority();
 }
 
-void SmaDevice::read()
+void SmaDevice::readPriority()
 {
     tempSensor->update();
 
@@ -82,8 +82,8 @@ void SmaDevice::read()
         sensor->update();
     }
 
-    waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
-    waitTimer.async_wait(
+    waitTimerPriority.expires_after(std::chrono::milliseconds(sensorPollMs));
+    waitTimerPriority.async_wait(
         [weak{weak_from_this()}](const boost::system::error_code& ec) {
             std::shared_ptr<SmaDevice> self = weak.lock();
             if (!self)
@@ -95,7 +95,7 @@ void SmaDevice::read()
             {
                 return;
             }
-            self->read();
+            self->readPriority();
         });
 }
 
