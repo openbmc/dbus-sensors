@@ -25,7 +25,8 @@ class ExternalSensor :
         const std::string& sensorName, const std::string& sensorUnits,
         std::vector<thresholds::Threshold>&& thresholdsIn,
         const std::string& sensorConfiguration, double maxReading,
-        double minReading, double timeoutSecs, const PowerState& powerState);
+        double minReading, double timeoutSecs, const PowerState& powerState,
+        uint16_t sensorNumber = defaultSensorNumber, uint8_t lun = defaultLun);
     ~ExternalSensor() override;
 
     // Call this immediately after calling the constructor

@@ -37,6 +37,8 @@ constexpr const char* availableInterfaceName =
 constexpr const char* operationalInterfaceName =
     "xyz.openbmc_project.State.Decorator.OperationalStatus";
 constexpr const size_t errorThreshold = 5;
+constexpr uint16_t defaultSensorNumber = 0;
+constexpr uint8_t defaultLun = 0;
 
 struct SensorInstrumentation
 {
@@ -72,16 +74,18 @@ struct Sensor
            const std::string& configurationPath, std::string_view objectType,
            bool isSettable, bool isMutable, const double max, const double min,
            std::shared_ptr<sdbusplus::asio::connection>& conn,
-           PowerState readState = PowerState::always) :
+           PowerState readState = PowerState::always,
+           uint16_t sensorNumber = defaultSensorNumber,
+           uint8_t lun = defaultLun) :
         name(sensor_paths::escapePathForDbus(name)),
         configurationPath(configurationPath),
         configInterface(configInterfaceName(objectType)),
         isSensorSettable(isSettable), isValueMutable(isMutable), maxValue(max),
         minValue(min), thresholds(std::move(thresholdData)),
-        dbusConnection(conn), readState(readState),
-        instrumentation(enableInstrumentation
-                            ? std::make_unique<SensorInstrumentation>()
-                            : nullptr)
+        dbusConnection(conn), readState(readState), sensorNumber(sensorNumber),
+        lun(lun), instrumentation(enableInstrumentation
+                                     ? std::make_unique<SensorInstrumentation>()
+                                     : nullptr)
     {
         // These inits confuse tidy because they're doing constructor params
         // math on member variables that tidy suggests should be default
@@ -119,6 +123,8 @@ struct Sensor
     double hysteresisPublish = 1.0;
     std::shared_ptr<sdbusplus::asio::connection> dbusConnection;
     PowerState readState;
+    uint16_t sensorNumber;
+    uint8_t lun;
     size_t errCount{0};
     std::unique_ptr<SensorInstrumentation> instrumentation;
 
