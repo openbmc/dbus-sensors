@@ -54,7 +54,6 @@ static constexpr double ipmbMaxReading = 0xFF;
 static constexpr double ipmbMinReading = 0;
 
 static constexpr uint8_t meAddress = 1;
-static constexpr uint8_t lun = 0;
 static constexpr uint8_t hostSMbusIndexDefault = 0x03;
 static constexpr uint8_t ipmbBusIndexDefault = 0;
 static constexpr float pollRateDefault = 1; // in seconds
