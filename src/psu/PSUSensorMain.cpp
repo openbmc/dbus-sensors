@@ -155,6 +155,8 @@ static constexpr auto sensorTypes = std::to_array<
     {"smpro_hwmon", I2CDeviceType{"smpro", false}},
     {"SY24655", I2CDeviceType{"sy24655", true}},
     {"TDA38640", I2CDeviceType{"tda38640", true}},
+    {"TDA38725", I2CDeviceType{"tda38725", true}},
+    {"TDA38740", I2CDeviceType{"tda38740", true}},
     {"TPS25990", I2CDeviceType{"tps25990", true}},
     {"TPS53679", I2CDeviceType{"tps53679", true}},
     {"TPS546D24", I2CDeviceType{"tps546d24", true}},
