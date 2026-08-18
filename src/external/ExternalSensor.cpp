@@ -12,6 +12,7 @@
 #include <chrono>
 #include <cmath>
 #include <cstddef>
+#include <cstdint>
 #include <functional>
 #include <limits>
 #include <memory>
@@ -27,9 +28,11 @@ ExternalSensor::ExternalSensor(
     const std::string& sensorName, const std::string& sensorUnits,
     std::vector<thresholds::Threshold>&& thresholdsIn,
     const std::string& sensorConfiguration, double maxReading,
-    double minReading, double timeoutSecs, const PowerState& powerState) :
+    double minReading, double timeoutSecs, const PowerState& powerState,
+    uint16_t sensorNumber, uint8_t lun) :
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
-           objectType, true, true, maxReading, minReading, conn, powerState),
+           objectType, true, true, maxReading, minReading, conn, powerState,
+           sensorNumber, lun),
     objServer(objectServer), writeLast(std::chrono::steady_clock::now()),
     writeTimeout(
         std::chrono::duration_cast<std::chrono::steady_clock::duration>(
