@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1654794_9016b7b6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002484
+      },
+      "writtenOn": "2026-08-18T06:42:53Z",
+      "side": 1,
+      "message": "Done, added Tested section covering the default, \"On\", \"BiosPost\".",
+      "parentUuid": "1fc67336_d6315060",
+      "revId": "46841e23c94cafc955c16916a31c55ca77686cab",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "54907330_78d484aa",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-08-06T09:45:42Z",
       "side": 1,
       "message": "Could we avoid silently mapping an invalid PowerState string to Always? A typo in the config would make the sensor start earlier than intended, which defeats the purpose of this change. A warning and safe fallback, or explicit validation failure, would be safer.",
+      "revId": "46841e23c94cafc955c16916a31c55ca77686cab",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21f43627_c6df4041",
+        "filename": "src/intel-cpu/IntelCPUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1002484
+      },
+      "writtenOn": "2026-08-18T06:42:53Z",
+      "side": 1,
+      "message": "getPowerState() defaults to Always and silently ignores unknown strings, so a typo would start the sensor earlier than before. It now parses the property locally, logs an error on an unrecognised value, and falls back to On — the behaviour prior to this change.",
+      "parentUuid": "54907330_78d484aa",
       "revId": "46841e23c94cafc955c16916a31c55ca77686cab",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
