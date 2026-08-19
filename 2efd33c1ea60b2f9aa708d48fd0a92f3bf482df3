@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9857d0d2_6e9f3224",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-08-19T04:51:59Z",
+      "side": 1,
+      "message": "Yes, the author name and committer name were signed off with the same name addressed.",
+      "parentUuid": "913a7d72_fb0ec84b",
+      "revId": "2efd33c1ea60b2f9aa708d48fd0a92f3bf482df3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ce052fab_c5f25647",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
@@ -31,6 +49,24 @@
       "writtenOn": "2026-08-19T03:08:12Z",
       "side": 1,
       "message": "Can you add Testing details?",
+      "revId": "2efd33c1ea60b2f9aa708d48fd0a92f3bf482df3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5c2a6d3_e9201b3b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-08-19T04:51:59Z",
+      "side": 1,
+      "message": "sure, i will add the testing details.",
+      "parentUuid": "ce052fab_c5f25647",
       "revId": "2efd33c1ea60b2f9aa708d48fd0a92f3bf482df3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
