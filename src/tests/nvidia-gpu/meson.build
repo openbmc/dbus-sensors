@@ -63,6 +63,7 @@ test(
         'test_NvidiaGpuVoltageSensor.cpp',
         'test_NvidiaGpuPowerPeakReading.cpp',
         'test_NvidiaDriverInformation.cpp',
+        'test_NvidiaGpuFirmwareInformation.cpp',
         'test_NvidiaPcieInterface.cpp',
         'test_NvidiaPciePort.cpp',
         'test_NvidiaPciePortMetrics.cpp',
