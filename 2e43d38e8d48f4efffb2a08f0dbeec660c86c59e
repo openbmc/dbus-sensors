@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f5d0f463_1f767970",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 27
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-19T02:47:21Z",
+      "side": 1,
+      "message": "After modify the code, could also attach the log from the Redfish test.",
+      "parentUuid": "1824dfb9_49a44ae0",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 50
+      },
+      "revId": "2e43d38e8d48f4efffb2a08f0dbeec660c86c59e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b77d2b62_093965d7",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 27
@@ -54,6 +78,29 @@
       "writtenOn": "2026-08-19T02:43:59Z",
       "side": 1,
       "message": "The class adds two interfaces but has no destructor.",
+      "revId": "2e43d38e8d48f4efffb2a08f0dbeec660c86c59e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb74d2e4_ce5aa06c",
+        "filename": "src/nvidia-gpu/NvidiaGpuFirmwareInformation.cpp",
+        "patchSetId": 27
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-19T02:47:21Z",
+      "side": 1,
+      "message": "nit: `constexpr const char*`",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 75
+      },
       "revId": "2e43d38e8d48f4efffb2a08f0dbeec660c86c59e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
