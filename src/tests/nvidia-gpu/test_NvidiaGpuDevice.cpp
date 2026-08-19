@@ -7,6 +7,7 @@
 #include "MockMctpRequester.hpp"
 #include "NvidiaGpuDevice.hpp"
 #include "NvidiaSensorConfig.hpp"
+#include "Utils.hpp"
 
 #include <sdbusplus/exception.hpp>
 
@@ -16,6 +17,8 @@
 #include <span>
 #include <string>
 #include <system_error>
+#include <tuple>
+#include <vector>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -26,6 +29,8 @@ namespace
 constexpr uint8_t defaultEid = 20;
 
 constexpr const char* dimmIface = "xyz.openbmc_project.Inventory.Item.Dimm";
+
+constexpr const char* versionIface = "xyz.openbmc_project.Software.Version";
 
 // Short enough that a second poll round lands well inside pollTimeout.
 constexpr uint64_t fastPollMs = 10;
@@ -53,6 +58,16 @@ class NvidiaGpuDeviceTest : public MctpMockTestBase
     {
         return "/xyz/openbmc_project/inventory/" + name + "_DRAM_0";
     }
+
+    static std::string firmwarePath(const std::string& name)
+    {
+        return "/xyz/openbmc_project/software/" + name + "_Firmware";
+    }
+
+    static std::string inventoryPath(const std::string& name)
+    {
+        return "/xyz/openbmc_project/inventory/" + name;
+    }
 };
 
 // Constructor
@@ -68,6 +83,39 @@ TEST_F(NvidiaGpuDeviceTest, GetPathReturnsConfiguredPath)
     const std::string name = "gpudev_path";
     const std::shared_ptr<GpuDevice> device = createDevice(name);
     EXPECT_EQ(device->getPath(), "/test/gpu/" + name);
+}
+
+// The firmware object is published by the constructor, before any device
+// response is decoded, so Version starts empty. Purpose has to be set for the
+// Redfish FirmwareInventory entry to carry a Description.
+TEST_F(NvidiaGpuDeviceTest, ConstructorCreatesFirmwareVersionInterface)
+{
+    const std::string name = "gpudev_fw";
+    const std::shared_ptr<GpuDevice> device = createDevice(name);
+
+    EXPECT_EQ(
+        getProperty<std::string>(firmwarePath(name), versionIface, "Version"),
+        "");
+    EXPECT_EQ(
+        getProperty<std::string>(firmwarePath(name), versionIface, "Purpose"),
+        "xyz.openbmc_project.Software.Version.VersionPurpose.Other");
+}
+
+// bmcweb resolves Processor FirmwareVersion by following ran_on from the GPU
+// inventory item, and fails the request if it lands on more than one object.
+TEST_F(NvidiaGpuDeviceTest, ConstructorAssociatesFirmwareToInventoryItem)
+{
+    const std::string name = "gpudev_fw_assoc";
+    const std::shared_ptr<GpuDevice> device = createDevice(name);
+
+    const std::vector<Association> associations =
+        getProperty<std::vector<Association>>(
+            firmwarePath(name), association::interface, "Associations");
+
+    ASSERT_EQ(associations.size(), 1U);
+    EXPECT_EQ(std::get<0>(associations.front()), "running");
+    EXPECT_EQ(std::get<1>(associations.front()), "ran_on");
+    EXPECT_EQ(std::get<2>(associations.front()), inventoryPath(name));
 }
 
 // Init
@@ -131,6 +179,25 @@ TEST_F(NvidiaGpuDeviceTest, DestructorRemovesInterfaces)
     drainPendingAsync();
     EXPECT_THROW(
         getProperty<std::string>(dramPath(name), dimmIface, "MemoryType"),
+        sdbusplus::exception_t);
+}
+
+TEST_F(NvidiaGpuDeviceTest, DestructorRemovesFirmwareInterfaces)
+{
+    const std::string name = "gpudev_fw_dtor";
+    {
+        const std::shared_ptr<GpuDevice> device = createDevice(name);
+        ASSERT_NE(device, nullptr);
+        EXPECT_NO_THROW(getProperty<std::string>(firmwarePath(name),
+                                                 versionIface, "Version"));
+    }
+    drainPendingAsync();
+    EXPECT_THROW(
+        getProperty<std::string>(firmwarePath(name), versionIface, "Version"),
+        sdbusplus::exception_t);
+    EXPECT_THROW(
+        getProperty<std::vector<Association>>(
+            firmwarePath(name), association::interface, "Associations"),
         sdbusplus::exception_t);
 }
 
