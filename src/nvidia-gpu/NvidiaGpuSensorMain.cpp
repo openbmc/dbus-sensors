@@ -74,9 +74,9 @@ int main()
 
     // Watch for entity-manager to remove configuration interfaces so the
     // corresponding sensors can be removed.
-    auto configIfaceRemovedMatch = std::make_unique<sdbusplus::bus::match_t>(
+    auto configIfaceRemovedMatch = std::make_unique<sdbusplus::match>(
         static_cast<sdbusplus::bus_t&>(*systemBus),
-        sdbusplus::bus::match::rules::interfacesRemovedAtPath(
+        sdbusplus::match_rules::interfacesRemovedAtPath(
             std::string(inventoryPath)),
         [&deviceManager](sdbusplus::message_t& msg) {
             deviceManager.onConfigInterfaceRemoved(msg);
