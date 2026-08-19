@@ -90,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5aeaa2c7_1973f558",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-08-19T15:26:51Z",
+      "side": 1,
+      "message": "Applied. PWM detection now derives the channel index from the sensor filename fanN_input instead of labelHead, so labels like fan 1 no longer cause a false negative while keeping the existing label/config matching behavior intact. Thanks for the catch.",
+      "parentUuid": "be59e86b_1d53a880",
+      "revId": "6721c2c4170f34311d53103c1ecdefb0a541adc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "259c7f2d_f3382fee",
         "filename": "src/psu/PSUSensorMain.cpp",
         "patchSetId": 3
@@ -101,6 +119,24 @@
       "writtenOn": "2026-08-19T07:16:04Z",
       "side": 1,
       "message": "When the PWM file is missing, this returns silently. Please add a debug log with pwmPath and labelHead so bring-up/debugging can explain why a PWM sensor was not created.",
+      "revId": "6721c2c4170f34311d53103c1ecdefb0a541adc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c9a9807_c6ee0aea",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-08-19T15:26:51Z",
+      "side": 1,
+      "message": "Added a debug log here so missing PWM files now report both the resolved pwmPath and the originating labelHead before returning. This should make bring-up/debugging easier when a PWM sensor is not created.",
+      "parentUuid": "259c7f2d_f3382fee",
       "revId": "6721c2c4170f34311d53103c1ecdefb0a541adc8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
