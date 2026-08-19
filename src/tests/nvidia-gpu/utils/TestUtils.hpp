@@ -13,6 +13,7 @@
 #include <concepts>
 #include <cstddef>
 #include <cstdint>
+#include <string>
 #include <vector>
 
 namespace test_utils
@@ -44,6 +45,31 @@ inline std::vector<uint8_t> buildPlatformEnvSuccessResponse(
     pack.pack(static_cast<uint16_t>(0)); // reserved
     pack.pack(static_cast<uint16_t>(sizeof(Payload)));
     pack.pack(payload);
+    return buf;
+}
+
+// Build a SUCCESS PLATFORM_ENVIRONMENTAL response carrying an ASCII string
+// payload. data_size must match the payload length: the decoder rejects a
+// zero or oversized value before it reads the string.
+inline std::vector<uint8_t> buildPlatformEnvStringResponse(
+    gpu::PlatformEnvironmentalCommands command, const std::string& value)
+{
+    std::vector<uint8_t> buf(
+        ocp::accelerator_management::commonResponseSize + value.size());
+    PackBuffer pack(buf);
+    ocp::accelerator_management::packHeader(
+        pack, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 0,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pack.pack(static_cast<uint8_t>(command));
+    pack.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));
+    pack.pack(static_cast<uint16_t>(0));            // reserved
+    pack.pack(static_cast<uint16_t>(value.size())); // data_size
+    for (const char c : value)
+    {
+        pack.pack(static_cast<uint8_t>(c));
+    }
     return buf;
 }
 

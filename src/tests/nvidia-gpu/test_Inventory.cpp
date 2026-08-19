@@ -5,7 +5,6 @@
 
 #include "Inventory.hpp"
 #include "MctpMockTestBase.hpp"
-#include "MessagePackUnpackUtils.hpp"
 #include "MockMctpRequester.hpp"
 #include "NvidiaGpuMctpVdm.hpp"
 #include "OcpMctpVdm.hpp"
@@ -22,32 +21,6 @@
 
 namespace
 {
-
-// Build a SUCCESS GET_INVENTORY_INFORMATION response carrying an ASCII string
-// payload. A payload of at least 16 bytes decodes cleanly for every queried
-// property type: a string for the Asset fields, a valid GUID for the UUID
-// interface, and a uint32 for the clock properties.
-std::vector<uint8_t> buildInventoryStringResponse(const std::string& value)
-{
-    std::vector<uint8_t> buf(
-        ocp::accelerator_management::commonResponseSize + value.size());
-    PackBuffer pack(buf);
-    ocp::accelerator_management::packHeader(
-        pack, gpu::nvidiaPciVendorId,
-        ocp::accelerator_management::MessageType::RESPONSE, 0,
-        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
-    pack.pack(static_cast<uint8_t>(
-        gpu::PlatformEnvironmentalCommands::GET_INVENTORY_INFORMATION));
-    pack.pack(static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::SUCCESS));
-    pack.pack(static_cast<uint16_t>(0));            // reserved
-    pack.pack(static_cast<uint16_t>(value.size())); // data_size
-    for (const char c : value)
-    {
-        pack.pack(static_cast<uint8_t>(c));
-    }
-    return buf;
-}
 
 std::vector<uint8_t> buildInventoryErrorResponse(uint8_t cc,
                                                  uint16_t reasonCode)
@@ -104,11 +77,17 @@ TEST_F(InventoryTest, InitSuccessSetsAssetProperty)
 {
     // Answer every property request with the same valid string response so the
     // whole property set resolves in one synchronous pass and the decode ->
-    // set_property path is exercised for the Asset interface.
+    // set_property path is exercised for the Asset interface. A payload of at
+    // least 16 bytes decodes cleanly for every queried property type: a string
+    // for the Asset fields, a valid GUID for the UUID interface, and a uint32
+    // for the clock properties.
     const std::string inventoryText = "NVIDIA-INV-TEST-01";
     ON_CALL(mctpMock, sendRecvMsg)
         .WillByDefault(mock_mctp::respondWith(
-            {}, buildInventoryStringResponse(inventoryText)));
+            {},
+            test_utils::buildPlatformEnvStringResponse(
+                gpu::PlatformEnvironmentalCommands::GET_INVENTORY_INFORMATION,
+                inventoryText)));
 
     const std::string name = "inv_success";
     const std::shared_ptr<Inventory> inv = createInventory(name);
