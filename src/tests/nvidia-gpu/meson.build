@@ -3,6 +3,7 @@ gpusensor_dir = '../../nvidia-gpu'
 gpusensor_sources = files(
     gpusensor_dir / 'Inventory.cpp',
     gpusensor_dir / 'DeviceManager.cpp',
+    gpusensor_dir / 'LldpFrame.cpp',
     gpusensor_dir / 'NvidiaDriverInformation.cpp',
     gpusensor_dir / 'NvidiaEthPort.cpp',
     gpusensor_dir / 'NvidiaEventReporting.cpp',
@@ -83,6 +84,7 @@ test(
         'test_NvidiaSmaDevice.cpp',
         'test_NvidiaGpuClockSpeedControl.cpp',
         'test_NvidiaGpuResetRequired.cpp',
+        'test_LldpFrame.cpp',
         gpusensor_sources,
         dbus_fixture_sources,
         mock_mctp_sources,
