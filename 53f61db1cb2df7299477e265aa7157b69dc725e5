@@ -16,6 +16,24 @@
       "message": "Add more testing details, check if the existing test cases pass. Can you add a +\u0027ve and -\u0027ve test scenario?",
       "revId": "53f61db1cb2df7299477e265aa7157b69dc725e5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b46c843_6df4ecde",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-08-19T04:58:05Z",
+      "side": 1,
+      "message": "sure,will add both positive and negative test scenerio.",
+      "parentUuid": "564bd68a_22349867",
+      "revId": "53f61db1cb2df7299477e265aa7157b69dc725e5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
