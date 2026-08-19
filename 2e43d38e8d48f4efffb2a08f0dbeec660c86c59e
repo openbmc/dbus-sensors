@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1824dfb9_49a44ae0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 27
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-19T02:43:59Z",
+      "side": 1,
+      "message": "`/xyz/openbmc_project/inventory/Nvidia_GPU_10` have two `ran_on` association, but bmcweb processor.hpp will return 500 when subtree.size \u003e 1 (https://github.com/openbmc/bmcweb/blob/92b625bcdf1c58dd6143c2005b39ba655ed0669b/redfish-core/lib/processor.hpp#L572-L577)",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 50
+      },
+      "revId": "2e43d38e8d48f4efffb2a08f0dbeec660c86c59e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b77d2b62_093965d7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 27
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-19T02:43:59Z",
+      "side": 1,
+      "message": "Could you add a `test_NvidiaGpuFirmwareInformation.cpp`?",
+      "revId": "2e43d38e8d48f4efffb2a08f0dbeec660c86c59e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8db88d1b_4e5efc79",
+        "filename": "src/nvidia-gpu/NvidiaGpuFirmwareInformation.cpp",
+        "patchSetId": 27
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-19T02:43:59Z",
+      "side": 1,
+      "message": "The class adds two interfaces but has no destructor.",
+      "revId": "2e43d38e8d48f4efffb2a08f0dbeec660c86c59e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
