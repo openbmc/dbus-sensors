@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "763c7535_15deb419",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-08-19T10:35:53Z",
+      "side": 1,
+      "message": "Added tested details as you requested.",
+      "parentUuid": "f0d5e478_ef5c70f2",
+      "revId": "6721c2c4170f34311d53103c1ecdefb0a541adc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "be59e86b_1d53a880",
         "filename": "src/psu/PSUSensorMain.cpp",
         "patchSetId": 3
