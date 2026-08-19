@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4d6fad2_8a6f9e09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1001886
+      },
+      "writtenOn": "2026-08-19T03:02:39Z",
+      "side": 1,
+      "message": "Can you use \"Praveen Balakrishnan Vasantha \u003cpraveenbv@ami.com\u003e\" for Author name and Committer name so that it has the same name as Signed-off-by?",
+      "revId": "6721c2c4170f34311d53103c1ecdefb0a541adc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0d5e478_ef5c70f2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001886
+      },
+      "writtenOn": "2026-08-19T03:02:39Z",
+      "side": 1,
+      "message": "Add more testing details, check if the existing test cases pass. Can you add a +\u0027ve and -\u0027ve test scenario?",
+      "revId": "6721c2c4170f34311d53103c1ecdefb0a541adc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
