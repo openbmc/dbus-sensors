@@ -29,6 +29,7 @@
 #include <format>
 #include <memory>
 #include <span>
+#include <stdexcept>
 #include <string>
 #include <system_error>
 #include <utility>
@@ -106,7 +107,85 @@ void PcieDevice::init()
 
     getPciePortCounts();
 
-    for (uint64_t k = 0; k < configs.nicNetworkPortCount; ++k)
+    readNetworkPortCount();
+}
+
+void PcieDevice::readNetworkPortCount()
+{
+    if (path.empty())
+    {
+        return;
+    }
+
+    // The configuration was located by object path, so the service holding it
+    // has to be resolved before its properties can be read.
+    conn->async_method_call(
+        [weak{weak_from_this()}](
+            const boost::system::error_code& ec,
+            const std::vector<std::pair<std::string, std::vector<std::string>>>&
+                ret) {
+            std::shared_ptr<PcieDevice> self = weak.lock();
+            if (self == nullptr)
+            {
+                return;
+            }
+            if (ec || ret.empty())
+            {
+                lg2::error(
+                    "Error reading network port count for {NAME}: no service owns {PATH}, eid={EID}",
+                    "NAME", self->name, "PATH", self->path, "EID", self->eid);
+                return;
+            }
+
+            // Asking for every interface at once keeps this working whether
+            // the board describes the device with the configuration type that
+            // names its kind or with the one that does not.
+            self->conn->async_method_call(
+                [weak](const boost::system::error_code& propsEc,
+                       const SensorBaseConfigMap& properties) {
+                    std::shared_ptr<PcieDevice> device = weak.lock();
+                    if (device == nullptr)
+                    {
+                        return;
+                    }
+                    if (propsEc)
+                    {
+                        lg2::error(
+                            "Error reading network port count for {NAME}: {ERROR}, eid={EID}",
+                            "NAME", device->name, "ERROR", propsEc.message(),
+                            "EID", device->eid);
+                        return;
+                    }
+
+                    uint64_t count = 0;
+                    try
+                    {
+                        count = loadVariant<uint64_t>(properties, "PortCount");
+                    }
+                    catch (const std::invalid_argument&)
+                    {
+                        // A board that does not say how many network ports the
+                        // device has is saying it has none to report.
+                        return;
+                    }
+
+                    device->configs.networkPortCount = count;
+                    device->probeNetworkPorts(count);
+                },
+                ret[0].first, self->path, "org.freedesktop.DBus.Properties",
+                "GetAll", "");
+        },
+        "xyz.openbmc_project.ObjectMapper",
+        "/xyz/openbmc_project/object_mapper",
+        "xyz.openbmc_project.ObjectMapper", "GetObject", path,
+        std::vector<std::string>{});
+}
+
+void PcieDevice::probeNetworkPorts(uint64_t count)
+{
+    // Port numbers start at one; a port that turns out not to be Ethernet is
+    // dropped when its addresses come back.
+    for (uint64_t k = 0; k < count; ++k)
     {
         getNetworkPortAddresses(static_cast<uint16_t>(k + 1));
     }
