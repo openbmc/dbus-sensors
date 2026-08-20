@@ -29,6 +29,7 @@
 #include <format>
 #include <memory>
 #include <span>
+#include <stdexcept>
 #include <string>
 #include <system_error>
 #include <utility>
@@ -113,7 +114,47 @@ void PcieDevice::init()
 
     getPciePortCounts();
 
-    for (uint64_t k = 0; k < configs.nicNetworkPortCount; ++k)
+    readNetworkPortCount();
+}
+
+void PcieDevice::readNetworkPortCount()
+{
+    if (path.string().empty())
+    {
+        return;
+    }
+
+    readObjectProperties(
+        conn, path,
+        [weak{weak_from_this()}](const SensorBaseConfigMap& properties) {
+            std::shared_ptr<PcieDevice> self = weak.lock();
+            if (self == nullptr)
+            {
+                return;
+            }
+
+            uint64_t count = 0;
+            try
+            {
+                count = loadVariant<uint64_t>(properties, "PortCount");
+            }
+            catch (const std::invalid_argument&)
+            {
+                // A board that does not say how many network ports the device
+                // has is saying it has none to report.
+                return;
+            }
+
+            self->configs.networkPortCount = count;
+            self->probeNetworkPorts(count);
+        });
+}
+
+void PcieDevice::probeNetworkPorts(uint64_t count)
+{
+    // Port numbers start at one; a port that turns out not to be Ethernet is
+    // dropped when its addresses come back.
+    for (uint64_t k = 0; k < count; ++k)
     {
         getNetworkPortAddresses(static_cast<uint16_t>(k + 1));
     }
