@@ -34,16 +34,17 @@
 #include <utility>
 #include <vector>
 
-PcieDevice::PcieDevice(const SensorConfigs& configs, const std::string& name,
-                       const sdbusplus::object_path& path,
-                       const std::shared_ptr<sdbusplus::asio::connection>& conn,
-                       uint8_t eid, boost::asio::io_context& io,
-                       mctp::MctpRequester& mctpRequester,
-                       sdbusplus::asio::object_server& objectServer) :
+PcieDevice::PcieDevice(
+    const SensorConfigs& configs, const PcieDeviceConfigs& pcieConfigs,
+    const std::string& name, const sdbusplus::object_path& path,
+    const std::shared_ptr<sdbusplus::asio::connection>& conn, uint8_t eid,
+    boost::asio::io_context& io, mctp::MctpRequester& mctpRequester,
+    sdbusplus::asio::object_server& objectServer) :
     eid(eid), sensorPollMs(std::chrono::milliseconds{configs.pollRate}),
     waitTimer(io, std::chrono::steady_clock::duration(0)),
     mctpRequester(mctpRequester), conn(conn), objectServer(objectServer),
-    configs(configs), name(escapeName(name)), path(path)
+    configs(configs), pcieConfigs(pcieConfigs), name(escapeName(name)),
+    path(path)
 {}
 
 PcieDevice::~PcieDevice()
@@ -113,7 +114,7 @@ void PcieDevice::init()
 
     getPciePortCounts();
 
-    for (uint64_t k = 0; k < configs.nicNetworkPortCount; ++k)
+    for (uint64_t k = 0; k < pcieConfigs.networkPortCount; ++k)
     {
         getNetworkPortAddresses(static_cast<uint16_t>(k + 1));
     }
