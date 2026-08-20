@@ -28,12 +28,12 @@ class NvidiaPcieDeviceTest : public MctpMockTestBase
     static std::shared_ptr<PcieDevice> createDevice(
         const std::string& name = "PCIE_DEV",
         uint8_t eid = test_utils::defaultEid, uint64_t pollRate = 1000,
-        uint64_t nicNetworkPortCount = 0)
+        uint64_t networkPortCount = 0)
     {
         const std::string path = "/test/pcie/" + name;
         const SensorConfigs configs{.name = name,
                                     .pollRate = pollRate,
-                                    .nicNetworkPortCount = nicNetworkPortCount};
+                                    .networkPortCount = networkPortCount};
         return std::make_shared<PcieDevice>(configs, name, path, bus(), eid,
                                             ioContext(), requester(),
                                             objects());

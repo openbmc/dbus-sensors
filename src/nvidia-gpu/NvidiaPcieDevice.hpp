@@ -65,6 +65,14 @@ class PcieDevice : public std::enable_shared_from_this<PcieDevice>
 
     void read();
 
+    // How many network ports this device has is not something the device
+    // reports, so it comes from the configuration that describes the board.
+    // The path is known at construction but its properties are not, so they
+    // are fetched once here and the ports probed from the result.
+    void readNetworkPortCount();
+
+    void probeNetworkPorts(uint64_t count);
+
     void getPciePortCounts();
 
     void processPciePortCountsResponse(const std::error_code& ec,
