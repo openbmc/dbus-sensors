@@ -303,32 +303,26 @@ void DeviceManager::processQueryDeviceIdResponse(
             if (existing == smaDevices.end())
             {
                 auto sma = std::make_shared<SmaDevice>(
-                    configs, entityObjectPath, smaName, conn, eid, io,
-                    mctpRequester, objectServer);
+                    configs, smaName, path, conn, eid, io, mctpRequester,
+                    objectServer);
 
                 sma->init();
 
-                // Only the endpoint itself owns the mctpd endpoint object;
-                // bridged pool devices share the bridge's mctpObjectPath and
-                // must not register / recover under it, which would clobber
-                // the bridge's own endpoint record.
-                if (isEndpointItself)
-                {
-                    registerEndpoint(
-                        mctpObjectPath, eid,
-                        std::static_pointer_cast<DeviceInterface>(sma));
-
+                // Only the endpoint itself owns the mctpd endpoint object.
+                // Bridged pool devices share the bridge's path, so leaving
+                // theirs empty keeps a Connectivity signal from matching more
+                // than the bridge's own record.
                 smaDevices.emplace_back(SmaDeviceRecord{
                     .device = std::move(sma),
                     .name = smaName,
-                    .mctpObjectPath = ownsEndpoint
+                    .mctpObjectPath = isEndpointItself
                                           ? mctpObjectPath
                                           : sdbusplus::object_path{},
                     .uuid = {},
                     .eid = eid,
                     .state = EndpointState::Init});
 
-                if (ownsEndpoint)
+                if (isEndpointItself)
                 {
                     fetchEndpointUuid(mctpObjectPath);
                     applyEvent(mctpObjectPath, EndpointEvent::InitComplete);
@@ -471,8 +465,8 @@ void DeviceManager::checkAssociationAndQueryDevice(
                     "EID", eid, "PATH", associationPath);
                 return;
             }
-            getAssociationEndpoints(configs, mctpObjectPath, eid, associationPath,
-                                    ret[0].first, bridgePool);
+            getAssociationEndpoints(configs, mctpObjectPath, eid,
+                                    associationPath, ret[0].first, bridgePool);
         },
         "xyz.openbmc_project.ObjectMapper",
         "/xyz/openbmc_project/object_mapper",
@@ -541,8 +535,8 @@ void DeviceManager::getConfigService(
                 retryDiscovery(mctpObjectPath, eid);
                 return;
             }
-            getConfigProperties(configs, mctpObjectPath, eid, configPath, service,
-                                interfaces, bridgePool);
+            getConfigProperties(configs, mctpObjectPath, eid, configPath,
+                                service, interfaces, bridgePool);
         });
 }
 
@@ -737,8 +731,8 @@ void DeviceManager::processConfigPropertiesResult(
         boardName, deviceName, eid,
         [this, configs, boardName, mctpObjectPath, eid, bridgePool,
          bridged](const DeviceConfig& resolved) {
-            queryDevicesForEndpoint(configs, resolved, boardName, mctpObjectPath,
-                                    eid, bridgePool, bridged);
+            queryDevicesForEndpoint(configs, resolved, boardName,
+                                    mctpObjectPath, eid, bridgePool, bridged);
         });
 }
 
@@ -1029,7 +1023,8 @@ void DeviceManager::processEndpoint(
                   ocp::accelerator_management::messageType) != mctpTypes.end())
     {
         lg2::info("Found OCP MCTP VDM Endpoint with ID {EID}", "EID", eid);
-        checkAssociationAndQueryDevice(configs, mctpObjectPath, eid, bridgePool);
+        checkAssociationAndQueryDevice(configs, mctpObjectPath, eid,
+                                       bridgePool);
     }
 }
 
@@ -1065,8 +1060,8 @@ void DeviceManager::queryEndpoints(const SensorConfigs& configs,
                             const boost::system::error_code& ec,
                             const SensorBaseConfigMap& endpoint) {
                             auto bridgePool = extractBridgePool(endpoint);
-                            processEndpoint(configs, mctpObjectPath, ec, endpoint,
-                                            bridgePool);
+                            processEndpoint(configs, mctpObjectPath, ec,
+                                            endpoint, bridgePool);
                         },
                         service, objPath, "org.freedesktop.DBus.Properties",
                         "GetAll", "");
@@ -1130,22 +1125,12 @@ void DeviceManager::onConfigInterfaceRemoved(sdbusplus::message_t& message)
         }
     }
 
-    auto smaSensorIt = smaDevices.begin();
-    while (smaSensorIt != smaDevices.end())
-    {
-        if ((smaSensorIt->second->getPath() == removedPath) &&
-            (std::ranges::any_of(interfaces, [](const std::string& i) {
-                return i.starts_with(configInterfacePrefix);
-            })))
-        {
-            smaSensorIt = smaDevices.erase(smaSensorIt);
-        }
-        else
-        {
-            smaSensorIt++;
-        }
-    }
-
+    std::erase_if(smaDevices, [&](const SmaDeviceRecord& rec) {
+        return (rec.device->getPath() == removedPath) &&
+               std::ranges::any_of(interfaces, [](const std::string& i) {
+                   return i.starts_with(configInterfacePrefix);
+               });
+    });
     auto pcieSensorIt = pcieDevices.begin();
     while (pcieSensorIt != pcieDevices.end())
     {
@@ -1170,7 +1155,7 @@ void DeviceManager::fetchEndpointUuid(
         *conn, "au.com.codeconstruct.MCTP1", mctpObjectPath,
         "xyz.openbmc_project.Common.UUID", "UUID",
         [this, mctpObjectPath](const boost::system::error_code& ec,
-                             const std::string& uuid) {
+                               const std::string& uuid) {
             // UUID is an optional interface on the endpoint; absence is fine.
             if (ec || uuid.empty())
             {
@@ -1226,7 +1211,7 @@ void DeviceManager::onEndpointAdded(sdbusplus::message_t& msg)
         return;
     }
 
-    if (it->second.state != EndpointState::Offline)
+    if (it->state != EndpointState::Offline)
     {
         return;
     }
@@ -1240,7 +1225,7 @@ void DeviceManager::reattachByUuid(const sdbusplus::object_path& mctpObjectPath)
         *conn, "au.com.codeconstruct.MCTP1", mctpObjectPath,
         "xyz.openbmc_project.Common.UUID", "UUID",
         [this, mctpObjectPath](const boost::system::error_code& ec,
-                             const std::string& uuid) {
+                               const std::string& uuid) {
             if (ec || uuid.empty() ||
                 std::ranges::find(smaDevices, uuid, &SmaDeviceRecord::uuid) ==
                     smaDevices.end())
@@ -1255,8 +1240,8 @@ void DeviceManager::reattachByUuid(const sdbusplus::object_path& mctpObjectPath)
             sdbusplus::asio::getProperty<uint8_t>(
                 *conn, "au.com.codeconstruct.MCTP1", mctpObjectPath,
                 "xyz.openbmc_project.MCTP.Endpoint", "EID",
-                [this, mctpObjectPath, uuid](
-                    const boost::system::error_code& eidEc, uint8_t newEid) {
+                [this, mctpObjectPath,
+                 uuid](const boost::system::error_code& eidEc, uint8_t newEid) {
                     if (eidEc)
                     {
                         lg2::error(
@@ -1286,7 +1271,7 @@ void DeviceManager::verifyAndReadd(const sdbusplus::object_path& mctpObjectPath)
         *conn, "au.com.codeconstruct.MCTP1", mctpObjectPath,
         "xyz.openbmc_project.Common.UUID", "UUID",
         [this, mctpObjectPath](const boost::system::error_code& ec,
-                             const std::string& uuid) {
+                               const std::string& uuid) {
             auto it = std::ranges::find(smaDevices, mctpObjectPath,
                                         &SmaDeviceRecord::mctpObjectPath);
             if (it == smaDevices.end() || it->state != EndpointState::Offline)
