@@ -22,6 +22,30 @@
       },
       "revId": "6d90ebe799c5aa00c8c5be32401806dd75575dbb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf1d404b_c839ae42",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 39
+      },
+      "lineNbr": 751,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-20T02:06:41Z",
+      "side": 1,
+      "message": "Could you check what cat /sys/bus/soc/devices/soc0/family prints on your AST2620? On our AST2600 it reports AST2600, the family rather than the specific part. If yours reports the same then the check already passes and nothing needs adding.",
+      "parentUuid": "7a1013db_be04d6e6",
+      "range": {
+        "startLine": 751,
+        "startChar": 8,
+        "endLine": 751,
+        "endChar": 59
+      },
+      "revId": "6d90ebe799c5aa00c8c5be32401806dd75575dbb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
