@@ -2,6 +2,7 @@
 #include "Thresholds.hpp"
 #include "Utils.hpp"
 #include "VariantVisitors.hpp"
+#include "sensor.hpp"
 
 #include <boost/asio/error.hpp>
 #include <boost/asio/io_context.hpp>
@@ -20,6 +21,7 @@
 #include <array>
 #include <chrono>
 #include <cmath>
+#include <cstdint>
 #include <exception>
 #include <functional>
 #include <memory>
@@ -303,6 +305,7 @@ void createSensors(
 
                 PowerState readState = getPowerState(baseConfigMap);
 
+                uint16_t sensorNumber = defaultSensorNumber;
                 auto& sensorEntry = sensors[sensorName];
                 sensorEntry = nullptr;
                 try
@@ -310,7 +313,8 @@ void createSensors(
                     sensorEntry = std::make_shared<ExternalSensor>(
                         sensorType, objectServer, dbusConnection, sensorName,
                         sensorUnits, std::move(sensorThresholds), interfacePath,
-                        maxValue, minValue, timeoutSecs, readState);
+                        maxValue, minValue, timeoutSecs, readState,
+                        sensorNumber);
                     sensorEntry->initWriteHook(
                         [&sensors, &reaperTimer](
                             const std::chrono::steady_clock::time_point& now) {
