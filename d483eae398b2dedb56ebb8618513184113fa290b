@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "92c9291d_9bcf37fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-08-20T04:54:42Z",
+      "side": 1,
+      "message": "Addressed the mismatched author/commit names and updated the changes.",
+      "parentUuid": "818da2e1_66436259",
+      "revId": "d483eae398b2dedb56ebb8618513184113fa290b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fd610c86_c5e5dd4b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 8
@@ -37,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d63b7fcb_b9b0224a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-08-20T04:54:42Z",
+      "side": 1,
+      "message": "updated the changes as per suggestion.",
+      "parentUuid": "fd610c86_c5e5dd4b",
+      "revId": "d483eae398b2dedb56ebb8618513184113fa290b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b66f8674_881f3ff1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 8
@@ -48,6 +84,24 @@
       "writtenOn": "2026-08-20T02:47:09Z",
       "side": 1,
       "message": "Please add testing details.",
+      "revId": "d483eae398b2dedb56ebb8618513184113fa290b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c7f745a_8963cccc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-08-20T04:54:42Z",
+      "side": 1,
+      "message": "I will add the testing details.",
+      "parentUuid": "b66f8674_881f3ff1",
       "revId": "d483eae398b2dedb56ebb8618513184113fa290b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
