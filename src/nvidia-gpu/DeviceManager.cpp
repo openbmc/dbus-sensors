@@ -417,10 +417,9 @@ void DeviceManager::queryDevicesForEndpoint(
         return;
     }
 
-    // Walk the bridge's EID pool alongside the BridgedEndpoints records.
-    // Each record is paired with a configuration of its own rather than
-    // reusing the bridge's: an SMA and the device behind it can sit on
-    // different boards.
+    // Walk the bridge's EID pool alongside the BridgedEndpoints records. Each
+    // record is paired with a configuration of its own rather than reusing the
+    // bridge's: an SMA and the device behind it can sit on different boards.
     uint8_t index = 0;
     for (const BridgedEndpoint& endpoint : bridgedEndpoints)
     {
@@ -829,9 +828,8 @@ static void selectMctpVdmConfig(
     const boost::system::error_code& ec, const GetSubTreeType& ret,
     const std::function<void(const DeviceManager::DeviceConfig&)>& done)
 {
-    // The subtree reply already names the service holding each record, so
-    // the records can be read without asking the mapper for their owner
-    // again.
+    // The subtree reply already names the service holding each record, so the
+    // records can be read without asking the mapper for their owner again.
     struct Candidate
     {
         std::string path;
@@ -897,8 +895,7 @@ static void selectMctpVdmConfig(
                         if (name != nullptr && *name == inventoryName)
                         {
                             // The record says what the device is called on
-                            // D-Bus; the platform's name only paired them
-                            // up.
+                            // D-Bus; the platform's name only paired them up.
                             const auto deviceIt = props.find("DeviceName");
                             const auto* device = (deviceIt != props.end())
                                                      ? std::get_if<std::string>(
@@ -1053,10 +1050,9 @@ void DeviceManager::queryEndpoints(const SensorConfigs& configs,
             {
                 if (iface == "xyz.openbmc_project.MCTP.Endpoint")
                 {
-                    // GetAll with an empty interface returns properties
-                    // from all interfaces on the object, so a bridge
-                    // endpoint's PoolStart/PoolEnd (on the Bridge1
-                    // interface) are visible.
+                    // GetAll with an empty interface returns properties from
+                    // all interfaces on the object, so a bridge endpoint's
+                    // PoolStart/PoolEnd (on the Bridge1 interface) are visible.
                     conn->async_method_call(
                         [this, configs, mctpObjectPath{objPath}](
                             const boost::system::error_code& ec,
@@ -1133,7 +1129,6 @@ void DeviceManager::onConfigInterfaceRemoved(sdbusplus::message_t& message)
                    return i.starts_with(configInterfacePrefix);
                });
     });
-
     auto pcieSensorIt = pcieDevices.begin();
     while (pcieSensorIt != pcieDevices.end())
     {
@@ -1159,8 +1154,7 @@ void DeviceManager::fetchEndpointUuid(
         "xyz.openbmc_project.Common.UUID", "UUID",
         [this, mctpObjectPath](const boost::system::error_code& ec,
                                const std::string& uuid) {
-            // UUID is an optional interface on the endpoint; absence is
-            // fine.
+            // UUID is an optional interface on the endpoint; absence is fine.
             if (ec || uuid.empty())
             {
                 return;
@@ -1197,8 +1191,7 @@ void DeviceManager::onEndpointAdded(sdbusplus::message_t& msg)
 {
     sdbusplus::object_path objPath;
     // Read only the object path; the interface/property dictionary carries
-    // many typed properties whose variant types we do not want to depend
-    // on.
+    // many typed properties whose variant types we do not want to depend on.
     msg.read(objPath);
 
     auto it = std::ranges::find(smaDevices, objPath,
@@ -1206,9 +1199,9 @@ void DeviceManager::onEndpointAdded(sdbusplus::message_t& msg)
     if (it == smaDevices.end())
     {
         // New endpoint path. It may be a device we already manage that was
-        // re-enumerated with a different EID (path changes with the EID),
-        // so try to re-attach it by UUID. Guard against churn from
-        // non-endpoint mctp objects (networks, interfaces).
+        // re-enumerated with a different EID (path changes with the EID), so
+        // try to re-attach it by UUID. Guard against churn from non-endpoint
+        // mctp objects (networks, interfaces).
         if (objPath.string().find("/endpoints/") != std::string::npos)
         {
             reattachByUuid(objPath);
@@ -1287,8 +1280,8 @@ void DeviceManager::verifyAndReadd(const sdbusplus::object_path& mctpObjectPath)
             const std::string& expected = it->uuid;
             if (!ec && !uuid.empty() && !expected.empty() && uuid != expected)
             {
-                // Same path/EID but a different device took it over; treat
-                // as a fresh device rather than re-attaching the old one.
+                // Same path/EID but a different device took it over; treat as
+                // a fresh device rather than re-attaching the old one.
                 lg2::warning(
                     "MCTP endpoint {PATH} reappeared with different UUID; rescanning",
                     "PATH", mctpObjectPath);
