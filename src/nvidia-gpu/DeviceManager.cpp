@@ -350,8 +350,10 @@ void DeviceManager::processQueryDeviceIdResponse(
             if (pcie == nullptr)
             {
                 pcie = std::make_shared<PcieDevice>(
-                    configs, pcieName, path, conn, eid, io, mctpRequester,
-                    objectServer);
+                    configs,
+                    PcieDeviceConfigs{
+                        .networkPortCount = deviceConfig.networkPortCount},
+                    pcieName, path, conn, eid, io, mctpRequester, objectServer);
 
                 pcie->init();
             }
@@ -904,10 +906,23 @@ static void selectMctpVdmConfig(
                                                      ? std::get_if<std::string>(
                                                            &deviceIt->second)
                                                      : nullptr;
+
+                            // Only the record describing a ConnectX device
+                            // names a port count; one that does not is
+                            // describing a device with no network ports to
+                            // probe.
+                            const auto countIt = props.find("PortCount");
+                            const auto* count =
+                                (countIt != props.end())
+                                    ? std::get_if<uint64_t>(&countIt->second)
+                                    : nullptr;
+
                             search->matched = true;
                             done({.path = path,
                                   .name = (device != nullptr) ? *device
-                                                              : inventoryName});
+                                                              : inventoryName,
+                                  .networkPortCount =
+                                      (count != nullptr) ? *count : 0});
                         }
                     }
                 }

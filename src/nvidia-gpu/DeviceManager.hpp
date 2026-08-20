@@ -127,6 +127,7 @@ class DeviceManager
     {
         sdbusplus::object_path path;
         std::string name;
+        uint64_t networkPortCount{};
     };
 
   private:
