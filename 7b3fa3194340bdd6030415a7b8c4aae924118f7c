@@ -34,6 +34,24 @@
       "parentUuid": "19527a98_13ff6041",
       "revId": "7b3fa3194340bdd6030415a7b8c4aae924118f7c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7d2b38d_0dc98c0d",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-20T02:15:12Z",
+      "side": 1,
+      "message": "Hi @molberding@nvidia.com.Yes, the reset SMA patches is as follows:\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/91169\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/91802",
+      "parentUuid": "4d99fff0_4a245ea8",
+      "revId": "7b3fa3194340bdd6030415a7b8c4aae924118f7c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
