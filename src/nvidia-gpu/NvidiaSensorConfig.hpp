@@ -16,5 +16,5 @@ struct SensorConfigs
 {
     std::string name;
     uint64_t pollRate{};
-    uint64_t nicNetworkPortCount{};
+    uint64_t networkPortCount{};
 };
