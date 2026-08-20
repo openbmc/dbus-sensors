@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b568056_41257c01",
+        "filename": "src/nvidia-gpu/NvidiaPcieDevice.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-08-20T06:38:12Z",
+      "side": 1,
+      "message": "Minor logging detail: when ec is set, “no service owns {PATH}” may be misleading; suggest including ec.message() for the error path.",
+      "range": {
+        "startLine": 135,
+        "startChar": 34,
+        "endLine": 135,
+        "endChar": 35
+      },
+      "revId": "51622596fe3af19e95ebb9eb30d20098c5fea766",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f3d1084_9399b509",
+        "filename": "src/nvidia-gpu/NvidiaPcieDevice.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-08-20T06:38:12Z",
+      "side": 1,
+      "message": "Using ret[0].first assumes mapper result ordering is stable; can we select the expected owner (for example EntityManager) explicitly to avoid reading properties from a different service?",
+      "range": {
+        "startLine": 175,
+        "startChar": 0,
+        "endLine": 175,
+        "endChar": 76
+      },
+      "revId": "51622596fe3af19e95ebb9eb30d20098c5fea766",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
