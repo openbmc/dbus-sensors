@@ -8,6 +8,7 @@
 #include "NvidiaGpuDevice.hpp"
 #include "NvidiaPcieDevice.hpp"
 #include "NvidiaSmaDevice.hpp"
+#include "NvidiaUtils.hpp"
 #include "Utils.hpp"
 
 #include <EndpointState.hpp>
@@ -534,26 +535,21 @@ void DeviceManager::getConfigService(
     uint8_t eid, const sdbusplus::object_path& configPath,
     std::optional<std::pair<uint8_t, uint8_t>> bridgePool)
 {
-    conn->async_method_call(
-        [this, configs, mctpObjectPath, eid, configPath, bridgePool](
-            const boost::system::error_code& ec,
-            const std::vector<std::pair<std::string, std::vector<std::string>>>&
-                ret) {
-            if (ec || ret.empty())
+    resolveObjectService(
+        conn, configPath,
+        [this, configs, mctpObjectPath, eid, configPath,
+         bridgePool](const std::string& service,
+                     const std::vector<std::string>& interfaces) {
+            if (service.empty())
             {
-                lg2::error(
-                    "EID {EID}: Failed to get service for config path {PATH}: {ERROR}",
-                    "EID", eid, "PATH", configPath, "ERROR", ec.message());
+                lg2::error("EID {EID}: no service owns config path {PATH}",
+                           "EID", eid, "PATH", configPath);
                 retryDiscovery(mctpObjectPath, eid);
                 return;
             }
             getConfigProperties(configs, mctpObjectPath, eid, configPath,
-                                ret[0].first, ret[0].second, bridgePool);
-        },
-        "xyz.openbmc_project.ObjectMapper",
-        "/xyz/openbmc_project/object_mapper",
-        "xyz.openbmc_project.ObjectMapper", "GetObject", configPath,
-        std::vector<std::string>{});
+                                service, interfaces, bridgePool);
+        });
 }
 
 void DeviceManager::getConfigProperties(
