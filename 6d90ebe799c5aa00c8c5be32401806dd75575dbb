@@ -46,6 +46,30 @@
       },
       "revId": "6d90ebe799c5aa00c8c5be32401806dd75575dbb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a412deb_7920565e",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 39
+      },
+      "lineNbr": 751,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2026-08-20T02:20:27Z",
+      "side": 1,
+      "message": "Hi @andhsieh@nvidia.com,\nBelow is the family \u0026 soc_id report from my system.\n```\nroot@bmc:~# cat /sys/bus/soc/devices/soc0/family \nAST2620\nroot@bmc:~# cat /sys/bus/soc/devices/soc0/soc_id \n05030203\n```",
+      "parentUuid": "cf1d404b_c839ae42",
+      "range": {
+        "startLine": 751,
+        "startChar": 8,
+        "endLine": 751,
+        "endChar": 59
+      },
+      "revId": "6d90ebe799c5aa00c8c5be32401806dd75575dbb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
