@@ -22,6 +22,30 @@
       },
       "revId": "68203dd3e993bea51e371802071fef16cf3c0fbb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "caf7df20_10e6dae8",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-21T11:49:19Z",
+      "side": 1,
+      "message": "Not needed any more: the parent change publishes the name on `xyz.openbmc_project.Configuration.Probe`, unescaped, and that is what a platform record names its board with, so the board is found by comparing it.\n`escapeForInventoryPath` is gone.\n\nLonger term this wants an association from entity manager instead, so nothing matches on names at all.",
+      "parentUuid": "342fb13c_3afea39a",
+      "range": {
+        "startLine": 50,
+        "startChar": 1,
+        "endLine": 64,
+        "endChar": 12
+      },
+      "revId": "68203dd3e993bea51e371802071fef16cf3c0fbb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
