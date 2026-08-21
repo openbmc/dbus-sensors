@@ -18,6 +18,7 @@
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/message/native_types.hpp>
 
 #include <chrono>
 #include <cstdint>
@@ -26,7 +27,7 @@
 #include <vector>
 
 SmaDevice::SmaDevice(const SensorConfigs& configs, const std::string& name,
-                     const std::string& path,
+                     const sdbusplus::object_path& path,
                      const std::shared_ptr<sdbusplus::asio::connection>& conn,
                      uint8_t eid, boost::asio::io_context& io,
                      mctp::MctpRequester& mctpRequester,
