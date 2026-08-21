@@ -47,7 +47,8 @@ NvidiaSmaLeakSensor::NvidiaSmaLeakSensor(
     Sensor(escapeName(name), std::move(thresholdData), sensorConfiguration,
            "voltage", false, true, smaLeakSensorMaxReading,
            smaLeakSensorMinReading, conn),
-    eid(eid), mctpRequester(mctpRequester), objectServer(objectServer)
+    eid(eid), conn(conn), mctpRequester(mctpRequester),
+    objectServer(objectServer)
 {
     std::string dbusPath = sensorPathPrefix + "voltage/"s + escapeName(name);
 
@@ -83,6 +84,28 @@ NvidiaSmaLeakSensor::NvidiaSmaLeakSensor(
                 "EID", eid);
         }
     }
+
+    std::string leakDetectorPath =
+        "/xyz/openbmc_project/state/leak/detector/" + escapeName(name);
+    leakDetectorInterface = objectServer.add_interface(
+        leakDetectorPath, "xyz.openbmc_project.State.Leak.Detector");
+
+    leakDetectorInterface->register_property("DetectorName", name);
+    leakDetectorInterface->register_property(
+        "DetectorState",
+        std::string(
+            "xyz.openbmc_project.State.Leak.Detector.DetectorState.Normal"));
+    leakDetectorInterface->register_property(
+        "Type",
+        std::string(
+            "xyz.openbmc_project.State.Leak.Detector.DetectorType.Unknown"));
+
+    if (!leakDetectorInterface->initialize())
+    {
+        lg2::error(
+            "Error initializing Leak Detector Interface for Leak Sensor for eid {EID}",
+            "EID", eid);
+    }
 }
 
 NvidiaSmaLeakSensor::~NvidiaSmaLeakSensor()
@@ -96,6 +119,10 @@ NvidiaSmaLeakSensor::~NvidiaSmaLeakSensor()
     if (commonPhysicalContextInterface)
     {
         objectServer.remove_interface(commonPhysicalContextInterface);
+    }
+    if (leakDetectorInterface)
+    {
+        objectServer.remove_interface(leakDetectorInterface);
     }
 }
 
@@ -140,6 +167,59 @@ void NvidiaSmaLeakSensor::processResponse(const std::error_code& ec,
     // Reading from the device is in millivolts and unit set on the dbus
     // is volts.
     updateValue(parsedSensors[0].adcReadingMv / 1000.0);
+
+    if (!parsedSensors.empty())
+    {
+        double val = parsedSensors[0].adcReadingMv / 1000.0;
+        LeakState currentLeakState = LeakState::Normal;
+
+        for (const auto& threshold : thresholds)
+        {
+            if (threshold.level == thresholds::Level::CRITICAL ||
+                threshold.level == thresholds::Level::WARNING)
+            {
+                if ((threshold.direction == thresholds::Direction::HIGH &&
+                     val >= threshold.value) ||
+                    (threshold.direction == thresholds::Direction::LOW &&
+                     val <= threshold.value))
+                {
+                    currentLeakState = LeakState::Abnormal;
+                }
+            }
+        }
+        if (currentLeakState != lastLeakState)
+        {
+            lastLeakState = currentLeakState;
+
+            std::string stateStr =
+                (lastLeakState == LeakState::Normal)
+                    ? "xyz.openbmc_project.State.Leak.Detector.DetectorState.Normal"
+                    : "xyz.openbmc_project.State.Leak.Detector.DetectorState.Abnormal";
+
+            leakDetectorInterface->set_property("DetectorState", stateStr);
+
+            std::string action =
+                (lastLeakState == LeakState::Normal) ? "deassert" : "assert";
+            std::string target = "xyz.openbmc_project.leakdetector.critical." +
+                                 action + "@" + escapeName(name) + ".service";
+
+            lg2::info("Starting systemd target {TARGET} for leak state change",
+                      "TARGET", target);
+
+            conn->async_method_call(
+                [target](const boost::system::error_code& errc) {
+                    if (errc)
+                    {
+                        lg2::error(
+                            "Failed to start systemd unit {TARGET}: {ERROR}",
+                            "TARGET", target, "ERROR", errc.message());
+                    }
+                },
+                "org.freedesktop.systemd1", "/org/freedesktop/systemd1",
+                "org.freedesktop.systemd1.Manager", "StartUnit", target,
+                "replace");
+        }
+    }
 }
 
 void NvidiaSmaLeakSensor::update()
