@@ -248,7 +248,7 @@ struct Sensor
             }
 
             oldValue = newValue;
-            overriddenState = true;
+            setOverrideState(true);
             // check thresholds for external set
             value = newValue;
             checkThresholds();
@@ -281,6 +281,7 @@ struct Sensor
         sensorInterface->register_property("Unit", std::string(unit));
         sensorInterface->register_property("MaxValue", maxValue);
         sensorInterface->register_property("MinValue", minValue);
+        sensorInterface->register_property("OverrideActive", overriddenState);
         sensorInterface->register_property(
             "Value", value, [this](const double& newValue, double& oldValue) {
                 return setSensorValue(newValue, oldValue);
@@ -557,6 +558,15 @@ struct Sensor
             return (lNan != rNan);
         }
         return std::abs(lVal - rVal) > hysteresisPublish;
+    }
+
+    void setOverrideState(bool active)
+    {
+        overriddenState = active;
+        if (sensorInterface)
+        {
+            sensorInterface->set_property("OverrideActive", active);
+        }
     }
 
   private:
