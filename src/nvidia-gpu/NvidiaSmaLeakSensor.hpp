@@ -38,6 +38,8 @@ struct NvidiaSmaLeakSensor :
 
     void update();
 
+    void updateState(uint8_t value);
+
   private:
     void processResponse(const std::error_code& ec,
                          std::span<const uint8_t> buffer);
@@ -58,4 +60,18 @@ struct NvidiaSmaLeakSensor :
         commonPhysicalContextInterface;
 
     std::vector<gpu::LeakSensorData> parsedSensors;
+
+    std::shared_ptr<sdbusplus::asio::dbus_interface> leakDetectorInterface;
+
+    std::shared_ptr<sdbusplus::asio::dbus_interface> leakFaultInterface;
+
+    enum class LeakState
+    {
+        Normal,
+        Abnormal
+    };
+
+    LeakState lastLeakState = LeakState::Normal;
+
+    LeakState lastLeakFault = LeakState::Normal;
 };
