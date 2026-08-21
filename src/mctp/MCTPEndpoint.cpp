@@ -25,6 +25,7 @@
 #include <fstream>
 #include <functional>
 #include <iterator>
+#include <limits>
 #include <map>
 #include <memory>
 #include <numeric>
@@ -50,8 +51,12 @@ static constexpr const char* mctpdEndpointControlInterface =
 
 MCTPDDevice::MCTPDDevice(
     const std::shared_ptr<sdbusplus::asio::connection>& connection,
-    const std::string& interface, const std::vector<uint8_t>& physaddr) :
-    connection(connection), interface(interface), physaddr(physaddr)
+    const std::string& interface, const std::vector<uint8_t>& physaddr,
+    std::optional<uint8_t> staticEid, std::optional<uint8_t> bridgePoolStartEid,
+    std::optional<uint8_t> bridgePoolSize) :
+    connection(connection), interface(interface), physaddr(physaddr),
+    staticEid(staticEid), bridgePoolStartEid(bridgePoolStartEid),
+    bridgePoolSize(bridgePoolSize)
 {}
 
 void MCTPDDevice::onEndpointInterfacesRemoved(
@@ -104,8 +109,7 @@ void MCTPDDevice::setup(
     // MctpdDevice::finaliseEndpoint()
     auto onSetup = [weak{weak_from_this()}, added{std::move(added)}](
                        const boost::system::error_code& ec, uint8_t eid,
-                       int network, const std::string& objpath,
-                       bool allocated [[maybe_unused]]) mutable {
+                       int network, const std::string& objpath) mutable {
         if (ec)
         {
             added(ec, {});
@@ -123,8 +127,46 @@ void MCTPDDevice::setup(
                 "INVENTORY_PATH", objpath);
         }
     };
+
+    if (staticEid.has_value() && bridgePoolStartEid.has_value() &&
+        bridgePoolSize.has_value())
+    {
+        const uint8_t eid = staticEid.value();
+        const uint8_t poolStart = bridgePoolStartEid.value();
+        const uint8_t poolSize = bridgePoolSize.value();
+
+        debug(
+            "Assigning bridge static for interface '{INTF}': staticEid={EID}, start={START}, size={SIZE}",
+            "INTF", interface, "EID", eid, "START", poolStart, "SIZE",
+            poolSize);
+
+        connection->async_method_call(
+            [onSetup = std::move(onSetup)](
+                const boost::system::error_code& ec, uint8_t eid,
+                uint8_t poolStart, int network, const std::string& objpath,
+                bool allocated [[maybe_unused]]) mutable {
+                if (!ec && poolStart == 0)
+                {
+                    error(
+                        "Failed to allocate bridge endpoint ID pool for '{OBJ_PATH}' (eid={EID})",
+                        "OBJ_PATH", objpath, "EID", eid);
+                }
+                onSetup(ec, eid, network, objpath);
+            },
+            mctpdBusName,
+            mctpdControlPath + std::string("/interfaces/") + interface,
+            mctpdControlInterface, "AssignBridgeStatic", physaddr, eid,
+            poolStart, poolSize);
+        return;
+    }
+
     connection->async_method_call(
-        onSetup, mctpdBusName,
+        [onSetup = std::move(onSetup)](
+            const boost::system::error_code& ec, uint8_t eid, int network,
+            const std::string& objpath,
+            bool allocated
+            [[maybe_unused]]) mutable { onSetup(ec, eid, network, objpath); },
+        mctpdBusName,
         mctpdControlPath + std::string("/interfaces/") + interface,
         mctpdControlInterface, "AssignEndpoint", physaddr);
 }
@@ -804,12 +846,57 @@ std::shared_ptr<USBMCTPDDevice> USBMCTPDDevice::from(
         return {};
     }
 
+    auto getOptionalUint8 =
+        [&iface](const char* propertyName) -> std::optional<uint8_t> {
+        auto it = iface.find(propertyName);
+        if (it == iface.end())
+        {
+            return std::nullopt;
+        }
+
+        std::string valStr = std::visit(VariantToStringVisitor(), it->second);
+        std::string_view digits = valStr;
+
+        int base = 10;
+        if (digits.starts_with("0x") || digits.starts_with("0X"))
+        {
+            base = 16;
+            digits.remove_prefix(2);
+        }
+
+        unsigned int val{};
+        auto [ptr, ec] = std::from_chars(
+            digits.data(), digits.data() + digits.size(), val, base);
+
+        if (ec != std::errc{} || ptr != digits.data() + digits.size() ||
+            val > std::numeric_limits<uint8_t>::max())
+        {
+            throw std::invalid_argument(
+                std::format("Bad {} value", propertyName));
+        }
+        return static_cast<uint8_t>(val);
+    };
+
+    std::optional<uint8_t> staticEid = getOptionalUint8("StaticEid");
+    std::optional<uint8_t> bridgePoolStartEid =
+        getOptionalUint8("BridgePoolStartEid");
+    std::optional<uint8_t> bridgePoolSize = getOptionalUint8("BridgePoolSize");
+
+    if (staticEid.has_value() != bridgePoolStartEid.has_value() ||
+        staticEid.has_value() != bridgePoolSize.has_value())
+    {
+        throw std::invalid_argument(
+            "StaticEid, BridgePoolStartEid, and BridgePoolSize must all be set together");
+    }
+
     try
     {
         std::string bus = busFromRootHubPath(std::string(*rootHubPath));
         std::string interface =
             interfaceFromSysfs(bus, port, configuration, interfaceNum);
-        return std::make_shared<USBMCTPDDevice>(connection, interface);
+        return std::make_shared<USBMCTPDDevice>(
+            connection, interface, staticEid, bridgePoolStartEid,
+            bridgePoolSize);
     }
     catch (const MCTPException& ex)
     {
