@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a4f3151_7c7e42a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-21T10:53:46Z",
+      "side": 1,
+      "message": "`test_NvidiaGpuClockSpeedControl.cpp` already exists and isn\u0027t touched here",
+      "revId": "44f6895f34ea8731daf18670be355608b1bca098",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
