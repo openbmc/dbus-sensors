@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "839418c2_889158cb",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 41
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-21T11:49:27Z",
+      "side": 1,
+      "message": "Good catch. Done.",
+      "parentUuid": "ae40ccfd_9736ee5d",
+      "range": {
+        "startLine": 721,
+        "startChar": 28,
+        "endLine": 721,
+        "endChar": 38
+      },
+      "revId": "b9ec5595b58ea1b11430cb0cc7c73fa884af1fc6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "36c3f4f2_b264a649",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-08-21T03:36:09Z",
       "side": 1,
       "message": "Same concern for Interface parsing: this checks iec but not full consumption.\nCould we require iptr \u003d\u003d sInterface.data() + sInterface.size() so trailing characters are rejected?",
+      "range": {
+        "startLine": 731,
+        "startChar": 28,
+        "endLine": 731,
+        "endChar": 38
+      },
+      "revId": "b9ec5595b58ea1b11430cb0cc7c73fa884af1fc6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1deb89b_6f2a7fe8",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 41
+      },
+      "lineNbr": 731,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-21T11:49:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36c3f4f2_b264a649",
       "range": {
         "startLine": 731,
         "startChar": 28,
