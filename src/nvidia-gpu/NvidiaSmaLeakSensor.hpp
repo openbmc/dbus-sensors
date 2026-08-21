@@ -62,4 +62,14 @@ struct NvidiaSmaLeakSensor :
         commonPhysicalContextInterface;
 
     std::vector<gpu::LeakSensorData> parsedSensors;
+
+    std::shared_ptr<sdbusplus::asio::dbus_interface> leakDetectorInterface;
+    
+    enum class LeakState
+    {
+        Normal,
+        Abnormal
+    };
+
+    LeakState lastLeakState = LeakState::Normal;
 };
