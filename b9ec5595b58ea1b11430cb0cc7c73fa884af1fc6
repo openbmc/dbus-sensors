@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae40ccfd_9736ee5d",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 41
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-08-21T03:36:09Z",
+      "side": 1,
+      "message": "Please also validate full parse consumption for Configuration.\nToday this checks only cec, so values like \"1abc\" may parse as 1 and be accepted.\nCould we also require cptr \u003d\u003d sConfiguration.data() + sConfiguration.size()?",
+      "range": {
+        "startLine": 721,
+        "startChar": 28,
+        "endLine": 721,
+        "endChar": 38
+      },
+      "revId": "b9ec5595b58ea1b11430cb0cc7c73fa884af1fc6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36c3f4f2_b264a649",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 41
+      },
+      "lineNbr": 731,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-08-21T03:36:09Z",
+      "side": 1,
+      "message": "Same concern for Interface parsing: this checks iec but not full consumption.\nCould we require iptr \u003d\u003d sInterface.data() + sInterface.size() so trailing characters are rejected?",
+      "range": {
+        "startLine": 731,
+        "startChar": 28,
+        "endLine": 731,
+        "endChar": 38
+      },
+      "revId": "b9ec5595b58ea1b11430cb0cc7c73fa884af1fc6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
