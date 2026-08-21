@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30b25177_6ae91fd8",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2026-08-21T15:13:14Z",
+      "side": 1,
+      "message": "All object paths should use `sdbusplus::object_path` if possible.\n\nIf the relevant D-Bus (mapper) API does not use object_path `o` and instead uses string `s` to represent an object path, that\u0027s a bug in the respective (mapper) implementation which does not need to propagate throughout your code.\n\nThe `sdbusplus::object_path` can be mapped to string if needed using `sdbusplus::object_path::string()` but that should only be done at places where old implementations require it.\n\nApplies to the whole change and all patches in the relation chain.",
+      "range": {
+        "startLine": 274,
+        "startChar": 34,
+        "endLine": 274,
+        "endChar": 65
+      },
+      "revId": "f5d0b96aab24448653892c6934f39df80dd2233c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1e4e707_be499da0",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2026-08-21T15:13:14Z",
+      "side": 1,
+      "message": "```suggestion\n    const sdbusplus::object_path associationPath \u003d endpointPath / \"configured_by\";\n```",
+      "range": {
+        "startLine": 276,
+        "startChar": 0,
+        "endLine": 276,
+        "endChar": 2
+      },
+      "revId": "f5d0b96aab24448653892c6934f39df80dd2233c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
