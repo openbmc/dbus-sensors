@@ -20,6 +20,7 @@
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/message/native_types.hpp>
 
 #include <array>
 #include <cstddef>
@@ -47,7 +48,7 @@ NvidiaSmaLeakSensor::NvidiaSmaLeakSensor(
     Sensor(escapeName(name), std::move(thresholdData), sensorConfiguration,
            "voltage", false, true, smaLeakSensorMaxReading,
            smaLeakSensorMinReading, conn),
-    objectServer(objectServer)
+    conn(conn), objectServer(objectServer)
 {
     std::string dbusPath = sensorPathPrefix + "voltage/"s + escapeName(name);
 
@@ -83,6 +84,50 @@ NvidiaSmaLeakSensor::NvidiaSmaLeakSensor(
                 "NAME", name);
         }
     }
+
+    std::string leakDetectorPath =
+        "/xyz/openbmc_project/state/leak/detector/" + escapeName(name);
+    leakDetectorInterface = objectServer.add_interface(
+        leakDetectorPath, "xyz.openbmc_project.State.Leak.Detector");
+
+    leakDetectorInterface->register_property("PrettyName", name);
+    leakDetectorInterface->register_property(
+        "State",
+        std::string(
+            "xyz.openbmc_project.State.Leak.Detector.DetectorState.Normal"));
+    leakDetectorInterface->register_property(
+        "Type",
+        std::string(
+            "xyz.openbmc_project.State.Leak.Detector.DetectorType.Unknown"));
+
+    if (!leakDetectorInterface->initialize())
+    {
+        lg2::error(
+            "Error initializing Leak Detector Interface for Leak Sensor for {NAME}",
+            "NAME", name);
+    }
+
+    std::string leakFaultPath = "/xyz/openbmc_project/state/leak/detector/" +
+                                escapeName(name) + "_Fault";
+    leakFaultInterface = objectServer.add_interface(
+        leakFaultPath, "xyz.openbmc_project.State.Leak.Detector");
+
+    leakFaultInterface->register_property("PrettyName", name + "_Fault");
+    leakFaultInterface->register_property(
+        "State",
+        std::string(
+            "xyz.openbmc_project.State.Leak.Detector.DetectorState.Normal"));
+    leakFaultInterface->register_property(
+        "Type",
+        std::string(
+            "xyz.openbmc_project.State.Leak.Detector.DetectorType.Unknown"));
+
+    if (!leakFaultInterface->initialize())
+    {
+        lg2::error(
+            "Error initializing Leak Fault Interface for Leak Sensor for {NAME}",
+            "NAME", name + "_Fault");
+    }
 }
 
 NvidiaSmaLeakSensor::~NvidiaSmaLeakSensor()
@@ -97,11 +142,79 @@ NvidiaSmaLeakSensor::~NvidiaSmaLeakSensor()
     {
         objectServer.remove_interface(commonPhysicalContextInterface);
     }
+    if (leakDetectorInterface)
+    {
+        objectServer.remove_interface(leakDetectorInterface);
+    }
+    if (leakFaultInterface)
+    {
+        objectServer.remove_interface(leakFaultInterface);
+    }
 }
 
 void NvidiaSmaLeakSensor::checkThresholds()
 {
     thresholds::checkThresholds(this);
+}
+
+void NvidiaSmaLeakSensor::updateState(uint8_t value)
+{
+    LeakState newState =
+        ((value & 0x01) != 0) ? LeakState::Abnormal : LeakState::Normal;
+    LeakState newFault =
+        ((value & 0x02) != 0) ? LeakState::Abnormal : LeakState::Normal;
+
+    auto triggerSystemdService = [this](const std::string& type,
+                                        LeakState state,
+                                        const std::string& targetName) {
+        std::string action =
+            (state == LeakState::Normal) ? "deassert" : "assert";
+        std::string target = "xyz.openbmc_project.leakdetector." + type + "." +
+                             action + "@" + targetName + ".service";
+
+        lg2::info("Starting systemd target {TARGET} for leak state change",
+                  "TARGET", target);
+
+        conn->async_method_call(
+            [target](const boost::system::error_code& errc,
+                     const sdbusplus::object_path&) {
+                if (errc)
+                {
+                    lg2::error("Failed to start systemd unit {TARGET}: {ERROR}",
+                               "TARGET", target, "ERROR", errc.message());
+                }
+            },
+            "org.freedesktop.systemd1", "/org/freedesktop/systemd1",
+            "org.freedesktop.systemd1.Manager", "StartUnit", target, "replace");
+    };
+
+    if (newState != lastLeakState)
+    {
+        lastLeakState = newState;
+        leakDetectorInterface->set_property(
+            "State",
+            std::string(
+                (lastLeakState == LeakState::Normal)
+                    ? "xyz.openbmc_project.State.Leak.Detector.DetectorState.Normal"
+                    : "xyz.openbmc_project.State.Leak.Detector.DetectorState.Abnormal"));
+
+        triggerSystemdService("critical", lastLeakState, escapeName(name));
+    }
+
+    if (newFault != lastLeakFault)
+    {
+        lastLeakFault = newFault;
+        leakFaultInterface->set_property(
+            "State",
+            std::string(
+                (lastLeakFault == LeakState::Normal)
+                    ? "xyz.openbmc_project.State.Leak.Detector.DetectorState.Normal"
+                    : "xyz.openbmc_project.State.Leak.Detector.DetectorState.Abnormal"));
+        // Fault uses "critical" as the service type as well, but with _Fault
+        // suffix in the name
+        triggerSystemdService("critical", lastLeakFault,
+                              escapeName(name) + "_Fault");
+    }
 }
 
 NvidiaSmaLeakSensorCarrier::NvidiaSmaLeakSensorCarrier(
@@ -243,6 +356,7 @@ void NvidiaSmaLeakSensorCarrier::processResponse(
             // Reading from the device is in millivolts and unit set on the dbus
             // is volts.
             it->second->updateValue(sensorData.adcReadingMv / 1000.0);
+            it->second->updateState(sensorData.leakState);
         }
     }
 }

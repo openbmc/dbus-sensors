@@ -35,6 +35,8 @@ struct NvidiaSmaLeakSensor :
 
     void checkThresholds() override;
 
+    void updateState(uint8_t value);
+
   private:
     std::shared_ptr<sdbusplus::asio::connection> conn;
 
@@ -42,6 +44,20 @@ struct NvidiaSmaLeakSensor :
 
     std::shared_ptr<sdbusplus::asio::dbus_interface>
         commonPhysicalContextInterface;
+
+    std::shared_ptr<sdbusplus::asio::dbus_interface> leakDetectorInterface;
+
+    std::shared_ptr<sdbusplus::asio::dbus_interface> leakFaultInterface;
+
+    enum class LeakState
+    {
+        Normal,
+        Abnormal
+    };
+
+    LeakState lastLeakState = LeakState::Normal;
+
+    LeakState lastLeakFault = LeakState::Normal;
 };
 
 struct NvidiaSmaLeakSensorCarrier :
