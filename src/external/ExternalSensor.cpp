@@ -163,7 +163,7 @@ void ExternalSensor::writeInvalidate()
     // as the external source has timed out.
     // This allows sensor::updateValue() to work normally,
     // as it would do for internal sensors with values from hardware.
-    overriddenState = false;
+    setOverrideState(false);
 
     // Invalidate the existing Value, similar to what internal sensors do,
     // when they encounter errors trying to read from hardware.
