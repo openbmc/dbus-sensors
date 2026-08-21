@@ -696,6 +696,13 @@ std::shared_ptr<USBMCTPDDevice> USBMCTPDDevice::from(
     {
         rootHubPath = "/sys/devices/platform/ahb/1e6a3000.usb";
     }
+    else if (rootHubPosition.starts_with('/'))
+    {
+        // Platforms whose USB host controller is not covered by the
+        // positional map above (e.g. AST2600 1e6a1000.usb) may provide the
+        // root hub's absolute sysfs platform-device path directly.
+        rootHubPath = rootHubPosition;
+    }
     else
     {
         error("Invalid RootHubPosition: {POSITION}", "POSITION",
