@@ -39,18 +39,22 @@ class DeviceManager
 
   private:
     void processSensorConfigs(const ManagedObjectType& resp);
-    void discoverDevices(const SensorConfigs& configs, const std::string& path);
-    void queryEndpoints(const SensorConfigs& configs, const std::string& path,
+    void discoverDevices(const SensorConfigs& configs,
+                         const sdbusplus::object_path& path);
+    void queryEndpoints(const SensorConfigs& configs,
+                        const sdbusplus::object_path& path,
                         const boost::system::error_code& ec,
                         const GetSubTreeType& ret);
-    void processEndpoint(const SensorConfigs& configs, const std::string& path,
+    void processEndpoint(const SensorConfigs& configs,
+                         const sdbusplus::object_path& path,
                          const boost::system::error_code& ec,
                          const SensorBaseConfigMap& endpoint);
     void queryDeviceIdentification(const SensorConfigs& configs,
-                                   const std::string& path, uint8_t eid);
+                                   const sdbusplus::object_path& path,
+                                   uint8_t eid);
     void processQueryDeviceIdResponse(
-        const SensorConfigs& configs, const std::string& path, uint8_t eid,
-        const std::error_code& sendRecvMsgResult,
+        const SensorConfigs& configs, const sdbusplus::object_path& path,
+        uint8_t eid, const std::error_code& sendRecvMsgResult,
         std::span<const uint8_t> queryDeviceIdentificationResponse);
 
     boost::asio::io_context& io;
