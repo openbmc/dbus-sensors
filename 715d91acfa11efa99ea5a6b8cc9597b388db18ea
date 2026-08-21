@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2838c2eb_2ea71621",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuUtilizationMetrics.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-21T17:28:21Z",
+      "side": 1,
+      "message": "There\u0027s no destructor test here because these classes have no destructor. \nThe interfaces they add are never removed. Do you want to fix it, or shall I?",
+      "revId": "715d91acfa11efa99ea5a6b8cc9597b388db18ea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d733ebe_04dc6e22",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuUtilizationMetrics.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-21T17:28:21Z",
+      "side": 1,
+      "message": "This stops at the ACCEPTED reply only too.",
+      "revId": "715d91acfa11efa99ea5a6b8cc9597b388db18ea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6c1e345_01119911",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuViolationDuration.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-21T17:28:21Z",
+      "side": 1,
+      "message": "This stops at the ACCEPTED reply; Could it go on to inject the long-running event\nand assert the value actually lands? \n`test_NvidiaLongRunningHandler.cpp` already shows how to feed one in.",
+      "revId": "715d91acfa11efa99ea5a6b8cc9597b388db18ea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
