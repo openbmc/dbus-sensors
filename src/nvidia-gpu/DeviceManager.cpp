@@ -47,8 +47,8 @@ DeviceManager::DeviceManager(boost::asio::io_context& io,
 {}
 
 void DeviceManager::processQueryDeviceIdResponse(
-    const SensorConfigs& configs, const std::string& path, uint8_t eid,
-    const std::error_code& sendRecvMsgResult,
+    const SensorConfigs& configs, const sdbusplus::object_path& path,
+    uint8_t eid, const std::error_code& sendRecvMsgResult,
     std::span<const uint8_t> queryDeviceIdentificationResponse)
 {
     if (sendRecvMsgResult)
@@ -91,8 +91,8 @@ void DeviceManager::processQueryDeviceIdResponse(
 
             if (gpu == nullptr)
             {
-                gpu = std::make_shared<GpuDevice>(configs, gpuName, path, conn,
-                                                  eid, io, mctpRequester,
+                gpu = std::make_shared<GpuDevice>(configs, gpuName, path.str,
+                                                  conn, eid, io, mctpRequester,
                                                   objectServer);
 
                 gpu->init();
@@ -120,8 +120,8 @@ void DeviceManager::processQueryDeviceIdResponse(
 
             if (sma == nullptr)
             {
-                sma = std::make_shared<SmaDevice>(configs, smaName, path, conn,
-                                                  eid, io, mctpRequester,
+                sma = std::make_shared<SmaDevice>(configs, smaName, path.str,
+                                                  conn, eid, io, mctpRequester,
                                                   objectServer);
 
                 sma->init();
@@ -150,7 +150,7 @@ void DeviceManager::processQueryDeviceIdResponse(
             if (pcie == nullptr)
             {
                 pcie = std::make_shared<PcieDevice>(
-                    configs, pcieName, path, conn, eid, io, mctpRequester,
+                    configs, pcieName, path.str, conn, eid, io, mctpRequester,
                     objectServer);
 
                 pcie->init();
@@ -173,7 +173,8 @@ void DeviceManager::processQueryDeviceIdResponse(
 }
 
 void DeviceManager::queryDeviceIdentification(
-    const SensorConfigs& configs, const std::string& path, uint8_t eid)
+    const SensorConfigs& configs, const sdbusplus::object_path& path,
+    uint8_t eid)
 {
     auto queryDeviceIdentificationRequest = std::make_shared<
         std::array<uint8_t, gpu::queryDeviceIdentificationRequestSize>>();
@@ -197,7 +198,7 @@ void DeviceManager::queryDeviceIdentification(
 }
 
 void DeviceManager::processEndpoint(
-    const SensorConfigs& configs, const std::string& path,
+    const SensorConfigs& configs, const sdbusplus::object_path& path,
     const boost::system::error_code& ec, const SensorBaseConfigMap& endpoint)
 {
     if (ec)
@@ -267,7 +268,7 @@ void DeviceManager::processEndpoint(
 }
 
 void DeviceManager::queryEndpoints(
-    const SensorConfigs& configs, const std::string& path,
+    const SensorConfigs& configs, const sdbusplus::object_path& path,
     const boost::system::error_code& ec, const GetSubTreeType& ret)
 {
     if (ec)
@@ -305,7 +306,7 @@ void DeviceManager::queryEndpoints(
 }
 
 void DeviceManager::discoverDevices(const SensorConfigs& configs,
-                                    const std::string& path)
+                                    const sdbusplus::object_path& path)
 {
     std::string searchPath{"/au/com/codeconstruct/"};
     std::vector<std::string> ifaceList{{"xyz.openbmc_project.MCTP.Endpoint"}};
