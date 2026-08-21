@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcd183c1_63edd9e3",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuClockFrequencyMetric.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-21T11:02:09Z",
+      "side": 1,
+      "message": "This has the same mock setup as `UpdateMctpTransportError` below, which also asserts the value stays 0. \nCould the `UpdateMctpTransportErrorNoCrash` one be dropped as redundant?",
+      "revId": "566d8b082815bb609e59a5bd8e657ddc004131bc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
