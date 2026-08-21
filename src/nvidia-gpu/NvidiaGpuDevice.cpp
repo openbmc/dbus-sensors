@@ -78,7 +78,7 @@ static constexpr const char* dramIfaceName =
     "xyz.openbmc_project.Inventory.Item.Dimm";
 
 GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
-                     const std::string& path,
+                     const sdbusplus::object_path& path,
                      const std::shared_ptr<sdbusplus::asio::connection>& conn,
                      uint8_t eid, boost::asio::io_context& io,
                      mctp::MctpRequester& mctpRequester,
@@ -231,8 +231,7 @@ void GpuDevice::makeSensors()
             longRunningHandler, inventory);
 
     driverInfo = std::make_shared<NvidiaDriverInformation>(
-        conn, mctpRequester, name, eid, objectServer,
-        sdbusplus::object_path(path).parent_path());
+        conn, mctpRequester, name, eid, objectServer, path.parent_path());
 
     gpuPowerControl = std::make_shared<NvidiaGpuPowerControl>(
         objectServer, name, mctpRequester, eid, io, powerCapInterface,

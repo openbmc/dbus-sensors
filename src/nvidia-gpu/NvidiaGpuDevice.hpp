@@ -36,6 +36,7 @@
 #include <boost/asio/steady_timer.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/message/native_types.hpp>
 
 #include <chrono>
 #include <cstdint>
@@ -47,7 +48,7 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
 {
   public:
     GpuDevice(const SensorConfigs& configs, const std::string& name,
-              const std::string& path,
+              const sdbusplus::object_path& path,
               const std::shared_ptr<sdbusplus::asio::connection>& conn,
               uint8_t eid, boost::asio::io_context& io,
               mctp::MctpRequester& mctpRequester,
@@ -55,7 +56,7 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
 
     ~GpuDevice();
 
-    const std::string& getPath() const
+    const sdbusplus::object_path& getPath() const
     {
         return path;
     }
@@ -133,7 +134,7 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
 
     std::string name;
 
-    std::string path;
+    sdbusplus::object_path path;
 
     std::shared_ptr<Inventory> inventory;
 
