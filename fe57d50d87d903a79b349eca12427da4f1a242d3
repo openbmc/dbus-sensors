@@ -1,0 +1,40 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3cf8665_67f1913b",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003115
+      },
+      "writtenOn": "2026-08-23T12:23:47Z",
+      "side": 1,
+      "message": "Agreed, that is the behaviour, and it is the intended scope of this\nchange: hwmontempsensor goes from applying the wrong thresholds to\napplying none. The reporter of #24 asked for the sensors to show up at\nall, so it is an improvement standing alone, but I agree it is not the\nend state.\n\nI would rather not add temporary compatibility handling here, because\nthe only behaviour compatible with today is the mis-assignment this\nchange exists to remove. With matchLabel \u003d\u003d nullptr there is nothing to\ndistinguish temp1\u0027s thresholds from temp2\u0027s, so any fallback would have\nto keep stacking all of them onto the first channel.\n\nMy plan is a follow-up teaching hwmon-temp to pass the label, under the\nsame Gerrit topic so CI builds them together and they can be approved\nas a pair.\n\nBefore I write it I would like your guidance on one thing. The index\nhwmon-temp passes means different things at its two call sites:\n\n- HwmonTempMain.cpp:427 uses it as a type discriminator: 1 temperature,\n  2 pressure, 3 humidity. Pressure and humidity arrive via IIO paths\n  rather than tempN_input.\n- HwmonTempMain.cpp:500 uses it as the hwmon channel number, so index 2\n  means temp2_input.\n\nSo \"temp\" + index is the correct label at the second site but not the\nfirst. Is the intended convention that Label matches the hwmon channel\nname (temp1, temp2, ...), and what should pressure and humidity use?\nHappy to implement whichever you prefer.",
+      "parentUuid": "6750bb9e_24d5e081",
+      "revId": "fe57d50d87d903a79b349eca12427da4f1a242d3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3cb7f6b_51ec0304",
+        "filename": "src/tests/test_Thresholds.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1003115
+      },
+      "writtenOn": "2026-08-23T12:23:47Z",
+      "side": 1,
+      "message": "You are right. The loose bound was left over from writing the test\nbefore the fix, when I had not yet settled whether the correct result\nwas zero thresholds or one. Once the parser skips entries it cannot\nplace, the answer is unambiguously zero - and as you say, the old\nassertion would also have passed an implementation that returned one\narbitrary threshold.\n\nChanged to ASSERT_TRUE(parsed.empty()) in patch set 2. I checked it\nstill fails against the unfixed parser (Actual: false), so it continues\nto guard the regression.",
+      "parentUuid": "d04835eb_351852ab",
+      "revId": "fe57d50d87d903a79b349eca12427da4f1a242d3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
