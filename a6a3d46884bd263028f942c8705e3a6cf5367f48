@@ -22,6 +22,30 @@
       },
       "revId": "a6a3d46884bd263028f942c8705e3a6cf5367f48",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba9b2df6_e51eea9f",
+        "filename": "src/nvidia-gpu/DeviceInterface.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-24T16:05:11Z",
+      "side": 1,
+      "message": "It is a D-Bus object path. Typed it as `sdbusplus::object_path` and said so in a comment.",
+      "parentUuid": "cf83fa29_87ec2b4a",
+      "range": {
+        "startLine": 25,
+        "startChar": 4,
+        "endLine": 25,
+        "endChar": 51
+      },
+      "revId": "a6a3d46884bd263028f942c8705e3a6cf5367f48",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
