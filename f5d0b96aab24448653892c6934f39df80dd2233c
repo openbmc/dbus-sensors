@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ae8a5d2_747230c6",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-24T02:53:20Z",
+      "side": 1,
+      "message": "Done. The bottom of the chain (https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/93887) now converts the paths this daemon already carried, and everything above it is written that way from the start.",
+      "parentUuid": "30b25177_6ae91fd8",
+      "range": {
+        "startLine": 274,
+        "startChar": 34,
+        "endLine": 274,
+        "endChar": 65
+      },
+      "revId": "f5d0b96aab24448653892c6934f39df80dd2233c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a1e4e707_be499da0",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-08-21T15:13:14Z",
       "side": 1,
       "message": "```suggestion\n    const sdbusplus::object_path associationPath \u003d endpointPath / \"configured_by\";\n```",
+      "range": {
+        "startLine": 276,
+        "startChar": 0,
+        "endLine": 276,
+        "endChar": 2
+      },
+      "revId": "f5d0b96aab24448653892c6934f39df80dd2233c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bba51257_41a07a10",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-24T02:53:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1e4e707_be499da0",
       "range": {
         "startLine": 276,
         "startChar": 0,
