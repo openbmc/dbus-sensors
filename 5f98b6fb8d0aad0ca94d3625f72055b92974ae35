@@ -24,6 +24,46 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f6ff433_d70ba44f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2026-08-24T10:49:20Z",
+      "side": 1,
+      "message": "Thanks for pushing this cleanup",
+      "revId": "5f98b6fb8d0aad0ca94d3625f72055b92974ae35",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2d6880d_f671442e",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2026-08-24T10:49:20Z",
+      "side": 1,
+      "message": "this is deprecated\n\nhttps://github.com/openbmc/sdbusplus/blob/456eac012468dca67961326031915466ebe7f529/include/sdbusplus/message/native_types.hpp#L88\n\ncan use `sdbusplus::object_path::string()` instead.\n\nIs there any reason that constructor accepts a string instead of object path directly?",
+      "range": {
+        "startLine": 94,
+        "startChar": 68,
+        "endLine": 94,
+        "endChar": 77
+      },
+      "revId": "5f98b6fb8d0aad0ca94d3625f72055b92974ae35",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "264d3155_7ce73555",
@@ -43,6 +83,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "99bd604c_026337c5",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2026-08-24T10:49:20Z",
+      "side": 1,
+      "message": "this is deprecated\n\nhttps://github.com/openbmc/sdbusplus/blob/456eac012468dca67961326031915466ebe7f529/include/sdbusplus/message/native_types.hpp#L88\n\nis there any reason that `SmaDevice` needs to accept string rather than object path?",
+      "range": {
+        "startLine": 123,
+        "startChar": 68,
+        "endLine": 123,
+        "endChar": 76
+      },
+      "revId": "5f98b6fb8d0aad0ca94d3625f72055b92974ae35",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "10802560_f3f39e59",
         "filename": "src/nvidia-gpu/DeviceManager.cpp",
         "patchSetId": 1
@@ -54,6 +117,29 @@
       "writtenOn": "2026-08-24T10:40:05Z",
       "side": 1,
       "message": "Refer - https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/92163",
+      "revId": "5f98b6fb8d0aad0ca94d3625f72055b92974ae35",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efecd1c6_68613f59",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2026-08-24T10:49:20Z",
+      "side": 1,
+      "message": "same comment about usage of deprecated API",
+      "range": {
+        "startLine": 153,
+        "startChar": 39,
+        "endLine": 153,
+        "endChar": 47
+      },
       "revId": "5f98b6fb8d0aad0ca94d3625f72055b92974ae35",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
