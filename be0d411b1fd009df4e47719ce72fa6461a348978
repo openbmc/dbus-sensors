@@ -1,6 +1,52 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5d2b730_839d65cf",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-08-24T10:39:24Z",
+      "side": 1,
+      "message": "“Please clarify this delayed callback is a one-shot, first-valid-after-reconstruction re-evaluation; otherwise later valid reads may retrigger stale threshold state.”",
+      "range": {
+        "startLine": 451,
+        "startChar": 0,
+        "endLine": 451,
+        "endChar": 48
+      },
+      "revId": "be0d411b1fd009df4e47719ce72fa6461a348978",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de110365_19f0757e",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-08-24T10:39:24Z",
+      "side": 1,
+      "message": "“The forced emit decision is duplicated in the power-delay path, but the ordering between reconstruction-triggered re-evaluation and the existing power-off filtering is not obvious. Please document that the forced path is intentional and does not leak into later steady-state checks.”",
+      "range": {
+        "startLine": 456,
+        "startChar": 0,
+        "endLine": 456,
+        "endChar": 76
+      },
+      "revId": "be0d411b1fd009df4e47719ce72fa6461a348978",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "90b78471_70a34cf4",
@@ -14,6 +60,29 @@
       "writtenOn": "2026-07-23T01:50:36Z",
       "side": 1,
       "message": "nit: Consider if (emit \u003d\u003d ThresholdEmit::onChange \u0026\u0026 !propertyChanged) instead of !\u003d ThresholdEmit::forced. The positive form reads more clearly (skip only in change-based mode when unchanged). Non-blocking.",
+      "revId": "be0d411b1fd009df4e47719ce72fa6461a348978",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75a868b3_061f62a5",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-08-24T10:39:24Z",
+      "side": 1,
+      "message": "“This is the actual behavior change: the forced path bypasses the normal propertyChanged guard. Please add a regression test for the first valid post-reconstruction case where the property already matches the target state, since that is the path most likely to regress.”",
+      "range": {
+        "startLine": 493,
+        "startChar": 0,
+        "endLine": 493,
+        "endChar": 26
+      },
       "revId": "be0d411b1fd009df4e47719ce72fa6461a348978",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
