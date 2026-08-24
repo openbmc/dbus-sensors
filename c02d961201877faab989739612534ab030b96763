@@ -16,6 +16,24 @@
       "message": "If we any way have to create an std::string out of const char* each time, it is better if we declare metricUnitCount and metricUnitBytes directly as std::string and telemetryMetrics could hold pointer / reference to it.",
       "revId": "c02d961201877faab989739612534ab030b96763",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ef8d2dc_09949f47",
+        "filename": "src/nvidia-gpu/NvidiaEthPort.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-24T13:05:55Z",
+      "side": 1,
+      "message": "Done. metricUnitBytes/metricUnitCount are now inline const std::string",
+      "parentUuid": "bd88d2b7_a89f26c3",
+      "revId": "c02d961201877faab989739612534ab030b96763",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
