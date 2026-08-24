@@ -16,6 +16,24 @@
       "message": "Did we also test that these D-Bus interfaces disappear after the containing object is destroyed?",
       "revId": "198b9feb6e722885aa7c26ff2a9dd263db0ac1d3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c981947c_7ed2ad82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-24T13:06:45Z",
+      "side": 1,
+      "message": "Done. Added a DestructorRemovesInterfaces case to each of the six test files: the property is readable while the object is alive and the read throws after it goes out of scope. \nAll six pass.",
+      "parentUuid": "dc43547c_22fd74de",
+      "revId": "198b9feb6e722885aa7c26ff2a9dd263db0ac1d3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
