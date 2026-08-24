@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ca0c4b0_5bd5384d",
+        "filename": "meson.options",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-08-24T10:15:00Z",
+      "side": 1,
+      "message": "These corrections are already included in Patchset 3",
+      "parentUuid": "414ca538_21e8d628",
+      "range": {
+        "startLine": 84,
+        "startChar": 18,
+        "endLine": 84,
+        "endChar": 26
+      },
+      "revId": "1d9e473b346d5297e7752b4bf2b7ad0782f90ff6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fb7a7ce7_b22d2228",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-08-24T09:05:47Z",
       "side": 1,
       "message": "“hysteresis fomula should be hysteresis formula. This is a comment-only correction and keeps the code self-documenting without affecting functionality.”",
+      "range": {
+        "startLine": 128,
+        "startChar": 65,
+        "endLine": 128,
+        "endChar": 66
+      },
+      "revId": "1d9e473b346d5297e7752b4bf2b7ad0782f90ff6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "724606c3_f74cce65",
+        "filename": "src/Thresholds.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-08-24T10:15:00Z",
+      "side": 1,
+      "message": "These corrections are already included in Patchset 3",
+      "parentUuid": "fb7a7ce7_b22d2228",
       "range": {
         "startLine": 128,
         "startChar": 65,
