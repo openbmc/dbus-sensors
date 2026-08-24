@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9df3399_84077351",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002720
+      },
+      "writtenOn": "2026-08-24T03:37:14Z",
+      "side": 1,
+      "message": "The CI failure in Patchset 7 is the same GCC 15 internal compiler error in EntityManagerInterface.cpp as before, which is unrelated to this change.",
+      "revId": "8bfd86c2953b564532dac9534b22d37d62e7d152",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
