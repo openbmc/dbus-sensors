@@ -112,6 +112,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "599dc3f0_db715daf",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2026-08-24T14:37:26Z",
+      "side": 1,
+      "message": "Alrighty",
+      "parentUuid": "50ff1de8_8790de41",
+      "range": {
+        "startLine": 94,
+        "startChar": 68,
+        "endLine": 94,
+        "endChar": 77
+      },
+      "revId": "5f98b6fb8d0aad0ca94d3625f72055b92974ae35",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "264d3155_7ce73555",
