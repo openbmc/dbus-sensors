@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "bbddc5dc_a4ebd1a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-24T12:47:52Z",
+      "side": 1,
+      "message": "Checked. They take a `const std::string\u0026` and the path converts implicitly, so nothing needs `.str`. Changing those constructors reaches 22 declarations across 16 files, so it is a follow-up; reworded the paragraph.",
+      "parentUuid": "3ffa30ca_53f0e9b3",
+      "range": {
+        "startLine": 17,
+        "startChar": 41,
+        "endLine": 18,
+        "endChar": 25
+      },
+      "revId": "5f98b6fb8d0aad0ca94d3625f72055b92974ae35",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "7f6ff433_d70ba44f",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -54,6 +78,30 @@
       "writtenOn": "2026-08-24T10:49:20Z",
       "side": 1,
       "message": "this is deprecated\n\nhttps://github.com/openbmc/sdbusplus/blob/456eac012468dca67961326031915466ebe7f529/include/sdbusplus/message/native_types.hpp#L88\n\ncan use `sdbusplus::object_path::string()` instead.\n\nIs there any reason that constructor accepts a string instead of object path directly?",
+      "range": {
+        "startLine": 94,
+        "startChar": 68,
+        "endLine": 94,
+        "endChar": 77
+      },
+      "revId": "5f98b6fb8d0aad0ca94d3625f72055b92974ae35",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50ff1de8_8790de41",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-24T12:47:52Z",
+      "side": 1,
+      "message": "Dropped it. Most did not need a conversion at all, since `object_path` converts to `const std::string\u0026` implicitly. The five that remain use `string()`: three are mapper method arguments, where an `object_path` would marshal as o while `GetObject` and `GetSubTree` declare s.\n\nOn the constructor: no reason beyond it being the existing interface. Taking an `object_path` is right, but it is 22 declarations across 16 files and ripples into what they pass the path on to, so I would rather do it as a follow-up next to 92163.",
+      "parentUuid": "c2d6880d_f671442e",
       "range": {
         "startLine": 94,
         "startChar": 68,
@@ -104,6 +152,48 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd989707_27d38d6b",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-24T12:47:52Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "264d3155_7ce73555",
+      "revId": "5f98b6fb8d0aad0ca94d3625f72055b92974ae35",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2de7e21_0bbb8eea",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-24T12:47:52Z",
+      "side": 1,
+      "message": "Done. Same on the constructor as above.",
+      "parentUuid": "99bd604c_026337c5",
+      "range": {
+        "startLine": 123,
+        "startChar": 68,
+        "endLine": 123,
+        "endChar": 76
+      },
+      "revId": "5f98b6fb8d0aad0ca94d3625f72055b92974ae35",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "10802560_f3f39e59",
@@ -134,6 +224,48 @@
       "writtenOn": "2026-08-24T10:49:20Z",
       "side": 1,
       "message": "same comment about usage of deprecated API",
+      "range": {
+        "startLine": 153,
+        "startChar": 39,
+        "endLine": 153,
+        "endChar": 47
+      },
+      "revId": "5f98b6fb8d0aad0ca94d3625f72055b92974ae35",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2daa54b_9e61ae37",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-24T12:47:52Z",
+      "side": 1,
+      "message": "Thanks, same direction.",
+      "parentUuid": "10802560_f3f39e59",
+      "revId": "5f98b6fb8d0aad0ca94d3625f72055b92974ae35",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "714defcb_89e8ae4d",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-24T12:47:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "efecd1c6_68613f59",
       "range": {
         "startLine": 153,
         "startChar": 39,
