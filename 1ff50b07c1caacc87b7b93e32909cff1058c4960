@@ -16,6 +16,24 @@
       "message": "The commit message says that the existing positional mappings use 1e6a3000.usb and 1e6b0000.usb, but the implementation maps \"0\" to 1e6a1000.usb and \"1\" to 1e6a3000.usb. The example and the new comment also refer to 1e6a1000.usb. Could you correct the commit message to match the implementation?",
       "revId": "1ff50b07c1caacc87b7b93e32909cff1058c4960",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08271c2c_aedd66e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002465
+      },
+      "writtenOn": "2026-08-25T12:59:04Z",
+      "side": 1,
+      "message": "Thank you for the quick reply. You\u0027re absolutely right. I was working off an older revision of the patchset and missed that those changes had already addressed what we needed for our platform. I\u0027ll withdraw this change.",
+      "parentUuid": "ea82f337_fa38cff2",
+      "revId": "1ff50b07c1caacc87b7b93e32909cff1058c4960",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
