@@ -22,6 +22,30 @@
       },
       "revId": "f379b835fb7a0e09316d4f0a59c7511e1600eab6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90a8fe34_e86b3777",
+        "filename": "src/nvidia-gpu/DeviceManager.hpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-25T10:42:31Z",
+      "side": 1,
+      "message": "Done. Thanks.",
+      "parentUuid": "7f831692_4b421c0f",
+      "range": {
+        "startLine": 97,
+        "startChar": 4,
+        "endLine": 97,
+        "endChar": 62
+      },
+      "revId": "f379b835fb7a0e09316d4f0a59c7511e1600eab6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
