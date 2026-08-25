@@ -11,12 +11,15 @@
 #include "TestUtils.hpp"
 #include "Thresholds.hpp"
 
+#include <chrono>
 #include <cmath>
+#include <cstddef>
 #include <cstdint>
 #include <limits>
 #include <memory>
 #include <string>
 #include <system_error>
+#include <thread>
 #include <utility>
 #include <vector>
 
@@ -192,23 +195,128 @@ TEST_F(NvidiaGpuEnergySensorTest, UpdateDecodeFailEmptyBuffer)
 
 // Update — value retention after errors
 
-TEST_F(NvidiaGpuEnergySensorTest, UpdateSuccessThenErrorKeepsPreviousValue)
+TEST_F(NvidiaGpuEnergySensorTest,
+       UpdateTimeRetainedOnErrorAndAdvancesOnRepeatedReading)
 {
+    const std::string name = "nrg_retain";
+    const std::string path = energyPath(name);
     EXPECT_CALL(mctpMock, sendRecvMsg)
         .WillOnce(mock_mctp::respondWith({}, buildEnergyResponse(5000000)))
         .WillOnce(mock_mctp::respondWith(
             {}, buildEnergyErrorResponse(
                     static_cast<uint8_t>(
                         ocp::accelerator_management::CompletionCode::ERROR),
-                    0)));
+                    0)))
+        .WillOnce(mock_mctp::respondWith({}, buildEnergyResponse(5000000)));
 
     const std::shared_ptr<NvidiaGpuEnergySensor> sensor =
-        createSensor(gpuEnergySensorId, "nrg_retain");
-    sensor->update();
-    EXPECT_DOUBLE_EQ(sensor->value, 5000.0);
+        createSensor(gpuEnergySensorId, name);
+    const auto initialUpdatedTime = getProperty<uint64_t>(
+        path, "xyz.openbmc_project.Sensor.Value", "UpdatedTime");
+    EXPECT_EQ(initialUpdatedTime, 0U);
 
     sensor->update();
     EXPECT_DOUBLE_EQ(sensor->value, 5000.0);
+    const auto updatedTime = getProperty<uint64_t>(
+        path, "xyz.openbmc_project.Sensor.Value", "UpdatedTime");
+    EXPECT_GT(updatedTime, initialUpdatedTime);
+
+    sensor->update();
+    EXPECT_DOUBLE_EQ(sensor->value, 5000.0);
+    EXPECT_EQ(getProperty<uint64_t>(path, "xyz.openbmc_project.Sensor.Value",
+                                    "UpdatedTime"),
+              updatedTime);
+
+    sensor->update();
+    EXPECT_DOUBLE_EQ(sensor->value, 5000.0);
+    EXPECT_GT(getProperty<uint64_t>(path, "xyz.openbmc_project.Sensor.Value",
+                                    "UpdatedTime"),
+              updatedTime);
+}
+
+TEST_F(NvidiaGpuEnergySensorTest, UpdateTimeAdvancesWhenValueUnavailable)
+{
+    EXPECT_CALL(mctpMock, sendRecvMsg)
+        .WillOnce(mock_mctp::respondWith({}, buildEnergyResponse(5000000)));
+
+    const std::string name = "nrg_unavailable";
+    const std::string path = energyPath(name);
+    const std::shared_ptr<NvidiaGpuEnergySensor> sensor =
+        createSensor(gpuEnergySensorId, name);
+
+    sensor->update();
+    const auto successfulUpdateTime = getProperty<uint64_t>(
+        path, "xyz.openbmc_project.Sensor.Value", "UpdatedTime");
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    sensor->updateValue(std::numeric_limits<double>::quiet_NaN());
+    EXPECT_TRUE(std::isnan(sensor->value));
+    const auto unavailableUpdateTime = getProperty<uint64_t>(
+        path, "xyz.openbmc_project.Sensor.Value", "UpdatedTime");
+    EXPECT_NE(unavailableUpdateTime, successfulUpdateTime);
+
+    sensor->updateValue(std::numeric_limits<double>::quiet_NaN());
+    EXPECT_EQ(getProperty<uint64_t>(path, "xyz.openbmc_project.Sensor.Value",
+                                    "UpdatedTime"),
+              unavailableUpdateTime);
+}
+
+TEST_F(NvidiaGpuEnergySensorTest, ExternalSetUpdatesTimeOnlyForReadings)
+{
+    const std::shared_ptr<NvidiaGpuEnergySensor> sensor =
+        createSensor(gpuEnergySensorId, "nrg_external_set");
+    sensor->isSensorSettable = true;
+    double oldValue = 0.0;
+
+    sensor->setSensorValue(std::numeric_limits<double>::quiet_NaN(), oldValue);
+    EXPECT_EQ(sensor->updatedTime, 0U);
+
+    sensor->setSensorValue(5000.0, oldValue);
+    const auto successfulUpdateTime = sensor->updatedTime;
+    EXPECT_GT(successfulUpdateTime, 0U);
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    sensor->setSensorValue(std::numeric_limits<double>::quiet_NaN(), oldValue);
+    const auto unavailableUpdateTime = sensor->updatedTime;
+    EXPECT_NE(unavailableUpdateTime, successfulUpdateTime);
+
+    sensor->setSensorValue(std::numeric_limits<double>::quiet_NaN(), oldValue);
+    EXPECT_EQ(sensor->updatedTime, unavailableUpdateTime);
+}
+
+TEST_F(NvidiaGpuEnergySensorTest, UpdateTimeSignalPerformance)
+{
+    constexpr size_t updateCount = 1000;
+    const std::string name = "nrg_update_time_perf";
+    const std::string path = energyPath(name);
+    const std::shared_ptr<NvidiaGpuEnergySensor> sensor =
+        createSensor(gpuEnergySensorId, name);
+    const auto initialUpdatedTime = getProperty<uint64_t>(
+        path, "xyz.openbmc_project.Sensor.Value", "UpdatedTime");
+
+    const auto start = std::chrono::steady_clock::now();
+    for (size_t update = 0; update < updateCount; ++update)
+    {
+        sensor->updateValue(5000.0);
+    }
+    bus()->flush();
+    const auto elapsed = std::chrono::steady_clock::now() - start;
+
+    const auto updatedTime = getProperty<uint64_t>(
+        path, "xyz.openbmc_project.Sensor.Value", "UpdatedTime");
+    EXPECT_GT(updatedTime, initialUpdatedTime);
+    ASSERT_GT(elapsed, std::chrono::steady_clock::duration::zero());
+
+    const auto updatesPerSecond =
+        std::chrono::duration<double>(updateCount).count() /
+        std::chrono::duration<double>(elapsed).count();
+    const auto elapsedMicroseconds =
+        std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
+    RecordProperty("UpdatedTimeUpdateCount", std::to_string(updateCount));
+    RecordProperty("UpdatedTimeElapsedMicroseconds",
+                   std::to_string(elapsedMicroseconds));
+    RecordProperty("UpdatedTimeUpdatesPerSecond",
+                   std::to_string(updatesPerSecond));
 }
 
 // Update — request encoding verification
