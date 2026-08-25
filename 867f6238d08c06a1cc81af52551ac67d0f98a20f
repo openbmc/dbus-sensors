@@ -33,6 +33,42 @@
       "message": "Do we expect all IntelCPUSensor instances under a CPU to use the same PowerState, or are there cases where CPU temperature sensors can be read at PowerState::on while DIMM-related sensors require a later state?",
       "revId": "867f6238d08c06a1cc81af52551ac67d0f98a20f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f35b9e72_6261475e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002484
+      },
+      "writtenOn": "2026-08-25T07:30:34Z",
+      "side": 1,
+      "message": "Intentional for now. PECI itself isn\u0027t reliable before POST, so the constraint applies to the whole CPU, not just DIMM sensors — and the DIMM hwmon nodes are only created after POST anyway.",
+      "parentUuid": "a274d8fe_046a9a1f",
+      "revId": "867f6238d08c06a1cc81af52551ac67d0f98a20f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b508676d_973308a1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002484
+      },
+      "writtenOn": "2026-08-25T07:30:34Z",
+      "side": 1,
+      "message": "setReadState() silently ignores unknown strings and keeps the default (On), so a typo gives no warning at all.",
+      "parentUuid": "5f017031_2b7a102a",
+      "revId": "867f6238d08c06a1cc81af52551ac67d0f98a20f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
