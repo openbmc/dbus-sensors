@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f831692_4b421c0f",
+        "filename": "src/nvidia-gpu/DeviceManager.hpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2026-08-25T09:31:27Z",
+      "side": 1,
+      "message": "```suggestion\n    std::unordered_map\u003csdbusplus::object_path, EndpointRecord\u003e endpoints;\n```",
+      "range": {
+        "startLine": 97,
+        "startChar": 4,
+        "endLine": 97,
+        "endChar": 62
+      },
+      "revId": "f379b835fb7a0e09316d4f0a59c7511e1600eab6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
