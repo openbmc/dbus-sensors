@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d9bbd953_93ac2958",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-25T07:12:37Z",
+      "side": 1,
+      "message": "The driver object path is renamed to `\u003cname\u003e_Driver` here, which changes its Redfish FirmwareInventory Id. \nCould you say so in the commit message. Thanks.",
+      "revId": "4160ecc5bfa84a5b8c9d6838d23771afe96463f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c67ba3f8_7b3b8e05",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 28
