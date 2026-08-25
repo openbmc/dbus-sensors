@@ -10,6 +10,8 @@
 
 constexpr const char* sensorType = "NvidiaMctpVdm";
 
+constexpr uint64_t sensorPollRateMs = 1000;
+
 struct SensorConfigs
 {
     std::string name;
