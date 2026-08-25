@@ -36,8 +36,6 @@
 #include <variant>
 #include <vector>
 
-static constexpr auto sensorPollRateMs = 1000;
-
 DeviceManager::DeviceManager(boost::asio::io_context& io,
                              sdbusplus::asio::object_server& objectServer,
                              std::shared_ptr<sdbusplus::asio::connection> conn,
