@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5b03913_1d664590",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-25T06:57:08Z",
+      "side": 1,
+      "message": "This clears the graphics clock only, could mention here.",
+      "revId": "0a7b366f1db77e4f53cee4da8dba982a10a1cab8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c54130a4_95093e69",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-25T06:57:08Z",
+      "side": 1,
+      "message": "Please create the class-level tests in `test_NvidiaGpuClockSpeedControl.cpp`",
+      "revId": "0a7b366f1db77e4f53cee4da8dba982a10a1cab8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "266b6f18_54a412f6",
+        "filename": "src/nvidia-gpu/NvidiaGpuClockSpeedControl.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-25T06:57:08Z",
+      "side": 1,
+      "message": "`resetInFlight` and `setClockLimitInflight` are independent, but both paths send `SET_CLOCK_LIMIT`.\nShould the two share a gate, and should Reset drop any pending set?",
+      "revId": "0a7b366f1db77e4f53cee4da8dba982a10a1cab8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
