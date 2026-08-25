@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56faf172_d0a0a5c0",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuDevice.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-25T10:52:46Z",
+      "side": 1,
+      "message": "nit: could we add destructor test too.",
+      "revId": "8f2f843d375b5c972b70d3925f016315861a0a66",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bba2f10e_c3e09f8d",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuDevice.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-25T10:52:46Z",
+      "side": 1,
+      "message": "Could the `pollRate` be moved to a header so both use one definition?\nI mean the DeviceManager.cpp part and test part.",
+      "range": {
+        "startLine": 28,
+        "startChar": 8,
+        "endLine": 28,
+        "endChar": 32
+      },
+      "revId": "8f2f843d375b5c972b70d3925f016315861a0a66",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8a57d1f_1dc1d272",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuDevice.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-25T10:52:46Z",
+      "side": 1,
+      "message": "`drainPendingAsync()` is `io-\u003epoll()` and returns immediately, so the 1s timer never fires either way, this would pass even if the timer were never cancelled. \nCould the name say that instead?",
+      "revId": "8f2f843d375b5c972b70d3925f016315861a0a66",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "426c0f00_2d8bb192",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaSmaDevice.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-25T10:52:46Z",
+      "side": 1,
+      "message": "Could it be dropped?",
+      "range": {
+        "startLine": 34,
+        "startChar": 36,
+        "endLine": 34,
+        "endChar": 78
+      },
+      "revId": "8f2f843d375b5c972b70d3925f016315861a0a66",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0197f6be_78269261",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaSmaDevice.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-25T10:52:46Z",
+      "side": 1,
+      "message": "This never checks the path.",
+      "revId": "8f2f843d375b5c972b70d3925f016315861a0a66",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fcd4b7b_88d1590c",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaSmaDevice.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-25T10:52:46Z",
+      "side": 1,
+      "message": "Same problem as test_NvidiaGpuDevice.cpp line 68.",
+      "revId": "8f2f843d375b5c972b70d3925f016315861a0a66",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
