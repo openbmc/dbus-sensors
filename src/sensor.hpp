@@ -13,8 +13,10 @@
 
 #include <array>
 #include <cerrno>
+#include <chrono>
 #include <cmath>
 #include <cstddef>
+#include <cstdint>
 #include <cstdlib>
 #include <functional>
 #include <limits>
@@ -37,6 +39,7 @@ constexpr const char* availableInterfaceName =
 constexpr const char* operationalInterfaceName =
     "xyz.openbmc_project.State.Decorator.OperationalStatus";
 constexpr const size_t errorThreshold = 5;
+constexpr uint64_t noSuccessfulUpdate = std::numeric_limits<uint64_t>::max();
 
 struct SensorInstrumentation
 {
@@ -117,6 +120,7 @@ struct Sensor
     bool internalSet = false;
     double hysteresisTrigger = 1.0;
     double hysteresisPublish = 1.0;
+    std::chrono::steady_clock::time_point lastSuccessfulUpdateTime{};
     std::shared_ptr<sdbusplus::asio::connection> dbusConnection;
     PowerState readState;
     size_t errCount{0};
@@ -281,6 +285,9 @@ struct Sensor
         sensorInterface->register_property("Unit", std::string(unit));
         sensorInterface->register_property("MaxValue", maxValue);
         sensorInterface->register_property("MinValue", minValue);
+        sensorInterface->register_method(
+            "GetSecondsSinceLastSuccessfulUpdate",
+            [this]() { return secondsSinceLastSuccessfulUpdate(); });
         sensorInterface->register_property(
             "Value", value, [this](const double& newValue, double& oldValue) {
                 return setSensorValue(newValue, oldValue);
@@ -495,6 +502,19 @@ struct Sensor
         return errCount >= errorThreshold;
     }
 
+    uint64_t secondsSinceLastSuccessfulUpdate() const
+    {
+        if (lastSuccessfulUpdateTime == std::chrono::steady_clock::time_point{})
+        {
+            return noSuccessfulUpdate;
+        }
+
+        return static_cast<uint64_t>(
+            std::chrono::duration_cast<std::chrono::seconds>(
+                std::chrono::steady_clock::now() - lastSuccessfulUpdateTime)
+                .count());
+    }
+
     void updateValue(const double& newValue)
     {
         // Ignore if overriding is enabled
@@ -516,6 +536,10 @@ struct Sensor
         }
 
         updateValueProperty(newValue);
+        if (std::isfinite(newValue))
+        {
+            lastSuccessfulUpdateTime = std::chrono::steady_clock::now();
+        }
         updateInstrumentation(newValue);
 
         // Always check thresholds after changing the value,
