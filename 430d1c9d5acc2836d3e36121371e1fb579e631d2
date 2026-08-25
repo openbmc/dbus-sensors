@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfc285a4_27c1ea9b",
+        "filename": "src/nvidia-gpu/NvidiaCapabilityQuery.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-25T03:50:39Z",
+      "side": 1,
+      "message": "Do we also need type 0 here?",
+      "revId": "430d1c9d5acc2836d3e36121371e1fb579e631d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac066da1_8171062b",
+        "filename": "src/nvidia-gpu/NvidiaCapabilityQuery.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-25T03:50:39Z",
+      "side": 1,
+      "message": "Should we just only log error msg?\nI think we should do some behave let `queried` \u003d `false`.\nAnd other else too.",
+      "range": {
+        "startLine": 119,
+        "startChar": 12,
+        "endLine": 122,
+        "endChar": 37
+      },
+      "revId": "430d1c9d5acc2836d3e36121371e1fb579e631d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3c71fde_ac32ad54",
+        "filename": "src/nvidia-gpu/NvidiaCapabilityQuery.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-25T03:50:39Z",
+      "side": 1,
+      "message": "All three branches above log differently but fall through to the same ++index, and queryNextType() sets queried\u003dtrue at line 89 regardless.",
+      "revId": "430d1c9d5acc2836d3e36121371e1fb579e631d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
