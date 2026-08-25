@@ -2,13 +2,17 @@ gpusensor_dir = '../../nvidia-gpu'
 
 gpusensor_sources = files(
     gpusensor_dir / 'Inventory.cpp',
+    gpusensor_dir / 'DeviceManager.cpp',
     gpusensor_dir / 'NvidiaDriverInformation.cpp',
     gpusensor_dir / 'NvidiaEthPort.cpp',
     gpusensor_dir / 'NvidiaEventReporting.cpp',
     gpusensor_dir / 'NvidiaGpuClockFrequencyMetric.cpp',
+    gpusensor_dir / 'NvidiaGpuEccMode.cpp',
+    gpusensor_dir / 'NvidiaGpuMemoryCapacityUtilization.cpp',
     gpusensor_dir / 'NvidiaGpuClockSpeedControl.cpp',
     gpusensor_dir / 'NvidiaGpuPowerControl.cpp',
     gpusensor_dir / 'NvidiaGpuUtilizationMetrics.cpp',
+    gpusensor_dir / 'NvidiaGpuDevice.cpp',
     gpusensor_dir / 'NvidiaGpuEnergySensor.cpp',
     gpusensor_dir / 'NvidiaGpuLongRunningCommand.cpp',
     gpusensor_dir / 'NvidiaGpuMctpVdm.cpp',
@@ -27,6 +31,8 @@ gpusensor_sources = files(
     gpusensor_dir / 'NvidiaPcieInterface.cpp',
     gpusensor_dir / 'NvidiaPciePort.cpp',
     gpusensor_dir / 'NvidiaPciePortMetrics.cpp',
+    gpusensor_dir / 'NvidiaSmaDevice.cpp',
+    gpusensor_dir / 'OcpMctpVdm.cpp',
     gpusensor_dir / 'SerialQueue.cpp',
 )
 
@@ -60,6 +66,7 @@ test(
         'test_NvidiaPciePortMetrics.cpp',
         'test_NvidiaEthPort.cpp',
         'test_NvidiaPcieDevice.cpp',
+        'test_NvidiaGpuDevice.cpp',
         'test_NvidiaGpuPowerControl.cpp',
         'test_NvidiaGpuClockFrequencyMetric.cpp',
         'test_NvidiaGpuMemoryClockFrequency.cpp',
@@ -72,6 +79,7 @@ test(
         'test_NvidiaEventReporting.cpp',
         'test_NvidiaGpuXid.cpp',
         'test_Inventory.cpp',
+        'test_NvidiaSmaDevice.cpp',
         'test_NvidiaGpuClockSpeedControl.cpp',
         gpusensor_sources,
         dbus_fixture_sources,
