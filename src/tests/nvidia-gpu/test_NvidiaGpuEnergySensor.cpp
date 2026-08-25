@@ -192,8 +192,11 @@ TEST_F(NvidiaGpuEnergySensorTest, UpdateDecodeFailEmptyBuffer)
 
 // Update — value retention after errors
 
-TEST_F(NvidiaGpuEnergySensorTest, UpdateSuccessThenErrorKeepsPreviousValue)
+TEST_F(NvidiaGpuEnergySensorTest,
+       UpdateSuccessThenErrorKeepsValueAndUpdatedTime)
 {
+    const std::string name = "nrg_retain";
+    const std::string path = energyPath(name);
     EXPECT_CALL(mctpMock, sendRecvMsg)
         .WillOnce(mock_mctp::respondWith({}, buildEnergyResponse(5000000)))
         .WillOnce(mock_mctp::respondWith(
@@ -203,12 +206,22 @@ TEST_F(NvidiaGpuEnergySensorTest, UpdateSuccessThenErrorKeepsPreviousValue)
                     0)));
 
     const std::shared_ptr<NvidiaGpuEnergySensor> sensor =
-        createSensor(gpuEnergySensorId, "nrg_retain");
-    sensor->update();
-    EXPECT_DOUBLE_EQ(sensor->value, 5000.0);
+        createSensor(gpuEnergySensorId, name);
+    const auto initialUpdatedTime = getProperty<uint64_t>(
+        path, "xyz.openbmc_project.Sensor.Value", "UpdatedTime");
+    EXPECT_EQ(initialUpdatedTime, 0U);
 
     sensor->update();
     EXPECT_DOUBLE_EQ(sensor->value, 5000.0);
+    const auto updatedTime = getProperty<uint64_t>(
+        path, "xyz.openbmc_project.Sensor.Value", "UpdatedTime");
+    EXPECT_GT(updatedTime, initialUpdatedTime);
+
+    sensor->update();
+    EXPECT_DOUBLE_EQ(sensor->value, 5000.0);
+    EXPECT_EQ(getProperty<uint64_t>(path, "xyz.openbmc_project.Sensor.Value",
+                                    "UpdatedTime"),
+              updatedTime);
 }
 
 // Update — request encoding verification
