@@ -13,8 +13,10 @@
 
 #include <array>
 #include <cerrno>
+#include <chrono>
 #include <cmath>
 #include <cstddef>
+#include <cstdint>
 #include <cstdlib>
 #include <functional>
 #include <limits>
@@ -117,6 +119,7 @@ struct Sensor
     bool internalSet = false;
     double hysteresisTrigger = 1.0;
     double hysteresisPublish = 1.0;
+    uint64_t updatedTime = 0;
     std::shared_ptr<sdbusplus::asio::connection> dbusConnection;
     PowerState readState;
     size_t errCount{0};
@@ -251,6 +254,10 @@ struct Sensor
             overriddenState = true;
             // check thresholds for external set
             value = newValue;
+            if (std::isfinite(newValue))
+            {
+                updateUpdatedTime();
+            }
             checkThresholds();
 
             // Trigger the hook, as an external set has just happened
@@ -281,6 +288,9 @@ struct Sensor
         sensorInterface->register_property("Unit", std::string(unit));
         sensorInterface->register_property("MaxValue", maxValue);
         sensorInterface->register_property("MinValue", minValue);
+        sensorInterface->register_property(
+            "UpdatedTime", updatedTime,
+            sdbusplus::asio::PropertyPermission::readOnly);
         sensorInterface->register_property(
             "Value", value, [this](const double& newValue, double& oldValue) {
                 return setSensorValue(newValue, oldValue);
@@ -516,6 +526,10 @@ struct Sensor
         }
 
         updateValueProperty(newValue);
+        if (std::isfinite(newValue))
+        {
+            updateUpdatedTime();
+        }
         updateInstrumentation(newValue);
 
         // Always check thresholds after changing the value,
@@ -603,5 +617,14 @@ struct Sensor
         internalSet = true;
         updateProperty(sensorInterface, value, newValue, "Value");
         internalSet = false;
+    }
+
+    void updateUpdatedTime()
+    {
+        updatedTime = static_cast<uint64_t>(
+            std::chrono::duration_cast<std::chrono::microseconds>(
+                std::chrono::system_clock::now().time_since_epoch())
+                .count());
+        sensorInterface->set_property("UpdatedTime", updatedTime);
     }
 };
