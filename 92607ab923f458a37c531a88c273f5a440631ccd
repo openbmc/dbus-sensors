@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9966b72_2a9ecd01",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuPowerControl.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-25T10:05:51Z",
+      "side": 1,
+      "message": "Could the range checks and the debounce coalescing be tested too?",
+      "revId": "92607ab923f458a37c531a88c273f5a440631ccd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c38d838a_4d5c7c39",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuPowerControl.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-25T10:05:51Z",
+      "side": 1,
+      "message": "nit: these four only assert no-crash.",
+      "revId": "92607ab923f458a37c531a88c273f5a440631ccd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
