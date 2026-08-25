@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3fde6b5_cf05648f",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1001939
+      },
+      "writtenOn": "2026-08-25T01:31:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff22d4c8_24f1de70",
+      "revId": "4e2534d650977d35e44e1fe6bd26cda3e479fe2c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "756225b7_094c57ef",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-08-21T22:15:04Z",
       "side": 1,
       "message": "The comment doesn\u0027t seem useful, better to drop it.",
+      "revId": "4e2534d650977d35e44e1fe6bd26cda3e479fe2c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bdf7cfd_db881889",
+        "filename": "src/Utils.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1001939
+      },
+      "writtenOn": "2026-08-25T01:31:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "756225b7_094c57ef",
       "revId": "4e2534d650977d35e44e1fe6bd26cda3e479fe2c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
