@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b6b9447_6063c184",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-08-25T13:07:28Z",
+      "side": 1,
+      "message": "This adds a new method to the public xyz.openbmc_project.Sensor.Value interface, but the corresponding canonical interface definition in phosphor-dbus-interfaces does not declare GetSecondsSinceLastSuccessfulUpdate. Could you add this method to Value.interface.yaml and submit the interface update as a prerequisite or related change, including the uint64 return type and the UINT64_MAX sentinel semantics? Otherwise, the implementation and the published D-Bus contract will be out of sync.",
+      "revId": "d47b261927ce4b595ae07ceb046fb1c469ac4e31",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
