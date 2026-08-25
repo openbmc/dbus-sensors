@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f12281ec_9aada771",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuUtilizationMetrics.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-08-25T09:42:54Z",
+      "side": 1,
+      "message": "I will fix it in the follow up patch.",
+      "parentUuid": "2838c2eb_2ea71621",
+      "revId": "715d91acfa11efa99ea5a6b8cc9597b388db18ea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d733ebe_04dc6e22",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4260f64_90b4d346",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuUtilizationMetrics.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-08-25T09:42:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d733ebe_04dc6e22",
+      "revId": "715d91acfa11efa99ea5a6b8cc9597b388db18ea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a6c1e345_01119911",
@@ -48,6 +84,24 @@
       "writtenOn": "2026-08-21T17:28:21Z",
       "side": 1,
       "message": "This stops at the ACCEPTED reply; Could it go on to inject the long-running event\nand assert the value actually lands? \n`test_NvidiaLongRunningHandler.cpp` already shows how to feed one in.",
+      "revId": "715d91acfa11efa99ea5a6b8cc9597b388db18ea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "963120dc_e95f9a1b",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuViolationDuration.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-08-25T09:42:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6c1e345_01119911",
       "revId": "715d91acfa11efa99ea5a6b8cc9597b388db18ea",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
