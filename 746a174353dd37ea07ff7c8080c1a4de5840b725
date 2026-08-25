@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0485bb97_b00221da",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaEventReporting.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-25T10:31:17Z",
+      "side": 1,
+      "message": "Could these be file-scope statics like `loggedMessage()` in `test_NvidiaGpuXid.cpp`?\nBecause this lambda outlives the test.",
+      "revId": "746a174353dd37ea07ff7c8080c1a4de5840b725",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
