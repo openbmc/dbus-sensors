@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e09c5a8_d19d5786",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-08-25T13:01:46Z",
+      "side": 1,
+      "message": "Addressed. The emission mode is captured when the one-shot delay timer is created and passed to the delayed callback. This preserves ThresholdEmit::forced for the first valid post-reconstruction evaluation, even if hadValidValue becomes true before the timer expires. Later evaluations use ThresholdEmit::onChange.",
+      "parentUuid": "e5d2b730_839d65cf",
+      "range": {
+        "startLine": 451,
+        "startChar": 0,
+        "endLine": 451,
+        "endChar": 48
+      },
+      "revId": "be0d411b1fd009df4e47719ce72fa6461a348978",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de110365_19f0757e",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-08-24T10:39:24Z",
       "side": 1,
       "message": "“The forced emit decision is duplicated in the power-delay path, but the ordering between reconstruction-triggered re-evaluation and the existing power-off filtering is not obvious. Please document that the forced path is intentional and does not leak into later steady-state checks.”",
+      "range": {
+        "startLine": 456,
+        "startChar": 0,
+        "endLine": 456,
+        "endChar": 76
+      },
+      "revId": "be0d411b1fd009df4e47719ce72fa6461a348978",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00bcc428_8a272f99",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-08-25T13:01:46Z",
+      "side": 1,
+      "message": "Addressed. The emission mode is sampled once for each threshold evaluation before power-delay routing. Immediate events use that sampled mode, and delayed events retain the mode from the evaluation that created the timer. Since hadValidValue is updated after threshold evaluation, only the first valid post-reconstruction evaluation is forced; later steady-state evaluations use normal property-change behavior.",
+      "parentUuid": "de110365_19f0757e",
       "range": {
         "startLine": 456,
         "startChar": 0,
@@ -77,6 +125,30 @@
       "writtenOn": "2026-08-24T10:39:24Z",
       "side": 1,
       "message": "“This is the actual behavior change: the forced path bypasses the normal propertyChanged guard. Please add a regression test for the first valid post-reconstruction case where the property already matches the target state, since that is the path most likely to regress.”",
+      "range": {
+        "startLine": 493,
+        "startChar": 0,
+        "endLine": 493,
+        "endChar": 26
+      },
+      "revId": "be0d411b1fd009df4e47719ce72fa6461a348978",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49a20b68_25c93802",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-08-25T13:01:46Z",
+      "side": 1,
+      "message": "Addressed. Added regression coverage for the forced-emission decision. The test verifies that an unchanged alarm property is emitted when the mode is ThresholdEmit::forced, while unchanged properties remain suppressed for ThresholdEmit::onChange.\n\nRuntime validation was also performed on EVB AST2600 using Review_Test_Temp. With WarningAlarmHigh and CriticalAlarmHigh already set to false, the first valid value of 60 emitted ThresholdAsserted deassert signals for both interfaces even though the properties remained false. Values of 90 and 60 then verified normal assert/deassert behavior.",
+      "parentUuid": "75a868b3_061f62a5",
       "range": {
         "startLine": 493,
         "startChar": 0,
