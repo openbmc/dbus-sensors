@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e584558_846ad8b3",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuEccMode.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-25T07:40:18Z",
+      "side": 1,
+      "message": "The mock always replies SUCCESS, so every Set test takes onImmediateSuccess and the ACCEPTED branch is never entered.",
+      "revId": "4078194ad9d612a5e94b159feeabfe30a7ba17fc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e1ab2db_e1d35b06",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuEccMode.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-25T07:40:18Z",
+      "side": 1,
+      "message": "nit: `setBoolProperty` returns `{false, \"timeout\"}` on timeout, so this passes even if the call never completes. \nCould it assert the error name like line 303 does?",
+      "revId": "4078194ad9d612a5e94b159feeabfe30a7ba17fc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22a20d0f_9e7c0ef5",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuEccMode.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-25T07:40:18Z",
+      "side": 1,
+      "message": "Could we do like `test_NvidiaGpuTempSensor.cpp:436`.",
+      "range": {
+        "startLine": 394,
+        "startChar": 29,
+        "endLine": 394,
+        "endChar": 51
+      },
+      "revId": "4078194ad9d612a5e94b159feeabfe30a7ba17fc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
