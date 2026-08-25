@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b711d52d_fa85eb15",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-25T10:23:14Z",
+      "side": 1,
+      "message": "Could an UpdateSuccessThenErrorKeepsPreviousValue be added here too?",
+      "revId": "27f45dc7c17ed7299437a8239c44866deb5af180",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
