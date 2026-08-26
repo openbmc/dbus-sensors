@@ -16,6 +16,29 @@
       "message": "Looks good!",
       "revId": "de2dc89c105cd147e7ace955f1ccdf9f2bfcc4c7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "105c6e7b_83b89a84",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-08-26T09:23:35Z",
+      "side": 1,
+      "message": "Since fanTypeIndex is already declared as std::size_t, you can log fanTypeIndex directly inside lg2::error to remove the redundant static_cast\u003cint\u003e(fanType):",
+      "range": {
+        "startLine": 321,
+        "startChar": 16,
+        "endLine": 321,
+        "endChar": 29
+      },
+      "revId": "de2dc89c105cd147e7ace955f1ccdf9f2bfcc4c7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
