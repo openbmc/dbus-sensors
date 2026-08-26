@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e9d939f_76b1a1ab",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuResetRequired.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-26T05:53:42Z",
+      "side": 1,
+      "message": "https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/93529 stands up a stub on the same path and interface in the same test binary.\nI will comment 93529 let it move to utils/, after it change I will info it. Thanks.",
+      "revId": "7fdc93fc4ba46c965331d2cfd4e2d83ac5a34c68",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ccd0f1d_61642cf2",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuResetRequired.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-26T05:53:42Z",
+      "side": 1,
+      "message": "nit: initialize() can fail here",
+      "revId": "7fdc93fc4ba46c965331d2cfd4e2d83ac5a34c68",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
