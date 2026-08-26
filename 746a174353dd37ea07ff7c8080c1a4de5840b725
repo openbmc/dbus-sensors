@@ -16,6 +16,23 @@
       "message": "Could these be file-scope statics like `loggedMessage()` in `test_NvidiaGpuXid.cpp`?\nBecause this lambda outlives the test.",
       "revId": "746a174353dd37ea07ff7c8080c1a4de5840b725",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e80d60a9_d190b19d",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuXid.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-26T05:54:19Z",
+      "side": 1,
+      "message": "92461 registers a stub on this same path and interface in the same test binary,\nso whichever lands second will fail.\nCould this use the shared one once 92461 moves it to utils/?",
+      "revId": "746a174353dd37ea07ff7c8080c1a4de5840b725",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
