@@ -6,6 +6,7 @@
 #include "NvidiaLldpConfiguration.hpp"
 
 #include "MctpRequester.hpp"
+#include "NvidiaLldpPath.hpp"
 #include "Utils.hpp"
 
 #include <NvidiaGpuMctpVdm.hpp>
@@ -35,10 +36,6 @@ constexpr const char* configurationInterfaceName =
 
 constexpr std::string_view modePrefix =
     "xyz.openbmc_project.Network.LLDP.Configuration.Mode.";
-
-// The LLDP objects of a device are gathered under one path so that they are
-// reachable without walking the inventory, which they are not part of.
-constexpr const char* lldpPathPrefix = "/xyz/openbmc_project/network/lldp";
 
 // Long enough to gather the writes of one client request, short enough that a
 // client waiting on the result does not notice.
