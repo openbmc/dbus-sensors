@@ -29,7 +29,8 @@ enum class MessageType : uint8_t
     DEVICE_CAPABILITY_DISCOVERY = 0,
     NETWORK_PORT = 1,
     PCIE_LINK = 2,
-    PLATFORM_ENVIRONMENTAL = 3
+    PLATFORM_ENVIRONMENTAL = 3,
+    DEVICE_CONFIGURATION = 5
 };
 
 enum class DeviceCapabilityDiscoveryCommands : uint8_t
@@ -73,6 +74,37 @@ enum class PlatformEnvironmentalEvent : uint8_t
     RESET_REQUIRED = 0x00,
     XID = 0x01,
 };
+
+enum class DeviceConfigurationCommands : uint8_t
+{
+    SET_DEVICE_MODE_SETTINGS_V2 = 0x82,
+    GET_DEVICE_MODE_SETTINGS_V2 = 0x83,
+};
+
+// A setting of the device that the mode commands address by index. The v2
+// commands index with a 32 bit value, which is what distinguishes them from
+// the first generation.
+enum class DeviceMode : uint32_t
+{
+    LLDP = 24,
+};
+
+// What an LLDP agent does with the type-length-value fields of a frame, in one
+// direction. The device holds one of these per direction, packed into a single
+// byte alongside the DCBX setting.
+enum class LldpMode : uint8_t
+{
+    Off = 0,
+    Mandatory = 1,
+    All = 2,
+};
+
+// Where each setting sits in the LLDP mode byte: bits 0:1 transmit, bits 2:3
+// receive, bit 4 DCBX, the rest reserved.
+constexpr uint8_t lldpTransmitModeShift = 0;
+constexpr uint8_t lldpReceiveModeShift = 2;
+constexpr uint8_t lldpModeMask = 0b11;
+constexpr uint8_t lldpDcbxEnabledBit = 0b1'0000;
 
 enum class NetworkPortCommands : uint8_t
 {
@@ -281,6 +313,13 @@ constexpr size_t xidEventMinDataSize = 20;
 constexpr size_t getClockLimitRequestSize =
     ocp::accelerator_management::commonRequestSize + sizeof(uint8_t);
 
+constexpr size_t setDeviceModeSettingsV2RequestSize =
+    ocp::accelerator_management::commonRequestSize + sizeof(uint32_t) +
+    sizeof(uint8_t);
+
+constexpr size_t getDeviceModeSettingsV2RequestSize =
+    ocp::accelerator_management::commonRequestSize + sizeof(uint32_t);
+
 constexpr size_t setClockLimitRequestSize =
     ocp::accelerator_management::commonRequestSize + sizeof(uint8_t) +
     sizeof(uint8_t) + sizeof(uint32_t) + sizeof(uint32_t);
@@ -294,6 +333,27 @@ int decodeResponseCommonHeader(
 
 int encodeQueryDeviceIdentificationRequest(uint8_t instanceId,
                                            std::span<uint8_t> buf);
+
+// The device holds a mode as a byte, a word or a longer run of bytes
+// depending on which mode it is; the LLDP one is a single byte.
+int encodeSetDeviceModeSettingsV2Request(uint8_t instanceId, DeviceMode mode,
+                                         uint8_t modeData,
+                                         std::span<uint8_t> buf);
+
+int decodeSetDeviceModeSettingsV2Response(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode);
+
+int encodeGetDeviceModeSettingsV2Request(uint8_t instanceId, DeviceMode mode,
+                                         std::span<uint8_t> buf);
+
+// The device reports what is in force now and, separately, what a reset would
+// bring into force. Only the former is decoded: a caller that reads a mode
+// back wants to know what the device is doing.
+int decodeGetDeviceModeSettingsV2Response(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint8_t& currentModeData);
 
 int encodeSetEventSubscriptionRequest(uint8_t generationSetting, uint8_t eid,
                                       std::span<uint8_t> buf);

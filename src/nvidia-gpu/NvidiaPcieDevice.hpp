@@ -8,6 +8,7 @@
 #include "MctpRequester.hpp"
 #include "NvidiaDriverInformation.hpp"
 #include "NvidiaGpuMctpVdm.hpp"
+#include "NvidiaLldpConfiguration.hpp"
 #include "NvidiaPcieFunction.hpp"
 #include "NvidiaPcieInterface.hpp"
 #include "NvidiaSensorConfig.hpp"
@@ -82,6 +83,8 @@ class PcieDevice : public std::enable_shared_from_this<PcieDevice>
 
     std::chrono::milliseconds sensorPollMs;
 
+    boost::asio::io_context& io;
+
     boost::asio::steady_timer waitTimer;
 
     mctp::MctpRequester& mctpRequester;
@@ -106,6 +109,8 @@ class PcieDevice : public std::enable_shared_from_this<PcieDevice>
     std::shared_ptr<NvidiaPcieFunction> pcieFunction;
 
     std::shared_ptr<NvidiaDriverInformation> driverInfo;
+
+    std::shared_ptr<NvidiaLldpConfiguration> lldpConfiguration;
 
     std::vector<std::shared_ptr<NvidiaPciePortInfo>> pciePorts;
     std::vector<std::shared_ptr<NvidiaPciePortMetrics>> pciePortMetrics;
