@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eab8b13a_72038996",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-08-26T07:57:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b42fa8dc_ffb8c1e7",
+      "revId": "64c9ebde522ba44fd19d17ed7e7ccfcd72cf74bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de636bcc_e891b454",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-07-27T07:58:18Z",
       "side": 1,
       "message": "nit: the dataSize sanity check reads more naturally right after unpacking dataSize, before consuming supportedCounters.",
+      "range": {
+        "startLine": 1575,
+        "startChar": 1,
+        "endLine": 1576,
+        "endChar": 66
+      },
+      "revId": "64c9ebde522ba44fd19d17ed7e7ccfcd72cf74bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6e665bd_add65498",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 1576,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-08-26T07:57:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de636bcc_e891b454",
       "range": {
         "startLine": 1575,
         "startChar": 1,
@@ -88,6 +130,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a2c9922_c02f5ea8",
+        "filename": "src/nvidia-gpu/NvidiaIbPortMetrics.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-08-26T07:57:29Z",
+      "side": 1,
+      "message": "1. Done — rx_bytes/tx_bytes now use Unit.Bytes \n2. Our platform cannot produce traffic on an InfiniBand port, so every\n   0x01 counter reads 0 and the device behaviour is not observable\n   here. NSM Type 1 section 2.3.7 defines these counters by reference\n   to the InfiniBand specification section 16.1.3.5 PortCounters, where\n   Table 191 defines PortRcvData / PortXmitData as the total number of\n   data octets divided by four:\n\n   https://datatracker.ietf.org/doc/html/draft-ietf-ipoib-perf-mgmt-agent-mib-03\n   (quotes IBA Vol.1 section 16.1.3.5, Table 191 verbatim)\n\n   So PS8 multiplies counters 1 and 9 by four before publishing them as\n   Unit.Bytes.",
+      "parentUuid": "80152e43_ee4b83e3",
+      "range": {
+        "startLine": 162,
+        "startChar": 8,
+        "endLine": 163,
+        "endChar": 80
+      },
+      "revId": "64c9ebde522ba44fd19d17ed7e7ccfcd72cf74bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8f563001_eb41de99",
@@ -101,6 +167,30 @@
       "writtenOn": "2026-07-27T07:58:18Z",
       "side": 1,
       "message": "Same comment as https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/92414/comment/2ab72b7a_6582271f/.\nThanks for catching.",
+      "range": {
+        "startLine": 164,
+        "startChar": 8,
+        "endLine": 164,
+        "endChar": 67
+      },
+      "revId": "64c9ebde522ba44fd19d17ed7e7ccfcd72cf74bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4cca1084_2e7c6c9a",
+        "filename": "src/nvidia-gpu/NvidiaIbPortMetrics.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-08-26T07:57:29Z",
+      "side": 1,
+      "message": "Unsupported counters currently stay at 0",
+      "parentUuid": "8f563001_eb41de99",
       "range": {
         "startLine": 164,
         "startChar": 8,
