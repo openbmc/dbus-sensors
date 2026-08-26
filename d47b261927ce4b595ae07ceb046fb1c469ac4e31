@@ -34,6 +34,24 @@
       "parentUuid": "5b6b9447_6063c184",
       "revId": "d47b261927ce4b595ae07ceb046fb1c469ac4e31",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03ec0533_07b21418",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-08-26T10:14:35Z",
+      "side": 1,
+      "message": "Thanks.\nMinor suggestion: Please link 93918 and 93956 so they merge together safely. Since one change adds implementation and the other updates the canonical interface, could you add a Depends-On relation (or at least set the same Gerrit topic) across both changes?",
+      "parentUuid": "166e6725_d941c344",
+      "revId": "d47b261927ce4b595ae07ceb046fb1c469ac4e31",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
