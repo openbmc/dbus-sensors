@@ -1353,6 +1353,92 @@ int decodeGetMemoryCapacityUtilizationResponse(std::span<const uint8_t> buf,
     return buffer.getError();
 }
 
+int encodeGetLldpPacketRequest(uint8_t instanceId, uint16_t portNumber,
+                               LldpPacketType packetType,
+                               std::span<uint8_t> buf)
+{
+    PackBuffer buffer(buf);
+
+    int rc = encodeRequestCommonHeader(
+        buffer, MessageType::NETWORK_PORT,
+        static_cast<uint8_t>(NetworkPortCommands::GetLldpPacket), instanceId);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    const uint8_t dataSize = (2 * sizeof(uint16_t)) + (4 * sizeof(uint8_t));
+    buffer.pack(dataSize);
+    buffer.pack(portNumber);
+    buffer.pack(static_cast<uint16_t>(0)); // reserved
+    buffer.pack(static_cast<uint8_t>(packetType));
+    buffer.pack(static_cast<uint8_t>(0));  // reserved
+    buffer.pack(static_cast<uint8_t>(0));
+    buffer.pack(static_cast<uint8_t>(0));
+
+    return buffer.getError();
+}
+
+int decodeGetLldpPacketResponse(std::span<const uint8_t> buf,
+                                ocp::accelerator_management::CompletionCode& cc,
+                                uint16_t& reasonCode,
+                                std::vector<uint8_t>& packet)
+{
+    packet.clear();
+
+    UnpackBuffer buffer(buf);
+
+    int rc = decodeResponseCommonHeader(
+        buffer, MessageType::NETWORK_PORT,
+        static_cast<uint8_t>(NetworkPortCommands::GetLldpPacket), cc,
+        reasonCode);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    // A port holding no frame is reported as such rather than as a failure,
+    // and the answer carries nothing after the completion code.
+    if (cc == ocp::accelerator_management::CompletionCode::ERR_NOT_READY)
+    {
+        return 0;
+    }
+
+    if (cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    uint16_t dataSize = 0;
+    rc = buffer.unpack(dataSize);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    if (dataSize > lldpPacketMaxSize)
+    {
+        return EINVAL;
+    }
+
+    packet.resize(dataSize);
+    for (uint8_t& byte : packet)
+    {
+        buffer.unpack(byte);
+    }
+
+    if (buffer.getError() != 0)
+    {
+        packet.clear();
+        return buffer.getError();
+    }
+
+    return 0;
+}
+
 int encodeSetDeviceModeSettingsV2Request(uint8_t instanceId, DeviceMode mode,
                                          uint8_t modeData,
                                          std::span<uint8_t> buf)
