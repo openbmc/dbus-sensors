@@ -1353,6 +1353,115 @@ int decodeGetMemoryCapacityUtilizationResponse(std::span<const uint8_t> buf,
     return buffer.getError();
 }
 
+int encodeSetDeviceModeSettingsV2Request(uint8_t instanceId, DeviceMode mode,
+                                         uint8_t modeData,
+                                         std::span<uint8_t> buf)
+{
+    PackBuffer buffer(buf);
+
+    int rc = encodeRequestCommonHeader(
+        buffer, MessageType::DEVICE_CONFIGURATION,
+        static_cast<uint8_t>(
+            DeviceConfigurationCommands::SET_DEVICE_MODE_SETTINGS_V2),
+        instanceId);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    const uint8_t dataSize = sizeof(uint32_t) + sizeof(modeData);
+    buffer.pack(dataSize);
+    buffer.pack(static_cast<uint32_t>(mode));
+    buffer.pack(modeData);
+
+    return buffer.getError();
+}
+
+int decodeSetDeviceModeSettingsV2Response(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode)
+{
+    UnpackBuffer buffer(buf);
+
+    return decodeResponseCommonHeader(
+        buffer, MessageType::DEVICE_CONFIGURATION,
+        static_cast<uint8_t>(
+            DeviceConfigurationCommands::SET_DEVICE_MODE_SETTINGS_V2),
+        cc, reasonCode);
+}
+
+int encodeGetDeviceModeSettingsV2Request(uint8_t instanceId, DeviceMode mode,
+                                         std::span<uint8_t> buf)
+{
+    PackBuffer buffer(buf);
+
+    int rc = encodeRequestCommonHeader(
+        buffer, MessageType::DEVICE_CONFIGURATION,
+        static_cast<uint8_t>(
+            DeviceConfigurationCommands::GET_DEVICE_MODE_SETTINGS_V2),
+        instanceId);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    const uint8_t dataSize = sizeof(uint32_t);
+    buffer.pack(dataSize);
+    buffer.pack(static_cast<uint32_t>(mode));
+
+    return buffer.getError();
+}
+
+int decodeGetDeviceModeSettingsV2Response(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint8_t& currentModeData)
+{
+    UnpackBuffer buffer(buf);
+
+    int rc = decodeResponseCommonHeader(
+        buffer, MessageType::DEVICE_CONFIGURATION,
+        static_cast<uint8_t>(
+            DeviceConfigurationCommands::GET_DEVICE_MODE_SETTINGS_V2),
+        cc, reasonCode);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    uint16_t dataSize = 0;
+    rc = buffer.unpack(dataSize);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    // The two lengths that open the data say how many bytes describe the mode
+    // in force and how many describe the one a reset would bring in.
+    uint16_t currentLength = 0;
+    uint16_t pendingLength = 0;
+    buffer.unpack(currentLength);
+    buffer.unpack(pendingLength);
+
+    if (buffer.getError() != 0)
+    {
+        return buffer.getError();
+    }
+
+    if (currentLength != sizeof(currentModeData))
+    {
+        return EINVAL;
+    }
+
+    buffer.unpack(currentModeData);
+
+    return buffer.getError();
+}
+
 int encodeSetClockLimitRequest(uint8_t instanceId, ClockType clockType,
                                ClockLimitFlag flag, uint32_t limitMinMHz,
                                uint32_t limitMaxMHz, std::span<uint8_t> buf)
