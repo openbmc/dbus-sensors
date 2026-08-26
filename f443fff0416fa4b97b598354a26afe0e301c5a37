@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "058aca1f_4ca36504",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 42
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-26T09:58:42Z",
+      "side": 1,
+      "message": "Like https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/92390, \nCould you please add some info for `busctl tree` and `busctl introspect`",
+      "revId": "f443fff0416fa4b97b598354a26afe0e301c5a37",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b275ee01_ff65aaf1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 42
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-26T09:58:42Z",
+      "side": 1,
+      "message": "Could you add some test log in the commit msg?",
+      "revId": "f443fff0416fa4b97b598354a26afe0e301c5a37",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84186797_560f9cbf",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-26T09:58:42Z",
+      "side": 1,
+      "message": "Could you add in order?",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 35
+      },
+      "revId": "f443fff0416fa4b97b598354a26afe0e301c5a37",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4bb80ec_1a10bceb",
+        "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.cpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-26T09:58:42Z",
+      "side": 1,
+      "message": "The comment says microvolts but the field is adcReadingMv and the code divides\nby 1000.\nWhich is right?",
+      "range": {
+        "startLine": 133,
+        "startChar": 37,
+        "endLine": 133,
+        "endChar": 47
+      },
+      "revId": "f443fff0416fa4b97b598354a26afe0e301c5a37",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c776dca7_0a318d19",
+        "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.cpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-26T09:58:42Z",
+      "side": 1,
+      "message": "Could this check size() before indexing?\nBecause `decodeGetLeakDetectionInfoResponse` accepts numSensors \u003d\u003d 0 and still returns 0 with SUCCESS",
+      "revId": "f443fff0416fa4b97b598354a26afe0e301c5a37",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
