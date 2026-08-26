@@ -34,6 +34,40 @@
       "parentUuid": "0c3adbaf_dcac4595",
       "revId": "120dc2074b8d08c731053fd3e92ef915fd26dfea",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f4213b0_1a182835",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-26T10:15:29Z",
+      "side": 1,
+      "message": "Both probes are async, so this prints before either sensor exists and prints even when both fail. The per-sensor logs already cover it, could this line be dropped?",
+      "revId": "120dc2074b8d08c731053fd3e92ef915fd26dfea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5523e95_4b3d6b87",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-26T10:15:29Z",
+      "side": 1,
+      "message": "should it start only once a sensor exists?",
+      "revId": "120dc2074b8d08c731053fd3e92ef915fd26dfea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
