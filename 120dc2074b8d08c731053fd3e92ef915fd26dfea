@@ -16,6 +16,24 @@
       "message": "I don\u0027t know your product or requirements but does this handle should be present but unconnected devices?   Does the device know it should have a sensor or lacks a connector or just use the absence of the sense resistor for example?   \n\n\nJust thinking this moves the fault handling from sensor reading failed to less than expected number of sensors.   This may already be handled, but a sentence would be appreciated.",
       "revId": "120dc2074b8d08c731053fd3e92ef915fd26dfea",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "184f6e19_f013e046",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002462
+      },
+      "writtenOn": "2026-08-26T03:02:07Z",
+      "side": 1,
+      "message": "Thanks for reviewing the patch and for bringing up this great point!\n\nFrom the BMC firmware implementation perspective, we currently rely on the MCTP response payload from the SMA device, which explicitly tells us the number of available sensors. We instantiate the DBus objects based on this payload to prevent unnecessary polling and false-positive faults on empty ports.\n\nHowever, regarding how the device handles a situation where a sensor should be present but is disconnected or faulty, we are not fully aware of the internal hardware detection mechanisms.\n\n@haghera@nvidia.com Would you kindly help explain the hardware behavior in this scenario? Specifically, how does the SMA device detect this, and what would it return to the BMC via MCTP if an expected sensor is faulty or unconnected?",
+      "parentUuid": "0c3adbaf_dcac4595",
+      "revId": "120dc2074b8d08c731053fd3e92ef915fd26dfea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
