@@ -4891,6 +4891,172 @@ TEST_F(GpuMctpVdmTests,
     EXPECT_NE(result, 0);
 }
 
+// Tests for the v2 device mode commands
+TEST_F(GpuMctpVdmTests, EncodeGetDeviceModeSettingsV2Request)
+{
+    const uint8_t instanceId = 3;
+    std::array<uint8_t, gpu::getDeviceModeSettingsV2RequestSize> buf{};
+
+    EXPECT_EQ(gpu::encodeGetDeviceModeSettingsV2Request(
+                  instanceId, gpu::DeviceMode::LLDP, buf),
+              0);
+
+    UnpackBuffer ubuf(std::span<const uint8_t>(buf.data(), buf.size()));
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t unpackedInstanceId = 0;
+    uint8_t unpackedMsgType = 0;
+    EXPECT_EQ(ocp::accelerator_management::unpackHeader(
+                  ubuf, gpu::nvidiaPciVendorId, msgType, unpackedInstanceId,
+                  unpackedMsgType),
+              0);
+    EXPECT_EQ(msgType, ocp::accelerator_management::MessageType::REQUEST);
+    EXPECT_EQ(unpackedMsgType,
+              static_cast<uint8_t>(gpu::MessageType::DEVICE_CONFIGURATION));
+
+    uint8_t command = 0;
+    uint8_t dataSize = 0;
+    uint32_t modeIndex = 0;
+    ubuf.unpack(command);
+    ubuf.unpack(dataSize);
+    ubuf.unpack(modeIndex);
+    EXPECT_EQ(
+        command,
+        static_cast<uint8_t>(
+            gpu::DeviceConfigurationCommands::GET_DEVICE_MODE_SETTINGS_V2));
+    EXPECT_EQ(dataSize, sizeof(uint32_t));
+    EXPECT_EQ(modeIndex, static_cast<uint32_t>(gpu::DeviceMode::LLDP));
+}
+
+TEST_F(GpuMctpVdmTests, EncodeSetDeviceModeSettingsV2Request)
+{
+    std::array<uint8_t, gpu::setDeviceModeSettingsV2RequestSize> buf{};
+    const uint8_t modeData = 0x0A;
+
+    EXPECT_EQ(gpu::encodeSetDeviceModeSettingsV2Request(
+                  1, gpu::DeviceMode::LLDP, modeData, buf),
+              0);
+
+    UnpackBuffer ubuf(std::span<const uint8_t>(buf.data(), buf.size()));
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t unpackedInstanceId = 0;
+    uint8_t unpackedMsgType = 0;
+    EXPECT_EQ(ocp::accelerator_management::unpackHeader(
+                  ubuf, gpu::nvidiaPciVendorId, msgType, unpackedInstanceId,
+                  unpackedMsgType),
+              0);
+
+    uint8_t command = 0;
+    uint8_t dataSize = 0;
+    uint32_t modeIndex = 0;
+    uint8_t unpackedModeData = 0;
+    ubuf.unpack(command);
+    ubuf.unpack(dataSize);
+    ubuf.unpack(modeIndex);
+    ubuf.unpack(unpackedModeData);
+    EXPECT_EQ(
+        command,
+        static_cast<uint8_t>(
+            gpu::DeviceConfigurationCommands::SET_DEVICE_MODE_SETTINGS_V2));
+    EXPECT_EQ(dataSize, sizeof(uint32_t) + sizeof(uint8_t));
+    EXPECT_EQ(modeIndex, static_cast<uint32_t>(gpu::DeviceMode::LLDP));
+    EXPECT_EQ(unpackedModeData, modeData);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetDeviceModeSettingsV2Response)
+{
+    // Header, command, completion code and reason code, then a data size, the
+    // length of the mode in force, the length of the pending one and the two
+    // values themselves.
+    std::vector<uint8_t> resp = {
+        0x10,
+        0xde,
+        0x00,
+        0x89,
+        0x05,
+        static_cast<uint8_t>(
+            gpu::DeviceConfigurationCommands::GET_DEVICE_MODE_SETTINGS_V2),
+        0x00,
+        0x00,
+        0x00,
+        0x06,
+        0x00,
+        0x01,
+        0x00,
+        0x01,
+        0x00,
+        0x0A,
+        0x0A};
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode = 0;
+    uint8_t modeData = 0;
+
+    EXPECT_EQ(gpu::decodeGetDeviceModeSettingsV2Response(resp, cc, reasonCode,
+                                                         modeData),
+              0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(modeData, 0x0A);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetDeviceModeSettingsV2RejectsWrongModeLength)
+{
+    // A mode this command reports in two bytes is not the one byte an LLDP
+    // mode occupies, so the response does not describe what was asked for.
+    std::vector<uint8_t> resp = {
+        0x10,
+        0xde,
+        0x00,
+        0x89,
+        0x05,
+        static_cast<uint8_t>(
+            gpu::DeviceConfigurationCommands::GET_DEVICE_MODE_SETTINGS_V2),
+        0x00,
+        0x00,
+        0x00,
+        0x08,
+        0x00,
+        0x02,
+        0x00,
+        0x02,
+        0x00,
+        0x0A,
+        0x00,
+        0x0A,
+        0x00};
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode = 0;
+    uint8_t modeData = 0;
+
+    EXPECT_NE(gpu::decodeGetDeviceModeSettingsV2Response(resp, cc, reasonCode,
+                                                         modeData),
+              0);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeSetDeviceModeSettingsV2Response)
+{
+    std::vector<uint8_t> resp = {
+        0x10,
+        0xde,
+        0x00,
+        0x89,
+        0x05,
+        static_cast<uint8_t>(
+            gpu::DeviceConfigurationCommands::SET_DEVICE_MODE_SETTINGS_V2),
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00};
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode = 0;
+
+    EXPECT_EQ(gpu::decodeSetDeviceModeSettingsV2Response(resp, cc, reasonCode),
+              0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+}
+
 // Tests for encodeSetClockLimitRequest
 TEST_F(GpuMctpVdmTests, EncodeSetClockLimitRequestSuccess)
 {
