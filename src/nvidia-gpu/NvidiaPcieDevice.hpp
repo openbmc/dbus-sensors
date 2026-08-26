@@ -9,6 +9,7 @@
 #include "NvidiaDriverInformation.hpp"
 #include "NvidiaGpuMctpVdm.hpp"
 #include "NvidiaLldpConfiguration.hpp"
+#include "NvidiaLldpTlvs.hpp"
 #include "NvidiaPcieFunction.hpp"
 #include "NvidiaPcieInterface.hpp"
 #include "NvidiaSensorConfig.hpp"
@@ -122,4 +123,6 @@ class PcieDevice : public std::enable_shared_from_this<PcieDevice>
     std::shared_ptr<sdbusplus::asio::dbus_interface> embeddedConnectorInterface;
 
     std::vector<std::shared_ptr<NvidiaEthPortMetrics>> ethPortMetrics;
+
+    std::vector<std::shared_ptr<NvidiaLldpTlvs>> lldpTlvs;
 };
