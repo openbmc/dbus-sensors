@@ -8,6 +8,7 @@
 #include "NvidiaDriverInformation.hpp"
 #include "NvidiaEthPort.hpp"
 #include "NvidiaGpuMctpVdm.hpp"
+#include "NvidiaLldpConfiguration.hpp"
 #include "NvidiaPcieFunction.hpp"
 #include "NvidiaPcieInterface.hpp"
 #include "NvidiaPciePort.hpp"
@@ -40,7 +41,7 @@ PcieDevice::PcieDevice(const SensorConfigs& configs, const std::string& name,
                        uint8_t eid, boost::asio::io_context& io,
                        mctp::MctpRequester& mctpRequester,
                        sdbusplus::asio::object_server& objectServer) :
-    eid(eid), sensorPollMs(std::chrono::milliseconds{configs.pollRate}),
+    eid(eid), sensorPollMs(std::chrono::milliseconds{configs.pollRate}), io(io),
     waitTimer(io, std::chrono::steady_clock::duration(0)),
     mctpRequester(mctpRequester), conn(conn), objectServer(objectServer),
     configs(configs), name(escapeName(name)), path(path)
@@ -110,6 +111,10 @@ void PcieDevice::init()
     driverInfo = std::make_shared<NvidiaDriverInformation>(
         conn, mctpRequester, name + "_NIC", eid, objectServer,
         networkAdapterPath, nvidiaManufacturer);
+
+    lldpConfiguration = std::make_shared<NvidiaLldpConfiguration>(
+        objectServer, mctpRequester, name + "_NIC", networkAdapterPath, eid,
+        io);
 
     getPciePortCounts();
 
@@ -331,6 +336,8 @@ void PcieDevice::read()
     pcieFunction->update();
 
     driverInfo->update();
+
+    lldpConfiguration->update();
 
     for (auto& port : pciePorts)
     {

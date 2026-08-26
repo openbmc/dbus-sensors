@@ -338,8 +338,8 @@ void readManagementAddressField(std::span<const uint8_t> value, Frame& frame)
 
 // An optional field the sender got wrong costs only itself. IEEE 802.1AB has
 // a receiver discard such a field and go on with the rest of the unit, which
-// is what a consumer wants here too: a neighbour missing one value is far more
-// use than no neighbour at all.
+// is what a consumer wants here too: a neighbor missing one value is far more
+// use than no neighbor at all.
 void readOptionalField(uint8_t type, std::span<const uint8_t> value,
                        Frame& frame)
 {
@@ -436,7 +436,7 @@ bool parse(std::span<const uint8_t> pdu, Frame& frame)
                 break;
 
             case tlvTimeToLive:
-                // How long the neighbour's data stays good for. The device
+                // How long the neighbor's data stays good for. The device
                 // ages its own buffer on this, so only the shape is checked.
                 if (expected != Mandatory::TimeToLive || length != 2)
                 {
