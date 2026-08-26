@@ -8,6 +8,7 @@
 #include "NvidiaDriverInformation.hpp"
 #include "NvidiaEthPort.hpp"
 #include "NvidiaGpuMctpVdm.hpp"
+#include "NvidiaLldpConfiguration.hpp"
 #include "NvidiaPcieFunction.hpp"
 #include "NvidiaPcieInterface.hpp"
 #include "NvidiaPciePort.hpp"
@@ -39,7 +40,7 @@ PcieDevice::PcieDevice(
     const std::shared_ptr<sdbusplus::asio::connection>& conn, uint8_t eid,
     boost::asio::io_context& io, mctp::MctpRequester& mctpRequester,
     sdbusplus::asio::object_server& objectServer) :
-    eid(eid), sensorPollMs(std::chrono::milliseconds{config.pollRate}),
+    eid(eid), sensorPollMs(std::chrono::milliseconds{config.pollRate}), io(io),
     waitTimer(io, std::chrono::steady_clock::duration(0)),
     mctpRequester(mctpRequester), conn(conn), objectServer(objectServer),
     pcieConfig(pcieConfig), name(escapeName(config.name)), path(config.path)
@@ -110,6 +111,8 @@ void PcieDevice::init()
         conn, mctpRequester, name + "_NIC", eid, objectServer,
         networkAdapterPath, nvidiaManufacturer);
 
+    getLldpMode();
+
     getPciePortCounts();
 
     for (uint64_t k = 0; k < pcieConfig.networkPortCount; ++k)
@@ -175,6 +178,68 @@ void PcieDevice::processPciePortCountsResponse(
               "UP", pcieDeviceInfo.numUpstreamPorts);
 
     makeSensors();
+}
+
+// Whether a device has an LLDP agent to configure is only answerable by
+// asking it for the mode that agent runs in. A device that does not hold the
+// mode gets no object, the same way a port that is not Ethernet gets none.
+void PcieDevice::getLldpMode()
+{
+    const int rc = gpu::encodeGetDeviceModeSettingsV2Request(
+        0, gpu::DeviceMode::LLDP, getLldpModeRequest);
+
+    if (rc != 0)
+    {
+        lg2::error(
+            "Error reading the LLDP mode: encode failed, rc={RC}, EID={EID}",
+            "RC", rc, "EID", eid);
+        return;
+    }
+
+    mctpRequester.sendRecvMsg(
+        eid, getLldpModeRequest,
+        [weak{weak_from_this()}](const std::error_code& ec,
+                                 std::span<const uint8_t> buffer) {
+            std::shared_ptr<PcieDevice> self = weak.lock();
+            if (!self)
+            {
+                lg2::error("Invalid reference to PcieDevice");
+                return;
+            }
+            self->processLldpModeResponse(ec, buffer);
+        });
+}
+
+void PcieDevice::processLldpModeResponse(const std::error_code& ec,
+                                         std::span<const uint8_t> response)
+{
+    if (ec)
+    {
+        lg2::error(
+            "Error processing LLDP mode response: sending message over MCTP failed, rc={RC}, EID={EID}",
+            "RC", ec.message(), "EID", eid);
+        return;
+    }
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode = 0;
+    uint8_t modeData = 0;
+
+    const int rc = gpu::decodeGetDeviceModeSettingsV2Response(
+        response, cc, reasonCode, modeData);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        lg2::info(
+            "PCIe Device with eid {EID} holds no LLDP mode, so its LLDP is not configurable: rc={RC}, cc={CC}, reasonCode={RESC}",
+            "EID", eid, "RC", rc, "CC", static_cast<uint8_t>(cc), "RESC",
+            reasonCode);
+        return;
+    }
+
+    lldpConfiguration = std::make_shared<NvidiaLldpConfiguration>(
+        objectServer, mctpRequester, name + "_NIC",
+        inventoryPrefix / (name + "_NIC"), eid, io, modeData);
 }
 
 void PcieDevice::getNetworkPortAddresses(const uint16_t portNumber)
@@ -330,6 +395,11 @@ void PcieDevice::read()
     pcieFunction->update();
 
     driverInfo->update();
+
+    if (lldpConfiguration)
+    {
+        lldpConfiguration->update();
+    }
 
     for (auto& port : pciePorts)
     {
