@@ -146,6 +146,24 @@
       "parentUuid": "6207ee4f_b273d186",
       "revId": "41cb2f5dcb7d5bc4cc5e86e86809ffaf4b5433ed",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67f76562_cf43ecf0",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-08-26T04:51:40Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "e05430ff_d7dce1eb",
+      "revId": "41cb2f5dcb7d5bc4cc5e86e86809ffaf4b5433ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
