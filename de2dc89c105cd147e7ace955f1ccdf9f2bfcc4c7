@@ -39,6 +39,30 @@
       },
       "revId": "de2dc89c105cd147e7ace955f1ccdf9f2bfcc4c7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "377d74cf_8b63bcfd",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-08-26T12:01:21Z",
+      "side": 1,
+      "message": "Thanks for the review. Updated error log to pass fanTypeIndex directly and removed the redundant static_cast\u003cint\u003e(fanType):",
+      "parentUuid": "105c6e7b_83b89a84",
+      "range": {
+        "startLine": 321,
+        "startChar": 16,
+        "endLine": 321,
+        "endChar": 29
+      },
+      "revId": "de2dc89c105cd147e7ace955f1ccdf9f2bfcc4c7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
