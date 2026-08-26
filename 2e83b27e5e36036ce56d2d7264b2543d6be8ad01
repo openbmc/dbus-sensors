@@ -124,6 +124,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "100e0b4b_2240d500",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1002462
+      },
+      "writtenOn": "2026-08-26T13:14:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b23c1fa_f71f56eb",
+      "revId": "2e83b27e5e36036ce56d2d7264b2543d6be8ad01",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "213d21d7_c3cff082",

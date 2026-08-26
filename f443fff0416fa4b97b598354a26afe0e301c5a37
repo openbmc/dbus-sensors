@@ -35,6 +35,42 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7681ceb2_a915dbc5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 42
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002462
+      },
+      "writtenOn": "2026-08-26T13:14:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "058aca1f_4ca36504",
+      "revId": "f443fff0416fa4b97b598354a26afe0e301c5a37",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3cc9dcf_ecf733cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 42
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002462
+      },
+      "writtenOn": "2026-08-26T13:14:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b275ee01_ff65aaf1",
+      "revId": "f443fff0416fa4b97b598354a26afe0e301c5a37",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "84186797_560f9cbf",
@@ -48,6 +84,30 @@
       "writtenOn": "2026-08-26T09:58:42Z",
       "side": 1,
       "message": "Could you add in order?",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 35
+      },
+      "revId": "f443fff0416fa4b97b598354a26afe0e301c5a37",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fecb0ca_5f7ef903",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1002462
+      },
+      "writtenOn": "2026-08-26T13:14:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84186797_560f9cbf",
       "range": {
         "startLine": 66,
         "startChar": 4,
@@ -81,6 +141,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd211c90_c078e9da",
+        "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.cpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1002462
+      },
+      "writtenOn": "2026-08-26T13:14:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4bb80ec_1a10bceb",
+      "range": {
+        "startLine": 133,
+        "startChar": 37,
+        "endLine": 133,
+        "endChar": 47
+      },
+      "revId": "f443fff0416fa4b97b598354a26afe0e301c5a37",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c776dca7_0a318d19",
@@ -94,6 +178,24 @@
       "writtenOn": "2026-08-26T09:58:42Z",
       "side": 1,
       "message": "Could this check size() before indexing?\nBecause `decodeGetLeakDetectionInfoResponse` accepts numSensors \u003d\u003d 0 and still returns 0 with SUCCESS",
+      "revId": "f443fff0416fa4b97b598354a26afe0e301c5a37",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2dcce050_a93a5ee5",
+        "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.cpp",
+        "patchSetId": 42
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1002462
+      },
+      "writtenOn": "2026-08-26T13:14:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c776dca7_0a318d19",
       "revId": "f443fff0416fa4b97b598354a26afe0e301c5a37",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
