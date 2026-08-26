@@ -53,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "702a5c62_e17b1b1a",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1002462
+      },
+      "writtenOn": "2026-08-26T13:58:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f4213b0_1a182835",
+      "revId": "120dc2074b8d08c731053fd3e92ef915fd26dfea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c5523e95_4b3d6b87",
@@ -66,6 +84,24 @@
       "writtenOn": "2026-08-26T10:15:29Z",
       "side": 1,
       "message": "should it start only once a sensor exists?",
+      "revId": "120dc2074b8d08c731053fd3e92ef915fd26dfea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fc0c7ec_2ed4b860",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1002462
+      },
+      "writtenOn": "2026-08-26T13:58:09Z",
+      "side": 1,
+      "message": "The original implementation assumed that every SMA device had a temp sensor. I modified the code to only probe for leak sensors, which means there should be at least one temp sensor present.",
+      "parentUuid": "c5523e95_4b3d6b87",
       "revId": "120dc2074b8d08c731053fd3e92ef915fd26dfea",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
