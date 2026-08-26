@@ -9,6 +9,7 @@
 #include "NvidiaEthPort.hpp"
 #include "NvidiaGpuMctpVdm.hpp"
 #include "NvidiaLldpConfiguration.hpp"
+#include "NvidiaLldpTlvs.hpp"
 #include "NvidiaPcieFunction.hpp"
 #include "NvidiaPcieInterface.hpp"
 #include "NvidiaPciePort.hpp"
@@ -254,6 +255,19 @@ void PcieDevice::processGetNetworkPortAddressesResponse(
         ethPortMetrics.emplace_back(std::make_shared<NvidiaEthPortMetrics>(
             conn, mctpRequester, portName, nicDeviceName, path, eid, portNumber,
             objectServer, addresses));
+
+        // The port holds one frame per direction, and a consumer comparing
+        // what a port hears against what it says needs both.
+        const sdbusplus::object_path portPath =
+            inventoryPrefix / nicDeviceName / portName;
+
+        for (const gpu::LldpPacketType packetDirection :
+             {gpu::LldpPacketType::Received, gpu::LldpPacketType::Transmitted})
+        {
+            lldpTlvs.emplace_back(std::make_shared<NvidiaLldpTlvs>(
+                objectServer, mctpRequester, nicDeviceName, portName, portPath,
+                eid, portNumber, packetDirection));
+        }
     }
 }
 
@@ -352,6 +366,11 @@ void PcieDevice::read()
     for (auto& ethPortMetric : ethPortMetrics)
     {
         ethPortMetric->update();
+    }
+
+    for (auto& frame : lldpTlvs)
+    {
+        frame->update();
     }
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));

@@ -110,7 +110,19 @@ enum class NetworkPortCommands : uint8_t
 {
     GetEthernetPortTelemetryCounters = 0x0F,
     GetPortNetworkAddresses = 0x11,
+    GetLldpPacket = 0x16,
 };
+
+// Which of the two frames a port holds is being asked for: the one it last
+// received from its link partner, or the one it transmits.
+enum class LldpPacketType : uint8_t
+{
+    Transmitted = 0,
+    Received = 1,
+};
+
+// The device holds a frame of at most this size per port and direction.
+constexpr size_t lldpPacketMaxSize = 1024;
 
 enum class PcieLinkCommands : uint8_t
 {
@@ -313,6 +325,12 @@ constexpr size_t xidEventMinDataSize = 20;
 constexpr size_t getClockLimitRequestSize =
     ocp::accelerator_management::commonRequestSize + sizeof(uint8_t);
 
+// A port number, two bytes of padding, the direction and three more bytes of
+// padding, as the command lays them out.
+constexpr size_t getLldpPacketRequestSize =
+    ocp::accelerator_management::commonRequestSize + (2 * sizeof(uint16_t)) +
+    (4 * sizeof(uint8_t));
+
 constexpr size_t setDeviceModeSettingsV2RequestSize =
     ocp::accelerator_management::commonRequestSize + sizeof(uint32_t) +
     sizeof(uint8_t);
@@ -333,6 +351,18 @@ int decodeResponseCommonHeader(
 
 int encodeQueryDeviceIdentificationRequest(uint8_t instanceId,
                                            std::span<uint8_t> buf);
+
+int encodeGetLldpPacketRequest(uint8_t instanceId, uint16_t portNumber,
+                               LldpPacketType packetType,
+                               std::span<uint8_t> buf);
+
+// Reports the frame the device holds, which is empty when it holds none. A
+// port with no link partner, or one whose partner has gone quiet for long
+// enough, is not an error: it is a port with nothing to report.
+int decodeGetLldpPacketResponse(std::span<const uint8_t> buf,
+                                ocp::accelerator_management::CompletionCode& cc,
+                                uint16_t& reasonCode,
+                                std::vector<uint8_t>& packet);
 
 // The device holds a mode as a byte, a word or a longer run of bytes
 // depending on which mode it is; the LLDP one is a single byte.
