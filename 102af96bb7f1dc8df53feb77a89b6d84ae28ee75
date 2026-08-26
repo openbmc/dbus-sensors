@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "12089c8a_1c7d750f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-08-26T06:55:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8276a737_ce348171",
+      "revId": "102af96bb7f1dc8df53feb77a89b6d84ae28ee75",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c91b0a80_dd0b61db",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-07-27T06:06:18Z",
       "side": 1,
       "message": "The comment could be trimmed. Most of it restates the code and please split it into its own commit ahead of this one so it can be reviewed and merged on its own.",
+      "range": {
+        "startLine": 500,
+        "startChar": 0,
+        "endLine": 510,
+        "endChar": 5
+      },
+      "revId": "102af96bb7f1dc8df53feb77a89b6d84ae28ee75",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "efdb59da_90557a48",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-08-26T06:55:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c91b0a80_dd0b61db",
       "range": {
         "startLine": 500,
         "startChar": 0,
@@ -58,6 +100,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cd8bb38_6cce0664",
+        "filename": "src/nvidia-gpu/NvidiaIbPortMetrics.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-08-26T06:55:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3276943_abeaf9c9",
+      "revId": "102af96bb7f1dc8df53feb77a89b6d84ae28ee75",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7a01be45_754920a7",
@@ -81,6 +141,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca5985c1_1d6d6ff7",
+        "filename": "src/nvidia-gpu/NvidiaIbPortMetrics.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-08-26T06:55:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a01be45_754920a7",
+      "range": {
+        "startLine": 38,
+        "startChar": 21,
+        "endLine": 38,
+        "endChar": 40
+      },
+      "revId": "102af96bb7f1dc8df53feb77a89b6d84ae28ee75",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ad097c3f_b2f99062",
@@ -94,6 +178,30 @@
       "writtenOn": "2026-07-27T06:06:18Z",
       "side": 1,
       "message": "Should this be gated when neither GUID tag is present?",
+      "range": {
+        "startLine": 89,
+        "startChar": 3,
+        "endLine": 90,
+        "endChar": 76
+      },
+      "revId": "102af96bb7f1dc8df53feb77a89b6d84ae28ee75",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48d4528b_17780700",
+        "filename": "src/nvidia-gpu/NvidiaIbPortMetrics.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-08-26T06:55:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad097c3f_b2f99062",
       "range": {
         "startLine": 89,
         "startChar": 3,
