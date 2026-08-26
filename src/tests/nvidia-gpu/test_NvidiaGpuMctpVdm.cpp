@@ -4891,6 +4891,112 @@ TEST_F(GpuMctpVdmTests,
     EXPECT_NE(result, 0);
 }
 
+// Tests for Get LLDP Packet
+TEST_F(GpuMctpVdmTests, EncodeGetLldpPacketRequest)
+{
+    std::array<uint8_t, gpu::getLldpPacketRequestSize> buf{};
+
+    EXPECT_EQ(gpu::encodeGetLldpPacketRequest(
+                  2, 3, gpu::LldpPacketType::Received, buf),
+              0);
+
+    UnpackBuffer ubuf(std::span<const uint8_t>(buf.data(), buf.size()));
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t unpackedInstanceId = 0;
+    uint8_t unpackedMsgType = 0;
+    EXPECT_EQ(ocp::accelerator_management::unpackHeader(
+                  ubuf, gpu::nvidiaPciVendorId, msgType, unpackedInstanceId,
+                  unpackedMsgType),
+              0);
+    EXPECT_EQ(unpackedMsgType,
+              static_cast<uint8_t>(gpu::MessageType::NETWORK_PORT));
+
+    uint8_t command = 0;
+    uint8_t dataSize = 0;
+    uint16_t port = 0;
+    uint16_t reserved = 0;
+    uint8_t packetType = 0;
+    ubuf.unpack(command);
+    ubuf.unpack(dataSize);
+    ubuf.unpack(port);
+    ubuf.unpack(reserved);
+    ubuf.unpack(packetType);
+    EXPECT_EQ(command,
+              static_cast<uint8_t>(gpu::NetworkPortCommands::GetLldpPacket));
+    EXPECT_EQ(dataSize, 8);
+    EXPECT_EQ(port, 3);
+    EXPECT_EQ(packetType, static_cast<uint8_t>(gpu::LldpPacketType::Received));
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetLldpPacketResponse)
+{
+    std::vector<uint8_t> resp = {
+        0x10, 0xde,
+        0x00, 0x89,
+        0x01, static_cast<uint8_t>(gpu::NetworkPortCommands::GetLldpPacket),
+        0x00, 0x00,
+        0x00, 0x04,
+        0x00, 0xDE,
+        0xAD, 0xBE,
+        0xEF};
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode = 0;
+    std::vector<uint8_t> packet;
+
+    EXPECT_EQ(gpu::decodeGetLldpPacketResponse(resp, cc, reasonCode, packet),
+              0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(packet, (std::vector<uint8_t>{0xDE, 0xAD, 0xBE, 0xEF}));
+}
+
+// A port that holds no frame answers with a completion code and nothing else.
+// That is what a port with no link partner looks like, not a failure.
+TEST_F(GpuMctpVdmTests, DecodeGetLldpPacketReportsAnEmptyPortAsEmpty)
+{
+    std::vector<uint8_t> resp = {
+        0x10,
+        0xde,
+        0x00,
+        0x89,
+        0x01,
+        static_cast<uint8_t>(gpu::NetworkPortCommands::GetLldpPacket),
+        static_cast<uint8_t>(
+            ocp::accelerator_management::CompletionCode::ERR_NOT_READY),
+        0x00,
+        0x00,
+        0x00,
+        0x00};
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode = 0;
+    std::vector<uint8_t> packet;
+
+    EXPECT_EQ(gpu::decodeGetLldpPacketResponse(resp, cc, reasonCode, packet),
+              0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
+    EXPECT_TRUE(packet.empty());
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetLldpPacketRejectsAnOversizedFrame)
+{
+    std::vector<uint8_t> resp = {
+        0x10, 0xde,
+        0x00, 0x89,
+        0x01, static_cast<uint8_t>(gpu::NetworkPortCommands::GetLldpPacket),
+        0x00, 0x00,
+        0x00, 0x01,
+        0x08};
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode = 0;
+    std::vector<uint8_t> packet;
+
+    EXPECT_NE(gpu::decodeGetLldpPacketResponse(resp, cc, reasonCode, packet),
+              0);
+    EXPECT_TRUE(packet.empty());
+}
+
 // Tests for the v2 device mode commands
 TEST_F(GpuMctpVdmTests, EncodeGetDeviceModeSettingsV2Request)
 {
