@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5dc7d938_f0b88060",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuEccMode.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-08-26T03:42:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e584558_846ad8b3",
+      "revId": "4078194ad9d612a5e94b159feeabfe30a7ba17fc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0e1ab2db_e1d35b06",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "23fe1b25_a6b9afdf",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuEccMode.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-08-26T03:42:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e1ab2db_e1d35b06",
+      "revId": "4078194ad9d612a5e94b159feeabfe30a7ba17fc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "22a20d0f_9e7c0ef5",
@@ -48,6 +84,30 @@
       "writtenOn": "2026-08-25T07:40:18Z",
       "side": 1,
       "message": "Could we do like `test_NvidiaGpuTempSensor.cpp:436`.",
+      "range": {
+        "startLine": 394,
+        "startChar": 29,
+        "endLine": 394,
+        "endChar": 51
+      },
+      "revId": "4078194ad9d612a5e94b159feeabfe30a7ba17fc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0240b035_7e14b4fd",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuEccMode.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-08-26T03:42:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22a20d0f_9e7c0ef5",
       "range": {
         "startLine": 394,
         "startChar": 29,
