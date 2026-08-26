@@ -9,6 +9,7 @@
 #include "NvidiaDriverInformation.hpp"
 #include "NvidiaGpuMctpVdm.hpp"
 #include "NvidiaLldpConfiguration.hpp"
+#include "NvidiaLldpTlvs.hpp"
 #include "NvidiaPcieFunction.hpp"
 #include "NvidiaPcieInterface.hpp"
 #include "NvidiaSensorConfig.hpp"
@@ -76,6 +77,8 @@ class PcieDevice : public std::enable_shared_from_this<PcieDevice>
     void processLldpModeResponse(const std::error_code& ec,
                                  std::span<const uint8_t> response);
 
+    void discoverNetworkPorts();
+
     void getNetworkPortAddresses(uint16_t portNumber);
 
     void processGetNetworkPortAddressesResponse(
@@ -118,6 +121,11 @@ class PcieDevice : public std::enable_shared_from_this<PcieDevice>
 
     std::shared_ptr<NvidiaDriverInformation> driverInfo;
 
+    // Whether the device answered that it holds an LLDP mode. A device that
+    // does not has no agent to read a frame from either, so its ports are not
+    // given the objects that would report one.
+    bool lldpSupported{false};
+
     std::shared_ptr<NvidiaLldpConfiguration> lldpConfiguration;
 
     std::vector<std::shared_ptr<NvidiaPciePortInfo>> pciePorts;
@@ -130,4 +138,6 @@ class PcieDevice : public std::enable_shared_from_this<PcieDevice>
     std::shared_ptr<sdbusplus::asio::dbus_interface> embeddedConnectorInterface;
 
     std::vector<std::shared_ptr<NvidiaEthPortMetrics>> ethPortMetrics;
+
+    std::vector<std::shared_ptr<NvidiaLldpTlvs>> lldpTlvs;
 };

@@ -9,6 +9,7 @@
 #include "NvidiaEthPort.hpp"
 #include "NvidiaGpuMctpVdm.hpp"
 #include "NvidiaLldpConfiguration.hpp"
+#include "NvidiaLldpTlvs.hpp"
 #include "NvidiaPcieFunction.hpp"
 #include "NvidiaPcieInterface.hpp"
 #include "NvidiaPciePort.hpp"
@@ -115,7 +116,15 @@ void PcieDevice::init()
     getLldpMode();
 
     getPciePortCounts();
+}
 
+// A port is asked what it is wired to only once the device has answered
+// whether it has an LLDP agent at all, so that the answer is in hand when the
+// port decides what to publish. Every way the question can end leads here, a
+// device that cannot answer it being a device whose ports still have
+// everything else to report.
+void PcieDevice::discoverNetworkPorts()
+{
     for (uint64_t k = 0; k < configs.nicNetworkPortCount; ++k)
     {
         getNetworkPortAddresses(static_cast<uint16_t>(k + 1));
@@ -194,6 +203,7 @@ void PcieDevice::getLldpMode()
         lg2::error(
             "Error reading the LLDP mode: encode failed, rc={RC}, EID={EID}",
             "RC", rc, "EID", eid);
+        discoverNetworkPorts();
         return;
     }
 
@@ -219,6 +229,7 @@ void PcieDevice::processLldpModeResponse(const std::error_code& ec,
         lg2::error(
             "Error processing LLDP mode response: sending message over MCTP failed, rc={RC}, EID={EID}",
             "RC", ec.message(), "EID", eid);
+        discoverNetworkPorts();
         return;
     }
 
@@ -235,12 +246,17 @@ void PcieDevice::processLldpModeResponse(const std::error_code& ec,
             "PCIe Device with eid {EID} holds no LLDP mode, so its LLDP is not configurable: rc={RC}, cc={CC}, reasonCode={RESC}",
             "EID", eid, "RC", rc, "CC", static_cast<uint8_t>(cc), "RESC",
             reasonCode);
+        discoverNetworkPorts();
         return;
     }
+
+    lldpSupported = true;
 
     lldpConfiguration = std::make_shared<NvidiaLldpConfiguration>(
         objectServer, mctpRequester, name + "_NIC",
         inventoryPrefix / (name + "_NIC"), eid, io, modeData);
+
+    discoverNetworkPorts();
 }
 
 void PcieDevice::getNetworkPortAddresses(const uint16_t portNumber)
@@ -314,6 +330,25 @@ void PcieDevice::processGetNetworkPortAddressesResponse(
         ethPortMetrics.emplace_back(std::make_shared<NvidiaEthPortMetrics>(
             conn, mctpRequester, portName, nicDeviceName, path, eid, portNumber,
             objectServer, addresses));
+
+        // The port holds one frame per direction, and a consumer comparing
+        // what a port hears against what it says needs both. A device with no
+        // agent holds neither, so asking it every poll would be traffic that
+        // can only ever be refused.
+        if (lldpSupported)
+        {
+            const sdbusplus::object_path portPath =
+                inventoryPrefix / nicDeviceName / portName;
+
+            for (const gpu::LldpPacketType packetDirection :
+                 {gpu::LldpPacketType::Received,
+                  gpu::LldpPacketType::Transmitted})
+            {
+                lldpTlvs.emplace_back(std::make_shared<NvidiaLldpTlvs>(
+                    objectServer, mctpRequester, nicDeviceName, portName,
+                    portPath, eid, portNumber, packetDirection));
+            }
+        }
     }
 }
 
@@ -415,6 +450,11 @@ void PcieDevice::read()
     for (auto& ethPortMetric : ethPortMetrics)
     {
         ethPortMetric->update();
+    }
+
+    for (auto& frame : lldpTlvs)
+    {
+        frame->update();
     }
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
