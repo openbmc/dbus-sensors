@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "93f816d1_30f57aaa",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-08-27T14:25:28Z",
+      "side": 1,
+      "message": "Yes.  sdbusplus is deprecating these long types.  This is partially to free up the \"bus\" namespace so that it can be used as a direct type.  There are a number of changes (as pointed out in the commit message) of deprecated types that I keep seeing added back into the codebase after I go through and remove them.",
+      "parentUuid": "a13a97c9_bfd9fce9",
+      "range": {
+        "startLine": 77,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 70
+      },
+      "revId": "aaffb7e4dcdf7335b7a07152140a154a5856c404",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5f2d05c_0886e782",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-08-27T10:26:31Z",
       "side": 1,
       "message": "Could you please confirm that sdbusplus::match_rules::interfacesRemovedAtPath() is supported by the sdbusplus version used by this OpenBMC branch? The previous sdbusplus::bus::match::rules::interfacesRemovedAtPath() was already working here. Please mention the reason for changing the API or retain the existing implementation if there is no functional need.",
+      "range": {
+        "startLine": 79,
+        "startChar": 32,
+        "endLine": 79,
+        "endChar": 55
+      },
+      "revId": "aaffb7e4dcdf7335b7a07152140a154a5856c404",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70ed1505_1c601682",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-08-27T14:25:28Z",
+      "side": 1,
+      "message": "\u003e Could you please confirm that sdbusplus::match_rules::interfacesRemovedAtPath() is supported by the sdbusplus version used by this OpenBMC branch?\n\nThis is a question with an obvious answer when the code compiles through CI.\n\n\u003e Please mention the reason for changing the API or retain the existing implementation if there is no functional need.\n\nAlready answered above.",
+      "parentUuid": "f5f2d05c_0886e782",
       "range": {
         "startLine": 79,
         "startChar": 32,
