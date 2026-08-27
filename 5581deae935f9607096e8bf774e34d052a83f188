@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fa1d2048_f5776c6d",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-27T07:40:51Z",
+      "side": 1,
+      "message": "nit: could this move below `makeSensors()`, it will be better to read it.\nso do the hpp file.",
+      "revId": "5581deae935f9607096e8bf774e34d052a83f188",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d7fe9151_6291bd6b",
         "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
         "patchSetId": 24
