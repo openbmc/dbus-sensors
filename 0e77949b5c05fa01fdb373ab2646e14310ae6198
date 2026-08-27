@@ -34,6 +34,24 @@
       "parentUuid": "4bac4df0_97cef420",
       "revId": "0e77949b5c05fa01fdb373ab2646e14310ae6198",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90cd9956_63abf726",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 34
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-27T05:45:53Z",
+      "side": 1,
+      "message": "Agreed. Discovering this over NVIDIA MCTP VDM command seems better than adding it to Entity Manager.",
+      "parentUuid": "669de17d_781b73b2",
+      "revId": "0e77949b5c05fa01fdb373ab2646e14310ae6198",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
