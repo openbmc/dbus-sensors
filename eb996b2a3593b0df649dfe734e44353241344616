@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "111e699c_18d4c20d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-08-27T18:31:07Z",
+      "side": 1,
+      "message": "I\u0027m still confused by this.  There is no \"SensorNumber\" in entity-manager.",
+      "revId": "eb996b2a3593b0df649dfe734e44353241344616",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
