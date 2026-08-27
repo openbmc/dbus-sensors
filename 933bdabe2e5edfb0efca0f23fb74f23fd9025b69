@@ -71,6 +71,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "83e6f423_c6aa511f",
+        "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-27T08:57:54Z",
+      "side": 1,
+      "message": "DetectorState here is derived from the same thresholds the Sensor base is already watching, and it\u0027s binary.\n\nSo crossing the WARNING LOW at 1.65 flips it to Abnormal and starts critical.assert, and then crossing the CRITICAL LOW at 0.165 does nothing, because the state hasn\u0027t changed.\n\nCould the two be kept separate?\n\n- Voltage and its levels: the Sensor base already does this. `assertThresholds()` (Thresholds.cpp:449) picks the interface per level and sets WarningAlarmLow / CriticalAlarmLow independently, so the two levels don\u0027t overwrite each other.\n\n- DetectorState: the response already carries leakState per sensor, so it could come straight from the device instead of being inferred from the voltage.",
+      "revId": "933bdabe2e5edfb0efca0f23fb74f23fd9025b69",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "74161892_12a7cb4f",
         "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.cpp",
         "patchSetId": 5
