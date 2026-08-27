@@ -1,0 +1,9 @@
+Verified+1: OpenBMC CI <openbmcbump-ci@yahoo.com>
+Code-Review+1: Ender <andhsieh@nvidia.com>
+Code-Review+2: Andrew Jeffery <andrew@codeconstruct.com.au>
+Submitted-by: Andrew Jeffery <andrew@codeconstruct.com.au>
+Submitted-at: Thu, 27 Aug 2026 00:23:53 +0000
+Reviewed-on: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/92162
+Comments-Total: 4
+Project: openbmc/dbus-sensors
+Branch: refs/heads/master
