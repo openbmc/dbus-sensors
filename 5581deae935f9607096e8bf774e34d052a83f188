@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b84a5997_41603129",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-27T08:10:32Z",
+      "side": 1,
+      "message": "nit: merge it to https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/89675 is also an option.",
+      "parentUuid": "12a35652_9636668f",
+      "revId": "5581deae935f9607096e8bf774e34d052a83f188",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fa1d2048_f5776c6d",
         "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
         "patchSetId": 24
