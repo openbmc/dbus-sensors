@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b78fab8_5d96fc10",
+        "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-08-27T08:11:22Z",
+      "side": 1,
+      "message": "This property is named `PrettyName`:\n\nhttps://github.com/openbmc/phosphor-dbus-interfaces/blob/master/yaml/xyz/openbmc_project/State/Leak/Detector.interface.yaml#L5\n\nA consumer reading the interface does not find `DetectorName`, so the\ndetector is served without a name.",
+      "revId": "933bdabe2e5edfb0efca0f23fb74f23fd9025b69",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23609706_c25d53fe",
+        "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-08-27T08:11:22Z",
+      "side": 1,
+      "message": "The property is `State` (L11); `DetectorState` is the enumeration it is\ntyped as (L34):\n\nhttps://github.com/openbmc/phosphor-dbus-interfaces/blob/master/yaml/xyz/openbmc_project/State/Leak/Detector.interface.yaml#L11\n\nA consumer reading the interface does not find the state.",
+      "revId": "933bdabe2e5edfb0efca0f23fb74f23fd9025b69",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74161892_12a7cb4f",
+        "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-08-27T08:11:22Z",
+      "side": 1,
+      "message": "This updates a property nothing reads — it should be `State`, so the detector\u0027s state on this interface never changes.",
+      "revId": "933bdabe2e5edfb0efca0f23fb74f23fd9025b69",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
