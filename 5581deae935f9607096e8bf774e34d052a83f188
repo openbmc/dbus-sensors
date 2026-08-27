@@ -71,6 +71,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a134f1e6_839e5f6b",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-27T07:48:03Z",
+      "side": 1,
+      "message": "+1, and please update the busctl cmd result at commit msg.",
+      "parentUuid": "842e5686_bca84423",
+      "revId": "5581deae935f9607096e8bf774e34d052a83f188",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a32187b7_76c809b5",
         "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
         "patchSetId": 24
