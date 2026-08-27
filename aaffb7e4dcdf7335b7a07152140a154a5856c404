@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a13a97c9_bfd9fce9",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-08-27T10:26:31Z",
+      "side": 1,
+      "message": "This changes sdbusplus::bus::match_t to sdbusplus::match. Is there a functional requirement for this change? If not, I suggest retaining the existing sdbusplus::bus::match_t API to avoid an unnecessary sdbusplus API change and potential compatibility issues with the OpenBMC branch.",
+      "range": {
+        "startLine": 77,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 70
+      },
+      "revId": "aaffb7e4dcdf7335b7a07152140a154a5856c404",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5f2d05c_0886e782",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-08-27T10:26:31Z",
+      "side": 1,
+      "message": "Could you please confirm that sdbusplus::match_rules::interfacesRemovedAtPath() is supported by the sdbusplus version used by this OpenBMC branch? The previous sdbusplus::bus::match::rules::interfacesRemovedAtPath() was already working here. Please mention the reason for changing the API or retain the existing implementation if there is no functional need.",
+      "range": {
+        "startLine": 79,
+        "startChar": 32,
+        "endLine": 79,
+        "endChar": 55
+      },
+      "revId": "aaffb7e4dcdf7335b7a07152140a154a5856c404",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
