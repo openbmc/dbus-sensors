@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3515de2e_986db652",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-08-27T16:22:35Z",
+      "side": 1,
+      "message": "Agreed. I will reword the commit message to describe the actual issue directly instead of starting with “Root cause.”",
+      "parentUuid": "6f156a57_1eed6cb7",
+      "revId": "2a018d202824054686c9a17cc4761dd7c161f0f0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8ac1b14c_7a20c3c6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 12
@@ -31,6 +49,24 @@
       "writtenOn": "2026-08-27T16:14:22Z",
       "side": 1,
       "message": "If this is a \"fix\" why are we introducing a meson option to enable it??",
+      "revId": "2a018d202824054686c9a17cc4761dd7c161f0f0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b505af5b_f801cf20",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-08-27T16:22:35Z",
+      "side": 1,
+      "message": "I’ll remove the Meson option and make the fix unconditional, as the change is necessary to correct the sensor behavior.",
+      "parentUuid": "8ac1b14c_7a20c3c6",
       "revId": "2a018d202824054686c9a17cc4761dd7c161f0f0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
