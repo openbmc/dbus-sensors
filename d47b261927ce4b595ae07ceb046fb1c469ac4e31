@@ -52,6 +52,24 @@
       "parentUuid": "166e6725_d941c344",
       "revId": "d47b261927ce4b595ae07ceb046fb1c469ac4e31",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7465e72b_20f715a0",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-08-27T15:59:04Z",
+      "side": 1,
+      "message": "Thanks for the suggestion. I will add a Depends-On relation between 93918 and 93956 so the implementation and canonical interface changes are merged together safely.",
+      "parentUuid": "03ec0533_07b21418",
+      "revId": "d47b261927ce4b595ae07ceb046fb1c469ac4e31",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
