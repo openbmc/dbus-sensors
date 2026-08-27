@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7e3c6163_6a048fc0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-27T08:49:46Z",
+      "side": 1,
+      "message": "The response already carries leakState per sensor.\nCould DetectorState come from that instead of re-deriving it from the voltage?",
+      "revId": "933bdabe2e5edfb0efca0f23fb74f23fd9025b69",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5b78fab8_5d96fc10",
         "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.cpp",
         "patchSetId": 5
