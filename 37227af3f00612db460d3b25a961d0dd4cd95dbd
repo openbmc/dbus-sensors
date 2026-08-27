@@ -34,6 +34,24 @@
       "parentUuid": "39d054b3_79e59563",
       "revId": "37227af3f00612db460d3b25a961d0dd4cd95dbd",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1913bf9_f06b03e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002882
+      },
+      "writtenOn": "2026-08-27T10:16:46Z",
+      "side": 1,
+      "message": "Updated in patchset 3. The Tested block is now split into \"Before the fix:\" and \"After the fix:\", each showing the same two reads, so the flip is visible: Functional fails and functional returns b true before, the reverse after. The description is unchanged.\n\nThis change only aligns the property name with phosphor-dbus-interfaces. The OperationalStatus interface defines Functional (and State), so registering a lowercase \"functional\" published a property the interface does not define. No behavior or interface addition is intended, and src/sensor.hpp already used Functional on the same interface.",
+      "parentUuid": "39d054b3_79e59563",
+      "revId": "37227af3f00612db460d3b25a961d0dd4cd95dbd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
