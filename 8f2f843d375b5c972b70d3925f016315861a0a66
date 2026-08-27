@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "96f9f111_7c2d5abc",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuDevice.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-08-27T06:17:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56faf172_d0a0a5c0",
+      "revId": "8f2f843d375b5c972b70d3925f016315861a0a66",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bba2f10e_c3e09f8d",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-08-25T10:52:46Z",
       "side": 1,
       "message": "Could the `pollRate` be moved to a header so both use one definition?\nI mean the DeviceManager.cpp part and test part.",
+      "range": {
+        "startLine": 28,
+        "startChar": 8,
+        "endLine": 28,
+        "endChar": 32
+      },
+      "revId": "8f2f843d375b5c972b70d3925f016315861a0a66",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de442bdc_28ac318d",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuDevice.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-08-27T06:17:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bba2f10e_c3e09f8d",
       "range": {
         "startLine": 28,
         "startChar": 8,
@@ -58,6 +100,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbf348c3_8e5fb16c",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuDevice.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-08-27T06:17:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8a57d1f_1dc1d272",
+      "revId": "8f2f843d375b5c972b70d3925f016315861a0a66",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "426c0f00_2d8bb192",
@@ -71,6 +131,30 @@
       "writtenOn": "2026-08-25T10:52:46Z",
       "side": 1,
       "message": "Could it be dropped?",
+      "range": {
+        "startLine": 34,
+        "startChar": 36,
+        "endLine": 34,
+        "endChar": 78
+      },
+      "revId": "8f2f843d375b5c972b70d3925f016315861a0a66",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7331453_f0c9200b",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaSmaDevice.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-08-27T06:17:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "426c0f00_2d8bb192",
       "range": {
         "startLine": 34,
         "startChar": 36,
@@ -98,6 +182,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "48e4aa41_20e22577",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaSmaDevice.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-08-27T06:17:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0197f6be_78269261",
+      "revId": "8f2f843d375b5c972b70d3925f016315861a0a66",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3fcd4b7b_88d1590c",
@@ -111,6 +213,24 @@
       "writtenOn": "2026-08-25T10:52:46Z",
       "side": 1,
       "message": "Same problem as test_NvidiaGpuDevice.cpp line 68.",
+      "revId": "8f2f843d375b5c972b70d3925f016315861a0a66",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9631c18_e0d82e44",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaSmaDevice.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-08-27T06:17:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fcd4b7b_88d1590c",
       "revId": "8f2f843d375b5c972b70d3925f016315861a0a66",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
