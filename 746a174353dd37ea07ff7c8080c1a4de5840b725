@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f67e7565_3168298c",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaEventReporting.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-08-27T06:17:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0485bb97_b00221da",
+      "revId": "746a174353dd37ea07ff7c8080c1a4de5840b725",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e80d60a9_d190b19d",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-08-26T05:54:19Z",
       "side": 1,
       "message": "92461 registers a stub on this same path and interface in the same test binary,\nso whichever lands second will fail.\nCould this use the shared one once 92461 moves it to utils/?",
+      "revId": "746a174353dd37ea07ff7c8080c1a4de5840b725",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34b0e865_56dbd7fb",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuXid.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-08-27T06:17:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e80d60a9_d190b19d",
       "revId": "746a174353dd37ea07ff7c8080c1a4de5840b725",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
