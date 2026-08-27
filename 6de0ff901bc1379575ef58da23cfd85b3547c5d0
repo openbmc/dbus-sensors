@@ -16,6 +16,24 @@
       "message": "Could it be dropped?\nIt is similar to the one above.",
       "revId": "6de0ff901bc1379575ef58da23cfd85b3547c5d0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a69a2d0e_7dd9b61b",
+        "filename": "src/tests/nvidia-gpu/test_SerialQueue.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-08-27T06:16:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0576ee3_db04231d",
+      "revId": "6de0ff901bc1379575ef58da23cfd85b3547c5d0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
