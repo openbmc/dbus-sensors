@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e243707_eba76631",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-08-28T05:27:33Z",
+      "side": 1,
+      "message": "Sure, requested testing has been added in PS3 as well.",
+      "parentUuid": "39382e48_11bee9d9",
+      "revId": "3450cb98faee29e33d3bcb45620bdc3ec770af08",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9011a2a9_c4952ffe",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "165e457c_f0a4145d",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuFirmwareInformation.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-08-28T05:27:33Z",
+      "side": 1,
+      "message": "Sure, I have moved it to `TestUtils.hpp` as requested in PS2.",
+      "parentUuid": "9011a2a9_c4952ffe",
+      "revId": "3450cb98faee29e33d3bcb45620bdc3ec770af08",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a470874c_00505a4f",
@@ -48,6 +84,30 @@
       "writtenOn": "2026-08-25T07:18:18Z",
       "side": 1,
       "message": "nit: this asserts how many endpoints the firmware object declares, not how many Software.Version objects point at the inventory item,  the second half of the comment isn\u0027t what\u0027s being tested here.",
+      "range": {
+        "startLine": 100,
+        "startChar": 19,
+        "endLine": 100,
+        "endChar": 74
+      },
+      "revId": "3450cb98faee29e33d3bcb45620bdc3ec770af08",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d42cf909_d154f995",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuFirmwareInformation.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-08-28T05:27:33Z",
+      "side": 1,
+      "message": "Thanks for catching this!\nI have reworded the sentences for better understanding!",
+      "parentUuid": "a470874c_00505a4f",
       "range": {
         "startLine": 100,
         "startChar": 19,
