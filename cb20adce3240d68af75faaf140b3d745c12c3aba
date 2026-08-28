@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff9356c0_bee0046d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-08-28T06:41:47Z",
+      "side": 1,
+      "message": "Could you add a test with two indexed sensors sharing the same threshold label, severity, and direction, but having different Index values? Updating one sensor should modify only its matching configuration. Please also cover index 1 without an explicit Index property.",
+      "revId": "cb20adce3240d68af75faaf140b3d745c12c3aba",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
