@@ -194,6 +194,16 @@ enum class ClockLimitFlag : uint8_t
     CLEAR = 3,
 };
 
+// Asking for this sensor id returns a reading for every temperature sensor
+// the device has, rather than one named sensor.
+constexpr uint8_t temperatureAggregateSensorId = 0xFF;
+
+struct TemperatureReading
+{
+    uint8_t sensorId;
+    double temperatureC;
+};
+
 constexpr size_t maxInventoryDataSize = 256;
 
 constexpr size_t queryDeviceIdentificationRequestSize =
@@ -333,6 +343,11 @@ int decodeGetSupportedCommandCodesResponse(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     std::array<uint8_t, supportedListBitfieldSize>& supportedCommands);
+
+int decodeGetTemperatureReadingsResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    std::vector<TemperatureReading>& readings);
 
 int encodeGetTemperatureReadingRequest(uint8_t instanceId, uint8_t sensorId,
                                        std::span<uint8_t> buf);

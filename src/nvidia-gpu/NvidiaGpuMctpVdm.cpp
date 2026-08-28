@@ -479,6 +479,47 @@ int encodeGetTemperatureReadingRequest(uint8_t instanceId, uint8_t sensorId,
     return buffer.getError();
 }
 
+int decodeGetTemperatureReadingsResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    std::vector<TemperatureReading>& readings)
+{
+    UnpackBuffer buffer(buf);
+
+    readings.clear();
+
+    const int rc = decodeAggregateResponse(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(
+            PlatformEnvironmentalCommands::GET_TEMPERATURE_READING),
+        cc, reasonCode,
+        [&readings](const uint8_t tag, const uint8_t length,
+                    UnpackBuffer& buffer) -> int {
+            // The device leads the response with a timestamp record, which
+            // carries the aggregate sensor id rather than a sensor's.
+            if (tag == temperatureAggregateSensorId ||
+                length != sizeof(int32_t))
+            {
+                buffer.skip(length);
+                return 0;
+            }
+
+            int32_t reading = 0;
+            const int rc = buffer.unpack(reading);
+
+            if (rc != 0)
+            {
+                return rc;
+            }
+
+            readings.emplace_back(tag, reading / static_cast<double>(1 << 8));
+
+            return 0;
+        });
+
+    return rc;
+}
+
 int decodeGetTemperatureReadingResponse(
     const std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,

@@ -5052,4 +5052,134 @@ TEST_F(GpuMctpVdmTests, DecodeSetClockLimitResponseBufferTooSmall)
     EXPECT_EQ(result, EINVAL);
 }
 
+namespace
+{
+
+// Packs one aggregate record the way the device does: a tag, a tag info byte
+// carrying the valid bit and the length encoding, and the data.
+void packAggregateRecord(PackBuffer& packer, uint8_t tag, uint8_t tagInfo,
+                         int32_t value)
+{
+    packer.pack(tag);
+    packer.pack(tagInfo);
+    packer.pack(value);
+}
+
+// Valid record holding four bytes: valid bit set, length encoded as 1 << 2.
+constexpr uint8_t aggregateFourByteTagInfo = 0x05;
+
+} // namespace
+
+TEST_F(GpuMctpVdmTests, EncodeGetTemperatureReadingsRequestAsksForEverySensor)
+{
+    std::array<uint8_t, gpu::getTemperatureReadingRequestSize> buf{};
+
+    EXPECT_EQ(gpu::encodeGetTemperatureReadingRequest(
+                  0, gpu::temperatureAggregateSensorId, buf),
+              0);
+    EXPECT_EQ(buf[buf.size() - 1], gpu::temperatureAggregateSensorId);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetTemperatureReadingsResponseSuccess)
+{
+    // Timestamp record followed by two sensors.
+    // An aggregate response carries a telemetry count where a plain response
+    // carries a data size, and no reason code, so the header is packed here
+    // rather than with the common helper.
+    std::vector<uint8_t> buf(7 + 2 + 10 + 6 + 6);
+    PackBuffer packer(buf);
+
+    packer.pack(static_cast<uint16_t>(htobe16(gpu::nvidiaPciVendorId)));
+    packer.pack(static_cast<uint8_t>(0x00));
+    packer.pack(static_cast<uint8_t>(0x89));
+    packer.pack(static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    packer.pack(static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_TEMPERATURE_READING));
+    packer.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));
+    packer.pack(static_cast<uint16_t>(3));
+    // Timestamp: valid, length encoded as 1 << 3.
+    packer.pack(static_cast<uint8_t>(gpu::temperatureAggregateSensorId));
+    packer.pack(static_cast<uint8_t>(0x07));
+    packer.pack(static_cast<uint64_t>(0));
+    packAggregateRecord(packer, 19, aggregateFourByteTagInfo, 40 << 8);
+    packAggregateRecord(packer, 216, aggregateFourByteTagInfo, 34 << 8);
+
+    ASSERT_EQ(packer.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    std::vector<gpu::TemperatureReading> readings;
+
+    int result = gpu::decodeGetTemperatureReadingsResponse(
+        buf, cc, reasonCode, readings);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    ASSERT_EQ(readings.size(), 2);
+    EXPECT_EQ(readings[0].sensorId, 19);
+    EXPECT_DOUBLE_EQ(readings[0].temperatureC, 40.0);
+    EXPECT_EQ(readings[1].sensorId, 216);
+    EXPECT_DOUBLE_EQ(readings[1].temperatureC, 34.0);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetTemperatureReadingsResponseError)
+{
+    std::vector<uint8_t> buf(9);
+    PackBuffer packer(buf);
+
+    packCommonResponseHeader(
+        packer, static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL),
+        static_cast<uint8_t>(
+            gpu::PlatformEnvironmentalCommands::GET_TEMPERATURE_READING),
+        static_cast<uint8_t>(ocp::accelerator_management::CompletionCode::
+                                 ERR_UNSUPPORTED_COMMAND_CODE),
+        0);
+
+    ASSERT_EQ(packer.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    std::vector<gpu::TemperatureReading> readings{gpu::TemperatureReading{}};
+
+    EXPECT_EQ(gpu::decodeGetTemperatureReadingsResponse(buf, cc, reasonCode,
+                                                        readings),
+              0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::
+                      ERR_UNSUPPORTED_COMMAND_CODE);
+    EXPECT_TRUE(readings.empty());
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetTemperatureReadingsResponseTruncated)
+{
+    // The count says three records, but the buffer holds the timestamp
+    // record and one sensor.
+    std::vector<uint8_t> buf(7 + 2 + 10 + 6);
+    PackBuffer packer(buf);
+
+    packer.pack(static_cast<uint16_t>(htobe16(gpu::nvidiaPciVendorId)));
+    packer.pack(static_cast<uint8_t>(0x00));
+    packer.pack(static_cast<uint8_t>(0x89));
+    packer.pack(static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    packer.pack(static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_TEMPERATURE_READING));
+    packer.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));
+    packer.pack(static_cast<uint16_t>(3));
+    packer.pack(static_cast<uint8_t>(gpu::temperatureAggregateSensorId));
+    packer.pack(static_cast<uint8_t>(0x07));
+    packer.pack(static_cast<uint64_t>(0));
+    packAggregateRecord(packer, 19, aggregateFourByteTagInfo, 40 << 8);
+
+    ASSERT_EQ(packer.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    std::vector<gpu::TemperatureReading> readings;
+
+    EXPECT_NE(gpu::decodeGetTemperatureReadingsResponse(buf, cc, reasonCode,
+                                                        readings),
+              0);
+}
+
 } // namespace gpu_mctp_tests
