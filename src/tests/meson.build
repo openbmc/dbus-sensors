@@ -34,8 +34,32 @@ test(
         'test_Utils.cpp',
         '../Utils.cpp',
         dependencies: ut_deps_list,
+        link_with: [thresholds_a],
         implicit_include_directories: false,
         include_directories: src_inc,
+    ),
+)
+
+test(
+    'test_thresholds',
+    executable(
+        'test_thresholds',
+        'test_Thresholds.cpp',
+        'nvidia-gpu/utils/DbusMockTestBase.cpp',
+        'nvidia-gpu/utils/MockMctpRequester.cpp',
+        dependencies: [
+            gmock_dep,
+            ut_deps_list,
+            utils_dep,
+            devicemgmt_dep,
+            mctpasio_dep,
+        ],
+        link_with: [thresholds_a],
+        implicit_include_directories: false,
+        include_directories: [
+            src_inc,
+            include_directories('nvidia-gpu/utils', '../nvidia-gpu'),
+        ],
     ),
 )
 

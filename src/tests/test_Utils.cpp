@@ -1,3 +1,4 @@
+#include "Thresholds.hpp"
 #include "Utils.hpp"
 
 #include <phosphor-logging/lg2.hpp>
@@ -113,6 +114,56 @@ TEST_F(TestUtils, findFiles_in_hwmon_match)
 
     EXPECT_TRUE(ret);
     EXPECT_EQ(foundPaths.size(), 2U);
+}
+
+TEST(ThresholdIndexMatch, parseThresholdsFromConfigMatchesIndexedSensors)
+{
+    const std::string label = "Cpu Temp";
+
+    SensorData sensorData;
+    sensorData["xyz.openbmc_project.Configuration.SomeSensor.Thresholds0"] = {
+        {"Label", std::string(label)},
+        {"Severity", uint64_t(0)},
+        {"Direction", std::string("greater than")},
+        {"Value", 90.0},
+        {"Index", int32_t(1)},
+    };
+    sensorData["xyz.openbmc_project.Configuration.SomeSensor.Thresholds1"] = {
+        {"Label", std::string(label)},
+        {"Severity", uint64_t(0)},
+        {"Direction", std::string("greater than")},
+        {"Value", 80.0},
+        {"Index", int32_t(2)},
+    };
+
+    std::vector<thresholds::Threshold> thresholds;
+    const int sensorIndex = 2;
+    EXPECT_TRUE(parseThresholdsFromConfig(sensorData, thresholds, &label,
+                                          &sensorIndex));
+    ASSERT_EQ(thresholds.size(), 1U);
+    EXPECT_EQ(thresholds[0].level, thresholds::Level::WARNING);
+    EXPECT_EQ(thresholds[0].direction, thresholds::Direction::HIGH);
+    EXPECT_DOUBLE_EQ(thresholds[0].value, 80.0);
+}
+
+TEST(ThresholdIndexMatch, parseThresholdsFromConfigMatchesIndexOneWithoutIndex)
+{
+    const std::string label = "Cpu Temp";
+
+    SensorData sensorData;
+    sensorData["xyz.openbmc_project.Configuration.SomeSensor.Thresholds0"] = {
+        {"Label", std::string(label)},
+        {"Severity", uint64_t(0)},
+        {"Direction", std::string("greater than")},
+        {"Value", 70.0},
+    };
+
+    std::vector<thresholds::Threshold> thresholds;
+    const int sensorIndex = 1;
+    EXPECT_TRUE(parseThresholdsFromConfig(sensorData, thresholds, &label,
+                                          &sensorIndex));
+    ASSERT_EQ(thresholds.size(), 1U);
+    EXPECT_DOUBLE_EQ(thresholds[0].value, 70.0);
 }
 
 TEST_F(TestUtils, findFiles_in_peci_no_match)
