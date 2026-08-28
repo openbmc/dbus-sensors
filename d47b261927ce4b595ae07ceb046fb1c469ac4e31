@@ -106,6 +106,24 @@
       "parentUuid": "40cc953f_733c9f91",
       "revId": "d47b261927ce4b595ae07ceb046fb1c469ac4e31",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4ba80a2_4da84282",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-08-28T08:15:34Z",
+      "side": 1,
+      "message": "Since change 84171 already adds the UpdatedTime property, the GetSecondsSinceLastSuccessfulUpdate method in change 93956 is no longer required and should be removed. The implementation should update UpdatedTime instead.",
+      "parentUuid": "296f0535_9c710cc5",
+      "revId": "d47b261927ce4b595ae07ceb046fb1c469ac4e31",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
