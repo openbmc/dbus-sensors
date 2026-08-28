@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a3de72e_a73dc7cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-08-28T05:51:16Z",
+      "side": 1,
+      "message": "Sure, added the explicit statement in the commit message in PS20.",
+      "parentUuid": "a5b03913_1d664590",
+      "revId": "0a7b366f1db77e4f53cee4da8dba982a10a1cab8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c54130a4_95093e69",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "efaa858d_2131fbb8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-08-28T05:51:16Z",
+      "side": 1,
+      "message": "Acknowledged, I have added the requested tests in `test_NvidiaGpuClockSpeedControl.cpp`.",
+      "parentUuid": "c54130a4_95093e69",
+      "revId": "0a7b366f1db77e4f53cee4da8dba982a10a1cab8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "266b6f18_54a412f6",
@@ -48,6 +84,24 @@
       "writtenOn": "2026-08-25T06:57:08Z",
       "side": 1,
       "message": "`resetInFlight` and `setClockLimitInflight` are independent, but both paths send `SET_CLOCK_LIMIT`.\nShould the two share a gate, and should Reset drop any pending set?",
+      "revId": "0a7b366f1db77e4f53cee4da8dba982a10a1cab8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af7aee75_54a70d52",
+        "filename": "src/nvidia-gpu/NvidiaGpuClockSpeedControl.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-08-28T05:51:16Z",
+      "side": 1,
+      "message": "Thanks for the catching!\nI have refined the error in PS20, please check.",
+      "parentUuid": "266b6f18_54a412f6",
       "revId": "0a7b366f1db77e4f53cee4da8dba982a10a1cab8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
