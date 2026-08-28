@@ -105,3 +105,23 @@ test(
         include_directories: gpusensor_dir,
     ),
 )
+
+test(
+    'test_thresholds',
+    executable(
+        'test_thresholds',
+        'test_Thresholds.cpp',
+        'utils/DbusMockTestBase.cpp',
+        'utils/MockMctpRequester.cpp',
+        dependencies: [
+            gmock_dep,
+            ut_deps_list,
+            utils_dep,
+            devicemgmt_dep,
+            mctpasio_dep,
+        ],
+        link_with: [thresholds_a],
+        implicit_include_directories: false,
+        include_directories: [src_inc, gpusensor_inc],
+    ),
+)

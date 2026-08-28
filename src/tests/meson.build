@@ -34,6 +34,7 @@ test(
         'test_Utils.cpp',
         '../Utils.cpp',
         dependencies: ut_deps_list,
+        link_with: [thresholds_a],
         implicit_include_directories: false,
         include_directories: src_inc,
     ),
