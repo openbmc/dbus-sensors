@@ -14,18 +14,62 @@
 
 #include <MctpRequester.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
+#include <OcpMctpVdm.hpp>
 #include <boost/asio/io_context.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/message/native_types.hpp>
 
+#include <algorithm>
+#include <array>
 #include <chrono>
 #include <cstdint>
 #include <limits>
+#include <map>
 #include <memory>
+#include <span>
 #include <string>
+#include <system_error>
+#include <utility>
 #include <vector>
+
+// What each temperature sensor id stands for, from the sensor table for VR
+// products in the NSM MCU usage specification.
+constexpr auto temperatureSensorNames =
+    std::to_array<std::pair<uint8_t, const char*>>({
+        {16, "SMA_Ext"},
+        {17, "SMA_Internal"},
+        {18, "NvLink"},
+        {19, "BusBar"},
+        {138, "GPU1_Die_A"},
+        {139, "GPU1_Die_B"},
+        {140, "GPU2_Die_A"},
+        {141, "GPU2_Die_B"},
+        {144, "PCB_1"},
+        {145, "PCB_2"},
+        {168, "HSCC"},
+        {192, "HSC"},
+        {216, "CPU1_Die"},
+        {217, "CPU1_SoC"},
+        {218, "CPU2_Die"},
+        {219, "CPU2_SoC"},
+    });
+
+std::string temperatureSensorName(const std::string& deviceName,
+                                  uint8_t sensorId)
+{
+    const auto* const named =
+        std::ranges::find(temperatureSensorNames, sensorId,
+                          &std::pair<uint8_t, const char*>::first);
+
+    if (named == temperatureSensorNames.end())
+    {
+        return deviceName + "_TEMP_" + std::to_string(sensorId);
+    }
+
+    return deviceName + "_" + named->second;
+}
 
 SmaDevice::SmaDevice(const SensorConfigs& configs, const std::string& name,
                      const sdbusplus::object_path& path,
@@ -47,11 +91,6 @@ void SmaDevice::init()
 
 void SmaDevice::makeSensors()
 {
-    tempSensor = std::make_shared<NvidiaGpuTempSensor>(
-        conn, mctpRequester, name + "_TEMP_0", path, eid, smaTempSensorId,
-        objectServer, std::vector<thresholds::Threshold>{},
-        gpu::DeviceIdentification::DEVICE_SMA);
-
     lg2::info("Added MCA {NAME} Sensors with chassis path: {PATH}.", "NAME",
               name, "PATH", path);
 }
@@ -107,7 +146,10 @@ void SmaDevice::setOffline()
 {
     setFunctional(false);
     waitTimer.cancel();
-    tempSensor->updateValue(std::numeric_limits<double>::quiet_NaN());
+    for (const auto& [sensorId, sensor] : tempSensors)
+    {
+        sensor->updateValue(std::numeric_limits<double>::quiet_NaN());
+    }
 }
 
 void SmaDevice::setOnline()
@@ -119,15 +161,15 @@ void SmaDevice::setOnline()
 void SmaDevice::setEid(uint8_t newEid)
 {
     eid = newEid;
-    if (tempSensor)
+    for (const auto& [sensorId, sensor] : tempSensors)
     {
-        tempSensor->setEid(newEid);
+        sensor->setEid(newEid);
     }
 }
 
 void SmaDevice::read()
 {
-    tempSensor->update();
+    updateTempSensors();
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimer.async_wait(
@@ -144,4 +186,81 @@ void SmaDevice::read()
             }
             self->read();
         });
+}
+
+void SmaDevice::updateTempSensors()
+{
+    const int rc = gpu::encodeGetTemperatureReadingRequest(
+        0, gpu::temperatureAggregateSensorId, tempRequest);
+
+    if (rc != 0)
+    {
+        lg2::error(
+            "Failed to encode temperature request for eid {EID}, rc={RC}",
+            "EID", eid, "RC", rc);
+        return;
+    }
+
+    mctpRequester.sendRecvMsg(
+        eid, tempRequest,
+        [weak{weak_from_this()}](const std::error_code& ec,
+                                 std::span<const uint8_t> buffer) {
+            std::shared_ptr<SmaDevice> self = weak.lock();
+            if (!self)
+            {
+                lg2::error("Invalid SmaDevice reference");
+                return;
+            }
+            self->processTempSensorResponse(ec, buffer);
+        });
+}
+
+void SmaDevice::processTempSensorResponse(const std::error_code& ec,
+                                          std::span<const uint8_t> buffer)
+{
+    if (ec)
+    {
+        lg2::error(
+            "Error reading temperatures for eid {EID}: sending message over MCTP failed, rc={RC}",
+            "EID", eid, "RC", ec.message());
+        return;
+    }
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode = 0;
+
+    const int rc = gpu::decodeGetTemperatureReadingsResponse(
+        buffer, cc, reasonCode, tempReadings);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        lg2::error(
+            "Error reading temperatures for eid {EID}: rc={RC}, cc={CC}, reasonCode={RESC}",
+            "EID", eid, "RC", rc, "CC", cc, "RESC", reasonCode);
+        return;
+    }
+
+    for (const auto& reading : tempReadings)
+    {
+        auto sensor = tempSensors.find(reading.sensorId);
+
+        if (sensor == tempSensors.end())
+        {
+            sensor =
+                tempSensors
+                    .emplace(reading.sensorId,
+                             std::make_shared<NvidiaGpuTempSensor>(
+                                 conn, mctpRequester,
+                                 temperatureSensorName(name, reading.sensorId),
+                                 path, eid, reading.sensorId, objectServer,
+                                 std::vector<thresholds::Threshold>{},
+                                 gpu::DeviceIdentification::DEVICE_SMA))
+                    .first;
+
+            lg2::info("Added temperature sensor {ID} for {NAME}", "ID",
+                      reading.sensorId, "NAME", name);
+        }
+
+        sensor->second->updateValue(reading.temperatureC);
+    }
 }
