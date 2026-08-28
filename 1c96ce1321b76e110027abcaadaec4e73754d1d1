@@ -51,6 +51,24 @@
       "message": "When parseThresholdsFromConfig() reports malformed threshold configuration by returning false, this code only logs the error and still calls activateOrCreateSensor() below. As a result, the sensor can still be created with incomplete threshold protection. Since the commit message states that invalid threshold configuration should be skipped safely, could we skip sensor creation when threshold parsing fails? Please apply the same handling to the additional-sensor path below.",
       "revId": "1c96ce1321b76e110027abcaadaec4e73754d1d1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66050cff_cf2add25",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-08-28T06:52:41Z",
+      "side": 1,
+      "message": "Fixed - when parseThresholdsFromConfig() returns false, we now log the error and continue instead of creating the sensor, and the same safe skip is applied to the additional NameN sensor path.",
+      "parentUuid": "6f113a14_62a54264",
+      "revId": "1c96ce1321b76e110027abcaadaec4e73754d1d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
