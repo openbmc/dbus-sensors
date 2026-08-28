@@ -124,6 +124,24 @@
       "parentUuid": "296f0535_9c710cc5",
       "revId": "d47b261927ce4b595ae07ceb046fb1c469ac4e31",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0991a8fc_89cc0002",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-08-28T08:19:29Z",
+      "side": 1,
+      "message": "I checked change 84171 and agree with your point. There is no significant advantage to exposing the elapsed time as a method. The UpdatedTime read-only property is more flexible because clients can set up D-Bus matches and calculate the elapsed time locally, without requiring periodic updates or signals. I have reworked the implementation to follow the UpdatedTime property approach.",
+      "parentUuid": "e4ba80a2_4da84282",
+      "revId": "d47b261927ce4b595ae07ceb046fb1c469ac4e31",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
