@@ -38,6 +38,7 @@ test(
         'test_NvidiaGpuSensors',
         'test_NvidiaGpuMctpVdm.cpp',
         'test_NvidiaDeviceInventoryMctpVdm.cpp',
+        '../test_Thresholds.cpp',
         'test_NvidiaGpuTempSensor.cpp',
         'test_NvidiaGpuPowerSensor.cpp',
         'test_NvidiaGpuEnergySensor.cpp',
