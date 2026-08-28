@@ -152,7 +152,8 @@ std::string getInterface(Level level);
 void persistThreshold(const std::string& path, const std::string& baseInterface,
                       const thresholds::Threshold& threshold,
                       std::shared_ptr<sdbusplus::asio::connection>& conn,
-                      size_t thresholdCount, const std::string& label);
+                      size_t thresholdCount, const std::string& label,
+                      int sensorIndex = 0);
 
 void updateThresholds(Sensor* sensor);
 // returns false if a critical threshold has been crossed, true otherwise
