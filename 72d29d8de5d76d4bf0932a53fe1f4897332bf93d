@@ -16,6 +16,23 @@
       "message": "Thanks for the reviewing though!",
       "revId": "72d29d8de5d76d4bf0932a53fe1f4897332bf93d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "460c990f_b4cccd6a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-08-28T08:06:18Z",
+      "side": 1,
+      "message": "LGTM, wait for the PDI \u0026 sdbusplus patch",
+      "revId": "72d29d8de5d76d4bf0932a53fe1f4897332bf93d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
