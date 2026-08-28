@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "39c104f1_41d378ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-08-28T05:12:35Z",
+      "side": 1,
+      "message": "Sure, I have added lines stating the differences. \nThanks for acknowledging this!",
+      "parentUuid": "d9bbd953_93ac2958",
+      "revId": "4160ecc5bfa84a5b8c9d6838d23771afe96463f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c67ba3f8_7b3b8e05",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-08-25T07:10:49Z",
       "side": 1,
       "message": "nit: `NvidiaDriverInformation.cpp:57` also registers \"Purpose\". Without it the FirmwareInventory entry for this object has no Description (bmcweb update_service.hpp:1296 returns early).",
+      "revId": "4160ecc5bfa84a5b8c9d6838d23771afe96463f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68669d52_3b586abb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-08-28T05:12:35Z",
+      "side": 1,
+      "message": "Thanks for the catching!\nI have registered the property `Purpose` on the object, too.",
+      "parentUuid": "c67ba3f8_7b3b8e05",
       "revId": "4160ecc5bfa84a5b8c9d6838d23771afe96463f6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
