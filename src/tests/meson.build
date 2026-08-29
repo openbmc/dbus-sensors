@@ -28,6 +28,19 @@ ut_deps_list = [gtest_dep]
 ut_deps_list += default_deps
 
 test(
+    'test_chassis_intrusion_sensor',
+    executable(
+        'test_chassis_intrusion_sensor',
+        'test_ChassisIntrusionSensor.cpp',
+        '../intrusion/ChassisIntrusionSensor.cpp',
+        '../Utils.cpp',
+        dependencies: [ut_deps_list, gpiodcxx, i2c],
+        implicit_include_directories: false,
+        include_directories: [src_inc, include_directories('../intrusion')],
+    ),
+)
+
+test(
     'test_utils',
     executable(
         'test_utils',
