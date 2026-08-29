@@ -40,6 +40,7 @@
 #include <memory>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
@@ -418,11 +419,26 @@ ChassisIntrusionGpioSensor::ChassisIntrusionGpioSensor(
     mGpioFd.assign(gpioLineFd);
 }
 
+std::vector<std::filesystem::path> pathsOfDevice(
+    std::vector<std::filesystem::path> paths, std::string_view deviceName)
+{
+    std::erase_if(paths, [deviceName](const std::filesystem::path& candidate) {
+        std::ifstream nameFile(candidate.parent_path() / "name");
+        std::string name;
+        return !(nameFile.is_open() && std::getline(nameFile, name) &&
+                 name == deviceName);
+    });
+
+    return paths;
+}
+
 ChassisIntrusionHwmonSensor::ChassisIntrusionHwmonSensor(
     bool autoRearm, boost::asio::io_context& io,
-    sdbusplus::asio::object_server& objServer, std::string hwmonName) :
+    sdbusplus::asio::object_server& objServer, std::string deviceName,
+    std::string hwmonName) :
     ChassisIntrusionSensor(autoRearm, objServer),
-    mHwmonName(std::move(hwmonName)), mPollTimer(io)
+    mDeviceName(std::move(deviceName)), mHwmonName(std::move(hwmonName)),
+    mPollTimer(io)
 {
     std::vector<std::filesystem::path> paths;
 
@@ -432,10 +448,12 @@ ChassisIntrusionHwmonSensor::ChassisIntrusionHwmonSensor(
         throw std::invalid_argument("Failed to find hwmon path in sysfs\n");
     }
 
+    paths = pathsOfDevice(std::move(paths), mDeviceName);
+
     if (paths.empty())
     {
-        throw std::invalid_argument(
-            "Hwmon file " + mHwmonName + " can't be found in sysfs\n");
+        throw std::invalid_argument("Hwmon file " + mHwmonName + " of device " +
+                                    mDeviceName + " can't be found in sysfs\n");
     }
 
     if (paths.size() > 1)
