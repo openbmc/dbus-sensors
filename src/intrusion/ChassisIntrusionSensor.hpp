@@ -7,8 +7,11 @@
 #include <sdbusplus/asio/object_server.hpp>
 
 #include <cstddef>
+#include <filesystem>
 #include <memory>
 #include <string>
+#include <string_view>
+#include <vector>
 
 class ChassisIntrusionSensor
 {
@@ -77,6 +80,9 @@ class ChassisIntrusionGpioSensor :
     void pollSensorStatus() override;
 };
 
+std::vector<std::filesystem::path> pathsOfDevice(
+    std::vector<std::filesystem::path> paths, std::string_view deviceName);
+
 class ChassisIntrusionHwmonSensor :
     public ChassisIntrusionSensor,
     public std::enable_shared_from_this<ChassisIntrusionHwmonSensor>
@@ -84,11 +90,12 @@ class ChassisIntrusionHwmonSensor :
   public:
     ChassisIntrusionHwmonSensor(bool autoRearm, boost::asio::io_context& io,
                                 sdbusplus::asio::object_server& objServer,
-                                std::string hwmonName);
+                                std::string deviceName, std::string hwmonName);
 
     ~ChassisIntrusionHwmonSensor() override;
 
   private:
+    std::string mDeviceName;
     std::string mHwmonName;
     std::string mHwmonPath;
     boost::asio::steady_timer mPollTimer;
