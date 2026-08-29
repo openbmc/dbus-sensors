@@ -50,8 +50,15 @@ static constexpr const char* sensorType = "ChassisIntrusionSensor";
 static constexpr const char* nicType = "NIC";
 static constexpr auto nicTypes{std::to_array<std::string_view>({nicType})};
 
-static const std::map<std::string, std::string> compatibleHwmonNames = {
-    {"Aspeed2600_Hwmon", "intrusion0_alarm"}
+struct HwmonIntrusionSource
+{
+    std::string_view deviceName;
+    std::string_view attributeName;
+};
+
+static const std::map<std::string, HwmonIntrusionSource> compatibleHwmonNames{
+    {"Aspeed2600_Hwmon", {"aspeed_chassis", "intrusion0_alarm"}},
+    {"Nct3018y_Hwmon", {"nct3018y", "intrusion0_alarm"}}
     // Add compatible strings here for new hwmon intrusion detection
     // drivers that have different hwmon names but would also like to
     // use the available Hwmon class.
@@ -151,8 +158,7 @@ static void createSensorsFromConfig(
             // If class string contains Hwmon string
             else if (classString.find("Hwmon") != std::string::npos)
             {
-                std::string hwmonName;
-                std::map<std::string, std::string>::const_iterator
+                std::map<std::string, HwmonIntrusionSource>::const_iterator
                     compatIterator = compatibleHwmonNames.find(classString);
 
                 if (compatIterator == compatibleHwmonNames.end())
@@ -161,12 +167,12 @@ static void createSensorsFromConfig(
                     continue;
                 }
 
-                hwmonName = compatIterator->second;
-
                 try
                 {
                     pSensor = std::make_shared<ChassisIntrusionHwmonSensor>(
-                        autoRearm, io, objServer, hwmonName);
+                        autoRearm, io, objServer,
+                        std::string(compatIterator->second.deviceName),
+                        std::string(compatIterator->second.attributeName));
                     pSensor->start();
                     return;
                 }
