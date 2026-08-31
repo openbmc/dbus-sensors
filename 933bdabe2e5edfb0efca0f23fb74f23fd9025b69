@@ -37,6 +37,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fabd1396_193f210f",
+        "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-08-31T07:59:22Z",
+      "side": 1,
+      "message": "Question: This xyz.openbmc_project.State.Leak.Detector interface has no bmcweb implementation upstream. Do you have plans to add a matching bmcweb patch? Thanks.",
+      "revId": "933bdabe2e5edfb0efca0f23fb74f23fd9025b69",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5b78fab8_5d96fc10",
         "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.cpp",
         "patchSetId": 5
