@@ -302,11 +302,22 @@ void createSensors(
                     }
                 }
 
-                sensor = std::make_shared<ADCSensor>(
-                    path.string(), objectServer, dbusConnection, io, sensorName,
-                    std::move(sensorThresholds), scaleFactor, pollRate,
-                    readState, *interfacePath, std::move(bridgeGpio));
-                sensor->setupRead();
+                try
+                {
+                    sensor = std::make_shared<ADCSensor>(
+                        path.string(), objectServer, dbusConnection, io,
+                        sensorName, std::move(sensorThresholds), scaleFactor,
+                        pollRate, readState, *interfacePath,
+                        std::move(bridgeGpio));
+                    sensor->setupRead();
+                }
+                catch (const std::exception& e)
+                {
+                    lg2::error(
+                        "Failed to create ADC sensor '{NAME}' at '{PATH}': {ERROR}",
+                        "NAME", sensorName, "PATH", path.string(), "ERROR",
+                        e.what());
+                }
             }
         });
 
