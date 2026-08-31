@@ -30,7 +30,7 @@ boost::container::flat_map<std::string, std::shared_ptr<IpmbSensor>> sensors;
 boost::container::flat_map<uint8_t, std::shared_ptr<IpmbSDRDevice>> sdrsensor;
 
 void sdrHandler(
-    boost::container::flat_map<uint8_t, std::shared_ptr<IpmbSDRDevice>>
+    boost::container::flat_map<uint8_t, std::shared_ptr<IpmbSDRDevice>>&
         sdrsensor,
     sdbusplus::message_t& message,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
