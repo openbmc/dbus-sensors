@@ -31,9 +31,11 @@
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
+#include <cerrno>
 #include <chrono>
 #include <cmath>
 #include <cstddef>
+#include <cstring>
 #include <istream>
 #include <limits>
 #include <memory>
@@ -70,7 +72,8 @@ ADCSensor::ADCSensor(
     int fd = open(path.c_str(), O_RDONLY);
     if (fd < 0)
     {
-        lg2::error("unable to open adc device");
+        throw std::runtime_error(
+            "Unable to open ADC device " + path + ": " + strerror(errno));
     }
 
     inputDev.assign(fd);
