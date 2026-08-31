@@ -70,7 +70,7 @@ ADCSensor::ADCSensor(
     int fd = open(path.c_str(), O_RDONLY);
     if (fd < 0)
     {
-        lg2::error("unable to open adc device");
+        throw std::runtime_error("Unable to open ADC device: " + path);
     }
 
     inputDev.assign(fd);
