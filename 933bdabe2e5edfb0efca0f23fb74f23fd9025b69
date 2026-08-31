@@ -72,6 +72,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "588d2461_9511d7da",
+        "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2026-08-31T22:31:02Z",
+      "side": 1,
+      "message": "I had added the reactor and Dbus side implementation. The BMCWeb side still needs to be implemented. I never got the time to get to that.",
+      "parentUuid": "7b284a53_26ad399c",
+      "revId": "933bdabe2e5edfb0efca0f23fb74f23fd9025b69",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5b78fab8_5d96fc10",
         "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.cpp",
         "patchSetId": 5
