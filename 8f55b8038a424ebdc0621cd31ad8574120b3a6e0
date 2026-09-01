@@ -22,6 +22,30 @@
       },
       "revId": "8f55b8038a424ebdc0621cd31ad8574120b3a6e0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66bf42f2_4175203d",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuMemoryDevice.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-01T05:13:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ec9fb12_ed39a215",
+      "range": {
+        "startLine": 215,
+        "startChar": 0,
+        "endLine": 215,
+        "endChar": 75
+      },
+      "revId": "8f55b8038a424ebdc0621cd31ad8574120b3a6e0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
