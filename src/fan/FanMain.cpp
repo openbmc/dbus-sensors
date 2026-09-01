@@ -283,8 +283,7 @@ void createSensors(
         presenceGpios,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     const std::shared_ptr<boost::container::flat_set<std::string>>&
-        sensorsChanged,
-    size_t retries = 0)
+        sensorsChanged)
 {
     auto getter = std::make_shared<
         GetSensorConfiguration>(dbusConnection, [&io, &objectServer,
@@ -693,7 +692,7 @@ int main()
                     return;
                 }
                 createSensors(io, objectServer, tachSensors, pwmSensors,
-                              presenceGpios, systemBus, sensorsChanged, 5);
+                              presenceGpios, systemBus, sensorsChanged);
             });
         };
 
