@@ -308,7 +308,7 @@ struct GetSensorConfiguration :
     }
 
     void getConfiguration(std::span<const std::string_view> types,
-                          size_t retries = 0)
+                          size_t retries = 5)
     {
         if (retries > 5)
         {
