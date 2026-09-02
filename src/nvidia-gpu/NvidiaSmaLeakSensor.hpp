@@ -12,6 +12,7 @@
 #include <NvidiaGpuMctpVdm.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/message/native_types.hpp>
 
 #include <array>
 #include <cstdint>
@@ -44,6 +45,12 @@ struct NvidiaSmaLeakSensor :
     void processResponse(const std::error_code& ec,
                          std::span<const uint8_t> buffer);
 
+    void addMonitoringAssociation(
+        std::shared_ptr<sdbusplus::asio::dbus_interface>& interface,
+        const sdbusplus::object_path& path,
+        const sdbusplus::object_path& monitoredPath,
+        const std::string& detectorName);
+
     uint8_t eid{};
 
     uint8_t sensorId{};
@@ -64,6 +71,10 @@ struct NvidiaSmaLeakSensor :
     std::shared_ptr<sdbusplus::asio::dbus_interface> leakDetectorInterface;
 
     std::shared_ptr<sdbusplus::asio::dbus_interface> leakFaultInterface;
+
+    std::shared_ptr<sdbusplus::asio::dbus_interface> leakDetectorAssociation;
+
+    std::shared_ptr<sdbusplus::asio::dbus_interface> leakFaultAssociation;
 
     enum class LeakState
     {
