@@ -142,6 +142,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a5eb99f_5d754774",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-09-02T12:11:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5aeaa2c7_1973f558",
+      "revId": "6721c2c4170f34311d53103c1ecdefb0a541adc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "259c7f2d_f3382fee",
@@ -173,6 +191,24 @@
       "side": 1,
       "message": "Added a debug log here so missing PWM files now report both the resolved pwmPath and the originating labelHead before returning. This should make bring-up/debugging easier when a PWM sensor is not created.",
       "parentUuid": "259c7f2d_f3382fee",
+      "revId": "6721c2c4170f34311d53103c1ecdefb0a541adc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "652c491f_2904b426",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-09-02T12:11:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c9a9807_c6ee0aea",
       "revId": "6721c2c4170f34311d53103c1ecdefb0a541adc8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
