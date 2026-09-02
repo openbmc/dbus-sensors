@@ -318,7 +318,7 @@ struct Sensor
             iface->register_property(
                 level, threshold.value,
                 [&, label, thresSize](const double& request, double& oldValue) {
-                    oldValue = request; // todo, just let the config do this?
+                    oldValue = request; // TODO: just let the config do this?
                     threshold.value = request;
                     thresholds::persistThreshold(
                         configurationPath, configInterface, threshold,
