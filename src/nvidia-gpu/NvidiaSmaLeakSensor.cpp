@@ -17,10 +17,12 @@
 #include <MctpRequester.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
 #include <OcpMctpVdm.hpp>
+#include <phosphor-logging/commit.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/message/native_types.hpp>
+#include <xyz/openbmc_project/State/Leak/Detector/event.hpp>
 
 #include <array>
 #include <cstddef>
@@ -199,6 +201,21 @@ void NvidiaSmaLeakSensor::updateState(uint8_t value)
                     : "xyz.openbmc_project.State.Leak.Detector.DetectorState.Abnormal"));
 
         triggerSystemdService("critical", lastLeakState, escapeName(name));
+
+        std::string detectorPath =
+            "/xyz/openbmc_project/state/leak/detector/" + escapeName(name);
+        if (lastLeakState == LeakState::Abnormal)
+        {
+            using LeakDetectedCritical = sdbusplus::error::xyz::
+                openbmc_project::state::leak::Detector::LeakDetectedCritical;
+            lg2::commit(LeakDetectedCritical("DETECTOR_NAME", detectorPath));
+        }
+        else
+        {
+            using LeakDetectedNormal = sdbusplus::event::xyz::openbmc_project::
+                state::leak::Detector::LeakDetectedNormal;
+            lg2::commit(LeakDetectedNormal("DETECTOR_NAME", detectorPath));
+        }
     }
 
     if (newFault != lastLeakFault)
@@ -214,6 +231,21 @@ void NvidiaSmaLeakSensor::updateState(uint8_t value)
         // suffix in the name
         triggerSystemdService("critical", lastLeakFault,
                               escapeName(name) + "_Fault");
+
+        std::string faultPath = "/xyz/openbmc_project/state/leak/detector/" +
+                                escapeName(name) + "_Fault";
+        if (lastLeakFault == LeakState::Abnormal)
+        {
+            using LeakDetectedCritical = sdbusplus::error::xyz::
+                openbmc_project::state::leak::Detector::LeakDetectedCritical;
+            lg2::commit(LeakDetectedCritical("DETECTOR_NAME", faultPath));
+        }
+        else
+        {
+            using LeakDetectedNormal = sdbusplus::event::xyz::openbmc_project::
+                state::leak::Detector::LeakDetectedNormal;
+            lg2::commit(LeakDetectedNormal("DETECTOR_NAME", faultPath));
+        }
     }
 }
 
