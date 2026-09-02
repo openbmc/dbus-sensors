@@ -233,6 +233,13 @@ void IpmbSDRDevice::checkSDRData(std::vector<uint8_t>& sdrDataBytes,
     /*  dataLen represents the data length (Byte 6) for SDR sensor */
     int dataLen = sdrDataBytes[sdr::dataLengthByte];
 
+    /* Every fixed Type 1 SDR byte consumed below must exist in the
+     * response, not just the start of the record. */
+    if (sdrDataBytes.size() <= sdrtype01::nameLengthByte)
+    {
+        return;
+    }
+
     /* iStrLen represents the length of the sensor name for SDR Type 1 */
     const uint8_t sdrLenBit = 0x1F;
     int strLen = (sdrDataBytes[sdrtype01::nameLengthByte]) & (sdrLenBit);
@@ -240,6 +247,22 @@ void IpmbSDRDevice::checkSDRData(std::vector<uint8_t>& sdrDataBytes,
     /* iStrAddr represents the starting byte (Byte 56) for SDR sensor name */
     int strAddr = dataLen + ((dataLen / (sdr::perCountByte)) * 4) -
                   (strLen - 1);
+
+    /* The name range computed from device-controlled bytes must stay within
+     * the response buffer before it is dereferenced. */
+    if ((strAddr < 0) || (strLen < 0))
+    {
+        return;
+    }
+    if (static_cast<size_t>(strAddr) > sdrDataBytes.size())
+    {
+        return;
+    }
+    if (static_cast<size_t>(strLen) >
+        sdrDataBytes.size() - static_cast<size_t>(strAddr))
+    {
+        return;
+    }
 
     /* Below for loop will convert the bytes to string and form a sensor name */
 
