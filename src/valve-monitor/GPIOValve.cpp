@@ -11,6 +11,7 @@
 #include <sdbusplus/message/native_types.hpp>
 
 #include <array>
+#include <chrono>
 #include <exception>
 #include <functional>
 #include <optional>
@@ -145,6 +146,10 @@ auto GPIOValve::setState(State state) -> bool
 
 auto GPIOValve::updateGPIOStateAsync(bool gpioState) -> sdbusplus::async::task<>
 {
+    // Delay before generating valve events to prevent spurious logs
+    // caused by GPIO transitions during BMC shutdown.
+    static constexpr auto valveEventDelay = std::chrono::milliseconds(200);
+
     auto newValue = gpioState ? 100 : 0;
     const bool stateChanged = newValue != value();
 
@@ -159,6 +164,7 @@ auto GPIOValve::updateGPIOStateAsync(bool gpioState) -> sdbusplus::async::task<>
     // events only for subsequent state changes.
     if (!publishControlInterface() && stateChanged)
     {
+        co_await sdbusplus::async::sleep_for(ctx, valveEventDelay);
         co_await events.generateValveEvent(inventoryPath, gpioState);
     }
 
