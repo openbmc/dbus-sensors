@@ -55,7 +55,7 @@ constexpr const double altitudeFactor = 1.14;
 constexpr const char* exitAirType = "ExitAirTempSensor";
 constexpr const char* cfmType = "CFMSensor";
 
-// todo: this *might* need to be configurable
+// TODO: this *might* need to be configurable
 constexpr const char* inletTemperatureSensor = "temperature/Front_Panel_Temp";
 constexpr const char* pidConfigurationType =
     "xyz.openbmc_project.Configuration.Pid";
