@@ -1881,6 +1881,56 @@ int encodeGetLeakDetectionInfoRequest(uint8_t instanceId,
     return buffer.getError();
 }
 
+int encodeSetLeakDetectionThresholdsRequest(
+    uint8_t instanceId, uint8_t sensorId, uint16_t minLeakMv,
+    uint16_t maxLeakMv, uint16_t maxNormalMv, std::span<uint8_t> buf)
+{
+    PackBuffer buffer(buf);
+
+    const int rc = encodeRequestCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(
+            PlatformEnvironmentalCommands::SET_LEAK_DETECTION_THRESHOLDS),
+        instanceId);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    const uint8_t detectorCount = 1;
+    const auto dataSize =
+        static_cast<uint8_t>(setLeakDetectionThresholdsDataSize);
+
+    buffer.pack(dataSize);
+    buffer.pack(detectorCount);
+    buffer.pack(leakDetectorThresholdCount);
+    buffer.pack(sensorId);
+
+    // The request record carries a detector state, which a write does not set.
+    const uint8_t state = 0;
+    buffer.pack(state);
+
+    buffer.pack(minLeakMv);
+    buffer.pack(maxLeakMv);
+    buffer.pack(maxNormalMv);
+
+    return buffer.getError();
+}
+
+int decodeSetLeakDetectionThresholdsResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode)
+{
+    UnpackBuffer buffer(buf);
+
+    return decodeResponseCommonHeader(
+        buffer, MessageType::PLATFORM_ENVIRONMENTAL,
+        static_cast<uint8_t>(
+            PlatformEnvironmentalCommands::SET_LEAK_DETECTION_THRESHOLDS),
+        cc, reasonCode);
+}
+
 int decodeGetLeakDetectionInfoResponse(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,

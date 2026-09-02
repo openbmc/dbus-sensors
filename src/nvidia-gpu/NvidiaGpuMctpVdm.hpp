@@ -58,6 +58,7 @@ enum class PlatformEnvironmentalCommands : uint8_t
     GET_VOLTAGE = 0x0F,
     SET_CLOCK_LIMIT = 0x10,
     GET_CLOCK_LIMIT = 0x11,
+    SET_LEAK_DETECTION_THRESHOLDS = 0x16,
     GET_LEAK_DETECTION_INFO = 0x17,
     GET_VIOLATION_DURATION = 0x45,
     GET_CURRENT_UTILIZATION = 0x47,
@@ -230,6 +231,16 @@ constexpr size_t getViolationDurationRequestSize =
 
 constexpr size_t getMemoryCapacityUtilizationRequestSize =
     ocp::accelerator_management::commonRequestSize;
+
+constexpr uint8_t leakDetectorThresholdCount = 3;
+
+constexpr size_t setLeakDetectionThresholdsDataSize =
+    sizeof(uint8_t) + sizeof(uint8_t) + sizeof(uint8_t) + sizeof(uint8_t) +
+    (leakDetectorThresholdCount * sizeof(uint16_t));
+
+constexpr size_t setLeakDetectionThresholdsRequestSize =
+    ocp::accelerator_management::commonRequestSize +
+    setLeakDetectionThresholdsDataSize;
 
 constexpr size_t queryScalarGroupTelemetryV1RequestSize =
     ocp::accelerator_management::commonRequestSize + 2;
@@ -529,6 +540,14 @@ struct LeakSensorData
     std::vector<uint16_t> thresholds;
     uint16_t adcReadingMv{};
 };
+
+int encodeSetLeakDetectionThresholdsRequest(
+    uint8_t instanceId, uint8_t sensorId, uint16_t minLeakMv,
+    uint16_t maxLeakMv, uint16_t maxNormalMv, std::span<uint8_t> buf);
+
+int decodeSetLeakDetectionThresholdsResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode);
 
 int decodeGetLeakDetectionInfoResponse(
     std::span<const uint8_t> buf,
