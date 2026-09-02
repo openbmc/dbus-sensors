@@ -102,6 +102,33 @@ class DbusMockTestBase : public ::testing::Test
         return std::move(state->value);
     }
 
+    /**
+     * Write a property on this connection's own object server and return the
+     * error the call reported, so a test can assert on a refused write.
+     * Throws SdBusError only when the reply never arrives.
+     */
+    template <typename PropertyType>
+    static boost::system::error_code setProperty(
+        const std::string& path, const std::string& iface,
+        const std::string& prop, PropertyType value)
+    {
+        auto state =
+            std::make_shared<std::optional<boost::system::error_code>>();
+
+        sdbusplus::asio::setProperty(
+            *bus(), bus()->get_unique_name(), path, iface, prop,
+            std::move(value),
+            [state](const boost::system::error_code& ec) { *state = ec; });
+
+        if (!pumpIoUntil([state] { return state->has_value(); },
+                         propertyReadTimeout))
+        {
+            throw sdbusplus::exception::SdBusError(ETIMEDOUT,
+                                                   "setProperty timed out");
+        }
+        return state->value_or(boost::system::error_code{});
+    }
+
     // Pump the shared io_context until done() holds; false on timeout. Needed
     // by tests that wait on a timer inside the object under test.
     static bool pumpIoUntil(const std::function<bool()>& done,
