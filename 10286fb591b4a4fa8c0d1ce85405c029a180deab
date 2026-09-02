@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "293c2e25_d1c77095",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-09-02T12:27:28Z",
+      "side": 1,
+      "message": "It should not be this challenging to get a trivial 2 line change into dbus-sensors / nvidia-gpu ...  @haghera@nvidia.com I will give you to the end of the week or I\u0027m going to force merge this.",
+      "revId": "10286fb591b4a4fa8c0d1ce85405c029a180deab",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
