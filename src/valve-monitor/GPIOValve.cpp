@@ -153,6 +153,7 @@ auto GPIOValve::updateGPIOStateAsync(bool gpioState) -> sdbusplus::async::task<>
               "VALUE", newValue);
         value(newValue);
 
+        co_await sdbusplus::async::sleep_for(ctx, std::chrono::milliseconds(200));
         co_await events.generateValveEvent(inventoryPath, gpioState);
     }
 
