@@ -38,6 +38,11 @@ struct NvidiaSmaLeakSensor :
     void updateState(uint8_t value);
 
   private:
+    void addMonitoringAssociation(
+        std::shared_ptr<sdbusplus::asio::dbus_interface>& interface,
+        const std::string& path, const std::string& monitoredPath,
+        const std::string& detectorName);
+
     std::shared_ptr<sdbusplus::asio::connection> conn;
 
     sdbusplus::asio::object_server& objectServer;
@@ -48,6 +53,10 @@ struct NvidiaSmaLeakSensor :
     std::shared_ptr<sdbusplus::asio::dbus_interface> leakDetectorInterface;
 
     std::shared_ptr<sdbusplus::asio::dbus_interface> leakFaultInterface;
+
+    std::shared_ptr<sdbusplus::asio::dbus_interface> leakDetectorAssociation;
+
+    std::shared_ptr<sdbusplus::asio::dbus_interface> leakFaultAssociation;
 
     enum class LeakState
     {
