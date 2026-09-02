@@ -14,9 +14,11 @@
 #include <MessagePackUnpackUtils.hpp>
 #include <sdbusplus/exception.hpp>
 
+#include <chrono>
 #include <cmath>
 #include <cstdint>
 #include <memory>
+#include <span>
 #include <string>
 #include <system_error>
 #include <utility>
@@ -28,13 +30,15 @@
 namespace
 {
 
-std::vector<uint8_t> buildLeakDetectionInfoResponse(uint16_t adcReadingMv)
+std::vector<uint8_t> buildLeakDetectionInfoResponse(
+    uint16_t adcReadingMv, const std::vector<uint16_t>& thresholds = {})
 {
     // dataSize = numSensors(1) + numThresholdLevels(1) +
     //            numSensors * (sensorId(1) + leakState(1) +
     //            thresholds(2*numThresholdLevels) + adcReadingMv(2))
-    // We mock 1 sensor with 0 thresholds
-    uint16_t dataSize = 1 + 1 + 1 * (1 + 1 + 0 + 2);
+    const auto levels = static_cast<uint8_t>(thresholds.size());
+    uint16_t dataSize =
+        static_cast<uint16_t>(1 + 1 + 1 * (1 + 1 + (2 * levels) + 2));
 
     std::vector<uint8_t> buf(
         ocp::accelerator_management::commonResponseSize + dataSize);
@@ -52,14 +56,27 @@ std::vector<uint8_t> buildLeakDetectionInfoResponse(uint16_t adcReadingMv)
 
     // payload
     pack.pack(static_cast<uint8_t>(1)); // numSensors
-    pack.pack(static_cast<uint8_t>(0)); // numThresholdLevels
+    pack.pack(levels);                  // numThresholdLevels
 
     // sensor 1
     pack.pack(static_cast<uint8_t>(0)); // sensorId
     pack.pack(static_cast<uint8_t>(0)); // leakState
-    pack.pack(adcReadingMv);            // adcReadingMv
+    for (const uint16_t threshold : thresholds)
+    {
+        pack.pack(threshold);
+    }
+    pack.pack(adcReadingMv); // adcReadingMv
 
     return buf;
+}
+
+std::vector<uint8_t> buildSetLeakThresholdsResponse(
+    ocp::accelerator_management::CompletionCode cc =
+        ocp::accelerator_management::CompletionCode::SUCCESS)
+{
+    return test_utils::buildPlatformEnvErrorResponse(
+        gpu::PlatformEnvironmentalCommands::SET_LEAK_DETECTION_THRESHOLDS,
+        static_cast<uint8_t>(cc), 0);
 }
 
 std::vector<uint8_t> buildLeakDetectionInfoEmptyResponse()
@@ -96,6 +113,41 @@ std::vector<uint8_t> buildLeakErrorResponse(uint8_t cc, uint16_t reasonCode)
         reasonCode);
 }
 
+// Shorted below the first, wet below the second, open above the third.
+constexpr uint16_t minLeakMv = 156;
+constexpr uint16_t maxLeakMv = 1549;
+constexpr uint16_t maxNormalMv = 1841;
+constexpr uint16_t readingMv = 1740;
+
+const std::vector<uint16_t> deviceThresholds = {minLeakMv, maxLeakMv,
+                                                maxNormalMv};
+
+auto captureAndRespond(std::vector<uint8_t>& into,
+                       std::vector<uint8_t> response)
+{
+    return
+        [&into, response = std::move(response)](
+            uint8_t /*eid*/, std::span<const uint8_t> reqMsg, auto callback) {
+            into.assign(reqMsg.begin(), reqMsg.end());
+            callback(std::error_code{}, response);
+        };
+}
+
+constexpr std::chrono::seconds dispatchTimeout{5};
+
+// Skips the detector count, threshold count, sensor id and state.
+std::vector<uint16_t> thresholdsInRequest(const std::vector<uint8_t>& request)
+{
+    UnpackBuffer unpack(std::span<const uint8_t>(request).subspan(
+        ocp::accelerator_management::commonRequestSize + 4));
+    std::vector<uint16_t> values(gpu::leakDetectorThresholdCount);
+    for (uint16_t& value : values)
+    {
+        unpack.unpack(value);
+    }
+    return values;
+}
+
 class NvidiaSmaLeakSensorTest : public MctpMockTestBase
 {
   protected:
@@ -118,8 +170,8 @@ class NvidiaSmaLeakSensorTest : public MctpMockTestBase
             gpu::DeviceIdentification::DEVICE_GPU)
     {
         return std::make_shared<NvidiaSmaLeakSensor>(
-            bus(), name, "/test/config", objects(), std::move(thresholds),
-            deviceType);
+            bus(), requester(), name, "/test/config", test_utils::defaultEid, 0,
+            objects(), std::move(thresholds), deviceType);
     }
 
     static std::string leakPath(const std::string& name)
@@ -377,3 +429,303 @@ TEST_F(NvidiaSmaLeakSensorTest, DestructorDoesNotCrash)
 }
 
 } // namespace
+
+// Thresholds the device reports
+
+TEST_F(NvidiaSmaLeakSensorTest, ThresholdsComeFromTheDevice)
+{
+    EXPECT_CALL(mctpMock, sendRecvMsg)
+        .WillOnce(mock_mctp::respondWith(
+            {}, buildLeakDetectionInfoResponse(readingMv, deviceThresholds)));
+
+    const std::shared_ptr<NvidiaSmaLeakSensorCarrier> carrier =
+        createCarrier("thr_from_device");
+    carrier->init();
+
+    const std::string path = leakPath("thr_from_device_0");
+    EXPECT_DOUBLE_EQ(getProperty<double>(
+                         path, "xyz.openbmc_project.Sensor.Threshold.Critical",
+                         "CriticalLow"),
+                     minLeakMv / 1000.0);
+    EXPECT_DOUBLE_EQ(
+        getProperty<double>(
+            path, "xyz.openbmc_project.Sensor.Threshold.Warning", "WarningLow"),
+        maxLeakMv / 1000.0);
+    EXPECT_DOUBLE_EQ(getProperty<double>(
+                         path, "xyz.openbmc_project.Sensor.Threshold.Critical",
+                         "CriticalHigh"),
+                     maxNormalMv / 1000.0);
+}
+
+TEST_F(NvidiaSmaLeakSensorTest, ThresholdTheDeviceDoesNotReportStaysNaN)
+{
+    EXPECT_CALL(mctpMock, sendRecvMsg)
+        .WillOnce(mock_mctp::respondWith(
+            {}, buildLeakDetectionInfoResponse(readingMv, deviceThresholds)));
+
+    const std::shared_ptr<NvidiaSmaLeakSensorCarrier> carrier =
+        createCarrier("thr_nan");
+    carrier->init();
+
+    const std::string path = leakPath("thr_nan_0");
+    EXPECT_TRUE(std::isnan(getProperty<double>(
+        path, "xyz.openbmc_project.Sensor.Threshold.Warning", "WarningHigh")));
+    EXPECT_FALSE(
+        getProperty<bool>(path, "xyz.openbmc_project.Sensor.Threshold.Warning",
+                          "WarningAlarmHigh"));
+}
+
+TEST_F(NvidiaSmaLeakSensorTest, ThresholdBeforeTheDeviceReportsIsTheConfigured)
+{
+    EXPECT_CALL(mctpMock, sendRecvMsg)
+        .WillOnce(mock_mctp::respondWith(
+            {}, buildLeakDetectionInfoResponse(readingMv)));
+
+    std::vector<thresholds::Threshold> configured;
+    configured.emplace_back(thresholds::Level::WARNING,
+                            thresholds::Direction::LOW, 2.5);
+
+    const std::shared_ptr<NvidiaSmaLeakSensorCarrier> carrier =
+        createCarrier("thr_configured", std::move(configured));
+    carrier->init();
+
+    EXPECT_DOUBLE_EQ(
+        getProperty<double>(leakPath("thr_configured_0"),
+                            "xyz.openbmc_project.Sensor.Threshold.Warning",
+                            "WarningLow"),
+        2.5);
+}
+
+// Writing a threshold
+
+TEST_F(NvidiaSmaLeakSensorTest, WriteBeforeTheDeviceReportsIsRefused)
+{
+    EXPECT_CALL(mctpMock, sendRecvMsg)
+        .WillOnce(mock_mctp::respondWith(
+            {}, buildLeakDetectionInfoResponse(readingMv)));
+
+    std::vector<thresholds::Threshold> configured;
+    configured.emplace_back(thresholds::Level::WARNING,
+                            thresholds::Direction::LOW, 2.5);
+
+    const std::shared_ptr<NvidiaSmaLeakSensorCarrier> carrier =
+        createCarrier("write_unknown", std::move(configured));
+    carrier->init();
+
+    EXPECT_TRUE(setProperty<double>(
+        leakPath("write_unknown_0"),
+        "xyz.openbmc_project.Sensor.Threshold.Warning", "WarningLow", 1.0));
+}
+
+TEST_F(NvidiaSmaLeakSensorTest, WriteReachesTheDeviceInWireOrder)
+{
+    std::vector<uint8_t> request;
+    EXPECT_CALL(mctpMock, sendRecvMsg)
+        .WillOnce(mock_mctp::respondWith(
+            {}, buildLeakDetectionInfoResponse(readingMv, deviceThresholds)))
+        .WillOnce(captureAndRespond(request, buildSetLeakThresholdsResponse()))
+        .WillRepeatedly(mock_mctp::respondWith(
+            {}, buildLeakDetectionInfoResponse(readingMv, deviceThresholds)));
+
+    const std::shared_ptr<NvidiaSmaLeakSensorCarrier> carrier =
+        createCarrier("write_order");
+    carrier->init();
+
+    EXPECT_FALSE(setProperty<double>(
+        leakPath("write_order_0"),
+        "xyz.openbmc_project.Sensor.Threshold.Warning", "WarningLow", 1.4));
+
+    ASSERT_TRUE(
+        pumpIoUntil([&request] { return !request.empty(); }, dispatchTimeout));
+    ASSERT_EQ(request.size(), gpu::setLeakDetectionThresholdsRequestSize);
+    EXPECT_THAT(thresholdsInRequest(request),
+                testing::ElementsAre(minLeakMv, 1400, maxNormalMv));
+}
+
+TEST_F(NvidiaSmaLeakSensorTest, WriteThatCrossesTheThresholdsIsRefused)
+{
+    EXPECT_CALL(mctpMock, sendRecvMsg)
+        .WillOnce(mock_mctp::respondWith(
+            {}, buildLeakDetectionInfoResponse(readingMv, deviceThresholds)));
+
+    const std::shared_ptr<NvidiaSmaLeakSensorCarrier> carrier =
+        createCarrier("write_cross");
+    carrier->init();
+
+    const std::string path = leakPath("write_cross_0");
+    EXPECT_TRUE(setProperty<double>(
+        path, "xyz.openbmc_project.Sensor.Threshold.Critical", "CriticalLow",
+        maxLeakMv / 1000.0 + 0.1));
+    EXPECT_TRUE(setProperty<double>(
+        path, "xyz.openbmc_project.Sensor.Threshold.Warning", "WarningLow",
+        maxNormalMv / 1000.0 + 0.1));
+}
+
+TEST_F(NvidiaSmaLeakSensorTest, WriteCarriesTheThresholdsLastReported)
+{
+    std::vector<uint8_t> first;
+    std::vector<uint8_t> second;
+    const std::vector<uint16_t> reread = {minLeakMv - 1, 1399, maxNormalMv - 1};
+    EXPECT_CALL(mctpMock, sendRecvMsg)
+        .WillOnce(mock_mctp::respondWith(
+            {}, buildLeakDetectionInfoResponse(readingMv, deviceThresholds)))
+        .WillOnce(captureAndRespond(first, buildSetLeakThresholdsResponse()))
+        .WillOnce(mock_mctp::respondWith(
+            {}, buildLeakDetectionInfoResponse(readingMv, reread)))
+        .WillOnce(captureAndRespond(second, buildSetLeakThresholdsResponse()))
+        .WillRepeatedly(mock_mctp::respondWith(
+            {}, buildLeakDetectionInfoResponse(readingMv, reread)));
+
+    const std::shared_ptr<NvidiaSmaLeakSensorCarrier> carrier =
+        createCarrier("write_reread");
+    carrier->init();
+
+    const std::string path = leakPath("write_reread_0");
+    EXPECT_FALSE(setProperty<double>(
+        path, "xyz.openbmc_project.Sensor.Threshold.Warning", "WarningLow",
+        1.4));
+    ASSERT_TRUE(
+        pumpIoUntil([&first] { return !first.empty(); }, dispatchTimeout));
+    EXPECT_THAT(thresholdsInRequest(first),
+                testing::ElementsAre(minLeakMv, 1400, maxNormalMv));
+
+    EXPECT_FALSE(setProperty<double>(
+        path, "xyz.openbmc_project.Sensor.Threshold.Warning", "WarningLow",
+        1.4));
+    ASSERT_TRUE(
+        pumpIoUntil([&second] { return !second.empty(); }, dispatchTimeout));
+
+    EXPECT_THAT(thresholdsInRequest(second),
+                testing::ElementsAre(reread[0], 1400, reread[2]));
+}
+
+TEST_F(NvidiaSmaLeakSensorTest, SetIsFollowedByAReadingRightAway)
+{
+    std::vector<uint8_t> first;
+    std::vector<uint8_t> second;
+    EXPECT_CALL(mctpMock, sendRecvMsg)
+        .WillOnce(mock_mctp::respondWith(
+            {}, buildLeakDetectionInfoResponse(readingMv, deviceThresholds)))
+        .WillOnce(captureAndRespond(first, buildSetLeakThresholdsResponse()))
+        .WillOnce(mock_mctp::respondWith(
+            {}, buildLeakDetectionInfoResponse(readingMv, deviceThresholds)))
+        .WillOnce(captureAndRespond(second, buildSetLeakThresholdsResponse()))
+        .WillRepeatedly(mock_mctp::respondWith(
+            {}, buildLeakDetectionInfoResponse(readingMv, deviceThresholds)));
+
+    const std::shared_ptr<NvidiaSmaLeakSensorCarrier> carrier =
+        createCarrier("write_gate");
+    carrier->init();
+
+    const std::string path = leakPath("write_gate_0");
+    EXPECT_FALSE(setProperty<double>(
+        path, "xyz.openbmc_project.Sensor.Threshold.Warning", "WarningLow",
+        1.4));
+    ASSERT_TRUE(
+        pumpIoUntil([&first] { return !first.empty(); }, dispatchTimeout));
+
+    EXPECT_FALSE(setProperty<double>(
+        path, "xyz.openbmc_project.Sensor.Threshold.Critical", "CriticalLow",
+        0.2));
+    ASSERT_TRUE(
+        pumpIoUntil([&second] { return !second.empty(); }, dispatchTimeout));
+    EXPECT_THAT(thresholdsInRequest(second),
+                testing::ElementsAre(200, maxLeakMv, maxNormalMv));
+}
+
+TEST_F(NvidiaSmaLeakSensorTest, RejectedWriteDoesNotWedgeTheGate)
+{
+    std::vector<uint8_t> rejected;
+    std::vector<uint8_t> next;
+    EXPECT_CALL(mctpMock, sendRecvMsg)
+        .WillOnce(mock_mctp::respondWith(
+            {}, buildLeakDetectionInfoResponse(readingMv, deviceThresholds)))
+        .WillOnce(captureAndRespond(
+            rejected,
+            buildSetLeakThresholdsResponse(
+                ocp::accelerator_management::CompletionCode::ERR_INVALID_DATA)))
+        .WillOnce(captureAndRespond(next, buildSetLeakThresholdsResponse()))
+        .WillRepeatedly(mock_mctp::respondWith(
+            {}, buildLeakDetectionInfoResponse(readingMv, deviceThresholds)));
+
+    const std::shared_ptr<NvidiaSmaLeakSensorCarrier> carrier =
+        createCarrier("write_rejected");
+    carrier->init();
+
+    const std::string path = leakPath("write_rejected_0");
+    EXPECT_FALSE(setProperty<double>(
+        path, "xyz.openbmc_project.Sensor.Threshold.Critical", "CriticalLow",
+        0.2));
+    ASSERT_TRUE(pumpIoUntil([&rejected] { return !rejected.empty(); },
+                            dispatchTimeout));
+    EXPECT_THAT(thresholdsInRequest(rejected),
+                testing::ElementsAre(200, maxLeakMv, maxNormalMv));
+
+    EXPECT_FALSE(setProperty<double>(
+        path, "xyz.openbmc_project.Sensor.Threshold.Warning", "WarningLow",
+        1.4));
+    ASSERT_TRUE(
+        pumpIoUntil([&next] { return !next.empty(); }, dispatchTimeout));
+    EXPECT_THAT(thresholdsInRequest(next),
+                testing::ElementsAre(minLeakMv, 1400, maxNormalMv));
+}
+
+TEST_F(NvidiaSmaLeakSensorTest, WritesInOneBurstBecomeOneRequest)
+{
+    std::vector<uint8_t> request;
+    EXPECT_CALL(mctpMock, sendRecvMsg)
+        .WillOnce(mock_mctp::respondWith(
+            {}, buildLeakDetectionInfoResponse(readingMv, deviceThresholds)))
+        .WillOnce(captureAndRespond(request, buildSetLeakThresholdsResponse()))
+        .WillRepeatedly(mock_mctp::respondWith(
+            {}, buildLeakDetectionInfoResponse(readingMv, deviceThresholds)));
+
+    const std::shared_ptr<NvidiaSmaLeakSensorCarrier> carrier =
+        createCarrier("write_burst");
+    carrier->init();
+
+    const std::string path = leakPath("write_burst_0");
+    EXPECT_FALSE(setProperty<double>(
+        path, "xyz.openbmc_project.Sensor.Threshold.Critical", "CriticalLow",
+        0.2));
+    EXPECT_FALSE(setProperty<double>(
+        path, "xyz.openbmc_project.Sensor.Threshold.Warning", "WarningLow",
+        1.4));
+
+    ASSERT_TRUE(
+        pumpIoUntil([&request] { return !request.empty(); }, dispatchTimeout));
+    EXPECT_THAT(thresholdsInRequest(request),
+                testing::ElementsAre(200, 1400, maxNormalMv));
+}
+
+TEST_F(NvidiaSmaLeakSensorTest, FailedReadingDoesNotWedgeTheGate)
+{
+    std::vector<uint8_t> first;
+    std::vector<uint8_t> second;
+    EXPECT_CALL(mctpMock, sendRecvMsg)
+        .WillOnce(mock_mctp::respondWith(
+            {}, buildLeakDetectionInfoResponse(readingMv, deviceThresholds)))
+        .WillOnce(captureAndRespond(first, buildSetLeakThresholdsResponse()))
+        .WillOnce(mock_mctp::respondWith(
+            std::make_error_code(std::errc::timed_out), {}))
+        .WillOnce(captureAndRespond(second, buildSetLeakThresholdsResponse()))
+        .WillRepeatedly(mock_mctp::respondWith(
+            {}, buildLeakDetectionInfoResponse(readingMv, deviceThresholds)));
+
+    const std::shared_ptr<NvidiaSmaLeakSensorCarrier> carrier =
+        createCarrier("read_fail");
+    carrier->init();
+
+    const std::string path = leakPath("read_fail_0");
+    EXPECT_FALSE(setProperty<double>(
+        path, "xyz.openbmc_project.Sensor.Threshold.Warning", "WarningLow",
+        1.4));
+    ASSERT_TRUE(
+        pumpIoUntil([&first] { return !first.empty(); }, dispatchTimeout));
+
+    EXPECT_FALSE(setProperty<double>(
+        path, "xyz.openbmc_project.Sensor.Threshold.Critical", "CriticalLow",
+        0.2));
+    ASSERT_TRUE(
+        pumpIoUntil([&second] { return !second.empty(); }, dispatchTimeout));
+}

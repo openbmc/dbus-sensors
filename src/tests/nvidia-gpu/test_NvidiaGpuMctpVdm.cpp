@@ -4996,4 +4996,111 @@ TEST_F(GpuMctpVdmTests, DecodeGetLeakDetectionInfoResponseBufferTooSmall)
     EXPECT_NE(result, 0); // Expect failure due to missing data
 }
 
+TEST_F(GpuMctpVdmTests, EncodeSetLeakDetectionThresholdsRequestSuccess)
+{
+    const uint8_t instanceId = 3;
+    std::array<uint8_t, gpu::setLeakDetectionThresholdsRequestSize> buf{};
+
+    int result = gpu::encodeSetLeakDetectionThresholdsRequest(
+        instanceId, 2, 165, 1650, 1850, buf);
+
+    EXPECT_EQ(result, 0);
+
+    UnpackBuffer ubuf(std::span<const uint8_t>(buf.data(), buf.size()));
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t unpackedInstanceId = 0;
+    uint8_t unpackedMsgType = 0;
+    EXPECT_EQ(ocp::accelerator_management::unpackHeader(
+                  ubuf, gpu::nvidiaPciVendorId, msgType, unpackedInstanceId,
+                  unpackedMsgType),
+              0);
+    EXPECT_EQ(msgType, ocp::accelerator_management::MessageType::REQUEST);
+    uint8_t command = 0;
+    ubuf.unpack(command);
+    EXPECT_EQ(
+        command,
+        static_cast<uint8_t>(
+            gpu::PlatformEnvironmentalCommands::SET_LEAK_DETECTION_THRESHOLDS));
+    uint8_t dataSize = 0;
+    ubuf.unpack(dataSize);
+    EXPECT_EQ(dataSize, 10);
+    uint8_t detectorCount = 0;
+    uint8_t thresholdCount = 0;
+    ubuf.unpack(detectorCount);
+    ubuf.unpack(thresholdCount);
+    EXPECT_EQ(detectorCount, 1);
+    EXPECT_EQ(thresholdCount, gpu::leakDetectorThresholdCount);
+    uint8_t sensorId = 0;
+    uint8_t state = 0;
+    ubuf.unpack(sensorId);
+    ubuf.unpack(state);
+    EXPECT_EQ(sensorId, 2);
+    uint16_t minLeak = 0;
+    uint16_t maxLeak = 0;
+    uint16_t maxNormal = 0;
+    ubuf.unpack(minLeak);
+    ubuf.unpack(maxLeak);
+    ubuf.unpack(maxNormal);
+    EXPECT_EQ(minLeak, 165);
+    EXPECT_EQ(maxLeak, 1650);
+    EXPECT_EQ(maxNormal, 1850);
+    EXPECT_EQ(ubuf.getError(), 0);
+}
+
+TEST_F(GpuMctpVdmTests, EncodeSetLeakDetectionThresholdsRequestBufferTooSmall)
+{
+    std::array<uint8_t, gpu::setLeakDetectionThresholdsRequestSize - 1> buf{};
+
+    EXPECT_NE(gpu::encodeSetLeakDetectionThresholdsRequest(0, 0, 165, 1650,
+                                                           1850, buf),
+              0);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeSetLeakDetectionThresholdsResponseSuccess)
+{
+    std::vector<uint8_t> buf(9);
+    PackBuffer packer(buf);
+
+    packCommonResponseHeader(
+        packer, static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL),
+        static_cast<uint8_t>(
+            gpu::PlatformEnvironmentalCommands::SET_LEAK_DETECTION_THRESHOLDS),
+        static_cast<uint8_t>(
+            ocp::accelerator_management::CompletionCode::SUCCESS),
+        0);
+
+    ASSERT_EQ(packer.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+
+    EXPECT_EQ(
+        gpu::decodeSetLeakDetectionThresholdsResponse(buf, cc, reasonCode), 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeSetLeakDetectionThresholdsResponseRejected)
+{
+    std::vector<uint8_t> buf(9);
+    PackBuffer packer(buf);
+
+    packCommonResponseHeader(
+        packer, static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL),
+        static_cast<uint8_t>(
+            gpu::PlatformEnvironmentalCommands::SET_LEAK_DETECTION_THRESHOLDS),
+        static_cast<uint8_t>(
+            ocp::accelerator_management::CompletionCode::ERR_INVALID_DATA),
+        0);
+
+    ASSERT_EQ(packer.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+
+    EXPECT_EQ(
+        gpu::decodeSetLeakDetectionThresholdsResponse(buf, cc, reasonCode), 0);
+    EXPECT_EQ(cc,
+              ocp::accelerator_management::CompletionCode::ERR_INVALID_DATA);
+}
+
 } // namespace gpu_mctp_tests
