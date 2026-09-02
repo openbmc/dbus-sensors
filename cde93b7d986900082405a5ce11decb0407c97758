@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7b985f7_9e73b683",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-02T04:58:53Z",
+      "side": 1,
+      "message": "is this being used for mctp endpoint connectivity change?",
+      "range": {
+        "startLine": 57,
+        "startChar": 13,
+        "endLine": 57,
+        "endChar": 31
+      },
+      "revId": "cde93b7d986900082405a5ce11decb0407c97758",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfbef91f_3a40bdc8",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-02T04:58:53Z",
+      "side": 1,
+      "message": "this is device specific behaviour and this file should not care about it.",
+      "range": {
+        "startLine": 158,
+        "startChar": 16,
+        "endLine": 159,
+        "endChar": 61
+      },
+      "revId": "cde93b7d986900082405a5ce11decb0407c97758",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7591b00e_1733b267",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-02T04:58:53Z",
+      "side": 1,
+      "message": "should we rename this `mctpObjectPath` and `path` to `entityObjectPath`? Same goes for other places where this is used.",
+      "range": {
+        "startLine": 237,
+        "startChar": 34,
+        "endLine": 237,
+        "endChar": 46
+      },
+      "revId": "cde93b7d986900082405a5ce11decb0407c97758",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3249ae32_983bbeab",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-02T04:58:53Z",
+      "side": 1,
+      "message": "this is device specific behaviour and this file should not care about that offline or online action is performed by device class.",
+      "range": {
+        "startLine": 506,
+        "startChar": 65,
+        "endLine": 506,
+        "endChar": 78
+      },
+      "revId": "cde93b7d986900082405a5ce11decb0407c97758",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c907a473_760e6ee6",
+        "filename": "src/nvidia-gpu/DeviceManager.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-02T04:58:53Z",
+      "side": 1,
+      "message": "Let\u0027s not do this and reuse member `smaDevices`. We can make it plain vector of {device, mctpObjectPath, emObjectPath, state, eid, etc} and iterate the vector whenever we need to do the look up again either object paths.",
+      "revId": "cde93b7d986900082405a5ce11decb0407c97758",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

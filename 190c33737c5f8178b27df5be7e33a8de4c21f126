@@ -1,0 +1,226 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08656161_9b27ca4e",
+        "filename": "src/nvidia-gpu/DeviceInterface.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-02T04:58:53Z",
+      "side": 1,
+      "message": "nit: rename to Device",
+      "range": {
+        "startLine": 9,
+        "startChar": 6,
+        "endLine": 9,
+        "endChar": 21
+      },
+      "revId": "190c33737c5f8178b27df5be7e33a8de4c21f126",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "856446ea_ff30074a",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-02T04:58:53Z",
+      "side": 1,
+      "message": "don\u0027t use auto here.",
+      "revId": "190c33737c5f8178b27df5be7e33a8de4c21f126",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b290ac35_85a45f40",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-02T04:58:53Z",
+      "side": 1,
+      "message": "can this be const?",
+      "revId": "190c33737c5f8178b27df5be7e33a8de4c21f126",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74082c07_4caf47d5",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-02T04:58:53Z",
+      "side": 1,
+      "message": "Log this error.",
+      "revId": "190c33737c5f8178b27df5be7e33a8de4c21f126",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0564aff6_4f2552ba",
+        "filename": "src/nvidia-gpu/EndpointState.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-02T04:58:53Z",
+      "side": 1,
+      "message": "This looks very much like the enum right below, see if we can get rid of either one one.",
+      "revId": "190c33737c5f8178b27df5be7e33a8de4c21f126",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9727b8c_98a1d8fd",
+        "filename": "src/nvidia-gpu/EndpointState.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-02T04:58:53Z",
+      "side": 1,
+      "message": "nit: rename to MctpConnectivity.",
+      "range": {
+        "startLine": 14,
+        "startChar": 11,
+        "endLine": 14,
+        "endChar": 24
+      },
+      "revId": "190c33737c5f8178b27df5be7e33a8de4c21f126",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "320c83e1_b30d36a3",
+        "filename": "src/nvidia-gpu/EndpointState.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-02T04:58:53Z",
+      "side": 1,
+      "message": "Don\u0027t think this comment belongs here.",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 38
+      },
+      "revId": "190c33737c5f8178b27df5be7e33a8de4c21f126",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d584619_c0c6d080",
+        "filename": "src/nvidia-gpu/EndpointState.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-02T04:58:53Z",
+      "side": 1,
+      "message": "See if we can define constexpr array that define the current to next relation and then use that to find the next state.",
+      "revId": "190c33737c5f8178b27df5be7e33a8de4c21f126",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47efb6d1_f0c2ae65",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensorMain.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-02T04:58:53Z",
+      "side": 1,
+      "message": "This line of comment belongs to function `onConnectivityChanged`.",
+      "revId": "190c33737c5f8178b27df5be7e33a8de4c21f126",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ef7d689_4270e1d3",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensorMain.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-02T04:58:53Z",
+      "side": 1,
+      "message": "Let\u0027s make declaration of `configIfaceRemovedMatch` use this too.",
+      "revId": "190c33737c5f8178b27df5be7e33a8de4c21f126",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b458b03f_65b2db0f",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-02T04:58:53Z",
+      "side": 1,
+      "message": "Updating of all telemetry value on D-Bus as NaN should be done inside the scope of Sensor classes.",
+      "revId": "190c33737c5f8178b27df5be7e33a8de4c21f126",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "376d0c40_60d509aa",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-02T04:58:53Z",
+      "side": 1,
+      "message": "Is this not defined?",
+      "revId": "190c33737c5f8178b27df5be7e33a8de4c21f126",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
