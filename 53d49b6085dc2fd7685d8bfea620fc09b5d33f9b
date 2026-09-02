@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "358fd9f9_38a9a0f7",
+        "filename": "src/nvidia-gpu/NvidiaGpuClockSpeedControl.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-02T10:34:41Z",
+      "side": 0,
+      "message": "Let\u0027s also make sure that this app is not dynamically linking to phosphor-dbus-interfaces library.",
+      "revId": "53d49b6085dc2fd7685d8bfea620fc09b5d33f9b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

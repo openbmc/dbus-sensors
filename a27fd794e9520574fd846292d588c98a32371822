@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f88f2685_3cf408ed",
+        "filename": "src/nvidia-gpu/NvidiaUtils.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-02T10:34:41Z",
+      "side": 1,
+      "message": "This comment is not needed I think.",
+      "revId": "a27fd794e9520574fd846292d588c98a32371822",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85c8fa69_d530d668",
+        "filename": "src/nvidia-gpu/NvidiaUtils.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-02T10:34:41Z",
+      "side": 1,
+      "message": "Let\u0027s put this into separate file.",
+      "revId": "a27fd794e9520574fd846292d588c98a32371822",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
