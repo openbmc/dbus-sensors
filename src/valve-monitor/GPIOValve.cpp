@@ -145,6 +145,10 @@ auto GPIOValve::setState(State state) -> bool
 
 auto GPIOValve::updateGPIOStateAsync(bool gpioState) -> sdbusplus::async::task<>
 {
+    // Delay before generating valve events to prevent spurious logs
+    // caused by GPIO transitions during BMC shutdown.
+    static constexpr auto valveEventDelay = std::chrono::milliseconds(200);
+
     auto newValue = gpioState ? 100 : 0;
 
     if (newValue != value())
@@ -153,6 +157,7 @@ auto GPIOValve::updateGPIOStateAsync(bool gpioState) -> sdbusplus::async::task<>
               "VALUE", newValue);
         value(newValue);
 
+        co_await sdbusplus::async::sleep_for(ctx, valveEventDelay);
         co_await events.generateValveEvent(inventoryPath, gpioState);
     }
 
