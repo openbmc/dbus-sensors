@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a278fb88_17d5d9c3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003004
+      },
+      "writtenOn": "2026-09-02T05:50:39Z",
+      "side": 1,
+      "message": "Given the history of incorrect readings with io_uring, it would be good to have confirmation that sensor values remain correct on actual hardware.",
+      "revId": "aaf92cf1edb30aa134178b2af3817f6f0fc7ae2c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
