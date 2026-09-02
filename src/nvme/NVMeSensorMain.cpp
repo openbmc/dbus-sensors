@@ -164,7 +164,7 @@ static void handleSensorConfigurations(
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     const ManagedObjectType& sensorConfigurations)
 {
-    // todo: it'd be better to only update the ones we care about
+    // TODO: it'd be better to only update the ones we care about
     for (const auto& [_, nvmeContextPtr] : nvmeDeviceMap)
     {
         if (nvmeContextPtr)

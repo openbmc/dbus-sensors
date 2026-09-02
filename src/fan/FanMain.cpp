@@ -74,7 +74,7 @@ constexpr const char* redundancyConfiguration =
     "xyz.openbmc_project.Configuration.FanRedundancy";
 static std::regex inputRegex(R"(fan(\d+)_input)");
 
-// todo: power supply fan redundancy
+// TODO: power supply fan redundancy
 std::optional<RedundancySensor> systemRedundancy;
 
 static const std::map<std::string, FanTypes> compatibleFanTypes = {

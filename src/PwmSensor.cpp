@@ -76,7 +76,7 @@ PwmSensor::PwmSensor(const std::string& pwmname, const std::string& sysPath,
             }
             if (req > 100.0 || req < 0.0)
             {
-                // TODO(): It does not seem desirable to halt daemon here,
+                // TODO: It does not seem desirable to halt daemon here,
                 // probably should just reject the change, continue running?
                 throw std::runtime_error("Value out of range");
                 return -1;
