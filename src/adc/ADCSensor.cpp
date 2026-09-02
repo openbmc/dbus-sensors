@@ -214,7 +214,7 @@ void ADCSensor::handleResponse(const boost::system::error_code& err)
         std::string response;
         std::getline(responseStream, response);
 
-        // todo read scaling factors from configuration
+        // TODO: read scaling factors from configuration
         try
         {
             rawValue = std::stod(response);
