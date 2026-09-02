@@ -109,6 +109,12 @@ NvidiaSmaLeakSensor::NvidiaSmaLeakSensor(
             "NAME", name);
     }
 
+    const sdbusplus::object_path monitoredPath =
+        sdbusplus::object_path(sensorConfiguration).parent_path();
+
+    addMonitoringAssociation(leakDetectorAssociation, leakDetectorPath,
+                             monitoredPath, name);
+
     sdbusplus::object_path leakFaultPath =
         sdbusplus::object_path("/xyz/openbmc_project/state/leak/detector") /
         (escapeName(name) + "_Fault");
@@ -131,6 +137,9 @@ NvidiaSmaLeakSensor::NvidiaSmaLeakSensor(
             "Error initializing Leak Fault Interface for Leak Sensor for {NAME}",
             "NAME", name + "_Fault");
     }
+
+    addMonitoringAssociation(leakFaultAssociation, leakFaultPath, monitoredPath,
+                             name + "_Fault");
 }
 
 NvidiaSmaLeakSensor::~NvidiaSmaLeakSensor()
@@ -152,6 +161,36 @@ NvidiaSmaLeakSensor::~NvidiaSmaLeakSensor()
     if (leakFaultInterface)
     {
         objectServer.remove_interface(leakFaultInterface);
+    }
+    if (leakDetectorAssociation)
+    {
+        objectServer.remove_interface(leakDetectorAssociation);
+    }
+    if (leakFaultAssociation)
+    {
+        objectServer.remove_interface(leakFaultAssociation);
+    }
+}
+
+void NvidiaSmaLeakSensor::addMonitoringAssociation(
+    std::shared_ptr<sdbusplus::asio::dbus_interface>& interface,
+    const sdbusplus::object_path& path,
+    const sdbusplus::object_path& monitoredPath,
+    const std::string& detectorName)
+{
+    interface = objectServer.add_interface(path, association::interface);
+
+    interface->register_property(
+        "Associations",
+        std::vector<Association>{
+            Association{"monitoring", "monitored_by", monitoredPath}});
+
+    if (!interface->initialize())
+    {
+        lg2::error("Error initializing Association Interface for {NAME}",
+                   "NAME", detectorName);
+        objectServer.remove_interface(interface);
+        interface = nullptr;
     }
 }
 
