@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ff2347d_65020d8b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-02T10:48:10Z",
+      "side": 1,
+      "message": "shouldn\u0027t we test the difference between BMC clock and published time?",
+      "range": {
+        "startLine": 41,
+        "startChar": 23,
+        "endLine": 41,
+        "endChar": 35
+      },
+      "revId": "68d6c3f9aa2fd76b7fe53adaa10ecbb3ae1dd606",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ef4efde_e889d2e5",
+        "filename": "src/nvidia-gpu/NvidiaSensorUtils.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-02T10:48:10Z",
+      "side": 1,
+      "message": "This can be free function.",
+      "revId": "68d6c3f9aa2fd76b7fe53adaa10ecbb3ae1dd606",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab1a2a73_62cdf999",
+        "filename": "src/nvidia-gpu/NvidiaSensorUtils.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-02T10:48:10Z",
+      "side": 1,
+      "message": "This can be free function too.",
+      "revId": "68d6c3f9aa2fd76b7fe53adaa10ecbb3ae1dd606",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc1526d2_a17a3e52",
+        "filename": "src/nvidia-gpu/NvidiaSensorUtils.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-02T10:48:10Z",
+      "side": 1,
+      "message": "We don\u0027t need this state to persist across invocation of function stamp, so let\u0027s remove it.",
+      "revId": "68d6c3f9aa2fd76b7fe53adaa10ecbb3ae1dd606",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
