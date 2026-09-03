@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "36817fc0_26d0349b",
+        "filename": "src/nvidia-gpu/DeviceInterface.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-09-03T13:55:20Z",
+      "side": 1,
+      "message": "folding the endpoint bookkeeping into the device record left nothing looking a device up through a base class (at next patch), so SmaDevice no longer inherits anything and the header is deleted.",
+      "parentUuid": "08656161_9b27ca4e",
+      "range": {
+        "startLine": 9,
+        "startChar": 6,
+        "endLine": 9,
+        "endChar": 21
+      },
+      "revId": "190c33737c5f8178b27df5be7e33a8de4c21f126",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "856446ea_ff30074a",
@@ -37,6 +61,24 @@
       "writtenOn": "2026-09-02T04:58:53Z",
       "side": 1,
       "message": "don\u0027t use auto here.",
+      "revId": "190c33737c5f8178b27df5be7e33a8de4c21f126",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b8232ef_71c8a359",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-09-03T13:55:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "856446ea_ff30074a",
       "revId": "190c33737c5f8178b27df5be7e33a8de4c21f126",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -58,6 +100,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3a4b526_17a8f36f",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-09-03T13:55:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b290ac35_85a45f40",
+      "revId": "190c33737c5f8178b27df5be7e33a8de4c21f126",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "74082c07_4caf47d5",
@@ -71,6 +131,24 @@
       "writtenOn": "2026-09-02T04:58:53Z",
       "side": 1,
       "message": "Log this error.",
+      "revId": "190c33737c5f8178b27df5be7e33a8de4c21f126",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4b66150_22f0fce6",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-09-03T13:55:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74082c07_4caf47d5",
       "revId": "190c33737c5f8178b27df5be7e33a8de4c21f126",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -92,6 +170,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0218567_8dbbec69",
+        "filename": "src/nvidia-gpu/EndpointState.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-09-03T13:55:20Z",
+      "side": 1,
+      "message": "They do look alike here, but one is the state a device is in and the other is what happened to it. \nThe follow-up widens the gap: the state gains `Offline` for when mctpd removes the endpoint object, while the event gains `EndpointRemoved` and `EndpointReadded`.",
+      "parentUuid": "0564aff6_4f2552ba",
+      "revId": "190c33737c5f8178b27df5be7e33a8de4c21f126",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a9727b8c_98a1d8fd",
@@ -105,6 +201,30 @@
       "writtenOn": "2026-09-02T04:58:53Z",
       "side": 1,
       "message": "nit: rename to MctpConnectivity.",
+      "range": {
+        "startLine": 14,
+        "startChar": 11,
+        "endLine": 14,
+        "endChar": 24
+      },
+      "revId": "190c33737c5f8178b27df5be7e33a8de4c21f126",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6127978_3aad295c",
+        "filename": "src/nvidia-gpu/EndpointState.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-09-03T13:55:20Z",
+      "side": 1,
+      "message": "The enum already carries `InitComplete`, and the follow-up adds `EndpointRemoved` and `EndpointReadded` for InterfacesRemoved and InterfacesAdded. \nI think none of those are values of mctpd\u0027s Connectivity property, so MctpConnectivity may not suitable.",
+      "parentUuid": "a9727b8c_98a1d8fd",
       "range": {
         "startLine": 14,
         "startChar": 11,
@@ -138,6 +258,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fac57322_0d8db396",
+        "filename": "src/nvidia-gpu/EndpointState.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-09-03T13:55:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "320c83e1_b30d36a3",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 38
+      },
+      "revId": "190c33737c5f8178b27df5be7e33a8de4c21f126",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8d584619_c0c6d080",
@@ -151,6 +295,24 @@
       "writtenOn": "2026-09-02T04:58:53Z",
       "side": 1,
       "message": "See if we can define constexpr array that define the current to next relation and then use that to find the next state.",
+      "revId": "190c33737c5f8178b27df5be7e33a8de4c21f126",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ac606ea_882f9f52",
+        "filename": "src/nvidia-gpu/EndpointState.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-09-03T13:55:20Z",
+      "side": 1,
+      "message": "I follows MCTPReactor to do it. MCTPReactor does the same with a switch over ten states and no table, and the switch has the advantage that adding a value to the enum stops it building until every case is handled.\nHappy to convert it if you would still prefer a table.",
+      "parentUuid": "8d584619_c0c6d080",
       "revId": "190c33737c5f8178b27df5be7e33a8de4c21f126",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -172,6 +334,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f99e802_b24e7ce6",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensorMain.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-09-03T13:55:20Z",
+      "side": 1,
+      "message": "Done. Move it to `onConnectivityChanged `.",
+      "parentUuid": "47efb6d1_f0c2ae65",
+      "revId": "190c33737c5f8178b27df5be7e33a8de4c21f126",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3ef7d689_4270e1d3",
@@ -185,6 +365,24 @@
       "writtenOn": "2026-09-02T04:58:53Z",
       "side": 1,
       "message": "Let\u0027s make declaration of `configIfaceRemovedMatch` use this too.",
+      "revId": "190c33737c5f8178b27df5be7e33a8de4c21f126",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e444122_1f6eb8d9",
+        "filename": "src/nvidia-gpu/NvidiaGpuSensorMain.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-09-03T13:55:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ef7d689_4270e1d3",
       "revId": "190c33737c5f8178b27df5be7e33a8de4c21f126",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -206,6 +404,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "41ce06fa_d9fadede",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-09-03T13:55:20Z",
+      "side": 1,
+      "message": "Done. `Sensor::markFunctional` writes the `NaN` itself, so the device only says it cannot read, and `setOnline` marks it functional again.",
+      "parentUuid": "b458b03f_65b2db0f",
+      "revId": "190c33737c5f8178b27df5be7e33a8de4c21f126",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "376d0c40_60d509aa",
@@ -219,6 +435,24 @@
       "writtenOn": "2026-09-02T04:58:53Z",
       "side": 1,
       "message": "Is this not defined?",
+      "revId": "190c33737c5f8178b27df5be7e33a8de4c21f126",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3f33134_acd2693b",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-09-03T13:55:20Z",
+      "side": 1,
+      "message": "It is, `SmaDevice::init` is defined in `NvidiaSmaDevice.cpp`.",
+      "parentUuid": "376d0c40_60d509aa",
       "revId": "190c33737c5f8178b27df5be7e33a8de4c21f126",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }

@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0911a0d3_12190adb",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-09-03T13:55:20Z",
+      "side": 1,
+      "message": "It is not. Thanks for catching.",
+      "parentUuid": "b7b985f7_9e73b683",
+      "range": {
+        "startLine": 57,
+        "startChar": 13,
+        "endLine": 57,
+        "endChar": 31
+      },
+      "revId": "cde93b7d986900082405a5ce11decb0407c97758",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dfbef91f_3a40bdc8",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-09-02T04:58:53Z",
       "side": 1,
       "message": "this is device specific behaviour and this file should not care about it.",
+      "range": {
+        "startLine": 158,
+        "startChar": 16,
+        "endLine": 159,
+        "endChar": 61
+      },
+      "revId": "cde93b7d986900082405a5ce11decb0407c97758",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5235abe0_980bbdd5",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-09-03T13:55:20Z",
+      "side": 1,
+      "message": "Done, dropped it.",
+      "parentUuid": "dfbef91f_3a40bdc8",
       "range": {
         "startLine": 158,
         "startChar": 16,
@@ -70,6 +118,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab528a72_09215280",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-09-03T13:55:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7591b00e_1733b267",
+      "range": {
+        "startLine": 237,
+        "startChar": 34,
+        "endLine": 237,
+        "endChar": 46
+      },
+      "revId": "cde93b7d986900082405a5ce11decb0407c97758",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3249ae32_983bbeab",
@@ -93,6 +165,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d6d2f46_0d923406",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-09-03T13:55:20Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "3249ae32_983bbeab",
+      "range": {
+        "startLine": 506,
+        "startChar": 65,
+        "endLine": 506,
+        "endChar": 78
+      },
+      "revId": "cde93b7d986900082405a5ce11decb0407c97758",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c907a473_760e6ee6",
@@ -106,6 +202,24 @@
       "writtenOn": "2026-09-02T04:58:53Z",
       "side": 1,
       "message": "Let\u0027s not do this and reuse member `smaDevices`. We can make it plain vector of {device, mctpObjectPath, emObjectPath, state, eid, etc} and iterate the vector whenever we need to do the look up again either object paths.",
+      "revId": "cde93b7d986900082405a5ce11decb0407c97758",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e70c9a7_b967ea6f",
+        "filename": "src/nvidia-gpu/DeviceManager.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-09-03T13:55:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c907a473_760e6ee6",
       "revId": "cde93b7d986900082405a5ce11decb0407c97758",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
