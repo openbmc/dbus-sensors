@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0864aef7_532e8445",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003004
+      },
+      "writtenOn": "2026-09-03T09:58:51Z",
+      "side": 1,
+      "message": "Please update the Fan caller as part of this change, or explain why it is intentionally excluded. FanMain.cpp::createSensors still defaults retries to 0 and passes that value explicitly to getConfiguration, so the Fan sensor\u0027s initial configuration lookup receives no retries despite this new default. The initial Fan startup path can therefore still fail on the transient ObjectMapper timeout this change is intended to address.",
+      "revId": "096258de64a35cdc59639e52852fc0aac1cba464",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d7233828_9a69a311",
         "filename": "src/Utils.hpp",
         "patchSetId": 1
