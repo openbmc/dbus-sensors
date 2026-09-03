@@ -9,6 +9,7 @@
 
 #include <cstdint>
 #include <memory>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -23,7 +24,8 @@ class NVMeSensor : public Sensor
                const std::string& sensorName,
                std::vector<thresholds::Threshold>&& thresholds,
                const std::string& sensorConfiguration, int busNumber,
-               uint8_t slaveAddr, bool smbusPEC);
+               uint8_t slaveAddr, bool smbusPEC,
+               std::optional<unsigned int> errorRetryDelay);
     ~NVMeSensor() override;
 
     NVMeSensor& operator=(const NVMeSensor& other) = delete;
@@ -35,7 +37,7 @@ class NVMeSensor : public Sensor
     const bool smbusPEC;
 
   private:
-    const unsigned int scanDelayTicks = 5 * 60;
+    const unsigned int scanDelayTicks;
     sdbusplus::asio::object_server& objServer;
     unsigned int scanDelay{0};
 

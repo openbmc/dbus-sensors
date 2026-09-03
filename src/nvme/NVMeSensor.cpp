@@ -28,6 +28,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <memory>
+#include <optional>
 #include <stdexcept>
 #include <string>
 #include <utility>
@@ -35,6 +36,7 @@
 
 static constexpr double maxReading = 127;
 static constexpr double minReading = 0;
+static constexpr unsigned int defaultScanDelayTicks = 5 * 60;
 
 NVMeSensor::NVMeSensor(
     sdbusplus::asio::object_server& objectServer,
@@ -43,16 +45,24 @@ NVMeSensor::NVMeSensor(
     const std::string& sensorName,
     std::vector<thresholds::Threshold>&& thresholdsIn,
     const std::string& sensorConfiguration, const int busNumber,
-    const uint8_t slaveAddr, bool smbusPEC) :
+    const uint8_t slaveAddr, bool smbusPEC,
+    std::optional<unsigned int> errorRetryDelay) :
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
            NVMeSensor::sensorType, false, false, maxReading, minReading, conn,
            PowerState::on),
     bus(busNumber), address(slaveAddr), smbusPEC(smbusPEC),
+    scanDelayTicks(errorRetryDelay.value_or(defaultScanDelayTicks)),
     objServer(objectServer)
 {
     if (bus < 0)
     {
         throw std::invalid_argument("Invalid bus: Bus ID must not be negative");
+    }
+
+    if (scanDelayTicks == 0)
+    {
+        throw std::invalid_argument(
+            "Invalid error retry delay: The delay must be positive");
     }
 
     sensorInterface = objectServer.add_interface(
