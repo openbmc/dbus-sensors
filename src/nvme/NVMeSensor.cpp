@@ -16,6 +16,7 @@
 
 #include "NVMeSensor.hpp"
 
+#include "NVMeContext.hpp"
 #include "SensorPaths.hpp"
 #include "Thresholds.hpp"
 #include "Utils.hpp"
@@ -25,9 +26,12 @@
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
+#include <cmath>
 #include <cstddef>
 #include <cstdint>
+#include <limits>
 #include <memory>
+#include <optional>
 #include <stdexcept>
 #include <string>
 #include <utility>
@@ -35,15 +39,16 @@
 
 static constexpr double maxReading = 127;
 static constexpr double minReading = 0;
+static constexpr double defaultErrorRetryDelaySec = 5 * 60;
 
-NVMeSensor::NVMeSensor(
-    sdbusplus::asio::object_server& objectServer,
-    boost::asio::io_context& /*unused*/,
-    std::shared_ptr<sdbusplus::asio::connection>& conn,
-    const std::string& sensorName,
-    std::vector<thresholds::Threshold>&& thresholdsIn,
-    const std::string& sensorConfiguration, const int busNumber,
-    const uint8_t slaveAddr, bool smbusPEC) :
+NVMeSensor::NVMeSensor(sdbusplus::asio::object_server& objectServer,
+                       boost::asio::io_context& /*unused*/,
+                       std::shared_ptr<sdbusplus::asio::connection>& conn,
+                       const std::string& sensorName,
+                       std::vector<thresholds::Threshold>&& thresholdsIn,
+                       const std::string& sensorConfiguration,
+                       const int busNumber, const uint8_t slaveAddr,
+                       bool smbusPEC, std::optional<double> errorRetryDelay) :
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
            NVMeSensor::sensorType, false, false, maxReading, minReading, conn,
            PowerState::on),
@@ -54,6 +59,27 @@ NVMeSensor::NVMeSensor(
     {
         throw std::invalid_argument("Invalid bus: Bus ID must not be negative");
     }
+
+    const double errorRetryDelaySec =
+        errorRetryDelay.value_or(defaultErrorRetryDelaySec);
+
+    if (!std::isfinite(errorRetryDelaySec) || errorRetryDelaySec <= 0.0)
+    {
+        throw std::invalid_argument(
+            "Invalid ErrorRetryDelay: The delay must be a positive number");
+    }
+
+    static_assert(NVMeContext::pollIntervalSec > 0,
+                  "Non-positive poll interval");
+    const double roundedDelayTicks =
+        std::ceil(errorRetryDelaySec / NVMeContext::pollIntervalSec);
+
+    if (roundedDelayTicks > std::numeric_limits<unsigned int>::max())
+    {
+        throw std::invalid_argument(
+            "Invalid scanDelayTicks: The delayed ticks is out of range");
+    }
+    scanDelayTicks = static_cast<unsigned int>(roundedDelayTicks);
 
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/temperature/" + name,

@@ -17,6 +17,8 @@
 class NVMeContext : public std::enable_shared_from_this<NVMeContext>
 {
   public:
+    static constexpr unsigned int pollIntervalSec = 1;
+
     NVMeContext(boost::asio::io_context& io, int rootBus) :
         scanTimer(io), rootBus(rootBus), pollCursor(sensors.end())
     {

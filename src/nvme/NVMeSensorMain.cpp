@@ -112,6 +112,18 @@ static std::optional<std::string> extractPEC(
     return std::visit(VariantToStringVisitor(), findPEC->second);
 }
 
+static std::optional<double> extractErrorRetryDelay(
+    const SensorBaseConfigMap& properties)
+{
+    auto findErrorRetryDelay = properties.find("ErrorRetryDelay");
+    if (findErrorRetryDelay == properties.end())
+    {
+        return std::nullopt;
+    }
+
+    return std::visit(VariantToDoubleVisitor(), findErrorRetryDelay->second);
+}
+
 static std::filesystem::path deriveRootBusPath(int busNumber)
 {
     return "/sys/bus/i2c/devices/i2c-" + std::to_string(busNumber) +
@@ -218,13 +230,18 @@ static void handleSensorConfigurations(
             std::shared_ptr<NVMeContext> context =
                 provideRootBusContext(io, nvmeDeviceMap, *rootBus);
 
+            // May throw for a malformed ErrorRetryDelay
+            std::optional<double> errorRetryDelay =
+                extractErrorRetryDelay(sensorConfig);
+
             // Construct the sensor after grabbing the context so we don't
-            // glitch D-Bus May throw for an invalid busNumber
+            // glitch D-Bus May throw for an invalid busNumber or
+            // ErrorRetryDelay
             std::shared_ptr<NVMeSensor> sensorPtr =
                 std::make_shared<NVMeSensor>(
                     objectServer, io, dbusConnection, *sensorName,
                     std::move(sensorThresholds), interfacePath, *busNumber,
-                    slaveAddr, smbusPEC);
+                    slaveAddr, smbusPEC, errorRetryDelay);
 
             context->addSensor(sensorPtr);
         }
