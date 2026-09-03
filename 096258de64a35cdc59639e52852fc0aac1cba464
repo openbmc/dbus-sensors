@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7233828_9a69a311",
+        "filename": "src/Utils.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-09-03T05:21:38Z",
+      "side": 1,
+      "message": "This correctly adds retries for callers using the default, but Fan explicitly passes retries with a default of 0, so it will not benefit. Is that intentional, or should Fan’s default also be changed to 5?",
+      "range": {
+        "startLine": 311,
+        "startChar": 33,
+        "endLine": 311,
+        "endChar": 40
+      },
+      "revId": "096258de64a35cdc59639e52852fc0aac1cba464",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
