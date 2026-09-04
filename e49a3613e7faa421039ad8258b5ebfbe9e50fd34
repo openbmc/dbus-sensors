@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f20d08bc_09bffc4e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-09-04T16:14:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92303b28_97a7b74a",
+      "range": {
+        "startLine": 9,
+        "startChar": 46,
+        "endLine": 9,
+        "endChar": 62
+      },
+      "revId": "e49a3613e7faa421039ad8258b5ebfbe9e50fd34",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0d02b79a_48ad55cb",
@@ -79,6 +103,24 @@
       "side": 1,
       "message": "Removed the redundant “Files modified” list from the commit message, since the patch diff already shows the affected files and lines.",
       "parentUuid": "0d02b79a_48ad55cb",
+      "revId": "e49a3613e7faa421039ad8258b5ebfbe9e50fd34",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d6babf1_0d08abcb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-09-04T16:14:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f7775f3_47cf974b",
       "revId": "e49a3613e7faa421039ad8258b5ebfbe9e50fd34",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -120,6 +162,30 @@
       "side": 1,
       "message": "You’re right, adding -i would be sufficient for case-insensitive searches. I’ve removed the grep related justification and kept the change focused on consistent TODO/FIXME formatting.",
       "parentUuid": "14474763_8e898574",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 64
+      },
+      "revId": "e49a3613e7faa421039ad8258b5ebfbe9e50fd34",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "886b3657_6897e01f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-09-04T16:14:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c64819f7_acbe5777",
       "range": {
         "startLine": 24,
         "startChar": 0,
