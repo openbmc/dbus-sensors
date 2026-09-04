@@ -1,7 +1,13 @@
+#include "ipmb/IpmbSDRSensor.hpp"
 #include "ipmb/IpmbSensor.hpp"
 
+#include <sdbusplus/asio/connection.hpp>
+
+#include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <memory>
+#include <string>
 #include <vector>
 
 #include <gtest/gtest.h>
@@ -286,6 +292,120 @@ TEST(IPMBSensor, FifteenBitInvalid)
     size_t errCount = 0;
     EXPECT_FALSE(IpmbSensor::processReading(ReadingFormat::fifteenBit, 0, data,
                                             responseValue, errCount));
+}
+
+TEST(IPMBSDRSensor, RejectsShortType01Record)
+{
+    sensorRecord.clear();
+    std::shared_ptr<sdbusplus::asio::connection> connection;
+    IpmbSDRDevice device(connection, uint8_t{0});
+    std::vector<uint8_t> data(54, 0);
+    data[sdr::sdrType] = static_cast<uint8_t>(SDRType::sdrType01);
+
+    device.checkSDRData(data);
+
+    EXPECT_TRUE(sensorRecord.empty());
+}
+
+TEST(IPMBSDRSensor, DefersShortAccumulatedHeader)
+{
+    sensorRecord.clear();
+    std::shared_ptr<sdbusplus::asio::connection> connection;
+    IpmbSDRDevice device(connection, uint8_t{0});
+    std::vector<uint8_t> data(sdr::dataLengthByte, 0);
+
+    device.handleSDRData(data, uint16_t{1}, uint8_t{0}, uint8_t{0});
+
+    EXPECT_TRUE(sensorRecord.empty());
+    EXPECT_EQ(device.sdrData.size(), data.size());
+}
+
+TEST(IPMBSDRSensor, RejectsWrappedDeclaredLength)
+{
+    std::shared_ptr<sdbusplus::asio::connection> connection;
+    for (const auto sdrType :
+         {SDRType::sdrType01, SDRType::sdrType02, SDRType::sdrType03})
+    {
+        for (const uint8_t declaredLength : {uint8_t{252}, uint8_t{255}})
+        {
+            SCOPED_TRACE(static_cast<int>(sdrType));
+            SCOPED_TRACE(static_cast<int>(declaredLength));
+            sensorRecord.clear();
+            IpmbSDRDevice device(connection, uint8_t{0});
+            std::vector<uint8_t> data(18, 0);
+            data[sdr::sdrType] = static_cast<uint8_t>(sdrType);
+            data[sdr::dataLengthByte] = declaredLength;
+
+            device.handleSDRData(data, uint16_t{1}, uint8_t{0}, uint8_t{0});
+
+            EXPECT_TRUE(sensorRecord.empty());
+            EXPECT_TRUE(device.sdrData.empty());
+            EXPECT_EQ(device.iCnt, 0);
+        }
+    }
+}
+
+TEST(IPMBSDRSensor, RejectsNameBeyondDeclaredRecord)
+{
+    sensorRecord.clear();
+    std::shared_ptr<sdbusplus::asio::connection> connection;
+    IpmbSDRDevice device(connection, uint8_t{0});
+    std::vector<uint8_t> data(72, 0);
+    data[sdr::sdrType] = static_cast<uint8_t>(SDRType::sdrType01);
+    data[sdr::dataLengthByte] = 47;
+    data[sdrtype01::nameLengthByte] = 16;
+
+    device.checkSDRData(data);
+
+    EXPECT_TRUE(sensorRecord.empty());
+}
+
+TEST(IPMBSDRSensor, AcceptsSupportedNameLengths)
+{
+    std::shared_ptr<sdbusplus::asio::connection> connection;
+    IpmbSDRDevice device(connection, uint8_t{0});
+    for (const std::size_t nameLength : {0U, 1U, 2U, 3U, 4U, 5U, 8U})
+    {
+        SCOPED_TRACE(nameLength);
+        sensorRecord.clear();
+        sensorValRecord.clear();
+        std::vector<uint8_t> data(nameLength == 0 ? 54 : 72, 0);
+        data[sdr::sdrType] = static_cast<uint8_t>(SDRType::sdrType01);
+        data[sdr::dataLengthByte] = static_cast<uint8_t>(43 + nameLength);
+        data[sdrtype01::nameLengthByte] = static_cast<uint8_t>(nameLength);
+        const std::string name(nameLength, 'A');
+        if (!name.empty())
+        {
+            std::copy(name.begin(), name.end(), data.begin() + 56);
+        }
+
+        device.checkSDRData(data);
+
+        ASSERT_EQ(sensorRecord.count(0), 1U);
+        ASSERT_EQ(sensorRecord.at(0).size(), 1U);
+        EXPECT_EQ(sensorRecord.at(0).front().sensorReadName, name);
+    }
+}
+
+TEST(IPMBSDRSensor, AcceptsMaximumNameAtRecordEdge)
+{
+    sensorRecord.clear();
+    sensorValRecord.clear();
+    std::shared_ptr<sdbusplus::asio::connection> connection;
+    IpmbSDRDevice device(connection, uint8_t{0});
+    constexpr std::size_t nameLength = 16;
+    const std::string name(nameLength, 'A');
+    std::vector<uint8_t> data(56 + nameLength, 0);
+    data[sdr::sdrType] = static_cast<uint8_t>(SDRType::sdrType01);
+    data[sdr::dataLengthByte] = static_cast<uint8_t>(43 + nameLength);
+    data[sdrtype01::nameLengthByte] = static_cast<uint8_t>(nameLength);
+    std::copy(name.begin(), name.end(), data.begin() + 56);
+
+    device.checkSDRData(data);
+
+    ASSERT_EQ(sensorRecord.count(0), 1U);
+    ASSERT_EQ(sensorRecord.at(0).size(), 1U);
+    EXPECT_EQ(sensorRecord.at(0).front().sensorReadName, name);
 }
 
 } // namespace
