@@ -18,6 +18,23 @@ const constexpr char* ipmbInterface = "org.openbmc.Ipmb";
 const constexpr char* ipmbMethod = "sendRequest";
 static constexpr uint8_t lun = 0;
 
+namespace
+{
+constexpr std::size_t getSdrResponsePrefixLength = 2;
+constexpr std::size_t sdrRecordHeaderLength = 5;
+constexpr std::size_t fullSensorRecordFixedDataLength = 43;
+constexpr std::size_t maxSensorNameLength = 16;
+
+std::size_t getFramedSdrLength(uint8_t recordDataLength)
+{
+    const std::size_t recordLength =
+        static_cast<std::size_t>(recordDataLength) + sdrRecordHeaderLength;
+    const std::size_t chunkCount =
+        (recordLength + sdr::perCountByte - 1) / sdr::perCountByte;
+    return recordLength + (chunkCount * getSdrResponsePrefixLength);
+}
+} // namespace
+
 IpmbSDRDevice::IpmbSDRDevice(
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     uint8_t cmdAddr) :
@@ -175,13 +192,25 @@ void IpmbSDRDevice::handleSDRData(const std::vector<uint8_t>& data,
 {
     sdrData.insert(sdrData.end(), data.begin(), data.end());
 
+    if (sdrData.size() <= sdr::dataLengthByte)
+    {
+        return;
+    }
+
     /* dataLength represents the size of data for SDR types */
-    uint8_t dataLength = sdrData[sdr::dataLengthByte] + sdr::dataLengthByte + 1;
+    const std::size_t dataLength =
+        getFramedSdrLength(sdrData[sdr::dataLengthByte]);
+    const std::size_t recordDataLength = sdrData[sdr::dataLengthByte];
+    const bool invalidFullSensorLength =
+        sdrData[sdr::sdrType] == static_cast<uint8_t>(SDRType::sdrType01) &&
+        (recordDataLength < fullSensorRecordFixedDataLength ||
+         recordDataLength >
+             fullSensorRecordFixedDataLength + maxSensorNameLength);
 
     /*  If sdrData size is less than dataLength, it will call getSDRSensorData
      *  function recursively till all the data is received.
      */
-    if (sdrData.size() < dataLength)
+    if (!invalidFullSensorLength && sdrData.size() < dataLength)
     {
         iCnt++;
         getSDRSensorData(recordCount, resrvIDLSB, resrvIDMSB);
@@ -216,9 +245,17 @@ void IpmbSDRDevice::handleSDRData(const std::vector<uint8_t>& data,
 /* This function will convert the SDR sensor data such as sensor unit, name, ID,
  * type from decimal to readable format */
 void IpmbSDRDevice::checkSDRData(std::vector<uint8_t>& sdrDataBytes,
-                                 uint8_t dataLength) const
+                                 std::size_t dataLength) const
 {
-    if (sdrDataBytes.size() < dataLength)
+    if (sdrDataBytes.size() <= sdr::dataLengthByte ||
+        sdrDataBytes.size() < dataLength)
+    {
+        return;
+    }
+
+    const std::size_t declaredDataLength =
+        getFramedSdrLength(sdrDataBytes[sdr::dataLengthByte]);
+    if (dataLength != declaredDataLength)
     {
         return;
     }
@@ -230,21 +267,41 @@ void IpmbSDRDevice::checkSDRData(std::vector<uint8_t>& sdrDataBytes,
         return;
     }
 
+    if (sdrDataBytes.size() <= sdrtype01::nameLengthByte)
+    {
+        return;
+    }
+
     /*  dataLen represents the data length (Byte 6) for SDR sensor */
-    int dataLen = sdrDataBytes[sdr::dataLengthByte];
+    const std::size_t dataLen = sdrDataBytes[sdr::dataLengthByte];
 
     /* iStrLen represents the length of the sensor name for SDR Type 1 */
     const uint8_t sdrLenBit = 0x1F;
-    int strLen = (sdrDataBytes[sdrtype01::nameLengthByte]) & (sdrLenBit);
+    const std::size_t strLen =
+        (sdrDataBytes[sdrtype01::nameLengthByte]) & (sdrLenBit);
 
-    /* iStrAddr represents the starting byte (Byte 56) for SDR sensor name */
-    int strAddr = dataLen + ((dataLen / (sdr::perCountByte)) * 4) -
-                  (strLen - 1);
+    if (strLen > maxSensorNameLength ||
+        dataLen != fullSensorRecordFixedDataLength + strLen)
+    {
+        return;
+    }
 
-    /* Below for loop will convert the bytes to string and form a sensor name */
+    std::string tempName;
+    if (strLen != 0)
+    {
+        /* The ID string starts in the fourth 16-byte record chunk. */
+        constexpr std::size_t strAddr =
+            sdrtype01::nameLengthByte + 1 + getSdrResponsePrefixLength;
+        if (strAddr > dataLength || strLen > dataLength - strAddr ||
+            strAddr > sdrDataBytes.size() ||
+            strLen > sdrDataBytes.size() - strAddr)
+        {
+            return;
+        }
 
-    std::string tempName(sdrDataBytes.begin() + strAddr,
-                         sdrDataBytes.begin() + strAddr + strLen);
+        tempName.assign(sdrDataBytes.begin() + strAddr,
+                        sdrDataBytes.begin() + strAddr + strLen);
+    }
 
     checkSDRType01Threshold(sdrDataBytes, (hostIndex - 1), tempName);
 }
