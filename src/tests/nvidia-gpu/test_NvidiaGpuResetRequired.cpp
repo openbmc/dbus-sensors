@@ -91,4 +91,8 @@ TEST_F(NvidiaGpuResetRequiredTest, HandlerDestroyedBeforeReplyIsSafe)
     ASSERT_TRUE(
         pumpIoUntil([this] { return createCall.count > 0; }, pumpTimeout));
     EXPECT_EQ(createCall.count, 1);
+
+    // The stub has recorded the request, but the reply that releases the
+    // pending async_send has not been delivered yet.
+    drainPendingAsync();
 }
