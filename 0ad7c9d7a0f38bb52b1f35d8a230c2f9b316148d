@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef9a9ae3_249c8e57",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-09-04T02:28:56Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "df195c79_103af4ae",
+      "range": {
+        "startLine": 182,
+        "startChar": 12,
+        "endLine": 182,
+        "endChar": 43
+      },
+      "revId": "0ad7c9d7a0f38bb52b1f35d8a230c2f9b316148d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5fada768_17105d5d",
@@ -37,6 +61,24 @@
       "writtenOn": "2026-08-25T06:42:43Z",
       "side": 1,
       "message": "This captures local references into a static map with no way to remove them, so the entry outlives the test with dangling references. Should `NvidiaEventHandler` get an `unregisterEventHandler`?",
+      "revId": "0ad7c9d7a0f38bb52b1f35d8a230c2f9b316148d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2269cc4a_f43db396",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-09-04T02:28:56Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "5fada768_17105d5d",
       "revId": "0ad7c9d7a0f38bb52b1f35d8a230c2f9b316148d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
