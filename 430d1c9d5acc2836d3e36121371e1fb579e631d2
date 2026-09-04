@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "527d11d2_8ff3ae43",
+        "filename": "src/nvidia-gpu/NvidiaCapabilityQuery.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-09-04T02:28:40Z",
+      "side": 1,
+      "message": "Add, thanks.",
+      "parentUuid": "cfc285a4_27c1ea9b",
+      "revId": "430d1c9d5acc2836d3e36121371e1fb579e631d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac066da1_8171062b",
@@ -41,6 +59,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f406cd00_80a6fde1",
+        "filename": "src/nvidia-gpu/NvidiaCapabilityQuery.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-09-04T02:28:40Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "ac066da1_8171062b",
+      "range": {
+        "startLine": 119,
+        "startChar": 12,
+        "endLine": 122,
+        "endChar": 37
+      },
+      "revId": "430d1c9d5acc2836d3e36121371e1fb579e631d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c3c71fde_ac32ad54",
@@ -54,6 +96,24 @@
       "writtenOn": "2026-08-25T03:50:39Z",
       "side": 1,
       "message": "All three branches above log differently but fall through to the same ++index, and queryNextType() sets queried\u003dtrue at line 89 regardless.",
+      "revId": "430d1c9d5acc2836d3e36121371e1fb579e631d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc2a6cb0_72df1d01",
+        "filename": "src/nvidia-gpu/NvidiaCapabilityQuery.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-09-04T02:28:40Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "c3c71fde_ac32ad54",
       "revId": "430d1c9d5acc2836d3e36121371e1fb579e631d2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
