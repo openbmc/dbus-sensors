@@ -16,6 +16,24 @@
       "message": "nit: please add test for destructor",
       "revId": "1d90b3d7d5e2d3b866f4d8a94c93125aac1b0cc3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b46b46d_470479f6",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaIbPort.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-09-04T05:55:44Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "fbd74b44_d5db2e46",
+      "revId": "1d90b3d7d5e2d3b866f4d8a94c93125aac1b0cc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
