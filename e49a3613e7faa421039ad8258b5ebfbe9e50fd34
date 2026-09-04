@@ -1,6 +1,69 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "a970f7f8_ef96a6d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-09-04T15:38:07Z",
+      "side": 1,
+      "message": "Where can I find these \"C++ conventions\" documented in the project?",
+      "range": {
+        "startLine": 9,
+        "startChar": 46,
+        "endLine": 9,
+        "endChar": 62
+      },
+      "revId": "e49a3613e7faa421039ad8258b5ebfbe9e50fd34",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d02b79a_48ad55cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-09-04T15:38:07Z",
+      "side": 1,
+      "message": "Remove.  Not sure why we need the lines modified when it\u0027s a comit message on a patch... with the diff.",
+      "revId": "e49a3613e7faa421039ad8258b5ebfbe9e50fd34",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14474763_8e898574",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-09-04T15:38:07Z",
+      "side": 1,
+      "message": "is adding -i really that hard?",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 64
+      },
+      "revId": "e49a3613e7faa421039ad8258b5ebfbe9e50fd34",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "ffb48382_6fed0795",
