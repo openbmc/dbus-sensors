@@ -42,14 +42,26 @@ void sdrHandler(
     auto findBus = values.find("Bus");
     if (findBus == values.end())
     {
+        lg2::error("SDR handler: Bus configuration key not found");
         return;
     }
 
-    uint8_t busIndex = loadVariant<uint8_t>(values, "Bus");
+    uint8_t busIndex = 0;
+    try
+    {
+        busIndex = loadVariant<uint8_t>(values, "Bus");
+    }
+    catch (const std::invalid_argument& e)
+    {
+        lg2::error("SDR handler: Bus configuration conversion failed: {ERROR}",
+                   "ERROR", e.what());
+        return;
+    }
 
     auto& sdrsen = sdrsensor[busIndex];
     sdrsen = nullptr;
-    sdrsen = std::make_shared<IpmbSDRDevice>(dbusConnection, busIndex);
+    sdrsen =
+        std::make_shared<IpmbSDRDevice>(dbusConnection, busIndex);
     sdrsen->getSDRRepositoryInfo();
 }
 
