@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ceb6481_10623639",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-09-04T05:07:01Z",
+      "side": 1,
+      "message": "This looks like a real bounds-check fix in the SDR parser, and the added regressions cover the malformed-length cases well. One small follow-up I’d suggest is a boundary-case test at the maximum valid sensor-name length right at the record edge, to lock in the parser behavior at the limit as well as on the reject cases.",
+      "revId": "8ff77bb05504aa99b9cf86101297f2665b4631c9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
