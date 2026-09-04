@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0519de0_01c25265",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2026-09-04T08:41:22Z",
+      "side": 1,
+      "message": "If the read-back value is consistently 1 mV lower than the value we write, does that mean we should automatically add 1 mV to the threshold value before sending the threshold command to the SMA?\n\nOtherwise, the user may see all threshold values decrease by 1 mV after setting any single threshold.",
+      "range": {
+        "startLine": 112,
+        "startChar": 43,
+        "endLine": 114,
+        "endChar": 50
+      },
+      "revId": "27c30cfb6b295f4a00cfe2913018814858ae1d6d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
