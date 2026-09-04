@@ -2,6 +2,7 @@
 
 #include <sdbusplus/asio/connection.hpp>
 
+#include <cstddef>
 #include <cstdint>
 #include <map>
 #include <memory>
@@ -115,7 +116,7 @@ class IpmbSDRDevice : public std::enable_shared_from_this<IpmbSDRDevice>
                        uint8_t resrvIDLSB, uint8_t resrvIDMSB);
 
     void checkSDRData(std::vector<uint8_t>& sdrDataBytes,
-                      uint8_t dataLength) const;
+                      std::size_t dataLength) const;
 
     static void checkSDRType01Threshold(std::vector<uint8_t>& sdrDataBytes,
                                         int busIndex, std::string tempName);
