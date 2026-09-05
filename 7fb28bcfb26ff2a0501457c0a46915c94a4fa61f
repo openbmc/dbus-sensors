@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa4930da_8c26459e",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-09-05T13:04:04Z",
+      "side": 1,
+      "message": "It already uses the constant: temperatureAggregateSensorId is defined as 0xFF in NvidiaGpuMctpVdm.hpp, and the check skips the record carrying that tag. If your point is that the name reads as a request-side sensor id rather than the timestamp record in an aggregate response, I can add a dedicated constant for it - happy to do that if you prefer.",
+      "parentUuid": "a37786cd_afedd7c5",
+      "range": {
+        "startLine": 376,
+        "startChar": 23,
+        "endLine": 376,
+        "endChar": 51
+      },
+      "revId": "7fb28bcfb26ff2a0501457c0a46915c94a4fa61f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b5b69764_8944d82e",
@@ -54,6 +78,42 @@
       "writtenOn": "2026-09-01T15:18:52Z",
       "side": 1,
       "message": "Please encode the request once in the constructor",
+      "revId": "7fb28bcfb26ff2a0501457c0a46915c94a4fa61f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a66742cf_ec6b7d03",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-09-05T13:04:04Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "6ba12d5f_f86a144a",
+      "revId": "7fb28bcfb26ff2a0501457c0a46915c94a4fa61f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e1d1d2d_6c90c470",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-09-05T13:04:04Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "b5b69764_8944d82e",
       "revId": "7fb28bcfb26ff2a0501457c0a46915c94a4fa61f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
