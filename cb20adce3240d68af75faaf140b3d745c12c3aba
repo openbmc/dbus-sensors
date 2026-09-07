@@ -70,6 +70,24 @@
       "parentUuid": "053738d7_882b2f34",
       "revId": "cb20adce3240d68af75faaf140b3d745c12c3aba",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2932af54_2b43ea0f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-09-07T08:37:36Z",
+      "side": 1,
+      "message": "Added an end toend regression test for persistThreshold().\n\nThe test creates two threshold configurations on the same Entity Manager path with identical label, severity, and direction but different Index values. It persists a value for index 1 and verifies that only Thresholds0 is updated while Thresholds1 remains unchanged.",
+      "parentUuid": "8b4a5058_46f8b71d",
+      "revId": "cb20adce3240d68af75faaf140b3d745c12c3aba",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
