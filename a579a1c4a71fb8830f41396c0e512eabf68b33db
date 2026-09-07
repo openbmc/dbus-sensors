@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04fa1e8f_59f7ec02",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-09-07T04:10:48Z",
+      "side": 1,
+      "message": "LGTM, wait for PDI.",
+      "revId": "a579a1c4a71fb8830f41396c0e512eabf68b33db",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
