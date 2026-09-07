@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11f98827_6eb638f3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-09-07T05:25:29Z",
+      "side": 1,
+      "message": "Could you clarify which invalid configuration or device-path scenarios were exercised in the testing section? The journal search terms show that no matching messages were found, but they do not indicate whether malformed configuration or invalid-path cases were explicitly injected. Mentioning the exact negative cases tested would make the validation easier to assess.",
+      "revId": "d7dc753317d8bed779a2046ec2b76339e94af515",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
