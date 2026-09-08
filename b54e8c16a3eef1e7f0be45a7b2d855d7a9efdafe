@@ -16,6 +16,57 @@
       "message": "LGTM, wait for PDI.",
       "revId": "b54e8c16a3eef1e7f0be45a7b2d855d7a9efdafe",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e1c5363_da8eaac3",
+        "filename": "src/nvidia-gpu/NvidiaIbPort.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-08T08:24:44Z",
+      "side": 1,
+      "message": "Add test cases for this file.",
+      "revId": "b54e8c16a3eef1e7f0be45a7b2d855d7a9efdafe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "881fb908_16af0f54",
+        "filename": "src/nvidia-gpu/NvidiaIbPort.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-08T08:24:44Z",
+      "side": 1,
+      "message": "Write the comment that is targeted at PDI rather than redfish.",
+      "revId": "b54e8c16a3eef1e7f0be45a7b2d855d7a9efdafe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90754682_891aeccc",
+        "filename": "src/nvidia-gpu/NvidiaIbPort.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-08T08:24:44Z",
+      "side": 1,
+      "message": "Let\u0027s use the format required as per PDI.",
+      "revId": "b54e8c16a3eef1e7f0be45a7b2d855d7a9efdafe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
