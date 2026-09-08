@@ -16,6 +16,80 @@
       "message": "LGTM, wait for PDI.",
       "revId": "a579a1c4a71fb8830f41396c0e512eabf68b33db",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a980e34_a054a27f",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 1794,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-08T08:51:00Z",
+      "side": 1,
+      "message": "nit: this is not strictly needed.",
+      "range": {
+        "startLine": 1793,
+        "startChar": 48,
+        "endLine": 1794,
+        "endChar": 77
+      },
+      "revId": "a579a1c4a71fb8830f41396c0e512eabf68b33db",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "665463dd_637b648f",
+        "filename": "src/nvidia-gpu/NvidiaIbPort.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-08T08:51:00Z",
+      "side": 1,
+      "message": "`NvidiaUtils.hpp` already defines this.",
+      "revId": "a579a1c4a71fb8830f41396c0e512eabf68b33db",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c91e554b_03c13f22",
+        "filename": "src/nvidia-gpu/NvidiaIbPort.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-08T08:51:00Z",
+      "side": 1,
+      "message": "nit: order the functions same as other files, constructor, destructor, update, and processResponse.",
+      "revId": "a579a1c4a71fb8830f41396c0e512eabf68b33db",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89e54d9e_9e776fbc",
+        "filename": "src/nvidia-gpu/NvidiaIbPort.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-08T08:51:00Z",
+      "side": 1,
+      "message": "Please create a new class for Port Metrics and put it in the new file.",
+      "revId": "a579a1c4a71fb8830f41396c0e512eabf68b33db",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
