@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13d80afa_e1957a31",
+        "filename": "src/nvidia-gpu/NvidiaNVLinkPort.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-08T05:15:39Z",
+      "side": 1,
+      "message": "use std::format.",
+      "revId": "f0e4145348d52d80c6bcf4d319677ad2d1358944",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f63a6a18_50b8bc28",
+        "filename": "src/nvidia-gpu/NvidiaNVLinkPort.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-08T05:15:39Z",
+      "side": 1,
+      "message": "Following the pattern of other files in this app, can we break this into two classes, each with a single MCTP VDM Command?",
+      "range": {
+        "startLine": 185,
+        "startChar": 0,
+        "endLine": 186,
+        "endChar": 35
+      },
+      "revId": "f0e4145348d52d80c6bcf4d319677ad2d1358944",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
