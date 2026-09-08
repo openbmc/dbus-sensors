@@ -1,0 +1,163 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "360dadcf_0f3abe90",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-08T10:46:15Z",
+      "side": 1,
+      "message": "Won\u0027t this get destroyed at the end of this function?",
+      "revId": "8f5fa05c5e583bd71613ff412f8dd99f2eb34e6c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "030c4786_b41c237a",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-08T10:46:15Z",
+      "side": 1,
+      "message": "Let\u0027s do this instead, each device class will have reference to `DeviceSupportedCommandCodes` object (We will no longer need CapabilityQuery). That object can will have these public methods - \n1. Method to refresh the Command Code list on demand (the device class will call this method during the initialization and also bind it to handle Rediscovery event)\n2. Method to check if Command Code is supported.",
+      "revId": "8f5fa05c5e583bd71613ff412f8dd99f2eb34e6c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "865eb51e_8e076dd9",
+        "filename": "src/nvidia-gpu/NvidiaCapabilityQuery.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-08T10:46:15Z",
+      "side": 1,
+      "message": "Put the definition in cpp file.",
+      "revId": "8f5fa05c5e583bd71613ff412f8dd99f2eb34e6c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b7013a1_3358c169",
+        "filename": "src/nvidia-gpu/NvidiaCapabilityQuery.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-08T10:46:15Z",
+      "side": 1,
+      "message": "Instead of doing this let\u0027s have two std::array one for each command.",
+      "revId": "8f5fa05c5e583bd71613ff412f8dd99f2eb34e6c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06a8607a_2f67fcf2",
+        "filename": "src/nvidia-gpu/NvidiaCapabilityQuery.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-08T10:46:15Z",
+      "side": 1,
+      "message": "Let\u0027s follow the same pattern as other files in this app.",
+      "revId": "8f5fa05c5e583bd71613ff412f8dd99f2eb34e6c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf56cf63_c56b60d3",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-08T10:46:15Z",
+      "side": 1,
+      "message": "I don\u0027t have a strong opinion on how to implement this but list of Command Codes required for the Sensor update should be specified by the Sensor class rather than Device class.",
+      "revId": "8f5fa05c5e583bd71613ff412f8dd99f2eb34e6c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5ee2c96_b1db2489",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-08T10:46:15Z",
+      "side": 1,
+      "message": "Rename this to DeviceSupportedCommandCodes.",
+      "revId": "8f5fa05c5e583bd71613ff412f8dd99f2eb34e6c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "caa54e60_991dfac9",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-08T10:46:15Z",
+      "side": 1,
+      "message": "Put this into a separate file.",
+      "revId": "8f5fa05c5e583bd71613ff412f8dd99f2eb34e6c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4b1229c_605df154",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-08T10:46:15Z",
+      "side": 1,
+      "message": "make this private.",
+      "range": {
+        "startLine": 299,
+        "startChar": 0,
+        "endLine": 301,
+        "endChar": 17
+      },
+      "revId": "8f5fa05c5e583bd71613ff412f8dd99f2eb34e6c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
