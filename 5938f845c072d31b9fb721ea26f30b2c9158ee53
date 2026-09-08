@@ -33,6 +33,23 @@
       "message": "Please update the Tested section with both before-fix and after-fix results to clearly demonstrate that DTS CPU sensor values changed from \"na\" to valid readings after this fix.",
       "revId": "5938f845c072d31b9fb721ea26f30b2c9158ee53",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bc2ae82_6d119668",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003004
+      },
+      "writtenOn": "2026-09-08T06:29:14Z",
+      "side": 1,
+      "message": "Removing the continue allows processing to continue for an existing sensor entry. Is recreating/reinitializing the sensor intentional here? Could this result in multiple setupRead() calls or unnecessary sensor reinitialization?",
+      "revId": "5938f845c072d31b9fb721ea26f30b2c9158ee53",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
