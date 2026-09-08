@@ -41,10 +41,11 @@
 #include <cmath>
 #include <cstddef>
 #include <cstdint>
+#include <exception>
 #include <functional>
 #include <limits>
 #include <memory>
-#include <stdexcept>
+#include <optional>
 #include <string>
 #include <string_view>
 #include <utility>
@@ -821,23 +822,31 @@ void ExitAirTempSensor::checkThresholds()
     thresholds::checkThresholds(this);
 }
 
-static void loadVariantPathArray(const SensorBaseConfigMap& data,
-                                 const std::string& key,
-                                 std::vector<std::string>& resp)
+static std::optional<std::vector<std::string>> loadVariantPathArray(
+    const SensorBaseConfigMap& data, const std::string& key)
 {
     auto it = data.find(key);
     if (it == data.end())
     {
         lg2::error("Configuration missing '{KEY}'", "KEY", key);
-        throw std::invalid_argument("Key Missing");
+        return std::nullopt;
     }
-    BasicVariantType copy = it->second;
-    std::vector<std::string> config = std::get<std::vector<std::string>>(copy);
-    for (auto& str : config)
+    try
     {
-        boost::replace_all(str, " ", "_");
+        std::vector<std::string> config =
+            std::get<std::vector<std::string>>(it->second);
+        for (auto& str : config)
+        {
+            boost::replace_all(str, " ", "_");
+        }
+        return config;
     }
-    resp = std::move(config);
+    catch (const std::exception& e)
+    {
+        lg2::error("Failed to convert configuration '{KEY}': {ERROR}", "KEY",
+                   key, "ERROR", e.what());
+        return std::nullopt;
+    }
 }
 
 void createSensor(sdbusplus::asio::object_server& objectServer,
@@ -882,28 +891,47 @@ void createSensor(sdbusplus::asio::object_server& objectServer,
                     }
                     else if (intf == configInterfaceName(cfmType))
                     {
-                        // thresholds should be under the same path
-                        std::vector<thresholds::Threshold> sensorThresholds;
-                        parseThresholdsFromConfig(interfaces, sensorThresholds);
-                        std::string name =
-                            loadVariant<std::string>(cfg, "Name");
-                        auto sensor = std::make_shared<CFMSensor>(
-                            dbusConnection, name, path.str, objectServer,
-                            std::move(sensorThresholds), exitAirSensor);
-                        loadVariantPathArray(cfg, "Tachs", sensor->tachs);
-                        sensor->maxCFM = loadVariant<double>(cfg, "MaxCFM");
+                        try
+                        {
+                            // thresholds should be under the same path
+                            std::vector<thresholds::Threshold>
+                                sensorThresholds;
+                            parseThresholdsFromConfig(interfaces,
+                                                      sensorThresholds);
+                            std::string name =
+                                loadVariant<std::string>(cfg, "Name");
+                            auto sensor = std::make_shared<CFMSensor>(
+                                dbusConnection, name, path.str, objectServer,
+                                std::move(sensorThresholds), exitAirSensor);
+                            auto tachs = loadVariantPathArray(cfg, "Tachs");
+                            if (!tachs)
+                            {
+                                continue;
+                            }
+                            sensor->tachs = std::move(*tachs);
+                            sensor->maxCFM =
+                                loadVariant<double>(cfg, "MaxCFM");
 
-                        // change these into percent upon getting the data
-                        sensor->c1 = loadVariant<double>(cfg, "C1") / 100;
-                        sensor->c2 = loadVariant<double>(cfg, "C2") / 100;
-                        sensor->tachMinPercent =
-                            loadVariant<double>(cfg, "TachMinPercent");
-                        sensor->tachMaxPercent =
-                            loadVariant<double>(cfg, "TachMaxPercent");
-                        sensor->createMaxCFMIface();
-                        sensor->setupMatches();
+                            // change these into percent upon getting the data
+                            sensor->c1 =
+                                loadVariant<double>(cfg, "C1") / 100;
+                            sensor->c2 =
+                                loadVariant<double>(cfg, "C2") / 100;
+                            sensor->tachMinPercent =
+                                loadVariant<double>(cfg, "TachMinPercent");
+                            sensor->tachMaxPercent =
+                                loadVariant<double>(cfg, "TachMaxPercent");
+                            sensor->createMaxCFMIface();
+                            sensor->setupMatches();
 
-                        cfmSensors.emplace_back(std::move(sensor));
+                            cfmSensors.emplace_back(std::move(sensor));
+                        }
+                        catch (const std::exception& e)
+                        {
+                            lg2::error(
+                                "Skipping invalid CFM sensor config at '{PATH}': {ERROR}",
+                                "PATH", path.str, "ERROR", e.what());
+                        }
                     }
                 }
             }
