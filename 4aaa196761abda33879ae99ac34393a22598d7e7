@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0327b388_62be60aa",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 55
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1002462
+      },
+      "writtenOn": "2026-09-08T14:04:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9dbaa153_707a1032",
+      "revId": "4aaa196761abda33879ae99ac34393a22598d7e7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "117ebd0f_ad09e045",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3940cf07_05fd8c59",
+        "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.cpp",
+        "patchSetId": 55
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1002462
+      },
+      "writtenOn": "2026-09-08T14:04:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "117ebd0f_ad09e045",
+      "revId": "4aaa196761abda33879ae99ac34393a22598d7e7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "191f944f_e31ea295",
@@ -48,6 +84,24 @@
       "writtenOn": "2026-09-07T04:57:30Z",
       "side": 1,
       "message": "This lamda it too long, please use a function here.",
+      "revId": "4aaa196761abda33879ae99ac34393a22598d7e7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b1616e4_e20c70bd",
+        "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.cpp",
+        "patchSetId": 55
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1002462
+      },
+      "writtenOn": "2026-09-08T14:04:27Z",
+      "side": 1,
+      "message": "Done. Moved to processLeakSensorsResponse.",
+      "parentUuid": "191f944f_e31ea295",
       "revId": "4aaa196761abda33879ae99ac34393a22598d7e7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -71,6 +125,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a819ae63_06f339ce",
+        "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.cpp",
+        "patchSetId": 55
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1002462
+      },
+      "writtenOn": "2026-09-08T14:04:27Z",
+      "side": 1,
+      "message": "Hi @haghera@nvidia.com, could you please share the threshold mapping for sensors with fewer than three thresholds? The documentation we currently have on hand only covers the mappings for three thresholds. Thank you!",
+      "parentUuid": "c64f2839_90c24d77",
+      "revId": "4aaa196761abda33879ae99ac34393a22598d7e7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "014a3c6d_8b7938dd",
         "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.cpp",
         "patchSetId": 55
@@ -82,6 +154,24 @@
       "writtenOn": "2026-09-07T04:57:30Z",
       "side": 1,
       "message": "The logic inside this function should be part of class `NvidiaSmaLeakSensor`.",
+      "revId": "4aaa196761abda33879ae99ac34393a22598d7e7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e047811_f2e47746",
+        "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.cpp",
+        "patchSetId": 55
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1002462
+      },
+      "writtenOn": "2026-09-08T14:04:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "014a3c6d_8b7938dd",
       "revId": "4aaa196761abda33879ae99ac34393a22598d7e7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -103,6 +193,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "68e7acda_6f34d747",
+        "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.cpp",
+        "patchSetId": 55
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1002462
+      },
+      "writtenOn": "2026-09-08T14:04:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b228a17b_a9fb4bab",
+      "revId": "4aaa196761abda33879ae99ac34393a22598d7e7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d3627360_833f6008",
@@ -116,6 +224,24 @@
       "writtenOn": "2026-09-07T04:57:30Z",
       "side": 1,
       "message": "This doesn\u0027t need to be a class. We can directly put the logic of creating Sensors based on MCTP VDM response directly in function in `src/nvidia-gpu/NvidiaSmaDevice.cpp`. See `PCIeDevice.cpp` for reference.",
+      "revId": "4aaa196761abda33879ae99ac34393a22598d7e7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b324ba94_382216bb",
+        "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.hpp",
+        "patchSetId": 55
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1002462
+      },
+      "writtenOn": "2026-09-08T14:04:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3627360_833f6008",
       "revId": "4aaa196761abda33879ae99ac34393a22598d7e7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
