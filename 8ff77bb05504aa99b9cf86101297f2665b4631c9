@@ -16,6 +16,57 @@
       "message": "This looks like a real bounds-check fix in the SDR parser, and the added regressions cover the malformed-length cases well. One small follow-up I’d suggest is a boundary-case test at the maximum valid sensor-name length right at the record edge, to lock in the parser behavior at the limit as well as on the reject cases.",
       "revId": "8ff77bb05504aa99b9cf86101297f2665b4631c9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d7c6522_9d3abd76",
+        "filename": "src/ipmb/IpmbSDRSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-09-09T08:18:09Z",
+      "side": 1,
+      "message": "Suggest bounding the other record types too — a declared length \u003e\u003d 252 on type 02/03 drives iCnt to 16, wrapping line 152\u0027s uint8_t loopCount to 0.",
+      "revId": "8ff77bb05504aa99b9cf86101297f2665b4631c9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eaec02ff_f63aeb49",
+        "filename": "src/ipmb/IpmbSDRSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-09-09T08:18:09Z",
+      "side": 1,
+      "message": "The only production caller passes what line 202 computed from this same buffer, so this can\u0027t fire. Suggest deriving the length here and dropping the parameter?",
+      "revId": "8ff77bb05504aa99b9cf86101297f2665b4631c9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f894fd19_af7d6014",
+        "filename": "src/ipmb/IpmbSDRSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-09-09T08:18:09Z",
+      "side": 1,
+      "message": "Lines 258 and 283-284 pin dataLength to 56 + strLen, and strAddr is a constant 56, so these four checks can\u0027t fire. Suggest a single assert instead?",
+      "revId": "8ff77bb05504aa99b9cf86101297f2665b4631c9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
