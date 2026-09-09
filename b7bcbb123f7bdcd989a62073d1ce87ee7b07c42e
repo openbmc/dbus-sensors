@@ -16,6 +16,24 @@
       "message": "It needs to be clear that we\u0027re translating from units of seconds to the abstract unit \u0027ticks\u0027.",
       "revId": "b7bcbb123f7bdcd989a62073d1ce87ee7b07c42e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1f329f9_42043ba1",
+        "filename": "src/nvme/NVMeSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1002591
+      },
+      "writtenOn": "2026-09-09T01:43:31Z",
+      "side": 1,
+      "message": "Do you mean we should explicitly convert retry delay seconds to polling ticks, for example `scanDelayTicks \u003d errorRetryDelay / pollRate`?",
+      "parentUuid": "f8f0fe13_318c31e0",
+      "revId": "b7bcbb123f7bdcd989a62073d1ce87ee7b07c42e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
