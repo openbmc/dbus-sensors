@@ -28,6 +28,9 @@ struct NvidiaGpuVoltageSensor :
     public std::enable_shared_from_this<NvidiaGpuVoltageSensor>
 {
   public:
+    static constexpr gpu::PlatformEnvironmentalCommands requiredCommand =
+        gpu::PlatformEnvironmentalCommands::GET_VOLTAGE;
+
     NvidiaGpuVoltageSensor(
         std::shared_ptr<sdbusplus::asio::connection>& conn,
         mctp::MctpRequester& mctpRequester, const std::string& name,

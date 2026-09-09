@@ -4,6 +4,7 @@
  */
 
 #include "MessagePackUnpackUtils.hpp"
+#include "NvidiaEventReporting.hpp"
 #include "NvidiaGpuMctpVdm.hpp"
 #include "OcpMctpVdm.hpp"
 
@@ -702,7 +703,6 @@ TEST_F(GpuMctpVdmTests, DecodeGetSupportedCommandCodesResponseError)
     EXPECT_EQ(reasonCode, 0x5678);
 }
 
-// Tests for GpuMctpVdm::encodeGetTemperatureReadingRequest function
 TEST_F(GpuMctpVdmTests, EncodeGetTemperatureReadingRequestSuccess)
 {
     const uint8_t instanceId = 4;

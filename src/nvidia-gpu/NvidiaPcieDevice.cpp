@@ -17,6 +17,7 @@
 #include "Utils.hpp"
 
 #include <MctpRequester.hpp>
+#include <NvidiaDeviceSupportedCommandCodes.hpp>
 #include <OcpMctpVdm.hpp>
 #include <boost/asio/io_context.hpp>
 #include <phosphor-logging/lg2.hpp>
@@ -43,7 +44,9 @@ PcieDevice::PcieDevice(const SensorConfigs& configs, const std::string& name,
     eid(eid), sensorPollMs(std::chrono::milliseconds{configs.pollRate}),
     waitTimer(io, std::chrono::steady_clock::duration(0)),
     mctpRequester(mctpRequester), conn(conn), objectServer(objectServer),
-    configs(configs), name(escapeName(name)), path(path)
+    configs(configs), name(escapeName(name)), path(path),
+    supportedCommands(
+        std::make_shared<gpu::DeviceSupportedCommandCodes>(eid, mctpRequester))
 {}
 
 PcieDevice::~PcieDevice()
@@ -56,6 +59,8 @@ PcieDevice::~PcieDevice()
 
 void PcieDevice::init()
 {
+    supportedCommands->refresh(nullptr);
+
     sdbusplus::object_path networkAdapterPath =
         inventoryPrefix / (name + "_NIC");
 
@@ -327,24 +332,33 @@ void PcieDevice::makeSensors()
 
 void PcieDevice::read()
 {
-    pcieInterface->update();
-    pcieFunction->update();
-
-    driverInfo->update();
-
-    for (auto& port : pciePorts)
+    if (supportedCommands->supports(NvidiaDriverInformation::requiredCommand))
     {
-        port->update();
+        driverInfo->update();
     }
 
-    for (auto& portMetrics : pciePortMetrics)
+    if (supportedCommands->supports(NvidiaPcieInterface::requiredCommandV2))
     {
-        portMetrics->update();
+        pcieInterface->update();
+        pcieFunction->update();
+
+        for (auto& port : pciePorts)
+        {
+            port->update();
+        }
+
+        for (auto& portMetrics : pciePortMetrics)
+        {
+            portMetrics->update();
+        }
     }
 
-    for (auto& ethPortMetric : ethPortMetrics)
+    if (supportedCommands->supports(NvidiaEthPortMetrics::requiredCommand))
     {
-        ethPortMetric->update();
+        for (auto& ethPortMetric : ethPortMetrics)
+        {
+            ethPortMetric->update();
+        }
     }
 
     waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
