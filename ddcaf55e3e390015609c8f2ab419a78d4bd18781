@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c82bcb7_ec804a5a",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-09-09T03:40:40Z",
+      "side": 1,
+      "message": "Acknowledged, I have changed to `sdbusplus::object_path` now.",
+      "parentUuid": "bbd843b7_05125c42",
+      "range": {
+        "startLine": 169,
+        "startChar": 33,
+        "endLine": 169,
+        "endChar": 36
+      },
+      "revId": "ddcaf55e3e390015609c8f2ab419a78d4bd18781",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c63e6a8d_5ac8fd72",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-09-08T11:04:10Z",
       "side": 1,
       "message": "shouldn\u0027t we use sdbusplus::obejct_path?",
+      "range": {
+        "startLine": 284,
+        "startChar": 36,
+        "endLine": 284,
+        "endChar": 57
+      },
+      "revId": "ddcaf55e3e390015609c8f2ab419a78d4bd18781",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8069b089_99d961e0",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-09-09T03:40:40Z",
+      "side": 1,
+      "message": "I was having concerns that changing the legacy line will impact on the other function.\n\nModifying to `sdbusplus::object_path` will lead to different result when the input is like \"a/b\":\n1. `sdbusplus::object_path` produces \"/\"\n2. `std::filesystem::path` produced \"a\"\n\nAlthough this case is very unlikely to happens, I was just trying to avoid it.\n\nAnyway, I have changed to `sdbusplus::object_path` according to your suggestion.\nThanks for the review!",
+      "parentUuid": "c63e6a8d_5ac8fd72",
       "range": {
         "startLine": 284,
         "startChar": 36,
