@@ -58,6 +58,15 @@ NvidiaEventReportingConfig::NvidiaEventReportingConfig(
     {
         NvidiaEventHandler::registerEventHandler(
             eid, event.messageType, event.eventCode, event.eventHandler);
+        registeredEvents.emplace_back(event.messageType, event.eventCode);
+    }
+}
+
+NvidiaEventReportingConfig::~NvidiaEventReportingConfig()
+{
+    for (const auto& [messageType, eventCode] : registeredEvents)
+    {
+        NvidiaEventHandler::unregisterEventHandler(eid, messageType, eventCode);
     }
 }
 
