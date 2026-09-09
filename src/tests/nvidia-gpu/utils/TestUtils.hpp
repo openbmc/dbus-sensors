@@ -11,9 +11,11 @@
 
 #include <MessagePackUnpackUtils.hpp>
 
+#include <array>
 #include <concepts>
 #include <cstddef>
 #include <cstdint>
+#include <initializer_list>
 #include <vector>
 
 namespace test_utils
@@ -89,6 +91,62 @@ inline std::vector<uint8_t> buildPcieScalarTelemetryResponse(
     {
         pack.pack(val);
     }
+    return buf;
+}
+
+// Build a supported message type or command code bitfield with the bit of
+// every listed code set.
+inline std::array<uint8_t, gpu::supportedListBitfieldSize> bitsOf(
+    std::initializer_list<uint8_t> codes)
+{
+    std::array<uint8_t, gpu::supportedListBitfieldSize> bits{};
+    for (uint8_t code : codes)
+    {
+        bits[code / 8U] |= static_cast<uint8_t>(1U << (code % 8U));
+    }
+    return bits;
+}
+
+// Build a SUCCESS DEVICE_CAPABILITY_DISCOVERY response carrying a supported
+// message type or command code bitfield.
+inline std::vector<uint8_t> buildSupportedListResponse(
+    gpu::DeviceCapabilityDiscoveryCommands command,
+    const std::array<uint8_t, gpu::supportedListBitfieldSize>& bits)
+{
+    std::vector<uint8_t> buf(ocp::accelerator_management::commonResponseSize +
+                             gpu::supportedListBitfieldSize);
+    PackBuffer pack(buf);
+    ocp::accelerator_management::packHeader(
+        pack, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 0,
+        static_cast<uint8_t>(gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY));
+    pack.pack(static_cast<uint8_t>(command));
+    pack.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));
+    pack.pack(static_cast<uint16_t>(0)); // reserved
+    pack.pack(static_cast<uint16_t>(gpu::supportedListBitfieldSize));
+    for (uint8_t byte : bits)
+    {
+        pack.pack(byte);
+    }
+    return buf;
+}
+
+// Build a SUCCESS DEVICE_CAPABILITY_DISCOVERY response with no data.
+inline std::vector<uint8_t> buildCapabilityDiscoverySuccessResponse(
+    uint8_t command)
+{
+    std::vector<uint8_t> buf(ocp::accelerator_management::commonResponseSize);
+    PackBuffer pack(buf);
+    ocp::accelerator_management::packHeader(
+        pack, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 0,
+        static_cast<uint8_t>(gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY));
+    pack.pack(command);
+    pack.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));
+    pack.pack(static_cast<uint16_t>(0)); // reserved
+    pack.pack(static_cast<uint16_t>(0)); // data size
     return buf;
 }
 

@@ -56,40 +56,6 @@ DecodedRequest decodeRequest(std::span<const uint8_t> request)
     return decoded;
 }
 
-std::array<uint8_t, gpu::supportedListBitfieldSize> bitsOf(
-    std::initializer_list<uint8_t> codes)
-{
-    std::array<uint8_t, gpu::supportedListBitfieldSize> bits{};
-    for (uint8_t code : codes)
-    {
-        bits[code / 8U] |= static_cast<uint8_t>(1U << (code % 8U));
-    }
-    return bits;
-}
-
-std::vector<uint8_t> buildSupportedListResponse(
-    DiscoveryCommands command,
-    const std::array<uint8_t, gpu::supportedListBitfieldSize>& bits)
-{
-    std::vector<uint8_t> buf(ocp::accelerator_management::commonResponseSize +
-                             gpu::supportedListBitfieldSize);
-    PackBuffer pack(buf);
-    ocp::accelerator_management::packHeader(
-        pack, gpu::nvidiaPciVendorId,
-        ocp::accelerator_management::MessageType::RESPONSE, 0,
-        static_cast<uint8_t>(gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY));
-    pack.pack(static_cast<uint8_t>(command));
-    pack.pack(static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::SUCCESS));
-    pack.pack(static_cast<uint16_t>(0)); // reserved
-    pack.pack(static_cast<uint16_t>(gpu::supportedListBitfieldSize));
-    for (uint8_t byte : bits)
-    {
-        pack.pack(byte);
-    }
-    return buf;
-}
-
 std::vector<uint8_t> buildErrorResponse(DiscoveryCommands command)
 {
     std::vector<uint8_t> buf(test_utils::errorResponseSize);
@@ -111,8 +77,8 @@ class DeviceSupportedCommandCodesTest : public MctpMockTestBase
     void answerWith(std::initializer_list<uint8_t> types,
                     std::initializer_list<uint8_t> commands)
     {
-        const auto typeBits = bitsOf(types);
-        const auto commandBits = bitsOf(commands);
+        const auto typeBits = test_utils::bitsOf(types);
+        const auto commandBits = test_utils::bitsOf(commands);
         ON_CALL(mctpMock, sendRecvMsg)
             .WillByDefault([this, typeBits,
                             commandBits](uint8_t /*eid*/,
@@ -124,14 +90,14 @@ class DeviceSupportedCommandCodesTest : public MctpMockTestBase
                         DiscoveryCommands::GET_SUPPORTED_MESSAGE_TYPES))
                 {
                     callback(std::error_code{},
-                             buildSupportedListResponse(
+                             test_utils::buildSupportedListResponse(
                                  DiscoveryCommands::GET_SUPPORTED_MESSAGE_TYPES,
                                  typeBits));
                     return;
                 }
                 queriedTypes.push_back(decoded.payloadType);
                 callback(std::error_code{},
-                         buildSupportedListResponse(
+                         test_utils::buildSupportedListResponse(
                              DiscoveryCommands::GET_SUPPORTED_COMMAND_CODES,
                              commandBits));
             });
@@ -213,9 +179,9 @@ TEST_F(DeviceSupportedCommandCodesTest,
                     DiscoveryCommands::GET_SUPPORTED_MESSAGE_TYPES))
             {
                 callback(std::error_code{},
-                         buildSupportedListResponse(
+                         test_utils::buildSupportedListResponse(
                              DiscoveryCommands::GET_SUPPORTED_MESSAGE_TYPES,
-                             bitsOf({0, 1, 2, 3})));
+                             test_utils::bitsOf({0, 1, 2, 3})));
                 return;
             }
             callback(std::error_code{},
@@ -303,8 +269,8 @@ TEST_F(DeviceSupportedCommandCodesTest,
 
 TEST_F(DeviceSupportedCommandCodesTest, ARefreshWhileOneIsInFlightIsDeferred)
 {
-    const auto typeBits = bitsOf({0, 1, 2, 3});
-    const auto commandBits = bitsOf(
+    const auto typeBits = test_utils::bitsOf({0, 1, 2, 3});
+    const auto commandBits = test_utils::bitsOf(
         {static_cast<uint8_t>(DiscoveryCommands::SET_EVENT_SUBSCRIPTION)});
 
     std::move_only_function<void(const std::error_code&,
@@ -321,7 +287,7 @@ TEST_F(DeviceSupportedCommandCodesTest, ARefreshWhileOneIsInFlightIsDeferred)
                     DiscoveryCommands::GET_SUPPORTED_MESSAGE_TYPES))
             {
                 callback(std::error_code{},
-                         buildSupportedListResponse(
+                         test_utils::buildSupportedListResponse(
                              DiscoveryCommands::GET_SUPPORTED_MESSAGE_TYPES,
                              typeBits));
                 return;
@@ -329,14 +295,14 @@ TEST_F(DeviceSupportedCommandCodesTest, ARefreshWhileOneIsInFlightIsDeferred)
             ++commandCodeQueries;
             if (commandCodeQueries == 1)
             {
-                parkedResponse = buildSupportedListResponse(
+                parkedResponse = test_utils::buildSupportedListResponse(
                     DiscoveryCommands::GET_SUPPORTED_COMMAND_CODES,
                     commandBits);
                 parked = std::move(callback);
                 return;
             }
             callback(std::error_code{},
-                     buildSupportedListResponse(
+                     test_utils::buildSupportedListResponse(
                          DiscoveryCommands::GET_SUPPORTED_COMMAND_CODES,
                          commandBits));
         });
