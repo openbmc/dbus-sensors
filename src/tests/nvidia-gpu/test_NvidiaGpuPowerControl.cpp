@@ -17,10 +17,8 @@
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/exception.hpp>
 
-#include <array>
 #include <chrono>
 #include <cstdint>
-#include <initializer_list>
 #include <limits>
 #include <memory>
 #include <span>
@@ -191,37 +189,6 @@ class NvidiaGpuPowerControlTest : public MctpMockTestBase
             test_utils::defaultEid, requester());
     }
 
-    static std::vector<uint8_t> supportedListResponse(
-        gpu::DeviceCapabilityDiscoveryCommands command,
-        std::initializer_list<uint8_t> bits)
-    {
-        std::array<uint8_t, gpu::supportedListBitfieldSize> bitmap{};
-        for (const uint8_t bit : bits)
-        {
-            bitmap[bit / 8U] |= static_cast<uint8_t>(1U << (bit % 8U));
-        }
-
-        std::vector<uint8_t> buf(
-            ocp::accelerator_management::commonResponseSize +
-            gpu::supportedListBitfieldSize);
-        PackBuffer pack(buf);
-        ocp::accelerator_management::packHeader(
-            pack, gpu::nvidiaPciVendorId,
-            ocp::accelerator_management::MessageType::RESPONSE, 0,
-            static_cast<uint8_t>(
-                gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY));
-        pack.pack(static_cast<uint8_t>(command));
-        pack.pack(static_cast<uint8_t>(
-            ocp::accelerator_management::CompletionCode::SUCCESS));
-        pack.pack(static_cast<uint16_t>(0));
-        pack.pack(static_cast<uint16_t>(gpu::supportedListBitfieldSize));
-        for (const uint8_t byte : bitmap)
-        {
-            pack.pack(byte);
-        }
-        return buf;
-    }
-
     std::shared_ptr<gpu::DeviceSupportedCommandCodes> supportedCommandsGetOnly()
     {
         using enum gpu::DeviceCapabilityDiscoveryCommands;
@@ -243,18 +210,18 @@ class NvidiaGpuPowerControlTest : public MctpMockTestBase
                 {
                     callback(
                         std::error_code{},
-                        supportedListResponse(
+                        test_utils::buildSupportedListResponse(
                             GET_SUPPORTED_MESSAGE_TYPES,
-                            {static_cast<uint8_t>(
-                                gpu::MessageType::PLATFORM_ENVIRONMENTAL)}));
+                            test_utils::bitsOf({static_cast<uint8_t>(
+                                gpu::MessageType::PLATFORM_ENVIRONMENTAL)})));
                     return;
                 }
                 callback(std::error_code{},
-                         supportedListResponse(
+                         test_utils::buildSupportedListResponse(
                              GET_SUPPORTED_COMMAND_CODES,
-                             {static_cast<uint8_t>(
+                             test_utils::bitsOf({static_cast<uint8_t>(
                                  gpu::PlatformEnvironmentalCommands::
-                                     GET_POWER_LIMITS)}));
+                                     GET_POWER_LIMITS)})));
             });
 
         auto codes = std::make_shared<gpu::DeviceSupportedCommandCodes>(

@@ -13,6 +13,8 @@
 #include <span>
 #include <tuple>
 #include <unordered_map>
+#include <utility>
+#include <vector>
 
 struct EventInfo
 {
@@ -48,7 +50,7 @@ class NvidiaEventReportingConfig :
     NvidiaEventReportingConfig(const NvidiaEventReportingConfig&) = delete;
     NvidiaEventReportingConfig& operator=(const NvidiaEventReportingConfig&) =
         delete;
-    ~NvidiaEventReportingConfig() = default;
+    ~NvidiaEventReportingConfig();
 
     void init(const gpu::DeviceSupportedCommandCodes& supportedCommands);
 
@@ -68,6 +70,7 @@ class NvidiaEventReportingConfig :
     bool eventSourcesSupported{true};
     std::array<uint8_t, gpu::setEventSourcesRequestSize> sourcesReq{};
     std::array<uint8_t, gpu::setEventSubscriptionRequestSize> subscriptionReq{};
+    std::vector<std::pair<gpu::MessageType, uint8_t>> registeredEvents;
 };
 
 class NvidiaEventHandler
@@ -80,6 +83,12 @@ class NvidiaEventHandler
                                      const EventHandler& handler)
     {
         eventHandlers[EventKey{eid, messageType, eventCode}] = handler;
+    }
+
+    static void unregisterEventHandler(
+        uint8_t eid, gpu::MessageType messageType, uint8_t eventCode)
+    {
+        eventHandlers.erase(EventKey{eid, messageType, eventCode});
     }
 
   private:

@@ -10,6 +10,7 @@
 #include "NvidiaEventReporting.hpp"
 #include "NvidiaGpuMctpVdm.hpp"
 #include "OcpMctpVdm.hpp"
+#include "TestUtils.hpp"
 
 #include <array>
 #include <cstdint>
@@ -109,66 +110,6 @@ std::optional<std::vector<uint8_t>>& dispatchedEventData()
 
 using DiscoveryCommands = gpu::DeviceCapabilityDiscoveryCommands;
 
-std::array<uint8_t, gpu::supportedListBitfieldSize> bitsOf(
-    std::initializer_list<DiscoveryCommands> commands)
-{
-    std::array<uint8_t, gpu::supportedListBitfieldSize> bits{};
-    for (DiscoveryCommands command : commands)
-    {
-        const auto code = static_cast<uint8_t>(command);
-        bits[code / 8U] |= static_cast<uint8_t>(1U << (code % 8U));
-    }
-    return bits;
-}
-
-std::array<uint8_t, gpu::supportedListBitfieldSize> discoveryTypeBits()
-{
-    std::array<uint8_t, gpu::supportedListBitfieldSize> bits{};
-    const auto type =
-        static_cast<uint8_t>(gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY);
-    bits[type / 8U] |= static_cast<uint8_t>(1U << (type % 8U));
-    return bits;
-}
-
-std::vector<uint8_t> buildSupportedListResponse(
-    DiscoveryCommands command,
-    const std::array<uint8_t, gpu::supportedListBitfieldSize>& bits)
-{
-    std::vector<uint8_t> buf(ocp::accelerator_management::commonResponseSize +
-                             gpu::supportedListBitfieldSize);
-    PackBuffer pack(buf);
-    ocp::accelerator_management::packHeader(
-        pack, gpu::nvidiaPciVendorId,
-        ocp::accelerator_management::MessageType::RESPONSE, 0,
-        static_cast<uint8_t>(gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY));
-    pack.pack(static_cast<uint8_t>(command));
-    pack.pack(static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::SUCCESS));
-    pack.pack(static_cast<uint16_t>(0));
-    pack.pack(static_cast<uint16_t>(gpu::supportedListBitfieldSize));
-    for (const uint8_t byte : bits)
-    {
-        pack.pack(byte);
-    }
-    return buf;
-}
-
-std::vector<uint8_t> buildSuccessResponse(uint8_t command)
-{
-    std::vector<uint8_t> buf(ocp::accelerator_management::commonResponseSize);
-    PackBuffer pack(buf);
-    ocp::accelerator_management::packHeader(
-        pack, gpu::nvidiaPciVendorId,
-        ocp::accelerator_management::MessageType::RESPONSE, 0,
-        static_cast<uint8_t>(gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY));
-    pack.pack(command);
-    pack.pack(static_cast<uint8_t>(
-        ocp::accelerator_management::CompletionCode::SUCCESS));
-    pack.pack(static_cast<uint16_t>(0)); // reserved
-    pack.pack(static_cast<uint16_t>(0)); // data size
-    return buf;
-}
-
 uint8_t requestCommand(std::span<const uint8_t> request)
 {
     UnpackBuffer buffer(request);
@@ -201,13 +142,15 @@ class NvidiaEventReportingTest : public MctpMockTestBase
     void installDefaultResponder()
     {
         ON_CALL(mctpMock, sendRecvMsg)
-            .WillByDefault(
-                [this](uint8_t /*eid*/, std::span<const uint8_t> request,
-                       auto callback) {
-                    const uint8_t command = requestCommand(request);
-                    sentCommands.push_back(command);
-                    callback(std::error_code{}, buildSuccessResponse(command));
-                });
+            .WillByDefault([this](uint8_t /*eid*/,
+                                  std::span<const uint8_t> request,
+                                  auto callback) {
+                const uint8_t command = requestCommand(request);
+                sentCommands.push_back(command);
+                callback(std::error_code{},
+                         test_utils::buildCapabilityDiscoverySuccessResponse(
+                             command));
+            });
     }
 
     static std::shared_ptr<gpu::DeviceSupportedCommandCodes> neverQueried()
@@ -217,11 +160,14 @@ class NvidiaEventReportingTest : public MctpMockTestBase
     }
 
     std::shared_ptr<gpu::DeviceSupportedCommandCodes> makeSupportedCommands(
-        std::initializer_list<DiscoveryCommands> commands)
+        std::initializer_list<uint8_t> commands)
     {
-        const auto commandBits = bitsOf(commands);
+        const auto typeBits = test_utils::bitsOf({static_cast<uint8_t>(
+            gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY)});
+        const auto commandBits = test_utils::bitsOf(commands);
         ON_CALL(mctpMock, sendRecvMsg)
-            .WillByDefault([commandBits](uint8_t /*eid*/,
+            .WillByDefault([typeBits,
+                            commandBits](uint8_t /*eid*/,
                                          std::span<const uint8_t> request,
                                          auto callback) {
                 if (requestCommand(request) ==
@@ -229,13 +175,13 @@ class NvidiaEventReportingTest : public MctpMockTestBase
                         DiscoveryCommands::GET_SUPPORTED_MESSAGE_TYPES))
                 {
                     callback(std::error_code{},
-                             buildSupportedListResponse(
+                             test_utils::buildSupportedListResponse(
                                  DiscoveryCommands::GET_SUPPORTED_MESSAGE_TYPES,
-                                 discoveryTypeBits()));
+                                 typeBits));
                     return;
                 }
                 callback(std::error_code{},
-                         buildSupportedListResponse(
+                         test_utils::buildSupportedListResponse(
                              DiscoveryCommands::GET_SUPPORTED_COMMAND_CODES,
                              commandBits));
             });
@@ -439,6 +385,33 @@ TEST_F(NvidiaEventReportingTest, HandleEventDispatchesToRegisteredHandler)
               eventData);
 }
 
+TEST_F(NvidiaEventReportingTest, DestructorUnregistersHandlers)
+{
+    constexpr uint8_t eid = 101;
+    constexpr uint8_t eventId = 0x03;
+    const std::vector<uint8_t> eventData{0x11, 0x22};
+    const auto buf = buildEventBuffer(
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL), eventId,
+        1, 0, eventData);
+
+    {
+        const std::shared_ptr<NvidiaEventReportingConfig> config = createConfig(
+            eid, {{gpu::MessageType::PLATFORM_ENVIRONMENTAL, eventId,
+                   [](const EventInfo&, std::span<const uint8_t> data) {
+                       dispatchedEventData() =
+                           std::vector<uint8_t>(data.begin(), data.end());
+                   }}});
+
+        dispatchedEventData().reset();
+        NvidiaEventHandler::handleEvent(eid, buf);
+        ASSERT_TRUE(dispatchedEventData().has_value());
+    }
+
+    dispatchedEventData().reset();
+    NvidiaEventHandler::handleEvent(eid, buf);
+    EXPECT_FALSE(dispatchedEventData().has_value());
+}
+
 TEST_F(NvidiaEventReportingTest, HandleEventNoHandlerNoCrash)
 {
     const auto buf = buildEventBuffer(
@@ -463,8 +436,9 @@ TEST_F(NvidiaEventReportingTest, SetsUpEventsWhenTheDeviceSupportsThem)
                              gpu::DeviceCapabilityDiscoveryEvents::REDISCOVERY),
                          [](const EventInfo&, std::span<const uint8_t>) {}}})
         ->init(*makeSupportedCommands(
-            {DiscoveryCommands::SET_EVENT_SUBSCRIPTION,
-             DiscoveryCommands::SET_CURRENT_EVENT_SOURCES}));
+            {static_cast<uint8_t>(DiscoveryCommands::SET_EVENT_SUBSCRIPTION),
+             static_cast<uint8_t>(
+                 DiscoveryCommands::SET_CURRENT_EVENT_SOURCES)}));
 
     EXPECT_THAT(
         sentCommands,
@@ -482,8 +456,8 @@ TEST_F(NvidiaEventReportingTest, SkipsSubscriptionWhenTheDeviceDoesNotSupportIt)
                          static_cast<uint8_t>(
                              gpu::DeviceCapabilityDiscoveryEvents::REDISCOVERY),
                          [](const EventInfo&, std::span<const uint8_t>) {}}})
-        ->init(*makeSupportedCommands(
-            {DiscoveryCommands::SET_CURRENT_EVENT_SOURCES}));
+        ->init(*makeSupportedCommands({static_cast<uint8_t>(
+            DiscoveryCommands::SET_CURRENT_EVENT_SOURCES)}));
 
     EXPECT_THAT(sentCommands, testing::IsEmpty());
 }
@@ -497,7 +471,7 @@ TEST_F(NvidiaEventReportingTest, SkipsEventSourcesWhenTheDeviceDoesNotSupportIt)
                              gpu::DeviceCapabilityDiscoveryEvents::REDISCOVERY),
                          [](const EventInfo&, std::span<const uint8_t>) {}}})
         ->init(*makeSupportedCommands(
-            {DiscoveryCommands::SET_EVENT_SUBSCRIPTION}));
+            {static_cast<uint8_t>(DiscoveryCommands::SET_EVENT_SUBSCRIPTION)}));
 
     EXPECT_THAT(sentCommands, testing::ElementsAre(static_cast<uint8_t>(
                                   DiscoveryCommands::SET_EVENT_SUBSCRIPTION)));
