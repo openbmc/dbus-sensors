@@ -26,6 +26,9 @@ struct NvidiaGpuEnergySensor :
     public std::enable_shared_from_this<NvidiaGpuEnergySensor>
 {
   public:
+    static constexpr gpu::PlatformEnvironmentalCommands requiredCommand =
+        gpu::PlatformEnvironmentalCommands::GET_CURRENT_ENERGY_COUNTER;
+
     NvidiaGpuEnergySensor(
         std::shared_ptr<sdbusplus::asio::connection>& conn,
         mctp::MctpRequester& mctpRequester, const std::string& name,

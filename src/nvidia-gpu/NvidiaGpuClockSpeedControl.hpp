@@ -7,6 +7,7 @@
 
 #include "Inventory.hpp"
 #include "MctpRequester.hpp"
+#include "NvidiaDeviceSupportedCommandCodes.hpp"
 
 #include <NvidiaGpuMctpVdm.hpp>
 #include <boost/asio/io_context.hpp>
@@ -23,11 +24,17 @@ class NvidiaGpuClockSpeedControl :
     public std::enable_shared_from_this<NvidiaGpuClockSpeedControl>
 {
   public:
-    NvidiaGpuClockSpeedControl(sdbusplus::asio::object_server& objectServer,
-                               const std::string& deviceName,
-                               mctp::MctpRequester& mctpRequester, uint8_t eid,
-                               boost::asio::io_context& io,
-                               std::shared_ptr<Inventory> inventory);
+    static constexpr gpu::PlatformEnvironmentalCommands requiredCommand =
+        gpu::PlatformEnvironmentalCommands::GET_CLOCK_LIMIT;
+    static constexpr gpu::PlatformEnvironmentalCommands setRequiredCommand =
+        gpu::PlatformEnvironmentalCommands::SET_CLOCK_LIMIT;
+
+    NvidiaGpuClockSpeedControl(
+        sdbusplus::asio::object_server& objectServer,
+        const std::string& deviceName, mctp::MctpRequester& mctpRequester,
+        uint8_t eid, boost::asio::io_context& io,
+        std::shared_ptr<Inventory> inventory,
+        std::shared_ptr<gpu::DeviceSupportedCommandCodes> supportedCommands);
 
     ~NvidiaGpuClockSpeedControl();
 
@@ -58,6 +65,7 @@ class NvidiaGpuClockSpeedControl :
     std::shared_ptr<sdbusplus::asio::dbus_interface> controlClockSpeedInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> associationInterface;
     std::shared_ptr<Inventory> inventory;
+    std::shared_ptr<gpu::DeviceSupportedCommandCodes> supportedCommands;
 
     // requestedMaxHz / requestedMinHz mirror the device and are only updated
     // from a GetClockLimit response; they back the client-writable

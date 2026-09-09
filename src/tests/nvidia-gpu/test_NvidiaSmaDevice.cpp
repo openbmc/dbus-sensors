@@ -66,6 +66,17 @@ TEST_F(NvidiaSmaDeviceTest, InitSendsAtLeastOneRequest)
     device->setOnline();
 }
 
+TEST_F(NvidiaSmaDeviceTest, SetOnlineBeforeSupportedCommandsAreRead)
+{
+    // No request is answered, so the supported command code refresh is
+    // still in flight when DeviceManager marks the endpoint online.
+    EXPECT_CALL(mctpMock, sendRecvMsg).Times(testing::AtLeast(1));
+
+    const std::shared_ptr<SmaDevice> device = createDevice();
+    device->init();
+    device->setOnline();
+}
+
 TEST_F(NvidiaSmaDeviceTest, ReadLoopStopsAfterDeviceIsDestroyed)
 {
     int requests = 0;

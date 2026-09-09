@@ -10,6 +10,7 @@
 
 #include <Inventory.hpp>
 #include <MctpRequester.hpp>
+#include <NvidiaDeviceSupportedCommandCodes.hpp>
 #include <NvidiaDriverInformation.hpp>
 #include <NvidiaEventReporting.hpp>
 #include <NvidiaGpuClockFrequencyMetric.hpp>
@@ -86,7 +87,9 @@ GpuDevice::GpuDevice(const SensorConfigs& configs, const std::string& name,
     waitTimerLongRunning(io, std::chrono::steady_clock::duration(0)),
     mctpRequester(mctpRequester), io(io), conn(conn),
     objectServer(objectServer), configs(configs), name(escapeName(name)),
-    path(path)
+    path(path),
+    supportedCommands(
+        std::make_shared<gpu::DeviceSupportedCommandCodes>(eid, mctpRequester))
 {
     const std::string powerControlPath = controlPowerPrefix + this->name;
 
@@ -152,11 +155,29 @@ void GpuDevice::init()
         gpu::DeviceIdentification::DEVICE_GPU, eid, io, powerCapInterface,
         dramItemInterface);
 
-    inventory->init();
+    supportedCommands->refresh([weak{weak_from_this()}, eid{eid}]() {
+        const std::shared_ptr<GpuDevice> self = weak.lock();
+        if (!self)
+        {
+            lg2::error("GPU EID {EID} expired before its supported command "
+                       "codes were read",
+                       "EID", eid);
+            return;
+        }
+        self->onSupportedCommandsRefreshed();
+    });
+}
+
+void GpuDevice::onSupportedCommandsRefreshed()
+{
+    if (supportedCommands->supports(Inventory::requiredCommand))
+    {
+        inventory->init();
+    }
 
     makeSensors();
 
-    eventReporting->init();
+    eventReporting->init(*supportedCommands);
 }
 
 void GpuDevice::makeSensors()
@@ -242,10 +263,11 @@ void GpuDevice::makeSensors()
 
     gpuPowerControl = std::make_shared<NvidiaGpuPowerControl>(
         objectServer, name, mctpRequester, eid, io, powerCapInterface,
-        inventory);
+        inventory, supportedCommands);
 
     gpuClockSpeedControl = std::make_shared<NvidiaGpuClockSpeedControl>(
-        objectServer, name, mctpRequester, eid, io, inventory);
+        objectServer, name, mctpRequester, eid, io, inventory,
+        supportedCommands);
 
     pcieInterface = std::make_shared<NvidiaPcieInterface>(
         conn, mctpRequester, name, path, eid, objectServer,
@@ -295,6 +317,13 @@ void GpuDevice::makeSensors()
 
 void GpuDevice::getTLimitThresholds()
 {
+    if (!supportedCommands->supports(
+            NvidiaGpuTempSensor::thermalParameterCommand))
+    {
+        processTLimitThresholds(std::make_error_code(std::errc::not_supported));
+        return;
+    }
+
     thresholds = {};
     current_threshold_index = 0;
     getNextThermalParameter();
@@ -395,14 +424,29 @@ void GpuDevice::processTLimitThresholds(const std::error_code& ec)
 
 void GpuDevice::readPriority()
 {
-    tempSensor->update();
+    if (supportedCommands->supports(NvidiaGpuTempSensor::requiredCommand))
+    {
+        tempSensor->update();
+    }
     if (tLimitSensor)
     {
-        tLimitSensor->update();
+        if (supportedCommands->supports(NvidiaGpuTempSensor::requiredCommand))
+        {
+            tLimitSensor->update();
+        }
     }
-    dramTempSensor->update();
-    powerSensor->update();
-    energySensor->update();
+    if (supportedCommands->supports(NvidiaGpuTempSensor::requiredCommand))
+    {
+        dramTempSensor->update();
+    }
+    if (supportedCommands->supports(NvidiaGpuPowerSensor::requiredCommand))
+    {
+        powerSensor->update();
+    }
+    if (supportedCommands->supports(NvidiaGpuEnergySensor::requiredCommand))
+    {
+        energySensor->update();
+    }
 
     waitTimerPriority.expires_after(std::chrono::milliseconds(sensorPollMs));
     waitTimerPriority.async_wait(
@@ -423,21 +467,60 @@ void GpuDevice::readPriority()
 
 void GpuDevice::readRoundRobin()
 {
-    peakPower->update();
-    voltageSensor->update();
-    driverInfo->update();
-    gpuPowerControl->update();
-    gpuClockSpeedControl->update();
-    pcieInterface->update();
-    pciePort->update();
-    pcieFunction->update();
-    for (auto& metrics : pciePortMetrics)
+    if (supportedCommands->supports(NvidiaGpuPowerPeakReading::requiredCommand))
     {
-        metrics->update();
+        peakPower->update();
     }
-    memoryDevice->update();
-    memoryClockFrequency->update();
-    clockFrequencyMetric->update();
+    if (supportedCommands->supports(NvidiaGpuVoltageSensor::requiredCommand))
+    {
+        voltageSensor->update();
+    }
+    if (supportedCommands->supports(NvidiaDriverInformation::requiredCommand))
+    {
+        driverInfo->update();
+    }
+    if (supportedCommands->supports(NvidiaGpuPowerControl::requiredCommand))
+    {
+        gpuPowerControl->update();
+    }
+    if (supportedCommands->supports(
+            NvidiaGpuClockSpeedControl::requiredCommand))
+    {
+        gpuClockSpeedControl->update();
+    }
+    if (supportedCommands->supports(NvidiaPcieInterface::requiredCommandV1))
+    {
+        pcieInterface->update();
+    }
+    if (supportedCommands->supports(NvidiaPciePortInfo::requiredCommandV1))
+    {
+        pciePort->update();
+    }
+    if (supportedCommands->supports(NvidiaPcieFunction::requiredCommandV1))
+    {
+        pcieFunction->update();
+    }
+    if (supportedCommands->supports(NvidiaPciePortMetrics::requiredCommandV1))
+    {
+        for (auto& metrics : pciePortMetrics)
+        {
+            metrics->update();
+        }
+    }
+    if (supportedCommands->supports(NvidiaGpuMemoryDevice::requiredCommand))
+    {
+        memoryDevice->update();
+    }
+    if (supportedCommands->supports(
+            NvidiaGpuMemoryClockFrequency::requiredCommand))
+    {
+        memoryClockFrequency->update();
+    }
+    if (supportedCommands->supports(
+            NvidiaGpuClockFrequencyMetric::requiredCommand))
+    {
+        clockFrequencyMetric->update();
+    }
 
     waitTimerRoundRobin.expires_after(roundRobinPollRate);
     waitTimerRoundRobin.async_wait(
@@ -458,10 +541,25 @@ void GpuDevice::readRoundRobin()
 
 void GpuDevice::readLongRunning()
 {
-    utilizationMetrics->update();
-    violationDuration->update();
-    eccMode->update();
-    memoryCapacityUtilization->update();
+    if (supportedCommands->supports(
+            NvidiaGpuUtilizationMetrics::requiredCommand))
+    {
+        utilizationMetrics->update();
+    }
+    if (supportedCommands->supports(
+            NvidiaGpuViolationDuration::requiredCommand))
+    {
+        violationDuration->update();
+    }
+    if (supportedCommands->supports(NvidiaGpuEccMode::requiredCommand))
+    {
+        eccMode->update();
+    }
+    if (supportedCommands->supports(
+            NvidiaGpuMemoryCapacityUtilization::requiredCommand))
+    {
+        memoryCapacityUtilization->update();
+    }
 
     waitTimerLongRunning.expires_after(longRunningPollRate);
     waitTimerLongRunning.async_wait(
