@@ -6,6 +6,7 @@
 #pragma once
 
 #include "MctpRequester.hpp"
+#include "NvidiaDeviceSupportedCommandCodes.hpp"
 #include "NvidiaDriverInformation.hpp"
 #include "NvidiaGpuMctpVdm.hpp"
 #include "NvidiaPcieFunction.hpp"
@@ -117,4 +118,6 @@ class PcieDevice : public std::enable_shared_from_this<PcieDevice>
     std::shared_ptr<sdbusplus::asio::dbus_interface> embeddedConnectorInterface;
 
     std::vector<std::shared_ptr<NvidiaEthPortMetrics>> ethPortMetrics;
+
+    std::shared_ptr<gpu::DeviceSupportedCommandCodes> supportedCommands;
 };

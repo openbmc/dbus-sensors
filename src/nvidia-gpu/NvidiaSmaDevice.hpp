@@ -6,6 +6,7 @@
 #pragma once
 
 #include "MctpRequester.hpp"
+#include "NvidiaDeviceSupportedCommandCodes.hpp"
 #include "NvidiaGpuTempSensor.hpp"
 #include "NvidiaSensorConfig.hpp"
 #include "NvidiaSmaLeakSensor.hpp"
@@ -69,4 +70,6 @@ class SmaDevice : public std::enable_shared_from_this<SmaDevice>
     std::string name;
 
     sdbusplus::object_path path;
+
+    std::shared_ptr<gpu::DeviceSupportedCommandCodes> supportedCommands;
 };

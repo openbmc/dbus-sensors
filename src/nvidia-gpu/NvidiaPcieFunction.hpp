@@ -21,6 +21,10 @@ struct NvidiaPcieFunction :
     public std::enable_shared_from_this<NvidiaPcieFunction>
 {
   public:
+    static constexpr gpu::PcieLinkCommands requiredCommandV1 =
+        gpu::PcieLinkCommands::QueryScalarGroupTelemetryV1;
+    static constexpr gpu::PcieLinkCommands requiredCommandV2 =
+        gpu::PcieLinkCommands::QueryScalarGroupTelemetryV2;
     NvidiaPcieFunction(
         std::shared_ptr<sdbusplus::asio::connection>& conn,
         mctp::MctpRequester& mctpRequester, const std::string& pcieDeviceName,

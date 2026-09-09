@@ -12,6 +12,7 @@
 #include "Utils.hpp"
 
 #include <MctpRequester.hpp>
+#include <NvidiaDeviceSupportedCommandCodes.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
 #include <OcpMctpVdm.hpp>
 #include <boost/asio/io_context.hpp>
@@ -40,12 +41,24 @@ SmaDevice::SmaDevice(const SensorConfigs& configs, const std::string& name,
     eid(eid), sensorPollMs(std::chrono::milliseconds{configs.pollRate}),
     waitTimer(io, std::chrono::steady_clock::duration(0)),
     mctpRequester(mctpRequester), conn(conn), objectServer(objectServer),
-    configs(configs), name(escapeName(name)), path(path)
+    configs(configs), name(escapeName(name)), path(path),
+    supportedCommands(
+        std::make_shared<gpu::DeviceSupportedCommandCodes>(eid, mctpRequester))
 {}
 
 void SmaDevice::init()
 {
-    makeSensors();
+    supportedCommands->refresh([weak{weak_from_this()}, eid{eid}]() {
+        const std::shared_ptr<SmaDevice> self = weak.lock();
+        if (!self)
+        {
+            lg2::error("SMA EID {EID} expired before its supported command "
+                       "codes were read",
+                       "EID", eid);
+            return;
+        }
+        self->makeSensors();
+    });
 }
 
 void SmaDevice::makeSensors()
@@ -65,7 +78,10 @@ void SmaDevice::makeSensors()
 
 void SmaDevice::read()
 {
-    tempSensor->update();
+    if (supportedCommands->supports(NvidiaGpuTempSensor::requiredCommand))
+    {
+        tempSensor->update();
+    }
 
     for (auto& sensor : leakSensors)
     {
