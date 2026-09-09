@@ -19,6 +19,9 @@ class NvidiaGpuMemoryClockFrequency :
     public std::enable_shared_from_this<NvidiaGpuMemoryClockFrequency>
 {
   public:
+    static constexpr gpu::PlatformEnvironmentalCommands requiredCommand =
+        gpu::PlatformEnvironmentalCommands::GET_CURRENT_CLOCK_FREQUENCY;
+
     NvidiaGpuMemoryClockFrequency(
         mctp::MctpRequester& mctpRequester, const std::string& name,
         uint8_t eid,

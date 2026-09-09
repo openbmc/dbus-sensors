@@ -12,6 +12,7 @@
 #include "Utils.hpp"
 
 #include <MctpRequester.hpp>
+#include <NvidiaDeviceSupportedCommandCodes.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
 #include <OcpMctpVdm.hpp>
 #include <boost/asio/io_context.hpp>
@@ -39,13 +40,16 @@ SmaDevice::SmaDevice(const NvidiaMctpVdmConfig& config, const std::string& name,
     eid(eid), sensorPollMs(std::chrono::milliseconds{config.pollRate}),
     waitTimerPriority(io, std::chrono::steady_clock::duration(0)),
     mctpRequester(mctpRequester), conn(conn), objectServer(objectServer),
-    name(escapeName(name)), path(config.path)
+    name(escapeName(name)), path(config.path),
+    supportedCommands(
+        std::make_shared<gpu::DeviceSupportedCommandCodes>(eid, mctpRequester))
 {}
 
 void SmaDevice::init()
 {
     makeInventory();
     makeSensors();
+    supportedCommands->refresh(nullptr);
 }
 
 void SmaDevice::makeSensors()
@@ -145,7 +149,10 @@ void SmaDevice::setEid(uint8_t newEid)
 
 void SmaDevice::readPriority()
 {
-    tempSensor->update();
+    if (supportedCommands->supports(NvidiaGpuTempSensor::requiredCommand))
+    {
+        tempSensor->update();
+    }
 
     for (auto& sensor : leakSensors)
     {
