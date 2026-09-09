@@ -20,6 +20,9 @@
 struct NvidiaGpuMemoryCapacityUtilization
 {
   public:
+    static constexpr gpu::PlatformEnvironmentalCommands requiredCommand =
+        gpu::PlatformEnvironmentalCommands::GET_MEMORY_CAPACITY_UTILIZATION;
+
     NvidiaGpuMemoryCapacityUtilization(
         mctp::MctpRequester& mctpRequester,
         sdbusplus::asio::object_server& objectServer,

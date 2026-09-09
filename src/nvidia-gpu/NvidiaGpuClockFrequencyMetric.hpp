@@ -19,6 +19,8 @@ class NvidiaGpuClockFrequencyMetric :
     public std::enable_shared_from_this<NvidiaGpuClockFrequencyMetric>
 {
   public:
+    static constexpr gpu::PlatformEnvironmentalCommands requiredCommand =
+        gpu::PlatformEnvironmentalCommands::GET_CURRENT_CLOCK_FREQUENCY;
     NvidiaGpuClockFrequencyMetric(mctp::MctpRequester& mctpRequester,
                                   const std::string& name, uint8_t eid,
                                   sdbusplus::asio::object_server& objectServer);

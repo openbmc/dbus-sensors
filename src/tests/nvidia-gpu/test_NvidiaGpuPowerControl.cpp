@@ -7,6 +7,7 @@
 #include "MctpMockTestBase.hpp"
 #include "MessagePackUnpackUtils.hpp"
 #include "MockMctpRequester.hpp"
+#include "NvidiaDeviceSupportedCommandCodes.hpp"
 #include "NvidiaGpuControlErrors.hpp"
 #include "NvidiaGpuMctpVdm.hpp"
 #include "NvidiaGpuPowerControl.hpp"
@@ -16,8 +17,10 @@
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/exception.hpp>
 
+#include <array>
 #include <chrono>
 #include <cstdint>
+#include <initializer_list>
 #include <limits>
 #include <memory>
 #include <span>
@@ -181,6 +184,85 @@ class NvidiaGpuPowerControlTest : public MctpMockTestBase
             "DefaultPowerCap", std::numeric_limits<uint32_t>::max());
     }
 
+    static std::shared_ptr<gpu::DeviceSupportedCommandCodes>
+        allCommandsSupported()
+    {
+        return std::make_shared<gpu::DeviceSupportedCommandCodes>(
+            test_utils::defaultEid, requester());
+    }
+
+    static std::vector<uint8_t> supportedListResponse(
+        gpu::DeviceCapabilityDiscoveryCommands command,
+        std::initializer_list<uint8_t> bits)
+    {
+        std::array<uint8_t, gpu::supportedListBitfieldSize> bitmap{};
+        for (const uint8_t bit : bits)
+        {
+            bitmap[bit / 8U] |= static_cast<uint8_t>(1U << (bit % 8U));
+        }
+
+        std::vector<uint8_t> buf(
+            ocp::accelerator_management::commonResponseSize +
+            gpu::supportedListBitfieldSize);
+        PackBuffer pack(buf);
+        ocp::accelerator_management::packHeader(
+            pack, gpu::nvidiaPciVendorId,
+            ocp::accelerator_management::MessageType::RESPONSE, 0,
+            static_cast<uint8_t>(
+                gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY));
+        pack.pack(static_cast<uint8_t>(command));
+        pack.pack(static_cast<uint8_t>(
+            ocp::accelerator_management::CompletionCode::SUCCESS));
+        pack.pack(static_cast<uint16_t>(0));
+        pack.pack(static_cast<uint16_t>(gpu::supportedListBitfieldSize));
+        for (const uint8_t byte : bitmap)
+        {
+            pack.pack(byte);
+        }
+        return buf;
+    }
+
+    std::shared_ptr<gpu::DeviceSupportedCommandCodes> supportedCommandsGetOnly()
+    {
+        using enum gpu::DeviceCapabilityDiscoveryCommands;
+        ON_CALL(mctpMock, sendRecvMsg)
+            .WillByDefault([](uint8_t /*eid*/, std::span<const uint8_t> request,
+                              auto callback) {
+                UnpackBuffer buffer(request);
+                ocp::accelerator_management::MessageType messageType{};
+                uint8_t instanceId = 0;
+                uint8_t nvidiaMessageType = 0;
+                ocp::accelerator_management::unpackHeader(
+                    buffer, gpu::nvidiaPciVendorId, messageType, instanceId,
+                    nvidiaMessageType);
+                uint8_t command = 0;
+                buffer.unpack(command);
+
+                if (command ==
+                    static_cast<uint8_t>(GET_SUPPORTED_MESSAGE_TYPES))
+                {
+                    callback(
+                        std::error_code{},
+                        supportedListResponse(
+                            GET_SUPPORTED_MESSAGE_TYPES,
+                            {static_cast<uint8_t>(
+                                gpu::MessageType::PLATFORM_ENVIRONMENTAL)}));
+                    return;
+                }
+                callback(std::error_code{},
+                         supportedListResponse(
+                             GET_SUPPORTED_COMMAND_CODES,
+                             {static_cast<uint8_t>(
+                                 gpu::PlatformEnvironmentalCommands::
+                                     GET_POWER_LIMITS)}));
+            });
+
+        auto codes = std::make_shared<gpu::DeviceSupportedCommandCodes>(
+            test_utils::defaultEid, requester());
+        codes->refresh(nullptr);
+        return codes;
+    }
+
     std::shared_ptr<NvidiaGpuPowerControl> createControl(
         const std::string& name = "GPU_CTRL",
         uint8_t eid = test_utils::defaultEid)
@@ -188,7 +270,7 @@ class NvidiaGpuPowerControlTest : public MctpMockTestBase
         makePowerCapInterface(name);
         return std::make_shared<NvidiaGpuPowerControl>(
             objects(), name, requester(), eid, ioContext(), powerCapInterface,
-            nullptr);
+            nullptr, allCommandsSupported());
     }
 
     // GpuDevice hands one Power.Cap interface to both the Inventory and the
@@ -205,7 +287,7 @@ class NvidiaGpuPowerControlTest : public MctpMockTestBase
             ioContext(), powerCapInterface, nullptr);
         auto ctrl = std::make_shared<NvidiaGpuPowerControl>(
             objects(), name, requester(), test_utils::defaultEid, ioContext(),
-            powerCapInterface, inventory);
+            powerCapInterface, inventory, allCommandsSupported());
         if (fetchLimits)
         {
             inventory->init();
@@ -551,6 +633,23 @@ TEST_F(NvidiaGpuPowerControlTest, DestructorRemovesInterface)
                      assocPath, "xyz.openbmc_project.Association.Definitions",
                      "Associations"),
                  sdbusplus::exception_t);
+}
+
+TEST_F(NvidiaGpuPowerControlTest, SetIsRejectedWhenTheDeviceDoesNotSupportIt)
+{
+    makePowerCapInterface("GPU_NOSET");
+    auto codes = supportedCommandsGetOnly();
+    ASSERT_TRUE(codes->supports(NvidiaGpuPowerControl::requiredCommand));
+    ASSERT_FALSE(codes->supports(NvidiaGpuPowerControl::setRequiredCommand));
+
+    auto ctrl = std::make_shared<NvidiaGpuPowerControl>(
+        objects(), "GPU_NOSET", requester(), test_utils::defaultEid,
+        ioContext(), powerCapInterface, nullptr, codes);
+
+    EXPECT_THROW(powerCapInterface->set_property("PowerCap", uint32_t{300}),
+                 Unavailable);
+    EXPECT_THROW(powerCapInterface->set_property("PowerCapEnable", true),
+                 Unavailable);
 }
 
 } // namespace

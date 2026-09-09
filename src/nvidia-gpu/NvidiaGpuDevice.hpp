@@ -7,9 +7,11 @@
 
 #include "Inventory.hpp"
 #include "MctpRequester.hpp"
+#include "NvidiaDeviceSupportedCommandCodes.hpp"
 #include "NvidiaEventReporting.hpp"
 #include "NvidiaGpuClockFrequencyMetric.hpp"
 #include "NvidiaGpuClockSpeedControl.hpp"
+#include "NvidiaGpuMctpVdm.hpp"
 #include "NvidiaGpuMemoryClockFrequency.hpp"
 #include "NvidiaGpuMemoryDevice.hpp"
 #include "NvidiaGpuPowerControl.hpp"
@@ -43,6 +45,7 @@
 #include <cstdint>
 #include <memory>
 #include <string>
+#include <utility>
 #include <vector>
 
 class GpuDevice : public std::enable_shared_from_this<GpuDevice>
@@ -65,6 +68,8 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
     void init();
 
   private:
+    void onSupportedCommandsRefreshed();
+
     void makeSensors();
 
     void read();
@@ -143,4 +148,6 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
 
     std::shared_ptr<NvidiaGpuClockFrequencyMetric> clockFrequencyMetric;
     std::shared_ptr<NvidiaGpuClockSpeedControl> gpuClockSpeedControl;
+
+    std::shared_ptr<gpu::DeviceSupportedCommandCodes> supportedCommands;
 };

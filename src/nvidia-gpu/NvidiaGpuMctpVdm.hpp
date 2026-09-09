@@ -29,7 +29,10 @@ enum class MessageType : uint8_t
     DEVICE_CAPABILITY_DISCOVERY = 0,
     NETWORK_PORT = 1,
     PCIE_LINK = 2,
-    PLATFORM_ENVIRONMENTAL = 3
+    PLATFORM_ENVIRONMENTAL = 3,
+    DIAGNOSTICS = 4,
+    DEVICE_CONFIGURATION = 5,
+    FIRMWARE = 6
 };
 
 enum class DeviceCapabilityDiscoveryCommands : uint8_t
@@ -43,6 +46,7 @@ enum class DeviceCapabilityDiscoveryCommands : uint8_t
 
 enum class DeviceCapabilityDiscoveryEvents : uint8_t
 {
+    REDISCOVERY = 0x01,
     LONG_RUNNING_RESPONSE = 0x02,
 };
 

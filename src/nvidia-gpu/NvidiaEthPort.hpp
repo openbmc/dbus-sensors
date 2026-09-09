@@ -23,6 +23,9 @@ struct NvidiaEthPortMetrics :
     public std::enable_shared_from_this<NvidiaEthPortMetrics>
 {
   public:
+    static constexpr gpu::NetworkPortCommands requiredCommand =
+        gpu::NetworkPortCommands::GetEthernetPortTelemetryCounters;
+
     NvidiaEthPortMetrics(
         std::shared_ptr<sdbusplus::asio::connection>& conn,
         mctp::MctpRequester& mctpRequester, const std::string& name,

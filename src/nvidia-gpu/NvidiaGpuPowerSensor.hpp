@@ -28,6 +28,9 @@ struct NvidiaGpuPowerSensor :
     public std::enable_shared_from_this<NvidiaGpuPowerSensor>
 {
   public:
+    static constexpr gpu::PlatformEnvironmentalCommands requiredCommand =
+        gpu::PlatformEnvironmentalCommands::GET_CURRENT_POWER_DRAW;
+
     NvidiaGpuPowerSensor(
         std::shared_ptr<sdbusplus::asio::connection>& conn,
         mctp::MctpRequester& mctpRequester, const std::string& name,
