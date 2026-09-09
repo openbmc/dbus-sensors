@@ -45,7 +45,6 @@
 #include <cstdint>
 #include <memory>
 #include <string>
-#include <utility>
 #include <vector>
 
 class GpuDevice : public std::enable_shared_from_this<GpuDevice>
@@ -68,6 +67,8 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
     void init();
 
   private:
+    void requeryCapabilities();
+
     void onSupportedCommandsRefreshed();
 
     void makeSensors();
@@ -145,6 +146,7 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
     sdbusplus::object_path path;
 
     std::shared_ptr<Inventory> inventory;
+    bool inventoryStarted{false};
 
     std::shared_ptr<NvidiaGpuClockFrequencyMetric> clockFrequencyMetric;
     std::shared_ptr<NvidiaGpuClockSpeedControl> gpuClockSpeedControl;
