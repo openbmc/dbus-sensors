@@ -16,6 +16,24 @@
       "message": "Can the Tested section include how the asynchronous SDR request was verified after sdrHandler() returned? For example, through service logs, debug traces, or confirmation that the SDR repository discovery completed successfully.",
       "revId": "3cd79864c754a3d2857413aed373d491e553a6e8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a02aa2a_6d0f762e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-09-09T09:08:25Z",
+      "side": 1,
+      "message": "Updated the Tested section to specify that we monitored the IPMB sensor service logs after sdrHandler() returned and confirmed that the asynchronous SDR request sequence continued through successful SDR repository discovery.",
+      "parentUuid": "6351d5c9_ddcc625c",
+      "revId": "3cd79864c754a3d2857413aed373d491e553a6e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
