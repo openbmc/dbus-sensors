@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a17568af_59d68c03",
+        "filename": "src/psu/PSUEvent.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-09-09T05:56:06Z",
+      "side": 1,
+      "message": "Could you add an executable regression test covering the complete transition, including a PSU fault changing Functional to false and recovery changing it back to true? The current validation only confirms the initial property name/value; the commit message notes that the fault transition is not exercised. This would also verify that the renamed property is updated on both paths.",
+      "range": {
+        "startLine": 56,
+        "startChar": 4,
+        "endLine": 56,
+        "endChar": 18
+      },
+      "revId": "2ded2f768fe02834662435a5433f627042c0d6b1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
