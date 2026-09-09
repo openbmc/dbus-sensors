@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0149e276_b5f05f2e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-09-09T15:05:35Z",
+      "side": 1,
+      "message": "Remeasured on the BMC so both terms come from one clock.",
+      "parentUuid": "0ff2347d_65020d8b",
+      "range": {
+        "startLine": 41,
+        "startChar": 23,
+        "endLine": 41,
+        "endChar": 35
+      },
+      "revId": "68d6c3f9aa2fd76b7fe53adaa10ecbb3ae1dd606",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3ef4efde_e889d2e5",
@@ -37,6 +61,24 @@
       "writtenOn": "2026-09-02T10:48:10Z",
       "side": 1,
       "message": "This can be free function.",
+      "revId": "68d6c3f9aa2fd76b7fe53adaa10ecbb3ae1dd606",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b583859_d3a1034d",
+        "filename": "src/nvidia-gpu/NvidiaSensorUtils.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-09-09T15:05:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ef4efde_e889d2e5",
       "revId": "68d6c3f9aa2fd76b7fe53adaa10ecbb3ae1dd606",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -58,6 +100,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "513d9c41_41a5a622",
+        "filename": "src/nvidia-gpu/NvidiaSensorUtils.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-09-09T15:05:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab1a2a73_62cdf999",
+      "revId": "68d6c3f9aa2fd76b7fe53adaa10ecbb3ae1dd606",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dc1526d2_a17a3e52",
@@ -71,6 +131,24 @@
       "writtenOn": "2026-09-02T10:48:10Z",
       "side": 1,
       "message": "We don\u0027t need this state to persist across invocation of function stamp, so let\u0027s remove it.",
+      "revId": "68d6c3f9aa2fd76b7fe53adaa10ecbb3ae1dd606",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a2a5f22_3e15e3d9",
+        "filename": "src/nvidia-gpu/NvidiaSensorUtils.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-09-09T15:05:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc1526d2_a17a3e52",
       "revId": "68d6c3f9aa2fd76b7fe53adaa10ecbb3ae1dd606",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
