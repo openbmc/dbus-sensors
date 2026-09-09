@@ -183,6 +183,13 @@ void GpuDevice::onSupportedCommandsRefreshed()
     eventReporting->init(*supportedCommands);
 }
 
+void GpuDevice::requeryCapabilities()
+{
+    lg2::info("Rediscovery event received for GPU EID {EID}", "EID", eid);
+
+    supportedCommands->refresh(nullptr);
+}
+
 void GpuDevice::makeSensors()
 {
     tempSensor = std::make_shared<NvidiaGpuTempSensor>(
@@ -228,6 +235,21 @@ void GpuDevice::makeSensors()
     eventReporting = std::make_shared<NvidiaEventReportingConfig>(
         eid, mctpRequester,
         std::initializer_list<EventDescriptor>{
+            {gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY,
+             static_cast<uint8_t>(
+                 gpu::DeviceCapabilityDiscoveryEvents::REDISCOVERY),
+             [weak{weak_from_this()},
+              eid{eid}](const EventInfo&, std::span<const uint8_t>) {
+                 const std::shared_ptr<GpuDevice> self = weak.lock();
+                 if (!self)
+                 {
+                     lg2::error("GPU EID {EID} expired before the rediscovery "
+                                "event could be handled",
+                                "EID", eid);
+                     return;
+                 }
+                 self->requeryCapabilities();
+             }},
             {gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY,
              static_cast<uint8_t>(
                  gpu::DeviceCapabilityDiscoveryEvents::LONG_RUNNING_RESPONSE),

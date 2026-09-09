@@ -439,6 +439,33 @@ TEST_F(NvidiaEventReportingTest, HandleEventDispatchesToRegisteredHandler)
               eventData);
 }
 
+TEST_F(NvidiaEventReportingTest, DestructorUnregistersHandlers)
+{
+    constexpr uint8_t eid = 101;
+    constexpr uint8_t eventId = 0x03;
+    const std::vector<uint8_t> eventData{0x11, 0x22};
+    const auto buf = buildEventBuffer(
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL), eventId,
+        1, 0, eventData);
+
+    {
+        const std::shared_ptr<NvidiaEventReportingConfig> config = createConfig(
+            eid, {{gpu::MessageType::PLATFORM_ENVIRONMENTAL, eventId,
+                   [](const EventInfo&, std::span<const uint8_t> data) {
+                       dispatchedEventData() =
+                           std::vector<uint8_t>(data.begin(), data.end());
+                   }}});
+
+        dispatchedEventData().reset();
+        NvidiaEventHandler::handleEvent(eid, buf);
+        ASSERT_TRUE(dispatchedEventData().has_value());
+    }
+
+    dispatchedEventData().reset();
+    NvidiaEventHandler::handleEvent(eid, buf);
+    EXPECT_FALSE(dispatchedEventData().has_value());
+}
+
 TEST_F(NvidiaEventReportingTest, HandleEventNoHandlerNoCrash)
 {
     const auto buf = buildEventBuffer(
