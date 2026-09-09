@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2e663da_5750056e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003077
+      },
+      "writtenOn": "2026-09-09T22:36:37Z",
+      "side": 1,
+      "message": "Added AcceptsMaximumNameAtRecordEdge in patch set 8. It uses the maximum supported 16-byte sensor name ending exactly at the 72-byte framed record boundary and checks the parsed name. The test passes locally, and upstream CI for patch set 8 is successful.",
+      "parentUuid": "8ceb6481_10623639",
+      "revId": "8ff77bb05504aa99b9cf86101297f2665b4631c9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4d7c6522_9d3abd76",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-09-09T08:18:09Z",
       "side": 1,
       "message": "Suggest bounding the other record types too — a declared length \u003e\u003d 252 on type 02/03 drives iCnt to 16, wrapping line 152\u0027s uint8_t loopCount to 0.",
+      "revId": "8ff77bb05504aa99b9cf86101297f2665b4631c9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2b9f432_93eb448c",
+        "filename": "src/ipmb/IpmbSDRSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1003077
+      },
+      "writtenOn": "2026-09-09T22:36:37Z",
+      "side": 1,
+      "message": "Addressed in patch set 8. The transport-length bound now applies to every record type before requesting another chunk. Added rejection regressions for types 01, 02 and 03 at the oversized declared-length boundaries.",
+      "parentUuid": "4d7c6522_9d3abd76",
       "revId": "8ff77bb05504aa99b9cf86101297f2665b4631c9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -52,6 +88,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cdcb9d61_3adf4561",
+        "filename": "src/ipmb/IpmbSDRSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1003077
+      },
+      "writtenOn": "2026-09-09T22:36:37Z",
+      "side": 1,
+      "message": "Agreed. Patch set 8 removes the dataLength parameter from checkSDRData and derives the framed length from the supplied buffer after checking that the header is present. The caller and tests use the updated signature.",
+      "parentUuid": "eaec02ff_f63aeb49",
+      "revId": "8ff77bb05504aa99b9cf86101297f2665b4631c9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f894fd19_af7d6014",
@@ -65,6 +119,24 @@
       "writtenOn": "2026-09-09T08:18:09Z",
       "side": 1,
       "message": "Lines 258 and 283-284 pin dataLength to 56 + strLen, and strAddr is a constant 56, so these four checks can\u0027t fire. Suggest a single assert instead?",
+      "revId": "8ff77bb05504aa99b9cf86101297f2665b4631c9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85a4c4c1_5558c624",
+        "filename": "src/ipmb/IpmbSDRSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1003077
+      },
+      "writtenOn": "2026-09-09T22:36:37Z",
+      "side": 1,
+      "message": "Agreed. Patch set 8 retains the preceding checks on untrusted record and name metadata, then replaces the redundant range conditions with assert(strAddr + strLen \u003d\u003d dataLength) to document the established invariant.",
+      "parentUuid": "f894fd19_af7d6014",
       "revId": "8ff77bb05504aa99b9cf86101297f2665b4631c9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
