@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e90d9850_21e9fc4e",
+        "filename": "src/nvidia-gpu/NvidiaDriverInformation.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-09-09T02:24:05Z",
+      "side": 1,
+      "message": "Acknowledged, modified in PS33.",
+      "parentUuid": "1533f95d_e4404dc0",
+      "revId": "09946f9bcefca0ca9b5f41ca153664e5ab8107d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c45bf812_6dadd385",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-09-08T10:55:19Z",
       "side": 1,
       "message": "If we can use file src/nvidia-gpu/Inventory.cpp to publish the firmware version, let\u0027s prefer that.",
+      "revId": "09946f9bcefca0ca9b5f41ca153664e5ab8107d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e62c6a16_dd037cd7",
+        "filename": "src/nvidia-gpu/NvidiaGpuFirmwareInformation.cpp",
+        "patchSetId": 31
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002885
+      },
+      "writtenOn": "2026-09-09T02:24:05Z",
+      "side": 1,
+      "message": "Understood, I have modified this in PS33.",
+      "parentUuid": "c45bf812_6dadd385",
       "revId": "09946f9bcefca0ca9b5f41ca153664e5ab8107d6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
