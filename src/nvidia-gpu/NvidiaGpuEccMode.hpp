@@ -19,6 +19,9 @@
 struct NvidiaGpuEccMode
 {
   public:
+    static constexpr gpu::PlatformEnvironmentalCommands requiredCommand =
+        gpu::PlatformEnvironmentalCommands::GET_ECC_MODE;
+
     NvidiaGpuEccMode(mctp::MctpRequester& mctpRequester,
                      sdbusplus::asio::object_server& objectServer,
                      const std::string& deviceName, uint8_t eid,

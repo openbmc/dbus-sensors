@@ -11,6 +11,7 @@
 #include "Utils.hpp"
 
 #include <MctpRequester.hpp>
+#include <NvidiaDeviceSupportedCommandCodes.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
 #include <OcpMctpVdm.hpp>
 #include <boost/asio/error.hpp>
@@ -45,10 +46,12 @@ static constexpr std::chrono::milliseconds setLimitDebounce{100};
 NvidiaGpuClockSpeedControl::NvidiaGpuClockSpeedControl(
     sdbusplus::asio::object_server& objectServer, const std::string& deviceName,
     mctp::MctpRequester& mctpRequester, uint8_t eid,
-    boost::asio::io_context& io, std::shared_ptr<Inventory> inventory) :
-    inventory(std::move(inventory)), mctpRequester(mctpRequester),
-    name(escapeName(deviceName)), objectServer(objectServer), setLimitTimer(io),
-    eid(eid)
+    boost::asio::io_context& io, std::shared_ptr<Inventory> inventory,
+    std::shared_ptr<gpu::DeviceSupportedCommandCodes> supportedCommands) :
+    inventory(std::move(inventory)),
+    supportedCommands(std::move(supportedCommands)),
+    mctpRequester(mctpRequester), name(escapeName(deviceName)),
+    objectServer(objectServer), setLimitTimer(io), eid(eid)
 {
     const int rc = gpu::encodeGetClockLimitRequest(
         0, gpu::ClockType::GRAPHICS_CLOCK, requestBuffer);
@@ -215,6 +218,14 @@ void NvidiaGpuClockSpeedControl::handleGetClockLimitResponse(
 int NvidiaGpuClockSpeedControl::handleRequestedSpeedLimitMaxHzSet(
     const uint64_t& newMaxHz, uint64_t& /*current*/)
 {
+    if (!supportedCommands->supports(setRequiredCommand))
+    {
+        lg2::error(
+            "Clock limit set rejected for eid {EID}: the device does not report SetClockLimit as supported",
+            "EID", eid);
+        throw Unavailable();
+    }
+
     if (!inventory)
     {
         lg2::error(
@@ -255,6 +266,14 @@ int NvidiaGpuClockSpeedControl::handleRequestedSpeedLimitMaxHzSet(
 int NvidiaGpuClockSpeedControl::handleRequestedSpeedLimitMinHzSet(
     const uint64_t& newMinHz, uint64_t& /*current*/)
 {
+    if (!supportedCommands->supports(setRequiredCommand))
+    {
+        lg2::error(
+            "Clock limit set rejected for eid {EID}: the device does not report SetClockLimit as supported",
+            "EID", eid);
+        throw Unavailable();
+    }
+
     if (!inventory)
     {
         lg2::error(
