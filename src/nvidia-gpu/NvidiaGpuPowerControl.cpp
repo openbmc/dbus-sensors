@@ -11,6 +11,7 @@
 
 #include <Inventory.hpp>
 #include <MctpRequester.hpp>
+#include <NvidiaDeviceSupportedCommandCodes.hpp>
 #include <NvidiaGpuMctpVdm.hpp>
 #include <OcpMctpVdm.hpp>
 #include <boost/asio/error.hpp>
@@ -45,10 +46,13 @@ NvidiaGpuPowerControl::NvidiaGpuPowerControl(
     mctp::MctpRequester& mctpRequester, uint8_t eid,
     boost::asio::io_context& io,
     const std::shared_ptr<sdbusplus::asio::dbus_interface>& powerCapIface,
-    const std::shared_ptr<Inventory>& inventory) :
+    const std::shared_ptr<Inventory>& inventory,
+    const std::shared_ptr<gpu::DeviceSupportedCommandCodes>&
+        supportedCommands) :
     powerCapInterface(powerCapIface), inventory(inventory),
-    name(escapeName(deviceName)), objectServer(objectServer),
-    mctpRequester(mctpRequester), setLimitTimer(io), eid(eid)
+    supportedCommands(supportedCommands), name(escapeName(deviceName)),
+    objectServer(objectServer), mctpRequester(mctpRequester), setLimitTimer(io),
+    eid(eid)
 {
     constexpr uint32_t devicePowerLimitId = 0;
     const int rc = gpu::encodeGetPowerLimitsRequest(
@@ -191,6 +195,14 @@ void NvidiaGpuPowerControl::handleGetPowerLimitsResponse(
 int NvidiaGpuPowerControl::handlePowerCapSet(const uint32_t& newCap,
                                              uint32_t& /*current*/)
 {
+    if (!supportedCommands->supports(setRequiredCommand))
+    {
+        lg2::error(
+            "PowerCap set rejected for eid {EID}: the device does not report SetPowerLimits as supported",
+            "EID", eid);
+        throw Unavailable();
+    }
+
     if (!inventory)
     {
         lg2::error(
@@ -230,6 +242,14 @@ int NvidiaGpuPowerControl::handlePowerCapSet(const uint32_t& newCap,
 int NvidiaGpuPowerControl::handlePowerCapEnableSet(const bool& newEnable,
                                                    bool& /*current*/)
 {
+    if (!supportedCommands->supports(setRequiredCommand))
+    {
+        lg2::error(
+            "PowerCapEnable set rejected for eid {EID}: the device does not report SetPowerLimits as supported",
+            "EID", eid);
+        throw Unavailable();
+    }
+
     // Record the requested enable state and arm the debounce timer. Do not
     // touch powerCapEnabled here: the D-Bus value is only updated from a
     // GetPowerLimits response.
