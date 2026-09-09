@@ -5,17 +5,24 @@
 
 #include "MctpMockTestBase.hpp"
 #include "MockMctpRequester.hpp"
+#include "NvidiaEventReporting.hpp"
 #include "NvidiaGpuDevice.hpp"
+#include "NvidiaGpuMctpVdm.hpp"
 #include "NvidiaSensorConfig.hpp"
+#include "OcpMctpVdm.hpp"
 
+#include <MessagePackUnpackUtils.hpp>
 #include <sdbusplus/exception.hpp>
 
+#include <array>
 #include <chrono>
 #include <cstdint>
+#include <initializer_list>
 #include <memory>
 #include <span>
 #include <string>
 #include <system_error>
+#include <vector>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -35,6 +42,83 @@ constexpr std::chrono::seconds pollTimeout{5};
 
 // Several fastPollMs intervals, so a loop that kept running would be caught.
 constexpr std::chrono::seconds quietWindow{1};
+
+using DiscoveryCommands = gpu::DeviceCapabilityDiscoveryCommands;
+
+struct DecodedRequest
+{
+    uint8_t messageType{};
+    uint8_t command{};
+};
+
+DecodedRequest decodeRequest(std::span<const uint8_t> request)
+{
+    UnpackBuffer buffer(request);
+    ocp::accelerator_management::MessageType messageType{};
+    uint8_t instanceId = 0;
+    uint8_t nvidiaMessageType = 0;
+    ocp::accelerator_management::unpackHeader(
+        buffer, gpu::nvidiaPciVendorId, messageType, instanceId,
+        nvidiaMessageType);
+
+    DecodedRequest decoded{};
+    decoded.messageType = nvidiaMessageType;
+    buffer.unpack(decoded.command);
+    return decoded;
+}
+
+std::array<uint8_t, gpu::supportedListBitfieldSize> bitsOf(
+    std::initializer_list<uint8_t> codes)
+{
+    std::array<uint8_t, gpu::supportedListBitfieldSize> bits{};
+    for (uint8_t code : codes)
+    {
+        bits[code / 8U] |= static_cast<uint8_t>(1U << (code % 8U));
+    }
+    return bits;
+}
+
+std::vector<uint8_t> buildSupportedListResponse(
+    DiscoveryCommands command,
+    const std::array<uint8_t, gpu::supportedListBitfieldSize>& bits)
+{
+    std::vector<uint8_t> buf(ocp::accelerator_management::commonResponseSize +
+                             gpu::supportedListBitfieldSize);
+    PackBuffer pack(buf);
+    ocp::accelerator_management::packHeader(
+        pack, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 0,
+        static_cast<uint8_t>(gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY));
+    pack.pack(static_cast<uint8_t>(command));
+    pack.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));
+    pack.pack(static_cast<uint16_t>(0)); // reserved
+    pack.pack(static_cast<uint16_t>(gpu::supportedListBitfieldSize));
+    for (uint8_t byte : bits)
+    {
+        pack.pack(byte);
+    }
+    return buf;
+}
+
+std::vector<uint8_t> buildRediscoveryEvent()
+{
+    std::vector<uint8_t> buf(ocp::accelerator_management::eventHeaderSize);
+    PackBuffer pack(buf);
+    ocp::accelerator_management::packHeader(
+        pack, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::REQUEST, 0,
+        static_cast<uint8_t>(gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY));
+    constexpr uint8_t eventVersion = 1;
+    pack.pack(static_cast<uint8_t>(
+        eventVersion & ocp::accelerator_management::eventVersionBitMask));
+    pack.pack(static_cast<uint8_t>(
+        gpu::DeviceCapabilityDiscoveryEvents::REDISCOVERY));
+    pack.pack(static_cast<uint8_t>(0));  // event class
+    pack.pack(static_cast<uint16_t>(0)); // event state
+    pack.pack(static_cast<uint8_t>(0));  // no trailing event data
+    return buf;
+}
 
 class NvidiaGpuDeviceTest : public MctpMockTestBase
 {
@@ -114,6 +198,59 @@ TEST_F(NvidiaGpuDeviceTest, ReadLoopStopsAfterDeviceIsDestroyed)
     const int afterDestroy = requests;
     EXPECT_FALSE(
         pumpIoUntil([&] { return requests > afterDestroy; }, quietWindow));
+}
+
+// Rediscovery
+
+TEST_F(NvidiaGpuDeviceTest, RediscoveryEventRequeriesSupportedCommandCodes)
+{
+    int commandCodeQueries = 0;
+
+    ON_CALL(mctpMock, sendRecvMsg)
+        .WillByDefault([&commandCodeQueries](uint8_t /*eid*/,
+                                             std::span<const uint8_t> request,
+                                             auto callback) {
+            const DecodedRequest decoded = decodeRequest(request);
+            if (decoded.messageType !=
+                static_cast<uint8_t>(
+                    gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY))
+            {
+                callback(std::error_code{}, std::span<const uint8_t>{});
+                return;
+            }
+            if (decoded.command ==
+                static_cast<uint8_t>(
+                    DiscoveryCommands::GET_SUPPORTED_MESSAGE_TYPES))
+            {
+                callback(
+                    std::error_code{},
+                    buildSupportedListResponse(
+                        DiscoveryCommands::GET_SUPPORTED_MESSAGE_TYPES,
+                        bitsOf({static_cast<uint8_t>(
+                            gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY)})));
+                return;
+            }
+            ++commandCodeQueries;
+            callback(std::error_code{},
+                     buildSupportedListResponse(
+                         DiscoveryCommands::GET_SUPPORTED_COMMAND_CODES,
+                         bitsOf({})));
+        });
+
+    const std::shared_ptr<GpuDevice> device =
+        createDevice("gpudev_requery", defaultEid, fastPollMs);
+    device->init();
+
+    // The rediscovery handler is only registered once the initial read of the
+    // supported command codes has completed.
+    ASSERT_TRUE(
+        pumpIoUntil([&] { return commandCodeQueries > 0; }, pollTimeout));
+    const int afterInit = commandCodeQueries;
+
+    NvidiaEventHandler::handleEvent(defaultEid, buildRediscoveryEvent());
+
+    EXPECT_TRUE(pumpIoUntil([&] { return commandCodeQueries > afterInit; },
+                            pollTimeout));
 }
 
 // Destructor
