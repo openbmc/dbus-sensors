@@ -20,6 +20,9 @@ struct NvidiaGpuMemoryDevice :
     public std::enable_shared_from_this<NvidiaGpuMemoryDevice>
 {
   public:
+    static constexpr gpu::PlatformEnvironmentalCommands requiredCommand =
+        gpu::PlatformEnvironmentalCommands::GET_ECC_ERROR_COUNTS;
+
     NvidiaGpuMemoryDevice(std::shared_ptr<sdbusplus::asio::connection>& conn,
                           mctp::MctpRequester& mctpRequester,
                           const std::string& gpuName, uint8_t eid,

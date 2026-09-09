@@ -26,6 +26,9 @@ struct NvidiaGpuPowerPeakReading :
     public std::enable_shared_from_this<NvidiaGpuPowerPeakReading>
 {
   public:
+    static constexpr gpu::PlatformEnvironmentalCommands requiredCommand =
+        gpu::PlatformEnvironmentalCommands::GET_MAX_OBSERVED_POWER;
+
     NvidiaGpuPowerPeakReading(mctp::MctpRequester& mctpRequester,
                               const std::string& name, uint8_t eid,
                               uint8_t sensorId,

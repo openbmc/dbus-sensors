@@ -7,6 +7,7 @@
 
 #include "Inventory.hpp"
 #include "MctpRequester.hpp"
+#include "NvidiaDeviceSupportedCommandCodes.hpp"
 
 #include <NvidiaGpuMctpVdm.hpp>
 #include <boost/asio/io_context.hpp>
@@ -26,12 +27,19 @@ class NvidiaGpuPowerControl :
     public std::enable_shared_from_this<NvidiaGpuPowerControl>
 {
   public:
+    static constexpr gpu::PlatformEnvironmentalCommands requiredCommand =
+        gpu::PlatformEnvironmentalCommands::GET_POWER_LIMITS;
+    static constexpr gpu::PlatformEnvironmentalCommands setRequiredCommand =
+        gpu::PlatformEnvironmentalCommands::SET_POWER_LIMITS;
+
     NvidiaGpuPowerControl(
         sdbusplus::asio::object_server& objectServer,
         const std::string& deviceName, mctp::MctpRequester& mctpRequester,
         uint8_t eid, boost::asio::io_context& io,
         const std::shared_ptr<sdbusplus::asio::dbus_interface>& powerCapIface,
-        const std::shared_ptr<Inventory>& inventory);
+        const std::shared_ptr<Inventory>& inventory,
+        const std::shared_ptr<gpu::DeviceSupportedCommandCodes>&
+            supportedCommands);
 
     ~NvidiaGpuPowerControl();
 
@@ -63,6 +71,7 @@ class NvidiaGpuPowerControl :
     std::shared_ptr<sdbusplus::asio::dbus_interface> powerCapInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> associationInterface;
     std::shared_ptr<Inventory> inventory;
+    std::shared_ptr<gpu::DeviceSupportedCommandCodes> supportedCommands;
 
     // powerCapValue / powerCapEnabled mirror the device and are only updated
     // from a GetPowerLimits response. requestedPowerCapWatts and pendingEnable

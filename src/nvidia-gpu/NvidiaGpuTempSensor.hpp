@@ -30,6 +30,12 @@ struct NvidiaGpuTempSensor :
     public std::enable_shared_from_this<NvidiaGpuTempSensor>
 {
   public:
+    static constexpr gpu::PlatformEnvironmentalCommands requiredCommand =
+        gpu::PlatformEnvironmentalCommands::GET_TEMPERATURE_READING;
+    static constexpr gpu::PlatformEnvironmentalCommands
+        thermalParameterCommand =
+            gpu::PlatformEnvironmentalCommands::READ_THERMAL_PARAMETERS;
+
     NvidiaGpuTempSensor(
         std::shared_ptr<sdbusplus::asio::connection>& conn,
         mctp::MctpRequester& mctpRequester, const std::string& name,

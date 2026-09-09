@@ -21,6 +21,9 @@ struct NvidiaDriverInformation :
     public std::enable_shared_from_this<NvidiaDriverInformation>
 {
   public:
+    static constexpr gpu::PlatformEnvironmentalCommands requiredCommand =
+        gpu::PlatformEnvironmentalCommands::GET_DRIVER_INFORMATION;
+
     NvidiaDriverInformation(
         std::shared_ptr<sdbusplus::asio::connection>& conn,
         mctp::MctpRequester& mctpRequester, const std::string& name,

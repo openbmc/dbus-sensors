@@ -19,6 +19,9 @@
 struct NvidiaGpuViolationDuration
 {
   public:
+    static constexpr gpu::PlatformEnvironmentalCommands requiredCommand =
+        gpu::PlatformEnvironmentalCommands::GET_VIOLATION_DURATION;
+
     NvidiaGpuViolationDuration(mctp::MctpRequester& mctpRequester,
                                sdbusplus::asio::object_server& objectServer,
                                const std::string& deviceName, uint8_t eid,

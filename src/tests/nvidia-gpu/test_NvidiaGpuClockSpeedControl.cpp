@@ -7,6 +7,7 @@
 #include "MctpMockTestBase.hpp"
 #include "MessagePackUnpackUtils.hpp"
 #include "MockMctpRequester.hpp"
+#include "NvidiaDeviceSupportedCommandCodes.hpp"
 #include "NvidiaGpuClockSpeedControl.hpp"
 #include "NvidiaGpuMctpVdm.hpp"
 #include "OcpMctpVdm.hpp"
@@ -235,13 +236,21 @@ class NvidiaGpuClockSpeedControlTest : public MctpMockTestBase
     }
 
     // shared_ptr ownership is required: the async handlers resolve
+    static std::shared_ptr<gpu::DeviceSupportedCommandCodes>
+        allCommandsSupported()
+    {
+        return std::make_shared<gpu::DeviceSupportedCommandCodes>(
+            test_utils::defaultEid, requester());
+    }
+
     // weak_from_this().
     static std::shared_ptr<NvidiaGpuClockSpeedControl> createControl(
         const std::string& name, const std::shared_ptr<Inventory>& inventory,
         uint8_t eid = test_utils::defaultEid)
     {
         return std::make_shared<NvidiaGpuClockSpeedControl>(
-            objects(), name, requester(), eid, ioContext(), inventory);
+            objects(), name, requester(), eid, ioContext(), inventory,
+            allCommandsSupported());
     }
 
     static std::string pathFor(const std::string& name)

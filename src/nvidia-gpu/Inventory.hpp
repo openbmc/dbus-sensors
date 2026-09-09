@@ -19,6 +19,9 @@
 class Inventory : public std::enable_shared_from_this<Inventory>
 {
   public:
+    static constexpr gpu::PlatformEnvironmentalCommands requiredCommand =
+        gpu::PlatformEnvironmentalCommands::GET_INVENTORY_INFORMATION;
+
     Inventory(
         const std::shared_ptr<sdbusplus::asio::connection>& conn,
         sdbusplus::asio::object_server& objectServer,

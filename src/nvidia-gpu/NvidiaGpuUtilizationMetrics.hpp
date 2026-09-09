@@ -19,6 +19,9 @@
 struct NvidiaGpuUtilizationMetrics
 {
   public:
+    static constexpr gpu::PlatformEnvironmentalCommands requiredCommand =
+        gpu::PlatformEnvironmentalCommands::GET_CURRENT_UTILIZATION;
+
     NvidiaGpuUtilizationMetrics(
         mctp::MctpRequester& mctpRequester,
         sdbusplus::asio::object_server& objectServer,

@@ -74,6 +74,14 @@ void DeviceManager::processQueryDeviceIdResponse(
         return;
     }
 
+    createDeviceForType(configs, path, eid, responseDeviceType,
+                        responseInstanceId);
+}
+
+void DeviceManager::createDeviceForType(
+    const SensorConfigs& configs, const std::string& path, uint8_t eid,
+    uint8_t responseDeviceType, uint8_t responseInstanceId)
+{
     switch (static_cast<gpu::DeviceIdentification>(responseDeviceType))
     {
         case gpu::DeviceIdentification::DEVICE_GPU:
