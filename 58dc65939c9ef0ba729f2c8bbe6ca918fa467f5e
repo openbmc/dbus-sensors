@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "861f94c7_16543e4e",
+        "filename": "src/nvidia-gpu/NvidiaPcieDevice.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-09-10T03:59:42Z",
+      "side": 1,
+      "message": "Could you confirm that the NIC reset is targeted independently from the PCIe switch? Both NvidiaSwitchResetControl instances use the same EID and send the same ResetNetworkDevice request, which contains no NIC/switch identifier. If the command is endpoint-wide, invoking NetworkAdapter.Reset may also reset the PCIe switch rather than only the NIC.",
+      "revId": "58dc65939c9ef0ba729f2c8bbe6ca918fa467f5e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
