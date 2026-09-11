@@ -85,6 +85,8 @@ std::optional<uint8_t> staticEndpointIDFrom(
 
 static constexpr const char* mctpdBusName = "au.com.codeconstruct.MCTP1";
 static constexpr const char* mctpdControlPath = "/au/com/codeconstruct/mctp1";
+static constexpr const char* mctpdNetworkInterface =
+    "au.com.codeconstruct.MCTP.Network1";
 static constexpr const char* mctpdControlInterface =
     "au.com.codeconstruct.MCTP.BusOwner1";
 static constexpr const char* mctpdEndpointControlInterface =
@@ -95,7 +97,14 @@ MCTPDDevice::MCTPDDevice(
     const std::string& interface, const std::vector<uint8_t>& physaddr,
     std::optional<uint8_t> staticEID) :
     connection(connection), interface(interface), physaddr(physaddr),
-    staticEID(staticEID)
+    staticEID(staticEID), routedNetwork(std::nullopt), routedEID(std::nullopt)
+{}
+
+MCTPDDevice::MCTPDDevice(
+    const std::shared_ptr<sdbusplus::asio::connection>& connection,
+    uint32_t network, uint8_t eid) :
+    connection(connection), interface(), physaddr(), staticEID(std::nullopt),
+    routedNetwork(network), routedEID(eid)
 {}
 
 void MCTPDDevice::onEndpointInterfacesRemoved(
@@ -143,6 +152,39 @@ void MCTPDDevice::setup(
     std::function<void(const std::error_code& ec,
                        const std::shared_ptr<MCTPEndpoint>& ep)>&& added)
 {
+    if (routedNetwork && routedEID)
+    {
+        auto onLearn = [weak{weak_from_this()}, added{std::move(added)},
+                        network{*routedNetwork},
+                        eid{*routedEID}](const boost::system::error_code& ec,
+                                         const std::string& objpath,
+                                         bool found [[maybe_unused]]) mutable {
+            if (ec)
+            {
+                added(ec, {});
+                return;
+            }
+
+            if (auto self = weak.lock())
+            {
+                self->finaliseEndpoint(objpath, eid, static_cast<int>(network),
+                                       added);
+            }
+            else
+            {
+                info(
+                    "Device object for routed endpoint at '{MCTP_ENDPOINT}' was destroyed concurrent to completion of its endpoint setup",
+                    "MCTP_ENDPOINT", objpath);
+            }
+        };
+
+        connection->async_method_call(
+            std::move(onLearn), mctpdBusName,
+            std::format("{}/networks/{}", mctpdControlPath, *routedNetwork),
+            mctpdNetworkInterface, "LearnEndpoint", *routedEID);
+        return;
+    }
+
     // Use a lambda to separate state validation from business logic,
     // where the business logic for a successful setup() is encoded in
     // MctpdDevice::finaliseEndpoint()
@@ -208,6 +250,11 @@ void MCTPDDevice::remove()
 
 std::string MCTPDDevice::describe() const
 {
+    if (routedNetwork && routedEID)
+    {
+        return std::format("network: {}, EID: {}", *routedNetwork, *routedEID);
+    }
+
     std::string description = std::format("interface: {}", interface);
     if (!physaddr.empty())
     {
@@ -274,6 +321,14 @@ static std::size_t fnv1aHash(const std::vector<std::uint8_t>& d)
 
 std::size_t MCTPDDevice::id() const
 {
+    if (routedNetwork && routedEID)
+    {
+        std::size_t h1 = std::hash<uint32_t>{}(*routedNetwork);
+        std::size_t h2 = std::hash<uint8_t>{}(*routedEID);
+        std::size_t h3 = std::hash<std::string_view>{}("routed");
+        return h1 ^ (h2 << 1) ^ (h3 << 2);
+    }
+
     std::size_t h1 = std::hash<std::string>{}(interface);
     std::size_t h2 = fnv1aHash(physaddr);
 
@@ -470,6 +525,22 @@ bool I3CMCTPDDevice::match(const std::set<std::string>& interfaces)
     return interfaces.contains(configInterfaceName(configType));
 }
 
+std::optional<SensorBaseConfigMap> MCTPDRoutedDevice::match(
+    const SensorData& config)
+{
+    auto iface = config.find(configInterfaceName(configType));
+    if (iface == config.end())
+    {
+        return std::nullopt;
+    }
+    return iface->second;
+}
+
+bool MCTPDRoutedDevice::match(const std::set<std::string>& interfaces)
+{
+    return interfaces.contains(configInterfaceName(configType));
+}
+
 std::shared_ptr<I2CMCTPDDevice> I2CMCTPDDevice::from(
     const std::shared_ptr<sdbusplus::asio::connection>& connection,
     const SensorBaseConfigMap& iface)
@@ -586,6 +657,48 @@ std::shared_ptr<I3CMCTPDDevice> I3CMCTPDDevice::from(
             "I3C_BUS", bus, "EXCEPTION", ex);
         return {};
     }
+}
+
+std::shared_ptr<MCTPDRoutedDevice> MCTPDRoutedDevice::from(
+    const std::shared_ptr<sdbusplus::asio::connection>& connection,
+    const SensorBaseConfigMap& iface)
+{
+    const auto mType = iface.find("Type");
+    if (mType == iface.end())
+    {
+        throw std::invalid_argument(
+            "No 'Type' member found for provided configuration object");
+    }
+
+    const auto type = std::visit(VariantToStringVisitor(), mType->second);
+    if (type != configType)
+    {
+        throw std::invalid_argument("Not a routed MCTP endpoint");
+    }
+
+    const auto mEID = iface.find("EID");
+    const auto mNetwork = iface.find("NetworkId");
+    const auto mName = iface.find("Name");
+    if (mEID == iface.end() || mNetwork == iface.end() || mName == iface.end())
+    {
+        throw std::invalid_argument(
+            "Configuration object violates MCTPRoutedEndpoint schema");
+    }
+
+    const auto eid = mctp::details::endpointIDFrom(mEID->second);
+
+    const auto networkValue =
+        std::visit(VariantToStringVisitor(), mNetwork->second);
+    uint32_t network{};
+    const auto [ptr, ec] =
+        std::from_chars(networkValue.data(),
+                        networkValue.data() + networkValue.size(), network);
+    if (ec != std::errc{} || ptr != networkValue.data() + networkValue.size())
+    {
+        throw std::invalid_argument("Bad network ID");
+    }
+
+    return std::make_shared<MCTPDRoutedDevice>(connection, network, eid);
 }
 
 std::string I2CMCTPDDevice::interfaceFromBus(int bus)

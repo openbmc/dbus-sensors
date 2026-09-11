@@ -138,3 +138,44 @@ TEST(I3CMCTPDDevice, matchRelevantConfig)
     SensorData config{{"xyz.openbmc_project.Configuration.MCTPI3CTarget", {}}};
     EXPECT_TRUE(I3CMCTPDDevice::match(config));
 }
+
+TEST(MCTPDRoutedDevice, matchRelevantConfig)
+{
+    SensorData config{
+        {"xyz.openbmc_project.Configuration.MCTPRoutedEndpoint", {}}};
+    EXPECT_TRUE(MCTPDRoutedDevice::match(config));
+}
+
+TEST(MCTPDRoutedDevice, fromValidConfig)
+{
+    SensorBaseConfigMap iface{
+        {"EID", std::string{"12"}},
+        {"Name", std::string{"BIC"}},
+        {"NetworkId", uint64_t{1}},
+        {"Type", std::string{"MCTPRoutedEndpoint"}},
+    };
+    auto device = MCTPDRoutedDevice::from({}, iface);
+    ASSERT_NE(device, nullptr);
+    EXPECT_EQ(device->describe(), "network: 1, EID: 12");
+}
+
+TEST(MCTPDRoutedDevice, fromMissingEID)
+{
+    SensorBaseConfigMap iface{
+        {"Name", std::string{"BIC"}},
+        {"NetworkId", uint64_t{1}},
+        {"Type", std::string{"MCTPRoutedEndpoint"}},
+    };
+    EXPECT_THROW(MCTPDRoutedDevice::from({}, iface), std::invalid_argument);
+}
+
+TEST(MCTPDRoutedDevice, fromBadNetwork)
+{
+    SensorBaseConfigMap iface{
+        {"EID", uint64_t{12}},
+        {"Name", std::string{"BIC"}},
+        {"NetworkId", std::string{"1junk"}},
+        {"Type", std::string{"MCTPRoutedEndpoint"}},
+    };
+    EXPECT_THROW(MCTPDRoutedDevice::from({}, iface), std::invalid_argument);
+}
