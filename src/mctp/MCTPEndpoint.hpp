@@ -280,6 +280,8 @@ class MCTPDDevice :
                 const std::string& interface,
                 const std::vector<uint8_t>& physaddr,
                 std::optional<uint8_t> staticEID = std::nullopt);
+    MCTPDDevice(const std::shared_ptr<sdbusplus::asio::connection>& connection,
+                uint32_t network, uint8_t eid);
     MCTPDDevice(const MCTPDDevice& other) = delete;
     MCTPDDevice(MCTPDDevice&& other) = delete;
     ~MCTPDDevice() override = default;
@@ -300,6 +302,8 @@ class MCTPDDevice :
     const std::string interface;
     const std::vector<uint8_t> physaddr;
     const std::optional<uint8_t> staticEID;
+    const std::optional<uint32_t> routedNetwork;
+    const std::optional<uint8_t> routedEID;
     std::shared_ptr<MCTPDEndpoint> endpoint;
     std::unique_ptr<sdbusplus::match> removeMatch;
 
@@ -364,4 +368,24 @@ class I3CMCTPDDevice : public MCTPDDevice
     static constexpr const char* configType = "MCTPI3CTarget";
 
     static std::string interfaceFromBus(int bus);
+};
+
+class MCTPDRoutedDevice : public MCTPDDevice
+{
+  public:
+    static std::optional<SensorBaseConfigMap> match(const SensorData& config);
+    static bool match(const std::set<std::string>& interfaces);
+    static std::shared_ptr<MCTPDRoutedDevice> from(
+        const std::shared_ptr<sdbusplus::asio::connection>& connection,
+        const SensorBaseConfigMap& iface);
+
+    MCTPDRoutedDevice() = delete;
+    MCTPDRoutedDevice(
+        const std::shared_ptr<sdbusplus::asio::connection>& connection,
+        uint32_t network, uint8_t eid) : MCTPDDevice(connection, network, eid)
+    {}
+    ~MCTPDRoutedDevice() override = default;
+
+  private:
+    static constexpr const char* configType = "MCTPRoutedEndpoint";
 };
