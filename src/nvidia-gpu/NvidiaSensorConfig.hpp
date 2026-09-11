@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include <sdbusplus/message/native_types.hpp>
+
 #include <cstdint>
 #include <string>
 
@@ -12,9 +14,12 @@ constexpr const char* sensorType = "NvidiaMctpVdm";
 
 constexpr uint64_t sensorPollRateMs = 1000;
 
-struct SensorConfigs
+// An NvidiaMctpVdm record from EntityManager: where it lives, and how often
+// the sensors of the device it describes are read. A device is given one of
+// these rather than a path beside its name, which converts to and from it
+// without a diagnostic.
+struct NvidiaMctpVdmConfig
 {
-    std::string name;
+    sdbusplus::object_path path;
     uint64_t pollRate{};
-    uint64_t nicNetworkPortCount{};
 };
