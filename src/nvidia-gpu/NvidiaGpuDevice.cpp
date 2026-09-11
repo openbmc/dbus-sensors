@@ -78,7 +78,7 @@ static constexpr auto thresholdIds = std::to_array<uint8_t>(
 static constexpr const char* dramIfaceName =
     "xyz.openbmc_project.Inventory.Item.Dimm";
 
-GpuDevice::GpuDevice(const EntityDeviceConfig& config, const std::string& name,
+GpuDevice::GpuDevice(const EntityDeviceConfig& config,
                      const std::shared_ptr<sdbusplus::asio::connection>& conn,
                      uint8_t eid, boost::asio::io_context& io,
                      mctp::MctpRequester& mctpRequester,
@@ -87,7 +87,7 @@ GpuDevice::GpuDevice(const EntityDeviceConfig& config, const std::string& name,
     waitTimer(io, std::chrono::steady_clock::duration(0)),
     waitTimerLongRunning(io, std::chrono::steady_clock::duration(0)),
     mctpRequester(mctpRequester), io(io), conn(conn),
-    objectServer(objectServer), name(escapeName(name)), path(config.path)
+    objectServer(objectServer), name(escapeName(config.name)), path(config.path)
 {
     const std::string powerControlPath = controlPowerPrefix + this->name;
 
