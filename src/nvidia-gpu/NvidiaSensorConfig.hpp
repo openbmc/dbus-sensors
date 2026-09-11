@@ -10,17 +10,18 @@
 #include <cstdint>
 #include <string>
 
-constexpr const char* sensorType = "NvidiaMctpVdm";
+constexpr const char* sensorTypeGpu = "NvidiaMctpVdmGpu";
+constexpr const char* sensorTypeSma = "NvidiaMctpVdmSma";
+constexpr const char* sensorTypeCx = "NvidiaMctpVdmCx";
 
 constexpr uint64_t sensorPollRateMs = 1000;
 
 // What the EntityManager record describing a device says about it: where the
-// record lives, and how often the device's sensors are read. A device is
-// given one of these rather than the separate arguments it takes today, one
-// of which is a path that converts to and from the name beside it without a
-// diagnostic.
+// record lives, what the device is called on D-Bus, and how often its sensors
+// are read.
 struct EntityDeviceConfig
 {
     sdbusplus::object_path path;
+    std::string name;
     uint64_t pollRate{};
 };
