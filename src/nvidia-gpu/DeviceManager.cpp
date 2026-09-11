@@ -32,6 +32,7 @@
 #include <chrono>
 #include <cstdint>
 #include <format>
+#include <functional>
 #include <memory>
 #include <optional>
 #include <span>
@@ -39,9 +40,12 @@
 #include <string>
 #include <string_view>
 #include <system_error>
+#include <unordered_map>
 #include <utility>
 #include <variant>
 #include <vector>
+
+static constexpr unsigned maxDiscoveryRetries = 3;
 
 DeviceManager::DeviceManager(boost::asio::io_context& io,
                              sdbusplus::asio::object_server& objectServer,
@@ -55,6 +59,24 @@ DeviceManager::DeviceManager(boost::asio::io_context& io,
 // so wait for them to settle rather than sweeping once per property.
 static constexpr std::chrono::seconds configSettleInterval{1};
 
+static constexpr std::string_view probeIface =
+    "xyz.openbmc_project.Configuration.Probe";
+
+// Entity manager names an object after its configuration's Name, with every
+// character other than a letter or a digit replaced.
+static std::string entityPathSegment(std::string_view name)
+{
+    std::string segment(name);
+    std::ranges::replace_if(
+        segment,
+        [](char c) {
+            return (c < '0' || c > '9') && (c < 'A' || c > 'Z') &&
+                   (c < 'a' || c > 'z');
+        },
+        '_');
+    return segment;
+}
+
 void DeviceManager::scheduleRescan()
 {
     configTimer.expires_after(configSettleInterval);
@@ -67,6 +89,28 @@ void DeviceManager::scheduleRescan()
     });
 }
 
+bool DeviceManager::retryDiscovery(const sdbusplus::object_path& mctpObjectPath,
+                                   uint8_t eid)
+{
+    unsigned& count = discoveryRetries[mctpObjectPath];
+    if (count >= maxDiscoveryRetries)
+    {
+        // Keep the entry at the cap (do not erase) so a persistently failing
+        // endpoint stops re-triggering sweeps; a normal event-driven rescan
+        // will still process it if its config later appears.
+        lg2::error(
+            "EID {EID}: giving up discovery for {PATH} after {MAX} transient retries",
+            "EID", eid, "PATH", mctpObjectPath, "MAX", maxDiscoveryRetries);
+        return false;
+    }
+    ++count;
+    lg2::warning(
+        "EID {EID}: transient discovery error for {PATH}, scheduling retry {N}/{MAX}",
+        "EID", eid, "PATH", mctpObjectPath, "N", count, "MAX",
+        maxDiscoveryRetries);
+    scheduleRescan();
+    return true;
+}
 // The settings an NvidiaMctpVdm record carries for any kind of device.
 static NvidiaMctpVdmConfig readNvidiaMctpVdmConfig(const MctpVdmRecord& record)
 {
@@ -253,6 +297,10 @@ void DeviceManager::queryDeviceIdentification(
     const MctpVdmRecord& record, const sdbusplus::object_path& mctpObjectPath,
     uint8_t eid)
 {
+    // Reaching here means the config-resolution chain succeeded for this
+    // endpoint, so clear any transient-error retry budget accrued for it.
+    discoveryRetries.erase(mctpObjectPath);
+
     auto queryDeviceIdentificationRequest = std::make_shared<
         std::array<uint8_t, gpu::queryDeviceIdentificationRequestSize>>();
 
@@ -275,8 +323,261 @@ void DeviceManager::queryDeviceIdentification(
         });
 }
 
+void DeviceManager::checkAssociationAndQueryDevice(
+    const sdbusplus::object_path& mctpObjectPath, uint8_t eid)
+{
+    const sdbusplus::object_path associationPath =
+        mctpObjectPath / "configured_by";
+
+    conn->async_method_call(
+        [this, mctpObjectPath, eid, associationPath](
+            const boost::system::error_code& ec, const GetSubTreeType& ret) {
+            processAssociatedConfig(mctpObjectPath, eid, associationPath, ec,
+                                    ret);
+        },
+        "xyz.openbmc_project.ObjectMapper",
+        "/xyz/openbmc_project/object_mapper",
+        "xyz.openbmc_project.ObjectMapper", "GetAssociatedSubTree",
+        associationPath, sdbusplus::object_path("/"), 0,
+        std::vector<std::string>{
+            "xyz.openbmc_project.Configuration.MCTPI2CTarget",
+            "xyz.openbmc_project.Configuration.MCTPI3CTarget",
+            "xyz.openbmc_project.Configuration.MCTPUSBDevice"});
+}
+
+void DeviceManager::processAssociatedConfig(
+    const sdbusplus::object_path& mctpObjectPath, uint8_t eid,
+    const sdbusplus::object_path& associationPath,
+    const boost::system::error_code& ec, const GetSubTreeType& ret)
+{
+    if (ec)
+    {
+        // The mapper can be too busy to answer while the system is starting.
+        lg2::error("EID {EID}: Failed to look up {PATH}: {ERROR}", "EID", eid,
+                   "PATH", associationPath, "ERROR", ec.message());
+        retryDiscovery(mctpObjectPath, eid);
+        return;
+    }
+
+    if (ret.empty() || ret.front().second.empty())
+    {
+        // Devices behind a bridge have no association of their own.
+        lg2::debug(
+            "EID {EID}: No association found at {PATH}, skipping endpoint",
+            "EID", eid, "PATH", associationPath);
+        return;
+    }
+
+    const auto& [mctpTargetObjectPath, services] = ret.front();
+    getConfigProperties(mctpObjectPath, eid, mctpTargetObjectPath,
+                        services.front().first);
+}
+
+void DeviceManager::getConfigProperties(
+    const sdbusplus::object_path& mctpObjectPath, uint8_t eid,
+    const sdbusplus::object_path& mctpTargetObjectPath,
+    const std::string& configService)
+{
+    conn->async_method_call(
+        [this, mctpObjectPath, eid,
+         mctpTargetObjectPath](const boost::system::error_code& ec,
+                               const SensorBaseConfigMap& configProps) {
+            processConfigPropertiesResult(
+                mctpObjectPath, eid, mctpTargetObjectPath, ec, configProps);
+        },
+        configService, mctpTargetObjectPath, "org.freedesktop.DBus.Properties",
+        "GetAll", "");
+}
+
+void DeviceManager::processConfigPropertiesResult(
+    const sdbusplus::object_path& mctpObjectPath, uint8_t eid,
+    const sdbusplus::object_path& mctpTargetObjectPath,
+    const boost::system::error_code& ec, const SensorBaseConfigMap& configProps)
+{
+    if (ec)
+    {
+        lg2::error("EID {EID}: Failed to get config properties: {ERROR}", "EID",
+                   eid, "ERROR", ec.message());
+        retryDiscovery(mctpObjectPath, eid);
+        return;
+    }
+
+    auto nameIt = configProps.find("Name");
+    if (nameIt == configProps.end())
+    {
+        lg2::error("EID {EID}: Name property not found in config, skipping",
+                   "EID", eid);
+        return;
+    }
+    const auto* namePtr = std::get_if<std::string>(&nameIt->second);
+    if (namePtr == nullptr)
+    {
+        lg2::error("EID {EID}: Name property has invalid type, skipping", "EID",
+                   eid);
+        return;
+    }
+    const std::string& deviceName = *namePtr;
+    lg2::info("EID {EID}: Found device name {NAME}", "EID", eid, "NAME",
+              deviceName);
+
+    const MctpVdmRecord record{.path = mctpTargetObjectPath, .properties = {}};
+
+    auto boardIt = configProps.find("Board");
+    if (boardIt != configProps.end())
+    {
+        const auto* boardPtr = std::get_if<std::string>(&boardIt->second);
+        if (boardPtr == nullptr)
+        {
+            lg2::error("EID {EID}: Board property has invalid type, skipping",
+                       "EID", eid);
+            return;
+        }
+        if (!boardPtr->empty())
+        {
+            findBoardInventoryPath(
+                *boardPtr, mctpTargetObjectPath, eid,
+                [this, mctpObjectPath,
+                 eid](const sdbusplus::object_path& configObjectPath) {
+                    queryDeviceIdentification(
+                        MctpVdmRecord{.path = configObjectPath,
+                                      .properties = {}},
+                        mctpObjectPath, eid);
+                });
+            return;
+        }
+    }
+
+    lg2::info("EID {EID}: No Board property found, using config path {PATH}",
+              "EID", eid, "PATH", mctpTargetObjectPath);
+    queryDeviceIdentification(record, mctpObjectPath, eid);
+}
+
+// Pick the NvidiaMctpVdm configuration found under the board, falling back to
+// fallbackPath when the search turned nothing up.
+static void selectMctpVdmConfig(
+    const sdbusplus::object_path& boardInventoryPath,
+    const sdbusplus::object_path& fallbackPath, uint8_t eid,
+    const boost::system::error_code& ec, const GetSubTreeType& ret,
+    const std::function<void(const std::string&)>& done)
+{
+    if (ec)
+    {
+        lg2::error(
+            "EID {EID}: Failed to search {BOARD} for an NvidiaMctpVdm config: {ERROR}, using {PATH}",
+            "EID", eid, "BOARD", boardInventoryPath, "ERROR", ec.message(),
+            "PATH", fallbackPath);
+        done(fallbackPath);
+        return;
+    }
+    if (ret.empty())
+    {
+        lg2::error(
+            "EID {EID}: {BOARD} has no NvidiaMctpVdm config, using {PATH}",
+            "EID", eid, "BOARD", boardInventoryPath, "PATH", fallbackPath);
+        done(fallbackPath);
+        return;
+    }
+    if (!ret.front().first.starts_with(boardInventoryPath.string()))
+    {
+        lg2::error(
+            "EID {EID}: NvidiaMctpVdm config {CONFIG} is not under {BOARD}, using {PATH}",
+            "EID", eid, "CONFIG", ret.front().first, "BOARD",
+            boardInventoryPath, "PATH", fallbackPath);
+        done(fallbackPath);
+        return;
+    }
+
+    done(ret.front().first);
+}
+
+void DeviceManager::lookupBoard(const std::string& boardName,
+                                BoardPathHandler done)
+{
+    auto board = boardPaths.find(boardName);
+    if (board != boardPaths.end())
+    {
+        done(board->second);
+        return;
+    }
+
+    conn->async_method_call(
+        [this, boardName, done{std::move(done)}](
+            const boost::system::error_code& ec, const GetSubTreeType& ret) {
+            if (ec)
+            {
+                lg2::error("Failed to look up board {BOARD}: {ERROR}", "BOARD",
+                           boardName, "ERROR", ec.message());
+                done(std::nullopt);
+                return;
+            }
+
+            const std::string segment = "/" + entityPathSegment(boardName);
+            const auto found = std::ranges::find_if(ret, [&](const auto& obj) {
+                return obj.first.ends_with(segment);
+            });
+            if (found == ret.end())
+            {
+                lg2::error(
+                    "No inventory object ends in {SEGMENT} for board {BOARD}",
+                    "SEGMENT", segment, "BOARD", boardName);
+                done(std::nullopt);
+                return;
+            }
+
+            const sdbusplus::object_path boardInventoryPath(found->first);
+            boardPaths.emplace(boardName, boardInventoryPath);
+            done(boardInventoryPath);
+        },
+        "xyz.openbmc_project.ObjectMapper",
+        "/xyz/openbmc_project/object_mapper",
+        "xyz.openbmc_project.ObjectMapper", "GetSubTree",
+        "/xyz/openbmc_project/inventory", 0,
+        std::vector<std::string>{std::string(probeIface)});
+}
+
+void DeviceManager::findBoardInventoryPath(
+    const std::string& boardName, const sdbusplus::object_path& fallbackPath,
+    uint8_t eid, const ConfigPathHandler& done)
+{
+    lookupBoard(boardName, [this, boardName, fallbackPath, eid,
+                            done](const std::optional<sdbusplus::object_path>&
+                                      path) {
+        if (!path)
+        {
+            lg2::error(
+                "EID {EID}: Board {BOARD} not found in inventory, using config path {PATH}",
+                "EID", eid, "BOARD", boardName, "PATH", fallbackPath);
+            done(fallbackPath);
+            return;
+        }
+        findBoardConfig(*path, fallbackPath, eid, done);
+    });
+}
+
+void DeviceManager::findBoardConfig(
+    const sdbusplus::object_path& boardInventoryPath,
+    const sdbusplus::object_path& fallbackPath, uint8_t eid,
+    const ConfigPathHandler& done)
+{
+    lg2::info("EID {EID}: Found board inventory path {PATH}", "EID", eid,
+              "PATH", boardInventoryPath);
+
+    conn->async_method_call(
+        [eid, boardInventoryPath, fallbackPath, done](
+            const boost::system::error_code& ec2, const GetSubTreeType& ret2) {
+            selectMctpVdmConfig(boardInventoryPath, fallbackPath, eid, ec2,
+                                ret2, done);
+        },
+        "xyz.openbmc_project.ObjectMapper",
+        "/xyz/openbmc_project/object_mapper",
+        "xyz.openbmc_project.ObjectMapper", "GetSubTree",
+        boardInventoryPath.string(), 0,
+        std::vector<std::string>{
+            "xyz.openbmc_project.Configuration.NvidiaMctpVdm"});
+}
+
 void DeviceManager::processEndpoint(
-    const MctpVdmRecord& record, const sdbusplus::object_path& mctpObjectPath,
+    const sdbusplus::object_path& mctpObjectPath,
     const boost::system::error_code& ec, const SensorBaseConfigMap& endpoint)
 {
     if (ec)
@@ -341,12 +642,11 @@ void DeviceManager::processEndpoint(
                   ocp::accelerator_management::messageType) != mctpTypes.end())
     {
         lg2::info("Found OCP MCTP VDM Endpoint with ID {EID}", "EID", eid);
-        queryDeviceIdentification(record, mctpObjectPath, eid);
+        checkAssociationAndQueryDevice(mctpObjectPath, eid);
     }
 }
 
-void DeviceManager::queryEndpoints(const MctpVdmRecord& record,
-                                   const boost::system::error_code& ec,
+void DeviceManager::queryEndpoints(const boost::system::error_code& ec,
                                    const GetSubTreeType& ret)
 {
     if (ec)
@@ -370,11 +670,10 @@ void DeviceManager::queryEndpoints(const MctpVdmRecord& record,
                 if (iface == "xyz.openbmc_project.MCTP.Endpoint")
                 {
                     conn->async_method_call(
-                        [this, record, mctpObjectPath{objPath}](
+                        [this, mctpObjectPath{objPath}](
                             const boost::system::error_code& ec,
                             const SensorBaseConfigMap& endpoint) {
-                            processEndpoint(record, mctpObjectPath, ec,
-                                            endpoint);
+                            processEndpoint(mctpObjectPath, ec, endpoint);
                         },
                         service, objPath, "org.freedesktop.DBus.Properties",
                         "GetAll", iface);
@@ -384,45 +683,19 @@ void DeviceManager::queryEndpoints(const MctpVdmRecord& record,
     }
 }
 
-void DeviceManager::discoverDevices(const MctpVdmRecord& record)
+void DeviceManager::discoverDevices()
 {
     std::string searchPath{"/au/com/codeconstruct/"};
     std::vector<std::string> ifaceList{{"xyz.openbmc_project.MCTP.Endpoint"}};
 
     conn->async_method_call(
-        [this, record](const boost::system::error_code& ec,
-                       const GetSubTreeType& ret) {
-            queryEndpoints(record, ec, ret);
+        [this](const boost::system::error_code& ec, const GetSubTreeType& ret) {
+            queryEndpoints(ec, ret);
         },
         "xyz.openbmc_project.ObjectMapper",
         "/xyz/openbmc_project/object_mapper",
         "xyz.openbmc_project.ObjectMapper", "GetSubTree", searchPath, 0,
         ifaceList);
-}
-
-void DeviceManager::processSensorConfigs(const ManagedObjectType& resp)
-{
-    for (const auto& [entityObjectPath, interfaces] : resp)
-    {
-        for (const auto& [intf, cfg] : interfaces)
-        {
-            if (intf != configInterfaceName(sensorType))
-            {
-                continue;
-            }
-
-            const std::string recordName =
-                loadVariant<std::string>(cfg, "Name");
-
-            discoverDevices(
-                MctpVdmRecord{.path = entityObjectPath, .properties = cfg});
-
-            lg2::info(
-                "Detected configuration {NAME} of type {TYPE} at path: {PATH}.",
-                "NAME", recordName, "TYPE", sensorType, "PATH",
-                entityObjectPath);
-        }
-    }
 }
 
 void DeviceManager::createSensors()
@@ -432,18 +705,9 @@ void DeviceManager::createSensors()
         lg2::error("Connection not created");
         return;
     }
-    conn->async_method_call(
-        [this](boost::system::error_code ec, const ManagedObjectType& resp) {
-            if (ec)
-            {
-                lg2::error("Error contacting entity manager");
-                return;
-            }
 
-            processSensorConfigs(resp);
-        },
-        entityManagerName, "/xyz/openbmc_project/inventory",
-        "org.freedesktop.DBus.ObjectManager", "GetManagedObjects");
+    boardPaths.clear();
+    discoverDevices();
 }
 
 void DeviceManager::onConfigInterfaceRemoved(sdbusplus::message_t& message)
@@ -453,14 +717,19 @@ void DeviceManager::onConfigInterfaceRemoved(sdbusplus::message_t& message)
 
     message.read(removedPath, interfaces);
 
+    if (std::ranges::none_of(interfaces, [](const std::string& i) {
+            return i.starts_with(configInterfacePrefix);
+        }))
+    {
+        return;
+    }
+
     // If the xyz.openbmc_project.Configuration.X interface was removed
     // for one or more sensors, delete those sensor objects.
     auto sensorIt = gpuDevices.begin();
     while (sensorIt != gpuDevices.end())
     {
-        if ((sensorIt->second->getPath() == removedPath) &&
-            (std::find(interfaces.begin(), interfaces.end(),
-                       configInterfaceName(sensorType)) != interfaces.end()))
+        if (sensorIt->second->getPath() == removedPath)
         {
             sensorIt = gpuDevices.erase(sensorIt);
         }
@@ -471,17 +740,13 @@ void DeviceManager::onConfigInterfaceRemoved(sdbusplus::message_t& message)
     }
 
     std::erase_if(smaDevices, [&](const SmaDeviceRecord& rec) {
-        return (rec.device->getPath() == removedPath) &&
-               (std::find(interfaces.begin(), interfaces.end(),
-                          configInterfaceName(sensorType)) != interfaces.end());
+        return rec.device->getPath() == removedPath;
     });
 
     auto pcieSensorIt = pcieDevices.begin();
     while (pcieSensorIt != pcieDevices.end())
     {
-        if ((pcieSensorIt->second->getPath() == removedPath) &&
-            (std::find(interfaces.begin(), interfaces.end(),
-                       configInterfaceName(sensorType)) != interfaces.end()))
+        if (pcieSensorIt->second->getPath() == removedPath)
         {
             pcieSensorIt = pcieDevices.erase(pcieSensorIt);
         }
