@@ -16,6 +16,24 @@
       "message": "Remove this whitespace change.",
       "revId": "d905ec7bc3dea937a69d589346312445aad2c304",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7493867e_281d88b4",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 1136,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-09-11T13:17:36Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "bc7284a7_d4427940",
+      "revId": "d905ec7bc3dea937a69d589346312445aad2c304",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
