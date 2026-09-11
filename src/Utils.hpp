@@ -87,6 +87,8 @@ void setupPowerMatchCallback(
     const std::shared_ptr<sdbusplus::asio::connection>& conn,
     std::function<void(PowerState type, bool state)>&& callback);
 void setupPowerMatch(const std::shared_ptr<sdbusplus::asio::connection>& conn);
+std::optional<std::chrono::milliseconds>
+    getPowerTransitionGuardRemaining(uint64_t delayMs);
 bool getSensorConfiguration(
     std::string_view type,
     const std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,

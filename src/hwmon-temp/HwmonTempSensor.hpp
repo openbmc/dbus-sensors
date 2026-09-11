@@ -12,6 +12,7 @@
 #include <sdbusplus/asio/object_server.hpp>
 
 #include <array>
+#include <chrono>
 #include <cstddef>
 #include <memory>
 #include <string>
@@ -40,7 +41,8 @@ class HwmonTempSensor :
                     const struct SensorParams& thisSensorParameters,
                     float pollRate, const std::string& sensorConfiguration,
                     PowerState powerState,
-                    const std::shared_ptr<I2CDevice>& i2cDevice);
+                    const std::shared_ptr<I2CDevice>& i2cDevice,
+                    uint64_t powerOnDelayMs);
     ~HwmonTempSensor() override;
     void setupRead();
     void activate(const std::string& newPath,
@@ -65,8 +67,10 @@ class HwmonTempSensor :
     double offsetValue;
     double scaleValue;
     unsigned int sensorPollMs;
+    uint64_t powerOnDelayMs;
 
     void handleResponse(const boost::system::error_code& err, size_t bytesRead);
     void restartRead();
+    void restartReadAfter(std::chrono::milliseconds waitMs);
     void checkThresholds() override;
 };

@@ -60,6 +60,7 @@ static bool powerStatusOn = false;
 static bool biosHasPost = false;
 static bool manufacturingMode = false;
 static bool chassisStatusOn = false;
+static std::chrono::steady_clock::time_point transitionToRunningAt{};
 
 static std::unique_ptr<sdbusplus::match> powerMatch = nullptr;
 static std::unique_ptr<sdbusplus::match> postMatch = nullptr;
@@ -331,6 +332,30 @@ bool isChassisOn()
     return chassisStatusOn;
 }
 
+std::optional<std::chrono::milliseconds>
+    getPowerTransitionGuardRemaining(uint64_t delayMs)
+{
+    if (delayMs == 0)
+    {
+        return std::nullopt;
+    }
+    if (transitionToRunningAt == std::chrono::steady_clock::time_point{})
+    {
+        return std::nullopt;
+    }
+
+    const auto suppressUntil = transitionToRunningAt +
+                               std::chrono::milliseconds(delayMs);
+    const auto now = std::chrono::steady_clock::now();
+    if (now >= suppressUntil)
+    {
+        return std::nullopt;
+    }
+
+    return std::chrono::duration_cast<std::chrono::milliseconds>(suppressUntil -
+                                                                  now);
+}
+
 bool readingStateGood(const PowerState& powerState)
 {
     if (powerState == PowerState::on && !isPowerOn())
@@ -478,8 +503,19 @@ void setupPowerMatchCallback(
             auto findState = values.find(power::property);
             if (findState != values.end())
             {
-                bool on = std::get<std::string>(findState->second)
-                              .ends_with(".Running");
+                const auto& state = std::get<std::string>(findState->second);
+                if (state.ends_with(".TransitioningToRunning"))
+                {
+                    transitionToRunningAt = std::chrono::steady_clock::now();
+                }
+                else if (state.ends_with(".TransitioningToOff") ||
+                         state.ends_with(".Off"))
+                {
+                    transitionToRunningAt =
+                        std::chrono::steady_clock::time_point{};
+                }
+
+                bool on = state.ends_with(".Running");
                 if (!on)
                 {
                     timer.cancel();
