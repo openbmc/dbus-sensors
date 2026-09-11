@@ -31,11 +31,12 @@ class NvidiaPcieDeviceTest : public MctpMockTestBase
         uint64_t networkPortCount = 0)
     {
         const std::string path = "/test/pcie/" + name;
-        const EntityDeviceConfig config{.path = path, .pollRate = pollRate};
+        const EntityDeviceConfig config{
+            .path = path, .name = name, .pollRate = pollRate};
         const PcieDeviceConfigs pcieConfig{
             .networkPortCount = networkPortCount};
-        return std::make_shared<PcieDevice>(config, pcieConfig, name, bus(),
-                                            eid, ioContext(), requester(),
+        return std::make_shared<PcieDevice>(config, pcieConfig, bus(), eid,
+                                            ioContext(), requester(),
                                             objects());
     }
 };

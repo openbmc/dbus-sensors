@@ -36,14 +36,13 @@
 
 PcieDevice::PcieDevice(
     const EntityDeviceConfig& config, const PcieDeviceConfigs& pcieConfig,
-    const std::string& name,
     const std::shared_ptr<sdbusplus::asio::connection>& conn, uint8_t eid,
     boost::asio::io_context& io, mctp::MctpRequester& mctpRequester,
     sdbusplus::asio::object_server& objectServer) :
     eid(eid), sensorPollMs(std::chrono::milliseconds{config.pollRate}),
     waitTimer(io, std::chrono::steady_clock::duration(0)),
     mctpRequester(mctpRequester), conn(conn), objectServer(objectServer),
-    pcieConfig(pcieConfig), name(escapeName(name)), path(config.path)
+    pcieConfig(pcieConfig), name(escapeName(config.name)), path(config.path)
 {}
 
 PcieDevice::~PcieDevice()

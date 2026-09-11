@@ -47,7 +47,7 @@ class PcieDevice : public std::enable_shared_from_this<PcieDevice>
 {
   public:
     PcieDevice(const EntityDeviceConfig& config,
-               const PcieDeviceConfigs& pcieConfig, const std::string& name,
+               const PcieDeviceConfigs& pcieConfig,
                const std::shared_ptr<sdbusplus::asio::connection>& conn,
                uint8_t eid, boost::asio::io_context& io,
                mctp::MctpRequester& mctpRequester,
