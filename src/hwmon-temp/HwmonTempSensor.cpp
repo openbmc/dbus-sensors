@@ -33,6 +33,7 @@
 #include <charconv>
 #include <chrono>
 #include <cstddef>
+#include <cstdint>
 #include <limits>
 #include <memory>
 #include <string>
@@ -57,7 +58,8 @@ HwmonTempSensor::HwmonTempSensor(
     std::vector<thresholds::Threshold>&& thresholdsIn,
     const struct SensorParams& thisSensorParameters, const float pollRate,
     const std::string& sensorConfiguration, const PowerState powerState,
-    const std::shared_ptr<I2CDevice>& i2cDevice) :
+    const std::shared_ptr<I2CDevice>& i2cDevice,
+    const uint64_t powerOnDelayMsIn) :
     Sensor(boost::replace_all_copy(sensorName, " ", "_"),
            std::move(thresholdsIn), sensorConfiguration, objectType, false,
            false, thisSensorParameters.maxValue, thisSensorParameters.minValue,
@@ -66,7 +68,8 @@ HwmonTempSensor::HwmonTempSensor(
     inputDev(io, path, boost::asio::random_access_file::read_only),
     waitTimer(io), path(path), offsetValue(thisSensorParameters.offsetValue),
     scaleValue(thisSensorParameters.scaleValue),
-    sensorPollMs(static_cast<unsigned int>(pollRate * 1000))
+    sensorPollMs(static_cast<unsigned int>(pollRate * 1000)),
+    powerOnDelayMs(powerOnDelayMsIn)
 {
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/" + thisSensorParameters.typeName + "/" +
@@ -141,6 +144,16 @@ void HwmonTempSensor::setupRead()
         return;
     }
 
+    if (auto waitMs = getPowerTransitionGuardRemaining(powerOnDelayMs))
+    {
+        if (waitMs->count() == 0)
+        {
+            waitMs = std::chrono::milliseconds(1);
+        }
+        restartReadAfter(*waitMs);
+        return;
+    }
+
     std::weak_ptr<HwmonTempSensor> weakRef = weak_from_this();
     inputDev.async_read_some_at(
         0, boost::asio::buffer(readBuf),
@@ -155,8 +168,13 @@ void HwmonTempSensor::setupRead()
 
 void HwmonTempSensor::restartRead()
 {
+    restartReadAfter(std::chrono::milliseconds(sensorPollMs));
+}
+
+void HwmonTempSensor::restartReadAfter(std::chrono::milliseconds waitMs)
+{
     std::weak_ptr<HwmonTempSensor> weakRef = weak_from_this();
-    waitTimer.expires_after(std::chrono::milliseconds(sensorPollMs));
+    waitTimer.expires_after(waitMs);
     waitTimer.async_wait([weakRef](const boost::system::error_code& ec) {
         if (ec == boost::asio::error::operation_aborted)
         {

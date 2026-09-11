@@ -104,6 +104,17 @@ static constexpr auto sensorTypes =
         {"W83773G", I2CDeviceType{"w83773g", true}},
     });
 
+static uint64_t getPowerOnDelayMs(const SensorBaseConfigMap& cfg)
+{
+    uint64_t delayMs = 0;
+    auto findDelay = cfg.find("PowerOnDelayMs");
+    if (findDelay != cfg.end())
+    {
+        delayMs = std::visit(VariantToUnsignedIntVisitor(), findDelay->second);
+    }
+    return delayMs;
+}
+
 static struct SensorParams getSensorParameters(
     const std::filesystem::path& path)
 {
@@ -375,6 +386,7 @@ void createSensors(
                     findSensorCfg->second.config;
                 std::vector<std::string>& hwmonName =
                     findSensorCfg->second.name;
+                uint64_t powerOnDelayMs = getPowerOnDelayMs(baseConfigMap);
 
                 // Temperature has "Name", pressure has "Name1"
                 auto findSensorName = baseConfigMap.find("Name");
@@ -461,7 +473,8 @@ void createSensors(
                             *hwmonFile, sensorType, objectServer,
                             dbusConnection, io, sensorName,
                             std::move(sensorThresholds), thisSensorParameters,
-                            pollRate, interfacePath, readState, i2cDev);
+                            pollRate, interfacePath, readState, i2cDev,
+                            powerOnDelayMs);
                         sensor->setupRead();
                     }
                 }
@@ -523,7 +536,8 @@ void createSensors(
                                 *hwmonFile, sensorType, objectServer,
                                 dbusConnection, io, sensorName,
                                 std::move(thresholds), thisSensorParameters,
-                                pollRate, interfacePath, readState, i2cDev);
+                                pollRate, interfacePath, readState, i2cDev,
+                                powerOnDelayMs);
                             sensor->setupRead();
                         }
                     }
