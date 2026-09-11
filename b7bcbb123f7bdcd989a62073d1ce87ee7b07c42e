@@ -34,6 +34,24 @@
       "parentUuid": "f8f0fe13_318c31e0",
       "revId": "b7bcbb123f7bdcd989a62073d1ce87ee7b07c42e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "efd3b6d4_435f07c5",
+        "filename": "src/nvme/NVMeSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1002591
+      },
+      "writtenOn": "2026-09-11T05:29:31Z",
+      "side": 1,
+      "message": "@andrew@codeconstruct.com.au One question on the sensor\u0027s expected behavior.\nThe configured retry delay is in seconds, but the poll loop works in ticks. How should we handle a configured delay shorter than one tick, where there\u0027s no meaningful tick value to translate it into? \n\nTwo options I see:\n1. Let `scanDelayTicks` land on 0 and fail sensor creation.\n2. Clamp to a minimum of 1 tick. (equivalent to no delay)\n\nLet me know which you\u0027d prefer, or if you have other thoughts on it.",
+      "parentUuid": "d1f329f9_42043ba1",
+      "revId": "b7bcbb123f7bdcd989a62073d1ce87ee7b07c42e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
