@@ -36,11 +36,18 @@ struct PcieDeviceInfo
     std::vector<uint8_t> numDownstreamPorts;
 };
 
+// Only a ConnectX device has network ports, so what bounds the probe of them
+// is kept apart from the settings every device shares.
+struct PcieDeviceConfigs
+{
+    uint64_t networkPortCount{};
+};
+
 class PcieDevice : public std::enable_shared_from_this<PcieDevice>
 {
   public:
-    PcieDevice(const SensorConfigs& configs, const std::string& name,
-               const sdbusplus::object_path& path,
+    PcieDevice(const EntityDeviceConfig& config,
+               const PcieDeviceConfigs& pcieConfig, const std::string& name,
                const std::shared_ptr<sdbusplus::asio::connection>& conn,
                uint8_t eid, boost::asio::io_context& io,
                mctp::MctpRequester& mctpRequester,
@@ -90,7 +97,7 @@ class PcieDevice : public std::enable_shared_from_this<PcieDevice>
 
     sdbusplus::asio::object_server& objectServer;
 
-    SensorConfigs configs;
+    PcieDeviceConfigs pcieConfig;
 
     std::string name;
 

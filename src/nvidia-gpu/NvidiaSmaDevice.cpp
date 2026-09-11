@@ -26,16 +26,15 @@
 #include <string>
 #include <vector>
 
-SmaDevice::SmaDevice(const SensorConfigs& configs, const std::string& name,
-                     const sdbusplus::object_path& path,
+SmaDevice::SmaDevice(const EntityDeviceConfig& config, const std::string& name,
                      const std::shared_ptr<sdbusplus::asio::connection>& conn,
                      uint8_t eid, boost::asio::io_context& io,
                      mctp::MctpRequester& mctpRequester,
                      sdbusplus::asio::object_server& objectServer) :
-    eid(eid), sensorPollMs(std::chrono::milliseconds{configs.pollRate}),
+    eid(eid), sensorPollMs(std::chrono::milliseconds{config.pollRate}),
     waitTimer(io, std::chrono::steady_clock::duration(0)),
     mctpRequester(mctpRequester), conn(conn), objectServer(objectServer),
-    configs(configs), name(escapeName(name)), path(path)
+    name(escapeName(name)), path(config.path)
 {}
 
 void SmaDevice::init()

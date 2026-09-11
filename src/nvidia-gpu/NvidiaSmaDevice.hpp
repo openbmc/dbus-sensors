@@ -23,8 +23,7 @@
 class SmaDevice : public std::enable_shared_from_this<SmaDevice>
 {
   public:
-    SmaDevice(const SensorConfigs& configs, const std::string& name,
-              const sdbusplus::object_path& path,
+    SmaDevice(const EntityDeviceConfig& config, const std::string& name,
               const std::shared_ptr<sdbusplus::asio::connection>& conn,
               uint8_t eid, boost::asio::io_context& io,
               mctp::MctpRequester& mctpRequester,
@@ -84,8 +83,6 @@ class SmaDevice : public std::enable_shared_from_this<SmaDevice>
     std::shared_ptr<sdbusplus::asio::dbus_interface> itemInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> operationalStatusInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> associationInterface;
-
-    SensorConfigs configs;
 
     std::string name;
 
