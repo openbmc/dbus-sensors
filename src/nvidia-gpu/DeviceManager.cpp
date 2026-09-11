@@ -864,8 +864,18 @@ void DeviceManager::collectBoardPaths(std::function<void()> done)
         std::vector<std::string>{std::string(probeIface)});
 }
 
-static constexpr std::string_view mctpVdmIface =
-    "xyz.openbmc_project.Configuration.NvidiaMctpVdm";
+static constexpr std::string_view mctpVdmGpuIface =
+    "xyz.openbmc_project.Configuration.NvidiaMctpVdmGpu";
+static constexpr std::string_view mctpVdmSmaIface =
+    "xyz.openbmc_project.Configuration.NvidiaMctpVdmSma";
+static constexpr std::string_view mctpVdmCxIface =
+    "xyz.openbmc_project.Configuration.NvidiaMctpVdmCx";
+
+static bool isMctpVdmIface(std::string_view iface)
+{
+    return iface == mctpVdmGpuIface || iface == mctpVdmSmaIface ||
+           iface == mctpVdmCxIface;
+}
 
 // Pair the device with the record its board exposes for it. The platform
 // named the device by that record's Name, which is the only thing that tells
@@ -901,7 +911,7 @@ static void selectMctpVdmConfig(
             {
                 for (const std::string& iface : ifaces)
                 {
-                    if (iface == mctpVdmIface)
+                    if (isMctpVdmIface(iface))
                     {
                         candidates.emplace_back(objPath, service, iface);
                     }
@@ -993,7 +1003,9 @@ void DeviceManager::findBoardInventoryPath(
         "/xyz/openbmc_project/object_mapper",
         "xyz.openbmc_project.ObjectMapper", "GetSubTree",
         inventoryPath.string(), 0,
-        std::vector<std::string>{std::string(mctpVdmIface)});
+        std::vector<std::string>{std::string(mctpVdmGpuIface),
+                                 std::string(mctpVdmSmaIface),
+                                 std::string(mctpVdmCxIface)});
 }
 
 void DeviceManager::processEndpoint(
