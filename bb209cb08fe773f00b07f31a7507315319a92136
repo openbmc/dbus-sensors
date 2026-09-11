@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec833d9c_59fdfe77",
+        "filename": "src/nvidia-gpu/NvidiaPcieDevice.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-09-11T02:31:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a8b14cc_a698c6a9",
+      "range": {
+        "startLine": 269,
+        "startChar": 55,
+        "endLine": 269,
+        "endChar": 58
+      },
+      "revId": "bb209cb08fe773f00b07f31a7507315319a92136",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3e15f04e_54b29f8c",
@@ -41,6 +65,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d918c36_9f150f9c",
+        "filename": "src/nvidia-gpu/NvidiaSwitchResetControl.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-09-11T02:31:53Z",
+      "side": 1,
+      "message": "It is already emitted (returning 1), such as `handleRequestedSpeedLimitMaxHzSet`.",
+      "parentUuid": "3e15f04e_54b29f8c",
+      "revId": "bb209cb08fe773f00b07f31a7507315319a92136",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0748e041_421d564e",
@@ -54,6 +96,24 @@
       "writtenOn": "2026-09-08T06:54:06Z",
       "side": 1,
       "message": "nit: add new line between these data member definitions similar to other files for this app.",
+      "revId": "bb209cb08fe773f00b07f31a7507315319a92136",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04ca1119_dc597f7b",
+        "filename": "src/nvidia-gpu/NvidiaSwitchResetControl.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-09-11T02:31:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0748e041_421d564e",
       "revId": "bb209cb08fe773f00b07f31a7507315319a92136",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
