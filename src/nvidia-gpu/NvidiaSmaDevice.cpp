@@ -31,7 +31,7 @@
 #include <utility>
 #include <vector>
 
-SmaDevice::SmaDevice(const EntityDeviceConfig& config, const std::string& name,
+SmaDevice::SmaDevice(const EntityDeviceConfig& config,
                      const std::shared_ptr<sdbusplus::asio::connection>& conn,
                      uint8_t eid, boost::asio::io_context& io,
                      mctp::MctpRequester& mctpRequester,
@@ -39,7 +39,7 @@ SmaDevice::SmaDevice(const EntityDeviceConfig& config, const std::string& name,
     eid(eid), sensorPollMs(std::chrono::milliseconds{config.pollRate}),
     waitTimer(io, std::chrono::steady_clock::duration(0)),
     mctpRequester(mctpRequester), conn(conn), objectServer(objectServer),
-    name(escapeName(name)), path(config.path)
+    name(escapeName(config.name)), path(config.path)
 {}
 
 void SmaDevice::init()
