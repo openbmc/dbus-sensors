@@ -44,8 +44,8 @@ class NvidiaGpuDeviceTest : public MctpMockTestBase
         uint64_t pollRate = sensorPollRate.count())
     {
         const std::string path = "/test/gpu/" + name;
-        const SensorConfigs configs{.name = name, .pollRate = pollRate};
-        return std::make_shared<GpuDevice>(configs, name, path, bus(), eid,
+        const NvidiaMctpVdmConfig config{.path = path, .pollRate = pollRate};
+        return std::make_shared<GpuDevice>(config, name, bus(), eid,
                                            ioContext(), requester(), objects());
     }
 

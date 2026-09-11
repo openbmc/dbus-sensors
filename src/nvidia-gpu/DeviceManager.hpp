@@ -28,6 +28,15 @@
 #include <system_error>
 #include <vector>
 
+// An NvidiaMctpVdm record as EntityManager exposes it. Discovery carries it
+// as it is, and it is only read into what a device takes once the kind of
+// device it describes is known.
+struct MctpVdmRecord
+{
+    sdbusplus::object_path path;
+    SensorBaseConfigMap properties;
+};
+
 class DeviceManager
 {
   public:
@@ -48,24 +57,19 @@ class DeviceManager
 
   private:
     void processSensorConfigs(const ManagedObjectType& resp);
-    void discoverDevices(const SensorConfigs& configs,
-                         const sdbusplus::object_path& entityObjectPath);
-    void queryEndpoints(const SensorConfigs& configs,
-                        const sdbusplus::object_path& entityObjectPath,
+    void discoverDevices(const MctpVdmRecord& record);
+    void queryEndpoints(const MctpVdmRecord& record,
                         const boost::system::error_code& ec,
                         const GetSubTreeType& ret);
-    void processEndpoint(const SensorConfigs& configs,
-                         const sdbusplus::object_path& entityObjectPath,
+    void processEndpoint(const MctpVdmRecord& record,
                          const sdbusplus::object_path& mctpObjectPath,
                          const boost::system::error_code& ec,
                          const SensorBaseConfigMap& endpoint);
-    void queryDeviceIdentification(
-        const SensorConfigs& configs,
-        const sdbusplus::object_path& entityObjectPath,
-        const sdbusplus::object_path& mctpObjectPath, uint8_t eid);
+    void queryDeviceIdentification(const MctpVdmRecord& record,
+                                   const sdbusplus::object_path& mctpObjectPath,
+                                   uint8_t eid);
     void processQueryDeviceIdResponse(
-        const SensorConfigs& configs,
-        const sdbusplus::object_path& entityObjectPath,
+        const MctpVdmRecord& record,
         const sdbusplus::object_path& mctpObjectPath, uint8_t eid,
         const std::error_code& sendRecvMsgResult,
         std::span<const uint8_t> queryDeviceIdentificationResponse);
