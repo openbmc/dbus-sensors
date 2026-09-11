@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9b8e7bc_77a1e06b",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 59
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1002462
+      },
+      "writtenOn": "2026-09-11T09:29:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f2d0f89_9c270f14",
+      "revId": "87cafaab8d9caba5984bc3f0befaa0e251daad21",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01294b9f_62f0b050",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-09-11T05:45:25Z",
       "side": 1,
       "message": "use std::format.",
+      "revId": "87cafaab8d9caba5984bc3f0befaa0e251daad21",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b36fcbea_03a9ca35",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 59
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1002462
+      },
+      "writtenOn": "2026-09-11T09:29:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01294b9f_62f0b050",
       "revId": "87cafaab8d9caba5984bc3f0befaa0e251daad21",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -75,6 +111,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "26df6ae1_5f4f1186",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 59
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1002462
+      },
+      "writtenOn": "2026-09-11T09:29:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22fd2ca3_a0b3d41c",
+      "range": {
+        "startLine": 169,
+        "startChar": 33,
+        "endLine": 169,
+        "endChar": 42
+      },
+      "revId": "87cafaab8d9caba5984bc3f0befaa0e251daad21",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "46c861d1_bab3e619",
@@ -88,6 +148,24 @@
       "writtenOn": "2026-09-11T05:45:25Z",
       "side": 1,
       "message": "Remove this info log.",
+      "revId": "87cafaab8d9caba5984bc3f0befaa0e251daad21",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4696262_db2b2e67",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 59
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1002462
+      },
+      "writtenOn": "2026-09-11T09:29:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46c861d1_bab3e619",
       "revId": "87cafaab8d9caba5984bc3f0befaa0e251daad21",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
