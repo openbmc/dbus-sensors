@@ -923,8 +923,26 @@ static void selectMctpVdmConfig(
                                 config.pollRate = sensorPollRateMs;
                             }
 
+                            // The board says how many network ports the
+                            // device has; nothing the device answers reports
+                            // it, and it is what bounds the probe of them.
+                            PcieDeviceConfigs pcieConfig;
+
+                            try
+                            {
+                                pcieConfig.networkPortCount =
+                                    loadVariant<uint64_t>(props, "PortCount");
+                            }
+                            catch (const std::invalid_argument&)
+                            {
+                                // A board that does not say how many network
+                                // ports the device has is saying it has none
+                                // to report.
+                                pcieConfig.networkPortCount = 0;
+                            }
+
                             search->matched = true;
-                            done(config, PcieDeviceConfigs{});
+                            done(config, pcieConfig);
                         }
                     }
                 }
