@@ -77,7 +77,7 @@ static constexpr const char* dramIfaceName =
 static constexpr const char* softwareInventoryPath =
     "/xyz/openbmc_project/software/";
 
-GpuDevice::GpuDevice(const NvidiaMctpVdmConfig& config, const std::string& name,
+GpuDevice::GpuDevice(const NvidiaMctpVdmConfig& config,
                      const std::shared_ptr<sdbusplus::asio::connection>& conn,
                      uint8_t eid, boost::asio::io_context& io,
                      mctp::MctpRequester& mctpRequester,
@@ -87,7 +87,7 @@ GpuDevice::GpuDevice(const NvidiaMctpVdmConfig& config, const std::string& name,
     waitTimerRoundRobin(io, std::chrono::steady_clock::duration(0)),
     waitTimerLongRunning(io, std::chrono::steady_clock::duration(0)),
     mctpRequester(mctpRequester), io(io), conn(conn),
-    objectServer(objectServer), name(escapeName(name)), path(config.path)
+    objectServer(objectServer), name(escapeName(config.name)), path(config.path)
 {
     const std::string powerControlPath = controlPowerPrefix + this->name;
 
