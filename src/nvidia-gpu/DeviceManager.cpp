@@ -66,11 +66,48 @@ void DeviceManager::scheduleRescan()
         createSensors();
     });
 }
+
+// The settings an NvidiaMctpVdm record carries for any kind of device.
+static NvidiaMctpVdmConfig readNvidiaMctpVdmConfig(const MctpVdmRecord& record)
+{
+    NvidiaMctpVdmConfig config{.path = record.path};
+
+    try
+    {
+        config.pollRate = loadVariant<uint64_t>(record.properties, "PollRate");
+    }
+    catch (const std::invalid_argument&)
+    {
+        // PollRate is an optional config
+        config.pollRate = sensorPollRateMs;
+    }
+
+    return config;
+}
+
+// Only a ConnectX device has network ports, so the record is only asked for
+// a count of them once the device has turned out to be one.
+static PcieDeviceConfigs readPcieDeviceConfigs(const MctpVdmRecord& record)
+{
+    PcieDeviceConfigs pcieConfig;
+
+    try
+    {
+        pcieConfig.networkPortCount =
+            loadVariant<uint64_t>(record.properties, "NicNetworkPortCount");
+    }
+    catch (const std::invalid_argument&)
+    {
+        // NicNetworkPortCount is an optional config
+        pcieConfig.networkPortCount = 0;
+    }
+
+    return pcieConfig;
+}
+
 void DeviceManager::processQueryDeviceIdResponse(
-    const SensorConfigs& configs,
-    const sdbusplus::object_path& entityObjectPath,
-    const sdbusplus::object_path& mctpObjectPath, uint8_t eid,
-    const std::error_code& sendRecvMsgResult,
+    const MctpVdmRecord& record, const sdbusplus::object_path& mctpObjectPath,
+    uint8_t eid, const std::error_code& sendRecvMsgResult,
     std::span<const uint8_t> queryDeviceIdentificationResponse)
 {
     if (sendRecvMsgResult)
@@ -98,6 +135,8 @@ void DeviceManager::processQueryDeviceIdResponse(
         return;
     }
 
+    const NvidiaMctpVdmConfig config = readNvidiaMctpVdmConfig(record);
+
     switch (static_cast<gpu::DeviceIdentification>(responseDeviceType))
     {
         case gpu::DeviceIdentification::DEVICE_GPU:
@@ -113,9 +152,9 @@ void DeviceManager::processQueryDeviceIdResponse(
 
             if (gpu == nullptr)
             {
-                gpu = std::make_shared<GpuDevice>(
-                    configs, gpuName, entityObjectPath, conn, eid, io,
-                    mctpRequester, objectServer);
+                gpu =
+                    std::make_shared<GpuDevice>(config, gpuName, conn, eid, io,
+                                                mctpRequester, objectServer);
 
                 gpu->init();
             }
@@ -143,9 +182,9 @@ void DeviceManager::processQueryDeviceIdResponse(
 
             if (existing == smaDevices.end())
             {
-                auto sma = std::make_shared<SmaDevice>(
-                    configs, smaName, entityObjectPath, conn, eid, io,
-                    mctpRequester, objectServer);
+                auto sma =
+                    std::make_shared<SmaDevice>(config, smaName, conn, eid, io,
+                                                mctpRequester, objectServer);
 
                 sma->init();
 
@@ -184,8 +223,8 @@ void DeviceManager::processQueryDeviceIdResponse(
             if (pcie == nullptr)
             {
                 pcie = std::make_shared<PcieDevice>(
-                    configs, pcieName, entityObjectPath, conn, eid, io,
-                    mctpRequester, objectServer);
+                    config, readPcieDeviceConfigs(record), pcieName, conn, eid,
+                    io, mctpRequester, objectServer);
 
                 pcie->init();
             }
@@ -207,9 +246,8 @@ void DeviceManager::processQueryDeviceIdResponse(
 }
 
 void DeviceManager::queryDeviceIdentification(
-    const SensorConfigs& configs,
-    const sdbusplus::object_path& entityObjectPath,
-    const sdbusplus::object_path& mctpObjectPath, uint8_t eid)
+    const MctpVdmRecord& record, const sdbusplus::object_path& mctpObjectPath,
+    uint8_t eid)
 {
     auto queryDeviceIdentificationRequest = std::make_shared<
         std::array<uint8_t, gpu::queryDeviceIdentificationRequestSize>>();
@@ -226,18 +264,15 @@ void DeviceManager::queryDeviceIdentification(
 
     mctpRequester.sendRecvMsg(
         eid, *queryDeviceIdentificationRequest,
-        [this, configs, entityObjectPath, mctpObjectPath, eid,
-         queryDeviceIdentificationRequest](const std::error_code& ec,
-                                           std::span<const uint8_t> response) {
-            processQueryDeviceIdResponse(configs, entityObjectPath,
-                                         mctpObjectPath, eid, ec, response);
+        [this, record, mctpObjectPath, eid, queryDeviceIdentificationRequest](
+            const std::error_code& ec, std::span<const uint8_t> response) {
+            processQueryDeviceIdResponse(record, mctpObjectPath, eid, ec,
+                                         response);
         });
 }
 
 void DeviceManager::processEndpoint(
-    const SensorConfigs& configs,
-    const sdbusplus::object_path& entityObjectPath,
-    const sdbusplus::object_path& mctpObjectPath,
+    const MctpVdmRecord& record, const sdbusplus::object_path& mctpObjectPath,
     const boost::system::error_code& ec, const SensorBaseConfigMap& endpoint)
 {
     if (ec)
@@ -302,15 +337,13 @@ void DeviceManager::processEndpoint(
                   ocp::accelerator_management::messageType) != mctpTypes.end())
     {
         lg2::info("Found OCP MCTP VDM Endpoint with ID {EID}", "EID", eid);
-        queryDeviceIdentification(configs, entityObjectPath, mctpObjectPath,
-                                  eid);
+        queryDeviceIdentification(record, mctpObjectPath, eid);
     }
 }
 
-void DeviceManager::queryEndpoints(
-    const SensorConfigs& configs,
-    const sdbusplus::object_path& entityObjectPath,
-    const boost::system::error_code& ec, const GetSubTreeType& ret)
+void DeviceManager::queryEndpoints(const MctpVdmRecord& record,
+                                   const boost::system::error_code& ec,
+                                   const GetSubTreeType& ret)
 {
     if (ec)
     {
@@ -333,12 +366,11 @@ void DeviceManager::queryEndpoints(
                 if (iface == "xyz.openbmc_project.MCTP.Endpoint")
                 {
                     conn->async_method_call(
-                        [this, configs, entityObjectPath,
-                         mctpObjectPath{objPath}](
+                        [this, record, mctpObjectPath{objPath}](
                             const boost::system::error_code& ec,
                             const SensorBaseConfigMap& endpoint) {
-                            processEndpoint(configs, entityObjectPath,
-                                            mctpObjectPath, ec, endpoint);
+                            processEndpoint(record, mctpObjectPath, ec,
+                                            endpoint);
                         },
                         service, objPath, "org.freedesktop.DBus.Properties",
                         "GetAll", iface);
@@ -348,17 +380,15 @@ void DeviceManager::queryEndpoints(
     }
 }
 
-void DeviceManager::discoverDevices(
-    const SensorConfigs& configs,
-    const sdbusplus::object_path& entityObjectPath)
+void DeviceManager::discoverDevices(const MctpVdmRecord& record)
 {
     std::string searchPath{"/au/com/codeconstruct/"};
     std::vector<std::string> ifaceList{{"xyz.openbmc_project.MCTP.Endpoint"}};
 
     conn->async_method_call(
-        [this, configs, entityObjectPath](const boost::system::error_code& ec,
-                                          const GetSubTreeType& ret) {
-            queryEndpoints(configs, entityObjectPath, ec, ret);
+        [this, record](const boost::system::error_code& ec,
+                       const GetSubTreeType& ret) {
+            queryEndpoints(record, ec, ret);
         },
         "xyz.openbmc_project.ObjectMapper",
         "/xyz/openbmc_project/object_mapper",
@@ -377,36 +407,15 @@ void DeviceManager::processSensorConfigs(const ManagedObjectType& resp)
                 continue;
             }
 
-            SensorConfigs configs;
+            const std::string recordName =
+                loadVariant<std::string>(cfg, "Name");
 
-            configs.name = loadVariant<std::string>(cfg, "Name");
-
-            try
-            {
-                configs.pollRate = loadVariant<uint64_t>(cfg, "PollRate");
-            }
-            catch (const std::invalid_argument&)
-            {
-                // PollRate is an optional config
-                configs.pollRate = sensorPollRateMs;
-            }
-
-            try
-            {
-                configs.nicNetworkPortCount =
-                    loadVariant<uint64_t>(cfg, "NicNetworkPortCount");
-            }
-            catch (const std::invalid_argument&)
-            {
-                // NicNetworkPortCount is an optional config
-                configs.nicNetworkPortCount = 0;
-            }
-
-            discoverDevices(configs, entityObjectPath);
+            discoverDevices(
+                MctpVdmRecord{.path = entityObjectPath, .properties = cfg});
 
             lg2::info(
                 "Detected configuration {NAME} of type {TYPE} at path: {PATH}.",
-                "NAME", configs.name, "TYPE", sensorType, "PATH",
+                "NAME", recordName, "TYPE", sensorType, "PATH",
                 entityObjectPath);
         }
     }
