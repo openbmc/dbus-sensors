@@ -22,10 +22,13 @@
 #include <sdbusplus/message.hpp>
 
 #include <cstdint>
+#include <functional>
 #include <memory>
 #include <span>
 #include <string>
 #include <system_error>
+#include <unordered_map>
+#include <variant>
 #include <vector>
 
 class DeviceManager
@@ -47,18 +50,47 @@ class DeviceManager
     void onEndpointAdded(sdbusplus::message_t& msg);
 
   private:
-    void processSensorConfigs(const ManagedObjectType& resp);
-    void discoverDevices(const EntityDeviceConfig& config,
-                         const PcieDeviceConfigs& pcieConfig);
-    void queryEndpoints(const EntityDeviceConfig& config,
-                        const PcieDeviceConfigs& pcieConfig,
-                        const boost::system::error_code& ec,
+    void discoverDevices();
+    void queryEndpoints(const boost::system::error_code& ec,
                         const GetSubTreeType& ret);
-    void processEndpoint(const EntityDeviceConfig& config,
-                         const PcieDeviceConfigs& pcieConfig,
-                         const sdbusplus::object_path& mctpObjectPath,
+    void processEndpoint(const sdbusplus::object_path& mctpObjectPath,
                          const boost::system::error_code& ec,
                          const SensorBaseConfigMap& endpoint);
+    void checkAssociationAndQueryDevice(
+        const sdbusplus::object_path& mctpObjectPath, uint8_t eid);
+    void getAssociationEndpoints(const sdbusplus::object_path& mctpObjectPath,
+                                 uint8_t eid,
+                                 const sdbusplus::object_path& associationPath,
+                                 const std::string& associationService);
+    void processAssociationEndpointsResult(
+        const sdbusplus::object_path& mctpObjectPath, uint8_t eid,
+        const boost::system::error_code& ec,
+        const std::variant<std::vector<std::string>>& value);
+    void getConfigService(const sdbusplus::object_path& mctpObjectPath,
+                          uint8_t eid,
+                          const sdbusplus::object_path& configPath);
+    void getConfigProperties(const sdbusplus::object_path& mctpObjectPath,
+                             uint8_t eid,
+                             const sdbusplus::object_path& configPath,
+                             const std::string& configService);
+    void processConfigPropertiesResult(
+        const sdbusplus::object_path& mctpObjectPath, uint8_t eid,
+        const sdbusplus::object_path& configPath,
+        const boost::system::error_code& ec,
+        const SensorBaseConfigMap& configProps);
+    // The name a board's configuration was matched under, which is what a
+    // platform record names its board with, is a property on the board rather
+    // than something the object path can be derived from. Read every board's
+    // once per sweep instead of for every device that resolves against one.
+    void collectBoardPaths(std::function<void()> done);
+    // Resolve the configuration object a device's sensors should be
+    // associated with: the NvidiaMctpVdm configuration under the named board.
+    // The resolved path, or fallbackPath if the board or its configuration
+    // cannot be found, is handed to done().
+    using ConfigPathHandler = std::function<void(const std::string&)>;
+    void findBoardInventoryPath(const std::string& boardName,
+                                const sdbusplus::object_path& fallbackPath,
+                                uint8_t eid, const ConfigPathHandler& done);
     void queryDeviceIdentification(
         const EntityDeviceConfig& config, const PcieDeviceConfigs& pcieConfig,
         const sdbusplus::object_path& mctpObjectPath, uint8_t eid);
@@ -80,6 +112,12 @@ class DeviceManager
     void reattachByUuid(const sdbusplus::object_path& mctpObjectPath);
     void applyEvent(const sdbusplus::object_path& mctpObjectPath,
                     EndpointEvent event);
+
+    // A transient D-Bus failure during the per-endpoint config-resolution
+    // chain schedules a bounded number of full-sweep retries before the
+    // endpoint is given up on. Returns false once the cap is reached.
+    bool retryDiscovery(const sdbusplus::object_path& mctpObjectPath,
+                        uint8_t eid);
 
     boost::asio::io_context& io;
     sdbusplus::asio::object_server& objectServer;
@@ -107,4 +145,13 @@ class DeviceManager
         pcieDevices;
 
     boost::asio::steady_timer configTimer;
+
+    // Board configuration name to the inventory object it was exported at,
+    // rebuilt at the start of every discovery sweep.
+    boost::container::flat_map<std::string, sdbusplus::object_path> boardPaths;
+
+    // key = mctpd endpoint path -> number of transient-error discovery retries
+    // already scheduled for it; capped so a persistently failing endpoint does
+    // not re-trigger sweeps forever. Reset when the endpoint's config resolves.
+    std::unordered_map<std::string, unsigned> discoveryRetries;
 };
