@@ -49,7 +49,10 @@ int main()
             deviceManager.scheduleRescan();
         };
 
-    std::array<std::string_view, 1> sensorTypes({sensorType});
+    // arg0namespace matches on dot boundaries, so one match per type is
+    // needed: NvidiaMctpVdmSma is not caught by watching NvidiaMctpVdm.
+    std::array<std::string_view, 3> sensorTypes(
+        {sensorTypeGpu, sensorTypeSma, sensorTypeCx});
     auto configMatches =
         setupPropertiesChangedMatches(*systemBus, sensorTypes, eventHandler);
 
