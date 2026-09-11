@@ -748,12 +748,17 @@ void DeviceManager::processConfigPropertiesResult(
         });
 }
 
-static constexpr std::string_view mctpVdmIface =
-    "xyz.openbmc_project.Configuration.NvidiaMctpVdm";
+static constexpr std::string_view mctpVdmGpuIface =
+    "xyz.openbmc_project.Configuration.NvidiaMctpVdmGpu";
+static constexpr std::string_view mctpVdmSmaIface =
+    "xyz.openbmc_project.Configuration.NvidiaMctpVdmSma";
+static constexpr std::string_view mctpVdmCxIface =
+    "xyz.openbmc_project.Configuration.NvidiaMctpVdmCx";
 
 static bool isMctpVdmIface(std::string_view iface)
 {
-    return iface == mctpVdmIface;
+    return iface == mctpVdmGpuIface || iface == mctpVdmSmaIface ||
+           iface == mctpVdmCxIface;
 }
 
 void DeviceManager::lookupBoard(const std::string& boardName,
