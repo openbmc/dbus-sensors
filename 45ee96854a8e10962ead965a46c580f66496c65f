@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "36562163_e3f72d9a",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-09-11T06:54:35Z",
+      "side": 1,
+      "message": "Harshit\u0027s comment on DeviceManager.cpp:110 lands on the same design, so that\u0027s may be the conclusion. \nOne more piece: 91169 adds EndpointState::Init with an InitComplete event that gates polling.\nNothing async happens in it today, so I think the capability refresh would fit  there.",
+      "parentUuid": "0c899f67_16f76c5e",
+      "revId": "45ee96854a8e10962ead965a46c580f66496c65f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e3bd08b6_29b3a30d",
         "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
         "patchSetId": 5
