@@ -8,6 +8,7 @@
 #include "EndpointState.hpp"
 #include "MctpRequester.hpp"
 #include "NvidiaGpuDevice.hpp"
+#include "NvidiaGpuMctpVdm.hpp"
 #include "NvidiaPcieDevice.hpp"
 #include "NvidiaSensorConfig.hpp"
 #include "NvidiaSmaDevice.hpp"
@@ -29,6 +30,7 @@
 #include <string>
 #include <system_error>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
 // An NvidiaMctpVdm record as EntityManager exposes it. Discovery carries it
@@ -37,6 +39,7 @@
 struct MctpVdmRecord
 {
     sdbusplus::object_path path;
+    std::string name;
     SensorBaseConfigMap properties;
 };
 
@@ -64,43 +67,77 @@ class DeviceManager
                         const GetSubTreeType& ret);
     void processEndpoint(const sdbusplus::object_path& mctpObjectPath,
                          const boost::system::error_code& ec,
-                         const SensorBaseConfigMap& endpoint);
+                         const SensorBaseConfigMap& endpoint,
+                         std::optional<std::pair<uint8_t, uint8_t>> bridgePool);
     void checkAssociationAndQueryDevice(
-        const sdbusplus::object_path& mctpObjectPath, uint8_t eid);
+        const sdbusplus::object_path& mctpObjectPath, uint8_t eid,
+        std::optional<std::pair<uint8_t, uint8_t>> bridgePool);
     void processAssociatedConfig(
         const sdbusplus::object_path& mctpObjectPath, uint8_t eid,
         const sdbusplus::object_path& associationPath,
-        const boost::system::error_code& ec, const GetSubTreeType& ret);
-    void getConfigProperties(const sdbusplus::object_path& mctpObjectPath,
-                             uint8_t eid,
-                             const sdbusplus::object_path& mctpTargetObjectPath,
-                             const std::string& configService);
+        const boost::system::error_code& ec, const GetSubTreeType& ret,
+        std::optional<std::pair<uint8_t, uint8_t>> bridgePool);
+
+  public:
+    // A device reached through this endpoint acting as an MCTP bridge. It has
+    // its own board, since a bridge and the devices behind it are not
+    // necessarily on the same one.
+    struct BridgedEndpoint
+    {
+        std::string name;
+        std::string board;
+    };
+
+  private:
+    // Entity manager exports the config's BridgedEndpoints array as one
+    // indexed interface per element, so the properties of this object cannot
+    // be read with a single GetAll: the elements would collide with each other
+    // and with the bridge itself on Name and Board. Read each interface named
+    // in interfaces separately instead.
+    void getConfigProperties(
+        const sdbusplus::object_path& mctpObjectPath, uint8_t eid,
+        const sdbusplus::object_path& mctpTargetObjectPath,
+        const std::string& configService,
+        const std::vector<std::string>& interfaces,
+        std::optional<std::pair<uint8_t, uint8_t>> bridgePool);
     void processConfigPropertiesResult(
         const sdbusplus::object_path& mctpObjectPath, uint8_t eid,
         const sdbusplus::object_path& mctpTargetObjectPath,
-        const boost::system::error_code& ec,
-        const SensorBaseConfigMap& configProps);
-    // Resolve the configuration object a device's sensors should be
-    // associated with: the NvidiaMctpVdm configuration under the named board.
-    // The resolved path, or fallbackPath if the board or its configuration
-    // cannot be found, is handed to done().
-    using ConfigPathHandler = std::function<void(const std::string&)>;
+        const SensorBaseConfigMap& configProps,
+        const std::vector<BridgedEndpoint>& bridgedEndpoints,
+        std::optional<std::pair<uint8_t, uint8_t>> bridgePool);
+
+    using ConfigPathHandler = std::function<void(const MctpVdmRecord& record)>;
+    // Pair a device with the configuration its board exposes for it. A
+    // platform names a device by the Name of that record, so the record is
+    // the one under boardName carrying inventoryName. done() is
+    // not called when there is no such record: naming a device after a
+    // configuration that does not describe it would give it another
+    // device's settings.
     using BoardPathHandler =
         std::function<void(const std::optional<sdbusplus::object_path>&)>;
     void lookupBoard(const std::string& boardName, BoardPathHandler done);
     void findBoardInventoryPath(const std::string& boardName,
-                                const sdbusplus::object_path& fallbackPath,
-                                uint8_t eid, const ConfigPathHandler& done);
+                                const std::string& inventoryName, uint8_t eid,
+                                const ConfigPathHandler& done);
     void findBoardConfig(const sdbusplus::object_path& boardInventoryPath,
-                         const sdbusplus::object_path& fallbackPath,
-                         uint8_t eid, const ConfigPathHandler& done);
+                         const std::string& inventoryName, uint8_t eid,
+                         const ConfigPathHandler& done);
+    void queryDevicesForEndpoint(
+        const MctpVdmRecord& record, const std::string& boardName,
+        const sdbusplus::object_path& mctpObjectPath, uint8_t eid,
+        const std::optional<std::pair<uint8_t, uint8_t>>& bridgePool,
+        const std::vector<BridgedEndpoint>& bridgedEndpoints);
+    // isEndpointItself separates the endpoint from the devices in its bridge
+    // pool: they share an endpoint path, and only the endpoint owns the mctpd
+    // object that the removal and recovery handling keys on.
     void queryDeviceIdentification(const MctpVdmRecord& record,
                                    const sdbusplus::object_path& mctpObjectPath,
-                                   uint8_t eid);
+                                   uint8_t eid, bool isEndpointItself);
     void processQueryDeviceIdResponse(
         const MctpVdmRecord& record,
         const sdbusplus::object_path& mctpObjectPath, uint8_t eid,
-        const std::error_code& sendRecvMsgResult,
+        bool isEndpointItself, const std::error_code& sendRecvMsgResult,
         std::span<const uint8_t> queryDeviceIdentificationResponse);
 
     // Best-effort read of the endpoint's Common.UUID, cached for identity

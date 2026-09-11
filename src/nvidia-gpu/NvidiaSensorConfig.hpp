@@ -19,12 +19,11 @@ constexpr std::chrono::seconds roundRobinPollRate{30};
 
 constexpr std::chrono::seconds longRunningPollRate{10};
 
-// An NvidiaMctpVdm record from EntityManager: where it lives, and how often
-// the sensors of the device it describes are read. A device is given one of
-// these rather than a path beside its name, which converts to and from it
-// without a diagnostic.
+// An NvidiaMctpVdm record from EntityManager: where it lives, what the device
+// it describes is called on D-Bus, and how often its sensors are read.
 struct NvidiaMctpVdmConfig
 {
     sdbusplus::object_path path;
+    std::string name;
     uint64_t pollRate{};
 };

@@ -81,9 +81,10 @@ class NvidiaSmaDeviceTest : public MctpMockTestBase
         uint64_t pollRate = sensorPollRate.count())
     {
         const std::string path = "/test/chassis/" + name;
-        const NvidiaMctpVdmConfig config{.path = path, .pollRate = pollRate};
-        return std::make_shared<SmaDevice>(config, name, bus(), eid,
-                                           ioContext(), requester(), objects());
+        const NvidiaMctpVdmConfig config{
+            .path = path, .name = name, .pollRate = pollRate};
+        return std::make_shared<SmaDevice>(config, bus(), eid, ioContext(),
+                                           requester(), objects());
     }
 };
 
