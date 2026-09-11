@@ -29,11 +29,12 @@
 
 #include <algorithm>
 #include <array>
+#include <charconv>
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
-#include <format>
 #include <functional>
+#include <map>
 #include <memory>
 #include <optional>
 #include <span>
@@ -47,6 +48,129 @@
 #include <vector>
 
 static constexpr unsigned maxDiscoveryRetries = 3;
+
+// EntityManager exports an array-of-objects config property as one indexed
+// interface per element, e.g. Configuration.MCTPUSBDevice.BridgedEndpoints0.
+// Returns the element index, or nullopt when the interface is not one of them.
+static std::optional<size_t> bridgedEndpointIndex(const std::string& iface)
+{
+    static constexpr std::string_view marker = ".BridgedEndpoints";
+
+    const size_t pos = iface.rfind(marker);
+    if (pos == std::string::npos)
+    {
+        return std::nullopt;
+    }
+
+    const std::string_view digits{iface};
+    const std::string_view suffix = digits.substr(pos + marker.size());
+    if (suffix.empty())
+    {
+        return std::nullopt;
+    }
+
+    size_t index{};
+    const auto* end = suffix.data() + suffix.size();
+    const auto [ptr, ec] = std::from_chars(suffix.data(), end, index);
+    if (ec != std::errc{} || ptr != end)
+    {
+        return std::nullopt;
+    }
+
+    return index;
+}
+
+static std::optional<std::pair<uint8_t, uint8_t>> extractBridgePool(
+    const SensorBaseConfigMap& properties)
+{
+    auto poolStartIt = properties.find("PoolStart");
+    auto poolEndIt = properties.find("PoolEnd");
+
+    const auto* poolStartPtr = (poolStartIt != properties.end())
+                                   ? std::get_if<uint8_t>(&poolStartIt->second)
+                                   : nullptr;
+    const auto* poolEndPtr = (poolEndIt != properties.end())
+                                 ? std::get_if<uint8_t>(&poolEndIt->second)
+                                 : nullptr;
+
+    if ((poolStartPtr != nullptr) && (poolEndPtr != nullptr))
+    {
+        // EID 0 is the null EID, which no device behind a bridge can have.
+        if (*poolStartPtr == 0)
+        {
+            lg2::error(
+                "Ignoring invalid bridge pool: PoolStart is the null EID 0");
+            return std::nullopt;
+        }
+
+        // Reject a reversed range: downstream code computes the pool size as
+        // PoolEnd - PoolStart + 1 in uint8_t, which would underflow to a huge
+        // count if PoolEnd < PoolStart.
+        if (*poolEndPtr < *poolStartPtr)
+        {
+            lg2::error(
+                "Ignoring invalid bridge pool: PoolEnd {END} < PoolStart {START}",
+                "END", *poolEndPtr, "START", *poolStartPtr);
+            return std::nullopt;
+        }
+
+        auto bridgePool = std::make_pair(*poolStartPtr, *poolEndPtr);
+        lg2::info("EID Bridge found: PoolStart={START}, PoolEnd={END}", "START",
+                  bridgePool.first, "END", bridgePool.second);
+        return bridgePool;
+    }
+
+    return std::nullopt;
+}
+
+// The devices behind a bridge are described by the config's BridgedEndpoints
+// records, one per EID in the bridge's pool. Returns the records to use, or
+// nothing when the endpoint is not a bridge or the records do not describe
+// the pool it reported.
+static std::vector<DeviceManager::BridgedEndpoint> selectBridgedEndpoints(
+    const std::optional<std::pair<uint8_t, uint8_t>>& bridgePool,
+    const std::vector<DeviceManager::BridgedEndpoint>& records, uint8_t eid)
+{
+    if (!bridgePool)
+    {
+        return {};
+    }
+
+    const uint8_t expectedCount = bridgePool->second - bridgePool->first + 1;
+
+    if (records.empty())
+    {
+        // Without the records we cannot name or place the pool devices, so
+        // warn rather than dropping them silently.
+        lg2::warning(
+            "EID {EID} is a bridge with pool range {START}-{END} but its config has no usable BridgedEndpoints; {COUNT} bridged device(s) will not be created",
+            "EID", eid, "START", bridgePool->first, "END", bridgePool->second,
+            "COUNT", expectedCount);
+        return {};
+    }
+
+    if (records.size() != expectedCount)
+    {
+        lg2::error(
+            "EID {EID}: BridgedEndpoints count mismatch. Expected {EXPECTED}, got {ACTUAL}",
+            "EID", eid, "EXPECTED", expectedCount, "ACTUAL", records.size());
+        return {};
+    }
+
+    lg2::info("EID {EID} is a bridge with pool range {START}-{END}", "EID", eid,
+              "START", bridgePool->first, "END", bridgePool->second);
+
+    if (expectedCount > 1)
+    {
+        // Only the count can be checked, so say when the order is load
+        // bearing rather than leaving the assumption to the schema.
+        lg2::info(
+            "EID {EID}: pairing {COUNT} pool EIDs with BridgedEndpoints by position, which assumes the bridge hands them out in the order the records are listed",
+            "EID", eid, "COUNT", expectedCount);
+    }
+
+    return records;
+}
 
 DeviceManager::DeviceManager(boost::asio::io_context& io,
                              sdbusplus::asio::object_server& objectServer,
@@ -115,7 +239,7 @@ bool DeviceManager::retryDiscovery(const sdbusplus::object_path& mctpObjectPath,
 // The settings an NvidiaMctpVdm record carries for any kind of device.
 static NvidiaMctpVdmConfig readNvidiaMctpVdmConfig(const MctpVdmRecord& record)
 {
-    NvidiaMctpVdmConfig config{.path = record.path};
+    NvidiaMctpVdmConfig config{.path = record.path, .name = record.name};
 
     try
     {
@@ -156,7 +280,8 @@ static PcieDeviceConfigs readPcieDeviceConfigs(const MctpVdmRecord& record)
 
 void DeviceManager::processQueryDeviceIdResponse(
     const MctpVdmRecord& record, const sdbusplus::object_path& mctpObjectPath,
-    uint8_t eid, const std::error_code& sendRecvMsgResult,
+    uint8_t eid, bool isEndpointItself,
+    const std::error_code& sendRecvMsgResult,
     std::span<const uint8_t> queryDeviceIdentificationResponse)
 {
     if (sendRecvMsgResult)
@@ -186,6 +311,8 @@ void DeviceManager::processQueryDeviceIdResponse(
 
     const NvidiaMctpVdmConfig config = readNvidiaMctpVdmConfig(record);
 
+    const std::string& deviceName = config.name;
+
     switch (static_cast<gpu::DeviceIdentification>(responseDeviceType))
     {
         case gpu::DeviceIdentification::DEVICE_GPU:
@@ -195,15 +322,14 @@ void DeviceManager::processQueryDeviceIdResponse(
                 "EID", eid, "DEVTYPE", responseDeviceType, "IID",
                 responseInstanceId);
 
-            const std::string gpuName = std::format("Nvidia_GPU_{}", eid);
+            const std::string& gpuName = deviceName;
 
             std::shared_ptr<GpuDevice>& gpu = gpuDevices[gpuName];
 
             if (gpu == nullptr)
             {
-                gpu =
-                    std::make_shared<GpuDevice>(config, gpuName, conn, eid, io,
-                                                mctpRequester, objectServer);
+                gpu = std::make_shared<GpuDevice>(config, conn, eid, io,
+                                                  mctpRequester, objectServer);
 
                 gpu->init();
             }
@@ -224,29 +350,37 @@ void DeviceManager::processQueryDeviceIdResponse(
                 "EID", eid, "DEVTYPE", responseDeviceType, "IID",
                 responseInstanceId);
 
-            const std::string smaName = std::format("Nvidia_SMA_{}", eid);
+            const std::string& smaName = deviceName;
 
             auto existing =
                 std::ranges::find(smaDevices, smaName, &SmaDeviceRecord::name);
 
             if (existing == smaDevices.end())
             {
-                auto sma =
-                    std::make_shared<SmaDevice>(config, smaName, conn, eid, io,
-                                                mctpRequester, objectServer);
+                auto sma = std::make_shared<SmaDevice>(
+                    config, conn, eid, io, mctpRequester, objectServer);
 
                 sma->init();
 
+                // Only the endpoint itself owns the mctpd endpoint object.
+                // Bridged pool devices share the bridge's path, so leaving
+                // theirs empty keeps a Connectivity signal from matching more
+                // than the bridge's own record.
                 smaDevices.emplace_back(SmaDeviceRecord{
                     .device = std::move(sma),
                     .name = smaName,
-                    .mctpObjectPath = mctpObjectPath,
+                    .mctpObjectPath = isEndpointItself
+                                          ? mctpObjectPath
+                                          : sdbusplus::object_path{},
                     .uuid = {},
                     .eid = eid,
                     .state = EndpointState::Init});
 
-                fetchEndpointUuid(mctpObjectPath);
-                applyEvent(mctpObjectPath, EndpointEvent::InitComplete);
+                if (isEndpointItself)
+                {
+                    fetchEndpointUuid(mctpObjectPath);
+                    applyEvent(mctpObjectPath, EndpointEvent::InitComplete);
+                }
             }
             else
             {
@@ -265,15 +399,15 @@ void DeviceManager::processQueryDeviceIdResponse(
                 "EID", eid, "DEVTYPE", responseDeviceType, "IID",
                 responseInstanceId);
 
-            const std::string pcieName = std::format("Nvidia_ConnectX_{}", eid);
+            const std::string& pcieName = deviceName;
 
             std::shared_ptr<PcieDevice>& pcie = pcieDevices[pcieName];
 
             if (pcie == nullptr)
             {
                 pcie = std::make_shared<PcieDevice>(
-                    config, readPcieDeviceConfigs(record), pcieName, conn, eid,
-                    io, mctpRequester, objectServer);
+                    config, readPcieDeviceConfigs(record), conn, eid, io,
+                    mctpRequester, objectServer);
 
                 pcie->init();
             }
@@ -296,7 +430,7 @@ void DeviceManager::processQueryDeviceIdResponse(
 
 void DeviceManager::queryDeviceIdentification(
     const MctpVdmRecord& record, const sdbusplus::object_path& mctpObjectPath,
-    uint8_t eid)
+    uint8_t eid, bool isEndpointItself)
 {
     // Reaching here means the config-resolution chain succeeded for this
     // endpoint, so clear any transient-error retry budget accrued for it.
@@ -317,21 +451,59 @@ void DeviceManager::queryDeviceIdentification(
 
     mctpRequester.sendRecvMsg(
         eid, *queryDeviceIdentificationRequest,
-        [this, record, mctpObjectPath, eid, queryDeviceIdentificationRequest](
-            const std::error_code& ec, std::span<const uint8_t> response) {
-            processQueryDeviceIdResponse(record, mctpObjectPath, eid, ec,
-                                         response);
+        [this, record, mctpObjectPath, eid, isEndpointItself,
+         queryDeviceIdentificationRequest](const std::error_code& ec,
+                                           std::span<const uint8_t> response) {
+            processQueryDeviceIdResponse(record, mctpObjectPath, eid,
+                                         isEndpointItself, ec, response);
         });
 }
 
+void DeviceManager::queryDevicesForEndpoint(
+    const MctpVdmRecord& record, const std::string& boardName,
+    const sdbusplus::object_path& mctpObjectPath, uint8_t eid,
+    const std::optional<std::pair<uint8_t, uint8_t>>& bridgePool,
+    const std::vector<BridgedEndpoint>& bridgedEndpoints)
+{
+    queryDeviceIdentification(record, mctpObjectPath, eid, true);
+
+    if (!bridgePool)
+    {
+        return;
+    }
+
+    // Walk the bridge's EID pool alongside the BridgedEndpoints records.
+    // Each record is paired with a configuration of its own rather than
+    // reusing the bridge's: an SMA and the device behind it can sit on
+    // different boards.
+    uint8_t index = 0;
+    for (const BridgedEndpoint& endpoint : bridgedEndpoints)
+    {
+        const uint8_t bridgedEid = bridgePool->first + index;
+        ++index;
+
+        // A record that names no board of its own is on the bridge's.
+        const std::string& board =
+            endpoint.board.empty() ? boardName : endpoint.board;
+
+        findBoardInventoryPath(
+            board, endpoint.name, bridgedEid,
+            [this, mctpObjectPath, bridgedEid](const MctpVdmRecord& resolved) {
+                queryDeviceIdentification(resolved, mctpObjectPath, bridgedEid,
+                                          false);
+            });
+    }
+}
+
 void DeviceManager::checkAssociationAndQueryDevice(
-    const sdbusplus::object_path& mctpObjectPath, uint8_t eid)
+    const sdbusplus::object_path& mctpObjectPath, uint8_t eid,
+    std::optional<std::pair<uint8_t, uint8_t>> bridgePool)
 {
     const sdbusplus::object_path associationPath =
         mctpObjectPath / "configured_by";
 
     conn->async_method_call(
-        [this, mctpObjectPath, eid, associationPath](
+        [this, mctpObjectPath, eid, associationPath, bridgePool](
             const boost::system::error_code& ec, const GetSubTreeType& ret) {
             if (ec)
             {
@@ -350,7 +522,8 @@ void DeviceManager::checkAssociationAndQueryDevice(
                 if (owner != services.end())
                 {
                     getConfigProperties(mctpObjectPath, eid, configPath,
-                                        owner->first);
+                                        owner->first, owner->second,
+                                        bridgePool);
                     return;
                 }
             }
@@ -369,32 +542,148 @@ void DeviceManager::checkAssociationAndQueryDevice(
 
 void DeviceManager::getConfigProperties(
     const sdbusplus::object_path& mctpObjectPath, uint8_t eid,
-    const sdbusplus::object_path& configPath, const std::string& configService)
+    const sdbusplus::object_path& configPath, const std::string& configService,
+    const std::vector<std::string>& interfaces,
+    std::optional<std::pair<uint8_t, uint8_t>> bridgePool)
 {
-    conn->async_method_call(
-        [this, mctpObjectPath, eid,
-         configPath](const boost::system::error_code& ec,
-                     const SensorBaseConfigMap& configProps) {
-            processConfigPropertiesResult(mctpObjectPath, eid, configPath, ec,
-                                          configProps);
-        },
-        configService, configPath, "org.freedesktop.DBus.Properties", "GetAll",
-        "");
+    std::vector<std::string> baseIfaces;
+    std::vector<std::pair<size_t, std::string>> bridgedIfaces;
+    for (const std::string& iface : interfaces)
+    {
+        if (!iface.starts_with(configInterfacePrefix))
+        {
+            continue;
+        }
+        const std::optional<size_t> index = bridgedEndpointIndex(iface);
+        if (index)
+        {
+            bridgedIfaces.emplace_back(*index, iface);
+        }
+        else
+        {
+            baseIfaces.push_back(iface);
+        }
+    }
+
+    if (baseIfaces.empty())
+    {
+        lg2::error("EID {EID}: No configuration interface on {PATH}", "EID",
+                   eid, "PATH", configPath);
+        return;
+    }
+
+    // Keyed by element index so the bridged devices stay in pool order
+    // whatever order the replies arrive in.
+    struct Fetch
+    {
+        SensorBaseConfigMap base;
+        std::map<size_t, BridgedEndpoint> bridged;
+        size_t pending{};
+        bool failed{false};
+    };
+    auto fetch = std::make_shared<Fetch>();
+    fetch->pending = baseIfaces.size() + bridgedIfaces.size();
+
+    std::function<void()> arrived =
+        [this, mctpObjectPath, eid, configPath, bridgePool, fetch]() {
+            if (--fetch->pending != 0)
+            {
+                return;
+            }
+            if (fetch->failed)
+            {
+                retryDiscovery(mctpObjectPath, eid);
+                return;
+            }
+
+            std::vector<BridgedEndpoint> bridged;
+            bridged.reserve(fetch->bridged.size());
+            for (auto& [index, endpoint] : fetch->bridged)
+            {
+                bridged.push_back(std::move(endpoint));
+            }
+
+            processConfigPropertiesResult(mctpObjectPath, eid, configPath,
+                                          fetch->base, bridged, bridgePool);
+        };
+
+    for (const std::string& iface : baseIfaces)
+    {
+        conn->async_method_call(
+            [fetch, arrived](const boost::system::error_code& ec,
+                             const SensorBaseConfigMap& props) {
+                if (ec)
+                {
+                    fetch->failed = true;
+                }
+                else
+                {
+                    fetch->base.insert(props.begin(), props.end());
+                }
+                arrived();
+            },
+            configService, configPath, "org.freedesktop.DBus.Properties",
+            "GetAll", iface);
+    }
+
+    for (const auto& [index, iface] : bridgedIfaces)
+    {
+        conn->async_method_call(
+            [fetch, arrived, index, eid](const boost::system::error_code& ec,
+                                         const SensorBaseConfigMap& props) {
+                if (ec)
+                {
+                    fetch->failed = true;
+                    arrived();
+                    return;
+                }
+
+                BridgedEndpoint endpoint;
+                const auto nameIt = props.find("Name");
+                if (nameIt != props.end())
+                {
+                    const auto* name =
+                        std::get_if<std::string>(&nameIt->second);
+                    if (name != nullptr)
+                    {
+                        endpoint.name = *name;
+                    }
+                }
+                const auto boardIt = props.find("Board");
+                if (boardIt != props.end())
+                {
+                    const auto* board =
+                        std::get_if<std::string>(&boardIt->second);
+                    if (board != nullptr)
+                    {
+                        endpoint.board = *board;
+                    }
+                }
+
+                if (endpoint.name.empty())
+                {
+                    lg2::error(
+                        "EID {EID}: bridged endpoint {INDEX} has no usable Name, skipping",
+                        "EID", eid, "INDEX", index);
+                }
+                else
+                {
+                    fetch->bridged.emplace(index, std::move(endpoint));
+                }
+                arrived();
+            },
+            configService, configPath, "org.freedesktop.DBus.Properties",
+            "GetAll", iface);
+    }
 }
 
 void DeviceManager::processConfigPropertiesResult(
     const sdbusplus::object_path& mctpObjectPath, uint8_t eid,
     const sdbusplus::object_path& configPath,
-    const boost::system::error_code& ec, const SensorBaseConfigMap& configProps)
+    const SensorBaseConfigMap& configProps,
+    const std::vector<BridgedEndpoint>& bridgedEndpoints,
+    std::optional<std::pair<uint8_t, uint8_t>> bridgePool)
 {
-    if (ec)
-    {
-        lg2::error("EID {EID}: Failed to get config properties: {ERROR}", "EID",
-                   eid, "ERROR", ec.message());
-        retryDiscovery(mctpObjectPath, eid);
-        return;
-    }
-
     auto nameIt = configProps.find("Name");
     if (nameIt == configProps.end())
     {
@@ -413,62 +702,45 @@ void DeviceManager::processConfigPropertiesResult(
     lg2::info("EID {EID}: Found device name {NAME}", "EID", eid, "NAME",
               deviceName);
 
-    // The object the endpoint was configured from says which board the device
-    // is on, not how the device is read. Its own record is the board's to
-    // answer for and is not read here, so the device is created from a record
-    // with nothing in it, which reads as the defaults, until it is.
-    const MctpVdmRecord record{.path = configPath, .properties = {}};
+    const std::vector<BridgedEndpoint> bridged =
+        selectBridgedEndpoints(bridgePool, bridgedEndpoints, eid);
 
+    std::string boardName;
     auto boardIt = configProps.find("Board");
     if (boardIt != configProps.end())
     {
         const auto* boardPtr = std::get_if<std::string>(&boardIt->second);
-        if ((boardPtr != nullptr) && !boardPtr->empty())
+        if (boardPtr != nullptr)
         {
-            findBoardInventoryPath(
-                *boardPtr, configPath, eid,
-                [this, mctpObjectPath,
-                 eid](const sdbusplus::object_path& entityObjectPath) {
-                    queryDeviceIdentification(
-                        MctpVdmRecord{.path = entityObjectPath,
-                                      .properties = {}},
-                        mctpObjectPath, eid);
-                });
-            return;
+            boardName = *boardPtr;
         }
     }
 
-    lg2::info("EID {EID}: No Board property found, using config path {PATH}",
-              "EID", eid, "PATH", configPath);
-    queryDeviceIdentification(record, mctpObjectPath, eid);
+    if (boardName.empty())
+    {
+        // The board is what holds the record naming this device, so without
+        // one there is nothing to pair the device with.
+        lg2::error(
+            "EID {EID}: config {PATH} names no board, not creating {NAME}",
+            "EID", eid, "PATH", configPath, "NAME", deviceName);
+        return;
+    }
+
+    findBoardInventoryPath(
+        boardName, deviceName, eid,
+        [this, boardName, mctpObjectPath, eid, bridgePool,
+         bridged](const MctpVdmRecord& resolved) {
+            queryDevicesForEndpoint(resolved, boardName, mctpObjectPath, eid,
+                                    bridgePool, bridged);
+        });
 }
 
-// Pick the NvidiaMctpVdm configuration found under the board, falling back to
-// fallbackPath when the search turned nothing up.
-static void selectMctpVdmConfig(
-    const sdbusplus::object_path& inventoryPath,
-    const sdbusplus::object_path& fallbackPath, uint8_t eid,
-    const boost::system::error_code& ec, const GetSubTreeType& ret,
-    const std::function<void(const std::string&)>& done)
+static constexpr std::string_view mctpVdmIface =
+    "xyz.openbmc_project.Configuration.NvidiaMctpVdm";
+
+static bool isMctpVdmIface(std::string_view iface)
 {
-    std::string finalConfigPath = fallbackPath;
-
-    if (!ec && !ret.empty())
-    {
-        const std::string& objPath = ret[0].first;
-        if (objPath.contains(inventoryPath.string()))
-        {
-            finalConfigPath = objPath;
-        }
-    }
-    else
-    {
-        lg2::error(
-            "EID {EID}: NvidiaMctpVdm config not found under board, using original {PATH}",
-            "EID", eid, "PATH", fallbackPath);
-    }
-
-    done(finalConfigPath);
+    return iface == mctpVdmIface;
 }
 
 void DeviceManager::lookupBoard(const std::string& boardName,
@@ -516,48 +788,88 @@ void DeviceManager::lookupBoard(const std::string& boardName,
 }
 
 void DeviceManager::findBoardInventoryPath(
-    const std::string& boardName, const sdbusplus::object_path& fallbackPath,
-    uint8_t eid, const ConfigPathHandler& done)
+    const std::string& boardName, const std::string& inventoryName, uint8_t eid,
+    const ConfigPathHandler& done)
 {
-    lookupBoard(boardName, [this, boardName, fallbackPath, eid,
+    lookupBoard(boardName, [this, boardName, inventoryName, eid,
                             done](const std::optional<sdbusplus::object_path>&
                                       path) {
         if (!path)
         {
             lg2::error(
-                "EID {EID}: Board {BOARD} not found in inventory, using config path {PATH}",
-                "EID", eid, "BOARD", boardName, "PATH", fallbackPath);
-            done(fallbackPath);
+                "EID {EID}: board {BOARD} not found in inventory, not creating {NAME}",
+                "EID", eid, "BOARD", boardName, "NAME", inventoryName);
             return;
         }
-        findBoardConfig(*path, fallbackPath, eid, done);
+        findBoardConfig(*path, inventoryName, eid, done);
     });
 }
 
 void DeviceManager::findBoardConfig(const sdbusplus::object_path& inventoryPath,
-                                    const sdbusplus::object_path& fallbackPath,
+                                    const std::string& inventoryName,
                                     uint8_t eid, const ConfigPathHandler& done)
 {
     lg2::info("EID {EID}: Found board inventory path {PATH}", "EID", eid,
               "PATH", inventoryPath);
 
+    // Not operator/, which escapes differently from entity manager.
+    const std::string recordPath =
+        inventoryPath.string() + "/" + entityPathSegment(inventoryName);
+
     conn->async_method_call(
-        [eid, inventoryPath, fallbackPath, done](
-            const boost::system::error_code& ec2, const GetSubTreeType& ret2) {
-            selectMctpVdmConfig(inventoryPath, fallbackPath, eid, ec2, ret2,
-                                done);
+        [this, recordPath, inventoryPath, inventoryName, eid, done](
+            const boost::system::error_code& ec,
+            const std::vector<std::pair<std::string, std::vector<std::string>>>&
+                owners) {
+            std::string service;
+            std::string iface;
+            for (const auto& [owner, ifaces] : owners)
+            {
+                const auto it = std::ranges::find_if(ifaces, isMctpVdmIface);
+                if (it != ifaces.end())
+                {
+                    service = owner;
+                    iface = *it;
+                    break;
+                }
+            }
+            if (ec || service.empty())
+            {
+                lg2::error(
+                    "EID {EID}: board {PATH} exposes no configuration named {NAME}, not creating the device",
+                    "EID", eid, "PATH", inventoryPath, "NAME", inventoryName);
+                return;
+            }
+
+            conn->async_method_call(
+                [recordPath, iface, inventoryName, eid,
+                 done](const boost::system::error_code& propEc,
+                       const SensorBaseConfigMap& props) {
+                    if (propEc)
+                    {
+                        lg2::error(
+                            "EID {EID}: Failed to read {PATH}: {ERROR}, not creating {NAME}",
+                            "EID", eid, "PATH", recordPath, "ERROR",
+                            propEc.message(), "NAME", inventoryName);
+                        return;
+                    }
+                    done(MctpVdmRecord{.path = recordPath,
+                                       .name = inventoryName,
+                                       .properties = props});
+                },
+                service, recordPath, "org.freedesktop.DBus.Properties",
+                "GetAll", iface);
         },
         "xyz.openbmc_project.ObjectMapper",
         "/xyz/openbmc_project/object_mapper",
-        "xyz.openbmc_project.ObjectMapper", "GetSubTree",
-        inventoryPath.string(), 0,
-        std::vector<std::string>{
-            "xyz.openbmc_project.Configuration.NvidiaMctpVdm"});
+        "xyz.openbmc_project.ObjectMapper", "GetObject", recordPath,
+        std::vector<std::string>{});
 }
 
 void DeviceManager::processEndpoint(
     const sdbusplus::object_path& mctpObjectPath,
-    const boost::system::error_code& ec, const SensorBaseConfigMap& endpoint)
+    const boost::system::error_code& ec, const SensorBaseConfigMap& endpoint,
+    std::optional<std::pair<uint8_t, uint8_t>> bridgePool)
 {
     if (ec)
     {
@@ -621,7 +933,7 @@ void DeviceManager::processEndpoint(
                   ocp::accelerator_management::messageType) != mctpTypes.end())
     {
         lg2::info("Found OCP MCTP VDM Endpoint with ID {EID}", "EID", eid);
-        checkAssociationAndQueryDevice(mctpObjectPath, eid);
+        checkAssociationAndQueryDevice(mctpObjectPath, eid, bridgePool);
     }
 }
 
@@ -648,14 +960,20 @@ void DeviceManager::queryEndpoints(const boost::system::error_code& ec,
             {
                 if (iface == "xyz.openbmc_project.MCTP.Endpoint")
                 {
+                    // GetAll with an empty interface returns properties
+                    // from all interfaces on the object, so a bridge
+                    // endpoint's PoolStart/PoolEnd (on the Bridge1
+                    // interface) are visible.
                     conn->async_method_call(
                         [this, mctpObjectPath{objPath}](
                             const boost::system::error_code& ec,
                             const SensorBaseConfigMap& endpoint) {
-                            processEndpoint(mctpObjectPath, ec, endpoint);
+                            auto bridgePool = extractBridgePool(endpoint);
+                            processEndpoint(mctpObjectPath, ec, endpoint,
+                                            bridgePool);
                         },
                         service, objPath, "org.freedesktop.DBus.Properties",
-                        "GetAll", iface);
+                        "GetAll", "");
                 }
             }
         }
@@ -746,7 +1064,8 @@ void DeviceManager::fetchEndpointUuid(
         "xyz.openbmc_project.Common.UUID", "UUID",
         [this, mctpObjectPath](const boost::system::error_code& ec,
                                const std::string& uuid) {
-            // UUID is an optional interface on the endpoint; absence is fine.
+            // UUID is an optional interface on the endpoint; absence is
+            // fine.
             if (ec || uuid.empty())
             {
                 return;
