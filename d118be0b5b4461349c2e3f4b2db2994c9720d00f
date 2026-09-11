@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b2bec36_7f4e686b",
+        "filename": "src/nvme/NVMeSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-09-11T07:08:04Z",
+      "side": 1,
+      "message": "This integer division truncates the configured delay. If pollIntervalSec becomes greater than one, a 5-second delay with a 2-second poll interval becomes 2 ticks, causing retries after 4 seconds. Could this use ceiling division so the retry never occurs earlier than the configured delay?",
+      "revId": "d118be0b5b4461349c2e3f4b2db2994c9720d00f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f192fb6b_ea82c5ff",
+        "filename": "src/nvme/NVMeSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-09-11T07:08:04Z",
+      "side": 1,
+      "message": "VariantToUnsignedIntVisitor performs an unchecked static_cast\u003cunsigned int\u003e. Negative signed values or uint64_t values larger than UINT_MAX can wrap and result in an unintended retry delay. Could we validate the numeric range before converting, or preserve the source type until validation?",
+      "revId": "d118be0b5b4461349c2e3f4b2db2994c9720d00f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
