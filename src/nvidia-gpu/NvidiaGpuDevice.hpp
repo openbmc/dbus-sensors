@@ -48,8 +48,7 @@
 class GpuDevice : public std::enable_shared_from_this<GpuDevice>
 {
   public:
-    GpuDevice(const SensorConfigs& configs, const std::string& name,
-              const sdbusplus::object_path& path,
+    GpuDevice(const EntityDeviceConfig& config, const std::string& name,
               const std::shared_ptr<sdbusplus::asio::connection>& conn,
               uint8_t eid, boost::asio::io_context& io,
               mctp::MctpRequester& mctpRequester,
@@ -132,8 +131,6 @@ class GpuDevice : public std::enable_shared_from_this<GpuDevice>
         thermalParamReqMsg{};
     std::array<int32_t, 3> thresholds{};
     size_t current_threshold_index{};
-
-    SensorConfigs configs;
 
     std::string name;
 
