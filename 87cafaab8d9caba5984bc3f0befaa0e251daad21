@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f2d0f89_9c270f14",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 59
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-11T05:45:25Z",
+      "side": 1,
+      "message": "For logs, please use the pattern already established in the other sensor classes.",
+      "revId": "87cafaab8d9caba5984bc3f0befaa0e251daad21",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01294b9f_62f0b050",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 59
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-11T05:45:25Z",
+      "side": 1,
+      "message": "use std::format.",
+      "revId": "87cafaab8d9caba5984bc3f0befaa0e251daad21",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f43ea88e_da5e9a44",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 59
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-11T05:45:25Z",
+      "side": 1,
+      "message": "Aren\u0027t these mapped to wrong threshold for leak detector thresholds?\n\nIndex 0: Min leak threshold\nIndex 1: Max leak threshold\nIndex 2: Max normal threshold\n\n@liuer@nvidia.com, please review this mapping since you would need this for to enable patch on the thresholds.",
+      "revId": "87cafaab8d9caba5984bc3f0befaa0e251daad21",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22fd2ca3_a0b3d41c",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 59
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-11T05:45:25Z",
+      "side": 1,
+      "message": "use std::move here.",
+      "range": {
+        "startLine": 169,
+        "startChar": 33,
+        "endLine": 169,
+        "endChar": 42
+      },
+      "revId": "87cafaab8d9caba5984bc3f0befaa0e251daad21",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46c861d1_bab3e619",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 59
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-11T05:45:25Z",
+      "side": 1,
+      "message": "Remove this info log.",
+      "revId": "87cafaab8d9caba5984bc3f0befaa0e251daad21",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

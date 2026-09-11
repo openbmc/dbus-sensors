@@ -143,6 +143,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b6dc3ba2_4b722fca",
+        "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.cpp",
+        "patchSetId": 55
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-11T05:45:25Z",
+      "side": 1,
+      "message": "Index 0: Min leak threshold\nIndex 1: Max leak threshold\nIndex 2: Max normal threshold\n\nif only 2 thresholds are received we would only populate Min leak and Max leak and don\u0027t populate Max Normal.",
+      "parentUuid": "a819ae63_06f339ce",
+      "revId": "4aaa196761abda33879ae99ac34393a22598d7e7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "014a3c6d_8b7938dd",
         "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.cpp",
         "patchSetId": 55
