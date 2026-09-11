@@ -816,6 +816,46 @@ static bool isMctpVdmIface(std::string_view iface)
            iface == mctpVdmCxIface;
 }
 
+// The settings every record carries, whatever kind of device it describes.
+static EntityDeviceConfig readEntityDeviceConfig(
+    const sdbusplus::object_path& path, const std::string& name,
+    const SensorBaseConfigMap& props)
+{
+    EntityDeviceConfig config{.path = path, .name = name};
+
+    try
+    {
+        config.pollRate = loadVariant<uint64_t>(props, "PollRate");
+    }
+    catch (const std::invalid_argument&)
+    {
+        // PollRate is an optional config
+        config.pollRate = sensorPollRateMs;
+    }
+
+    return config;
+}
+
+// The settings only a ConnectX record carries. A device of another kind has
+// no network ports, so nothing asks its record for a count of them.
+static PcieDeviceConfigs readPcieDeviceConfigs(const SensorBaseConfigMap& props)
+{
+    PcieDeviceConfigs pcieConfig;
+
+    try
+    {
+        pcieConfig.networkPortCount = loadVariant<uint64_t>(props, "PortCount");
+    }
+    catch (const std::invalid_argument&)
+    {
+        // A board that does not say how many network ports the device has is
+        // saying it has none to report.
+        pcieConfig.networkPortCount = 0;
+    }
+
+    return pcieConfig;
+}
+
 // Pair the device with the record its board exposes for it. The platform
 // named the device by that record's PlatformConfigName, which is the only
 // thing that tells apart several records a board carries for devices of one
@@ -880,7 +920,8 @@ static void selectMctpVdmConfig(
     for (const Candidate& candidate : candidates)
     {
         conn->async_method_call(
-            [search, path{candidate.path}, inventoryPath, inventoryName, eid,
+            [search, path{candidate.path}, iface{candidate.iface},
+             inventoryPath, inventoryName, eid,
              done](const boost::system::error_code& propEc,
                    const SensorBaseConfigMap& props) {
                 --search->pending;
@@ -903,42 +944,17 @@ static void selectMctpVdmConfig(
                                                            &deviceIt->second)
                                                      : nullptr;
 
-                            // The record that names the device is also what
-                            // says how it is to be read, so its settings are
-                            // taken from here rather than from the object the
-                            // endpoint was configured from.
-                            EntityDeviceConfig config{
-                                .path = path,
-                                .name = (device != nullptr) ? *device
-                                                            : inventoryName};
+                            const EntityDeviceConfig config =
+                                readEntityDeviceConfig(
+                                    path,
+                                    (device != nullptr) ? *device
+                                                        : inventoryName,
+                                    props);
 
-                            try
-                            {
-                                config.pollRate =
-                                    loadVariant<uint64_t>(props, "PollRate");
-                            }
-                            catch (const std::invalid_argument&)
-                            {
-                                // PollRate is an optional config
-                                config.pollRate = sensorPollRateMs;
-                            }
-
-                            // The board says how many network ports the
-                            // device has; nothing the device answers reports
-                            // it, and it is what bounds the probe of them.
                             PcieDeviceConfigs pcieConfig;
-
-                            try
+                            if (iface == mctpVdmCxIface)
                             {
-                                pcieConfig.networkPortCount =
-                                    loadVariant<uint64_t>(props, "PortCount");
-                            }
-                            catch (const std::invalid_argument&)
-                            {
-                                // A board that does not say how many network
-                                // ports the device has is saying it has none
-                                // to report.
-                                pcieConfig.networkPortCount = 0;
+                                pcieConfig = readPcieDeviceConfigs(props);
                             }
 
                             search->matched = true;
