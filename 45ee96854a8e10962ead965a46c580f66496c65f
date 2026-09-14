@@ -54,6 +54,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "784e93f6_4ca8164a",
+        "filename": "src/nvidia-gpu/NvidiaDeviceDiscovery.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-09-14T06:04:51Z",
+      "side": 1,
+      "message": "For EndpointState::Init: 91169 is not merged yet a, I will move the refresh there as a follow-up once it lands. Thanks.",
+      "parentUuid": "36562163_e3f72d9a",
+      "revId": "45ee96854a8e10962ead965a46c580f66496c65f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e3bd08b6_29b3a30d",

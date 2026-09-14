@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "13f9d607_ceb51824",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-09-14T06:04:51Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "360dadcf_0f3abe90",
+      "revId": "8f5fa05c5e583bd71613ff412f8dd99f2eb34e6c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "030c4786_b41c237a",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-09-08T10:46:15Z",
       "side": 1,
       "message": "Let\u0027s do this instead, each device class will have reference to `DeviceSupportedCommandCodes` object (We will no longer need CapabilityQuery). That object can will have these public methods - \n1. Method to refresh the Command Code list on demand (the device class will call this method during the initialization and also bind it to handle Rediscovery event)\n2. Method to check if Command Code is supported.",
+      "revId": "8f5fa05c5e583bd71613ff412f8dd99f2eb34e6c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b115b15c_46dfa137",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-09-14T06:04:51Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "030c4786_b41c237a",
       "revId": "8f5fa05c5e583bd71613ff412f8dd99f2eb34e6c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -52,6 +88,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a4f112a_937ac273",
+        "filename": "src/nvidia-gpu/NvidiaCapabilityQuery.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-09-14T06:04:51Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "865eb51e_8e076dd9",
+      "revId": "8f5fa05c5e583bd71613ff412f8dd99f2eb34e6c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7b7013a1_3358c169",
@@ -65,6 +119,24 @@
       "writtenOn": "2026-09-08T10:46:15Z",
       "side": 1,
       "message": "Instead of doing this let\u0027s have two std::array one for each command.",
+      "revId": "8f5fa05c5e583bd71613ff412f8dd99f2eb34e6c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "144c343e_cd0dc43b",
+        "filename": "src/nvidia-gpu/NvidiaCapabilityQuery.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-09-14T06:04:51Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "7b7013a1_3358c169",
       "revId": "8f5fa05c5e583bd71613ff412f8dd99f2eb34e6c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -86,6 +158,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9f03f95_bf1ffabf",
+        "filename": "src/nvidia-gpu/NvidiaCapabilityQuery.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-09-14T06:04:51Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "06a8607a_2f67fcf2",
+      "revId": "8f5fa05c5e583bd71613ff412f8dd99f2eb34e6c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cf56cf63_c56b60d3",
@@ -99,6 +189,24 @@
       "writtenOn": "2026-09-08T10:46:15Z",
       "side": 1,
       "message": "I don\u0027t have a strong opinion on how to implement this but list of Command Codes required for the Sensor update should be specified by the Sensor class rather than Device class.",
+      "revId": "8f5fa05c5e583bd71613ff412f8dd99f2eb34e6c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6852312_71e7bae2",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-09-14T06:04:51Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "cf56cf63_c56b60d3",
       "revId": "8f5fa05c5e583bd71613ff412f8dd99f2eb34e6c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -137,6 +245,42 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c15a332f_0f318671",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-09-14T06:04:51Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "caa54e60_991dfac9",
+      "revId": "8f5fa05c5e583bd71613ff412f8dd99f2eb34e6c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "363ea4f9_b0d59b8a",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-09-14T06:04:51Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "f5ee2c96_b1db2489",
+      "revId": "8f5fa05c5e583bd71613ff412f8dd99f2eb34e6c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c4b1229c_605df154",
@@ -150,6 +294,30 @@
       "writtenOn": "2026-09-08T10:46:15Z",
       "side": 1,
       "message": "make this private.",
+      "range": {
+        "startLine": 299,
+        "startChar": 0,
+        "endLine": 301,
+        "endChar": 17
+      },
+      "revId": "8f5fa05c5e583bd71613ff412f8dd99f2eb34e6c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1630586e_96af61b6",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-09-14T06:04:51Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "c4b1229c_605df154",
       "range": {
         "startLine": 299,
         "startChar": 0,
