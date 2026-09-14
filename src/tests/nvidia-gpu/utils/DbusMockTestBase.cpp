@@ -72,8 +72,9 @@ void DbusEnvironment::SetUp()
     DbusMockTestBase::objectServer =
         std::make_unique<sdbusplus::asio::object_server>(
             DbusMockTestBase::conn);
-    DbusMockTestBase::mctpRequester =
-        std::make_unique<mctp::MctpRequester>(*DbusMockTestBase::io);
+    DbusMockTestBase::mctpRequester = std::make_unique<mctp::MctpRequester>(
+        *DbusMockTestBase::io, mctp::ocpVdmPciBinding,
+        mctp::MctpEventHandler{});
 
     DbusMockTestBase::available = true;
 }

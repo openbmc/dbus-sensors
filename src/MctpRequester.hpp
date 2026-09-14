@@ -6,7 +6,6 @@
 #pragma once
 
 #include <MctpAsioEndpoint.hpp>
-#include <OcpMctpVdm.hpp>
 #include <boost/asio/generic/datagram_protocol.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/steady_timer.hpp>
@@ -29,6 +28,31 @@
 
 namespace mctp
 {
+
+// Rq/D/instance-ID byte layout, as in the DSP0236 control message header.
+constexpr uint8_t instanceIdBitMask = 0b00011111;
+constexpr uint8_t datagramBitMask = 0b01000000;
+constexpr uint8_t requestBitMask = 0b10000000;
+
+// The parts of an OCP VDM binding the transport itself has to understand:
+// which MCTP message type to bind to, and where the instance ID sits.
+struct VdmBinding
+{
+    uint8_t msgType;
+    size_t headerSize;
+    size_t instanceIdOffset;
+};
+
+// DSP0236 vendor-defined, PCI binding.
+inline constexpr VdmBinding ocpVdmPciBinding{
+    .msgType = 0x7E,
+    .headerSize = 5,
+    .instanceIdOffset = 2,
+};
+
+using MctpEventHandler =
+    std::move_only_function<void(uint8_t eid, std::span<const uint8_t> msg)>;
+
 class MctpRequester
 {
   public:
@@ -42,7 +66,8 @@ class MctpRequester
 
     MctpRequester& operator=(MctpRequester&&) = delete;
 
-    explicit MctpRequester(boost::asio::io_context& ctx);
+    MctpRequester(boost::asio::io_context& ctx, VdmBinding binding,
+                  MctpEventHandler eventHandler);
 
     void sendRecvMsg(uint8_t eid, std::span<const uint8_t> reqMsg,
                      std::move_only_function<void(const std::error_code&,
@@ -52,8 +77,6 @@ class MctpRequester
   private:
     using cb_t = std::move_only_function<void(const std::error_code&,
                                               std::span<const uint8_t>)>;
-
-    static constexpr uint8_t msgType = ocp::accelerator_management::messageType;
 
     struct RequestContext
     {
@@ -97,6 +120,9 @@ class MctpRequester
     void processQueue(uint8_t eid);
 
     boost::asio::io_context& io;
+
+    VdmBinding binding;
+    MctpEventHandler eventHandler;
 
     boost::asio::generic::datagram_protocol::socket mctpSocket;
     static constexpr size_t maxMessageSize = 65536 + 256;

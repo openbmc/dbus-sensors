@@ -5,6 +5,7 @@
 
 #include "DeviceManager.hpp"
 #include "MctpRequester.hpp"
+#include "NvidiaEventReporting.hpp"
 #include "NvidiaSensorConfig.hpp"
 #include "Utils.hpp"
 
@@ -45,7 +46,8 @@ int main()
     objectServer.add_manager("/xyz/openbmc_project/metric");
     systemBus->request_name("xyz.openbmc_project.GpuSensor");
 
-    mctp::MctpRequester mctpRequester(io);
+    mctp::MctpRequester mctpRequester(io, mctp::ocpVdmPciBinding,
+                                      &NvidiaEventHandler::handleEvent);
 
     DeviceManager deviceManager(io, objectServer, systemBus, mctpRequester);
 
