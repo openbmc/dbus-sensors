@@ -1,7 +1,6 @@
 gpusensor_sources = files(
     'DeviceManager.cpp',
     'Inventory.cpp',
-    'MctpRequester.cpp',
     'NvidiaDriverInformation.cpp',
     'NvidiaEthPort.cpp',
     'NvidiaEventReporting.cpp',
@@ -47,7 +46,7 @@ executable(
     gpusensor_sources + files('NvidiaGpuSensorMain.cpp'),
     implicit_include_directories: false,
     include_directories: [gpusensor_include_dir, sensor_include_dir],
-    dependencies: [thresholds_dep, utils_dep, mctpasio_dep],
+    dependencies: [thresholds_dep, utils_dep, mctpasio_dep, mctprequester_dep],
     install: true,
     install_dir: '/usr/libexec/dbus-sensors',
 )
