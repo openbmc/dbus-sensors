@@ -281,7 +281,6 @@ void createSensors(
                         if (suffixIt.ends_with(suffixName))
                         {
                             sensorsChanged->erase(it);
-                            findSensor->second = nullptr;
                             found = true;
                             lg2::debug("ExternalSensor '{NAME}' change found",
                                        "NAME", sensorName);
@@ -292,6 +291,34 @@ void createSensors(
                     {
                         continue;
                     }
+
+                    std::vector<thresholds::Threshold> newThresholds;
+                    if (parseThresholdsFromConfig(sensorData, newThresholds))
+                    {
+                        auto& oldThresholds = findSensor->second->thresholds;
+                        for (const auto& newTh : newThresholds)
+                        {
+                            for (auto& oldTh : oldThresholds)
+                            {
+                                if (newTh.level == oldTh.level &&
+                                    newTh.direction == oldTh.direction)
+                                {
+                                    oldTh.value = newTh.value;
+                                }
+                            }
+                        }
+                        thresholds::updateThresholds(findSensor->second.get());
+                        lg2::info(
+                            "ExternalSensor '{NAME}' thresholds updated in-place to preserve state",
+                            "NAME", sensorName);
+                    }
+                    else
+                    {
+                        lg2::error(
+                            "error re-populating thresholds for '{NAME}'",
+                            "NAME", sensorName);
+                    }
+                    continue;
                 }
 
                 std::vector<thresholds::Threshold> sensorThresholds;
