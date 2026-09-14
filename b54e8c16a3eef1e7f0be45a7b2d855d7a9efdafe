@@ -35,6 +35,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2aa1f8bf_d4fd8a2d",
+        "filename": "src/nvidia-gpu/NvidiaIbPort.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-09-14T06:59:37Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "0e1c5363_da8eaac3",
+      "revId": "b54e8c16a3eef1e7f0be45a7b2d855d7a9efdafe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "881fb908_16af0f54",
@@ -52,6 +70,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "66ce7e07_a8766eb0",
+        "filename": "src/nvidia-gpu/NvidiaIbPort.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-09-14T06:59:37Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "881fb908_16af0f54",
+      "revId": "b54e8c16a3eef1e7f0be45a7b2d855d7a9efdafe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "90754682_891aeccc",
@@ -65,6 +101,24 @@
       "writtenOn": "2026-09-08T08:24:44Z",
       "side": 1,
       "message": "Let\u0027s use the format required as per PDI.",
+      "revId": "b54e8c16a3eef1e7f0be45a7b2d855d7a9efdafe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb01a454_636e6c65",
+        "filename": "src/nvidia-gpu/NvidiaIbPort.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-09-14T06:59:37Z",
+      "side": 1,
+      "message": "Done, thanks.The format is now normative in the PDI: 92492 PS3.\nhttps://gerrit.openbmc.org/c/openbmc/phosphor-dbus-interfaces/+/92492",
+      "parentUuid": "90754682_891aeccc",
       "revId": "b54e8c16a3eef1e7f0be45a7b2d855d7a9efdafe",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
