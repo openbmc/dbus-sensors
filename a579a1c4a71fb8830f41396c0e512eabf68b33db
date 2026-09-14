@@ -41,6 +41,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6abda18_09fd4970",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 1794,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-09-14T06:59:33Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "4a980e34_a054a27f",
+      "range": {
+        "startLine": 1793,
+        "startChar": 48,
+        "endLine": 1794,
+        "endChar": 77
+      },
+      "revId": "a579a1c4a71fb8830f41396c0e512eabf68b33db",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "665463dd_637b648f",
@@ -54,6 +78,24 @@
       "writtenOn": "2026-09-08T08:51:00Z",
       "side": 1,
       "message": "`NvidiaUtils.hpp` already defines this.",
+      "revId": "a579a1c4a71fb8830f41396c0e512eabf68b33db",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04b70e32_354ba3a9",
+        "filename": "src/nvidia-gpu/NvidiaIbPort.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-09-14T06:59:33Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "665463dd_637b648f",
       "revId": "a579a1c4a71fb8830f41396c0e512eabf68b33db",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -75,6 +117,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a32ad19d_c6cec384",
+        "filename": "src/nvidia-gpu/NvidiaIbPort.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-09-14T06:59:33Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "c91e554b_03c13f22",
+      "revId": "a579a1c4a71fb8830f41396c0e512eabf68b33db",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "89e54d9e_9e776fbc",
@@ -88,6 +148,24 @@
       "writtenOn": "2026-09-08T08:51:00Z",
       "side": 1,
       "message": "Please create a new class for Port Metrics and put it in the new file.",
+      "revId": "a579a1c4a71fb8830f41396c0e512eabf68b33db",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c8047e3_796ab372",
+        "filename": "src/nvidia-gpu/NvidiaIbPort.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-09-14T06:59:33Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "89e54d9e_9e776fbc",
       "revId": "a579a1c4a71fb8830f41396c0e512eabf68b33db",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
