@@ -156,179 +156,204 @@ void createSensors(
 {
     lg2::debug("ExternalSensor considering creating sensors");
 
-    auto getter = std::make_shared<GetSensorConfiguration>(
-        dbusConnection,
-        [&objectServer, &sensors, &dbusConnection, sensorsChanged,
-         &reaperTimer](const ManagedObjectType& sensorConfigurations) {
-            bool firstScan = (sensorsChanged == nullptr);
+    auto getter = std::make_shared<
+        GetSensorConfiguration>(dbusConnection, [&objectServer, &sensors,
+                                                 &dbusConnection,
+                                                 sensorsChanged, &reaperTimer](
+                                                    const ManagedObjectType&
+                                                        sensorConfigurations) {
+        bool firstScan = (sensorsChanged == nullptr);
 
-            for (const std::pair<sdbusplus::object_path, SensorData>& sensor :
-                 sensorConfigurations)
+        for (const std::pair<sdbusplus::object_path, SensorData>& sensor :
+             sensorConfigurations)
+        {
+            const std::string& interfacePath = sensor.first.str;
+            const SensorData& sensorData = sensor.second;
+
+            auto sensorBase = sensorData.find(configInterfaceName(sensorType));
+            if (sensorBase == sensorData.end())
             {
-                const std::string& interfacePath = sensor.first.str;
-                const SensorData& sensorData = sensor.second;
+                lg2::error("Base configuration not found for '{PATH}'", "PATH",
+                           interfacePath);
+                continue;
+            }
 
-                auto sensorBase =
-                    sensorData.find(configInterfaceName(sensorType));
-                if (sensorBase == sensorData.end())
-                {
-                    lg2::error("Base configuration not found for '{PATH}'",
-                               "PATH", interfacePath);
-                    continue;
-                }
+            const SensorBaseConfiguration& baseConfiguration = *sensorBase;
+            const SensorBaseConfigMap& baseConfigMap = baseConfiguration.second;
 
-                const SensorBaseConfiguration& baseConfiguration = *sensorBase;
-                const SensorBaseConfigMap& baseConfigMap =
-                    baseConfiguration.second;
+            // MinValue and MaxValue are mandatory numeric parameters
+            auto minFound = baseConfigMap.find("MinValue");
+            if (minFound == baseConfigMap.end())
+            {
+                lg2::error("MinValue parameter not found for '{PATH}'", "PATH",
+                           interfacePath);
+                continue;
+            }
+            double minValue =
+                std::visit(VariantToDoubleVisitor(), minFound->second);
+            if (!std::isfinite(minValue))
+            {
+                lg2::error("MinValue parameter not parsed for '{PATH}'", "PATH",
+                           interfacePath);
+                continue;
+            }
 
-                // MinValue and MaxValue are mandatory numeric parameters
-                auto minFound = baseConfigMap.find("MinValue");
-                if (minFound == baseConfigMap.end())
-                {
-                    lg2::error("MinValue parameter not found for '{PATH}'",
-                               "PATH", interfacePath);
-                    continue;
-                }
-                double minValue =
-                    std::visit(VariantToDoubleVisitor(), minFound->second);
-                if (!std::isfinite(minValue))
-                {
-                    lg2::error("MinValue parameter not parsed for '{PATH}'",
-                               "PATH", interfacePath);
-                    continue;
-                }
+            auto maxFound = baseConfigMap.find("MaxValue");
+            if (maxFound == baseConfigMap.end())
+            {
+                lg2::error("MaxValue parameter not found for '{PATH}'", "PATH",
+                           interfacePath);
+                continue;
+            }
+            double maxValue =
+                std::visit(VariantToDoubleVisitor(), maxFound->second);
+            if (!std::isfinite(maxValue))
+            {
+                lg2::error("MaxValue parameter not parsed for '{PATH}'", "PATH",
+                           interfacePath);
+                continue;
+            }
 
-                auto maxFound = baseConfigMap.find("MaxValue");
-                if (maxFound == baseConfigMap.end())
-                {
-                    lg2::error("MaxValue parameter not found for '{PATH}'",
-                               "PATH", interfacePath);
-                    continue;
-                }
-                double maxValue =
-                    std::visit(VariantToDoubleVisitor(), maxFound->second);
-                if (!std::isfinite(maxValue))
-                {
-                    lg2::error("MaxValue parameter not parsed for '{PATH}'",
-                               "PATH", interfacePath);
-                    continue;
-                }
+            double timeoutSecs = 0.0;
 
-                double timeoutSecs = 0.0;
+            // Timeout is an optional numeric parameter
+            auto timeoutFound = baseConfigMap.find("Timeout");
+            if (timeoutFound != baseConfigMap.end())
+            {
+                timeoutSecs =
+                    std::visit(VariantToDoubleVisitor(), timeoutFound->second);
+            }
+            if (!std::isfinite(timeoutSecs) || (timeoutSecs < 0.0))
+            {
+                lg2::error("Timeout parameter not parsed for '{PATH}'", "PATH",
+                           interfacePath);
+                continue;
+            }
 
-                // Timeout is an optional numeric parameter
-                auto timeoutFound = baseConfigMap.find("Timeout");
-                if (timeoutFound != baseConfigMap.end())
-                {
-                    timeoutSecs = std::visit(VariantToDoubleVisitor(),
-                                             timeoutFound->second);
-                }
-                if (!std::isfinite(timeoutSecs) || (timeoutSecs < 0.0))
-                {
-                    lg2::error("Timeout parameter not parsed for '{PATH}'",
-                               "PATH", interfacePath);
-                    continue;
-                }
+            std::string sensorName;
+            std::string sensorUnits;
 
-                std::string sensorName;
-                std::string sensorUnits;
+            // Name and Units are mandatory string parameters
+            auto nameFound = baseConfigMap.find("Name");
+            if (nameFound == baseConfigMap.end())
+            {
+                lg2::error("Name parameter not found for '{PATH}'", "PATH",
+                           interfacePath);
+                continue;
+            }
+            sensorName =
+                std::visit(VariantToStringVisitor(), nameFound->second);
+            if (sensorName.empty())
+            {
+                lg2::error("Name parameter not parsed for '{PATH}'", "PATH",
+                           interfacePath);
+                continue;
+            }
 
-                // Name and Units are mandatory string parameters
-                auto nameFound = baseConfigMap.find("Name");
-                if (nameFound == baseConfigMap.end())
-                {
-                    lg2::error("Name parameter not found for '{PATH}'", "PATH",
-                               interfacePath);
-                    continue;
-                }
-                sensorName =
-                    std::visit(VariantToStringVisitor(), nameFound->second);
-                if (sensorName.empty())
-                {
-                    lg2::error("Name parameter not parsed for '{PATH}'", "PATH",
-                               interfacePath);
-                    continue;
-                }
+            auto unitsFound = baseConfigMap.find("Units");
+            if (unitsFound == baseConfigMap.end())
+            {
+                lg2::error("Units parameter not found for '{PATH}'", "PATH",
+                           interfacePath);
+                continue;
+            }
+            sensorUnits =
+                std::visit(VariantToStringVisitor(), unitsFound->second);
+            if (sensorUnits.empty())
+            {
+                lg2::error("Units parameter not parsed for '{PATH}'", "PATH",
+                           interfacePath);
+                continue;
+            }
 
-                auto unitsFound = baseConfigMap.find("Units");
-                if (unitsFound == baseConfigMap.end())
+            // on rescans, only update sensors we were signaled by
+            auto findSensor = sensors.find(sensorName);
+            if (!firstScan && (findSensor != sensors.end()))
+            {
+                std::string suffixName = "/";
+                suffixName += findSensor->second->name;
+                bool found = false;
+                for (auto it = sensorsChanged->begin();
+                     it != sensorsChanged->end(); it++)
                 {
-                    lg2::error("Units parameter not found for '{PATH}'", "PATH",
-                               interfacePath);
-                    continue;
-                }
-                sensorUnits =
-                    std::visit(VariantToStringVisitor(), unitsFound->second);
-                if (sensorUnits.empty())
-                {
-                    lg2::error("Units parameter not parsed for '{PATH}'",
-                               "PATH", interfacePath);
-                    continue;
-                }
-
-                // on rescans, only update sensors we were signaled by
-                auto findSensor = sensors.find(sensorName);
-                if (!firstScan && (findSensor != sensors.end()))
-                {
-                    std::string suffixName = "/";
-                    suffixName += findSensor->second->name;
-                    bool found = false;
-                    for (auto it = sensorsChanged->begin();
-                         it != sensorsChanged->end(); it++)
+                    std::string suffixIt = "/";
+                    suffixIt += *it;
+                    if (suffixIt.ends_with(suffixName))
                     {
-                        std::string suffixIt = "/";
-                        suffixIt += *it;
-                        if (suffixIt.ends_with(suffixName))
+                        sensorsChanged->erase(it);
+                        found = true;
+                        lg2::debug("ExternalSensor '{NAME}' change found",
+                                   "NAME", sensorName);
+                        break;
+                    }
+                }
+                if (!found)
+                {
+                    continue;
+                }
+
+                std::vector<thresholds::Threshold> newThresholds;
+                if (parseThresholdsFromConfig(sensorData, newThresholds))
+                {
+                    auto& oldThresholds = findSensor->second->thresholds;
+                    for (const auto& newTh : newThresholds)
+                    {
+                        for (auto& oldTh : oldThresholds)
                         {
-                            sensorsChanged->erase(it);
-                            findSensor->second = nullptr;
-                            found = true;
-                            lg2::debug("ExternalSensor '{NAME}' change found",
-                                       "NAME", sensorName);
-                            break;
+                            if (newTh.level == oldTh.level &&
+                                newTh.direction == oldTh.direction)
+                            {
+                                oldTh.value = newTh.value;
+                            }
                         }
                     }
-                    if (!found)
-                    {
-                        continue;
-                    }
+                    thresholds::updateThresholds(findSensor->second.get());
+                    lg2::info(
+                        "ExternalSensor '{NAME}' thresholds updated in-place to preserve state",
+                        "NAME", sensorName);
                 }
-
-                std::vector<thresholds::Threshold> sensorThresholds;
-                if (!parseThresholdsFromConfig(sensorData, sensorThresholds))
+                else
                 {
-                    lg2::error("error populating thresholds for '{NAME}'",
+                    lg2::error("error re-populating thresholds for '{NAME}'",
                                "NAME", sensorName);
                 }
-
-                PowerState readState = getPowerState(baseConfigMap);
-
-                auto& sensorEntry = sensors[sensorName];
-                sensorEntry = nullptr;
-                try
-                {
-                    sensorEntry = std::make_shared<ExternalSensor>(
-                        sensorType, objectServer, dbusConnection, sensorName,
-                        sensorUnits, std::move(sensorThresholds), interfacePath,
-                        maxValue, minValue, timeoutSecs, readState);
-                    sensorEntry->initWriteHook(
-                        [&sensors, &reaperTimer](
-                            const std::chrono::steady_clock::time_point& now) {
-                            updateReaper(sensors, reaperTimer, now);
-                        });
-
-                    lg2::debug("ExternalSensor '{NAME}' created", "NAME",
-                               sensorName);
-                }
-                catch (const std::exception& e)
-                {
-                    lg2::error(
-                        "Failed to create ExternalSensor '{NAME}': {ERROR}",
-                        "NAME", sensorName, "ERROR", e.what());
-                    continue;
-                }
+                continue;
             }
-        });
+
+            std::vector<thresholds::Threshold> sensorThresholds;
+            if (!parseThresholdsFromConfig(sensorData, sensorThresholds))
+            {
+                lg2::error("error populating thresholds for '{NAME}'", "NAME",
+                           sensorName);
+            }
+
+            PowerState readState = getPowerState(baseConfigMap);
+
+            auto& sensorEntry = sensors[sensorName];
+            sensorEntry = nullptr;
+            try
+            {
+                sensorEntry = std::make_shared<ExternalSensor>(
+                    sensorType, objectServer, dbusConnection, sensorName,
+                    sensorUnits, std::move(sensorThresholds), interfacePath,
+                    maxValue, minValue, timeoutSecs, readState);
+                sensorEntry->initWriteHook(
+                    [&sensors, &reaperTimer](
+                        const std::chrono::steady_clock::time_point& now) {
+                        updateReaper(sensors, reaperTimer, now);
+                    });
+
+                lg2::debug("ExternalSensor '{NAME}' created", "NAME",
+                           sensorName);
+            }
+            catch (const std::exception& e)
+            {
+                lg2::error("Failed to create ExternalSensor '{NAME}': {ERROR}",
+                           "NAME", sensorName, "ERROR", e.what());
+                continue;
+            }
+        }
+    });
     static constexpr auto sensorTypes =
         std::to_array<std::string_view>({sensorType});
     getter->getConfiguration(sensorTypes);
