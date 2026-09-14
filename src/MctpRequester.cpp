@@ -9,8 +9,6 @@
 
 #include <sys/socket.h>
 
-#include <NvidiaEventReporting.hpp>
-#include <OcpMctpVdm.hpp>
 #include <boost/asio/buffer.hpp>
 #include <boost/asio/error.hpp>
 #include <boost/asio/generic/datagram_protocol.hpp>
@@ -36,42 +34,42 @@ using namespace std::literals;
 namespace mctp
 {
 
-static std::optional<uint8_t> getIid(std::span<const uint8_t> buffer)
+static std::optional<uint8_t> getIid(const VdmBinding& binding,
+                                     std::span<const uint8_t> buffer)
 {
-    if (buffer.size() < ocp::accelerator_management::messageHeaderSize)
+    if (buffer.size() < binding.headerSize)
     {
         return std::nullopt;
     }
-    return buffer[ocp::accelerator_management::instanceIdOffset] &
-           ocp::accelerator_management::instanceIdBitMask;
+    return buffer[binding.instanceIdOffset] & instanceIdBitMask;
 }
 
-static std::optional<bool> getRequestBit(std::span<const uint8_t> buffer)
+static std::optional<bool> getRequestBit(const VdmBinding& binding,
+                                         std::span<const uint8_t> buffer)
 {
-    if (buffer.size() < ocp::accelerator_management::messageHeaderSize)
+    if (buffer.size() < binding.headerSize)
     {
         return std::nullopt;
     }
-    return buffer[ocp::accelerator_management::instanceIdOffset] &
-           ocp::accelerator_management::requestBitMask;
+    return buffer[binding.instanceIdOffset] & requestBitMask;
 }
 
-// get datagram bit
-static std::optional<bool> getDatagramBit(std::span<const uint8_t> buffer)
+static std::optional<bool> getDatagramBit(const VdmBinding& binding,
+                                          std::span<const uint8_t> buffer)
 {
-    if (buffer.size() < ocp::accelerator_management::messageHeaderSize)
+    if (buffer.size() < binding.headerSize)
     {
         return std::nullopt;
     }
-    return buffer[ocp::accelerator_management::instanceIdOffset] &
-           ocp::accelerator_management::datagramBitMask;
+    return buffer[binding.instanceIdOffset] & datagramBitMask;
 }
 
-MctpRequester::MctpRequester(boost::asio::io_context& ctx) :
-    io{ctx},
+MctpRequester::MctpRequester(boost::asio::io_context& ctx, VdmBinding binding,
+                             MctpEventHandler eventHandler) :
+    io{ctx}, binding{binding}, eventHandler{std::move(eventHandler)},
     mctpSocket(ctx, boost::asio::generic::datagram_protocol{AF_MCTP, 0})
 {
-    MctpAsioEndpoint receiveEp{ocp::accelerator_management::messageType};
+    MctpAsioEndpoint receiveEp{this->binding.msgType};
     boost::system::error_code ec;
     mctpSocket.bind(receiveEp.endpoint, ec);
     if (ec)
@@ -104,7 +102,7 @@ void MctpRequester::processRecvMsg(const boost::system::error_code& ec,
         return;
     }
 
-    if (*receivedMsgType != ocp::accelerator_management::messageType)
+    if (*receivedMsgType != binding.msgType)
     {
         // we received a message that this handler doesn't support
         // drop it on the floor and rebind receive_from
@@ -128,9 +126,9 @@ void MctpRequester::processRecvMsg(const boost::system::error_code& ec,
     // and gotten an error code in asio
     std::span<const uint8_t> responseBuffer{buffer.data(), length};
 
-    std::optional<uint8_t> optionalIid = getIid(responseBuffer);
-    std::optional<bool> isRq = getRequestBit(responseBuffer);
-    std::optional<bool> isDatagram = getDatagramBit(responseBuffer);
+    std::optional<uint8_t> optionalIid = getIid(binding, responseBuffer);
+    std::optional<bool> isRq = getRequestBit(binding, responseBuffer);
+    std::optional<bool> isDatagram = getDatagramBit(binding, responseBuffer);
     if (!optionalIid || !isRq || !isDatagram)
     {
         // we received something from the device,
@@ -152,7 +150,10 @@ void MctpRequester::processRecvMsg(const boost::system::error_code& ec,
             return;
         }
 
-        NvidiaEventHandler::handleEvent(eid, responseBuffer);
+        if (eventHandler)
+        {
+            eventHandler(eid, responseBuffer);
+        }
         startReceive();
         return;
     }
@@ -303,28 +304,27 @@ std::optional<uint8_t> MctpRequester::getNextIid(uint8_t eid)
 
     uint8_t& iid = it->second.iid;
     ++iid;
-    iid &= ocp::accelerator_management::instanceIdBitMask;
+    iid &= instanceIdBitMask;
     return iid;
 }
 
-static std::expected<void, std::error_code> injectIid(std::span<uint8_t> buffer,
-                                                      uint8_t iid)
+static std::expected<void, std::error_code> injectIid(
+    const VdmBinding& binding, std::span<uint8_t> buffer, uint8_t iid)
 {
-    if (buffer.size() < ocp::accelerator_management::messageHeaderSize)
+    if (buffer.size() < binding.headerSize)
     {
         return std::unexpected(
             std::make_error_code(std::errc::invalid_argument));
     }
 
-    if (iid > ocp::accelerator_management::instanceIdBitMask)
+    if (iid > instanceIdBitMask)
     {
         return std::unexpected(
             std::make_error_code(std::errc::invalid_argument));
     }
 
-    buffer[ocp::accelerator_management::instanceIdOffset] &=
-        ~ocp::accelerator_management::instanceIdBitMask;
-    buffer[ocp::accelerator_management::instanceIdOffset] |= iid;
+    buffer[binding.instanceIdOffset] &= ~instanceIdBitMask;
+    buffer[binding.instanceIdOffset] |= iid;
     return {};
 }
 
@@ -355,7 +355,8 @@ void MctpRequester::processQueue(uint8_t eid)
         return;
     }
 
-    std::expected<void, std::error_code> success = injectIid(req, *iid);
+    std::expected<void, std::error_code> success =
+        injectIid(binding, req, *iid);
     if (!success)
     {
         lg2::error("MctpRequester: unable to set iid");
@@ -363,8 +364,7 @@ void MctpRequester::processQueue(uint8_t eid)
         return;
     }
 
-    MctpAsioEndpoint sendEndPoint(eid,
-                                  ocp::accelerator_management::messageType);
+    MctpAsioEndpoint sendEndPoint(eid, binding.msgType);
     boost::asio::const_buffer buf(req.data(), req.size());
     mctpSocket.async_send_to(
         buf, sendEndPoint.endpoint,

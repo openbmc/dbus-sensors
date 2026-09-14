@@ -99,6 +99,18 @@ mctpasio_dep = declare_dependency(
     dependencies: default_deps,
 )
 
+mctprequester_a = static_library(
+    'mctprequester_a',
+    'MctpRequester.cpp',
+    dependencies: [boost, phosphor_logging_dep, mctpasio_dep],
+)
+
+mctprequester_dep = declare_dependency(
+    include_directories: ['.'],
+    link_with: [mctprequester_a],
+    dependencies: [default_deps, mctpasio_dep],
+)
+
 notifywatch_a = static_library(
     'notifywatch_a',
     'NotifyWatch.cpp',

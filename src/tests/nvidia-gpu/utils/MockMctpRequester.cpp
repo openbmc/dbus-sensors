@@ -43,8 +43,9 @@ void setActiveMock(MctpRequesterMock* mock)
 namespace mctp
 {
 
-MctpRequester::MctpRequester(boost::asio::io_context& ctx) :
-    io{ctx},
+MctpRequester::MctpRequester(boost::asio::io_context& ctx, VdmBinding binding,
+                             MctpEventHandler eventHandler) :
+    io{ctx}, binding{binding}, eventHandler{std::move(eventHandler)},
     // Open a dummy UDP socket so the member is valid but never used.
     mctpSocket(ctx, boost::asio::generic::datagram_protocol{AF_INET, 0})
 {}
