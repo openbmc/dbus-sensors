@@ -5,6 +5,12 @@ option(
     description: 'Enable ADC sensor.',
 )
 option(
+    'amd-bulk-telemetry',
+    type: 'feature',
+    value: 'enabled',
+    description: 'Enable AMD bulk telemetry sensor.',
+)
+option(
     'intel-cpu',
     type: 'feature',
     value: 'enabled',

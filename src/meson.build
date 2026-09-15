@@ -114,6 +114,7 @@ notifywatch_dep = declare_dependency(
 src_inc = include_directories('.')
 
 subdir('adc')
+subdir('amd-bulk-telemetry')
 subdir('cable-monitor')
 subdir('exit-air')
 subdir('external')
