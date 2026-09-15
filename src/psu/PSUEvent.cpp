@@ -53,7 +53,7 @@ PSUCombineEvent::PSUCombineEvent(
         "/xyz/openbmc_project/State/Decorator/" + psuNameEscaped + "_" +
             combineEventName,
         "xyz.openbmc_project.State.Decorator.OperationalStatus");
-    eventInterface->register_property("functional", true);
+    eventInterface->register_property("Functional", true);
 
     if (!eventInterface->initialize())
     {
@@ -336,7 +336,7 @@ void PSUSubEvent::updateValue(const int& newValue)
 
             if ((*combineEvent).empty())
             {
-                eventInterface->set_property("functional", true);
+                eventInterface->set_property("Functional", true);
             }
         }
     }
@@ -366,7 +366,7 @@ void PSUSubEvent::updateValue(const int& newValue)
             }
             if ((*combineEvent).empty())
             {
-                eventInterface->set_property("functional", false);
+                eventInterface->set_property("Functional", false);
             }
             (*combineEvent).emplace(groupEventName);
         }
