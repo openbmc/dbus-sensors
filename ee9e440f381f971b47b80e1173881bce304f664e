@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68ccc750_c86d56b7",
+        "filename": "src/psu/PSUEvent.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1002882
+      },
+      "writtenOn": "2026-09-15T10:09:21Z",
+      "side": 1,
+      "message": "Done in patch set 5. The Tested section now shows both directions on AST2700 hardware: clearing the alarm drives Functional false -\u003e true, restoring it drives true -\u003e false, and each transition emits PropertiesChanged carrying \"Functional\".",
+      "parentUuid": "a17568af_59d68c03",
+      "revId": "ee9e440f381f971b47b80e1173881bce304f664e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
