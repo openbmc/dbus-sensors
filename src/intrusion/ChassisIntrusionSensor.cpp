@@ -241,8 +241,13 @@ int ChassisIntrusionHwmonSensor::readSensor()
         return -1;
     }
 
-    // Reset chassis intrusion status after every reading
+    // Reset chassis intrusion status after every reading. The read advances the
+    // stream position, so rewind before writing to avoid appending the clear
+    // value at EOF instead of overwriting the existing status bit.
+    stream.clear();
+    stream.seekp(0);
     stream << intrusionStatusHwmonClearValue;
+    stream.flush();
 
     return value;
 }
@@ -372,6 +377,14 @@ ChassisIntrusionPchSensor::ChassisIntrusionPchSensor(
         throw std::invalid_argument("Unable to open " + devPath + "\n");
     }
 
+    auto closeFd = [](const int* fd) {
+        if (*fd >= 0)
+        {
+            close(*fd);
+        }
+    };
+    std::unique_ptr<int, decltype(closeFd)> fdGuard(&mBusFd, closeFd);
+
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
     if (ioctl(mBusFd, I2C_SLAVE_FORCE, mSlaveAddr) < 0)
     {
@@ -391,6 +404,8 @@ ChassisIntrusionPchSensor::ChassisIntrusionPchSensor(
         throw std::runtime_error(
             "Do not have I2C_FUNC_SMBUS_READ_BYTE_DATA \n");
     }
+
+    (void)fdGuard.release();
 }
 
 ChassisIntrusionGpioSensor::ChassisIntrusionGpioSensor(

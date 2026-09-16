@@ -184,6 +184,41 @@ TEST_F(TestUtils, findFiles_in_sub_peci_match)
     EXPECT_EQ(foundPaths.size(), 3U);
 }
 
+TEST(HwmonClearRegression, RewindBeforeWrite)
+{
+    auto path = std::filesystem::temp_directory_path() /
+                "dbus_sensors_chassis_intrusion_status_test.txt";
+    std::filesystem::remove(path);
+
+    {
+        std::ofstream out(path, std::ios::trunc);
+        out << "1\n";
+    }
+
+    std::fstream stream(path, std::ios::in | std::ios::out);
+    ASSERT_TRUE(stream.is_open());
+
+    std::string line;
+    ASSERT_TRUE(static_cast<bool>(std::getline(stream, line)));
+    EXPECT_EQ(line, "1");
+
+    stream.clear();
+    stream.seekp(0);
+    stream << 0;
+    stream.flush();
+
+    stream.close();
+
+    std::ifstream verify(path);
+    ASSERT_TRUE(verify.is_open());
+
+    std::string value;
+    ASSERT_TRUE(static_cast<bool>(std::getline(verify, value)));
+    EXPECT_EQ(value, "0");
+
+    std::filesystem::remove(path);
+}
+
 TEST(GetDeviceBusAddrTest, DevNameInvalid)
 {
     size_t bus = 0;
