@@ -372,6 +372,14 @@ ChassisIntrusionPchSensor::ChassisIntrusionPchSensor(
         throw std::invalid_argument("Unable to open " + devPath + "\n");
     }
 
+    auto closeFd = [](const int* fd) {
+        if (*fd >= 0)
+        {
+            close(*fd);
+        }
+    };
+    std::unique_ptr<int, decltype(closeFd)> fdGuard(&mBusFd, closeFd);
+
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
     if (ioctl(mBusFd, I2C_SLAVE_FORCE, mSlaveAddr) < 0)
     {
@@ -391,6 +399,8 @@ ChassisIntrusionPchSensor::ChassisIntrusionPchSensor(
         throw std::runtime_error(
             "Do not have I2C_FUNC_SMBUS_READ_BYTE_DATA \n");
     }
+
+    (void)fdGuard.release();
 }
 
 ChassisIntrusionGpioSensor::ChassisIntrusionGpioSensor(
