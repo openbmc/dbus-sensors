@@ -79,4 +79,5 @@ test(
     ),
 )
 
+subdir('amd-bulk-telemetry')
 subdir('nvidia-gpu')
