@@ -77,7 +77,7 @@ int main()
     auto configIfaceRemovedMatch = std::make_unique<sdbusplus::match>(
         static_cast<sdbusplus::bus_t&>(*systemBus),
         sdbusplus::match_rules::interfacesRemovedAtPath(
-            std::string(inventoryPath)),
+            std::string(inventoryPath) + "/"),
         [&deviceManager](sdbusplus::message_t& msg) {
             deviceManager.onConfigInterfaceRemoved(msg);
         });
