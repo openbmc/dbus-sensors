@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b76823f_9eee5a6c",
+        "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1002462
+      },
+      "writtenOn": "2026-09-17T13:32:51Z",
+      "side": 1,
+      "message": "Setting one threshold causes the other two to drop by 1 mV (first time only)\n\nHi @liuer@nvidia.com,\n\nI found a issue in the threshold set path. When a user sets any single threshold\nfor the first time after the sensor comes up, the other two thresholds also\ndecrease by 1 millivolt. This only happens on the first set; subsequent sets\ndo not cause the issue.\n\nIn updateThresholds(), when !thresholdsKnown, requestedThresholds is\ninitialized by copying the device-reported values directly:\n\nstd::ranges::copy(reported, requestedThresholds.begin());\n\nHowever, as noted in the header comment, the device holds a threshold\n1 millivolt below the value written. So the reported values are already\n(original_write - 1). When handleThresholdSet() builds the candidate\narray for a single-slot change, it fills the unchanged slots from\nrequestedThresholds (which holds reported values, i.e. original_write - 1).\nThe device then stores these as (original_write - 1) - 1 \u003d original_write - 2,\ncausing the other thresholds to drop by 1 mV.\n\nOn subsequent sets, requestedThresholds has been updated to the actual\nsent values (line 425: self-\u003erequestedThresholds \u003d sent), so the issue\ndoes not recur.",
+      "revId": "887cbcda032b40866d4e16f55c8c6456d12ca68a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
