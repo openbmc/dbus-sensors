@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "043c1ce2_21c2774b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002486
+      },
+      "writtenOn": "2026-09-17T09:43:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abe1a08d_78b3cbf8",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "7a41ea620378b09a2ab3e28ec06378c4bf7867d8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "694edb71_defd47dc",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-09-14T18:44:53Z",
       "side": 1,
       "message": "Why is a 200ms pause the appropriate solution?  I don\u0027t really even understand what this is doing for us.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 66
+      },
+      "revId": "7a41ea620378b09a2ab3e28ec06378c4bf7867d8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5135425_75aafee6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002486
+      },
+      "writtenOn": "2026-09-17T09:43:06Z",
+      "side": 1,
+      "message": "When the system AC lost, the order in which each signal goes down cannot be controlled. Therefore, it is possible that a signal goes down first while the BMC is still running, causing logs to be recorded.\n\nWe also considered the scenario where someone manually pulls out the tray to cut off the power.\n\nTherefore, we would like to add a delay to prevent the BMC from recording a log at the moment just before the power is cut off.",
+      "parentUuid": "694edb71_defd47dc",
       "range": {
         "startLine": 9,
         "startChar": 0,
