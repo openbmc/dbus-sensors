@@ -429,8 +429,23 @@ static void createSensorCallback(
 
             PowerState pwrState = getPowerState(entry.second);
 
+            auto unitsFind = entry.second.find("Units");
+            if (unitsFind == entry.second.end())
+            {
+                lg2::error("Invalid or missing Units for sensor: {NAME}",
+                           "NAME", name);
+                continue;
+            }
+
             std::string sensorUnits =
                 loadVariant<std::string>(entry.second, "Units");
+            if (sensorUnits.empty() ||
+                sensor_paths::getPathForUnits(sensorUnits).empty())
+            {
+                lg2::error("Invalid or missing Units for sensor: {NAME}",
+                           "NAME", name);
+                continue;
+            }
 
             std::string valueType =
                 loadVariant<std::string>(entry.second, "ValueType");
