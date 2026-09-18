@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed78a47c_aa6938b8",
+        "filename": "src/valve-monitor/GPIOValve.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-09-18T04:36:38Z",
+      "side": 1,
+      "message": "The 200 ms delay before generateValveEvent() introduces a race where a subsequent GPIO transition can emit a stale event; please re-check the GPIO after the delay or document the rationale and replace the magic number with a named constant.",
+      "revId": "aab9bceafa682384cccd5f2c7bd54e6dada642d7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
