@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "afc3409d_e79eb533",
+        "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1002462
+      },
+      "writtenOn": "2026-09-18T12:01:46Z",
+      "side": 1,
+      "message": "Currently, the xyz.openbmc_project.State.Leak.Detector interface in PDI only defines Normal and Abnormal states. It does not have a dedicated state or property for detecting faults in the sensor itself.\n\nBecause of this limitation, I followed the existing design pattern used for the HPM SMA leak detectors. On the HPM SMA, the hardware exposes two separate GPIOs via an I2C IO expander—one for the actual leak status and one for the sensor fault status. To represent this in OpenBMC, the Entity-Manager config creates two separate GPIOLeakDetector instances (e.g., Hpm0LeakDetector and Hpm0LeakDetectorFault).\n\nSince the Nvidia SMA leak sensor also provides both a leak status and a fault status (sensor short/open), I adopted the same approach here: instantiating a primary State.Leak.Detector object for the leak, and a secondary _Fault object for the fault, which is consistent with how the GPIO leak detectors handle it.",
+      "parentUuid": "2502486c_760832e4",
+      "revId": "b309cc829515592ce80a17a419bc2139100e73d7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2a50e965_6111aaf9",
@@ -41,6 +59,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5833386c_605b8b52",
+        "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1002462
+      },
+      "writtenOn": "2026-09-18T12:01:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a50e965_6111aaf9",
+      "range": {
+        "startLine": 236,
+        "startChar": 0,
+        "endLine": 239,
+        "endChar": 72
+      },
+      "revId": "b309cc829515592ce80a17a419bc2139100e73d7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c7909d2f_c382ea24",
@@ -54,6 +96,24 @@
       "writtenOn": "2026-09-11T05:56:19Z",
       "side": 1,
       "message": "Add more info on what\u0027s the purpose of this in the commit message. Why do we need to start a service here? Is there a existing design doc that the suggests it or the existing implementation that does something similar in OpenBMC?",
+      "revId": "b309cc829515592ce80a17a419bc2139100e73d7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d40f872_52b9af49",
+        "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1002462
+      },
+      "writtenOn": "2026-09-18T12:01:46Z",
+      "side": 1,
+      "message": "Thanks for the review. I have updated the commit message in the latest patchset to add more info about the purpose of starting the systemd service.",
+      "parentUuid": "c7909d2f_c382ea24",
       "revId": "b309cc829515592ce80a17a419bc2139100e73d7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
