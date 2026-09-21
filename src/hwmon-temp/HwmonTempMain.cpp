@@ -63,6 +63,11 @@ static constexpr double minValueRelativeHumidity = 0;   // PercentRH
 static constexpr double maxValueTemperature = 127;      // DegreesC
 static constexpr double minValueTemperature = -128;     // DegreesC
 
+// Base configuration as of the last time each sensor was created. Used to
+// tell a threshold-only change apart from a change that needs a new sensor.
+static boost::container::flat_map<std::string, SensorBaseConfigMap>
+    lastBaseConfig;
+
 static constexpr auto sensorTypes =
     std::to_array<std::pair<std::string_view, I2CDeviceType>>({
         {"ADM1021", I2CDeviceType{"adm1021", true}},
@@ -401,16 +406,17 @@ void createSensors(
                     std::get<std::string>(findSensorName->second);
                 // on rescans, only update sensors we were signaled by
                 auto findSensor = sensors.find(sensorName);
+                bool signaledExisting = false;
                 if (!firstScan && findSensor != sensors.end())
                 {
                     bool found = false;
                     auto it = sensorsChanged->begin();
                     while (it != sensorsChanged->end())
                     {
-                        if (it->ends_with(findSensor->second->name))
+                        if (findSensor->second &&
+                            it->ends_with(findSensor->second->name))
                         {
                             it = sensorsChanged->erase(it);
-                            findSensor->second = nullptr;
                             found = true;
                             break;
                         }
@@ -420,6 +426,7 @@ void createSensors(
                     {
                         continue;
                     }
+                    signaledExisting = findSensor->second != nullptr;
                 }
 
                 std::vector<thresholds::Threshold> sensorThresholds;
@@ -431,6 +438,17 @@ void createSensors(
                                "'{NAME}', index: '{INDEX}'",
                                "NAME", sensorName, "INDEX", index);
                 }
+                else if (!activateOnly && signaledExisting &&
+                         lastBaseConfig[sensorName] == baseConfigMap &&
+                         thresholds::updateThresholdsInPlace(
+                             findSensor->second.get(), sensorThresholds))
+                {
+                    lg2::debug("'{NAME}' thresholds updated in place", "NAME",
+                               sensorName);
+                    continue;
+                }
+
+                lastBaseConfig[sensorName] = baseConfigMap;
 
                 float pollRate = getPollRate(baseConfigMap, pollRateDefault);
                 PowerState readState = getPowerState(baseConfigMap);
