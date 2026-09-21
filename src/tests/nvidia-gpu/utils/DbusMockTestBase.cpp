@@ -54,6 +54,10 @@ namespace
 pid_t daemonPid = -1;
 std::filesystem::path socketDir;
 
+// Long enough that a reply already on its way back through the daemon is not
+// missed on a loaded machine. Paid once, when the binary is shutting down.
+constexpr auto replyDrainSlice = std::chrono::milliseconds(200);
+
 pid_t spawnDaemon(const std::filesystem::path& dir, std::string& addr,
                   std::string& error);
 void stopDaemon(pid_t& pid);
@@ -84,6 +88,19 @@ void DbusEnvironment::TearDown()
     {
         return;
     }
+
+    // sdbusplus reclaims the state behind an async call only when the reply
+    // is dispatched, and stopping the loop outright abandons whatever is
+    // still queued. Drain it first, or a test that dropped its subject while
+    // a call was in flight leaves that state behind for LeakSanitizer to
+    // fail the whole binary over.
+    DbusMockTestBase::conn->flush();
+    if (DbusMockTestBase::io->stopped())
+    {
+        DbusMockTestBase::io->restart();
+    }
+    while (DbusMockTestBase::io->run_one_for(replyDrainSlice) != 0)
+    {}
 
     DbusMockTestBase::io->stop();
 
