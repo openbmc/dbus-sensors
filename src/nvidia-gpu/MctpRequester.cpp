@@ -93,6 +93,13 @@ void MctpRequester::startReceive()
 void MctpRequester::processRecvMsg(const boost::system::error_code& ec,
                                    const size_t length)
 {
+    processRecvMsgImpl(ec, length);
+    startReceive();
+}
+
+void MctpRequester::processRecvMsgImpl(const boost::system::error_code& ec,
+                                       const size_t length)
+{
     std::optional<uint8_t> expectedEid = recvEndPoint.eid();
     std::optional<uint8_t> receivedMsgType = recvEndPoint.type();
 
@@ -153,7 +160,6 @@ void MctpRequester::processRecvMsg(const boost::system::error_code& ec,
         }
 
         NvidiaEventHandler::handleEvent(eid, responseBuffer);
-        startReceive();
         return;
     }
 
@@ -257,8 +263,6 @@ void MctpRequester::handleResult(uint8_t eid, const std::error_code& ec,
     if (it == requestContextQueues.end())
     {
         lg2::error("We tried to a handle a result for an eid we don't have");
-
-        startReceive();
         return;
     }
 
@@ -285,8 +289,6 @@ void MctpRequester::handleResult(uint8_t eid, const std::error_code& ec,
         throw std::runtime_error(std::format(
             "eid {} encountered a fatal error: {}", eid, ec.message()));
     }
-
-    startReceive();
 
     queue.pop_front();
 
