@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5aa40648_eff56f79",
+        "filename": "src/adc/ADCSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1002484
+      },
+      "writtenOn": "2026-09-21T10:03:38Z",
+      "side": 1,
+      "message": "Done. The \"signaled only\" gating is restored; unsignaled sensors are skipped as before, so the comment is accurate again.",
+      "parentUuid": "89093a4a_3b92fe4b",
+      "revId": "2e7de3b6fc7cd42b8a5c56c8c00560ca98898005",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8ca3f4d5_7a396b28",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-07-27T10:33:40Z",
       "side": 1,
       "message": "In-place update currently changes only threshold values for existing sensors and then continues. That means non-threshold configuration changes (for example poll rate, read state, or other runtime parameters) are not reapplied on rescan for already-created sensors. Is this intentional?",
+      "revId": "2e7de3b6fc7cd42b8a5c56c8c00560ca98898005",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "108bbf6f_e8cd4dec",
+        "filename": "src/adc/ADCSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1002484
+      },
+      "writtenOn": "2026-09-21T10:03:38Z",
+      "side": 1,
+      "message": "in-place path is taken only when it is unchanged. Any other configuration change still recreates the sensor.",
+      "parentUuid": "8ca3f4d5_7a396b28",
       "revId": "2e7de3b6fc7cd42b8a5c56c8c00560ca98898005",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -52,6 +88,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f74f33fc_bbba0a53",
+        "filename": "src/adc/ADCSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1002484
+      },
+      "writtenOn": "2026-09-21T10:03:38Z",
+      "side": 1,
+      "message": "Done. A failed parse no longer takes the in-place path; it falls through to the full recreate path as before.",
+      "parentUuid": "7a90d73a_9e38d8c7",
+      "revId": "2e7de3b6fc7cd42b8a5c56c8c00560ca98898005",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6efbcf33_68057adb",
@@ -65,6 +119,24 @@
       "writtenOn": "2026-07-27T10:33:40Z",
       "side": 1,
       "message": "This merge updates only oldTh.value for matching level+direction. It does not reconcile threshold add/remove or hysteresis changes, so stale threshold entries may remain after config updates. Please consider reconciling the full threshold set instead of value-only mutation.",
+      "revId": "2e7de3b6fc7cd42b8a5c56c8c00560ca98898005",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ede3e56_cfa4d612",
+        "filename": "src/adc/ADCSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1002484
+      },
+      "writtenOn": "2026-09-21T10:03:38Z",
+      "side": 1,
+      "message": "Done. updateThresholdsInPlace() now also updates hysteresis and writeable, and returns false when a threshold is added or removed so the sensor is recreated. The vector cannot be resized in place because the registered property handlers hold references into it.",
+      "parentUuid": "6efbcf33_68057adb",
       "revId": "2e7de3b6fc7cd42b8a5c56c8c00560ca98898005",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -86,6 +158,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "770cd6cb_fd77c340",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1002484
+      },
+      "writtenOn": "2026-09-21T10:03:38Z",
+      "side": 1,
+      "message": "Done in 94725. The \"signaled only\" gating is restored; unsignaled sensors are skipped as before, so the comment is accurate again.",
+      "parentUuid": "600a2f0c_a4ca49dd",
+      "revId": "2e7de3b6fc7cd42b8a5c56c8c00560ca98898005",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "508401e4_81737600",
@@ -99,6 +189,24 @@
       "writtenOn": "2026-07-27T10:33:40Z",
       "side": 1,
       "message": "In-place update currently changes only threshold values for existing sensors and then continues. That means non-threshold configuration changes (for example poll rate, read state, or other runtime parameters) are not reapplied on rescan for already-created sensors. Is this intentional?",
+      "revId": "2e7de3b6fc7cd42b8a5c56c8c00560ca98898005",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "497322be_bf77889e",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1002484
+      },
+      "writtenOn": "2026-09-21T10:03:38Z",
+      "side": 1,
+      "message": "Done in 94725. The base configuration of each sensor is now remembered, and the in-place path is taken only when it is unchanged. Any other configuration change still recreates the sensor.",
+      "parentUuid": "508401e4_81737600",
       "revId": "2e7de3b6fc7cd42b8a5c56c8c00560ca98898005",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -120,6 +228,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "97c3a06c_3e4dcc2c",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1002484
+      },
+      "writtenOn": "2026-09-21T10:03:38Z",
+      "side": 1,
+      "message": "Done in 94725. A failed parse no longer takes the in-place path; it falls through to the full recreate path as before.",
+      "parentUuid": "8b58b32e_ee166478",
+      "revId": "2e7de3b6fc7cd42b8a5c56c8c00560ca98898005",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0b64b20c_4719e70f",
@@ -133,6 +259,24 @@
       "writtenOn": "2026-07-27T10:33:40Z",
       "side": 1,
       "message": "This merge updates only oldTh.value for matching level+direction. It does not reconcile threshold add/remove or hysteresis changes, so stale threshold entries may remain after config updates. Please consider reconciling the full threshold set instead of value-only mutation.",
+      "revId": "2e7de3b6fc7cd42b8a5c56c8c00560ca98898005",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27a37f95_1a258c9d",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1002484
+      },
+      "writtenOn": "2026-09-21T10:03:38Z",
+      "side": 1,
+      "message": "Done in 94725. updateThresholdsInPlace() now also updates hysteresis and writeable, and returns false when a threshold is added or removed so the sensor is recreated. The vector cannot be resized in place because the registered property handlers hold references into it.",
+      "parentUuid": "0b64b20c_4719e70f",
       "revId": "2e7de3b6fc7cd42b8a5c56c8c00560ca98898005",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -154,6 +298,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "da0832f5_82484743",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1002484
+      },
+      "writtenOn": "2026-09-21T10:03:38Z",
+      "side": 1,
+      "message": "Done in 94725. The message is now neutral and logged at debug level.",
+      "parentUuid": "b8ac229c_182609c2",
+      "revId": "2e7de3b6fc7cd42b8a5c56c8c00560ca98898005",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1a858fe4_bf941a9a",
@@ -167,6 +329,24 @@
       "writtenOn": "2026-07-27T10:33:40Z",
       "side": 1,
       "message": "This comment says “only update sensors we were signaled by”, but the new in-place branch now runs whenever the sensor already exists on rescan. The wording no longer matches the current behavior.",
+      "revId": "2e7de3b6fc7cd42b8a5c56c8c00560ca98898005",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c511a188_ce7e4ede",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1002484
+      },
+      "writtenOn": "2026-09-21T10:03:38Z",
+      "side": 1,
+      "message": "Done in 94725. The \"signaled only\" gating is restored; unsignaled sensors are skipped as before, so the comment is accurate again.",
+      "parentUuid": "1a858fe4_bf941a9a",
       "revId": "2e7de3b6fc7cd42b8a5c56c8c00560ca98898005",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -188,6 +368,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "63ba0d47_158098ae",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1002484
+      },
+      "writtenOn": "2026-09-21T10:03:38Z",
+      "side": 1,
+      "message": "Done in 94725. The base configuration of each sensor is now remembered, and the in-place path is taken only when it is unchanged. Any other configuration change still recreates the sensor.",
+      "parentUuid": "4d09250f_bba689a2",
+      "revId": "2e7de3b6fc7cd42b8a5c56c8c00560ca98898005",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0552fbc3_5a0287dc",
@@ -201,6 +399,24 @@
       "writtenOn": "2026-07-27T10:33:40Z",
       "side": 1,
       "message": "If parseThresholdsFromConfig fails in this in-place path, the code still removes the entry from sensorsChanged and continues. That can silently keep stale thresholds and also suppress retry/recreate on this rescan. Should we keep the change pending or fall back to full sensor recreate when parsing fails?",
+      "revId": "2e7de3b6fc7cd42b8a5c56c8c00560ca98898005",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe24512f_b26a3887",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1002484
+      },
+      "writtenOn": "2026-09-21T10:03:38Z",
+      "side": 1,
+      "message": "Done in 94725. A failed parse no longer takes the in-place path; it falls through to the full recreate path as before.",
+      "parentUuid": "0552fbc3_5a0287dc",
       "revId": "2e7de3b6fc7cd42b8a5c56c8c00560ca98898005",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -222,6 +438,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9b5ae21_a5645fd4",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1002484
+      },
+      "writtenOn": "2026-09-21T10:03:38Z",
+      "side": 1,
+      "message": "Done in 94725. updateThresholdsInPlace() now also updates hysteresis and writeable, and returns false when a threshold is added or removed so the sensor is recreated. The vector cannot be resized in place because the registered property handlers hold references into it.",
+      "parentUuid": "e50c31c1_46f7df4f",
+      "revId": "2e7de3b6fc7cd42b8a5c56c8c00560ca98898005",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b7fb55f9_e7c70295",
@@ -235,6 +469,24 @@
       "writtenOn": "2026-07-27T10:33:40Z",
       "side": 1,
       "message": "If threshold parsing fails here, we still proceed through in-place/update flow and consume the change event. Please consider fail-safe behavior (do not consume change or recreate sensor) so stale threshold state is not kept.",
+      "revId": "2e7de3b6fc7cd42b8a5c56c8c00560ca98898005",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46c40c65_5907aa0b",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1002484
+      },
+      "writtenOn": "2026-09-21T10:03:38Z",
+      "side": 1,
+      "message": "Done in 94725. The in-place handling for the extra sensors was dropped, so this path is unchanged from master and a failed parse no longer consumes the change.",
+      "parentUuid": "b7fb55f9_e7c70295",
       "revId": "2e7de3b6fc7cd42b8a5c56c8c00560ca98898005",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -256,6 +508,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0973493_08308261",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 1002484
+      },
+      "writtenOn": "2026-09-21T10:03:38Z",
+      "side": 1,
+      "message": "Done in 94725. The in-place handling for the extra sensors was dropped, so that loop is unchanged from master and the out-of-scope lookup is gone.",
+      "parentUuid": "d3d0a488_5824c131",
+      "revId": "2e7de3b6fc7cd42b8a5c56c8c00560ca98898005",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5b336cd4_2adb1723",
@@ -269,6 +539,24 @@
       "writtenOn": "2026-07-27T10:33:40Z",
       "side": 1,
       "message": "In-place update currently changes only threshold values for existing sensors and then continues. That means non-threshold configuration changes (for example poll rate, read state, or other runtime parameters) are not reapplied on rescan for already-created sensors. Is this intentional?",
+      "revId": "2e7de3b6fc7cd42b8a5c56c8c00560ca98898005",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48cc9600_b81b75c3",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1098,
+      "author": {
+        "id": 1002484
+      },
+      "writtenOn": "2026-09-21T10:03:38Z",
+      "side": 1,
+      "message": "Done in 94725. The base configuration of each sensor is now remembered, and the in-place path is taken only when it is unchanged. Any other configuration change still recreates the sensor.",
+      "parentUuid": "5b336cd4_2adb1723",
       "revId": "2e7de3b6fc7cd42b8a5c56c8c00560ca98898005",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -290,6 +578,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a12ac44_85df7a7a",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1101,
+      "author": {
+        "id": 1002484
+      },
+      "writtenOn": "2026-09-21T10:03:38Z",
+      "side": 1,
+      "message": "Done in 94725. A failed parse no longer takes the in-place path; it falls through to the full recreate path as before.",
+      "parentUuid": "76f1702d_c6af5d63",
+      "revId": "2e7de3b6fc7cd42b8a5c56c8c00560ca98898005",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01096ca3_8a85796d",
@@ -303,6 +609,24 @@
       "writtenOn": "2026-07-27T10:33:40Z",
       "side": 1,
       "message": "This merge updates only oldTh.value for matching level+direction. It does not reconcile threshold add/remove or hysteresis changes, so stale threshold entries may remain after config updates. Please consider reconciling the full threshold set instead of value-only mutation.",
+      "revId": "2e7de3b6fc7cd42b8a5c56c8c00560ca98898005",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bcd5252_e8bbd70b",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1104,
+      "author": {
+        "id": 1002484
+      },
+      "writtenOn": "2026-09-21T10:03:38Z",
+      "side": 1,
+      "message": "Done in 94725. updateThresholdsInPlace() now also updates hysteresis and writeable, and returns false when a threshold is added or removed so the sensor is recreated. The vector cannot be resized in place because the registered property handlers hold references into it.",
+      "parentUuid": "01096ca3_8a85796d",
       "revId": "2e7de3b6fc7cd42b8a5c56c8c00560ca98898005",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
