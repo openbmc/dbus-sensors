@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ed23aa6_e1b58eca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-21T03:37:15Z",
+      "side": 1,
+      "message": "This is not strictly necessary.",
+      "revId": "8ea97477396386a9c63a7c30334145c88a7f401c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26e6f5c4_b51bf109",
+        "filename": "src/intrusion/ChassisIntrusionSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-21T03:37:15Z",
+      "side": 1,
+      "message": "can we use std::format here?",
+      "revId": "8ea97477396386a9c63a7c30334145c88a7f401c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01ce5df5_60dfc2f9",
+        "filename": "src/intrusion/IntrusionSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-21T03:37:15Z",
+      "side": 1,
+      "message": "can this be std::string_view?",
+      "range": {
+        "startLine": 59,
+        "startChar": 22,
+        "endLine": 59,
+        "endChar": 33
+      },
+      "revId": "8ea97477396386a9c63a7c30334145c88a7f401c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c68378aa_5dd990de",
+        "filename": "src/intrusion/IntrusionSensorMain.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-21T03:37:15Z",
+      "side": 1,
+      "message": "nit: it\u0027s ok to use auto here.",
+      "revId": "8ea97477396386a9c63a7c30334145c88a7f401c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
