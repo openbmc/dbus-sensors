@@ -66,6 +66,7 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
                                      size_t bytesRead);
     void handleResponse(const boost::system::error_code& err, size_t bytesRead);
     void checkThresholds() override;
+    void cancelPendingThresholds() override;
     unsigned int sensorPollMs = defaultSensorPollMs;
 
     static constexpr size_t warnAfterErrorCount = 10;

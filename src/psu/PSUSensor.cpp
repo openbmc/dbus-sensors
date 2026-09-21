@@ -245,3 +245,12 @@ void PSUSensor::checkThresholds()
 
     thresholds::checkThresholdsPowerDelay(weak_from_this(), thresholdTimer);
 }
+
+void PSUSensor::cancelPendingThresholds()
+{
+    for (const auto& threshold : thresholds)
+    {
+        thresholdTimer.stopTimer(threshold, true);
+        thresholdTimer.stopTimer(threshold, false);
+    }
+}

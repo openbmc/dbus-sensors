@@ -231,6 +231,11 @@ const static EventPathList limitEventMatch{
     {"Failure", {"crit_alarm", "lcrit_alarm"}}};
 
 static boost::container::flat_map<size_t, bool> cpuPresence;
+
+// Base configuration as of the last time each sensor was created. Used to
+// tell a threshold-only change apart from a change that needs a new sensor.
+static boost::container::flat_map<std::string, SensorBaseConfigMap>
+    lastBaseConfig;
 constexpr static auto devParamMap =
     std::to_array<std::pair<DevTypes, DevParams>>(
         {{DevTypes::HWMON, {1, R"(\w\d+_input$)", "([A-Za-z]+)[0-9]*_"}},
@@ -1003,8 +1008,9 @@ static void createSensorsCallback(
             }
 
             std::vector<thresholds::Threshold> sensorThresholds;
-            if (!parseThresholdsFromConfig(*sensorData, sensorThresholds,
-                                           &labelHead))
+            bool thresholdsValid = parseThresholdsFromConfig(
+                *sensorData, sensorThresholds, &labelHead);
+            if (!thresholdsValid)
             {
                 lg2::error("error populating thresholds for '{NAME}'", "NAME",
                            sensorNameSubStr);
@@ -1105,6 +1111,22 @@ static void createSensorsCallback(
             // destruct existing one first if already created
 
             auto& sensor = sensors[sensorName];
+
+            // If the rescan only changed threshold values, update the
+            // existing sensor in place so that an alarm asserted against the
+            // old values can still be deasserted.
+            if (!firstScan && !activateOnly && sensor != nullptr &&
+                thresholdsValid && lastBaseConfig[sensorName] == *baseConfig &&
+                thresholds::updateThresholdsInPlace(sensor.get(),
+                                                    sensorThresholds))
+            {
+                lg2::debug("'{NAME}' thresholds updated in place", "NAME",
+                           sensorName);
+                continue;
+            }
+
+            lastBaseConfig[sensorName] = *baseConfig;
+
             if (!activateOnly)
             {
                 sensor = nullptr;

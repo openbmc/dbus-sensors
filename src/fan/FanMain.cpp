@@ -74,6 +74,11 @@ constexpr const char* redundancyConfiguration =
     "xyz.openbmc_project.Configuration.FanRedundancy";
 static std::regex inputRegex(R"(fan(\d+)_input)");
 
+// Base configuration as of the last time each sensor was created. Used to
+// tell a threshold-only change apart from a change that needs a new sensor.
+static boost::container::flat_map<std::string, SensorBaseConfigMap>
+    lastBaseConfig;
+
 // todo: power supply fan redundancy
 std::optional<RedundancySensor> systemRedundancy;
 
@@ -415,16 +420,17 @@ void createSensors(
 
             // on rescans, only update sensors we were signaled by
             auto findSensor = tachSensors.find(sensorName);
+            bool signaledExisting = false;
             if (!firstScan && findSensor != tachSensors.end())
             {
                 bool found = false;
                 for (auto it = sensorsChanged->begin();
                      it != sensorsChanged->end(); it++)
                 {
-                    if (it->ends_with(findSensor->second->name))
+                    if (findSensor->second &&
+                        it->ends_with(findSensor->second->name))
                     {
                         sensorsChanged->erase(it);
-                        findSensor->second = nullptr;
                         found = true;
                         break;
                     }
@@ -433,6 +439,7 @@ void createSensors(
                 {
                     continue;
                 }
+                signaledExisting = findSensor->second != nullptr;
             }
             std::vector<thresholds::Threshold> sensorThresholds;
             if (!parseThresholdsFromConfig(*sensorData, sensorThresholds))
@@ -440,6 +447,17 @@ void createSensors(
                 lg2::error("error populating thresholds for '{NAME}'", "NAME",
                            sensorName);
             }
+            else if (signaledExisting &&
+                     lastBaseConfig[sensorName] == baseConfiguration->second &&
+                     thresholds::updateThresholdsInPlace(
+                         findSensor->second.get(), sensorThresholds))
+            {
+                lg2::debug("'{NAME}' thresholds updated in place", "NAME",
+                           sensorName);
+                continue;
+            }
+
+            lastBaseConfig[sensorName] = baseConfiguration->second;
 
             auto presenceConfig =
                 sensorData->find(cfgIntf + std::string(".Presence"));
