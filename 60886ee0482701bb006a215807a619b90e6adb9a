@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d5145df_3ae0c324",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-09-21T05:03:01Z",
+      "side": 1,
+      "message": "These are queued rather than bursted (MctpRequester serializes per EID), and pacing is handled in https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/93643.",
+      "parentUuid": "9d299e6b_7d3ea467",
+      "range": {
+        "startLine": 647,
+        "startChar": 39,
+        "endLine": 647,
+        "endChar": 66
+      },
+      "revId": "60886ee0482701bb006a215807a619b90e6adb9a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "20e45563_587773f3",
@@ -37,6 +61,24 @@
       "writtenOn": "2026-09-18T05:00:14Z",
       "side": 1,
       "message": "Please validate the decoded supportedCounter bitmap against the port metric table before applying updates; otherwise sparse or unexpected bit positions can silently map to the wrong objects.\"",
+      "revId": "60886ee0482701bb006a215807a619b90e6adb9a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fd2436b_3da2d604",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 2160,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-09-21T05:03:01Z",
+      "side": 1,
+      "message": "Done. The decode now rejects a response whose bitmap claims a counter it does not carry.",
+      "parentUuid": "20e45563_587773f3",
       "revId": "60886ee0482701bb006a215807a619b90e6adb9a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
