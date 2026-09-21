@@ -93,6 +93,13 @@ void MctpRequester::startReceive()
 void MctpRequester::processRecvMsg(const boost::system::error_code& ec,
                                    const size_t length)
 {
+    processRecvMsgImpl(ec, length);
+    startReceive();
+}
+
+void MctpRequester::processRecvMsgImpl(const boost::system::error_code& ec,
+                                       const size_t length)
+{
     std::optional<uint8_t> expectedEid = recvEndPoint.eid();
     std::optional<uint8_t> receivedMsgType = recvEndPoint.type();
 
@@ -153,7 +160,6 @@ void MctpRequester::processRecvMsg(const boost::system::error_code& ec,
         }
 
         NvidiaEventHandler::handleEvent(eid, responseBuffer);
-        startReceive();
         return;
     }
 
