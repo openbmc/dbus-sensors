@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "767319b1_74485980",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 55
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 1001076
+      },
+      "writtenOn": "2026-09-21T03:24:08Z",
+      "side": 1,
+      "message": "It would be better to have the rootHubPosition detection after the SoC is detected.\nIn future if new SoC is added with different sysfs path, then rootHubPosition would be different for that SoC.",
+      "revId": "63e3bbd6a7c074ef533f26faa49dfe544c5eb358",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
