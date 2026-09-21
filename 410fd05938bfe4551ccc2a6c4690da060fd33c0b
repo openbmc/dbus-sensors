@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10c40fe3_baa69d09",
+        "filename": "src/amd-bulk-telemetry/AmdBulkSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-09-21T16:44:25Z",
+      "side": 1,
+      "message": "Can we use the sdbusplus::async support instead of boost?",
+      "revId": "410fd05938bfe4551ccc2a6c4690da060fd33c0b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
