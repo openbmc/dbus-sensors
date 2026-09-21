@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2c38960_cf541369",
+        "filename": "src/nvidia-gpu/LldpFrame.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-21T03:43:46Z",
+      "side": 1,
+      "message": "add name and link to standard that describes the wire format in commit message too.",
+      "revId": "3f33abaf1bf0db6d6e6646fcf9f87534f25b1de6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7ff58b7_8ecb8996",
+        "filename": "src/nvidia-gpu/LldpFrame.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-21T03:43:46Z",
+      "side": 1,
+      "message": "let\u0027s return `int` similar to other encode / decode function in this app.",
+      "range": {
+        "startLine": 373,
+        "startChar": 0,
+        "endLine": 373,
+        "endChar": 5
+      },
+      "revId": "3f33abaf1bf0db6d6e6646fcf9f87534f25b1de6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6a1e89e_fb35bf9d",
+        "filename": "src/nvidia-gpu/LldpFrame.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-21T03:43:46Z",
+      "side": 1,
+      "message": "nit: can this be const?",
+      "range": {
+        "startLine": 373,
+        "startChar": 36,
+        "endLine": 373,
+        "endChar": 39
+      },
+      "revId": "3f33abaf1bf0db6d6e6646fcf9f87534f25b1de6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b589e69_119f5302",
+        "filename": "src/nvidia-gpu/LldpFrame.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-09-21T03:43:46Z",
+      "side": 1,
+      "message": "nit: since this repo is not using namespaces, let\u0027s avoid using it here if it is not strictly necessary.",
+      "revId": "3f33abaf1bf0db6d6e6646fcf9f87534f25b1de6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
