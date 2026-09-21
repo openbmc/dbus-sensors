@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c00de4bd_6d4b1c31",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003004
+      },
+      "writtenOn": "2026-09-21T05:48:40Z",
+      "side": 1,
+      "message": "The commit message says missing Units should be skipped, but loadVariant(..., \"Units\") throws when the property is absent before this new check runs. Please handle the absent property before calling loadVariant().",
+      "revId": "8ebb60b032ee4303ac98a7b07820583f819374ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
