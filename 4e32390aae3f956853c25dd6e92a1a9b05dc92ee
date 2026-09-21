@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e07f288b_c004bb4d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003004
+      },
+      "writtenOn": "2026-09-21T06:27:23Z",
+      "side": 1,
+      "message": "LGTM. The trailing slash enables the intended arg0path subtree matching while preserving the inventory path boundary.",
+      "revId": "4e32390aae3f956853c25dd6e92a1a9b05dc92ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
