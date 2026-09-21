@@ -88,6 +88,7 @@ class MctpRequester
     std::optional<uint8_t> getNextIid(uint8_t eid);
     void startReceive();
     void processRecvMsg(const boost::system::error_code& ec, size_t length);
+    void processRecvMsgImpl(const boost::system::error_code& ec, size_t length);
     void handleSendMsgCompletion(uint8_t eid,
                                  const boost::system::error_code& ec,
                                  size_t length);
