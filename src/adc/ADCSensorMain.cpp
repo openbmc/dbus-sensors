@@ -59,6 +59,11 @@ static std::regex inputRegex(R"(in(\d+)_input)");
 
 static boost::container::flat_map<size_t, bool> cpuPresence;
 
+// Base configuration as of the last time each sensor was created. Used to
+// tell a threshold-only change apart from a change that needs a new sensor.
+static boost::container::flat_map<std::string, SensorBaseConfigMap>
+    lastBaseConfig;
+
 enum class UpdateType
 {
     init,
@@ -194,6 +199,7 @@ void createSensors(
 
                 // on rescans, only update sensors we were signaled by
                 auto findSensor = sensors.find(sensorName);
+                bool signaledExisting = false;
                 if (!firstScan && findSensor != sensors.end())
                 {
                     bool found = false;
@@ -204,7 +210,6 @@ void createSensors(
                             it->ends_with(findSensor->second->name))
                         {
                             sensorsChanged->erase(it);
-                            findSensor->second = nullptr;
                             found = true;
                             break;
                         }
@@ -213,6 +218,7 @@ void createSensors(
                     {
                         continue;
                     }
+                    signaledExisting = findSensor->second != nullptr;
                 }
 
                 auto findCPU = baseConfiguration->second.find("CPURequired");
@@ -241,6 +247,16 @@ void createSensors(
                     lg2::error("error populating thresholds for '{NAME}'",
                                "NAME", sensorName);
                 }
+                else if (signaledExisting &&
+                         lastBaseConfig[sensorName] ==
+                             baseConfiguration->second &&
+                         thresholds::updateThresholdsInPlace(
+                             findSensor->second.get(), sensorThresholds))
+                {
+                    lg2::debug("'{NAME}' thresholds updated in place", "NAME",
+                               sensorName);
+                    continue;
+                }
 
                 auto findScaleFactor =
                     baseConfiguration->second.find("ScaleFactor");
@@ -259,6 +275,8 @@ void createSensors(
                 float pollRate =
                     getPollRate(baseConfiguration->second, pollRateDefault);
                 PowerState readState = getPowerState(baseConfiguration->second);
+
+                lastBaseConfig[sensorName] = baseConfiguration->second;
 
                 auto& sensor = sensors[sensorName];
                 sensor = nullptr;

@@ -159,6 +159,13 @@ void persistThreshold(const std::string& path, const std::string& baseInterface,
                       size_t thresholdCount, const std::string& label);
 
 void updateThresholds(Sensor* sensor);
+
+// Apply a new threshold configuration to an existing sensor without
+// destroying it, so that alarms asserted against the previous values can
+// still be deasserted afterwards. Returns false if the change cannot be
+// applied in place, in which case the caller has to recreate the sensor.
+bool updateThresholdsInPlace(Sensor* sensor,
+                             std::vector<thresholds::Threshold> newThresholds);
 // returns false if a critical threshold has been crossed, true otherwise
 bool checkThresholds(Sensor* sensor);
 void checkThresholdsPowerDelay(const std::weak_ptr<Sensor>& weakSensor,
