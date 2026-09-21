@@ -16,6 +16,24 @@
       "message": "It would be better to have the rootHubPosition detection after the SoC is detected.\nIn future if new SoC is added with different sysfs path, then rootHubPosition would be different for that SoC.",
       "revId": "63e3bbd6a7c074ef533f26faa49dfe544c5eb358",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92de548b_8c45e066",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 55
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-09-21T05:54:45Z",
+      "side": 1,
+      "message": "Done. The SOC with different controller addresses only needs its own entry in rootHubsForSoc(). \nA position that names no controller on the SOC found now leaves the configuration unused rather than raising.",
+      "parentUuid": "767319b1_74485980",
+      "revId": "63e3bbd6a7c074ef533f26faa49dfe544c5eb358",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
