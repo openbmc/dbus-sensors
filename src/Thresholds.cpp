@@ -14,8 +14,10 @@
 #include <sdbusplus/exception.hpp>
 #include <sdbusplus/message.hpp>
 
+#include <algorithm>
 #include <array>
 #include <chrono>
+#include <cmath>
 #include <cstddef>
 #include <cstdint>
 #include <limits>
@@ -261,6 +263,71 @@ void updateThresholds(Sensor* sensor)
         }
         interface->set_property(property, threshold.value);
     }
+}
+
+bool updateThresholdsInPlace(Sensor* sensor,
+                             std::vector<thresholds::Threshold> newThresholds)
+{
+    fillMissingThresholds(newThresholds);
+
+    for (Threshold& newThreshold : newThresholds)
+    {
+        if (std::isnan(newThreshold.hysteresis))
+        {
+            newThreshold.hysteresis = sensor->hysteresisTrigger;
+        }
+    }
+
+    // The threshold property handlers registered by
+    // Sensor::setInitialProperties() capture references to the elements of
+    // sensor->thresholds, so the vector must not be resized or reallocated
+    // here. Only a change of values can be applied in place; adding or
+    // removing a threshold still requires a new Sensor.
+    if (newThresholds.size() != sensor->thresholds.size())
+    {
+        return false;
+    }
+
+    auto sameThreshold = [](const Threshold& lhs, const Threshold& rhs) {
+        return lhs.level == rhs.level && lhs.direction == rhs.direction;
+    };
+
+    for (const Threshold& newThreshold : newThresholds)
+    {
+        if (std::none_of(sensor->thresholds.begin(), sensor->thresholds.end(),
+                         [&](const Threshold& oldThreshold) {
+                             return sameThreshold(oldThreshold, newThreshold);
+                         }))
+        {
+            return false;
+        }
+    }
+
+    for (const Threshold& newThreshold : newThresholds)
+    {
+        auto oldThreshold =
+            std::find_if(sensor->thresholds.begin(), sensor->thresholds.end(),
+                         [&](const Threshold& candidate) {
+                             return sameThreshold(candidate, newThreshold);
+                         });
+        oldThreshold->value = newThreshold.value;
+        oldThreshold->hysteresis = newThreshold.hysteresis;
+        oldThreshold->writeable = newThreshold.writeable;
+    }
+
+    updateThresholds(sensor);
+
+    // A delayed evaluation started against the previous values would
+    // assert with a stale configuration once it expires.
+    sensor->cancelPendingThresholds();
+
+    // Re-evaluate the current reading against the new values, so that a
+    // threshold which is no longer crossed is deasserted instead of the
+    // assertion disappearing with the old Sensor object. The virtual is used
+    // so that per-sensor power state handling still applies.
+    sensor->checkThresholds();
+
+    return true;
 }
 
 // Debugging counters

@@ -92,6 +92,9 @@ struct Sensor
     }
     virtual ~Sensor() = default;
     virtual void checkThresholds() = 0;
+    // Cancel any delayed threshold evaluation still pending, so a timer
+    // started against a previous configuration cannot assert later.
+    virtual void cancelPendingThresholds() {}
     std::string name;
     std::string configurationPath;
     std::string configInterface;

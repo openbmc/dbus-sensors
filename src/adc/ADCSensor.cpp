@@ -260,3 +260,12 @@ void ADCSensor::checkThresholds()
 
     thresholds::checkThresholdsPowerDelay(weak_from_this(), thresholdTimer);
 }
+
+void ADCSensor::cancelPendingThresholds()
+{
+    for (const auto& threshold : thresholds)
+    {
+        thresholdTimer.stopTimer(threshold, true);
+        thresholdTimer.stopTimer(threshold, false);
+    }
+}
