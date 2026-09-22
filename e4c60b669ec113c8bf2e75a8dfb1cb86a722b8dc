@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "87d30a87_9a901354",
+        "filename": "src/nvidia-gpu/LldpFrame.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-09-22T06:42:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f148b72c_f75704b3",
+      "revId": "e4c60b669ec113c8bf2e75a8dfb1cb86a722b8dc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "53cf2e03_08437a06",
@@ -41,6 +59,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c076eec6_2893a3cc",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-09-22T06:42:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53cf2e03_08437a06",
+      "range": {
+        "startLine": 84,
+        "startChar": 68,
+        "endLine": 86,
+        "endChar": 24
+      },
+      "revId": "e4c60b669ec113c8bf2e75a8dfb1cb86a722b8dc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "79bbb3a3_c4b81585",
@@ -54,6 +96,24 @@
       "writtenOn": "2026-09-21T05:01:28Z",
       "side": 1,
       "message": "Let\u0027s put the discovery of the LLDP support in `src/nvidia-gpu/NvidiaPcieDevice.cpp` similar to what we have for PCIe port discovery. This file should unconditionally create objects on D-Bus.",
+      "revId": "e4c60b669ec113c8bf2e75a8dfb1cb86a722b8dc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0c5cf98_599818ae",
+        "filename": "src/nvidia-gpu/NvidiaLldpConfiguration.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-09-22T06:42:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79bbb3a3_c4b81585",
       "revId": "e4c60b669ec113c8bf2e75a8dfb1cb86a722b8dc",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
