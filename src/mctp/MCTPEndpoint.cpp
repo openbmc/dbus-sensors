@@ -582,10 +582,27 @@ static std::span<const std::string_view> rootHubsForSoc(
         "/sys/devices/platform/ahb/1e6a1000.usb",
         "/sys/devices/platform/ahb/1e6a3000.usb"};
 
+    // The AST2750 is the AST2700 with the same controller addresses.
+    static constexpr std::array<std::string_view, 8> ast2700RootHubs = {
+        "/sys/devices/platform/soc@10000000/12030000.usb",
+        "/sys/devices/platform/soc@10000000/12040000.usb",
+        "/sys/devices/platform/soc@10000000/12050000.usb",
+        "/sys/devices/platform/soc@10000000/12061000.usb",
+        "/sys/devices/platform/soc@10000000/12063000.usb",
+        "/sys/devices/platform/soc@14000000/14110000.usb",
+        "/sys/devices/platform/soc@14000000/14121000.usb",
+        "/sys/devices/platform/soc@14000000/14123000.usb",
+    };
+
     if (socFamily.find("AST2600") != std::string::npos ||
         socFamily.find("AST2620") != std::string::npos)
     {
         return ast2600RootHubs;
+    }
+    if (socFamily.find("AST2700") != std::string::npos ||
+        socFamily.find("AST2750") != std::string::npos)
+    {
+        return ast2700RootHubs;
     }
 
     return {};
