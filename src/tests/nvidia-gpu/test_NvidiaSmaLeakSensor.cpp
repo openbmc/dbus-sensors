@@ -535,7 +535,7 @@ TEST_F(NvidiaSmaLeakSensorTest, WriteReachesTheDeviceInWireOrder)
         pumpIoUntil([&request] { return !request.empty(); }, dispatchTimeout));
     ASSERT_EQ(request.size(), gpu::setLeakDetectionThresholdsRequestSize);
     EXPECT_THAT(thresholdsInRequest(request),
-                testing::ElementsAre(minLeakMv, 1400, maxNormalMv));
+                testing::ElementsAre(minLeakMv + 1, 1400, maxNormalMv + 1));
 }
 
 TEST_F(NvidiaSmaLeakSensorTest, WriteThatCrossesTheThresholdsIsRefused)
@@ -583,7 +583,7 @@ TEST_F(NvidiaSmaLeakSensorTest, WriteCarriesTheThresholdsLastRequested)
     ASSERT_TRUE(
         pumpIoUntil([&first] { return !first.empty(); }, dispatchTimeout));
     EXPECT_THAT(thresholdsInRequest(first),
-                testing::ElementsAre(minLeakMv, 1400, maxNormalMv));
+                testing::ElementsAre(minLeakMv + 1, 1400, maxNormalMv + 1));
 
     EXPECT_FALSE(setProperty<double>(
         path, "xyz.openbmc_project.Sensor.Threshold.Warning", "WarningLow",
@@ -592,7 +592,7 @@ TEST_F(NvidiaSmaLeakSensorTest, WriteCarriesTheThresholdsLastRequested)
         pumpIoUntil([&second] { return !second.empty(); }, dispatchTimeout));
 
     EXPECT_THAT(thresholdsInRequest(second),
-                testing::ElementsAre(minLeakMv, 1400, maxNormalMv));
+                testing::ElementsAre(minLeakMv + 1, 1400, maxNormalMv + 1));
 }
 
 TEST_F(NvidiaSmaLeakSensorTest, WriteLeavesTheThresholdsItDoesNotName)
@@ -628,7 +628,7 @@ TEST_F(NvidiaSmaLeakSensorTest, WriteLeavesTheThresholdsItDoesNotName)
         pumpIoUntil([&second] { return !second.empty(); }, dispatchTimeout));
 
     EXPECT_THAT(thresholdsInRequest(second),
-                testing::ElementsAre(minLeakMv, 1400, maxNormalMv + 100));
+                testing::ElementsAre(minLeakMv + 1, 1400, maxNormalMv + 100));
 }
 
 TEST_F(NvidiaSmaLeakSensorTest, SetIsFollowedByAReadingRightAway)
@@ -662,7 +662,7 @@ TEST_F(NvidiaSmaLeakSensorTest, SetIsFollowedByAReadingRightAway)
     ASSERT_TRUE(
         pumpIoUntil([&second] { return !second.empty(); }, dispatchTimeout));
     EXPECT_THAT(thresholdsInRequest(second),
-                testing::ElementsAre(200, 1400, maxNormalMv));
+                testing::ElementsAre(200, 1400, maxNormalMv + 1));
 }
 
 TEST_F(NvidiaSmaLeakSensorTest, RejectedWriteDoesNotWedgeTheGate)
@@ -691,7 +691,7 @@ TEST_F(NvidiaSmaLeakSensorTest, RejectedWriteDoesNotWedgeTheGate)
     ASSERT_TRUE(pumpIoUntil([&rejected] { return !rejected.empty(); },
                             dispatchTimeout));
     EXPECT_THAT(thresholdsInRequest(rejected),
-                testing::ElementsAre(200, maxLeakMv, maxNormalMv));
+                testing::ElementsAre(200, maxLeakMv + 1, maxNormalMv + 1));
 
     EXPECT_FALSE(setProperty<double>(
         path, "xyz.openbmc_project.Sensor.Threshold.Warning", "WarningLow",
@@ -699,7 +699,7 @@ TEST_F(NvidiaSmaLeakSensorTest, RejectedWriteDoesNotWedgeTheGate)
     ASSERT_TRUE(
         pumpIoUntil([&next] { return !next.empty(); }, dispatchTimeout));
     EXPECT_THAT(thresholdsInRequest(next),
-                testing::ElementsAre(minLeakMv, 1400, maxNormalMv));
+                testing::ElementsAre(minLeakMv + 1, 1400, maxNormalMv + 1));
 }
 
 TEST_F(NvidiaSmaLeakSensorTest, WritesInOneBurstBecomeOneRequest)
@@ -727,7 +727,7 @@ TEST_F(NvidiaSmaLeakSensorTest, WritesInOneBurstBecomeOneRequest)
     ASSERT_TRUE(
         pumpIoUntil([&request] { return !request.empty(); }, dispatchTimeout));
     EXPECT_THAT(thresholdsInRequest(request),
-                testing::ElementsAre(200, 1400, maxNormalMv));
+                testing::ElementsAre(200, 1400, maxNormalMv + 1));
 }
 
 TEST_F(NvidiaSmaLeakSensorTest, FailedReadingDoesNotWedgeTheGate)

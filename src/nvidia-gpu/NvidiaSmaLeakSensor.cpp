@@ -440,7 +440,13 @@ void NvidiaSmaLeakSensor::updateThresholds(
 
     if (!thresholdsKnown)
     {
-        std::ranges::copy(reported, requestedThresholds.begin());
+        // The device stores each threshold 1 mV below the value written,
+        // so the reported value is (written − 1).  Seed requestedThresholds
+        // with (reported + 1) so that re-sending an unchanged slot on the
+        // first user-initiated write reproduces the value the device holds
+        // rather than lowering it by 1 mV.
+        std::ranges::transform(reported, requestedThresholds.begin(),
+                               [](uint16_t v) -> uint16_t { return v + 1; });
     }
 
     std::ranges::copy(reported, deviceThresholds.begin());
