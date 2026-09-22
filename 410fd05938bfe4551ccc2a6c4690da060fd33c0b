@@ -16,6 +16,24 @@
       "message": "Can we use the sdbusplus::async support instead of boost?",
       "revId": "410fd05938bfe4551ccc2a6c4690da060fd33c0b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a21d897d_5c8b8773",
+        "filename": "src/amd-bulk-telemetry/AmdBulkSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002734
+      },
+      "writtenOn": "2026-09-22T03:48:19Z",
+      "side": 1,
+      "message": "MctpRequester (shared with nvidia-gpu) is boost::asio throughout, so\nreusing it means keeping this daemon on boost.\n\nOr should we drop the shared MCTP change [1] and give this daemon its own\nasync transport? nvidia-gpu would stay unchanged, and could adopt it\nlater if sharing turns out to be worth it.\n\n[1] https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/94478",
+      "parentUuid": "10c40fe3_baa69d09",
+      "revId": "410fd05938bfe4551ccc2a6c4690da060fd33c0b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
