@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "293f99e5_6cd26477",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 1002484
+      },
+      "writtenOn": "2026-09-22T09:28:21Z",
+      "side": 1,
+      "message": "Added a fan run to Tested. With the alarm asserted, the threshold is restored through entity-manager so only the rescan path is involved. The sensor is kept (no InterfacesRemoved/InterfacesAdded) and the alarm is deasserted, whereas before this change it never was.",
+      "parentUuid": "80f14b9f_f8b8333f",
+      "range": {
+        "startLine": 450,
+        "startChar": 21,
+        "endLine": 450,
+        "endChar": 37
+      },
+      "revId": "f8ade809817d1d60c3e4fcbd6fb5e7a33c4f7090",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de4cec2a_abb79226",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-09-21T11:26:23Z",
       "side": 1,
       "message": "Please add coverage for threshold-only hwmon rescans, including re-evaluation of an already asserted alarm.",
+      "range": {
+        "startLine": 441,
+        "startChar": 21,
+        "endLine": 441,
+        "endChar": 23
+      },
+      "revId": "f8ade809817d1d60c3e4fcbd6fb5e7a33c4f7090",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "650e8204_a868e521",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1002484
+      },
+      "writtenOn": "2026-09-22T09:28:21Z",
+      "side": 1,
+      "message": "Added a hwmon-temp run to Tested using the same entity-manager flow, so only the rescan path can re-evaluate the already asserted alarm. The sensor is kept and the alarm deasserts; before this change the sensor was recreated and no deassert was emitted.",
+      "parentUuid": "de4cec2a_abb79226",
       "range": {
         "startLine": 441,
         "startChar": 21,
