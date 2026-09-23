@@ -16,6 +16,24 @@
       "message": "Updating the threshold does not cancel an existing delayed timer, so it can later emit a stale assertion using the old configuration. Please invalidate pending timers for the affected threshold before calling checkThresholds().",
       "revId": "8fab02e91af28d65196d88384cb57d76325d9b3d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "116b62ea_3a1db67f",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1002484
+      },
+      "writtenOn": "2026-09-23T06:15:36Z",
+      "side": 1,
+      "message": "UpdateThresholdsInPlace() calls a new virtual Sensor::cancelPendingThresholds() before re-evaluating, which the ADC and PSU sensors[1] override to stop any pending ThresholdTimer, so a timer started against the previous values can no longer assert afterwards.\n\n[1]: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/94725",
+      "parentUuid": "c2cc311a_0723c4b1",
+      "revId": "8fab02e91af28d65196d88384cb57d76325d9b3d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
