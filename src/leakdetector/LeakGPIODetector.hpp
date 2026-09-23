@@ -89,8 +89,8 @@ struct DetectorConfig
 class GPIODetector : public DetectorIntf
 {
   public:
-    explicit GPIODetector(sdbusplus::async::context& ctx, Events& leakEvents,
-                          const config::DetectorConfig& config);
+    GPIODetector(sdbusplus::async::context& ctx, Events& leakEvents,
+                 const config::DetectorConfig& config);
 
     auto createAssociations() -> void;
 

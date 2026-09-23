@@ -46,15 +46,15 @@ GPIODetector::GPIODetector(sdbusplus::async::context& ctx, Events& leakEvents,
     DetectorIntf(ctx, getObjectPath(config.name),
                  DetectorIntf::Definitions::properties_t{},
                  DetectorIntf::Detector::properties_t{
-                     config.name, DetectorState::Normal, config.type}),
+                     config.name, DetectorState::Normal, config.type},
+                 DetectorIntf::signal_action::defer_emit),
     ctx(ctx), leakEvents(leakEvents), config(config),
     gpioInterface(ctx, config.name, config.pinName,
                   (config.polarity == config::PinPolarity::activeLow),
                   std::bind_front(&GPIODetector::updateGPIOStateAsync, this))
 {
-    Detector::emit_added();
-
     createAssociations();
+    DetectorIntf::emit_object_added();
 
     ctx.spawn(gpioInterface.start());
 
@@ -73,8 +73,6 @@ auto GPIODetector::createAssociations() -> void
     associationList.emplace_back(association);
 
     associations(associationList);
-
-    Definitions::emit_added();
 }
 
 auto GPIODetector::updateGPIOStateAsync(bool gpioState)
