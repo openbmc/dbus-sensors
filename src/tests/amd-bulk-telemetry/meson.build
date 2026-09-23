@@ -4,8 +4,10 @@ test(
     'AmdBulkTelemetry',
     executable(
         'test_AmdBulkTelemetry',
+        'test_BulkTelemetryCommands.cpp',
         'test_BulkTelemetryMessage.cpp',
         files(
+            amd_bulk_telemetry_dir / 'BulkTelemetryCommands.cpp',
             amd_bulk_telemetry_dir / 'BulkTelemetryMessage.cpp',
             amd_bulk_telemetry_dir / 'OcpVdmIana.cpp',
         ),

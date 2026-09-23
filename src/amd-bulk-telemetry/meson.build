@@ -1,4 +1,5 @@
 amd_bulk_telemetry_sources = files(
+    'BulkTelemetryCommands.cpp',
     'BulkTelemetryMessage.cpp',
     'OcpVdmIana.cpp',
 )
