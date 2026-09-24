@@ -56,6 +56,30 @@
       },
       "revId": "327a4afced37f04752dd5d2a3ce6332afc306c82",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "726c575d_cdfff790",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1002711
+      },
+      "writtenOn": "2026-09-24T09:01:11Z",
+      "side": 1,
+      "message": "Thanks for comment.\nI think this another topic.\nMaybe someone can upstream this.",
+      "parentUuid": "2cce820b_48e4276b",
+      "range": {
+        "startLine": 158,
+        "startChar": 32,
+        "endLine": 158,
+        "endChar": 40
+      },
+      "revId": "327a4afced37f04752dd5d2a3ce6332afc306c82",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
