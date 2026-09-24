@@ -33,6 +33,29 @@
       "message": "LGTM",
       "revId": "327a4afced37f04752dd5d2a3ce6332afc306c82",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cce820b_48e4276b",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-09-24T06:14:52Z",
+      "side": 1,
+      "message": "Could we add an integration check or document that the kernel drivers expose the exact hwmon names tda38725 and tda38740? This whitelist performs an exact runtime name match, so any naming mismatch would cause the PSU sensors to be skipped silently.",
+      "range": {
+        "startLine": 158,
+        "startChar": 32,
+        "endLine": 158,
+        "endChar": 40
+      },
+      "revId": "327a4afced37f04752dd5d2a3ce6332afc306c82",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
