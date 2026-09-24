@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c097855_4b067839",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002135
+      },
+      "writtenOn": "2026-09-24T08:04:08Z",
+      "side": 1,
+      "message": "Thanks for the information, closing this since [76613] is now abandoned.\n\n[76613]: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/76613",
+      "parentUuid": "0ccc1b6f_ea18248a",
+      "revId": "4535998590234969adb4ad58c1fb89d1ffaaf006",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b1c3c49_4a8a1eae",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-07-27T18:32:41Z",
       "side": 1,
       "message": "Does the static EID come from an EM config?",
+      "revId": "4535998590234969adb4ad58c1fb89d1ffaaf006",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0ec6777_5c1ee9bf",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1002135
+      },
+      "writtenOn": "2026-09-24T08:04:08Z",
+      "side": 1,
+      "message": "Yes — from StaticEndpointID on an MCTPI2CTarget/MCTPI3CTarget record, defined in [94238]\n\n[94238]: https://gerrit.openbmc.org/c/openbmc/entity-manager/+/94238",
+      "parentUuid": "6b1c3c49_4a8a1eae",
       "revId": "4535998590234969adb4ad58c1fb89d1ffaaf006",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -52,6 +88,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e172c9e_ad18816f",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1002135
+      },
+      "writtenOn": "2026-09-24T08:04:08Z",
+      "side": 1,
+      "message": "No — this change is only for a target with its own address on a BMC-attached I2C/I3C bus. `AssignEndpointStatic` fails if the same physical address already has a different EID assigned, which is exactly the shape a bridge and the devices behind it take, so it can\u0027t express those. Endpoints reached through a bridge are a separate case, now handled by [94538] via `MCTPRoutedEndpoint` + `Network1.LearnEndpoint`. I\u0027ve reworded the commit message to make that split explicit.\n\n[94538]: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/94538",
+      "parentUuid": "ba5080a0_a70b0a3f",
+      "revId": "4535998590234969adb4ad58c1fb89d1ffaaf006",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e9ca0d57_69597a63",
@@ -65,6 +119,24 @@
       "writtenOn": "2025-07-27T18:32:41Z",
       "side": 1,
       "message": "Has the patch been tested on I2C and I3C endpoints? Bridges? Please add details.",
+      "revId": "4535998590234969adb4ad58c1fb89d1ffaaf006",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c2c406b_77ed8e23",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1002135
+      },
+      "writtenOn": "2026-09-24T08:04:08Z",
+      "side": 1,
+      "message": "Added to the commit message: unit tests now cover absent/numeric/decimal/hexadecimal/malformed/reserved/out-of-range `StaticEndpointID` values. On real Yosemite 4 hardware (I3C), mctpreactor assigned all eight direct Sentinel Dome endpoints their configured EIDs (10 through 80) and created the expected `configured_by` associations; EID 10 was recreated correctly after `Endpoint1.Remove`. I haven\u0027t had an I2C target with `StaticEndpointID` to test against — happy to if you know of one in-tree. Bridged endpoints are out of scope for this change; they\u0027re covered (and tested) separately in [94538].\n\n[94538]: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/94538",
+      "parentUuid": "e9ca0d57_69597a63",
       "revId": "4535998590234969adb4ad58c1fb89d1ffaaf006",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
