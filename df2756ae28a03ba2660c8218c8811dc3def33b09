@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88004238_a51adb26",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-09-28T10:48:52Z",
+      "side": 1,
+      "message": "Consider testing that a configured EID selects AssignEndpointStatic and an absent EID retains AssignEndpoint; current unit tests cover parsing, not dispatch.",
+      "revId": "df2756ae28a03ba2660c8218c8811dc3def33b09",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
