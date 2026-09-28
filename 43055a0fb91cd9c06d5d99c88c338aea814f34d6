@@ -36,6 +36,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dcb9e099_8a3014d4",
+        "filename": "src/intrusion/ChassisIntrusionSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-09-28T10:34:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27ad803f_30251b3d",
+      "revId": "43055a0fb91cd9c06d5d99c88c338aea814f34d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e2992fdc_b0603a2a",
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "“The guard now logs close() failures, matching the destructor’s behavior.”",
       "parentUuid": "e2992fdc_b0603a2a",
+      "revId": "43055a0fb91cd9c06d5d99c88c338aea814f34d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68d204cb_cd4fc020",
+        "filename": "src/intrusion/ChassisIntrusionSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-09-28T10:34:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03a3699d_1517099d",
       "revId": "43055a0fb91cd9c06d5d99c88c338aea814f34d6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -106,6 +142,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9ca2ba4_0404a3f7",
+        "filename": "src/intrusion/ChassisIntrusionSensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-09-28T10:34:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4fc9ce3e_a0cfc854",
+      "revId": "43055a0fb91cd9c06d5d99c88c338aea814f34d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cbc16a98_5bcc21ad",
@@ -137,6 +191,24 @@
       "side": 1,
       "message": "“Removed this test along with the unrelated hwmon change. It only tested generic fstream behavior, not the sensor implementation.”",
       "parentUuid": "cbc16a98_5bcc21ad",
+      "revId": "43055a0fb91cd9c06d5d99c88c338aea814f34d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5213c5ac_0098a419",
+        "filename": "src/tests/test_Utils.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-09-28T10:34:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0471895e_35abd9fc",
       "revId": "43055a0fb91cd9c06d5d99c88c338aea814f34d6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
