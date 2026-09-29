@@ -16,6 +16,24 @@
       "message": "Consider testing that a configured EID selects AssignEndpointStatic and an absent EID retains AssignEndpoint; current unit tests cover parsing, not dispatch.",
       "revId": "df2756ae28a03ba2660c8218c8811dc3def33b09",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcc705bb_0f693afc",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1002135
+      },
+      "writtenOn": "2026-09-29T08:16:16Z",
+      "side": 1,
+      "message": "Good catch. Worth noting setup() has never had dispatch-level test coverage, even before this patch — the original unconditional AssignEndpoint call was untested too, only match()/from() are.\n\nGiven that, I think it makes more sense to add that baseline test as its own patch ahead of this one, then have this patch extend the same coverage to the AssignEndpointStatic branch — rather than introducing dispatch testing for the first time inside a change that\u0027s also adding new behavior. Would that split work for you, or would you rather see it handled differently?",
+      "parentUuid": "88004238_a51adb26",
+      "revId": "df2756ae28a03ba2660c8218c8811dc3def33b09",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
