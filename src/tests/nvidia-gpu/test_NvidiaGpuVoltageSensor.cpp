@@ -146,6 +146,21 @@ TEST_F(NvidiaGpuVoltageSensorTest, UpdateSuccessTwiceOverwritesValue)
     EXPECT_DOUBLE_EQ(sensor->value, 5.0);
 }
 
+TEST_F(NvidiaGpuVoltageSensorTest, UpdateNoReadingClearsValue)
+{
+    EXPECT_CALL(mctpMock, sendRecvMsg)
+        .WillOnce(mock_mctp::respondWith({}, buildVoltageResponse(12000000)))
+        .WillOnce(mock_mctp::respondWith({}, buildVoltageResponse(0xFFFFFFFF)));
+
+    const std::shared_ptr<NvidiaGpuVoltageSensor> sensor =
+        createSensor(gpuVoltageSensorId, "volt_no_reading");
+    sensor->update();
+    EXPECT_DOUBLE_EQ(sensor->value, 12.0);
+
+    sensor->update();
+    EXPECT_TRUE(std::isnan(sensor->value));
+}
+
 // Update — error handling
 
 TEST_F(NvidiaGpuVoltageSensorTest, UpdateMctpTransportError)

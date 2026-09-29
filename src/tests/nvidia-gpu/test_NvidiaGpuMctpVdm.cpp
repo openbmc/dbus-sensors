@@ -12,6 +12,7 @@
 #include <array>
 #include <bit>
 #include <cerrno>
+#include <cmath>
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
@@ -772,6 +773,35 @@ TEST_F(GpuMctpVdmTests, DecodeGetTemperatureReadingResponseSuccess)
     EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
     EXPECT_EQ(reasonCode, 0);
     EXPECT_NEAR(temperatureReading, 75.5, 0.01);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetTemperatureReadingResponseNoReading)
+{
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 4,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(gpu::PlatformEnvironmentalCommands::
+                                       GET_TEMPERATURE_READING)); // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));   // CC
+    pbuf.pack(static_cast<uint16_t>(0));                          // reserved
+    pbuf.pack(static_cast<uint16_t>(sizeof(int32_t)));            // data_size
+    pbuf.pack(static_cast<uint32_t>(0xFFFFFFFF));
+    ASSERT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    double temperatureReading{};
+
+    int result = gpu::decodeGetTemperatureReadingResponse(
+        buf, cc, reasonCode, temperatureReading);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_TRUE(std::isnan(temperatureReading));
 }
 
 TEST_F(GpuMctpVdmTests, DecodeGetTemperatureReadingResponseError)

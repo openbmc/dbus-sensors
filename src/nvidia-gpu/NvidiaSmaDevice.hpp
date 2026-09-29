@@ -6,7 +6,9 @@
 #pragma once
 
 #include "MctpRequester.hpp"
+#include "NvidiaGpuPowerSensor.hpp"
 #include "NvidiaGpuTempSensor.hpp"
+#include "NvidiaGpuVoltageSensor.hpp"
 #include "NvidiaSensorConfig.hpp"
 #include "NvidiaSmaLeakSensor.hpp"
 
@@ -20,11 +22,34 @@
 #include <cstdint>
 #include <memory>
 #include <string>
+#include <vector>
+
+enum class SmaSensorKind
+{
+    Temperature,
+    Power,
+    Voltage,
+};
+
+struct SmaSensorConfig
+{
+    SmaSensorKind kind{};
+    uint8_t id{};
+    std::string name;
+};
+
+// Only an SMA lists its sensors, so they are kept apart from the settings
+// every device shares.
+struct SmaDeviceConfigs
+{
+    std::vector<SmaSensorConfig> sensors;
+};
 
 class SmaDevice : public std::enable_shared_from_this<SmaDevice>
 {
   public:
     SmaDevice(const NvidiaMctpVdmConfig& config,
+              const SmaDeviceConfigs& smaConfig,
               const std::shared_ptr<sdbusplus::asio::connection>& conn,
               uint8_t eid, boost::asio::io_context& io,
               mctp::MctpRequester& mctpRequester,
@@ -52,6 +77,8 @@ class SmaDevice : public std::enable_shared_from_this<SmaDevice>
   private:
     void makeSensors();
 
+    void publishSensor(const SmaSensorConfig& sensor);
+
     void initLeakSensors();
 
     void processLeakSensorsResponse(const std::error_code& ec,
@@ -67,11 +94,15 @@ class SmaDevice : public std::enable_shared_from_this<SmaDevice>
 
     void readPriority();
 
+    void readRoundRobin();
+
     uint8_t eid{};
 
     std::chrono::milliseconds sensorPollMs;
 
     boost::asio::steady_timer waitTimerPriority;
+
+    boost::asio::steady_timer waitTimerRoundRobin;
 
     mctp::MctpRequester& mctpRequester;
 
@@ -79,7 +110,11 @@ class SmaDevice : public std::enable_shared_from_this<SmaDevice>
 
     sdbusplus::asio::object_server& objectServer;
 
-    std::shared_ptr<NvidiaGpuTempSensor> tempSensor;
+    std::vector<std::shared_ptr<NvidiaGpuTempSensor>> tempSensors;
+
+    std::vector<std::shared_ptr<NvidiaGpuPowerSensor>> powerSensors;
+
+    std::vector<std::shared_ptr<NvidiaGpuVoltageSensor>> voltageSensors;
 
     std::vector<std::shared_ptr<NvidiaSmaLeakSensor>> leakSensors;
 
@@ -90,6 +125,8 @@ class SmaDevice : public std::enable_shared_from_this<SmaDevice>
     std::shared_ptr<sdbusplus::asio::dbus_interface> itemInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> operationalStatusInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> associationInterface;
+
+    SmaDeviceConfigs smaConfig;
 
     std::string name;
 
