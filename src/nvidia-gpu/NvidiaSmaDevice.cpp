@@ -20,6 +20,7 @@
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/message/native_types.hpp>
 
+#include <algorithm>
 #include <array>
 #include <chrono>
 #include <cstdint>
@@ -31,15 +32,52 @@
 #include <utility>
 #include <vector>
 
-SmaDevice::SmaDevice(const EntityDeviceConfig& config,
-                     const std::shared_ptr<sdbusplus::asio::connection>& conn,
-                     uint8_t eid, boost::asio::io_context& io,
-                     mctp::MctpRequester& mctpRequester,
-                     sdbusplus::asio::object_server& objectServer) :
+// What each temperature sensor id stands for, from the sensor table for VR
+// products in the NSM MCU usage specification.
+static constexpr auto temperatureSensorNames =
+    std::to_array<std::pair<uint8_t, const char*>>({
+        {16, "SMA_Ext"},
+        {17, "SMA_Internal"},
+        {18, "NvLink"},
+        {19, "BusBar"},
+        {138, "GPU1_Die_A"},
+        {139, "GPU1_Die_B"},
+        {140, "GPU2_Die_A"},
+        {141, "GPU2_Die_B"},
+        {144, "PCB_1"},
+        {145, "PCB_2"},
+        {168, "HSCC"},
+        {192, "HSC"},
+        {216, "CPU1_Die"},
+        {217, "CPU1_SoC"},
+        {218, "CPU2_Die"},
+        {219, "CPU2_SoC"},
+    });
+
+static std::string temperatureSensorName(const std::string& deviceName,
+                                         uint8_t sensorId)
+{
+    const auto* const named =
+        std::ranges::find(temperatureSensorNames, sensorId,
+                          &std::pair<uint8_t, const char*>::first);
+
+    if (named == temperatureSensorNames.end())
+    {
+        return std::format("{}_TEMP_{}", deviceName, sensorId);
+    }
+
+    return std::format("{}_{}", deviceName, named->second);
+}
+
+SmaDevice::SmaDevice(
+    const EntityDeviceConfig& config, const SmaDeviceConfigs& smaConfig,
+    const std::shared_ptr<sdbusplus::asio::connection>& conn, uint8_t eid,
+    boost::asio::io_context& io, mctp::MctpRequester& mctpRequester,
+    sdbusplus::asio::object_server& objectServer) :
     eid(eid), sensorPollMs(std::chrono::milliseconds{config.pollRate}),
     waitTimer(io, std::chrono::steady_clock::duration(0)),
     mctpRequester(mctpRequester), conn(conn), objectServer(objectServer),
-    name(escapeName(config.name)), path(config.path)
+    smaConfig(smaConfig), name(escapeName(config.name)), path(config.path)
 {}
 
 void SmaDevice::init()
@@ -50,10 +88,13 @@ void SmaDevice::init()
 
 void SmaDevice::makeSensors()
 {
-    tempSensor = std::make_shared<NvidiaGpuTempSensor>(
-        conn, mctpRequester, name + "_TEMP_0", path, eid, smaTempSensorId,
-        objectServer, std::vector<thresholds::Threshold>{},
-        gpu::DeviceIdentification::DEVICE_SMA);
+    for (const uint8_t sensorId : smaConfig.temperatureSensorIds)
+    {
+        tempSensors.emplace_back(std::make_shared<NvidiaGpuTempSensor>(
+            conn, mctpRequester, temperatureSensorName(name, sensorId), path,
+            eid, sensorId, objectServer, std::vector<thresholds::Threshold>{},
+            gpu::DeviceIdentification::DEVICE_SMA));
+    }
 
     initLeakSensors();
 
@@ -112,28 +153,37 @@ void SmaDevice::setOffline()
 {
     setFunctional(false);
     waitTimer.cancel();
-    tempSensor->markFunctional(false);
+    for (auto& sensor : tempSensors)
+    {
+        sensor->markFunctional(false);
+    }
 }
 
 void SmaDevice::setOnline()
 {
     setFunctional(true);
-    tempSensor->markFunctional(true);
+    for (auto& sensor : tempSensors)
+    {
+        sensor->markFunctional(true);
+    }
     read();
 }
 
 void SmaDevice::setEid(uint8_t newEid)
 {
     eid = newEid;
-    if (tempSensor)
+    for (auto& sensor : tempSensors)
     {
-        tempSensor->setEid(newEid);
+        sensor->setEid(newEid);
     }
 }
 
 void SmaDevice::read()
 {
-    tempSensor->update();
+    for (auto& sensor : tempSensors)
+    {
+        sensor->update();
+    }
 
     for (auto& sensor : leakSensors)
     {

@@ -115,7 +115,8 @@ class DeviceManager
     // What the record a device was paired with says about it. Public because
     // the search that pairs them is a free function, not a member.
     using ConfigPathHandler = std::function<void(
-        const EntityDeviceConfig& config, const PcieDeviceConfigs& pcieConfig)>;
+        const EntityDeviceConfig& config, const PcieDeviceConfigs& pcieConfig,
+        const SmaDeviceConfigs& smaConfig)>;
 
   private:
     // Pair a device with the configuration its board exposes for it. A
@@ -129,7 +130,7 @@ class DeviceManager
                                 const ConfigPathHandler& done);
     void queryDevicesForEndpoint(
         const EntityDeviceConfig& config, const PcieDeviceConfigs& pcieConfig,
-        const std::string& boardName,
+        const SmaDeviceConfigs& smaConfig, const std::string& boardName,
         const sdbusplus::object_path& mctpObjectPath, uint8_t eid,
         const std::optional<std::pair<uint8_t, uint8_t>>& bridgePool,
         const std::vector<BridgedEndpoint>& bridgedEndpoints);
@@ -138,10 +139,12 @@ class DeviceManager
     // object that the removal and recovery handling keys on.
     void queryDeviceIdentification(const EntityDeviceConfig& config,
                                    const PcieDeviceConfigs& pcieConfig,
+                                   const SmaDeviceConfigs& smaConfig,
                                    const sdbusplus::object_path& mctpObjectPath,
                                    uint8_t eid, bool isEndpointItself);
     void processQueryDeviceIdResponse(
         const EntityDeviceConfig& config, const PcieDeviceConfigs& pcieConfig,
+        const SmaDeviceConfigs& smaConfig,
         const sdbusplus::object_path& mctpObjectPath, uint8_t eid,
         bool isEndpointItself, const std::error_code& sendRecvMsgResult,
         std::span<const uint8_t> queryDeviceIdentificationResponse);
