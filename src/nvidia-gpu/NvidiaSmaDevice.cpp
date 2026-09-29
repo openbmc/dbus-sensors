@@ -5,7 +5,9 @@
 
 #include "NvidiaSmaDevice.hpp"
 
+#include "NvidiaGpuPowerSensor.hpp"
 #include "NvidiaGpuTempSensor.hpp"
+#include "NvidiaGpuVoltageSensor.hpp"
 #include "NvidiaSensorConfig.hpp"
 #include "NvidiaSmaLeakSensor.hpp"
 #include "Thresholds.hpp"
@@ -31,15 +33,15 @@
 #include <utility>
 #include <vector>
 
-SmaDevice::SmaDevice(const NvidiaMctpVdmConfig& config,
-                     const std::shared_ptr<sdbusplus::asio::connection>& conn,
-                     uint8_t eid, boost::asio::io_context& io,
-                     mctp::MctpRequester& mctpRequester,
-                     sdbusplus::asio::object_server& objectServer) :
+SmaDevice::SmaDevice(
+    const NvidiaMctpVdmConfig& config, const SmaDeviceConfigs& smaConfig,
+    const std::shared_ptr<sdbusplus::asio::connection>& conn, uint8_t eid,
+    boost::asio::io_context& io, mctp::MctpRequester& mctpRequester,
+    sdbusplus::asio::object_server& objectServer) :
     eid(eid), sensorPollMs(std::chrono::milliseconds{config.pollRate}),
     waitTimer(io, std::chrono::steady_clock::duration(0)),
     mctpRequester(mctpRequester), conn(conn), objectServer(objectServer),
-    name(escapeName(config.name)), path(config.path)
+    smaConfig(smaConfig), name(escapeName(config.name)), path(config.path)
 {}
 
 void SmaDevice::init()
@@ -50,15 +52,42 @@ void SmaDevice::init()
 
 void SmaDevice::makeSensors()
 {
-    tempSensor = std::make_shared<NvidiaGpuTempSensor>(
-        conn, mctpRequester, name + "_TEMP_0", path, eid, smaTempSensorId,
-        objectServer, std::vector<thresholds::Threshold>{},
-        gpu::DeviceIdentification::DEVICE_SMA);
+    for (const SmaSensorConfig& sensor : smaConfig.sensors)
+    {
+        publishSensor(sensor);
+    }
 
     initLeakSensors();
 
     lg2::info("Added MCA {NAME} Sensors with chassis path: {PATH}.", "NAME",
               name, "PATH", path);
+}
+
+void SmaDevice::publishSensor(const SmaSensorConfig& sensor)
+{
+    const std::string sensorName = std::format("{}_{}", name, sensor.name);
+    switch (sensor.kind)
+    {
+        case SmaSensorKind::Temperature:
+            tempSensors.emplace_back(std::make_shared<NvidiaGpuTempSensor>(
+                conn, mctpRequester, sensorName, path, eid, sensor.id,
+                objectServer, std::vector<thresholds::Threshold>{},
+                gpu::DeviceIdentification::DEVICE_SMA));
+            break;
+        case SmaSensorKind::Power:
+            powerSensors.emplace_back(std::make_shared<NvidiaGpuPowerSensor>(
+                conn, mctpRequester, sensorName, path, eid, sensor.id,
+                objectServer, std::vector<thresholds::Threshold>{},
+                gpu::DeviceIdentification::DEVICE_SMA));
+            break;
+        case SmaSensorKind::Voltage:
+            voltageSensors.emplace_back(
+                std::make_shared<NvidiaGpuVoltageSensor>(
+                    conn, mctpRequester, sensorName, path, eid, sensor.id,
+                    objectServer, std::vector<thresholds::Threshold>{},
+                    gpu::DeviceIdentification::DEVICE_SMA));
+            break;
+    }
 }
 
 void SmaDevice::makeInventory()
@@ -112,7 +141,18 @@ void SmaDevice::setOffline()
 {
     setFunctional(false);
     waitTimer.cancel();
-    tempSensor->markFunctional(false);
+    for (const auto& sensor : tempSensors)
+    {
+        sensor->markFunctional(false);
+    }
+    for (const auto& sensor : powerSensors)
+    {
+        sensor->markFunctional(false);
+    }
+    for (const auto& sensor : voltageSensors)
+    {
+        sensor->markFunctional(false);
+    }
     for (auto& sensor : leakSensors)
     {
         sensor->markFunctional(false);
@@ -122,7 +162,18 @@ void SmaDevice::setOffline()
 void SmaDevice::setOnline()
 {
     setFunctional(true);
-    tempSensor->markFunctional(true);
+    for (const auto& sensor : tempSensors)
+    {
+        sensor->markFunctional(true);
+    }
+    for (const auto& sensor : powerSensors)
+    {
+        sensor->markFunctional(true);
+    }
+    for (const auto& sensor : voltageSensors)
+    {
+        sensor->markFunctional(true);
+    }
     for (auto& sensor : leakSensors)
     {
         sensor->markFunctional(true);
@@ -133,9 +184,17 @@ void SmaDevice::setOnline()
 void SmaDevice::setEid(uint8_t newEid)
 {
     eid = newEid;
-    if (tempSensor)
+    for (const auto& sensor : tempSensors)
     {
-        tempSensor->setEid(newEid);
+        sensor->setEid(newEid);
+    }
+    for (const auto& sensor : powerSensors)
+    {
+        sensor->setEid(newEid);
+    }
+    for (const auto& sensor : voltageSensors)
+    {
+        sensor->setEid(newEid);
     }
     for (auto& sensor : leakSensors)
     {
@@ -145,7 +204,18 @@ void SmaDevice::setEid(uint8_t newEid)
 
 void SmaDevice::read()
 {
-    tempSensor->update();
+    for (const auto& sensor : tempSensors)
+    {
+        sensor->update();
+    }
+    for (const auto& sensor : powerSensors)
+    {
+        sensor->update();
+    }
+    for (const auto& sensor : voltageSensors)
+    {
+        sensor->update();
+    }
 
     for (auto& sensor : leakSensors)
     {
