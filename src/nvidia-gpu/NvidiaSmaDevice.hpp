@@ -20,11 +20,20 @@
 #include <cstdint>
 #include <memory>
 #include <string>
+#include <vector>
+
+// Only an SMA lists its temperature sensors, so they are kept apart from the
+// settings every device shares.
+struct SmaDeviceConfigs
+{
+    std::vector<uint8_t> temperatureSensorIds;
+};
 
 class SmaDevice : public std::enable_shared_from_this<SmaDevice>
 {
   public:
     SmaDevice(const EntityDeviceConfig& config,
+              const SmaDeviceConfigs& smaConfig,
               const std::shared_ptr<sdbusplus::asio::connection>& conn,
               uint8_t eid, boost::asio::io_context& io,
               mctp::MctpRequester& mctpRequester,
@@ -79,7 +88,7 @@ class SmaDevice : public std::enable_shared_from_this<SmaDevice>
 
     sdbusplus::asio::object_server& objectServer;
 
-    std::shared_ptr<NvidiaGpuTempSensor> tempSensor;
+    std::vector<std::shared_ptr<NvidiaGpuTempSensor>> tempSensors;
 
     std::vector<std::shared_ptr<NvidiaSmaLeakSensor>> leakSensors;
 
@@ -90,6 +99,8 @@ class SmaDevice : public std::enable_shared_from_this<SmaDevice>
     std::shared_ptr<sdbusplus::asio::dbus_interface> itemInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> operationalStatusInterface;
     std::shared_ptr<sdbusplus::asio::dbus_interface> associationInterface;
+
+    SmaDeviceConfigs smaConfig;
 
     std::string name;
 
