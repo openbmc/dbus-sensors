@@ -180,6 +180,21 @@ TEST_F(NvidiaGpuPowerSensorTest, UpdateSuccessTwiceOverwritesValue)
     EXPECT_DOUBLE_EQ(sensor->value, 200.0);
 }
 
+TEST_F(NvidiaGpuPowerSensorTest, UpdateNoReadingClearsValue)
+{
+    EXPECT_CALL(mctpMock, sendRecvMsg)
+        .WillOnce(mock_mctp::respondWith({}, buildPowerResponse(150000)))
+        .WillOnce(mock_mctp::respondWith({}, buildPowerResponse(0xFFFFFFFF)));
+
+    const std::shared_ptr<NvidiaGpuPowerSensor> sensor =
+        createSensor(gpuPowerSensorId, "pwr_no_reading");
+    sensor->update();
+    EXPECT_DOUBLE_EQ(sensor->value, 150.0);
+
+    sensor->update();
+    EXPECT_TRUE(std::isnan(sensor->value));
+}
+
 // Update — error handling
 
 TEST_F(NvidiaGpuPowerSensorTest, UpdateMctpTransportError)
