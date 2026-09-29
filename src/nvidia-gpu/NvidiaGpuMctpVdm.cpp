@@ -518,7 +518,10 @@ int decodeGetTemperatureReadingResponse(
         return rc;
     }
 
-    temperatureReading = reading / static_cast<double>(1 << 8);
+    temperatureReading =
+        (static_cast<uint32_t>(reading) == invalidSensorReading)
+            ? std::numeric_limits<double>::quiet_NaN()
+            : reading / static_cast<double>(1 << 8);
 
     return 0;
 }
