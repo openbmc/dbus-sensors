@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34937173_81d4c27b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003004
+      },
+      "writtenOn": "2026-09-29T06:34:26Z",
+      "side": 1,
+      "message": "LGTM.Associations are initialized before emit_object_added(), so consumers receive one complete InterfacesAdded signal.",
+      "revId": "c66caa24fccb91e5d6c607cf4b88fe2a9e6c4b38",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
