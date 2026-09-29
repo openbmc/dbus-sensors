@@ -152,7 +152,9 @@ void NvidiaGpuPowerSensor::processResponse(const std::error_code& ec,
 
     // Reading from the device is in milliwatts and unit set on the dbus
     // is watts.
-    updateValue(power / 1000.0);
+    updateValue(power == gpu::invalidSensorReading
+                    ? std::numeric_limits<double>::quiet_NaN()
+                    : power / 1000.0);
 }
 
 void NvidiaGpuPowerSensor::update()

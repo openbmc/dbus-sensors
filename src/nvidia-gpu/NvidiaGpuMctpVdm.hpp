@@ -10,6 +10,7 @@
 #include <array>
 #include <cstddef>
 #include <cstdint>
+#include <limits>
 #include <span>
 #include <string>
 #include <utility>
@@ -196,6 +197,10 @@ enum class ClockLimitFlag : uint8_t
 };
 
 constexpr size_t maxInventoryDataSize = 256;
+
+// An SMA answers with a reading of all ones for a sensor it cannot read.
+// Nvidia MCTP VDM defines no such value; it is taken as no reading.
+constexpr uint32_t invalidSensorReading = std::numeric_limits<uint32_t>::max();
 
 constexpr size_t queryDeviceIdentificationRequestSize =
     ocp::accelerator_management::commonRequestSize;
