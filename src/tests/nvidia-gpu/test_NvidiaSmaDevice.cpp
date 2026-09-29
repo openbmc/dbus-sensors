@@ -9,15 +9,21 @@
 #include "NvidiaSensorConfig.hpp"
 #include "NvidiaSmaDevice.hpp"
 #include "OcpMctpVdm.hpp"
+#include "TestUtils.hpp"
 
 #include <MessagePackUnpackUtils.hpp>
+#include <sdbusplus/exception.hpp>
 
+#include <algorithm>
 #include <chrono>
+#include <cmath>
 #include <cstdint>
 #include <memory>
+#include <optional>
 #include <span>
 #include <string>
 #include <system_error>
+#include <utility>
 #include <vector>
 
 #include <gmock/gmock.h>
@@ -27,6 +33,8 @@ namespace
 {
 
 constexpr uint8_t defaultEid = 20;
+
+constexpr uint8_t smaInternalSensorId = 17;
 
 // Short enough that a second poll round lands well inside pollTimeout.
 constexpr uint64_t fastPollMs = 10;
@@ -73,18 +81,152 @@ bool isLeakDetectionInfo(std::span<const uint8_t> request)
                gpu::PlatformEnvironmentalCommands::GET_LEAK_DETECTION_INFO);
 }
 
+// The reading an SMA answers with for a sensor it cannot read.
+constexpr uint32_t noReading = 0xFFFFFFFF;
+
+// The command and sensor id of a request reading one of an SMA's sensors, or
+// nullopt for any other request.
+std::optional<std::pair<gpu::PlatformEnvironmentalCommands, uint8_t>>
+    requestedSensor(std::span<const uint8_t> request)
+{
+    UnpackBuffer unpack(request);
+    ocp::accelerator_management::MessageType ocpMsgType{};
+    uint8_t instanceId = 0;
+    uint8_t msgType = 0;
+    if (ocp::accelerator_management::unpackHeader(
+            unpack, gpu::nvidiaPciVendorId, ocpMsgType, instanceId, msgType) !=
+        0)
+    {
+        return std::nullopt;
+    }
+
+    uint8_t command = 0;
+    uint8_t dataSize = 0;
+    uint8_t sensorId = 0;
+    unpack.unpack(command);
+    unpack.unpack(dataSize);
+    unpack.unpack(sensorId);
+
+    if (unpack.getError() != 0 ||
+        msgType !=
+            static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL))
+    {
+        return std::nullopt;
+    }
+
+    const auto readingCommand =
+        static_cast<gpu::PlatformEnvironmentalCommands>(command);
+    switch (readingCommand)
+    {
+        case gpu::PlatformEnvironmentalCommands::GET_TEMPERATURE_READING:
+        case gpu::PlatformEnvironmentalCommands::GET_CURRENT_POWER_DRAW:
+        case gpu::PlatformEnvironmentalCommands::GET_VOLTAGE:
+            return std::make_pair(readingCommand, sensorId);
+        default:
+            return std::nullopt;
+    }
+}
+
+// Answer each sensor request with the id it asked for as the reading, in
+// degrees, watts or volts, so a sensor's reading shows which id it polled.
+// The ids in rejectedIds are rejected the way an SMA rejects a sensor it does
+// not have, and the ids in noReadingIds are answered without a reading.
+auto answerSensorRequests(std::vector<uint8_t> rejectedIds = {},
+                          std::vector<uint8_t> noReadingIds = {})
+{
+    return [rejectedIds = std::move(rejectedIds),
+            noReadingIds = std::move(noReadingIds)](
+               uint8_t /*eid*/, std::span<const uint8_t> reqMsg,
+               auto callback) {
+        const auto sensor = requestedSensor(reqMsg);
+        if (!sensor)
+        {
+            callback(std::error_code{}, std::span<const uint8_t>{});
+            return;
+        }
+        const auto [command, sensorId] = *sensor;
+        if (std::ranges::find(rejectedIds, sensorId) != rejectedIds.end())
+        {
+            const std::vector<uint8_t> response =
+                test_utils::buildPlatformEnvErrorResponse(
+                    command,
+                    static_cast<uint8_t>(ocp::accelerator_management::
+                                             CompletionCode::ERR_INVALID_DATA),
+                    0);
+            callback(std::error_code{}, response);
+            return;
+        }
+        if (std::ranges::find(noReadingIds, sensorId) != noReadingIds.end())
+        {
+            const std::vector<uint8_t> response =
+                test_utils::buildPlatformEnvSuccessResponse(command, noReading);
+            callback(std::error_code{}, response);
+            return;
+        }
+
+        std::vector<uint8_t> response;
+        switch (command)
+        {
+            case gpu::PlatformEnvironmentalCommands::GET_CURRENT_POWER_DRAW:
+                response = test_utils::buildPlatformEnvSuccessResponse(
+                    command, static_cast<uint32_t>(sensorId) * 1000);
+                break;
+            case gpu::PlatformEnvironmentalCommands::GET_VOLTAGE:
+                response = test_utils::buildPlatformEnvSuccessResponse(
+                    command, static_cast<uint32_t>(sensorId) * 1000000);
+                break;
+            default:
+                response = test_utils::buildPlatformEnvSuccessResponse(
+                    command, static_cast<int32_t>(sensorId) * 256);
+                break;
+        }
+        callback(std::error_code{}, response);
+    };
+}
+
 class NvidiaSmaDeviceTest : public MctpMockTestBase
 {
   protected:
     static std::shared_ptr<SmaDevice> createDevice(
         const std::string& name = "SMA", uint8_t eid = defaultEid,
-        uint64_t pollRate = sensorPollRateMs)
+        uint64_t pollRate = sensorPollRateMs,
+        const std::vector<SmaSensorConfig>& sensors = {
+            {.kind = SmaSensorKind::Temperature,
+             .id = smaInternalSensorId,
+             .name = "SMA_Internal"}})
     {
         const std::string path = "/test/chassis/" + name;
         const NvidiaMctpVdmConfig config{
             .path = path, .name = name, .pollRate = pollRate};
-        return std::make_shared<SmaDevice>(config, bus(), eid, ioContext(),
-                                           requester(), objects());
+        const SmaDeviceConfigs smaConfig{.sensors = sensors};
+        return std::make_shared<SmaDevice>(config, smaConfig, bus(), eid,
+                                           ioContext(), requester(), objects());
+    }
+
+    static double sensorValue(const std::string& type,
+                              const std::string& sensorName)
+    {
+        return getProperty<double>(
+            "/xyz/openbmc_project/sensors/" + type + "/" + sensorName,
+            "xyz.openbmc_project.Sensor.Value", "Value");
+    }
+
+    static std::string sensorUnit(const std::string& type,
+                                  const std::string& sensorName)
+    {
+        return getProperty<std::string>(
+            "/xyz/openbmc_project/sensors/" + type + "/" + sensorName,
+            "xyz.openbmc_project.Sensor.Value", "Unit");
+    }
+
+    static double temperatureValue(const std::string& sensorName)
+    {
+        return sensorValue("temperature", sensorName);
+    }
+
+    static std::string temperatureUnit(const std::string& sensorName)
+    {
+        return sensorUnit("temperature", sensorName);
     }
 };
 
@@ -169,6 +311,122 @@ TEST_F(NvidiaSmaDeviceTest, SetEidRetargetsLeakSensors)
 
     ASSERT_TRUE(pumpIoUntil([&] { return !leakEids.empty(); }, pollTimeout));
     EXPECT_THAT(leakEids, testing::Each(newEid));
+}
+
+TEST_F(NvidiaSmaDeviceTest, PublishesEachConfiguredTemperatureSensorByName)
+{
+    ON_CALL(mctpMock, sendRecvMsg).WillByDefault(answerSensorRequests());
+
+    const std::shared_ptr<SmaDevice> device = createDevice(
+        "sma_temps", defaultEid, sensorPollRateMs,
+        {{.kind = SmaSensorKind::Temperature, .id = 16, .name = "SMA_Ext"},
+         {.kind = SmaSensorKind::Temperature,
+          .id = smaInternalSensorId,
+          .name = "SMA_Internal"},
+         {.kind = SmaSensorKind::Temperature, .id = 200, .name = "Board"}});
+    device->init();
+    device->setOnline();
+
+    const std::string degrees =
+        "xyz.openbmc_project.Sensor.Value.Unit.DegreesC";
+    EXPECT_EQ(temperatureUnit("sma_temps_SMA_Ext"), degrees);
+    EXPECT_EQ(temperatureUnit("sma_temps_SMA_Internal"), degrees);
+    EXPECT_EQ(temperatureUnit("sma_temps_Board"), degrees);
+}
+
+TEST_F(NvidiaSmaDeviceTest, EachTemperatureSensorReadsItsOwnId)
+{
+    ON_CALL(mctpMock, sendRecvMsg).WillByDefault(answerSensorRequests());
+
+    const std::shared_ptr<SmaDevice> device = createDevice(
+        "sma_poll", defaultEid, sensorPollRateMs,
+        {{.kind = SmaSensorKind::Temperature, .id = 16, .name = "SMA_Ext"},
+         {.kind = SmaSensorKind::Temperature, .id = 100, .name = "Board"}});
+    device->init();
+    device->setOnline();
+
+    EXPECT_EQ(temperatureValue("sma_poll_SMA_Ext"), 16.0);
+    EXPECT_EQ(temperatureValue("sma_poll_Board"), 100.0);
+}
+
+TEST_F(NvidiaSmaDeviceTest, PublishesNoSensorWhenNoneConfigured)
+{
+    std::vector<uint8_t> requestedIds;
+    ON_CALL(mctpMock, sendRecvMsg)
+        .WillByDefault(
+            [&requestedIds](uint8_t /*eid*/, std::span<const uint8_t> reqMsg,
+                            auto callback) {
+                const auto sensor = requestedSensor(reqMsg);
+                if (sensor)
+                {
+                    requestedIds.push_back(sensor->second);
+                }
+                callback(std::error_code{}, std::span<const uint8_t>{});
+            });
+
+    const std::shared_ptr<SmaDevice> device =
+        createDevice("sma_no_temps", defaultEid, sensorPollRateMs, {});
+    device->init();
+    device->setOnline();
+
+    EXPECT_TRUE(requestedIds.empty());
+    EXPECT_THROW(temperatureUnit("sma_no_temps_SMA_Internal"),
+                 sdbusplus::exception_t);
+}
+
+TEST_F(NvidiaSmaDeviceTest, PublishesTemperatureSensorTheSmaRejects)
+{
+    ON_CALL(mctpMock, sendRecvMsg).WillByDefault(answerSensorRequests({19}));
+
+    const std::shared_ptr<SmaDevice> device = createDevice(
+        "sma_reject", defaultEid, sensorPollRateMs,
+        {{.kind = SmaSensorKind::Temperature, .id = 16, .name = "SMA_Ext"},
+         {.kind = SmaSensorKind::Temperature, .id = 19, .name = "BusBar"},
+         {.kind = SmaSensorKind::Temperature, .id = 217, .name = "CPU1_SoC"}});
+    device->init();
+    device->setOnline();
+
+    EXPECT_EQ(temperatureValue("sma_reject_SMA_Ext"), 16.0);
+    EXPECT_TRUE(std::isnan(temperatureValue("sma_reject_BusBar")));
+    EXPECT_EQ(temperatureValue("sma_reject_CPU1_SoC"), 217.0);
+}
+
+TEST_F(NvidiaSmaDeviceTest, PublishesPowerAndVoltageSensorsTheSmaReports)
+{
+    ON_CALL(mctpMock, sendRecvMsg).WillByDefault(answerSensorRequests());
+
+    const std::shared_ptr<SmaDevice> device = createDevice(
+        "sma_hsc", defaultEid, sensorPollRateMs,
+        {{.kind = SmaSensorKind::Temperature, .id = 192, .name = "HSC"},
+         {.kind = SmaSensorKind::Power, .id = 128, .name = "HSC"},
+         {.kind = SmaSensorKind::Voltage, .id = 208, .name = "HSCC_Vout"}});
+    device->init();
+    device->setOnline();
+
+    EXPECT_EQ(sensorValue("temperature", "sma_hsc_HSC"), 192.0);
+    EXPECT_EQ(sensorUnit("power", "sma_hsc_HSC"),
+              "xyz.openbmc_project.Sensor.Value.Unit.Watts");
+    EXPECT_EQ(sensorValue("power", "sma_hsc_HSC"), 128.0);
+    EXPECT_EQ(sensorUnit("voltage", "sma_hsc_HSCC_Vout"),
+              "xyz.openbmc_project.Sensor.Value.Unit.Volts");
+    EXPECT_EQ(sensorValue("voltage", "sma_hsc_HSCC_Vout"), 208.0);
+}
+
+TEST_F(NvidiaSmaDeviceTest, PublishesPowerAndVoltageSensorsWithoutAReading)
+{
+    ON_CALL(mctpMock, sendRecvMsg).WillByDefault(answerSensorRequests({}, {9}));
+
+    const std::shared_ptr<SmaDevice> device = createDevice(
+        "sma_unread", defaultEid, sensorPollRateMs,
+        {{.kind = SmaSensorKind::Power, .id = 128, .name = "HSC"},
+         {.kind = SmaSensorKind::Power, .id = 9, .name = "Aux"},
+         {.kind = SmaSensorKind::Voltage, .id = 9, .name = "Aux_Vin"}});
+    device->init();
+    device->setOnline();
+
+    EXPECT_EQ(sensorValue("power", "sma_unread_HSC"), 128.0);
+    EXPECT_TRUE(std::isnan(sensorValue("power", "sma_unread_Aux")));
+    EXPECT_TRUE(std::isnan(sensorValue("voltage", "sma_unread_Aux_Vin")));
 }
 
 // An offline device stops polling, so every one of its sensors has to say so

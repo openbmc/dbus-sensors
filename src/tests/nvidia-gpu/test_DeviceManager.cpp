@@ -6,7 +6,9 @@
 #include "DbusMockTestBase.hpp"
 #include "DeviceManager.hpp"
 #include "NvidiaGpuControlErrors.hpp"
+#include "NvidiaSmaDevice.hpp"
 #include "OcpMctpVdm.hpp"
+#include "Utils.hpp"
 
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/exception.hpp>
@@ -14,11 +16,14 @@
 
 #include <cerrno>
 #include <chrono>
+#include <cstddef>
 #include <cstdint>
+#include <format>
 #include <functional>
 #include <map>
 #include <memory>
 #include <string>
+#include <string_view>
 #include <vector>
 
 #include <gtest/gtest.h>
@@ -180,6 +185,134 @@ TEST_F(DeviceManagerTest, SkipsMissingAssociation)
 
     EXPECT_EQ(getObjectCalls, 1);
     EXPECT_EQ(endpointsReads, 0);
+}
+
+constexpr uint8_t smaEid = 40;
+constexpr const char* smaRecordPath = "/test/board/SMA";
+
+std::string smaElementIface(std::string_view array, size_t index)
+{
+    return std::format(
+        "xyz.openbmc_project.Configuration.NvidiaMctpVdmSma.{}{}", array,
+        index);
+}
+
+// Entity manager exports the Id of a sensor list entry as uint64_t.
+SensorBaseConfigMap smaSensor(uint64_t id, const std::string& name)
+{
+    return {{"Id", id}, {"Name", name}};
+}
+
+MctpVdmRecord smaRecord(const SensorData& arrayElements)
+{
+    return {.path = std::string{smaRecordPath},
+            .name = "SMA",
+            .properties = {},
+            .arrayElements = arrayElements};
+}
+
+TEST(SmaDeviceConfigsTest, ListsTheSensorsInRecordOrder)
+{
+    SensorData arrayElements{
+        {smaElementIface("PowerSensors", 0), smaSensor(128, "HSC")},
+        {smaElementIface("VoltageSensors", 0), smaSensor(208, "HSCC_Vout")}};
+    // Past ten entries, the interface names no longer sort in record order.
+    for (size_t index = 0; index < 12; ++index)
+    {
+        arrayElements.emplace(smaElementIface("TemperatureSensors", index),
+                              smaSensor(index, std::format("T{}", index)));
+    }
+
+    const SmaDeviceConfigs smaConfig =
+        readSmaDeviceConfigs(smaRecord(arrayElements), smaEid);
+
+    ASSERT_EQ(smaConfig.sensors.size(), 14U);
+    for (size_t index = 0; index < 12; ++index)
+    {
+        EXPECT_EQ(smaConfig.sensors[index].kind, SmaSensorKind::Temperature);
+        EXPECT_EQ(smaConfig.sensors[index].name, std::format("T{}", index));
+    }
+    EXPECT_EQ(smaConfig.sensors[12].kind, SmaSensorKind::Power);
+    EXPECT_EQ(smaConfig.sensors[12].id, 128);
+    EXPECT_EQ(smaConfig.sensors[12].name, "HSC");
+    EXPECT_EQ(smaConfig.sensors[13].kind, SmaSensorKind::Voltage);
+    EXPECT_EQ(smaConfig.sensors[13].id, 208);
+    EXPECT_EQ(smaConfig.sensors[13].name, "HSCC_Vout");
+}
+
+TEST(SmaDeviceConfigsTest, LeavesOutAnEntryWithoutAnIdOrAName)
+{
+    const SensorData arrayElements{
+        {smaElementIface("TemperatureSensors", 0),
+         {{"Name", std::string{"NoId"}}}},
+        {smaElementIface("TemperatureSensors", 1), {{"Id", uint64_t{17}}}},
+        {smaElementIface("TemperatureSensors", 2), smaSensor(16, "SMA_Ext")}};
+
+    const SmaDeviceConfigs smaConfig =
+        readSmaDeviceConfigs(smaRecord(arrayElements), smaEid);
+
+    ASSERT_EQ(smaConfig.sensors.size(), 1U);
+    EXPECT_EQ(smaConfig.sensors[0].id, 16);
+    EXPECT_EQ(smaConfig.sensors[0].name, "SMA_Ext");
+}
+
+TEST(SmaDeviceConfigsTest, ReadsAnIdOfAnyNumericType)
+{
+    const SensorData arrayElements{
+        {smaElementIface("TemperatureSensors", 0),
+         {{"Id", int64_t{5}}, {"Name", std::string{"Signed"}}}},
+        {smaElementIface("TemperatureSensors", 1),
+         {{"Id", 17.0}, {"Name", std::string{"Double"}}}},
+        {smaElementIface("TemperatureSensors", 2),
+         {{"Id", std::string{"18"}}, {"Name", std::string{"String"}}}}};
+
+    const SmaDeviceConfigs smaConfig =
+        readSmaDeviceConfigs(smaRecord(arrayElements), smaEid);
+
+    ASSERT_EQ(smaConfig.sensors.size(), 2U);
+    EXPECT_EQ(smaConfig.sensors[0].id, 5);
+    EXPECT_EQ(smaConfig.sensors[0].name, "Signed");
+    EXPECT_EQ(smaConfig.sensors[1].id, 17);
+    EXPECT_EQ(smaConfig.sensors[1].name, "Double");
+}
+
+TEST(SmaDeviceConfigsTest, LeavesOutIdsFrom255)
+{
+    const SensorData arrayElements{
+        {smaElementIface("TemperatureSensors", 0), smaSensor(254, "Last")},
+        {smaElementIface("TemperatureSensors", 1), smaSensor(255, "All")},
+        {smaElementIface("TemperatureSensors", 2), smaSensor(256, "Over")}};
+
+    const SmaDeviceConfigs smaConfig =
+        readSmaDeviceConfigs(smaRecord(arrayElements), smaEid);
+
+    ASSERT_EQ(smaConfig.sensors.size(), 1U);
+    EXPECT_EQ(smaConfig.sensors[0].id, 254);
+    EXPECT_EQ(smaConfig.sensors[0].name, "Last");
+}
+
+TEST(SmaDeviceConfigsTest, KeepsTheFirstEntryOfARepeatedIdOrName)
+{
+    const SensorData arrayElements{
+        {smaElementIface("TemperatureSensors", 2), smaSensor(16, "SMA_Ext")},
+        {smaElementIface("TemperatureSensors", 3), smaSensor(17, "SMA Ext")},
+        {smaElementIface("TemperatureSensors", 4), smaSensor(18, "GPU_VR")},
+        {smaElementIface("TemperatureSensors", 10), smaSensor(16, "Other")},
+        {smaElementIface("PowerSensors", 0), smaSensor(16, "SMA_Ext")}};
+
+    const SmaDeviceConfigs smaConfig =
+        readSmaDeviceConfigs(smaRecord(arrayElements), smaEid);
+
+    ASSERT_EQ(smaConfig.sensors.size(), 3U);
+    EXPECT_EQ(smaConfig.sensors[0].kind, SmaSensorKind::Temperature);
+    EXPECT_EQ(smaConfig.sensors[0].id, 16);
+    EXPECT_EQ(smaConfig.sensors[0].name, "SMA_Ext");
+    EXPECT_EQ(smaConfig.sensors[1].kind, SmaSensorKind::Temperature);
+    EXPECT_EQ(smaConfig.sensors[1].id, 18);
+    EXPECT_EQ(smaConfig.sensors[1].name, "GPU_VR");
+    EXPECT_EQ(smaConfig.sensors[2].kind, SmaSensorKind::Power);
+    EXPECT_EQ(smaConfig.sensors[2].id, 16);
+    EXPECT_EQ(smaConfig.sensors[2].name, "SMA_Ext");
 }
 
 } // namespace
