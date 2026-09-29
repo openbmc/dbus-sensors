@@ -41,7 +41,13 @@ struct MctpVdmRecord
     sdbusplus::object_path path;
     std::string name;
     SensorBaseConfigMap properties;
+    SensorData arrayElements;
 };
+
+// The sensors an SMA record lists. An entry that does not name a sensor, or
+// whose id or name repeats one already listed for its kind, is logged and
+// left out.
+SmaDeviceConfigs readSmaDeviceConfigs(const MctpVdmRecord& record, uint8_t eid);
 
 class DeviceManager
 {

@@ -298,6 +298,23 @@ TEST_F(NvidiaGpuTempSensorTest, UpdateSuccessTwiceOverwritesValue)
     EXPECT_DOUBLE_EQ(sensor->value, 30.0);
 }
 
+TEST_F(NvidiaGpuTempSensorTest, UpdateNoReadingClearsValue)
+{
+    EXPECT_CALL(mctpMock, sendRecvMsg)
+        .WillOnce(mock_mctp::respondWith({}, buildTempResponse(25.0)))
+        .WillOnce(mock_mctp::respondWith(
+            {}, test_utils::buildPlatformEnvSuccessResponse(
+                    gpu::PlatformEnvironmentalCommands::GET_TEMPERATURE_READING,
+                    static_cast<uint32_t>(0xFFFFFFFF))));
+
+    const std::shared_ptr<NvidiaGpuTempSensor> sensor = createSensor();
+    sensor->update();
+    EXPECT_DOUBLE_EQ(sensor->value, 25.0);
+
+    sensor->update();
+    EXPECT_TRUE(std::isnan(sensor->value));
+}
+
 // Update — error handling
 
 TEST_F(NvidiaGpuTempSensorTest, UpdateMctpTransportError)

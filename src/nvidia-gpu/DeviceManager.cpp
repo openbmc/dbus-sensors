@@ -34,6 +34,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <functional>
+#include <limits>
 #include <map>
 #include <memory>
 #include <optional>
@@ -52,10 +53,9 @@ static constexpr unsigned maxDiscoveryRetries = 3;
 // EntityManager exports an array-of-objects config property as one indexed
 // interface per element, e.g. Configuration.MCTPUSBDevice.BridgedEndpoints0.
 // Returns the element index, or nullopt when the interface is not one of them.
-static std::optional<size_t> bridgedEndpointIndex(const std::string& iface)
+static std::optional<size_t> configArrayIndex(const std::string& iface,
+                                              std::string_view marker)
 {
-    static constexpr std::string_view marker = ".BridgedEndpoints";
-
     const size_t pos = iface.rfind(marker);
     if (pos == std::string::npos)
     {
@@ -258,6 +258,99 @@ static NvidiaMctpVdmConfig readNvidiaMctpVdmConfig(const MctpVdmRecord& record)
     return config;
 }
 
+static constexpr std::array<std::pair<std::string_view, SmaSensorKind>, 3>
+    smaSensorLists{{
+        {".TemperatureSensors", SmaSensorKind::Temperature},
+        {".PowerSensors", SmaSensorKind::Power},
+        {".VoltageSensors", SmaSensorKind::Voltage},
+    }};
+
+SmaDeviceConfigs readSmaDeviceConfigs(const MctpVdmRecord& record, uint8_t eid)
+{
+    // Keyed by kind and entry index so the sensors keep the order the record
+    // lists them in.
+    std::map<std::pair<SmaSensorKind, size_t>,
+             std::pair<std::string, const SensorBaseConfigMap*>>
+        entries;
+    for (const auto& [iface, props] : record.arrayElements)
+    {
+        for (const auto& [marker, kind] : smaSensorLists)
+        {
+            if (const std::optional<size_t> index =
+                    configArrayIndex(iface, marker))
+            {
+                entries.emplace(std::make_pair(kind, *index),
+                                std::make_pair(iface, &props));
+            }
+        }
+    }
+
+    SmaDeviceConfigs smaConfig;
+
+    for (const auto& [key, entry] : entries)
+    {
+        const SmaSensorKind kind = key.first;
+        const auto& [iface, props] = entry;
+        uint64_t id = 0;
+        try
+        {
+            id = loadVariant<uint64_t>(*props, "Id");
+        }
+        catch (const std::invalid_argument&)
+        {
+            lg2::error(
+                "EID {EID}: {PATH} {IFACE} has no usable Id, not listing it",
+                "EID", eid, "PATH", record.path, "IFACE", iface);
+            continue;
+        }
+
+        const auto nameIt = props->find("Name");
+        const auto* name = (nameIt != props->end())
+                               ? std::get_if<std::string>(&nameIt->second)
+                               : nullptr;
+        if (name == nullptr)
+        {
+            lg2::error(
+                "EID {EID}: {PATH} {IFACE} has no usable Name, not listing it",
+                "EID", eid, "PATH", record.path, "IFACE", iface);
+            continue;
+        }
+
+        // 255 asks for every sensor at once, so it names none.
+        if (id >= std::numeric_limits<uint8_t>::max())
+        {
+            lg2::error(
+                "EID {EID}: {PATH} {IFACE} lists sensor id {ID}, which is out of range",
+                "EID", eid, "PATH", record.path, "IFACE", iface, "ID", id);
+            continue;
+        }
+
+        // Names are compared as they appear on D-Bus, where two that differ
+        // only in escaped characters would claim the same sensor path.
+        const auto sensorId = static_cast<uint8_t>(id);
+        const std::string dbusName = escapeName(*name);
+        if (std::ranges::any_of(
+                smaConfig.sensors,
+                [kind, sensorId, &dbusName](const SmaSensorConfig& sensor) {
+                    return sensor.kind == kind &&
+                           (sensor.id == sensorId ||
+                            escapeName(sensor.name) == dbusName);
+                }))
+        {
+            lg2::error(
+                "EID {EID}: {PATH} {IFACE} repeats sensor id {ID} or name {NAME} of its list",
+                "EID", eid, "PATH", record.path, "IFACE", iface, "ID", id,
+                "NAME", *name);
+            continue;
+        }
+
+        smaConfig.sensors.push_back(
+            {.kind = kind, .id = sensorId, .name = *name});
+    }
+
+    return smaConfig;
+}
+
 // Only a ConnectX device has network ports, so the record is only asked for
 // a count of them once the device has turned out to be one.
 static PcieDeviceConfigs readPcieDeviceConfigs(const MctpVdmRecord& record)
@@ -358,7 +451,8 @@ void DeviceManager::processQueryDeviceIdResponse(
             if (existing == smaDevices.end())
             {
                 auto sma = std::make_shared<SmaDevice>(
-                    config, conn, eid, io, mctpRequester, objectServer);
+                    config, readSmaDeviceConfigs(record, eid), conn, eid, io,
+                    mctpRequester, objectServer);
 
                 sma->init();
 
@@ -563,7 +657,8 @@ void DeviceManager::getConfigProperties(
         {
             continue;
         }
-        const std::optional<size_t> index = bridgedEndpointIndex(iface);
+        const std::optional<size_t> index =
+            configArrayIndex(iface, ".BridgedEndpoints");
         if (index)
         {
             bridgedIfaces.emplace_back(*index, iface);
@@ -761,6 +856,54 @@ static bool isMctpVdmIface(std::string_view iface)
            iface == mctpVdmCxIface;
 }
 
+static void readArrayElements(
+    const std::shared_ptr<sdbusplus::asio::connection>& conn,
+    const std::string& service, MctpVdmRecord record,
+    const std::vector<std::string>& elementIfaces, uint8_t eid,
+    const std::function<void(const MctpVdmRecord&)>& done)
+{
+    if (elementIfaces.empty())
+    {
+        done(record);
+        return;
+    }
+
+    struct Fetch
+    {
+        MctpVdmRecord record;
+        size_t pending{};
+    };
+    auto fetch = std::make_shared<Fetch>();
+    fetch->record = std::move(record);
+    fetch->pending = elementIfaces.size();
+
+    for (const std::string& iface : elementIfaces)
+    {
+        conn->async_method_call(
+            [fetch, iface, eid, done](const boost::system::error_code& ec,
+                                      const SensorBaseConfigMap& props) {
+                if (ec)
+                {
+                    lg2::error(
+                        "EID {EID}: failed to read {IFACE} of {PATH}: {ERROR}",
+                        "EID", eid, "IFACE", iface, "PATH", fetch->record.path,
+                        "ERROR", ec.message());
+                }
+                else
+                {
+                    fetch->record.arrayElements.emplace(iface, props);
+                }
+
+                if (--fetch->pending == 0)
+                {
+                    done(fetch->record);
+                }
+            },
+            service, fetch->record.path.str, "org.freedesktop.DBus.Properties",
+            "GetAll", iface);
+    }
+}
+
 void DeviceManager::lookupBoard(const std::string& boardName,
                                 BoardPathHandler done)
 {
@@ -843,6 +986,7 @@ void DeviceManager::findBoardConfig(
                 owners) {
             std::string service;
             std::string iface;
+            std::vector<std::string> elementIfaces;
             for (const auto& [owner, ifaces] : owners)
             {
                 const auto it = std::ranges::find_if(ifaces, isMctpVdmIface);
@@ -850,6 +994,13 @@ void DeviceManager::findBoardConfig(
                 {
                     service = owner;
                     iface = *it;
+                    for (const std::string& element : ifaces)
+                    {
+                        if (element.starts_with(iface + "."))
+                        {
+                            elementIfaces.push_back(element);
+                        }
+                    }
                     break;
                 }
             }
@@ -863,9 +1014,9 @@ void DeviceManager::findBoardConfig(
             }
 
             conn->async_method_call(
-                [configObjectPath, iface, inventoryName, eid,
-                 done](const boost::system::error_code& propEc,
-                       const SensorBaseConfigMap& props) {
+                [this, configObjectPath, service, elementIfaces, inventoryName,
+                 eid, done](const boost::system::error_code& propEc,
+                            const SensorBaseConfigMap& props) {
                     if (propEc)
                     {
                         lg2::error(
@@ -874,9 +1025,12 @@ void DeviceManager::findBoardConfig(
                             propEc.message(), "NAME", inventoryName);
                         return;
                     }
-                    done(MctpVdmRecord{.path = configObjectPath,
-                                       .name = inventoryName,
-                                       .properties = props});
+                    readArrayElements(conn, service,
+                                      MctpVdmRecord{.path = configObjectPath,
+                                                    .name = inventoryName,
+                                                    .properties = props,
+                                                    .arrayElements = {}},
+                                      elementIfaces, eid, done);
                 },
                 service, configObjectPath, "org.freedesktop.DBus.Properties",
                 "GetAll", iface);
