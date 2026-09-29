@@ -35,6 +35,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <functional>
+#include <limits>
 #include <map>
 #include <memory>
 #include <optional>
@@ -117,6 +118,55 @@ static std::optional<std::pair<uint8_t, uint8_t>> extractBridgePool(
     }
 
     return std::nullopt;
+}
+
+// The temperature sensors an SMA record lists. An id that cannot name a
+// sensor, or that repeats one already listed, is logged and left out.
+static SmaDeviceConfigs extractSmaDeviceConfigs(
+    const SensorBaseConfigMap& properties, uint8_t eid, const std::string& path)
+{
+    SmaDeviceConfigs smaConfig;
+
+    const auto idsIt = properties.find("TemperatureSensorIds");
+    if (idsIt == properties.end())
+    {
+        return smaConfig;
+    }
+
+    const auto* ids = std::get_if<std::vector<uint64_t>>(&idsIt->second);
+    if (ids == nullptr)
+    {
+        lg2::error(
+            "EID {EID}: {PATH} lists TemperatureSensorIds that are not sensor ids",
+            "EID", eid, "PATH", path);
+        return smaConfig;
+    }
+
+    for (const uint64_t id : *ids)
+    {
+        // 255 asks for every sensor at once, so it names none.
+        if (id >= std::numeric_limits<uint8_t>::max())
+        {
+            lg2::error(
+                "EID {EID}: {PATH} lists temperature sensor id {ID}, which is out of range",
+                "EID", eid, "PATH", path, "ID", id);
+            continue;
+        }
+
+        const auto sensorId = static_cast<uint8_t>(id);
+        if (std::ranges::find(smaConfig.temperatureSensorIds, sensorId) !=
+            smaConfig.temperatureSensorIds.end())
+        {
+            lg2::error(
+                "EID {EID}: {PATH} lists temperature sensor id {ID} more than once",
+                "EID", eid, "PATH", path, "ID", id);
+            continue;
+        }
+
+        smaConfig.temperatureSensorIds.push_back(sensorId);
+    }
+
+    return smaConfig;
 }
 
 // The devices behind a bridge are described by the config's BridgedEndpoints
@@ -224,6 +274,7 @@ bool DeviceManager::retryDiscovery(const sdbusplus::object_path& mctpObjectPath,
 }
 void DeviceManager::processQueryDeviceIdResponse(
     const EntityDeviceConfig& config, const PcieDeviceConfigs& pcieConfig,
+    const SmaDeviceConfigs& smaConfig,
     const sdbusplus::object_path& mctpObjectPath, uint8_t eid,
     bool isEndpointItself, const std::error_code& sendRecvMsgResult,
     std::span<const uint8_t> queryDeviceIdentificationResponse)
@@ -300,7 +351,8 @@ void DeviceManager::processQueryDeviceIdResponse(
             if (existing == smaDevices.end())
             {
                 auto sma = std::make_shared<SmaDevice>(
-                    config, conn, eid, io, mctpRequester, objectServer);
+                    config, smaConfig, conn, eid, io, mctpRequester,
+                    objectServer);
 
                 sma->init();
 
@@ -372,6 +424,7 @@ void DeviceManager::processQueryDeviceIdResponse(
 
 void DeviceManager::queryDeviceIdentification(
     const EntityDeviceConfig& config, const PcieDeviceConfigs& pcieConfig,
+    const SmaDeviceConfigs& smaConfig,
     const sdbusplus::object_path& mctpObjectPath, uint8_t eid,
     bool isEndpointItself)
 {
@@ -394,21 +447,24 @@ void DeviceManager::queryDeviceIdentification(
 
     mctpRequester.sendRecvMsg(
         eid, *queryDeviceIdentificationRequest,
-        [this, config, pcieConfig, mctpObjectPath, eid, isEndpointItself,
-         queryDeviceIdentificationRequest](const std::error_code& ec,
-                                           std::span<const uint8_t> response) {
-            processQueryDeviceIdResponse(config, pcieConfig, mctpObjectPath,
-                                         eid, isEndpointItself, ec, response);
+        [this, config, pcieConfig, smaConfig, mctpObjectPath, eid,
+         isEndpointItself, queryDeviceIdentificationRequest](
+            const std::error_code& ec, std::span<const uint8_t> response) {
+            processQueryDeviceIdResponse(config, pcieConfig, smaConfig,
+                                         mctpObjectPath, eid, isEndpointItself,
+                                         ec, response);
         });
 }
 
 void DeviceManager::queryDevicesForEndpoint(
     const EntityDeviceConfig& config, const PcieDeviceConfigs& pcieConfig,
-    const std::string& boardName, const sdbusplus::object_path& mctpObjectPath,
-    uint8_t eid, const std::optional<std::pair<uint8_t, uint8_t>>& bridgePool,
+    const SmaDeviceConfigs& smaConfig, const std::string& boardName,
+    const sdbusplus::object_path& mctpObjectPath, uint8_t eid,
+    const std::optional<std::pair<uint8_t, uint8_t>>& bridgePool,
     const std::vector<BridgedEndpoint>& bridgedEndpoints)
 {
-    queryDeviceIdentification(config, pcieConfig, mctpObjectPath, eid, true);
+    queryDeviceIdentification(config, pcieConfig, smaConfig, mctpObjectPath,
+                              eid, true);
 
     if (!bridgePool)
     {
@@ -433,8 +489,9 @@ void DeviceManager::queryDevicesForEndpoint(
             board, endpoint.name, bridgedEid,
             [this, mctpObjectPath,
              bridgedEid](const EntityDeviceConfig& resolved,
-                         const PcieDeviceConfigs& resolvedPcie) {
-                queryDeviceIdentification(resolved, resolvedPcie,
+                         const PcieDeviceConfigs& resolvedPcie,
+                         const SmaDeviceConfigs& resolvedSma) {
+                queryDeviceIdentification(resolved, resolvedPcie, resolvedSma,
                                           mctpObjectPath, bridgedEid, false);
             });
     }
@@ -727,9 +784,11 @@ void DeviceManager::processConfigPropertiesResult(
         boardName, deviceName, eid,
         [this, boardName, mctpObjectPath, eid, bridgePool,
          bridged](const EntityDeviceConfig& resolved,
-                  const PcieDeviceConfigs& resolvedPcie) {
-            queryDevicesForEndpoint(resolved, resolvedPcie, boardName,
-                                    mctpObjectPath, eid, bridgePool, bridged);
+                  const PcieDeviceConfigs& resolvedPcie,
+                  const SmaDeviceConfigs& resolvedSma) {
+            queryDevicesForEndpoint(resolved, resolvedPcie, resolvedSma,
+                                    boardName, mctpObjectPath, eid, bridgePool,
+                                    bridged);
         });
 }
 
@@ -924,7 +983,8 @@ static void selectMctpVdmConfig(
                             }
 
                             search->matched = true;
-                            done(config, PcieDeviceConfigs{});
+                            done(config, PcieDeviceConfigs{},
+                                 extractSmaDeviceConfigs(props, eid, path));
                         }
                     }
                 }
