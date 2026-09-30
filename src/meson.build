@@ -99,6 +99,18 @@ mctpasio_dep = declare_dependency(
     dependencies: default_deps,
 )
 
+mctpasync_a = static_library(
+    'mctpasync_a',
+    'MctpAsyncRequester.cpp',
+    dependencies: [sdbusplus],
+)
+
+mctpasync_dep = declare_dependency(
+    include_directories: ['.'],
+    link_with: [mctpasync_a],
+    dependencies: [sdbusplus],
+)
+
 notifywatch_a = static_library(
     'notifywatch_a',
     'NotifyWatch.cpp',
