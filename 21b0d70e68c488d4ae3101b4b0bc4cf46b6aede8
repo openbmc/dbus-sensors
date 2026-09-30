@@ -52,6 +52,24 @@
       "parentUuid": "3da23594_d1be4aab",
       "revId": "21b0d70e68c488d4ae3101b4b0bc4cf46b6aede8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e47057cd_6a7d7272",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-09-30T07:15:03Z",
+      "side": 1,
+      "message": "Sorry, this was meant for the L190 thread.",
+      "parentUuid": "b4e69d31_2bfbb19b",
+      "revId": "21b0d70e68c488d4ae3101b4b0bc4cf46b6aede8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
