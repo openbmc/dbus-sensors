@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3537ca6a_33993eeb",
+        "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-09-30T09:42:59Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "f734cb35_9042986f",
+      "revId": "fdb94d050ec4ca31f79a8cdbf2a76458eb806cdd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d853874a_3844962d",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3d89103_dc568d35",
+        "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-09-30T09:42:59Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "d853874a_3844962d",
+      "revId": "fdb94d050ec4ca31f79a8cdbf2a76458eb806cdd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c458cca6_e8ca34d2",
@@ -48,6 +84,24 @@
       "writtenOn": "2026-09-30T02:56:35Z",
       "side": 1,
       "message": "```suggestion\n    candidate[index] \u003d static_cast\u003cuint16_t\u003e(std::llround(millivolts));\n```",
+      "revId": "fdb94d050ec4ca31f79a8cdbf2a76458eb806cdd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0738942_b1fbf3c3",
+        "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-09-30T09:42:59Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "c458cca6_e8ca34d2",
       "revId": "fdb94d050ec4ca31f79a8cdbf2a76458eb806cdd",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
