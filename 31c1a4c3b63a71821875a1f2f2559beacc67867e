@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14094ad0_de17b796",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-09-30T01:57:53Z",
+      "side": 1,
+      "message": "Since this passes nullptr, a device that gains a capability never gets inventory-\u003einit() or eventReporting-\u003einit() re-run, is only the read-time gating meant to follow the new set?",
+      "revId": "31c1a4c3b63a71821875a1f2f2559beacc67867e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
