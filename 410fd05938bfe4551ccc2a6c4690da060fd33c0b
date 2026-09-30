@@ -34,6 +34,24 @@
       "parentUuid": "10c40fe3_baa69d09",
       "revId": "410fd05938bfe4551ccc2a6c4690da060fd33c0b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c1fe1fd_f2e65f06",
+        "filename": "src/amd-bulk-telemetry/AmdBulkSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002734
+      },
+      "writtenOn": "2026-09-30T02:15:20Z",
+      "side": 1,
+      "message": "Per discussion with @pmb@meta.com, we will implement a new MCTP\nrequest/response layer on sdbusplus::async, intended as the general-purpose\nMCTP transport for all dbus-sensors daemons. \nThis daemon will move over to it\nonce it lands, and the existing boost::asio MctpRequester users can follow.",
+      "parentUuid": "a21d897d_5c8b8773",
+      "revId": "410fd05938bfe4551ccc2a6c4690da060fd33c0b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
