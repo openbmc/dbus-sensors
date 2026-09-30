@@ -117,8 +117,13 @@ void MCTPDDevice::setup(
                 "INVENTORY_PATH", objpath);
         }
     };
+    assignEndpoint(std::move(onSetup));
+}
+
+void MCTPDDevice::assignEndpoint(AssignCallback onSetup)
+{
     connection->async_method_call(
-        onSetup, mctpdBusName,
+        std::move(onSetup), mctpdBusName,
         mctpdControlPath + std::string("/interfaces/") + interface,
         mctpdControlInterface, "AssignEndpoint", physaddr);
 }

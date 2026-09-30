@@ -2,6 +2,7 @@
 
 #include "Utils.hpp"
 
+#include <boost/system/error_code.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/bus/match.hpp>
 #include <sdbusplus/message.hpp>
@@ -282,6 +283,25 @@ class MCTPDDevice :
     void remove() override;
     std::string describe() const override;
     std::size_t id() const override;
+
+  protected:
+    /**
+     * @brief The reply shape of mctpd's BusOwner1.AssignEndpoint /
+     *        AssignEndpointStatic methods.
+     */
+    using AssignCallback = std::function<void(
+        const boost::system::error_code& ec, uint8_t eid, int network,
+        const std::string& objpath, bool allocated)>;
+
+    /**
+     * @brief Ask the bus owner to assign a dynamically-allocated EID to this
+     *        device.
+     *
+     * Exposed as virtual, and separated from the decision of which mctpd
+     * method to call, so a test can substitute a mock bus owner without a
+     * live mctpd connection.
+     */
+    virtual void assignEndpoint(AssignCallback onSetup);
 
   private:
     static void onEndpointInterfacesRemoved(
