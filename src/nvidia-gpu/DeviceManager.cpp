@@ -338,6 +338,10 @@ void DeviceManager::processSensorConfigs(const ManagedObjectType& resp)
             try
             {
                 configs.pollRate = loadVariant<uint64_t>(cfg, "PollRate");
+                if (configs.pollRate == 0)
+                {
+                    configs.pollRate = sensorPollRateMs;
+                }
             }
             catch (const std::invalid_argument&)
             {
