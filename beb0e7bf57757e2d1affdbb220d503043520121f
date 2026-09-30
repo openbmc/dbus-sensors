@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9722fc19_132320b6",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-09-30T17:37:01Z",
+      "side": 1,
+      "message": "Please add a dependency link to the kernel driver backport, or confirm the target kernel already supports RAA229639 and RAA229640. Without that driver, PSUSensor cannot discover their hwmon devices.",
+      "range": {
+        "startLine": 153,
+        "startChar": 18,
+        "endLine": 153,
+        "endChar": 31
+      },
+      "revId": "beb0e7bf57757e2d1affdbb220d503043520121f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
