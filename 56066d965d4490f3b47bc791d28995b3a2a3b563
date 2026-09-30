@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e806e5a7_21c13e81",
+        "filename": "src/nvidia-gpu/NvidiaGpuEccMode.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-09-30T02:05:19Z",
+      "side": 1,
+      "message": "Please use `NvidiaGpuControlErrors.hpp`.",
+      "revId": "56066d965d4490f3b47bc791d28995b3a2a3b563",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f65da4b8_d649cf28",
+        "filename": "src/nvidia-gpu/NvidiaGpuEccMode.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-09-30T02:05:19Z",
+      "side": 1,
+      "message": "Should we ready need this?",
+      "revId": "56066d965d4490f3b47bc791d28995b3a2a3b563",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
