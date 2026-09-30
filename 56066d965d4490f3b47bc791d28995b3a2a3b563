@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2a40838_0cfc3993",
+        "filename": "src/nvidia-gpu/NvidiaGpuEccMode.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-09-30T07:11:12Z",
+      "side": 1,
+      "message": "Done,thanks.",
+      "parentUuid": "e806e5a7_21c13e81",
+      "revId": "56066d965d4490f3b47bc791d28995b3a2a3b563",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f65da4b8_d649cf28",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-09-30T02:05:19Z",
       "side": 1,
       "message": "Should we ready need this?",
+      "revId": "56066d965d4490f3b47bc791d28995b3a2a3b563",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "687f7ae6_951f868d",
+        "filename": "src/nvidia-gpu/NvidiaGpuEccMode.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-09-30T07:11:12Z",
+      "side": 1,
+      "message": "Done,thanks.",
+      "parentUuid": "f65da4b8_d649cf28",
       "revId": "56066d965d4490f3b47bc791d28995b3a2a3b563",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
