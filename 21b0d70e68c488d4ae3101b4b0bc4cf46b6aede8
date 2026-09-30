@@ -34,6 +34,24 @@
       "parentUuid": "f62b6a90_a5b86b55",
       "revId": "21b0d70e68c488d4ae3101b4b0bc4cf46b6aede8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4e69d31_2bfbb19b",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-09-30T07:11:18Z",
+      "side": 1,
+      "message": "Good catch, thanks. The rediscovery refresh now re-runs eventReporting-\u003einit() with the new set once it has been read",
+      "parentUuid": "3da23594_d1be4aab",
+      "revId": "21b0d70e68c488d4ae3101b4b0bc4cf46b6aede8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
