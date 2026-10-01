@@ -3,6 +3,46 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "1a883a01_6812c44f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-01T09:15:26Z",
+      "side": 1,
+      "message": "nit: maybe something like \"mctpreactor: add AST2700 USB root hubs\" for the title, and \"USB\" in capitals in the body.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 49
+      },
+      "revId": "28f6cc6c1778ec388ab802ccb57cb6bee2197e21",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d55964f9_f2994ead",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-01T09:15:26Z",
+      "side": 1,
+      "message": "Thanks for testing this on the evb. Could you share which RootHubPositions you exercised there, and whether it has also been tried on an AST2750?",
+      "revId": "28f6cc6c1778ec388ab802ccb57cb6bee2197e21",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ad413f8b_9cbf86a5",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -14,6 +54,40 @@
       "writtenOn": "2026-09-24T04:56:42Z",
       "side": 1,
       "message": "LGTM",
+      "revId": "28f6cc6c1778ec388ab802ccb57cb6bee2197e21",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "388663e0_3df7a072",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-01T09:15:26Z",
+      "side": 1,
+      "message": "12030000 is the dwc3 xHCI per aspeed,dwc3.yaml (https://github.com/torvalds/linux/blob/551c722f40809618230001baccf219193e22fc5a/Documentation/devicetree/bindings/usb/aspeed%2Cdwc3.yaml#L78-L80), and 12050000 looks like its port B twin.\ndwc3 puts its root hubs under an xhci-hcd.N.auto child rather than directly under this node, and xHCI registers two of them, so I don\u0027t think busFromRootHubPath() can resolve these positions; were they tested?",
+      "revId": "28f6cc6c1778ec388ab802ccb57cb6bee2197e21",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fced2a5_41ac92a4",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-01T09:15:26Z",
+      "side": 1,
+      "message": "12040000 and 14110000 are the UHCI companions in the AST2700 device tree, so no MCTP device can sit behind them and positions here would no longer count host controllers only, as they do on the AST2600; could they be dropped?",
       "revId": "28f6cc6c1778ec388ab802ccb57cb6bee2197e21",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
