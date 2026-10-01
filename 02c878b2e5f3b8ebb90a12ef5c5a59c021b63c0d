@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c697a1a_5d346e7b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 59
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-01T08:53:35Z",
+      "side": 1,
+      "message": "Dropped.",
+      "parentUuid": "c8a8caea_1d7c5f98",
+      "range": {
+        "startLine": 18,
+        "startChar": 44,
+        "endLine": 19,
+        "endChar": 69
+      },
+      "revId": "02c878b2e5f3b8ebb90a12ef5c5a59c021b63c0d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c8ecf1ed_7964bef7",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-10-01T01:26:36Z",
       "side": 1,
       "message": "Unnecessary commentary.",
+      "range": {
+        "startLine": 22,
+        "startChar": 66,
+        "endLine": 24,
+        "endChar": 61
+      },
+      "revId": "02c878b2e5f3b8ebb90a12ef5c5a59c021b63c0d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8b405be_4f13bbe5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 59
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-01T08:53:35Z",
+      "side": 1,
+      "message": "Dropped.",
+      "parentUuid": "c8ecf1ed_7964bef7",
       "range": {
         "startLine": 22,
         "startChar": 66,
@@ -70,6 +118,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "67fa3446_c71991f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 59
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-01T08:53:35Z",
+      "side": 1,
+      "message": "Trimmed. The cherry-pick list is down to the four patches that actually matter for bringing the device up, and the log evidence keeps one line each for the endpoint enumeration and the association.",
+      "parentUuid": "546689a5_43ec3d79",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 1
+      },
+      "revId": "02c878b2e5f3b8ebb90a12ef5c5a59c021b63c0d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d7202fb6_79d7646e",
@@ -83,6 +155,30 @@
       "writtenOn": "2026-10-01T01:26:36Z",
       "side": 1,
       "message": "I can\u0027t see that this statement is helpful? What is it describing?",
+      "range": {
+        "startLine": 574,
+        "startChar": 10,
+        "endLine": 575,
+        "endChar": 31
+      },
+      "revId": "02c878b2e5f3b8ebb90a12ef5c5a59c021b63c0d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69a147c7_16a3f7b0",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 59
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-01T08:53:35Z",
+      "side": 1,
+      "message": "It was about the AST2600\u0027s third USB controller: the device tree has ehci0 at 1e6a1000, ehci1 at 1e6a3000 and a UHCI companion at 1e6b0000, and the companion registers a root hub of its own in Linux, so counting root hubs would give three rather than two. The array already omits it, so I moved a shorter version of this next to the array where it answers why there are only two entries.",
+      "parentUuid": "d7202fb6_79d7646e",
       "range": {
         "startLine": 574,
         "startChar": 10,
@@ -116,6 +212,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6458571_96340910",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 59
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-01T08:53:35Z",
+      "side": 1,
+      "message": "Dropped.",
+      "parentUuid": "48a7d1e9_cec85756",
+      "range": {
+        "startLine": 575,
+        "startChar": 32,
+        "endLine": 576,
+        "endChar": 32
+      },
+      "revId": "02c878b2e5f3b8ebb90a12ef5c5a59c021b63c0d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5e83950_546ceda3",
@@ -129,6 +249,30 @@
       "writtenOn": "2026-10-01T01:26:36Z",
       "side": 1,
       "message": "Is this properly generalised? Looking at my laptop:\n\n\n```\n$ ls /sys/bus/usb/devices/1-0:1.0@   3-1:1.0@  3-4:1.2@    3-5.3:1.0@    3-6.2.1:1.1@  3-6.4.2@\n2-0:1.0@   3-1:1.1@  3-4:1.3@    3-6@          3-6.2.1:1.2@  3-6.4.2.1@\n2-1@       3-1:1.2@  3-4:1.4@    3-6.1@        3-6.2.1:1.3@  3-6.4.2:1.0@\n2-1:1.0@   3-1:1.3@  3-5@        3-6:1.0@      3-6.2.1:1.4@  3-6.4.2.1:1.0@\n3-0:1.0@   3-3@      3-5:1.0@    3-6.1:1.0@    3-6.2.1:1.5@  4-0:1.0@\n3-1@       3-3:1.0@  3-5.2@      3-6.2@        3-6.3@        usb1@\n3-10@      3-4@      3-5.2:1.0@  3-6.2.1@      3-6.3:1.0@    usb2@\n3-10:1.0@  3-4:1.0@  3-5.2:1.1@  3-6.2:1.0@    3-6.4@        usb3@\n3-10:1.1@  3-4:1.1@  3-5.3@      3-6.2.1:1.0@  3-6.4:1.0@    usb4@\n\n```\n\nInspecting `3-6`, because it seems interesting wrt to the question:\n\n```\n$ ls -1d /sys/bus/usb/devices/3-6/*/\n/sys/bus/usb/devices/3-6/3-6.1//\n/sys/bus/usb/devices/3-6/3-6:1.0//\n/sys/bus/usb/devices/3-6/3-6.2//\n/sys/bus/usb/devices/3-6/3-6.3//\n/sys/bus/usb/devices/3-6/3-6.4//\n/sys/bus/usb/devices/3-6/driver//\n/sys/bus/usb/devices/3-6/ep_00//\n/sys/bus/usb/devices/3-6/firmware_node//\n/sys/bus/usb/devices/3-6/physical_location//\n/sys/bus/usb/devices/3-6/port//\n/sys/bus/usb/devices/3-6/power//\n/sys/bus/usb/devices/3-6/subsystem//\n/sys/bus/usb/devices/3-6/typec//\n\n```\n\nIf `port` has multiple elements, then I don\u0027t think this works. However, the \"top-level\" `/sys/bus/usb/devices/` symlinks appear to traverse the nesting that\u0027s present under `/sys/bus/usb/devices/3-6/`:\n\n```\n$ realpath \u0027/sys/bus/usb/devices/3-6.2.1:1.0\u0027\n/sys/devices/pci0000:00/0000:00:14.0/usb3/3-6/3-6.2/3-6.2.1/3-6.2.1:1.0\n```",
+      "range": {
+        "startLine": 649,
+        "startChar": 42,
+        "endLine": 649,
+        "endChar": 59
+      },
+      "revId": "02c878b2e5f3b8ebb90a12ef5c5a59c021b63c0d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1114a41b_670a3109",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 59
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-01T08:53:35Z",
+      "side": 1,
+      "message": "Yes, this relies on /sys/bus/usb/devices/ holding a symlink for every device and interface regardless of depth, which is what your realpath shows. On the AST2600 the deepest endpoint here is five ports down and resolves the same way:\n\n/sys/bus/usb/devices/1-1.2.2.4.1 -\u003e ../../../devices/platform/ahb/1e6a3000.usb/usb1/1-1/1-1.2/1-1.2.2/1-1.2.2.4/1-1.2.2.4.1\n```\n$ ls /sys/bus/usb/devices/1-1.2.2.4.1/1-1.2.2.4.1:1.0/net\nmctpusb8\n```",
+      "parentUuid": "f5e83950_546ceda3",
       "range": {
         "startLine": 649,
         "startChar": 42,
@@ -162,6 +306,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "542c0361_9db333dc",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 59
+      },
+      "lineNbr": 766,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-01T08:53:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5162775_bd438f66",
+      "range": {
+        "startLine": 766,
+        "startChar": 12,
+        "endLine": 766,
+        "endChar": 73
+      },
+      "revId": "02c878b2e5f3b8ebb90a12ef5c5a59c021b63c0d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0ab5e58c_38f2b749",
@@ -185,6 +353,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a08b64ab_d3819c2e",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 59
+      },
+      "lineNbr": 786,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-01T08:53:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ab5e58c_38f2b749",
+      "range": {
+        "startLine": 773,
+        "startChar": 0,
+        "endLine": 786,
+        "endChar": 9
+      },
+      "revId": "02c878b2e5f3b8ebb90a12ef5c5a59c021b63c0d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9d3453ad_c51a101b",
@@ -198,6 +390,30 @@
       "writtenOn": "2026-10-01T01:26:36Z",
       "side": 1,
       "message": "Why expose the root hub array? It seems ungainly to be open-coding these checks at this point.\n\nIf you want to keep the separation between resolving the root hub index to its path from resolving the bus number from the root hub path, at least provide another static function that encapsulates these checks, then call that here.\nIt\u0027s an implementation detail, but on the surface I find it an odd choice.",
+      "range": {
+        "startLine": 789,
+        "startChar": 31,
+        "endLine": 789,
+        "endChar": 69
+      },
+      "revId": "02c878b2e5f3b8ebb90a12ef5c5a59c021b63c0d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c2d408a_ac01961d",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 59
+      },
+      "lineNbr": 789,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-01T08:53:35Z",
+      "side": 1,
+      "message": "Done, the lookup and both checks are now in `rootHubPathForPosition()`, which returns the controller path or nullopt, so the array no longer leaks into `from()`.",
+      "parentUuid": "9d3453ad_c51a101b",
       "range": {
         "startLine": 789,
         "startChar": 31,
