@@ -59,15 +59,26 @@ class GPIOValve : public BaseValve
                        Events& events, const LocalConfig& localConfig,
                        const config::GPIOConfig& config);
 
+    auto startMonitoring() -> void override;
+    auto requestStop() -> void override;
+    auto isStopped() const -> bool override;
+
   protected:
     auto getState() const -> State override;
     auto setState(State state) -> bool override;
 
   private:
+    class MonitorCompletion;
+
+    auto monitorGPIOAsync(MonitorCompletion completion)
+        -> sdbusplus::async::task<>;
     auto updateGPIOStateAsync(bool gpioState) -> sdbusplus::async::task<>;
 
     config::GPIOConfig gpioConfig;
     gpio::GPIInterface inputInterface;
+    bool stopRequested = false;
+    bool monitorStarted = false;
+    bool monitorCompleted = true;
 };
 
 } // namespace valve
