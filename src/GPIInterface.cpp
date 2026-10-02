@@ -1,13 +1,17 @@
 #include "GPIInterface.hpp"
 
+#include <fcntl.h>
+
 #include <gpiod.hpp>
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/async.hpp>
 
+#include <cerrno>
 #include <exception>
 #include <memory>
 #include <stdexcept>
 #include <string>
+#include <system_error>
 #include <utility>
 
 namespace gpio
@@ -49,6 +53,18 @@ GPIInterface::GPIInterface(sdbusplus::async::context& ctx,
             "Failed to get event fd for GPI line " + pinName);
     }
 
+    const auto flags = fcntl(lineFd, F_GETFL);
+    if (flags < 0)
+    {
+        throw std::system_error(errno, std::system_category(),
+                                "Failed to get GPI event fd flags");
+    }
+    if (fcntl(lineFd, F_SETFL, flags | O_NONBLOCK) < 0)
+    {
+        throw std::system_error(errno, std::system_category(),
+                                "Failed to set GPI event fd flags");
+    }
+
     fdioInstance = std::make_unique<sdbusplus::async::fdio>(ctx, lineFd);
 }
 
@@ -81,7 +97,24 @@ auto GPIInterface::readGPIAsyncEvent() -> sdbusplus::async::task<>
         // Wait for the fd event for the line to change
         co_await fdioInstance->next();
 
-        line.event_read();
+        try
+        {
+            line.event_read();
+        }
+        catch (const std::system_error& e)
+        {
+            if (e.code().value() == EINTR || e.code().value() == EAGAIN ||
+                e.code().value() == EWOULDBLOCK)
+            {
+                continue;
+            }
+
+            error("Failed to read GPI event for {LINENAME}: {ERR}", "LINENAME",
+                  pinName, "ERR", e);
+            // The fd may no longer be usable; repeated retries could spin.
+            co_return;
+        }
+
         auto lineValue = line.get_value();
 
         co_await updateStateCallback(
