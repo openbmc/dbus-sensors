@@ -23,6 +23,31 @@ namespace valve
 
 PHOSPHOR_LOG2_USING;
 
+class GPIOValve::MonitorCompletion
+{
+  public:
+    explicit MonitorCompletion(GPIOValve& valve) : valve(&valve) {}
+
+    MonitorCompletion(const MonitorCompletion&) = delete;
+    auto operator=(const MonitorCompletion&) -> MonitorCompletion& = delete;
+
+    MonitorCompletion(MonitorCompletion&& other) noexcept :
+        valve(std::exchange(other.valve, nullptr))
+    {}
+
+    ~MonitorCompletion() noexcept
+    {
+        if (valve != nullptr)
+        {
+            valve->requestStop();
+            valve->monitorCompleted = true;
+        }
+    }
+
+  private:
+    GPIOValve* valve;
+};
+
 namespace config
 {
 
@@ -92,9 +117,100 @@ GPIOValve::GPIOValve(sdbusplus::async::context& ctx,
     BaseValve(ctx, objectPath, events, localConfig, config), gpioConfig(config),
     inputInterface(ctx, config.name, config.openPinName,
                    (config.openPolarity == config::PinPolarity::activeLow),
-                   std::bind_front(&GPIOValve::updateGPIOStateAsync, this))
+                   std::bind_front(&GPIOValve::updateGPIOStateAsync, this),
+                   std::chrono::microseconds(1'000'000))
+{}
+
+auto GPIOValve::startMonitoring() -> void
 {
-    ctx.spawn(inputInterface.start());
+    if (monitorStarted || stopRequested || ctx.stop_requested())
+    {
+        return;
+    }
+
+    monitorStarted = true;
+    monitorCompleted = false;
+    try
+    {
+        ctx.spawn(monitorGPIOAsync(MonitorCompletion{*this}));
+    }
+    catch (const std::exception& e)
+    {
+        error("Failed to start GPIO valve monitor for {VALVE}: {ERR}", "VALVE",
+              baseConfig.name, "ERR", e);
+        std::terminate();
+    }
+    catch (...)
+    {
+        error("Failed to start GPIO valve monitor for {VALVE}: unknown error",
+              "VALVE", baseConfig.name);
+        std::terminate();
+    }
+}
+
+auto GPIOValve::requestStop() -> void
+{
+    if (stopRequested)
+    {
+        return;
+    }
+
+    stopRequested = true;
+    inputInterface.requestStop();
+    try
+    {
+        available(false);
+    }
+    catch (const std::exception& e)
+    {
+        error("Failed to mark GPIO valve {VALVE} unavailable: {ERR}", "VALVE",
+              baseConfig.name, "ERR", e);
+    }
+    catch (...)
+    {
+        error("Failed to mark GPIO valve {VALVE} unavailable: unknown error",
+              "VALVE", baseConfig.name);
+    }
+}
+
+auto GPIOValve::isStopped() const -> bool
+{
+    return !monitorStarted || monitorCompleted;
+}
+
+auto GPIOValve::monitorGPIOAsync(MonitorCompletion completion)
+    -> sdbusplus::async::task<>
+{
+    static_cast<void>(completion);
+
+    try
+    {
+        if (!stopRequested && !ctx.stop_requested())
+        {
+            co_await inputInterface.monitor();
+        }
+
+        if (!stopRequested && !ctx.stop_requested())
+        {
+            error("GPIO valve monitor ended unexpectedly for {VALVE}", "VALVE",
+                  baseConfig.name);
+            requestStop();
+        }
+    }
+    catch (const std::exception& e)
+    {
+        error("GPIO valve monitor failed for {VALVE}: {ERR}", "VALVE",
+              baseConfig.name, "ERR", e);
+        requestStop();
+    }
+    catch (...)
+    {
+        error("GPIO valve monitor failed for {VALVE}: unknown error", "VALVE",
+              baseConfig.name);
+        requestStop();
+    }
+
+    co_return;
 }
 
 auto GPIOValve::getState() const -> State
@@ -105,6 +221,11 @@ auto GPIOValve::getState() const -> State
 
 auto GPIOValve::setState(State state) -> bool
 {
+    if (stopRequested || ctx.stop_requested())
+    {
+        return false;
+    }
+
     debug("Setting {VALVE} to {STATE}", "VALVE", baseConfig.name, "STATE",
           Valve::convertStateToString(state));
 
@@ -149,6 +270,10 @@ auto GPIOValve::updateGPIOStateAsync(bool gpioState) -> sdbusplus::async::task<>
     // Delay before generating valve events to prevent spurious logs
     // caused by GPIO transitions during BMC shutdown.
     static constexpr auto valveEventDelay = std::chrono::milliseconds(200);
+    if (stopRequested || ctx.stop_requested())
+    {
+        co_return;
+    }
 
     auto newValue = gpioState ? 100 : 0;
     const bool stateChanged = newValue != value();
@@ -164,7 +289,15 @@ auto GPIOValve::updateGPIOStateAsync(bool gpioState) -> sdbusplus::async::task<>
     // events only for subsequent state changes.
     if (!publishControlInterface() && stateChanged)
     {
+        if (stopRequested || ctx.stop_requested())
+        {
+            co_return;
+        }
         co_await sdbusplus::async::sleep_for(ctx, valveEventDelay);
+        if (stopRequested || ctx.stop_requested())
+        {
+            co_return;
+        }
         co_await events.generateValveEvent(inventoryPath, gpioState);
     }
 

@@ -3,6 +3,7 @@
 #include <gpiod.hpp>
 #include <sdbusplus/async.hpp>
 
+#include <chrono>
 #include <functional>
 #include <memory>
 #include <string>
@@ -19,12 +20,20 @@ class GPIInterface
     GPIInterface() = delete;
 
     /** @brief Constructor to configure the GPI interface in read event mode */
-    GPIInterface(sdbusplus::async::context& ctx,
-                 const std::string& consumerName, const std::string& pinName,
-                 bool activeLow, Callback_t updateStateCallback);
+    GPIInterface(
+        sdbusplus::async::context& ctx, const std::string& consumerName,
+        const std::string& pinName, bool activeLow,
+        Callback_t updateStateCallback,
+        std::chrono::microseconds timeout = std::chrono::microseconds(0));
 
     /** @brief Start the GPI Interface */
     auto start() -> sdbusplus::async::task<>;
+
+    /** @brief Request the valve-specific GPI monitor to stop */
+    auto requestStop() -> void;
+
+    /** @brief Monitor the GPI line in one awaited operation tree */
+    auto monitor() -> sdbusplus::async::task<>;
 
   private:
     /** @brief Read the gpi state asynchronously */
@@ -34,9 +43,10 @@ class GPIInterface
     auto readGPIAsyncEvent() -> sdbusplus::async::task<>;
 
     sdbusplus::async::context& ctx;
-    const std::string& pinName;
+    std::string pinName;
     Callback_t updateStateCallback;
     gpiod::line line;
+    bool stopRequested = false;
     /** File descriptor based async event handler */
     std::unique_ptr<sdbusplus::async::fdio> fdioInstance;
 };
