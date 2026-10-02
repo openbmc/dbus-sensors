@@ -21,6 +21,7 @@
 #include <filesystem>
 #include <format>
 #include <fstream>
+#include <memory>
 #include <optional>
 #include <string>
 #include <string_view>
@@ -143,7 +144,7 @@ AnalogValve::AnalogValve(sdbusplus::async::context& ctx,
                          Events& events, const LocalConfig& localConfig,
                          const config::AnalogConfig& config) :
     BaseValve(ctx, objectPath, events, localConfig, config),
-    analogConfig(config)
+    monitorState(std::make_shared<MonitorState>()), analogConfig(config)
 {
     auto dacPath = findDACSysfsPath();
     if (dacPath.has_value())
@@ -171,7 +172,12 @@ AnalogValve::AnalogValve(sdbusplus::async::context& ctx,
               baseConfig.name);
     }
 
-    ctx.spawn(monitorFeedbackAsync());
+    ctx.spawn(monitorFeedbackAsync(monitorState));
+}
+
+AnalogValve::~AnalogValve()
+{
+    monitorState->cancelled = true;
 }
 
 auto AnalogValve::getState() const -> State
@@ -225,7 +231,9 @@ auto AnalogValve::setState(State state) -> bool
     return true;
 }
 
-auto AnalogValve::handleStateChange(double voltage) -> sdbusplus::async::task<>
+auto AnalogValve::handleStateChange(double voltage,
+                                    std::shared_ptr<MonitorState> monitorState)
+    -> sdbusplus::async::task<>
 {
     bool wasOpen = isOpen;
 
@@ -259,6 +267,10 @@ auto AnalogValve::handleStateChange(double voltage) -> sdbusplus::async::task<>
         }
 
         co_await events.generateValveEvent(inventoryPath, isOpen);
+        if (monitorState->cancelled)
+        {
+            co_return;
+        }
     }
 
     /** @brief Valve state to systemd target service map */
@@ -314,8 +326,14 @@ auto AnalogValve::checkSetPointTolerance(double voltage)
     co_await events.handleValveSetPointWarning(inventoryPath, outOfTolerance);
 }
 
-auto AnalogValve::monitorFeedbackAsync() -> sdbusplus::async::task<>
+auto AnalogValve::monitorFeedbackAsync(
+    std::shared_ptr<MonitorState> monitorState) -> sdbusplus::async::task<>
 {
+    if (monitorState->cancelled)
+    {
+        co_return;
+    }
+
     // Wait for the valve feedback to stabilize after power-on.
     // Ignore invalid feedback during startup.
     static constexpr auto startupDelay = std::chrono::seconds(120);
@@ -326,11 +344,19 @@ auto AnalogValve::monitorFeedbackAsync() -> sdbusplus::async::task<>
         "VALVE", baseConfig.name);
 
     co_await sdbusplus::async::sleep_for(ctx, startupDelay);
+    if (monitorState->cancelled)
+    {
+        co_return;
+    }
 
     while (!ctx.stop_requested())
     {
         co_await sdbusplus::async::sleep_for(
             ctx, std::chrono::milliseconds(pollIntervalMs));
+        if (monitorState->cancelled)
+        {
+            co_return;
+        }
 
         auto voltage = readADCVoltage();
         if (!voltage.has_value())
@@ -338,7 +364,11 @@ auto AnalogValve::monitorFeedbackAsync() -> sdbusplus::async::task<>
             continue;
         }
 
-        co_await handleStateChange(voltage.value());
+        co_await handleStateChange(voltage.value(), monitorState);
+        if (monitorState->cancelled)
+        {
+            co_return;
+        }
 
         auto percent = voltageToPercent(voltage.value());
         auto newValue = static_cast<int>(std::round(percent));
@@ -352,6 +382,10 @@ auto AnalogValve::monitorFeedbackAsync() -> sdbusplus::async::task<>
         }
 
         co_await checkSetPointTolerance(voltage.value());
+        if (monitorState->cancelled)
+        {
+            co_return;
+        }
     }
 }
 

@@ -11,6 +11,7 @@
 
 #include <chrono>
 #include <cstdint>
+#include <memory>
 #include <optional>
 #include <string>
 #include <vector>
@@ -68,16 +69,26 @@ class AnalogValve : public BaseValve
                          Events& events, const LocalConfig& localConfig,
                          const config::AnalogConfig& config);
 
+    ~AnalogValve() override;
+
   protected:
     auto getState() const -> State override;
     auto setState(State state) -> bool override;
 
   private:
+    struct MonitorState
+    {
+        bool cancelled = false;
+    };
+
     /** @brief Periodically read ADC feedback and update valve position */
-    auto monitorFeedbackAsync() -> sdbusplus::async::task<>;
+    auto monitorFeedbackAsync(std::shared_ptr<MonitorState> monitorState)
+        -> sdbusplus::async::task<>;
 
     /** @brief Handle valve state change based on feedback voltage */
-    auto handleStateChange(double voltage) -> sdbusplus::async::task<>;
+    auto handleStateChange(double voltage,
+                           std::shared_ptr<MonitorState> monitorState)
+        -> sdbusplus::async::task<>;
 
     /** @brief Check if feedback voltage is within tolerance of setpoint */
     auto checkSetPointTolerance(double voltage) -> sdbusplus::async::task<>;
@@ -105,6 +116,7 @@ class AnalogValve : public BaseValve
     /** @brief Find the sysfs path for the ADC IIO channel */
     auto findADCSysfsPath() -> std::optional<std::string>;
 
+    std::shared_ptr<MonitorState> monitorState;
     config::AnalogConfig analogConfig;
     std::string dacSysfsPath;
     std::string adcSysfsPath;
