@@ -19,10 +19,10 @@ namespace gpio
 
 PHOSPHOR_LOG2_USING;
 
-GPIInterface::GPIInterface(sdbusplus::async::context& ctx,
-                           const std::string& consumerName,
-                           const std::string& pinName, bool activeLow,
-                           Callback_t updateStateCallback) :
+GPIInterface::GPIInterface(
+    sdbusplus::async::context& ctx, const std::string& consumerName,
+    const std::string& pinName, bool activeLow, Callback_t updateStateCallback,
+    std::chrono::microseconds timeout) :
     ctx(ctx), pinName(pinName),
     updateStateCallback(std::move(updateStateCallback))
 {
@@ -65,7 +65,8 @@ GPIInterface::GPIInterface(sdbusplus::async::context& ctx,
                                 "Failed to set GPI event fd flags");
     }
 
-    fdioInstance = std::make_unique<sdbusplus::async::fdio>(ctx, lineFd);
+    fdioInstance =
+        std::make_unique<sdbusplus::async::fdio>(ctx, lineFd, timeout);
 }
 
 auto GPIInterface::start() -> sdbusplus::async::task<>
@@ -75,6 +76,85 @@ auto GPIInterface::start() -> sdbusplus::async::task<>
 
     // Read the initial GPI value
     co_await readGPIAsync();
+}
+
+auto GPIInterface::requestStop() -> void
+{
+    stopRequested = true;
+}
+
+auto GPIInterface::monitor() -> sdbusplus::async::task<>
+{
+    if (stopRequested || ctx.stop_requested())
+    {
+        co_return;
+    }
+
+    const auto lineValue = line.get_value();
+    if (lineValue < 0)
+    {
+        error("Failed to read GPI line {LINENAME}", "LINENAME", pinName);
+        co_return;
+    }
+
+    if (stopRequested || ctx.stop_requested())
+    {
+        co_return;
+    }
+    co_await updateStateCallback(lineValue == gpiod::line_event::RISING_EDGE);
+
+    while (!stopRequested && !ctx.stop_requested())
+    {
+        try
+        {
+            co_await fdioInstance->next();
+        }
+        catch (const sdbusplus::async::fdio_timeout_exception&)
+        {
+            if (stopRequested || ctx.stop_requested())
+            {
+                co_return;
+            }
+            continue;
+        }
+
+        if (stopRequested || ctx.stop_requested())
+        {
+            co_return;
+        }
+
+        try
+        {
+            line.event_read();
+        }
+        catch (const std::system_error& e)
+        {
+            if (e.code().value() == EINTR || e.code().value() == EAGAIN ||
+                e.code().value() == EWOULDBLOCK)
+            {
+                continue;
+            }
+
+            error("Failed to read GPI event for {LINENAME}: {ERR}", "LINENAME",
+                  pinName, "ERR", e);
+            co_return;
+        }
+
+        if (stopRequested || ctx.stop_requested())
+        {
+            co_return;
+        }
+
+        const auto eventLineValue = line.get_value();
+        if (stopRequested || ctx.stop_requested())
+        {
+            co_return;
+        }
+        co_await updateStateCallback(
+            eventLineValue == gpiod::line_event::RISING_EDGE);
+    }
+
+    co_return;
 }
 
 auto GPIInterface::readGPIAsync() -> sdbusplus::async::task<>
