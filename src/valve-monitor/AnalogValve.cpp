@@ -21,6 +21,7 @@
 #include <filesystem>
 #include <format>
 #include <fstream>
+#include <memory>
 #include <optional>
 #include <string>
 #include <string_view>
@@ -170,8 +171,49 @@ AnalogValve::AnalogValve(sdbusplus::async::context& ctx,
         error("Failed to find ADC sysfs path for {VALVE}", "VALVE",
               baseConfig.name);
     }
+}
 
-    ctx.spawn(monitorFeedbackAsync());
+auto AnalogValve::requestStop() -> void
+{
+    if (stopRequested)
+    {
+        return;
+    }
+
+    stopRequested = true;
+    available(false);
+}
+
+auto AnalogValve::isStopped() const -> bool
+{
+    return !monitorStarted || monitorCompleted;
+}
+
+auto AnalogValve::startMonitoring() -> void
+{
+    if (monitorStarted || stopRequested)
+    {
+        return;
+    }
+
+    monitorStarted = true;
+    monitorCompleted = false;
+    try
+    {
+        ctx.spawn(monitorFeedbackAsync());
+    }
+    catch (const std::exception& e)
+    {
+        error("Failed to start analog valve monitor for {VALVE}: {ERR}",
+              "VALVE", baseConfig.name, "ERR", e);
+        std::terminate();
+    }
+    catch (...)
+    {
+        error("Failed to start analog valve monitor for {VALVE}: unknown error",
+              "VALVE", baseConfig.name);
+        std::terminate();
+    }
 }
 
 auto AnalogValve::getState() const -> State
@@ -182,6 +224,11 @@ auto AnalogValve::getState() const -> State
 
 auto AnalogValve::setState(State state) -> bool
 {
+    if (stopRequested)
+    {
+        return false;
+    }
+
     debug("Setting {VALVE} to {STATE}", "VALVE", baseConfig.name, "STATE",
           Valve::convertStateToString(state));
 
@@ -227,6 +274,10 @@ auto AnalogValve::setState(State state) -> bool
 
 auto AnalogValve::handleStateChange(double voltage) -> sdbusplus::async::task<>
 {
+    if (stopRequested)
+    {
+        co_return;
+    }
     bool wasOpen = isOpen;
 
     // Apply hysteresis on the open transition to prevent oscillation
@@ -259,6 +310,10 @@ auto AnalogValve::handleStateChange(double voltage) -> sdbusplus::async::task<>
         }
 
         co_await events.generateValveEvent(inventoryPath, isOpen);
+        if (stopRequested)
+        {
+            co_return;
+        }
     }
 
     /** @brief Valve state to systemd target service map */
@@ -277,6 +332,10 @@ auto AnalogValve::handleStateChange(double voltage) -> sdbusplus::async::task<>
                           ".service";
             debug("Starting systemd target {TARGET}", "TARGET", target);
             co_await systemd::SystemdInterface::startUnit(ctx, target);
+            if (stopRequested)
+            {
+                co_return;
+            }
             break;
         }
     }
@@ -316,43 +375,88 @@ auto AnalogValve::checkSetPointTolerance(double voltage)
 
 auto AnalogValve::monitorFeedbackAsync() -> sdbusplus::async::task<>
 {
-    // Wait for the valve feedback to stabilize after power-on.
-    // Ignore invalid feedback during startup.
-    static constexpr auto startupDelay = std::chrono::seconds(120);
-    info(
-        "Waiting {DELAY_SECONDS}s for analog valve feedback to stabilize before monitoring: "
-        "inventory={INVENTORY}, valve={VALVE}",
-        "DELAY_SECONDS", startupDelay.count(), "INVENTORY", inventoryPath.str,
-        "VALVE", baseConfig.name);
-
-    co_await sdbusplus::async::sleep_for(ctx, startupDelay);
-
-    while (!ctx.stop_requested())
+    try
     {
-        co_await sdbusplus::async::sleep_for(
-            ctx, std::chrono::milliseconds(pollIntervalMs));
+        // Wait until the original startup deadline while checking for stop
+        // requests at least once per second.
+        static constexpr auto startupDelay = std::chrono::seconds(120);
+        const auto startupDeadline =
+            std::chrono::steady_clock::now() + startupDelay;
+        info("Waiting {DELAY_SECONDS}s for analog valve feedback to stabilize "
+             "before monitoring: "
+             "inventory={INVENTORY}, valve={VALVE}",
+             "DELAY_SECONDS", startupDelay.count(), "INVENTORY",
+             inventoryPath.str, "VALVE", baseConfig.name);
 
-        auto voltage = readADCVoltage();
-        if (!voltage.has_value())
+        while (!stopRequested && !ctx.stop_requested())
         {
-            continue;
+            auto remaining = startupDeadline - std::chrono::steady_clock::now();
+            if (remaining <= std::chrono::steady_clock::duration::zero())
+            {
+                break;
+            }
+
+            auto sleepDuration = std::min(
+                remaining,
+                std::chrono::steady_clock::duration(std::chrono::seconds(1)));
+            co_await sdbusplus::async::sleep_for(ctx, sleepDuration);
+            if (stopRequested || ctx.stop_requested())
+            {
+                break;
+            }
         }
 
-        co_await handleStateChange(voltage.value());
-
-        auto percent = voltageToPercent(voltage.value());
-        auto newValue = static_cast<int>(std::round(percent));
-        newValue = std::clamp(newValue, 0, 100);
-
-        if (newValue != value())
+        while (!stopRequested && !ctx.stop_requested())
         {
-            debug("Updating valve {VALVE} to {VALUE}%", "VALVE",
-                  baseConfig.name, "VALUE", newValue);
-            value(newValue);
-        }
+            co_await sdbusplus::async::sleep_for(
+                ctx, std::chrono::milliseconds(pollIntervalMs));
+            if (stopRequested || ctx.stop_requested())
+            {
+                break;
+            }
 
-        co_await checkSetPointTolerance(voltage.value());
+            auto voltage = readADCVoltage();
+            if (!voltage.has_value())
+            {
+                continue;
+            }
+
+            co_await handleStateChange(voltage.value());
+            if (stopRequested)
+            {
+                break;
+            }
+
+            auto percent = voltageToPercent(voltage.value());
+            auto newValue = static_cast<int>(std::round(percent));
+            newValue = std::clamp(newValue, 0, 100);
+
+            if (newValue != value())
+            {
+                debug("Updating valve {VALVE} to {VALUE}%", "VALVE",
+                      baseConfig.name, "VALUE", newValue);
+                value(newValue);
+            }
+
+            co_await checkSetPointTolerance(voltage.value());
+            if (stopRequested)
+            {
+                break;
+            }
+        }
     }
+    catch (const std::exception& e)
+    {
+        error("Analog valve monitor failed for {VALVE}: {ERR}", "VALVE",
+              baseConfig.name, "ERR", e);
+    }
+    catch (...)
+    {
+        error("Analog valve monitor failed for {VALVE}: unknown error", "VALVE",
+              baseConfig.name);
+    }
+
+    monitorCompleted = true;
 }
 
 auto AnalogValve::writeDACVoltage(double voltage) -> bool

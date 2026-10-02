@@ -68,6 +68,12 @@ class AnalogValve : public BaseValve
                          Events& events, const LocalConfig& localConfig,
                          const config::AnalogConfig& config);
 
+    ~AnalogValve() override = default;
+
+    auto requestStop() -> void override;
+    auto isStopped() const -> bool override;
+    auto startMonitoring() -> void;
+
   protected:
     auto getState() const -> State override;
     auto setState(State state) -> bool override;
@@ -110,6 +116,9 @@ class AnalogValve : public BaseValve
     std::string adcSysfsPath;
     double currentSetPointVoltage = 0.0;
     bool isOpen = false;
+    bool stopRequested = false;
+    bool monitorStarted = false;
+    bool monitorCompleted = true;
     std::chrono::steady_clock::time_point lastSetPointChange;
 };
 
