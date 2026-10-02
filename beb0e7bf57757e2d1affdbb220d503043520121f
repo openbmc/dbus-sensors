@@ -22,6 +22,30 @@
       },
       "revId": "beb0e7bf57757e2d1affdbb220d503043520121f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ee7ea11_bb68a37a",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1002711
+      },
+      "writtenOn": "2026-10-02T03:21:47Z",
+      "side": 1,
+      "message": "@praveenbv@ami.com\nDo you mean this [2]?  If not, please give a sample. Thx.\n\nReference:\n[1] https://lore.kernel.org/all/20260921-add-raa229639-and-raa229640-v3-0-b104ee8a70b2@gmail.com/\n[2] https://lore.kernel.org/openbmc/20260929-openbmc-add-raa229639-and-raa229640-v1-0-de693c0a6ecb@gmail.com/",
+      "parentUuid": "9722fc19_132320b6",
+      "range": {
+        "startLine": 153,
+        "startChar": 18,
+        "endLine": 153,
+        "endChar": 31
+      },
+      "revId": "beb0e7bf57757e2d1affdbb220d503043520121f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
