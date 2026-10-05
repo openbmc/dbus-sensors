@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34b62e76_360561d0",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-10-05T04:47:37Z",
+      "side": 1,
+      "message": "this is not necessary.",
+      "range": {
+        "startLine": 331,
+        "startChar": 10,
+        "endLine": 331,
+        "endChar": 41
+      },
+      "revId": "bef48a9a8b93ab51b05f91ca146c21606ca2dcd0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba9e8a62_b9a0158a",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-10-05T04:47:37Z",
+      "side": 1,
+      "message": "Is this strictly necessary?",
+      "range": {
+        "startLine": 361,
+        "startChar": 74,
+        "endLine": 363,
+        "endChar": 64
+      },
+      "revId": "bef48a9a8b93ab51b05f91ca146c21606ca2dcd0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25c6b021_104d570f",
+        "filename": "src/nvidia-gpu/NvidiaLldpTlvs.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-10-05T04:47:37Z",
+      "side": 1,
+      "message": "Log the error here following same patter as other files in this application.",
+      "revId": "bef48a9a8b93ab51b05f91ca146c21606ca2dcd0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba72b25c_00cd7b31",
+        "filename": "src/nvidia-gpu/NvidiaLldpTlvs.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-10-05T04:47:37Z",
+      "side": 1,
+      "message": "use same pattern for log as the other files in this application.",
+      "revId": "bef48a9a8b93ab51b05f91ca146c21606ca2dcd0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37c7fd39_69dc36c3",
+        "filename": "src/nvidia-gpu/NvidiaLldpTlvs.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-10-05T04:47:37Z",
+      "side": 1,
+      "message": "this is not necessary.",
+      "range": {
+        "startLine": 51,
+        "startChar": 76,
+        "endLine": 52,
+        "endChar": 67
+      },
+      "revId": "bef48a9a8b93ab51b05f91ca146c21606ca2dcd0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
