@@ -60,6 +60,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4842e847_f6a2d6f4",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-05T05:40:29Z",
+      "side": 1,
+      "message": "Could this check match the EID as a complete token? grep uses a substring match here, so checking for eid 8 can also match eid 80. In that case setup skips adding EID 8 and continues with the wrong local EID.",
+      "revId": "de9264e4a9c756922c0421dea7138396d966c429",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e27091cc_1e7e452b",
         "filename": "src/mctp/MCTPEndpoint.cpp",
         "patchSetId": 10
@@ -89,6 +106,23 @@
       "side": 1,
       "message": "I agree with the point here. Additionally for mctpd v2, it would be better to make use of the existing LocalEIDs D‑Bus property exposed by the au.com.codeconstruct.MCTP.Network1 interface under au.com.codeconstruct.MCTP1 at the path /au/com/codeconstruct/mctp1/networks/\u003cnetwork id\u003e. \n\nSimilarly, \u003cnetwork id\u003e can also be fetched from path /au/com/codeconstruct/mctp1/interfaces/\u003cinterface name\u003e.",
       "parentUuid": "e27091cc_1e7e452b",
+      "revId": "de9264e4a9c756922c0421dea7138396d966c429",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ced6632_6b435305",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-05T05:40:29Z",
+      "side": 1,
+      "message": "Could we also check that ptr reached the end of sLocalEID? from_chars accepts a valid numeric prefix, so a configured value like \"8junk\" is accepted as EID 8 instead of being rejected or falling back.",
       "revId": "de9264e4a9c756922c0421dea7138396d966c429",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
