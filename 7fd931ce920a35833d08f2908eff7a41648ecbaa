@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c16189fc_996231b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-10-05T10:56:32Z",
+      "side": 1,
+      "message": "Please add information on testing performed for this change.",
+      "revId": "7fd931ce920a35833d08f2908eff7a41648ecbaa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbf3a965_e12a5ee9",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-10-05T10:56:32Z",
+      "side": 1,
+      "message": "This can be renamed to `processRecvMsgImpl` and member function `processRecvMsg` will call `processRecvMsgImpl` and `startReceive` in order, see the comment at line 104.",
+      "range": {
+        "startLine": 93,
+        "startChar": 20,
+        "endLine": 93,
+        "endChar": 34
+      },
+      "revId": "7fd931ce920a35833d08f2908eff7a41648ecbaa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee917d89_a0ed2c69",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-10-05T10:56:32Z",
+      "side": 1,
+      "message": "Instead of adding this function call before each return statements, can we make add a new function that calls `processRecvMsg` and `startReceive` in order and then we can use that new function as receive callback at line 90 in this file?",
+      "revId": "7fd931ce920a35833d08f2908eff7a41648ecbaa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
