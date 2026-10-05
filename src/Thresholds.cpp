@@ -53,6 +53,29 @@ Direction findThresholdDirection(const std::string& direct)
     return Direction::ERROR;
 }
 
+// Returns true if a threshold configuration entry belongs to the sensor channel
+// identified by sensorIndex. Multi-channel devices (e.g. TMP432) expose several
+// channels under a single configuration object, distinguished only by the
+// "Index" property; this match is what binds each threshold to exactly one
+// channel. A missing "Index" is treated as "Index 1" so single-channel devices
+// keep working without declaring one. Shared by the read path
+// (parseThresholdsFromConfig) and the write-back path (persistThreshold) so
+// both agree on which channel a threshold belongs to.
+static bool matchThresholdIndex(const SensorBaseConfigMap& cfg, int sensorIndex)
+{
+    auto indexFind = cfg.find("Index");
+    if ((indexFind == cfg.end()) && (sensorIndex != 1))
+    {
+        return false;
+    }
+    if ((indexFind != cfg.end()) &&
+        (std::visit(VariantToIntVisitor(), indexFind->second) != sensorIndex))
+    {
+        return false;
+    }
+    return true;
+}
+
 bool parseThresholdsFromConfig(
     const SensorData& sensorData,
     std::vector<thresholds::Threshold>& thresholdVector,
@@ -78,22 +101,9 @@ bool parseThresholdsFromConfig(
             }
         }
 
-        if (sensorIndex != nullptr)
+        if ((sensorIndex != nullptr) && !matchThresholdIndex(cfg, *sensorIndex))
         {
-            auto indexFind = cfg.find("Index");
-
-            // If we're checking for index 1, a missing Index is OK.
-            if ((indexFind == cfg.end()) && (*sensorIndex != 1))
-            {
-                continue;
-            }
-
-            if ((indexFind != cfg.end()) &&
-                (std::visit(VariantToIntVisitor(), indexFind->second) !=
-                 *sensorIndex))
-            {
-                continue;
-            }
+            continue;
         }
 
         double hysteresis = std::numeric_limits<double>::quiet_NaN();
@@ -138,19 +148,32 @@ bool parseThresholdsFromConfig(
 void persistThreshold(const std::string& path, const std::string& baseInterface,
                       const thresholds::Threshold& threshold,
                       std::shared_ptr<sdbusplus::asio::connection>& conn,
-                      size_t thresholdCount, const std::string& labelMatch)
+                      size_t thresholdCount, const std::string& labelMatch,
+                      int sensorIndex)
 {
     for (size_t ii = 0; ii < thresholdCount; ii++)
     {
         std::string thresholdInterface =
             baseInterface + ".Thresholds" + std::to_string(ii);
         conn->async_method_call(
-            [&, path, threshold, thresholdInterface,
-             labelMatch](const boost::system::error_code& ec,
-                         const SensorBaseConfigMap& result) {
+            [&, path, threshold, thresholdInterface, labelMatch,
+             sensorIndex](const boost::system::error_code& ec,
+                          const SensorBaseConfigMap& result) {
                 if (ec)
                 {
                     return; // threshold not supported
+                }
+
+                // Only persist to the threshold entry belonging to this
+                // sensor's channel. Without this, a runtime change on one
+                // channel of a multi-channel device would be written to every
+                // channel's same level/direction threshold. sensorIndex == 0
+                // means "unset" (single-channel devices), which keeps the
+                // previous behaviour.
+                if ((sensorIndex != 0) &&
+                    !matchThresholdIndex(result, sensorIndex))
+                {
+                    return;
                 }
 
                 if (!labelMatch.empty())

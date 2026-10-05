@@ -93,6 +93,11 @@ struct Sensor
     virtual ~Sensor() = default;
     virtual void checkThresholds() = 0;
     std::string name;
+    // Channel index for multi-channel devices (e.g. TMP432 Name/Name1/Name2),
+    // matching the "Index" property in the threshold configuration. Used to
+    // persist a runtime threshold change to the correct channel only. 0 = unset
+    // (single-channel devices), which keeps the default persist behaviour.
+    int thresholdIndex = 0;
     std::string configurationPath;
     std::string configInterface;
     bool isSensorSettable;
@@ -322,7 +327,7 @@ struct Sensor
                     threshold.value = request;
                     thresholds::persistThreshold(
                         configurationPath, configInterface, threshold,
-                        dbusConnection, thresSize, label);
+                        dbusConnection, thresSize, label, thresholdIndex);
                     // Invalidate previously remembered value,
                     // so new thresholds will be checked during next update,
                     // even if sensor reading remains unchanged.
