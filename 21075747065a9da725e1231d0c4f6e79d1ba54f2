@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de2fb217_8cd55ec6",
+        "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-10-05T04:57:00Z",
+      "side": 1,
+      "message": "use sdbusplus::object_path operator /.",
+      "revId": "21075747065a9da725e1231d0c4f6e79d1ba54f2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57bc705a_c161c449",
+        "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-10-05T04:57:00Z",
+      "side": 1,
+      "message": "nit: make this const.",
+      "revId": "21075747065a9da725e1231d0c4f6e79d1ba54f2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f7e794d_ab5b4e56",
+        "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-10-05T04:57:00Z",
+      "side": 1,
+      "message": "use std::format and sdbusplus::object_path operator /.",
+      "revId": "21075747065a9da725e1231d0c4f6e79d1ba54f2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
