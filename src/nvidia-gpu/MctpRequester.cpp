@@ -263,6 +263,15 @@ void MctpRequester::handleResult(uint8_t eid, const std::error_code& ec,
     }
 
     auto& queue = it->second.queue;
+    if (queue.empty())
+    {
+        lg2::error(
+            "Received an MCTP result with no pending request for eid {EID}",
+            "EID", eid);
+        startReceive();
+        return;
+    }
+
     auto& reqCtx = queue.front();
 
     it->second.timer.cancel();
