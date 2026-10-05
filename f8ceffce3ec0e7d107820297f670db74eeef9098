@@ -16,6 +16,24 @@
       "message": "This overwrites the IIO driver’s existing _offset. Should the configured offset be added to it instead? Could we cover this with a test?",
       "revId": "f8ceffce3ec0e7d107820297f670db74eeef9098",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "361d5f53_4745befd",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1002720
+      },
+      "writtenOn": "2026-10-05T08:53:24Z",
+      "side": 1,
+      "message": "Done in Patchset 9. Thanks for the catch!",
+      "parentUuid": "a3c5fb51_64d6df90",
+      "revId": "f8ceffce3ec0e7d107820297f670db74eeef9098",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
