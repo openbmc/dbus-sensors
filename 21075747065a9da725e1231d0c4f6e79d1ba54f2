@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d29cd57c_fa27ce59",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-06T08:51:19Z",
+      "side": 1,
+      "message": "`test_NvidiaSmaLeakSensor.cpp` always packs leakState 0, so could a test pass a leak value and cover these transitions?",
+      "revId": "21075747065a9da725e1231d0c4f6e79d1ba54f2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "de2fb217_8cd55ec6",
         "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.cpp",
         "patchSetId": 4
@@ -14,6 +31,40 @@
       "writtenOn": "2026-10-05T04:57:00Z",
       "side": 1,
       "message": "use sdbusplus::object_path operator /.",
+      "revId": "21075747065a9da725e1231d0c4f6e79d1ba54f2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8bb122a2_0e6f6fb1",
+        "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-06T08:51:19Z",
+      "side": 1,
+      "message": "This `lg2::commit` overload uses the default D-Bus connection, so does it block the `io_context` when called from the MCTP response callback?",
+      "revId": "21075747065a9da725e1231d0c4f6e79d1ba54f2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be937a88_85e45331",
+        "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-06T08:51:19Z",
+      "side": 1,
+      "message": "Should this resolve the earlier critical entry like LeakEvents.cpp:31 does, so it does not stay Resolved: false after the leak clears?",
       "revId": "21075747065a9da725e1231d0c4f6e79d1ba54f2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
