@@ -81,6 +81,24 @@
       "parentUuid": "93e6222f_6ba8548d",
       "revId": "e85c3d0251c39e464f36aa76fd43679b010a290f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27e54c99_404b5f04",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-06T04:03:08Z",
+      "side": 1,
+      "message": "Thanks for the explanation.",
+      "parentUuid": "2a316181_2c80a609",
+      "revId": "e85c3d0251c39e464f36aa76fd43679b010a290f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
