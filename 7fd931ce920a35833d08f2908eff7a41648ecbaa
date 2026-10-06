@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "646c8008_79ebc5e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-06T07:47:23Z",
+      "side": 1,
+      "message": "Done. Reception is now re-armed centrally after each completed receive. The extra re-arm in the result-handling path has been removed, preventing duplicate receives.",
+      "parentUuid": "ab987fa5_27878fe3",
+      "revId": "7fd931ce920a35833d08f2908eff7a41648ecbaa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fbf3a965_e12a5ee9",
         "filename": "src/nvidia-gpu/MctpRequester.cpp",
         "patchSetId": 2
@@ -100,6 +118,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "721672c0_52ea5387",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-06T07:47:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c107efda_71b7e231",
+      "range": {
+        "startLine": 93,
+        "startChar": 20,
+        "endLine": 93,
+        "endChar": 34
+      },
+      "revId": "7fd931ce920a35833d08f2908eff7a41648ecbaa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ee917d89_a0ed2c69",
@@ -131,6 +173,24 @@
       "side": 1,
       "message": "“Done. Receive handling and re-arming are now centralized in the callback wrapper, avoiding repeated re-arm calls before individual returns.",
       "parentUuid": "ee917d89_a0ed2c69",
+      "revId": "7fd931ce920a35833d08f2908eff7a41648ecbaa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f39c25f_4fc9e8c4",
+        "filename": "src/nvidia-gpu/MctpRequester.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-06T07:47:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4ab7d20_08a6c013",
       "revId": "7fd931ce920a35833d08f2908eff7a41648ecbaa",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
