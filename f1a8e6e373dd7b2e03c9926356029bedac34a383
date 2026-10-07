@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d57b75c2_a8f7778a",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-07T08:25:14Z",
+      "side": 1,
+      "message": "smaConfig is applied only when creating a new SMA. A TemperatureSensorIds property change schedules rediscovery, but the existing-device branch skips the new configuration. Changing [17] to [16, 17] therefore does not create sensor 16, and removing an ID leaves its old sensor published and polled. Could we reconcile changed lists for existing devices and add a test covering both addition and removal?",
+      "revId": "f1a8e6e373dd7b2e03c9926356029bedac34a383",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
