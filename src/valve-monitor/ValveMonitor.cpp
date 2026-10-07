@@ -336,12 +336,13 @@ auto ValveMonitor::processAnalogConfigAddedAsync(
 
 int main()
 {
-    constexpr auto path = "/xyz/openbmc_project";
     constexpr auto serviceName = "xyz.openbmc_project.valvemonitor";
     sdbusplus::async::context ctx;
-    sdbusplus::server::manager_t manager{ctx, path};
+    sdbusplus::server::manager_t sensorManager{ctx,
+                                               "/xyz/openbmc_project/sensors"};
+    sdbusplus::server::manager_t controlManager{ctx,
+                                                "/xyz/openbmc_project/control"};
 
-    info("Creating valve monitor at {PATH}", "PATH", path);
     valve::ValveMonitor valveMonitor{ctx};
 
     ctx.request_name(serviceName);
