@@ -229,3 +229,36 @@ TEST(USBMCTPDDevice, fromBadIfaceTrailingInterface)
     iface["Interface"] = "0abc";
     EXPECT_THROW(USBMCTPDDevice::from({}, iface), std::invalid_argument);
 }
+
+TEST(I2CMCTPDDevice, fromBadIfaceTrailingAddress)
+{
+    SensorBaseConfigMap iface{
+        {"Address", "29junk"},
+        {"Bus", "1"},
+        {"Name", "test"},
+        {"Type", "MCTPI2CTarget"},
+    };
+    EXPECT_THROW(I2CMCTPDDevice::from({}, iface), std::invalid_argument);
+}
+
+TEST(I2CMCTPDDevice, fromBadIfaceTrailingBus)
+{
+    SensorBaseConfigMap iface{
+        {"Address", "29"},
+        {"Bus", "1junk"},
+        {"Name", "test"},
+        {"Type", "MCTPI2CTarget"},
+    };
+    EXPECT_THROW(I2CMCTPDDevice::from({}, iface), std::invalid_argument);
+}
+
+TEST(I3CMCTPDDevice, fromBadIfaceTrailingBus)
+{
+    SensorBaseConfigMap iface{
+        {"Address", std::vector<uint64_t>{0x1d}},
+        {"Bus", "1junk"},
+        {"Name", "test"},
+        {"Type", "MCTPI3CTarget"},
+    };
+    EXPECT_THROW(I3CMCTPDDevice::from({}, iface), std::invalid_argument);
+}
