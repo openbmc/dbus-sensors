@@ -445,7 +445,7 @@ std::shared_ptr<I2CMCTPDDevice> I2CMCTPDDevice::from(
     std::uint8_t address{};
     auto [aptr, aec] = std::from_chars(
         sAddress.data(), sAddress.data() + sAddress.size(), address);
-    if (aec != std::errc{})
+    if (aec != std::errc{} || aptr != sAddress.data() + sAddress.size())
     {
         throw std::invalid_argument("Bad device address");
     }
@@ -454,7 +454,7 @@ std::shared_ptr<I2CMCTPDDevice> I2CMCTPDDevice::from(
     int bus{};
     auto [bptr,
           bec] = std::from_chars(sBus.data(), sBus.data() + sBus.size(), bus);
-    if (bec != std::errc{})
+    if (bec != std::errc{} || bptr != sBus.data() + sBus.size())
     {
         throw std::invalid_argument("Bad bus index");
     }
@@ -509,7 +509,7 @@ std::shared_ptr<I3CMCTPDDevice> I3CMCTPDDevice::from(
     int bus{};
     auto [bptr,
           bec] = std::from_chars(sBus.data(), sBus.data() + sBus.size(), bus);
-    if (bec != std::errc{})
+    if (bec != std::errc{} || bptr != sBus.data() + sBus.size())
     {
         throw std::invalid_argument("Bad bus index");
     }
@@ -589,13 +589,11 @@ static std::span<const std::string_view> rootHubsForSoc(
         "/sys/devices/platform/soc@14000000/14123000.usb",
     };
 
-    if (socFamily.find("AST2600") != std::string::npos ||
-        socFamily.find("AST2620") != std::string::npos)
+    if (socFamily.contains("AST2600") || socFamily.contains("AST2620"))
     {
         return ast2600RootHubs;
     }
-    if (socFamily.find("AST2700") != std::string::npos ||
-        socFamily.find("AST2750") != std::string::npos)
+    if (socFamily.contains("AST2700") || socFamily.contains("AST2750"))
     {
         return ast2700RootHubs;
     }
