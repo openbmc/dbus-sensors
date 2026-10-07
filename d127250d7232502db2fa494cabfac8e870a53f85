@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0db66b07_2422d416",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-07T08:22:54Z",
+      "side": 1,
+      "message": "For a bridged SMA, isEndpointItself is false, so the record remains in EndpointState::Init and never receives InitComplete. SmaDevice::init() only creates inventory and sensors; polling starts through setOnline(). Its empty mctpObjectPath also prevents subsequent endpoint events from activating it. Could we explicitly start downstream SMA polling and define how bridge removal/recovery affects these devices? Please add a discovery-level test verifying repeated temperature requests for a bridged SMA.",
+      "revId": "d127250d7232502db2fa494cabfac8e870a53f85",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
