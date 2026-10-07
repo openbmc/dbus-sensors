@@ -199,7 +199,7 @@ void IntelCPUSensor::updateMinMaxValues()
                     std::make_tuple("cap_min", std::ref(minValue), "MinValue"),
                 },
             },
-        };
+    };
 
     if (auto fileParts = splitFileName(path))
     {
