@@ -445,7 +445,8 @@ std::shared_ptr<I2CMCTPDDevice> I2CMCTPDDevice::from(
     std::uint8_t address{};
     auto [aptr, aec] = std::from_chars(
         sAddress.data(), sAddress.data() + sAddress.size(), address);
-    if (aec != std::errc{})
+    if (aec != std::errc{} ||
+        aptr != sAddress.data() + sAddress.size())
     {
         throw std::invalid_argument("Bad device address");
     }
@@ -454,7 +455,7 @@ std::shared_ptr<I2CMCTPDDevice> I2CMCTPDDevice::from(
     int bus{};
     auto [bptr,
           bec] = std::from_chars(sBus.data(), sBus.data() + sBus.size(), bus);
-    if (bec != std::errc{})
+    if (bec != std::errc{} || bptr != sBus.data() + sBus.size())
     {
         throw std::invalid_argument("Bad bus index");
     }
@@ -509,7 +510,7 @@ std::shared_ptr<I3CMCTPDDevice> I3CMCTPDDevice::from(
     int bus{};
     auto [bptr,
           bec] = std::from_chars(sBus.data(), sBus.data() + sBus.size(), bus);
-    if (bec != std::errc{})
+    if (bec != std::errc{} || bptr != sBus.data() + sBus.size())
     {
         throw std::invalid_argument("Bad bus index");
     }
