@@ -16,6 +16,24 @@
       "message": "I\u0027m still confused by this.  There is no \"SensorNumber\" in entity-manager.",
       "revId": "eb996b2a3593b0df649dfe734e44353241344616",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f0a52cb_207894ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-07T14:32:29Z",
+      "side": 1,
+      "message": "Entity Manager has no SensorNumber property; this patch reads it from the ExternalSensor config.",
+      "parentUuid": "111e699c_18d4c20d",
+      "revId": "eb996b2a3593b0df649dfe734e44353241344616",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
