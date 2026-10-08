@@ -266,7 +266,7 @@ void createSensors(
                 std::optional<BridgeGpio> bridgeGpio;
                 for (const auto& [key, cfgMap] : *sensorData)
                 {
-                    if (key.find("BridgeGpio") != std::string::npos)
+                    if (key.contains("BridgeGpio"))
                     {
                         auto findName = cfgMap.find("Name");
                         if (findName != cfgMap.end())

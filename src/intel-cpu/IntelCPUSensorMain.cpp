@@ -730,7 +730,7 @@ bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
                 // if we can't detect it via gpio, we set presence later
                 for (const auto& [suppIntf, suppCfg] : cfgData)
                 {
-                    if (suppIntf.find("PresenceGpio") != std::string::npos)
+                    if (suppIntf.contains("PresenceGpio"))
                     {
                         present = cpuIsPresent(suppCfg);
                         break;

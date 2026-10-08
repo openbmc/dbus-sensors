@@ -121,7 +121,7 @@ TEST_F(NvidiaGpuXidTest, HandleXidEventLogsFormattedMessage)
     // naming this device rather than for just any logged message.
     ASSERT_TRUE(pumpIoUntil(
         [this] {
-            return createCall.message.find("xid_msg") != std::string::npos;
+            return createCall.message.contains("xid_msg");
         },
         std::chrono::seconds(5)));
     EXPECT_EQ(
