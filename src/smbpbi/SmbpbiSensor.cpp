@@ -136,11 +136,11 @@ double SmbpbiSensor::convert2Temp(const uint8_t* raw)
     double temp = 0;
     if (intg > 0)
     {
-        temp = double(intg) + double(frac / 256.0);
+        temp = double(intg) + (frac / 256.0);
     }
     else
     {
-        temp = double(intg) - double(frac / 256.0);
+        temp = double(intg) - (frac / 256.0);
     }
 
     return temp;

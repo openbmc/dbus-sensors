@@ -119,11 +119,9 @@ TEST_F(NvidiaGpuXidTest, HandleXidEventLogsFormattedMessage)
 
     // An earlier test's Create() can still be in flight, so wait for the one
     // naming this device rather than for just any logged message.
-    ASSERT_TRUE(pumpIoUntil(
-        [this] {
-            return createCall.message.find("xid_msg") != std::string::npos;
-        },
-        std::chrono::seconds(5)));
+    ASSERT_TRUE(
+        pumpIoUntil([this] { return createCall.message.contains("xid_msg"); },
+                    std::chrono::seconds(5)));
     EXPECT_EQ(
         createCall.message,
         "The resource property xid_msg Driver Event Message has detected "

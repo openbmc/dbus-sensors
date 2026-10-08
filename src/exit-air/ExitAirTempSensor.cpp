@@ -211,8 +211,7 @@ void CFMSensor::setupMatches()
                 return;
             }
             self->tachReadings[message.get_path()] = value;
-            if (self->tachRanges.find(message.get_path()) ==
-                self->tachRanges.end())
+            if (!self->tachRanges.contains(message.get_path()))
             {
                 // calls update reading after updating ranges
                 self->addTachRanges(message.get_sender(), message.get_path());
@@ -547,8 +546,7 @@ void ExitAirTempSensor::setupMatches()
                 if (type == "power")
                 {
                     std::string path = message.get_path();
-                    if (path.find("PS") != std::string::npos &&
-                        path.ends_with("Input_Power"))
+                    if (path.contains("PS") && path.ends_with("Input_Power"))
                     {
                         self->powerReadings[message.get_path()] = value;
                     }
