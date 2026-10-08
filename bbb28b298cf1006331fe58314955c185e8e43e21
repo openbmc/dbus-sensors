@@ -16,6 +16,24 @@
       "message": "This may be true, however:\n\nCan you describe the circumstances that motivated the patch? How did it come to be the case that a published configuration contained this error?",
       "revId": "bbb28b298cf1006331fe58314955c185e8e43e21",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54797039_5deab74f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-08T06:00:21Z",
+      "side": 1,
+      "message": "We haven’t found a published configuration with this problem. I noticed it while checking the I2C/I3C parsing a value like Bus\u003d\"1junk\" could be read as bus 1, even though it isn’t a valid bus number. The USB parser already rejects values like this, so these checks make the behavior consistent and prevent a typo from selecting the wrong device.",
+      "parentUuid": "075b0b44_4925d9d1",
+      "revId": "bbb28b298cf1006331fe58314955c185e8e43e21",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
