@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "144005d5_ec2b7341",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-08T12:23:26Z",
+      "side": 1,
+      "message": "Could we validate the parsed value before narrowing it to uint8_t? std::stoul accepts a numeric prefix without checking that the whole string was consumed, and values above 255 wrap when cast (for example, 266 becomes 10). That could silently assign the wrong EID or bridge-pool setting. Please require full input consumption and reject values above UINT8_MAX.",
+      "revId": "f74d896e29ff859ba1b1cdaee0fc2615b11c0299",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
