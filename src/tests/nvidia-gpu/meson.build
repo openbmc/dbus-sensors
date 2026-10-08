@@ -85,6 +85,7 @@ test(
         'test_NvidiaSmaDevice.cpp',
         'test_NvidiaGpuClockSpeedControl.cpp',
         'test_NvidiaGpuResetRequired.cpp',
+        'test_DeviceManager.cpp',
         gpusensor_sources,
         dbus_fixture_sources,
         mock_mctp_sources,
