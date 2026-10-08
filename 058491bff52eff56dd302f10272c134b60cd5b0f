@@ -16,6 +16,24 @@
       "message": "Could we distinguish a genuinely missing configured_by association from transient mapper errors such as a timeout or service unavailability? This branch skips both without calling retryDiscovery(), unlike later failures in the resolution chain. A configured endpoint can therefore remain undiscovered until an unrelated event triggers another sweep. Please retain the expected missing-association behavior but retry transient failures, with a test where the first lookup fails and the next succeeds.",
       "revId": "058491bff52eff56dd302f10272c134b60cd5b0f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ec33ff9_f35079ea",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 36
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-08T12:37:15Z",
+      "side": 1,
+      "message": "Done, a ResourceNotFound from the mapper still skips the endpoint, while any other error now goes through `retryDiscovery()`, and the test is in the next change.",
+      "parentUuid": "fffc3513_d46cd888",
+      "revId": "058491bff52eff56dd302f10272c134b60cd5b0f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
