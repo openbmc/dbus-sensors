@@ -22,6 +22,30 @@
       },
       "revId": "4bf177d71eb6eb29312dcf1d4eff070b63532c6d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d259ab1_351664e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-08T06:07:48Z",
+      "side": 1,
+      "message": "I tested it on AST2600 QEMU and confirmed the Nvidia sensor service starts and remains active without journal errors.",
+      "parentUuid": "8c067db9_3d4b3b76",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 42
+      },
+      "revId": "4bf177d71eb6eb29312dcf1d4eff070b63532c6d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
