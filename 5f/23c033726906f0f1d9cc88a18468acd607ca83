@@ -1,0 +1,9 @@
+Code-Review+1: <sonan@ami.com>
+Code-Review+2: Jagpal S Gill <paligill@gmail.com>
+Verified+1: OpenBMC CI <openbmcbump-ci@yahoo.com>
+Submitted-by: Jagpal S Gill <paligill@gmail.com>
+Submitted-at: Thu, 08 Oct 2026 18:51:01 +0000
+Reviewed-on: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/94868
+Comments-Total: 1
+Project: openbmc/dbus-sensors
+Branch: refs/heads/master
