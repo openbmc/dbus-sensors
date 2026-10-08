@@ -60,7 +60,7 @@ bool parseThresholdsFromConfig(
 {
     for (const auto& [intf, cfg] : sensorData)
     {
-        if (intf.find("Thresholds") == std::string::npos)
+        if (!intf.contains("Thresholds"))
         {
             continue;
         }
