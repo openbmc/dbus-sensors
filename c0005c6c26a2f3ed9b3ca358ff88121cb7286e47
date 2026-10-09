@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96f7154c_148c626c",
+        "filename": "src/valve-monitor/ValveMonitor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-09T12:16:12Z",
+      "side": 1,
+      "message": "Could we defer conflicting adds instead of dropping them? If an analog config arrives while a GPIO valve exists, removing the GPIO valve later won’t recreate the analog valve without another add event. The reverse transition can lose a GPIO add too. Please retain the desired interface and reconcile after retirement",
+      "revId": "c0005c6c26a2f3ed9b3ca358ff88121cb7286e47",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
