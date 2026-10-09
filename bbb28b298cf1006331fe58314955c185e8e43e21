@@ -106,6 +106,24 @@
       "parentUuid": "d5187846_8d2c44ef",
       "revId": "bbb28b298cf1006331fe58314955c185e8e43e21",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb2b08ba_739617a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-09T11:25:39Z",
+      "side": 1,
+      "message": "The build has failed, but the failure is not related to my changes.",
+      "parentUuid": "602c3ddb_2329741e",
+      "revId": "bbb28b298cf1006331fe58314955c185e8e43e21",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
