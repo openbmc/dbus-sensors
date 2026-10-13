@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35138765_bb646ee5",
+        "filename": "src/adc/ADCSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-13T10:09:28Z",
+      "side": 1,
+      "message": "Could you add tests for ADC and hwmon-temp range handling? Verify that EM MinValue/MaxValue override the configured sensor range, and that omitting either property preserves that sensor’s existing default. This protects existing configurations that do not specify these optional values.",
+      "revId": "723ed9e85f778cac32e4aea98d17354e0466c14e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
