@@ -6,11 +6,10 @@
 #include "SmbpbiSensor.hpp"
 
 #include "SensorPaths.hpp"
+#include "SmbpbiStaleBitTable.hpp"
 #include "Thresholds.hpp"
 #include "Utils.hpp"
 #include "sensor.hpp"
-
-#include <linux/i2c.h>
 
 #include <boost/asio/error.hpp>
 #include <boost/asio/io_context.hpp>
@@ -24,6 +23,7 @@
 #include <sdbusplus/message.hpp>
 
 #include <array>
+#include <cerrno>
 #include <chrono>
 #include <cstdint>
 #include <cstring>
@@ -33,12 +33,6 @@
 #include <string>
 #include <utility>
 #include <vector>
-
-extern "C"
-{
-#include <linux/i2c-dev.h>
-#include <sys/ioctl.h>
-}
 
 constexpr const char* configInterface =
     "xyz.openbmc_project.Configuration.SmbpbiVirtualEeprom";
@@ -55,14 +49,14 @@ SmbpbiSensor::SmbpbiSensor(
     std::vector<thresholds::Threshold>&& thresholdData, uint8_t busId,
     uint8_t addr, uint16_t offset, std::string& sensorUnits,
     std::string& valueType, size_t pollTime, double minVal, double maxVal,
-    std::string& path, const PowerState& powerState) :
+    std::string& /* path */, const PowerState& powerState, uint16_t staleOffset,
+    uint8_t staleBit) :
     Sensor(escapeName(sensorName), std::move(thresholdData),
            sensorConfiguration, objType, false, false, maxVal, minVal, conn,
            powerState),
-    busId(busId), addr(addr), offset(offset), sensorUnits(sensorUnits),
-    valueType(valueType), objectServer(objectServer),
-    inputDev(io, path, boost::asio::random_access_file::read_only),
-    waitTimer(io), pollRateSecond(pollTime)
+    busId(busId), addr(addr), offset(offset), staleOffset(staleOffset),
+    staleBit(staleBit), sensorUnits(sensorUnits), valueType(valueType),
+    objectServer(objectServer), waitTimer(io), pollRateSecond(pollTime)
 {
     sensorType = sensor_paths::getPathForUnits(sensorUnits);
     std::string sensorPath = sensorRootPath + sensorType + "/";
@@ -99,11 +93,14 @@ SmbpbiSensor::SmbpbiSensor(
     {
         lg2::error("no sensor type found");
     }
+
+    getStoragePool().registerSensor(busId, addr, offset, getDataLength(),
+                                    pollRateSecond, staleOffset, staleBit);
 }
 
 SmbpbiSensor::~SmbpbiSensor()
 {
-    inputDev.close();
+    getStoragePool().unregisterSensor(busId, addr, offset, getDataLength());
     waitTimer.cancel();
     for (const auto& iface : thresholdInterfaces)
     {
@@ -165,10 +162,15 @@ int SmbpbiSensor::i2cReadDataBytesDouble(double& reading)
     static_assert(length == sizeof(reading), "Unsupported arch");
 
     std::array<uint8_t, length> buf{};
-    int ret = i2cReadDataBytes(buf.data(), length);
+    bool isStale = false;
+    int ret = i2cReadDataBytes(buf.data(), length, isStale);
     if (ret < 0)
     {
         return ret;
+    }
+    if (isStale)
+    {
+        return -EAGAIN;
     }
     // there is no value updated from HMC if reading data is all 0xff
     // Return NaN since reading is already a double
@@ -195,10 +197,15 @@ int SmbpbiSensor::i2cReadDataBytesUI64(uint64_t& reading)
     static_assert(length == sizeof(reading), "Unsupported arch");
 
     std::array<uint8_t, length> buf{};
-    int ret = i2cReadDataBytes(buf.data(), length);
+    bool isStale = false;
+    int ret = i2cReadDataBytes(buf.data(), length, isStale);
     if (ret < 0)
     {
         return ret;
+    }
+    if (isStale)
+    {
+        return -EAGAIN;
     }
     reading = 0;
     for (int byteI = 0; byteI < length; byteI++)
@@ -208,64 +215,12 @@ int SmbpbiSensor::i2cReadDataBytesUI64(uint64_t& reading)
     return 0;
 }
 
-// Generic i2c Command to read bytes
-int SmbpbiSensor::i2cReadDataBytes(uint8_t* reading, int length)
+// Generic i2c Command to read bytes from storage pool
+int SmbpbiSensor::i2cReadDataBytes(uint8_t* reading, int length, bool& isStale)
 {
-    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
-    const int fd = inputDev.native_handle();
-    if (fd < 0)
-    {
-        lg2::error(" unable to open i2c device on bus {BUS} err={FD}", "BUS",
-                   busId, "FD", fd);
-        return -1;
-    }
-
-    unsigned long funcs = 0;
-    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
-    if (ioctl(fd, I2C_FUNCS, &funcs) < 0)
-    {
-        lg2::error(" I2C_FUNCS not supported");
-        return -1;
-    }
-
-    int ret = 0;
-    struct i2c_rdwr_ioctl_data args = {nullptr, 0};
-    std::array<struct i2c_msg, 2> msgs = {
-        {{0, 0, 0, nullptr}, {0, 0, 0, nullptr}}};
-    std::array<uint8_t, 8> cmd{};
-
-    args.msgs = msgs.data();
-    args.nmsgs = msgs.size();
-
-    msgs[0].addr = addr;
-    msgs[0].flags = 0;
-    msgs[0].buf = cmd.data();
-    // handle two bytes offset
-    if (offset > 255)
-    {
-        msgs[0].len = 2;
-        msgs[0].buf[0] = offset >> 8;
-        msgs[0].buf[1] = offset & 0xFF;
-    }
-    else
-    {
-        msgs[0].len = 1;
-        msgs[0].buf[0] = offset & 0xFF;
-    }
-
-    msgs[1].addr = addr;
-    msgs[1].flags = I2C_M_RD;
-    msgs[1].len = length;
-    msgs[1].buf = reading;
-
-    // write offset
-    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
-    ret = ioctl(fd, I2C_RDWR, &args);
-    if (ret < 0)
-    {
-        return ret;
-    }
-    return 0;
+    return getStoragePool().readData(busId, addr, offset, reading,
+                                     static_cast<size_t>(length), staleOffset,
+                                     staleBit, isStale);
 }
 
 int SmbpbiSensor::readRawEEPROMData(double& data)
@@ -446,22 +401,37 @@ static void createSensorCallback(
             double minVal = loadVariant<double>(entry.second, "MinValue");
 
             double maxVal = loadVariant<double>(entry.second, "MaxValue");
-            lg2::debug("Configuration parsed for \n\t {CONF}\nwith\n"
-                       "\tName: {NAME}\n"
-                       "\tBus: {BUS}\n"
-                       "\tAddress:{ADDR}\n"
-                       "\tOffset: {OFF}\n"
-                       "\tType : {TYPE}\n"
-                       "\tValue Type : {VALUETYPE}\n"
-                       "\tPollrate: {RATE}\n"
-                       "\tMinValue: {MIN}\n"
-                       "\tMaxValue: {MAX}\n"
-                       "\tPowerState: {PWRSTATE}\n",
-                       "CONF", entry.first, "NAME", name, "BUS",
-                       static_cast<int>(busId), "ADDR", static_cast<int>(addr),
-                       "OFF", static_cast<int>(off), "UNITS", sensorUnits,
-                       "VALUETYPE", valueType, "RATE", rate, "MIN", minVal,
-                       "MAX", maxVal, "PWRSTATE", pwrState);
+
+            uint16_t staleOffset = 0;
+            uint8_t staleBit = 0;
+
+            auto staleInfo = SensorStaleBitTable::getStaleBitInfo(off);
+            if (staleInfo)
+            {
+                staleOffset = staleInfo->offset;
+                staleBit = staleInfo->bit;
+            }
+
+            lg2::debug(
+                "Configuration parsed for \n\t {CONF}\nwith\n"
+                "\tName: {NAME}\n"
+                "\tBus: {BUS}\n"
+                "\tAddress:{ADDR}\n"
+                "\tOffset: {OFF}\n"
+                "\tType : {TYPE}\n"
+                "\tValue Type : {VALUETYPE}\n"
+                "\tPollrate: {RATE}\n"
+                "\tMinValue: {MIN}\n"
+                "\tMaxValue: {MAX}\n"
+                "\tPowerState: {PWRSTATE}\n"
+                "\tStaleOffset: {STALEOFFSET}\n"
+                "\tStaleBit: {STALEBIT}\n",
+                "CONF", entry.first, "NAME", name, "BUS",
+                static_cast<int>(busId), "ADDR", static_cast<int>(addr), "OFF",
+                static_cast<int>(off), "UNITS", sensorUnits, "VALUETYPE",
+                valueType, "RATE", rate, "MIN", minVal, "MAX", maxVal,
+                "PWRSTATE", pwrState, "STALEOFFSET", staleOffset, "STALEBIT",
+                static_cast<int>(staleBit));
 
             auto& sensor = sensors[name];
             sensor = nullptr;
@@ -471,7 +441,8 @@ static void createSensorCallback(
             sensor = std::make_unique<SmbpbiSensor>(
                 dbusConnection, io, name, pathPair.first, objectType,
                 objectServer, std::move(sensorThresholds), busId, addr, off,
-                sensorUnits, valueType, rate, minVal, maxVal, path, pwrState);
+                sensorUnits, valueType, rate, minVal, maxVal, path, pwrState,
+                staleOffset, staleBit);
 
             sensor->init();
         }

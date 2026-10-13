@@ -4,11 +4,12 @@
  */
 
 #pragma once
+
+#include "SmbpbiStoragePool.hpp"
 #include "Thresholds.hpp"
 #include "Utils.hpp"
 
 #include <boost/asio/io_context.hpp>
-#include <boost/asio/random_access_file.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
@@ -40,7 +41,8 @@ struct SmbpbiSensor : public Sensor
         std::vector<thresholds::Threshold>&& thresholdData, uint8_t busId,
         uint8_t addr, uint16_t offset, std::string& sensorUnits,
         std::string& valueType, size_t pollTime, double minVal, double maxVal,
-        std::string& path, const PowerState& powerState);
+        std::string& path, const PowerState& powerState, uint16_t staleOffset,
+        uint8_t staleBit);
     ~SmbpbiSensor() override;
 
     void checkThresholds() override;
@@ -51,16 +53,33 @@ struct SmbpbiSensor : public Sensor
     }
     void read();
     void init();
+    size_t getDataLength() const
+    {
+        if (valueType == "FLOAT32")
+        {
+            return i2CReadLenValues[static_cast<size_t>(
+                I2C_READ_LEN_INDEX::FLOAT32)];
+        }
+        if (valueType == "FLOAT64")
+        {
+            return i2CReadLenValues[static_cast<size_t>(
+                I2C_READ_LEN_INDEX::FLOAT64)];
+        }
+        return i2CReadLenValues[static_cast<size_t>(
+            I2C_READ_LEN_INDEX::UINT64)];
+    }
 
     uint8_t busId;
     uint8_t addr;
     uint16_t offset;
+    uint16_t staleOffset;
+    uint8_t staleBit;
     std::string sensorUnits;
     std::string sensorType;
     std::string valueType;
 
   private:
-    int i2cReadDataBytes(uint8_t* reading, int length);
+    int i2cReadDataBytes(uint8_t* reading, int length, bool& isStale);
     int i2cReadDataBytesDouble(double& reading);
     int i2cReadDataBytesUI64(uint64_t& reading);
     int readRawEEPROMData(double& data);
@@ -69,15 +88,14 @@ struct SmbpbiSensor : public Sensor
     static double convert2Power(const uint8_t* rawData);
     void waitReadCallback(const boost::system::error_code& ec);
     sdbusplus::asio::object_server& objectServer;
-    boost::asio::random_access_file inputDev;
     boost::asio::steady_timer waitTimer;
     size_t pollRateSecond;
 };
 
-bool checkInvalidReading(uint8_t* reading, int length)
+inline bool checkInvalidReading(const uint8_t* reading, int length)
 {
     // there is no value updated from HMC if reading data is all 0xff
-    uint8_t* ptr = reading;
+    const uint8_t* ptr = reading;
     for (int i = 0; i < length; i++, ptr++)
     {
         if (*ptr != 0xFF)
