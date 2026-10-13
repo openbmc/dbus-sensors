@@ -144,7 +144,8 @@ bool matchesThresholdConfig(const SensorBaseConfigMap& config,
         auto indexFind = config.find("Index");
         if ((indexFind == config.end() && sensorIndex != 1) ||
             (indexFind != config.end() &&
-             std::visit(VariantToIntVisitor(), indexFind->second) != sensorIndex))
+             std::visit(VariantToIntVisitor(), indexFind->second) !=
+                 sensorIndex))
         {
             return false;
         }
@@ -194,9 +195,9 @@ void persistThreshold(const std::string& path, const std::string& baseInterface,
         std::string thresholdInterface =
             baseInterface + ".Thresholds" + std::to_string(ii);
         conn->async_method_call(
-            [&, path, threshold, thresholdInterface,
-             labelMatch, sensorIndex](const boost::system::error_code& ec,
-                                      const SensorBaseConfigMap& result) {
+            [&, path, threshold, thresholdInterface, labelMatch,
+             sensorIndex](const boost::system::error_code& ec,
+                          const SensorBaseConfigMap& result) {
                 if (ec)
                 {
                     return; // threshold not supported

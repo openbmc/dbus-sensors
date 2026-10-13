@@ -313,13 +313,13 @@ struct Sensor
             {
                 continue;
             }
-            size_t thresSize =
-                label.empty() && sensorIndex == 0 ? thresholds.size()
-                                                 : thresholdSize;
+            size_t thresSize = label.empty() && sensorIndex == 0
+                                   ? thresholds.size()
+                                   : thresholdSize;
             iface->register_property(
                 level, threshold.value,
-                [&, label, thresSize, sensorIndex](const double& request,
-                                                 double& oldValue) {
+                [&, label, thresSize,
+                 sensorIndex](const double& request, double& oldValue) {
                     oldValue = request; // todo, just let the config do this?
                     threshold.value = request;
                     thresholds::persistThreshold(

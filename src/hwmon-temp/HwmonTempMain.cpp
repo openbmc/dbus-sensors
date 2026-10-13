@@ -424,11 +424,12 @@ void createSensors(
 
                 std::vector<thresholds::Threshold> sensorThresholds;
 
-                const size_t thresholdCount = std::count_if(
-                    sensorData.begin(), sensorData.end(), [](const auto& entry) {
-                        return entry.first.find("Thresholds") !=
-                               std::string::npos;
-                    });
+                const size_t thresholdCount =
+                    std::count_if(sensorData.begin(), sensorData.end(),
+                                  [](const auto& entry) {
+                                      return entry.first.find("Thresholds") !=
+                                             std::string::npos;
+                                  });
 
                 if (!parseThresholdsFromConfig(sensorData, sensorThresholds,
                                                nullptr, &index))
