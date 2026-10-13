@@ -135,58 +135,78 @@ bool parseThresholdsFromConfig(
     return true;
 }
 
+bool matchesThresholdConfig(const SensorBaseConfigMap& config,
+                            const Threshold& threshold,
+                            const std::string& labelMatch, int sensorIndex)
+{
+    if (sensorIndex != 0)
+    {
+        auto indexFind = config.find("Index");
+        if ((indexFind == config.end() && sensorIndex != 1) ||
+            (indexFind != config.end() &&
+             std::visit(VariantToIntVisitor(), indexFind->second) !=
+                 sensorIndex))
+        {
+            return false;
+        }
+    }
+
+    if (!labelMatch.empty())
+    {
+        auto labelFind = config.find("Label");
+        if (labelFind == config.end())
+        {
+            lg2::error("No label in threshold configuration");
+            return false;
+        }
+        std::string label =
+            std::visit(VariantToStringVisitor(), labelFind->second);
+        if (label != labelMatch)
+        {
+            return false;
+        }
+    }
+
+    auto directionFind = config.find("Direction");
+    auto severityFind = config.find("Severity");
+    auto valueFind = config.find("Value");
+    if (valueFind == config.end() || severityFind == config.end() ||
+        directionFind == config.end())
+    {
+        lg2::error("Malformed threshold in configuration");
+        return false;
+    }
+    unsigned int severity =
+        std::visit(VariantToUnsignedIntVisitor(), severityFind->second);
+    std::string direction =
+        std::visit(VariantToStringVisitor(), directionFind->second);
+    return findThresholdLevel(severity) == threshold.level &&
+           findThresholdDirection(direction) == threshold.direction;
+}
+
 void persistThreshold(const std::string& path, const std::string& baseInterface,
                       const thresholds::Threshold& threshold,
                       std::shared_ptr<sdbusplus::asio::connection>& conn,
-                      size_t thresholdCount, const std::string& labelMatch)
+                      size_t thresholdCount, const std::string& labelMatch,
+                      int sensorIndex)
 {
     for (size_t ii = 0; ii < thresholdCount; ii++)
     {
         std::string thresholdInterface =
             baseInterface + ".Thresholds" + std::to_string(ii);
         conn->async_method_call(
-            [&, path, threshold, thresholdInterface,
-             labelMatch](const boost::system::error_code& ec,
-                         const SensorBaseConfigMap& result) {
+            [&, path, threshold, thresholdInterface, labelMatch,
+             sensorIndex](const boost::system::error_code& ec,
+                          const SensorBaseConfigMap& result) {
                 if (ec)
                 {
                     return; // threshold not supported
                 }
 
-                if (!labelMatch.empty())
+                if (!matchesThresholdConfig(result, threshold, labelMatch,
+                                            sensorIndex))
                 {
-                    auto labelFind = result.find("Label");
-                    if (labelFind == result.end())
-                    {
-                        lg2::error("No label in threshold configuration");
-                        return;
-                    }
-                    std::string label =
-                        std::visit(VariantToStringVisitor(), labelFind->second);
-                    if (label != labelMatch)
-                    {
-                        return;
-                    }
-                }
-
-                auto directionFind = result.find("Direction");
-                auto severityFind = result.find("Severity");
-                auto valueFind = result.find("Value");
-                if (valueFind == result.end() || severityFind == result.end() ||
-                    directionFind == result.end())
-                {
-                    lg2::error("Malformed threshold in configuration");
                     return;
-                }
-                unsigned int severity = std::visit(
-                    VariantToUnsignedIntVisitor(), severityFind->second);
-
-                std::string dir =
-                    std::visit(VariantToStringVisitor(), directionFind->second);
-                if ((findThresholdLevel(severity) != threshold.level) ||
-                    (findThresholdDirection(dir) != threshold.direction))
-                {
-                    return; // not the droid we're looking for
                 }
 
                 std::variant<double> value(threshold.value);
@@ -509,7 +529,7 @@ bool parseThresholdsFromAttr(
                  std::make_tuple("crit", Level::CRITICAL, Direction::HIGH,
                                  offset),
              }},
-        };
+    };
 
     if (auto fileParts = splitFileName(inputPath))
     {
