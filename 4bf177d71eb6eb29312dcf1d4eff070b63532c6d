@@ -70,6 +70,30 @@
       },
       "revId": "4bf177d71eb6eb29312dcf1d4eff070b63532c6d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c134ca4b_7bc1237a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2026-10-13T17:42:59Z",
+      "side": 1,
+      "message": "I think we need some more tests to make sure the rearm works.",
+      "parentUuid": "f0839b28_13a9afa1",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 42
+      },
+      "revId": "4bf177d71eb6eb29312dcf1d4eff070b63532c6d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
