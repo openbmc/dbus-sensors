@@ -48,8 +48,10 @@ NvidiaGpuMemoryCapacityUtilization::NvidiaGpuMemoryCapacityUtilization(
     // "memory_capacity_utilization" leaf name that bmcweb filters on.
     const sdbusplus::object_path processorInventoryPath =
         sdbusplus::object_path(inventoryPath) / deviceName;
-    const sdbusplus::object_path dramInventoryPath(
-        processorInventoryPath.str + dramInventorySuffix);
+    const std::string dramName =
+        std::format("{}_{}", deviceName, dramInventorySuffix);
+    const sdbusplus::object_path dramInventoryPath =
+        sdbusplus::object_path(inventoryPath) / dramName;
 
     // Metric associated with the GPU processor inventory object.
     const sdbusplus::object_path processorMetricObjectPath =
@@ -73,8 +75,7 @@ NvidiaGpuMemoryCapacityUtilization::NvidiaGpuMemoryCapacityUtilization(
 
     // Metric associated with the GPU DRAM inventory object.
     const sdbusplus::object_path dramMetricObjectPath =
-        sdbusplus::object_path(metricPath) /
-        std::format("gpu_{}{}", deviceName, dramInventorySuffix) /
+        sdbusplus::object_path(metricPath) / std::format("gpu_{}", dramName) /
         "memory_capacity_utilization";
 
     dramMetricInterface = objectServer.add_interface(
