@@ -57,7 +57,8 @@ class NvidiaGpuClockFrequencyMetricTest : public MctpMockTestBase
 
     static std::string metricDbusPath(const std::string& name)
     {
-        return "/xyz/openbmc_project/metric/" + name + "/OperatingFrequency";
+        return "/xyz/openbmc_project/metric/gpu_" + name +
+               "/operating_frequency";
     }
 };
 
