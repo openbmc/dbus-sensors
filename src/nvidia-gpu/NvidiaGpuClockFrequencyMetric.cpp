@@ -18,6 +18,7 @@
 #include <sdbusplus/message/native_types.hpp>
 
 #include <cstdint>
+#include <format>
 #include <memory>
 #include <span>
 #include <string>
@@ -48,8 +49,9 @@ NvidiaGpuClockFrequencyMetric::NvidiaGpuClockFrequencyMetric(
     }
 
     const sdbusplus::object_path inventoryPath = inventoryPrefix / this->name;
-    const std::string metricDbusPath =
-        metricPath + this->name + "/OperatingFrequency";
+    const sdbusplus::object_path metricDbusPath =
+        sdbusplus::object_path(metricPath) / std::format("gpu_{}", this->name) /
+        "operating_frequency";
 
     metricInterface = objectServer.add_interface(
         metricDbusPath, "xyz.openbmc_project.Metric.Value");
