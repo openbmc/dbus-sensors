@@ -637,7 +637,7 @@ void createSensors(
             tachSensor->setupRead();
 
             if (!pwmPath.empty() && std::filesystem::exists(pwmPath) &&
-                (pwmSensors.count(pwmPath) == 0U))
+                (!pwmSensors.contains(pwmPath)))
             {
                 pwmSensors[pwmPath] = std::make_unique<PwmSensor>(
                     pwmName, pwmPath, dbusConnection, objectServer,
