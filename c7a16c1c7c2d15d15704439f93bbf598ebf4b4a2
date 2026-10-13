@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f16ea9a_e4bb3a1d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-13T04:50:03Z",
+      "side": 1,
+      "message": "The CI failure is the clang-format 23 drift on src/Thresholds.cpp and src/intel-cpu/IntelCPUSensor.cpp, neither of which this change touches; it clears once https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/95365 merges.",
+      "revId": "c7a16c1c7c2d15d15704439f93bbf598ebf4b4a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
