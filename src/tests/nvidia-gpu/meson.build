@@ -75,6 +75,7 @@ test(
         'test_NvidiaGpuMemoryClockFrequency.cpp',
         'test_NvidiaGpuMemoryDevice.cpp',
         'test_NvidiaPcieFunction.cpp',
+        'test_NvidiaGpuMemoryCapacityUtilization.cpp',
         'test_NvidiaGpuUtilizationMetrics.cpp',
         'test_NvidiaGpuViolationDuration.cpp',
         'test_SerialQueue.cpp',
