@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90071f77_b5d1ffb2",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-13T10:15:22Z",
+      "side": 1,
+      "message": "Could you defer erasing this config path until all its channels are processed? Otherwise, a new channel may consume the notification before existing sibling sensors are updated.",
+      "revId": "efc5ba16799edff82227ac721f17446dfb526181",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
