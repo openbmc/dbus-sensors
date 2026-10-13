@@ -149,10 +149,15 @@ constexpr static std::array<thresholds::ThresholdDefinition, 5> thresProp = {
 
 std::string getInterface(Level level);
 
+bool matchesThresholdConfig(const SensorBaseConfigMap& config,
+                            const Threshold& threshold,
+                            const std::string& labelMatch, int sensorIndex = 0);
+
 void persistThreshold(const std::string& path, const std::string& baseInterface,
                       const thresholds::Threshold& threshold,
                       std::shared_ptr<sdbusplus::asio::connection>& conn,
-                      size_t thresholdCount, const std::string& label);
+                      size_t thresholdCount, const std::string& label,
+                      int sensorIndex = 0);
 
 void updateThresholds(Sensor* sensor);
 // returns false if a critical threshold has been crossed, true otherwise
