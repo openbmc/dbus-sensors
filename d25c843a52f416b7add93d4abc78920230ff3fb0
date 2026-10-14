@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52a44863_d85fa037",
+        "filename": "src/ipmb/IpmbSDRSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-14T09:31:55Z",
+      "side": 1,
+      "message": "Could these bounds use the declared dataLength instead of sdrDataBytes.size()? Chunked responses can leave extra bytes in the vector, allowing a name outside the declared record. Please add a padded-chunk regression test.",
+      "revId": "d25c843a52f416b7add93d4abc78920230ff3fb0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
