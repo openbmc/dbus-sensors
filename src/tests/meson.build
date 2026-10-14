@@ -47,6 +47,7 @@ test(
         '../Utils.cpp',
         '../ipmb/IpmbSDRSensor.cpp',
         'test_IpmbSensor.cpp',
+        'test_IpmbSDRSensor_bounds.cpp',
         dependencies: ut_deps_list,
         link_with: [utils_a, thresholds_a, devicemgmt_a],
         implicit_include_directories: false,
