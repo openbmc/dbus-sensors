@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba6b473f_9df15545",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-10-15T15:32:18Z",
+      "side": 1,
+      "message": "There\u0027s already a pretty significant implementation of this specification in the repo already (currently labeled nvidia as it didn\u0027t support AMD).  Rather than re-writing all the transports, could you please look at reusing the existing transports.  If we truly need a new app, I\u0027m open to it, but we shouldn\u0027t have two different pieces of code implementing the same specification.",
+      "range": {
+        "startLine": 15,
+        "startChar": 32,
+        "endLine": 16,
+        "endChar": 20
+      },
+      "revId": "e556016546b3c9ba857bbbdc467fc41cf44deff6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "9c7c01e1_aad904c9",
