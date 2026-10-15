@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da0bed35_448abce4",
+        "filename": "src/Utils.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-15T12:43:47Z",
+      "side": 0,
+      "message": "Confirmed jsonStore has no remaining references, and Entity Manager no longer produces the file. This removal looks safe.",
+      "revId": "1ae7e41dfbceaa450e94f26345bc1870f837c1f5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
