@@ -16,6 +16,23 @@
       "message": "@paligill@gmail.com can you help review?",
       "revId": "e556016546b3c9ba857bbbdc467fc41cf44deff6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0edae3d0_7997aff2",
+        "filename": "meson.options",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-15T12:42:10Z",
+      "side": 1,
+      "message": "This defaults the feature to enabled, so default builds install a daemon that currently only registers its D-Bus name and inventory object manager; it does not yet discover endpoints or publish telemetry. Could this default to disabled until that functionality lands, or is a platform expected to enable this skeleton?",
+      "revId": "e556016546b3c9ba857bbbdc467fc41cf44deff6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
