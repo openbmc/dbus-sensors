@@ -43,7 +43,8 @@ NvidiaGpuTempSensor::NvidiaGpuTempSensor(
     const std::string& sensorConfiguration, const uint8_t eid, uint8_t sensorId,
     sdbusplus::asio::object_server& objectServer,
     std::vector<thresholds::Threshold>&& thresholdData,
-    const gpu::DeviceIdentification deviceType) :
+    const gpu::DeviceIdentification deviceType,
+    const std::optional<std::string>& physicalContextName) :
     Sensor(escapeName(name), std::move(thresholdData), sensorConfiguration,
            "temperature", false, true, gpuTempSensorMaxReading,
            gpuTempSensorMinReading, conn),
@@ -101,7 +102,9 @@ NvidiaGpuTempSensor::NvidiaGpuTempSensor(
     }
 
     const std::optional<std::string> physicalContext =
-        nvidia_sensor_utils::deviceTypeToPhysicalContext(deviceType);
+        physicalContextName
+            ? nvidia_sensor_utils::nameToPhysicalContext(*physicalContextName)
+            : nvidia_sensor_utils::deviceTypeToPhysicalContext(deviceType);
 
     if (physicalContext)
     {

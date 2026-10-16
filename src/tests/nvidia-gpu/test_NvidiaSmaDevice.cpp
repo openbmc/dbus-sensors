@@ -604,4 +604,58 @@ TEST_F(NvidiaSmaDeviceTest, PublishesWithoutDynamicThresholdsTheSmaRefuses)
         sdbusplus::exception_t);
 }
 
+TEST_F(NvidiaSmaDeviceTest, PublishesConfiguredPhysicalContext)
+{
+    ON_CALL(mctpMock, sendRecvMsg).WillByDefault(answerSensorRequests());
+
+    const std::shared_ptr<SmaDevice> device = createDevice(
+        "sma_ctx", defaultEid, sensorPollRateMs,
+        {{.kind = SmaSensorKind::Temperature,
+          .id = 18,
+          .name = "GPU_VR",
+          .physicalContext = "Board"},
+         {.kind = SmaSensorKind::Temperature, .id = 16, .name = "SMA_Ext"},
+         {.kind = SmaSensorKind::Temperature,
+          .id = 19,
+          .name = "BusBar",
+          .physicalContext = "NoSuchContext"},
+         {.kind = SmaSensorKind::Power,
+          .id = 128,
+          .name = "HSC",
+          .physicalContext = "VoltageRegulator"},
+         {.kind = SmaSensorKind::Voltage,
+          .id = 192,
+          .name = "HSC_Vin",
+          .physicalContext = "VoltageRegulator"}});
+    device->init();
+    device->setOnline();
+
+    const std::string contextIface =
+        "xyz.openbmc_project.Common.PhysicalContext";
+    const std::string sensors = "/xyz/openbmc_project/sensors/";
+    EXPECT_EQ(getProperty<std::string>(sensors + "temperature/sma_ctx_GPU_VR",
+                                       contextIface, "Type"),
+              "xyz.openbmc_project.Common.PhysicalContext."
+              "PhysicalContextType.Board");
+    EXPECT_EQ(getProperty<std::string>(sensors + "power/sma_ctx_HSC",
+                                       contextIface, "Type"),
+              "xyz.openbmc_project.Common.PhysicalContext."
+              "PhysicalContextType.VoltageRegulator");
+    EXPECT_EQ(getProperty<std::string>(sensors + "voltage/sma_ctx_HSC_Vin",
+                                       contextIface, "Type"),
+              "xyz.openbmc_project.Common.PhysicalContext."
+              "PhysicalContextType.VoltageRegulator");
+
+    EXPECT_EQ(temperatureValue("sma_ctx_SMA_Ext"), 16.0);
+    EXPECT_THROW(
+        getProperty<std::string>(sensors + "temperature/sma_ctx_SMA_Ext",
+                                 contextIface, "Type"),
+        sdbusplus::exception_t);
+    EXPECT_EQ(temperatureValue("sma_ctx_BusBar"), 19.0);
+    EXPECT_THROW(
+        getProperty<std::string>(sensors + "temperature/sma_ctx_BusBar",
+                                 contextIface, "Type"),
+        sdbusplus::exception_t);
+}
+
 } // namespace
