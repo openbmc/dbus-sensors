@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b27f57c8_b2143b7a",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-10-16T06:28:59Z",
+      "side": 1,
+      "message": "Can we use UUIDs to look up existing devices instead of Object Path?",
+      "revId": "77fff7ed27ccaa51b0c6958785542a514fbe2004",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b488f379_b958ad30",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-10-16T06:28:59Z",
+      "side": 1,
+      "message": "We should do this check right after reading object Path from message.",
+      "revId": "77fff7ed27ccaa51b0c6958785542a514fbe2004",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60d4381f_403f8b4b",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-10-16T06:28:59Z",
+      "side": 1,
+      "message": "Let\u0027s remove this if it is not needed.",
+      "revId": "77fff7ed27ccaa51b0c6958785542a514fbe2004",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6857d92_7654dada",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-10-16T06:28:59Z",
+      "side": 1,
+      "message": "Put this into separate function since we are fetching uuid at two difference places.",
+      "revId": "77fff7ed27ccaa51b0c6958785542a514fbe2004",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b7486f8_9c5c7102",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-10-16T06:28:59Z",
+      "side": 1,
+      "message": "Let\u0027s avoid nested lamdas.",
+      "revId": "77fff7ed27ccaa51b0c6958785542a514fbe2004",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a212f6d_7b9aa713",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-10-16T06:28:59Z",
+      "side": 1,
+      "message": "If EID is reassigned, we might run into situation where the MCTP Object Path may point to different device altogether.",
+      "revId": "77fff7ed27ccaa51b0c6958785542a514fbe2004",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ccf4f2b_2df435a9",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 677,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-10-16T06:28:59Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be part of parent commit?",
+      "revId": "77fff7ed27ccaa51b0c6958785542a514fbe2004",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af113eb5_ced6bc57",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-10-16T06:28:59Z",
+      "side": 1,
+      "message": "Does bmcweb consume this interface?",
+      "revId": "77fff7ed27ccaa51b0c6958785542a514fbe2004",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5161d56c_bd386686",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-10-16T06:28:59Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we update functional state of leak detector sensor as well? If yes, it belongs in parent commit.",
+      "revId": "77fff7ed27ccaa51b0c6958785542a514fbe2004",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
