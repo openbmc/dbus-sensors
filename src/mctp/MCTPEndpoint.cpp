@@ -740,7 +740,14 @@ std::shared_ptr<USBMCTPDDevice> USBMCTPDDevice::from(
     auto mRootHubPosition = iface.find("RootHubPosition");
     auto mPort = iface.find("Port");
     auto mConfiguration = iface.find("Configuration");
-    auto mInterface = iface.find("Interface");
+    auto mInterface = iface.find("InterfaceNumber");
+    // Interface is the deprecated name of InterfaceNumber
+    bool deprecatedInterface = false;
+    if (mInterface == iface.end())
+    {
+        mInterface = iface.find("Interface");
+        deprecatedInterface = mInterface != iface.end();
+    }
 
     if (mName == iface.end() || mRootHubPosition == iface.end() ||
         mPort == iface.end() || mConfiguration == iface.end() ||
@@ -748,6 +755,13 @@ std::shared_ptr<USBMCTPDDevice> USBMCTPDDevice::from(
     {
         throw std::invalid_argument(
             "Configuration object violates MCTPUSBDevice schema");
+    }
+
+    if (deprecatedInterface)
+    {
+        warning(
+            "MCTPUSBDevice {NAME} uses the deprecated Interface property, rename it to InterfaceNumber",
+            "NAME", std::visit(VariantToStringVisitor(), mName->second));
     }
 
     auto sRootHubPosition =
@@ -794,7 +808,7 @@ std::shared_ptr<USBMCTPDDevice> USBMCTPDDevice::from(
         sInterface.data(), sInterface.data() + sInterface.size(), interfaceNum);
     if (iec != std::errc{} || iptr != sInterface.data() + sInterface.size())
     {
-        throw std::invalid_argument("Bad Interface value");
+        throw std::invalid_argument("Bad InterfaceNumber value");
     }
 
     std::optional<std::string_view> rootHubPath =
