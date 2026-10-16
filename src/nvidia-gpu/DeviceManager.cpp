@@ -7,6 +7,7 @@
 
 #include "NvidiaGpuDevice.hpp"
 #include "NvidiaPcieDevice.hpp"
+#include "NvidiaSensorUtils.hpp"
 #include "NvidiaSmaDevice.hpp"
 #include "NvidiaUtils.hpp"
 #include "Thresholds.hpp"
@@ -367,8 +368,28 @@ SmaDeviceConfigs readSmaDeviceConfigs(const MctpVdmRecord& record, uint8_t eid)
             continue;
         }
 
-        smaConfig.sensors.push_back(
-            {.kind = kind, .id = sensorId, .name = *name});
+        std::optional<std::string> physicalContext;
+        const auto contextIt = props->find("PhysicalContext");
+        if (contextIt != props->end())
+        {
+            const auto* context = std::get_if<std::string>(&contextIt->second);
+            if (context != nullptr &&
+                nvidia_sensor_utils::nameToPhysicalContext(*context))
+            {
+                physicalContext = *context;
+            }
+            else
+            {
+                lg2::error(
+                    "EID {EID}: {PATH} {IFACE} has an unknown PhysicalContext, publishing its sensor without one",
+                    "EID", eid, "PATH", record.path, "IFACE", iface);
+            }
+        }
+
+        smaConfig.sensors.push_back({.kind = kind,
+                                     .id = sensorId,
+                                     .name = *name,
+                                     .physicalContext = physicalContext});
     }
 
     assignSmaThresholds(smaConfig, thresholdConfigs, eid, record.path);
