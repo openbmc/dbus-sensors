@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc16af91_9c6a09c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002734
+      },
+      "writtenOn": "2026-10-16T05:51:38Z",
+      "side": 1,
+      "message": "The biggest difference between the NVIDIA and AMD implementations is the MCTP message type. AMD uses 0x7F (Vendor Defined - IANA), while NVIDIA uses 0x7E, resulting in a different message format.\n\nRegarding the MCTP transport layer, we discussed this with @patrick@stwcx.xyz and @pmb@meta.com earlier [1]. We plan to implement the MCTP request/response layer using sdbusplus::async [2] instead of the Boost-based library. The nvidia-gpusensor implementation can migrate to the new library once it is available.\n\n[1] https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/94550/comment/10c40fe3_baa69d09/\n[2] https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/95106",
+      "parentUuid": "ba6b473f_9df15545",
+      "range": {
+        "startLine": 15,
+        "startChar": 32,
+        "endLine": 16,
+        "endChar": 20
+      },
+      "revId": "e556016546b3c9ba857bbbdc467fc41cf44deff6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "9c7c01e1_aad904c9",
