@@ -740,7 +740,7 @@ std::shared_ptr<USBMCTPDDevice> USBMCTPDDevice::from(
     auto mRootHubPosition = iface.find("RootHubPosition");
     auto mPort = iface.find("Port");
     auto mConfiguration = iface.find("Configuration");
-    auto mInterface = iface.find("Interface");
+    auto mInterface = iface.find("InterfaceNumber");
 
     if (mName == iface.end() || mRootHubPosition == iface.end() ||
         mPort == iface.end() || mConfiguration == iface.end() ||
@@ -794,7 +794,7 @@ std::shared_ptr<USBMCTPDDevice> USBMCTPDDevice::from(
         sInterface.data(), sInterface.data() + sInterface.size(), interfaceNum);
     if (iec != std::errc{} || iptr != sInterface.data() + sInterface.size())
     {
-        throw std::invalid_argument("Bad Interface value");
+        throw std::invalid_argument("Bad InterfaceNumber value");
     }
 
     std::optional<std::string_view> rootHubPath =
