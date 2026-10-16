@@ -23,6 +23,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <optional>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -355,6 +356,25 @@ TEST(SmaDeviceConfigsTest, AssignsTheThresholdsTheRecordLists)
         smaConfig.sensors[1].thresholds,
         testing::ElementsAre(upperThreshold(thresholds::Level::CRITICAL, 130)));
     EXPECT_THAT(smaConfig.sensors[1].dynamicThresholds, testing::IsEmpty());
+}
+
+TEST(SmaDeviceConfigsTest, LeavesOutAnUnknownPhysicalContext)
+{
+    SensorBaseConfigMap known = smaSensor(18, "GPU_VR");
+    known["PhysicalContext"] = std::string{"Board"};
+    SensorBaseConfigMap misspelled = smaSensor(216, "CPU1_Die");
+    misspelled["PhysicalContext"] = std::string{"Cpu"};
+    const SensorData arrayElements{
+        {smaElementIface("TemperatureSensors", 0), known},
+        {smaElementIface("TemperatureSensors", 1), misspelled}};
+
+    const SmaDeviceConfigs smaConfig =
+        readSmaDeviceConfigs(smaRecord(arrayElements), smaEid);
+
+    ASSERT_EQ(smaConfig.sensors.size(), 2U);
+    EXPECT_EQ(smaConfig.sensors[0].physicalContext, "Board");
+    EXPECT_EQ(smaConfig.sensors[1].name, "CPU1_Die");
+    EXPECT_EQ(smaConfig.sensors[1].physicalContext, std::nullopt);
 }
 
 TEST(SmaThresholdsTest, AssignsThresholdsToTheTemperatureSensorTheyLabel)

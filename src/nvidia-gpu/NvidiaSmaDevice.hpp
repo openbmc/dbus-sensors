@@ -23,6 +23,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <memory>
+#include <optional>
 #include <span>
 #include <string>
 #include <system_error>
@@ -42,6 +43,7 @@ struct SmaSensorConfig
     std::string name;
     // GCC's -Wmissing-field-initializers flags designated initializers that
     // leave out a member without a default member initializer.
+    std::optional<std::string> physicalContext = std::nullopt;
     // NOLINTNEXTLINE(readability-redundant-member-init)
     std::vector<thresholds::Threshold> thresholds{};
     // Thresholds whose value the SMA holds, read with Read Thermal
