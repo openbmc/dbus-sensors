@@ -175,6 +175,20 @@ TEST_F(NvidiaGpuTempSensorTest, ConstructorWithPcieDeviceType)
     }
 }
 
+TEST(NvidiaSensorUtilsTest, NameToPhysicalContext)
+{
+    for (const char* name :
+         {"Board", "CPU", "DCBus", "GPUSubsystem", "VoltageRegulator"})
+    {
+        EXPECT_EQ(nvidia_sensor_utils::nameToPhysicalContext(name),
+                  std::string("xyz.openbmc_project.Common.PhysicalContext."
+                              "PhysicalContextType.") +
+                      name);
+    }
+    EXPECT_EQ(nvidia_sensor_utils::nameToPhysicalContext("Cpu"), std::nullopt);
+    EXPECT_EQ(nvidia_sensor_utils::nameToPhysicalContext(""), std::nullopt);
+}
+
 // Constructor — threshold interfaces
 
 TEST_F(NvidiaGpuTempSensorTest, ConstructorWithWarningThreshold)
