@@ -11,6 +11,7 @@
 #include "NvidiaGpuVoltageSensor.hpp"
 #include "NvidiaSensorConfig.hpp"
 #include "NvidiaSmaLeakSensor.hpp"
+#include "Thresholds.hpp"
 
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/steady_timer.hpp>
@@ -19,9 +20,13 @@
 #include <sdbusplus/message/native_types.hpp>
 
 #include <chrono>
+#include <cstddef>
 #include <cstdint>
 #include <memory>
+#include <span>
 #include <string>
+#include <system_error>
+#include <unordered_map>
 #include <vector>
 
 enum class SmaSensorKind
@@ -36,6 +41,14 @@ struct SmaSensorConfig
     SmaSensorKind kind{};
     uint8_t id{};
     std::string name;
+    // GCC's -Wmissing-field-initializers flags designated initializers that
+    // leave out a member without a default member initializer.
+    // NOLINTNEXTLINE(readability-redundant-member-init)
+    std::vector<thresholds::Threshold> thresholds{};
+    // Thresholds whose value the SMA holds, read with Read Thermal
+    // Parameters before the sensor is published.
+    // NOLINTNEXTLINE(readability-redundant-member-init)
+    std::vector<thresholds::Threshold> dynamicThresholds{};
 };
 
 // Only an SMA lists its sensors, so they are kept apart from the settings
@@ -45,6 +58,9 @@ struct SmaDeviceConfigs
     std::vector<SmaSensorConfig> sensors;
 };
 
+constexpr std::chrono::seconds dynamicThresholdRetryDelay{5};
+constexpr int maxDynamicThresholdAttempts = 3;
+
 class SmaDevice : public std::enable_shared_from_this<SmaDevice>
 {
   public:
@@ -53,7 +69,9 @@ class SmaDevice : public std::enable_shared_from_this<SmaDevice>
               const std::shared_ptr<sdbusplus::asio::connection>& conn,
               uint8_t eid, boost::asio::io_context& io,
               mctp::MctpRequester& mctpRequester,
-              sdbusplus::asio::object_server& objectServer);
+              sdbusplus::asio::object_server& objectServer,
+              std::chrono::milliseconds dynamicThresholdRetryMs =
+                  dynamicThresholdRetryDelay);
 
     // The D-Bus path of the EntityManager configuration object the device
     // was created from.
@@ -77,6 +95,16 @@ class SmaDevice : public std::enable_shared_from_this<SmaDevice>
   private:
     void makeSensors();
 
+    void readDynamicThresholds(size_t index);
+
+    void processDynamicThresholdsResponse(size_t index,
+                                          const std::error_code& ec,
+                                          std::span<const uint8_t> response);
+
+    void scheduleDynamicThresholdRetry(size_t index);
+
+    void retryDynamicThresholds();
+
     void publishSensor(const SmaSensorConfig& sensor);
 
     void initLeakSensors();
@@ -98,7 +126,13 @@ class SmaDevice : public std::enable_shared_from_this<SmaDevice>
 
     uint8_t eid{};
 
+    bool offline{false};
+
     std::chrono::milliseconds sensorPollMs;
+
+    std::chrono::milliseconds dynamicThresholdRetryMs;
+
+    boost::asio::steady_timer dynamicThresholdRetryTimer;
 
     boost::asio::steady_timer waitTimerPriority;
 
@@ -127,6 +161,14 @@ class SmaDevice : public std::enable_shared_from_this<SmaDevice>
     std::shared_ptr<sdbusplus::asio::dbus_interface> associationInterface;
 
     SmaDeviceConfigs smaConfig;
+
+    // How many Read Thermal Parameters requests failed in transport, by index
+    // into smaConfig.sensors.
+    std::unordered_map<size_t, int> dynamicThresholdAttempts;
+
+    // Indexes into smaConfig.sensors of the sensors whose dynamic thresholds
+    // are read again when dynamicThresholdRetryTimer expires.
+    std::vector<size_t> dynamicThresholdRetries;
 
     std::string name;
 
