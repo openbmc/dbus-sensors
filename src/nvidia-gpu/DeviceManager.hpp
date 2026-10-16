@@ -52,6 +52,13 @@ struct MctpVdmRecord
 // left out.
 SmaDeviceConfigs readSmaDeviceConfigs(const MctpVdmRecord& record, uint8_t eid);
 
+// Give each temperature sensor smaConfig lists the thresholds in
+// thresholdConfigs whose Label is the sensor's Name. A threshold marked
+// Dynamic goes to dynamicThresholds, without a value.
+void assignSmaThresholds(SmaDeviceConfigs& smaConfig,
+                         const SensorData& thresholdConfigs, uint8_t eid,
+                         const std::string& path);
+
 class DeviceManager
 {
   public:

@@ -24,6 +24,7 @@
 
 #include <array>
 #include <chrono>
+#include <cstddef>
 #include <cstdint>
 #include <format>
 #include <memory>
@@ -52,15 +53,90 @@ void SmaDevice::init()
 
 void SmaDevice::makeSensors()
 {
-    for (const SmaSensorConfig& sensor : smaConfig.sensors)
+    for (size_t index = 0; index < smaConfig.sensors.size(); ++index)
     {
-        publishSensor(sensor);
+        const SmaSensorConfig& sensor = smaConfig.sensors[index];
+        if (sensor.dynamicThresholds.empty())
+        {
+            publishSensor(sensor);
+        }
+        else
+        {
+            readDynamicThresholds(index);
+        }
     }
 
     initLeakSensors();
 
     lg2::info("Added MCA {NAME} Sensors with chassis path: {PATH}.", "NAME",
               name, "PATH", path);
+}
+
+void SmaDevice::readDynamicThresholds(size_t index)
+{
+    const SmaSensorConfig& sensor = smaConfig.sensors[index];
+    auto request = std::make_shared<
+        std::array<uint8_t, gpu::readThermalParametersRequestSize>>();
+    const int rc =
+        gpu::encodeReadThermalParametersRequest(0, sensor.id, *request);
+    if (rc != 0)
+    {
+        lg2::error(
+            "{NAME}: failed to encode the thermal parameter request for sensor {SID}, rc={RC}, publishing {SENSOR} without its dynamic thresholds",
+            "NAME", name, "SID", sensor.id, "RC", rc, "SENSOR", sensor.name);
+        publishSensor(sensor);
+        return;
+    }
+
+    mctpRequester.sendRecvMsg(
+        eid, *request,
+        [weak{weak_from_this()}, index, request](
+            const std::error_code& ec, std::span<const uint8_t> response) {
+            auto self = weak.lock();
+            if (!self)
+            {
+                lg2::error("Invalid reference to SmaDevice");
+                return;
+            }
+            self->processDynamicThresholdsResponse(index, ec, response);
+        });
+}
+
+void SmaDevice::processDynamicThresholdsResponse(
+    size_t index, const std::error_code& ec, std::span<const uint8_t> response)
+{
+    SmaSensorConfig& sensor = smaConfig.sensors[index];
+    if (ec)
+    {
+        lg2::error(
+            "{NAME}: reading the thermal parameter of sensor {SID} failed: {ERROR}, publishing {SENSOR} without its dynamic thresholds",
+            "NAME", name, "SID", sensor.id, "ERROR", ec.message(), "SENSOR",
+            sensor.name);
+        publishSensor(sensor);
+        return;
+    }
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode = 0;
+    int32_t value = 0;
+    const int rc = gpu::decodeReadThermalParametersResponse(
+        response, cc, reasonCode, value);
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        lg2::error(
+            "{NAME}: reading the thermal parameter of sensor {SID} failed, rc={RC}, cc={CC}, reasonCode={RESC}, publishing {SENSOR} without its dynamic thresholds",
+            "NAME", name, "SID", sensor.id, "RC", rc, "CC", cc, "RESC",
+            reasonCode, "SENSOR", sensor.name);
+        publishSensor(sensor);
+        return;
+    }
+
+    for (thresholds::Threshold threshold : sensor.dynamicThresholds)
+    {
+        threshold.value = static_cast<double>(value);
+        sensor.thresholds.push_back(threshold);
+    }
+    publishSensor(sensor);
 }
 
 void SmaDevice::publishSensor(const SmaSensorConfig& sensor)
@@ -71,7 +147,8 @@ void SmaDevice::publishSensor(const SmaSensorConfig& sensor)
         case SmaSensorKind::Temperature:
             tempSensors.emplace_back(std::make_shared<NvidiaGpuTempSensor>(
                 conn, mctpRequester, sensorName, path, eid, sensor.id,
-                objectServer, std::vector<thresholds::Threshold>{},
+                objectServer,
+                std::vector<thresholds::Threshold>(sensor.thresholds),
                 gpu::DeviceIdentification::DEVICE_SMA));
             break;
         case SmaSensorKind::Power:

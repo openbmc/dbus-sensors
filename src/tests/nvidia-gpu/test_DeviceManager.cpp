@@ -8,6 +8,7 @@
 #include "NvidiaGpuControlErrors.hpp"
 #include "NvidiaSmaDevice.hpp"
 #include "OcpMctpVdm.hpp"
+#include "Thresholds.hpp"
 #include "Utils.hpp"
 
 #include <sdbusplus/asio/object_server.hpp>
@@ -26,6 +27,7 @@
 #include <string_view>
 #include <vector>
 
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 namespace
@@ -211,6 +213,23 @@ MctpVdmRecord smaRecord(const SensorData& arrayElements)
             .arrayElements = arrayElements};
 }
 
+// Thresholds is a settable interface, so entity manager exports its
+// numbers as doubles.
+SensorBaseConfigMap smaThreshold(const std::string& label, double severity,
+                                 double value)
+{
+    return {{"Direction", std::string{"greater than"}},
+            {"Label", label},
+            {"Name", std::string{"upper threshold"}},
+            {"Severity", severity},
+            {"Value", value}};
+}
+
+thresholds::Threshold upperThreshold(thresholds::Level level, double value)
+{
+    return {level, thresholds::Direction::HIGH, value};
+}
+
 TEST(SmaDeviceConfigsTest, ListsTheSensorsInRecordOrder)
 {
     SensorData arrayElements{
@@ -313,6 +332,147 @@ TEST(SmaDeviceConfigsTest, KeepsTheFirstEntryOfARepeatedIdOrName)
     EXPECT_EQ(smaConfig.sensors[2].kind, SmaSensorKind::Power);
     EXPECT_EQ(smaConfig.sensors[2].id, 16);
     EXPECT_EQ(smaConfig.sensors[2].name, "SMA_Ext");
+}
+
+TEST(SmaDeviceConfigsTest, AssignsTheThresholdsTheRecordLists)
+{
+    SensorBaseConfigMap dynamic = smaThreshold("SMA_Ext", 0, 0);
+    dynamic.erase("Value");
+    dynamic["Dynamic"] = true;
+    const SensorData arrayElements{
+        {smaElementIface("TemperatureSensors", 0), smaSensor(16, "SMA_Ext")},
+        {smaElementIface("TemperatureSensors", 1), smaSensor(18, "GPU_VR")},
+        {smaElementIface("Thresholds", 0), dynamic},
+        {smaElementIface("Thresholds", 1), smaThreshold("GPU_VR", 1, 130)}};
+
+    const SmaDeviceConfigs smaConfig =
+        readSmaDeviceConfigs(smaRecord(arrayElements), smaEid);
+
+    ASSERT_EQ(smaConfig.sensors.size(), 2U);
+    EXPECT_THAT(smaConfig.sensors[0].thresholds, testing::IsEmpty());
+    EXPECT_EQ(smaConfig.sensors[0].dynamicThresholds.size(), 1U);
+    EXPECT_THAT(
+        smaConfig.sensors[1].thresholds,
+        testing::ElementsAre(upperThreshold(thresholds::Level::CRITICAL, 130)));
+    EXPECT_THAT(smaConfig.sensors[1].dynamicThresholds, testing::IsEmpty());
+}
+
+TEST(SmaThresholdsTest, AssignsThresholdsToTheTemperatureSensorTheyLabel)
+{
+    SmaDeviceConfigs smaConfig{
+        .sensors = {
+            {.kind = SmaSensorKind::Temperature, .id = 16, .name = "SMA_Ext"},
+            {.kind = SmaSensorKind::Temperature,
+             .id = 17,
+             .name = "SMA_Internal"},
+            {.kind = SmaSensorKind::Temperature, .id = 18, .name = "GPU_VR"}}};
+    const SensorData thresholdConfigs{
+        {smaElementIface("Thresholds", 0), smaThreshold("SMA_Ext", 0, 120)},
+        {smaElementIface("Thresholds", 1), smaThreshold("GPU_VR", 4, 135)},
+        {smaElementIface("Thresholds", 2), smaThreshold("GPU_VR", 1, 130)},
+        {smaElementIface("Thresholds", 3), smaThreshold("GPU_VR", 0, 120)}};
+
+    assignSmaThresholds(smaConfig, thresholdConfigs, smaEid, smaRecordPath);
+
+    EXPECT_THAT(smaConfig.sensors[0].thresholds,
+                testing::UnorderedElementsAre(
+                    upperThreshold(thresholds::Level::WARNING, 120)));
+    EXPECT_THAT(smaConfig.sensors[1].thresholds, testing::IsEmpty());
+    EXPECT_THAT(smaConfig.sensors[2].thresholds,
+                testing::UnorderedElementsAre(
+                    upperThreshold(thresholds::Level::WARNING, 120),
+                    upperThreshold(thresholds::Level::CRITICAL, 130),
+                    upperThreshold(thresholds::Level::HARDSHUTDOWN, 135)));
+}
+
+TEST(SmaThresholdsTest, LeavesOutThresholdsThatLabelNoSensor)
+{
+    SmaDeviceConfigs smaConfig{
+        .sensors = {
+            {.kind = SmaSensorKind::Temperature, .id = 16, .name = "SMA_Ext"}}};
+    SensorBaseConfigMap unlabeled = smaThreshold("SMA_Ext", 1, 130);
+    unlabeled.erase("Label");
+    const SensorData thresholdConfigs{
+        {smaElementIface("Thresholds", 0), smaThreshold("SMA_EXT", 0, 120)},
+        {smaElementIface("Thresholds", 1), unlabeled}};
+
+    assignSmaThresholds(smaConfig, thresholdConfigs, smaEid, smaRecordPath);
+
+    EXPECT_THAT(smaConfig.sensors[0].thresholds, testing::IsEmpty());
+}
+
+TEST(SmaThresholdsTest, KeepsTheThresholdsReadBeforeAMalformedOne)
+{
+    SmaDeviceConfigs smaConfig{
+        .sensors = {
+            {.kind = SmaSensorKind::Temperature, .id = 18, .name = "GPU_VR"},
+            {.kind = SmaSensorKind::Temperature, .id = 16, .name = "SMA_Ext"}}};
+    SensorBaseConfigMap noValue = smaThreshold("GPU_VR", 1, 130);
+    noValue.erase("Value");
+    const SensorData thresholdConfigs{
+        {smaElementIface("Thresholds", 0), smaThreshold("GPU_VR", 0, 120)},
+        {smaElementIface("Thresholds", 1), noValue},
+        {smaElementIface("Thresholds", 2), smaThreshold("SMA_Ext", 0, 120)}};
+
+    assignSmaThresholds(smaConfig, thresholdConfigs, smaEid, smaRecordPath);
+
+    EXPECT_THAT(smaConfig.sensors[0].thresholds,
+                testing::UnorderedElementsAre(
+                    upperThreshold(thresholds::Level::WARNING, 120)));
+    EXPECT_THAT(smaConfig.sensors[1].thresholds,
+                testing::UnorderedElementsAre(
+                    upperThreshold(thresholds::Level::WARNING, 120)));
+}
+
+TEST(SmaThresholdsTest, AssignsNoThresholdsToPowerOrVoltageSensors)
+{
+    SmaDeviceConfigs smaConfig{
+        .sensors = {
+            {.kind = SmaSensorKind::Temperature, .id = 192, .name = "HSC"},
+            {.kind = SmaSensorKind::Power, .id = 128, .name = "HSC"},
+            {.kind = SmaSensorKind::Voltage, .id = 192, .name = "HSC"}}};
+    const SensorData thresholdConfigs{
+        {smaElementIface("Thresholds", 0), smaThreshold("HSC", 0, 120)}};
+
+    assignSmaThresholds(smaConfig, thresholdConfigs, smaEid, smaRecordPath);
+
+    EXPECT_THAT(smaConfig.sensors[0].thresholds,
+                testing::UnorderedElementsAre(
+                    upperThreshold(thresholds::Level::WARNING, 120)));
+    EXPECT_THAT(smaConfig.sensors[1].thresholds, testing::IsEmpty());
+    EXPECT_THAT(smaConfig.sensors[2].thresholds, testing::IsEmpty());
+}
+
+TEST(SmaThresholdsTest, KeepsDynamicThresholdsApartWithoutAValue)
+{
+    SmaDeviceConfigs smaConfig{
+        .sensors = {
+            {.kind = SmaSensorKind::Temperature, .id = 16, .name = "SMA_Ext"},
+            {.kind = SmaSensorKind::Temperature, .id = 18, .name = "GPU_VR"}}};
+    SensorBaseConfigMap dynamic = smaThreshold("SMA_Ext", 0, 0);
+    dynamic.erase("Value");
+    dynamic["Dynamic"] = true;
+    SensorBaseConfigMap notDynamic = smaThreshold("GPU_VR", 1, 130);
+    notDynamic["Dynamic"] = false;
+    const SensorData thresholdConfigs{
+        {smaElementIface("Thresholds", 0), dynamic},
+        {smaElementIface("Thresholds", 1), notDynamic},
+        {smaElementIface("Thresholds", 2), smaThreshold("GPU_VR", 0, 120)}};
+
+    assignSmaThresholds(smaConfig, thresholdConfigs, smaEid, smaRecordPath);
+
+    EXPECT_THAT(smaConfig.sensors[0].thresholds, testing::IsEmpty());
+    EXPECT_THAT(smaConfig.sensors[0].dynamicThresholds,
+                testing::ElementsAre(testing::AllOf(
+                    testing::Field(&thresholds::Threshold::level,
+                                   thresholds::Level::WARNING),
+                    testing::Field(&thresholds::Threshold::direction,
+                                   thresholds::Direction::HIGH))));
+    EXPECT_THAT(smaConfig.sensors[1].thresholds,
+                testing::UnorderedElementsAre(
+                    upperThreshold(thresholds::Level::WARNING, 120),
+                    upperThreshold(thresholds::Level::CRITICAL, 130)));
+    EXPECT_THAT(smaConfig.sensors[1].dynamicThresholds, testing::IsEmpty());
 }
 
 } // namespace
