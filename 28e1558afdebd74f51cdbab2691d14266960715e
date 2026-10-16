@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d221801_e64dd924",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-10-16T07:28:42Z",
+      "side": 1,
+      "message": "We should drop this Entity Manager Schema doesn\u0027t define a config common to all device type.",
+      "revId": "28e1558afdebd74f51cdbab2691d14266960715e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90b5c26f_fe5c3a41",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-10-16T07:28:42Z",
+      "side": 1,
+      "message": "Instead of doing this, what if we create it from `cfg` in function `DeviceManager::queryDeviceIdentification` where we know the whether Config type is Gpu,Cx etc?",
+      "revId": "28e1558afdebd74f51cdbab2691d14266960715e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ee77ac0_233dfe65",
+        "filename": "src/nvidia-gpu/DeviceManager.hpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-10-16T07:28:42Z",
+      "side": 1,
+      "message": "What would the function signature look like when we have to add GpuDeviceConfigs and SmaDeviceConfigs?",
+      "revId": "28e1558afdebd74f51cdbab2691d14266960715e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9857bda7_b83dcba5",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.hpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-10-16T07:28:42Z",
+      "side": 1,
+      "message": "We should pass GpuDeviceConfig here which maps one to one for NvidiaMctpVdmGpu Entity Manager Schema.",
+      "range": {
+        "startLine": 51,
+        "startChar": 20,
+        "endLine": 51,
+        "endChar": 38
+      },
+      "revId": "28e1558afdebd74f51cdbab2691d14266960715e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
