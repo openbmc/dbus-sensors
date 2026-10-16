@@ -9,6 +9,7 @@
 #include "NvidiaPcieDevice.hpp"
 #include "NvidiaSmaDevice.hpp"
 #include "NvidiaUtils.hpp"
+#include "Thresholds.hpp"
 #include "Utils.hpp"
 
 #include <systemd/sd-bus-protocol.h>
@@ -256,6 +257,68 @@ static constexpr std::array<std::pair<std::string_view, SmaSensorKind>, 3>
         {".VoltageSensors", SmaSensorKind::Voltage},
     }};
 
+void assignSmaThresholds(SmaDeviceConfigs& smaConfig,
+                         const SensorData& thresholdConfigs, uint8_t eid,
+                         const sdbusplus::object_path& path)
+{
+    SensorData configuredThresholds;
+    SensorData dynamicThresholds;
+    for (const auto& [iface, props] : thresholdConfigs)
+    {
+        const auto labelIt = props.find("Label");
+        const std::string* label =
+            labelIt == props.end() ? nullptr
+                                   : std::get_if<std::string>(&labelIt->second);
+        if (label != nullptr &&
+            !std::ranges::any_of(
+                smaConfig.sensors, [label](const SmaSensorConfig& sensor) {
+                    return sensor.kind == SmaSensorKind::Temperature &&
+                           sensor.name == *label;
+                }))
+        {
+            lg2::error(
+                "EID {EID}: {PATH} {IFACE} is labeled {LABEL}, which names no temperature sensor of the record, not applying it",
+                "EID", eid, "PATH", path, "IFACE", iface, "LABEL", *label);
+            continue;
+        }
+
+        const auto dynamicIt = props.find("Dynamic");
+        const bool* dynamic = dynamicIt == props.end()
+                                  ? nullptr
+                                  : std::get_if<bool>(&dynamicIt->second);
+        if (dynamic == nullptr || !*dynamic)
+        {
+            configuredThresholds.emplace(iface, props);
+            continue;
+        }
+
+        // A dynamic threshold has no Value; the SMA supplies it before the
+        // sensor is published.
+        SensorBaseConfigMap withoutValue = props;
+        withoutValue["Value"] = std::numeric_limits<double>::quiet_NaN();
+        dynamicThresholds.emplace(iface, std::move(withoutValue));
+    }
+
+    for (SmaSensorConfig& sensor : smaConfig.sensors)
+    {
+        if (sensor.kind != SmaSensorKind::Temperature)
+        {
+            continue;
+        }
+
+        const bool configuredParsed = thresholds::parseThresholdsFromConfig(
+            configuredThresholds, sensor.thresholds, &sensor.name);
+        const bool dynamicParsed = thresholds::parseThresholdsFromConfig(
+            dynamicThresholds, sensor.dynamicThresholds, &sensor.name);
+        if (!configuredParsed || !dynamicParsed)
+        {
+            lg2::error(
+                "EID {EID}: error populating thresholds for {SENSOR} of {PATH}",
+                "EID", eid, "SENSOR", sensor.name, "PATH", path);
+        }
+    }
+}
+
 SmaDeviceConfigs readSmaDeviceConfigs(const MctpVdmRecord& record, uint8_t eid)
 {
     // Keyed by kind and entry index so the sensors keep the order the record
@@ -263,8 +326,15 @@ SmaDeviceConfigs readSmaDeviceConfigs(const MctpVdmRecord& record, uint8_t eid)
     std::map<std::pair<SmaSensorKind, size_t>,
              std::pair<std::string, const SensorBaseConfigMap*>>
         entries;
+    SensorData thresholdConfigs;
     for (const auto& [iface, props] : record.arrayElements)
     {
+        if (configArrayIndex(iface, ".Thresholds"))
+        {
+            thresholdConfigs.emplace(iface, props);
+            continue;
+        }
+
         for (const auto& [marker, kind] : smaSensorLists)
         {
             if (const std::optional<size_t> index =
@@ -338,6 +408,8 @@ SmaDeviceConfigs readSmaDeviceConfigs(const MctpVdmRecord& record, uint8_t eid)
         smaConfig.sensors.push_back(
             {.kind = kind, .id = sensorId, .name = *name});
     }
+
+    assignSmaThresholds(smaConfig, thresholdConfigs, eid, record.path);
 
     return smaConfig;
 }

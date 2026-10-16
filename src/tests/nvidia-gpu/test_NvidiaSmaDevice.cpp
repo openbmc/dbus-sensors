@@ -10,6 +10,7 @@
 #include "NvidiaSmaDevice.hpp"
 #include "OcpMctpVdm.hpp"
 #include "TestUtils.hpp"
+#include "Thresholds.hpp"
 
 #include <MessagePackUnpackUtils.hpp>
 #include <sdbusplus/exception.hpp>
@@ -18,6 +19,8 @@
 #include <chrono>
 #include <cmath>
 #include <cstdint>
+#include <functional>
+#include <limits>
 #include <memory>
 #include <optional>
 #include <span>
@@ -44,6 +47,10 @@ constexpr std::chrono::seconds pollTimeout{5};
 
 // Several fastPollMs intervals, so a loop that kept running would be caught.
 constexpr std::chrono::seconds quietWindow{1};
+
+// A read of dynamic thresholds that timed out is sent again as soon as the
+// io_context runs.
+constexpr std::chrono::milliseconds noRetryDelay{0};
 
 // A GetLeakDetectionInfo response reporting one leak sensor, so the device
 // creates one.
@@ -200,7 +207,8 @@ class NvidiaSmaDeviceTest : public MctpMockTestBase
             .path = path, .name = name, .pollRate = pollRate};
         const SmaDeviceConfigs smaConfig{.sensors = sensors};
         return std::make_shared<SmaDevice>(config, smaConfig, bus(), eid,
-                                           ioContext(), requester(), objects());
+                                           ioContext(), requester(), objects(),
+                                           noRetryDelay);
     }
 
     static double sensorValue(const std::string& type,
@@ -463,6 +471,476 @@ TEST_F(NvidiaSmaDeviceTest, OfflineMarksLeakSensorsNonFunctional)
 
     device->setOnline();
     EXPECT_TRUE(getProperty<bool>(leakPath, operationalStatus, "Functional"));
+}
+
+TEST_F(NvidiaSmaDeviceTest, PublishesTemperatureSensorThresholdsAsConfigured)
+{
+    ON_CALL(mctpMock, sendRecvMsg).WillByDefault(answerSensorRequests());
+
+    const std::shared_ptr<SmaDevice> device = createDevice(
+        "sma_thresholds", defaultEid, sensorPollRate.count(),
+        {{.kind = SmaSensorKind::Temperature,
+          .id = 18,
+          .name = "GPU_VR",
+          .thresholds = {{thresholds::Level::WARNING,
+                          thresholds::Direction::HIGH, 120.0},
+                         {thresholds::Level::CRITICAL,
+                          thresholds::Direction::HIGH, 130.0},
+                         {thresholds::Level::HARDSHUTDOWN,
+                          thresholds::Direction::HIGH, 135.0}}},
+         {.kind = SmaSensorKind::Temperature, .id = 16, .name = "SMA_Ext"}});
+    device->init();
+    device->setOnline();
+
+    const std::string configured =
+        "/xyz/openbmc_project/sensors/temperature/sma_thresholds_GPU_VR";
+    EXPECT_EQ(getProperty<double>(
+                  configured, "xyz.openbmc_project.Sensor.Threshold.Warning",
+                  "WarningHigh"),
+              120.0);
+    EXPECT_EQ(getProperty<double>(
+                  configured, "xyz.openbmc_project.Sensor.Threshold.Critical",
+                  "CriticalHigh"),
+              130.0);
+    EXPECT_EQ(
+        getProperty<double>(configured,
+                            "xyz.openbmc_project.Sensor.Threshold.HardShutdown",
+                            "HardShutdownHigh"),
+        135.0);
+
+    const std::string unconfigured =
+        "/xyz/openbmc_project/sensors/temperature/sma_thresholds_SMA_Ext";
+    EXPECT_EQ(temperatureValue("sma_thresholds_SMA_Ext"), 16.0);
+    EXPECT_THROW(
+        getProperty<double>(unconfigured,
+                            "xyz.openbmc_project.Sensor.Threshold.Warning",
+                            "WarningHigh"),
+        sdbusplus::exception_t);
+    EXPECT_THROW(
+        getProperty<double>(unconfigured,
+                            "xyz.openbmc_project.Sensor.Threshold.Critical",
+                            "CriticalHigh"),
+        sdbusplus::exception_t);
+    EXPECT_THROW(
+        getProperty<double>(unconfigured,
+                            "xyz.openbmc_project.Sensor.Threshold.HardShutdown",
+                            "HardShutdownHigh"),
+        sdbusplus::exception_t);
+}
+
+bool isReadThermalParameters(std::span<const uint8_t> request)
+{
+    return request.size() > ocp::accelerator_management::messageHeaderSize &&
+           request[ocp::accelerator_management::messageHeaderSize] ==
+               static_cast<uint8_t>(
+                   gpu::PlatformEnvironmentalCommands::READ_THERMAL_PARAMETERS);
+}
+
+// Answer sensor requests as answerSensorRequests does, and Read Thermal
+// Parameters with thermalParameter, or with an error when it is nullopt.
+auto answerWithThermalParameter(std::optional<int32_t> thermalParameter)
+{
+    return [thermalParameter, answerSensors = answerSensorRequests()](
+               uint8_t eid, std::span<const uint8_t> reqMsg, auto callback) {
+        if (!isReadThermalParameters(reqMsg))
+        {
+            answerSensors(eid, reqMsg, std::move(callback));
+            return;
+        }
+        const auto command =
+            gpu::PlatformEnvironmentalCommands::READ_THERMAL_PARAMETERS;
+        const std::vector<uint8_t> response =
+            thermalParameter
+                ? test_utils::buildPlatformEnvSuccessResponse(command,
+                                                              *thermalParameter)
+                : test_utils::buildPlatformEnvErrorResponse(
+                      command,
+                      static_cast<uint8_t>(
+                          ocp::accelerator_management::CompletionCode::
+                              ERR_INVALID_DATA),
+                      0);
+        callback(std::error_code{}, response);
+    };
+}
+
+SmaSensorConfig dynamicWarningSensor()
+{
+    return {.kind = SmaSensorKind::Temperature,
+            .id = 16,
+            .name = "SMA_Ext",
+            .dynamicThresholds = {
+                {thresholds::Level::WARNING, thresholds::Direction::HIGH,
+                 std::numeric_limits<double>::quiet_NaN()}}};
+}
+
+TEST_F(NvidiaSmaDeviceTest, PublishesDynamicThresholdsTheSmaHolds)
+{
+    ON_CALL(mctpMock, sendRecvMsg)
+        .WillByDefault(answerWithThermalParameter(120));
+
+    const std::shared_ptr<SmaDevice> device =
+        createDevice("sma_dynamic", defaultEid, sensorPollRate.count(),
+                     {dynamicWarningSensor()});
+    device->init();
+    device->setOnline();
+
+    EXPECT_EQ(temperatureValue("sma_dynamic_SMA_Ext"), 16.0);
+    EXPECT_EQ(
+        getProperty<double>(
+            "/xyz/openbmc_project/sensors/temperature/sma_dynamic_SMA_Ext",
+            "xyz.openbmc_project.Sensor.Threshold.Warning", "WarningHigh"),
+        120.0);
+}
+
+using ThermalParameterAnswer = std::move_only_function<void(
+    const std::error_code&, std::span<const uint8_t>)>;
+
+// Answer sensor requests as answerSensorRequests(rejectedIds) does, and leave
+// Read Thermal Parameters unanswered: its callback is kept in held, and each
+// one is counted in reads.
+auto holdThermalParameter(ThermalParameterAnswer& held, int& reads,
+                          std::vector<uint8_t> rejectedIds = {})
+{
+    return [&held, &reads,
+            answerSensors = answerSensorRequests(std::move(rejectedIds))](
+               uint8_t eid, std::span<const uint8_t> reqMsg, auto callback) {
+        if (isReadThermalParameters(reqMsg))
+        {
+            ++reads;
+            held = std::move(callback);
+            return;
+        }
+        answerSensors(eid, reqMsg, std::move(callback));
+    };
+}
+
+// The answer to a read in flight when the device goes offline still publishes
+// the sensor, which has to be in the state setOffline() leaves the others in.
+TEST_F(NvidiaSmaDeviceTest, PublishesASensorNonFunctionalWhileOffline)
+{
+    int thermalReads = 0;
+    ThermalParameterAnswer answerThermalParameter;
+    ON_CALL(mctpMock, sendRecvMsg)
+        .WillByDefault(
+            holdThermalParameter(answerThermalParameter, thermalReads));
+
+    const std::shared_ptr<SmaDevice> device =
+        createDevice("sma_dynamic_late", defaultEid, sensorPollRate.count(),
+                     {dynamicWarningSensor()});
+    device->init();
+    device->setOnline();
+    device->setOffline();
+    ASSERT_TRUE(answerThermalParameter);
+    EXPECT_EQ(thermalReads, 1);
+
+    const std::vector<uint8_t> response =
+        test_utils::buildPlatformEnvSuccessResponse(
+            gpu::PlatformEnvironmentalCommands::READ_THERMAL_PARAMETERS,
+            int32_t{120});
+    answerThermalParameter(std::error_code{}, response);
+
+    const std::string sensorPath =
+        "/xyz/openbmc_project/sensors/temperature/sma_dynamic_late_SMA_Ext";
+    const std::string operationalStatus =
+        "xyz.openbmc_project.State.Decorator.OperationalStatus";
+    EXPECT_EQ(getProperty<double>(
+                  sensorPath, "xyz.openbmc_project.Sensor.Threshold.Warning",
+                  "WarningHigh"),
+              120.0);
+    EXPECT_FALSE(
+        getProperty<bool>(sensorPath, operationalStatus, "Functional"));
+
+    device->setOnline();
+    EXPECT_TRUE(getProperty<bool>(sensorPath, operationalStatus, "Functional"));
+}
+
+// A read still in flight when the device is back online is not sent again,
+// and its answer publishes the sensor functional. The SMA rejects the
+// sensor's own reading here, so that no poll marks it functional instead.
+TEST_F(NvidiaSmaDeviceTest, PublishesASensorFunctionalWhenBackOnline)
+{
+    int thermalReads = 0;
+    ThermalParameterAnswer answerThermalParameter;
+    ON_CALL(mctpMock, sendRecvMsg)
+        .WillByDefault(
+            holdThermalParameter(answerThermalParameter, thermalReads, {16}));
+
+    const std::shared_ptr<SmaDevice> device =
+        createDevice("sma_dynamic_return", defaultEid, sensorPollRate.count(),
+                     {dynamicWarningSensor()});
+    device->init();
+    device->setOnline();
+    device->setOffline();
+    device->setOnline();
+    ASSERT_TRUE(answerThermalParameter);
+    EXPECT_EQ(thermalReads, 1);
+
+    const std::vector<uint8_t> response =
+        test_utils::buildPlatformEnvSuccessResponse(
+            gpu::PlatformEnvironmentalCommands::READ_THERMAL_PARAMETERS,
+            int32_t{120});
+    answerThermalParameter(std::error_code{}, response);
+
+    const std::string sensorPath =
+        "/xyz/openbmc_project/sensors/temperature/sma_dynamic_return_SMA_Ext";
+    EXPECT_EQ(getProperty<double>(
+                  sensorPath, "xyz.openbmc_project.Sensor.Threshold.Warning",
+                  "WarningHigh"),
+              120.0);
+    EXPECT_TRUE(getProperty<bool>(
+        sensorPath, "xyz.openbmc_project.State.Decorator.OperationalStatus",
+        "Functional"));
+}
+
+// Answer as holdThermalParameter(held, reads) does, except that the first
+// timeouts Read Thermal Parameters requests time out.
+auto timeOutThermalParameter(int timeouts, ThermalParameterAnswer& held,
+                             int& reads)
+{
+    return [timeouts, &reads, hold = holdThermalParameter(held, reads)](
+               uint8_t eid, std::span<const uint8_t> reqMsg, auto callback) {
+        if (isReadThermalParameters(reqMsg) && reads < timeouts)
+        {
+            ++reads;
+            callback(std::make_error_code(std::errc::timed_out), {});
+            return;
+        }
+        hold(eid, reqMsg, std::move(callback));
+    };
+}
+
+// A read that timed out is sent again, and the answer to that one publishes
+// the sensor with its dynamic thresholds. The device is never taken online,
+// and the sensors that wait for no read are published meanwhile.
+TEST_F(NvidiaSmaDeviceTest, PublishesDynamicThresholdsReadAfterATimeout)
+{
+    int thermalReads = 0;
+    ThermalParameterAnswer answerThermalParameter;
+    ON_CALL(mctpMock, sendRecvMsg)
+        .WillByDefault(
+            timeOutThermalParameter(1, answerThermalParameter, thermalReads));
+
+    const std::shared_ptr<SmaDevice> device = createDevice(
+        "sma_dynamic_retry", defaultEid, sensorPollRate.count(),
+        {dynamicWarningSensor(),
+         {.kind = SmaSensorKind::Temperature, .id = 100, .name = "Board"}});
+    device->init();
+    EXPECT_EQ(thermalReads, 1);
+
+    ASSERT_TRUE(pumpIoUntil([&] { return thermalReads >= 2; }, pollTimeout));
+    ASSERT_TRUE(answerThermalParameter);
+    EXPECT_THROW(temperatureUnit("sma_dynamic_retry_SMA_Ext"),
+                 sdbusplus::exception_t);
+    EXPECT_NO_THROW(temperatureUnit("sma_dynamic_retry_Board"));
+
+    const std::vector<uint8_t> response =
+        test_utils::buildPlatformEnvSuccessResponse(
+            gpu::PlatformEnvironmentalCommands::READ_THERMAL_PARAMETERS,
+            int32_t{120});
+    answerThermalParameter(std::error_code{}, response);
+
+    EXPECT_EQ(
+        getProperty<double>(
+            "/xyz/openbmc_project/sensors/temperature/sma_dynamic_retry_SMA_Ext",
+            "xyz.openbmc_project.Sensor.Threshold.Warning", "WarningHigh"),
+        120.0);
+    EXPECT_EQ(thermalReads, 2);
+}
+
+// The SMA answers none of the attempts: each sensor is published without its
+// dynamic thresholds after its last one, and no read follows it.
+TEST_F(NvidiaSmaDeviceTest,
+       PublishesWithoutDynamicThresholdsAfterTheLastAttempt)
+{
+    constexpr int unansweredReads = 2 * maxDynamicThresholdAttempts;
+    int thermalReads = 0;
+    ThermalParameterAnswer answerThermalParameter;
+    ON_CALL(mctpMock, sendRecvMsg)
+        .WillByDefault(timeOutThermalParameter(
+            unansweredReads, answerThermalParameter, thermalReads));
+
+    SmaSensorConfig second = dynamicWarningSensor();
+    second.id = 216;
+    second.name = "CPU1_Die";
+    const std::shared_ptr<SmaDevice> device =
+        createDevice("sma_dynamic_unanswered", defaultEid,
+                     sensorPollRate.count(), {dynamicWarningSensor(), second});
+    device->init();
+    EXPECT_EQ(thermalReads, 2);
+
+    ASSERT_TRUE(pumpIoUntil([&] { return thermalReads >= unansweredReads; },
+                            pollTimeout));
+
+    const std::string warning = "xyz.openbmc_project.Sensor.Threshold.Warning";
+    EXPECT_NO_THROW(temperatureUnit("sma_dynamic_unanswered_SMA_Ext"));
+    EXPECT_THROW(
+        getProperty<double>(
+            "/xyz/openbmc_project/sensors/temperature/sma_dynamic_unanswered_SMA_Ext",
+            warning, "WarningHigh"),
+        sdbusplus::exception_t);
+    EXPECT_NO_THROW(temperatureUnit("sma_dynamic_unanswered_CPU1_Die"));
+    EXPECT_THROW(
+        getProperty<double>(
+            "/xyz/openbmc_project/sensors/temperature/sma_dynamic_unanswered_CPU1_Die",
+            warning, "WarningHigh"),
+        sdbusplus::exception_t);
+    EXPECT_EQ(thermalReads, unansweredReads);
+    EXPECT_FALSE(answerThermalParameter);
+}
+
+// A read the SMA refuses publishes the sensor without its dynamic thresholds
+// and is not sent again.
+TEST_F(NvidiaSmaDeviceTest, ReadsDynamicThresholdsTheSmaRefusesOnce)
+{
+    int thermalReads = 0;
+    ThermalParameterAnswer answerThermalParameter;
+    ON_CALL(mctpMock, sendRecvMsg)
+        .WillByDefault(
+            holdThermalParameter(answerThermalParameter, thermalReads));
+
+    const std::shared_ptr<SmaDevice> device =
+        createDevice("sma_dynamic_once", defaultEid, sensorPollRate.count(),
+                     {dynamicWarningSensor()});
+    device->init();
+    ASSERT_TRUE(answerThermalParameter);
+
+    const std::vector<uint8_t> refusal =
+        test_utils::buildPlatformEnvErrorResponse(
+            gpu::PlatformEnvironmentalCommands::READ_THERMAL_PARAMETERS,
+            static_cast<uint8_t>(
+                ocp::accelerator_management::CompletionCode::ERR_INVALID_DATA),
+            0);
+    answerThermalParameter(std::error_code{}, refusal);
+
+    EXPECT_NO_THROW(temperatureUnit("sma_dynamic_once_SMA_Ext"));
+    EXPECT_THROW(
+        getProperty<double>(
+            "/xyz/openbmc_project/sensors/temperature/sma_dynamic_once_SMA_Ext",
+            "xyz.openbmc_project.Sensor.Threshold.Warning", "WarningHigh"),
+        sdbusplus::exception_t);
+    EXPECT_EQ(thermalReads, 1);
+}
+
+// A read the SMA refuses after one that timed out publishes the sensor
+// without its dynamic thresholds, and no read follows it.
+TEST_F(NvidiaSmaDeviceTest,
+       PublishesWithoutDynamicThresholdsRefusedAfterATimeout)
+{
+    int thermalReads = 0;
+    ThermalParameterAnswer answerThermalParameter;
+    ON_CALL(mctpMock, sendRecvMsg)
+        .WillByDefault(
+            timeOutThermalParameter(1, answerThermalParameter, thermalReads));
+
+    const std::shared_ptr<SmaDevice> device =
+        createDevice("sma_dynamic_retry_refused", defaultEid,
+                     sensorPollRate.count(), {dynamicWarningSensor()});
+    device->init();
+    ASSERT_TRUE(pumpIoUntil([&] { return thermalReads >= 2; }, pollTimeout));
+    ASSERT_TRUE(answerThermalParameter);
+
+    const std::vector<uint8_t> refusal =
+        test_utils::buildPlatformEnvErrorResponse(
+            gpu::PlatformEnvironmentalCommands::READ_THERMAL_PARAMETERS,
+            static_cast<uint8_t>(
+                ocp::accelerator_management::CompletionCode::ERR_INVALID_DATA),
+            0);
+    answerThermalParameter(std::error_code{}, refusal);
+
+    EXPECT_NO_THROW(temperatureUnit("sma_dynamic_retry_refused_SMA_Ext"));
+    EXPECT_THROW(
+        getProperty<double>(
+            "/xyz/openbmc_project/sensors/temperature/sma_dynamic_retry_refused_SMA_Ext",
+            "xyz.openbmc_project.Sensor.Threshold.Warning", "WarningHigh"),
+        sdbusplus::exception_t);
+    EXPECT_EQ(thermalReads, 2);
+}
+
+// A device that goes offline while a read waits to be sent again still gets
+// the read, and its answer publishes the sensor in the state the device is
+// in. Neither setOnline() nor setOffline() sends the read.
+TEST_F(NvidiaSmaDeviceTest, ReadsDynamicThresholdsAgainWhileOffline)
+{
+    int thermalReads = 0;
+    ThermalParameterAnswer answerThermalParameter;
+    ON_CALL(mctpMock, sendRecvMsg)
+        .WillByDefault(
+            timeOutThermalParameter(1, answerThermalParameter, thermalReads));
+
+    const std::shared_ptr<SmaDevice> device =
+        createDevice("sma_dynamic_offline", defaultEid, sensorPollRate.count(),
+                     {dynamicWarningSensor()});
+    device->init();
+    device->setOnline();
+    device->setOffline();
+    EXPECT_EQ(thermalReads, 1);
+
+    ASSERT_TRUE(pumpIoUntil([&] { return thermalReads >= 2; }, pollTimeout));
+    ASSERT_TRUE(answerThermalParameter);
+    const std::vector<uint8_t> response =
+        test_utils::buildPlatformEnvSuccessResponse(
+            gpu::PlatformEnvironmentalCommands::READ_THERMAL_PARAMETERS,
+            int32_t{120});
+    answerThermalParameter(std::error_code{}, response);
+
+    const std::string sensorPath =
+        "/xyz/openbmc_project/sensors/temperature/sma_dynamic_offline_SMA_Ext";
+    const std::string operationalStatus =
+        "xyz.openbmc_project.State.Decorator.OperationalStatus";
+    EXPECT_EQ(getProperty<double>(
+                  sensorPath, "xyz.openbmc_project.Sensor.Threshold.Warning",
+                  "WarningHigh"),
+              120.0);
+    EXPECT_FALSE(
+        getProperty<bool>(sensorPath, operationalStatus, "Functional"));
+    EXPECT_EQ(thermalReads, 2);
+
+    device->setOnline();
+    EXPECT_TRUE(getProperty<bool>(sensorPath, operationalStatus, "Functional"));
+}
+
+// A device destroyed while a read waits to be sent again takes the retry
+// with it.
+TEST_F(NvidiaSmaDeviceTest, SendsNoDynamicThresholdRetryForADestroyedDevice)
+{
+    int thermalReads = 0;
+    ThermalParameterAnswer answerThermalParameter;
+    ON_CALL(mctpMock, sendRecvMsg)
+        .WillByDefault(
+            timeOutThermalParameter(1, answerThermalParameter, thermalReads));
+
+    std::weak_ptr<SmaDevice> destroyed;
+    {
+        const std::shared_ptr<SmaDevice> device =
+            createDevice("sma_dynamic_gone", defaultEid, sensorPollRate.count(),
+                         {dynamicWarningSensor()});
+        device->init();
+        destroyed = device;
+    }
+    EXPECT_EQ(destroyed.lock(), nullptr);
+
+    drainPendingAsync();
+    EXPECT_EQ(thermalReads, 1);
+    EXPECT_FALSE(answerThermalParameter);
+}
+
+TEST_F(NvidiaSmaDeviceTest, PublishesWithoutDynamicThresholdsTheSmaRefuses)
+{
+    ON_CALL(mctpMock, sendRecvMsg)
+        .WillByDefault(answerWithThermalParameter(std::nullopt));
+
+    const std::shared_ptr<SmaDevice> device =
+        createDevice("sma_dynamic_refused", defaultEid, sensorPollRate.count(),
+                     {dynamicWarningSensor()});
+    device->init();
+    device->setOnline();
+
+    EXPECT_EQ(temperatureValue("sma_dynamic_refused_SMA_Ext"), 16.0);
+    EXPECT_THROW(
+        getProperty<double>(
+            "/xyz/openbmc_project/sensors/temperature/sma_dynamic_refused_SMA_Ext",
+            "xyz.openbmc_project.Sensor.Threshold.Warning", "WarningHigh"),
+        sdbusplus::exception_t);
 }
 
 } // namespace
