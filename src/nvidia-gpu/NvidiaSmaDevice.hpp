@@ -11,6 +11,7 @@
 #include "NvidiaGpuVoltageSensor.hpp"
 #include "NvidiaSensorConfig.hpp"
 #include "NvidiaSmaLeakSensor.hpp"
+#include "Thresholds.hpp"
 
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/steady_timer.hpp>
@@ -19,9 +20,12 @@
 #include <sdbusplus/message/native_types.hpp>
 
 #include <chrono>
+#include <cstddef>
 #include <cstdint>
 #include <memory>
+#include <span>
 #include <string>
+#include <system_error>
 #include <vector>
 
 enum class SmaSensorKind
@@ -36,6 +40,14 @@ struct SmaSensorConfig
     SmaSensorKind kind{};
     uint8_t id{};
     std::string name;
+    // GCC's -Wmissing-field-initializers flags designated initializers that
+    // leave out a member without a default member initializer.
+    // NOLINTNEXTLINE(readability-redundant-member-init)
+    std::vector<thresholds::Threshold> thresholds{};
+    // Thresholds whose value the SMA holds, read with Read Thermal
+    // Parameters before the sensor is published.
+    // NOLINTNEXTLINE(readability-redundant-member-init)
+    std::vector<thresholds::Threshold> dynamicThresholds{};
 };
 
 // Only an SMA lists its sensors, so they are kept apart from the settings
@@ -76,6 +88,12 @@ class SmaDevice : public std::enable_shared_from_this<SmaDevice>
 
   private:
     void makeSensors();
+
+    void readDynamicThresholds(size_t index);
+
+    void processDynamicThresholdsResponse(size_t index,
+                                          const std::error_code& ec,
+                                          std::span<const uint8_t> response);
 
     void publishSensor(const SmaSensorConfig& sensor);
 

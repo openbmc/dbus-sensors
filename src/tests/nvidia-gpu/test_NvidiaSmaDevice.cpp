@@ -10,6 +10,7 @@
 #include "NvidiaSmaDevice.hpp"
 #include "OcpMctpVdm.hpp"
 #include "TestUtils.hpp"
+#include "Thresholds.hpp"
 
 #include <MessagePackUnpackUtils.hpp>
 #include <sdbusplus/exception.hpp>
@@ -18,6 +19,7 @@
 #include <chrono>
 #include <cmath>
 #include <cstdint>
+#include <limits>
 #include <memory>
 #include <optional>
 #include <span>
@@ -463,6 +465,143 @@ TEST_F(NvidiaSmaDeviceTest, OfflineMarksLeakSensorsNonFunctional)
 
     device->setOnline();
     EXPECT_TRUE(getProperty<bool>(leakPath, operationalStatus, "Functional"));
+}
+
+TEST_F(NvidiaSmaDeviceTest, PublishesTemperatureSensorThresholdsAsConfigured)
+{
+    ON_CALL(mctpMock, sendRecvMsg).WillByDefault(answerSensorRequests());
+
+    const std::shared_ptr<SmaDevice> device = createDevice(
+        "sma_thresholds", defaultEid, sensorPollRateMs,
+        {{.kind = SmaSensorKind::Temperature,
+          .id = 18,
+          .name = "GPU_VR",
+          .thresholds = {{thresholds::Level::WARNING,
+                          thresholds::Direction::HIGH, 120.0},
+                         {thresholds::Level::CRITICAL,
+                          thresholds::Direction::HIGH, 130.0},
+                         {thresholds::Level::HARDSHUTDOWN,
+                          thresholds::Direction::HIGH, 135.0}}},
+         {.kind = SmaSensorKind::Temperature, .id = 16, .name = "SMA_Ext"}});
+    device->init();
+    device->setOnline();
+
+    const std::string configured =
+        "/xyz/openbmc_project/sensors/temperature/sma_thresholds_GPU_VR";
+    EXPECT_EQ(getProperty<double>(
+                  configured, "xyz.openbmc_project.Sensor.Threshold.Warning",
+                  "WarningHigh"),
+              120.0);
+    EXPECT_EQ(getProperty<double>(
+                  configured, "xyz.openbmc_project.Sensor.Threshold.Critical",
+                  "CriticalHigh"),
+              130.0);
+    EXPECT_EQ(
+        getProperty<double>(configured,
+                            "xyz.openbmc_project.Sensor.Threshold.HardShutdown",
+                            "HardShutdownHigh"),
+        135.0);
+
+    const std::string unconfigured =
+        "/xyz/openbmc_project/sensors/temperature/sma_thresholds_SMA_Ext";
+    EXPECT_EQ(temperatureValue("sma_thresholds_SMA_Ext"), 16.0);
+    EXPECT_THROW(
+        getProperty<double>(unconfigured,
+                            "xyz.openbmc_project.Sensor.Threshold.Warning",
+                            "WarningHigh"),
+        sdbusplus::exception_t);
+    EXPECT_THROW(
+        getProperty<double>(unconfigured,
+                            "xyz.openbmc_project.Sensor.Threshold.Critical",
+                            "CriticalHigh"),
+        sdbusplus::exception_t);
+    EXPECT_THROW(
+        getProperty<double>(unconfigured,
+                            "xyz.openbmc_project.Sensor.Threshold.HardShutdown",
+                            "HardShutdownHigh"),
+        sdbusplus::exception_t);
+}
+
+bool isReadThermalParameters(std::span<const uint8_t> request)
+{
+    return request.size() > ocp::accelerator_management::messageHeaderSize &&
+           request[ocp::accelerator_management::messageHeaderSize] ==
+               static_cast<uint8_t>(
+                   gpu::PlatformEnvironmentalCommands::READ_THERMAL_PARAMETERS);
+}
+
+// Answer sensor requests as answerSensorRequests does, and Read Thermal
+// Parameters with thermalParameter, or with an error when it is nullopt.
+auto answerWithThermalParameter(std::optional<int32_t> thermalParameter)
+{
+    return [thermalParameter, answerSensors = answerSensorRequests()](
+               uint8_t eid, std::span<const uint8_t> reqMsg, auto callback) {
+        if (!isReadThermalParameters(reqMsg))
+        {
+            answerSensors(eid, reqMsg, std::move(callback));
+            return;
+        }
+        const auto command =
+            gpu::PlatformEnvironmentalCommands::READ_THERMAL_PARAMETERS;
+        const std::vector<uint8_t> response =
+            thermalParameter
+                ? test_utils::buildPlatformEnvSuccessResponse(command,
+                                                              *thermalParameter)
+                : test_utils::buildPlatformEnvErrorResponse(
+                      command,
+                      static_cast<uint8_t>(
+                          ocp::accelerator_management::CompletionCode::
+                              ERR_INVALID_DATA),
+                      0);
+        callback(std::error_code{}, response);
+    };
+}
+
+SmaSensorConfig dynamicWarningSensor()
+{
+    return {.kind = SmaSensorKind::Temperature,
+            .id = 16,
+            .name = "SMA_Ext",
+            .dynamicThresholds = {
+                {thresholds::Level::WARNING, thresholds::Direction::HIGH,
+                 std::numeric_limits<double>::quiet_NaN()}}};
+}
+
+TEST_F(NvidiaSmaDeviceTest, PublishesDynamicThresholdsTheSmaHolds)
+{
+    ON_CALL(mctpMock, sendRecvMsg)
+        .WillByDefault(answerWithThermalParameter(120));
+
+    const std::shared_ptr<SmaDevice> device = createDevice(
+        "sma_dynamic", defaultEid, sensorPollRateMs, {dynamicWarningSensor()});
+    device->init();
+    device->setOnline();
+
+    EXPECT_EQ(temperatureValue("sma_dynamic_SMA_Ext"), 16.0);
+    EXPECT_EQ(
+        getProperty<double>(
+            "/xyz/openbmc_project/sensors/temperature/sma_dynamic_SMA_Ext",
+            "xyz.openbmc_project.Sensor.Threshold.Warning", "WarningHigh"),
+        120.0);
+}
+
+TEST_F(NvidiaSmaDeviceTest, PublishesWithoutDynamicThresholdsTheSmaRefuses)
+{
+    ON_CALL(mctpMock, sendRecvMsg)
+        .WillByDefault(answerWithThermalParameter(std::nullopt));
+
+    const std::shared_ptr<SmaDevice> device =
+        createDevice("sma_dynamic_refused", defaultEid, sensorPollRateMs,
+                     {dynamicWarningSensor()});
+    device->init();
+    device->setOnline();
+
+    EXPECT_EQ(temperatureValue("sma_dynamic_refused_SMA_Ext"), 16.0);
+    EXPECT_THROW(
+        getProperty<double>(
+            "/xyz/openbmc_project/sensors/temperature/sma_dynamic_refused_SMA_Ext",
+            "xyz.openbmc_project.Sensor.Threshold.Warning", "WarningHigh"),
+        sdbusplus::exception_t);
 }
 
 } // namespace
