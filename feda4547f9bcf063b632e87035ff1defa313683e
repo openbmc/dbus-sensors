@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfa6209b_74b54300",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-10-16T02:41:15Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "e48dcdf4_d1eb41df",
+      "revId": "feda4547f9bcf063b632e87035ff1defa313683e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "957cac77_311781ff",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "92aa5473_a105622f",
+        "filename": "src/intrusion/ChassisIntrusionSensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-10-16T02:41:15Z",
+      "side": 1,
+      "message": "I\u0027d keep it in the header. No test here declares a production function itself; they include the header of the code under test. With one shared declaration the compiler checks the definition against it, while a prototype in the test is only matched by the linker, which does not check the return type.",
+      "parentUuid": "957cac77_311781ff",
+      "revId": "feda4547f9bcf063b632e87035ff1defa313683e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d8ce6085_212eff27",
@@ -48,6 +84,24 @@
       "writtenOn": "2026-10-06T09:06:18Z",
       "side": 1,
       "message": "Does entity-manager\u0027s Class enum in `schemas/legacy.json` need `Nct3018y_Hwmon` added before a config can use this?",
+      "revId": "feda4547f9bcf063b632e87035ff1defa313683e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2d23201_51b92ad0",
+        "filename": "src/intrusion/IntrusionSensorMain.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-10-16T02:41:15Z",
+      "side": 1,
+      "message": "https://gerrit.openbmc.org/c/openbmc/entity-manager/+/94141\nAlready push before, please help review.",
+      "parentUuid": "d8ce6085_212eff27",
       "revId": "feda4547f9bcf063b632e87035ff1defa313683e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
