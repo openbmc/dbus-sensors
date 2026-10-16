@@ -114,7 +114,7 @@ TEST(USBMCTPDDevice, matchRelevantConfig)
 static SensorBaseConfigMap usbDeviceConfig()
 {
     return {
-        {"Configuration", "1"},   {"Interface", "0"},
+        {"Configuration", "1"},   {"InterfaceNumber", "0"},
         {"Name", "test"},         {"Port", std::vector<uint64_t>{1, 2, 1}},
         {"RootHubPosition", "0"}, {"Type", "MCTPUSBDevice"},
     };
@@ -164,7 +164,7 @@ TEST(USBMCTPDDevice, fromBadIfaceNoConfiguration)
 TEST(USBMCTPDDevice, fromBadIfaceNoInterface)
 {
     SensorBaseConfigMap iface = usbDeviceConfig();
-    iface.erase("Interface");
+    iface.erase("InterfaceNumber");
     EXPECT_THROW(USBMCTPDDevice::from({}, iface), std::invalid_argument);
 }
 
@@ -219,15 +219,26 @@ TEST(USBMCTPDDevice, fromBadIfaceTrailingConfiguration)
 TEST(USBMCTPDDevice, fromBadIfaceBadInterface)
 {
     SensorBaseConfigMap iface = usbDeviceConfig();
-    iface["Interface"] = "not a number";
+    iface["InterfaceNumber"] = "not a number";
     EXPECT_THROW(USBMCTPDDevice::from({}, iface), std::invalid_argument);
 }
 
 TEST(USBMCTPDDevice, fromBadIfaceTrailingInterface)
 {
     SensorBaseConfigMap iface = usbDeviceConfig();
-    iface["Interface"] = "0abc";
+    iface["InterfaceNumber"] = "0abc";
     EXPECT_THROW(USBMCTPDDevice::from({}, iface), std::invalid_argument);
+}
+
+// A configuration written before Interface was renamed is still accepted. The
+// position names no host controller, so the device is not looked up.
+TEST(USBMCTPDDevice, fromIfaceDeprecatedInterface)
+{
+    SensorBaseConfigMap iface = usbDeviceConfig();
+    iface.erase("InterfaceNumber");
+    iface["Interface"] = "0";
+    iface["RootHubPosition"] = "2";
+    EXPECT_EQ(USBMCTPDDevice::from({}, iface), nullptr);
 }
 
 TEST(I2CMCTPDDevice, fromBadIfaceTrailingAddress)
