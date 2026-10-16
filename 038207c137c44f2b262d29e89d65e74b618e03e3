@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fa434ad_da2bd52f",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 43
+      },
+      "lineNbr": 738,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-16T08:47:19Z",
+      "side": 1,
+      "message": "This hardcodes the default poll interval, so the Entity Manager PollRate configured for this device is ignored. Could you preserve and pass through the configured value?",
+      "revId": "038207c137c44f2b262d29e89d65e74b618e03e3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98411b8e_22ae2c75",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 43
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-16T08:47:19Z",
+      "side": 1,
+      "message": "PcieDeviceConfigs is default-constructed here, leaving networkPortCount at zero. PcieDevice::init uses that count to enumerate ConnectX network ports, so configured port discovery will be skipped. Could you populate it from NicNetworkPortCount?",
+      "revId": "038207c137c44f2b262d29e89d65e74b618e03e3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
