@@ -9,11 +9,15 @@
 
 #include <sdbusplus/asio/object_server.hpp>
 
+#include <algorithm>
+#include <array>
 #include <chrono>
 #include <cstdint>
+#include <format>
 #include <memory>
 #include <optional>
 #include <string>
+#include <string_view>
 
 namespace nvidia_sensor_utils
 {
@@ -53,6 +57,19 @@ inline void stampUpdatedTime(
             std::chrono::duration_cast<std::chrono::microseconds>(
                 std::chrono::system_clock::now().time_since_epoch())
                 .count()));
+}
+
+inline std::optional<std::string> nameToPhysicalContext(std::string_view name)
+{
+    constexpr std::array<std::string_view, 5> names{
+        "Board", "CPU", "DCBus", "GPUSubsystem", "VoltageRegulator"};
+    if (std::ranges::find(names, name) == names.end())
+    {
+        return std::nullopt;
+    }
+    return std::format(
+        "xyz.openbmc_project.Common.PhysicalContext.PhysicalContextType.{}",
+        name);
 }
 
 } // namespace nvidia_sensor_utils

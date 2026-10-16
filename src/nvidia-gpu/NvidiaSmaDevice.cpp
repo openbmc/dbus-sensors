@@ -149,20 +149,21 @@ void SmaDevice::publishSensor(const SmaSensorConfig& sensor)
                 conn, mctpRequester, sensorName, path, eid, sensor.id,
                 objectServer,
                 std::vector<thresholds::Threshold>(sensor.thresholds),
-                gpu::DeviceIdentification::DEVICE_SMA));
+                gpu::DeviceIdentification::DEVICE_SMA, sensor.physicalContext));
             break;
         case SmaSensorKind::Power:
             powerSensors.emplace_back(std::make_shared<NvidiaGpuPowerSensor>(
                 conn, mctpRequester, sensorName, path, eid, sensor.id,
                 objectServer, std::vector<thresholds::Threshold>{},
-                gpu::DeviceIdentification::DEVICE_SMA));
+                gpu::DeviceIdentification::DEVICE_SMA, sensor.physicalContext));
             break;
         case SmaSensorKind::Voltage:
             voltageSensors.emplace_back(
                 std::make_shared<NvidiaGpuVoltageSensor>(
                     conn, mctpRequester, sensorName, path, eid, sensor.id,
                     objectServer, std::vector<thresholds::Threshold>{},
-                    gpu::DeviceIdentification::DEVICE_SMA));
+                    gpu::DeviceIdentification::DEVICE_SMA,
+                    sensor.physicalContext));
             break;
     }
 }
