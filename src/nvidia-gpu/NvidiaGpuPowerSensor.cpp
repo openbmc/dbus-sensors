@@ -45,7 +45,8 @@ NvidiaGpuPowerSensor::NvidiaGpuPowerSensor(
     const std::string& sensorConfiguration, uint8_t eid, uint8_t sensorId,
     sdbusplus::asio::object_server& objectServer,
     std::vector<thresholds::Threshold>&& thresholdData,
-    const gpu::DeviceIdentification deviceType) :
+    const gpu::DeviceIdentification deviceType,
+    const std::optional<std::string>& physicalContextName) :
     Sensor(escapeName(name), std::move(thresholdData), sensorConfiguration,
            "power", false, true, gpuPowerSensorMaxReading,
            gpuPowerSensorMinReading, conn),
@@ -85,7 +86,9 @@ NvidiaGpuPowerSensor::NvidiaGpuPowerSensor(
     setInitialProperties(sensor_paths::unitWatts);
 
     const std::optional<std::string> physicalContext =
-        nvidia_sensor_utils::deviceTypeToPhysicalContext(deviceType);
+        physicalContextName
+            ? nvidia_sensor_utils::nameToPhysicalContext(*physicalContextName)
+            : nvidia_sensor_utils::deviceTypeToPhysicalContext(deviceType);
 
     if (physicalContext)
     {
