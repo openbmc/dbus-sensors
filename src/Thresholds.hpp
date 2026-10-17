@@ -48,6 +48,7 @@ struct Threshold
     double value;
     double hysteresis;
     bool writeable;
+    bool asserted{false};
 
     bool operator==(const Threshold& rhs) const
     {

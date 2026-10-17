@@ -22,6 +22,7 @@
 #include <vector>
 
 constexpr auto i2CReadLenValues = std::to_array<size_t>({4, 8, 8});
+constexpr size_t maxOverThresholdRetryCount = 1;
 
 enum class I2C_READ_LEN_INDEX
 {
@@ -68,13 +69,17 @@ struct SmbpbiSensor : public Sensor
     static double convert2Temp(const uint8_t* rawData);
     static double convert2Power(const uint8_t* rawData);
     void waitReadCallback(const boost::system::error_code& ec);
+    bool isOverThreshold(double reading) const;
+
+    size_t overThresholdRetryCount{0};
+
     sdbusplus::asio::object_server& objectServer;
     boost::asio::random_access_file inputDev;
     boost::asio::steady_timer waitTimer;
     size_t pollRateSecond;
 };
 
-bool checkInvalidReading(uint8_t* reading, int length)
+inline bool checkInvalidReading(uint8_t* reading, int length)
 {
     // there is no value updated from HMC if reading data is all 0xff
     uint8_t* ptr = reading;

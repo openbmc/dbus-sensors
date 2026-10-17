@@ -467,6 +467,13 @@ void assertThresholds(Sensor* sensor, double assertValue,
     }
     if (interface->set_property<bool, true>(property, assert))
     {
+        for (auto& threshold : sensor->thresholds)
+        {
+            if (threshold.level == level && threshold.direction == direction)
+            {
+                threshold.asserted = assert;
+            }
+        }
         try
         {
             // msg.get_path() is interface->get_object_path()
