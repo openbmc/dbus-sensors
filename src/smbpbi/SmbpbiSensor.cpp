@@ -25,6 +25,7 @@
 
 #include <array>
 #include <chrono>
+#include <cmath>
 #include <cstdint>
 #include <cstring>
 #include <functional>
@@ -121,6 +122,52 @@ void SmbpbiSensor::init()
 void SmbpbiSensor::checkThresholds()
 {
     thresholds::checkThresholds(this);
+}
+
+bool SmbpbiSensor::isOverThreshold(double reading) const
+{
+    if (std::isnan(reading))
+    {
+        return false;
+    }
+
+    for (const auto& threshold : thresholds)
+    {
+        double hyst =
+            std::isnan(threshold.hysteresis) ? 0.0 : threshold.hysteresis;
+
+        // If the current confirmed value is already in the asserted state,
+        // this threshold is already active and logged.
+        if (!std::isnan(value))
+        {
+            if (threshold.direction == thresholds::Direction::HIGH &&
+                value >= (threshold.value - hyst))
+            {
+                continue;
+            }
+            if (threshold.direction == thresholds::Direction::LOW &&
+                value <= (threshold.value + hyst))
+            {
+                continue;
+            }
+        }
+
+        if (threshold.direction == thresholds::Direction::HIGH)
+        {
+            if (reading >= threshold.value)
+            {
+                return true;
+            }
+        }
+        else if (threshold.direction == thresholds::Direction::LOW)
+        {
+            if (reading <= threshold.value)
+            {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 double SmbpbiSensor::convert2Temp(const uint8_t* raw)
@@ -366,6 +413,7 @@ void SmbpbiSensor::waitReadCallback(const boost::system::error_code& ec)
         lg2::error("Invalid read at offset: {OFFSET} with value: {VALUE}",
                    "OFFSET", offset, "VALUE", temp);
         incrementError();
+        overThresholdRetryCount = 0;
     }
     else if (outOfRange(temp))
     {
@@ -373,11 +421,46 @@ void SmbpbiSensor::waitReadCallback(const boost::system::error_code& ec)
             "Reading out of range at offset: {OFFSET} with value: {VALUE}",
             "OFFSET", offset, "VALUE", temp);
         incrementError();
+        overThresholdRetryCount = 0;
     }
     else
     {
-        lg2::debug("Value update to {TEMP}", "TEMP", temp);
-        updateValue(temp);
+        if (isOverThreshold(temp))
+        {
+            if (overThresholdRetryCount < maxOverThresholdRetryCount)
+            {
+                overThresholdRetryCount++;
+                lg2::warning(
+                    "Sensor {NAME} reading {VAL} is over threshold, retry {RETRY}/{MAX} on next polling",
+                    "NAME", name, "VAL", temp, "RETRY", overThresholdRetryCount,
+                    "MAX", maxOverThresholdRetryCount);
+            }
+            else
+            {
+                if (overThresholdRetryCount > 0)
+                {
+                    lg2::info(
+                        "Sensor {NAME} reading {VAL} confirmed over threshold after {RETRY} retries",
+                        "NAME", name, "VAL", temp, "RETRY",
+                        overThresholdRetryCount);
+                    overThresholdRetryCount = 0;
+                }
+                lg2::debug("Value update to {TEMP}", "TEMP", temp);
+                updateValue(temp);
+            }
+        }
+        else
+        {
+            if (overThresholdRetryCount > 0)
+            {
+                lg2::info(
+                    "Sensor {NAME} reading returned to normal ({VAL}), ignoring previous over-threshold reading",
+                    "NAME", name, "VAL", temp);
+                overThresholdRetryCount = 0;
+            }
+            lg2::debug("Value update to {TEMP}", "TEMP", temp);
+            updateValue(temp);
+        }
     }
     read();
 }
