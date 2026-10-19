@@ -40,6 +40,9 @@
 struct MctpVdmRecord
 {
     sdbusplus::object_path path;
+    // The configuration interface it was read from, which names the kind of
+    // device it describes.
+    std::string interface;
     // What the device is called: the Name the platform paired the device
     // with the record under.
     std::string name;

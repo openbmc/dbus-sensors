@@ -74,7 +74,7 @@ static constexpr auto thresholdIds = std::to_array<uint8_t>(
 static constexpr const char* dramIfaceName =
     "xyz.openbmc_project.Inventory.Item.Dimm";
 
-GpuDevice::GpuDevice(const NvidiaMctpVdmConfig& config,
+GpuDevice::GpuDevice(const GpuDeviceConfig& config,
                      const std::shared_ptr<sdbusplus::asio::connection>& conn,
                      uint8_t eid, boost::asio::io_context& io,
                      mctp::MctpRequester& mctpRequester,
