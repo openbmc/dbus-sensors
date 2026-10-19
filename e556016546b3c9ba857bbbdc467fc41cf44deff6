@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "782e1b40_102babf3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-10-19T22:41:54Z",
+      "side": 1,
+      "message": "\u003e The biggest difference between the NVIDIA and AMD implementations is the MCTP message type. AMD uses 0x7F (Vendor Defined - IANA), while NVIDIA uses 0x7E, resulting in a different message format.\n\nRight, so make that an argument, and reuse the rest of the code?\n\n\u003e \n\u003e Regarding the MCTP transport layer, we discussed this with @patrick@stwcx.xyz and @pmb@meta.com earlier [1]. We plan to implement the MCTP request/response layer using sdbusplus::async [2] instead of the Boost-based library. The nvidia-gpusensor implementation can migrate to the new library once it is available.\n\u003e \n\u003e [1] https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/94550/comment/10c40fe3_baa69d09/\n\u003e [2] https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/95106\n\nThat\u0027s great;  I don\u0027t think \"I want to use stdexec\" justifies duplicating code.  If we need to make the code work with both executors, lets do that.",
+      "parentUuid": "fc16af91_9c6a09c6",
+      "range": {
+        "startLine": 15,
+        "startChar": 32,
+        "endLine": 16,
+        "endChar": 20
+      },
+      "revId": "e556016546b3c9ba857bbbdc467fc41cf44deff6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "9c7c01e1_aad904c9",
@@ -96,6 +120,24 @@
       "side": 1,
       "message": "The default follows the other sensor daemons in meson.options, which are all enabled.\nOnce this lands, we\u0027ll add a PACKAGECONFIG for it in the dbus-sensors recipe, so it won\u0027t be built unless a platform enables it.",
       "parentUuid": "0edae3d0_7997aff2",
+      "revId": "e556016546b3c9ba857bbbdc467fc41cf44deff6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd0d6d5d_dfe7e040",
+        "filename": "meson.options",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-10-19T22:41:54Z",
+      "side": 1,
+      "message": "\u003e default builds install a daemon that currently only registers its D-Bus name and inventory object manager; it does not yet discover endpoints or publish telemetry. \n\n\nWhy is this a problem?",
+      "parentUuid": "2ed33296_a999718a",
       "revId": "e556016546b3c9ba857bbbdc467fc41cf44deff6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
