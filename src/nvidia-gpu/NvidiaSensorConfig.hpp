@@ -21,11 +21,24 @@ constexpr std::chrono::seconds roundRobinPollRate{30};
 
 constexpr std::chrono::seconds longRunningPollRate{10};
 
-// An NvidiaMctpVdm record from EntityManager: where it lives, what the device
-// it describes is called on D-Bus, and how often its sensors are read.
-struct NvidiaMctpVdmConfig
+struct GpuDeviceConfig
 {
     sdbusplus::object_path path;
     std::string name;
     uint64_t pollRate{};
+};
+
+struct SmaDeviceConfig
+{
+    sdbusplus::object_path path;
+    std::string name;
+    uint64_t pollRate{};
+};
+
+struct CxDeviceConfig
+{
+    sdbusplus::object_path path;
+    std::string name;
+    uint64_t pollRate{};
+    uint64_t portCount{};
 };
