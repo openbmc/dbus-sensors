@@ -77,7 +77,7 @@ static constexpr const char* dramIfaceName =
 static constexpr const char* softwareInventoryPath =
     "/xyz/openbmc_project/software/";
 
-GpuDevice::GpuDevice(const NvidiaMctpVdmConfig& config,
+GpuDevice::GpuDevice(const GpuDeviceConfig& config,
                      const std::shared_ptr<sdbusplus::asio::connection>& conn,
                      uint8_t eid, boost::asio::io_context& io,
                      mctp::MctpRequester& mctpRequester,
