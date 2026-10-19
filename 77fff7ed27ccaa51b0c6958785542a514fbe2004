@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c76b1c11_9a842501",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-19T08:52:44Z",
+      "side": 1,
+      "message": "Done, an added endpoint is now matched to a known device by its UUID first, and the path is only compared after that.",
+      "parentUuid": "b27f57c8_b2143b7a",
+      "revId": "77fff7ed27ccaa51b0c6958785542a514fbe2004",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b488f379_b958ad30",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-10-16T06:28:59Z",
       "side": 1,
       "message": "We should do this check right after reading object Path from message.",
+      "revId": "77fff7ed27ccaa51b0c6958785542a514fbe2004",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6911beb2_bbf1c866",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-19T08:52:44Z",
+      "side": 1,
+      "message": "Done, the check now comes right after reading the path.",
+      "parentUuid": "b488f379_b958ad30",
       "revId": "77fff7ed27ccaa51b0c6958785542a514fbe2004",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -52,6 +88,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f729b2f9_83ad2505",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-19T08:52:44Z",
+      "side": 1,
+      "message": "Removed, the state machine already ignores a re-added endpoint unless the device is Offline.",
+      "parentUuid": "60d4381f_403f8b4b",
+      "revId": "77fff7ed27ccaa51b0c6958785542a514fbe2004",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f6857d92_7654dada",
@@ -65,6 +119,24 @@
       "writtenOn": "2026-10-16T06:28:59Z",
       "side": 1,
       "message": "Put this into separate function since we are fetching uuid at two difference places.",
+      "revId": "77fff7ed27ccaa51b0c6958785542a514fbe2004",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9efba6d9_21429905",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-19T08:52:44Z",
+      "side": 1,
+      "message": "Done, a re-added endpoint now takes its UUID and EID from the InterfacesAdded signal, so the only fetch left is the one at discovery.",
+      "parentUuid": "f6857d92_7654dada",
       "revId": "77fff7ed27ccaa51b0c6958785542a514fbe2004",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -86,6 +158,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d93af13_23fed59b",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-19T08:52:44Z",
+      "side": 1,
+      "message": "Done, with the UUID and EID read from the signal there are no D-Bus calls left in this path, so no lambdas either.",
+      "parentUuid": "3b7486f8_9c5c7102",
+      "revId": "77fff7ed27ccaa51b0c6958785542a514fbe2004",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6a212f6d_7b9aa713",
@@ -99,6 +189,24 @@
       "writtenOn": "2026-10-16T06:28:59Z",
       "side": 1,
       "message": "If EID is reassigned, we might run into situation where the MCTP Object Path may point to different device altogether.",
+      "revId": "77fff7ed27ccaa51b0c6958785542a514fbe2004",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69d663b1_3632def7",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-19T08:52:44Z",
+      "side": 1,
+      "message": "Good point, a reused EID now shows up as a UUID we don\u0027t know, so the stale record is dropped and the endpoint is rescanned, and an endpoint without a usable UUID is rescanned rather than reattached.",
+      "parentUuid": "6a212f6d_7b9aa713",
       "revId": "77fff7ed27ccaa51b0c6958785542a514fbe2004",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -120,6 +228,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "30e63cf1_c7296dc9",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 677,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-19T08:52:44Z",
+      "side": 1,
+      "message": "Dropped.",
+      "parentUuid": "4ccf4f2b_2df435a9",
+      "revId": "77fff7ed27ccaa51b0c6958785542a514fbe2004",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "af113eb5_ced6bc57",
@@ -137,6 +263,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "da3a4b1d_34eab78a",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-19T08:52:44Z",
+      "side": 1,
+      "message": "Yes, bmcweb maps OperationalStatus.Functional to Status.Health for inventory resources (https://github.com/openbmc/bmcweb/blob/bb6b9ebcd3171dc9763b7c9e6fb0da6e2447aa3b/redfish-core/include/utils/resource_utils.hpp#L184-L193), for example Assembly (https://github.com/openbmc/bmcweb/blob/bb6b9ebcd3171dc9763b7c9e6fb0da6e2447aa3b/redfish-core/lib/assembly.hpp#L118-L123), but the SMA isn\u0027t tied to a specific item type yet, so it doesn\u0027t show up in Redfish today.",
+      "parentUuid": "af113eb5_ced6bc57",
+      "revId": "77fff7ed27ccaa51b0c6958785542a514fbe2004",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5161d56c_bd386686",
@@ -150,6 +294,24 @@
       "writtenOn": "2026-10-16T06:28:59Z",
       "side": 1,
       "message": "Shouldn\u0027t we update functional state of leak detector sensor as well? If yes, it belongs in parent commit.",
+      "revId": "77fff7ed27ccaa51b0c6958785542a514fbe2004",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17948c1c_c94f5fda",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-19T08:52:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5161d56c_bd386686",
       "revId": "77fff7ed27ccaa51b0c6958785542a514fbe2004",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
