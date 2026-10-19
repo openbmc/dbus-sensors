@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2d4010f_0922aac4",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-19T08:53:22Z",
+      "side": 1,
+      "message": "At this point the EntityManager schema still has one NvidiaMctpVdm record for every kind of device, so the config now mirrors that record, and the split per kind is in https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/93848.",
+      "parentUuid": "7d221801_e64dd924",
+      "revId": "28e1558afdebd74f51cdbab2691d14266960715e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "90b5c26f_fe5c3a41",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-10-16T07:28:42Z",
       "side": 1,
       "message": "Instead of doing this, what if we create it from `cfg` in function `DeviceManager::queryDeviceIdentification` where we know the whether Config type is Gpu,Cx etc?",
+      "revId": "28e1558afdebd74f51cdbab2691d14266960715e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec6eeafe_65e3f518",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-19T08:53:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90b5c26f_fe5c3a41",
       "revId": "28e1558afdebd74f51cdbab2691d14266960715e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -52,6 +88,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "986ece12_1d3004df",
+        "filename": "src/nvidia-gpu/DeviceManager.hpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-19T08:53:22Z",
+      "side": 1,
+      "message": "Good point, discovery now passes the record itself, so adding a kind of device adds no parameter.",
+      "parentUuid": "3ee77ac0_233dfe65",
+      "revId": "28e1558afdebd74f51cdbab2691d14266960715e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9857bda7_b83dcba5",
@@ -65,6 +119,30 @@
       "writtenOn": "2026-10-16T07:28:42Z",
       "side": 1,
       "message": "We should pass GpuDeviceConfig here which maps one to one for NvidiaMctpVdmGpu Entity Manager Schema.",
+      "range": {
+        "startLine": 51,
+        "startChar": 20,
+        "endLine": 51,
+        "endChar": 38
+      },
+      "revId": "28e1558afdebd74f51cdbab2691d14266960715e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "209eed3c_c334d2a4",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.hpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-19T08:53:22Z",
+      "side": 1,
+      "message": "Agreed, here it takes a config that mirrors the NvidiaMctpVdm record, and the GpuDeviceConfig mirroring NvidiaMctpVdmGpu is in https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/93848.",
+      "parentUuid": "9857bda7_b83dcba5",
       "range": {
         "startLine": 51,
         "startChar": 20,
