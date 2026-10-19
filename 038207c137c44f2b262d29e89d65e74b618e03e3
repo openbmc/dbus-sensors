@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "c6563bce_dfc01e60",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 43
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-19T08:52:52Z",
+      "side": 1,
+      "message": "Yes, from https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/86236 the device is created with the defaults until it is paired with its board\u0027s record, which brings the PollRate back in https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/93536 and the port count in https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/93742.",
+      "parentUuid": "59f92b87_cc743b89",
+      "revId": "038207c137c44f2b262d29e89d65e74b618e03e3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "5fa434ad_da2bd52f",
         "filename": "src/nvidia-gpu/DeviceManager.cpp",
         "patchSetId": 43
