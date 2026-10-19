@@ -267,11 +267,11 @@ static PcieDeviceConfigs readPcieDeviceConfigs(const MctpVdmRecord& record)
     try
     {
         pcieConfig.networkPortCount =
-            loadVariant<uint64_t>(record.properties, "NicNetworkPortCount");
+            loadVariant<uint64_t>(record.properties, "PortCount");
     }
     catch (const std::invalid_argument&)
     {
-        // NicNetworkPortCount is an optional config
+        // PortCount is an optional config
         pcieConfig.networkPortCount = 0;
     }
 
