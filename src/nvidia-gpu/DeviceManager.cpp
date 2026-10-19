@@ -236,46 +236,75 @@ bool DeviceManager::retryDiscovery(const sdbusplus::object_path& mctpObjectPath,
     scheduleRescan();
     return true;
 }
-// The settings an NvidiaMctpVdm record carries for any kind of device.
-static NvidiaMctpVdmConfig readNvidiaMctpVdmConfig(const MctpVdmRecord& record)
-{
-    NvidiaMctpVdmConfig config{.path = record.path, .name = record.name};
+static constexpr std::string_view mctpVdmGpuIface =
+    "xyz.openbmc_project.Configuration.NvidiaMctpVdmGpu";
+static constexpr std::string_view mctpVdmSmaIface =
+    "xyz.openbmc_project.Configuration.NvidiaMctpVdmSma";
+static constexpr std::string_view mctpVdmCxIface =
+    "xyz.openbmc_project.Configuration.NvidiaMctpVdmCx";
 
+static uint64_t readPollRate(const MctpVdmRecord& record)
+{
     try
     {
-        config.pollRate = loadVariant<uint64_t>(record.properties, "PollRate");
-        if (config.pollRate == 0)
-        {
-            config.pollRate = sensorPollRate.count();
-        }
+        const uint64_t pollRate =
+            loadVariant<uint64_t>(record.properties, "PollRate");
+        // A PollRate of 0 is taken as unset.
+        return pollRate == 0 ? sensorPollRate.count() : pollRate;
     }
     catch (const std::invalid_argument&)
     {
         // PollRate is an optional config
-        config.pollRate = sensorPollRate.count();
+        return sensorPollRate.count();
     }
-
-    return config;
 }
 
-// Only a ConnectX device has network ports, so the record is only asked for
-// a count of them once the device has turned out to be one.
-static PcieDeviceConfigs readPcieDeviceConfigs(const MctpVdmRecord& record)
+static GpuDeviceConfig readGpuDeviceConfig(const MctpVdmRecord& record)
 {
-    PcieDeviceConfigs pcieConfig;
+    return {.path = record.path,
+            .name = record.name,
+            .pollRate = readPollRate(record)};
+}
+
+static SmaDeviceConfig readSmaDeviceConfig(const MctpVdmRecord& record)
+{
+    return {.path = record.path,
+            .name = record.name,
+            .pollRate = readPollRate(record)};
+}
+
+static CxDeviceConfig readCxDeviceConfig(const MctpVdmRecord& record)
+{
+    CxDeviceConfig config{.path = record.path,
+                          .name = record.name,
+                          .pollRate = readPollRate(record)};
 
     try
     {
-        pcieConfig.networkPortCount =
+        config.portCount =
             loadVariant<uint64_t>(record.properties, "PortCount");
     }
     catch (const std::invalid_argument&)
     {
         // PortCount is an optional config
-        pcieConfig.networkPortCount = 0;
+        config.portCount = 0;
     }
 
-    return pcieConfig;
+    return config;
+}
+
+static bool recordDescribes(const MctpVdmRecord& record,
+                            std::string_view interface, uint8_t eid)
+{
+    if (record.interface == interface)
+    {
+        return true;
+    }
+    lg2::error(
+        "EID {EID}: record {PATH} is a {RECORD}, not a {DEVICE}, not creating {NAME}",
+        "EID", eid, "PATH", record.path, "RECORD", record.interface, "DEVICE",
+        interface, "NAME", record.name);
+    return false;
 }
 
 void DeviceManager::processQueryDeviceIdResponse(
@@ -309,9 +338,7 @@ void DeviceManager::processQueryDeviceIdResponse(
         return;
     }
 
-    const NvidiaMctpVdmConfig config = readNvidiaMctpVdmConfig(record);
-
-    const std::string& deviceName = config.name;
+    const std::string& deviceName = record.name;
 
     switch (static_cast<gpu::DeviceIdentification>(responseDeviceType))
     {
@@ -322,14 +349,20 @@ void DeviceManager::processQueryDeviceIdResponse(
                 "EID", eid, "DEVTYPE", responseDeviceType, "IID",
                 responseInstanceId);
 
+            if (!recordDescribes(record, mctpVdmGpuIface, eid))
+            {
+                break;
+            }
+
             const std::string& gpuName = deviceName;
 
             std::shared_ptr<GpuDevice>& gpu = gpuDevices[gpuName];
 
             if (gpu == nullptr)
             {
-                gpu = std::make_shared<GpuDevice>(config, conn, eid, io,
-                                                  mctpRequester, objectServer);
+                gpu = std::make_shared<GpuDevice>(readGpuDeviceConfig(record),
+                                                  conn, eid, io, mctpRequester,
+                                                  objectServer);
 
                 gpu->init();
             }
@@ -350,6 +383,11 @@ void DeviceManager::processQueryDeviceIdResponse(
                 "EID", eid, "DEVTYPE", responseDeviceType, "IID",
                 responseInstanceId);
 
+            if (!recordDescribes(record, mctpVdmSmaIface, eid))
+            {
+                break;
+            }
+
             const std::string& smaName = deviceName;
 
             auto existing =
@@ -358,7 +396,8 @@ void DeviceManager::processQueryDeviceIdResponse(
             if (existing == smaDevices.end())
             {
                 auto sma = std::make_shared<SmaDevice>(
-                    config, conn, eid, io, mctpRequester, objectServer);
+                    readSmaDeviceConfig(record), conn, eid, io, mctpRequester,
+                    objectServer);
 
                 sma->init();
 
@@ -399,6 +438,11 @@ void DeviceManager::processQueryDeviceIdResponse(
                 "EID", eid, "DEVTYPE", responseDeviceType, "IID",
                 responseInstanceId);
 
+            if (!recordDescribes(record, mctpVdmCxIface, eid))
+            {
+                break;
+            }
+
             const std::string& pcieName = deviceName;
 
             std::shared_ptr<PcieDevice>& pcie = pcieDevices[pcieName];
@@ -406,8 +450,8 @@ void DeviceManager::processQueryDeviceIdResponse(
             if (pcie == nullptr)
             {
                 pcie = std::make_shared<PcieDevice>(
-                    config, readPcieDeviceConfigs(record), conn, eid, io,
-                    mctpRequester, objectServer);
+                    readCxDeviceConfig(record), conn, eid, io, mctpRequester,
+                    objectServer);
 
                 pcie->init();
             }
@@ -735,13 +779,6 @@ void DeviceManager::processConfigPropertiesResult(
         });
 }
 
-static constexpr std::string_view mctpVdmGpuIface =
-    "xyz.openbmc_project.Configuration.NvidiaMctpVdmGpu";
-static constexpr std::string_view mctpVdmSmaIface =
-    "xyz.openbmc_project.Configuration.NvidiaMctpVdmSma";
-static constexpr std::string_view mctpVdmCxIface =
-    "xyz.openbmc_project.Configuration.NvidiaMctpVdmCx";
-
 static bool isMctpVdmIface(std::string_view iface)
 {
     return iface == mctpVdmGpuIface || iface == mctpVdmSmaIface ||
@@ -859,6 +896,7 @@ void DeviceManager::findBoardConfig(const sdbusplus::object_path& inventoryPath,
                         return;
                     }
                     done(MctpVdmRecord{.path = recordPath,
+                                       .interface = iface,
                                        .name = inventoryName,
                                        .properties = props});
                 },
