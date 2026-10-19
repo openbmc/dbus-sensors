@@ -31,7 +31,7 @@
 #include <utility>
 #include <vector>
 
-SmaDevice::SmaDevice(const NvidiaMctpVdmConfig& config,
+SmaDevice::SmaDevice(const SmaDeviceConfig& config,
                      const std::shared_ptr<sdbusplus::asio::connection>& conn,
                      uint8_t eid, boost::asio::io_context& io,
                      mctp::MctpRequester& mctpRequester,
