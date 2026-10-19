@@ -39,6 +39,7 @@
 struct MctpVdmRecord
 {
     sdbusplus::object_path path;
+    std::string interface;
     std::string name;
     SensorBaseConfigMap properties;
 };
