@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d498284_14912d77",
+        "filename": "src/nvidia-gpu/NvidiaGpuNvlinkPortHealth.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-10-19T13:55:11Z",
+      "side": 1,
+      "message": "nit: application or service",
+      "range": {
+        "startLine": 65,
+        "startChar": 39,
+        "endLine": 65,
+        "endChar": 45
+      },
+      "revId": "29a7372877383a62bee73444a003fc4e20a999fb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4c2b94f_5e5dc8d7",
+        "filename": "src/nvidia-gpu/NvidiaGpuNvlinkPortHealth.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-10-19T13:55:11Z",
+      "side": 1,
+      "message": "nit: not needed.",
+      "range": {
+        "startLine": 65,
+        "startChar": 74,
+        "endLine": 66,
+        "endChar": 19
+      },
+      "revId": "29a7372877383a62bee73444a003fc4e20a999fb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa413a52_269f7007",
+        "filename": "src/nvidia-gpu/NvidiaGpuNvlinkPortHealth.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-10-19T13:55:11Z",
+      "side": 1,
+      "message": "Can we remove this namespace since other files also don\u0027t use one?",
+      "revId": "29a7372877383a62bee73444a003fc4e20a999fb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
