@@ -219,45 +219,78 @@ bool DeviceManager::retryDiscovery(const sdbusplus::object_path& mctpObjectPath,
     scheduleRescan();
     return true;
 }
-// The settings an NvidiaMctpVdm record carries for any kind of device.
-static NvidiaMctpVdmConfig readNvidiaMctpVdmConfig(const MctpVdmRecord& record)
-{
-    NvidiaMctpVdmConfig config{.path = record.path, .name = record.name};
+static constexpr std::string_view mctpVdmGpuIface =
+    "xyz.openbmc_project.Configuration.NvidiaMctpVdmGpu";
+static constexpr std::string_view mctpVdmSmaIface =
+    "xyz.openbmc_project.Configuration.NvidiaMctpVdmSma";
+static constexpr std::string_view mctpVdmCxIface =
+    "xyz.openbmc_project.Configuration.NvidiaMctpVdmCx";
 
+// Every kind of record says how often the device's sensors are read.
+static uint64_t readPollRate(const MctpVdmRecord& record)
+{
     try
     {
-        config.pollRate = loadVariant<uint64_t>(record.properties, "PollRate");
+        return loadVariant<uint64_t>(record.properties, "PollRate");
     }
     catch (const std::invalid_argument&)
     {
         // PollRate is an optional config
-        config.pollRate = sensorPollRateMs;
+        return sensorPollRateMs;
     }
-
-    return config;
 }
 
-// Only a ConnectX device has network ports, so the record is only asked for
-// a count of them once the device has turned out to be one.
-static PcieDeviceConfigs readPcieDeviceConfigs(const MctpVdmRecord& record)
+static GpuDeviceConfig readGpuDeviceConfig(const MctpVdmRecord& record)
 {
-    PcieDeviceConfigs pcieConfig;
+    return {.path = record.path,
+            .name = record.name,
+            .pollRate = readPollRate(record)};
+}
+
+static SmaDeviceConfig readSmaDeviceConfig(const MctpVdmRecord& record)
+{
+    return {.path = record.path,
+            .name = record.name,
+            .pollRate = readPollRate(record)};
+}
+
+static CxDeviceConfig readCxDeviceConfig(const MctpVdmRecord& record)
+{
+    CxDeviceConfig config{.path = record.path,
+                          .name = record.name,
+                          .pollRate = readPollRate(record)};
 
     // The board says how many network ports the device has; nothing the
     // device answers reports it, and it is what bounds the probe of them.
     try
     {
-        pcieConfig.networkPortCount =
+        config.portCount =
             loadVariant<uint64_t>(record.properties, "PortCount");
     }
     catch (const std::invalid_argument&)
     {
         // A board that does not say how many network ports the device has is
         // saying it has none to report.
-        pcieConfig.networkPortCount = 0;
+        config.portCount = 0;
     }
 
-    return pcieConfig;
+    return config;
+}
+
+// The record a device was paired with has to describe the kind of device it
+// turned out to be, or the settings read from it are not the device's.
+static bool recordDescribes(const MctpVdmRecord& record,
+                            std::string_view interface, uint8_t eid)
+{
+    if (record.interface == interface)
+    {
+        return true;
+    }
+    lg2::error(
+        "EID {EID}: record {PATH} is a {RECORD}, not a {DEVICE}, not creating {NAME}",
+        "EID", eid, "PATH", record.path, "RECORD", record.interface, "DEVICE",
+        interface, "NAME", record.name);
+    return false;
 }
 
 void DeviceManager::processQueryDeviceIdResponse(
@@ -291,9 +324,7 @@ void DeviceManager::processQueryDeviceIdResponse(
         return;
     }
 
-    const NvidiaMctpVdmConfig config = readNvidiaMctpVdmConfig(record);
-
-    const std::string& deviceName = config.name;
+    const std::string& deviceName = record.name;
 
     switch (static_cast<gpu::DeviceIdentification>(responseDeviceType))
     {
@@ -304,14 +335,20 @@ void DeviceManager::processQueryDeviceIdResponse(
                 "EID", eid, "DEVTYPE", responseDeviceType, "IID",
                 responseInstanceId);
 
+            if (!recordDescribes(record, mctpVdmGpuIface, eid))
+            {
+                break;
+            }
+
             const std::string& gpuName = deviceName;
 
             std::shared_ptr<GpuDevice>& gpu = gpuDevices[gpuName];
 
             if (gpu == nullptr)
             {
-                gpu = std::make_shared<GpuDevice>(config, conn, eid, io,
-                                                  mctpRequester, objectServer);
+                gpu = std::make_shared<GpuDevice>(readGpuDeviceConfig(record),
+                                                  conn, eid, io, mctpRequester,
+                                                  objectServer);
 
                 gpu->init();
             }
@@ -332,6 +369,11 @@ void DeviceManager::processQueryDeviceIdResponse(
                 "EID", eid, "DEVTYPE", responseDeviceType, "IID",
                 responseInstanceId);
 
+            if (!recordDescribes(record, mctpVdmSmaIface, eid))
+            {
+                break;
+            }
+
             const std::string& smaName = deviceName;
 
             auto existing =
@@ -340,7 +382,8 @@ void DeviceManager::processQueryDeviceIdResponse(
             if (existing == smaDevices.end())
             {
                 auto sma = std::make_shared<SmaDevice>(
-                    config, conn, eid, io, mctpRequester, objectServer);
+                    readSmaDeviceConfig(record), conn, eid, io, mctpRequester,
+                    objectServer);
 
                 sma->init();
 
@@ -381,6 +424,11 @@ void DeviceManager::processQueryDeviceIdResponse(
                 "EID", eid, "DEVTYPE", responseDeviceType, "IID",
                 responseInstanceId);
 
+            if (!recordDescribes(record, mctpVdmCxIface, eid))
+            {
+                break;
+            }
+
             const std::string& pcieName = deviceName;
 
             std::shared_ptr<PcieDevice>& pcie = pcieDevices[pcieName];
@@ -388,8 +436,8 @@ void DeviceManager::processQueryDeviceIdResponse(
             if (pcie == nullptr)
             {
                 pcie = std::make_shared<PcieDevice>(
-                    config, readPcieDeviceConfigs(record), conn, eid, io,
-                    mctpRequester, objectServer);
+                    readCxDeviceConfig(record), conn, eid, io, mctpRequester,
+                    objectServer);
 
                 pcie->init();
             }
@@ -855,13 +903,6 @@ void DeviceManager::collectBoardPaths(std::function<void()> done)
         std::vector<std::string>{std::string(probeIface)});
 }
 
-static constexpr std::string_view mctpVdmGpuIface =
-    "xyz.openbmc_project.Configuration.NvidiaMctpVdmGpu";
-static constexpr std::string_view mctpVdmSmaIface =
-    "xyz.openbmc_project.Configuration.NvidiaMctpVdmSma";
-static constexpr std::string_view mctpVdmCxIface =
-    "xyz.openbmc_project.Configuration.NvidiaMctpVdmCx";
-
 static bool isMctpVdmIface(std::string_view iface)
 {
     return iface == mctpVdmGpuIface || iface == mctpVdmSmaIface ||
@@ -932,7 +973,8 @@ static void selectMctpVdmConfig(
     for (const Candidate& candidate : candidates)
     {
         conn->async_method_call(
-            [search, path{candidate.path}, inventoryPath, inventoryName, eid,
+            [search, path{candidate.path}, iface{candidate.iface},
+             inventoryPath, inventoryName, eid,
              done](const boost::system::error_code& propEc,
                    const SensorBaseConfigMap& props) {
                 --search->pending;
@@ -956,11 +998,12 @@ static void selectMctpVdmConfig(
                                                      : nullptr;
 
                             search->matched = true;
-                            done(MctpVdmRecord{.path = path,
-                                               .name = (device != nullptr)
-                                                           ? *device
-                                                           : inventoryName,
-                                               .properties = props});
+                            done(MctpVdmRecord{
+                                .path = path,
+                                .interface = iface,
+                                .name = (device != nullptr) ? *device
+                                                            : inventoryName,
+                                .properties = props});
                         }
                     }
                 }

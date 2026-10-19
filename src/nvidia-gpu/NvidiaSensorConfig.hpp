@@ -16,11 +16,30 @@ constexpr const char* sensorTypeCx = "NvidiaMctpVdmCx";
 
 constexpr uint64_t sensorPollRateMs = 1000;
 
-// An NvidiaMctpVdm record from EntityManager: where it lives, what the device
+// An NvidiaMctpVdmGpu record from EntityManager: where it lives, what the GPU
 // it describes is called on D-Bus, and how often its sensors are read.
-struct NvidiaMctpVdmConfig
+struct GpuDeviceConfig
 {
     sdbusplus::object_path path;
     std::string name;
     uint64_t pollRate{};
+};
+
+// An NvidiaMctpVdmSma record from EntityManager, with the same settings for
+// an SMA.
+struct SmaDeviceConfig
+{
+    sdbusplus::object_path path;
+    std::string name;
+    uint64_t pollRate{};
+};
+
+// An NvidiaMctpVdmCx record from EntityManager, which also says how many
+// network ports the ConnectX has.
+struct CxDeviceConfig
+{
+    sdbusplus::object_path path;
+    std::string name;
+    uint64_t pollRate{};
+    uint64_t portCount{};
 };
