@@ -243,14 +243,17 @@ static PcieDeviceConfigs readPcieDeviceConfigs(const MctpVdmRecord& record)
 {
     PcieDeviceConfigs pcieConfig;
 
+    // The board says how many network ports the device has; nothing the
+    // device answers reports it, and it is what bounds the probe of them.
     try
     {
         pcieConfig.networkPortCount =
-            loadVariant<uint64_t>(record.properties, "NicNetworkPortCount");
+            loadVariant<uint64_t>(record.properties, "PortCount");
     }
     catch (const std::invalid_argument&)
     {
-        // NicNetworkPortCount is an optional config
+        // A board that does not say how many network ports the device has is
+        // saying it has none to report.
         pcieConfig.networkPortCount = 0;
     }
 
