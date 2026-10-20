@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "28aabace_edfbb409",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-10-20T12:24:48Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "54e69ffb_e87af877",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 52
+      },
+      "revId": "0a8403d786bdcaa600f795ec3fe88f5be93562fd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2002deb4_eb6a2eda",
@@ -37,6 +61,24 @@
       "writtenOn": "2026-10-20T06:38:04Z",
       "side": 1,
       "message": "Now that 91169 is merged, DeviceManager.cpp:157 raises `InitComplete` on the line after `init()`, so `setOnline()` would hit a null tempSensor; since `makeSensors()` never reads supportedCommands, could it stay in a synchronous `init()`?",
+      "revId": "0a8403d786bdcaa600f795ec3fe88f5be93562fd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e58a8aaa_ef117f27",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-10-20T12:24:48Z",
+      "side": 1,
+      "message": "Done. init() builds the sensors synchronously again and starts the refresh without a handler. Added SetOnlineBeforeSupportedCommandsAreRead, which crashes with the previous init() and passes now.",
+      "parentUuid": "2002deb4_eb6a2eda",
       "revId": "0a8403d786bdcaa600f795ec3fe88f5be93562fd",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
