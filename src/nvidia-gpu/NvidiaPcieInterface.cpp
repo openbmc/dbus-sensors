@@ -97,7 +97,7 @@ NvidiaPcieInterface::NvidiaPcieInterface(
     {
         const sdbusplus::object_path networkAdapterPath =
             inventoryPrefix / (*networkAdapterName + "_NIC");
-        associations.emplace_back("connected_to", "connecting",
+        associations.emplace_back("connecting", "connected_to",
                                   networkAdapterPath);
     }
 
