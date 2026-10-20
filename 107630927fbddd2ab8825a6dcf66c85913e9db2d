@@ -51,6 +51,23 @@
       "message": "LGTM.",
       "revId": "107630927fbddd2ab8825a6dcf66c85913e9db2d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66292951_722bdc51",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-20T08:40:07Z",
+      "side": 1,
+      "message": "Tested on an nvl32 BMC with six GPUs: PollRate 0 now falls back to the 1000 ms default, and PollRate 500 is still honored.",
+      "revId": "107630927fbddd2ab8825a6dcf66c85913e9db2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
