@@ -72,6 +72,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab2e2e86_730def2e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002734
+      },
+      "writtenOn": "2026-10-20T02:51:58Z",
+      "side": 1,
+      "message": "\u003e Right, so make that an argument, and reuse the rest of the code?\n\nYes, we have implemented the MCTP transport API that allow caller to define their message format [1].\n\n\u003e That\u0027s great;  I don\u0027t think \"I want to use stdexec\" justifies duplicating code.  If we need to make the code work with both executors, lets do that.\n\nAgreed. The MCTP requester accepts a VdmBinding, so callers can specify their message type, header size, and instance-ID offset. AMD uses 0x7F; nvdia-gpusensor could reuse the same transport with a 0x7E binding. The protocol-specific message encoding and decoding can remain separate.\n\n[1] https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/95106/2/src/MctpAsyncRequester.cpp#69:~:text\u003d69-,VdmBinding%20binding%2C,-70",
+      "parentUuid": "782e1b40_102babf3",
+      "range": {
+        "startLine": 15,
+        "startChar": 32,
+        "endLine": 16,
+        "endChar": 20
+      },
+      "revId": "e556016546b3c9ba857bbbdc467fc41cf44deff6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "9c7c01e1_aad904c9",
