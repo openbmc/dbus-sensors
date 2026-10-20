@@ -36,6 +36,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d0805d9_5e03c11e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-20T12:16:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d8c5ef9_cbfa70db",
+      "revId": "7767a1eec3a067a97aad5a96eb2aa3345e0c8bd5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eb77c66c_a479c6fa",
@@ -71,6 +89,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5dedb5c_223e7392",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-20T12:16:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9835470c_f127eddc",
+      "revId": "7767a1eec3a067a97aad5a96eb2aa3345e0c8bd5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "49b6599d_74125885",
@@ -102,6 +138,24 @@
       "side": 1,
       "message": "Added the suggested null check before setting UpdatedTime, consistent with the existing Value property update path.",
       "parentUuid": "49b6599d_74125885",
+      "revId": "7767a1eec3a067a97aad5a96eb2aa3345e0c8bd5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2647a19_4e3454f9",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-20T12:16:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0565d306_4703daa0",
       "revId": "7767a1eec3a067a97aad5a96eb2aa3345e0c8bd5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
