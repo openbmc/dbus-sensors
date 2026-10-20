@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86193e77_f1e849c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-10-20T00:52:32Z",
+      "side": 1,
+      "message": "This is self-evident, please remove it.\n\nSeparately, if you wish to provide a \u0027Tested:\u0027 description on other patches, please separate it from the trailer block with a blank line.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 21
+      },
+      "revId": "3cb98a8af6a9773811fb6f7bb9ec459102d8d52c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "387debc4_e4de32ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-10-20T00:52:32Z",
+      "side": 1,
+      "message": "Please fix the duplicate tags",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 64
+      },
+      "revId": "3cb98a8af6a9773811fb6f7bb9ec459102d8d52c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
