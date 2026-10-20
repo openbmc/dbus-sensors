@@ -38,6 +38,7 @@
 #include <array>
 #include <chrono>
 #include <cstddef>
+#include <exception>
 #include <filesystem>
 #include <fstream>
 #include <functional>
