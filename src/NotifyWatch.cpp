@@ -83,8 +83,13 @@ auto NotifyWatch::readNotifyAsync() -> sdbusplus::async::task<>
     auto bytes = read(fd, buffer.data(), buffer.size());
     if (bytes < 0)
     {
-        throw std::system_error(errno, std::system_category(),
-                                "Failed to read notify event");
+        if (errno != EAGAIN && errno != EWOULDBLOCK && errno != EINTR)
+        {
+            throw std::system_error(errno, std::system_category(),
+                                    "Failed to read notify event");
+        }
+        // Skip this read and rearm the watcher below for transient errors.
+        bytes = 0;
     }
 
     for (auto* iter = buffer.data(); iter < buffer.data() + bytes;)
