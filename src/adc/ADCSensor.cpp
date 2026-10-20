@@ -229,6 +229,10 @@ void ADCSensor::handleResponse(const boost::system::error_code& err)
         {
             incrementError();
         }
+        catch (const std::out_of_range&)
+        {
+            incrementError();
+        }
     }
     else
     {
