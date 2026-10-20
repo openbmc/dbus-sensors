@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "176ecc6c_ec8bec1d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-10-20T15:51:50Z",
+      "side": 1,
+      "message": "? You have no commit message?",
+      "revId": "4e0a043e5f28b5acd180a862f647825efef3b85d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "473380c2_fe329c35",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-10-20T15:51:50Z",
+      "side": 1,
+      "message": "I really don\u0027t want to hold up this trivial patch.... but SOME commit message needs to exist.  Something like\n\n\"Upper case all TODOs in the codebase\"",
+      "revId": "4e0a043e5f28b5acd180a862f647825efef3b85d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
