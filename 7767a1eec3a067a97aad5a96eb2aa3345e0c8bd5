@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5d8c5ef9_cbfa70db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-20T11:55:35Z",
+      "side": 1,
+      "message": "Updated the Tested section to state that UpdatedTime was read back after a successful hardware update.",
+      "parentUuid": "b2c0166c_b4845b58",
+      "revId": "7767a1eec3a067a97aad5a96eb2aa3345e0c8bd5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "eb77c66c_a479c6fa",
         "filename": "src/sensor.hpp",
         "patchSetId": 5
@@ -37,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9835470c_f127eddc",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-20T11:55:35Z",
+      "side": 1,
+      "message": "Added checks to the existing success-then-error test. It verifies UpdatedTime advances after a successful update and stays unchanged after a failed update.",
+      "parentUuid": "eb77c66c_a479c6fa",
+      "revId": "7767a1eec3a067a97aad5a96eb2aa3345e0c8bd5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "49b6599d_74125885",
         "filename": "src/sensor.hpp",
         "patchSetId": 5
@@ -48,6 +84,24 @@
       "writtenOn": "2026-10-20T08:52:15Z",
       "side": 1,
       "message": "updateProperty already guards against a null sensorInterface on the Value path, so this keeps UpdatedTime consistent with it.\n```suggestion\n        if (sensorInterface)\n        {\n            sensorInterface-\u003eset_property(\"UpdatedTime\", updatedTime);\n        }\n```",
+      "revId": "7767a1eec3a067a97aad5a96eb2aa3345e0c8bd5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0565d306_4703daa0",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-20T11:55:35Z",
+      "side": 1,
+      "message": "Added the suggested null check before setting UpdatedTime, consistent with the existing Value property update path.",
+      "parentUuid": "49b6599d_74125885",
       "revId": "7767a1eec3a067a97aad5a96eb2aa3345e0c8bd5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
