@@ -16,6 +16,24 @@
       "message": "Could a periodic GET consume awaitingReadback before the explicit readback returns? SmaDevice::read() polls independently, so this could clear setInflight too early and allow overlapping SETs. Please serialize these requests or add a regression test.",
       "revId": "129dc75dbd2244d40e74572edd68701389636c4e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58e03b97_30c22961",
+        "filename": "src/nvidia-gpu/NvidiaSmaLeakSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-10-20T07:37:04Z",
+      "side": 1,
+      "message": "No. MctpRequester sends one request at a time per EID (handleResult() in MctpRequester.cpp). A GET that lands before the SET completes sees awaitingReadback still false; one that lands after was sent after the SET completed, so it already reads the new thresholds. SETs cannot overlap. Added ReadingBeforeTheSetLandsKeepsTheGateShut to cover this.",
+      "parentUuid": "48e700d3_d2def5a6",
+      "revId": "129dc75dbd2244d40e74572edd68701389636c4e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
