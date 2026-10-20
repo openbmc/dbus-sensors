@@ -33,6 +33,24 @@
       "message": "I really don\u0027t want to hold up this trivial patch.... but SOME commit message needs to exist.  Something like\n\n\"Upper case all TODOs in the codebase\"",
       "revId": "4e0a043e5f28b5acd180a862f647825efef3b85d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b23e6626_4f9ef530",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-10-20T15:52:52Z",
+      "side": 1,
+      "message": "And to be clear, this isn\u0027t a \"standard\" that I want to enforce going forward.  This patchset is fine, there\u0027s no downsides, but requiring a specific capitalization of todo seems really excessive for a coding standard.",
+      "parentUuid": "473380c2_fe329c35",
+      "revId": "4e0a043e5f28b5acd180a862f647825efef3b85d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
