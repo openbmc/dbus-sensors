@@ -10,6 +10,7 @@
 #include <array>
 #include <cstddef>
 #include <cstdint>
+#include <optional>
 #include <span>
 #include <string>
 #include <utility>
@@ -79,6 +80,13 @@ enum class NetworkPortCommands : uint8_t
 {
     GetEthernetPortTelemetryCounters = 0x0F,
     GetPortNetworkAddresses = 0x11,
+    QueryPortTelemetryV2 = 0x14,
+    QueryPortTelemetryCapabilities = 0x15,
+};
+
+enum class PortTelemetryGroupId : uint8_t
+{
+    OpticalModule = 0x09,
 };
 
 enum class PcieLinkCommands : uint8_t
@@ -200,8 +208,9 @@ constexpr size_t maxInventoryDataSize = 256;
 constexpr size_t queryDeviceIdentificationRequestSize =
     ocp::accelerator_management::commonRequestSize;
 
-// Type 0 supported-message-types / supported-command-codes responses carry a
-// bitfield8[32]: 256 bits, bit N set means item N is supported.
+// Type 0 supported-message-types / supported-command-codes and Type 1 port
+// telemetry capabilities responses carry a bitfield8[32]: 256 bits, bit N set
+// means item N is supported.
 constexpr size_t supportedListBitfieldSize = 32;
 
 constexpr size_t getSupportedMessageTypesRequestSize =
@@ -257,6 +266,12 @@ constexpr size_t getPortNetworkAddressesRequestSize =
 constexpr size_t getEthernetPortTelemetryCountersRequestSize =
     ocp::accelerator_management::commonRequestSize + 2;
 
+constexpr size_t queryPortTelemetryV2RequestSize =
+    ocp::accelerator_management::commonRequestSize + 12;
+
+constexpr size_t queryPortTelemetryCapabilitiesRequestSize =
+    ocp::accelerator_management::commonRequestSize;
+
 constexpr size_t getInventoryInformationRequestSize =
     ocp::accelerator_management::commonRequestSize + 1;
 
@@ -288,6 +303,17 @@ constexpr size_t getClockLimitRequestSize =
 constexpr size_t setClockLimitRequestSize =
     ocp::accelerator_management::commonRequestSize + sizeof(uint8_t) +
     sizeof(uint8_t) + sizeof(uint32_t) + sizeof(uint32_t);
+
+constexpr size_t opticalModuleLaneCount = 8;
+
+struct OpticalModuleTelemetry
+{
+    std::array<std::optional<uint16_t>, opticalModuleLaneCount> txPower;
+    std::array<std::optional<uint16_t>, opticalModuleLaneCount> rxPower;
+    std::array<std::optional<uint16_t>, opticalModuleLaneCount> txBiasCurrent;
+    std::optional<uint8_t> txBiasScalingFactor;
+    uint32_t nextSequenceToken{};
+};
 
 int encodeRequestCommonHeader(PackBuffer& buffer, gpu::MessageType msgType,
                               uint8_t command, uint8_t instanceId);
@@ -518,6 +544,24 @@ int decodeGetEthernetPortTelemetryCountersResponse(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     std::vector<std::pair<uint8_t, uint64_t>>& telemetryValues);
+
+int encodeQueryPortTelemetryV2Request(
+    uint8_t instanceId, uint32_t sequenceToken, uint16_t portNumber,
+    PortTelemetryGroupId groupId, std::span<uint8_t> buf);
+
+int decodeQueryPortTelemetryV2OpticalModuleResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    OpticalModuleTelemetry& telemetry);
+
+int encodeQueryPortTelemetryCapabilitiesRequest(uint8_t instanceId,
+                                                std::span<uint8_t> buf);
+
+int decodeQueryPortTelemetryCapabilitiesResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint8_t& maxGroupId,
+    std::array<uint8_t, supportedListBitfieldSize>& supportedGroups);
 
 int encodeGetCurrentClockFrequencyRequest(uint8_t instanceId, ClockType clockId,
                                           std::span<uint8_t> buf);
