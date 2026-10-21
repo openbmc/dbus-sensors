@@ -16,6 +16,7 @@
 #include <functional>
 #include <iterator>
 #include <limits>
+#include <optional>
 #include <span>
 #include <string>
 #include <string_view>
@@ -1741,6 +1742,175 @@ int decodeGetEthernetPortTelemetryCountersResponse(
         });
 
     return rc;
+}
+
+int encodeQueryPortTelemetryV2Request(
+    uint8_t instanceId, uint32_t sequenceToken, uint16_t portNumber,
+    PortTelemetryGroupId groupId, std::span<uint8_t> buf)
+{
+    PackBuffer buffer(buf);
+
+    const int rc = encodeRequestCommonHeader(
+        buffer, MessageType::NETWORK_PORT,
+        static_cast<uint8_t>(NetworkPortCommands::QueryPortTelemetryV2),
+        instanceId);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    const uint8_t dataSize = 12;
+    buffer.pack(dataSize);
+    buffer.pack(sequenceToken);
+    buffer.pack(portNumber);
+    buffer.pack(static_cast<uint16_t>(0)); // reserved
+    buffer.pack(static_cast<uint8_t>(groupId));
+    buffer.pack(static_cast<uint8_t>(0));  // reserved
+    buffer.pack(static_cast<uint16_t>(0)); // reserved
+
+    return buffer.getError();
+}
+
+int decodeQueryPortTelemetryV2OpticalModuleResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    OpticalModuleTelemetry& telemetry)
+{
+    UnpackBuffer buffer(buf);
+
+    telemetry = OpticalModuleTelemetry{};
+
+    return decodeAggregateResponse(
+        buffer, MessageType::NETWORK_PORT,
+        static_cast<uint8_t>(NetworkPortCommands::QueryPortTelemetryV2), cc,
+        reasonCode,
+        [&telemetry](const uint8_t tag, const uint8_t length,
+                     UnpackBuffer& buffer) -> int {
+            // Group 0x09 tags: 0x00-0x07 TX power, 0x08-0x0F RX power,
+            // 0x10-0x17 TX bias current, 0x18-0x1F SNR, 0x20 bias scaling
+            // factor; 0xFD is the sequence token of the next page.
+            constexpr uint8_t txBiasScalingFactorTag = 0x20;
+            constexpr uint8_t sequenceTokenTag = 0xFD;
+
+            if (tag == sequenceTokenTag && length == sizeof(uint32_t))
+            {
+                return buffer.unpack(telemetry.nextSequenceToken);
+            }
+
+            if (tag == txBiasScalingFactorTag && length == sizeof(uint8_t))
+            {
+                uint8_t scalingFactor = 0;
+                const int rc = buffer.unpack(scalingFactor);
+                if (rc == 0)
+                {
+                    telemetry.txBiasScalingFactor = scalingFactor;
+                }
+                return rc;
+            }
+
+            const size_t block = tag / opticalModuleLaneCount;
+            const size_t lane = tag % opticalModuleLaneCount;
+            std::array<std::optional<uint16_t>, opticalModuleLaneCount>* lanes =
+                nullptr;
+            switch (block)
+            {
+                case 0:
+                    lanes = &telemetry.txPower;
+                    break;
+                case 1:
+                    lanes = &telemetry.rxPower;
+                    break;
+                case 2:
+                    lanes = &telemetry.txBiasCurrent;
+                    break;
+                default:
+                    return buffer.skip(length);
+            }
+
+            if (length != sizeof(uint16_t))
+            {
+                return buffer.skip(length);
+            }
+
+            uint16_t value = 0;
+            const int rc = buffer.unpack(value);
+            if (rc == 0)
+            {
+                (*lanes)[lane] = value;
+            }
+            return rc;
+        });
+}
+
+int encodeQueryPortTelemetryCapabilitiesRequest(uint8_t instanceId,
+                                                std::span<uint8_t> buf)
+{
+    PackBuffer buffer(buf);
+
+    const int rc = encodeRequestCommonHeader(
+        buffer, MessageType::NETWORK_PORT,
+        static_cast<uint8_t>(
+            NetworkPortCommands::QueryPortTelemetryCapabilities),
+        instanceId);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    const uint8_t dataSize = 0;
+    buffer.pack(dataSize);
+
+    return buffer.getError();
+}
+
+int decodeQueryPortTelemetryCapabilitiesResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    uint8_t& maxGroupId,
+    std::array<uint8_t, supportedListBitfieldSize>& supportedGroups)
+{
+    UnpackBuffer buffer(buf);
+
+    int rc = decodeResponseCommonHeader(
+        buffer, MessageType::NETWORK_PORT,
+        static_cast<uint8_t>(
+            NetworkPortCommands::QueryPortTelemetryCapabilities),
+        cc, reasonCode);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    uint16_t dataSize = 0;
+    rc = buffer.unpack(dataSize);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    // Max Supported Group ID, Max Counter Records Per Response, the group
+    // bitmask and two reserved bytes.
+    constexpr uint16_t expectedSize =
+        sizeof(uint8_t) + sizeof(uint8_t) + supportedListBitfieldSize +
+        sizeof(uint16_t);
+    if (dataSize != expectedSize)
+    {
+        return EINVAL;
+    }
+
+    buffer.unpack(maxGroupId);
+    buffer.skip(sizeof(uint8_t));
+    for (auto& byte : supportedGroups)
+    {
+        buffer.unpack(byte);
+    }
+    buffer.skip(sizeof(uint16_t));
+
+    return buffer.getError();
 }
 
 int decodeXidEvent(std::span<const uint8_t> buf, uint8_t& flags,

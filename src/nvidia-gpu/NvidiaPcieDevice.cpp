@@ -14,6 +14,8 @@
 #include "NvidiaPciePort.hpp"
 #include "NvidiaPciePortMetrics.hpp"
 #include "NvidiaSensorConfig.hpp"
+#include "NvidiaTransceiver.hpp"
+#include "NvidiaTransceiverMetrics.hpp"
 #include "NvidiaUtils.hpp"
 #include "Utils.hpp"
 
@@ -25,6 +27,7 @@
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/message/native_types.hpp>
 
+#include <array>
 #include <chrono>
 #include <cstdint>
 #include <format>
@@ -110,8 +113,13 @@ void PcieDevice::init()
         conn, mctpRequester, name + "_NIC", eid, objectServer,
         networkAdapterPath, nvidiaManufacturer);
 
-    getPciePortCounts();
+    getPortTelemetryCapabilities();
 
+    getPciePortCounts();
+}
+
+void PcieDevice::discoverNetworkPorts()
+{
     for (uint64_t k = 0; k < pcieConfig.networkPortCount; ++k)
     {
         getNetworkPortAddresses(static_cast<uint16_t>(k + 1));
@@ -177,6 +185,74 @@ void PcieDevice::processPciePortCountsResponse(
     makeSensors();
 }
 
+void PcieDevice::getPortTelemetryCapabilities()
+{
+    const int rc = gpu::encodeQueryPortTelemetryCapabilitiesRequest(
+        0, getPortTelemetryCapabilitiesRequest);
+
+    if (rc != 0)
+    {
+        lg2::error(
+            "Error updating Port Telemetry Capabilities: encode failed, rc={RC}, EID={EID}",
+            "RC", rc, "EID", eid);
+        discoverNetworkPorts();
+        return;
+    }
+
+    mctpRequester.sendRecvMsg(
+        eid, getPortTelemetryCapabilitiesRequest,
+        [eid{this->eid}, weak{weak_from_this()}](
+            const std::error_code& ec, std::span<const uint8_t> buffer) {
+            std::shared_ptr<PcieDevice> self = weak.lock();
+            if (!self)
+            {
+                lg2::error("Invalid reference to PcieDevice, EID={EID}", "EID",
+                           eid);
+                return;
+            }
+            self->processPortTelemetryCapabilitiesResponse(ec, buffer);
+        });
+}
+
+void PcieDevice::processPortTelemetryCapabilitiesResponse(
+    const std::error_code& ec, std::span<const uint8_t> response)
+{
+    if (ec)
+    {
+        lg2::error(
+            "Error processing Port Telemetry Capabilities response: sending message over MCTP failed, rc={RC}, EID={EID}",
+            "RC", ec.message(), "EID", eid);
+        discoverNetworkPorts();
+        return;
+    }
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode = 0;
+    uint8_t maxGroupId = 0;
+    std::array<uint8_t, gpu::supportedListBitfieldSize> supportedGroups{};
+
+    const int rc = gpu::decodeQueryPortTelemetryCapabilitiesResponse(
+        response, cc, reasonCode, maxGroupId, supportedGroups);
+
+    const uint8_t group =
+        static_cast<uint8_t>(gpu::PortTelemetryGroupId::OpticalModule);
+
+    opticalModuleTelemetrySupported =
+        rc == 0 && cc == ocp::accelerator_management::CompletionCode::SUCCESS &&
+        group <= maxGroupId &&
+        (supportedGroups[group / 8] & (1U << (group % 8))) != 0;
+
+    if (!opticalModuleTelemetrySupported)
+    {
+        lg2::info(
+            "PCIe Device with eid {EID} reports no optical module telemetry: rc={RC}, cc={CC}, reasonCode={RESC}",
+            "EID", eid, "RC", rc, "CC", static_cast<uint8_t>(cc), "RESC",
+            reasonCode);
+    }
+
+    discoverNetworkPorts();
+}
+
 void PcieDevice::getNetworkPortAddresses(const uint16_t portNumber)
 {
     const int rc = gpu::encodeGetPortNetworkAddressesRequest(
@@ -235,15 +311,15 @@ void PcieDevice::processGetNetworkPortAddressesResponse(
         return;
     }
 
+    const std::string nicDeviceName = name + "_NIC";
+
+    const std::string portName = std::format("Port_{}", portNumber);
+
     if (linkType == gpu::NetworkPortLinkType::ETHERNET)
     {
         lg2::info(
             "Port {PN} of PCIe Device with eid {EID} is of type Ethernet.",
             "EID", eid, "PN", portNumber);
-
-        const std::string nicDeviceName = name + "_NIC";
-
-        const std::string portName = std::format("Port_{}", portNumber);
 
         ethPortMetrics.emplace_back(std::make_shared<NvidiaEthPortMetrics>(
             conn, mctpRequester, portName, nicDeviceName, path, eid, portNumber,
@@ -255,12 +331,27 @@ void PcieDevice::processGetNetworkPortAddressesResponse(
             "Port {PN} of PCIe Device with eid {EID} is of type InfiniBand.",
             "EID", eid, "PN", portNumber);
 
-        const std::string nicDeviceName = name + "_NIC";
-
-        const std::string portName = std::format("Port_{}", portNumber);
-
         ibPorts.emplace_back(std::make_shared<NvidiaIbPort>(
             portName, nicDeviceName, eid, portNumber, objectServer, addresses));
+    }
+    else
+    {
+        return;
+    }
+
+    if (opticalModuleTelemetrySupported)
+    {
+        const sdbusplus::object_path portPath =
+            inventoryPrefix / nicDeviceName / portName;
+        const sdbusplus::object_path transceiverPath = portPath / "Transceiver";
+
+        transceivers.emplace_back(std::make_shared<NvidiaTransceiver>(
+            objectServer, transceiverPath, portPath, eid, portNumber));
+
+        transceiverMetrics.emplace_back(
+            std::make_shared<NvidiaTransceiverMetrics>(
+                objectServer, mctpRequester, nicDeviceName, portName,
+                transceiverPath, eid, portNumber));
     }
 }
 
@@ -357,6 +448,11 @@ void PcieDevice::readRoundRobin()
     for (auto& ethPortMetric : ethPortMetrics)
     {
         ethPortMetric->update();
+    }
+
+    for (auto& transceiverMetric : transceiverMetrics)
+    {
+        transceiverMetric->update();
     }
 
     waitTimerRoundRobin.expires_after(roundRobinPollRate);
