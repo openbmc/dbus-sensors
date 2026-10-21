@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e8edd59_abd48f15",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-21T15:48:21Z",
+      "side": 1,
+      "message": "Should an external set follow the same rule as updateValue, where a\nrepeated unavailable value leaves UpdatedTime unchanged?",
+      "revId": "b90180b4e6ed4597a4fa1db60b69ebde00dee482",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "768250f7_3f12bbb4",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-21T15:48:21Z",
+      "side": 1,
+      "message": "Does this reduce to `isfinite(newValue) || isfinite(value)`, so a single\nhadValue flag captured before updateValueProperty would say the same\nthing?",
+      "range": {
+        "startLine": 529,
+        "startChar": 0,
+        "endLine": 531,
+        "endChar": 61
+      },
+      "revId": "b90180b4e6ed4597a4fa1db60b69ebde00dee482",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67904ed9_72a827c1",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-21T15:48:21Z",
+      "side": 1,
+      "message": "I am not sure how likely a backwards clock step is here, but if one\nhappens, does `currentTime \u003e updatedTime` stay false until real time\ncatches up, leaving `UpdatedTime` advancing by one microsecond per update\ninstead of reporting a real timestamp?",
+      "revId": "b90180b4e6ed4597a4fa1db60b69ebde00dee482",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
