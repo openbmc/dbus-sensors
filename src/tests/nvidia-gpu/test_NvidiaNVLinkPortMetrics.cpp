@@ -76,6 +76,24 @@ std::vector<uint64_t> countersWithDistinctValues()
     return counters;
 }
 
+// A failed response to the given command: header, completion code and reason
+// code only.
+std::vector<uint8_t> buildErrorResponse(
+    ocp::accelerator_management::CompletionCode cc)
+{
+    std::vector<uint8_t> buf(ocp::accelerator_management::commonResponseSize);
+    PackBuffer pack(buf);
+    ocp::accelerator_management::packHeader(
+        pack, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 0,
+        static_cast<uint8_t>(gpu::MessageType::NETWORK_PORT));
+    pack.pack(static_cast<uint8_t>(
+        gpu::NetworkPortCommands::GetPortTelemetryCounter));
+    pack.pack(static_cast<uint8_t>(cc));
+    pack.pack(static_cast<uint16_t>(0)); // reason code
+    return buf;
+}
+
 class NvidiaNVLinkPortMetricsTest : public MctpMockTestBase
 {
   protected:
@@ -288,6 +306,31 @@ TEST_F(NvidiaNVLinkPortMetricsTest, UpdateEmptyBufferNoCrash)
     const std::shared_ptr<NvidiaNVLinkPortMetrics> metrics =
         createPortMetrics("nvlink_metrics_empty");
     EXPECT_NO_THROW(metrics->update());
+}
+
+// A disabled port
+
+TEST_F(NvidiaNVLinkPortMetricsTest, UpdateRejectedPortKeepsValues)
+{
+    // The port answers, then is disabled and rejected as invalid data, which
+    // must leave the last values in place.
+    EXPECT_CALL(mctpMock, sendRecvMsg)
+        .WillOnce(mock_mctp::respondWith(
+            {}, buildPortTelemetryResponse(0xFFFFFFFF,
+                                           countersWithDistinctValues())))
+        .WillOnce(mock_mctp::respondWith(
+            {}, buildErrorResponse(ocp::accelerator_management::CompletionCode::
+                                       ERR_INVALID_DATA)));
+
+    const std::string gpuName = "nvlink_metrics_disabled";
+    const std::shared_ptr<NvidiaNVLinkPortMetrics> metrics =
+        createPortMetrics(gpuName);
+    metrics->update();
+    metrics->update();
+
+    EXPECT_EQ(getProperty<double>(metricPathFor(gpuName, "/nic/rx_bytes"),
+                                  metricInterfaceName, "Value"),
+              static_cast<double>(rxBytesIndex * 10));
 }
 
 } // namespace

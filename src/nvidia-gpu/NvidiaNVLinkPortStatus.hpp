@@ -45,4 +45,8 @@ struct NvidiaNVLinkPortStatus :
     std::array<uint8_t, gpu::queryPortStatusRequestSize> request{};
 
     bool requestEncoded{false};
+
+    // Whether the port being disabled has been logged, so it is logged once
+    // rather than on every poll.
+    bool reportedDisabled{false};
 };
