@@ -79,6 +79,14 @@ void NvidiaNVLinkPortCharacteristics::processResponse(
         response, cc, reasonCode, status, nvportLineRateMbps,
         nvportDataRateKbps, statusLaneInfo);
 
+    // A disabled port is rejected as invalid data; NvidiaNVLinkPortStatus
+    // reports it as Disabled, so there is nothing to log for it here.
+    if (rc == 0 &&
+        cc == ocp::accelerator_management::CompletionCode::ERR_INVALID_DATA)
+    {
+        return;
+    }
+
     if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
     {
         lg2::error(
