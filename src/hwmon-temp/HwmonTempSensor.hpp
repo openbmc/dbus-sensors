@@ -65,6 +65,10 @@ class HwmonTempSensor :
     double offsetValue;
     double scaleValue;
     unsigned int sensorPollMs;
+    size_t abnormalReadingCount = 0;
+    bool isFanOrRiserTemp;
+    static constexpr int abnormalReadingHighMin = 127000;
+    static constexpr size_t maxAbnormalReadings = 3;
 
     void handleResponse(const boost::system::error_code& err, size_t bytesRead);
     void restartRead();

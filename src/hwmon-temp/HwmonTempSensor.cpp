@@ -66,7 +66,9 @@ HwmonTempSensor::HwmonTempSensor(
     inputDev(io, path, boost::asio::random_access_file::read_only),
     waitTimer(io), path(path), offsetValue(thisSensorParameters.offsetValue),
     scaleValue(thisSensorParameters.scaleValue),
-    sensorPollMs(static_cast<unsigned int>(pollRate * 1000))
+    sensorPollMs(static_cast<unsigned int>(pollRate * 1000)),
+    isFanOrRiserTemp(name.find("Fan_Board_Temp") != std::string::npos ||
+                     name.find("_Riser_Temp") != std::string::npos)
 {
     sensorInterface = objectServer.add_interface(
         "/xyz/openbmc_project/sensors/" + thisSensorParameters.typeName + "/" +
@@ -194,7 +196,35 @@ void HwmonTempSensor::handleResponse(const boost::system::error_code& err,
         }
         else
         {
-            updateValue((nvalue + offsetValue) * scaleValue);
+            double reading = 0.0;
+            if (!isFanOrRiserTemp)
+            {
+                reading = (nvalue + offsetValue) * scaleValue;
+                updateValue(reading);
+            }
+            else
+            {
+                int rawForCheck = nvalue;
+                reading = (rawForCheck + offsetValue) * scaleValue;
+                bool abnormalReading = (rawForCheck <= 0) ||
+                                       (rawForCheck > abnormalReadingHighMin);
+                if (abnormalReading &&
+                    abnormalReadingCount < maxAbnormalReadings)
+                {
+                    ++abnormalReadingCount;
+                    lg2::warning(
+                        "Invalid reading received from sensor '{NAME}'", "NAME",
+                        name, "REDFISH_MESSAGE_ID",
+                        std::string("OpenBMC.0.1.InvalidSensorReading"),
+                        "REDFISH_MESSAGE_ARGS", name);
+                    incrementError();
+                }
+                else
+                {
+                    abnormalReadingCount = 0;
+                    updateValue(reading);
+                }
+            }
         }
     }
     else
