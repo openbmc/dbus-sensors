@@ -243,5 +243,51 @@ void PSUSensor::checkThresholds()
         return;
     }
 
+    if (lowConfirmCounts.size() != thresholds.size() ||
+        highConfirmCounts.size() != thresholds.size())
+    {
+        lowConfirmCounts.assign(thresholds.size(), 0);
+        highConfirmCounts.assign(thresholds.size(), 0);
+    }
+
+    bool pendingConfirm = false;
+    for (size_t i = 0; i < thresholds.size(); ++i)
+    {
+        if (thresholds[i].direction == thresholds::Direction::LOW)
+        {
+            if (value <= thresholds[i].value)
+            {
+                if (lowConfirmCounts[i] < lowConfirmSamples)
+                {
+                    ++lowConfirmCounts[i];
+                    pendingConfirm = true;
+                }
+            }
+            else
+            {
+                lowConfirmCounts[i] = 0;
+            }
+        }
+        else if (thresholds[i].direction == thresholds::Direction::HIGH)
+        {
+            if (value >= thresholds[i].value)
+            {
+                if (highConfirmCounts[i] < highConfirmSamples)
+                {
+                    ++highConfirmCounts[i];
+                    pendingConfirm = true;
+                }
+            }
+            else
+            {
+                highConfirmCounts[i] = 0;
+            }
+        }
+    }
+    if (pendingConfirm)
+    {
+        return;
+    }
+
     thresholds::checkThresholdsPowerDelay(weak_from_this(), thresholdTimer);
 }
