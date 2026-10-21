@@ -33,6 +33,23 @@
       "message": "Don\u0027t we need to update the time when a sensor transitions from value -\u003e unavailable?",
       "revId": "18e05f927f4858de9e3bf36b26ac238e990b25af",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "363b85f8_3994631a",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuEnergySensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-21T02:31:51Z",
+      "side": 1,
+      "message": "Could a third update return the same reading, since PDI asks UpdatedTime to advance even when the poll returns an unchanged value? Thanks.",
+      "revId": "18e05f927f4858de9e3bf36b26ac238e990b25af",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
