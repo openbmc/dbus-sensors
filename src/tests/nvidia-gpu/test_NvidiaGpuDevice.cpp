@@ -14,6 +14,7 @@
 #include <sdbusplus/exception.hpp>
 
 #include <chrono>
+#include <cstddef>
 #include <cstdint>
 #include <memory>
 #include <span>
@@ -66,8 +67,9 @@ std::vector<uint8_t> buildPortsAvailableResponse(uint8_t numberNvPorts)
     return buf;
 }
 
-// True when the request is the NETWORK_PORT Query Ports Available command.
-bool isQueryPortsAvailable(std::span<const uint8_t> request)
+// True when the request is the given NETWORK_PORT command.
+bool isNetworkPortCommand(std::span<const uint8_t> request,
+                          gpu::NetworkPortCommands expected)
 {
     UnpackBuffer unpack(request);
     ocp::accelerator_management::MessageType ocpMsgType{};
@@ -82,8 +84,14 @@ bool isQueryPortsAvailable(std::span<const uint8_t> request)
     uint8_t command = 0;
     unpack.unpack(command);
     return msgType == static_cast<uint8_t>(gpu::MessageType::NETWORK_PORT) &&
-           command == static_cast<uint8_t>(
-                          gpu::NetworkPortCommands::QueryPortsAvailable);
+           command == static_cast<uint8_t>(expected);
+}
+
+// True when the request is the NETWORK_PORT Query Ports Available command.
+bool isQueryPortsAvailable(std::span<const uint8_t> request)
+{
+    return isNetworkPortCommand(request,
+                                gpu::NetworkPortCommands::QueryPortsAvailable);
 }
 
 class NvidiaGpuDeviceTest : public MctpMockTestBase
@@ -222,6 +230,69 @@ TEST_F(NvidiaGpuDeviceTest, InitPublishesNvLinkPortObjects)
             getProperty<std::string>(path, portIface, "LinkState"),
             "xyz.openbmc_project.Inventory.Connector.Port.LinkState.Unknown");
     }
+}
+
+TEST_F(NvidiaGpuDeviceTest, InitPublishesNvLinkPortControlObjects)
+{
+    expectNvLinkPortCount();
+
+    const std::string name = "gpudev_nvlink_ctrl";
+    const std::shared_ptr<GpuDevice> device = createDevice(name);
+    device->init();
+
+    // Every NVLink port gets a link state control object, which stays Unknown
+    // until the device reports the requested state.
+    for (uint8_t i = 0; i < nvLinkPortCount; ++i)
+    {
+        EXPECT_EQ(getProperty<std::string>(
+                      "/xyz/openbmc_project/control/port/" + name + "/NVLink_" +
+                          std::to_string(i),
+                      "xyz.openbmc_project.Control.Port.LinkState",
+                      "RequestedLinkState"),
+                  "xyz.openbmc_project.Inventory.Connector.Port.LinkState."
+                  "Unknown");
+    }
+}
+
+TEST_F(NvidiaGpuDeviceTest, InitWithoutNvLinkPortsPollsNoLinkState)
+{
+    std::vector<std::vector<uint8_t>> sent;
+    EXPECT_CALL(mctpMock, sendRecvMsg)
+        .Times(testing::AtLeast(1))
+        .WillRepeatedly(
+            [&sent](uint8_t /*eid*/, std::span<const uint8_t> reqMsg,
+                    auto callback) {
+                sent.emplace_back(reqMsg.begin(), reqMsg.end());
+                if (isQueryPortsAvailable(reqMsg))
+                {
+                    const std::vector<uint8_t> response =
+                        buildPortsAvailableResponse(0);
+                    callback(std::error_code{}, response);
+                    return;
+                }
+                callback(std::error_code{}, std::span<const uint8_t>{});
+            });
+
+    const std::string name = "gpudev_no_nvlink";
+    const std::shared_ptr<GpuDevice> device =
+        createDevice(name, defaultEid, fastPollMs);
+    device->init();
+
+    // Let a few poll rounds run: with no NVLink ports there is no link state
+    // mask to read.
+    const size_t afterInit = sent.size();
+    ASSERT_TRUE(
+        pumpIoUntil([&] { return sent.size() > afterInit; }, pollTimeout));
+    for (const std::vector<uint8_t>& request : sent)
+    {
+        EXPECT_FALSE(isNetworkPortCommand(
+            request, gpu::NetworkPortCommands::GetPortDisableFuture));
+    }
+    EXPECT_THROW(getProperty<std::string>(
+                     "/xyz/openbmc_project/control/port/" + name + "/NVLink_0",
+                     "xyz.openbmc_project.Control.Port.LinkState",
+                     "RequestedLinkState"),
+                 sdbusplus::exception_t);
 }
 
 // Destructor

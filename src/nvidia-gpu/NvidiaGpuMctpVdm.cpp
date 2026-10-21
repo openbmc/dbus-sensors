@@ -2374,4 +2374,68 @@ int decodeGetPortTelemetryCounterResponse(
     return 0;
 }
 
+int encodeGetPortDisableFutureRequest(uint8_t instanceId,
+                                      std::span<uint8_t> buf)
+{
+    PackBuffer buffer(buf);
+
+    const int rc = encodeRequestCommonHeader(
+        buffer, MessageType::NETWORK_PORT,
+        static_cast<uint8_t>(NetworkPortCommands::GetPortDisableFuture),
+        instanceId);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    const uint8_t dataSize = 0;
+    buffer.pack(dataSize);
+
+    return buffer.getError();
+}
+
+int decodeGetPortDisableFutureResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    std::array<uint8_t, portDisableFutureMaskSize>& portMask)
+{
+    UnpackBuffer buffer(buf);
+
+    int rc = decodeResponseCommonHeader(
+        buffer, MessageType::NETWORK_PORT,
+        static_cast<uint8_t>(NetworkPortCommands::GetPortDisableFuture), cc,
+        reasonCode);
+
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    uint16_t dataSize = 0;
+    rc = buffer.unpack(dataSize);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    if (dataSize != portMask.size())
+    {
+        return EINVAL;
+    }
+
+    for (uint8_t& byte : portMask)
+    {
+        rc = buffer.unpack(byte);
+
+        if (rc != 0)
+        {
+            return rc;
+        }
+    }
+
+    return 0;
+}
+
 } // namespace gpu
