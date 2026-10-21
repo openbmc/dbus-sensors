@@ -11,6 +11,8 @@
 #include "NvidiaPcieFunction.hpp"
 #include "NvidiaPcieInterface.hpp"
 #include "NvidiaSensorConfig.hpp"
+#include "NvidiaTransceiver.hpp"
+#include "NvidiaTransceiverMetrics.hpp"
 
 #include <NvidiaEthPort.hpp>
 #include <NvidiaIbPort.hpp>
@@ -77,6 +79,13 @@ class PcieDevice : public std::enable_shared_from_this<PcieDevice>
     void processPciePortCountsResponse(const std::error_code& ec,
                                        std::span<const uint8_t> response);
 
+    void getPortTelemetryCapabilities();
+
+    void processPortTelemetryCapabilitiesResponse(
+        const std::error_code& ec, std::span<const uint8_t> response);
+
+    void discoverNetworkPorts();
+
     void getNetworkPortAddresses(uint16_t portNumber);
 
     void processGetNetworkPortAddressesResponse(
@@ -104,6 +113,9 @@ class PcieDevice : public std::enable_shared_from_this<PcieDevice>
     std::array<uint8_t, ocp::accelerator_management::commonRequestSize>
         getPciePortCountsRequest{};
 
+    std::array<uint8_t, gpu::queryPortTelemetryCapabilitiesRequestSize>
+        getPortTelemetryCapabilitiesRequest{};
+
     std::array<uint8_t, gpu::getPortNetworkAddressesRequestSize>
         getPortNetworkAddressesRequest{};
 
@@ -111,6 +123,8 @@ class PcieDevice : public std::enable_shared_from_this<PcieDevice>
     std::shared_ptr<NvidiaPcieFunction> pcieFunction;
 
     std::shared_ptr<NvidiaDriverInformation> driverInfo;
+
+    bool opticalModuleTelemetrySupported{false};
 
     std::vector<std::shared_ptr<NvidiaPciePortInfo>> pciePorts;
     std::vector<std::shared_ptr<NvidiaPciePortMetrics>> pciePortMetrics;
@@ -124,4 +138,8 @@ class PcieDevice : public std::enable_shared_from_this<PcieDevice>
     std::vector<std::shared_ptr<NvidiaEthPortMetrics>> ethPortMetrics;
 
     std::vector<std::shared_ptr<NvidiaIbPort>> ibPorts;
+
+    std::vector<std::shared_ptr<NvidiaTransceiver>> transceivers;
+
+    std::vector<std::shared_ptr<NvidiaTransceiverMetrics>> transceiverMetrics;
 };

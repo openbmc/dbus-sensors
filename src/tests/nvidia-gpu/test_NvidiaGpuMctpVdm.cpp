@@ -15,6 +15,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
+#include <optional>
 #include <span>
 #include <string>
 #include <string_view>
@@ -2871,6 +2872,287 @@ TEST_F(GpuMctpVdmTests,
 
     int result = gpu::decodeGetEthernetPortTelemetryCountersResponse(
         buf, cc, reasonCode, telemetryValues);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+// Tests for GpuMctpVdm::encodeQueryPortTelemetryV2Request function
+TEST_F(GpuMctpVdmTests, EncodeQueryPortTelemetryV2RequestSuccess)
+{
+    const uint8_t instanceId = 3;
+    const uint32_t sequenceToken = 0x12345678;
+    const uint16_t portNumber = 2;
+    std::array<uint8_t, gpu::queryPortTelemetryV2RequestSize> buf{};
+
+    int result = gpu::encodeQueryPortTelemetryV2Request(
+        instanceId, sequenceToken, portNumber,
+        gpu::PortTelemetryGroupId::OpticalModule, buf);
+
+    EXPECT_EQ(result, 0);
+
+    const std::array<uint8_t, gpu::queryPortTelemetryV2RequestSize> expected{
+        0x10, 0xde, 0x83, 0x89, 0x01, 0x14, 0x0c, 0x78, 0x56, 0x34,
+        0x12, 0x02, 0x00, 0x00, 0x00, 0x09, 0x00, 0x00, 0x00};
+    EXPECT_EQ(buf, expected);
+}
+
+TEST_F(GpuMctpVdmTests, EncodeQueryPortTelemetryV2RequestInvalidBufferSize)
+{
+    std::array<uint8_t, gpu::queryPortTelemetryV2RequestSize - 1> buf{};
+
+    int result = gpu::encodeQueryPortTelemetryV2Request(
+        3, 0, 1, gpu::PortTelemetryGroupId::OpticalModule, buf);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+// Tests for GpuMctpVdm::decodeQueryPortTelemetryV2OpticalModuleResponse
+// function
+TEST_F(GpuMctpVdmTests, DecodeQueryPortTelemetryV2OpticalModuleResponseSuccess)
+{
+    // Captured from a ConnectX-9 port with a 4-lane optical module
+    const std::vector<uint8_t> buf = {
+        0x10, 0xde, 0x00, 0x89, 0x01, 0x14, // Message header
+        0x00,                               // completion_code (SUCCESS)
+        0x22, 0x00,                         // telemetryCount = 34
+        0x00, 0x03, 0x3c, 0x06, 0x01, 0x03, 0x3e, 0x06, 0x02, 0x03, 0x3c, 0x06,
+        0x03, 0x03, 0x1e, 0x06, 0x04, 0x03, 0x00, 0x00, 0x05, 0x03, 0x00, 0x00,
+        0x06, 0x03, 0x00, 0x00, 0x07, 0x03, 0x00, 0x00, 0x08, 0x03, 0x3e, 0x07,
+        0x09, 0x03, 0xa3, 0x06, 0x0a, 0x03, 0xf8, 0x06, 0x0b, 0x03, 0xa2, 0x06,
+        0x0c, 0x03, 0x00, 0x00, 0x0d, 0x03, 0x00, 0x00, 0x0e, 0x03, 0x00, 0x00,
+        0x0f, 0x03, 0x00, 0x00, 0x10, 0x03, 0xd5, 0x24, 0x11, 0x03, 0x31, 0x24,
+        0x12, 0x03, 0x95, 0x23, 0x13, 0x03, 0xba, 0x23, 0x14, 0x03, 0x00, 0x00,
+        0x15, 0x03, 0x00, 0x00, 0x16, 0x03, 0x00, 0x00, 0x17, 0x03, 0x00, 0x00,
+        0x18, 0x05, 0xc9, 0x16, 0x00, 0x00, 0x19, 0x05, 0x6a, 0x15, 0x00, 0x00,
+        0x1a, 0x05, 0xc8, 0x15, 0x00, 0x00, 0x1b, 0x05, 0x79, 0x16, 0x00, 0x00,
+        0x1c, 0x05, 0x00, 0x00, 0x00, 0x00, 0x1d, 0x05, 0x00, 0x00, 0x00, 0x00,
+        0x1e, 0x05, 0x00, 0x00, 0x00, 0x00, 0x1f, 0x05, 0x00, 0x00, 0x00, 0x00,
+        0x20, 0x01, 0x01, 0xfd, 0x05, 0x00, 0x00, 0x00, 0x00};
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    gpu::OpticalModuleTelemetry telemetry{};
+
+    int result = gpu::decodeQueryPortTelemetryV2OpticalModuleResponse(
+        buf, cc, reasonCode, telemetry);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+    EXPECT_EQ(telemetry.txPower[0], 1596);
+    EXPECT_EQ(telemetry.txPower[3], 1566);
+    EXPECT_EQ(telemetry.txPower[7], 0);
+    EXPECT_EQ(telemetry.rxPower[0], 1854);
+    EXPECT_EQ(telemetry.txBiasCurrent[0], 9429);
+    EXPECT_EQ(telemetry.txBiasCurrent[7], 0);
+    EXPECT_EQ(telemetry.txBiasScalingFactor, 1);
+    EXPECT_EQ(telemetry.nextSequenceToken, 0U);
+}
+
+TEST_F(GpuMctpVdmTests,
+       DecodeQueryPortTelemetryV2OpticalModuleResponseSkipsRecords)
+{
+    const std::vector<uint8_t> buf = {
+        0x10, 0xde, 0x00, 0x89, 0x01, 0x14, // Message header
+        0x00,                               // completion_code (SUCCESS)
+        0x08, 0x00,                         // telemetryCount = 8
+        // tag 0x00, invalid (valid bit cleared)
+        0x00, 0x02, 0xff, 0xff,
+        // tag 0x01, unexpected 4-byte length
+        0x01, 0x05, 0x11, 0x22, 0x33, 0x44,
+        // tag 0x18, SNR lane 0
+        0x18, 0x05, 0x21, 0x16, 0x00, 0x00,
+        // tag 0x21, unknown
+        0x21, 0x03, 0xaa, 0xbb,
+        // tag 0x20, unexpected 2-byte length
+        0x20, 0x03, 0x01, 0x00,
+        // tag 0xfd, unexpected 2-byte length
+        0xfd, 0x03, 0x07, 0x00,
+        // tag 0x0a, RX power lane 2
+        0x0a, 0x03, 0x6f, 0x00,
+        // tag 0xfd, next sequence token
+        0xfd, 0x05, 0x01, 0x00, 0xaa, 0xaa};
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    gpu::OpticalModuleTelemetry telemetry{};
+
+    int result = gpu::decodeQueryPortTelemetryV2OpticalModuleResponse(
+        buf, cc, reasonCode, telemetry);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_FALSE(telemetry.txPower[0].has_value());
+    EXPECT_FALSE(telemetry.txPower[1].has_value());
+    EXPECT_EQ(telemetry.rxPower[2], 111);
+    EXPECT_FALSE(telemetry.txBiasScalingFactor.has_value());
+    EXPECT_EQ(telemetry.nextSequenceToken, 0xaaaa0001U);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeQueryPortTelemetryV2OpticalModuleResponseError)
+{
+    const std::vector<uint8_t> buf = {
+        0x10, 0xde, 0x00, 0x89, 0x01, 0x14, // Message header
+        0x02,                               // ERR_INVALID_DATA
+        0xcd, 0xab};                        // reason_code
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    gpu::OpticalModuleTelemetry telemetry{};
+    telemetry.txPower[0] = 1596;
+    telemetry.nextSequenceToken = 7;
+
+    int result = gpu::decodeQueryPortTelemetryV2OpticalModuleResponse(
+        buf, cc, reasonCode, telemetry);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc,
+              ocp::accelerator_management::CompletionCode::ERR_INVALID_DATA);
+    EXPECT_EQ(reasonCode, 0xABCD);
+    EXPECT_FALSE(telemetry.txPower[0].has_value());
+    EXPECT_EQ(telemetry.nextSequenceToken, 0U);
+}
+
+TEST_F(GpuMctpVdmTests,
+       DecodeQueryPortTelemetryV2OpticalModuleResponseInvalidBufferSize)
+{
+    const std::vector<uint8_t> buf = {
+        0x10, 0xde, 0x00, 0x89, 0x01, 0x14, // Message header
+        0x00,                               // completion_code (SUCCESS)
+        0x01, 0x00,                         // telemetryCount = 1
+        0x00, 0x03, 0x3c};                  // truncated record
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    gpu::OpticalModuleTelemetry telemetry{};
+
+    int result = gpu::decodeQueryPortTelemetryV2OpticalModuleResponse(
+        buf, cc, reasonCode, telemetry);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+// Tests for GpuMctpVdm::encodeQueryPortTelemetryCapabilitiesRequest function
+TEST_F(GpuMctpVdmTests, EncodeQueryPortTelemetryCapabilitiesRequestSuccess)
+{
+    const uint8_t instanceId = 3;
+    std::array<uint8_t, gpu::queryPortTelemetryCapabilitiesRequestSize> buf{};
+
+    int result =
+        gpu::encodeQueryPortTelemetryCapabilitiesRequest(instanceId, buf);
+
+    EXPECT_EQ(result, 0);
+
+    const std::array<uint8_t, gpu::queryPortTelemetryCapabilitiesRequestSize>
+        expected{0x10, 0xde, 0x83, 0x89, 0x01, 0x15, 0x00};
+    EXPECT_EQ(buf, expected);
+}
+
+TEST_F(GpuMctpVdmTests,
+       EncodeQueryPortTelemetryCapabilitiesRequestInvalidBufferSize)
+{
+    std::array<uint8_t, gpu::queryPortTelemetryCapabilitiesRequestSize - 1>
+        buf{};
+
+    int result = gpu::encodeQueryPortTelemetryCapabilitiesRequest(3, buf);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+// Tests for GpuMctpVdm::decodeQueryPortTelemetryCapabilitiesResponse function
+TEST_F(GpuMctpVdmTests, DecodeQueryPortTelemetryCapabilitiesResponseSuccess)
+{
+    // Captured from a ConnectX-9
+    std::vector<uint8_t> buf = {
+        0x10, 0xde, 0x00, 0x89, 0x01, 0x15, // Message header
+        0x00,                               // completion_code (SUCCESS)
+        0x00, 0x00,                         // reserved
+        0x24, 0x00,                         // dataSize = 36
+        0x09,                               // max supported group ID
+        0x42,                               // max records per response
+        0x72, 0x02};                        // groups 1, 4, 5, 6 and 9
+    buf.resize(buf.size() + 30 + 2);        // rest of the bitmask, reserved
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint8_t maxGroupId{};
+    std::array<uint8_t, gpu::supportedListBitfieldSize> supportedGroups{};
+
+    int result = gpu::decodeQueryPortTelemetryCapabilitiesResponse(
+        buf, cc, reasonCode, maxGroupId, supportedGroups);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+    EXPECT_EQ(maxGroupId, 9);
+
+    std::array<uint8_t, gpu::supportedListBitfieldSize> expectedGroups{};
+    expectedGroups[0] = 0x72;
+    expectedGroups[1] = 0x02;
+    EXPECT_EQ(supportedGroups, expectedGroups);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeQueryPortTelemetryCapabilitiesResponseError)
+{
+    const std::vector<uint8_t> buf = {
+        0x10, 0xde, 0x00, 0x89, 0x01, 0x15, // Message header
+        0x03,                               // ERR_INVALID_DATA_LENGTH
+        0x34, 0x12};                        // reason_code
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint8_t maxGroupId{};
+    std::array<uint8_t, gpu::supportedListBitfieldSize> supportedGroups{};
+
+    int result = gpu::decodeQueryPortTelemetryCapabilitiesResponse(
+        buf, cc, reasonCode, maxGroupId, supportedGroups);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(
+        cc,
+        ocp::accelerator_management::CompletionCode::ERR_INVALID_DATA_LENGTH);
+    EXPECT_EQ(reasonCode, 0x1234);
+}
+
+TEST_F(GpuMctpVdmTests,
+       DecodeQueryPortTelemetryCapabilitiesResponseAggregateFormat)
+{
+    // An aggregate response with five records instead of the capabilities
+    const std::vector<uint8_t> buf = {
+        0x10, 0xde, 0x00, 0x89, 0x01, 0x15, // Message header
+        0x00,                               // completion_code (SUCCESS)
+        0x05, 0x00,                         // telemetryCount = 5
+        0x00, 0x03, 0x04, 0x00, 0x01, 0x03, 0x41, 0x00, 0x02,
+        0x03, 0x39, 0x01, 0x03, 0x01, 0x0f, 0x04, 0x01, 0x07};
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint8_t maxGroupId{};
+    std::array<uint8_t, gpu::supportedListBitfieldSize> supportedGroups{};
+
+    int result = gpu::decodeQueryPortTelemetryCapabilitiesResponse(
+        buf, cc, reasonCode, maxGroupId, supportedGroups);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+TEST_F(GpuMctpVdmTests,
+       DecodeQueryPortTelemetryCapabilitiesResponseInvalidBufferSize)
+{
+    const std::vector<uint8_t> buf = {
+        0x10, 0xde, 0x00, 0x89, 0x01, 0x15, // Message header
+        0x00,                               // completion_code (SUCCESS)
+        0x00, 0x00,                         // reserved
+        0x24, 0x00,                         // dataSize = 36
+        0x09, 0x42, 0x72, 0x02};            // truncated bitmask
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    uint8_t maxGroupId{};
+    std::array<uint8_t, gpu::supportedListBitfieldSize> supportedGroups{};
+
+    int result = gpu::decodeQueryPortTelemetryCapabilitiesResponse(
+        buf, cc, reasonCode, maxGroupId, supportedGroups);
 
     EXPECT_EQ(result, EINVAL);
 }
