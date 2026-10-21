@@ -83,6 +83,7 @@ enum class NetworkPortCommands : uint8_t
     QueryPortsAvailable = 0x41,
     QueryPortCharacteristics = 0x42,
     QueryPortStatus = 0x43,
+    GetPortDisableFuture = 0x45,
 };
 
 enum class PcieLinkCommands : uint8_t
@@ -275,6 +276,13 @@ constexpr size_t queryPortStatusRequestSize =
 
 constexpr size_t getPortTelemetryCounterRequestSize =
     ocp::accelerator_management::commonRequestSize + 1;
+
+constexpr size_t getPortDisableFutureRequestSize =
+    ocp::accelerator_management::commonRequestSize;
+
+// Size of the port mask carried by Get Port Disable Future: one bit per port,
+// 256 bits in all, with bit N describing port number N.
+constexpr size_t portDisableFutureMaskSize = 32;
 
 // Number of 64-bit counters in the Get Port Telemetry Counter response,
 // matching the 32-bit supportedCounters bitmap (bit i gates counter i).
@@ -580,6 +588,14 @@ int decodeGetPortTelemetryCounterResponse(
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     uint32_t& supportedCounters, size_t& numCounters,
     std::array<uint64_t, maxPortTelemetryCounters>& counters);
+
+int encodeGetPortDisableFutureRequest(uint8_t instanceId,
+                                      std::span<uint8_t> buf);
+
+int decodeGetPortDisableFutureResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    std::array<uint8_t, portDisableFutureMaskSize>& portMask);
 
 int encodeGetEccErrorCountsRequest(uint8_t instanceId, std::span<uint8_t> buf);
 

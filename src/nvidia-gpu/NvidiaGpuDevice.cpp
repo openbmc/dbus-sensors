@@ -31,6 +31,7 @@
 #include <NvidiaGpuXid.hpp>
 #include <NvidiaLongRunningHandler.hpp>
 #include <NvidiaNVLinkPortCharacteristics.hpp>
+#include <NvidiaNVLinkPortControl.hpp>
 #include <NvidiaNVLinkPortMetrics.hpp>
 #include <NvidiaNVLinkPortStatus.hpp>
 #include <NvidiaPcieFunction.hpp>
@@ -494,6 +495,10 @@ void GpuDevice::readRoundRobin()
     {
         metrics->update();
     }
+    if (nvLinkPortControl)
+    {
+        nvLinkPortControl->update();
+    }
 
     waitTimerRoundRobin.expires_after(roundRobinPollRate);
     waitTimerRoundRobin.async_wait(
@@ -698,5 +703,13 @@ void GpuDevice::processNvLinkPortCountsResponse(
 
         nvLinkPortMetrics.emplace_back(makeNvidiaNVLinkPortMetrics(
             conn, mctpRequester, name, eid, i, objectServer));
+    }
+
+    // The link state mask covers the ports of the whole GPU, so a GPU without
+    // NVLink ports has nothing to poll it for.
+    if (numberNvPorts > 0)
+    {
+        nvLinkPortControl = std::make_shared<NvidiaNVLinkPortControl>(
+            objectServer, mctpRequester, name, eid, numberNvPorts);
     }
 }
