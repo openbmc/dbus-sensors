@@ -68,6 +68,23 @@ std::vector<uint8_t> buildPortStatusResponse(uint8_t portState,
     return buf;
 }
 
+// A failed response to the given command: header, completion code and reason
+// code only.
+std::vector<uint8_t> buildErrorResponse(
+    ocp::accelerator_management::CompletionCode cc)
+{
+    std::vector<uint8_t> buf(ocp::accelerator_management::commonResponseSize);
+    PackBuffer pack(buf);
+    ocp::accelerator_management::packHeader(
+        pack, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 0,
+        static_cast<uint8_t>(gpu::MessageType::NETWORK_PORT));
+    pack.pack(static_cast<uint8_t>(gpu::NetworkPortCommands::QueryPortStatus));
+    pack.pack(static_cast<uint8_t>(cc));
+    pack.pack(static_cast<uint16_t>(0)); // reason code
+    return buf;
+}
+
 class NvidiaNVLinkPortStatusTest : public MctpMockTestBase
 {
   protected:
@@ -306,6 +323,74 @@ TEST_F(NvidiaNVLinkPortStatusTest, UpdateEmptyBufferNoCrash)
     const std::shared_ptr<NvidiaNVLinkPortStatus> status =
         createStatus("nvlink_status_empty");
     EXPECT_NO_THROW(status->update());
+}
+
+// A disabled port
+
+TEST_F(NvidiaNVLinkPortStatusTest, UpdateReportsRejectedPortAsDisabled)
+{
+    // After a reset applies Set Port Disable Future, the device rejects the
+    // disabled port as invalid data instead of reporting its status.
+    EXPECT_CALL(mctpMock, sendRecvMsg)
+        .WillOnce(mock_mctp::respondWith(
+            {}, buildErrorResponse(ocp::accelerator_management::CompletionCode::
+                                       ERR_INVALID_DATA)));
+
+    const std::string gpuName = "nvlink_status_disabled";
+    const std::shared_ptr<NvidiaNVLinkPortStatus> status =
+        createStatus(gpuName);
+    status->update();
+    const std::string path = portPath(gpuName);
+
+    EXPECT_EQ(
+        getProperty<std::string>(path, portInterfaceName, "LinkStatus"),
+        "xyz.openbmc_project.Inventory.Connector.Port.LinkStatus.LinkDown");
+    EXPECT_EQ(
+        getProperty<std::string>(path, portInterfaceName, "LinkState"),
+        "xyz.openbmc_project.Inventory.Connector.Port.LinkState.Disabled");
+}
+
+TEST_F(NvidiaNVLinkPortStatusTest, UpdateReportsPortEnabledAgain)
+{
+    EXPECT_CALL(mctpMock, sendRecvMsg)
+        .WillOnce(mock_mctp::respondWith(
+            {},
+            buildErrorResponse(
+                ocp::accelerator_management::CompletionCode::ERR_INVALID_DATA)))
+        .WillOnce(mock_mctp::respondWith(
+            {}, buildPortStatusResponse(portStateUp, portStatusEnabled)));
+
+    const std::string gpuName = "nvlink_status_reenabled";
+    const std::shared_ptr<NvidiaNVLinkPortStatus> status =
+        createStatus(gpuName);
+    status->update();
+    status->update();
+    const std::string path = portPath(gpuName);
+
+    EXPECT_EQ(getProperty<std::string>(path, portInterfaceName, "LinkStatus"),
+              "xyz.openbmc_project.Inventory.Connector.Port.LinkStatus.LinkUp");
+    EXPECT_EQ(getProperty<std::string>(path, portInterfaceName, "LinkState"),
+              "xyz.openbmc_project.Inventory.Connector.Port.LinkState.Enabled");
+}
+
+TEST_F(NvidiaNVLinkPortStatusTest, UpdateOtherErrorKeepsLinkState)
+{
+    // Only invalid data means the port is disabled; a device that is not
+    // ready says nothing about the port.
+    EXPECT_CALL(mctpMock, sendRecvMsg)
+        .WillOnce(mock_mctp::respondWith(
+            {},
+            buildErrorResponse(
+                ocp::accelerator_management::CompletionCode::ERR_NOT_READY)));
+
+    const std::string gpuName = "nvlink_status_not_ready";
+    const std::shared_ptr<NvidiaNVLinkPortStatus> status =
+        createStatus(gpuName);
+    status->update();
+
+    EXPECT_EQ(getProperty<std::string>(portPath(gpuName), portInterfaceName,
+                                       "LinkState"),
+              "xyz.openbmc_project.Inventory.Connector.Port.LinkState.Unknown");
 }
 
 } // namespace

@@ -66,6 +66,24 @@ std::vector<uint8_t> buildPortCharacteristicsResponse(
     return buf;
 }
 
+// A failed response to the given command: header, completion code and reason
+// code only.
+std::vector<uint8_t> buildErrorResponse(
+    ocp::accelerator_management::CompletionCode cc)
+{
+    std::vector<uint8_t> buf(ocp::accelerator_management::commonResponseSize);
+    PackBuffer pack(buf);
+    ocp::accelerator_management::packHeader(
+        pack, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 0,
+        static_cast<uint8_t>(gpu::MessageType::NETWORK_PORT));
+    pack.pack(static_cast<uint8_t>(
+        gpu::NetworkPortCommands::QueryPortCharacteristics));
+    pack.pack(static_cast<uint8_t>(cc));
+    pack.pack(static_cast<uint16_t>(0)); // reason code
+    return buf;
+}
+
 class NvidiaNVLinkPortCharacteristicsTest : public MctpMockTestBase
 {
   protected:
@@ -218,6 +236,37 @@ TEST_F(NvidiaNVLinkPortCharacteristicsTest, UpdateEmptyBufferNoCrash)
     const std::shared_ptr<NvidiaNVLinkPortCharacteristics> characteristics =
         createCharacteristics("nvlink_char_empty");
     EXPECT_NO_THROW(characteristics->update());
+}
+
+// A disabled port
+
+TEST_F(NvidiaNVLinkPortCharacteristicsTest, UpdateRejectedPortKeepsValues)
+{
+    constexpr uint32_t lineRateMbps = 100000;
+    constexpr uint32_t dataRateKbps = 50000000;
+    constexpr uint32_t laneInfo = 0xF4;
+
+    // The port answers, then is disabled and rejected as invalid data, which
+    // must leave the last values in place.
+    EXPECT_CALL(mctpMock, sendRecvMsg)
+        .WillOnce(mock_mctp::respondWith(
+            {}, buildPortCharacteristicsResponse(0, lineRateMbps, dataRateKbps,
+                                                 laneInfo)))
+        .WillOnce(mock_mctp::respondWith(
+            {}, buildErrorResponse(ocp::accelerator_management::CompletionCode::
+                                       ERR_INVALID_DATA)));
+
+    const std::string gpuName = "nvlink_char_disabled";
+    const std::shared_ptr<NvidiaNVLinkPortCharacteristics> characteristics =
+        createCharacteristics(gpuName);
+    characteristics->update();
+    characteristics->update();
+    const std::string path = portPath(gpuName);
+
+    EXPECT_EQ(getProperty<uint64_t>(path, portInterfaceName, "MaxSpeed"),
+              100000ULL * 1000000ULL);
+    EXPECT_EQ(getProperty<size_t>(path, portInterfaceName, "Width"),
+              static_cast<size_t>(4));
 }
 
 } // namespace

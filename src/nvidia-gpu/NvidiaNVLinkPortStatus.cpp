@@ -144,6 +144,30 @@ void NvidiaNVLinkPortStatus::processResponse(
     const int rc = gpu::decodeQueryPortStatusResponse(response, cc, reasonCode,
                                                       portState, portStatus);
 
+    // Once a reset has applied a Set Port Disable Future, the device rejects
+    // queries for the disabled port as invalid data rather than reporting it
+    // with the Disabled port status. Only ports the device reported as
+    // available are queried, so this means the port is disabled.
+    if (rc == 0 &&
+        cc == ocp::accelerator_management::CompletionCode::ERR_INVALID_DATA)
+    {
+        if (!reportedDisabled)
+        {
+            lg2::info("NVLink Port is disabled, EID={EID}, portNumber={PN}",
+                      "EID", eid, "PN", portNumber);
+            reportedDisabled = true;
+        }
+        portInterface->set_property(
+            "LinkStatus",
+            std::string("xyz.openbmc_project.Inventory.Connector.Port."
+                        "LinkStatus.LinkDown"));
+        portInterface->set_property(
+            "LinkState",
+            std::string("xyz.openbmc_project.Inventory.Connector.Port."
+                        "LinkState.Disabled"));
+        return;
+    }
+
     if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
     {
         lg2::error(
@@ -152,6 +176,8 @@ void NvidiaNVLinkPortStatus::processResponse(
             eid, "PN", portNumber);
         return;
     }
+
+    reportedDisabled = false;
 
     portInterface->set_property("LinkStatus",
                                 mapPortStateToLinkStatus(portState));

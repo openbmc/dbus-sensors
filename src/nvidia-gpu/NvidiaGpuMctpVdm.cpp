@@ -2374,6 +2374,46 @@ int decodeGetPortTelemetryCounterResponse(
     return 0;
 }
 
+int encodeSetPortDisableFutureRequest(
+    uint8_t instanceId,
+    const std::array<uint8_t, portDisableFutureMaskSize>& portMask,
+    std::span<uint8_t> buf)
+{
+    PackBuffer buffer(buf);
+
+    const int rc = encodeRequestCommonHeader(
+        buffer, MessageType::NETWORK_PORT,
+        static_cast<uint8_t>(NetworkPortCommands::SetPortDisableFuture),
+        instanceId);
+
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    const auto dataSize = static_cast<uint8_t>(portMask.size());
+    buffer.pack(dataSize);
+
+    for (const uint8_t byte : portMask)
+    {
+        buffer.pack(byte);
+    }
+
+    return buffer.getError();
+}
+
+int decodeSetPortDisableFutureResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode)
+{
+    UnpackBuffer buffer(buf);
+
+    return decodeResponseCommonHeader(
+        buffer, MessageType::NETWORK_PORT,
+        static_cast<uint8_t>(NetworkPortCommands::SetPortDisableFuture), cc,
+        reasonCode);
+}
+
 int encodeGetPortDisableFutureRequest(uint8_t instanceId,
                                       std::span<uint8_t> buf)
 {
