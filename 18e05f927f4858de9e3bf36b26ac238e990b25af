@@ -36,6 +36,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b06b4bbe_76d3c652",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-21T08:02:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22fdfc8a_3a9b20d1",
+      "revId": "18e05f927f4858de9e3bf36b26ac238e990b25af",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aee3f980_795e2e0c",
@@ -71,6 +89,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9cc116a_a1f662d9",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-21T08:02:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4281c59e_ecce05fc",
+      "revId": "18e05f927f4858de9e3bf36b26ac238e990b25af",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "363b85f8_3994631a",
@@ -102,6 +138,24 @@
       "side": 1,
       "message": "Yes. I’ve added coverage for a third successful poll returning the same reading. UpdatedTime advances for that successful update even though the value is unchanged.",
       "parentUuid": "363b85f8_3994631a",
+      "revId": "18e05f927f4858de9e3bf36b26ac238e990b25af",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e68af33_2558d914",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuEnergySensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-21T08:02:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c8900c0_b25156c8",
       "revId": "18e05f927f4858de9e3bf36b26ac238e990b25af",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
