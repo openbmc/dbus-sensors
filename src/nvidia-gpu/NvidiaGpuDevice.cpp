@@ -656,6 +656,6 @@ void GpuDevice::processNvLinkPortCountsResponse(
     if (numberNvPorts > 0)
     {
         nvLinkPortControl = std::make_shared<NvidiaNVLinkPortControl>(
-            objectServer, mctpRequester, name, eid, numberNvPorts);
+            objectServer, mctpRequester, io, name, eid, numberNvPorts);
     }
 }

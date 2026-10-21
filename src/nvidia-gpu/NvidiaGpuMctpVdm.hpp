@@ -83,6 +83,7 @@ enum class NetworkPortCommands : uint8_t
     QueryPortsAvailable = 0x41,
     QueryPortCharacteristics = 0x42,
     QueryPortStatus = 0x43,
+    SetPortDisableFuture = 0x44,
     GetPortDisableFuture = 0x45,
 };
 
@@ -280,9 +281,12 @@ constexpr size_t getPortTelemetryCounterRequestSize =
 constexpr size_t getPortDisableFutureRequestSize =
     ocp::accelerator_management::commonRequestSize;
 
-// Size of the port mask carried by Get Port Disable Future: one bit per port,
-// 256 bits in all, with bit N describing port number N.
+// Size of the port mask carried by Set and Get Port Disable Future: one bit
+// per port, 256 bits in all, with bit N describing port number N.
 constexpr size_t portDisableFutureMaskSize = 32;
+
+constexpr size_t setPortDisableFutureRequestSize =
+    ocp::accelerator_management::commonRequestSize + portDisableFutureMaskSize;
 
 // Number of 64-bit counters in the Get Port Telemetry Counter response,
 // matching the 32-bit supportedCounters bitmap (bit i gates counter i).
@@ -588,6 +592,15 @@ int decodeGetPortTelemetryCounterResponse(
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     uint32_t& supportedCounters, size_t& numCounters,
     std::array<uint64_t, maxPortTelemetryCounters>& counters);
+
+int encodeSetPortDisableFutureRequest(
+    uint8_t instanceId,
+    const std::array<uint8_t, portDisableFutureMaskSize>& portMask,
+    std::span<uint8_t> buf);
+
+int decodeSetPortDisableFutureResponse(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode);
 
 int encodeGetPortDisableFutureRequest(uint8_t instanceId,
                                       std::span<uint8_t> buf);
