@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "741eddfa_fb51eb58",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000416
+      },
+      "writtenOn": "2026-10-21T10:40:39Z",
+      "side": 1,
+      "message": "This exceeds 50 characters subject line. So keep it as same.",
+      "parentUuid": "8fe964b2_470d5df4",
+      "revId": "a33c676ecc14f55c363f4ca097715b6f6974f811",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "524fcc72_39df2f77",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -31,6 +49,30 @@
       "writtenOn": "2026-10-21T09:14:42Z",
       "side": 1,
       "message": "Is this for ADC or PSUSensor?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 64
+      },
+      "revId": "a33c676ecc14f55c363f4ca097715b6f6974f811",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bfbca70_6e71f721",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000416
+      },
+      "writtenOn": "2026-10-21T10:40:39Z",
+      "side": 1,
+      "message": "This fix is for ADC sensors.",
+      "parentUuid": "524fcc72_39df2f77",
       "range": {
         "startLine": 9,
         "startChar": 0,
