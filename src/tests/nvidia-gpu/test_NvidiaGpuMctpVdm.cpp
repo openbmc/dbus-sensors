@@ -5674,6 +5674,111 @@ TEST_F(GpuMctpVdmTests, DecodeGetLeakDetectionInfoResponseBufferTooSmall)
     EXPECT_NE(result, 0); // Expect failure due to missing data
 }
 
+TEST_F(GpuMctpVdmTests, EncodeSetPortDisableFutureRequestSuccess)
+{
+    const uint8_t instanceId = 4;
+    std::array<uint8_t, gpu::portDisableFutureMaskSize> portMask{};
+    portMask[0] = 0x06;  // ports 1 and 2
+    portMask[31] = 0x80; // port 255
+    std::array<uint8_t, gpu::setPortDisableFutureRequestSize> buf{};
+
+    int result =
+        gpu::encodeSetPortDisableFutureRequest(instanceId, portMask, buf);
+
+    EXPECT_EQ(result, 0);
+
+    UnpackBuffer ubuf(std::span<const uint8_t>(buf.data(), buf.size()));
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t unpackedInstanceId = 0;
+    uint8_t unpackedMsgType = 0;
+    EXPECT_EQ(ocp::accelerator_management::unpackHeader(
+                  ubuf, gpu::nvidiaPciVendorId, msgType, unpackedInstanceId,
+                  unpackedMsgType),
+              0);
+    EXPECT_EQ(msgType, ocp::accelerator_management::MessageType::REQUEST);
+    EXPECT_EQ(unpackedInstanceId, instanceId);
+    EXPECT_EQ(unpackedMsgType,
+              static_cast<uint8_t>(gpu::MessageType::NETWORK_PORT));
+
+    uint8_t command = 0;
+    ubuf.unpack(command);
+    EXPECT_EQ(command, static_cast<uint8_t>(
+                           gpu::NetworkPortCommands::SetPortDisableFuture));
+    uint8_t dataSize = 0;
+    ubuf.unpack(dataSize);
+    EXPECT_EQ(dataSize, gpu::portDisableFutureMaskSize);
+
+    std::array<uint8_t, gpu::portDisableFutureMaskSize> unpackedMask{};
+    for (uint8_t& byte : unpackedMask)
+    {
+        ubuf.unpack(byte);
+    }
+    EXPECT_EQ(unpackedMask, portMask);
+    EXPECT_EQ(ubuf.getError(), 0);
+}
+
+TEST_F(GpuMctpVdmTests, EncodeSetPortDisableFutureRequestBufferTooSmall)
+{
+    const std::array<uint8_t, gpu::portDisableFutureMaskSize> portMask{};
+    std::array<uint8_t, gpu::setPortDisableFutureRequestSize - 1> buf{};
+
+    int result = gpu::encodeSetPortDisableFutureRequest(0, portMask, buf);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeSetPortDisableFutureResponseSuccess)
+{
+    std::vector<uint8_t> buf(32);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 4,
+        static_cast<uint8_t>(gpu::MessageType::NETWORK_PORT));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::NetworkPortCommands::SetPortDisableFuture));       // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS)); // CC
+    pbuf.pack(static_cast<uint16_t>(0));                        // reserved
+    pbuf.pack(static_cast<uint16_t>(0));                        // data_size
+    ASSERT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+
+    int result = gpu::decodeSetPortDisableFutureResponse(buf, cc, reasonCode);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeSetPortDisableFutureResponseError)
+{
+    std::vector<uint8_t> buf(32);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 4,
+        static_cast<uint8_t>(gpu::MessageType::NETWORK_PORT));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::NetworkPortCommands::SetPortDisableFuture)); // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERR_INVALID_DATA)); // CC
+    pbuf.pack(static_cast<uint16_t>(0x5678)); // reason_code
+    ASSERT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+
+    int result = gpu::decodeSetPortDisableFutureResponse(buf, cc, reasonCode);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc,
+              ocp::accelerator_management::CompletionCode::ERR_INVALID_DATA);
+    EXPECT_EQ(reasonCode, 0x5678);
+}
+
 TEST_F(GpuMctpVdmTests, EncodeGetPortDisableFutureRequestSuccess)
 {
     const uint8_t instanceId = 9;
