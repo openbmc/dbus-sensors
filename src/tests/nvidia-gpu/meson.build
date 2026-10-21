@@ -34,6 +34,8 @@ gpusensor_sources = files(
     gpusensor_dir / 'NvidiaPciePort.cpp',
     gpusensor_dir / 'NvidiaPciePortMetrics.cpp',
     gpusensor_dir / 'NvidiaSmaDevice.cpp',
+    gpusensor_dir / 'NvidiaTransceiver.cpp',
+    gpusensor_dir / 'NvidiaTransceiverMetrics.cpp',
     gpusensor_dir / 'OcpMctpVdm.cpp',
     gpusensor_dir / 'SerialQueue.cpp',
 )
@@ -71,6 +73,8 @@ test(
         'test_NvidiaEthPort.cpp',
         'test_NvidiaIbPort.cpp',
         'test_NvidiaPcieDevice.cpp',
+        'test_NvidiaTransceiver.cpp',
+        'test_NvidiaTransceiverMetrics.cpp',
         'test_NvidiaGpuDevice.cpp',
         'test_NvidiaGpuPowerControl.cpp',
         'test_NvidiaGpuClockFrequencyMetric.cpp',
