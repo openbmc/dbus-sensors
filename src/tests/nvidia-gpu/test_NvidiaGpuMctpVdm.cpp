@@ -5674,4 +5674,156 @@ TEST_F(GpuMctpVdmTests, DecodeGetLeakDetectionInfoResponseBufferTooSmall)
     EXPECT_NE(result, 0); // Expect failure due to missing data
 }
 
+TEST_F(GpuMctpVdmTests, EncodeGetPortDisableFutureRequestSuccess)
+{
+    const uint8_t instanceId = 9;
+    std::array<uint8_t, gpu::getPortDisableFutureRequestSize> buf{};
+
+    int result = gpu::encodeGetPortDisableFutureRequest(instanceId, buf);
+
+    EXPECT_EQ(result, 0);
+
+    UnpackBuffer ubuf(std::span<const uint8_t>(buf.data(), buf.size()));
+    ocp::accelerator_management::MessageType msgType{};
+    uint8_t unpackedInstanceId = 0;
+    uint8_t unpackedMsgType = 0;
+    EXPECT_EQ(ocp::accelerator_management::unpackHeader(
+                  ubuf, gpu::nvidiaPciVendorId, msgType, unpackedInstanceId,
+                  unpackedMsgType),
+              0);
+    EXPECT_EQ(msgType, ocp::accelerator_management::MessageType::REQUEST);
+    EXPECT_EQ(unpackedInstanceId, instanceId);
+    EXPECT_EQ(unpackedMsgType,
+              static_cast<uint8_t>(gpu::MessageType::NETWORK_PORT));
+
+    uint8_t command = 0;
+    ubuf.unpack(command);
+    EXPECT_EQ(command, static_cast<uint8_t>(
+                           gpu::NetworkPortCommands::GetPortDisableFuture));
+    uint8_t dataSize = 0;
+    ubuf.unpack(dataSize);
+    EXPECT_EQ(dataSize, 0);
+    EXPECT_EQ(ubuf.getError(), 0);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetPortDisableFutureResponseSuccess)
+{
+    std::array<uint8_t, gpu::portDisableFutureMaskSize> expectedMask{};
+    for (size_t i = 0; i < expectedMask.size(); ++i)
+    {
+        expectedMask[i] = static_cast<uint8_t>(i * 7);
+    }
+
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 9,
+        static_cast<uint8_t>(gpu::MessageType::NETWORK_PORT));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::NetworkPortCommands::GetPortDisableFuture));       // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS)); // CC
+    pbuf.pack(static_cast<uint16_t>(0));                        // reserved
+    pbuf.pack(static_cast<uint16_t>(expectedMask.size()));      // data_size
+    for (const uint8_t byte : expectedMask)
+    {
+        pbuf.pack(byte);
+    }
+    ASSERT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    std::array<uint8_t, gpu::portDisableFutureMaskSize> portMask{};
+
+    int result =
+        gpu::decodeGetPortDisableFutureResponse(buf, cc, reasonCode, portMask);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::SUCCESS);
+    EXPECT_EQ(reasonCode, 0);
+    EXPECT_EQ(portMask, expectedMask);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetPortDisableFutureResponseError)
+{
+    std::vector<uint8_t> buf(32);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 9,
+        static_cast<uint8_t>(gpu::MessageType::NETWORK_PORT));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::NetworkPortCommands::GetPortDisableFuture));             // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::ERR_NOT_READY)); // CC
+    pbuf.pack(static_cast<uint16_t>(0x1234)); // reason_code
+    ASSERT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    std::array<uint8_t, gpu::portDisableFutureMaskSize> portMask{};
+
+    int result =
+        gpu::decodeGetPortDisableFutureResponse(buf, cc, reasonCode, portMask);
+
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(cc, ocp::accelerator_management::CompletionCode::ERR_NOT_READY);
+    EXPECT_EQ(reasonCode, 0x1234);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetPortDisableFutureResponseInvalidSize)
+{
+    std::vector<uint8_t> buf(64);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 9,
+        static_cast<uint8_t>(gpu::MessageType::NETWORK_PORT));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::NetworkPortCommands::GetPortDisableFuture));       // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS)); // CC
+    pbuf.pack(static_cast<uint16_t>(0));                        // reserved
+    pbuf.pack(static_cast<uint16_t>(16)); // Invalid data_size
+    ASSERT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    std::array<uint8_t, gpu::portDisableFutureMaskSize> portMask{};
+
+    int result =
+        gpu::decodeGetPortDisableFutureResponse(buf, cc, reasonCode, portMask);
+
+    EXPECT_EQ(result, EINVAL);
+}
+
+TEST_F(GpuMctpVdmTests, DecodeGetPortDisableFutureResponseTruncatedMask)
+{
+    // data_size claims a full mask, but only part of it follows.
+    std::vector<uint8_t> buf(
+        ocp::accelerator_management::commonResponseSize + 8);
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 9,
+        static_cast<uint8_t>(gpu::MessageType::NETWORK_PORT));
+    pbuf.pack(static_cast<uint8_t>(
+        gpu::NetworkPortCommands::GetPortDisableFuture));       // command
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS)); // CC
+    pbuf.pack(static_cast<uint16_t>(0));                        // reserved
+    pbuf.pack(static_cast<uint16_t>(gpu::portDisableFutureMaskSize));
+    ASSERT_EQ(pbuf.getError(), 0);
+
+    ocp::accelerator_management::CompletionCode cc{};
+    uint16_t reasonCode{};
+    std::array<uint8_t, gpu::portDisableFutureMaskSize> portMask{};
+
+    int result =
+        gpu::decodeGetPortDisableFutureResponse(buf, cc, reasonCode, portMask);
+
+    EXPECT_NE(result, 0);
+}
+
 } // namespace gpu_mctp_tests
