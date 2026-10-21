@@ -16,6 +16,24 @@
       "message": "`bitsOf` and `buildSupportedListResponse` are now byte-identical in three files (test_NvidiaDeviceSupportedCommandCodes.cpp:70, test_NvidiaEventReporting.cpp:133, here), could they move to utils/TestUtils.hpp? Thanks.",
       "revId": "9dec4c4a001cd9ebe91e4c512fa8b6940c6c0b28",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f652e96_394d2cda",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuDevice.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-10-21T08:27:45Z",
+      "side": 1,
+      "message": "Done, moved them to utils/TestUtils.hpp and all three files use them now.\nThe same logic in test_NvidiaGpuPowerControl.cpp and the duplicated buildSuccessResponse() moved there too.",
+      "parentUuid": "4ef06f9e_be7011bf",
+      "revId": "9dec4c4a001cd9ebe91e4c512fa8b6940c6c0b28",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
