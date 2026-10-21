@@ -74,6 +74,12 @@ class PSUSensor : public Sensor, public std::enable_shared_from_this<PSUSensor>
     static constexpr double defaultSensorPoll = 1.0;
     static constexpr unsigned int defaultSensorPollMs =
         static_cast<unsigned int>(defaultSensorPoll * 1000);
+    // Counts consecutive threshold crossings per threshold (index-aligned
+    // with `thresholds`) before forwarding them to threshold processing.
+    std::vector<int> lowConfirmCounts;
+    std::vector<int> highConfirmCounts;
+    static constexpr int lowConfirmSamples = 3;
+    static constexpr int highConfirmSamples = 3;
 };
 
 struct PSUProperty
