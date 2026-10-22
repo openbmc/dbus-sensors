@@ -107,6 +107,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ffc43514_2156b19f",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1000212
+      },
+      "writtenOn": "2026-10-22T18:03:00Z",
+      "side": 1,
+      "message": "Let me update the PDI definition as well to include this case. Right not I believe it specifis only the sensor value changing.",
+      "parentUuid": "d9cc116a_a1f662d9",
+      "revId": "18e05f927f4858de9e3bf36b26ac238e990b25af",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "363b85f8_3994631a",
