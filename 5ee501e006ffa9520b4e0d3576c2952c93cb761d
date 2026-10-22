@@ -16,6 +16,24 @@
       "message": "```suggestion\nhwmon-temp: Filter transient temperature sensor glitches\n```",
       "revId": "5ee501e006ffa9520b4e0d3576c2952c93cb761d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9734f56_02fd30cc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000416
+      },
+      "writtenOn": "2026-10-22T08:04:57Z",
+      "side": 1,
+      "message": "Updated. Thanks",
+      "parentUuid": "e5b481e9_e7bae2ca",
+      "revId": "5ee501e006ffa9520b4e0d3576c2952c93cb761d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
