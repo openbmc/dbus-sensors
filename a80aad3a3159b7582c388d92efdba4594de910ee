@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca56bf51_38a13bde",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-10-22T05:28:26Z",
+      "side": 1,
+      "message": "Done in PS9. The SMA now creates its sensors from the TemperatureSensors, PowerSensors and VoltageSensors lists of its EM record, which give each sensor\u0027s id and name; the hardcoded table is gone.\n\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/94065/5..9/src/nvidia-gpu/DeviceManager.cpp#247 (read)\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/94065/5..9/src/nvidia-gpu/NvidiaSmaDevice.cpp#55 (create)\n\nEM changes adding the lists:\nhttps://gerrit.openbmc.org/c/openbmc/entity-manager/+/95094 (schema)\nhttps://gerrit.openbmc.org/c/openbmc/entity-manager/+/95095 (VR NVL configs)",
+      "parentUuid": "d5918de6_3d440600",
+      "revId": "a80aad3a3159b7582c388d92efdba4594de910ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01dfb8dd_18ec6ac9",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98297a30_139808fa",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-10-22T05:28:26Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "01dfb8dd_18ec6ac9",
+      "revId": "a80aad3a3159b7582c388d92efdba4594de910ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ed7053ff_00c23804",
@@ -48,6 +84,24 @@
       "writtenOn": "2026-09-18T11:13:16Z",
       "side": 1,
       "message": "use std::format here.",
+      "revId": "a80aad3a3159b7582c388d92efdba4594de910ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a1d0f3a_41cc9b62",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-10-22T05:28:26Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "ed7053ff_00c23804",
       "revId": "a80aad3a3159b7582c388d92efdba4594de910ee",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -75,6 +129,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ea8348c_d62e160b",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-10-22T05:28:26Z",
+      "side": 1,
+      "message": "Done in PS9. The SMA no longer sends the aggregate request (sensor id 255); each sensor reads its own id with Get Temperature Reading, Get Current Power Draw or Get Voltage.\n\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/94065/5..9/src/nvidia-gpu/NvidiaSmaDevice.cpp#72",
+      "parentUuid": "65622a21_776161ea",
+      "range": {
+        "startLine": 85,
+        "startChar": 11,
+        "endLine": 85,
+        "endChar": 44
+      },
+      "revId": "a80aad3a3159b7582c388d92efdba4594de910ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2b5436aa_97ac471a",
@@ -88,6 +166,24 @@
       "writtenOn": "2026-09-18T11:13:16Z",
       "side": 1,
       "message": "This would go away once we use EM config to get the list of supported temp sensors.",
+      "revId": "a80aad3a3159b7582c388d92efdba4594de910ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c548a702_068a733f",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-10-22T05:28:26Z",
+      "side": 1,
+      "message": "Done in PS9. updateTempSensors() and processTempSensorResponse() are gone; the sensors are created from the EM lists in init(), and read() calls update() on each of them.\n\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/94065/5..9/src/nvidia-gpu/NvidiaSmaDevice.cpp#205",
+      "parentUuid": "2b5436aa_97ac471a",
       "revId": "a80aad3a3159b7582c388d92efdba4594de910ee",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
