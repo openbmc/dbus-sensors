@@ -199,6 +199,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a165ee9b_c3440ec3",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1000212
+      },
+      "writtenOn": "2026-10-22T21:03:06Z",
+      "side": 1,
+      "message": "DMTF uses `The date and time that the reading was acquired from the sensor`. I think from their point of view, reading validity is undefined. We can be more specific.",
+      "parentUuid": "359c3493_b90b35ab",
+      "revId": "18e05f927f4858de9e3bf36b26ac238e990b25af",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "363b85f8_3994631a",
         "filename": "src/tests/nvidia-gpu/test_NvidiaGpuEnergySensor.cpp",
         "patchSetId": 6
