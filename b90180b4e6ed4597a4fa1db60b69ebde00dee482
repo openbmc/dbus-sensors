@@ -56,6 +56,24 @@
       "message": "I am not sure how likely a backwards clock step is here, but if one\nhappens, does `currentTime \u003e updatedTime` stay false until real time\ncatches up, leaving `UpdatedTime` advancing by one microsecond per update\ninstead of reporting a real timestamp?",
       "revId": "b90180b4e6ed4597a4fa1db60b69ebde00dee482",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3593a9cb_705865eb",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 1000212
+      },
+      "writtenOn": "2026-10-22T21:00:43Z",
+      "side": 1,
+      "message": "I would just remove this. As an external user, I would prefer to just get the current clock time rather than (from its perspective) an arbitrary increment of a past clock just to keep a equivalent of a monotonically incrementing timestmap.\n\nIf the wall clock jumped, there is no recoverable thing here. Either they get a fake-non-usable timestamp (Like in this case PAST+N) or CURRENT\u003cPAST. At least in the latter, if I am consuming the timestamp, I can drop that sample and wait for the next (if I am calculating period).",
+      "parentUuid": "67904ed9_72a827c1",
+      "revId": "b90180b4e6ed4597a4fa1db60b69ebde00dee482",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
