@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc932807_228e93a8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-10-22T18:14:40Z",
+      "side": 1,
+      "message": "If the driver isn\u0027t capable of giving correct values, we need to fix the driver, not try to work around it in userspace.",
+      "revId": "b90193d9249dbcceecdee98b4b864e9f41b1e152",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
