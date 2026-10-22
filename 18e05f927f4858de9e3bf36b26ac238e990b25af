@@ -181,6 +181,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "359c3493_b90b35ab",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2026-10-22T18:11:18Z",
+      "side": 1,
+      "message": "We should be careful we match DMTF redfish here.  I don\u0027t know if every \"attempt\" at a scan is going to update this value?",
+      "parentUuid": "5df920da_a1e73c9c",
+      "revId": "18e05f927f4858de9e3bf36b26ac238e990b25af",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "363b85f8_3994631a",
         "filename": "src/tests/nvidia-gpu/test_NvidiaGpuEnergySensor.cpp",
         "patchSetId": 6
