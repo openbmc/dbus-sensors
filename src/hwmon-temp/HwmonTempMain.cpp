@@ -84,6 +84,7 @@ static constexpr auto sensorTypes =
         {"MAX6639", I2CDeviceType{"max6639", true}},
         {"MCP9600", I2CDeviceType{"mcp9600", false}},
         {"NCT6779", I2CDeviceType{"nct6779", true}},
+        {"NCT6796", I2CDeviceType{"nct6796", true}},
         {"NCT7802", I2CDeviceType{"nct7802", true}},
         {"PT5161L", I2CDeviceType{"pt5161l", true}},
         {"SBTSI", I2CDeviceType{"sbtsi", true}},
