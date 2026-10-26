@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "394eee35_bbaca357",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001076
+      },
+      "writtenOn": "2026-10-26T05:51:38Z",
+      "side": 1,
+      "message": "@peter.yin@quantatw.com is this patch still active?",
+      "revId": "476b1c88a61fa727de7f1f1257cac07f4c21d84e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
