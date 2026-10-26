@@ -509,7 +509,7 @@ bool parseThresholdsFromAttr(
                  std::make_tuple("crit", Level::CRITICAL, Direction::HIGH,
                                  offset),
              }},
-        };
+    };
 
     if (auto fileParts = splitFileName(inputPath))
     {
