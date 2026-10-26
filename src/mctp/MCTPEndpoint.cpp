@@ -589,13 +589,11 @@ static std::span<const std::string_view> rootHubsForSoc(
         "/sys/devices/platform/soc@14000000/14123000.usb",
     };
 
-    if (socFamily.find("AST2600") != std::string::npos ||
-        socFamily.find("AST2620") != std::string::npos)
+    if (socFamily.contains("AST2600") || socFamily.contains("AST2620"))
     {
         return ast2600RootHubs;
     }
-    if (socFamily.find("AST2700") != std::string::npos ||
-        socFamily.find("AST2750") != std::string::npos)
+    if (socFamily.contains("AST2700") || socFamily.contains("AST2750"))
     {
         return ast2700RootHubs;
     }
