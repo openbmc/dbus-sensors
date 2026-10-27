@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4dc80aac_94084e66",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001758
+      },
+      "writtenOn": "2026-10-27T21:31:28Z",
+      "side": 1,
+      "message": "@eldin.lee@quantatw.com\nI have included this into base patch as part of rebase, so we can drop this patch.",
+      "revId": "cdc7b3edc00966170602a4f337b3ae1fa9c0e88b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
