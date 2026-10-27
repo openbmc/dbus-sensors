@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f3db919b_e84f4490",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000416
+      },
+      "writtenOn": "2026-10-27T05:16:35Z",
+      "side": 1,
+      "message": "IIRC, this is the TMP75 sensor and its driver. It reports spurious readings because measurements are taken exactly when the device is transitioning power states during power cycles. As a workaround, these readings are currently being filtered in dbus-sensors.",
+      "parentUuid": "9e1536c3_11c04601",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 15
+      },
+      "revId": "b90193d9249dbcceecdee98b4b864e9f41b1e152",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dc932807_228e93a8",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
