@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c74dbed7_460fe4bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-10-27T15:13:58Z",
+      "side": 1,
+      "message": "Looks good, waiting for PDI.",
+      "revId": "b1f9142a39b0bd808a860182eceef9ac5de3d1aa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c71dea14_192eefaf",
@@ -14,6 +31,24 @@
       "writtenOn": "2026-10-27T15:11:15Z",
       "side": 1,
       "message": "Can you link the patch or code section of bmcweb of other service that consumes this association?",
+      "revId": "b1f9142a39b0bd808a860182eceef9ac5de3d1aa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27eaca6d_72326301",
+        "filename": "src/nvidia-gpu/NvidiaPcieInterface.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-10-27T15:13:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c71dea14_192eefaf",
       "revId": "b1f9142a39b0bd808a860182eceef9ac5de3d1aa",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
