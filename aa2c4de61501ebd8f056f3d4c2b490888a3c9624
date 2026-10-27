@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "71667f42_aba09235",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-27T08:07:39Z",
+      "side": 1,
+      "message": "Added a focused regression test for the label probe path with ScaleFactor \u003d 1000. It verifies that a hwmon value of 2500 is converted to 2.5. I also corrected the conversion to match the sensor reading scale.",
+      "parentUuid": "12f07123_99ed9daf",
+      "revId": "aa2c4de61501ebd8f056f3d4c2b490888a3c9624",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "33cdb076_e838be36",
         "filename": "src/Thresholds.cpp",
         "patchSetId": 21
@@ -31,6 +49,24 @@
       "writtenOn": "2026-10-23T00:50:48Z",
       "side": 1,
       "message": "Could you clarify the intended precedence here? \nWhen the hwmon label probe succeeds, its value is used even if the configuration already provides Value. \nShould the probed value override the configured value (or) should it only be used when Value is absent?",
+      "revId": "aa2c4de61501ebd8f056f3d4c2b490888a3c9624",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d863ce2f_b890d653",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-27T08:07:39Z",
+      "side": 1,
+      "message": "The probed hwmon value takes precedence when the probe succeeds, since it provides the live threshold value. The configured Value is used as a fallback when probing is unavailable. I’ve made this precedence explicit in the regression test.",
+      "parentUuid": "33cdb076_e838be36",
       "revId": "aa2c4de61501ebd8f056f3d4c2b490888a3c9624",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
