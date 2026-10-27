@@ -5,6 +5,7 @@
 
 #include <sdbusplus/async.hpp>
 
+#include <algorithm>
 #include <array>
 #include <cerrno>
 #include <cstdint>
@@ -76,18 +77,60 @@ auto NotifyWatch::readNotifyAsync() -> sdbusplus::async::task<>
     {
         co_return;
     }
-    co_await fdioInstance->next();
-
     alignas(inotify_event) std::array<uint8_t, 4096> buffer{};
 
-    auto bytes = read(fd, buffer.data(), buffer.size());
-    if (bytes < 0)
+    while (!ctx.stop_requested())
     {
-        throw std::system_error(errno, std::system_category(),
-                                "Failed to read notify event");
+        co_await fdioInstance->next();
+
+        auto bytes = readNotifyEvents(buffer);
+        if (!bytes)
+        {
+            continue;
+        }
+
+        co_await processNotifyEvents(std::span<uint8_t>(buffer.data(), *bytes));
+    }
+}
+
+bool NotifyWatch::isTransientReadError(int error)
+{
+    if ((error == EAGAIN) || (error == EINTR))
+    {
+        return true;
+    }
+#ifdef EWOULDBLOCK
+    if constexpr (EWOULDBLOCK != EAGAIN)
+    {
+        return error == EWOULDBLOCK;
+    }
+#endif
+    return false;
+}
+
+auto NotifyWatch::readNotifyEvents(std::span<uint8_t> buffer)
+    -> std::optional<size_t>
+{
+    auto bytes = read(fd, buffer.data(), buffer.size());
+    if (bytes >= 0)
+    {
+        return static_cast<size_t>(bytes);
     }
 
-    for (auto* iter = buffer.data(); iter < buffer.data() + bytes;)
+    const int error = errno;
+    if (isTransientReadError(error))
+    {
+        return std::nullopt;
+    }
+
+    throw std::system_error(error, std::system_category(),
+                            "Failed to read notify event");
+}
+
+auto NotifyWatch::processNotifyEvents(std::span<uint8_t> buffer)
+    -> sdbusplus::async::task<>
+{
+    for (auto* iter = buffer.data(); iter < buffer.data() + buffer.size();)
     {
         // Bypassed clang tidy warning about reinterpret_cast as cast is being
         // performed to avoid copying of buffer data.
@@ -102,16 +145,15 @@ auto NotifyWatch::readNotifyAsync() -> sdbusplus::async::task<>
                 // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
                 std::span<char> name{reinterpret_cast<char*>(event[0].name),
                                      event[0].len};
-                co_await callback(std::string(name.begin(), name.end()));
+                auto fileName = std::string(
+                    name.begin(), std::find(name.begin(), name.end(), '\0'));
+                co_await callback(std::move(fileName));
             }
         }
         iter += sizeof(inotify_event) + event[0].len;
     }
 
-    if (!ctx.stop_requested())
-    {
-        ctx.spawn(readNotifyAsync());
-    }
+    co_return;
 }
 
 } // namespace notify_watch
