@@ -5,7 +5,6 @@
 #include <sdbusplus/async.hpp>
 
 #include <cstring>
-#include <exception>
 #include <filesystem>
 #include <fstream>
 #include <functional>
@@ -66,15 +65,11 @@ auto LocalConfig::loadConfig() -> void
         return;
     }
 
-    json jsonConfig;
-    try
+    // JSON_NOEXCEPTION is enabled; report invalid input instead of aborting.
+    const auto jsonConfig = json::parse(jsonFile, nullptr, false);
+    if (jsonConfig.is_discarded())
     {
-        jsonConfig = json::parse(jsonFile, nullptr, true);
-    }
-    catch (const json::parse_error& e)
-    {
-        error("Failed to parse valve config {PATH}: {ERROR}", "PATH",
-              configFilePath, "ERROR", e);
+        error("Failed to parse valve config {PATH}", "PATH", configFilePath);
         return;
     }
 
@@ -85,23 +80,30 @@ auto LocalConfig::loadConfig() -> void
     }
 
     static constexpr auto valvesProperty = "Valves";
-    std::map<std::string, double> newMap;
-
-    try
+    if (!jsonConfig.contains(valvesProperty) ||
+        !jsonConfig.at(valvesProperty).is_array())
     {
-        for (const auto& valve : jsonConfig.at(valvesProperty))
-        {
-            auto name = valve.at("Name").get<std::string>();
-            auto flowRate = valve.at("FlowRate").get<double>();
-            newMap[name] = flowRate;
-            debug("Valve config: {NAME} flow-rate={RATE}", "NAME", name, "RATE",
-                  flowRate);
-        }
-    }
-    catch (const std::exception& e)
-    {
-        error("Failed to parse valve config: {ERROR}", "ERROR", e);
+        error("Invalid Valves in valve config {PATH}", "PATH", configFilePath);
         return;
+    }
+
+    std::map<std::string, double> newMap;
+    for (const auto& valve : jsonConfig.at(valvesProperty))
+    {
+        // Check keys and types before at()/get(), which otherwise abort.
+        if (!valve.contains("Name") || !valve.at("Name").is_string() ||
+            !valve.contains("FlowRate") || !valve.at("FlowRate").is_number())
+        {
+            error("Invalid Name or FlowRate in valve config {PATH}", "PATH",
+                  configFilePath);
+            return;
+        }
+
+        auto name = valve.at("Name").get<std::string>();
+        auto flowRate = valve.at("FlowRate").get<double>();
+        newMap[name] = flowRate;
+        debug("Valve config: {NAME} flow-rate={RATE}", "NAME", name, "RATE",
+              flowRate);
     }
 
     flowRateMap = std::move(newMap);
