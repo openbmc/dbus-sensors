@@ -8,6 +8,7 @@
 #include "BulkTelemetryCommands.hpp"
 #include "NetworkAdapter.hpp"
 #include "OcpVdmIana.hpp"
+#include "OsfpStats.hpp"
 
 #include <MctpAsyncRequester.hpp>
 #include <phosphor-logging/lg2.hpp>
@@ -21,6 +22,7 @@
 #include <format>
 #include <memory>
 #include <optional>
+#include <span>
 #include <string_view>
 #include <system_error>
 #include <utility>
@@ -277,12 +279,34 @@ auto AmdBulkDevice::readCategory(size_t index) -> sdbusplus::async::task<bool>
             co_return false;
         }
 
+        const Category& category = categories[index];
         lg2::debug("EID {EID}: '{NAME}' instance {INST} -> {BYTES} bytes",
-                   "EID", eid, "NAME", categories[index].description.name,
-                   "INST", instance, "BYTES", data.size());
+                   "EID", eid, "NAME", category.description.name, "INST",
+                   instance, "BYTES", data.size());
+
+        updateData(category, instance, data);
     }
 
     co_return true;
+}
+
+// Every tag in a category shares a UID prefix that identifies the source.
+void AmdBulkDevice::updateData(const Category& category, size_t instance,
+                               std::span<const uint8_t> data)
+{
+    if (!adapter || category.uniqueIds.empty())
+    {
+        return;
+    }
+
+    switch (category.uniqueIds.front() >> 16U)
+    {
+        case osfp_stats::categoryUidPrefix:
+            osfp_stats::update(*adapter, instance, data);
+            break;
+        default:
+            break;
+    }
 }
 
 } // namespace ocp::bulk
