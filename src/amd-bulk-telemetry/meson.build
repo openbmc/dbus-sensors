@@ -3,9 +3,11 @@ amd_bulk_telemetry_sources = files(
     'BulkTelemetryCommands.cpp',
     'BulkTelemetryMessage.cpp',
     'MctpDiscovery.cpp',
+    'NbioCounters.cpp',
     'NetworkAdapter.cpp',
     'OcpVdmIana.cpp',
     'OsfpStats.cpp',
+    'PcieState.cpp',
     'RdmaStats.cpp',
     'XrmacStats.cpp',
 )
