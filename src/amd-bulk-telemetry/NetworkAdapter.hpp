@@ -114,10 +114,8 @@ using PortServer = sdbusplus::async::server_t<
     PortObject,
     sdbusplus::aserver::xyz::openbmc_project::inventory::connector::Port,
     sdbusplus::aserver::xyz::openbmc_project::inventory::Item,
-    sdbusplus::aserver::xyz::openbmc_project::inventory::decorator::Asset,
     sdbusplus::aserver::xyz::openbmc_project::state::decorator::
         OperationalStatus,
-    sdbusplus::aserver::xyz::openbmc_project::inventory::item::Transceiver,
     sdbusplus::aserver::xyz::openbmc_project::association::Definitions>;
 
 class PortObject : public PortServer
@@ -126,6 +124,22 @@ class PortObject : public PortServer
     PortObject(sdbusplus::async::context& ctx,
                const sdbusplus::object_path& path,
                const std::string& adapterPath);
+};
+
+class TransceiverObject;
+using TransceiverServer = sdbusplus::async::server_t<
+    TransceiverObject,
+    sdbusplus::aserver::xyz::openbmc_project::inventory::Item,
+    sdbusplus::aserver::xyz::openbmc_project::inventory::decorator::Asset,
+    sdbusplus::aserver::xyz::openbmc_project::inventory::item::Transceiver,
+    sdbusplus::aserver::xyz::openbmc_project::association::Definitions>;
+
+class TransceiverObject : public TransceiverServer
+{
+  public:
+    TransceiverObject(sdbusplus::async::context& ctx,
+                      const sdbusplus::object_path& path,
+                      const std::string& portPath);
 };
 
 class MetricObject;
@@ -236,9 +250,11 @@ class NetworkAdapter
     struct Port
     {
         std::unique_ptr<PortObject> connector;
+        std::unique_ptr<TransceiverObject> transceiver;
         std::unique_ptr<VersionObject> software;
         std::unique_ptr<CableObject> cable;
         std::map<std::string, std::unique_ptr<MetricObject>> metrics;
+        std::map<std::string, std::unique_ptr<MetricObject>> transceiverMetrics;
     };
 
     struct PcieDevice
@@ -258,10 +274,12 @@ class NetworkAdapter
     void updatePortMetric(Port& port, size_t instance, std::string_view group,
                           std::string_view name, MetricInfo::Unit unit,
                           double value);
+    void updateTransceiverMetric(Port& port, size_t instance,
+                                 std::string_view name, MetricInfo::Unit unit,
+                                 double value);
     void updatePcieMetric(PcieDevice& device, size_t instance,
                           std::string_view name, MetricInfo::Unit unit,
                           double value);
-    static void clearPortMetrics(Port& port, std::string_view group);
     void updateOptics(Port& port, size_t instance,
                       const Transceiver& transceiver);
 
