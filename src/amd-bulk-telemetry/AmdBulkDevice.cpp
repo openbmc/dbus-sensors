@@ -6,9 +6,11 @@
 #include "AmdBulkDevice.hpp"
 
 #include "BulkTelemetryCommands.hpp"
+#include "NbioCounters.hpp"
 #include "NetworkAdapter.hpp"
 #include "OcpVdmIana.hpp"
 #include "OsfpStats.hpp"
+#include "PcieState.hpp"
 #include "RdmaStats.hpp"
 #include "XrmacStats.hpp"
 
@@ -311,6 +313,12 @@ void AmdBulkDevice::updateData(const Category& category, size_t instance,
             break;
         case rdma_stats::categoryUidPrefix:
             rdma_stats::update(*adapter, instance, data);
+            break;
+        case pcie_state::categoryUidPrefix:
+            pcie_state::update(*adapter, instance, data);
+            break;
+        case nbio_counters::categoryUidPrefix:
+            nbio_counters::update(*adapter, instance, category.uniqueIds, data);
             break;
         default:
             break;
