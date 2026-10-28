@@ -185,13 +185,6 @@ auto AnalogValve::setState(State state) -> bool
     debug("Setting {VALVE} to {STATE}", "VALVE", baseConfig.name, "STATE",
           convertStateToString(state));
 
-    if ((!isOpen && state == State::Close) || (isOpen && state == State::Open))
-    {
-        info("Ignoring, as new state {STATE} matches the current state",
-             "STATE", convertStateToString(state));
-        return true;
-    }
-
     double targetVoltage = analogConfig.setPointVoltageRange[0];
 
     if (state == State::Open)
