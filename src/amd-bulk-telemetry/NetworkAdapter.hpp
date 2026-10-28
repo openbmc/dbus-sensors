@@ -90,9 +90,13 @@ struct PcieLink
         PcieSlotInfo::Generations::Unknown;
     size_t maxLanes = 0;
     size_t lanesInUse = 0;
+    uint8_t busNumber = 0;
+    PortInfo::LinkState linkState = PortInfo::LinkState::Unknown;
+    PortInfo::LinkStatus linkStatus = PortInfo::LinkStatus::Unknown;
     uint16_t subsystemVendorId = 0;
     uint16_t subsystemId = 0;
     bool available = false;
+    bool functional = true;
 };
 
 class AdapterObject;
@@ -201,6 +205,8 @@ class PciePortObject;
 using PciePortServer = sdbusplus::async::server_t<
     PciePortObject,
     sdbusplus::aserver::xyz::openbmc_project::inventory::connector::Port,
+    sdbusplus::aserver::xyz::openbmc_project::state::decorator::
+        OperationalStatus,
     sdbusplus::aserver::xyz::openbmc_project::association::Definitions>;
 
 class PciePortObject : public PciePortServer
