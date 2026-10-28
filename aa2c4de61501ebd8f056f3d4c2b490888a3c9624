@@ -36,6 +36,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "837f1d9b_d0458057",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-28T04:26:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71667f42_aba09235",
+      "revId": "aa2c4de61501ebd8f056f3d4c2b490888a3c9624",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "33cdb076_e838be36",
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "The probed hwmon value takes precedence when the probe succeeds, since it provides the live threshold value. The configured Value is used as a fallback when probing is unavailable. I’ve made this precedence explicit in the regression test.",
       "parentUuid": "33cdb076_e838be36",
+      "revId": "aa2c4de61501ebd8f056f3d4c2b490888a3c9624",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "486b196e_d0279792",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 21
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-28T04:26:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d863ce2f_b890d653",
       "revId": "aa2c4de61501ebd8f056f3d4c2b490888a3c9624",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
