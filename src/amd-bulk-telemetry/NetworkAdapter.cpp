@@ -43,7 +43,7 @@ constexpr auto adapterId = "NIC";
 constexpr auto cablePathPrefix = "/xyz/openbmc_project/inventory/system/cable/";
 constexpr auto softwarePathPrefix = "/xyz/openbmc_project/software/";
 constexpr auto metricPathPrefix = "/xyz/openbmc_project/metric/";
-constexpr auto transceiverGroup = "transceiver";
+constexpr auto transceiverId = "Transceiver";
 constexpr auto counterGroup = "nic";
 constexpr auto pcieGroup = "pcie";
 
@@ -95,19 +95,29 @@ AdapterObject::AdapterObject(sdbusplus::async::context& ctx,
 PortObject::PortObject(sdbusplus::async::context& ctx,
                        const sdbusplus::object_path& path,
                        const std::string& adapterPath) :
-    PortServer(
-        ctx, path,
-        PortServer::Port::properties_t{
-            .port_type = PortInfo::PortType::Bidirectional,
-            .width = osfpLaneCount,
-            .link_status = PortInfo::LinkStatus::Unknown},
-        PortServer::Item::properties_t{.present = false},
-        PortServer::Asset::properties_t{},
-        PortServer::OperationalStatus::properties_t{.functional = true},
-        PortServer::Transceiver::properties_t{},
-        PortServer::Definitions::properties_t{
+    PortServer(ctx, path,
+               PortServer::Port::properties_t{
+                   .port_type = PortInfo::PortType::Bidirectional,
+                   .width = osfpLaneCount,
+                   .link_status = PortInfo::LinkStatus::Unknown},
+               PortServer::Item::properties_t{.present = true},
+               PortServer::OperationalStatus::properties_t{.functional = true},
+               PortServer::Definitions::properties_t{
+                   .associations = Associations{{"connected_to", "connecting",
+                                                 adapterPath}}},
+               signal_action::emit_object_added)
+{}
+
+TransceiverObject::TransceiverObject(sdbusplus::async::context& ctx,
+                                     const sdbusplus::object_path& path,
+                                     const std::string& portPath) :
+    TransceiverServer(
+        ctx, path, TransceiverServer::Item::properties_t{.present = false},
+        TransceiverServer::Asset::properties_t{},
+        TransceiverServer::Transceiver::properties_t{},
+        TransceiverServer::Definitions::properties_t{
             .associations =
-                Associations{{"connected_to", "connecting", adapterPath}}},
+                Associations{{"contained_by", "containing", portPath}}},
         signal_action::emit_object_added)
 {}
 
@@ -206,8 +216,11 @@ NetworkAdapter::Port& NetworkAdapter::portFor(size_t instance)
     auto [entry, inserted] = ports.try_emplace(instance);
     if (inserted)
     {
-        entry->second.connector = std::make_unique<PortObject>(
-            ctx, adapterPath / portId(instance), adapterPath.str);
+        const sdbusplus::object_path portPath = adapterPath / portId(instance);
+        entry->second.connector =
+            std::make_unique<PortObject>(ctx, portPath, adapterPath.str);
+        entry->second.transceiver = std::make_unique<TransceiverObject>(
+            ctx, portPath / transceiverId, portPath.str);
     }
 
     return entry->second;
@@ -312,6 +325,32 @@ void NetworkAdapter::updatePortMetric(
                             (adapterPath / portId(instance)).str, unit, value));
 }
 
+void NetworkAdapter::updateTransceiverMetric(
+    Port& port, size_t instance, std::string_view name, MetricInfo::Unit unit,
+    double value)
+{
+    std::string key{name};
+
+    auto entry = port.transceiverMetrics.find(key);
+    if (entry != port.transceiverMetrics.end())
+    {
+        entry->second->value(value);
+        return;
+    }
+
+    const sdbusplus::object_path metricPath =
+        sdbusplus::object_path(
+            metricPathPrefix +
+            std::format("transceiver_{}", portName(boardName, instance))) /
+        key;
+
+    port.transceiverMetrics.emplace(
+        std::move(key),
+        std::make_unique<MetricObject>(
+            ctx, metricPath,
+            (adapterPath / portId(instance) / transceiverId).str, unit, value));
+}
+
 void NetworkAdapter::updatePcieMetric(PcieDevice& device, size_t instance,
                                       std::string_view name,
                                       MetricInfo::Unit unit, double value)
@@ -338,22 +377,14 @@ void NetworkAdapter::updatePcieMetric(PcieDevice& device, size_t instance,
                                        unit, value));
 }
 
-void NetworkAdapter::clearPortMetrics(Port& port, std::string_view group)
-{
-    const std::string prefix = std::format("{}/", group);
-    std::erase_if(port.metrics, [&prefix](const auto& metric) {
-        return metric.first.starts_with(prefix);
-    });
-}
-
-// Drop an empty port's metrics instead of leaving the departed module's last
+// Drop an empty port's optics instead of leaving the departed module's last
 // readings frozen there. The MAC counters belong to the port and stay.
 void NetworkAdapter::updateOptics(Port& port, size_t instance,
                                   const Transceiver& transceiver)
 {
     if (!transceiver.present)
     {
-        clearPortMetrics(port, transceiverGroup);
+        port.transceiverMetrics.clear();
         return;
     }
 
@@ -362,25 +393,23 @@ void NetworkAdapter::updateOptics(Port& port, size_t instance,
         for (size_t lane = 0; lane < transceiver.lanes->size(); lane++)
         {
             const LaneOptics& optics = (*transceiver.lanes)[lane];
-            updatePortMetric(port, instance, transceiverGroup,
-                             std::format("tx_output_power_lane_{}", lane),
-                             MetricInfo::Unit::Watts,
-                             optics.txOutputPowerWatts);
-            updatePortMetric(port, instance, transceiverGroup,
-                             std::format("rx_input_power_lane_{}", lane),
-                             MetricInfo::Unit::Watts, optics.rxInputPowerWatts);
-            updatePortMetric(port, instance, transceiverGroup,
-                             std::format("tx_bias_current_lane_{}", lane),
-                             MetricInfo::Unit::Amperes,
-                             optics.txBiasCurrentAmps);
+            updateTransceiverMetric(
+                port, instance, std::format("tx_output_power_lane_{}", lane),
+                MetricInfo::Unit::Watts, optics.txOutputPowerWatts);
+            updateTransceiverMetric(
+                port, instance, std::format("rx_input_power_lane_{}", lane),
+                MetricInfo::Unit::Watts, optics.rxInputPowerWatts);
+            updateTransceiverMetric(
+                port, instance, std::format("tx_bias_current_lane_{}", lane),
+                MetricInfo::Unit::Amperes, optics.txBiasCurrentAmps);
         }
     }
 
     if (transceiver.supplyVoltageVolts)
     {
-        updatePortMetric(port, instance, transceiverGroup, "supply_voltage",
-                         MetricInfo::Unit::Volts,
-                         *transceiver.supplyVoltageVolts);
+        updateTransceiverMetric(port, instance, "supply_voltage",
+                                MetricInfo::Unit::Volts,
+                                *transceiver.supplyVoltageVolts);
     }
 }
 
@@ -429,16 +458,17 @@ void NetworkAdapter::updateTransceiver(size_t instance,
 {
     Port& port = portFor(instance);
     PortObject& connector = *port.connector;
+    TransceiverObject& module = *port.transceiver;
 
-    connector.present(transceiver.present);
     connector.functional(transceiver.functional);
     connector.link_status(transceiver.linkStatus);
-    connector.manufacturer(transceiver.manufacturer);
-    connector.part_number(transceiver.partNumber);
-    connector.serial_number(transceiver.serialNumber);
-    connector.type(transceiver.type);
-    connector.medium_type(transceiver.mediumType);
-    connector.management_interface(transceiver.managementInterface);
+    module.present(transceiver.present);
+    module.manufacturer(transceiver.manufacturer);
+    module.part_number(transceiver.partNumber);
+    module.serial_number(transceiver.serialNumber);
+    module.type(transceiver.type);
+    module.medium_type(transceiver.mediumType);
+    module.management_interface(transceiver.managementInterface);
 
     updateFirmwareVersion(port, instance, transceiver.firmwareVersion);
     updateCable(port, instance, transceiver);
