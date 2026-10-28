@@ -17,6 +17,7 @@
 #include <cstdint>
 #include <memory>
 #include <optional>
+#include <span>
 #include <string_view>
 #include <vector>
 
@@ -58,6 +59,9 @@ class AmdBulkDevice : public std::enable_shared_from_this<AmdBulkDevice>
 
     auto pollOnce() -> sdbusplus::async::task<bool>;
     auto readCategory(size_t index) -> sdbusplus::async::task<bool>;
+
+    void updateData(const Category& category, size_t instance,
+                    std::span<const uint8_t> data);
 
     sdbusplus::async::context& ctx;
     mctp::AsyncRequester& requester;

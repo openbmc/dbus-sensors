@@ -6,10 +6,13 @@ test(
         'test_AmdBulkTelemetry',
         'test_BulkTelemetryCommands.cpp',
         'test_BulkTelemetryMessage.cpp',
+        'test_OsfpStats.cpp',
         files(
             amd_bulk_telemetry_dir / 'BulkTelemetryCommands.cpp',
             amd_bulk_telemetry_dir / 'BulkTelemetryMessage.cpp',
+            amd_bulk_telemetry_dir / 'NetworkAdapter.cpp',
             amd_bulk_telemetry_dir / 'OcpVdmIana.cpp',
+            amd_bulk_telemetry_dir / 'OsfpStats.cpp',
         ),
         dependencies: [ut_deps_list, utils_dep],
         implicit_include_directories: false,
