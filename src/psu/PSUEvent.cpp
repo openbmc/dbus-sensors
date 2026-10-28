@@ -292,6 +292,7 @@ void PSUSubEvent::updateValue(const int& newValue)
     {
         return;
     }
+    value = newValue;
 
     if (newValue == 0)
     {
@@ -305,7 +306,10 @@ void PSUSubEvent::updateValue(const int& newValue)
             }
             (*asserts).erase(path);
 
-            return;
+            if (!(*asserts).empty())
+            {
+                return;
+            }
         }
         if (*assertState)
         {
@@ -372,5 +376,4 @@ void PSUSubEvent::updateValue(const int& newValue)
         }
         (*asserts).emplace(path);
     }
-    value = newValue;
 }
