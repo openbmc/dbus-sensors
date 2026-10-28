@@ -6,6 +6,8 @@ amd_bulk_telemetry_sources = files(
     'NetworkAdapter.cpp',
     'OcpVdmIana.cpp',
     'OsfpStats.cpp',
+    'RdmaStats.cpp',
+    'XrmacStats.cpp',
 )
 
 if not get_option('amd-bulk-telemetry').allowed()

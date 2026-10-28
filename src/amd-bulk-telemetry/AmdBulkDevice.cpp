@@ -9,6 +9,8 @@
 #include "NetworkAdapter.hpp"
 #include "OcpVdmIana.hpp"
 #include "OsfpStats.hpp"
+#include "RdmaStats.hpp"
+#include "XrmacStats.hpp"
 
 #include <MctpAsyncRequester.hpp>
 #include <phosphor-logging/lg2.hpp>
@@ -303,6 +305,12 @@ void AmdBulkDevice::updateData(const Category& category, size_t instance,
     {
         case osfp_stats::categoryUidPrefix:
             osfp_stats::update(*adapter, instance, data);
+            break;
+        case xrmac_stats::categoryUidPrefix:
+            xrmac_stats::update(*adapter, instance, data);
+            break;
+        case rdma_stats::categoryUidPrefix:
+            rdma_stats::update(*adapter, instance, data);
             break;
         default:
             break;
