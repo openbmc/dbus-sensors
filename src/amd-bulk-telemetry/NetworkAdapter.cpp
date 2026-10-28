@@ -74,12 +74,6 @@ std::string pcieDeviceId(const std::string& boardName, size_t instance)
 // Only the physical function of an endpoint is reachable over sideband.
 constexpr auto pcieFunctionId = "0";
 
-PortInfo::LinkStatus linkStatusOf(const PcieLink& link)
-{
-    return link.available ? PortInfo::LinkStatus::LinkUp
-                          : PortInfo::LinkStatus::LinkDown;
-}
-
 } // namespace
 
 AdapterObject::AdapterObject(sdbusplus::async::context& ctx,
@@ -178,6 +172,7 @@ PcieFunctionObject::PcieFunctionObject(
     PcieFunctionServer(
         ctx, path,
         PcieFunctionServer::PCIeFunction::properties_t{
+            .bus_number = link.busNumber,
             .subsystem_id = link.subsystemId,
             .subsystem_vendor_id = link.subsystemVendorId},
         PcieFunctionServer::Definitions::properties_t{
@@ -197,7 +192,10 @@ PciePortObject::PciePortObject(
             .port_protocol = PortInfo::PortProtocol::PCIe,
             .port_type = PortInfo::PortType::Upstream,
             .width = link.lanesInUse,
-            .link_status = linkStatusOf(link)},
+            .link_state = link.linkState,
+            .link_status = link.linkStatus},
+        PciePortServer::OperationalStatus::properties_t{
+            .functional = link.functional},
         PciePortServer::Definitions::properties_t{
             .associations =
                 Associations{{"connected_to", "connecting", adapterPath}}},
@@ -435,10 +433,13 @@ void NetworkAdapter::updatePcieLink(size_t instance, const PcieLink& link)
     entry.device->max_lanes(link.maxLanes);
     entry.device->lanes_in_use(link.lanesInUse);
     entry.device->available(link.available);
+    entry.function->bus_number(link.busNumber);
     entry.function->subsystem_id(link.subsystemId);
     entry.function->subsystem_vendor_id(link.subsystemVendorId);
     entry.port->width(link.lanesInUse);
-    entry.port->link_status(linkStatusOf(link));
+    entry.port->link_state(link.linkState);
+    entry.port->link_status(link.linkStatus);
+    entry.port->functional(link.functional);
 }
 
 void NetworkAdapter::updatePcieCounters(size_t instance,
