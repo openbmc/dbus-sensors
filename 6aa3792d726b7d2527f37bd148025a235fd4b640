@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9726c629_968e9d37",
+        "filename": "src/valve-monitor/AnalogValve.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-28T08:58:11Z",
+      "side": 0,
+      "message": "Could we add or point to a test covering repeated Open and Close commands? In particular, verify each command writes the corresponding DAC setpoint even when feedback already reports that state.",
+      "revId": "6aa3792d726b7d2527f37bd148025a235fd4b640",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
