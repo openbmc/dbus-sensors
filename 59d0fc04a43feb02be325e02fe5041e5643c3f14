@@ -51,6 +51,24 @@
       "parentUuid": "3dfac43e_e9600f06",
       "revId": "59d0fc04a43feb02be325e02fe5041e5643c3f14",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fcf90826_fbb1a4e6",
+        "filename": "src/psu/PSUSensorMain.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-28T12:04:53Z",
+      "side": 1,
+      "message": "LGTM",
+      "parentUuid": "364a5c00_ea242150",
+      "revId": "59d0fc04a43feb02be325e02fe5041e5643c3f14",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
