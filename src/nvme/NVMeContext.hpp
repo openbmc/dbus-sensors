@@ -102,6 +102,16 @@ class NVMeContext : public std::enable_shared_from_this<NVMeContext>
 
     virtual void processResponse(std::shared_ptr<NVMeSensor>& sensor, void* msg,
                                  size_t len) = 0;
+    virtual uint8_t processPDLU(std::shared_ptr<NVMeSensor>& sensor, void* msg,
+                                size_t len, uint8_t oldPDLU)
+    {
+        (void)sensor;
+        (void)msg;
+        (void)len;
+        (void)oldPDLU;
+        return 255;
+    }
+    uint8_t oldPDLU = 255;
 
   protected:
     boost::asio::steady_timer scanTimer;

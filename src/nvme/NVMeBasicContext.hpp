@@ -19,6 +19,8 @@ class NVMeBasicContext : public NVMeContext
     void readAndProcessNVMeSensor() override;
     void processResponse(std::shared_ptr<NVMeSensor>& sensor, void* msg,
                          size_t len) override;
+    uint8_t processPDLU(std::shared_ptr<NVMeSensor>& sensor, void* msg,
+                        size_t len, uint8_t oldPDLU) override;
 
   private:
     NVMeBasicContext(boost::asio::io_context& io, int rootBus, int cmdOut,
