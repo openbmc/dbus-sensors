@@ -224,9 +224,18 @@ static void handleSensorConfigurations(
                 std::make_shared<NVMeSensor>(
                     objectServer, io, dbusConnection, *sensorName,
                     std::move(sensorThresholds), interfacePath, *busNumber,
-                    slaveAddr, smbusPEC);
+                    slaveAddr, smbusPEC, "temperature", 0, 127);
 
             context->addSensor(sensorPtr);
+
+            std::vector<thresholds::Threshold> emptyThresholds;
+            std::shared_ptr<NVMeSensor> sensorPtr2 =
+                std::make_shared<NVMeSensor>(
+                    objectServer, io, dbusConnection, *sensorName,
+                    std::move(emptyThresholds), interfacePath, *busNumber,
+                    slaveAddr, smbusPEC, "percent_drive_life_used", 0, 255);
+
+            context->addSensor(sensorPtr2);
         }
         catch (const std::invalid_argument& ex)
         {

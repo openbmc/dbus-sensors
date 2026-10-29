@@ -421,12 +421,19 @@ void NVMeBasicContext::processResponse(std::shared_ptr<NVMeSensor>& sensor,
         return;
     }
 
-    double value = getTemperatureReading(messageData[2]);
-    if (!std::isfinite(value))
+    if (sensor->metricName == "temperature")
     {
-        sensor->incrementError();
-        return;
-    }
+        double value = getTemperatureReading(messageData[2]);
+        if (!std::isfinite(value))
+        {
+            sensor->incrementError();
+            return;
+        }
 
-    sensor->updateValue(value);
+        sensor->updateValue(value);
+    }
+    else if (sensor->metricName == "percent_drive_life_used")
+    {
+        sensor->updateValue(messageData[3]);
+    }
 }

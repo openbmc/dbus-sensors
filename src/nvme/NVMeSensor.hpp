@@ -23,7 +23,8 @@ class NVMeSensor : public Sensor
                const std::string& sensorName,
                std::vector<thresholds::Threshold>&& thresholds,
                const std::string& sensorConfiguration, int busNumber,
-               uint8_t slaveAddr, bool smbusPEC);
+               uint8_t slaveAddr, bool smbusPEC, const std::string& metricName,
+               double minReading, double maxReading);
     ~NVMeSensor() override;
 
     NVMeSensor& operator=(const NVMeSensor& other) = delete;
@@ -33,6 +34,8 @@ class NVMeSensor : public Sensor
     const int bus;
     const uint8_t address;
     const bool smbusPEC;
+
+    const std::string metricName;
 
   private:
     const unsigned int scanDelayTicks = 5 * 60;
