@@ -33,6 +33,7 @@
 #include <system_error>
 #include <thread>
 #include <utility>
+#include <variant>
 #include <vector>
 
 extern "C"
@@ -402,6 +403,37 @@ static double getTemperatureReading(int8_t reading)
     return reading;
 }
 
+static void updatePredictedMediaLifeLeftPercent(
+    std::shared_ptr<NVMeSensor>& sensor, uint8_t percentageDriveLifeUsed)
+{
+    std::filesystem::path sensorConfigPath(sensor->configurationPath);
+
+    double predictedMediaLifeLeftPercent = 0;
+
+    // Used percentage can be bigger than 100.
+    if (percentageDriveLifeUsed <= 100)
+    {
+        predictedMediaLifeLeftPercent = 100 - percentageDriveLifeUsed;
+    }
+
+    // Call Set on parent inventory object property
+    sensor->dbusConnection->async_method_call(
+        [](const boost::system::error_code& ec) {
+            if (ec)
+            {
+                lg2::error(
+                    "Error setting nvme PredictedMediaLifeLeftPercent property: '{ERROR_MESSAGE}'",
+                    "ERROR_MESSAGE", ec.message());
+            }
+        },
+        "xyz.openbmc_project.EntityManager",
+        sensorConfigPath.parent_path().string(),
+        "org.freedesktop.DBus.Properties", "Set",
+        "xyz.openbmc_project.Inventory.Item.Drive",
+        "PredictedMediaLifeLeftPercent",
+        std::variant<double>(predictedMediaLifeLeftPercent));
+}
+
 void NVMeBasicContext::processResponse(std::shared_ptr<NVMeSensor>& sensor,
                                        void* msg, size_t len)
 {
@@ -429,4 +461,6 @@ void NVMeBasicContext::processResponse(std::shared_ptr<NVMeSensor>& sensor,
     }
 
     sensor->updateValue(value);
+
+    updatePredictedMediaLifeLeftPercent(sensor, messageData[3]);
 }
