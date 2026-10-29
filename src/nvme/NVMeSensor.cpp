@@ -33,9 +33,6 @@
 #include <utility>
 #include <vector>
 
-static constexpr double maxReading = 127;
-static constexpr double minReading = 0;
-
 NVMeSensor::NVMeSensor(
     sdbusplus::asio::object_server& objectServer,
     boost::asio::io_context& /*unused*/,
@@ -43,12 +40,13 @@ NVMeSensor::NVMeSensor(
     const std::string& sensorName,
     std::vector<thresholds::Threshold>&& thresholdsIn,
     const std::string& sensorConfiguration, const int busNumber,
-    const uint8_t slaveAddr, bool smbusPEC) :
+    const uint8_t slaveAddr, bool smbusPEC, const std::string& metricName,
+    double minReading, double maxReading) :
     Sensor(escapeName(sensorName), std::move(thresholdsIn), sensorConfiguration,
            NVMeSensor::sensorType, false, false, maxReading, minReading, conn,
            PowerState::on),
     bus(busNumber), address(slaveAddr), smbusPEC(smbusPEC),
-    objServer(objectServer)
+    metricName(metricName), objServer(objectServer)
 {
     if (bus < 0)
     {
@@ -56,7 +54,7 @@ NVMeSensor::NVMeSensor(
     }
 
     sensorInterface = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/temperature/" + name,
+        "/xyz/openbmc_project/sensors/" + metricName + "/" + name,
         "xyz.openbmc_project.Sensor.Value");
 
     for (const auto& threshold : thresholds)
@@ -64,13 +62,22 @@ NVMeSensor::NVMeSensor(
         std::string interface = thresholds::getInterface(threshold.level);
         thresholdInterfaces[static_cast<size_t>(threshold.level)] =
             objectServer.add_interface(
-                "/xyz/openbmc_project/sensors/temperature/" + name, interface);
+                "/xyz/openbmc_project/sensors/" + metricName + "/" + name,
+                interface);
     }
+
     association = objectServer.add_interface(
-        "/xyz/openbmc_project/sensors/temperature/" + name,
+        "/xyz/openbmc_project/sensors/" + metricName + "/" + name,
         association::interface);
 
-    setInitialProperties(sensor_paths::unitDegreesC);
+    if (metricName == "temperature")
+    {
+        setInitialProperties(sensor_paths::unitDegreesC);
+    }
+    else if (metricName == "percent_drive_life_used")
+    {
+        setInitialProperties(sensor_paths::unitPercent);
+    }
     // Mark as unavailable until the first packet has been received over NVMe
     // MI.
     markAvailable(false);
