@@ -33,6 +33,7 @@
 #include <system_error>
 #include <thread>
 #include <utility>
+#include <variant>
 #include <vector>
 
 extern "C"
@@ -405,6 +406,8 @@ static double getTemperatureReading(int8_t reading)
 void NVMeBasicContext::processResponse(std::shared_ptr<NVMeSensor>& sensor,
                                        void* msg, size_t len)
 {
+    static bool done = false; // for testing only
+
     if (msg == nullptr || len < 6)
     {
         sensor->incrementError();
@@ -429,4 +432,52 @@ void NVMeBasicContext::processResponse(std::shared_ptr<NVMeSensor>& sensor,
     }
 
     sensor->updateValue(value);
+
+    if (!done)
+    {
+        done = true;
+
+        std::string percentlifeused = std::to_string(messageData[3]);
+        lg2::error("nvme life used percent (PDLU): '{PDLU}'", "PDLU",
+                   percentlifeused);
+        std::string msgstr;
+        for (size_t i = 0; i < len; i++)
+        {
+            msgstr += std::to_string(messageData[i]) + ",";
+        }
+        lg2::error("nvme msgdata: '{MSG}'", "MSG", msgstr);
+
+        std::filesystem::path p(sensor->configurationPath);
+        std::string parentPath(p.parent_path().string());
+
+        lg2::error("nvme path: {PATH}", "PATH", parentPath);
+
+        double predictedMediaLifeLeftPercent = 255;
+
+        if (messageData[3] <= 100)
+        {
+            predictedMediaLifeLeftPercent = 100 - messageData[3];
+        }
+        else
+        {
+            predictedMediaLifeLeftPercent = 0;
+        }
+
+        // Call Set on parent inventory object property
+        sensor->dbusConnection->async_method_call(
+            [](const boost::system::error_code& ec) {
+                if (ec)
+                {
+                    lg2::error(
+                        "Error setting nvme PDLU property: '{ERROR_MESSAGE}'",
+                        "ERROR_MESSAGE", ec.message());
+                }
+            },
+            "xyz.openbmc_project.EntityManager", // service
+            parentPath,                          // parent object path
+            "org.freedesktop.DBus.Properties", "Set",
+            "xyz.openbmc_project.Inventory.Item.Drive",
+            "PredictedMediaLifeLeftPercent",
+            std::variant<double>(predictedMediaLifeLeftPercent));
+    }
 }
