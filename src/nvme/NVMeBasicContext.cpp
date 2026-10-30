@@ -58,6 +58,7 @@ struct BasicQueryCmd
 static void execBasicQuery(int bus, uint8_t addr, uint8_t cmd, bool smbusPEC,
                            std::vector<uint8_t>& resp)
 {
+    resp.clear();
     int32_t size = 0;
     std::filesystem::path devpath = "/dev/i2c-" + std::to_string(bus);
 
