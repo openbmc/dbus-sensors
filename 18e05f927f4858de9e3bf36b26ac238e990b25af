@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "994f55a0_f6ed539b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-30T08:13:53Z",
+      "side": 1,
+      "message": "Updated the commit message in patchset 10 to distinguish previous AST2600 functional testing from the host-only throughput result. The previously reported approximately 326k updates/sec came from the private D-Bus unit-test bus, not an AST2600, and does not establish target-hardware performance. Target-hardware performance remains unverified, so this request remains open. The new revision has not yet been verified by CI; local unit tests were blocked by dependency configuration.",
+      "parentUuid": "65b82d8f_8a846aa7",
+      "revId": "18e05f927f4858de9e3bf36b26ac238e990b25af",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "aee3f980_795e2e0c",
         "filename": "src/sensor.hpp",
         "patchSetId": 6
@@ -229,6 +247,24 @@
       "side": 1,
       "message": "I checked. the PDI\u0027s wording already covers it and states when the Value property is updated. So, it should cover all cases (change in value, going to invalid and back). So, nothing to do there. So, we just need the code change here.",
       "parentUuid": "a165ee9b_c3440ec3",
+      "revId": "18e05f927f4858de9e3bf36b26ac238e990b25af",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "480d5867_43573020",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-30T08:13:53Z",
+      "side": 1,
+      "message": "Addressed in patchset 10. UpdatedTime advances when a finite reading becomes unavailable, including the reading-state failure path. Repeated unavailable readings and failed polls that retain the value leave it unchanged. Thanks for confirming that the existing PDI wording already covers transitions to invalid values; no PDI change is needed.",
+      "parentUuid": "71af2bba_bad91442",
       "revId": "18e05f927f4858de9e3bf36b26ac238e990b25af",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
