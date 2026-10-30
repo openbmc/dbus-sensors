@@ -108,6 +108,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "410436bf_1dfd938c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-30T08:35:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "994f55a0_f6ed539b",
+      "revId": "18e05f927f4858de9e3bf36b26ac238e990b25af",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aee3f980_795e2e0c",
@@ -265,6 +283,24 @@
       "side": 1,
       "message": "Addressed in patchset 10. UpdatedTime advances when a finite reading becomes unavailable, including the reading-state failure path. Repeated unavailable readings and failed polls that retain the value leave it unchanged. Thanks for confirming that the existing PDI wording already covers transitions to invalid values; no PDI change is needed.",
       "parentUuid": "71af2bba_bad91442",
+      "revId": "18e05f927f4858de9e3bf36b26ac238e990b25af",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11f3c893_6e999195",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-10-30T08:35:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "480d5867_43573020",
       "revId": "18e05f927f4858de9e3bf36b26ac238e990b25af",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
