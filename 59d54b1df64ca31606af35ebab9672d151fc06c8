@@ -43,6 +43,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ae54c324_9da3d66b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1002345
+      },
+      "writtenOn": "2026-10-30T09:08:17Z",
+      "side": 1,
+      "message": "nit: MCTPReactor spell",
+      "revId": "59d54b1df64ca31606af35ebab9672d151fc06c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab33fe17_590d0980",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1002345
+      },
+      "writtenOn": "2026-10-30T09:08:17Z",
+      "side": 1,
+      "message": "Could mctpd service\u0027s \"au.com.codeconstruct.MCTP.Bridge1\" interface data also updated as part of commit message?",
+      "revId": "59d54b1df64ca31606af35ebab9672d151fc06c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d9544add_ad9d6977",
         "filename": "src/mctp/MCTPEndpoint.cpp",
         "patchSetId": 10
@@ -66,6 +100,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e3f62c4b_082b3ea5",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1002345
+      },
+      "writtenOn": "2026-10-30T09:08:17Z",
+      "side": 1,
+      "message": "should this be debug?",
+      "revId": "59d54b1df64ca31606af35ebab9672d151fc06c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "26634fc0_9d377c9b",
         "filename": "src/mctp/MCTPEndpoint.cpp",
         "patchSetId": 10
@@ -77,6 +128,40 @@
       "writtenOn": "2026-10-30T05:07:54Z",
       "side": 1,
       "message": "`mctpd` still returns success with a pool start of 0 when Allocate Endpoint IDs fails, so could we log an error here in that case?",
+      "revId": "59d54b1df64ca31606af35ebab9672d151fc06c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f805b91e_376c2af1",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1002345
+      },
+      "writtenOn": "2026-10-30T09:08:17Z",
+      "side": 1,
+      "message": "Can we add some test cases as well in src/tests/test_MCTPEndpoint.cpp",
+      "revId": "59d54b1df64ca31606af35ebab9672d151fc06c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04966bd4_4e610359",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 856,
+      "author": {
+        "id": 1002345
+      },
+      "writtenOn": "2026-10-30T09:08:17Z",
+      "side": 1,
+      "message": "Why is the Bridge Static support limited to USBDevices?",
       "revId": "59d54b1df64ca31606af35ebab9672d151fc06c8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -100,6 +185,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fd9cfc99_ed4a1db7",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 883,
+      "author": {
+        "id": 1002345
+      },
+      "writtenOn": "2026-10-30T09:08:17Z",
+      "side": 1,
+      "message": "for out of range EID values, we still would end up falling into dynamic eid assignment, this defeats the purpose. I think we should throw hard errors like Invalid Argument",
+      "revId": "59d54b1df64ca31606af35ebab9672d151fc06c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5c9debb3_c9082bee",
         "filename": "src/mctp/MCTPEndpoint.cpp",
         "patchSetId": 10
@@ -111,6 +213,40 @@
       "writtenOn": "2026-10-30T05:07:54Z",
       "side": 1,
       "message": "If only some of `StaticEndpointID`, `BridgePoolStartEid` and `BridgePoolSize` are present the static request is silently dropped, so could we reject a partial set here as a bad configuration?",
+      "revId": "59d54b1df64ca31606af35ebab9672d151fc06c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1c74407_4c006a9c",
+        "filename": "src/mctp/MCTPEndpoint.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1002345
+      },
+      "writtenOn": "2026-10-30T09:08:17Z",
+      "side": 1,
+      "message": "nit:: shouldn\u0027t these be const as well?",
+      "revId": "59d54b1df64ca31606af35ebab9672d151fc06c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "965637dc_6503b20f",
+        "filename": "src/mctp/MCTPEndpoint.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1002345
+      },
+      "writtenOn": "2026-10-30T09:08:17Z",
+      "side": 1,
+      "message": "nit:: same here, const may be?",
       "revId": "59d54b1df64ca31606af35ebab9672d151fc06c8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
