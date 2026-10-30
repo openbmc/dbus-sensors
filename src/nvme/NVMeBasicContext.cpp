@@ -58,6 +58,13 @@ struct BasicQueryCmd
 static void execBasicQuery(int bus, uint8_t addr, uint8_t cmd, bool smbusPEC,
                            std::vector<uint8_t>& resp)
 {
+    if (!resp.empty())
+    {
+        lg2::warning(
+            "Response buffer was not empty before basic query; clearing stale data");
+        resp.clear();
+    }
+
     int32_t size = 0;
     std::filesystem::path devpath = "/dev/i2c-" + std::to_string(bus);
 
@@ -72,7 +79,7 @@ static void execBasicQuery(int bus, uint8_t addr, uint8_t cmd, bool smbusPEC,
             lg2::error(
                 "Failed to configure device address '{ADDR}' for bus '{BUS}': '{ERRNO}'",
                 "ADDR", lg2::hex, addr, "BUS", bus, "ERRNO", lg2::hex, errno);
-            resp.resize(0);
+            resp.clear();
             return;
         }
 
@@ -84,6 +91,7 @@ static void execBasicQuery(int bus, uint8_t addr, uint8_t cmd, bool smbusPEC,
                 lg2::error(
                     "Could not set PEC to device '{ADDR}' for bus '{BUS}': '{ERRNO}'",
                     "ADDR", lg2::hex, addr, "BUS", bus, "ERRNO", errno);
+                resp.clear();
                 return;
             }
         }
@@ -97,7 +105,7 @@ static void execBasicQuery(int bus, uint8_t addr, uint8_t cmd, bool smbusPEC,
             lg2::error(
                 "Failed to read block data from device '{ADDR}' on bus '{BUS}': ERRNO",
                 "ADDR", lg2::hex, addr, "BUS", bus, "ERRNO", lg2::hex, errno);
-            resp.resize(0);
+            resp.clear();
         }
         else if (size > UINT8_MAX + 1)
         {
@@ -105,7 +113,7 @@ static void execBasicQuery(int bus, uint8_t addr, uint8_t cmd, bool smbusPEC,
                 "Unexpected message length from device '{ADDR}' on bus '{BUS}': '{SIZE}' ({MAX})",
                 "ADDR", lg2::hex, addr, "BUS", bus, "SIZE", size, "MAX",
                 UINT8_MAX);
-            resp.resize(0);
+            resp.clear();
         }
         else
         {
@@ -116,7 +124,7 @@ static void execBasicQuery(int bus, uint8_t addr, uint8_t cmd, bool smbusPEC,
     {
         lg2::error("Failed to create file handle for bus '{BUS}': '{ERR}'",
                    "BUS", bus, "ERR", e);
-        resp.resize(0);
+        resp.clear();
     }
 }
 
