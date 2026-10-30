@@ -75,7 +75,13 @@ struct VariantToNumArrayVisitor
     template <typename T>
     std::vector<V> operator()(const T& t) const
     {
-        if constexpr (std::is_same_v<T, std::vector<U>>)
+        // An array already published as the element type needs no
+        // conversion.
+        if constexpr (std::is_same_v<T, std::vector<V>>)
+        {
+            return t;
+        }
+        else if constexpr (std::is_same_v<T, std::vector<U>>)
         {
             std::vector<V> output;
             output.reserve(t.size());
