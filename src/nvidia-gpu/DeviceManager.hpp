@@ -22,6 +22,7 @@
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/message.hpp>
 
+#include <cstddef>
 #include <cstdint>
 #include <functional>
 #include <memory>
@@ -97,7 +98,13 @@ class DeviceManager
     {
         std::string name;
         std::string board;
+        // Place in the EID pool, not the position among the records present.
+        size_t index{};
     };
+
+    static std::vector<BridgedEndpoint> selectBridgedEndpoints(
+        const std::optional<std::pair<uint8_t, uint8_t>>& bridgePool,
+        const std::vector<BridgedEndpoint>& records, uint8_t eid);
 
   private:
     // Entity manager exports the config's BridgedEndpoints array as one

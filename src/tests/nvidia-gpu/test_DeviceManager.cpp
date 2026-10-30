@@ -14,11 +14,14 @@
 
 #include <cerrno>
 #include <chrono>
+#include <cstddef>
 #include <cstdint>
 #include <functional>
 #include <map>
 #include <memory>
+#include <optional>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include <gtest/gtest.h>
@@ -183,3 +186,68 @@ TEST_F(DeviceManagerTest, SkipsMissingAssociation)
 }
 
 } // namespace
+
+namespace
+{
+
+using Bridged = DeviceManager::BridgedEndpoint;
+
+std::vector<size_t> indexes(const std::vector<Bridged>& records)
+{
+    std::vector<size_t> out;
+    out.reserve(records.size());
+    for (const Bridged& record : records)
+    {
+        out.push_back(record.index);
+    }
+    return out;
+}
+
+} // namespace
+
+TEST(SelectBridgedEndpoints, KeepsEveryRecordOfAFullPool)
+{
+    const std::vector<Bridged> records{
+        {.name = "CX8_0", .board = {}, .index = 0},
+        {.name = "CX8_1", .board = {}, .index = 1}};
+
+    EXPECT_EQ(
+        indexes(DeviceManager::selectBridgedEndpoints(
+            std::make_pair(uint8_t{26}, uint8_t{27}), records, endpointEid)),
+        (std::vector<size_t>{0, 1}));
+}
+
+// A record waiting for its board leaves its pool EID without a device, and
+// the record after it keeps its own EID rather than moving up.
+TEST(SelectBridgedEndpoints, KeepsTheIndexOfARecordAfterAGap)
+{
+    const std::vector<Bridged> records{
+        {.name = "CX8_1", .board = {}, .index = 1}};
+
+    EXPECT_EQ(
+        indexes(DeviceManager::selectBridgedEndpoints(
+            std::make_pair(uint8_t{26}, uint8_t{27}), records, endpointEid)),
+        (std::vector<size_t>{1}));
+}
+
+TEST(SelectBridgedEndpoints, DropsARecordOutsideThePool)
+{
+    const std::vector<Bridged> records{
+        {.name = "GPU_0", .board = {}, .index = 0},
+        {.name = "GPU_1", .board = {}, .index = 1}};
+
+    EXPECT_EQ(
+        indexes(DeviceManager::selectBridgedEndpoints(
+            std::make_pair(uint8_t{10}, uint8_t{10}), records, endpointEid)),
+        (std::vector<size_t>{0}));
+}
+
+TEST(SelectBridgedEndpoints, IgnoresAnEndpointThatIsNotABridge)
+{
+    const std::vector<Bridged> records{
+        {.name = "GPU_0", .board = {}, .index = 0}};
+
+    EXPECT_TRUE(DeviceManager::selectBridgedEndpoints(std::nullopt, records,
+                                                      endpointEid)
+                    .empty());
+}
