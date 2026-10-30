@@ -151,6 +151,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5d5c0c99_3068267f",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1002345
+      },
+      "writtenOn": "2026-10-30T09:18:54Z",
+      "side": 1,
+      "message": "How are we handling cases where the expected static eid to be assigned was already consumed as dynamic eid by some other device, are we gonna keep reattempting setup as part of ticks which are bound to fail in dbus-call?",
+      "revId": "59d54b1df64ca31606af35ebab9672d151fc06c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "04966bd4_4e610359",
         "filename": "src/mctp/MCTPEndpoint.cpp",
         "patchSetId": 10
