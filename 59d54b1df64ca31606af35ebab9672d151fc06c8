@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fae91d49_6ffe1903",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-30T05:07:54Z",
+      "side": 1,
+      "message": "it might help to link the schema change [96395](https://gerrit.openbmc.org/c/openbmc/entity-manager/+/96395) and note that `AssignBridgeStatic` needs `mctpd 2.6`.",
+      "revId": "59d54b1df64ca31606af35ebab9672d151fc06c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f18f2895_878511e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-30T05:07:54Z",
+      "side": 1,
+      "message": "nit: the message says `StaticEID` while the code reads `StaticEndpointID`",
+      "range": {
+        "startLine": 9,
+        "startChar": 6,
+        "endLine": 9,
+        "endChar": 15
+      },
+      "revId": "59d54b1df64ca31606af35ebab9672d151fc06c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9544add_ad9d6977",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-30T05:07:54Z",
+      "side": 1,
+      "message": "nit: this comment now sits above the static branch rather than `onSetup`, and since `onSetupBridge` repeats the `onSetup` body, could both share one handler?",
+      "range": {
+        "startLine": 107,
+        "startChar": 4,
+        "endLine": 109,
+        "endChar": 38
+      },
+      "revId": "59d54b1df64ca31606af35ebab9672d151fc06c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26634fc0_9d377c9b",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-30T05:07:54Z",
+      "side": 1,
+      "message": "`mctpd` still returns success with a pool start of 0 when Allocate Endpoint IDs fails, so could we log an error here in that case?",
+      "revId": "59d54b1df64ca31606af35ebab9672d151fc06c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34cad9a9_b19dd7a4",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 883,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-30T05:07:54Z",
+      "side": 1,
+      "message": "Could an invalid `StaticEndpointID`, `BridgePoolStartEid` or `BridgePoolSize` throw like `RootHubPosition` and the other fields do, rather than silently falling back to dynamic assignment?",
+      "revId": "59d54b1df64ca31606af35ebab9672d151fc06c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c9debb3_c9082bee",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 896,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-10-30T05:07:54Z",
+      "side": 1,
+      "message": "If only some of `StaticEndpointID`, `BridgePoolStartEid` and `BridgePoolSize` are present the static request is silently dropped, so could we reject a partial set here as a bad configuration?",
+      "revId": "59d54b1df64ca31606af35ebab9672d151fc06c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
