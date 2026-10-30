@@ -123,6 +123,40 @@
       },
       "revId": "a33c676ecc14f55c363f4ca097715b6f6974f811",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "809c0c17_3b9ebd19",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000418
+      },
+      "writtenOn": "2026-10-30T10:10:17Z",
+      "side": 1,
+      "message": "LGTM",
+      "revId": "a33c676ecc14f55c363f4ca097715b6f6974f811",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22331162_f150ab94",
+        "filename": "src/psu/PSUSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1000418
+      },
+      "writtenOn": "2026-10-30T10:10:17Z",
+      "side": 1,
+      "message": "nit:\nFYI, This will increment twice when the current \"value\" is less than both lower-critical and lower-non-critical thresholds.  I think it is ok as this is a transient scenario and this \"lowConfirmCounts\" is an empirical value with which warm reset tests is not raising this alarm.",
+      "revId": "a33c676ecc14f55c363f4ca097715b6f6974f811",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
