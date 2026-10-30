@@ -262,3 +262,40 @@ TEST(I3CMCTPDDevice, fromBadIfaceTrailingBus)
     };
     EXPECT_THROW(I3CMCTPDDevice::from({}, iface), std::invalid_argument);
 }
+
+// Entity manager publishes the provisioned ID as an array of bytes once its
+// schema names that type, and as an array of uint64 before then. Both are
+// accepted, so the configuration only goes unused here for want of an I3C
+// MCTP interface.
+TEST(I3CMCTPDDevice, fromIfaceByteAddress)
+{
+    SensorBaseConfigMap iface{
+        {"Address", std::vector<uint8_t>{0x07, 0x2b, 0x00, 0x00, 0x00, 0x01}},
+        {"Bus", "1"},
+        {"Name", "test"},
+        {"Type", "MCTPI3CTarget"},
+    };
+    EXPECT_EQ(I3CMCTPDDevice::from({}, iface), nullptr);
+}
+
+TEST(I3CMCTPDDevice, fromIfaceUint64Address)
+{
+    SensorBaseConfigMap iface{
+        {"Address", std::vector<uint64_t>{0x07, 0x2b, 0x00, 0x00, 0x00, 0x01}},
+        {"Bus", "1"},
+        {"Name", "test"},
+        {"Type", "MCTPI3CTarget"},
+    };
+    EXPECT_EQ(I3CMCTPDDevice::from({}, iface), nullptr);
+}
+
+TEST(I3CMCTPDDevice, fromBadIfaceStringAddress)
+{
+    SensorBaseConfigMap iface{
+        {"Address", "0x072b00000001"},
+        {"Bus", "1"},
+        {"Name", "test"},
+        {"Type", "MCTPI3CTarget"},
+    };
+    EXPECT_THROW(I3CMCTPDDevice::from({}, iface), std::invalid_argument);
+}
