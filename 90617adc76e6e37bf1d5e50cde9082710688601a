@@ -16,6 +16,24 @@
       "message": "`PollRate` and `NicNetworkPortCount` in this file go through `loadVariant\u003cuint64_t\u003e`, which also accepts an `int64_t` or a `double`. \n\nShould `Id` read the same way, so a config that lands as another numeric type is not reported as a missing `Id`?",
       "revId": "90617adc76e6e37bf1d5e50cde9082710688601a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2dc7deae_daf0e98f",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-10-30T01:00:02Z",
+      "side": 1,
+      "message": "Done. Id now goes through loadVariant\u003cuint64_t\u003e like PollRate, so int64_t and double are accepted; added a unit test for it.",
+      "parentUuid": "38d460d9_326bdeae",
+      "revId": "90617adc76e6e37bf1d5e50cde9082710688601a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
