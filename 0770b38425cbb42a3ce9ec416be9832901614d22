@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84a38884_76f75ee6",
+        "filename": "src/nvme/NVMeBasicContext.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2026-10-30T11:01:08Z",
+      "side": 1,
+      "message": "would it work to extract this new code into a separate function?\n\nSomething like `updatePredictedMediaLifePercent` or similar.",
+      "revId": "0770b38425cbb42a3ce9ec416be9832901614d22",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15b8606b_77fb9328",
+        "filename": "src/nvme/NVMeBasicContext.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2026-10-30T11:01:08Z",
+      "side": 1,
+      "message": "nit: `path` does not change throughout the function so maybe the expression `path.parent_path().string()` could be inlined to the two places where it\u0027s used.\n\nThat avoids storing it in a variable with a broader (string) type.",
+      "range": {
+        "startLine": 435,
+        "startChar": 0,
+        "endLine": 435,
+        "endChar": 2
+      },
+      "revId": "0770b38425cbb42a3ce9ec416be9832901614d22",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78ff5efa_ef6c8572",
+        "filename": "src/nvme/NVMeBasicContext.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2026-10-30T11:01:08Z",
+      "side": 1,
+      "message": "can you change it to `lg2::debug`? Developer and debug logs usually come as `lg2::debug`.",
+      "range": {
+        "startLine": 436,
+        "startChar": 1,
+        "endLine": 448,
+        "endChar": 7
+      },
+      "revId": "0770b38425cbb42a3ce9ec416be9832901614d22",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1d43b37_39f75d2c",
+        "filename": "src/nvme/NVMeBasicContext.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2026-10-30T11:01:08Z",
+      "side": 1,
+      "message": "```suggestion\n    double predictedMediaLifeLeftPercent \u003d 0;\n\n    if (messageData[3] \u003c\u003d 100)\n    {\n        predictedMediaLifeLeftPercent \u003d 100 - messageData[3];\n    }\n```\n\nnit, can init to 0 directly and avoid the else block.",
+      "range": {
+        "startLine": 450,
+        "startChar": 4,
+        "endLine": 459,
+        "endChar": 5
+      },
+      "revId": "0770b38425cbb42a3ce9ec416be9832901614d22",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
