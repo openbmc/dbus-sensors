@@ -126,53 +126,54 @@ static std::optional<std::pair<uint8_t, uint8_t>> extractBridgePool(
     return std::nullopt;
 }
 
-// The devices behind a bridge are described by the config's BridgedEndpoints
-// records, one per EID in the bridge's pool. Returns the records to use, or
-// nothing when the endpoint is not a bridge or the records do not describe
-// the pool it reported.
-static std::vector<DeviceManager::BridgedEndpoint> selectBridgedEndpoints(
-    const std::optional<std::pair<uint8_t, uint8_t>>& bridgePool,
-    const std::vector<DeviceManager::BridgedEndpoint>& records, uint8_t eid)
+std::vector<DeviceManager::BridgedEndpoint>
+    DeviceManager::selectBridgedEndpoints(
+        const std::optional<std::pair<uint8_t, uint8_t>>& bridgePool,
+        const std::vector<BridgedEndpoint>& records, uint8_t eid)
 {
     if (!bridgePool)
     {
         return {};
     }
 
-    const uint8_t expectedCount = bridgePool->second - bridgePool->first + 1;
+    const size_t poolSize = bridgePool->second - bridgePool->first + 1;
 
-    if (records.empty())
+    std::vector<BridgedEndpoint> selected;
+    for (const BridgedEndpoint& record : records)
     {
-        // Without the records we cannot name or place the pool devices, so
-        // warn rather than dropping them silently.
-        lg2::warning(
-            "EID {EID} is a bridge with pool range {START}-{END} but its config has no usable BridgedEndpoints; {COUNT} bridged device(s) will not be created",
-            "EID", eid, "START", bridgePool->first, "END", bridgePool->second,
-            "COUNT", expectedCount);
-        return {};
-    }
-
-    if (records.size() != expectedCount)
-    {
-        lg2::error(
-            "EID {EID}: BridgedEndpoints count mismatch. Expected {EXPECTED}, got {ACTUAL}",
-            "EID", eid, "EXPECTED", expectedCount, "ACTUAL", records.size());
-        return {};
+        if (record.index >= poolSize)
+        {
+            lg2::error(
+                "EID {EID}: BridgedEndpoints{INDEX} lies outside the pool range {START}-{END}, skipping",
+                "EID", eid, "INDEX", record.index, "START", bridgePool->first,
+                "END", bridgePool->second);
+            continue;
+        }
+        selected.push_back(record);
     }
 
     lg2::info("EID {EID} is a bridge with pool range {START}-{END}", "EID", eid,
               "START", bridgePool->first, "END", bridgePool->second);
 
-    if (expectedCount > 1)
+    if (selected.size() < poolSize)
     {
-        // Only the count can be checked, so say when the order is load
-        // bearing rather than leaving the assumption to the schema.
+        // A record can wait for a board that is not there yet, so a pool EID
+        // without one is expected rather than an error.
         lg2::info(
-            "EID {EID}: pairing {COUNT} pool EIDs with BridgedEndpoints by position, which assumes the bridge hands them out in the order the records are listed",
-            "EID", eid, "COUNT", expectedCount);
+            "EID {EID}: {COUNT} of {POOL} pool EIDs have a BridgedEndpoints record, the others get no device",
+            "EID", eid, "COUNT", selected.size(), "POOL", poolSize);
     }
 
-    return records;
+    if (poolSize > 1)
+    {
+        // Only the records can be checked, so say when their order is load
+        // bearing rather than leaving the assumption to the schema.
+        lg2::info(
+            "EID {EID}: pairing pool EIDs with BridgedEndpoints by index, which assumes the bridge hands them out in the order the records are listed",
+            "EID", eid);
+    }
+
+    return selected;
 }
 
 DeviceManager::DeviceManager(boost::asio::io_context& io,
@@ -513,15 +514,14 @@ void DeviceManager::queryDevicesForEndpoint(
         return;
     }
 
-    // Walk the bridge's EID pool alongside the BridgedEndpoints records.
-    // Each record is paired with a configuration of its own rather than
+    // Place each BridgedEndpoints record at its index in the bridge's EID
+    // pool. Each record is paired with a configuration of its own rather than
     // reusing the bridge's: an SMA and the device behind it can sit on
     // different boards.
-    uint8_t index = 0;
     for (const BridgedEndpoint& endpoint : bridgedEndpoints)
     {
-        const uint8_t bridgedEid = bridgePool->first + index;
-        ++index;
+        const auto bridgedEid =
+            static_cast<uint8_t>(bridgePool->first + endpoint.index);
 
         // A record that names no board of its own is on the bridge's.
         const std::string& board =
@@ -779,6 +779,7 @@ void DeviceManager::getConfigProperties(
                 }
                 else
                 {
+                    endpoint.index = index;
                     fetch->bridged.emplace(index, std::move(endpoint));
                 }
                 arrived();
