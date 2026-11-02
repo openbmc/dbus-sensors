@@ -7,6 +7,7 @@ gpusensor_sources = files(
     'NvidiaEventReporting.cpp',
     'NvidiaGpuClockFrequencyMetric.cpp',
     'NvidiaGpuClockSpeedControl.cpp',
+    'NvidiaDeviceModeControl.cpp',
     'NvidiaGpuDevice.cpp',
     'NvidiaGpuEccMode.cpp',
     'NvidiaGpuEnergySensor.cpp',

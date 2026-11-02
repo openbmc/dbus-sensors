@@ -10,6 +10,7 @@ gpusensor_sources = files(
     gpusensor_dir / 'NvidiaGpuEccMode.cpp',
     gpusensor_dir / 'NvidiaGpuMemoryCapacityUtilization.cpp',
     gpusensor_dir / 'NvidiaGpuClockSpeedControl.cpp',
+    gpusensor_dir / 'NvidiaDeviceModeControl.cpp',
     gpusensor_dir / 'NvidiaGpuPowerControl.cpp',
     gpusensor_dir / 'NvidiaGpuUtilizationMetrics.cpp',
     gpusensor_dir / 'NvidiaGpuDevice.cpp',

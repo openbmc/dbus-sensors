@@ -5,6 +5,7 @@
 
 #include "NvidiaPcieDevice.hpp"
 
+#include "NvidiaDeviceModeControl.hpp"
 #include "NvidiaDriverInformation.hpp"
 #include "NvidiaEthPort.hpp"
 #include "NvidiaGpuMctpVdm.hpp"
@@ -263,6 +264,11 @@ void PcieDevice::makeSensors()
         conn, mctpRequester, pcieDeviceName, path, eid, 0, objectServer,
         gpu::DeviceIdentification::DEVICE_PCIE);
 
+    const std::string nicInventoryPath =
+        (inventoryPrefix / (name + "_NIC")).str;
+    deviceModeControl = std::make_shared<NvidiaDeviceModeControl>(
+        objectServer, name, nicInventoryPath, mctpRequester, eid);
+
     uint64_t downstreamPortIndex = 0;
 
     for (uint64_t i = 0; i < pcieDeviceInfo.numUpstreamPorts; ++i)
@@ -330,6 +336,11 @@ void PcieDevice::readRoundRobin()
     pcieFunction->update();
 
     driverInfo->update();
+
+    if (deviceModeControl)
+    {
+        deviceModeControl->update();
+    }
 
     for (auto& port : pciePorts)
     {

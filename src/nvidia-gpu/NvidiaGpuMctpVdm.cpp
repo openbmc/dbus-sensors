@@ -2097,4 +2097,149 @@ int decodeGetLeakDetectionInfoResponse(
     return 0;
 }
 
+int encodeGetDeviceModeSettingsV2Request(
+    uint8_t instanceId, uint32_t deviceModeIndex, std::span<uint8_t> buf)
+{
+    PackBuffer buffer(buf);
+
+    int rc = encodeRequestCommonHeader(
+        buffer, MessageType::DEVICE_CONFIGURATION,
+        static_cast<uint8_t>(
+            DeviceConfigurationCommands::GetDeviceModeSettingsV2),
+        instanceId);
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    const uint8_t dataSize = sizeof(deviceModeIndex);
+    buffer.pack(dataSize);
+    buffer.pack(deviceModeIndex);
+
+    return buffer.getError();
+}
+
+int encodeSetDeviceModeSettingsV2Request(
+    uint8_t instanceId, uint32_t deviceModeIndex,
+    std::span<const uint8_t> modeData, std::span<uint8_t> buf)
+{
+    PackBuffer buffer(buf);
+
+    int rc = encodeRequestCommonHeader(
+        buffer, MessageType::DEVICE_CONFIGURATION,
+        static_cast<uint8_t>(
+            DeviceConfigurationCommands::SetDeviceModeSettingsV2),
+        instanceId);
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    if (modeData.size() > 255 - sizeof(deviceModeIndex))
+    {
+        return EINVAL;
+    }
+    const uint8_t dataSize =
+        static_cast<uint8_t>(sizeof(deviceModeIndex) + modeData.size());
+    buffer.pack(dataSize);
+    buffer.pack(deviceModeIndex);
+    for (uint8_t b : modeData)
+    {
+        buffer.pack(b);
+    }
+
+    return buffer.getError();
+}
+
+int decodeGetDeviceModeSettingsV2Response(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    std::vector<uint8_t>& currentModeData,
+    std::vector<uint8_t>& pendingModeData)
+{
+    UnpackBuffer buffer(buf);
+
+    int rc = decodeResponseCommonHeader(
+        buffer, MessageType::DEVICE_CONFIGURATION,
+        static_cast<uint8_t>(
+            DeviceConfigurationCommands::GetDeviceModeSettingsV2),
+        cc, reasonCode);
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    uint16_t dataSize = 0;
+    rc = buffer.unpack(dataSize);
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    uint16_t curLen = 0;
+    uint16_t pendLen = 0;
+    rc = buffer.unpack(curLen);
+    if (rc != 0)
+    {
+        return rc;
+    }
+    rc = buffer.unpack(pendLen);
+    if (rc != 0)
+    {
+        return rc;
+    }
+
+    if (dataSize != static_cast<uint16_t>(
+                        sizeof(curLen) + sizeof(pendLen) + curLen + pendLen))
+    {
+        return EINVAL;
+    }
+
+    currentModeData.clear();
+    pendingModeData.clear();
+    currentModeData.reserve(curLen);
+    pendingModeData.reserve(pendLen);
+    for (uint16_t i = 0; i < curLen; ++i)
+    {
+        uint8_t b = 0;
+        rc = buffer.unpack(b);
+        if (rc != 0)
+        {
+            return rc;
+        }
+        currentModeData.push_back(b);
+    }
+    for (uint16_t i = 0; i < pendLen; ++i)
+    {
+        uint8_t b = 0;
+        rc = buffer.unpack(b);
+        if (rc != 0)
+        {
+            return rc;
+        }
+        pendingModeData.push_back(b);
+    }
+
+    return buffer.getError();
+}
+
+int decodeSetDeviceModeSettingsV2Response(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode)
+{
+    UnpackBuffer buffer(buf);
+
+    int rc = decodeResponseCommonHeader(
+        buffer, MessageType::DEVICE_CONFIGURATION,
+        static_cast<uint8_t>(
+            DeviceConfigurationCommands::SetDeviceModeSettingsV2),
+        cc, reasonCode);
+    if (rc != 0 || cc != ocp::accelerator_management::CompletionCode::SUCCESS)
+    {
+        return rc;
+    }
+
+    return 0;
+}
+
 } // namespace gpu
