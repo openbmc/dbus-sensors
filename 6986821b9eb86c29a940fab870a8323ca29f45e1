@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a336cd9_cf48c317",
+        "filename": "src/tests/test_Thresholds.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-11-02T12:08:21Z",
+      "side": 1,
+      "message": "Please include \u003ccstddef\u003e and use std::size_t here, so the test directly includes the header defining the type instead of relying on a transitive include. Then rerun CI.",
+      "revId": "6986821b9eb86c29a940fab870a8323ca29f45e1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
