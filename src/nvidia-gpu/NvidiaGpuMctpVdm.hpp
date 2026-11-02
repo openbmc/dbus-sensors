@@ -29,7 +29,8 @@ enum class MessageType : uint8_t
     DEVICE_CAPABILITY_DISCOVERY = 0,
     NETWORK_PORT = 1,
     PCIE_LINK = 2,
-    PLATFORM_ENVIRONMENTAL = 3
+    PLATFORM_ENVIRONMENTAL = 3,
+    DEVICE_CONFIGURATION = 5
 };
 
 enum class DeviceCapabilityDiscoveryCommands : uint8_t
@@ -87,6 +88,28 @@ enum class PcieLinkCommands : uint8_t
     ListPCIePorts = 0x07,
     QueryScalarGroupTelemetryV2 = 0x24,
 };
+
+enum class DeviceConfigurationCommands : uint8_t
+{
+    SetDeviceModeSettingsV2 = 0x82,
+    GetDeviceModeSettingsV2 = 0x83,
+};
+
+// NSM Type 5 Device Mode Settings V2 (DMTF/DSP + NVIDIA):
+//   GET req: data = LE32 deviceModeIndex (4B)
+//   SET req: data = LE32 index + modeData[N]
+//     index 3 (DPU): N=1, [0]=0 DPU / 1 NIC
+//     index 4 (PCIe): N=8, [1]=0 Disabled / 1 Enabled, others 0xFF no-change
+//   GET resp: curLen LE16 + pendLen LE16 + cur[N] + pend[N]
+constexpr uint32_t deviceModeIndexDpuOperation = 3;
+constexpr uint32_t deviceModeIndexPcieDevice = 4;
+constexpr uint8_t dpuModeDpu = 0;
+constexpr uint8_t dpuModeNic = 1;
+constexpr size_t pcieDeviceModeDataSize = 8;
+constexpr uint8_t pcieSubModeControlledEwTraffic = 1;
+constexpr uint8_t ewTrafficDisabled = 0;
+constexpr uint8_t ewTrafficEnabled = 1;
+constexpr uint8_t deviceModeNoChange = 0xFF;
 
 enum class PcieScalarGroupId : uint8_t
 {
@@ -284,6 +307,16 @@ constexpr size_t xidEventMinDataSize = 20;
 
 constexpr size_t getClockLimitRequestSize =
     ocp::accelerator_management::commonRequestSize + sizeof(uint8_t);
+
+constexpr size_t getDeviceModeSettingsV2RequestSize =
+    ocp::accelerator_management::commonRequestSize + 1 + sizeof(uint32_t);
+
+constexpr size_t setDpuModeSettingsV2RequestSize =
+    ocp::accelerator_management::commonRequestSize + 1 + sizeof(uint32_t) + 1;
+
+constexpr size_t setPcieModeSettingsV2RequestSize =
+    ocp::accelerator_management::commonRequestSize + 1 + sizeof(uint32_t) +
+    pcieDeviceModeDataSize;
 
 constexpr size_t setClockLimitRequestSize =
     ocp::accelerator_management::commonRequestSize + sizeof(uint8_t) +
@@ -564,5 +597,24 @@ int decodeGetLeakDetectionInfoResponse(
     std::span<const uint8_t> buf,
     ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
     std::vector<LeakSensorData>& parsedSensors);
+
+int encodeGetDeviceModeSettingsV2Request(uint8_t instanceId,
+                                         uint32_t deviceModeIndex,
+                                         std::span<uint8_t> buf);
+
+int encodeSetDeviceModeSettingsV2Request(uint8_t instanceId,
+                                         uint32_t deviceModeIndex,
+                                         std::span<const uint8_t> modeData,
+                                         std::span<uint8_t> buf);
+
+int decodeGetDeviceModeSettingsV2Response(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode,
+    std::vector<uint8_t>& currentModeData,
+    std::vector<uint8_t>& pendingModeData);
+
+int decodeSetDeviceModeSettingsV2Response(
+    std::span<const uint8_t> buf,
+    ocp::accelerator_management::CompletionCode& cc, uint16_t& reasonCode);
 
 } // namespace gpu
