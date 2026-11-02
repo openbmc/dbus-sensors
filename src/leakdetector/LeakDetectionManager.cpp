@@ -12,6 +12,7 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <utility>
 
 PHOSPHOR_LOG2_USING;
 
@@ -32,7 +33,20 @@ auto DetectionManager::processInventoryAdded(
     const sdbusplus::object_path& objectPath, const std::string& /*unused*/)
     -> void
 {
-    ctx.spawn(processConfigAddedAsync(objectPath));
+    queuedDetectorCreations.push(objectPath);
+    dispatchDetectorCreations();
+}
+
+auto DetectionManager::dispatchDetectorCreations() -> void
+{
+    while (activeDetectorCreations < maxConcurrentDetectorCreations &&
+           !queuedDetectorCreations.empty())
+    {
+        auto objectPath = std::move(queuedDetectorCreations.front());
+        queuedDetectorCreations.pop();
+        ++activeDetectorCreations;
+        ctx.spawn(processConfigAddedAsync(std::move(objectPath)));
+    }
 }
 
 auto DetectionManager::processInventoryRemoved(
@@ -51,28 +65,32 @@ auto DetectionManager::processConfigAddedAsync(
     sdbusplus::object_path objectPath) -> sdbusplus::async::task<>
 {
     auto res = co_await getDetectorConfig(objectPath);
-    if (!res)
+    if (res)
     {
-        co_return;
-    }
-    auto config = res.value();
+        auto config = res.value();
 
-    if (detectors.contains(objectPath))
-    {
-        warning("Detector {DETECTOR} already exist", "DETECTOR", config.name);
-        co_return;
+        if (detectors.contains(objectPath))
+        {
+            warning("Detector {DETECTOR} already exist", "DETECTOR",
+                    config.name);
+        }
+        else
+        {
+            try
+            {
+                detectors[objectPath] =
+                    std::make_unique<GPIODetector>(ctx, leakEvents, config);
+            }
+            catch (std::exception& e)
+            {
+                error("Failed to create detector {DETECTOR}: {ERROR}",
+                      "DETECTOR", config.name, "ERROR", e.what());
+            }
+        }
     }
 
-    try
-    {
-        detectors[objectPath] =
-            std::make_unique<GPIODetector>(ctx, leakEvents, config);
-    }
-    catch (std::exception& e)
-    {
-        error("Failed to create detector {DETECTOR}: {ERROR}", "DETECTOR",
-              config.name, "ERROR", e.what());
-    }
+    --activeDetectorCreations;
+    dispatchDetectorCreations();
 
     co_return;
 }
@@ -84,11 +102,21 @@ auto DetectionManager::getDetectorConfig(sdbusplus::object_path objectPath)
 
     const std::string pathStr = objectPath.string();
 
-    auto properties =
-        co_await GPIODetectorConfigIntf(ctx)
+    auto client =
+        GPIODetectorConfigIntf(ctx)
             .service(entity_manager::EntityManagerInterface::serviceName)
-            .path(pathStr)
-            .properties();
+            .path(pathStr);
+    GPIODetectorConfigIntf::properties_t properties;
+    try
+    {
+        properties = co_await client.properties();
+    }
+    catch (const std::exception& e)
+    {
+        error("EntityManager Properties.GetAll failed for {PATH}: {ERROR}",
+              "PATH", pathStr, "ERROR", e.what());
+        co_return std::nullopt;
+    }
 
     config.name = properties.name;
 

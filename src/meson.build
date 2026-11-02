@@ -7,6 +7,10 @@ conf_data.set10(
     'INSECURE_UNRESTRICTED_SENSOR_OVERRIDE',
     get_option('insecure-sensor-override').allowed(),
 )
+conf_data.set(
+    'LEAKDETECTOR_MAX_CONCURRENT_CREATIONS',
+    get_option('leakdetector-max-concurrent-creations'),
+)
 configure_file(
     input: 'dbus-sensor_config.h.in',
     output: 'dbus-sensor_config.h',

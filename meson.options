@@ -96,6 +96,13 @@ option(
     description: 'Enable Liquid Leak Detector.',
 )
 option(
+    'leakdetector-max-concurrent-creations',
+    type: 'integer',
+    value: 128,
+    min: 1,
+    description: 'Maximum concurrent detector initialization jobs.',
+)
+option(
     'smbpbi',
     type: 'feature',
     value: 'enabled',

@@ -1,3 +1,5 @@
+#include "dbus-sensor_config.h"
+
 #include "EntityManagerInterface.hpp"
 #include "LeakEvents.hpp"
 #include "LeakGPIODetector.hpp"
@@ -6,8 +8,10 @@
 #include <sdbusplus/message/native_types.hpp>
 #include <xyz/openbmc_project/Configuration/GPIOLeakDetector/client.hpp>
 
+#include <cstddef>
 #include <memory>
 #include <optional>
+#include <queue>
 #include <string>
 #include <unordered_map>
 
@@ -27,6 +31,9 @@ class DetectionManager
     explicit DetectionManager(sdbusplus::async::context& ctx);
 
   private:
+    static constexpr std::size_t maxConcurrentDetectorCreations =
+        leakDetectorMaxConcurrentCreations;
+
     using detector_map_t =
         std::unordered_map<std::string, std::unique_ptr<GPIODetector>>;
 
@@ -37,6 +44,9 @@ class DetectionManager
     /** @brief Process interfaces removed from inventory */
     auto processInventoryRemoved(const sdbusplus::object_path& objectPath,
                                  const std::string& interfaceName) -> void;
+
+    /** @brief Fill available detector creation slots from the FIFO */
+    auto dispatchDetectorCreations() -> void;
 
     /** @brief Process the config add asynchronously */
     auto processConfigAddedAsync(sdbusplus::object_path objectPath)
@@ -50,6 +60,8 @@ class DetectionManager
     Events leakEvents;
     entity_manager::EntityManagerInterface entityManager;
     detector_map_t detectors;
+    std::queue<sdbusplus::object_path> queuedDetectorCreations;
+    std::size_t activeDetectorCreations = 0;
 };
 
 } // namespace leak
