@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b431ee61_98380bb6",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 1764,
+      "author": {
+        "id": 1003195
+      },
+      "writtenOn": "2026-11-03T11:35:35Z",
+      "side": 1,
+      "message": "portNumber is passed as uint16_t. If portNumber \u003e 255, static_cast\u003cuint8_t\u003e silently truncates the value. \n\nPlease add a check to return EINVAL if portNumber \u003e std::numeric_limits\u003cuint8_t\u003e::max()",
+      "revId": "195f8e6ba7e066c1e0d2c584616f04b52b986b40",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ff0dee2c_730cba87",
         "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
         "patchSetId": 24
@@ -14,6 +31,23 @@
       "writtenOn": "2026-11-03T08:24:26Z",
       "side": 1,
       "message": "counterCount rounds down when the declared data size contains a partial 64-bit counter, and the decoder can return success while ignoring those trailing bytes. Could it reject payload sizes that aren’t exactly sizeof(supportedCounters) + N * sizeof(uint64_t)?",
+      "revId": "195f8e6ba7e066c1e0d2c584616f04b52b986b40",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "780c7fa8_b617401f",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1003195
+      },
+      "writtenOn": "2026-11-03T11:35:35Z",
+      "side": 1,
+      "message": "In encodeGetPortTelemetryCountersRequest() (lines 1765-1768 in NvidiaGpuMctpVdm.cpp), two bytes are packed after the common header.\n\nSince this packs 2 bytes, defining getPortTelemetryCountersRequestSize as commonRequestSize + 1 leaves the buffer 1 byte too short. \n\nWhen encodeGetPortTelemetryCountersRequest() runs, PackBuffer fails on the second pack and returns EINVAL, causing requestEncoded to remain false and disabling telemetry polling in update()",
       "revId": "195f8e6ba7e066c1e0d2c584616f04b52b986b40",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
