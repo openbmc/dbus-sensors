@@ -368,7 +368,8 @@ int main()
             size_t index = 0;
             try
             {
-                index = std::stoi(path.substr(path.size() - 1));
+                index = static_cast<size_t>(
+                    std::stoi(path.substr(path.size() - 1)));
             }
             catch (const std::invalid_argument&)
             {
