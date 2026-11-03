@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "999ca137_007fd173",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-11-03T20:47:51Z",
+      "side": 1,
+      "message": "`register_property` with readOnly already expands to `register_property_r`\nwith `emits_change` and `nop_get_value`, so what does the custom getter buy\nhere?",
+      "revId": "05daea6c3f361e9962bce371cf313b1cbcf5418a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "044a2b56_98c26d5c",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuEnergySensor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-11-03T20:47:51Z",
+      "side": 1,
+      "message": "Since the sleep above guarantees the clock has moved on, would `EXPECT_GT`\nhold here and still catch an `UpdatedTime` that went backwards?\nL281 too.",
+      "revId": "05daea6c3f361e9962bce371cf313b1cbcf5418a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
