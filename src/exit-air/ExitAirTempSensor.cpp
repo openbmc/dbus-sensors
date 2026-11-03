@@ -300,7 +300,8 @@ CFMSensor::~CFMSensor()
 
 void CFMSensor::createMaxCFMIface()
 {
-    cfmLimitIface->register_property("Limit", c2 * maxCFM * tachs.size());
+    cfmLimitIface->register_property(
+        "Limit", c2 * maxCFM * static_cast<double>(tachs.size()));
     cfmLimitIface->initialize();
 }
 
@@ -396,7 +397,7 @@ uint64_t CFMSensor::getMaxRpm(uint64_t cfmMaxSetting) const
         // Now calculate the CFM for this tach
         // CFMi = Ci * Qmaxi * TACHi
         totalCFM = ci * maxCFM * pwmPercent;
-        totalCFM *= tachs.size();
+        totalCFM *= static_cast<double>(tachs.size());
         // divide by 100 since pwm is in percent
         totalCFM /= 100;
 
