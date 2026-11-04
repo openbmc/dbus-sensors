@@ -174,6 +174,23 @@
       "message": "nit:\nFYI, This will increment twice when the current \"value\" is less than both lower-critical and lower-non-critical thresholds.  I think it is ok as this is a transient scenario and this \"lowConfirmCounts\" is an empirical value with which warm reset tests is not raising this alarm.",
       "revId": "a33c676ecc14f55c363f4ca097715b6f6974f811",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0d4ff73_5e3be4d0",
+        "filename": "src/psu/PSUSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-11-04T10:49:03Z",
+      "side": 1,
+      "message": "The sample that reaches lowConfirmSamples still sets pendingConfirm, so it is returned without reaching threshold processing. Could the threshold-reaching sample be processed immediately? Otherwise, a reading that recovers after exactly three low samples may not trigger the alarm.",
+      "revId": "a33c676ecc14f55c363f4ca097715b6f6974f811",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
