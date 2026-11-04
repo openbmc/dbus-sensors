@@ -397,7 +397,8 @@ static void createSensorCallback(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
     std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
     boost::container::flat_map<std::string, std::unique_ptr<SmbpbiSensor>>&
-        sensors)
+        sensors,
+    bool thresholdOnlyChange)
 {
     if (ec)
     {
@@ -415,10 +416,42 @@ static void createSensorCallback(
             std::string name = loadVariant<std::string>(entry.second, "Name");
 
             std::vector<thresholds::Threshold> sensorThresholds;
-            if (!parseThresholdsFromConfig(pathPair.second, sensorThresholds))
+            const bool thresholdsParsed =
+                parseThresholdsFromConfig(pathPair.second, sensorThresholds);
+            if (!thresholdsParsed)
             {
                 lg2::error("error populating thresholds for {NAME}", "NAME",
                            name);
+            }
+
+            if (thresholdOnlyChange)
+            {
+                auto sensor = sensors.find(name);
+                if (sensor != sensors.end() && sensor->second)
+                {
+                    if (!thresholdsParsed)
+                    {
+                        continue;
+                    }
+
+                    for (const auto& newThreshold : sensorThresholds)
+                    {
+                        for (auto& oldThreshold : sensor->second->thresholds)
+                        {
+                            if (newThreshold.level == oldThreshold.level &&
+                                newThreshold.direction ==
+                                    oldThreshold.direction)
+                            {
+                                oldThreshold.value = newThreshold.value;
+                            }
+                        }
+                    }
+                    thresholds::updateThresholds(sensor->second.get());
+                    lg2::info(
+                        "SMBPBI sensor '{NAME}' thresholds updated in-place to preserve state",
+                        "NAME", name);
+                    continue;
+                }
             }
 
             uint8_t busId = loadVariant<uint8_t>(entry.second, "Bus");
@@ -482,7 +515,8 @@ void createSensors(
     boost::asio::io_context& io, sdbusplus::asio::object_server& objectServer,
     boost::container::flat_map<std::string, std::unique_ptr<SmbpbiSensor>>&
         sensors,
-    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection)
+    std::shared_ptr<sdbusplus::asio::connection>& dbusConnection,
+    bool thresholdOnlyChange = false)
 {
     if (!dbusConnection)
     {
@@ -491,10 +525,10 @@ void createSensors(
     }
 
     dbusConnection->async_method_call(
-        [&io, &objectServer, &dbusConnection, &sensors](
+        [&io, &objectServer, &dbusConnection, &sensors, thresholdOnlyChange](
             boost::system::error_code ec, const ManagedObjectType& resp) {
             createSensorCallback(ec, resp, io, objectServer, dbusConnection,
-                                 sensors);
+                                 sensors, thresholdOnlyChange);
         },
         entityManagerName, "/xyz/openbmc_project/inventory",
         "org.freedesktop.DBus.ObjectManager", "GetManagedObjects");
@@ -513,9 +547,22 @@ int main()
     });
 
     boost::asio::steady_timer configTimer(io);
+    bool fullReloadRequired = false;
 
     std::function<void(sdbusplus::message_t&)> eventHandler =
-        [&](sdbusplus::message_t&) {
+        [&](sdbusplus::message_t& msg) {
+            std::string changedInterface;
+            msg.read(changedInterface);
+
+            const std::string thresholdInterfacePrefix =
+                std::string(configInterface) + ".Thresholds";
+            const bool thresholdOnlyChange =
+                changedInterface.starts_with(thresholdInterfacePrefix);
+            if (!thresholdOnlyChange)
+            {
+                fullReloadRequired = true;
+            }
+
             configTimer.expires_after(std::chrono::seconds(1));
             // create a timer because normally multiple properties change
             configTimer.async_wait([&](const boost::system::error_code& ec) {
@@ -529,7 +576,10 @@ int main()
                     lg2::error("timer error");
                     return;
                 }
-                createSensors(io, objectServer, sensors, systemBus);
+                const bool updateThresholdsInPlace = !fullReloadRequired;
+                fullReloadRequired = false;
+                createSensors(io, objectServer, sensors, systemBus,
+                              updateThresholdsInPlace);
                 if (sensors.empty())
                 {
                     lg2::info("Configuration not detected");
