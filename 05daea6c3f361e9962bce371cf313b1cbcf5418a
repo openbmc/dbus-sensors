@@ -36,6 +36,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fc57a30_1986f92e",
+        "filename": "src/sensor.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-11-04T10:11:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49dc3549_7c98f564",
+      "revId": "05daea6c3f361e9962bce371cf313b1cbcf5418a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "044a2b56_98c26d5c",
