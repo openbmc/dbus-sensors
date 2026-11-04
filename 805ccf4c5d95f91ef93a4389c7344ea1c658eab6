@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c2d34ae_3bafa7d4",
+        "filename": "src/tests/test_Thresholds.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-11-04T13:36:39Z",
+      "side": 1,
+      "message": "Is 50.0 intentionally different from every config value, to show the\nmatcher ignores Value? A short note would make that clear.",
+      "revId": "805ccf4c5d95f91ef93a4389c7344ea1c658eab6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e46895dd_c0eca987",
+        "filename": "src/tests/test_Thresholds.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-11-04T13:36:39Z",
+      "side": 1,
+      "message": "RuntimeSelectionAgreesWithStartupForEveryChannel uses the same 3-channel\nsetup and already checks exactly one match with the right value per channel,\nso this test looks redundant. Could we drop it?",
+      "revId": "805ccf4c5d95f91ef93a4389c7344ea1c658eab6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "baf7ba68_31f8bcff",
+        "filename": "src/tests/test_Thresholds.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-11-04T13:36:39Z",
+      "side": 1,
+      "message": "These tests cover the matcher, but not the other half of the fix in 95718:\nthresSize/thresholdCount, which decides which Thresholds interfaces get\nscanned at all. Is that part feasible to cover here?",
+      "revId": "805ccf4c5d95f91ef93a4389c7344ea1c658eab6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
