@@ -16,6 +16,57 @@
       "message": "LGTM, wait for EM schema.",
       "revId": "58fb317f1271eb5bdbefc643ee819988a0f04bcd",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aeafa3c7_0a3964c8",
+        "filename": "src/tests/test_ChassisIntrusionSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002918
+      },
+      "writtenOn": "2026-11-04T12:57:50Z",
+      "side": 1,
+      "message": "Nit: Should we add the usual SPDX header to this new test file?\n```suggestion\n// SPDX-FileCopyrightText: Copyright OpenBMC Authors\n// SPDX-License-Identifier: Apache-2.0\n#include \"ChassisIntrusionSensor.hpp\"\n```",
+      "revId": "58fb317f1271eb5bdbefc643ee819988a0f04bcd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "301ebad0_6ed65b47",
+        "filename": "src/tests/test_ChassisIntrusionSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1002918
+      },
+      "writtenOn": "2026-11-04T12:57:50Z",
+      "side": 1,
+      "message": "Nit: Can include \u003ccstdlib\u003e directly for mkdtemp().\n```suggestion\n#include \u003ccstdlib\u003e\n```",
+      "revId": "58fb317f1271eb5bdbefc643ee819988a0f04bcd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be9bce30_3be77683",
+        "filename": "src/tests/test_ChassisIntrusionSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1002918
+      },
+      "writtenOn": "2026-11-04T12:57:50Z",
+      "side": 1,
+      "message": "Nit: Would std::runtime_error be clearer here? mkdtemp() can fail for filesystem errors.\n```suggestion\n            throw std::runtime_error(\"mkdtemp failed\");\n```",
+      "revId": "58fb317f1271eb5bdbefc643ee819988a0f04bcd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
