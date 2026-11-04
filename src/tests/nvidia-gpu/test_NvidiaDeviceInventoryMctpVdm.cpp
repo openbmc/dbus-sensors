@@ -3,6 +3,7 @@
 #include "OcpMctpVdm.hpp"
 
 #include <array>
+#include <cerrno>
 #include <cstdint>
 #include <span>
 #include <string>
@@ -12,6 +13,44 @@
 #include <gtest/gtest.h>
 
 using namespace gpu;
+
+namespace
+{
+
+std::vector<uint8_t> buildInventoryResponse(uint16_t dataSize,
+                                            std::span<const uint8_t> data)
+{
+    std::vector<uint8_t> buf(
+        ocp::accelerator_management::commonResponseSize + data.size());
+    PackBuffer pbuf(buf);
+    ocp::accelerator_management::packHeader(
+        pbuf, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 1,
+        static_cast<uint8_t>(MessageType::PLATFORM_ENVIRONMENTAL));
+    pbuf.pack(static_cast<uint8_t>(
+        PlatformEnvironmentalCommands::GET_INVENTORY_INFORMATION));
+    pbuf.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));
+    pbuf.pack(static_cast<uint16_t>(0)); // reserved
+    pbuf.pack(dataSize);
+    for (const uint8_t byte : data)
+    {
+        pbuf.pack(byte);
+    }
+    EXPECT_EQ(pbuf.getError(), 0);
+    return buf;
+}
+
+int decodeInventory(std::span<const uint8_t> buf, InventoryPropertyId id)
+{
+    ocp::accelerator_management::CompletionCode cc =
+        ocp::accelerator_management::CompletionCode::ERROR;
+    uint16_t reasonCode = 0;
+    InventoryValue info;
+    return decodeGetInventoryInformationResponse(buf, cc, reasonCode, id, info);
+}
+
+} // namespace
 
 TEST(NvidiaGpuMctpVdmTest, EncodeGetInventoryInformationRequest)
 {
@@ -117,4 +156,43 @@ TEST(NvidiaGpuMctpVdmTest, DecodeInventoryDeviceGuid)
     EXPECT_EQ(reasonCode, 0);
     EXPECT_TRUE(std::holds_alternative<std::vector<uint8_t>>(info));
     EXPECT_EQ(std::get<std::vector<uint8_t>>(info), dummyGuid);
+}
+
+TEST(NvidiaGpuMctpVdmTest, DecodeInventoryStringDataSizeExceedsBuffer)
+{
+    const std::array<uint8_t, 1> data = {'T'};
+    const std::vector<uint8_t> buf = buildInventoryResponse(200, data);
+
+    EXPECT_EQ(decodeInventory(buf, InventoryPropertyId::BOARD_PART_NUMBER),
+              EINVAL);
+}
+
+TEST(NvidiaGpuMctpVdmTest, DecodeInventoryDeviceGuidDataSizeExceedsBuffer)
+{
+    const std::array<uint8_t, 1> data = {0xDE};
+    const std::vector<uint8_t> buf = buildInventoryResponse(200, data);
+
+    EXPECT_EQ(decodeInventory(buf, InventoryPropertyId::DEVICE_GUID), EINVAL);
+}
+
+TEST(NvidiaGpuMctpVdmTest, DecodeInventoryDataSizeOneByteShort)
+{
+    const std::array<uint8_t, 5> data = {'T', 'E', 'S', 'T', '1'};
+    const std::vector<uint8_t> buf = buildInventoryResponse(6, data);
+
+    EXPECT_EQ(decodeInventory(buf, InventoryPropertyId::SERIAL_NUMBER), EINVAL);
+}
+
+TEST(NvidiaGpuMctpVdmTest, DecodeInventoryDataSizeOutOfRange)
+{
+    const std::array<uint8_t, 1> data = {'T'};
+
+    EXPECT_EQ(decodeInventory(buildInventoryResponse(0, data),
+                              InventoryPropertyId::BOARD_PART_NUMBER),
+              EINVAL);
+    EXPECT_EQ(decodeInventory(
+                  buildInventoryResponse(
+                      static_cast<uint16_t>(maxInventoryDataSize + 1), data),
+                  InventoryPropertyId::BOARD_PART_NUMBER),
+              EINVAL);
 }
