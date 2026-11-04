@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7537f3b6_c17881d5",
+        "filename": "src/nvidia-gpu/LldpFrame.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1003195
+      },
+      "writtenOn": "2026-11-04T15:03:18Z",
+      "side": 1,
+      "message": "According to IEEE 802.1AB Table 8-4, system capabilities bits 0 through 7 are transmitted in Octet 1, which is value[0]. Packing (value[0] \u003c\u003c 8) | value[1] puts Octet 1 into the high byte, so standard capabilities like Bridge and Router will fail to decode from real switches. Please fix the octet order in both parser and unit tests.\"",
+      "revId": "5babdc71d285102d95704bf7e06a5c85fc300630",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "00ca59ab_537e3436",
         "filename": "src/nvidia-gpu/LldpFrame.cpp",
         "patchSetId": 8
