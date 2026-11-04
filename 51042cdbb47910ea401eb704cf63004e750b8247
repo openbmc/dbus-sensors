@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d0218c8_5c498f69",
+        "filename": "src/intel-cpu/IntelCPUSensorMain.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-11-04T10:49:39Z",
+      "side": 0,
+      "message": "Could removing the continue let this path proceed to sensor creation when the sensor already exists? On rescans, might that recreate active sensors or repeat setupRead() unnecessarily?",
+      "revId": "51042cdbb47910ea401eb704cf63004e750b8247",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
