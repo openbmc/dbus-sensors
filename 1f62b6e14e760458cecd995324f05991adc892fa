@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bac664a9_a654a0ba",
+        "filename": "src/amd-bulk-telemetry/AmdBulkDevice.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-11-04T10:49:19Z",
+      "side": 1,
+      "message": "stop() sets the flag, but it does not interrupt the polling sleep. Could the wait be cancelled or woken so the device releases its adapter and D-Bus objects promptly after endpoint removal?",
+      "revId": "1f62b6e14e760458cecd995324f05991adc892fa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2155a731_b1997f02",
+        "filename": "src/amd-bulk-telemetry/AmdBulkDevice.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-11-04T10:49:19Z",
+      "side": 1,
+      "message": "If readCategory() fails, this breaks out of the loop, but pollOnce() later returns true. Could the failure be propagated so the run loop can retry or rediscover categories?",
+      "revId": "1f62b6e14e760458cecd995324f05991adc892fa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
