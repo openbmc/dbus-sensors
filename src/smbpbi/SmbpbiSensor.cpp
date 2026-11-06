@@ -127,11 +127,15 @@ double SmbpbiSensor::convert2Temp(const uint8_t* raw)
 {
     // Temp data is encoded in SMBPBI format. The 3 MSBs denote
     // the integer portion, LSB is an encoded fraction.
-    // this automatic convert to int (two's complement integer)
-    int32_t intg = (raw[3] << 24 | raw[2] << 16 | raw[1] << 8 | raw[0]);
-    uint8_t frac = uint8_t(raw[0]);
-    // shift operation on a int keeps the sign in two's complement
-    intg >>= 8;
+    uint32_t integerBits =
+        (static_cast<uint32_t>(raw[3]) << 16) |
+        (static_cast<uint32_t>(raw[2]) << 8) | static_cast<uint32_t>(raw[1]);
+    int32_t intg = static_cast<int32_t>(integerBits);
+    if ((integerBits & 0x800000U) != 0U)
+    {
+        intg -= 0x1000000;
+    }
+    uint8_t frac = raw[0];
 
     double temp = 0;
     if (intg > 0)
