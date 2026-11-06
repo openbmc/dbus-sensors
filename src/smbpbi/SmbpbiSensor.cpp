@@ -125,25 +125,14 @@ void SmbpbiSensor::checkThresholds()
 
 double SmbpbiSensor::convert2Temp(const uint8_t* raw)
 {
-    // Temp data is encoded in SMBPBI format. The 3 MSBs denote
-    // the integer portion, LSB is an encoded fraction.
-    // this automatic convert to int (two's complement integer)
-    int32_t intg = (raw[3] << 24 | raw[2] << 16 | raw[1] << 8 | raw[0]);
-    uint8_t frac = uint8_t(raw[0]);
-    // shift operation on a int keeps the sign in two's complement
-    intg >>= 8;
-
-    double temp = 0;
-    if (intg > 0)
-    {
-        temp = double(intg) + (frac / 256.0);
-    }
-    else
-    {
-        temp = double(intg) - (frac / 256.0);
-    }
-
-    return temp;
+    // Temperature is a signed 32-bit value with 8 fractional bits.
+    uint32_t valueBits =
+        (static_cast<uint32_t>(raw[3]) << 24) |
+        (static_cast<uint32_t>(raw[2]) << 16) |
+        (static_cast<uint32_t>(raw[1]) << 8) |
+        static_cast<uint32_t>(raw[0]);
+    int32_t value = static_cast<int32_t>(valueBits);
+    return static_cast<double>(value) / 256.0;
 }
 
 double SmbpbiSensor::convert2Power(const uint8_t* raw)
