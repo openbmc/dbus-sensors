@@ -16,6 +16,24 @@
       "message": "Could you defer erasing this config path until all its channels are processed? Otherwise, a new channel may consume the notification before existing sibling sensors are updated.",
       "revId": "efc5ba16799edff82227ac721f17446dfb526181",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dcd312d1_e61c38cf",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1002528
+      },
+      "writtenOn": "2026-11-06T06:43:19Z",
+      "side": 1,
+      "message": "Done. The config paths of sensors created in this rescan are now\ncollected in consumedPaths and erased from sensorsChanged only after\nall paths are processed, so the result does not depend on the order\nin which paths are processed.",
+      "parentUuid": "90071f77_b5d1ffb2",
+      "revId": "efc5ba16799edff82227ac721f17446dfb526181",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
