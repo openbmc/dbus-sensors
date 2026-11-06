@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a200145_3cd17ce3",
+        "filename": "src/nvidia-gpu/LldpFrame.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-11-06T08:51:39Z",
+      "side": 1,
+      "message": "Done, an agent circuit ID is now reported as hexadecimal octets like a MAC or network address, since RFC 3046 leaves its content opaque.",
+      "parentUuid": "13e4bc44_3c94c21a",
+      "revId": "5babdc71d285102d95704bf7e06a5c85fc300630",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7537f3b6_c17881d5",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-11-04T15:03:18Z",
       "side": 1,
       "message": "According to IEEE 802.1AB Table 8-4, system capabilities bits 0 through 7 are transmitted in Octet 1, which is value[0]. Packing (value[0] \u003c\u003c 8) | value[1] puts Octet 1 into the high byte, so standard capabilities like Bridge and Router will fail to decode from real switches. Please fix the octet order in both parser and unit tests.\"",
+      "revId": "5babdc71d285102d95704bf7e06a5c85fc300630",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26a96f97_d53cfc84",
+        "filename": "src/nvidia-gpu/LldpFrame.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-11-06T08:51:39Z",
+      "side": 1,
+      "message": "The order is correct as written, because IEEE 802.1AB-2016 section 8.1 makes the lower numbered octet the most significant one and section 8.4.3 makes bit 1 the least significant bit of the field, so bit 1 (Other) is the low bit of value[1], which is also how lldpd encodes it and Wireshark decodes it.",
+      "parentUuid": "7537f3b6_c17881d5",
       "revId": "5babdc71d285102d95704bf7e06a5c85fc300630",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -52,6 +88,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1694fed4_9d556253",
+        "filename": "src/nvidia-gpu/LldpFrame.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-11-06T08:51:39Z",
+      "side": 1,
+      "message": "Done, a chassis or port ID of the MAC address subtype that is not six octets now rejects the unit.",
+      "parentUuid": "00ca59ab_537e3436",
+      "revId": "5babdc71d285102d95704bf7e06a5c85fc300630",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "16b86f3c_f6aa80f5",
@@ -65,6 +119,24 @@
       "writtenOn": "2026-11-04T07:54:44Z",
       "side": 1,
       "message": "A PDU without an end marker still returns success with one trailing byte. Should this be rejected as a truncated TLV header?",
+      "revId": "5babdc71d285102d95704bf7e06a5c85fc300630",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80c5c231_873e409c",
+        "filename": "src/nvidia-gpu/LldpFrame.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-11-06T08:51:39Z",
+      "side": 1,
+      "message": "I would keep accepting it, because the three mandatory TLVs are complete by then and a single trailing byte cannot be told apart from padding, so rejecting it would drop a valid neighbor.",
+      "parentUuid": "16b86f3c_f6aa80f5",
       "revId": "5babdc71d285102d95704bf7e06a5c85fc300630",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
