@@ -53,6 +53,17 @@ Direction findThresholdDirection(const std::string& direct)
     return Direction::ERROR;
 }
 
+static bool matchesSensorIndex(const SensorBaseConfigMap& config,
+                               int sensorIndex)
+{
+    auto indexFind = config.find("Index");
+    if (indexFind == config.end())
+    {
+        return sensorIndex == 1;
+    }
+    return std::visit(VariantToIntVisitor(), indexFind->second) == sensorIndex;
+}
+
 bool parseThresholdsFromConfig(
     const SensorData& sensorData,
     std::vector<thresholds::Threshold>& thresholdVector,
@@ -78,22 +89,9 @@ bool parseThresholdsFromConfig(
             }
         }
 
-        if (sensorIndex != nullptr)
+        if (sensorIndex != nullptr && !matchesSensorIndex(cfg, *sensorIndex))
         {
-            auto indexFind = cfg.find("Index");
-
-            // If we're checking for index 1, a missing Index is OK.
-            if ((indexFind == cfg.end()) && (*sensorIndex != 1))
-            {
-                continue;
-            }
-
-            if ((indexFind != cfg.end()) &&
-                (std::visit(VariantToIntVisitor(), indexFind->second) !=
-                 *sensorIndex))
-            {
-                continue;
-            }
+            continue;
         }
 
         double hysteresis = std::numeric_limits<double>::quiet_NaN();
@@ -135,58 +133,71 @@ bool parseThresholdsFromConfig(
     return true;
 }
 
+bool matchesThresholdConfig(const SensorBaseConfigMap& config,
+                            const Threshold& threshold,
+                            const std::string& labelMatch, int sensorIndex)
+{
+    if (sensorIndex != 0 && !matchesSensorIndex(config, sensorIndex))
+    {
+        return false;
+    }
+
+    if (!labelMatch.empty())
+    {
+        auto labelFind = config.find("Label");
+        if (labelFind == config.end())
+        {
+            lg2::error("No label in threshold configuration");
+            return false;
+        }
+        std::string label =
+            std::visit(VariantToStringVisitor(), labelFind->second);
+        if (label != labelMatch)
+        {
+            return false;
+        }
+    }
+
+    auto directionFind = config.find("Direction");
+    auto severityFind = config.find("Severity");
+    auto valueFind = config.find("Value");
+    if (valueFind == config.end() || severityFind == config.end() ||
+        directionFind == config.end())
+    {
+        lg2::error("Malformed threshold in configuration");
+        return false;
+    }
+    unsigned int severity =
+        std::visit(VariantToUnsignedIntVisitor(), severityFind->second);
+    std::string direction =
+        std::visit(VariantToStringVisitor(), directionFind->second);
+    return findThresholdLevel(severity) == threshold.level &&
+           findThresholdDirection(direction) == threshold.direction;
+}
+
 void persistThreshold(const std::string& path, const std::string& baseInterface,
                       const thresholds::Threshold& threshold,
                       std::shared_ptr<sdbusplus::asio::connection>& conn,
-                      size_t thresholdCount, const std::string& labelMatch)
+                      size_t thresholdCount, const std::string& labelMatch,
+                      int sensorIndex)
 {
     for (size_t ii = 0; ii < thresholdCount; ii++)
     {
         std::string thresholdInterface =
             baseInterface + ".Thresholds" + std::to_string(ii);
         conn->async_method_call(
-            [&, path, threshold, thresholdInterface,
-             labelMatch](const boost::system::error_code& ec,
-                         const SensorBaseConfigMap& result) {
+            [&, path, threshold, thresholdInterface, labelMatch,
+             sensorIndex](const boost::system::error_code& ec,
+                          const SensorBaseConfigMap& result) {
                 if (ec)
                 {
                     return; // threshold not supported
                 }
 
-                if (!labelMatch.empty())
+                if (!matchesThresholdConfig(result, threshold, labelMatch,
+                                            sensorIndex))
                 {
-                    auto labelFind = result.find("Label");
-                    if (labelFind == result.end())
-                    {
-                        lg2::error("No label in threshold configuration");
-                        return;
-                    }
-                    std::string label =
-                        std::visit(VariantToStringVisitor(), labelFind->second);
-                    if (label != labelMatch)
-                    {
-                        return;
-                    }
-                }
-
-                auto directionFind = result.find("Direction");
-                auto severityFind = result.find("Severity");
-                auto valueFind = result.find("Value");
-                if (valueFind == result.end() || severityFind == result.end() ||
-                    directionFind == result.end())
-                {
-                    lg2::error("Malformed threshold in configuration");
                     return;
-                }
-                unsigned int severity = std::visit(
-                    VariantToUnsignedIntVisitor(), severityFind->second);
-
-                std::string dir =
-                    std::visit(VariantToStringVisitor(), directionFind->second);
-                if ((findThresholdLevel(severity) != threshold.level) ||
-                    (findThresholdDirection(dir) != threshold.direction))
-                {
-                    return; // not the droid we're looking for
                 }
 
                 std::variant<double> value(threshold.value);
