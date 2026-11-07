@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8f311ca_797e2313",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1003207
+      },
+      "writtenOn": "2026-11-07T07:22:27Z",
+      "side": 1,
+      "message": "Extracted shared index-matching logic while preserving the existing index-zero behavior.",
+      "parentUuid": "0206eb25_0850e445",
+      "revId": "646be2f61fa8562fb41d5e63ff77763295382157",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9da53e86_f4dab486",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4aa6d6cd_8af78e37",
+        "filename": "src/Thresholds.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1003207
+      },
+      "writtenOn": "2026-11-07T07:22:27Z",
+      "side": 1,
+      "message": "Removed the unused default argument from persistThreshold; its caller supplies the sensor index.",
+      "parentUuid": "9da53e86_f4dab486",
+      "revId": "646be2f61fa8562fb41d5e63ff77763295382157",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "caa15087_c9b988bd",
@@ -48,6 +84,24 @@
       "writtenOn": "2026-11-04T13:33:00Z",
       "side": 1,
       "message": "std::count_if returns a signed difference_type, so this is an implicit\nsigned-to-size_t conversion. Worth a static_cast here too?",
+      "revId": "646be2f61fa8562fb41d5e63ff77763295382157",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34994d50_98a5510a",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 1003207
+      },
+      "writtenOn": "2026-11-07T07:22:27Z",
+      "side": 1,
+      "message": "Added an explicit std::size_t conversion for the std::count_if result.",
+      "parentUuid": "caa15087_c9b988bd",
       "revId": "646be2f61fa8562fb41d5e63ff77763295382157",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
