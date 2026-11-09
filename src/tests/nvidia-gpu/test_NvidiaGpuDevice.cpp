@@ -13,6 +13,7 @@
 
 #include <chrono>
 #include <cstdint>
+#include <limits>
 #include <memory>
 #include <span>
 #include <string>
@@ -28,6 +29,8 @@ namespace
 constexpr uint8_t defaultEid = 20;
 
 constexpr const char* dimmIface = "xyz.openbmc_project.Inventory.Item.Dimm";
+constexpr const char* powerBoundsIface =
+    "xyz.openbmc_project.Inventory.Decorator.PowerBounds";
 
 constexpr const char* versionIface = "xyz.openbmc_project.Software.Version";
 
@@ -196,6 +199,25 @@ TEST_F(NvidiaGpuDeviceTest, DestructorRemovesFirmwareInterfaces)
         getProperty<std::vector<Association>>(
             firmwarePath(name), association::interface, "Associations"),
         sdbusplus::exception_t);
+}
+
+TEST_F(NvidiaGpuDeviceTest, PowerBoundsUnsetUntilReadAndRemovedWithDevice)
+{
+    const std::string name = "gpudev_power_bounds";
+    const std::string path = "/xyz/openbmc_project/inventory/" + name;
+    {
+        const std::shared_ptr<GpuDevice> device = createDevice(name);
+        ASSERT_NE(device, nullptr);
+        EXPECT_EQ(
+            getProperty<uint32_t>(path, powerBoundsIface, "MinPowerWatts"),
+            std::numeric_limits<uint32_t>::max());
+        EXPECT_EQ(
+            getProperty<uint32_t>(path, powerBoundsIface, "MaxPowerWatts"),
+            std::numeric_limits<uint32_t>::max());
+    }
+    drainPendingAsync();
+    EXPECT_THROW(getProperty<uint32_t>(path, powerBoundsIface, "MaxPowerWatts"),
+                 sdbusplus::exception_t);
 }
 
 } // namespace
