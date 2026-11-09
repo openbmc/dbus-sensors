@@ -47,9 +47,12 @@ Inventory::Inventory(
     const gpu::DeviceIdentification deviceTypeIn, const uint8_t eid,
     boost::asio::io_context& io,
     const std::shared_ptr<sdbusplus::asio::dbus_interface>& powerCapInterface,
-    const std::shared_ptr<sdbusplus::asio::dbus_interface>& dramItemIface) :
-    name(escapeName(inventoryName)), mctpRequester(mctpRequester),
-    deviceType(deviceTypeIn), eid(eid), retryTimer(io)
+    const std::shared_ptr<sdbusplus::asio::dbus_interface>& dramItemIface,
+    const std::shared_ptr<sdbusplus::asio::dbus_interface>&
+        powerBoundsInterface) :
+    powerBoundsIface(powerBoundsInterface), name(escapeName(inventoryName)),
+    mctpRequester(mctpRequester), deviceType(deviceTypeIn), eid(eid),
+    retryTimer(io)
 {
     sdbusplus::object_path path = inventoryPrefix / name;
 
@@ -375,11 +378,21 @@ void Inventory::handleInventoryPropertyResponse(
                             gpu::InventoryPropertyId::MIN_DEVICE_POWER_LIMIT)
                         {
                             minPowerCapWatts = powerLimit;
+                            if (powerBoundsIface)
+                            {
+                                powerBoundsIface->set_property("MinPowerWatts",
+                                                               powerLimit);
+                            }
                         }
                         else if (propertyId == gpu::InventoryPropertyId::
                                                    MAX_DEVICE_POWER_LIMIT)
                         {
                             maxPowerCapWatts = powerLimit;
+                            if (powerBoundsIface)
+                            {
+                                powerBoundsIface->set_property("MaxPowerWatts",
+                                                               powerLimit);
+                            }
                         }
                         it->second.interface->set_property(
                             it->second.propertyName, powerLimit);
