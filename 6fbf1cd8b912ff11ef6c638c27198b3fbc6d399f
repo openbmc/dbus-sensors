@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "834825da_acb57313",
+        "filename": "src/amd-bulk-telemetry/BulkTelemetryMessage.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1002734
+      },
+      "writtenOn": "2026-11-09T08:18:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9c4a5c8_b0c1dd86",
+      "revId": "6fbf1cd8b912ff11ef6c638c27198b3fbc6d399f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bd634ea7_29051db1",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-11-05T10:59:27Z",
       "side": 1,
       "message": "In readLe, please ensure data.size() \u003e\u003d sizeof(T) before calling memcpy, or use a fixed-size span std::span\u003cconst uint8_t, sizeof(T)\u003e",
+      "revId": "6fbf1cd8b912ff11ef6c638c27198b3fbc6d399f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fb3f118_a59a4e22",
+        "filename": "src/amd-bulk-telemetry/BulkTelemetryMessage.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1002734
+      },
+      "writtenOn": "2026-11-09T08:18:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd634ea7_29051db1",
       "revId": "6fbf1cd8b912ff11ef6c638c27198b3fbc6d399f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
