@@ -11,7 +11,10 @@
 #include "OcpMctpVdm.hpp"
 #include "TestUtils.hpp"
 
+#include <sdbusplus/asio/object_server.hpp>
+
 #include <cstdint>
+#include <limits>
 #include <memory>
 #include <string>
 #include <system_error>
@@ -22,6 +25,9 @@
 
 namespace
 {
+
+constexpr const char* powerBoundsIfaceName =
+    "xyz.openbmc_project.Inventory.Decorator.PowerBounds";
 
 // Build a SUCCESS GET_INVENTORY_INFORMATION response carrying an ASCII string
 // payload. A payload of at least 16 bytes decodes cleanly for every queried
@@ -49,6 +55,27 @@ std::vector<uint8_t> buildInventoryStringResponse(const std::string& value)
     return buf;
 }
 
+std::vector<uint8_t> buildInventoryUint32Response(uint32_t value)
+{
+    constexpr uint16_t dataSize = 16;
+    std::vector<uint8_t> buf(
+        ocp::accelerator_management::commonResponseSize + dataSize, 0);
+    PackBuffer pack(buf);
+    ocp::accelerator_management::packHeader(
+        pack, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 0,
+        static_cast<uint8_t>(gpu::MessageType::PLATFORM_ENVIRONMENTAL));
+    pack.pack(static_cast<uint8_t>(
+        gpu::PlatformEnvironmentalCommands::GET_INVENTORY_INFORMATION));
+    pack.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));
+    pack.pack(static_cast<uint16_t>(0));
+    pack.pack(dataSize);
+    pack.pack(value);
+    EXPECT_EQ(pack.getError(), 0);
+    return buf;
+}
+
 std::vector<uint8_t> buildInventoryErrorResponse(uint8_t cc,
                                                  uint16_t reasonCode)
 {
@@ -68,7 +95,36 @@ class InventoryTest : public MctpMockTestBase
     {
         return std::make_shared<Inventory>(bus(), objects(), name, requester(),
                                            deviceType, eid, ioContext(),
-                                           nullptr, nullptr);
+                                           nullptr, nullptr, nullptr);
+    }
+
+    static std::shared_ptr<Inventory> createInventoryWithPowerBounds(
+        const std::string& name)
+    {
+        const std::shared_ptr<sdbusplus::asio::dbus_interface> powerCap =
+            objects().add_interface(
+                "/xyz/openbmc_project/control/power/" + name,
+                "xyz.openbmc_project.Control.Power.Cap");
+        powerCap->register_property("MinPowerCapValue", uint32_t{0});
+        powerCap->register_property("MaxPowerCapValue",
+                                    std::numeric_limits<uint32_t>::max());
+        powerCap->register_property("DefaultPowerCap",
+                                    std::numeric_limits<uint32_t>::max());
+        EXPECT_TRUE(powerCap->initialize());
+
+        const std::shared_ptr<sdbusplus::asio::dbus_interface> powerBounds =
+            objects().add_interface("/xyz/openbmc_project/inventory/" + name,
+                                    powerBoundsIfaceName);
+        powerBounds->register_property("MinPowerWatts",
+                                       std::numeric_limits<uint32_t>::max());
+        powerBounds->register_property("MaxPowerWatts",
+                                       std::numeric_limits<uint32_t>::max());
+        EXPECT_TRUE(powerBounds->initialize());
+
+        return std::make_shared<Inventory>(
+            bus(), objects(), name, requester(),
+            gpu::DeviceIdentification::DEVICE_GPU, test_utils::defaultEid,
+            ioContext(), powerCap, nullptr, powerBounds);
     }
 };
 
@@ -123,6 +179,44 @@ TEST_F(InventoryTest, InitSuccessSetsAssetProperty)
               inventoryText);
     EXPECT_EQ(getProperty<std::string>(path, assetIface, "Model"),
               inventoryText);
+}
+
+TEST_F(InventoryTest, PowerLimitsArePublishedAsPowerBounds)
+{
+    ON_CALL(mctpMock, sendRecvMsg)
+        .WillByDefault(
+            mock_mctp::respondWith({}, buildInventoryUint32Response(300000)));
+
+    const std::string name = "inv_power_bounds";
+    const std::shared_ptr<Inventory> inv = createInventoryWithPowerBounds(name);
+    inv->init();
+
+    const std::string path = "/xyz/openbmc_project/inventory/" + name;
+    EXPECT_EQ(
+        getProperty<uint32_t>(path, powerBoundsIfaceName, "MinPowerWatts"),
+        300U);
+    EXPECT_EQ(
+        getProperty<uint32_t>(path, powerBoundsIfaceName, "MaxPowerWatts"),
+        300U);
+}
+
+TEST_F(InventoryTest, PowerBoundsStayUnsetWithoutResponse)
+{
+    ON_CALL(mctpMock, sendRecvMsg)
+        .WillByDefault(mock_mctp::respondWith(
+            std::make_error_code(std::errc::timed_out), {}));
+
+    const std::string name = "inv_power_bounds_err";
+    const std::shared_ptr<Inventory> inv = createInventoryWithPowerBounds(name);
+    inv->init();
+
+    const std::string path = "/xyz/openbmc_project/inventory/" + name;
+    EXPECT_EQ(
+        getProperty<uint32_t>(path, powerBoundsIfaceName, "MinPowerWatts"),
+        std::numeric_limits<uint32_t>::max());
+    EXPECT_EQ(
+        getProperty<uint32_t>(path, powerBoundsIfaceName, "MaxPowerWatts"),
+        std::numeric_limits<uint32_t>::max());
 }
 
 // Error handling — init() must not crash on failed responses
