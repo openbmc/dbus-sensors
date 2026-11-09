@@ -16,6 +16,24 @@
       "message": "Should functional also account for an explicit PCIe Fault state, rather than relying only on faultReason being non-empty?",
       "revId": "810438cdc021d0977f59e29c5b191b88e9a56071",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "409d8cdc_1918d603",
+        "filename": "src/amd-bulk-telemetry/PcieState.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1002734
+      },
+      "writtenOn": "2026-11-09T07:57:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04e51d39_7b610ef6",
+      "revId": "810438cdc021d0977f59e29c5b191b88e9a56071",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
