@@ -73,6 +73,8 @@ static constexpr auto thresholdIds = std::to_array<uint8_t>(
 
 static constexpr const char* dramIfaceName =
     "xyz.openbmc_project.Inventory.Item.Dimm";
+static constexpr const char* powerBoundsIfaceName =
+    "xyz.openbmc_project.Inventory.Decorator.PowerBounds";
 
 static constexpr const char* softwareInventoryPath =
     "/xyz/openbmc_project/software/";
@@ -103,6 +105,20 @@ GpuDevice::GpuDevice(const GpuDeviceConfig& config,
     const sdbusplus::object_path gpuPath = inventoryPrefix / this->name;
     const sdbusplus::object_path dramPath =
         inventoryPrefix / std::format("{}_{}", this->name, dramInventorySuffix);
+
+    powerBoundsInterface =
+        objectServer.add_interface(gpuPath, powerBoundsIfaceName);
+    powerBoundsInterface->register_property(
+        "MinPowerWatts", std::numeric_limits<uint32_t>::max());
+    powerBoundsInterface->register_property(
+        "MaxPowerWatts", std::numeric_limits<uint32_t>::max());
+
+    if (!powerBoundsInterface->initialize())
+    {
+        lg2::error(
+            "Error initializing PowerBounds interface for {NAME}, eid={EID}",
+            "NAME", this->name, "EID", eid);
+    }
 
     std::vector<Association> associations;
     associations.emplace_back("contained_by", "containing", gpuPath);
@@ -177,6 +193,7 @@ GpuDevice::~GpuDevice()
     objectServer.remove_interface(dramItemInterface);
     objectServer.remove_interface(firmwareVersionInterface);
     objectServer.remove_interface(firmwareAssociationInterface);
+    objectServer.remove_interface(powerBoundsInterface);
 }
 
 void GpuDevice::init()
@@ -184,7 +201,7 @@ void GpuDevice::init()
     inventory = std::make_shared<Inventory>(
         conn, objectServer, name, mctpRequester,
         gpu::DeviceIdentification::DEVICE_GPU, eid, io, powerCapInterface,
-        dramItemInterface, firmwareVersionInterface);
+        dramItemInterface, firmwareVersionInterface, powerBoundsInterface);
 
     inventory->init();
 
