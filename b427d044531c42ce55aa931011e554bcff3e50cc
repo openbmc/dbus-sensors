@@ -16,6 +16,24 @@
       "message": "“If the transceiver remains present but lane or supply telemetry becomes invalid, the previous metrics remain published. Should those metrics be cleared or otherwise marked unavailable to avoid exposing stale readings?”",
       "revId": "b427d044531c42ce55aa931011e554bcff3e50cc",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22938934_b9decf4f",
+        "filename": "src/amd-bulk-telemetry/NetworkAdapter.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1002734
+      },
+      "writtenOn": "2026-11-09T08:00:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8595949_5963c968",
+      "revId": "b427d044531c42ce55aa931011e554bcff3e50cc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
