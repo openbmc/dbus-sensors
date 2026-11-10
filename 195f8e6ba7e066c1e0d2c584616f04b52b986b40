@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "67150f07_f3e57a20",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 1764,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-11-10T09:19:17Z",
+      "side": 1,
+      "message": "Done. A port number above 255 now returns EINVAL, with a unit test.",
+      "parentUuid": "b431ee61_98380bb6",
+      "revId": "195f8e6ba7e066c1e0d2c584616f04b52b986b40",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff0dee2c_730cba87",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "928a2a82_8476ea7d",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.cpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 1811,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-11-10T09:19:17Z",
+      "side": 1,
+      "message": "Done. A data size that ends in a partial 64-bit counter now returns EINVAL, with a unit test.",
+      "parentUuid": "ff0dee2c_730cba87",
+      "revId": "195f8e6ba7e066c1e0d2c584616f04b52b986b40",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "780c7fa8_b617401f",
@@ -48,6 +84,24 @@
       "writtenOn": "2026-11-03T11:35:35Z",
       "side": 1,
       "message": "In encodeGetPortTelemetryCountersRequest() (lines 1765-1768 in NvidiaGpuMctpVdm.cpp), two bytes are packed after the common header.\n\nSince this packs 2 bytes, defining getPortTelemetryCountersRequestSize as commonRequestSize + 1 leaves the buffer 1 byte too short. \n\nWhen encodeGetPortTelemetryCountersRequest() runs, PackBuffer fails on the second pack and returns EINVAL, causing requestEncoded to remain false and disabling telemetry polling in update()",
+      "revId": "195f8e6ba7e066c1e0d2c584616f04b52b986b40",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f158dfd_bf3895d0",
+        "filename": "src/nvidia-gpu/NvidiaGpuMctpVdm.hpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-11-10T09:19:17Z",
+      "side": 1,
+      "message": "Thanks for checking. encodeRequestCommonHeader() packs 6 bytes (5-byte header + command), while commonRequestSize is 7 because it already includes the data size byte. So the port number is the only extra byte: 5 + 1 + 1 + 1 \u003d 8 \u003d commonRequestSize + 1. The Ethernet variant uses + 2 for its 16-bit port the same way. EncodeGetPortTelemetryCountersRequestSuccess encodes into a buffer of exactly this size and returns 0.",
+      "parentUuid": "780c7fa8_b617401f",
       "revId": "195f8e6ba7e066c1e0d2c584616f04b52b986b40",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
