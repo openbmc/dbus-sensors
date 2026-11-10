@@ -91,12 +91,19 @@ static const std::map<std::string, FanTypes> compatibleFanTypes = {
 FanTypes getFanType(const std::filesystem::path& parentPath)
 {
     std::filesystem::path linkPath = parentPath / "of_node";
-    if (!std::filesystem::exists(linkPath))
+    std::error_code ec;
+    if (!std::filesystem::exists(linkPath, ec))
     {
         return FanTypes::i2c;
     }
 
-    std::string canonical = std::filesystem::canonical(linkPath);
+    std::string canonical = std::filesystem::canonical(linkPath, ec);
+    if (ec)
+    {
+        lg2::error("canonical() failed for '{PATH}': '{ERROR_MESSAGE}'", "PATH",
+                   linkPath, "ERROR_MESSAGE", ec.message());
+        return FanTypes::i2c;
+    }
     std::string compatiblePath = canonical + "/compatible";
     std::ifstream compatibleStream(compatiblePath);
 
@@ -361,9 +368,18 @@ void createSensors(
                 }
                 if (fanType == FanTypes::i2c)
                 {
-                    std::string deviceName =
-                        std::filesystem::read_symlink(directory / "device")
-                            .filename();
+                    std::error_code ec;
+                    std::filesystem::path deviceLink =
+                        std::filesystem::read_symlink(directory / "device", ec);
+                    if (ec)
+                    {
+                        lg2::error("read_symlink() failed for '{PATH}': "
+                                   "'{ERROR_MESSAGE}'",
+                                   "PATH", directory / "device",
+                                   "ERROR_MESSAGE", ec.message());
+                        continue;
+                    }
+                    std::string deviceName = deviceLink.filename();
 
                     size_t bus = 0;
                     size_t addr = 0;
@@ -636,7 +652,8 @@ void createSensors(
                 led);
             tachSensor->setupRead();
 
-            if (!pwmPath.empty() && std::filesystem::exists(pwmPath) &&
+            std::error_code ec;
+            if (!pwmPath.empty() && std::filesystem::exists(pwmPath, ec) &&
                 (!pwmSensors.contains(pwmPath)))
             {
                 pwmSensors[pwmPath] = std::make_unique<PwmSensor>(
