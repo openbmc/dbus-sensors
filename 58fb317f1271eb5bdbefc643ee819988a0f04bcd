@@ -35,6 +35,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e41ffa2_caeb918a",
+        "filename": "src/tests/test_ChassisIntrusionSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-11-10T09:17:29Z",
+      "side": 1,
+      "message": "Done. Added the SPDX header in the /* */ form used by the other files in this repo.",
+      "parentUuid": "aeafa3c7_0a3964c8",
+      "revId": "58fb317f1271eb5bdbefc643ee819988a0f04bcd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "301ebad0_6ed65b47",
@@ -52,6 +70,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "871f1497_55f8c27a",
+        "filename": "src/tests/test_ChassisIntrusionSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-11-10T09:17:29Z",
+      "side": 1,
+      "message": "misc-include-cleaner flags \u003ccstdlib\u003e as unused, since mkdtemp() is POSIX\nrather than part of \u003ccstdlib\u003e. I included \u003cstdlib.h\u003e with a NOLINT instead,\nsame as src/tests/nvidia-gpu/utils/DbusMockTestBase.cpp.",
+      "parentUuid": "301ebad0_6ed65b47",
+      "revId": "58fb317f1271eb5bdbefc643ee819988a0f04bcd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "be9bce30_3be77683",
@@ -65,6 +101,24 @@
       "writtenOn": "2026-11-04T12:57:50Z",
       "side": 1,
       "message": "Nit: Would std::runtime_error be clearer here? mkdtemp() can fail for filesystem errors.\n```suggestion\n            throw std::runtime_error(\"mkdtemp failed\");\n```",
+      "revId": "58fb317f1271eb5bdbefc643ee819988a0f04bcd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f2b0616_75c8caa2",
+        "filename": "src/tests/test_ChassisIntrusionSensor.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-11-10T09:17:29Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "be9bce30_3be77683",
       "revId": "58fb317f1271eb5bdbefc643ee819988a0f04bcd",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
