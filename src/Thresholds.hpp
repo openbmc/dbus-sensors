@@ -153,6 +153,9 @@ bool matchesThresholdConfig(const SensorBaseConfigMap& config,
                             const Threshold& threshold,
                             const std::string& labelMatch, int sensorIndex = 0);
 
+std::vector<std::string> getThresholdInterfaces(
+    const std::string& baseInterface, std::size_t thresholdCount);
+
 void persistThreshold(const std::string& path, const std::string& baseInterface,
                       const thresholds::Threshold& threshold,
                       std::shared_ptr<sdbusplus::asio::connection>& conn,

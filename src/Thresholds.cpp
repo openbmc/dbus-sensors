@@ -184,16 +184,28 @@ bool matchesThresholdConfig(const SensorBaseConfigMap& config,
            findThresholdDirection(direction) == threshold.direction;
 }
 
+std::vector<std::string> getThresholdInterfaces(
+    const std::string& baseInterface, std::size_t thresholdCount)
+{
+    std::vector<std::string> interfaces;
+    interfaces.reserve(thresholdCount);
+    for (std::size_t ii = 0; ii < thresholdCount; ++ii)
+    {
+        interfaces.emplace_back(
+            baseInterface + ".Thresholds" + std::to_string(ii));
+    }
+    return interfaces;
+}
+
 void persistThreshold(const std::string& path, const std::string& baseInterface,
                       const thresholds::Threshold& threshold,
                       std::shared_ptr<sdbusplus::asio::connection>& conn,
                       size_t thresholdCount, const std::string& labelMatch,
                       int sensorIndex)
 {
-    for (size_t ii = 0; ii < thresholdCount; ii++)
+    for (const auto& thresholdInterface :
+         getThresholdInterfaces(baseInterface, thresholdCount))
     {
-        std::string thresholdInterface =
-            baseInterface + ".Thresholds" + std::to_string(ii);
         conn->async_method_call(
             [&, path, threshold, thresholdInterface, labelMatch,
              sensorIndex](const boost::system::error_code& ec,
