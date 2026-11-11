@@ -103,6 +103,7 @@ SmbpbiSensor::SmbpbiSensor(
 
 SmbpbiSensor::~SmbpbiSensor()
 {
+    callbackLifetime.reset();
     inputDev.close();
     waitTimer.cancel();
     for (const auto& iface : thresholdInterfaces)
@@ -387,7 +388,12 @@ void SmbpbiSensor::read()
     size_t pollTime = getPollRate(); // in seconds
 
     waitTimer.expires_after(std::chrono::seconds(pollTime));
-    waitTimer.async_wait([this](const boost::system::error_code& ec) {
+    std::weak_ptr<uint8_t> lifetime = callbackLifetime;
+    waitTimer.async_wait([this, lifetime](const boost::system::error_code& ec) {
+        if (lifetime.expired())
+        {
+            return;
+        }
         this->waitReadCallback(ec);
     });
 }
