@@ -72,6 +72,7 @@ struct SmbpbiSensor : public Sensor
     boost::asio::random_access_file inputDev;
     boost::asio::steady_timer waitTimer;
     size_t pollRateSecond;
+    std::shared_ptr<uint8_t> callbackLifetime = std::make_shared<uint8_t>(0);
 };
 
 bool checkInvalidReading(uint8_t* reading, int length)
