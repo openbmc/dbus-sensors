@@ -16,6 +16,24 @@
       "message": "sensorIndex !\u003d 0 treats 0 as \"no filter\" even though 0 is a valid configured Index, so please use std::optional\u003cint\u003e, and add tests for a mismatched Index and a missing Index with index 1.",
       "revId": "1e518347bd3fcb6b20c3905eece776c0c5d9a409",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba7d3461_d05d5a16",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1003207
+      },
+      "writtenOn": "2026-11-11T14:19:51Z",
+      "side": 1,
+      "message": "Addressed in patchset 20. Runtime matching now uses std::optional\u003cint\u003e to distinguish an explicit index 0 from no index filter. \nAdded coverage for mismatched indexes and missing Index with channel indexes 1 and 2. \nBoth focused tests pass.",
+      "parentUuid": "ea2bc69c_835f68ff",
+      "revId": "1e518347bd3fcb6b20c3905eece776c0c5d9a409",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
