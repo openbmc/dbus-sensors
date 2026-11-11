@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "243a876a_2f775688",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-11-11T09:24:57Z",
+      "side": 1,
+      "message": "Nit, not blocking: the Tested section describes the implementation rather than how it was verified. If you checked the failure path (e.g. forced the I2C_FUNCS check to fail and confirmed /proc/\u003cpid\u003e/fd does not grow), please say so.",
+      "revId": "30025b1e95a821528d0f9ab1230963510c721932",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
