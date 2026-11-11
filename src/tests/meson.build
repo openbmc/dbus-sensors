@@ -80,3 +80,15 @@ test(
 )
 
 subdir('nvidia-gpu')
+
+test(
+    'test_threshold_index',
+    executable(
+        'test_threshold_index',
+        'test_ThresholdIndex.cpp',
+        dependencies: ut_deps_list,
+        link_with: [utils_a, thresholds_a],
+        implicit_include_directories: false,
+        include_directories: src_inc,
+    ),
+)

@@ -12,6 +12,7 @@
 #include <limits>
 #include <list>
 #include <memory>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -149,10 +150,16 @@ constexpr static std::array<thresholds::ThresholdDefinition, 5> thresProp = {
 
 std::string getInterface(Level level);
 
+bool matchesThresholdConfig(const SensorBaseConfigMap& config,
+                            const Threshold& threshold,
+                            const std::string& labelMatch,
+                            std::optional<int> sensorIndex = std::nullopt);
+
 void persistThreshold(const std::string& path, const std::string& baseInterface,
                       const thresholds::Threshold& threshold,
                       std::shared_ptr<sdbusplus::asio::connection>& conn,
-                      size_t thresholdCount, const std::string& label);
+                      size_t thresholdCount, const std::string& label,
+                      int sensorIndex);
 
 void updateThresholds(Sensor* sensor);
 // returns false if a critical threshold has been crossed, true otherwise
