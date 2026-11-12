@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83044587_8e00162b",
+        "filename": "src/fan/FanMain.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-11-12T11:25:40Z",
+      "side": 1,
+      "message": "Could we add a bounded rescan? A temporarily missing symlink leaves the fan sensor unpublished unless a configuration change triggers another scan. Please test recovery without restarting the service.",
+      "revId": "ccfc198a7aef1741203f149bcf560e01ed6c9252",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
