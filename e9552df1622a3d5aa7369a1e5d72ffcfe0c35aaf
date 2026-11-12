@@ -16,6 +16,24 @@
       "message": "can we test if it\u0027s empty first, then warn if it\u0027s not, and fix that situation with the call to `clear()`? It should be the case that the error-paths clean up after themselves.",
       "revId": "e9552df1622a3d5aa7369a1e5d72ffcfe0c35aaf",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bef08d39_b8ff754f",
+        "filename": "src/nvme/NVMeBasicContext.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-11-12T06:08:59Z",
+      "side": 1,
+      "message": "updated as you suggested, I now check whether the response buffer is empty before the query, warn and clear it if it isn’t, and explicitly clear the buffer on each error path.",
+      "parentUuid": "541b66df_62d8d477",
+      "revId": "e9552df1622a3d5aa7369a1e5d72ffcfe0c35aaf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
