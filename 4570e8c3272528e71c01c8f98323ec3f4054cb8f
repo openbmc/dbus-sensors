@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5bfac88_7d24c1f3",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-11-12T10:47:57Z",
+      "side": 1,
+      "message": "[93643](https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/93643) moved voltage to the round-robin loop since it is not covered by the staleness requirement. Should the SMA voltage sensors follow it?",
+      "revId": "4570e8c3272528e71c01c8f98323ec3f4054cb8f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
