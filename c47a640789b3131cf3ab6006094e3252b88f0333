@@ -90,6 +90,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "05d915c0_e2234cb4",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-11-12T11:19:11Z",
+      "side": 1,
+      "message": "Could we retry transient failures? A startup timeout permanently drops dynamic thresholds, even after recovery. Please add a failure-then-recovery test.",
+      "revId": "c47a640789b3131cf3ab6006094e3252b88f0333",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2a0da563_3e7a61e9",
         "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
         "patchSetId": 6
@@ -101,6 +118,23 @@
       "writtenOn": "2026-11-12T10:26:31Z",
       "side": 1,
       "message": "If `setOffline()` runs while this request is in flight, the sensor published here comes up `functional` because `setOffline()` only walks the already-published sensors.",
+      "revId": "c47a640789b3131cf3ab6006094e3252b88f0333",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d3fbd11_4aa23928",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-11-12T11:19:11Z",
+      "side": 1,
+      "message": "Please make asynchronously created sensors inherit the device’s current state; a response after setOffline() currently creates a functional sensor. Please test this delayed-response case.",
       "revId": "c47a640789b3131cf3ab6006094e3252b88f0333",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
