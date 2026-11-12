@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6267e34c_0cc7bc32",
+        "filename": "src/tests/test_SmbpbiSensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-11-12T11:25:57Z",
+      "side": 1,
+      "message": "These tests call the helper directly, so they\u0027d pass without the fix. Please test the sensor read path: a temperature reading whose first four bytes are 0xff should give NaN, and a valid one should still convert.",
+      "revId": "8b39c364b5f8ddca30babc216f9c009df01e6165",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
