@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4041d69_e32db06a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-11-12T10:45:42Z",
+      "side": 1,
+      "message": "Will review after the base patch rebase.",
+      "revId": "78346766ab7d2ea1e426873369d91a67e75b7a6b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
