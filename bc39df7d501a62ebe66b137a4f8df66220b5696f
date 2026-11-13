@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "342b26ba_e1be04d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-11-13T11:22:55Z",
+      "side": 1,
+      "message": "Could you add a Tested section? For this use-after-free it would help to say how it was reproduced or verified, e.g. repeated Entity Manager reconfiguration so the sensor is destroyed while a timer handler is queued, ideally with ASan before and after, or that it was only found by inspection.",
+      "revId": "bc39df7d501a62ebe66b137a4f8df66220b5696f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "afa8baa4_3296e4c4",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-11-13T11:22:55Z",
+      "side": 1,
+      "message": "Nit: a one-line comment would help here, e.g. \"Expires in the destructor so queued timer handlers skip a destroyed sensor.\"",
+      "revId": "bc39df7d501a62ebe66b137a4f8df66220b5696f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
