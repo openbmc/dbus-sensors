@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b8ccc02_ffd5c9ce",
+        "filename": "src/nvidia-gpu/NvidiaTransceiver.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-11-13T11:36:57Z",
+      "side": 1,
+      "message": "Are the transceiver inventory fields intentionally always Unknown?\nIf module data is available, could we use it to populate these fields?",
+      "revId": "9b684a7360d7e31bab1403a591ded1503ad49e50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
