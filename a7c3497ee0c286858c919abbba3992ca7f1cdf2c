@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42f4b943_db4bb25b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-11-13T09:24:17Z",
+      "side": 1,
+      "message": "Nit: it would also help to name the two sites (createMaxCFMIface() and getMaxRpm()), since \"RPM calculations\" is a bit ambiguous for the totalCFM loop.",
+      "revId": "a7c3497ee0c286858c919abbba3992ca7f1cdf2c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e6bf357_dcace9b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-11-13T09:24:17Z",
+      "side": 1,
+      "message": "Could the commit message name the diagnostic (compiler flag or clang-tidy check) that reports these conversions? The default build and .clang-tidy don\u0027t seem to enable one, so \"checked by compiling\" can\u0027t confirm the warning is gone unless it was turned on. Please also say whether other implicit conversions in this file (e.g. pwmPercent, uint64_t to double, in getMaxRpm()) are intentionally left untouched or don\u0027t trigger it.",
+      "revId": "a7c3497ee0c286858c919abbba3992ca7f1cdf2c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
