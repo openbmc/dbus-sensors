@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e32c3b68_a98ee1fc",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-11-13T09:45:56Z",
+      "side": 1,
+      "message": "The \"already asserted\" check here uses value \u003e\u003d threshold - hysteresis (and the LOW equivalent). In thresholds::checkThresholds() a HIGH threshold asserts at value \u003e\u003d threshold and only clears below threshold - hysteresis, so inside that band the previous state is kept. If the sensor rose into the band without asserting, this treats the threshold as already active, so a torn reading above the threshold skips the retry and is published immediately. Would it be safer to treat only value \u003e\u003d threshold (or \u003c\u003d for LOW) as already asserted, or to track the asserted state, at the cost of one extra retry inside the band?",
+      "revId": "beafc27c71b36e3b0814ba007a2b8821c3498ade",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d6e984e_6243ed73",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1002970
+      },
+      "writtenOn": "2026-11-13T09:45:56Z",
+      "side": 1,
+      "message": "NaN reading (all 0xFF, \"no update from HMC\") also reaches this branch, so the log says \"returned to normal (nan)\". Maybe reword, or handle the NaN case separately.",
+      "revId": "beafc27c71b36e3b0814ba007a2b8821c3498ade",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
