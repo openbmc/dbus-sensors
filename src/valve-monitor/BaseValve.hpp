@@ -57,6 +57,15 @@ class BaseValve : public ValveIntf
 
     virtual ~BaseValve();
 
+    /** @brief Start asynchronous work owned by this valve */
+    virtual auto startMonitoring() -> void = 0;
+
+    /** @brief Request asynchronous work owned by this valve to stop */
+    virtual auto requestStop() -> void = 0;
+
+    /** @brief Whether asynchronous work owned by this valve has completed */
+    virtual auto isStopped() const -> bool = 0;
+
     BaseValve(const BaseValve&) = delete;
     BaseValve(BaseValve&&) = delete;
     BaseValve& operator=(const BaseValve&) = delete;

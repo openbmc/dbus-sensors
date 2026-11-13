@@ -70,6 +70,7 @@ auto ValveMonitor::processConfigAddedAsync(sdbusplus::object_path objectPath,
             co_return;
         }
         valves[objectPath.str] = std::move(valve);
+        valves[objectPath.str]->startMonitoring();
     }
     catch (std::exception& e)
     {
