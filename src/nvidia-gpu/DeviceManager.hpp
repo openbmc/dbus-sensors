@@ -131,6 +131,10 @@ class DeviceManager
     using BoardPathHandler =
         std::function<void(const std::optional<sdbusplus::object_path>&)>;
     void lookupBoard(const std::string& boardName, BoardPathHandler done);
+    // lookupBoard finds any configuration entity manager exported with a
+    // Probe, whatever its Type, so it is where the Inventory of a sensor
+    // entry is looked up.
+    void associateSmaInventory(const std::shared_ptr<SmaDevice>& sma);
     void findBoardInventoryPath(const std::string& boardName,
                                 const std::string& inventoryName, uint8_t eid,
                                 const ConfigPathHandler& done);

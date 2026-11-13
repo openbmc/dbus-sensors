@@ -47,7 +47,15 @@ SmaDevice::SmaDevice(
     waitTimerRoundRobin(io, std::chrono::steady_clock::duration(0)),
     mctpRequester(mctpRequester), conn(conn), objectServer(objectServer),
     smaConfig(smaConfig), name(escapeName(config.name)), path(config.path)
-{}
+{
+    for (const SmaSensorConfig& sensor : smaConfig.sensors)
+    {
+        if (sensor.inventory)
+        {
+            measuredItems.try_emplace(*sensor.inventory);
+        }
+    }
+}
 
 void SmaDevice::init()
 {
@@ -192,6 +200,7 @@ void SmaDevice::retryDynamicThresholds()
 void SmaDevice::publishSensor(const SmaSensorConfig& sensor)
 {
     const std::string sensorName = std::format("{}_{}", name, sensor.name);
+    std::shared_ptr<sdbusplus::asio::dbus_interface> association;
     switch (sensor.kind)
     {
         case SmaSensorKind::Temperature:
@@ -203,12 +212,14 @@ void SmaDevice::publishSensor(const SmaSensorConfig& sensor)
             // Only a temperature sensor waits for dynamic thresholds, so only
             // it can be published after the device went offline.
             tempSensors.back()->markFunctional(!offline);
+            association = tempSensors.back()->association;
             break;
         case SmaSensorKind::Power:
             powerSensors.emplace_back(std::make_shared<NvidiaGpuPowerSensor>(
                 conn, mctpRequester, sensorName, path, eid, sensor.id,
                 objectServer, std::vector<thresholds::Threshold>{},
                 gpu::DeviceIdentification::DEVICE_SMA));
+            association = powerSensors.back()->association;
             break;
         case SmaSensorKind::Voltage:
             voltageSensors.emplace_back(
@@ -216,7 +227,71 @@ void SmaDevice::publishSensor(const SmaSensorConfig& sensor)
                     conn, mctpRequester, sensorName, path, eid, sensor.id,
                     objectServer, std::vector<thresholds::Threshold>{},
                     gpu::DeviceIdentification::DEVICE_SMA));
+            association = voltageSensors.back()->association;
             break;
+    }
+
+    if (!sensor.inventory)
+    {
+        return;
+    }
+
+    MeasuredItem& item = measuredItems[*sensor.inventory];
+    item.associations.push_back(association);
+    if (!item.path)
+    {
+        lg2::error(
+            "{NAME}: inventory {INVENTORY} of sensor {SENSOR} is not found, publishing the sensor without the association",
+            "NAME", name, "INVENTORY", *sensor.inventory, "SENSOR",
+            sensor.name);
+        return;
+    }
+    associateSensor(association, *item.path);
+}
+
+void SmaDevice::associateSensor(
+    const std::shared_ptr<sdbusplus::asio::dbus_interface>& association,
+    const sdbusplus::object_path& itemPath) const
+{
+    // Sensor registers Associations with the chassis tuple alone and
+    // initializes the interface, after which nothing can be registered on
+    // it, so the property is set to both tuples instead.
+    std::vector<Association> associations;
+    associations.emplace_back("chassis", "all_sensors", path.parent_path());
+    associations.emplace_back("inventory", "sensors", itemPath);
+    if (!association->set_property("Associations", associations))
+    {
+        lg2::error("Error associating sensor {SENSOR} with inventory {PATH}",
+                   "SENSOR", association->get_object_path(), "PATH", itemPath);
+    }
+}
+
+std::vector<std::string> SmaDevice::unassociatedInventory() const
+{
+    std::vector<std::string> unassociated;
+    for (const auto& [inventory, item] : measuredItems)
+    {
+        if (!item.path)
+        {
+            unassociated.push_back(inventory);
+        }
+    }
+    return unassociated;
+}
+
+void SmaDevice::associateInventory(const std::string& inventory,
+                                   const sdbusplus::object_path& itemPath)
+{
+    const auto item = measuredItems.find(inventory);
+    if (item == measuredItems.end())
+    {
+        return;
+    }
+
+    item->second.path = itemPath;
+    for (const auto& association : item->second.associations)
+    {
+        associateSensor(association, itemPath);
     }
 }
 
