@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3563830_a7962f82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-11-13T08:06:48Z",
+      "side": 1,
+      "message": "Since C++20 these conversions and shifts are well defined, and this repo builds with C++23. What does the rewrite fix?",
+      "range": {
+        "startLine": 10,
+        "startChar": 52,
+        "endLine": 11,
+        "endChar": 40
+      },
+      "revId": "c911694171882e5a5559e453e3bc4fee08a0ebf1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3c75bf5_af07df1f",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-11-13T08:06:48Z",
+      "side": 1,
+      "message": "The fraction is subtracted when `intg \u003c\u003d 0`, so 0x00000080 decodes as -0.5 instead of 0.5. Should this be the signed 32-bit value divided by 256?",
+      "revId": "c911694171882e5a5559e453e3bc4fee08a0ebf1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
