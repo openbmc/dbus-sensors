@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28a24928_1e247d76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-11-13T08:02:29Z",
+      "side": 1,
+      "message": "How was the open failure triggered, and what showed the daemon kept running?",
+      "revId": "56b1bc3c6fb3ad6c9966c053a069c5cfcd279ff6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5262d7c1_757bd126",
+        "filename": "src/adc/ADCSensor.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-11-13T08:02:29Z",
+      "side": 1,
+      "message": "This `out_of_range` catch is unrelated to the open failure. \nCould it go in its own commit?",
+      "revId": "56b1bc3c6fb3ad6c9966c053a069c5cfcd279ff6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57493ae2_d2c885aa",
+        "filename": "src/adc/ADCSensorMain.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-11-13T08:02:29Z",
+      "side": 1,
+      "message": "Should this erase the null entry from sensors, so a later rescan can retry it?",
+      "revId": "56b1bc3c6fb3ad6c9966c053a069c5cfcd279ff6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
