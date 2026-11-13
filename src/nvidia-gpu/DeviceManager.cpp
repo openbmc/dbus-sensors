@@ -405,8 +405,29 @@ SmaDeviceConfigs readSmaDeviceConfigs(const MctpVdmRecord& record, uint8_t eid)
             continue;
         }
 
-        smaConfig.sensors.push_back(
-            {.kind = kind, .id = sensorId, .name = *name});
+        std::optional<std::string> inventory;
+        const auto inventoryIt = props->find("Inventory");
+        if (inventoryIt != props->end())
+        {
+            const auto* inventoryName =
+                std::get_if<std::string>(&inventoryIt->second);
+            if (inventoryName == nullptr)
+            {
+                lg2::error(
+                    "EID {EID}: {PATH} {IFACE} has an Inventory that is not a string, listing {NAME} without it",
+                    "EID", eid, "PATH", record.path, "IFACE", iface, "NAME",
+                    *name);
+            }
+            else
+            {
+                inventory = *inventoryName;
+            }
+        }
+
+        smaConfig.sensors.push_back({.kind = kind,
+                                     .id = sensorId,
+                                     .name = *name,
+                                     .inventory = inventory});
     }
 
     assignSmaThresholds(smaConfig, thresholdConfigs, eid, record.path);
@@ -517,6 +538,7 @@ void DeviceManager::processQueryDeviceIdResponse(
                     config, readSmaDeviceConfigs(record, eid), conn, eid, io,
                     mctpRequester, objectServer);
 
+                associateSmaInventory(*sma);
                 sma->init();
 
                 // Only the endpoint itself owns the mctpd endpoint object.
@@ -963,6 +985,18 @@ void DeviceManager::processConfigPropertiesResult(
         });
 }
 
+void DeviceManager::associateSmaInventory(SmaDevice& sma) const
+{
+    for (const std::string& inventory : sma.unassociatedInventory())
+    {
+        const auto entity = boardPaths.find(inventory);
+        if (entity != boardPaths.end())
+        {
+            sma.associateInventory(inventory, entity->second);
+        }
+    }
+}
+
 void DeviceManager::collectBoardPaths(std::function<void()> done)
 {
     boardPaths.clear();
@@ -1376,7 +1410,13 @@ void DeviceManager::createSensors()
         return;
     }
 
-    collectBoardPaths([this]() { discoverDevices(); });
+    collectBoardPaths([this]() {
+        for (const SmaDeviceRecord& rec : smaDevices)
+        {
+            associateSmaInventory(*rec.device);
+        }
+        discoverDevices();
+    });
 }
 
 void DeviceManager::onConfigInterfaceRemoved(sdbusplus::message_t& message)

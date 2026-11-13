@@ -137,6 +137,10 @@ class DeviceManager
     // than something the object path can be derived from. Read every board's
     // once per sweep instead of for every device that resolves against one.
     void collectBoardPaths(std::function<void()> done);
+    // boardPaths holds every configuration entity manager exported with a
+    // Probe, whatever its Type, so it is where the Inventory of a sensor
+    // entry is looked up.
+    void associateSmaInventory(SmaDevice& sma) const;
 
   public:
     // What the record a device was paired with says about it. Public because

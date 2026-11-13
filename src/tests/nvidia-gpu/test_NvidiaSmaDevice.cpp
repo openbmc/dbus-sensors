@@ -11,9 +11,11 @@
 #include "OcpMctpVdm.hpp"
 #include "TestUtils.hpp"
 #include "Thresholds.hpp"
+#include "Utils.hpp"
 
 #include <MessagePackUnpackUtils.hpp>
 #include <sdbusplus/exception.hpp>
+#include <sdbusplus/message/native_types.hpp>
 
 #include <algorithm>
 #include <chrono>
@@ -235,6 +237,14 @@ class NvidiaSmaDeviceTest : public MctpMockTestBase
     static std::string temperatureUnit(const std::string& sensorName)
     {
         return sensorUnit("temperature", sensorName);
+    }
+
+    static std::vector<Association> sensorAssociations(
+        const std::string& type, const std::string& sensorName)
+    {
+        return getProperty<std::vector<Association>>(
+            "/xyz/openbmc_project/sensors/" + type + "/" + sensorName,
+            "xyz.openbmc_project.Association.Definitions", "Associations");
     }
 };
 
@@ -941,6 +951,165 @@ TEST_F(NvidiaSmaDeviceTest, PublishesWithoutDynamicThresholdsTheSmaRefuses)
             "/xyz/openbmc_project/sensors/temperature/sma_dynamic_refused_SMA_Ext",
             "xyz.openbmc_project.Sensor.Threshold.Warning", "WarningHigh"),
         sdbusplus::exception_t);
+}
+
+constexpr const char* cpuItemPath = "/test/inventory/cpu/CPU_0";
+constexpr const char* boardItemPath = "/test/inventory/board/Board";
+
+// createDevice() puts the configuration of the device under this path.
+const Association chassisAssociation{"chassis", "all_sensors", "/test/chassis"};
+
+Association inventoryAssociation(const std::string& itemPath)
+{
+    return {"inventory", "sensors", itemPath};
+}
+
+TEST_F(NvidiaSmaDeviceTest, AssociatesEachSensorWithTheInventoryItNames)
+{
+    ON_CALL(mctpMock, sendRecvMsg)
+        .WillByDefault(answerWithThermalParameter(120));
+
+    SmaSensorConfig dynamic = dynamicWarningSensor();
+    dynamic.inventory = "Board";
+    const std::shared_ptr<SmaDevice> device = createDevice(
+        "sma_inventory", defaultEid, sensorPollRate.count(),
+        {{.kind = SmaSensorKind::Temperature,
+          .id = 216,
+          .name = "CPU1_Die",
+          .inventory = "CPU_0"},
+         dynamic,
+         {.kind = SmaSensorKind::Power,
+          .id = 128,
+          .name = "HSC",
+          .inventory = "Board"},
+         {.kind = SmaSensorKind::Voltage,
+          .id = 208,
+          .name = "HSC_Vout",
+          .inventory = "Board"},
+         {.kind = SmaSensorKind::Temperature,
+          .id = smaInternalSensorId,
+          .name = "SMA_Internal"}});
+    device->associateInventory("CPU_0", sdbusplus::object_path{cpuItemPath});
+    device->associateInventory("Board", sdbusplus::object_path{boardItemPath});
+    device->init();
+
+    EXPECT_THAT(device->unassociatedInventory(), testing::IsEmpty());
+    EXPECT_THAT(sensorAssociations("temperature", "sma_inventory_CPU1_Die"),
+                testing::UnorderedElementsAre(
+                    chassisAssociation, inventoryAssociation(cpuItemPath)));
+    EXPECT_THAT(sensorAssociations("temperature", "sma_inventory_SMA_Ext"),
+                testing::UnorderedElementsAre(
+                    chassisAssociation, inventoryAssociation(boardItemPath)));
+    EXPECT_THAT(sensorAssociations("power", "sma_inventory_HSC"),
+                testing::UnorderedElementsAre(
+                    chassisAssociation, inventoryAssociation(boardItemPath)));
+    EXPECT_THAT(sensorAssociations("voltage", "sma_inventory_HSC_Vout"),
+                testing::UnorderedElementsAre(
+                    chassisAssociation, inventoryAssociation(boardItemPath)));
+    EXPECT_THAT(sensorAssociations("temperature", "sma_inventory_SMA_Internal"),
+                testing::ElementsAre(chassisAssociation));
+}
+
+TEST_F(NvidiaSmaDeviceTest, PublishesASensorWhoseInventoryIsNotFound)
+{
+    ON_CALL(mctpMock, sendRecvMsg).WillByDefault(answerSensorRequests());
+
+    const std::shared_ptr<SmaDevice> device = createDevice(
+        "sma_no_inventory", defaultEid, sensorPollRate.count(),
+        {{.kind = SmaSensorKind::Temperature,
+          .id = 216,
+          .name = "CPU1_Die",
+          .inventory = "CPU_0"}});
+    device->init();
+    device->setOnline();
+
+    EXPECT_THAT(device->unassociatedInventory(), testing::ElementsAre("CPU_0"));
+    EXPECT_EQ(temperatureValue("sma_no_inventory_CPU1_Die"), 216.0);
+    EXPECT_THAT(sensorAssociations("temperature", "sma_no_inventory_CPU1_Die"),
+                testing::ElementsAre(chassisAssociation));
+}
+
+TEST_F(NvidiaSmaDeviceTest, AssociatesPublishedSensorsOnceTheirInventoryIsFound)
+{
+    ON_CALL(mctpMock, sendRecvMsg).WillByDefault(answerSensorRequests());
+
+    const std::shared_ptr<SmaDevice> device = createDevice(
+        "sma_late", defaultEid, sensorPollRate.count(),
+        {{.kind = SmaSensorKind::Temperature,
+          .id = 216,
+          .name = "CPU1_Die",
+          .inventory = "CPU_0"},
+         {.kind = SmaSensorKind::Temperature,
+          .id = 217,
+          .name = "CPU1_SoC",
+          .inventory = "CPU_0"},
+         {.kind = SmaSensorKind::Power,
+          .id = 128,
+          .name = "HSC",
+          .inventory = "Board"},
+         {.kind = SmaSensorKind::Temperature,
+          .id = smaInternalSensorId,
+          .name = "SMA_Internal"}});
+    device->init();
+
+    EXPECT_THAT(device->unassociatedInventory(),
+                testing::UnorderedElementsAre("CPU_0", "Board"));
+    EXPECT_THAT(sensorAssociations("temperature", "sma_late_CPU1_Die"),
+                testing::ElementsAre(chassisAssociation));
+
+    device->associateInventory("CPU_0", sdbusplus::object_path{cpuItemPath});
+
+    EXPECT_THAT(device->unassociatedInventory(), testing::ElementsAre("Board"));
+    EXPECT_THAT(sensorAssociations("temperature", "sma_late_CPU1_Die"),
+                testing::UnorderedElementsAre(
+                    chassisAssociation, inventoryAssociation(cpuItemPath)));
+    EXPECT_THAT(sensorAssociations("temperature", "sma_late_CPU1_SoC"),
+                testing::UnorderedElementsAre(
+                    chassisAssociation, inventoryAssociation(cpuItemPath)));
+    EXPECT_THAT(sensorAssociations("power", "sma_late_HSC"),
+                testing::ElementsAre(chassisAssociation));
+    EXPECT_THAT(sensorAssociations("temperature", "sma_late_SMA_Internal"),
+                testing::ElementsAre(chassisAssociation));
+}
+
+// A sensor with a dynamic threshold is only published once the SMA has
+// answered, which can be after its inventory was found.
+TEST_F(NvidiaSmaDeviceTest, AssociatesASensorPublishedAfterItsInventoryIsFound)
+{
+    std::move_only_function<void(const std::error_code&,
+                                 std::span<const uint8_t>)>
+        thermalParameterReply;
+    ON_CALL(mctpMock, sendRecvMsg)
+        .WillByDefault([&thermalParameterReply](uint8_t /*eid*/,
+                                                std::span<const uint8_t> reqMsg,
+                                                auto callback) {
+            if (isReadThermalParameters(reqMsg))
+            {
+                thermalParameterReply = std::move(callback);
+                return;
+            }
+            callback(std::make_error_code(std::errc::timed_out), {});
+        });
+
+    SmaSensorConfig dynamic = dynamicWarningSensor();
+    dynamic.inventory = "Board";
+    const std::shared_ptr<SmaDevice> device = createDevice(
+        "sma_pending", defaultEid, sensorPollRate.count(), {dynamic});
+    device->init();
+    ASSERT_TRUE(thermalParameterReply);
+    EXPECT_THROW(sensorAssociations("temperature", "sma_pending_SMA_Ext"),
+                 sdbusplus::exception_t);
+
+    device->associateInventory("Board", sdbusplus::object_path{boardItemPath});
+    const std::vector<uint8_t> response =
+        test_utils::buildPlatformEnvSuccessResponse(
+            gpu::PlatformEnvironmentalCommands::READ_THERMAL_PARAMETERS,
+            int32_t{120});
+    thermalParameterReply(std::error_code{}, response);
+
+    EXPECT_THAT(sensorAssociations("temperature", "sma_pending_SMA_Ext"),
+                testing::UnorderedElementsAre(
+                    chassisAssociation, inventoryAssociation(boardItemPath)));
 }
 
 } // namespace

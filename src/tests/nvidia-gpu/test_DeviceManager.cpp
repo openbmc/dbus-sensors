@@ -5,12 +5,16 @@
 
 #include "DbusMockTestBase.hpp"
 #include "DeviceManager.hpp"
+#include "MctpMockTestBase.hpp"
 #include "NvidiaGpuControlErrors.hpp"
+#include "NvidiaGpuMctpVdm.hpp"
 #include "NvidiaSmaDevice.hpp"
 #include "OcpMctpVdm.hpp"
 #include "Thresholds.hpp"
 #include "Utils.hpp"
 
+#include <MessagePackUnpackUtils.hpp>
+#include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/exception.hpp>
 #include <sdbusplus/message/native_types.hpp>
@@ -24,8 +28,12 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <optional>
+#include <span>
 #include <string>
 #include <string_view>
+#include <system_error>
+#include <utility>
 #include <vector>
 
 #include <gmock/gmock.h>
@@ -70,6 +78,16 @@ constexpr std::chrono::seconds discoveryTimeout{5};
 // have by the end of it.
 constexpr std::chrono::seconds quietWindow{2};
 
+// The name stays with the connection for the rest of the binary, and sd-bus
+// refuses a second request for it, so it is asked for once.
+void ownMapperName(sdbusplus::asio::connection& connection)
+{
+    [[maybe_unused]] static const bool mapperNameOwned = [&connection] {
+        connection.request_name("xyz.openbmc_project.ObjectMapper");
+        return true;
+    }();
+}
+
 // Stands in for the mapper and for the endpoint mctpd would publish, so the
 // discovery sweep reaches the configured_by lookup and the answer to it can
 // be chosen per call.
@@ -84,12 +102,7 @@ class DeviceManagerTest : public DbusMockTestBase
             return;
         }
 
-        // The name stays with the connection for the rest of the binary, and
-        // sd-bus refuses a second request for it, so it is asked for once.
-        [[maybe_unused]] static const bool mapperNameOwned = [] {
-            bus()->request_name("xyz.openbmc_project.ObjectMapper");
-            return true;
-        }();
+        ownMapperName(*bus());
         const std::string self = bus()->get_unique_name();
 
         mapper = objects().add_interface("/xyz/openbmc_project/object_mapper",
@@ -335,6 +348,27 @@ TEST(SmaDeviceConfigsTest, KeepsTheFirstEntryOfARepeatedIdOrName)
     EXPECT_EQ(smaConfig.sensors[2].name, "SMA_Ext");
 }
 
+TEST(SmaDeviceConfigsTest, ReadsTheInventoryAnEntryNames)
+{
+    SensorBaseConfigMap named = smaSensor(216, "CPU1_Die");
+    named["Inventory"] = std::string{"CPU_0"};
+    SensorBaseConfigMap notAString = smaSensor(217, "CPU1_SoC");
+    notAString["Inventory"] = uint64_t{0};
+    const SensorData arrayElements{
+        {smaElementIface("TemperatureSensors", 0), named},
+        {smaElementIface("TemperatureSensors", 1), notAString},
+        {smaElementIface("TemperatureSensors", 2), smaSensor(17, "SMA_Int")}};
+
+    const SmaDeviceConfigs smaConfig =
+        readSmaDeviceConfigs(smaRecord(arrayElements), smaEid);
+
+    ASSERT_EQ(smaConfig.sensors.size(), 3U);
+    EXPECT_EQ(smaConfig.sensors[0].inventory, "CPU_0");
+    EXPECT_EQ(smaConfig.sensors[1].name, "CPU1_SoC");
+    EXPECT_EQ(smaConfig.sensors[1].inventory, std::nullopt);
+    EXPECT_EQ(smaConfig.sensors[2].inventory, std::nullopt);
+}
+
 TEST(SmaDeviceConfigsTest, AssignsTheThresholdsTheRecordLists)
 {
     SensorBaseConfigMap dynamic = smaThreshold("SMA_Ext", 0, 0);
@@ -510,6 +544,326 @@ TEST(SmaThresholdsTest, KeepsDynamicThresholdsApartWithoutAValue)
                     upperThreshold(thresholds::Level::WARNING, 120),
                     upperThreshold(thresholds::Level::CRITICAL, 130)));
     EXPECT_THAT(smaConfig.sensors[1].dynamicThresholds, testing::IsEmpty());
+}
+
+constexpr const char* probeIface = "xyz.openbmc_project.Configuration.Probe";
+constexpr const char* mctpConfigIface =
+    "xyz.openbmc_project.Configuration.MCTPUSBDevice";
+constexpr const char* mctpConfigPath =
+    "/xyz/openbmc_project/inventory/system/platform/Platform/SMA";
+constexpr const char* smaIface =
+    "xyz.openbmc_project.Configuration.NvidiaMctpVdmSma";
+constexpr const char* boardName = "STRATA_HPM_1";
+constexpr const char* boardPath =
+    "/xyz/openbmc_project/inventory/system/board/STRATA_HPM_1";
+constexpr const char* cpuName = "CPU_0";
+constexpr const char* cpuPath =
+    "/xyz/openbmc_project/inventory/system/cpu/CPU_0";
+
+const Association chassisAssociation{"chassis", "all_sensors", boardPath};
+
+Association inventoryAssociation(const std::string& itemPath)
+{
+    return {"inventory", "sensors", itemPath};
+}
+
+bool isQueryDeviceIdentification(std::span<const uint8_t> request)
+{
+    UnpackBuffer unpack(request);
+    ocp::accelerator_management::MessageType ocpMsgType{};
+    uint8_t instanceId = 0;
+    uint8_t msgType = 0;
+    if (ocp::accelerator_management::unpackHeader(
+            unpack, gpu::nvidiaPciVendorId, ocpMsgType, instanceId, msgType) !=
+        0)
+    {
+        return false;
+    }
+
+    uint8_t command = 0;
+    unpack.unpack(command);
+    return unpack.getError() == 0 &&
+           msgType == static_cast<uint8_t>(
+                          gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY) &&
+           command ==
+               static_cast<uint8_t>(gpu::DeviceCapabilityDiscoveryCommands::
+                                        QUERY_DEVICE_IDENTIFICATION);
+}
+
+std::vector<uint8_t> smaIdentificationResponse()
+{
+    // deviceIdentification + deviceInstance
+    const uint16_t dataSize = 1 + 1;
+
+    std::vector<uint8_t> buf(
+        ocp::accelerator_management::commonResponseSize + dataSize);
+    PackBuffer pack(buf);
+    ocp::accelerator_management::packHeader(
+        pack, gpu::nvidiaPciVendorId,
+        ocp::accelerator_management::MessageType::RESPONSE, 0,
+        static_cast<uint8_t>(gpu::MessageType::DEVICE_CAPABILITY_DISCOVERY));
+    pack.pack(static_cast<uint8_t>(
+        gpu::DeviceCapabilityDiscoveryCommands::QUERY_DEVICE_IDENTIFICATION));
+    pack.pack(static_cast<uint8_t>(
+        ocp::accelerator_management::CompletionCode::SUCCESS));
+    pack.pack(static_cast<uint16_t>(0)); // reserved
+    pack.pack(dataSize);
+    pack.pack(static_cast<uint8_t>(gpu::DeviceIdentification::DEVICE_SMA));
+    pack.pack(static_cast<uint8_t>(0)); // deviceInstance
+    return buf;
+}
+
+// Stands in for entity manager, the mapper and mctpd, and answers the device
+// identification as an SMA, so a discovery sweep runs as far as publishing
+// the sensors the SMA record of the board lists.
+class SmaInventoryTest : public MctpMockTestBase
+{
+  protected:
+    void SetUp() override
+    {
+        MctpMockTestBase::SetUp();
+        if (IsSkipped())
+        {
+            return;
+        }
+
+        ownMapperName(*bus());
+        const std::string self = bus()->get_unique_name();
+
+        auto mapper = addInterface("/xyz/openbmc_project/object_mapper",
+                                   "xyz.openbmc_project.ObjectMapper");
+        mapper->register_method(
+            "GetSubTree",
+            [this, self](const std::string& root, int32_t /*depth*/,
+                         const std::vector<std::string>& ifaces) {
+                SubTree tree;
+                if (ifaces == std::vector<std::string>{endpointIface})
+                {
+                    tree[endpointPath] = {{self, {endpointIface}}};
+                }
+                else if (ifaces == std::vector<std::string>{probeIface})
+                {
+                    for (const std::string& entity : entities)
+                    {
+                        tree[entity] = {{self, {probeIface}}};
+                    }
+                }
+                else if (root == boardPath)
+                {
+                    tree[smaPath] = {{self, smaIfaces}};
+                }
+                return tree;
+            });
+        mapper->register_method(
+            "GetObject", [self](const std::string& path,
+                                const std::vector<std::string>& /*ifaces*/) {
+                return ObjectServices{
+                    {self,
+                     {path == associationPath ? associationIface
+                                              : mctpConfigIface}}};
+            });
+        mapper->initialize();
+
+        auto endpoint = addInterface(endpointPath, endpointIface);
+        endpoint->register_property("EID", endpointEid);
+        endpoint->register_property(
+            "SupportedMessageTypes",
+            std::vector<uint8_t>{ocp::accelerator_management::messageType});
+        endpoint->initialize();
+
+        auto association = addInterface(associationPath, associationIface);
+        association->register_property(
+            "endpoints", std::vector<std::string>{mctpConfigPath});
+        association->initialize();
+
+        addEntity(boardName, boardPath);
+
+        ON_CALL(mctpMock, sendRecvMsg)
+            .WillByDefault([this](uint8_t /*eid*/,
+                                  std::span<const uint8_t> reqMsg,
+                                  auto callback) {
+                if (!isQueryDeviceIdentification(reqMsg))
+                {
+                    callback(std::make_error_code(std::errc::timed_out), {});
+                    return;
+                }
+                ++identifications;
+                if (withholdIdentification)
+                {
+                    withholdIdentification = false;
+                    withheldIdentification = std::move(callback);
+                    return;
+                }
+                const std::vector<uint8_t> response =
+                    smaIdentificationResponse();
+                callback(std::error_code{}, response);
+            });
+    }
+
+    void TearDown() override
+    {
+        if (hasBus())
+        {
+            for (const auto& fake : fakes)
+            {
+                objects().remove_interface(fake);
+            }
+        }
+        MctpMockTestBase::TearDown();
+    }
+
+    std::shared_ptr<sdbusplus::asio::dbus_interface> addInterface(
+        const std::string& path, const std::string& iface)
+    {
+        return fakes.emplace_back(objects().add_interface(path, iface));
+    }
+
+    void addEntity(const std::string& name, const std::string& path)
+    {
+        auto probe = addInterface(path, probeIface);
+        probe->register_property("Name", name);
+        probe->initialize();
+        entities.push_back(path);
+    }
+
+    void addSensorEntry(std::string_view list, size_t index, uint64_t id,
+                        const std::string& name,
+                        const std::optional<std::string>& inventory)
+    {
+        const std::string iface = smaElementIface(list, index);
+        auto entry = addInterface(smaPath, iface);
+        entry->register_property("Id", id);
+        entry->register_property("Name", name);
+        if (inventory)
+        {
+            entry->register_property("Inventory", *inventory);
+        }
+        entry->initialize();
+        smaIfaces.push_back(iface);
+    }
+
+    void addSma(const std::string& name)
+    {
+        smaName = name;
+        smaPath = std::format("{}/{}", boardPath, name);
+
+        auto mctpConfig = addInterface(mctpConfigPath, mctpConfigIface);
+        mctpConfig->register_property("Name", name);
+        mctpConfig->register_property("Board", std::string{boardName});
+        mctpConfig->initialize();
+
+        auto record = addInterface(smaPath, smaIface);
+        record->register_property("Name", name);
+        record->initialize();
+        smaIfaces.emplace_back(smaIface);
+
+        addSensorEntry("TemperatureSensors", 0, 216, "CPU1_Die", cpuName);
+        addSensorEntry("TemperatureSensors", 1, 18, "GPU_VR", boardName);
+        addSensorEntry("TemperatureSensors", 2, 17, "SMA_Internal",
+                       std::nullopt);
+        addSensorEntry("PowerSensors", 0, 128, "HSC", "HSC_HPM_1");
+    }
+
+    std::vector<Association> associations(const std::string& type,
+                                          const std::string& sensor) const
+    {
+        return getProperty<std::vector<Association>>(
+            std::format("/xyz/openbmc_project/sensors/{}/{}_{}", type, smaName,
+                        sensor),
+            "xyz.openbmc_project.Association.Definitions", "Associations");
+    }
+
+    std::string smaName;
+    std::string smaPath;
+    std::vector<std::string> smaIfaces;
+    // The objects entity manager exports Configuration.Probe on.
+    std::vector<std::string> entities;
+    std::vector<std::shared_ptr<sdbusplus::asio::dbus_interface>> fakes;
+
+    // How many device identifications were asked for: one per sweep.
+    int identifications = 0;
+    // Keep the answer to the next device identification back, for the test
+    // to give when it chooses.
+    bool withholdIdentification = false;
+    std::move_only_function<void(const std::error_code&,
+                                 std::span<const uint8_t>)>
+        withheldIdentification;
+};
+
+TEST_F(SmaInventoryTest, AssociatesSensorsWithTheInventoryTheirEntriesName)
+{
+    addSma("sma_named");
+    addEntity(cpuName, cpuPath);
+
+    DeviceManager manager(ioContext(), objects(), bus(), requester());
+    manager.createSensors();
+    ASSERT_TRUE(
+        pumpIoUntil([this] { return identifications > 0; }, discoveryTimeout));
+
+    EXPECT_THAT(associations("temperature", "CPU1_Die"),
+                testing::UnorderedElementsAre(chassisAssociation,
+                                              inventoryAssociation(cpuPath)));
+    EXPECT_THAT(associations("temperature", "GPU_VR"),
+                testing::UnorderedElementsAre(chassisAssociation,
+                                              inventoryAssociation(boardPath)));
+    EXPECT_THAT(associations("temperature", "SMA_Internal"),
+                testing::ElementsAre(chassisAssociation));
+    EXPECT_THAT(associations("power", "HSC"),
+                testing::ElementsAre(chassisAssociation));
+}
+
+TEST_F(SmaInventoryTest, AssociatesSensorsOnceTheirInventoryIsExported)
+{
+    addSma("sma_exported_later");
+
+    DeviceManager manager(ioContext(), objects(), bus(), requester());
+    manager.createSensors();
+    ASSERT_TRUE(
+        pumpIoUntil([this] { return identifications > 0; }, discoveryTimeout));
+
+    EXPECT_THAT(associations("temperature", "CPU1_Die"),
+                testing::ElementsAre(chassisAssociation));
+
+    addEntity(cpuName, cpuPath);
+    manager.scheduleRescan();
+    ASSERT_TRUE(
+        pumpIoUntil([this] { return identifications > 1; }, discoveryTimeout));
+
+    EXPECT_THAT(associations("temperature", "CPU1_Die"),
+                testing::UnorderedElementsAre(chassisAssociation,
+                                              inventoryAssociation(cpuPath)));
+    EXPECT_THAT(associations("power", "HSC"),
+                testing::ElementsAre(chassisAssociation));
+}
+
+// A sweep empties the paths before it collects them again, and the answer
+// that creates a device can arrive in between.
+TEST_F(SmaInventoryTest, AssociatesSensorsCreatedWhileThePathsAreCollected)
+{
+    addSma("sma_collecting");
+    addEntity(cpuName, cpuPath);
+    withholdIdentification = true;
+
+    DeviceManager manager(ioContext(), objects(), bus(), requester());
+    manager.createSensors();
+    ASSERT_TRUE(pumpIoUntil(
+        [this] { return static_cast<bool>(withheldIdentification); },
+        discoveryTimeout));
+
+    manager.createSensors();
+    const std::vector<uint8_t> response = smaIdentificationResponse();
+    withheldIdentification(std::error_code{}, response);
+    // Reading a property runs the io loop, which lets the second sweep
+    // finish, so the sensors cannot be read as they were published.
+    ASSERT_TRUE(
+        pumpIoUntil([this] { return identifications > 1; }, discoveryTimeout));
+
+    EXPECT_THAT(associations("temperature", "CPU1_Die"),
+                testing::UnorderedElementsAre(chassisAssociation,
+                                              inventoryAssociation(cpuPath)));
+    EXPECT_THAT(associations("temperature", "GPU_VR"),
+                testing::UnorderedElementsAre(chassisAssociation,
+                                              inventoryAssociation(boardPath)));
 }
 
 } // namespace
