@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6f0a7e7_fb0a3da7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-11-13T11:35:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8efab0a2_bfd1debd",
+      "range": {
+        "startLine": 10,
+        "startChar": 52,
+        "endLine": 11,
+        "endChar": 40
+      },
+      "revId": "c911694171882e5a5559e453e3bc4fee08a0ebf1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d3c75bf5_af07df1f",
@@ -79,6 +103,24 @@
       "side": 1,
       "message": "Yes. I changed the decoder to interpret the full 32-bit value as signed fixed-point and divide by 256. 0x00000080 now decodes as +0.5, and 0xFFFFFF80 as -0.5.",
       "parentUuid": "d3c75bf5_af07df1f",
+      "revId": "c911694171882e5a5559e453e3bc4fee08a0ebf1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2534242b_8ad810f0",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-11-13T11:35:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "343aa69f_30b0b81a",
       "revId": "c911694171882e5a5559e453e3bc4fee08a0ebf1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
