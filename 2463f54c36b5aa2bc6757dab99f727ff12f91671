@@ -16,6 +16,24 @@
       "message": "I think EID 0 is reserved/null in the MCTP specification. Why does extractBridgePool accept EID 0 and log an INFO message, only for selectBridgedEndpoints to drop it silently later? Please reject EID 0 in extractBridgePool",
       "revId": "2463f54c36b5aa2bc6757dab99f727ff12f91671",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "583390d5_c33a997b",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 48
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-11-13T12:36:35Z",
+      "side": 1,
+      "message": "Done, extractBridgePool now rejects a pool starting at the null EID with an error, and the redundant zero check in selectBridgedEndpoints is removed.",
+      "parentUuid": "344da784_e60b5286",
+      "revId": "2463f54c36b5aa2bc6757dab99f727ff12f91671",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
