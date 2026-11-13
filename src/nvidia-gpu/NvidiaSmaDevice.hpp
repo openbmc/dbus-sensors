@@ -15,6 +15,7 @@
 
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/steady_timer.hpp>
+#include <boost/container/flat_map.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 #include <sdbusplus/message/native_types.hpp>
@@ -23,6 +24,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <memory>
+#include <optional>
 #include <span>
 #include <string>
 #include <system_error>
@@ -49,6 +51,10 @@ struct SmaSensorConfig
     // Parameters before the sensor is published.
     // NOLINTNEXTLINE(readability-redundant-member-init)
     std::vector<thresholds::Threshold> dynamicThresholds{};
+    // The Name of the entity-manager configuration that represents the
+    // inventory item the sensor measures.
+    // NOLINTNEXTLINE(readability-redundant-member-init)
+    std::optional<std::string> inventory{};
 };
 
 // Only an SMA lists its sensors, so they are kept apart from the settings
@@ -92,6 +98,13 @@ class SmaDevice : public std::enable_shared_from_this<SmaDevice>
 
     void setEid(uint8_t newEid);
 
+    std::vector<std::string> unassociatedInventory() const;
+
+    // A sensor naming inventory that is published later is associated with
+    // itemPath when it is.
+    void associateInventory(const std::string& inventory,
+                            const sdbusplus::object_path& itemPath);
+
   private:
     void makeSensors();
 
@@ -106,6 +119,10 @@ class SmaDevice : public std::enable_shared_from_this<SmaDevice>
     void retryDynamicThresholds();
 
     void publishSensor(const SmaSensorConfig& sensor);
+
+    void associateSensor(
+        const std::shared_ptr<sdbusplus::asio::dbus_interface>& association,
+        const sdbusplus::object_path& itemPath) const;
 
     void initLeakSensors();
 
@@ -151,6 +168,18 @@ class SmaDevice : public std::enable_shared_from_this<SmaDevice>
     std::vector<std::shared_ptr<NvidiaGpuVoltageSensor>> voltageSensors;
 
     std::vector<std::shared_ptr<NvidiaSmaLeakSensor>> leakSensors;
+
+    // An inventory item sensor entries name: the object its configuration
+    // is exported at, once that is found, and the Association interface of
+    // each published sensor that measures it.
+    struct MeasuredItem
+    {
+        std::optional<sdbusplus::object_path> path;
+        std::vector<std::shared_ptr<sdbusplus::asio::dbus_interface>>
+            associations;
+    };
+    // Keyed by the Name of the configuration.
+    boost::container::flat_map<std::string, MeasuredItem> measuredItems;
 
     // TODO: temporary - reuses the generic xyz.openbmc_project.Inventory.Item
     // because there is no dedicated inventory item type for an MCTP

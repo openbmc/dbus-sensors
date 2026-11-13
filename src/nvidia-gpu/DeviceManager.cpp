@@ -414,8 +414,29 @@ SmaDeviceConfigs readSmaDeviceConfigs(const MctpVdmRecord& record, uint8_t eid)
             continue;
         }
 
-        smaConfig.sensors.push_back(
-            {.kind = kind, .id = sensorId, .name = *name});
+        std::optional<std::string> inventory;
+        const auto inventoryIt = props->find("Inventory");
+        if (inventoryIt != props->end())
+        {
+            const auto* inventoryName =
+                std::get_if<std::string>(&inventoryIt->second);
+            if (inventoryName == nullptr)
+            {
+                lg2::error(
+                    "EID {EID}: {PATH} {IFACE} has an Inventory that is not a string, listing {NAME} without it",
+                    "EID", eid, "PATH", record.path, "IFACE", iface, "NAME",
+                    *name);
+            }
+            else
+            {
+                inventory = *inventoryName;
+            }
+        }
+
+        smaConfig.sensors.push_back({.kind = kind,
+                                     .id = sensorId,
+                                     .name = *name,
+                                     .inventory = inventory});
     }
 
     assignSmaThresholds(smaConfig, thresholdConfigs, eid, record.path);
@@ -526,6 +547,7 @@ void DeviceManager::processQueryDeviceIdResponse(
                     config, readSmaDeviceConfigs(record, eid), conn, eid, io,
                     mctpRequester, objectServer);
 
+                associateSmaInventory(sma);
                 sma->init();
 
                 // Only the endpoint itself owns the mctpd endpoint object.
@@ -915,6 +937,27 @@ void DeviceManager::processConfigPropertiesResult(
         });
 }
 
+void DeviceManager::associateSmaInventory(const std::shared_ptr<SmaDevice>& sma)
+{
+    for (const std::string& inventory : sma->unassociatedInventory())
+    {
+        lookupBoard(inventory,
+                    [weak{std::weak_ptr<SmaDevice>(sma)}, inventory](
+                        const std::optional<sdbusplus::object_path>& path) {
+                        const std::shared_ptr<SmaDevice> device = weak.lock();
+                        if (!device)
+                        {
+                            lg2::error("Invalid reference to SmaDevice");
+                            return;
+                        }
+                        if (path)
+                        {
+                            device->associateInventory(inventory, *path);
+                        }
+                    });
+    }
+}
+
 static constexpr std::string_view mctpVdmGpuIface =
     "xyz.openbmc_project.Configuration.NvidiaMctpVdmGpu";
 static constexpr std::string_view mctpVdmSmaIface =
@@ -1251,6 +1294,10 @@ void DeviceManager::createSensors()
     }
 
     boardPaths.clear();
+    for (const SmaDeviceRecord& rec : smaDevices)
+    {
+        associateSmaInventory(rec.device);
+    }
     discoverDevices();
 }
 
