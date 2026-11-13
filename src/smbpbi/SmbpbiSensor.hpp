@@ -74,7 +74,7 @@ struct SmbpbiSensor : public Sensor
     size_t pollRateSecond;
 };
 
-bool checkInvalidReading(uint8_t* reading, int length)
+inline bool checkInvalidReading(uint8_t* reading, int length)
 {
     // there is no value updated from HMC if reading data is all 0xff
     uint8_t* ptr = reading;
