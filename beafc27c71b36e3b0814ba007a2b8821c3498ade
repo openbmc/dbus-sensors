@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a108f81_aba89ee3",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2026-11-14T16:06:52Z",
+      "side": 1,
+      "message": "Done. Tracked asserted in thresholds::Threshold and checked threshold.asserted directly in isOverThreshold().",
+      "parentUuid": "e32c3b68_a98ee1fc",
+      "revId": "beafc27c71b36e3b0814ba007a2b8821c3498ade",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b307b906_a201d562",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e009331_209e0a2d",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2026-11-14T16:06:52Z",
+      "side": 1,
+      "message": "Done. Tracked asserted in thresholds::Threshold and checked threshold.asserted directly in isOverThreshold().",
+      "parentUuid": "b307b906_a201d562",
+      "revId": "beafc27c71b36e3b0814ba007a2b8821c3498ade",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1d6e984e_6243ed73",
@@ -48,6 +84,24 @@
       "writtenOn": "2026-11-13T09:45:56Z",
       "side": 1,
       "message": "NaN reading (all 0xFF, \"no update from HMC\") also reaches this branch, so the log says \"returned to normal (nan)\". Maybe reword, or handle the NaN case separately.",
+      "revId": "beafc27c71b36e3b0814ba007a2b8821c3498ade",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98c55c71_56970709",
+        "filename": "src/smbpbi/SmbpbiSensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2026-11-14T16:06:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d6e984e_6243ed73",
       "revId": "beafc27c71b36e3b0814ba007a2b8821c3498ade",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
