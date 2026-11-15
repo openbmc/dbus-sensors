@@ -16,6 +16,23 @@
       "message": "Validation:\n- OpenBMC container build/test runner completed with exit status 0.\n- All six reported unit tests passed.\n- clang-format and whitespace checks passed.\n- Hardware testing on B650D4U produced NCT6796 temperature\n  readings through D-Bus and the web UI using a locally patched\n  OpenBMC image. Delayed-probe recovery used a separate local patch.\n\nCompanion schema change:\nhttps://gerrit.openbmc.org/c/openbmc/entity-manager/+/96257\n\nCI reports \"User not approved, see admin, no CI\".\nCould a maintainer help arrange contributor approval so CI can run?",
       "revId": "28ca166bf0550052f8f6d87680db6d3dc9b01e00",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7260318d_122863b4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002941
+      },
+      "writtenOn": "2026-11-15T15:41:11Z",
+      "side": 1,
+      "message": "Hi, apologies—I replied via email earlier and didn\u0027t realize Gerrit doesn\u0027t post email replies here. I submitted my signed Individual CLA (ICLA) as an independent contributor to manager@lfprojects.org on October 26, 2026 (under \"Prasanth Kumar Padarthi\", prasanth.padarthi10@gmail.com). Could an admin please check if it is in the CLA repo and enable CI for this patch and 96256? Thank you!",
+      "revId": "28ca166bf0550052f8f6d87680db6d3dc9b01e00",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
