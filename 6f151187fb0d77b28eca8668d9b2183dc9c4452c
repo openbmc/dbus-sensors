@@ -34,6 +34,24 @@
       "parentUuid": "7b0ac437_e924059d",
       "revId": "6f151187fb0d77b28eca8668d9b2183dc9c4452c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18f624b0_f2875429",
+        "filename": "src/tests/nvidia-gpu/meson.build",
+        "patchSetId": 12
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-11-16T06:07:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "804b076d_e63883ef",
+      "revId": "6f151187fb0d77b28eca8668d9b2183dc9c4452c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
