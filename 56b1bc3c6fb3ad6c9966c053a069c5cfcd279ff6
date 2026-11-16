@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "68e58f85_04887eab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-11-16T07:24:31Z",
+      "side": 1,
+      "message": "I tested normal operation on evb-ast2600, but didn’t deliberately trigger an open failure, so I don’t have runtime evidence that the daemon stayed up in that scenario. The likely failure is an ADC hwmon input disappearing after discovery but before open() (or another access error). The change catches the exception during sensor creation and continues.",
+      "parentUuid": "28a24928_1e247d76",
+      "revId": "56b1bc3c6fb3ad6c9966c053a069c5cfcd279ff6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5262d7c1_757bd126",
         "filename": "src/adc/ADCSensor.cpp",
         "patchSetId": 11
@@ -37,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9956f22e_5fd96850",
+        "filename": "src/adc/ADCSensor.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-11-16T07:24:31Z",
+      "side": 1,
+      "message": "removed the unrelated std::out_of_range catch from ADCSensor.cpp",
+      "parentUuid": "5262d7c1_757bd126",
+      "revId": "56b1bc3c6fb3ad6c9966c053a069c5cfcd279ff6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "57493ae2_d2c885aa",
         "filename": "src/adc/ADCSensorMain.cpp",
         "patchSetId": 11
@@ -48,6 +84,24 @@
       "writtenOn": "2026-11-13T08:02:29Z",
       "side": 1,
       "message": "Should this erase the null entry from sensors, so a later rescan can retry it?",
+      "revId": "56b1bc3c6fb3ad6c9966c053a069c5cfcd279ff6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99479d00_ec8eb9b7",
+        "filename": "src/adc/ADCSensorMain.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-11-16T07:24:31Z",
+      "side": 1,
+      "message": "On sensor creation failure, ADCSensorMain.cpp now erases the null map entry, allowing a later rescan to retry it.",
+      "parentUuid": "57493ae2_d2c885aa",
       "revId": "56b1bc3c6fb3ad6c9966c053a069c5cfcd279ff6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
