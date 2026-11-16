@@ -797,7 +797,7 @@ bool getCpuConfig(const std::shared_ptr<sdbusplus::asio::connection>& systemBus,
 
 int main()
 {
-    boost::asio::io_context io;
+    boost::asio::io_context io(ioContextConfig());
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
     boost::container::flat_set<CPUConfig> cpuConfigs;
 

@@ -460,7 +460,7 @@ int main()
     std::shared_ptr<ChassisIntrusionSensor> intrusionSensor;
 
     // setup connection to dbus
-    boost::asio::io_context io;
+    boost::asio::io_context io(ioContextConfig());
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
 
     // setup object server, define interface

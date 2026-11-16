@@ -284,7 +284,7 @@ static void interfaceRemoved(sdbusplus::message_t& message, NVMEMap& contexts)
 
 int main()
 {
-    boost::asio::io_context io;
+    boost::asio::io_context io(ioContextConfig());
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
     systemBus->request_name("xyz.openbmc_project.NVMeSensor");
     sdbusplus::asio::object_server objectServer(systemBus, true);

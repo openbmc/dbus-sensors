@@ -196,7 +196,7 @@ int main()
 {
     constexpr std::chrono::seconds period(5);
 
-    boost::asio::io_context io;
+    boost::asio::io_context io(ioContextConfig());
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
     DBusAssociationServer associationServer(systemBus);
     auto reactor = std::make_shared<MCTPReactor>(associationServer);

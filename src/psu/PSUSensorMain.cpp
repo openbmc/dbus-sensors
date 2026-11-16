@@ -1258,7 +1258,7 @@ static void powerStateChanged(
 
 int main()
 {
-    boost::asio::io_context io;
+    boost::asio::io_context io(ioContextConfig());
     auto systemBus = std::make_shared<sdbusplus::asio::connection>(io);
 
     sdbusplus::asio::object_server objectServer(systemBus, true);

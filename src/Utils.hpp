@@ -3,6 +3,7 @@
 #include "VariantVisitors.hpp"
 
 #include <boost/algorithm/string/replace.hpp>
+#include <boost/asio/config.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <boost/container/flat_map.hpp>
 #include <phosphor-logging/lg2.hpp>
@@ -33,6 +34,16 @@
 #include <utility>
 #include <variant>
 #include <vector>
+
+// The default io_context reports concurrency_hint=1, keep it so the scheduler
+// stays on its single-threaded path. io_uring_iowait=0 because POLL_ADD and
+// TIMEOUT SQEs stay pending for every socket and timer wait, and the kernel
+// would otherwise count an idle daemon as blocked in iowait.
+inline boost::asio::config_from_string ioContextConfig()
+{
+    return boost::asio::config_from_string("scheduler.concurrency_hint=1\n"
+                                           "reactor.io_uring_iowait=0\n");
+}
 
 const constexpr char* jsonStore = "/var/configuration/flattened.json";
 const constexpr char* inventoryPath = "/xyz/openbmc_project/inventory";
