@@ -36,6 +36,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6864ca68_1592334e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-11-16T07:28:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "806a4cb4_a1ef4025",
+      "revId": "bc39df7d501a62ebe66b137a4f8df66220b5696f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "afa8baa4_3296e4c4",
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "Added a comment explaining that the lifetime token expires during destruction so queued timer handlers skip the destroyed sensor.",
       "parentUuid": "afa8baa4_3296e4c4",
+      "revId": "bc39df7d501a62ebe66b137a4f8df66220b5696f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb37b84e_b8b4ed8d",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-11-16T07:28:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e8323c3_635383ea",
       "revId": "bc39df7d501a62ebe66b137a4f8df66220b5696f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
