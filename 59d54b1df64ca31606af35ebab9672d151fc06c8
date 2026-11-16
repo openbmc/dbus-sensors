@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "38a412a4_a38d122d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2026-11-16T12:57:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fae91d49_6ffe1903",
+      "revId": "59d54b1df64ca31606af35ebab9672d151fc06c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f18f2895_878511e5",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-10-30T05:07:54Z",
       "side": 1,
       "message": "nit: the message says `StaticEID` while the code reads `StaticEndpointID`",
+      "range": {
+        "startLine": 9,
+        "startChar": 6,
+        "endLine": 9,
+        "endChar": 15
+      },
+      "revId": "59d54b1df64ca31606af35ebab9672d151fc06c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10f4ab4d_e88398c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2026-11-16T12:57:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f18f2895_878511e5",
       "range": {
         "startLine": 9,
         "startChar": 6,
@@ -58,6 +100,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d561375e_ec8d4e65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2026-11-16T12:57:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae54c324_9da3d66b",
+      "revId": "59d54b1df64ca31606af35ebab9672d151fc06c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ab33fe17_590d0980",
@@ -71,6 +131,24 @@
       "writtenOn": "2026-10-30T09:08:17Z",
       "side": 1,
       "message": "Could mctpd service\u0027s \"au.com.codeconstruct.MCTP.Bridge1\" interface data also updated as part of commit message?",
+      "revId": "59d54b1df64ca31606af35ebab9672d151fc06c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cdc05ce5_079ae6a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2026-11-16T12:57:45Z",
+      "side": 1,
+      "message": "Done, add introspect log of EID 30 object.",
+      "parentUuid": "ab33fe17_590d0980",
       "revId": "59d54b1df64ca31606af35ebab9672d151fc06c8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -111,6 +189,24 @@
       "writtenOn": "2026-10-30T09:08:17Z",
       "side": 1,
       "message": "should this be debug?",
+      "revId": "59d54b1df64ca31606af35ebab9672d151fc06c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0afd95d_65e6e4bc",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2026-11-16T12:57:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3f62c4b_082b3ea5",
       "revId": "59d54b1df64ca31606af35ebab9672d151fc06c8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -217,6 +313,42 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc6169a5_4fd757d0",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 883,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2026-11-16T12:57:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd9cfc99_ed4a1db7",
+      "revId": "59d54b1df64ca31606af35ebab9672d151fc06c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47232e74_230ee68a",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 883,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2026-11-16T12:57:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34cad9a9_b19dd7a4",
+      "revId": "59d54b1df64ca31606af35ebab9672d151fc06c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5c9debb3_c9082bee",
@@ -230,6 +362,24 @@
       "writtenOn": "2026-10-30T05:07:54Z",
       "side": 1,
       "message": "If only some of `StaticEndpointID`, `BridgePoolStartEid` and `BridgePoolSize` are present the static request is silently dropped, so could we reject a partial set here as a bad configuration?",
+      "revId": "59d54b1df64ca31606af35ebab9672d151fc06c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6026578_fd0637d5",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 896,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2026-11-16T12:57:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c9debb3_c9082bee",
       "revId": "59d54b1df64ca31606af35ebab9672d151fc06c8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -251,6 +401,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cbea626_3d7d3872",
+        "filename": "src/mctp/MCTPEndpoint.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2026-11-16T12:57:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1c74407_4c006a9c",
+      "revId": "59d54b1df64ca31606af35ebab9672d151fc06c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "965637dc_6503b20f",
@@ -264,6 +432,24 @@
       "writtenOn": "2026-10-30T09:08:17Z",
       "side": 1,
       "message": "nit:: same here, const may be?",
+      "revId": "59d54b1df64ca31606af35ebab9672d151fc06c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05086f82_f22e5d92",
+        "filename": "src/mctp/MCTPEndpoint.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2026-11-16T12:57:45Z",
+      "side": 1,
+      "message": "I am not sure is it really necessary to add const here when parameter is passing by value?",
+      "parentUuid": "965637dc_6503b20f",
       "revId": "59d54b1df64ca31606af35ebab9672d151fc06c8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
