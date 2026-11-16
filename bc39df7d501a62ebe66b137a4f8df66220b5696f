@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "806a4cb4_a1ef4025",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-11-16T07:24:17Z",
+      "side": 1,
+      "message": "Added a Tested section noting that this was verified by code inspection only; no runtime reproduction or ASan test was performed. Also added a comment explaining that queued timer handlers skip callbacks after sensor destruction.",
+      "parentUuid": "342b26ba_e1be04d9",
+      "revId": "bc39df7d501a62ebe66b137a4f8df66220b5696f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "afa8baa4_3296e4c4",
         "filename": "src/smbpbi/SmbpbiSensor.hpp",
         "patchSetId": 3
@@ -31,6 +49,24 @@
       "writtenOn": "2026-11-13T11:22:55Z",
       "side": 1,
       "message": "Nit: a one-line comment would help here, e.g. \"Expires in the destructor so queued timer handlers skip a destroyed sensor.\"",
+      "revId": "bc39df7d501a62ebe66b137a4f8df66220b5696f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e8323c3_635383ea",
+        "filename": "src/smbpbi/SmbpbiSensor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-11-16T07:24:17Z",
+      "side": 1,
+      "message": "Added a comment explaining that the lifetime token expires during destruction so queued timer handlers skip the destroyed sensor.",
+      "parentUuid": "afa8baa4_3296e4c4",
       "revId": "bc39df7d501a62ebe66b137a4f8df66220b5696f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
