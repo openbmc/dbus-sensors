@@ -36,6 +36,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "54ccc12a_5e1c00f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-11-16T07:26:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68e58f85_04887eab",
+      "revId": "56b1bc3c6fb3ad6c9966c053a069c5cfcd279ff6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5262d7c1_757bd126",
@@ -102,6 +120,24 @@
       "side": 1,
       "message": "On sensor creation failure, ADCSensorMain.cpp now erases the null map entry, allowing a later rescan to retry it.",
       "parentUuid": "57493ae2_d2c885aa",
+      "revId": "56b1bc3c6fb3ad6c9966c053a069c5cfcd279ff6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6dc69bb_5e7c7fa4",
+        "filename": "src/adc/ADCSensorMain.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-11-16T07:26:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99479d00_ec8eb9b7",
       "revId": "56b1bc3c6fb3ad6c9966c053a069c5cfcd279ff6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
