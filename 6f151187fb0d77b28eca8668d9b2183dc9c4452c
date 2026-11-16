@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b0ac437_e924059d",
+        "filename": "src/tests/nvidia-gpu/meson.build",
+        "patchSetId": 12
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-11-16T03:54:25Z",
+      "side": 1,
+      "message": "Let\u0027s not do this and add a new test target in `src/tests/meson.build` for this file, similar to how it is done for `src/tests/test_Utils.cpp`.",
+      "revId": "6f151187fb0d77b28eca8668d9b2183dc9c4452c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
