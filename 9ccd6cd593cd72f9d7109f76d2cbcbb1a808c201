@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc572cc6_290ef7b6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-11-17T06:06:30Z",
+      "side": 1,
+      "message": "LGTM. Wait for (EM schema)[https://gerrit.openbmc.org/c/openbmc/entity-manager/+/95094] merge first.",
+      "revId": "9ccd6cd593cd72f9d7109f76d2cbcbb1a808c201",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
