@@ -176,6 +176,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3f7cf5f_e1d2bfbf",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2026-11-17T13:29:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9544add_ad9d6977",
+      "range": {
+        "startLine": 107,
+        "startChar": 4,
+        "endLine": 109,
+        "endChar": 38
+      },
+      "revId": "59d54b1df64ca31606af35ebab9672d151fc06c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e3f62c4b_082b3ea5",
@@ -228,6 +252,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdbb5aae_0afee247",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2026-11-17T13:29:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26634fc0_9d377c9b",
+      "revId": "59d54b1df64ca31606af35ebab9672d151fc06c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f805b91e_376c2af1",
@@ -264,6 +306,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "112b2b68_53c45a42",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2026-11-17T13:29:08Z",
+      "side": 1,
+      "message": "I think the systems configuring static EIDs in Entity Manager should ensure the static EID (and bridge pool range) does not overlap with  dynamic EID pool.\n\nIf AssignBridgeStatic still fails (for example, due to a transient error or a temporary device holding the EID), retrying on ticks is intentional so the device can eventually acquire its configured static EID rather than silently falling back to a different EID or giving up.",
+      "parentUuid": "5d5c0c99_3068267f",
+      "revId": "59d54b1df64ca31606af35ebab9672d151fc06c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "04966bd4_4e610359",
         "filename": "src/mctp/MCTPEndpoint.cpp",
         "patchSetId": 10
@@ -275,6 +335,24 @@
       "writtenOn": "2026-10-30T09:08:17Z",
       "side": 1,
       "message": "Why is the Bridge Static support limited to USBDevices?",
+      "revId": "59d54b1df64ca31606af35ebab9672d151fc06c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3231dec1_5da61651",
+        "filename": "src/mctp/MCTPEndpoint.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 856,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2026-11-17T13:29:08Z",
+      "side": 1,
+      "message": "This change is based on the Entity Manager schema change in https://gerrit.openbmc.org/c/openbmc/entity-manager/+/96395, which currently adds these properties only to MCTPUSBDevice.\nIf they should be placed somewhere more general in the schema (so they apply to MCTPI2CTarget / MCTPI3CTarget as well), could you please leave a comment on that EM change? Once the schema location is settled, we can easily generalize the parsing here to all MCTPDDevice subclasses as well.",
+      "parentUuid": "04966bd4_4e610359",
       "revId": "59d54b1df64ca31606af35ebab9672d151fc06c8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
