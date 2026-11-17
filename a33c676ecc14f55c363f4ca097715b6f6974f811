@@ -191,6 +191,24 @@
       "message": "The sample that reaches lowConfirmSamples still sets pendingConfirm, so it is returned without reaching threshold processing. Could the threshold-reaching sample be processed immediately? Otherwise, a reading that recovers after exactly three low samples may not trigger the alarm.",
       "revId": "a33c676ecc14f55c363f4ca097715b6f6974f811",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f41f0f39_e3bca2fe",
+        "filename": "src/psu/PSUSensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1000416
+      },
+      "writtenOn": "2026-11-17T07:26:29Z",
+      "side": 1,
+      "message": "Fixed. Thanks",
+      "parentUuid": "f0d4ff73_5e3be4d0",
+      "revId": "a33c676ecc14f55c363f4ca097715b6f6974f811",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
