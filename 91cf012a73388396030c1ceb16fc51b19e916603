@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a56e8db4_32251843",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-11-17T06:15:50Z",
+      "side": 1,
+      "message": "nit: Could the subject prefix be `exit-air`: to match the other commits in this repo?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "91cf012a73388396030c1ceb16fc51b19e916603",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5fe09ab0_8b8f835c",
+        "filename": "src/exit-air/ExitAirTempSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 908,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-11-17T06:15:50Z",
+      "side": 1,
+      "message": "`MaxCFM`, `C1`, `C2` and the other `loadVariant` calls here still throw on a missing key. Would catching around the whole entry be simpler?",
+      "revId": "91cf012a73388396030c1ceb16fc51b19e916603",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
