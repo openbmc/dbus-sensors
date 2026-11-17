@@ -16,6 +16,23 @@
       "message": "FYI, the mpq82d00 driver is now in the OpenBMC kernel: it was applied to dev-6.18 as commit [f27ba9b499d4] (\"hwmon: (pmbus) Add MPQ82D00 driver\").\n\n[f27ba9b499d4]: https://github.com/openbmc/linux/commit/f27ba9b499d44c99140257fef458f8e22a553242",
       "revId": "db84d54a7ac2874de0a0350ea0ba5c8f316ea889",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "314128b9_b899df76",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002589
+      },
+      "writtenOn": "2026-11-17T07:48:25Z",
+      "side": 1,
+      "message": "Hi @ed@tanous.net and @paligill@gmail.com, could you please help review this change when you have a moment? Thanks!",
+      "revId": "db84d54a7ac2874de0a0350ea0ba5c8f316ea889",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
