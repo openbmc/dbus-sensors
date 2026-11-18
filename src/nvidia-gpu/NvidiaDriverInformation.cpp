@@ -63,7 +63,7 @@ NvidiaDriverInformation::NvidiaDriverInformation(
     }
 
     std::vector<Association> associations;
-    associations.emplace_back("running", "ran_on", associationEndpoint);
+    associations.emplace_back("ran_on", "running", associationEndpoint);
 
     associationInterface =
         objectServer.add_interface(dbusPath, association::interface);

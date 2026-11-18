@@ -10,6 +10,7 @@
 #include "NvidiaGpuMctpVdm.hpp"
 #include "OcpMctpVdm.hpp"
 #include "TestUtils.hpp"
+#include "Utils.hpp"
 
 #include <sdbusplus/message/native_types.hpp>
 
@@ -99,6 +100,19 @@ TEST_F(NvidiaDriverInformationTest, ConstructorCreatesVersionInterface)
     EXPECT_EQ(getProperty<std::string>(
                   path, "xyz.openbmc_project.Software.Version", "Purpose"),
               "xyz.openbmc_project.Software.Version.VersionPurpose.Other");
+}
+
+TEST_F(NvidiaDriverInformationTest, ConstructorCreatesRanOnAssociation)
+{
+    const std::string name = "drv_assoc";
+    const std::shared_ptr<NvidiaDriverInformation> driverInfo =
+        createDriverInfo(name);
+
+    const std::vector<Association> expected = {
+        {"ran_on", "running", "/xyz/openbmc_project/inventory/" + name}};
+    EXPECT_EQ(getProperty<std::vector<Association>>(
+                  driverPath(name), association::interface, "Associations"),
+              expected);
 }
 
 // Update — successful version update
