@@ -1,0 +1,255 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "556a3ace_5ad13675",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 49
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-11-18T11:50:52Z",
+      "side": 1,
+      "message": "nit: this lamda is too long.",
+      "revId": "00323de6673703646f1c4e6a28d0d146a13e97bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d18e2ac9_51c66aec",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 49
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-11-18T11:50:52Z",
+      "side": 1,
+      "message": "Why is this needed in the first place? can we remove it?",
+      "revId": "00323de6673703646f1c4e6a28d0d146a13e97bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d4cd8ef_57f3b60d",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 49
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-11-18T11:50:52Z",
+      "side": 1,
+      "message": "Can we pass MCTP Target config type here to avoid check at line 347?",
+      "revId": "00323de6673703646f1c4e6a28d0d146a13e97bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3037719_e71bf4ea",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 49
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-11-18T11:50:52Z",
+      "side": 1,
+      "message": "can the be renamed to `mctpTargetObjectPath`?",
+      "range": {
+        "startLine": 386,
+        "startChar": 34,
+        "endLine": 386,
+        "endChar": 44
+      },
+      "revId": "00323de6673703646f1c4e6a28d0d146a13e97bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25e9566f_8487f71f",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 49
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-11-18T11:50:52Z",
+      "side": 1,
+      "message": "nit: not needed.",
+      "range": {
+        "startLine": 416,
+        "startChar": 14,
+        "endLine": 417,
+        "endChar": 39
+      },
+      "revId": "00323de6673703646f1c4e6a28d0d146a13e97bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ea8e673_68dce604",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 49
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-11-18T11:50:52Z",
+      "side": 1,
+      "message": "add a log here if `Board` is not a string similar to `Name`.",
+      "revId": "00323de6673703646f1c4e6a28d0d146a13e97bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33a05732_45073d1b",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 49
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-11-18T11:50:52Z",
+      "side": 1,
+      "message": "can this be renamed to `configObjectPath`? Same for other places in this file.",
+      "range": {
+        "startLine": 430,
+        "startChar": 52,
+        "endLine": 430,
+        "endChar": 68
+      },
+      "revId": "00323de6673703646f1c4e6a28d0d146a13e97bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c84c7426_c5f29ad8",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 49
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-11-18T11:50:52Z",
+      "side": 1,
+      "message": "Add more detailed logs here for failure cases.",
+      "revId": "00323de6673703646f1c4e6a28d0d146a13e97bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "539a6e37_e83e2c0d",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 49
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-11-18T11:50:52Z",
+      "side": 1,
+      "message": "Why do we need to use `boardLookups` object here? Can we remove the object all together? Can we directly call `done` from lamda below?",
+      "revId": "00323de6673703646f1c4e6a28d0d146a13e97bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7bdb79f7_3279522f",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 49
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-11-18T11:50:52Z",
+      "side": 1,
+      "message": "add logs here.",
+      "revId": "00323de6673703646f1c4e6a28d0d146a13e97bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "253a7940_cab10d34",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 49
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-11-18T11:50:52Z",
+      "side": 1,
+      "message": "can we remove this parameter since the function we need to call is member function and we can directly all it at the end?",
+      "range": {
+        "startLine": 519,
+        "startChar": 42,
+        "endLine": 519,
+        "endChar": 46
+      },
+      "revId": "00323de6673703646f1c4e6a28d0d146a13e97bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "280754e0_6c5b53ce",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 49
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-11-18T11:50:52Z",
+      "side": 1,
+      "message": "nit: rename it to `boardInventoryPath`",
+      "range": {
+        "startLine": 536,
+        "startChar": 66,
+        "endLine": 536,
+        "endChar": 79
+      },
+      "revId": "00323de6673703646f1c4e6a28d0d146a13e97bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b16def1_6fd373ba",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 49
+      },
+      "lineNbr": 704,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-11-18T11:50:52Z",
+      "side": 1,
+      "message": "Can we add this check at the top common to logic of all device type?",
+      "revId": "00323de6673703646f1c4e6a28d0d146a13e97bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
