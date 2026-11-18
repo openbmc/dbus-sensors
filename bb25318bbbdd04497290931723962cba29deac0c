@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "312929ea_581c36d1",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 47
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-11-18T08:13:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e903f9d1_afe9507b",
+      "range": {
+        "startLine": 363,
+        "startChar": 45,
+        "endLine": 363,
+        "endChar": 54
+      },
+      "revId": "bb25318bbbdd04497290931723962cba29deac0c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1fcb787a_d78fd0d7",
@@ -41,6 +65,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3965b8c_05171e77",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 47
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-11-18T08:13:56Z",
+      "side": 1,
+      "message": "Done, the record is now read directly at the board path joined with its `Name`, in https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/86791 where devices are paired with their records by `Name`.",
+      "parentUuid": "1fcb787a_d78fd0d7",
+      "revId": "bb25318bbbdd04497290931723962cba29deac0c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "73ad0276_10b18b3c",
@@ -54,6 +96,24 @@
       "writtenOn": "2026-11-18T06:28:58Z",
       "side": 1,
       "message": "Let\u0027s avoid collecting all board paths at once.",
+      "revId": "bb25318bbbdd04497290931723962cba29deac0c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16ccee2c_2eae5c1d",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 47
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-11-18T08:13:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73ad0276_10b18b3c",
       "revId": "bb25318bbbdd04497290931723962cba29deac0c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
