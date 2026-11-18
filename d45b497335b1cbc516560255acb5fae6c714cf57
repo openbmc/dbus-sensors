@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74c2c10f_97ef481a",
+        "filename": "src/tests/nvidia-gpu/test_Inventory.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-11-18T04:55:54Z",
+      "side": 1,
+      "message": "It\u0027s ok if we remove this test.",
+      "revId": "d45b497335b1cbc516560255acb5fae6c714cf57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "586f320e_c216e6ea",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuDevice.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-11-18T04:55:54Z",
+      "side": 1,
+      "message": "Remove references to redfish.",
+      "revId": "d45b497335b1cbc516560255acb5fae6c714cf57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9abd1263_0a4a6e72",
+        "filename": "src/tests/nvidia-gpu/test_NvidiaGpuDevice.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-11-18T04:55:54Z",
+      "side": 1,
+      "message": "Remove references to bmcweb.",
+      "revId": "d45b497335b1cbc516560255acb5fae6c714cf57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5e883ab_2401a566",
+        "filename": "src/tests/nvidia-gpu/utils/TestUtils.hpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-11-18T04:55:54Z",
+      "side": 1,
+      "message": "This is not needed since it is evident.",
+      "range": {
+        "startLine": 53,
+        "startChar": 12,
+        "endLine": 54,
+        "endChar": 54
+      },
+      "revId": "d45b497335b1cbc516560255acb5fae6c714cf57",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
