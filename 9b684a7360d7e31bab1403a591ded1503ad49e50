@@ -16,6 +16,24 @@
       "message": "Are the transceiver inventory fields intentionally always Unknown?\nIf module data is available, could we use it to populate these fields?",
       "revId": "9b684a7360d7e31bab1403a591ded1503ad49e50",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8c2baa5_67921034",
+        "filename": "src/nvidia-gpu/NvidiaTransceiver.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-11-18T05:22:05Z",
+      "side": 1,
+      "message": "Yes. The only module data the network device reports to the BMC is the optical module group of Query Port Telemetry v2: per-lane TX/RX power, bias current and SNR, plus a bias scaling factor. None of it gives the form factor, medium or management interface, so all three stay at the PDI default, Unknown, which bmcweb 96676 leaves out of SFP.\n\nhttps://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/96993/3/src/nvidia-gpu/NvidiaGpuMctpVdm.cpp#1790",
+      "parentUuid": "3b8ccc02_ffd5c9ce",
+      "revId": "9b684a7360d7e31bab1403a591ded1503ad49e50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
