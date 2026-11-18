@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfcc3a72_58e00203",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-11-18T01:25:50Z",
+      "side": 1,
+      "message": "Done, a threshold whose Label names no temperature sensor is logged\nas an error now. One with no Label is still skipped without a log.",
+      "parentUuid": "0b5db171_bbf6c2a1",
+      "revId": "c47a640789b3131cf3ab6006094e3252b88f0333",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b09b8e27_881e0cc4",
@@ -49,6 +67,24 @@
       "side": 1,
       "message": "Hi @suvedhab@ami.com, `object_path` has operator `const std::string\u0026`, so binding it here allocates nothing. Taking an `object_path` is still the convention for path parameters. Please correct me if I am wrong.",
       "parentUuid": "b09b8e27_881e0cc4",
+      "revId": "c47a640789b3131cf3ab6006094e3252b88f0333",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fb91ec4_33ebe908",
+        "filename": "src/nvidia-gpu/DeviceManager.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-11-18T01:25:50Z",
+      "side": 1,
+      "message": "Done, it takes an object_path now.",
+      "parentUuid": "b0e98670_1f5c9091",
       "revId": "c47a640789b3131cf3ab6006094e3252b88f0333",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -88,6 +124,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e164385_d91c27dd",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-11-18T01:25:50Z",
+      "side": 1,
+      "message": "No change, for the reason Ender gave: smaConfig is never reloaded.",
+      "parentUuid": "09907992_2cfef6cf",
+      "revId": "c47a640789b3131cf3ab6006094e3252b88f0333",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "05d915c0_e2234cb4",
@@ -101,6 +155,24 @@
       "writtenOn": "2026-11-12T11:19:11Z",
       "side": 1,
       "message": "Could we retry transient failures? A startup timeout permanently drops dynamic thresholds, even after recovery. Please add a failure-then-recovery test.",
+      "revId": "c47a640789b3131cf3ab6006094e3252b88f0333",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa18077b_0c71f053",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-11-18T01:25:50Z",
+      "side": 1,
+      "message": "Done. A timed-out read is retried after 5 s, up to 3 attempts, same as Inventory.hpp. Test: PublishesDynamicThresholdsReadAfterATimeout",
+      "parentUuid": "05d915c0_e2234cb4",
       "revId": "c47a640789b3131cf3ab6006094e3252b88f0333",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -135,6 +207,42 @@
       "writtenOn": "2026-11-12T11:19:11Z",
       "side": 1,
       "message": "Please make asynchronously created sensors inherit the device’s current state; a response after setOffline() currently creates a functional sensor. Please test this delayed-response case.",
+      "revId": "c47a640789b3131cf3ab6006094e3252b88f0333",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6e02d85_ac20c421",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-11-18T01:25:50Z",
+      "side": 1,
+      "message": "Done, the temperature sensor takes the offline state at publication.\nTest: PublishesASensorNonFunctionalWhileOffline",
+      "parentUuid": "0d3fbd11_4aa23928",
+      "revId": "c47a640789b3131cf3ab6006094e3252b88f0333",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cdb31ab_5f445c4b",
+        "filename": "src/nvidia-gpu/NvidiaSmaDevice.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1002810
+      },
+      "writtenOn": "2026-11-18T01:25:50Z",
+      "side": 1,
+      "message": "Done. Test: PublishesASensorNonFunctionalWhileOffline",
+      "parentUuid": "2a0da563_3e7a61e9",
       "revId": "c47a640789b3131cf3ab6006094e3252b88f0333",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
