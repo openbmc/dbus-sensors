@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91a43a2c_97b8df43",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 40
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-11-18T04:59:41Z",
+      "side": 1,
+      "message": "Remove references to redfish and bmcweb and write it only targeting PDIs.",
+      "revId": "abddb535501fd1c29e86779070871f4feedace2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
