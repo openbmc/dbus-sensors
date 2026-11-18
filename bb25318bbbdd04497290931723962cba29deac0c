@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e903f9d1_afe9507b",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 47
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-11-18T06:28:58Z",
+      "side": 1,
+      "message": "Can we use GetAssociatedSubTree? With it we would get Object path and service of MCTP Target config in single D-Bus call.",
+      "range": {
+        "startLine": 363,
+        "startChar": 45,
+        "endLine": 363,
+        "endChar": 54
+      },
+      "revId": "bb25318bbbdd04497290931723962cba29deac0c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1fcb787a_d78fd0d7",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 47
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-11-18T06:28:58Z",
+      "side": 1,
+      "message": "Ideally we should use Object Mapper here to find the object path of `Board` (optionally cache it to avoid duplicate lookups) and then use directly search NvidiaMctpGpu config at {board_path}/{Name} object path and EM service.",
+      "revId": "bb25318bbbdd04497290931723962cba29deac0c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73ad0276_10b18b3c",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 47
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-11-18T06:28:58Z",
+      "side": 1,
+      "message": "Let\u0027s avoid collecting all board paths at once.",
+      "revId": "bb25318bbbdd04497290931723962cba29deac0c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
