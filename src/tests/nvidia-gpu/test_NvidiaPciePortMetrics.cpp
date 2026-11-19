@@ -65,6 +65,19 @@ TEST_F(NvidiaPciePortMetricsTest, ConstructorCreatesMetricInterfaces)
     ASSERT_NE(metrics, nullptr);
 }
 
+TEST_F(NvidiaPciePortMetricsTest, ConstructorPublishesMetricUnit)
+{
+    const std::string pcieDeviceName = "pcie_metrics_unit";
+    const std::shared_ptr<NvidiaPciePortMetrics> metrics =
+        createPciePortMetrics("Port_0", pcieDeviceName);
+
+    EXPECT_EQ(getProperty<std::string>(
+                  "/xyz/openbmc_project/metric/port_" + pcieDeviceName +
+                      "_Port_0/pcie/fatal_error_count",
+                  "xyz.openbmc_project.Metric.Value", "Unit"),
+              "xyz.openbmc_project.Metric.Value.Unit.Count");
+}
+
 // Update — successful response updates D-Bus metric values
 
 TEST_F(NvidiaPciePortMetricsTest, UpdateSuccessUpdatesMetricValues)

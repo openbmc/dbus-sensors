@@ -30,8 +30,6 @@
 
 using std::string;
 
-using namespace std::literals;
-
 constexpr const char* metricInterface = "xyz.openbmc_project.Metric.Value";
 
 NvidiaPciePortMetrics::NvidiaPciePortMetrics(
@@ -81,14 +79,13 @@ NvidiaPciePortMetrics::NvidiaPciePortMetrics(
     const sdbusplus::object_path portDbusPath =
         inventoryPrefix / pcieDeviceName / name;
 
-    for (const auto& [id, name] : metricsInfo)
+    for (const auto& [id, name, unit] : metricsInfo)
     {
         const std::string metricsDbusPath = metricsDbusPathPrefix + name;
 
         metricValueInterfaces[id] =
             objectServer.add_interface(metricsDbusPath, metricInterface);
-        metricValueInterfaces[id]->register_property(
-            "Unit", "xyz.openbmc_project.Metric.Value.Unit.Count"s);
+        metricValueInterfaces[id]->register_property("Unit", unit);
         metricValueInterfaces[id]->register_property("Value", 0.0);
 
         std::vector<Association> associations;
@@ -221,10 +218,10 @@ std::shared_ptr<NvidiaPciePortMetrics> makeNvidiaPciePortErrors(
         upstreamPortNumber, portNumber, objectServer,
         gpu::PcieScalarGroupId::AerErrorCounters,
         std::vector<NvidiaMetricInfo>{
-            {0, "/pcie/non_fatal_error_count"},
-            {1, "/pcie/fatal_error_count"},
-            {2, "/pcie/unsupported_request_count"},
-            {3, "/pcie/correctable_error_count"},
+            {0, "/pcie/non_fatal_error_count", metricUnitCount},
+            {1, "/pcie/fatal_error_count", metricUnitCount},
+            {2, "/pcie/unsupported_request_count", metricUnitCount},
+            {3, "/pcie/correctable_error_count", metricUnitCount},
         },
         deviceType);
 }
@@ -242,10 +239,10 @@ std::shared_ptr<NvidiaPciePortMetrics> makeNvidiaPciePortCounters(
         upstreamPortNumber, portNumber, objectServer,
         gpu::PcieScalarGroupId::DetailedErrorCounters,
         std::vector<NvidiaMetricInfo>{
-            {1, "/pcie/nak_received_count"},
-            {2, "/pcie/nak_sent_count"},
-            {4, "/pcie/replay_rollover_count"},
-            {6, "/pcie/replay_count"},
+            {1, "/pcie/nak_received_count", metricUnitCount},
+            {2, "/pcie/nak_sent_count", metricUnitCount},
+            {4, "/pcie/replay_rollover_count", metricUnitCount},
+            {6, "/pcie/replay_count", metricUnitCount},
         },
         deviceType);
 }
@@ -263,7 +260,7 @@ std::shared_ptr<NvidiaPciePortMetrics> makeNvidiaPciePortL0ToRecoveryCount(
         upstreamPortNumber, portNumber, objectServer,
         gpu::PcieScalarGroupId::RecoveryCounter,
         std::vector<NvidiaMetricInfo>{
-            {0, "/pcie/l0_to_recovery_count"},
+            {0, "/pcie/l0_to_recovery_count", metricUnitCount},
         },
         deviceType);
 }

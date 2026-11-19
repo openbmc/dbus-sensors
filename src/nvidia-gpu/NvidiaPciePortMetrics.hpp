@@ -24,6 +24,7 @@ struct NvidiaMetricInfo
 {
     uint8_t metricId;
     const char* metricName;
+    const std::string& unit;
 };
 
 struct NvidiaPciePortMetrics :
