@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5760567c_3702edda",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-11-19T02:47:48Z",
+      "side": 1,
+      "message": "Why the code block? Can you please find a way to remove it?",
+      "revId": "c05637f1a2f44dc64d82886584e6dc9a62ab0d96",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a020d85d_a287e781",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-11-19T02:47:48Z",
+      "side": 1,
+      "message": "This is merged and needn\u0027t be mentioned.",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 55
+      },
+      "revId": "c05637f1a2f44dc64d82886584e6dc9a62ab0d96",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85ea2b05_dc193c38",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-11-19T02:47:48Z",
+      "side": 1,
+      "message": "Can you please find a way to make this easier to read? I don\u0027t enjoy trying to follow along as it is.",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 72
+      },
+      "revId": "c05637f1a2f44dc64d82886584e6dc9a62ab0d96",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12279f70_7e1bd2d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-11-19T02:47:48Z",
+      "side": 1,
+      "message": "Hi Ender. I think the goal is reasonable. I have a couple of comments on the commit message.",
+      "revId": "c05637f1a2f44dc64d82886584e6dc9a62ab0d96",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
