@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "518d0da1_eb3bf80f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-11-19T17:24:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a4befbb_aa25c9fb",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "91cf012a73388396030c1ceb16fc51b19e916603",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5fe09ab0_8b8f835c",
@@ -79,6 +103,24 @@
       "side": 1,
       "message": "Added exception handling around each CFM configuration entry; invalid configuration is logged and skipped so sensor discovery can continue.",
       "parentUuid": "5fe09ab0_8b8f835c",
+      "revId": "91cf012a73388396030c1ceb16fc51b19e916603",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "565099d7_acca565b",
+        "filename": "src/exit-air/ExitAirTempSensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 908,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-11-19T17:24:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "459c8536_a950b196",
       "revId": "91cf012a73388396030c1ceb16fc51b19e916603",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
