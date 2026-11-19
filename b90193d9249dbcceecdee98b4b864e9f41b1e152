@@ -80,6 +80,23 @@
       "message": "Hi @ed@tanous.net, requesting you to approve this PR",
       "revId": "b90193d9249dbcceecdee98b4b864e9f41b1e152",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa6d585e_a6fcc189",
+        "filename": "src/hwmon-temp/HwmonTempSensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-11-19T13:53:13Z",
+      "side": 1,
+      "message": "The counter resets after publishing an abnormal reading, so a sustained abnormal stream is filtered again for the next three polls and only every fourth reading is published. Consider resetting only after a normal reading.",
+      "revId": "b90193d9249dbcceecdee98b4b864e9f41b1e152",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
