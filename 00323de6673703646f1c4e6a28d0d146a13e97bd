@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb64fea4_fe23797c",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 49
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-11-19T05:16:20Z",
+      "side": 1,
+      "message": "Done, I moved the lambda body into `processAssociatedConfig()`.",
+      "parentUuid": "556a3ace_5ad13675",
+      "revId": "00323de6673703646f1c4e6a28d0d146a13e97bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d18e2ac9_51c66aec",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-11-18T11:50:52Z",
       "side": 1,
       "message": "Why is this needed in the first place? can we remove it?",
+      "revId": "00323de6673703646f1c4e6a28d0d146a13e97bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "addb62f5_7083d34b",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 49
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-11-19T05:16:20Z",
+      "side": 1,
+      "message": "I kept the retry because the mapper can be too busy to answer while the BMC is booting, and it stays bounded by the existing three discovery sweeps.",
+      "parentUuid": "d18e2ac9_51c66aec",
       "revId": "00323de6673703646f1c4e6a28d0d146a13e97bd",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -52,6 +88,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f5cab67_b0914312",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 49
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-11-19T05:16:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d4cd8ef_57f3b60d",
+      "revId": "00323de6673703646f1c4e6a28d0d146a13e97bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e3037719_e71bf4ea",
@@ -65,6 +119,30 @@
       "writtenOn": "2026-11-18T11:50:52Z",
       "side": 1,
       "message": "can the be renamed to `mctpTargetObjectPath`?",
+      "range": {
+        "startLine": 386,
+        "startChar": 34,
+        "endLine": 386,
+        "endChar": 44
+      },
+      "revId": "00323de6673703646f1c4e6a28d0d146a13e97bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c784c6a_de53475b",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 49
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-11-19T05:16:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3037719_e71bf4ea",
       "range": {
         "startLine": 386,
         "startChar": 34,
@@ -98,6 +176,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "71999df1_fbea07e2",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 49
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-11-19T05:16:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25e9566f_8487f71f",
+      "range": {
+        "startLine": 416,
+        "startChar": 14,
+        "endLine": 417,
+        "endChar": 39
+      },
+      "revId": "00323de6673703646f1c4e6a28d0d146a13e97bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7ea8e673_68dce604",
@@ -111,6 +213,24 @@
       "writtenOn": "2026-11-18T11:50:52Z",
       "side": 1,
       "message": "add a log here if `Board` is not a string similar to `Name`.",
+      "revId": "00323de6673703646f1c4e6a28d0d146a13e97bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb3cb9ea_63550bef",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 49
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-11-19T05:16:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ea8e673_68dce604",
       "revId": "00323de6673703646f1c4e6a28d0d146a13e97bd",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -138,6 +258,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd42bd31_d4d0fd91",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 49
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-11-19T05:16:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33a05732_45073d1b",
+      "range": {
+        "startLine": 430,
+        "startChar": 52,
+        "endLine": 430,
+        "endChar": 68
+      },
+      "revId": "00323de6673703646f1c4e6a28d0d146a13e97bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c84c7426_c5f29ad8",
@@ -151,6 +295,24 @@
       "writtenOn": "2026-11-18T11:50:52Z",
       "side": 1,
       "message": "Add more detailed logs here for failure cases.",
+      "revId": "00323de6673703646f1c4e6a28d0d146a13e97bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59d108c8_df6903f5",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 49
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-11-19T05:16:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c84c7426_c5f29ad8",
       "revId": "00323de6673703646f1c4e6a28d0d146a13e97bd",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -172,6 +334,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9381985b_2881c5b8",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 49
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-11-19T05:16:20Z",
+      "side": 1,
+      "message": "Done, I removed `boardLookups` and the lookup now goes straight to the mapper when the path is not cached.",
+      "parentUuid": "539a6e37_e83e2c0d",
+      "revId": "00323de6673703646f1c4e6a28d0d146a13e97bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7bdb79f7_3279522f",
@@ -189,6 +369,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b31ff76_5abb7a41",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 49
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-11-19T05:16:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7bdb79f7_3279522f",
+      "revId": "00323de6673703646f1c4e6a28d0d146a13e97bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "253a7940_cab10d34",
@@ -202,6 +400,30 @@
       "writtenOn": "2026-11-18T11:50:52Z",
       "side": 1,
       "message": "can we remove this parameter since the function we need to call is member function and we can directly all it at the end?",
+      "range": {
+        "startLine": 519,
+        "startChar": 42,
+        "endLine": 519,
+        "endChar": 46
+      },
+      "revId": "00323de6673703646f1c4e6a28d0d146a13e97bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17755497_793af5c6",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 49
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-11-19T05:16:20Z",
+      "side": 1,
+      "message": "[86791](https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/86791) calls this for the bridge and for each device behind it, which continue differently, so the callback stays.",
+      "parentUuid": "253a7940_cab10d34",
       "range": {
         "startLine": 519,
         "startChar": 42,
@@ -235,6 +457,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2ede936_a05aa23f",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 49
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-11-19T05:16:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "280754e0_6c5b53ce",
+      "range": {
+        "startLine": 536,
+        "startChar": 66,
+        "endLine": 536,
+        "endChar": 79
+      },
+      "revId": "00323de6673703646f1c4e6a28d0d146a13e97bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5b16def1_6fd373ba",
@@ -248,6 +494,24 @@
       "writtenOn": "2026-11-18T11:50:52Z",
       "side": 1,
       "message": "Can we add this check at the top common to logic of all device type?",
+      "revId": "00323de6673703646f1c4e6a28d0d146a13e97bd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fac679ec_26083799",
+        "filename": "src/nvidia-gpu/DeviceManager.cpp",
+        "patchSetId": 49
+      },
+      "lineNbr": 704,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-11-19T05:16:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b16def1_6fd373ba",
       "revId": "00323de6673703646f1c4e6a28d0d146a13e97bd",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
