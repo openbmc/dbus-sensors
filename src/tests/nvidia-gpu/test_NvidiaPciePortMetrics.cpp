@@ -216,4 +216,107 @@ TEST_F(NvidiaPciePortMetricsTest, DestructorRemovesInterfaces)
                  sdbusplus::exception_t);
 }
 
+class NvidiaPciePortOutboundTlpCountersTest : public MctpMockTestBase
+{
+  protected:
+    static std::shared_ptr<NvidiaPciePortMetrics> createCounters(
+        const std::string& pcieDeviceName)
+    {
+        return makeNvidiaPciePortOutboundTlpCounters(
+            bus(), requester(), "Port_0", pcieDeviceName,
+            "/test/pcie/" + pcieDeviceName, test_utils::defaultEid,
+            gpu::PciePortType::DOWNSTREAM, defaultUpstreamPortNumber,
+            defaultPortNumber, objects(),
+            gpu::DeviceIdentification::DEVICE_PCIE);
+    }
+
+    static double metricValue(const std::string& pcieDeviceName,
+                              const std::string& metric)
+    {
+        return getProperty<double>(
+            "/xyz/openbmc_project/metric/port_" + pcieDeviceName +
+                "_Port_0/pcie/" + metric,
+            "xyz.openbmc_project.Metric.Value", "Value");
+    }
+
+    static std::string metricUnit(const std::string& pcieDeviceName,
+                                  const std::string& metric)
+    {
+        return getProperty<std::string>(
+            "/xyz/openbmc_project/metric/port_" + pcieDeviceName +
+                "_Port_0/pcie/" + metric,
+            "xyz.openbmc_project.Metric.Value", "Unit");
+    }
+};
+
+TEST_F(NvidiaPciePortOutboundTlpCountersTest, UpdatePublishesCounters)
+{
+    EXPECT_CALL(mctpMock, sendRecvMsg)
+        .WillOnce(mock_mctp::respondWith(
+            {}, buildMetricsTelemetryResponse(
+                    {100, 1, 2, 300, 0, 5, 700, 8, 9, 10, 11})));
+
+    const std::string dev = "pcie_tlp_upd";
+    const std::shared_ptr<NvidiaPciePortMetrics> metrics = createCounters(dev);
+    metrics->update();
+
+    EXPECT_EQ(metricValue(dev, "outbound_read_tlp_count"), 100.0);
+    EXPECT_EQ(metricValue(dev, "outbound_read_tlp_bytes"),
+              static_cast<double>(((uint64_t{1} << 32) | 2) * 4));
+    EXPECT_EQ(metricValue(dev, "outbound_write_tlp_count"), 300.0);
+    EXPECT_EQ(metricValue(dev, "outbound_write_tlp_bytes"), 20.0);
+    EXPECT_EQ(metricValue(dev, "outbound_completion_tlp_count"), 700.0);
+    EXPECT_EQ(metricValue(dev, "outbound_completion_tlp_bytes"), 32.0);
+    EXPECT_EQ(metricValue(dev, "tag_unavailability_drops"), 9.0);
+    EXPECT_EQ(metricValue(dev, "completion_credit_exhaustion_drops"), 10.0);
+    EXPECT_EQ(metricValue(dev, "np_credit_exhaustion_drops"), 11.0);
+}
+
+TEST_F(NvidiaPciePortOutboundTlpCountersTest, ConstructorPublishesUnits)
+{
+    const std::string dev = "pcie_tlp_unit";
+    const std::shared_ptr<NvidiaPciePortMetrics> metrics = createCounters(dev);
+
+    EXPECT_EQ(metricUnit(dev, "outbound_read_tlp_bytes"),
+              "xyz.openbmc_project.Metric.Value.Unit.Bytes");
+    EXPECT_EQ(metricUnit(dev, "outbound_read_tlp_count"),
+              "xyz.openbmc_project.Metric.Value.Unit.Count");
+    EXPECT_EQ(metricUnit(dev, "np_credit_exhaustion_drops"),
+              "xyz.openbmc_project.Metric.Value.Unit.Count");
+}
+
+TEST_F(NvidiaPciePortOutboundTlpCountersTest, ShortResponseSkipsMissingValues)
+{
+    EXPECT_CALL(mctpMock, sendRecvMsg)
+        .WillOnce(mock_mctp::respondWith(
+            {}, buildMetricsTelemetryResponse({100, 1})));
+
+    const std::string dev = "pcie_tlp_short";
+    const std::shared_ptr<NvidiaPciePortMetrics> metrics = createCounters(dev);
+    metrics->update();
+
+    EXPECT_EQ(metricValue(dev, "outbound_read_tlp_count"), 100.0);
+    EXPECT_EQ(metricValue(dev, "outbound_read_tlp_bytes"), 0.0);
+}
+
+TEST_F(NvidiaPciePortOutboundTlpCountersTest, UpdateRequestsOutboundTlpGroup)
+{
+    std::vector<uint8_t> lastRequest;
+    EXPECT_CALL(mctpMock, sendRecvMsg)
+        .WillOnce([&](uint8_t /*eid*/, std::span<const uint8_t> reqMsg,
+                      auto callback) {
+            lastRequest.assign(reqMsg.begin(), reqMsg.end());
+            callback(std::error_code{}, std::span<const uint8_t>{});
+        });
+
+    const std::shared_ptr<NvidiaPciePortMetrics> metrics =
+        createCounters("pcie_tlp_req");
+    metrics->update();
+
+    ASSERT_FALSE(lastRequest.empty());
+    EXPECT_EQ(
+        lastRequest.back(),
+        static_cast<uint8_t>(gpu::PcieScalarGroupId::OutboundTlpCounters));
+}
+
 } // namespace

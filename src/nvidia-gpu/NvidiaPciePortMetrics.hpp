@@ -16,15 +16,18 @@
 #include <cstddef>
 #include <cstdint>
 #include <memory>
+#include <optional>
 #include <span>
 #include <string>
 #include <vector>
 
 struct NvidiaMetricInfo
 {
-    uint8_t metricId;
-    const char* metricName;
+    uint8_t metricId{};
+    const char* metricName{};
     const std::string& unit;
+    std::optional<uint8_t> highMetricId = std::nullopt;
+    uint64_t scale = 1;
 };
 
 struct NvidiaPciePortMetrics :
@@ -78,6 +81,8 @@ struct NvidiaPciePortMetrics :
 
     gpu::DeviceIdentification deviceType;
 
+    std::vector<NvidiaMetricInfo> metricsInfo;
+
     std::vector<uint8_t> request;
 
     std::array<uint8_t, ocp::accelerator_management::commonResponseSize +
@@ -112,6 +117,14 @@ std::shared_ptr<NvidiaPciePortMetrics> makeNvidiaPciePortCounters(
     gpu::DeviceIdentification deviceType);
 
 std::shared_ptr<NvidiaPciePortMetrics> makeNvidiaPciePortL0ToRecoveryCount(
+    std::shared_ptr<sdbusplus::asio::connection>& conn,
+    mctp::MctpRequester& mctpRequester, const std::string& name,
+    const std::string& pcieDeviceName, const std::string& path, uint8_t eid,
+    gpu::PciePortType portType, uint8_t upstreamPortNumber, uint8_t portNumber,
+    sdbusplus::asio::object_server& objectServer,
+    gpu::DeviceIdentification deviceType);
+
+std::shared_ptr<NvidiaPciePortMetrics> makeNvidiaPciePortOutboundTlpCounters(
     std::shared_ptr<sdbusplus::asio::connection>& conn,
     mctp::MctpRequester& mctpRequester, const std::string& name,
     const std::string& pcieDeviceName, const std::string& path, uint8_t eid,

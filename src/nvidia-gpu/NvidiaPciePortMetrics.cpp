@@ -23,6 +23,7 @@
 #include <format>
 #include <functional>
 #include <memory>
+#include <optional>
 #include <span>
 #include <string>
 #include <system_error>
@@ -44,7 +45,7 @@ NvidiaPciePortMetrics::NvidiaPciePortMetrics(
     eid(eid), portType(portType), upstreamPortNumber(upstreamPortNumber),
     portNumber(portNumber), scalarGroupId(scalarGroupId), path(path),
     conn(conn), mctpRequester(mctpRequester), objectServer(objectServer),
-    deviceType(deviceType)
+    deviceType(deviceType), metricsInfo(metricsInfo)
 {
     int rc = 0;
     switch (deviceType)
@@ -79,13 +80,15 @@ NvidiaPciePortMetrics::NvidiaPciePortMetrics(
     const sdbusplus::object_path portDbusPath =
         inventoryPrefix / pcieDeviceName / name;
 
-    for (const auto& [id, name, unit] : metricsInfo)
+    for (const NvidiaMetricInfo& info : metricsInfo)
     {
+        const uint8_t id = info.metricId;
+        const char* name = info.metricName;
         const std::string metricsDbusPath = metricsDbusPathPrefix + name;
 
         metricValueInterfaces[id] =
             objectServer.add_interface(metricsDbusPath, metricInterface);
-        metricValueInterfaces[id]->register_property("Unit", unit);
+        metricValueInterfaces[id]->register_property("Unit", info.unit);
         metricValueInterfaces[id]->register_property("Value", 0.0);
 
         std::vector<Association> associations;
@@ -174,13 +177,23 @@ void NvidiaPciePortMetrics::processResponse(
         return;
     }
 
-    for (size_t i = 0; i < numTelemetryValue; ++i)
+    for (const NvidiaMetricInfo& info : metricsInfo)
     {
-        if (metricValueInterfaces[i] != nullptr)
+        if (info.metricId >= numTelemetryValue ||
+            (info.highMetricId && *info.highMetricId >= numTelemetryValue))
         {
-            metricValueInterfaces[i]->set_property(
-                "Value", static_cast<double>(telemetryValues[i]));
+            continue;
         }
+
+        uint64_t value = telemetryValues[info.metricId];
+        if (info.highMetricId)
+        {
+            value |= static_cast<uint64_t>(telemetryValues[*info.highMetricId])
+                     << 32;
+        }
+
+        metricValueInterfaces[info.metricId]->set_property(
+            "Value", static_cast<double>(value * info.scale));
     }
 }
 
@@ -261,6 +274,37 @@ std::shared_ptr<NvidiaPciePortMetrics> makeNvidiaPciePortL0ToRecoveryCount(
         gpu::PcieScalarGroupId::RecoveryCounter,
         std::vector<NvidiaMetricInfo>{
             {0, "/pcie/l0_to_recovery_count", metricUnitCount},
+        },
+        deviceType);
+}
+
+std::shared_ptr<NvidiaPciePortMetrics> makeNvidiaPciePortOutboundTlpCounters(
+    std::shared_ptr<sdbusplus::asio::connection>& conn,
+    mctp::MctpRequester& mctpRequester, const std::string& name,
+    const std::string& pcieDeviceName, const std::string& path, uint8_t eid,
+    gpu::PciePortType portType, uint8_t upstreamPortNumber, uint8_t portNumber,
+    sdbusplus::asio::object_server& objectServer,
+    gpu::DeviceIdentification deviceType)
+{
+    constexpr uint64_t bytesPerDword = 4;
+
+    return std::make_shared<NvidiaPciePortMetrics>(
+        conn, mctpRequester, name, pcieDeviceName, path, eid, portType,
+        upstreamPortNumber, portNumber, objectServer,
+        gpu::PcieScalarGroupId::OutboundTlpCounters,
+        std::vector<NvidiaMetricInfo>{
+            {0, "/pcie/outbound_read_tlp_count", metricUnitCount},
+            {2, "/pcie/outbound_read_tlp_bytes", metricUnitBytes, 1,
+             bytesPerDword},
+            {3, "/pcie/outbound_write_tlp_count", metricUnitCount},
+            {5, "/pcie/outbound_write_tlp_bytes", metricUnitBytes, 4,
+             bytesPerDword},
+            {6, "/pcie/outbound_completion_tlp_count", metricUnitCount},
+            {7, "/pcie/outbound_completion_tlp_bytes", metricUnitBytes,
+             std::nullopt, bytesPerDword},
+            {8, "/pcie/tag_unavailability_drops", metricUnitCount},
+            {9, "/pcie/completion_credit_exhaustion_drops", metricUnitCount},
+            {10, "/pcie/np_credit_exhaustion_drops", metricUnitCount},
         },
         deviceType);
 }
