@@ -41,10 +41,11 @@
 #include <cmath>
 #include <cstddef>
 #include <cstdint>
+#include <exception>
 #include <functional>
 #include <limits>
 #include <memory>
-#include <stdexcept>
+#include <optional>
 #include <string>
 #include <string_view>
 #include <utility>
@@ -819,23 +820,31 @@ void ExitAirTempSensor::checkThresholds()
     thresholds::checkThresholds(this);
 }
 
-static void loadVariantPathArray(const SensorBaseConfigMap& data,
-                                 const std::string& key,
-                                 std::vector<std::string>& resp)
+static std::optional<std::vector<std::string>> loadVariantPathArray(
+    const SensorBaseConfigMap& data, const std::string& key)
 {
     auto it = data.find(key);
     if (it == data.end())
     {
         lg2::error("Configuration missing '{KEY}'", "KEY", key);
-        throw std::invalid_argument("Key Missing");
+        return std::nullopt;
     }
-    BasicVariantType copy = it->second;
-    std::vector<std::string> config = std::get<std::vector<std::string>>(copy);
-    for (auto& str : config)
+    try
     {
-        boost::replace_all(str, " ", "_");
+        std::vector<std::string> config =
+            std::get<std::vector<std::string>>(it->second);
+        for (auto& str : config)
+        {
+            boost::replace_all(str, " ", "_");
+        }
+        return config;
     }
-    resp = std::move(config);
+    catch (const std::exception& e)
+    {
+        lg2::error("Failed to convert configuration '{KEY}': {ERROR}", "KEY",
+                   key, "ERROR", e.what());
+        return std::nullopt;
+    }
 }
 
 void createSensor(sdbusplus::asio::object_server& objectServer,
@@ -847,38 +856,39 @@ void createSensor(sdbusplus::asio::object_server& objectServer,
         lg2::error("Connection not created");
         return;
     }
-    auto getter = std::make_shared<GetSensorConfiguration>(
-        dbusConnection, [&objectServer, &dbusConnection,
-                         &exitAirSensor](const ManagedObjectType& resp) {
-            cfmSensors.clear();
-            for (const auto& [path, interfaces] : resp)
+    auto getter = std::make_shared<
+        GetSensorConfiguration>(dbusConnection, [&objectServer, &dbusConnection,
+                                                 &exitAirSensor](
+                                                    const ManagedObjectType&
+                                                        resp) {
+        cfmSensors.clear();
+        for (const auto& [path, interfaces] : resp)
+        {
+            for (const auto& [intf, cfg] : interfaces)
             {
-                for (const auto& [intf, cfg] : interfaces)
+                if (intf == configInterfaceName(exitAirType))
                 {
-                    if (intf == configInterfaceName(exitAirType))
-                    {
-                        // thresholds should be under the same path
-                        std::vector<thresholds::Threshold> sensorThresholds;
-                        parseThresholdsFromConfig(interfaces, sensorThresholds);
+                    // thresholds should be under the same path
+                    std::vector<thresholds::Threshold> sensorThresholds;
+                    parseThresholdsFromConfig(interfaces, sensorThresholds);
 
-                        std::string name =
-                            loadVariant<std::string>(cfg, "Name");
-                        exitAirSensor = nullptr;
-                        exitAirSensor = std::make_shared<ExitAirTempSensor>(
-                            dbusConnection, name, path.str, objectServer,
-                            std::move(sensorThresholds));
-                        exitAirSensor->powerFactorMin =
-                            loadVariant<double>(cfg, "PowerFactorMin");
-                        exitAirSensor->powerFactorMax =
-                            loadVariant<double>(cfg, "PowerFactorMax");
-                        exitAirSensor->qMin = loadVariant<double>(cfg, "QMin");
-                        exitAirSensor->qMax = loadVariant<double>(cfg, "QMax");
-                        exitAirSensor->alphaS =
-                            loadVariant<double>(cfg, "AlphaS");
-                        exitAirSensor->alphaF =
-                            loadVariant<double>(cfg, "AlphaF");
-                    }
-                    else if (intf == configInterfaceName(cfmType))
+                    std::string name = loadVariant<std::string>(cfg, "Name");
+                    exitAirSensor = nullptr;
+                    exitAirSensor = std::make_shared<ExitAirTempSensor>(
+                        dbusConnection, name, path.str, objectServer,
+                        std::move(sensorThresholds));
+                    exitAirSensor->powerFactorMin =
+                        loadVariant<double>(cfg, "PowerFactorMin");
+                    exitAirSensor->powerFactorMax =
+                        loadVariant<double>(cfg, "PowerFactorMax");
+                    exitAirSensor->qMin = loadVariant<double>(cfg, "QMin");
+                    exitAirSensor->qMax = loadVariant<double>(cfg, "QMax");
+                    exitAirSensor->alphaS = loadVariant<double>(cfg, "AlphaS");
+                    exitAirSensor->alphaF = loadVariant<double>(cfg, "AlphaF");
+                }
+                else if (intf == configInterfaceName(cfmType))
+                {
+                    try
                     {
                         // thresholds should be under the same path
                         std::vector<thresholds::Threshold> sensorThresholds;
@@ -888,7 +898,12 @@ void createSensor(sdbusplus::asio::object_server& objectServer,
                         auto sensor = std::make_shared<CFMSensor>(
                             dbusConnection, name, path.str, objectServer,
                             std::move(sensorThresholds), exitAirSensor);
-                        loadVariantPathArray(cfg, "Tachs", sensor->tachs);
+                        auto tachs = loadVariantPathArray(cfg, "Tachs");
+                        if (!tachs)
+                        {
+                            continue;
+                        }
+                        sensor->tachs = std::move(*tachs);
                         sensor->maxCFM = loadVariant<double>(cfg, "MaxCFM");
 
                         // change these into percent upon getting the data
@@ -903,14 +918,21 @@ void createSensor(sdbusplus::asio::object_server& objectServer,
 
                         cfmSensors.emplace_back(std::move(sensor));
                     }
+                    catch (const std::exception& e)
+                    {
+                        lg2::error(
+                            "Skipping invalid CFM sensor config at '{PATH}': {ERROR}",
+                            "PATH", path.str, "ERROR", e.what());
+                    }
                 }
             }
-            if (exitAirSensor)
-            {
-                exitAirSensor->setupMatches();
-                exitAirSensor->updateReading();
-            }
-        });
+        }
+        if (exitAirSensor)
+        {
+            exitAirSensor->setupMatches();
+            exitAirSensor->updateReading();
+        }
+    });
     getter->getConfiguration(monitorTypes);
 }
 
