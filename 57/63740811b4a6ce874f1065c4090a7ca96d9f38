@@ -1,0 +1,9 @@
+Code-Review+2: Vernon Mauery <vernon.mauery@gmail.com>
+Verified+1: OpenBMC CI <openbmcbump-ci@yahoo.com>
+Code-Review+2: Andrew Jeffery <andrew@codeconstruct.com.au>
+Submitted-by: Vernon Mauery <vernon.mauery@gmail.com>
+Submitted-at: Thu, 19 Nov 2026 23:23:36 +0000
+Reviewed-on: https://gerrit.openbmc.org/c/openbmc/dbus-sensors/+/96553
+Comments-Total: 7
+Project: openbmc/dbus-sensors
+Branch: refs/heads/master
