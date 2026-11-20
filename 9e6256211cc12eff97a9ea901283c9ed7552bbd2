@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ca0de89_0a4673a8",
+        "filename": "src/fan/PresenceGpio.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-11-20T14:10:27Z",
+      "side": 1,
+      "message": "device is passed as the configured fan name, not necessarily the inventory object’s D-Bus path. Since FanInserted expects an object path, constructing /xyz/openbmc_project/inventory/\u003cName\u003e can identify the wrong or nonexistent object. Could the actual inventory path be passed through and used here?",
+      "revId": "9e6256211cc12eff97a9ea901283c9ed7552bbd2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "0d52f468_4e2cbe0c",
