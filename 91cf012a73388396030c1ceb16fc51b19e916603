@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d8851ab5_aaed0cc8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002790
+      },
+      "writtenOn": "2026-11-20T02:05:57Z",
+      "side": 1,
+      "message": "The subject still reads `dbus-sensors:` in PS8. Was the amend missed?",
+      "parentUuid": "518d0da1_eb3bf80f",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "91cf012a73388396030c1ceb16fc51b19e916603",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5fe09ab0_8b8f835c",
         "filename": "src/exit-air/ExitAirTempSensor.cpp",
         "patchSetId": 4
