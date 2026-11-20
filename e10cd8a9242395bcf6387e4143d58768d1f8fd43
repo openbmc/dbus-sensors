@@ -33,6 +33,24 @@
       "message": "Could we add an end-to-end test for a valid record whose final chunk is shorter than 16 bytes? The new length calculation may request another chunk, while the response handler currently rejects responses shorter than 18 bytes.",
       "revId": "e10cd8a9242395bcf6387e4143d58768d1f8fd43",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a7dfd72_e1d2e64c",
+        "filename": "src/ipmb/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1003113
+      },
+      "writtenOn": "2026-11-20T21:36:28Z",
+      "side": 1,
+      "message": "I ran an end-to-end test for this: the real IpmbSDRSensor.cpp, starting from getSDRRepositoryInfo(), against a stand-in for ipmbbridged on a private D-Bus bus (same org.openbmc.Ipmb.sendRequest method and types), with ASan and UBSan (LeakSanitizer off) on x86_64 and on armhf under qemu-arm-static. The repository holds Full Sensor Records whose ID string is 1 to 16 characters long, so the last chunk (offset 48) holds 1 to 16 bytes. The result depends on how the responder answers a 16-byte read that runs past the end of the record:\n\n- Zero-filled to 16 bytes: patch set 8 parses every length correctly.\n- Only the bytes left in the record, or completion code CAh: patch set 8 drops every record whose ID string is 1 to 15 characters. The Get SDR callback returns without requesting the next record, so the scan of that endpoint ends there: with three records (ID strings of 3, 10 and 16 characters) none was published, and records 2 and 3 were never requested.\n\nWith those two answers most of this is not new: for ID strings of 5 to 15 characters, master issues the same 16-byte read at offset 48 and drops the record in the same way. What changes is the 1 to 4 character case. There master never read the fourth chunk and took the name from the wrong offset, whatever the responder did; patch set 8 reads that chunk, which is correct, and with a short or CAh answer the 18-byte check then rejects it. I did not test ipmbbridged itself or a real IPMB endpoint, so I don\u0027t know which of these answers real endpoints give.\n\nRequesting min(16, bytes left in the record) for each chunk, as ipmitool\u0027s ipmi_sdr_get_record() does (lib/ipmi_sdr.c), never reads past the end of the record, so the short and CAh answers do not arise, and checking the response against 2 plus that length accepts the shorter last chunk. Only the last chunk of a record is affected. With that change every length from 1 to 16, and all three records, were published with the correct name with the zero-fill, short and CAh responders. This is the change I tested on top of patch set 8 (clang-format clean):\n\n        uint8_t loopCount \u003d sdr::perCountByte * iCnt;\n    +   uint8_t bytesToRead \u003d sdr::perCountByte;\n    +   if (sdrData.size() \u003e sdr::dataLengthByte)\n    +   {\n    +       const std::size_t recordLength \u003d\n    +           static_cast\u003cstd::size_t\u003e(sdrData[sdr::dataLengthByte]) +\n    +           sdrRecordHeaderLength;\n    +       if (recordLength \u003e loopCount)\n    +       {\n    +           bytesToRead \u003d static_cast\u003cuint8_t\u003e(std::min\u003cstd::size_t\u003e(\n    +               sdr::perCountByte, recordLength - loopCount));\n    +       }\n    +   }\n        std::vector\u003cuint8_t\u003e commandData \u003d {resrvIDLSB,      resrvIDMSB,\n                                            nextRecordIDLSB, nextRecordIDMSB,\n    -                                       loopCount,       sdr::perCountByte};\n    +                                       loopCount,       bytesToRead};\n        conn-\u003easync_method_call(\n    -       [weakRef, recordCount, resrvIDLSB, resrvIDMSB](\n    +       [weakRef, recordCount, resrvIDLSB, resrvIDMSB, bytesToRead](\n    ...\n    -           const size_t sdrSensorDataSize \u003d 18;\n    +           const size_t sdrSensorDataSize \u003d\n    +               getSdrResponsePrefixLength + bytesToRead;\n    (plus #include \u003calgorithm\u003e)\n\nThe test is a standalone harness rather than a test_IpmbSensor.cpp case, since it needs a D-Bus responder; I can share it if that helps.",
+      "parentUuid": "a4544599_b4275a55",
+      "revId": "e10cd8a9242395bcf6387e4143d58768d1f8fd43",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
