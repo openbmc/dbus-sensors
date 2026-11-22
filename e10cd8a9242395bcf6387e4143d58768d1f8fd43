@@ -51,6 +51,23 @@
       "parentUuid": "a4544599_b4275a55",
       "revId": "e10cd8a9242395bcf6387e4143d58768d1f8fd43",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf404a82_cf8fdb06",
+        "filename": "src/ipmb/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1003195
+      },
+      "writtenOn": "2026-11-22T14:33:36Z",
+      "side": 1,
+      "message": "Could the length check allow a name that fits within a longer record? Phosphor-host-ipmid emits fixed-size full records; change 68337 shows a record length of 59 with a 13-byte ID. This check rejects that record. Could we add it as an acceptance case while retaining the bounds checks?",
+      "revId": "e10cd8a9242395bcf6387e4143d58768d1f8fd43",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
