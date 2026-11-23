@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a960d18b_b8e73d9c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-11-23T08:02:59Z",
+      "side": 1,
+      "message": "“Good catch—the old prefix was still present. I’ve updated the subject to use exit-air:.”",
+      "parentUuid": "d8851ab5_aaed0cc8",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "91cf012a73388396030c1ceb16fc51b19e916603",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5fe09ab0_8b8f835c",
         "filename": "src/exit-air/ExitAirTempSensor.cpp",
         "patchSetId": 4

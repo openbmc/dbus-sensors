@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a0474f81_849e1a72",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-11-23T08:02:59Z",
+      "side": 1,
+      "message": "I’ve updated the commit message to cover invalid CFM configuration entries as well as tach configuration.",
+      "parentUuid": "60b7440b_bb5a9804",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 70
+      },
+      "revId": "60c6f41fd6138db5c9840ceb348124fec88a6562",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "561fe823_0092439c",
         "filename": "src/exit-air/ExitAirTempSensor.cpp",
         "patchSetId": 8
@@ -37,6 +61,24 @@
       "writtenOn": "2026-11-20T02:05:57Z",
       "side": 1,
       "message": "`PowerFactorMin` and the other `loadVariant` calls in the Exit Air branch can still throw. Should this branch be covered too?",
+      "revId": "60c6f41fd6138db5c9840ceb348124fec88a6562",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1c02027_bce9c828",
+        "filename": "src/exit-air/ExitAirTempSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 881,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-11-23T08:02:59Z",
+      "side": 1,
+      "message": "Done. Exit Air configuration loading is now covered by exception handling; invalid entries are logged and skipped, and the sensor is only assigned after its configuration loads successfully.",
+      "parentUuid": "561fe823_0092439c",
       "revId": "60c6f41fd6138db5c9840ceb348124fec88a6562",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
