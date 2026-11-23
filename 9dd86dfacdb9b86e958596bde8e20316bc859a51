@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "155bb962_08b75d4f",
+        "filename": "src/hwmon-temp/HwmonTempMain.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-11-23T12:01:24Z",
+      "side": 1,
+      "message": "The upstream SBRMI driver exposes power1_input, but hwmon-temp scans for temp*_input. SBRMI is already listed in PSUSensor. How does this change create the intended sensor?",
+      "revId": "9dd86dfacdb9b86e958596bde8e20316bc859a51",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
