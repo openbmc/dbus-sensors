@@ -121,10 +121,24 @@ std::string IpmbSensor::getSubTypeUnits() const
 
 void IpmbSensor::init()
 {
-    loadDefaults();
-    setInitialProperties(getSubTypeUnits());
-    runInitCmd();
-    read();
+    try
+    {
+        loadDefaults();
+        setInitialProperties(getSubTypeUnits());
+        runInitCmd();
+        read();
+    }
+    catch (const std::runtime_error& e)
+    {
+        lg2::error(
+            "Failed to initialize IpmbSensor '{NAME}' at '{PATH}': {ERROR}",
+            "NAME", name, "PATH", configurationPath, "ERROR", e.what());
+    }
+    catch (const std::exception& e)
+    {
+        lg2::error("Unexpected error initializing IpmbSensor '{NAME}': {ERROR}",
+                   "NAME", name, "ERROR", e.what());
+    }
 }
 
 static void initCmdCb(const std::weak_ptr<IpmbSensor>& weakRef,
