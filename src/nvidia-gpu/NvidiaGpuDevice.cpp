@@ -106,6 +106,7 @@ GpuDevice::GpuDevice(const NvidiaMctpVdmConfig& config, const std::string& name,
 
     std::vector<Association> associations;
     associations.emplace_back("contained_by", "containing", gpuPath);
+    associations.emplace_back("accessed_by", "accessing", gpuPath);
 
     dramAssociationInterface =
         objectServer.add_interface(dramPath, association::interface);

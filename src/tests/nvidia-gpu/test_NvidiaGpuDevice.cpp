@@ -114,6 +114,24 @@ TEST_F(NvidiaGpuDeviceTest, ConstructorAssociatesFirmwareToInventoryItem)
     EXPECT_EQ(std::get<2>(associations.front()), inventoryPath(name));
 }
 
+TEST_F(NvidiaGpuDeviceTest, ConstructorAssociatesDramToInventoryItem)
+{
+    const std::string name = "gpudev_dram_assoc";
+    const std::shared_ptr<GpuDevice> device = createDevice(name);
+
+    const std::vector<Association> associations =
+        getProperty<std::vector<Association>>(
+            dramPath(name), association::interface, "Associations");
+
+    ASSERT_EQ(associations.size(), 2U);
+    EXPECT_EQ(std::get<0>(associations[0]), "contained_by");
+    EXPECT_EQ(std::get<1>(associations[0]), "containing");
+    EXPECT_EQ(std::get<2>(associations[0]), inventoryPath(name));
+    EXPECT_EQ(std::get<0>(associations[1]), "accessed_by");
+    EXPECT_EQ(std::get<1>(associations[1]), "accessing");
+    EXPECT_EQ(std::get<2>(associations[1]), inventoryPath(name));
+}
+
 // Init
 
 TEST_F(NvidiaGpuDeviceTest, InitSendsAtLeastOneRequest)
