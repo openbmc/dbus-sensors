@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1e87cef_3801979b",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003207
+      },
+      "writtenOn": "2026-11-24T08:04:13Z",
+      "side": 1,
+      "message": "Could we validate that ScaleFactor is nonzero and finite before\nreading the threshold? \nA zero or non-finite value could produce an\ninvalid threshold instead of falling back to the configured value.\nPlease also add a focused test.",
+      "revId": "dc8638c1512ecc1bb42953083b0e9fe04a70613e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f681682_0c17d246",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1003207
+      },
+      "writtenOn": "2026-11-24T08:04:13Z",
+      "side": 1,
+      "message": "Since the probed value takes precedence, what should happen when a user changes a threshold over D-Bus? \nThe setter persists Value, but a later reload may replace it with the hwmon value. Could you clarify the intended behavior and add a test for this case?",
+      "revId": "dc8638c1512ecc1bb42953083b0e9fe04a70613e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
