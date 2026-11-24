@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "340c4dbd_9e15e284",
+        "filename": "src/tests/meson.build",
+        "patchSetId": 14
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-11-24T09:03:59Z",
+      "side": 1,
+      "message": "Ideally, we should not do this either. Is it possible to not add test cases for threshold or move the file `src/tests/test_Thresholds.cpp` to `src/tests/nvidia-gpu`?",
+      "revId": "00e4ec9f627e27310dc14f1f174e27e9a2dfe6e7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
