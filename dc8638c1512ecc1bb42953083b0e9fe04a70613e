@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cbb14a26_788e9a37",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-11-24T13:37:37Z",
+      "side": 1,
+      "message": "Thanks, fixed in this patch set. The label probe now skips reading the threshold when ScaleFactor is zero or non-finite, so it falls back to the configured value. I’ve added a focused test for zero, infinity, and NaN; the threshold tests pass.",
+      "parentUuid": "c1e87cef_3801979b",
+      "revId": "dc8638c1512ecc1bb42953083b0e9fe04a70613e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6f681682_0c17d246",
         "filename": "src/Thresholds.cpp",
         "patchSetId": 25
@@ -31,6 +49,24 @@
       "writtenOn": "2026-11-24T08:04:13Z",
       "side": 1,
       "message": "Since the probed value takes precedence, what should happen when a user changes a threshold over D-Bus? \nThe setter persists Value, but a later reload may replace it with the hwmon value. Could you clarify the intended behavior and add a test for this case?",
+      "revId": "dc8638c1512ecc1bb42953083b0e9fe04a70613e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "145fdd96_4a2e4efa",
+        "filename": "src/Thresholds.cpp",
+        "patchSetId": 25
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1003102
+      },
+      "writtenOn": "2026-11-24T13:37:37Z",
+      "side": 1,
+      "message": "A threshold value changed over D-Bus should remain in effect after a reload. I updated the parser so a configured Value takes precedence over the hwmon probe; the probe is used only when Value is absent. I also added a regression test for this behavior, and the threshold tests pass.",
+      "parentUuid": "6f681682_0c17d246",
       "revId": "dc8638c1512ecc1bb42953083b0e9fe04a70613e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
