@@ -68,6 +68,24 @@
       "message": "Could the length check allow a name that fits within a longer record? Phosphor-host-ipmid emits fixed-size full records; change 68337 shows a record length of 59 with a 13-byte ID. This check rejects that record. Could we add it as an acceptance case while retaining the bounds checks?",
       "revId": "e10cd8a9242395bcf6387e4143d58768d1f8fd43",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e28d88b8_c53c7d34",
+        "filename": "src/ipmb/IpmbSDRSensor.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1003113
+      },
+      "writtenOn": "2026-11-25T00:51:15Z",
+      "side": 1,
+      "message": "You are right, and it is not only that record. phosphor-host-ipmid sets the record length of every Full Sensor Record to 59 in both of its SDR paths: in ipmiSensorGetSdr() in sensorhandler.cpp for the default build, and in constructSensorSdrHeaderKey() in dbus-sdr/sensorcommands.cpp with dynamic-sensors. Only the ID type/length byte gives the name length; the rest of the 16-byte ID field is zero.\n\nI ran the real IpmbSDRSensor.cpp from getSDRRepositoryInfo() against a stand-in for ipmbbridged that serves records in that layout, in 16 single-record repositories (name lengths 1 to 16) and one repository with names of 3, 10 and 16 characters, 19 records in all. This was on x86_64 and on armhf under qemu-arm-static, with ASan and UBSan (LeakSanitizer off); there were no reports, and both architectures gave the same results. Patch set 8 published only the records with 16-character names, two of the 19. The other 17 were dropped at this check, which returns without logging anything, and the scan went on to the next record. master published all 19, but it reads the name from the end of the record instead of the start of the ID field, so only the two 16-character names were right.\n\nRejecting only records that are too short for the name keeps the strLen limit and the record-length range check in handleSDRData(), and accepts both layouts. On top of patch set 8 with the final-chunk change from my reply on line 220, all 19 fixed-size records and all 19 exact-length records (record length 43 + name length) were published with the correct name:\n\n    -        dataLen !\u003d fullSensorRecordFixedDataLength + strLen)\n    +        dataLen \u003c fullSensorRecordFixedDataLength + strLen)\n    ...\n    -        assert(strAddr + strLen \u003d\u003d dataLength);\n    +        assert(strAddr + strLen \u003c\u003d dataLength);\n\nThe assert still holds. The name starts at a fixed offset in the framed buffer, and the framed length (dataLength) is dataLen plus the header and the chunk prefixes, so with dataLen at least 43 + strLen the name ends within dataLength. The size check at the top of checkSDRData() already makes sure the buffer holds dataLength bytes.\n\nWith this change the six IPMBSDRSensor tests in patch set 8 still pass (x86_64, ASan and UBSan, LeakSanitizer off). This case follows the record in change 68337 (record length 59, ID type/length 0xCD, so a 13-byte name); it fails on patch set 8 and passes with the change, and is clang-format clean:\n\n    TEST(IPMBSDRSensor, AcceptsNameInFixedSizeRecord)\n    {\n        sensorRecord.clear();\n        sensorValRecord.clear();\n        std::shared_ptr\u003csdbusplus::asio::connection\u003e connection;\n        IpmbSDRDevice device(connection, uint8_t{0});\n        constexpr std::size_t nameLength \u003d 13;\n        const std::string name(nameLength, \u0027A\u0027);\n        std::vector\u003cuint8_t\u003e data(72, 0);\n        data[sdr::sdrType] \u003d static_cast\u003cuint8_t\u003e(SDRType::sdrType01);\n        data[sdr::dataLengthByte] \u003d 59;\n        data[sdrtype01::nameLengthByte] \u003d static_cast\u003cuint8_t\u003e(0xC0 | nameLength);\n        std::copy(name.begin(), name.end(), data.begin() + 56);\n\n        device.checkSDRData(data);\n\n        ASSERT_EQ(sensorRecord.count(0), 1U);\n        ASSERT_EQ(sensorRecord.at(0).size(), 1U);\n        EXPECT_EQ(sensorRecord.at(0).front().sensorReadName, name);\n    }\n\nThe stand-in follows the record layout in the phosphor-host-ipmid source; I did not run phosphor-host-ipmid, ipmbbridged or a real IPMB endpoint. I can share the harness and logs.",
+      "parentUuid": "bf404a82_cf8fdb06",
+      "revId": "e10cd8a9242395bcf6387e4143d58768d1f8fd43",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
