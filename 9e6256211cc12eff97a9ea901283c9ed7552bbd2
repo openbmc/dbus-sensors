@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d53620a8_07b31747",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002253
+      },
+      "writtenOn": "2026-11-26T02:39:23Z",
+      "side": 1,
+      "message": "This means the EventPresenceGpio constructor [1] will generate a Redfish Event Log entry for each fan in the system every time the BMC reboots. Is this the expected behavior?\n\n[1] https://github.com/openbmc/dbus-sensors/blob/5763740811b4a6ce874f1065c4090a7ca96d9f38/src/fan/PresenceGpio.cpp#L73",
+      "revId": "9e6256211cc12eff97a9ea901283c9ed7552bbd2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0ca0de89_0a4673a8",
         "filename": "src/fan/PresenceGpio.hpp",
         "patchSetId": 2
