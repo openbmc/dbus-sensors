@@ -16,6 +16,24 @@
       "message": "On a non-retryable read error, monitoring exits while the detector remains published with its last state. Could the failure be propagated to the owner or reflected in detector health, with a test for this path?",
       "revId": "41035adf208b4eb1ccf16398c74cb5fbd1be96e1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddafa617_fc88e0f4",
+        "filename": "src/GPIInterface.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1002532
+      },
+      "writtenOn": "2026-11-26T05:38:49Z",
+      "side": 1,
+      "message": "Thanks for pointing this out. Before this patch, an event_read() failure\ncrashed the daemon and systemd restarted it, so the error was visible.\nWith this patch, it returned directly instead, which caused a silent\nfailure.\n\nTo prevent the silent failure, I now log the error first and then\nrethrow it, so that the service using this interface can see the error\nand handle it on its side.\n\nI tested it with leakdetector, the only service that uses this event\nloop (valve-monitor uses monitor(), which already marks the valve\nunavailable on errors). Unbinding the I/O expander\u0027s driver makes\nevent_read() fail with ENODEV.\n\nWith the older patch, leakdetector kept running and the eight detectors\nstayed at their last state, which is wrong and makes the root cause\nhard to find. With the rethrow, leakdetector terminates and is restarted\nby systemd, and the detectors for the missing lines are not recreated\nuntil the expander is bound again.",
+      "parentUuid": "225636a3_10c4452d",
+      "revId": "41035adf208b4eb1ccf16398c74cb5fbd1be96e1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
