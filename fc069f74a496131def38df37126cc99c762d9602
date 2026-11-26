@@ -16,6 +16,24 @@
       "message": "set(0) runs only on successful reads, so a failed read in handleResponse (base PSUSensor.cpp:211) leaves the GPIO asserted until the next setup. Suggested change: move the set(0) call above the error check so every completed read deasserts the line.",
       "revId": "fc069f74a496131def38df37126cc99c762d9602",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e46c9950_ee00fa48",
+        "filename": "src/psu/PSUSensor.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1001906
+      },
+      "writtenOn": "2026-11-26T02:18:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c740b4e9_622c8b38",
+      "revId": "fc069f74a496131def38df37126cc99c762d9602",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
