@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bb0b4a9_007b94ca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-11-27T04:29:30Z",
+      "side": 1,
+      "message": "There has been no progress on the phosphor-dbus-interfaces patch since 29 Oct. The content of this patch will be reworked accordingly if phosphor-dbus-interfaces patch changes before its merge.",
+      "revId": "c1c9931699ebb2d26fc60bfd9cef8b726879fdcd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
