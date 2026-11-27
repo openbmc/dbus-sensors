@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0ed770d_4e5f6dfb",
+        "filename": "src/nvidia-gpu/NvidiaGpuDevice.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-11-27T05:47:35Z",
+      "side": 1,
+      "message": "Why can\u0027t we call inventory-\u003einit() here instead of doing it in GpuDevice::readPriority()?",
+      "revId": "7c8bebc33ef72715d4aa16c14dace42e2fbfb475",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
