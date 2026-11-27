@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b21fd73_1a1af6c3",
+        "filename": "src/nvidia-gpu/NvidiaDeviceSupportedCommandCodes.cpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-11-27T05:41:31Z",
+      "side": 1,
+      "message": "Do we really need to do this? Why can\u0027t we send out all the getSupportedCommandCodes request for each message type at once and let MCTPReqester class do the queuing?",
+      "revId": "5c7a9c61c194eedab7cee3a9a0aaed75645f2e6a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3848269_0f9ce299",
+        "filename": "src/nvidia-gpu/NvidiaDeviceSupportedCommandCodes.hpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-11-27T05:41:31Z",
+      "side": 1,
+      "message": "See if we can use std::array instead of std::map for quick look up.",
+      "revId": "5c7a9c61c194eedab7cee3a9a0aaed75645f2e6a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a41fc31_56e3526d",
+        "filename": "src/nvidia-gpu/NvidiaGpuClockFrequencyMetric.hpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-11-27T05:41:31Z",
+      "side": 1,
+      "message": "nit: add empty line here. Same for other files.",
+      "revId": "5c7a9c61c194eedab7cee3a9a0aaed75645f2e6a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d850c235_5723dc1f",
+        "filename": "src/nvidia-gpu/NvidiaGpuPowerControl.hpp",
+        "patchSetId": 26
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1002395
+      },
+      "writtenOn": "2026-11-27T05:41:31Z",
+      "side": 1,
+      "message": "nit: add empty line between these two. Same for other files.",
+      "revId": "5c7a9c61c194eedab7cee3a9a0aaed75645f2e6a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
